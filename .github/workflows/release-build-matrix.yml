@@ -167,7 +167,7 @@ jobs:
         git submodule update --init --depth 1 vcpkg whisper.cpp stable-diffusion.cpp ffmpeg external/GIUF || true
         if [ ! -f vcpkg/scripts/buildsystems/vcpkg.cmake ]; then
           rm -rf vcpkg
-          git clone https://github.com/microsoft/vcpkg.git vcpkg
+          git clone --depth 1 https://github.com/microsoft/vcpkg.git vcpkg
         fi
         # Fetch vcpkg builtin-baseline commit so versions/baseline.json is accessible.
         # A shallow --depth 1 clone only fetches the submodule HEAD; the builtin-baseline
