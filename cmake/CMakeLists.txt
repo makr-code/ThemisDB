@@ -6046,10 +6046,9 @@ if(UNIX AND NOT APPLE)
     )
 endif()
 # Central logs/ directory — all runtime log files are written here.
-# The .gitkeep placeholder creates the directory in the archive; the server
-# auto-creates logs/ at startup if it does not yet exist.
-install(FILES "${THEMIS_ROOT_DIR}/logs/.gitkeep"
-    DESTINATION logs
+# The server auto-creates logs/ at startup if it does not yet exist;
+# the install rule ensures the directory is present in the package.
+install(CODE "file(MAKE_DIRECTORY \"\${CMAKE_INSTALL_PREFIX}/logs\")"
     COMPONENT runtime
 )
 # Compatibility: server is typically started from bin/, so logs/ must also be
