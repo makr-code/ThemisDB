@@ -152,6 +152,12 @@ struct ErrorContext {
  */
 namespace ErrorContextHelpers {
 
+    /**
+     * @brief TBD: Describe createNoDevicesError.
+     * @param[in] backendName Input parameter.
+     * @return Return value.
+     * @details Calls: ErrorContext().
+     */
     inline ErrorContext createNoDevicesError(const std::string& backendName) {
         return ErrorContext(
             AccelerationErrorCode::NoDevicesFound,
@@ -161,6 +167,12 @@ namespace ErrorContextHelpers {
         );
     }
     
+    /**
+     * @brief TBD: Describe createDriverError.
+     * @param[in] backendName Input parameter.
+     * @return Return value.
+     * @details Calls: ErrorContext().
+     */
     inline ErrorContext createDriverError(const std::string& backendName) {
         return ErrorContext(
             AccelerationErrorCode::DriverNotInstalled,
@@ -170,6 +182,13 @@ namespace ErrorContextHelpers {
         );
     }
     
+    /**
+     * @brief TBD: Describe createContextError.
+     * @param[in] backendName Input parameter.
+     * @param[in] details Input parameter.
+     * @return Return value.
+     * @details Calls: ErrorContext().
+     */
     inline ErrorContext createContextError(const std::string& backendName, const std::string& details) {
         return ErrorContext(
             AccelerationErrorCode::ContextCreationFailed,
@@ -179,6 +198,13 @@ namespace ErrorContextHelpers {
         );
     }
     
+    /**
+     * @brief TBD: Describe createQueueError.
+     * @param[in] backendName Input parameter.
+     * @param[in] details Input parameter.
+     * @return Return value.
+     * @details Calls: ErrorContext().
+     */
     inline ErrorContext createQueueError(const std::string& backendName, const std::string& details) {
         return ErrorContext(
             AccelerationErrorCode::QueueCreationFailed,
@@ -188,6 +214,13 @@ namespace ErrorContextHelpers {
         );
     }
     
+    /**
+     * @brief TBD: Describe createMemoryError.
+     * @param[in] backendName Input parameter.
+     * @param[in] requestedBytes Input parameter.
+     * @return Return value.
+     * @details Calls: ErrorContext(), std::to_string().
+     */
     inline ErrorContext createMemoryError(const std::string& backendName, size_t requestedBytes) {
         return ErrorContext(
             AccelerationErrorCode::OutOfDeviceMemory,
@@ -197,6 +230,14 @@ namespace ErrorContextHelpers {
         );
     }
     
+    /**
+     * @brief TBD: Describe createKernelCompilationError.
+     * @param[in] backendName Input parameter.
+     * @param[in] kernelName Input parameter.
+     * @param[in] buildLog Input parameter.
+     * @return Return value.
+     * @details Calls: empty(), ErrorContext().
+     */
     inline ErrorContext createKernelCompilationError(const std::string& backendName, 
                                                       const std::string& kernelName,
                                                       const std::string& buildLog) {
@@ -213,6 +254,14 @@ namespace ErrorContextHelpers {
         );
     }
     
+    /**
+     * @brief TBD: Describe createKernelLaunchError.
+     * @param[in] backendName Input parameter.
+     * @param[in] kernelName Input parameter.
+     * @param[in] details Input parameter.
+     * @return Return value.
+     * @details Calls: ErrorContext().
+     */
     inline ErrorContext createKernelLaunchError(const std::string& backendName,
                                                  const std::string& kernelName,
                                                  const std::string& details) {
@@ -224,6 +273,14 @@ namespace ErrorContextHelpers {
         );
     }
 
+    /**
+     * @brief TBD: Describe createValidationError.
+     * @param[in] backendName Input parameter.
+     * @param[in] code Input parameter.
+     * @param[in] details Input parameter.
+     * @return Return value.
+     * @details Calls: ErrorContext().
+     */
     inline ErrorContext createValidationError(const std::string& backendName,
                                               AccelerationErrorCode code,
                                               const std::string& details) {

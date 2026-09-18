@@ -44,6 +44,7 @@ public:
      * @param cte The CTE definition to analyze
      * @param referenceCount Number of times CTE is referenced in main query
      * @return true if should materialize, false if should inline
+     * @details Implements shouldMaterializeCTE without additional internal calls.
      */
     static bool shouldMaterializeCTE(
         const CTEDefinition& cte,
@@ -94,6 +95,7 @@ public:
      * @param subquery The subquery to analyze
      * @param outerVariables Variables from outer query scope
      * @return true if can convert to JOIN
+     * @details Calls: hasCorrelation().
      */
     static bool canConvertToJoin(
         const std::shared_ptr<Query>& subquery,
@@ -128,6 +130,7 @@ public:
      * 
      * @param query The query to estimate
      * @return Estimated cost (arbitrary units)
+     * @details Calls: size(), std::max().
      */
     static int estimateQueryCost(const std::shared_ptr<Query>& query) {
         if (!query) {
@@ -172,6 +175,10 @@ public:
 private:
     /**
      * @brief Checks if query references any outer variables
+     * @param[in] query Input parameter.
+     * @param[in] outerVariables Input parameter.
+     * @return True on success.
+     * @details Calls: empty(), expressionReferencesVariables().
      */
     static bool hasCorrelation(
         const std::shared_ptr<Query>& query,
@@ -202,6 +209,10 @@ private:
     
     /**
      * @brief Recursively checks if expression references any outer variables
+     * @param[in] expr Input parameter.
+     * @param[in] variables Input parameter.
+     * @return True on success.
+     * @details Calls: getType(), count().
      */
     static bool expressionReferencesVariables(
         const std::shared_ptr<Expression>& expr,

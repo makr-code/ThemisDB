@@ -115,11 +115,13 @@ public:
 
     /**
      * @brief Return the number of steps currently held.
+     * @return Return value.
      */
     size_t stepCount() const;
 
     /**
      * @brief Return a read-only reference to the current configuration.
+     * @return Return value.
      */
     const CoTConfig& getConfig() const;
 
@@ -144,6 +146,8 @@ public:
 
     /**
      * @brief Return `true` when a tracer is currently attached.
+     * @return True on success.
+     * @note Exception safety: noexcept.
      */
     bool hasTracer() const noexcept;
 

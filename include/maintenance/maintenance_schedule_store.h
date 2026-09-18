@@ -42,6 +42,8 @@ public:
      * @brief Construct a store backed by @p engine.
      *
      * @p engine must outlive this object.  The pointer must be non-null.
+     * @param[in,out] engine Input/output parameter.
+     * @return Return value.
      */
     explicit MaintenanceScheduleStore(IStorageEngine* engine);
 
@@ -58,6 +60,7 @@ public:
      * key "maint_sched::<entry.id>".
      *
      * @return Result<void> – ok on success, storage error on failure.
+     * @param[in] entry Input parameter.
      */
     Result<void> save(const MaintenanceScheduleEntry& entry);
 
@@ -68,6 +71,7 @@ public:
      * Returns ok even when the key does not exist (idempotent).
      *
      * @return Result<void> – ok on success, storage error on failure.
+     * @param[in] id Input parameter.
      */
     Result<void> remove(const std::string& id);
 
@@ -89,6 +93,11 @@ public:
     Result<void> loadAll(std::map<std::string, MaintenanceScheduleEntry>& schedules);
 
 private:
+    /**
+     * @brief TBD: Describe makeKey.
+     * @param[in] id Input parameter.
+     * @return Return value.
+     */
     static std::string makeKey(const std::string& id);
 
     IStorageEngine* engine_;

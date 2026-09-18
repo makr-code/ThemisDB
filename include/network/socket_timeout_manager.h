@@ -67,6 +67,10 @@ struct SocketTimeoutStats {
     std::atomic<uint64_t> total_bytes_read{0};
     std::atomic<uint64_t> total_bytes_written{0};
     
+    /**
+     * @brief TBD: Describe reset.
+     * @details Implements reset without additional internal calls.
+     */
     void reset() {
         accept_timeouts = 0;
         read_timeouts = 0;
@@ -128,6 +132,11 @@ enum class SocketHealthState {
 class SocketTimeoutManager {
 public:
     explicit SocketTimeoutManager(const SocketTimeoutConfig& config = SocketTimeoutConfig());
+    /**
+     * @brief TBD: Describe ~SocketTimeoutManager.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     virtual ~SocketTimeoutManager() noexcept;
     
     // Non-copyable, movable
@@ -208,6 +217,7 @@ public:
     
     /**
      * @brief Reset statistics
+     * @details Calls: reset().
      */
     void resetStats() { stats_.reset(); consecutive_timeouts_ = 0; }
     
@@ -226,16 +236,22 @@ public:
 private:
     /**
      * @brief Set socket to non-blocking mode
+     * @param[in] socket Input parameter.
+     * @return True on success.
      */
     bool setNonBlocking(socket_t socket);
     
     /**
      * @brief Configure TCP keepalive
+     * @param[in] socket Input parameter.
+     * @return True on success.
      */
     bool configureTCPKeepalive(socket_t socket);
     
     /**
      * @brief Configure TCP nodelay (disable Nagle's algorithm)
+     * @param[in] socket Input parameter.
+     * @return True on success.
      */
     bool configureTCPNoDelay(socket_t socket);
     
@@ -246,6 +262,8 @@ private:
     
     /**
      * @brief Trigger alert if callback is set
+     * @param[in] new_state Input parameter.
+     * @param[in] message Input parameter.
      */
     void triggerAlert(SocketHealthState new_state, const std::string& message);
     
@@ -307,6 +325,11 @@ public:
     }
     
     socket_t get() const { return socket_; }
+    /**
+     * @brief TBD: Describe release.
+     * @return Return value.
+     * @details Implements release without additional internal calls.
+     */
     socket_t release() { owns_ = false; return socket_; }
     bool valid() const { return socket_ != INVALID_SOCKET_VALUE; }
     

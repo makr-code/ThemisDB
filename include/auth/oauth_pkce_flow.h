@@ -93,6 +93,7 @@ public:
      *
      * @param config  PKCE flow configuration
      * @throws AuthException (AUTH_CONFIG_INVALID) if required fields are missing
+     * @return Return value.
      */
     explicit OAuthPKCEFlow(const Config& config);
 
@@ -172,11 +173,38 @@ private:
     std::function<std::string(const std::string& url, const std::string& body)> http_post_fn_;
     std::function<void(unsigned char* buf, std::size_t len)> rand_bytes_fn_;
 
+    /**
+     * @brief TBD: Describe httpPost.
+     * @param[in] url Input parameter.
+     * @param[in] body Input parameter.
+     * @return Return value.
+     */
     std::string httpPost(const std::string& url, const std::string& body);
+    /**
+     * @brief TBD: Describe fillRandomBytes.
+     * @param[in,out] buf Input/output parameter.
+     * @param[in] len Input parameter.
+     */
     void        fillRandomBytes(unsigned char* buf, std::size_t len);
 
+    /**
+     * @brief TBD: Describe base64UrlEncode.
+     * @param[in] data Input parameter.
+     * @param[in] len Input parameter.
+     * @return Return value.
+     */
     static std::string base64UrlEncode(const unsigned char* data, std::size_t len);
+    /**
+     * @brief TBD: Describe sha256.
+     * @param[in] input Input parameter.
+     * @return Return value.
+     */
     static std::string sha256(const std::string& input);
+    /**
+     * @brief TBD: Describe urlEncode.
+     * @param[in] value Input parameter.
+     * @return Return value.
+     */
     static std::string urlEncode(const std::string& value);
     static std::string buildFormBody(
         const std::vector<std::pair<std::string, std::string>>& params

@@ -100,6 +100,12 @@ public:
 
 private:
     friend class ConcurrentWriteController;
+    /**
+     * @brief TBD: Describe WriteGuard.
+     * @param[in,out] ctrl Input/output parameter.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     explicit WriteGuard(ConcurrentWriteController* ctrl) noexcept;
 
     ConcurrentWriteController* controller_ = nullptr;
@@ -168,10 +174,15 @@ public:
      *
      * Unblocks all current waiters (they receive `SHUTDOWN` error) and
      * prevents future `acquire()` calls from succeeding.
+     * @note Exception safety: noexcept.
      */
     void shutdown() noexcept;
 
-    // ── Diagnostics ──────────────────────────────────────────────────────────
+    /**
+     * @brief ── Diagnostics ──────────────────────────────────────────────────────────
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
 
     ConcurrentWriteStats getStats() const noexcept;
 

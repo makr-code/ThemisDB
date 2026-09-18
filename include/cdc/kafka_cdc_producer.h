@@ -201,6 +201,7 @@ public:
 
     /**
      * @brief Return a snapshot of producer statistics.
+     * @return Return value.
      */
     KafkaProducerStats getStats() const;
 
@@ -304,28 +305,50 @@ public:
     /// by the Kafka producer.
     using PublishFn = std::function<bool(const Changefeed::ChangeEvent&)>;
 
-    /// Register a start callback used by `start()` in non-Kafka builds.
-    /// Pass an empty `std::function` to revert to the always-false fallback.
-    /// Thread-safe.
+    /**
+     * @brief Register a start callback used by `start()` in non-Kafka builds.
+     * @param[in] fn Input parameter.
+     * @details Pass an empty `std::function` to revert to the always-false fallback. Thread-safe. Calls: lk(), s_start_fn_mutex_(), s_start_fn_(), std::move().
+     */
     static void setStartFn(StartFn fn) {
         std::lock_guard<std::mutex> lk(s_start_fn_mutex_());
         s_start_fn_() = std::move(fn);
     }
 
-    /// Register a publish callback used by `publish()` in non-Kafka builds.
-    /// Pass an empty `std::function` to revert to the always-false fallback.
-    /// Thread-safe.
+    /**
+     * @brief Register a publish callback used by `publish()` in non-Kafka builds.
+     * @param[in] fn Input parameter.
+     * @details Pass an empty `std::function` to revert to the always-false fallback. Thread-safe. Calls: lk(), s_publish_fn_mutex_(), s_publish_fn_(), std::move().
+     */
     static void setPublishFn(PublishFn fn) {
         std::lock_guard<std::mutex> lk(s_publish_fn_mutex_());
         s_publish_fn_() = std::move(fn);
     }
 
 private:
-    // Static storage via function-local statics so they are lazily initialised
-    // and avoid static-initialisation-order issues.
+    /**
+     * @brief Static storage via function-local statics so they are lazily initialised and avoid static-initialisation-order issues.
+     * @return Return value.
+     * @details Implements s_start_fn_mutex_ without additional internal calls.
+     */
     static std::mutex&   s_start_fn_mutex_()   { static std::mutex m; return m; }
+    /**
+     * @brief TBD: Describe s_start_fn_.
+     * @return Return value.
+     * @details Implements s_start_fn_ without additional internal calls.
+     */
     static StartFn&      s_start_fn_()          { static StartFn f; return f; }
+    /**
+     * @brief TBD: Describe s_publish_fn_mutex_.
+     * @return Return value.
+     * @details Implements s_publish_fn_mutex_ without additional internal calls.
+     */
     static std::mutex&   s_publish_fn_mutex_()  { static std::mutex m; return m; }
+    /**
+     * @brief TBD: Describe s_publish_fn_.
+     * @return Return value.
+     * @details Implements s_publish_fn_ without additional internal calls.
+     */
     static PublishFn&    s_publish_fn_()         { static PublishFn f; return f; }
 };
 

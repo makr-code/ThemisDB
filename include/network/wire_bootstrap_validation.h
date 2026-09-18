@@ -34,6 +34,7 @@ struct RequiredBackend {
  * @param required    Required backend list.
  * @param err         Output stream for refusal diagnostics.
  * @return true when all required backends are available, otherwise false.
+ * @details Implements validateRequiredBackends without additional internal calls.
  */
 inline bool validateRequiredBackends(
     const char* server_tag,

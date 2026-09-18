@@ -256,6 +256,7 @@ public:
      * The snapshot is stale when:
      *  - markStale() has been called since the last refresh(), OR
      *  - staleness_tolerance > 0 and the snapshot age exceeds it.
+     * @return True on success.
      */
     bool isStale() const;
 
@@ -377,18 +378,33 @@ public:
     static bool canRewrite(const query::Query&     parsed_query,
                            const MaterializedView& view);
 
-    // =========================================================================
-    // Accessors
-    // =========================================================================
+    /**
+     * @brief ========================================================================= Accessors =========================================================================
+     * @return Return value.
+     */
 
     const Definition& getDefinition()  const;
+    /**
+     * @brief TBD: Describe getName.
+     * @return Return value.
+     */
     const std::string& getName()       const;
+    /**
+     * @brief TBD: Describe getStats.
+     * @return Return value.
+     */
     ViewStats          getStats()      const;
 
     /// Timestamp of the most recent successful refresh.
     std::chrono::system_clock::time_point getLastRefresh() const;
 
 private:
+    /**
+     * @brief TBD: Describe MaterializedView.
+     * @param[in] def Input parameter.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit MaterializedView(const Definition& def, Config config);
 
     // -------------------------------------------------------------------------
@@ -455,23 +471,27 @@ public:
      *
      * @return OkVoid() on success; error if a view with the same name already
      *         exists.
+     * @param[in] view Input parameter.
      */
     Result<void> registerView(std::shared_ptr<MaterializedView> view);
 
     /**
      * @brief Look up a view by @p name.
      * @return The view, or nullptr if not found.
+     * @param[in] name Input parameter.
      */
     std::shared_ptr<MaterializedView> getView(const std::string& name) const;
 
     /**
      * @brief Remove the view named @p name from the registry.
      * @return true if a view was removed; false if not found.
+     * @param[in] name Input parameter.
      */
     bool removeView(const std::string& name);
 
     /**
      * @brief Return the names of all registered views.
+     * @return Return value.
      */
     std::vector<std::string> listViews() const;
 
@@ -484,12 +504,18 @@ public:
      *
      * Forwards the delta to every view that lists @p table in its
      * Definition::base_tables.
+     * @param[in] table Input parameter.
+     * @param[in] entity Input parameter.
      */
     void onInsert(const std::string& table, const BaseEntity& entity);
 
+     * @param[in] table Input parameter.
+     * @param[in] entity Input parameter.
     /** @brief Notify the registry that a row in @p table was deleted. */
     void onDelete(const std::string& table, const BaseEntity& entity);
 
+     * @param[in] table Input parameter.
+     * @param[in] entity Input parameter.
     /** @brief Notify the registry that a row in @p table was updated. */
     void onUpdate(const std::string& table, const BaseEntity& entity);
 
@@ -497,12 +523,18 @@ public:
     // Delta propagation (JSON overloads — for tests and lightweight callers)
     // =========================================================================
 
+     * @param[in] table Input parameter.
+     * @param[in] row Input parameter.
     /** @brief JSON-based counterpart of onInsert(). */
     void onInsertJson(const std::string& table, const nlohmann::json& row);
 
+     * @param[in] table Input parameter.
+     * @param[in] row Input parameter.
     /** @brief JSON-based counterpart of onDelete(). */
     void onDeleteJson(const std::string& table, const nlohmann::json& row);
 
+     * @param[in] table Input parameter.
+     * @param[in] row Input parameter.
     /** @brief JSON-based counterpart of onUpdate(). */
     void onUpdateJson(const std::string& table, const nlohmann::json& row);
 

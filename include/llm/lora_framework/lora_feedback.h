@@ -30,6 +30,10 @@ using json = nlohmann::json;
  * LoRA adapters for continuous learning and improvement.
  */
 struct Feedback {
+    /**
+     * @brief TBD: Describe ~Feedback.
+     * @return Return value.
+     */
     virtual ~Feedback() = default;
     std::string id;                               // Unique feedback ID
     std::string adapter_id;                       // Associated LoRA adapter ID
@@ -99,6 +103,9 @@ struct Feedback {
     
     /**
      * @brief Deserialize from JSON
+     * @param[in] j Input parameter.
+     * @return Return value.
+     * @details Calls: contains(), std::chrono::system_clock::from_time_t(), std::chrono::system_clock::now().
      */
     static Feedback fromJSON(const json& j) {
         Feedback fb = {};
@@ -173,6 +180,10 @@ struct Feedback {
  * @brief Filter options for feedback queries
  */
 struct FeedbackFilter {
+    /**
+     * @brief TBD: Describe ~FeedbackFilter.
+     * @return Return value.
+     */
     virtual ~FeedbackFilter() = default;
     std::optional<std::string> adapter_id;        // Filter by adapter
     std::optional<std::string> user_id;           // Filter by user

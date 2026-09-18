@@ -73,6 +73,7 @@ public:
      * @param error_code The error code being reported.
      * @param device_id GPU device ID (-1 if N/A or not applicable).
      * @param detail Descriptive context for the error.
+     * @note Exception safety: noexcept.
      */
     static void emitDiagnostic(
         GPUDispatchErrorCode error_code,
@@ -87,6 +88,7 @@ public:
      * replaces the previous one.
      * 
      * @param callback The event callback function (nullptr to disable callbacks).
+     * @note Exception safety: noexcept.
      */
     static void setEventCallback(GPUDispatchEventCallback callback) noexcept;
 
@@ -94,6 +96,7 @@ public:
      * @brief Get the currently registered event callback.
      * 
      * @return The active callback, or nullptr if no callback is registered.
+     * @note Exception safety: noexcept.
      */
     static GPUDispatchEventCallback getEventCallback() noexcept;
 
@@ -119,6 +122,8 @@ public:
      * @brief Construct and start timing.
      * 
      * @param description Brief description of the operation being timed (for logging).
+     * @return Return value.
+     * @note Exception safety: noexcept.
      */
     explicit DiagnosticEmissionGuard(const std::string& description) noexcept;
 

@@ -242,13 +242,23 @@ private:
     mutable std::mutex callback_mu_;
     std::vector<std::function<void(const DiagnosticEvent&)>> emit_callbacks_;
 
-    // Helper: add event to buffer
+    /**
+     * @brief Helper: add event to buffer
+     * @param[in] event Input parameter.
+     * @return True on success.
+     */
     bool addEventToBuffer(const DiagnosticEvent& event);
 
-    // Helper: invoke emission callbacks
+    /**
+     * @brief Helper: invoke emission callbacks
+     * @param[in] event Input parameter.
+     */
     void invokeCallbacks(const DiagnosticEvent& event) const;
 
-    // Helper: update metrics based on event
+    /**
+     * @brief Helper: update metrics based on event
+     * @param[in] event Input parameter.
+     */
     void updateMetricsForEvent(const DiagnosticEvent& event);
 };
 

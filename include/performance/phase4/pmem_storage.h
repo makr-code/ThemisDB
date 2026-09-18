@@ -125,11 +125,11 @@ struct PMemDeviceInfo {
     int         numa_node{-1};  ///< NUMA node, or -1 if unknown
 };
 
-/// Detects PMem devices available on the current host.
-/// On Linux this enumerates /dev/pmem* block devices and checks for
-/// DAX-capable mounts in /proc/mounts.
-/// On other platforms it always returns an empty list (caller may fall
-/// back to file-based emulation via PMemPool).
+/**
+ * @brief Detects PMem devices available on the current host.
+ * @return Return value.
+ * @details On Linux this enumerates /dev/pmem* block devices and checks for DAX-capable mounts in /proc/mounts. On other platforms it always returns an empty list (caller may fall back to file-based emulation via PMemPool).
+ */
 std::vector<PMemDeviceInfo> detect_pmem_devices();
 
 // ---------------------------------------------------------------------------
@@ -172,8 +172,12 @@ public:
         bool     is_healthy{true};   ///< False after unrecoverable error
     };
 
-    /// Open (or create) a PMem pool at @p config.path.
-    /// Throws std::runtime_error if the pool cannot be mapped.
+    /**
+     * @brief Open (or create) a PMem pool at @p config.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     * @details path. Throws std::runtime_error if the pool cannot be mapped.
+     */
     explicit PMemPool(const Config& config);
 
     ~PMemPool();
@@ -184,17 +188,31 @@ public:
     PMemPool(PMemPool&&) noexcept;
     PMemPool& operator=(PMemPool&&) noexcept;
 
-    /// Allocate @p size bytes from the pool, aligned to config.alignment.
-    /// Returns nullptr when the pool is exhausted.
+    /**
+     * @brief Allocate @p size bytes from the pool, aligned to config.
+     * @param[in] size Input parameter.
+     * @return Pointer to the result.
+     * @note Exception safety: noexcept.
+     * @details alignment. Returns nullptr when the pool is exhausted.
+     */
     void* allocate(size_t size) noexcept;
 
-    /// Mark the @p size bytes at @p ptr as free.
-    /// The bytes remain accessible (in-place) until compaction.
+    /**
+     * @brief Mark the @p size bytes at @p ptr as free.
+     * @param[in,out] ptr Input/output parameter.
+     * @param[in] size Input parameter.
+     * @note Exception safety: noexcept.
+     * @details The bytes remain accessible (in-place) until compaction.
+     */
     void free(void* ptr, size_t size) noexcept;
 
-    /// Persist (flush + sfence) the @p size bytes at @p ptr.
-    /// Call this after writing into memory obtained from allocate() to
-    /// guarantee crash-consistency.
+    /**
+     * @brief Persist (flush + sfence) the @p size bytes at @p ptr.
+     * @param[in] ptr Input parameter.
+     * @param[in] size Input parameter.
+     * @note Exception safety: noexcept.
+     * @details Call this after writing into memory obtained from allocate() to guarantee crash-consistency.
+     */
     void persist(const void* ptr, size_t size) noexcept;
 
     /// Return the base address of the mapped pool.
@@ -206,8 +224,12 @@ public:
     /// Check whether the pool is backed by DAX-capable storage.
     bool is_dax() const noexcept { return is_dax_; }
 
-    /// Recover allocation metadata from the persisted header.
-    /// Called automatically on open when Config::recover_on_open is true.
+    /**
+     * @brief Recover allocation metadata from the persisted header.
+     * @return True on success.
+     * @note Exception safety: noexcept.
+     * @details Called automatically on open when Config::recover_on_open is true.
+     */
     bool recover() noexcept;
 
 private:
@@ -229,8 +251,22 @@ private:
 
     static constexpr uint64_t kMagic = 0x504D454D544845DBULL; ///< "PMEMTHEDB"
 
+    /**
+     * @brief TBD: Describe map_region.
+     * @param[in] config Input parameter.
+     */
     void   map_region(const Config& config);
+    /**
+     * @brief TBD: Describe unmap_region.
+     * @note Exception safety: noexcept.
+     */
     void   unmap_region() noexcept;
+    /**
+     * @brief TBD: Describe init_header.
+     * @param[in] pool_size Input parameter.
+     * @param[in] alignment Input parameter.
+     * @note Exception safety: noexcept.
+     */
     void   init_header(size_t pool_size, size_t alignment) noexcept;
     size_t align_up(size_t v, size_t align) const noexcept {
         return (v + align - 1) & ~(align - 1);
@@ -276,9 +312,20 @@ public:
     explicit PMemAllocator(const PMemAllocator<U>& other) noexcept
         : pool_(other.pool_) {}
 
+    /**
+     * @brief TBD: Describe allocate.
+     * @param[in] n Input parameter.
+     * @return Pointer to the result.
+     * @throws std::bad_alloc if an error occurs.
+     * @details Implements allocate without additional internal calls.
+     */
     T* allocate(size_type n) {
         void* p = pool_->allocate(n * sizeof(T));
         if (!p) {
+            /**
+             * @brief TBD: Describe bad_alloc.
+             * @return Return value.
+             */
             throw std::bad_alloc();
         }
         return static_cast<T*>(p);
@@ -334,8 +381,14 @@ public:
     PMemStorageLayout(const PMemStorageLayout&) = delete;
     PMemStorageLayout& operator=(const PMemStorageLayout&) = delete;
 
-    /// Write @p len bytes from @p data into PMem and persist immediately.
-    /// Returns pointer to the persisted copy, or nullptr on error.
+    /**
+     * @brief Write @p len bytes from @p data into PMem and persist immediately.
+     * @param[in] key Input parameter.
+     * @param[in] data Input parameter.
+     * @param[in] len Input parameter.
+     * @return Pointer to the result.
+     * @details Returns pointer to the persisted copy, or nullptr on error.
+     */
     void* write(const std::string& key, const void* data, size_t len);
 
     /// Flush all dirty ranges to the persistence domain.
@@ -343,6 +396,11 @@ public:
 
     /// Return per-pool stats merged with write stats.
     WriteStats get_write_stats() const noexcept;
+    /**
+     * @brief TBD: Describe get_pool_stats.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     PMemPool::Stats get_pool_stats() const noexcept;
 
     /// True when backed by DAX (direct-access) PMem.

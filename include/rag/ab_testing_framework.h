@@ -98,11 +98,14 @@ class ABTestingFramework {
 
     /**
      * @brief Get all active tests
+     * @return Return value.
      */
     std::vector<std::string> getActiveTests() const;
 
     /**
      * @brief Get test status
+     * @param[in] test_id Input parameter.
+     * @return Return value.
      */
     ABTestStatus getTestStatus(const std::string &test_id) const;
 
@@ -115,6 +118,7 @@ class ABTestingFramework {
 
     /**
      * @brief Cancel an active test
+     * @param[in] test_id Input parameter.
      */
     void cancelTest(const std::string &test_id);
 
@@ -122,12 +126,27 @@ class ABTestingFramework {
     struct Impl;
     std::unique_ptr<Impl> impl_;
 
-    // Statistical methods
+    /**
+     * @brief Statistical methods
+     * @param[in] control Input parameter.
+     * @param[in] treatment Input parameter.
+     * @return Return value.
+     */
     double calculateTStatistic(const GroupMetrics &control, const GroupMetrics &treatment);
 
+    /**
+     * @brief TBD: Describe calculatePValue.
+     * @param[in] t_statistic Input parameter.
+     * @param[in] df Input parameter.
+     * @return Return value.
+     */
     double calculatePValue(double t_statistic, size_t df);
 
-    // Hash function for consistent user assignment
+    /**
+     * @brief Hash function for consistent user assignment
+     * @param[in] user_id Input parameter.
+     * @return Return value.
+     */
     size_t hashUserId(const std::string &user_id);
 };
 

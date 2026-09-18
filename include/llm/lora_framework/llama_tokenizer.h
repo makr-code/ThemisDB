@@ -41,6 +41,7 @@ public:
      * @brief Construct LlamaTokenizer from model file
      * @param model_path Path to GGUF model file
      * @throws std::runtime_error if model cannot be loaded
+     * @return Return value.
      */
     explicit LlamaTokenizer(const std::string& model_path);
     
@@ -103,6 +104,9 @@ private:
     llama_model* model_ = nullptr;
     std::string model_path_;
     
+    /**
+     * @brief TBD: Describe cleanup.
+     */
     void cleanup();
 };
 

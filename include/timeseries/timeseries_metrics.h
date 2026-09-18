@@ -43,6 +43,11 @@ public:
     };
 
     TimeSeriesMetrics();
+    /**
+     * @brief TBD: Describe TimeSeriesMetrics.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit TimeSeriesMetrics(const Config& config);
     ~TimeSeriesMetrics() = default;
 
@@ -209,19 +214,33 @@ public:
     uint64_t getTotalBackpressureEvents() const { return total_backpressure_events_.load(); }
     uint64_t getTotalOverdueFlushEvents() const { return total_overdue_flush_events_.load(); }
     
+    /**
+     * @brief TBD: Describe getAverageWriteLatency.
+     * @return Return value.
+     */
     double getAverageWriteLatency() const;
+    /**
+     * @brief TBD: Describe getAverageQueryLatency.
+     * @return Return value.
+     */
     double getAverageQueryLatency() const;
+    /**
+     * @brief TBD: Describe getAverageCompressionRatio.
+     * @return Return value.
+     */
     double getAverageCompressionRatio() const;
 
     /**
      * @brief Get average refresh latency for a specific aggregate (for testing).
      * @return Average latency in ms, or -1 if no data recorded for @p agg_id.
+     * @param[in] agg_id Input parameter.
      */
     double getAggRefreshLatency(const std::string& agg_id) const;
 
     /**
      * @brief Get last recorded lag for a specific aggregate (for testing).
      * @return Last lag in ms, or -1 if no data recorded for @p agg_id.
+     * @param[in] agg_id Input parameter.
      */
     double getAggRefreshLag(const std::string& agg_id) const;
 
@@ -289,11 +308,38 @@ private:
     };
     std::map<std::string, AggRefreshStats> agg_refresh_stats_;
     
-    // Helper methods
+    /**
+     * @brief Helper methods
+     * @param[in,out] total_latency Input/output parameter.
+     * @param[in,out] count Input/output parameter.
+     * @param[in] latency_ms Input parameter.
+     */
     void recordLatency(double& total_latency, uint64_t& count, double latency_ms);
+    /**
+     * @brief TBD: Describe getAverageLatency.
+     * @param[in] total_latency Input parameter.
+     * @param[in] count Input parameter.
+     * @return Return value.
+     */
     double getAverageLatency(double total_latency, uint64_t count) const;
+    /**
+     * @brief TBD: Describe formatPrometheusMetric.
+     * @param[in] name Input parameter.
+     * @param[in] type Input parameter.
+     * @param[in] help Input parameter.
+     * @param[in] value Input parameter.
+     * @return Return value.
+     */
     std::string formatPrometheusMetric(const std::string& name, const std::string& type,
                                        const std::string& help, uint64_t value) const;
+    /**
+     * @brief TBD: Describe formatPrometheusMetric.
+     * @param[in] name Input parameter.
+     * @param[in] type Input parameter.
+     * @param[in] help Input parameter.
+     * @param[in] value Input parameter.
+     * @return Return value.
+     */
     std::string formatPrometheusMetric(const std::string& name, const std::string& type,
                                        const std::string& help, double value) const;
 };

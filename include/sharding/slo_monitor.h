@@ -59,8 +59,10 @@ public:
      */
     explicit SLOWindow(std::chrono::seconds window_duration = std::chrono::seconds(3600));
     
+     * @param[in] duration Input parameter.
     /** @brief Record uptime duration sample. */
     void recordUptime(std::chrono::milliseconds duration);
+     * @param[in] duration Input parameter.
     /** @brief Record downtime duration sample. */
     void recordDowntime(std::chrono::milliseconds duration);
     
@@ -70,6 +72,7 @@ public:
      */
     void recordLatency(double latency_ms);
     
+     * @param[in] bytes_lost Input parameter.
     /** @brief Record observed lost bytes for durability accounting. */
     void recordDataLoss(uint64_t bytes_lost);
     
@@ -79,14 +82,19 @@ public:
      */
     void recordReplicationLag(double lag_ms);
     
+     * @return Return value.
     /** @brief Compute availability ratio in [0,1]. */
     double getAvailability() const;
+     * @return Return value.
     /** @brief Compute p50 latency from current samples (ms). */
     double getLatencyP50() const;
+     * @return Return value.
     /** @brief Compute p99 latency from current samples (ms). */
     double getLatencyP99() const;
+     * @return Return value.
     /** @brief Compute data-loss rate as lost_bytes / written_bytes. */
     double getDataLossRate() const;
+     * @return Return value.
     /** @brief Compute average replication lag in milliseconds. */
     double getAvgReplicationLag() const;
     
@@ -121,6 +129,12 @@ private:
     std::vector<double> replication_lag_samples_;
     size_t max_lag_samples_{1000};
     
+    /**
+     * @brief TBD: Describe calculatePercentile.
+     * @param[in] samples Input parameter.
+     * @param[in] percentile Input parameter.
+     * @return Return value.
+     */
     double calculatePercentile(const std::vector<double>& samples, double percentile) const;
 };
 
@@ -135,6 +149,11 @@ public:
         std::chrono::seconds window_duration = std::chrono::hours(24);
         bool enable_alerting = true;
         double alert_threshold = 0.9;  // Alert when error budget reaches 90%
+        /**
+         * @brief TBD: Describe defaults.
+         * @return Return value.
+         * @details Implements defaults without additional internal calls.
+         */
         static Config defaults() { return {}; }
     };
 
@@ -201,41 +220,62 @@ public:
      */
     void recordLeaderElection(const std::string& shard_id, double duration_s);
 
+     * @param[in] progress Input parameter.
     /** @brief Record or update repair-progress snapshot keyed by job id. */
     void recordRepairProgress(const RepairProgress& progress);
+     * @param[in] job_id Input parameter.
+     * @return Return value.
     /** @brief Return latest repair progress for one job id (empty shell if unknown). */
     RepairProgress getRepairProgress(const std::string& job_id) const;
+     * @return Return value.
     /** @brief Return all repair jobs that are not yet marked completed. */
     std::vector<RepairProgress> getActiveRepairJobs() const;
 
+     * @param[in] shard_id Input parameter.
+     * @return True on success.
     /** @brief Check availability SLO compliance for a shard. */
     bool isAvailabilitySLOMet(const std::string& shard_id) const;
+     * @param[in] query_type Input parameter.
+     * @return True on success.
     /** @brief Check latency SLO compliance for a query class. */
     bool isLatencySLOMet(const std::string& query_type) const;
+     * @param[in] shard_id Input parameter.
+     * @return True on success.
     /** @brief Check durability SLO compliance for a shard. */
     bool isDurabilitySLOMet(const std::string& shard_id) const;
+     * @param[in] shard_id Input parameter.
+     * @return True on success.
     /** @brief Check consistency SLO compliance for a shard. */
     bool isConsistencySLOMet(const std::string& shard_id) const;
     
+     * @param[in] shard_id Input parameter.
+     * @return Return value.
     /** @brief Get remaining error budget for a shard in [0,1]. */
     double getErrorBudget(const std::string& shard_id) const;
+     * @return Return value.
     /** @brief Get average remaining global error budget in [0,1]. */
     double getGlobalErrorBudget() const;
+     * @param[in] shard_id Input parameter.
+     * @return True on success.
     /** @brief Return true when shard error budget is fully exhausted. */
     bool isErrorBudgetExhausted(const std::string& shard_id) const;
     
+     * @return Return value.
     /** @brief Render human-readable SLO compliance report. */
     std::string generateSLOReport() const;
+     * @return Return value.
     /** @brief Render machine-readable SLO report as JSON string. */
     std::string generateSLOReportJSON() const;
     /** @brief Return compliance map keyed by metric name. */
     std::map<std::string, double> getSLOCompliance() const;
     
+     * @return Return value.
     /** @brief Return currently active alert messages. */
     std::vector<std::string> getActiveAlerts() const;
     
     /** @brief Get active SLO target configuration. */
     const SLOTarget& getTargets() const { return config_.targets; }
+     * @param[in] targets Input parameter.
     /** @brief Replace SLO target configuration at runtime. */
     void updateTargets(const SLOTarget& targets);
     
@@ -258,11 +298,35 @@ private:
     // Per-job repair progress registry
     std::map<std::string, RepairProgress> repair_progress_;
 
-    // Helper methods
+    /**
+     * @brief Helper methods
+     * @param[in] shard_id Input parameter.
+     * @return Return value.
+     */
     std::shared_ptr<SLOWindow> getOrCreateShardWindow(const std::string& shard_id);
+    /**
+     * @brief TBD: Describe getOrCreateQueryWindow.
+     * @param[in] query_type Input parameter.
+     * @return Return value.
+     */
     std::shared_ptr<SLOWindow> getOrCreateQueryWindow(const std::string& query_type);
+    /**
+     * @brief TBD: Describe getOrCreateTransactionWindow.
+     * @param[in] tx_type Input parameter.
+     * @return Return value.
+     */
     std::shared_ptr<SLOWindow> getOrCreateTransactionWindow(const std::string& tx_type);
+    /**
+     * @brief TBD: Describe checkAndGenerateAlerts.
+     */
     void checkAndGenerateAlerts();
+    /**
+     * @brief TBD: Describe formatSLOViolation.
+     * @param[in] slo_name Input parameter.
+     * @param[in] actual Input parameter.
+     * @param[in] target Input parameter.
+     * @return Return value.
+     */
     std::string formatSLOViolation(const std::string& slo_name, double actual, double target) const;
 };
 
@@ -283,6 +347,11 @@ public:
         std::string output_path = "/var/log/themisdb/slo_reports/";
         bool enable_json_export = true;
         bool enable_prometheus_export = true;
+        /**
+         * @brief TBD: Describe defaults.
+         * @return Return value.
+         * @details Implements defaults without additional internal calls.
+         */
         static Config defaults() { return {}; }
     };
     
@@ -304,8 +373,19 @@ private:
     std::atomic<bool> running_{false};
     std::unique_ptr<std::thread> reporter_thread_;
     
+    /**
+     * @brief TBD: Describe reporterLoop.
+     */
     void reporterLoop();
+    /**
+     * @brief TBD: Describe generateReportFilename.
+     * @return Return value.
+     */
     std::string generateReportFilename() const;
+    /**
+     * @brief TBD: Describe writeReport.
+     * @param[in] content Input parameter.
+     */
     void writeReport(const std::string& content);
 };
 

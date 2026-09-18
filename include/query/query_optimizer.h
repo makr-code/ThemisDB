@@ -95,6 +95,7 @@ public:
      * into subsequent chooseOrderForAndQuery() calls.
      *
      * Thread-safety: acquires advisor_cost_model_mutex_.
+     * @param[in] c Input parameter.
      */
     void setAdvisorCostConstants(const OptimizerCostModel::CostConstants& c);
 
@@ -103,6 +104,7 @@ public:
      *
      * Thread-safety: acquires advisor_cost_model_mutex_ and returns by value so
      * callers never observe mutable shared state after lock release.
+     * @return Return value.
      */
     OptimizerCostModel::CostConstants advisorCostConstants() const;
     
@@ -147,6 +149,7 @@ public:
     void attachPerQueryCostModel(
         std::shared_ptr<performance::phase3::PerQueryCostModel> new_cost_model);
 
+     * @return Return value.
     /** @brief Return the currently attached PerQueryCostModel (may be nullptr). */
     std::shared_ptr<performance::phase3::PerQueryCostModel> perQueryCostModel() const;
 
@@ -190,6 +193,11 @@ public:
         double costSpatialFirst = 0.0;
         double costVectorFirst = 0.0;
     };
+    /**
+     * @brief TBD: Describe chooseVectorGeoPlan.
+     * @param[in] in Input parameter.
+     * @return Return value.
+     */
     static VectorGeoCostResult chooseVectorGeoPlan(const VectorGeoCostInput& in);
 
     // =============================
@@ -207,6 +215,11 @@ public:
         double costSpatialThenFulltext = 0.0; // for future when spatial prefilter can restrict FT search scope
         bool chooseFulltextFirst = false;       // current plan choice
     };
+    /**
+     * @brief TBD: Describe estimateContentGeo.
+     * @param[in] in Input parameter.
+     * @return Return value.
+     */
     static ContentGeoCostResult estimateContentGeo(const ContentGeoCostInput& in);
 
     // =============================
@@ -222,6 +235,11 @@ public:
         double estimatedExpandedVertices = 0.0;
         double estimatedTimeMs = 0.0; // abstract
     };
+    /**
+     * @brief TBD: Describe estimateGraphPath.
+     * @param[in] in Input parameter.
+     * @return Return value.
+     */
     static GraphPathCostResult estimateGraphPath(const GraphPathCostInput& in);
 
     // =============================
@@ -240,6 +258,10 @@ public:
     
     /**
      * @brief Record query execution statistics for adaptive learning
+     * @param[in] query_hash Input parameter.
+     * @param[in] estimated_rows Input parameter.
+     * @param[in] actual_rows Input parameter.
+     * @param[in] execution_time_ms Input parameter.
      */
     void recordQueryExecution(
         const std::string& query_hash,
@@ -249,6 +271,8 @@ public:
     
     /**
      * @brief Get adaptive adjustment factor for a query pattern
+     * @param[in] query_hash Input parameter.
+     * @return Return value.
      */
     double getAdaptiveAdjustment(const std::string& query_hash) const;
     
@@ -334,6 +358,7 @@ public:
      * @param result_rows Actual result row count
      * @param result_bytes Actual result bytes
      * @return true if result respects scope bounds
+     * @note Exception safety: noexcept.
      */
     bool validateResultBounds(const Plan& plan,
                               size_t result_rows,
@@ -347,6 +372,7 @@ public:
      * @param plan Query plan with federation settings
      * @param remote_scope_id Scope ID from remote shard
      * @return true if isolation constraints satisfied
+     * @note Exception safety: noexcept.
      */
     bool validateFederationScopeIsolation(const Plan& plan,
                                           const std::string& remote_scope_id) const noexcept;
@@ -418,30 +444,45 @@ private:
         /**
          * @brief Determine if a partition should be pruned based on selectivity
          * Production implementation - uses actual shard metadata
+         * @param[in] info Input parameter.
+         * @param[in] total_shards Input parameter.
+         * @param[in] selectivity Input parameter.
+         * @return True on success.
          */
         bool shouldPrunePartition(const ShardInfo& info, size_t total_shards, double selectivity) const;
         
         /**
          * @brief Get optimal parallelism for distributed query
          * Production implementation - considers shard count and hardware
+         * @param[in] shards Input parameter.
+         * @param[in] available_threads Input parameter.
+         * @return Return value.
          */
         size_t getOptimalParallelism(const std::vector<ShardInfo>& shards, size_t available_threads) const;
         
         /**
          * @brief Get shard metadata for row count estimation
          * Integrates with MetadataShard system (v1.5.x)
+         * @param[in] shard_id Input parameter.
+         * @param[in] table Input parameter.
+         * @return Return value.
          */
         size_t getShardRowCount(const std::string& shard_id, const std::string& table) const;
         
         /**
          * @brief Measure network latency to a shard
          * Integrates with PrometheusMetrics system (v1.5.x)
+         * @param[in] shard_id Input parameter.
+         * @return Return value.
          */
         double measureShardLatency(const std::string& shard_id) const;
         
         /**
          * @brief Calculate predicate selectivity from query predicates
          * Histogram-based estimation (v1.5.x)
+         * @param[in] predicates Input parameter.
+         * @param[in] table Input parameter.
+         * @return Return value.
          */
         double calculatePredicateSelectivity(
             const std::vector<PredicateEq>& predicates,

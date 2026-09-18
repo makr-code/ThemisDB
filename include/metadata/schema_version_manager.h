@@ -81,6 +81,7 @@ struct VersionResult {
      * @param v Payload value received by value; callers can pass `std::move(...)`
      *          to avoid an extra copy for large payloads.
      * @return VersionResult with `ok == true`.
+     * @details Calls: std::move().
      */
     static VersionResult<T> success(T v) {
         VersionResult<T> r;
@@ -94,6 +95,7 @@ struct VersionResult {
      * @param code Typed error code describing the failure.
      * @param msg Human-readable failure description stored in error_message.
      * @return VersionResult with `ok == false`.
+     * @details Calls: std::move().
      */
     static VersionResult<T> failure(VersionErrorCode code, std::string msg) {
         VersionResult<T> r;

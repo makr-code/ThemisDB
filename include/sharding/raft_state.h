@@ -79,6 +79,7 @@ public:
     /**
      * @brief Constructor
      * @param config Raft configuration
+     * @return Return value.
      */
     explicit RaftState(const RaftConfig& config);
 

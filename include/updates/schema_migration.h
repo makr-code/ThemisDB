@@ -131,6 +131,10 @@ struct RollbackResult {
  */
 class IMigrationStorage {
 public:
+    /**
+     * @brief TBD: Describe ~IMigrationStorage.
+     * @return Return value.
+     */
     virtual ~IMigrationStorage() = default;
 
     /**
@@ -179,11 +183,18 @@ public:
  */
 class IMigrationIterator {
 public:
+    /**
+     * @brief TBD: Describe ~IMigrationIterator.
+     * @return Return value.
+     */
     virtual ~IMigrationIterator() = default;
 
     [[nodiscard]] virtual bool        valid() const = 0;  ///< true while the iterator points at a record.
     [[nodiscard]] virtual std::string key()   const = 0;  ///< Current record key.
     [[nodiscard]] virtual std::string value() const = 0;  ///< Current record value.
+    /**
+     * @brief TBD: Describe next.
+     */
     virtual void        next()        = 0;  ///< Advance to the next record.
 };
 
@@ -224,6 +235,10 @@ struct MigrationContext {
     [[nodiscard]] virtual std::unique_ptr<IMigrationIterator> createIterator(
         const std::string& table_name) = 0;
     
+    /**
+     * @brief TBD: Describe ~MigrationContext.
+     * @return Return value.
+     */
     virtual ~MigrationContext() = default;
 };
 
@@ -307,6 +322,7 @@ public:
      *                 (e.g. "1.5.0").  Written to storage under the key
      *                 `__schema__:version` on successful apply(), making
      *                 the last applied version durable.
+     * @return Return value.
      */
     explicit SchemaMigration(const std::string& version);
 
@@ -443,16 +459,22 @@ public:
 
     /**
      * @brief Return the version string this migration targets.
+     * @return Return value.
+     * @note Exception safety: noexcept.
      */
     const std::string& version() const noexcept;
 
     /**
      * @brief Return the current online DDL phase.
+     * @return Return value.
+     * @note Exception safety: noexcept.
      */
     OnlineDDLPhase currentPhase() const noexcept;
 
     /**
      * @brief Return the number of DDL operations (column/index/custom) queued.
+     * @return Return value.
+     * @note Exception safety: noexcept.
      */
     std::size_t operationCount() const noexcept;
 

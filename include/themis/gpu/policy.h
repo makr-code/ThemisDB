@@ -64,6 +64,8 @@ public:
 
     /**
      * @brief Construct with a set of pre-granted callers (for tests / bootstrap).
+     * @param[in] pre_granted_callers Input parameter.
+     * @return Return value.
      */
     explicit GPUPolicy(const std::vector<std::string>& pre_granted_callers);
 
@@ -87,6 +89,7 @@ public:
 
     /**
      * @brief Revoke all capabilities from @p caller_id and remove the entry.
+     * @param[in] caller_id Input parameter.
      */
     void revokeAll(const std::string& caller_id);
 
@@ -115,16 +118,20 @@ public:
 
     /**
      * @brief List all caller IDs that currently hold at least one capability.
+     * @return Return value.
      */
     std::vector<std::string> grantedCallers() const;
 
     /**
      * @brief List capabilities held by @p caller_id.
+     * @param[in] caller_id Input parameter.
+     * @return Return value.
      */
     std::vector<Capability> capabilitiesOf(const std::string& caller_id) const;
 
     /**
      * @brief Return the number of callers with at least one capability.
+     * @return Return value.
      */
     size_t grantedCount() const;
 
@@ -135,14 +142,28 @@ private:
     std::unordered_map<std::string,
                        std::unordered_set<int>>  grants_;  // int = enum cast
 
+    /**
+     * @brief TBD: Describe cap_to_int.
+     * @param[in] c Input parameter.
+     * @return Return value.
+     * @details Implements cap_to_int without additional internal calls.
+     */
     static int cap_to_int(Capability c) { return static_cast<int>(c); }
 
+    /**
+     * @brief TBD: Describe hasCapability.
+     * @param[in] id Input parameter.
+     * @param[in] cap Input parameter.
+     * @return True on success.
+     */
     bool hasCapability(const std::string& id, Capability cap) const;
 };
 
-// ---------------------------------------------------------------------------
-// Capability name helper (for messages and logs)
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Capability name helper (for messages and logs) ---------------------------------------------------------------------------
+ * @param[in] cap Input parameter.
+ * @return Pointer to the result.
+ */
 const char* capabilityName(GPUPolicy::Capability cap);
 
 } // namespace gpu

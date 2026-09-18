@@ -552,6 +552,8 @@ public:
 
 /**
  * @brief Register all process functions with the registry
+ * @param[in,out] registry Input/output parameter.
+ * @details Calls: registerFunction().
  */
 inline void registerProcessFunctions(FunctionRegistry& registry) {
     // Milestone functions

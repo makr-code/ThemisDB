@@ -100,79 +100,104 @@ struct PluginSecurityPolicy {
 /// revocation checking (CRL/OCSP). It enforces the security policy configured at construction.
 class PluginSecurityVerifier {
 public:
-    /// @brief Constructor
-    /// @param policy Security policy rules to enforce during verification
+    /**
+     * @brief @brief Constructor @param policy Security policy rules to enforce during verification
+     * @param[in] policy Input parameter.
+     * @return Return value.
+     */
     explicit PluginSecurityVerifier(const PluginSecurityPolicy& policy);
     ~PluginSecurityVerifier() = default;
     
-    /// @brief Verify a plugin before loading
-    /// @param pluginPath Path to the plugin DLL/SO file
-    /// @param errorMessage Output parameter containing detailed error message on failure
-    /// @return true if plugin passes all security checks and is safe to load; false otherwise
+    /**
+     * @brief @brief Verify a plugin before loading @param pluginPath Path to the plugin DLL/SO file @param errorMessage Output parameter containing detailed error message on failure @return true if plugin passes all security checks and is safe to load; false otherwise
+     * @param[in] pluginPath Input parameter.
+     * @param[in,out] errorMessage Input/output parameter.
+     * @return True on success.
+     */
     bool verifyPlugin(const std::string& pluginPath, std::string& errorMessage);
     
-    /// @brief Calculate SHA-256 hash of plugin file
-    /// @param filePath Path to the file to hash
-    /// @return Hex-encoded SHA-256 hash string (64 characters)
+    /**
+     * @brief @brief Calculate SHA-256 hash of plugin file @param filePath Path to the file to hash @return Hex-encoded SHA-256 hash string (64 characters)
+     * @param[in] filePath Input parameter.
+     * @return Return value.
+     */
     std::string calculateFileHash(const std::string& filePath);
     
-    /// @brief Verify digital signature on the plugin
-    /// @param filePath Path to the plugin file
-    /// @param signature Signature data to verify against
-    /// @return true if signature is valid; false if invalid, corrupted, or verification failed
+    /**
+     * @brief @brief Verify digital signature on the plugin @param filePath Path to the plugin file @param signature Signature data to verify against @return true if signature is valid; false if invalid, corrupted, or verification failed
+     * @param[in] filePath Input parameter.
+     * @param[in] signature Input parameter.
+     * @return True on success.
+     */
     bool verifySignature(const std::string& filePath, const PluginSignature& signature);
     
-    /// @brief Parse plugin metadata from JSON sidecar file
-    /// @param pluginPath Path to the plugin; metadata file must be at <pluginPath>.metadata.json
-    /// @return PluginMetadata if file exists and is valid JSON; std::nullopt otherwise
+    /**
+     * @brief @brief Parse plugin metadata from JSON sidecar file @param pluginPath Path to the plugin; metadata file must be at <pluginPath>.
+     * @param[in] pluginPath Input parameter.
+     * @return Return value.
+     * @details metadata.json @return PluginMetadata if file exists and is valid JSON; std::nullopt otherwise
+     */
     std::optional<PluginMetadata> loadMetadata(const std::string& pluginPath);
     
-    /// @brief Verify complete certificate chain
-    /// @param certificate PEM-encoded certificate string
-    /// @return true if chain is valid and properly issued; false if broken or invalid
+    /**
+     * @brief @brief Verify complete certificate chain @param certificate PEM-encoded certificate string @return true if chain is valid and properly issued; false if broken or invalid
+     * @param[in] certificate Input parameter.
+     * @return True on success.
+     */
     bool verifyCertificateChain(const std::string& certificate);
     
-    /// @brief Check if plugin hash is on security blacklist
-    /// @param fileHash Hex-encoded SHA-256 hash string
-    /// @return true if hash matches a blacklisted entry; false otherwise
+    /**
+     * @brief @brief Check if plugin hash is on security blacklist @param fileHash Hex-encoded SHA-256 hash string @return true if hash matches a blacklisted entry; false otherwise
+     * @param[in] fileHash Input parameter.
+     * @return True on success.
+     */
     bool isBlacklisted(const std::string& fileHash) const;
     
-    /// @brief Check if plugin hash is on whitelist (explicitly allowed)
-    /// @param fileHash Hex-encoded SHA-256 hash string
-    /// @return true if hash matches a whitelisted entry; false otherwise
+    /**
+     * @brief @brief Check if plugin hash is on whitelist (explicitly allowed) @param fileHash Hex-encoded SHA-256 hash string @return true if hash matches a whitelisted entry; false otherwise
+     * @param[in] fileHash Input parameter.
+     * @return True on success.
+     */
     bool isWhitelisted(const std::string& fileHash) const;
     
-    /// @brief Determine trust level for a plugin
-    /// @param metadata Plugin metadata to evaluate
-    /// @return Trust level (TRUSTED, UNTRUSTED, or BLOCKED)
+    /**
+     * @brief @brief Determine trust level for a plugin @param metadata Plugin metadata to evaluate @return Trust level (TRUSTED, UNTRUSTED, or BLOCKED)
+     * @param[in] metadata Input parameter.
+     * @return Return value.
+     */
     PluginTrustLevel getTrustLevel(const PluginMetadata& metadata);
     
-    /// @brief Update security policy at runtime
-    /// @param policy New security policy to apply
-    /// @note This is thread-safe; policy changes take effect immediately
+    /**
+     * @brief @brief Update security policy at runtime @param policy New security policy to apply @note This is thread-safe; policy changes take effect immediately
+     * @param[in] policy Input parameter.
+     */
     void updatePolicy(const PluginSecurityPolicy& policy);
     
     /// @brief Get current policy
     /// @return Reference to the currently active security policy
     const PluginSecurityPolicy& getPolicy() const { return policy_; }
     
-    /// @brief Check certificate revocation list (CRL)
-    /// @param certificate PEM-encoded certificate string
-    /// @return true if certificate is not revoked or CRL check passed; false if revoked
-    /// @note Public for white-box testing; normally called internally by verifyCertificateChain
+    /**
+     * @brief @brief Check certificate revocation list (CRL) @param certificate PEM-encoded certificate string @return true if certificate is not revoked or CRL check passed; false if revoked @note Public for white-box testing; normally called internally by verifyCertificateChain
+     * @param[in] certificate Input parameter.
+     * @return True on success.
+     */
     bool checkCRL(const std::string& certificate);
     
-    /// @brief Check Online Certificate Status Protocol (OCSP)
-    /// @param certificate PEM-encoded certificate string
-    /// @return true if certificate status is valid; false if revoked or status unknown
-    /// @note Public for white-box testing; normally called internally by verifyCertificateChain
+    /**
+     * @brief @brief Check Online Certificate Status Protocol (OCSP) @param certificate PEM-encoded certificate string @return true if certificate status is valid; false if revoked or status unknown @note Public for white-box testing; normally called internally by verifyCertificateChain
+     * @param[in] certificate Input parameter.
+     * @return True on success.
+     */
     bool checkOCSP(const std::string& certificate);
     
-    /// @brief Validate plugin path to prevent path traversal attacks
-    /// @param path Path to validate
-    /// @param errorMessage Output parameter containing error details on failure
-    /// @return true if path is safe (no ".." components, absolute or relative within allowed directory); 
-    ///         false if path contains traversal sequences or disallowed patterns
+    /**
+     * @brief @brief Validate plugin path to prevent path traversal attacks @param path Path to validate @param errorMessage Output parameter containing error details on failure @return true if path is safe (no ".
+     * @param[in] path Input parameter.
+     * @param[in,out] errorMessage Input/output parameter.
+     * @return True on success.
+     * @details ." components, absolute or relative within allowed directory); false if path contains traversal sequences or disallowed patterns
+     */
     static bool validatePluginPath(const std::string& path, std::string& errorMessage);
     
 private:
@@ -227,8 +252,11 @@ public:
         bool is_themisdb_official = false;
     };
     
-    /// @brief Constructor
-    /// @param policy Security policy rules to enforce during verification
+    /**
+     * @brief @brief Constructor @param policy Security policy rules to enforce during verification
+     * @param[in] policy Input parameter.
+     * @return Return value.
+     */
     explicit EnhancedPluginSecurityVerifier(const PluginSecurityPolicy& policy);
     ~EnhancedPluginSecurityVerifier() = default;
     
@@ -241,8 +269,10 @@ public:
         VerificationLevel required_level = VerificationLevel::LEVEL_3_PLATFORM_SIGNATURE
     );
     
-    /// @brief Update security policy at runtime
-    /// @param policy New security policy to apply
+    /**
+     * @brief @brief Update security policy at runtime @param policy New security policy to apply
+     * @param[in] policy Input parameter.
+     */
     void updatePolicy(const PluginSecurityPolicy& policy);
     
     /// @brief Get current policy
@@ -252,66 +282,148 @@ public:
 private:
     PluginSecurityPolicy policy_;
     
-    // Level 1: Hash verification (from base class)
+    /**
+     * @brief Level 1: Hash verification (from base class)
+     * @param[in] plugin_path Input parameter.
+     * @param[in,out] result Input/output parameter.
+     * @return True on success.
+     */
     bool verifyHash(const std::string& plugin_path, VerificationResult& result);
     
-    // Level 2: Embedded signature verification
+    /**
+     * @brief Level 2: Embedded signature verification
+     * @param[in] plugin_path Input parameter.
+     * @param[in,out] result Input/output parameter.
+     * @return True on success.
+     */
     bool verifyEmbeddedSignature(const std::string& plugin_path, VerificationResult& result);
     
-    // Level 3: Platform-specific code signing
+    /**
+     * @brief Level 3: Platform-specific code signing
+     * @param[in] plugin_path Input parameter.
+     * @param[in,out] result Input/output parameter.
+     * @return True on success.
+     */
     bool verifyPlatformSignature(const std::string& plugin_path, VerificationResult& result);
     
-    // Level 4: Full certificate chain + revocation
+    /**
+     * @brief Level 4: Full certificate chain + revocation
+     * @param[in] plugin_path Input parameter.
+     * @param[in,out] result Input/output parameter.
+     * @return True on success.
+     */
     bool verifyFullChain(const std::string& plugin_path, VerificationResult& result);
     
-    // Extract embedded certificate from DLL/SO
+    /**
+     * @brief Extract embedded certificate from DLL/SO
+     * @param[in] plugin_path Input parameter.
+     * @return Return value.
+     */
     std::optional<std::vector<uint8_t>> extractEmbeddedCertificate(
         const std::string& plugin_path
     );
     
-    // Extract embedded signature from DLL/SO
+    /**
+     * @brief Extract embedded signature from DLL/SO
+     * @param[in] plugin_path Input parameter.
+     * @return Return value.
+     */
     std::optional<std::vector<uint8_t>> extractEmbeddedSignature(
         const std::string& plugin_path
     );
     
-    // Verify ThemisDB.org official certificate
+    /**
+     * @brief Verify ThemisDB.
+     * @param[in,out] cert Input/output parameter.
+     * @return True on success.
+     * @details org official certificate
+     */
     bool isOfficialThemisDBCertificate(X509* cert);
     
     // Platform-specific signature verification
 #ifdef _WIN32
+    /**
+     * @brief TBD: Describe verifyAuthenticodeSignature.
+     * @param[in] plugin_path Input parameter.
+     * @param[in,out] result Input/output parameter.
+     * @return True on success.
+     */
     bool verifyAuthenticodeSignature(const std::string& plugin_path, VerificationResult& result);
 #elif defined(__APPLE__)
+    /**
+     * @brief TBD: Describe verifyMacOSCodeSignature.
+     * @param[in] plugin_path Input parameter.
+     * @param[in,out] result Input/output parameter.
+     * @return True on success.
+     */
     bool verifyMacOSCodeSignature(const std::string& plugin_path, VerificationResult& result);
 #else
+    /**
+     * @brief TBD: Describe verifyGPGSignature.
+     * @param[in] plugin_path Input parameter.
+     * @param[in,out] result Input/output parameter.
+     * @return True on success.
+     */
     bool verifyGPGSignature(const std::string& plugin_path, VerificationResult& result);
 #endif
     
-    // Helper: Calculate hash excluding signature section
+    /**
+     * @brief Helper: Calculate hash excluding signature section
+     * @param[in] plugin_path Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> calculateHashExcludingSignature(const std::string& plugin_path);
     
-    // Helper: Verify RSA signature
+    /**
+     * @brief Helper: Verify RSA signature
+     * @param[in] data Input parameter.
+     * @param[in] signature Input parameter.
+     * @param[in,out] pubkey Input/output parameter.
+     * @return True on success.
+     */
     bool verifyRSASignature(
         const std::vector<uint8_t>& data,
         const std::vector<uint8_t>& signature,
         EVP_PKEY* pubkey
     );
     
-    // Helper: Get certificate issuer DN
+    /**
+     * @brief Helper: Get certificate issuer DN
+     * @param[in,out] cert Input/output parameter.
+     * @return Return value.
+     */
     std::string getCertificateIssuer(X509* cert);
     
-    // Helper: Get certificate subject DN
+    /**
+     * @brief Helper: Get certificate subject DN
+     * @param[in,out] cert Input/output parameter.
+     * @return Return value.
+     */
     std::string getCertificateSubject(X509* cert);
     
-    // Helper: Check if certificate is currently valid
+    /**
+     * @brief Helper: Check if certificate is currently valid
+     * @param[in,out] cert Input/output parameter.
+     * @return True on success.
+     */
     bool isCertificateValid(X509* cert);
     
-    // Helper: Load plugin metadata for chain validation
+    /**
+     * @brief Helper: Load plugin metadata for chain validation
+     * @param[in] plugin_path Input parameter.
+     * @return Return value.
+     */
     std::optional<PluginMetadata> loadPluginMetadataForChainValidation(
         const std::string& plugin_path
     );
 
 public:
-    // Exposes extractEmbeddedCertificate() for white-box unit testing only.
+    /**
+     * @brief Exposes extractEmbeddedCertificate() for white-box unit testing only.
+     * @param[in] plugin_path Input parameter.
+     * @return Return value.
+     * @details Calls: extractEmbeddedCertificate().
+     */
     std::optional<std::vector<uint8_t>> extractSigningCertificateForTesting(
         const std::string& plugin_path) {
         return extractEmbeddedCertificate(plugin_path);
@@ -349,29 +461,39 @@ struct PluginSecurityEvent {
 /// and security incident investigation. All operations are thread-safe.
 class PluginSecurityAuditor {
 public:
-    /// @brief Get the singleton instance
-    /// @return Reference to the global auditor instance
+    /**
+     * @brief @brief Get the singleton instance @return Reference to the global auditor instance
+     * @return Return value.
+     */
     static PluginSecurityAuditor& instance();
     
-    /// @brief Log a security event (thread-safe)
-    /// @param event Security event to log
+    /**
+     * @brief @brief Log a security event (thread-safe) @param event Security event to log
+     * @param[in] event Input parameter.
+     */
     void logEvent(const PluginSecurityEvent& event);
     
-    /// @brief Get all security events for a specific plugin (thread-safe)
-    /// @param pluginPath Plugin path to filter events by
-    /// @return Copy of all events matching the plugin path
+    /**
+     * @brief @brief Get all security events for a specific plugin (thread-safe) @param pluginPath Plugin path to filter events by @return Copy of all events matching the plugin path
+     * @param[in] pluginPath Input parameter.
+     * @return Return value.
+     */
     std::vector<PluginSecurityEvent> getEventsForPlugin(const std::string& pluginPath) const;
     
-    /// @brief Get a snapshot of all security events (thread-safe)
-    /// @return Copy of the complete event log
+    /**
+     * @brief @brief Get a snapshot of all security events (thread-safe) @return Copy of the complete event log
+     * @return Return value.
+     */
     std::vector<PluginSecurityEvent> getAllEvents() const;
     
     /// @brief Clear all event log entries (thread-safe)
     void clearEvents();
     
-    /// @brief Export events to file for compliance and audit (thread-safe)
-    /// @param outputPath Path where to write event log file (JSON format recommended)
-    /// @return true if export succeeded; false if file write failed
+    /**
+     * @brief @brief Export events to file for compliance and audit (thread-safe) @param outputPath Path where to write event log file (JSON format recommended) @return true if export succeeded; false if file write failed
+     * @param[in] outputPath Input parameter.
+     * @return True on success.
+     */
     bool exportEvents(const std::string& outputPath) const;
     
 private:

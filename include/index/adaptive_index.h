@@ -48,10 +48,23 @@ public:
         int64_t cache_hits = 0;             // L3 cache hits for this pattern
         double avg_cache_miss_penalty_ms = 0.0;  // Average penalty from cache miss
         
+        /**
+         * @brief TBD: Describe toJson.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
+        /**
+         * @brief TBD: Describe fromJson.
+         * @param[in] j Input parameter.
+         * @return Return value.
+         */
         static QueryPattern fromJson(const nlohmann::json& j);
     };
     
+    /**
+     * @brief TBD: Describe QueryPatternTracker.
+     * @return Return value.
+     */
     explicit QueryPatternTracker();
     ~QueryPatternTracker() = default;
     
@@ -101,10 +114,21 @@ private:
     // Key: "collection:field:operation"
     std::map<std::string, QueryPattern> patterns_;
     
+    /**
+     * @brief TBD: Describe makeKey.
+     * @param[in] collection Input parameter.
+     * @param[in] field Input parameter.
+     * @param[in] operation Input parameter.
+     * @return Return value.
+     */
     std::string makeKey(const std::string& collection,
                        const std::string& field,
                        const std::string& operation) const;
     
+    /**
+     * @brief TBD: Describe getCurrentTimeMs.
+     * @return Return value.
+     */
     int64_t getCurrentTimeMs() const;
 };
 
@@ -131,10 +155,24 @@ public:
         double estimated_l3_cache_fit_ratio = 0.0;  // % of index that fits in L3 (20MB)
         double estimated_cache_miss_rate = 0.0;      // Estimated cache miss rate
         
+        /**
+         * @brief TBD: Describe toJson.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
+        /**
+         * @brief TBD: Describe fromJson.
+         * @param[in] j Input parameter.
+         * @return Return value.
+         */
         static SelectivityStats fromJson(const nlohmann::json& j);
     };
     
+    /**
+     * @brief TBD: Describe SelectivityAnalyzer.
+     * @param[in,out] db Input/output parameter.
+     * @return Return value.
+     */
     explicit SelectivityAnalyzer(rocksdb::TransactionDB* db);
     ~SelectivityAnalyzer() = default;
     
@@ -193,10 +231,25 @@ public:
         int64_t queries_affected = 0;
         int64_t estimated_speedup_ms = 0;
         
+        /**
+         * @brief TBD: Describe toJson.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
+        /**
+         * @brief TBD: Describe fromJson.
+         * @param[in] j Input parameter.
+         * @return Return value.
+         */
         static IndexSuggestion fromJson(const nlohmann::json& j);
     };
     
+    /**
+     * @brief TBD: Describe IndexSuggestionEngine.
+     * @param[in,out] tracker Input/output parameter.
+     * @param[in,out] analyzer Input/output parameter.
+     * @return Return value.
+     */
     explicit IndexSuggestionEngine(QueryPatternTracker* tracker,
                                   SelectivityAnalyzer* analyzer);
     ~IndexSuggestionEngine() = default;
@@ -264,12 +317,31 @@ private:
     mutable std::shared_mutex existingIndexesMutex_;
     std::unordered_set<std::string> existingIndexes_;
     
+    /**
+     * @brief TBD: Describe calculateScore.
+     * @param[in] pattern Input parameter.
+     * @param[in] stats Input parameter.
+     * @return Return value.
+     */
     double calculateScore(const QueryPatternTracker::QueryPattern& pattern,
                          const SelectivityAnalyzer::SelectivityStats& stats) const;
     
+    /**
+     * @brief TBD: Describe recommendIndexType.
+     * @param[in] pattern Input parameter.
+     * @param[in] stats Input parameter.
+     * @return Return value.
+     */
     std::string recommendIndexType(const QueryPatternTracker::QueryPattern& pattern,
                                    const SelectivityAnalyzer::SelectivityStats& stats) const;
     
+    /**
+     * @brief TBD: Describe generateReason.
+     * @param[in] pattern Input parameter.
+     * @param[in] stats Input parameter.
+     * @param[in] index_type Input parameter.
+     * @return Return value.
+     */
     std::string generateReason(const QueryPatternTracker::QueryPattern& pattern,
                               const SelectivityAnalyzer::SelectivityStats& stats,
                               const std::string& index_type) const;
@@ -280,12 +352,31 @@ private:
  */
 class AdaptiveIndexManager {
 public:
+    /**
+     * @brief TBD: Describe AdaptiveIndexManager.
+     * @param[in,out] db Input/output parameter.
+     * @return Return value.
+     */
     explicit AdaptiveIndexManager(rocksdb::TransactionDB* db);
     ~AdaptiveIndexManager() = default;
     
-    // Component access
+    /**
+     * @brief Component access
+     * @return Pointer to the result.
+     * @details Implements getPatternTracker without additional internal calls.
+     */
     QueryPatternTracker* getPatternTracker() { return &tracker_; }
+    /**
+     * @brief TBD: Describe getSelectivityAnalyzer.
+     * @return Pointer to the result.
+     * @details Implements getSelectivityAnalyzer without additional internal calls.
+     */
     SelectivityAnalyzer* getSelectivityAnalyzer() { return &analyzer_; }
+    /**
+     * @brief TBD: Describe getSuggestionEngine.
+     * @return Pointer to the result.
+     * @details Implements getSuggestionEngine without additional internal calls.
+     */
     IndexSuggestionEngine* getSuggestionEngine() { return &engine_; }
     
     /**

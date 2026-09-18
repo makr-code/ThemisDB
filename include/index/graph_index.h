@@ -62,57 +62,102 @@ public:
     struct Status {
         bool ok = true;
         std::string message;
+        /**
+         * @brief TBD: Describe OK.
+         * @return Return value.
+         * @details Implements OK without additional internal calls.
+         */
         static Status OK() { return {}; }
+        /**
+         * @brief TBD: Describe Error.
+         * @param[in] msg Input parameter.
+         * @return Return value.
+         * @details Calls: std::move().
+         */
         static Status Error(std::string msg) { return Status{false, std::move(msg)}; }
     };
 
+    /**
+     * @brief TBD: Describe GraphIndexManager.
+     * @param[in,out] db Input/output parameter.
+     * @return Return value.
+     */
     explicit GraphIndexManager(RocksDBWrapper& db);
     
     // Set optional audit logger for tracking graph operations (Phase 1)
     void setAuditLogger(std::shared_ptr<utils::AuditLogger> logger, std::string user_context = "system");
     
-    // Set user context for audit logging
+    /**
+     * @brief Set user context for audit logging
+     * @param[in] user_id Input parameter.
+     */
     void setUserContext(std::string user_id);
     
-    // Phase 4: Set optional expression evaluator for advanced filtering
+    /**
+     * @brief Phase 4: Set optional expression evaluator for advanced filtering
+     * @param[in] evaluator Input parameter.
+     */
     void setExpressionEvaluator(std::shared_ptr<IExpressionEvaluator> evaluator);
     
-    // Get expression evaluator
+    /**
+     * @brief Get expression evaluator
+     * @return Return value.
+     */
     std::shared_ptr<IExpressionEvaluator> getExpressionEvaluator() const;
 
 
-    // Topologie aus RocksDB laden (optional beim Start)
+    /**
+     * @brief Topologie aus RocksDB laden (optional beim Start)
+     * @return Return value.
+     */
     Status rebuildTopology();
 
-    /// Edge-Operationen (Edge-Entity benötigt Felder: id, _from, _to)
-    /// 
-    /// @brief Fügt eine Kante zum Graphen hinzu (atomare Operation über WriteBatch).
-    /// 
-    /// @param edge BaseEntity mit erforderlichen Feldern:
-    ///   - id: Eindeutige Kanten-ID (non-empty)
-    ///   - _from: Quell-Knoten-ID (non-empty, fail-closed QW-45 Guard)
-    ///   - _to: Ziel-Knoten-ID (non-empty, fail-closed QW-45 Guard)
-    /// 
-    /// @return Status::OK() bei erfolgreicher Einfügung, Status::Error() bei Validierungsfehlern
-    ///         (fehlende Felder, leere Node-IDs).
-    /// 
-    /// @note **QW-45 Fail-Closed Guard:** Empty or missing _from/_to node IDs are rejected
-    ///       before persistence to prevent graph topology corruption. The guards ensure that
-    ///       every edge has valid, non-empty source and target node references. Any validation
-    ///       failure returns Status::Error() immediately (fail-closed behavior).
+    /**
+     * @brief Edge-Operationen (Edge-Entity benötigt Felder: id, _from, _to) @brief Fügt eine Kante zum Graphen hinzu (atomare Operation über WriteBatch).
+     * @param[in] edge Input parameter.
+     * @return Return value.
+     * @details @param edge BaseEntity mit erforderlichen Feldern: - id: Eindeutige Kanten-ID (non-empty) - _from: Quell-Knoten-ID (non-empty, fail-closed QW-45 Guard) - _to: Ziel-Knoten-ID (non-empty, fail-closed QW-45 Guard) @return Status::OK() bei erfolgreicher Einfügung, Status::Error() bei Validierungsfehlern (fehlende Felder, leere Node-IDs). @note **QW-45 Fail-Closed Guard:** Empty or missing _from/_to node IDs are rejected before persistence to prevent graph topology corruption. The guards ensure that every edge has valid, non-empty source and target node references. Any validation failure returns Status::Error() immediately (fail-closed behavior).
+     */
     Status addEdge(const BaseEntity& edge);
+    /**
+     * @brief TBD: Describe deleteEdge.
+     * @param[in] edgeId Input parameter.
+     * @return Return value.
+     */
     Status deleteEdge(std::string_view edgeId);
 
     // Varianten für Transaktionen: nutzen bestehende WriteBatch
-    /// WriteBatch variant for atomic multi-edge operations.
-    /// Applies same QW-45 fail-closed guards as the main addEdge method.
+    /**
+     * @brief WriteBatch variant for atomic multi-edge operations.
+     * @param[in] edge Input parameter.
+     * @param[in,out] batch Input/output parameter.
+     * @return Return value.
+     * @details Applies same QW-45 fail-closed guards as the main addEdge method.
+     */
     Status addEdge(const BaseEntity& edge, RocksDBWrapper::WriteBatchWrapper& batch);
+    /**
+     * @brief TBD: Describe deleteEdge.
+     * @param[in] edgeId Input parameter.
+     * @param[in,out] batch Input/output parameter.
+     * @return Return value.
+     */
     Status deleteEdge(std::string_view edgeId, RocksDBWrapper::WriteBatchWrapper& batch);
 
     // MVCC Transaction Varianten
-    /// Transaction variant for MVCC isolation.
-    /// Applies same QW-45 fail-closed guards as the main addEdge method.
+    /**
+     * @brief Transaction variant for MVCC isolation.
+     * @param[in] edge Input parameter.
+     * @param[in,out] txn Input/output parameter.
+     * @return Return value.
+     * @details Applies same QW-45 fail-closed guards as the main addEdge method.
+     */
     Status addEdge(const BaseEntity& edge, RocksDBWrapper::TransactionWrapper& txn);
+    /**
+     * @brief TBD: Describe deleteEdge.
+     * @param[in] edgeId Input parameter.
+     * @param[in,out] txn Input/output parameter.
+     * @return Return value.
+     */
     Status deleteEdge(std::string_view edgeId, RocksDBWrapper::TransactionWrapper& txn);
 
     /// Create a write batch for atomic multi-edge mutations (e.g. scheduled refresh).
@@ -267,13 +312,22 @@ public:
         HeuristicFunc heuristic = nullptr
     ) const;
 
-    // Statistiken
+    /**
+     * @brief Statistiken
+     * @return Return value.
+     */
     size_t getTopologyNodeCount() const;
+    /**
+     * @brief TBD: Describe getTopologyEdgeCount.
+     * @return Return value.
+     */
     size_t getTopologyEdgeCount() const;
 
-    /// Return all vertex IDs present in the in-memory topology (sources and
-    /// targets of all edges added via addEdge). When the topology has not been
-    /// loaded, returns an empty vector. Thread-safe.
+    /**
+     * @brief Return all vertex IDs present in the in-memory topology (sources and targets of all edges added via addEdge).
+     * @return Return value.
+     * @details When the topology has not been loaded, returns an empty vector. Thread-safe.
+     */
     std::vector<std::string> getAllVertices() const;
 
     // Edge attribute retrieval (for weighted graph algorithms)
@@ -282,19 +336,31 @@ public:
     double getEdgeWeight(std::string_view graphId, std::string_view edgeId, 
                         std::string_view weightAttribute = "_weight") const;
 
-    // General string field accessor for edge entities.
-    // Tries key formats: "edge:<graphId>:<edgeId>" and "edge:<edgeId>".
-    // Returns nullopt if the edge or field does not exist.
+    /**
+     * @brief General string field accessor for edge entities.
+     * @param[in] edgeId Input parameter.
+     * @param[in] fieldName Input parameter.
+     * @return Return value.
+     * @details Tries key formats: "edge:<graphId>:<edgeId>" and "edge:<edgeId>". Returns nullopt if the edge or field does not exist.
+     */
     std::optional<std::string> getEdgeField(std::string_view edgeId,
                                             std::string_view fieldName) const;
 
-    // General string field accessor for vertex (node) entities.
-    // Uses key format: "node:<vertexId>" (KeySchema::makeGraphNodeKey).
-    // Returns nullopt if the vertex or field does not exist.
+    /**
+     * @brief General string field accessor for vertex (node) entities.
+     * @param[in] vertexId Input parameter.
+     * @param[in] fieldName Input parameter.
+     * @return Return value.
+     * @details Uses key format: "node:<vertexId>" (KeySchema::makeGraphNodeKey). Returns nullopt if the vertex or field does not exist.
+     */
     std::optional<std::string> getNodeField(std::string_view vertexId,
                                             std::string_view fieldName) const;
 
-    // Optional: provide FieldEncryption for encrypting sensitive edge fields
+    /**
+     * @brief Optional: provide FieldEncryption for encrypting sensitive edge fields
+     * @param[in] fe Input parameter.
+     * @details Implements setFieldEncryption without additional internal calls.
+     */
     void setFieldEncryption(std::shared_ptr<class FieldEncryption> fe) { field_encryption_ = fe; }
 
     // Returns a deduplicated list of all vertex IDs present in the in-memory
@@ -331,17 +397,47 @@ private:
     void addEdgeToTopologyUnlocked_(const std::string& edgeId, const std::string& from, const std::string& to, const std::string& graphId = "");
     void removeEdgeFromTopologyUnlocked_(const std::string& edgeId, const std::string& from, const std::string& to, const std::string& graphId = "");
     
-    // Edge-Weight-Parsing (liest _weight aus Edge-Entity, default 1.0)
+    /**
+     * @brief Edge-Weight-Parsing (liest _weight aus Edge-Entity, default 1.
+     * @param[in] graphId Input parameter.
+     * @param[in] edgeId Input parameter.
+     * @return Return value.
+     * @details 0)
+     */
     double getEdgeWeight_(std::string_view graphId, std::string_view edgeId) const;
 
-    // Edge-Type-Parsing (liest _type aus Edge-Entity, empty wenn nicht gesetzt)
+    /**
+     * @brief Edge-Type-Parsing (liest _type aus Edge-Entity, empty wenn nicht gesetzt)
+     * @param[in] graphId Input parameter.
+     * @param[in] edgeId Input parameter.
+     * @return Return value.
+     */
     std::string getEdgeType_(std::string_view graphId, std::string_view edgeId) const;
 
-    // Parse keys: graph:out:<graph_id>:<fromPk>:<edgeId>
+    /**
+     * @brief Parse keys: graph:out:<graph_id>:<fromPk>:<edgeId>
+     * @param[in] key Input parameter.
+     * @param[in,out] graphId Input/output parameter.
+     * @param[in,out] fromPk Input/output parameter.
+     * @param[in,out] edgeId Input/output parameter.
+     * @return True on success.
+     */
     static bool parseOutKey_(std::string_view key, std::string& graphId, std::string& fromPk, std::string& edgeId);
-    // Parse keys: graph:in:<graph_id>:<toPk>:<edgeId>
+    /**
+     * @brief Parse keys: graph:in:<graph_id>:<toPk>:<edgeId>
+     * @param[in] key Input parameter.
+     * @param[in,out] graphId Input/output parameter.
+     * @param[in,out] toPk Input/output parameter.
+     * @param[in,out] edgeId Input/output parameter.
+     * @return True on success.
+     */
     static bool parseInKey_(std::string_view key, std::string& graphId, std::string& toPk, std::string& edgeId);
     
+    /**
+     * @brief TBD: Describe toBytes.
+     * @param[in] sv Input parameter.
+     * @return Return value.
+     */
     static std::vector<uint8_t> toBytes(std::string_view sv);
 
     // Optional FieldEncryption instance (not owned)

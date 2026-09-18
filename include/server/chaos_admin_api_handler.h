@@ -85,14 +85,32 @@ public:
         const std::string&                      target);
 
 private:
-    /// @name Route handlers
-    /// @{
+    /**
+     * @brief @name Route handlers @{
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleInject(
         const http::request<http::string_body>& req);
+    /**
+     * @brief TBD: Describe handleReset.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleReset(
         const http::request<http::string_body>& req);
+    /**
+     * @brief TBD: Describe handleStatus.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleStatus(
         const http::request<http::string_body>& req);
+    /**
+     * @brief TBD: Describe handleHistory.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleHistory(
         const http::request<http::string_body>& req);
     /// @}

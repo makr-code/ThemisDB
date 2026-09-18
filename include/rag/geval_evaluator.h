@@ -68,6 +68,11 @@ public:
      * @brief Construct evaluator with configuration
      */
     GEvalEvaluator();
+    /**
+     * @brief TBD: Describe GEvalEvaluator.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit GEvalEvaluator(const Config& config);
     
     /**

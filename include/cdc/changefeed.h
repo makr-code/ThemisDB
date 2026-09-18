@@ -79,8 +79,16 @@ public:
         // sequence, type, key, and timestamp_ms for audit-trail integrity.
         bool redacted = false;
 
-        // Serialization
+        /**
+         * @brief Serialization
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
+        /**
+         * @brief TBD: Describe fromJson.
+         * @param[in] j Input parameter.
+         * @return Return value.
+         */
         static ChangeEvent fromJson(const nlohmann::json& j);
     };
 
@@ -104,6 +112,11 @@ public:
         std::chrono::minutes cleanup_interval{60};      // Cleanup interval (default: 1 hour)
         bool compact_on_cleanup = false;                // Run key-based compaction after each cleanup cycle
 
+        /**
+         * @brief TBD: Describe defaults.
+         * @return Return value.
+         * @details Implements defaults without additional internal calls.
+         */
         static RetentionPolicy defaults() { return {}; }
     };
     
@@ -207,6 +220,7 @@ public:
      * @brief Alias for deleteOldEvents (sequence-based)
      * @param before_sequence Delete events with sequence < this value
      * @return Number of events deleted
+     * @details Calls: deleteOldEvents().
      */
     size_t deleteOldEventsBySequence(uint64_t before_sequence) {
         return deleteOldEvents(before_sequence);
@@ -306,6 +320,7 @@ public:
     /**
      * @brief Check whether the background retention cleanup thread is running
      * @return true if the background thread is active
+     * @note Exception safety: noexcept.
      */
     bool isRetentionCleanupRunning() const noexcept;
 
@@ -324,6 +339,12 @@ public:
         /// If non-empty, only events matching one of these types are delivered.
         std::set<ChangeEventType> event_types;
 
+        /**
+         * @brief TBD: Describe matches.
+         * @param[in] ev Input parameter.
+         * @return True on success.
+         * @note Exception safety: noexcept.
+         */
         bool matches(const ChangeEvent& ev) const noexcept;
     };
 
@@ -409,6 +430,8 @@ public:
 
     /**
      * @brief Unsubscribe by ID (called internally by SubscriptionHandle::cancel()).
+     * @param[in] subscription_id Input parameter.
+     * @note Exception safety: noexcept.
      */
     void unsubscribe(uint64_t subscription_id) noexcept;
 
@@ -420,22 +443,38 @@ private:
     static constexpr const char* KEY_PREFIX = "changefeed:";
     static constexpr const char* SEQUENCE_KEY = "changefeed_sequence";
 
+    /**
+     * @brief TBD: Describe makeKey.
+     * @param[in] sequence Input parameter.
+     * @return Return value.
+     */
     std::string makeKey(uint64_t sequence) const;
+    /**
+     * @brief TBD: Describe nextSequence.
+     * @return Return value.
+     */
     uint64_t nextSequence();
 
-    // Load the initial sequence counter value from RocksDB at construction.
-    // Handles both the binary little-endian uint64 format (new) and the legacy
-    // decimal-string format (old).  Falls back to scanning events when the DB
-    // key cannot be read (e.g. unresolved Merge operands without a registered
-    // merge operator).
+    /**
+     * @brief Load the initial sequence counter value from RocksDB at construction.
+     * @return Return value.
+     * @details Handles both the binary little-endian uint64 format (new) and the legacy decimal-string format (old). Falls back to scanning events when the DB key cannot be read (e.g. unresolved Merge operands without a registered merge operator).
+     */
     uint64_t loadInitialSequence() const;
 
-    // Scan all stored changefeed events and return the maximum sequence number.
-    // Used as a crash-recovery fallback when loadInitialSequence() cannot read
-    // SEQUENCE_KEY directly.
+    /**
+     * @brief Scan all stored changefeed events and return the maximum sequence number.
+     * @return Return value.
+     * @details Used as a crash-recovery fallback when loadInitialSequence() cannot read SEQUENCE_KEY directly.
+     */
     uint64_t scanMaxSequence() const;
     
-    // Helper to wait for new events (for long-poll)
+    /**
+     * @brief Helper to wait for new events (for long-poll)
+     * @param[in] from_sequence Input parameter.
+     * @param[in] timeout_ms Input parameter.
+     * @return True on success.
+     */
     bool waitForEvents(uint64_t from_sequence, uint32_t timeout_ms) const;
     
     // In-process atomic sequence counter.  Updated by fetch_add on every
@@ -456,6 +495,9 @@ private:
     std::condition_variable retention_cv_;
     mutable std::mutex retention_mutex_;  // also protects retention_policy_ reads
     
+    /**
+     * @brief TBD: Describe retentionCleanupThread.
+     */
     void retentionCleanupThread();
 
     // Push-based subscriptions

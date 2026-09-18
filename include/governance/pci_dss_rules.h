@@ -36,6 +36,10 @@ struct PciDssRuleEvalResult {
     std::string description;      ///< Human-readable result description
     std::string recommendation;   ///< Remediation recommendation if not compliant
 
+    /**
+     * @brief TBD: Describe toJson.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
 };
 
@@ -148,20 +152,23 @@ public:
 
     // ---- Rule evaluation ------------------------------------------------
 
-    /// Evaluate all PCI-DSS rules against a single PolicyRule.
-    /// @return A list of evaluation results, one per PCI-DSS rule.
+    /**
+     * @brief Evaluate all PCI-DSS rules against a single PolicyRule.
+     * @param[in] rule Input parameter.
+     * @return Return value.
+     * @details @return A list of evaluation results, one per PCI-DSS rule.
+     */
     std::vector<PciDssRuleEvalResult> evaluateRule(const PolicyRule& rule) const;
 
     /// Return true if the PolicyRule satisfies all PCI-DSS checks.
     bool isRuleCompliant(const PolicyRule& rule) const;
 
-    /// Detect PCI-DSS / GDPR conflicts for a single rule.
-    ///
-    /// PCI-DSS Req 10.7 requires 12 months of audit log retention.
-    /// GDPR Article 5(1)(e) (storage limitation) requires minimising
-    /// retention periods, which can conflict with the PCI-DSS minimum.
-    ///
-    /// @return List of conflict descriptions (empty == no conflicts).
+    /**
+     * @brief Detect PCI-DSS / GDPR conflicts for a single rule.
+     * @param[in] rule Input parameter.
+     * @return Return value.
+     * @details PCI-DSS Req 10.7 requires 12 months of audit log retention. GDPR Article 5(1)(e) (storage limitation) requires minimising retention periods, which can conflict with the PCI-DSS minimum. @return List of conflict descriptions (empty == no conflicts).
+     */
     std::vector<std::string> detectGdprConflicts(const PolicyRule& rule) const;
 
     /// Expose the list of rule evaluators (for external iteration/reporting).

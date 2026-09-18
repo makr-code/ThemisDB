@@ -142,6 +142,8 @@ struct BpmnSerializerConcurrencyContract {
 
     /**
      * @brief Human-readable description of this contract.
+     * @return Return value.
+     * @details Implements describe without additional internal calls.
      */
     static std::string_view describe() {
         return "BPMN serializer is stateless; fully thread-safe without coordination.";
@@ -162,6 +164,11 @@ struct CmmnSerializerConcurrencyContract {
     static constexpr AtomicityScope atomicity = AtomicityScope::READ_ONLY;
     static constexpr ConflictResolution conflict_resolution = ConflictResolution::NO_CONFLICTS;
 
+    /**
+     * @brief TBD: Describe describe.
+     * @return Return value.
+     * @details Implements describe without additional internal calls.
+     */
     static std::string_view describe() {
         return "CMMN serializer is stateless; fully thread-safe without coordination.";
     }
@@ -188,6 +195,11 @@ struct ProcessModelManagerConcurrencyContract {
     static constexpr AtomicityScope atomicity = AtomicityScope::SINGLE_ENTITY;
     static constexpr ConflictResolution conflict_resolution = ConflictResolution::LAST_WRITE_WINS;
 
+    /**
+     * @brief TBD: Describe describe.
+     * @return Return value.
+     * @details Implements describe without additional internal calls.
+     */
     static std::string_view describe() {
         return "Model Manager uses snapshot isolation with version clocks. "
                "Concurrent reads do not block writes. Write-write conflicts resolved via LWW.";
@@ -215,6 +227,11 @@ struct ProcessLinkerConcurrencyContract {
     static constexpr AtomicityScope atomicity = AtomicityScope::SINGLE_ENTITY;
     static constexpr ConflictResolution conflict_resolution = ConflictResolution::LAST_WRITE_WINS;
 
+    /**
+     * @brief TBD: Describe describe.
+     * @return Return value.
+     * @details Implements describe without additional internal calls.
+     */
     static std::string_view describe() {
         return "Linker uses fine-grained per-link locking. "
                "Concurrent operations on disjoint instances proceed without blocking.";
@@ -240,6 +257,11 @@ struct ProcessLightRetrieverConcurrencyContract {
     static constexpr AtomicityScope atomicity = AtomicityScope::READ_ONLY;
     static constexpr ConflictResolution conflict_resolution = ConflictResolution::NO_CONFLICTS;
 
+    /**
+     * @brief TBD: Describe describe.
+     * @return Return value.
+     * @details Implements describe without additional internal calls.
+     */
     static std::string_view describe() {
         return "Light Retriever is read-only; inherits thread-safety from underlying storage. "
                "All queries return consistent snapshots.";

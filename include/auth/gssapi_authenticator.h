@@ -81,10 +81,23 @@ struct GSSAPIAuthResult {
     std::string error_message;
     std::vector<std::string> roles;     // Mapped roles from principal
     
+    /**
+     * @brief TBD: Describe Success.
+     * @param[in] principal Input parameter.
+     * @param[in] roles Input parameter.
+     * @return Return value.
+     * @details Implements Success without additional internal calls.
+     */
     static GSSAPIAuthResult Success(const std::string& principal, const std::vector<std::string>& roles) {
         return {true, principal, "", roles};
     }
     
+    /**
+     * @brief TBD: Describe Failed.
+     * @param[in] error Input parameter.
+     * @return Return value.
+     * @details Implements Failed without additional internal calls.
+     */
     static GSSAPIAuthResult Failed(const std::string& error) {
         return {false, "", error, {}};
     }
@@ -131,6 +144,8 @@ public:
     /**
      * @brief Attach an AuditLogger to receive LOGIN_SUCCESS / LOGIN_FAILED events.
      * Pass nullptr to detach.  The authenticator does NOT take ownership.
+     * @param[in,out] logger Input/output parameter.
+     * @details Implements setAuditLogger without additional internal calls.
      */
     void setAuditLogger(utils::AuditLogger* logger) { audit_logger_ = logger; }
     
@@ -193,11 +208,15 @@ private:
     
     /**
      * @brief Initialize server credentials from keytab
+     * @return True on success.
      */
     bool initializeServerCredentials();
     
     /**
      * @brief Accept security context from client token
+     * @param[in] input_token Input parameter.
+     * @param[in,out] principal_name Input/output parameter.
+     * @return True on success.
      */
     bool acceptSecurityContext(const std::vector<uint8_t>& input_token,
                               std::string& principal_name);
@@ -209,12 +228,18 @@ private:
     
     /**
      * @brief Check if principal matches pattern (supports wildcards)
+     * @param[in] principal Input parameter.
+     * @param[in] pattern Input parameter.
+     * @return True on success.
      */
     bool principalMatchesPattern(const std::string& principal,
                                  const std::string& pattern) const;
     
     /**
      * @brief Get GSSAPI error string
+     * @param[in] major_status Input parameter.
+     * @param[in] minor_status Input parameter.
+     * @return Return value.
      */
     std::string getGSSAPIError(uint32_t major_status, uint32_t minor_status) const;
 };

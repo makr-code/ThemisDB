@@ -48,7 +48,16 @@ struct DeltaEntry {
     json        old_value;  ///< Previous value (null for ADDED entries)
     json        new_value;  ///< New value      (null for REMOVED entries)
 
+    /**
+     * @brief TBD: Describe toJson.
+     * @return Return value.
+     */
     json toJson() const;
+    /**
+     * @brief TBD: Describe fromJson.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static DeltaEntry fromJson(const json& j);
 };
 
@@ -68,7 +77,16 @@ struct DeltaSet {
     /// True when no differences were found.
     bool empty() const noexcept { return entries.empty(); }
 
+    /**
+     * @brief TBD: Describe toJson.
+     * @return Return value.
+     */
     json toJson() const;
+    /**
+     * @brief TBD: Describe fromJson.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static DeltaSet fromJson(const json& j);
 };
 
@@ -98,6 +116,11 @@ struct MergeResult {
  */
 class ProjectDiff {
 public:
+    /**
+     * @brief TBD: Describe ProjectDiff.
+     * @param[in] storage Input parameter.
+     * @return Return value.
+     */
     explicit ProjectDiff(std::shared_ptr<RocksDBWrapper> storage);
 
     /**
@@ -118,6 +141,9 @@ public:
      * Useful for one-off comparisons without creating persistent snapshots.
      * Both @p from and @p to are treated as JSON objects; nested fields are
      * compared recursively.
+     * @param[in] from Input parameter.
+     * @param[in] to Input parameter.
+     * @return Return value.
      */
     DeltaSet diffDocuments(const json& from, const json& to) const;
 
@@ -127,6 +153,7 @@ public:
      * When set, every `diff()` call records its wall-clock latency via
      * `ProjectMetrics::recordDiff()`.  Pass `nullptr` to disable.
      * Thread-safe.
+     * @param[in] metrics Input parameter.
      */
     void setMetrics(std::shared_ptr<ProjectMetrics> metrics);
 
@@ -161,6 +188,11 @@ private:
  */
 class ProjectMerge {
 public:
+    /**
+     * @brief TBD: Describe ProjectMerge.
+     * @param[in] storage Input parameter.
+     * @return Return value.
+     */
     explicit ProjectMerge(std::shared_ptr<RocksDBWrapper> storage);
 
     /**

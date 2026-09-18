@@ -106,41 +106,50 @@ struct ContentError {
     
     /**
      * @brief Check if error is retryable (transient)
+     * @return True on success.
      */
     bool isRetryable() const;
     
     /**
      * @brief Check if error is client error (4xx-like)
+     * @return True on success.
      */
     bool isClientError() const;
     
     /**
      * @brief Check if error is server error (5xx-like)
+     * @return True on success.
      */
     bool isServerError() const;
     
     /**
      * @brief Get HTTP status code equivalent
+     * @return Return value.
      */
     int getHttpStatus() const;
     
     /**
      * @brief Serialize to JSON (for API responses)
+     * @return Return value.
      */
     json toJson() const;
     
     /**
      * @brief Serialize to JSON with full details (for internal logging)
+     * @return Return value.
      */
     json toJsonVerbose() const;
     
     /**
      * @brief Create from JSON
+     * @param[in] j Input parameter.
+     * @return Return value.
      */
     static ContentError fromJson(const json& j);
     
     /**
      * @brief Create success result
+     * @return Return value.
      */
     static ContentError ok();
     
@@ -156,26 +165,36 @@ struct ContentError {
 
 /**
  * @brief Convert error code to string
+ * @param[in] code Input parameter.
+ * @return Return value.
  */
 std::string errorCodeToString(ContentErrorCode code);
 
 /**
  * @brief Get error code category (validation, processing, security, etc.)
+ * @param[in] code Input parameter.
+ * @return Return value.
  */
 std::string errorCodeCategory(ContentErrorCode code);
 
 /**
  * @brief Get default message for error code
+ * @param[in] code Input parameter.
+ * @return Return value.
  */
 std::string getDefaultErrorMessage(ContentErrorCode code);
 
 /**
  * @brief Check if error code indicates a security issue
+ * @param[in] code Input parameter.
+ * @return True on success.
  */
 bool isSecurityError(ContentErrorCode code);
 
 /**
  * @brief Check if error code indicates validation failure
+ * @param[in] code Input parameter.
+ * @return True on success.
  */
 bool isValidationError(ContentErrorCode code);
 

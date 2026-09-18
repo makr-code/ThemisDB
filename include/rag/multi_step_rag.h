@@ -183,9 +183,16 @@ public:
         const InferenceFn&                 infer,
         const RetrievalFn&                 retrieve = {}) const;
 
-    // ── Configuration ────────────────────────────────────────────────────────
+    /**
+     * @brief ── Configuration ────────────────────────────────────────────────────────
+     * @return Return value.
+     */
 
     const MultiStepRAGConfig& getConfig() const;
+    /**
+     * @brief TBD: Describe setConfig.
+     * @param[in] cfg Input parameter.
+     */
     void setConfig(const MultiStepRAGConfig& cfg);
 
 private:
@@ -194,8 +201,12 @@ private:
 
     // ── Internal helpers ─────────────────────────────────────────────────────
 
-    /// Partition @p documents into batches that each fit within the context
-    /// budget (system_prompt + query overhead already accounted for).
+    /**
+     * @brief Partition @p documents into batches that each fit within the context budget (system_prompt + query overhead already accounted for).
+     * @param[in] documents Input parameter.
+     * @param[in] query Input parameter.
+     * @return Return value.
+     */
     std::vector<std::vector<RetrievedChunk>> partitionIntoBatches(
         const std::vector<RetrievedChunk>& documents,
         const std::string&                 query) const;

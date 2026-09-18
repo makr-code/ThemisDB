@@ -132,6 +132,7 @@ public:
      * @param vec_index  Non-owning pointer to a VectorIndexManager.  May be
      *                   null; all searches will return empty results.
      * @throws std::invalid_argument when config contains invalid values.
+     * @return Return value.
      */
     explicit CrossLingualSearch(VectorIndexManager* vec_index);
     /**
@@ -207,6 +208,11 @@ public:
     // -----------------------------------------------------------------------
 
     const Config& getConfig() const { return config_; }
+    /**
+     * @brief TBD: Describe setConfig.
+     * @param[in] config Input parameter.
+     * @details Implements setConfig without additional internal calls.
+     */
     void setConfig(const Config& config) { config_ = config; }
 
 private:

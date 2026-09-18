@@ -223,7 +223,16 @@ struct SystemLoadMetrics {
         return static_cast<uint64_t>(max_rate * (1.0f - reduction * 0.7f));
     }
     
+    /**
+     * @brief TBD: Describe serialize.
+     * @return Return value.
+     */
     std::vector<uint8_t> serialize() const;
+    /**
+     * @brief TBD: Describe deserialize.
+     * @param[in] data Input parameter.
+     * @return Return value.
+     */
     static std::optional<SystemLoadMetrics> deserialize(const std::vector<uint8_t>& data);
 };
 
@@ -289,7 +298,16 @@ struct DeferredOperation {
         return std::max(0, base - age_boost);
     }
     
+    /**
+     * @brief TBD: Describe serialize.
+     * @return Return value.
+     */
     std::vector<uint8_t> serialize() const;
+    /**
+     * @brief TBD: Describe deserialize.
+     * @param[in] data Input parameter.
+     * @return Return value.
+     */
     static std::optional<DeferredOperation> deserialize(const std::vector<uint8_t>& data);
 };
 
@@ -320,7 +338,16 @@ struct WALEntryHeader {
     
     static constexpr size_t SIZE = 32;
     
+    /**
+     * @brief TBD: Describe serialize.
+     * @return Return value.
+     */
     std::vector<uint8_t> serialize() const;
+    /**
+     * @brief TBD: Describe deserialize.
+     * @param[in] data Input parameter.
+     * @return Return value.
+     */
     static std::optional<WALEntryHeader> deserialize(const std::vector<uint8_t>& data);
 };
 
@@ -348,7 +375,16 @@ struct HandshakeMessage {
     std::vector<uint8_t> payload;
     uint32_t checksum = 0;
     
+    /**
+     * @brief TBD: Describe serialize.
+     * @return Return value.
+     */
     std::vector<uint8_t> serialize() const;
+    /**
+     * @brief TBD: Describe deserialize.
+     * @param[in] data Input parameter.
+     * @return Return value.
+     */
     static std::optional<HandshakeMessage> deserialize(const std::vector<uint8_t>& data);
 };
 
@@ -405,16 +441,20 @@ public:
     
     /**
      * Start monitoring
+     * @brief TBD: Describe start.
      */
     void start();
     
     /**
      * Stop monitoring
+     * @brief TBD: Describe stop.
      */
     void stop();
     
     /**
      * Get current load metrics
+     * @brief TBD: Describe getCurrentLoad.
+     * @return Return value.
      */
     SystemLoadMetrics getCurrentLoad() const;
     
@@ -428,6 +468,10 @@ public:
      * Register callback for load threshold crossings
      */
     using LoadThresholdCallback = std::function<void(const SystemLoadMetrics&, SyncStrategy)>;
+    /**
+     * @brief TBD: Describe setThresholdCallback.
+     * @param[in] callback Input parameter.
+     */
     void setThresholdCallback(LoadThresholdCallback callback);
     
     /**
@@ -454,7 +498,14 @@ private:
     std::deque<SystemLoadMetrics> load_history_;
     LoadThresholdCallback threshold_callback_;
     
+    /**
+     * @brief TBD: Describe monitorLoop.
+     */
     void monitorLoop();
+    /**
+     * @brief TBD: Describe measureLoad.
+     * @return Return value.
+     */
     SystemLoadMetrics measureLoad() const;
 };
 
@@ -467,42 +518,63 @@ private:
  */
 class DeferredSyncQueue {
 public:
+    /**
+     * @brief TBD: Describe DeferredSyncQueue.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit DeferredSyncQueue(const BackpressureConfig& config);
     ~DeferredSyncQueue();
     
     /**
      * Initialize queue (load from WAL if exists)
+     * @brief TBD: Describe initialize.
+     * @return True on success.
      */
     bool initialize();
     
     /**
      * Shutdown queue (flush to WAL)
+     * @brief TBD: Describe shutdown.
      */
     void shutdown();
     
     /**
      * Enqueue operation for deferred execution
+     * @brief TBD: Describe enqueue.
+     * @param[in] op Input parameter.
+     * @return True on success.
      */
     bool enqueue(DeferredOperation op);
     
     /**
      * Dequeue next operation (by priority)
+     * @brief TBD: Describe dequeue.
+     * @return Return value.
      */
     std::optional<DeferredOperation> dequeue();
     
     /**
      * Peek at next operation without removing
+     * @brief TBD: Describe peek.
+     * @return Return value.
      */
     std::optional<DeferredOperation> peek() const;
     
     /**
      * Get all operations for a target shard
+     * @brief TBD: Describe getOperationsForShard.
+     * @param[in] shard_id Input parameter.
+     * @return Return value.
      */
     std::vector<DeferredOperation> getOperationsForShard(
         const std::string& shard_id) const;
     
     /**
      * Remove operation by ID
+     * @brief TBD: Describe remove.
+     * @param[in] operation_id Input parameter.
+     * @return True on success.
      */
     bool remove(const std::string& operation_id);
     
@@ -518,16 +590,22 @@ public:
     
     /**
      * Get expired operations count
+     * @brief TBD: Describe getExpiredCount.
+     * @return Return value.
      */
     size_t getExpiredCount() const;
     
     /**
      * Prune expired operations
+     * @brief TBD: Describe pruneExpired.
+     * @return Return value.
      */
     size_t pruneExpired();
     
     /**
      * Flush to WAL
+     * @brief TBD: Describe flushToWAL.
+     * @return True on success.
      */
     bool flushToWAL();
     
@@ -541,6 +619,10 @@ public:
         uint64_t wal_file_size = 0;
         std::chrono::steady_clock::time_point last_flush;
     };
+    /**
+     * @brief TBD: Describe getWALStats.
+     * @return Return value.
+     */
     WALStats getWALStats() const;
 
 private:
@@ -561,9 +643,25 @@ private:
     
     mutable std::mutex mutex_;
     
+    /**
+     * @brief TBD: Describe openWAL.
+     * @return True on success.
+     */
     bool openWAL();
+    /**
+     * @brief TBD: Describe writeWALEntry.
+     * @param[in] op Input parameter.
+     * @return True on success.
+     */
     bool writeWALEntry(const DeferredOperation& op);
+    /**
+     * @brief TBD: Describe loadFromWAL.
+     * @return True on success.
+     */
     bool loadFromWAL();
+    /**
+     * @brief TBD: Describe truncateWAL.
+     */
     void truncateWAL();
 };
 
@@ -586,11 +684,16 @@ public:
     
     /**
      * Initiate handshake with remote shard
+     * @brief TBD: Describe connect.
+     * @param[in] remote_endpoint Input parameter.
+     * @return True on success.
      */
     bool connect(const std::string& remote_endpoint);
     
     /**
      * Accept incoming handshake
+     * @brief TBD: Describe accept.
+     * @return True on success.
      */
     bool accept();
     
@@ -613,10 +716,17 @@ public:
         ERROR               // Error occurred
     };
     
+    /**
+     * @brief TBD: Describe requestSync.
+     * @param[in] request Input parameter.
+     * @return Return value.
+     */
     SyncResult requestSync(const SyncRequest& request);
     
     /**
      * Report local load to remote
+     * @brief TBD: Describe reportLoad.
+     * @param[in] metrics Input parameter.
      */
     void reportLoad(const SystemLoadMetrics& metrics);
     
@@ -642,21 +752,26 @@ public:
     
     /**
      * Pause sync operations
+     * @brief TBD: Describe pause.
      */
     void pause();
     
     /**
      * Resume sync operations
+     * @brief TBD: Describe resume.
      */
     void resume();
     
     /**
      * Close session
+     * @brief TBD: Describe close.
      */
     void close();
     
     /**
      * Check if session is active
+     * @brief TBD: Describe isActive.
+     * @return True on success.
      */
     bool isActive() const;
     
@@ -664,6 +779,10 @@ public:
      * Set callback for state changes
      */
     using StateChangeCallback = std::function<void(HandshakeState, HandshakeState)>;
+    /**
+     * @brief TBD: Describe setStateChangeCallback.
+     * @param[in] callback Input parameter.
+     */
     void setStateChangeCallback(StateChangeCallback callback);
 
 private:
@@ -688,15 +807,37 @@ private:
     std::mutex mutex_;
     std::condition_variable cv_;
     
-    // Network (placeholder for actual mTLS connection)
-    // std::shared_ptr<MTLSClient> connection_;
+    /**
+     * @brief Network (placeholder for actual mTLS connection) std::shared_ptr<MTLSClient> connection_;
+     * @param[in] new_state Input parameter.
+     */
     
     void transitionState(HandshakeState new_state);
+    /**
+     * @brief TBD: Describe sendMessage.
+     * @param[in] msg Input parameter.
+     * @return True on success.
+     */
     bool sendMessage(const HandshakeMessage& msg);
+    /**
+     * @brief TBD: Describe receiveMessage.
+     * @return Return value.
+     */
     std::optional<HandshakeMessage> receiveMessage();
+    /**
+     * @brief TBD: Describe heartbeatLoop.
+     */
     void heartbeatLoop();
+    /**
+     * @brief TBD: Describe loadReportLoop.
+     */
     void loadReportLoop();
     
+    /**
+     * @brief TBD: Describe negotiateStrategy.
+     * @param[in] remote Input parameter.
+     * @return Return value.
+     */
     SyncStrategy negotiateStrategy(const SystemLoadMetrics& remote);
 };
 
@@ -709,15 +850,22 @@ private:
  */
 class BackpressureCoordinator {
 public:
+    /**
+     * @brief TBD: Describe getInstance.
+     * @return Return value.
+     */
     static BackpressureCoordinator& getInstance();
     
     /**
      * Initialize coordinator
+     * @brief TBD: Describe initialize.
+     * @param[in] config Input parameter.
      */
     void initialize(const BackpressureConfig& config);
     
     /**
      * Shutdown coordinator
+     * @brief TBD: Describe shutdown.
      */
     void shutdown();
     
@@ -728,6 +876,10 @@ public:
     
     /**
      * Create new handshake session
+     * @brief TBD: Describe createSession.
+     * @param[in] local_shard_id Input parameter.
+     * @param[in] remote_shard_id Input parameter.
+     * @return Return value.
      */
     std::shared_ptr<AdaptiveHandshakeSession> createSession(
         const std::string& local_shard_id,
@@ -735,16 +887,22 @@ public:
     
     /**
      * Get active sessions
+     * @brief TBD: Describe getActiveSessions.
+     * @return Return value.
      */
     std::vector<std::shared_ptr<AdaptiveHandshakeSession>> getActiveSessions() const;
     
     /**
      * Get current system load
+     * @brief TBD: Describe getCurrentLoad.
+     * @return Return value.
      */
     SystemLoadMetrics getCurrentLoad() const;
     
     /**
      * Get recommended sync strategy
+     * @brief TBD: Describe getRecommendedStrategy.
+     * @return Return value.
      */
     SyncStrategy getRecommendedStrategy() const;
     
@@ -757,6 +915,7 @@ public:
     
     /**
      * Trigger manual replay
+     * @brief TBD: Describe triggerReplay.
      */
     void triggerReplay();
     
@@ -775,10 +934,16 @@ public:
         uint64_t bytes_transferred = 0;
         std::chrono::steady_clock::time_point last_replay;
     };
+    /**
+     * @brief TBD: Describe getStats.
+     * @return Return value.
+     */
     Stats getStats() const;
     
     /**
      * Export Prometheus metrics
+     * @brief TBD: Describe toPrometheusFormat.
+     * @return Return value.
      */
     std::string toPrometheusFormat() const;
 
@@ -799,8 +964,18 @@ private:
     mutable std::mutex mutex_;
     std::condition_variable replay_cv_;
     
+    /**
+     * @brief TBD: Describe replayLoop.
+     */
     void replayLoop();
+    /**
+     * @brief TBD: Describe shouldReplay.
+     * @return True on success.
+     */
     bool shouldReplay() const;
+    /**
+     * @brief TBD: Describe processReplayBatch.
+     */
     void processReplayBatch();
 };
 
@@ -810,6 +985,10 @@ private:
 
 /**
  * Convert SyncStrategy to string
+ * @brief TBD: Describe syncStrategyToString.
+ * @param[in] strategy Input parameter.
+ * @return Pointer to the result.
+ * @details Implements syncStrategyToString without additional internal calls.
  */
 inline const char* syncStrategyToString(SyncStrategy strategy) {
     switch (strategy) {
@@ -823,6 +1002,10 @@ inline const char* syncStrategyToString(SyncStrategy strategy) {
 
 /**
  * Convert HandshakeState to string
+ * @brief TBD: Describe handshakeStateToString.
+ * @param[in] state Input parameter.
+ * @return Pointer to the result.
+ * @details Implements handshakeStateToString without additional internal calls.
  */
 inline const char* handshakeStateToString(HandshakeState state) {
     switch (state) {

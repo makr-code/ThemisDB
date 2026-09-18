@@ -31,6 +31,11 @@ public:
         Config() : transit_mount("transit") {}
     };
 
+    /**
+     * @brief TBD: Describe VaultSigningProvider.
+     * @param[in] cfg Input parameter.
+     * @return Return value.
+     */
     explicit VaultSigningProvider(const Config& cfg);
     ~VaultSigningProvider() override;
 

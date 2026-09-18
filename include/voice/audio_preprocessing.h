@@ -338,17 +338,18 @@ public:
     /// @return Range [0.0, 1.0]. Returns 0 if no frame processed yet.
     float lastVadProbability() const { return last_vad_prob_; }
 
-    /// @brief Check if real RNNoise library is linked.
-    ///
-    /// @return true when compiled with THEMIS_ENABLE_RNNOISE and library available;
-    ///         false when fallback spectral gate is active.
-    /// @note Useful for logging/debugging which suppression backend is active.
+    /**
+     * @brief @brief Check if real RNNoise library is linked.
+     * @return True on success.
+     * @details @return true when compiled with THEMIS_ENABLE_RNNOISE and library available; false when fallback spectral gate is active. @note Useful for logging/debugging which suppression backend is active.
+     */
     static bool isRNNoiseEnabled();
 
-    /// @brief Inject custom frame processor (testing only).
-    ///
-    /// @param fn Callable(samples, vad_threshold) → mean VAD probability.
-    /// @note Reserved for unit tests; production code uses the default implementation.
+    /**
+     * @brief @brief Inject custom frame processor (testing only).
+     * @param[in] fn Input parameter.
+     * @details @param fn Callable(samples, vad_threshold) → mean VAD probability. @note Reserved for unit tests; production code uses the default implementation.
+     */
     static void setProcessFramesFn(ProcessFramesFn fn);
 
     /// @brief Get diagnostic frame counter.
@@ -362,9 +363,21 @@ private:
     float last_vad_prob_ = 0.0f;
     uint64_t frames_processed_ = 0;
 
-    // Internal helpers
+    /**
+     * @brief Internal helpers
+     * @param[in] in Input parameter.
+     * @param[in] src_rate Input parameter.
+     * @param[in] dst_rate Input parameter.
+     * @return Return value.
+     */
     static std::vector<float> resampleLinear(const std::vector<float>& in,
                                               int src_rate, int dst_rate);
+    /**
+     * @brief TBD: Describe processRNNoiseFrames.
+     * @param[in,out] samples_48k Input/output parameter.
+     * @param[in] vad_threshold Input parameter.
+     * @return Return value.
+     */
     float processRNNoiseFrames(std::vector<float>& samples_48k,
                                 float vad_threshold);
 };
@@ -431,15 +444,12 @@ public:
     /// @error 6705 Preprocessing pipeline error
     PreprocessingResult process(const std::vector<uint8_t>& raw_audio, int source_sample_rate = 16000);
 
-    /// @brief Process an already-decoded AudioFrame.
-    ///
-    /// Applies preprocessing chain directly to decoded AudioFrame
-    /// (skips codec decoding step).
-    ///
-    /// @param frame AudioFrame after decoding from transport format.
-    ///
-    /// @return PreprocessingResult with processed_audio on success.
-    /// @error 6705 Preprocessing pipeline error
+    /**
+     * @brief @brief Process an already-decoded AudioFrame.
+     * @param[in] frame Input parameter.
+     * @return Return value.
+     * @details Applies preprocessing chain directly to decoded AudioFrame (skips codec decoding step). @param frame AudioFrame after decoding from transport format. @return PreprocessingResult with processed_audio on success. @error 6705 Preprocessing pipeline error
+     */
     PreprocessingResult processFrame(const AudioFrame& frame);
 
     /// @brief Apply noise reduction to a frame (standalone).
@@ -469,29 +479,21 @@ public:
     AudioFrame applyRNNoiseSuppression(const AudioFrame& frame,
                                         float vad_threshold = 0.5f);
 
-    /// @brief Apply echo cancellation (standalone).
-    ///
-    /// Removes/attenuates echo from microphone signal using speaker reference.
-    /// NOT automatically invoked by processFrame().
-    ///
-    /// @param input Microphone audio frame (near-end).
-    /// @param reference Speaker/reference audio frame (far-end).
-    ///
-    /// @return AudioFrame with echo attenuated.
-    /// @pre input and reference sample rates must match
-    /// @note Caller is responsible for feeding reference signal
-    ///       (typically from VoIP receive stream).
+    /**
+     * @brief @brief Apply echo cancellation (standalone).
+     * @param[in] input Input parameter.
+     * @param[in] reference Input parameter.
+     * @return Return value.
+     * @details Removes/attenuates echo from microphone signal using speaker reference. NOT automatically invoked by processFrame(). @param input Microphone audio frame (near-end). @param reference Speaker/reference audio frame (far-end). @return AudioFrame with echo attenuated. @pre input and reference sample rates must match @note Caller is responsible for feeding reference signal (typically from VoIP receive stream).
+     */
     AudioFrame applyEchoCancellation(const AudioFrame& input, const AudioFrame& reference);
 
-    /// @brief Compute voice activity ratio (fraction of speech).
-    ///
-    /// Analyzes energy levels to estimate fraction of audio containing speech.
-    /// Uses simple energy thresholding; true speech/silence detection is future work.
-    ///
-    /// @param frame AudioFrame to analyze.
-    ///
-    /// @return Ratio [0.0, 1.0]. 0 = pure silence; 1 = pure voice.
-    /// @note Part of automatic preprocessing chain when enable_vad=true.
+    /**
+     * @brief @brief Compute voice activity ratio (fraction of speech).
+     * @param[in] frame Input parameter.
+     * @return Return value.
+     * @details Analyzes energy levels to estimate fraction of audio containing speech. Uses simple energy thresholding; true speech/silence detection is future work. @param frame AudioFrame to analyze. @return Ratio [0.0, 1.0]. 0 = pure silence; 1 = pure voice. @note Part of automatic preprocessing chain when enable_vad=true.
+     */
     float detectVoiceActivity(const AudioFrame& frame);
 
     /// @brief Normalize audio to target RMS energy.
@@ -506,28 +508,21 @@ public:
     /// @note Part of automatic preprocessing chain when enable_normalization=true.
     AudioFrame normalize(const AudioFrame& frame, float target_rms = 0.1f);
 
-    /// @brief Resample audio to target sample rate.
-    ///
-    /// Uses linear interpolation for resampling (simple but sufficient for speech).
-    ///
-    /// @param frame Input AudioFrame.
-    /// @param target_sample_rate Target Hz (frozen nominal: 16000).
-    ///
-    /// @return Resampled AudioFrame.
-    /// @error 6703 Invalid target sample rate
-    /// @note Part of automatic preprocessing chain (initial step).
+    /**
+     * @brief @brief Resample audio to target sample rate.
+     * @param[in] frame Input parameter.
+     * @param[in] target_sample_rate Input parameter.
+     * @return Return value.
+     * @details Uses linear interpolation for resampling (simple but sufficient for speech). @param frame Input AudioFrame. @param target_sample_rate Target Hz (frozen nominal: 16000). @return Resampled AudioFrame. @error 6703 Invalid target sample rate @note Part of automatic preprocessing chain (initial step).
+     */
     AudioFrame resample(const AudioFrame& frame, int target_sample_rate);
 
-    /// @brief Score transcription confidence from audio quality.
-    ///
-    /// Estimates STT confidence by analyzing preprocessed audio quality
-    /// (SNR, spectral stability, etc.). Should be called on processed_audio
-    /// for best accuracy.
-    ///
-    /// @param frame AudioFrame to analyze.
-    ///
-    /// @return ConfidenceScore combining acoustic and language model scores.
-    /// @note Intended for post-processing result (not real-time feedback).
+    /**
+     * @brief @brief Score transcription confidence from audio quality.
+     * @param[in] frame Input parameter.
+     * @return Return value.
+     * @details Estimates STT confidence by analyzing preprocessed audio quality (SNR, spectral stability, etc.). Should be called on processed_audio for best accuracy. @param frame AudioFrame to analyze. @return ConfidenceScore combining acoustic and language model scores. @note Intended for post-processing result (not real-time feedback).
+     */
     ConfidenceScore scoreConfidence(const AudioFrame& frame);
 
     /// @brief Detect language from audio features.
@@ -541,59 +536,62 @@ public:
     /// @return LanguageDetectionResult with detected language and alternatives.
     LanguageDetectionResult detectLanguage(const AudioFrame& frame, const std::string& hint = "auto");
     
-    /// @brief Validate audio payload (Phase 3 exhaustive validation).
-    ///
-    /// @param raw_audio Raw audio bytes.
-    /// @param declared_sample_rate Claimed sample rate.
-    /// @param declared_channels Claimed channel count.
-    /// @param declared_bits_per_sample Claimed bits per sample.
-    ///
-    /// @return AudioValidationResult with details of validation outcome.
+    /**
+     * @brief @brief Validate audio payload (Phase 3 exhaustive validation).
+     * @param[in] raw_audio Input parameter.
+     * @param[in] declared_sample_rate Input parameter.
+     * @param[in] declared_channels Input parameter.
+     * @param[in] declared_bits_per_sample Input parameter.
+     * @return Return value.
+     * @details @param raw_audio Raw audio bytes. @param declared_sample_rate Claimed sample rate. @param declared_channels Claimed channel count. @param declared_bits_per_sample Claimed bits per sample. @return AudioValidationResult with details of validation outcome.
+     */
     AudioValidationResult validateAudioPayload(const std::vector<uint8_t>& raw_audio, 
                                                int declared_sample_rate,
                                                int declared_channels,
                                                int declared_bits_per_sample);
     
-    /// @brief Check if codec is supported (whitelist-based).
-    ///
-    /// @param codec DetectedAudioCodec to check.
-    /// @return true if codec is in the frozen supported list; false otherwise.
+    /**
+     * @brief @brief Check if codec is supported (whitelist-based).
+     * @param[in] codec Input parameter.
+     * @return True on success.
+     * @details @param codec DetectedAudioCodec to check. @return true if codec is in the frozen supported list; false otherwise.
+     */
     bool isCodecSupported(DetectedAudioCodec codec) const;
 
-    /// @brief Detect codec from audio header (heuristic).
-    ///
-    /// @param raw_audio Raw audio bytes.
-    /// @return DetectedAudioCodec, or UNKNOWN if detection failed.
+    /**
+     * @brief @brief Detect codec from audio header (heuristic).
+     * @param[in] raw_audio Input parameter.
+     * @return Return value.
+     * @details @param raw_audio Raw audio bytes. @return DetectedAudioCodec, or UNKNOWN if detection failed.
+     */
     DetectedAudioCodec detectCodecFromHeader(const std::vector<uint8_t>& raw_audio) const;
-    /// @brief Validate frame header (detect malformed/truncated data).
-    ///
-    /// Checks for consistency in audio frame header fields (sample rate, channels, etc.).
-    ///
-    /// @param raw_audio Raw audio bytes to inspect.
-    /// @return true if frame header appears valid; false if malformed/truncated.
-    /// @error 6704 Malformed audio data
+    /**
+     * @brief @brief Validate frame header (detect malformed/truncated data).
+     * @param[in] raw_audio Input parameter.
+     * @return True on success.
+     * @details Checks for consistency in audio frame header fields (sample rate, channels, etc.). @param raw_audio Raw audio bytes to inspect. @return true if frame header appears valid; false if malformed/truncated. @error 6704 Malformed audio data
+     */
     bool validateFrameHeader(const std::vector<uint8_t>& raw_audio) const;
     
-    /// @brief Detect overflow attempts (fuzzing-aware).
-    ///
-    /// Checks for suspicious patterns that might indicate buffer overflow attempts
-    /// or malicious fuzzing payloads.
-    ///
-    /// @param raw_audio Raw audio bytes.
-    /// @return true if potential overflow/injection detected; false if benign.
-    /// @error 6704 Malformed audio data
+    /**
+     * @brief @brief Detect overflow attempts (fuzzing-aware).
+     * @param[in] raw_audio Input parameter.
+     * @return True on success.
+     * @details Checks for suspicious patterns that might indicate buffer overflow attempts or malicious fuzzing payloads. @param raw_audio Raw audio bytes. @return true if potential overflow/injection detected; false if benign. @error 6704 Malformed audio data
+     */
     bool detectOverflowAttempt(const std::vector<uint8_t>& raw_audio) const;
 
-    /// @brief Get pipeline statistics (JSON).
-    ///
-    /// Returns aggregate statistics: frames processed, total time, error counts, etc.
-    /// Useful for monitoring and performance tuning.
-    ///
-    /// @return JSON object with diagnostic statistics.
+    /**
+     * @brief @brief Get pipeline statistics (JSON).
+     * @return Return value.
+     * @details Returns aggregate statistics: frames processed, total time, error counts, etc. Useful for monitoring and performance tuning. @return JSON object with diagnostic statistics.
+     */
     json getStatistics() const;
 
-    /// @brief Reset statistics counters.
-    /// Clears all diagnostic counters (useful before starting a new session).
+    /**
+     * @brief @brief Reset statistics counters.
+     * @details Clears all diagnostic counters (useful before starting a new session).
+     */
     void resetStatistics();
 
 private:
@@ -608,9 +606,25 @@ private:
     uint64_t truncation_attempts_ = 0;
     uint64_t overflow_attempts_ = 0;
 
-    // Internal helpers (private implementation)
+    /**
+     * @brief Internal helpers (private implementation)
+     * @param[in] samples Input parameter.
+     * @return Return value.
+     */
     float computeRMS(const std::vector<float>& samples) const;
+    /**
+     * @brief TBD: Describe computeNoiseFloor.
+     * @param[in] samples Input parameter.
+     * @return Return value.
+     */
     float computeNoiseFloor(const std::vector<float>& samples) const;
+    /**
+     * @brief TBD: Describe applyHighPassFilter.
+     * @param[in] samples Input parameter.
+     * @param[in] cutoff_hz Input parameter.
+     * @param[in] sample_rate Input parameter.
+     * @return Return value.
+     */
     std::vector<float> applyHighPassFilter(const std::vector<float>& samples, float cutoff_hz, int sample_rate) const;
     std::vector<float> convertRawToFloat(const std::vector<uint8_t>& raw, int bits_per_sample = 16) const;
 };

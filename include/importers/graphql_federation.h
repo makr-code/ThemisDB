@@ -59,14 +59,33 @@ public:
         /**
          * @brief Generate a plain (non-federated) GraphQL SDL.
          * Useful for single-service setups.
+         * @param[in] schemas Input parameter.
+         * @return Return value.
          */
         std::string generatePlainSchema(
             const std::vector<InferenceTableSchema>& schemas
         );
 
     private:
+        /**
+         * @brief TBD: Describe pgTypeToGraphQL.
+         * @param[in] pg_type Input parameter.
+         * @return Return value.
+         */
         std::string pgTypeToGraphQL(const std::string& pg_type) const;
+        /**
+         * @brief TBD: Describe tableNameToTypeName.
+         * @param[in] table Input parameter.
+         * @return Return value.
+         */
         std::string tableNameToTypeName(const std::string& table) const;
+        /**
+         * @brief TBD: Describe columnToField.
+         * @param[in] col Input parameter.
+         * @param[in] pg_type Input parameter.
+         * @param[in] nullable Input parameter.
+         * @return Return value.
+         */
         std::string columnToField(const std::string& col,
                                    const std::string& pg_type,
                                    bool nullable) const;

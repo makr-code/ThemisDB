@@ -67,11 +67,15 @@ public:
 private:
     /**
      * @brief Convert HTTP method from Beast to string
+     * @param[in] method Input parameter.
+     * @return Return value.
      */
     static std::string methodToString(http::verb method);
     
     /**
      * @brief Convert HTTP status from integer to Beast status
+     * @param[in] status_code Input parameter.
+     * @return Return value.
      */
     static http::status intToStatus(int status_code);
 };

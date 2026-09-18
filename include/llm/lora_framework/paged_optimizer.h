@@ -71,6 +71,10 @@ struct PagedOptimizerState {
  * @brief Paging metrics for monitoring
  */
 struct PagingMetrics {
+    /**
+     * @brief TBD: Describe ~PagingMetrics.
+     * @return Return value.
+     */
     virtual ~PagingMetrics() = default;
     size_t num_page_ins = 0;
     size_t num_page_outs = 0;
@@ -83,7 +87,10 @@ struct PagingMetrics {
     size_t cpu_memory_used = 0;
     size_t peak_gpu_memory = 0;
     
-    // Reset metrics
+    /**
+     * @brief Reset metrics
+     * @details Implements reset without additional internal calls.
+     */
     void reset() {
         num_page_ins = 0;
         num_page_outs = 0;
@@ -192,6 +199,8 @@ public:
     
     /**
      * @brief Set learning rate
+     * @param[in] lr Input parameter.
+     * @details Implements set_learning_rate without additional internal calls.
      */
     void set_learning_rate(float lr) { learning_rate_ = lr; }
     
@@ -207,6 +216,7 @@ public:
     
     /**
      * @brief Reset paging metrics
+     * @details Calls: reset().
      */
     void reset_metrics() { metrics_.reset(); }
     
@@ -279,6 +289,11 @@ private:
  */
 class PagedOptimizerStateManager {
 public:
+    /**
+     * @brief TBD: Describe PagedOptimizerStateManager.
+     * @param[in,out] memory_manager Input/output parameter.
+     * @return Return value.
+     */
     explicit PagedOptimizerStateManager(PagedMemoryManager* memory_manager)
         : memory_manager_(memory_manager) {}
     

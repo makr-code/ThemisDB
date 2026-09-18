@@ -80,9 +80,11 @@ public:
         bool is_valid() const noexcept { return native != 0; }
     };
 
-    // -----------------------------------------------------------------------
-    // Singleton
-    // -----------------------------------------------------------------------
+    /**
+     * @brief ----------------------------------------------------------------------- Singleton -----------------------------------------------------------------------
+     * @return Return value.
+     * @details Implements GetInstance without additional internal calls.
+     */
     static VulkanComputeBackend& GetInstance() {
         static VulkanComputeBackend instance;
         return instance;
@@ -97,11 +99,13 @@ public:
      *
      * Returns 0 when `THEMIS_ENABLE_VULKAN` is not defined or when no Vulkan
      * device is detected at runtime.
+     * @return Return value.
      */
     int deviceCount() const;
 
     /**
      * @brief True when at least one Vulkan compute device is available.
+     * @return True on success.
      */
     bool isAvailable() const;
 
@@ -110,6 +114,7 @@ public:
      *
      * Returns "Unknown" when Vulkan is not available or the vendor cannot
      * be determined from the PCI vendor ID.
+     * @return Return value.
      */
     std::string vendorName() const;
 
@@ -153,6 +158,7 @@ public:
      * @brief Unregister and release a named logical compute stream.
      *
      * @return ok == false when no stream with @p name exists.
+     * @param[in] name Input parameter.
      */
     Result destroyStream(const std::string& name);
 
@@ -161,15 +167,21 @@ public:
      *
      * On the CPU fallback path this is a no-op that returns ok == true.
      * @return ok == false when the stream does not exist.
+     * @param[in] name Input parameter.
      */
     Result synchronizeStream(const std::string& name);
 
+     * @param[in] name Input parameter.
+     * @return Return value.
     /** @brief Return the handle for a named stream (invalid if not found). */
     StreamHandle getStream(const std::string& name) const;
 
+     * @param[in] name Input parameter.
+     * @return True on success.
     /** @brief True when a stream with @p name has been created. */
     bool hasStream(const std::string& name) const;
 
+     * @return Return value.
     /** @brief Return all registered stream names. */
     std::vector<std::string> streamNames() const;
 
@@ -184,6 +196,10 @@ public:
         size_t cpu_fallbacks     = 0;  ///< Items routed to CPU (no Vulkan hw)
     };
 
+    /**
+     * @brief TBD: Describe getStats.
+     * @return Return value.
+     */
     Stats getStats() const;
 
     /**
@@ -208,8 +224,10 @@ private:
     mutable bool        vulkan_initialized_  = false;
     mutable std::string cached_vendor_name_;         // populated by probeDevices()
 
-    // Internal: probe the Vulkan loader and count compute-capable devices.
-    // Called under mutex_ the first time isAvailable() / deviceCount() is used.
+    /**
+     * @brief Internal: probe the Vulkan loader and count compute-capable devices.
+     * @details Called under mutex_ the first time isAvailable() / deviceCount() is used.
+     */
     void probeDevices() const;
 };
 

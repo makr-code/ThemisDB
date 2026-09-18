@@ -47,7 +47,16 @@ struct UpdateHistoryEntry {
     /// Non-empty when success == false.
     std::string error_message;
 
+    /**
+     * @brief TBD: Describe toJson.
+     * @return Return value.
+     */
     json toJson() const;
+    /**
+     * @brief TBD: Describe fromJson.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static UpdateHistoryEntry fromJson(const json& j);
 };
 
@@ -86,6 +95,7 @@ public:
      * @brief Construct the logger.
      * @param log_file_path Path to the JSON history file.
      *        The file is created if it does not exist.
+     * @return Return value.
      */
     explicit UpdateHistoryLogger(const std::string& log_file_path);
 
@@ -109,6 +119,7 @@ public:
 
     /**
      * @brief Return the path of the backing log file.
+     * @return Return value.
      */
     const std::string& logFilePath() const;
 

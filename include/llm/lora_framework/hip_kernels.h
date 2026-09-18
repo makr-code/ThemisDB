@@ -91,6 +91,10 @@ hipError_t launch_scalar_multiply_inplace_kernel(
 
 /**
  * @brief HIP kernel launcher for NaN/Inf detection
+ * @param[in] data Input parameter.
+ * @param[in] size Input parameter.
+ * @param[in,out] has_overflow_host Input/output parameter.
+ * @return Return value.
  */
 hipError_t launch_check_inf_nan_kernel(
     const float* data,

@@ -118,6 +118,7 @@ public:
      * Reads the latest snapshot and replays the WAL tail.
      * Must be called before any other method.
      * @return true on success (empty state on first startup is also success).
+     * @param[in] node_id Input parameter.
      */
     bool open(const std::string& node_id);
 
@@ -132,6 +133,10 @@ public:
      * @brief Persist a Phase-1 promise (ballot upgrade) for @p slot.
      *
      * Must be called — and must complete — before sending a PROMISE response.
+     * @param[in] slot Input parameter.
+     * @param[in] ballot_round Input parameter.
+     * @param[in] proposer_node_id Input parameter.
+     * @return True on success.
      */
     bool persistPromise(uint64_t slot, uint64_t ballot_round,
                         const std::string& proposer_node_id);
@@ -140,6 +145,10 @@ public:
      * @brief Persist a Phase-2 accept for @p slot.
      *
      * Must be called — and must complete — before sending an ACCEPTED response.
+     * @param[in] slot Input parameter.
+     * @param[in] ballot_round Input parameter.
+     * @param[in] value Input parameter.
+     * @return True on success.
      */
     bool persistAccept(uint64_t slot, uint64_t ballot_round,
                        const std::string& value);
@@ -148,6 +157,8 @@ public:
      * @brief Record that @p slot has been committed.
      *
      * Triggers compaction if Config::compact_interval has been reached.
+     * @param[in] slot Input parameter.
+     * @return True on success.
      */
     bool persistCommit(uint64_t slot);
 
@@ -158,6 +169,8 @@ public:
      *
      * Returns std::nullopt when the slot is unknown (not yet seen or already
      * compacted into a snapshot).
+     * @param[in] slot Input parameter.
+     * @return Return value.
      */
     std::optional<DurableAcceptorState> getAcceptorState(uint64_t slot) const;
 
@@ -177,6 +190,7 @@ public:
 
     /**
      * @brief Force a snapshot regardless of the compaction threshold.
+     * @return True on success.
      */
     bool forceCompact();
 
@@ -195,6 +209,10 @@ private:
     // In-memory acceptor state cache (slot → state)
     std::unordered_map<uint64_t, DurableAcceptorState> slot_cache_;
 
+    /**
+     * @brief TBD: Describe replayWal.
+     * @param[in] from_lsn Input parameter.
+     */
     void replayWal(LSN from_lsn);
 };
 

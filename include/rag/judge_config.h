@@ -121,7 +121,11 @@ public:
 private:
     std::unordered_map<std::string, std::string> config_;
     
-    // Helper to parse nested keys
+    /**
+     * @brief Helper to parse nested keys
+     * @param[in] key Input parameter.
+     * @return Return value.
+     */
     std::vector<std::string> splitKey(const std::string& key) const;
 };
 

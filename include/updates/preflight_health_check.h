@@ -73,6 +73,10 @@ struct PreflightCheckResult {
  */
 class IHealthCheck {
 public:
+    /**
+     * @brief TBD: Describe ~IHealthCheck.
+     * @return Return value.
+     */
     virtual ~IHealthCheck() = default;
 
     /**
@@ -205,6 +209,7 @@ public:
      * @param dep_name        Dependency name (used in error messages).
      * @param min_version     Minimum acceptable version string (e.g. "1.4.0").
      * @param version_provider Callable that returns the installed version.
+     * @return Return value.
      */
     explicit DependencyVersionChecker(
         std::string     dep_name,
@@ -218,6 +223,8 @@ public:
     /**
      * @brief Compare two dot-separated version strings.
      * @return negative if @p a < @p b, 0 if equal, positive if @p a > @p b.
+     * @param[in] a Input parameter.
+     * @param[in] b Input parameter.
      */
     static int compareVersions(const std::string& a, const std::string& b);
 
@@ -282,6 +289,7 @@ public:
 
     /**
      * @brief Number of registered checks.
+     * @return Return value.
      */
     size_t checkCount() const;
 

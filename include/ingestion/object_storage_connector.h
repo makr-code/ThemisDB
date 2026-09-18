@@ -137,6 +137,7 @@ public:
 
     /**
      * @brief Configure retry behaviour for this connector.
+     * @param[in] config Input parameter.
      */
     void setRetryConfig(const RetryConfig& config);
 
@@ -171,10 +172,23 @@ public:
      *
      * Pass empty `ObjectListFn{}` / `ObjectFetchFn{}` to restore the real
      * provider path.
+     * @param[in] list_fn Input parameter.
      */
     void setObjectListProvider(ObjectListFn list_fn);
+    /**
+     * @brief TBD: Describe setObjectFetchProvider.
+     * @param[in] fetch_fn Input parameter.
+     */
     void setObjectFetchProvider(ObjectFetchFn fetch_fn);
+    /**
+     * @brief TBD: Describe setObjectListForTesting.
+     * @param[in] list_fn Input parameter.
+     */
     void setObjectListForTesting(ObjectListFn list_fn);
+    /**
+     * @brief TBD: Describe setObjectFetchForTesting.
+     * @param[in] fetch_fn Input parameter.
+     */
     void setObjectFetchForTesting(ObjectFetchFn fetch_fn);
 
 private:

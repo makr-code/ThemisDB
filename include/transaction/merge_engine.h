@@ -79,7 +79,16 @@ public:
         uint64_t source_sequence;                // Source change sequence
         uint64_t target_sequence;                // Target change sequence
         
+        /**
+         * @brief TBD: Describe toJson.
+         * @return Return value.
+         */
         json toJson() const;
+        /**
+         * @brief TBD: Describe fromJson.
+         * @param[in] j Input parameter.
+         * @return Return value.
+         */
         static Conflict fromJson(const json& j);
     };
 
@@ -90,7 +99,16 @@ public:
         std::string key;                         // Key to resolve
         std::optional<std::string> resolved_value; // Chosen value (nullopt = delete)
         
+        /**
+         * @brief TBD: Describe toJson.
+         * @return Return value.
+         */
         json toJson() const;
+        /**
+         * @brief TBD: Describe fromJson.
+         * @param[in] j Input parameter.
+         * @return Return value.
+         */
         static ConflictResolution fromJson(const json& j);
     };
 
@@ -103,7 +121,16 @@ public:
         bool fail_on_conflict = false;           // Abort if conflicts detected
         std::vector<ConflictResolution> manual_resolutions; // Provided resolutions
         
+        /**
+         * @brief TBD: Describe toJson.
+         * @return Return value.
+         */
         json toJson() const;
+        /**
+         * @brief TBD: Describe fromJson.
+         * @param[in] j Input parameter.
+         * @return Return value.
+         */
         static MergeOptions fromJson(const json& j);
     };
 
@@ -118,7 +145,16 @@ public:
         bool has_conflicts = false;
         bool is_fast_forward = false;
         
+        /**
+         * @brief TBD: Describe toJson.
+         * @return Return value.
+         */
         json toJson() const;
+        /**
+         * @brief TBD: Describe fromJson.
+         * @param[in] j Input parameter.
+         * @return Return value.
+         */
         static MergeStats fromJson(const json& j);
     };
 
@@ -137,7 +173,16 @@ public:
         uint64_t target_sequence;
         uint64_t result_sequence;                // Sequence after merge (if applied)
         
+        /**
+         * @brief TBD: Describe toJson.
+         * @return Return value.
+         */
         json toJson() const;
+        /**
+         * @brief TBD: Describe fromJson.
+         * @param[in] j Input parameter.
+         * @return Return value.
+         */
         static MergeResult fromJson(const json& j);
     };
 
@@ -146,6 +191,7 @@ public:
      * @param diff_engine Reference to DiffEngine for computing changes
      * @param snapshot_manager Reference to SnapshotManager for tag resolution
      * @param changefeed Reference to Changefeed for applying changes
+     * @return Return value.
      */
     explicit MergeEngine(
         analytics::DiffEngine& diff_engine,
@@ -254,6 +300,10 @@ private:
 
     /**
      * @brief Detect conflicts between source and target changes
+     * @param[in] source_diff Input parameter.
+     * @param[in] target_diff Input parameter.
+     * @param[in] base_sequence Input parameter.
+     * @return Return value.
      */
     std::vector<Conflict> detectConflicts(
         const analytics::DiffEngine::DiffResult& source_diff,
@@ -263,6 +313,9 @@ private:
 
     /**
      * @brief Resolve conflicts using specified strategy
+     * @param[in] conflicts Input parameter.
+     * @param[in] options Input parameter.
+     * @return Return value.
      */
     std::vector<analytics::DiffEngine::Change> resolveConflicts(
         const std::vector<Conflict>& conflicts,
@@ -271,6 +324,8 @@ private:
 
     /**
      * @brief Apply changes to database (non-dry-run mode)
+     * @param[in] changes Input parameter.
+     * @return Return value.
      */
     uint64_t applyChanges(
         const std::vector<analytics::DiffEngine::Change>& changes
@@ -278,6 +333,9 @@ private:
 
     /**
      * @brief Get value at specific sequence
+     * @param[in] key Input parameter.
+     * @param[in] sequence Input parameter.
+     * @return Return value.
      */
     std::optional<std::string> getValueAtSequence(
         const std::string& key,
@@ -286,11 +344,15 @@ private:
 
     /**
      * @brief Determine if conflict is auto-resolvable
+     * @param[in] conflict Input parameter.
+     * @return True on success.
      */
     bool isAutoResolvable(const Conflict& conflict) const;
 
     /**
      * @brief Auto-resolve conflict if possible
+     * @param[in] conflict Input parameter.
+     * @return Return value.
      */
     std::optional<analytics::DiffEngine::Change> autoResolve(
         const Conflict& conflict

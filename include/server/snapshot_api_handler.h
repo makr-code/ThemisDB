@@ -36,6 +36,7 @@ public:
     /**
      * @brief Construct SnapshotApiHandler
      * @param snapshot_manager Reference to SnapshotManager instance
+     * @return Return value.
      */
     explicit SnapshotApiHandler(transaction::SnapshotManager& snapshot_manager);
     
@@ -62,6 +63,8 @@ public:
      *   "description": "Release 1.0",
      *   "created_by": "admin"  // optional
      * }
+     * @param[in] req Input parameter.
+     * @param[in,out] res Input/output parameter.
      */
     void handleCreateTag(const httplib::Request& req, httplib::Response& res);
 
@@ -72,21 +75,29 @@ public:
      * - limit: Maximum number of tags to return (default: 0 = all)
      * - sort_by: Sort field (timestamp, sequence, name) (default: timestamp)
      * - ascending: Sort direction (true/false) (default: false)
+     * @param[in] req Input parameter.
+     * @param[in,out] res Input/output parameter.
      */
     void handleListTags(const httplib::Request& req, httplib::Response& res);
 
     /**
      * @brief Handle GET /api/v1/snapshots/tags/:name
+     * @param[in] req Input parameter.
+     * @param[in,out] res Input/output parameter.
      */
     void handleGetTag(const httplib::Request& req, httplib::Response& res);
 
     /**
      * @brief Handle DELETE /api/v1/snapshots/tags/:name
+     * @param[in] req Input parameter.
+     * @param[in,out] res Input/output parameter.
      */
     void handleDeleteTag(const httplib::Request& req, httplib::Response& res);
 
     /**
      * @brief Handle GET /api/v1/snapshots/stats
+     * @param[in] req Input parameter.
+     * @param[in,out] res Input/output parameter.
      */
     void handleGetStats(const httplib::Request& req, httplib::Response& res);
 
@@ -95,6 +106,9 @@ private:
 
     /**
      * @brief Create error response
+     * @param[in,out] res Input/output parameter.
+     * @param[in] status_code Input parameter.
+     * @param[in] message Input parameter.
      */
     void sendError(httplib::Response& res, int status_code, const std::string& message) const;
 

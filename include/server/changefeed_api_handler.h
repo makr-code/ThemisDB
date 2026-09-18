@@ -117,6 +117,7 @@ public:
      * @brief Signal the stream to close gracefully.
      *
      * Called by client disconnect handler or timeout.
+     * @note Exception safety: noexcept.
      */
     void close() noexcept;
 
@@ -140,6 +141,8 @@ public:
      * 
      * Returns a copy of the events that were successfully delivered
      * to the output stream. Useful for at-least-once delivery tracking.
+     * @return Return value.
+     * @note Exception safety: noexcept.
      */
     std::vector<Changefeed::ChangeEvent> getDeliveredEvents() const noexcept;
 
@@ -314,6 +317,8 @@ public:
      *
      * Returns the current retention status (log size, oldest event age,
      * next scheduled cleanup time, compact_on_cleanup flag).
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleRetentionGet(const http::request<http::string_body>& req);
 
@@ -324,6 +329,8 @@ public:
      *   enabled (bool), max_age_hours (uint32), max_event_count (uint64),
      *   max_size_bytes (uint64), cleanup_interval_minutes (uint32),
      *   compact_on_cleanup (bool)
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleRetentionPut(const http::request<http::string_body>& req);
 
@@ -387,13 +394,31 @@ private:
     static SseStreamWriterFn sse_stream_writer_fn_;
     static std::mutex        sse_writer_mutex_;
 
-    // Helper methods (to be implemented)
+    /**
+     * @brief Helper methods (to be implemented)
+     * @param[in] status Input parameter.
+     * @param[in] message Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeErrorResponse(
         http::status status, const std::string& message, const http::request<http::string_body>& req);
+    /**
+     * @brief TBD: Describe makeResponse.
+     * @param[in] status Input parameter.
+     * @param[in] body Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeResponse(
         http::status status, const std::string& body, const http::request<http::string_body>& req);
     
-    // Authorization helper
+    /**
+     * @brief Authorization helper
+     * @param[in] req Input parameter.
+     * @param[in] required_scope Input parameter.
+     * @return Return value.
+     */
     std::optional<http::response<http::string_body>> checkAuth(
         const http::request<http::string_body>& req, const std::string& required_scope);
     
@@ -403,12 +428,23 @@ private:
         std::string tenant_id;
         std::vector<std::string> groups;
     };
+    /**
+     * @brief TBD: Describe checkAuthAndResolveTenant.
+     * @param[in] req Input parameter.
+     * @param[in] required_scope Input parameter.
+     * @param[in,out] out_context Input/output parameter.
+     * @return Return value.
+     */
     std::optional<http::response<http::string_body>> checkAuthAndResolveTenant(
         const http::request<http::string_body>& req, 
         const std::string& required_scope,
         TenantAuthContext& out_context);
     
-    // Governance headers
+    /**
+     * @brief Governance headers
+     * @param[in] req Input parameter.
+     * @param[in,out] res Input/output parameter.
+     */
     void applyGovernanceHeaders(
         const http::request<http::string_body>& req,
         http::response<http::string_body>& res);

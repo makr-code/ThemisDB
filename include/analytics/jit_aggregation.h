@@ -116,6 +116,11 @@ public:
     // -------------------------------------------------------------------------
 
     JITAggregationCompiler();
+    /**
+     * @brief TBD: Describe JITAggregationCompiler.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit JITAggregationCompiler(const Config& config);
     ~JITAggregationCompiler();
 
@@ -148,6 +153,7 @@ public:
     /**
      * @brief Returns true when the given spec-set has a compiled specialisation.
      * @param spec_key  Cache key as returned by makeSpecKey() or equivalent.
+     * @return True on success.
      */
     bool isCompiled(const std::string& spec_key) const;
 
@@ -160,6 +166,8 @@ public:
 
     /**
      * @brief Compute the canonical cache key for a spec-set (for testing).
+     * @param[in] specs Input parameter.
+     * @return Return value.
      */
     static std::string makeSpecKey(const std::vector<AggregateSpec>& specs);
 
@@ -194,15 +202,20 @@ public:
         size_t cache_size = 0;
     };
 
+     * @return Return value.
+     * @note Exception safety: noexcept.
     /** @brief Return a snapshot of the current statistics. */
     Stats stats() const noexcept;
 
+     * @note Exception safety: noexcept.
     /** @brief Reset statistics counters (does not invalidate compiled code). */
     void resetStats() noexcept;
 
-    // -------------------------------------------------------------------------
-    // Config accessor
-    // -------------------------------------------------------------------------
+    /**
+     * @brief ------------------------------------------------------------------------- Config accessor -------------------------------------------------------------------------
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
 
     const Config& config() const noexcept;
 

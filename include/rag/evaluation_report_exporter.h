@@ -122,6 +122,7 @@ class EvaluationReportExporterFactory {
 public:
     /**
      * @brief Create a default exporter
+     * @return Return value.
      */
     static std::unique_ptr<EvaluationReportExporter> create();
 };

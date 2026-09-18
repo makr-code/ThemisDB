@@ -73,6 +73,11 @@ struct TraceContext {
           parent_span_id(std::nullopt),
           start_time(std::chrono::system_clock::now()) {}
     
+    /**
+     * @brief TBD: Describe TraceContext.
+     * @param[in] id Input parameter.
+     * @return Return value.
+     */
     explicit TraceContext(const CorrelationID& id)
         : correlation_id(id),
           parent_span_id(std::nullopt),
@@ -179,6 +184,7 @@ public:
          * Saves current context and sets new one.
          *
          * @param ctx New context to activate
+         * @return Return value.
          */
         explicit ScopedContext(const TraceContext& ctx);
         

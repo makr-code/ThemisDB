@@ -71,9 +71,11 @@ public:
         int         block_z    = 1;  ///< Block dimension Z
     };
 
-    // -----------------------------------------------------------------------
-    // Singleton
-    // -----------------------------------------------------------------------
+    /**
+     * @brief ----------------------------------------------------------------------- Singleton -----------------------------------------------------------------------
+     * @return Return value.
+     * @details Implements GetInstance without additional internal calls.
+     */
     static GPUMetrics& GetInstance() {
         static GPUMetrics inst;
         return inst;
@@ -85,15 +87,27 @@ public:
 
     void recordAllocSuccess(uint64_t bytes, const std::string& tenant_id = "");
     void recordAllocFailGlobal(uint64_t bytes, const std::string& tenant_id = "");
+    /**
+     * @brief TBD: Describe recordAllocFailTenant.
+     * @param[in] bytes Input parameter.
+     * @param[in] tenant_id Input parameter.
+     */
     void recordAllocFailTenant(uint64_t bytes, const std::string& tenant_id);
     void recordDealloc(uint64_t bytes, const std::string& tenant_id = "");
     void recordFallback(const std::string& reason = "oom");
+    /**
+     * @brief TBD: Describe recordCircuitOpen.
+     */
     void recordCircuitOpen();
 
     /**
      * @brief Update the live VRAM gauge (must be called after each alloc/free).
      */
     void setVRAMAllocated(uint64_t bytes, const std::string& tenant_id = "");
+    /**
+     * @brief TBD: Describe setVRAMPeak.
+     * @param[in] bytes Input parameter.
+     */
     void setVRAMPeak(uint64_t bytes);
 
     // -----------------------------------------------------------------------
@@ -143,6 +157,7 @@ public:
      * @brief Return all current metric samples.
      *
      * Suitable for serialisation into Prometheus text format or OTel OTLP.
+     * @return Return value.
      */
     std::vector<Sample> snapshot() const;
 

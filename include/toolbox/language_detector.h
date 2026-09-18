@@ -27,6 +27,10 @@ namespace toolbox {
  */
 class ILanguageDetector {
 public:
+    /**
+     * @brief TBD: Describe ~ILanguageDetector.
+     * @return Return value.
+     */
     virtual ~ILanguageDetector() = default;
 
     /**
@@ -86,6 +90,7 @@ public:
      *
      * @param min_ratio Minimum ratio of stopword matches to total word count
      *                  required to assert a language.  Range [0.0, 1.0].
+     * @return Return value.
      */
     explicit DefaultLanguageDetector(double min_ratio);
 
@@ -116,6 +121,11 @@ private:
  */
 
 #pragma once
+/**
+ * @brief TBD: Describe detectLanguage.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ */
 std::string detectLanguage(std::string_view text);
 
 } // namespace toolbox

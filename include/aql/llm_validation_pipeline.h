@@ -170,12 +170,16 @@ public:
         const std::string& schema_context
     );
     
-    /// @brief Set custom feedback generator strategy
-    /// Default: generates contextual error messages
+    /**
+     * @brief @brief Set custom feedback generator strategy Default: generates contextual error messages
+     * @param[in] gen Input parameter.
+     */
     void setFeedbackGenerator(const FeedbackGenerator& gen);
     
-    /// @brief Set custom retryability check strategy
-    /// Default: retries on syntax errors, not on access violations
+    /**
+     * @brief @brief Set custom retryability check strategy Default: retries on syntax errors, not on access violations
+     * @param[in] check Input parameter.
+     */
     void setRetryabilityCheck(const RetryabilityCheck& check);
     
     /// @brief Get pipeline configuration
@@ -193,8 +197,18 @@ private:
                             const std::string& schema_context,
                             const std::string& retry_feedback = "");
     
+    /**
+     * @brief TBD: Describe formatRetryFeedback.
+     * @param[in] diagnostics Input parameter.
+     * @return Return value.
+     */
     std::string formatRetryFeedback(const query::ParserDiagnostics& diagnostics) const;
     
+    /**
+     * @brief TBD: Describe shouldRetry.
+     * @param[in] diagnostics Input parameter.
+     * @return True on success.
+     */
     bool shouldRetry(const query::ParserDiagnostics& diagnostics) const;
 };
 

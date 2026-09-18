@@ -122,6 +122,7 @@ public:
     /**
      * @brief Construct with explicit configuration
      * @param config Policy rules to enforce
+     * @return Return value.
      */
     explicit PasswordPolicy(const Config& config);
 
@@ -148,6 +149,7 @@ public:
     /**
      * @brief Replace the current policy configuration
      * @param config New policy rules
+     * @details Implements setConfig without additional internal calls.
      */
     void setConfig(const Config& config) { config_ = config; }
 
@@ -172,6 +174,7 @@ public:
      * arbitrary complexity rules. Character-class requirements are
      * disabled; forbidden_patterns should be populated with known-bad
      * passwords by the application.
+     * @return Return value.
      */
     static PasswordPolicy nistGuidelines();
 
@@ -180,6 +183,7 @@ public:
      *
      * ≥16 chars, all four character classes required, ≥8 unique chars,
      * max 2 consecutive identical chars.
+     * @return Return value.
      */
     static PasswordPolicy strict();
 
@@ -188,6 +192,7 @@ public:
      *
      * ≥8 chars, digit required, uppercase and lowercase required,
      * special character not required.
+     * @return Return value.
      */
     static PasswordPolicy basic();
 

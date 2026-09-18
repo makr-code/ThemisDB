@@ -31,6 +31,10 @@ namespace lora {
  * @brief Adapter weights representation
  */
 struct AdapterWeights {
+    /**
+     * @brief TBD: Describe ~AdapterWeights.
+     * @return Return value.
+     */
     virtual ~AdapterWeights() = default;
     std::vector<uint8_t> data;        // Binary weight data
     LoRAHyperparameters hyperparameters;
@@ -118,7 +122,16 @@ public:
         uint32_t read_quorum_size = 1;          // Number of replicas for read quorum
     };
     
+    /**
+     * @brief TBD: Describe LoRAStorageService.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit LoRAStorageService(const Config& config);
+    /**
+     * @brief TBD: Describe LoRAStorageService.
+     * @return Return value.
+     */
     explicit LoRAStorageService();
     ~LoRAStorageService();
     

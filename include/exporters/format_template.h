@@ -42,6 +42,10 @@ struct FormatTemplateFieldMapping {
 /// Abstract base for a single named instruction-tuning template.
 class IFormatTemplate {
 public:
+    /**
+     * @brief TBD: Describe ~IFormatTemplate.
+     * @return Return value.
+     */
     virtual ~IFormatTemplate() = default;
 
     /// Return the canonical name of this template (e.g. "alpaca").
@@ -56,8 +60,13 @@ public:
         std::vector<std::string>* missing_fields = nullptr
     ) const = 0;
 
-    /// Render the entity as a single JSON object string (no trailing newline).
-    /// Returns an empty string when required fields are absent.
+    /**
+     * @brief Render the entity as a single JSON object string (no trailing newline).
+     * @param[in] entity Input parameter.
+     * @param[in] mapping Input parameter.
+     * @return Return value.
+     * @details Returns an empty string when required fields are absent.
+     */
     virtual std::string render(
         const BaseEntity& entity,
         const FormatTemplateFieldMapping& mapping
@@ -149,8 +158,12 @@ public:
 // Factory
 // ---------------------------------------------------------------------------
 
-/// Create an IFormatTemplate for the given type.
-/// Returns nullptr for FormatTemplateType::NONE.
+/**
+ * @brief Create an IFormatTemplate for the given type.
+ * @param[in] type Input parameter.
+ * @return Return value.
+ * @details Returns nullptr for FormatTemplateType::NONE.
+ */
 std::unique_ptr<IFormatTemplate> makeFormatTemplate(FormatTemplateType type);
 
 // ---------------------------------------------------------------------------
@@ -175,20 +188,14 @@ struct TemplateValidationResult {
     size_t entities_failed = 0;
 };
 
-/// Validate that all entities in \p sample provide the required fields for
-/// the selected template type.
-///
-/// \param type     The format template to check against.  When NONE the
-///                 result is always valid (no template fields are required).
-/// \param mapping  Field-name overrides forwarded to the template.
-/// \param sample   Representative collection of entities to inspect.  At
-///                 least one entity is recommended for meaningful results;
-///                 an empty sample yields a valid result with
-///                 entities_checked == 0.
-///
-/// \returns A TemplateValidationResult summarising the outcome.  The
-///          \p missing_fields list is deterministic (sorted) so callers can
-///          rely on its order for automated comparisons.
+/**
+ * @brief Validate that all entities in \p sample provide the required fields for the selected template type.
+ * @param[in] type Input parameter.
+ * @param[in] mapping Input parameter.
+ * @param[in] sample Input parameter.
+ * @return Return value.
+ * @details \param type The format template to check against. When NONE the result is always valid (no template fields are required). \param mapping Field-name overrides forwarded to the template. \param sample Representative collection of entities to inspect. At least one entity is recommended for meaningful results; an empty sample yields a valid result with entities_checked == 0. \returns A TemplateValidationResult summarising the outcome. The \p missing_fields list is deterministic (sorted) so callers can rely on its order for automated comparisons.
+ */
 TemplateValidationResult validateTemplate(
     FormatTemplateType type,
     const FormatTemplateFieldMapping& mapping,

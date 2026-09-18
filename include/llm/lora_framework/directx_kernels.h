@@ -49,6 +49,7 @@ void cleanup_directx_lora();
 
 /**
  * @brief Check if DirectX 12 backend is available
+ * @return True on success.
  */
 bool is_directx_available();
 

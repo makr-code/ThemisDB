@@ -119,43 +119,126 @@ public:
     
     // Constructor
     GPUVectorIndex();
+    /**
+     * @brief TBD: Describe GPUVectorIndex.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit GPUVectorIndex(const Config& config);
     ~GPUVectorIndex() noexcept;
     
-    // Initialization
+    /**
+     * @brief Initialization
+     * @param[in] dimension Input parameter.
+     * @return True on success.
+     */
     bool initialize(int dimension);
+    /**
+     * @brief TBD: Describe shutdown.
+     */
     void shutdown();
     
-    // Vector operations
+    /**
+     * @brief Vector operations
+     * @param[in] id Input parameter.
+     * @param[in] vector Input parameter.
+     * @return True on success.
+     */
     bool addVector(const std::string& id, const std::vector<float>& vector);
+    /**
+     * @brief TBD: Describe addVectorBatch.
+     * @param[in] ids Input parameter.
+     * @param[in] vectors Input parameter.
+     * @return True on success.
+     */
     bool addVectorBatch(const std::vector<std::string>& ids, 
                        const std::vector<std::vector<float>>& vectors);
+    /**
+     * @brief TBD: Describe removeVector.
+     * @param[in] id Input parameter.
+     * @return True on success.
+     */
     bool removeVector(const std::string& id);
+    /**
+     * @brief TBD: Describe updateVector.
+     * @param[in] id Input parameter.
+     * @param[in] vector Input parameter.
+     * @return True on success.
+     */
     bool updateVector(const std::string& id, const std::vector<float>& vector);
     
-    // Search operations
+    /**
+     * @brief Search operations
+     * @param[in] query Input parameter.
+     * @param[in] k Input parameter.
+     * @return Return value.
+     */
     std::vector<SearchResult> search(const std::vector<float>& query, size_t k);
+    /**
+     * @brief TBD: Describe searchBatch.
+     * @param[in] queries Input parameter.
+     * @param[in] k Input parameter.
+     * @return Return value.
+     */
     std::vector<std::vector<SearchResult>> searchBatch(
         const std::vector<std::vector<float>>& queries, size_t k);
     
-    // Index management
+    /**
+     * @brief Index management
+     * @return True on success.
+     */
     bool buildIndex();
+    /**
+     * @brief TBD: Describe saveIndex.
+     * @param[in] path Input parameter.
+     * @return True on success.
+     */
     bool saveIndex(const std::string& path);
+    /**
+     * @brief TBD: Describe loadIndex.
+     * @param[in] path Input parameter.
+     * @return True on success.
+     */
     bool loadIndex(const std::string& path);
     
-    // Configuration
+    /**
+     * @brief Configuration
+     * @param[in] ef Input parameter.
+     */
     void setEfSearch(int ef);
+    /**
+     * @brief TBD: Describe setBatchSize.
+     * @param[in] size Input parameter.
+     */
     void setBatchSize(int size);
+    /**
+     * @brief TBD: Describe getActiveBackend.
+     * @return Return value.
+     */
     Backend getActiveBackend() const;
+    /**
+     * @brief TBD: Describe getStatistics.
+     * @return Return value.
+     */
     Statistics getStatistics() const;
     
-    // Backend control
+    /**
+     * @brief Backend control
+     * @param[in] backend Input parameter.
+     * @return True on success.
+     */
     bool switchBackend(Backend backend);
+    /**
+     * @brief TBD: Describe getAvailableBackends.
+     * @return Return value.
+     */
     std::vector<Backend> getAvailableBackends() const;
 
-    // Oversubscription control (v1.7.0)
-    // Returns the oversubscription stats; the returned Stats::oversubscriptionActive
-    // field is false when oversubscription is disabled.
+    /**
+     * @brief Oversubscription control (v1.
+     * @return Return value.
+     * @details 7.0) Returns the oversubscription stats; the returned Stats::oversubscriptionActive field is false when oversubscription is disabled.
+     */
     GPUMemoryOversubscriptionManager::Stats getOversubscriptionStats() const;
     
     // Backend availability:

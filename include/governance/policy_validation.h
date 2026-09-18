@@ -36,6 +36,10 @@ public:
         std::string severity;                      // low, medium, high, critical
         std::string recommendation;
         
+        /**
+         * @brief TBD: Describe toJson.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
     };
     
@@ -48,6 +52,10 @@ public:
         bool is_unused = false;                    // True if never used
         double effectiveness_score = 0.0;          // 0-100 score
         
+        /**
+         * @brief TBD: Describe toJson.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
     };
     
@@ -60,6 +68,10 @@ public:
         std::string recommendation;
         bool passed = true;
         
+        /**
+         * @brief TBD: Describe toJson.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
     };
     
@@ -73,6 +85,10 @@ public:
         std::vector<std::string> recommendations;
         int64_t generated_at = 0;
         
+        /**
+         * @brief TBD: Describe toJson.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
     };
     
@@ -88,22 +104,20 @@ public:
     /// Check for circular dependencies
     std::vector<ConflictResult> detectCircularDependencies(const PolicyManager& policy_mgr) const;
 
-    /// Detect conflicts between CCPA and HIPAA rules.
-    /// HIPAA mandates disclosure/audit requirements that can conflict with
-    /// CCPA right-to-delete and opt-out-of-sale obligations.
-    /// Integrates the CcpaRuleSet::detectHipaaConflicts() evaluator.
-    /// @return List of ConflictResult entries, one per detected cross-framework conflict.
+    /**
+     * @brief Detect conflicts between CCPA and HIPAA rules.
+     * @param[in] policy_mgr Input parameter.
+     * @return Return value.
+     * @details HIPAA mandates disclosure/audit requirements that can conflict with CCPA right-to-delete and opt-out-of-sale obligations. Integrates the CcpaRuleSet::detectHipaaConflicts() evaluator. @return List of ConflictResult entries, one per detected cross-framework conflict.
+     */
     std::vector<ConflictResult> detectCcpaHipaaConflicts(const PolicyManager& policy_mgr) const;
 
-    /// Detect conflicts between PCI-DSS and GDPR requirements for a policy rule set.
-    ///
-    /// PCI-DSS Req 10.7 mandates 12-month audit-log retention while GDPR Art. 5(1)(e)
-    /// (storage limitation) pushes for minimal retention.  Additionally, PCI-DSS Req 4
-    /// forbids unencrypted export while GDPR Art. 32 requires appropriate technical
-    /// measures — rules with allow_export=true and require_encryption=false violate both
-    /// simultaneously.  Integrates the PciDssRuleSet::detectGdprConflicts() evaluator.
-    ///
-    /// @return List of ConflictResult entries, one per detected cross-framework conflict.
+    /**
+     * @brief Detect conflicts between PCI-DSS and GDPR requirements for a policy rule set.
+     * @param[in] policy_mgr Input parameter.
+     * @return Return value.
+     * @details PCI-DSS Req 10.7 mandates 12-month audit-log retention while GDPR Art. 5(1)(e) (storage limitation) pushes for minimal retention. Additionally, PCI-DSS Req 4 forbids unencrypted export while GDPR Art. 32 requires appropriate technical measures — rules with allow_export=true and require_encryption=false violate both simultaneously. Integrates the PciDssRuleSet::detectGdprConflicts() evaluator. @return List of ConflictResult entries, one per detected cross-framework conflict.
+     */
     std::vector<ConflictResult> detectPciDssGdprConflicts(const PolicyManager& policy_mgr) const;
     
     /// Calculate effectiveness metrics for all rules
@@ -159,6 +173,10 @@ public:
         int64_t last_evaluation_time = 0;          // Last evaluation timestamp
         double match_rate = 0.0;                   // Percentage of evaluations that matched
         
+        /**
+         * @brief TBD: Describe toJson.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
     };
     
@@ -169,6 +187,10 @@ public:
         std::string impact_description;
         std::string optimization_suggestion;
         
+        /**
+         * @brief TBD: Describe toJson.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
     };
     
@@ -216,6 +238,10 @@ public:
         std::string expected_benefit;
         int priority = 0;                          // 1-10
         
+        /**
+         * @brief TBD: Describe toJson.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
     };
     
@@ -226,6 +252,10 @@ public:
         std::string summary;
         int64_t generated_at = 0;
         
+        /**
+         * @brief TBD: Describe toJson.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
     };
     

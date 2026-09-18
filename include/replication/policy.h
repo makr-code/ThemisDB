@@ -122,6 +122,9 @@ public:
      * Construct a ReplicationPolicy manager backed by the given
      * ReplicationManager (used to query the current cluster topology during
      * validation).
+     * @brief TBD: Describe ReplicationPolicy.
+     * @param[in] manager Input parameter.
+     * @return Return value.
      */
     explicit ReplicationPolicy(std::shared_ptr<ReplicationManager> manager);
 
@@ -138,6 +141,9 @@ public:
     /**
      * Define (or replace) a named policy.
      * Thread-safe; policy is visible to subsequent calls immediately.
+     * @brief TBD: Describe definePolicy.
+     * @param[in] policy_name Input parameter.
+     * @param[in] policy Input parameter.
      */
     void definePolicy(const std::string& policy_name, const Policy& policy);
 
@@ -145,6 +151,9 @@ public:
      * Remove a named policy.  Assignments referencing it remain but will
      * return the default policy until reassigned.
      * Returns false if the policy_name did not exist.
+     * @brief TBD: Describe removePolicy.
+     * @param[in] policy_name Input parameter.
+     * @return True on success.
      */
     bool removePolicy(const std::string& policy_name);
 
@@ -152,6 +161,10 @@ public:
      * Assign a previously defined policy to a collection.
      * Overwrites any existing assignment for that collection.
      * Returns false if policy_name was not previously defined.
+     * @brief TBD: Describe assignPolicy.
+     * @param[in] collection Input parameter.
+     * @param[in] policy_name Input parameter.
+     * @return True on success.
      */
     bool assignPolicy(const std::string& collection,
                       const std::string& policy_name);
@@ -159,9 +172,14 @@ public:
     /**
      * Get the effective policy for a collection.
      * Returns the default policy when no assignment exists.
+     * @brief TBD: Describe getPolicy.
+     * @param[in] collection Input parameter.
+     * @return Return value.
      */
     Policy getPolicy(const std::string& collection) const;
 
+     * @brief TBD: Describe listPolicies.
+     * @return Return value.
     /** List all defined policy names. */
     std::vector<std::string> listPolicies() const;
 
@@ -181,6 +199,8 @@ public:
      *   5. SYNC mode is feasible only when all replicas are healthy.
      *
      * @return ValidationResult with is_valid = true when all checks pass.
+     * @brief TBD: Describe validatePolicy.
+     * @param[in] policy Input parameter.
      */
     ValidationResult validatePolicy(const Policy& policy) const;
 
@@ -191,6 +211,10 @@ private:
     std::map<std::string, Policy>       policies_;      ///< name → policy
     std::map<std::string, std::string>  assignments_;   ///< collection → policy name
 
+    /**
+     * @brief TBD: Describe defaultPolicy.
+     * @return Return value.
+     */
     static Policy defaultPolicy();
 };
 

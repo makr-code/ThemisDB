@@ -136,6 +136,11 @@ public:
     // -----------------------------------------------------------------------
 
     GPUMemoryOversubscriptionManager();
+    /**
+     * @brief TBD: Describe GPUMemoryOversubscriptionManager.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit GPUMemoryOversubscriptionManager(const Config& config);
     ~GPUMemoryOversubscriptionManager();
 
@@ -169,6 +174,7 @@ public:
      * If the partition is currently VRAM-resident it is evicted first.
      *
      * @return true on success; false if the partition ID is unknown.
+     * @param[in] partition_id Input parameter.
      */
     bool removePartition(size_t partition_id);
 
@@ -181,6 +187,7 @@ public:
      *
      * @return true when the partition is (now) VRAM-resident (or simulated
      *         as VRAM-resident on a CPU-only build).
+     * @param[in] partition_id Input parameter.
      */
     bool accessPartition(size_t partition_id);
 
@@ -188,6 +195,7 @@ public:
      * @brief Explicitly evict a partition from VRAM back to host RAM.
      *
      * @return true on success; false if the partition is unknown or already cold.
+     * @param[in] partition_id Input parameter.
      */
     bool evictPartition(size_t partition_id);
 
@@ -203,31 +211,39 @@ public:
      * the data should first call accessPartition() to ensure VRAM residency.
      *
      * @return nullptr when the partition ID is unknown.
+     * @param[in] partition_id Input parameter.
      */
     const std::vector<float>* getPartitionData(size_t partition_id) const;
 
     /**
      * @brief Return the number of vectors in a partition (0 if unknown).
+     * @param[in] partition_id Input parameter.
+     * @return Return value.
      */
     size_t getPartitionVectorCount(size_t partition_id) const;
 
     /**
      * @brief Return true when the partition is currently VRAM-resident.
+     * @param[in] partition_id Input parameter.
+     * @return True on success.
      */
     bool isPartitionInVRAM(size_t partition_id) const;
 
     /**
      * @brief Return IDs of all partitions currently resident in VRAM.
+     * @return Return value.
      */
     std::vector<size_t> getHotPartitions() const;
 
     /**
      * @brief Return IDs of all partitions currently in host RAM only.
+     * @return Return value.
      */
     std::vector<size_t> getColdPartitions() const;
 
     /**
      * @brief Return all partition IDs in insertion order.
+     * @return Return value.
      */
     std::vector<size_t> getAllPartitionIds() const;
 
@@ -242,16 +258,19 @@ public:
      * any existing hot partition and without updating the LRU access time.
      * This is a best-effort hint — if the budget is full the request is
      * recorded in statistics but the partition stays cold.
+     * @param[in] partition_id Input parameter.
      */
     void prefetchPartition(size_t partition_id);
 
     /**
      * @brief Change the prefetch strategy at runtime.
+     * @param[in] strategy Input parameter.
      */
     void setPrefetchStrategy(PrefetchStrategy strategy);
 
     /**
      * @brief Return the current prefetch strategy.
+     * @return Return value.
      */
     PrefetchStrategy getPrefetchStrategy() const;
 
@@ -262,16 +281,19 @@ public:
     /**
      * @brief Update the VRAM budget.  If the new budget is smaller than the
      *        current VRAM usage, excess hot partitions are evicted (LRU first).
+     * @param[in] mb Input parameter.
      */
     void setVRAMBudgetMB(size_t mb);
 
     /**
      * @brief Return the effective VRAM budget in bytes (0 = unlimited).
+     * @return Return value.
      */
     size_t getVRAMBudgetBytes() const;
 
     /**
      * @brief Return the number of VRAM bytes currently in use.
+     * @return Return value.
      */
     size_t getVRAMUsedBytes() const;
 
@@ -281,6 +303,7 @@ public:
 
     /**
      * @brief Return aggregate statistics.
+     * @return Return value.
      */
     Stats getStats() const;
 
@@ -289,11 +312,14 @@ public:
      *
      * Returns a zeroed PartitionInfo with partition_id == SIZE_MAX when the
      * ID is unknown.
+     * @param[in] partition_id Input parameter.
+     * @return Return value.
      */
     PartitionInfo getPartitionInfo(size_t partition_id) const;
 
     /**
      * @brief Return the total number of managed partitions.
+     * @return Return value.
      */
     size_t partitionCount() const;
 

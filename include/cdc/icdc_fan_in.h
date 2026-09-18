@@ -81,6 +81,10 @@ struct FanInEvent {
  */
 class IFanInMergePolicy {
 public:
+    /**
+     * @brief TBD: Describe ~IFanInMergePolicy.
+     * @return Return value.
+     */
     virtual ~IFanInMergePolicy() = default;
 
     /**
@@ -132,6 +136,10 @@ public:
  */
 class ICDCFanIn {
 public:
+    /**
+     * @brief TBD: Describe ~ICDCFanIn.
+     * @return Return value.
+     */
     virtual ~ICDCFanIn() = default;
 
     /**
@@ -197,6 +205,11 @@ public:
     // ── ICDCFanIn ────────────────────────────────────────────────────────────
 
     bool addSource(const CollectionId& id, Changefeed* feed) override {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         if (sources_.count(id)) {
           return false;
@@ -206,6 +219,11 @@ public:
     }
 
     bool removeSource(const CollectionId& id) override {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         return sources_.erase(id) > 0;
     }
@@ -218,6 +236,11 @@ public:
         // Take a snapshot of sources under the lock, then query without holding it.
         std::unordered_map<CollectionId, Changefeed*> snapshot;
         {
+            /**
+             * @brief TBD: Describe lk.
+             * @param[in] mutex_ Input parameter.
+             * @return Return value.
+             */
             std::unique_lock<std::mutex> lk(mutex_);
             snapshot = sources_;
         }
@@ -252,6 +275,11 @@ public:
         }
 
         {
+            /**
+             * @brief TBD: Describe lk.
+             * @param[in] mutex_ Input parameter.
+             * @return Return value.
+             */
             std::unique_lock<std::mutex> lk(mutex_);
             if (policy_) {
               policy_->merge(merged);
@@ -265,11 +293,21 @@ public:
     }
 
     void setMergePolicy(std::unique_ptr<IFanInMergePolicy> policy) override {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         policy_ = std::move(policy);
     }
 
     std::vector<CollectionId> sourceIds() const override {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         std::vector<CollectionId> ids = {};
 

@@ -167,6 +167,7 @@ struct VersionedLinkState {
      * @param expected_version Expected current version
      * @param new_state New state to transition to
      * @return true if transition succeeded; false if state/version mismatch
+     * @note Exception safety: noexcept.
      */
     bool tryTransition(LinkState expected_state, uint32_t expected_version,
                        LinkState new_state) noexcept;
@@ -261,6 +262,7 @@ public:
      * Call `leaveEpoch()` when done.
      *
      * @param epoch Epoch to enter
+     * @note Exception safety: noexcept.
      */
     void enterEpoch(uint64_t epoch) noexcept;
 
@@ -268,6 +270,7 @@ public:
      * @brief Announce that current thread is done with current epoch.
      *
      * Thread may now advance to next epoch.
+     * @note Exception safety: noexcept.
      */
     void leaveEpoch() noexcept;
 
@@ -288,6 +291,7 @@ public:
      *
      * Called periodically (every 10-100ms); checks if all threads past an epoch.
      * If safe, reclaims memory deferred from that epoch.
+     * @note Exception safety: noexcept.
      */
     void advanceEpoch() noexcept;
 
@@ -301,6 +305,11 @@ public:
      * @param deleter Callable to delete object (e.g., lambda or std::function)
      */
     template<typename Deleter>
+    /**
+     * @brief TBD: Describe deferDeletion.
+     * @param[in] epoch Input parameter.
+     * @param[in] deleter Input parameter.
+     */
     void deferDeletion(uint64_t epoch, Deleter deleter);
 
 private:
@@ -357,6 +366,7 @@ public:
     /**
      * @brief Get number of entries (approximate; may be stale).
      * @return Approximate entry count
+     * @note Exception safety: noexcept.
      */
     size_t size() const noexcept;
 
@@ -368,6 +378,10 @@ public:
      * @param visitor Callable(const Key&, const Value&) called for each entry
      */
     template<typename Visitor>
+    /**
+     * @brief TBD: Describe forEach.
+     * @param[in] visitor Input parameter.
+     */
     void forEach(Visitor visitor) const;
 };
 
@@ -403,6 +417,7 @@ public:
     /**
      * @brief Create batch queue with capacity.
      * @param capacity Maximum entries before blocking (or backoff)
+     * @return Return value.
      */
     explicit LockFreeBatchQueue(size_t capacity);
 
@@ -411,6 +426,7 @@ public:
      *
      * @param entry Entry to enqueue
      * @return true if enqueued; false if queue full (caller should retry/backoff)
+     * @note Exception safety: noexcept.
      */
     bool tryEnqueue(const BatchQueueEntry& entry) noexcept;
 
@@ -421,18 +437,21 @@ public:
      * Returns snapshot of entries; consumer can process without blocking producers.
      *
      * @return Vector of entries to process
+     * @note Exception safety: noexcept.
      */
     std::vector<BatchQueueEntry> drain() noexcept;
 
     /**
      * @brief Get approximate queue depth (may be stale).
      * @return Approximate number of buffered entries
+     * @note Exception safety: noexcept.
      */
     size_t depth() const noexcept;
 
     /**
      * @brief Get queue capacity.
      * @return Maximum entries before blocking
+     * @note Exception safety: noexcept.
      */
     size_t capacity() const noexcept;
 };

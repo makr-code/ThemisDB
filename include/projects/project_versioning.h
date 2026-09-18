@@ -49,7 +49,16 @@ struct SnapshotMeta {
     size_t      document_count = 0; ///< Number of documents captured
     json        metadata;        ///< Arbitrary user metadata
 
+    /**
+     * @brief TBD: Describe toJson.
+     * @return Return value.
+     */
     json toJson() const;
+    /**
+     * @brief TBD: Describe fromJson.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static SnapshotMeta fromJson(const json& j);
 };
 
@@ -70,6 +79,11 @@ struct SnapshotMeta {
  */
 class ProjectVersioning {
 public:
+    /**
+     * @brief TBD: Describe ProjectVersioning.
+     * @param[in] storage Input parameter.
+     * @return Return value.
+     */
     explicit ProjectVersioning(std::shared_ptr<RocksDBWrapper> storage);
     ~ProjectVersioning() = default;
 
@@ -94,11 +108,14 @@ public:
     /**
      * @brief Retrieve snapshot metadata by ID.
      * @return SnapshotMeta if found, std::nullopt otherwise.
+     * @param[in] snap_id Input parameter.
      */
     std::optional<SnapshotMeta> getSnapshot(const SnapshotId& snap_id) const;
 
     /**
      * @brief List all snapshots belonging to a project, newest first.
+     * @param[in] project_id Input parameter.
+     * @return Return value.
      */
     std::vector<SnapshotMeta> listSnapshots(const std::string& project_id) const;
 
@@ -107,6 +124,8 @@ public:
      *
      * This is an irreversible operation.  Active snapshots referenced by
      * an in-progress restore cannot be deleted and will return an error.
+     * @param[in] snap_id Input parameter.
+     * @return Return value.
      */
     Status deleteSnapshot(const SnapshotId& snap_id);
 
@@ -119,6 +138,7 @@ public:
      *
      * @param snap_id           Snapshot to restore from.
      * @param target_project_id Destination project UUID (may be same as source).
+     * @return Return value.
      */
     Status restoreSnapshot(
         const SnapshotId& snap_id,
@@ -128,6 +148,7 @@ public:
     /**
      * @brief Verify snapshot integrity (checksum re-computation).
      * @return true if the stored checksum matches the current content.
+     * @param[in] snap_id Input parameter.
      */
     bool verifySnapshot(const SnapshotId& snap_id) const;
 
@@ -135,7 +156,16 @@ private:
     std::shared_ptr<RocksDBWrapper>   storage_;
     mutable std::shared_mutex         mutex_;
 
+    /**
+     * @brief TBD: Describe generateUuid.
+     * @return Return value.
+     */
     std::string generateUuid() const;
+    /**
+     * @brief TBD: Describe computeChecksum.
+     * @param[in] data Input parameter.
+     * @return Return value.
+     */
     Sha256Digest computeChecksum(const std::string& data) const;
 
     /// Collect all doc keys for a project from storage

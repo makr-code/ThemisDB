@@ -123,6 +123,10 @@ struct PIIRedactionResult {
  */
 class IPIIRedactor {
 public:
+    /**
+     * @brief TBD: Describe ~IPIIRedactor.
+     * @return Return value.
+     */
     virtual ~IPIIRedactor() = default;
 
     /**

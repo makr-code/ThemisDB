@@ -248,6 +248,7 @@ struct CacheMetrics {
     
     /**
      * @brief Reset all metrics
+     * @details Implements reset without additional internal calls.
      */
     void reset() {
         l1_hits = 0;
@@ -301,6 +302,11 @@ public:
         uint32_t success_threshold = 2;        // Successes before closing from half-open
         uint32_t timeout_ms = 60000;           // Time before trying half-open (1 minute)
         uint32_t half_open_max_calls = 3;      // Max calls in half-open state
+        /**
+         * @brief TBD: Describe defaults.
+         * @return Return value.
+         * @details Implements defaults without additional internal calls.
+         */
         static Config defaults() { return {}; }
     };
     
@@ -314,6 +320,8 @@ public:
     
     /**
      * @brief Check if operation should be allowed
+     * @return True on success.
+     * @details Calls: std::chrono::steady_clock::now(), load(), count().
      */
     bool allowRequest() {
         auto now = std::chrono::steady_clock::now();
@@ -346,6 +354,7 @@ public:
     
     /**
      * @brief Record successful operation
+     * @details Implements recordSuccess without additional internal calls.
      */
     void recordSuccess() {
         if (state_ == State::HALF_OPEN) {
@@ -363,6 +372,7 @@ public:
     
     /**
      * @brief Record failed operation
+     * @details Calls: std::chrono::steady_clock::now().
      */
     void recordFailure() {
         last_failure_time_ = std::chrono::steady_clock::now();
@@ -396,6 +406,7 @@ public:
     
     /**
      * @brief Reset circuit breaker to closed state
+     * @details Implements reset without additional internal calls.
      */
     void reset() {
         state_ = State::CLOSED;
@@ -431,6 +442,11 @@ public:
     struct Config {
         uint32_t max_requests_per_second = 10000;  // Rate limit
         uint32_t burst_size = 0;                    // Burst size (0 = same as rate)
+        /**
+         * @brief TBD: Describe defaults.
+         * @return Return value.
+         * @details Implements defaults without additional internal calls.
+         */
         static Config defaults() { return {}; }
     };
     
@@ -446,6 +462,7 @@ public:
     /**
      * @brief Try to acquire a token for a request
      * @return true if request is allowed, false if rate limited
+     * @details Calls: refillTokens(), load(), compare_exchange_weak().
      */
     bool tryAcquire() {
         refillTokens();
@@ -468,6 +485,7 @@ public:
     
     /**
      * @brief Reset rate limiter
+     * @details Calls: std::chrono::steady_clock::now().
      */
     void reset() {
         tokens_ = config_.max_requests_per_second;
@@ -475,6 +493,10 @@ public:
     }
 
 private:
+    /**
+     * @brief TBD: Describe refillTokens.
+     * @details Calls: std::chrono::steady_clock::now(), load(), count(), std::min(), compare_exchange_strong().
+     */
     void refillTokens() {
         auto now = std::chrono::steady_clock::now();
         auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(

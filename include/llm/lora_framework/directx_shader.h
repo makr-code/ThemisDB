@@ -34,6 +34,7 @@ public:
     /**
      * @brief Load compiled shader from file
      * @param shader_path Path to .cso or .dxil file
+     * @return Return value.
      */
     explicit DirectXShader(const std::string& shader_path);
     
@@ -47,6 +48,7 @@ public:
     
     /**
      * @brief Load shader bytecode from file
+     * @return True on success.
      */
     bool load();
     

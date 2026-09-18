@@ -74,8 +74,14 @@ struct RasterGrid {
     /// True when the grid is empty (width == 0 || height == 0 || data empty).
     bool empty() const noexcept;
 
-    /// Return the value at grid position (col, row).  Bounds-checked; returns
-    /// no_data_value when out of range.
+    /**
+     * @brief Return the value at grid position (col, row).
+     * @param[in] col Input parameter.
+     * @param[in] row Input parameter.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     * @details Bounds-checked; returns no_data_value when out of range.
+     */
     float at(std::size_t col, std::size_t row) const noexcept;
 
     /// Set the value at grid position (col, row).  No-op when out of range.
@@ -105,6 +111,7 @@ struct RasterSampleResult {
  * @param lon   Longitude of the query point (degrees, WGS84).
  * @param lat   Latitude  of the query point (degrees, WGS84).
  * @return      Interpolated value and validity flag.
+ * @note Exception safety: noexcept.
  */
 RasterSampleResult sampleAt(const RasterGrid& grid,
                              double lon, double lat) noexcept;

@@ -104,6 +104,7 @@ struct TrainingMetrics {
 
     TrainingMetrics() = default;
 
+     * @details Calls: clear(), max().
     /** @brief Reset all accumulated metrics. */
     void reset() {
         epoch_metrics.clear();
@@ -231,6 +232,7 @@ public:
      * @brief Construct incremental trainer
      * @param config Training configuration
      * @param db_connection Database connection string
+     * @return Return value.
      */
     explicit IncrementalLoRATrainer(const IncrementalTrainingConfig& config,
                                     const std::string& db_connection);
@@ -366,6 +368,7 @@ public:
      *
      * Returns per-epoch and per-step losses, best loss values, and timing.
      * The metrics are reset at the start of each train() call.
+     * @return Return value.
      */
     TrainingMetrics getMetrics() const;
 

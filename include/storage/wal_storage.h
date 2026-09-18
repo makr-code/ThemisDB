@@ -142,6 +142,8 @@ public:
      * @brief Append a PUT entry.
      *
      * @return The sequence number assigned to this entry.
+     * @param[in] key Input parameter.
+     * @param[in] value Input parameter.
      */
     Result<uint64_t> appendPut(std::string_view key, std::string_view value);
 
@@ -149,6 +151,7 @@ public:
      * @brief Append a DELETE entry.
      *
      * @return The sequence number assigned to this entry.
+     * @param[in] key Input parameter.
      */
     Result<uint64_t> appendDelete(std::string_view key);
 
@@ -183,38 +186,92 @@ public:
 
     // ── Accessors ─────────────────────────────────────────────────────────
 
+     * @brief TBD: Describe lastSequence.
+     * @return Return value.
     /** Return the sequence number of the last written entry. */
     uint64_t lastSequence() const;
 
+     * @brief TBD: Describe segmentCount.
+     * @return Return value.
     /** Return the number of WAL segment files currently on disk. */
     size_t segmentCount() const;
 
+     * @brief TBD: Describe flush.
+     * @return Return value.
     /** Flush buffered I/O to the OS (but not necessarily to disk). */
     Result<void> flush();
 
     // ── Key encoding helpers (public for testing) ─────────────────────────
 
+     * @brief TBD: Describe segmentName.
+     * @param[in] segment_id Input parameter.
+     * @return Return value.
     /** Build the file name for a WAL segment. */
     static std::string segmentName(uint64_t segment_id);
 
+     * @brief TBD: Describe parseSegmentId.
+     * @param[in] filename Input parameter.
+     * @return Return value.
     /** Parse the segment ID from a WAL segment file name (returns 0 on error). */
     static uint64_t parseSegmentId(const std::string& filename);
 
 private:
+    /**
+     * @brief TBD: Describe WALStorage.
+     * @param[in] cfg Input parameter.
+     * @return Return value.
+     */
     explicit WALStorage(const Config& cfg);
 
+    /**
+     * @brief TBD: Describe openOrCreate.
+     * @param[in,out] on_recover Input/output parameter.
+     * @return Return value.
+     */
     Result<void> openOrCreate(RecoveryCallback& on_recover);
+    /**
+     * @brief TBD: Describe replaySegment.
+     * @param[in] path Input parameter.
+     * @param[in,out] cb Input/output parameter.
+     * @return Return value.
+     */
     Result<void> replaySegment(const std::string& path, RecoveryCallback& cb);
+    /**
+     * @brief TBD: Describe rotateIfNeeded.
+     * @return Return value.
+     */
     Result<void> rotateIfNeeded();
+    /**
+     * @brief TBD: Describe openNewSegment.
+     * @param[in] segment_id Input parameter.
+     * @return Return value.
+     */
     Result<void> openNewSegment(uint64_t segment_id);
+    /**
+     * @brief TBD: Describe appendEntry.
+     * @param[in] type Input parameter.
+     * @param[in] key Input parameter.
+     * @param[in] value Input parameter.
+     * @return Return value.
+     */
     Result<uint64_t> appendEntry(EntryType type,
                                   std::string_view key,
                                   std::string_view value);
-    // Write one entry to fd_ without taking the mutex or calling syncIfRequired().
-    // Caller must hold mutex_ and handle rotation/fsync externally.
+    /**
+     * @brief Write one entry to fd_ without taking the mutex or calling syncIfRequired().
+     * @param[in] type Input parameter.
+     * @param[in] key Input parameter.
+     * @param[in] value Input parameter.
+     * @return Return value.
+     * @details Caller must hold mutex_ and handle rotation/fsync externally.
+     */
     Result<uint64_t> appendEntryLocked(EntryType type,
                                         std::string_view key,
                                         std::string_view value);
+    /**
+     * @brief TBD: Describe syncIfRequired.
+     * @return Return value.
+     */
     Result<void> syncIfRequired();
 
     Config                config_;

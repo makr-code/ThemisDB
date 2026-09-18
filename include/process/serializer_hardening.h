@@ -29,6 +29,11 @@ struct SerializerValidationResult {
     std::string error_message;
     DiagnosticIncidentType incident_type{DiagnosticIncidentType::MALFORMED_INPUT_INCIDENT};
 
+    /**
+     * @brief TBD: Describe success.
+     * @return Return value.
+     * @details Implements success without additional internal calls.
+     */
     static SerializerValidationResult success() {
         SerializerValidationResult r;
         r.ok = true;

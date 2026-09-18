@@ -183,6 +183,7 @@ public:
     /**
      * @brief Constructs the pool with custom configuration.
      * @param config  Pool configuration.
+     * @return Return value.
      */
     explicit BufferPool(const Config& config);
 
@@ -213,6 +214,7 @@ public:
      *
      * @param data  Pointer returned by a prior @ref acquire().
      * @param slab  Slab class the buffer was drawn from.
+     * @note Exception safety: noexcept.
      */
     void release(void* data, SlabClass slab) noexcept;
 
@@ -254,6 +256,11 @@ private:
     [[nodiscard]] static std::size_t slabIndex(std::size_t bytes) noexcept;
     [[nodiscard]] static SlabClass indexToClass(std::size_t idx) noexcept;
 
+    /**
+     * @brief TBD: Describe preallocateSlab.
+     * @param[in,out] s Input/output parameter.
+     * @param[in] count Input parameter.
+     */
     void preallocateSlab(Slab& s, std::size_t count);
 
     mutable std::array<Slab, 6>     slabs_;

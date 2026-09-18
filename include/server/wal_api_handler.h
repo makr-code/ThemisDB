@@ -98,6 +98,11 @@ public:
     uint64_t getApplyLatencySumUs() const { return wal_apply_latency_sum_us_.load(std::memory_order_relaxed); }
     uint64_t getApplyLatencyCount() const { return wal_apply_latency_count_.load(std::memory_order_relaxed); }
     std::string getLastAppliedLsn() const { 
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] wal_metrics_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(wal_metrics_mutex_);
         return wal_last_applied_lsn_; 
     }
@@ -125,14 +130,43 @@ private:
     mutable std::shared_mutex wal_metrics_mutex_;
     std::string wal_last_applied_lsn_;
 
-    // Helper methods
+    /**
+     * @brief Helper methods
+     * @param[in] status Input parameter.
+     * @param[in] message Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeErrorResponse(
         http::status status, const std::string& message, const http::request<http::string_body>& req);
+    /**
+     * @brief TBD: Describe makeResponse.
+     * @param[in] status Input parameter.
+     * @param[in] body Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeResponse(
         http::status status, const std::string& body, const http::request<http::string_body>& req);
     
+    /**
+     * @brief TBD: Describe recordLatency.
+     * @param[in] elapsed_us Input parameter.
+     */
     void recordLatency(int64_t elapsed_us);
+    /**
+     * @brief TBD: Describe hmacSha256Hex.
+     * @param[in] key Input parameter.
+     * @param[in] data Input parameter.
+     * @return Return value.
+     */
     std::string hmacSha256Hex(const std::string& key, const std::string& data);
+    /**
+     * @brief TBD: Describe timingSafeEqual.
+     * @param[in] a Input parameter.
+     * @param[in] b Input parameter.
+     * @return True on success.
+     */
     bool timingSafeEqual(const std::string& a, const std::string& b);
 };
 

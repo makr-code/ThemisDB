@@ -51,7 +51,10 @@ public:
     PrometheusExporter();
     ~PrometheusExporter();
     
-    // Metric registration
+    /**
+     * @brief Metric registration
+     * @param[in] def Input parameter.
+     */
     void registerMetric(const MetricDefinition& def);
     
     // Counter operations (always increase)
@@ -73,13 +76,21 @@ public:
                          double value,
                          const std::unordered_map<std::string, std::string>& labels = {});
     
-    // Export metrics in Prometheus format
+    /**
+     * @brief Export metrics in Prometheus format
+     * @return Return value.
+     */
     std::string exportMetrics() const;
     
-    // HTTP endpoint handler (for Prometheus scraping)
+    /**
+     * @brief HTTP endpoint handler (for Prometheus scraping)
+     * @return Return value.
+     */
     std::string handleMetricsRequest() const;
     
-    // Reset all metrics
+    /**
+     * @brief Reset all metrics
+     */
     void reset();
     
 private:
@@ -94,6 +105,12 @@ private:
     std::unordered_map<std::string, MetricValue> metrics_;
     mutable std::mutex mutex_;
     
+    /**
+     * @brief TBD: Describe serializeMetric.
+     * @param[in] name Input parameter.
+     * @param[in] value Input parameter.
+     * @return Return value.
+     */
     std::string serializeMetric(const std::string& name, const MetricValue& value) const;
     std::string makeMetricKey(const std::string& name,
                              const std::unordered_map<std::string, std::string>& labels) const;
@@ -131,112 +148,321 @@ public:
         double lock_contention_threshold_ms = 100.0;
     };
 
+    /**
+     * @brief TBD: Describe LLMMetricsCollector.
+     * @param[in,out] exporter Input/output parameter.
+     * @return Return value.
+     */
     explicit LLMMetricsCollector(PrometheusExporter* exporter);
     LLMMetricsCollector(PrometheusExporter* exporter, const Config& config);
     
-    // Inference metrics
+    /**
+     * @brief Inference metrics
+     * @param[in] model_id Input parameter.
+     */
     void recordInferenceRequest(const std::string& model_id);
+    /**
+     * @brief TBD: Describe recordInferenceSuccess.
+     * @param[in] model_id Input parameter.
+     * @param[in] duration_ms Input parameter.
+     */
     void recordInferenceSuccess(const std::string& model_id, double duration_ms);
+    /**
+     * @brief TBD: Describe recordInferenceFailure.
+     * @param[in] model_id Input parameter.
+     * @param[in] error Input parameter.
+     */
     void recordInferenceFailure(const std::string& model_id, const std::string& error);
     
-    // Latency metrics
+    /**
+     * @brief Latency metrics
+     * @param[in] model_id Input parameter.
+     * @param[in] latency_ms Input parameter.
+     */
     void recordFirstTokenLatency(const std::string& model_id, double latency_ms);
+    /**
+     * @brief TBD: Describe recordPerTokenLatency.
+     * @param[in] model_id Input parameter.
+     * @param[in] latency_ms Input parameter.
+     */
     void recordPerTokenLatency(const std::string& model_id, double latency_ms);
+    /**
+     * @brief TBD: Describe recordEndToEndLatency.
+     * @param[in] model_id Input parameter.
+     * @param[in] latency_ms Input parameter.
+     */
     void recordEndToEndLatency(const std::string& model_id, double latency_ms);
     
-    // Throughput metrics
+    /**
+     * @brief Throughput metrics
+     * @param[in] model_id Input parameter.
+     * @param[in] count Input parameter.
+     */
     void recordTokensGenerated(const std::string& model_id, size_t count);
+    /**
+     * @brief TBD: Describe recordBatchSize.
+     * @param[in] batch_size Input parameter.
+     */
     void recordBatchSize(size_t batch_size);
+    /**
+     * @brief TBD: Describe recordConcurrentRequests.
+     * @param[in] count Input parameter.
+     */
     void recordConcurrentRequests(size_t count);
     
-    // GPU metrics
+    /**
+     * @brief GPU metrics
+     * @param[in] vram_mb Input parameter.
+     * @param[in] total_vram_mb Input parameter.
+     */
     void recordGPUMemoryUsage(size_t vram_mb, size_t total_vram_mb);
+    /**
+     * @brief TBD: Describe recordGPUUtilization.
+     * @param[in] utilization_pct Input parameter.
+     */
     void recordGPUUtilization(double utilization_pct);
+    /**
+     * @brief TBD: Describe recordGPUTemperature.
+     * @param[in] temp_celsius Input parameter.
+     */
     void recordGPUTemperature(double temp_celsius);
     
-    // Model metrics
+    /**
+     * @brief Model metrics
+     * @param[in] model_id Input parameter.
+     * @param[in] vram_mb Input parameter.
+     */
     void recordModelLoaded(const std::string& model_id, size_t vram_mb);
+    /**
+     * @brief TBD: Describe recordModelUnloaded.
+     * @param[in] model_id Input parameter.
+     */
     void recordModelUnloaded(const std::string& model_id);
+    /**
+     * @brief TBD: Describe recordModelSwitchLatency.
+     * @param[in] latency_ms Input parameter.
+     */
     void recordModelSwitchLatency(double latency_ms);
     
-    // Cache metrics
+    /**
+     * @brief Cache metrics
+     * @param[in] cache_type Input parameter.
+     */
     void recordCacheHit(const std::string& cache_type);
+    /**
+     * @brief TBD: Describe recordCacheMiss.
+     * @param[in] cache_type Input parameter.
+     */
     void recordCacheMiss(const std::string& cache_type);
+    /**
+     * @brief TBD: Describe recordCacheSize.
+     * @param[in] cache_type Input parameter.
+     * @param[in] size_mb Input parameter.
+     */
     void recordCacheSize(const std::string& cache_type, size_t size_mb);
     
-    // Scheduler metrics
+    /**
+     * @brief Scheduler metrics
+     * @param[in] length Input parameter.
+     */
     void recordQueueLength(size_t length);
+    /**
+     * @brief TBD: Describe recordPreemptions.
+     * @param[in] count Input parameter.
+     */
     void recordPreemptions(size_t count);
+    /**
+     * @brief TBD: Describe recordSchedulingLatency.
+     * @param[in] latency_ms Input parameter.
+     */
     void recordSchedulingLatency(double latency_ms);
-    // Increments llm_backpressure_drops_total when the scheduler rejects a
-    // request because max_queue_depth has been reached.
+    /**
+     * @brief Increments llm_backpressure_drops_total when the scheduler rejects a request because max_queue_depth has been reached.
+     */
     void recordBackpressureDrop();
     
-    // Quantization metrics
+    /**
+     * @brief Quantization metrics
+     * @param[in] model_id Input parameter.
+     * @param[in] format Input parameter.
+     */
     void recordQuantizationFormat(const std::string& model_id, const std::string& format);
+    /**
+     * @brief TBD: Describe recordDequantizationLatency.
+     * @param[in] latency_ms Input parameter.
+     */
     void recordDequantizationLatency(double latency_ms);
     
-    // Error metrics
+    /**
+     * @brief Error metrics
+     * @param[in] error_type Input parameter.
+     * @param[in] component Input parameter.
+     */
     void recordError(const std::string& error_type, const std::string& component);
     
-    // Extended Context Window metrics (v1.4.0+)
+    /**
+     * @brief Extended Context Window metrics (v1.
+     * @param[in] model_id Input parameter.
+     * @param[in] context_length Input parameter.
+     * @details 4.0+)
+     */
     void recordContextLength(const std::string& model_id, size_t context_length);
+    /**
+     * @brief TBD: Describe recordContextCacheSize.
+     * @param[in] model_id Input parameter.
+     * @param[in] cache_size_mb Input parameter.
+     */
     void recordContextCacheSize(const std::string& model_id, size_t cache_size_mb);
+    /**
+     * @brief TBD: Describe recordExtendedContextEnabled.
+     * @param[in] model_id Input parameter.
+     * @param[in] enabled Input parameter.
+     */
     void recordExtendedContextEnabled(const std::string& model_id, bool enabled);
+    /**
+     * @brief TBD: Describe recordContextScalingFactor.
+     * @param[in] model_id Input parameter.
+     * @param[in] scaling_factor Input parameter.
+     */
     void recordContextScalingFactor(const std::string& model_id, double scaling_factor);
     
-    // RoPE/YARN Scaling metrics (v1.4.0+)
+    /**
+     * @brief RoPE/YARN Scaling metrics (v1.
+     * @param[in] model_id Input parameter.
+     * @param[in] method Input parameter.
+     * @details 4.0+)
+     */
     void recordRoPEScalingMethod(const std::string& model_id, const std::string& method);
+    /**
+     * @brief TBD: Describe recordRoPEScalingError.
+     * @param[in] model_id Input parameter.
+     * @param[in] error Input parameter.
+     */
     void recordRoPEScalingError(const std::string& model_id, const std::string& error);
+    /**
+     * @brief TBD: Describe recordYARNParameters.
+     * @param[in] model_id Input parameter.
+     * @param[in] ext_factor Input parameter.
+     * @param[in] attn_factor Input parameter.
+     * @param[in] beta_fast Input parameter.
+     * @param[in] beta_slow Input parameter.
+     */
     void recordYARNParameters(const std::string& model_id, 
                               double ext_factor, double attn_factor,
                               double beta_fast, double beta_slow);
     
-    // Memory Profiling metrics (v1.4.0+)
+    /**
+     * @brief Memory Profiling metrics (v1.
+     * @param[in] model_id Input parameter.
+     * @param[in] ram_mb Input parameter.
+     * @param[in] total_ram_mb Input parameter.
+     * @details 4.0+)
+     */
     void recordRAMUsage(const std::string& model_id, size_t ram_mb, size_t total_ram_mb);
+    /**
+     * @brief TBD: Describe recordVRAMUsage.
+     * @param[in] model_id Input parameter.
+     * @param[in] vram_mb Input parameter.
+     * @param[in] total_vram_mb Input parameter.
+     */
     void recordVRAMUsage(const std::string& model_id, size_t vram_mb, size_t total_vram_mb);
+    /**
+     * @brief TBD: Describe recordMemoryPressure.
+     * @param[in] model_id Input parameter.
+     * @param[in] pressure_pct Input parameter.
+     */
     void recordMemoryPressure(const std::string& model_id, double pressure_pct);
+    /**
+     * @brief TBD: Describe recordOOMEvent.
+     * @param[in] model_id Input parameter.
+     * @param[in] reason Input parameter.
+     */
     void recordOOMEvent(const std::string& model_id, const std::string& reason);
+    /**
+     * @brief TBD: Describe recordMemoryEstimate.
+     * @param[in] model_id Input parameter.
+     * @param[in] estimated_mb Input parameter.
+     * @param[in] actual_mb Input parameter.
+     */
     void recordMemoryEstimate(const std::string& model_id, 
                              size_t estimated_mb, size_t actual_mb);
     
-    // Thread Safety metrics (v1.4.0+)
+    /**
+     * @brief Thread Safety metrics (v1.
+     * @param[in] model_id Input parameter.
+     * @param[in] from_adapter Input parameter.
+     * @param[in] to_adapter Input parameter.
+     * @param[in] duration_ms Input parameter.
+     * @details 4.0+)
+     */
     void recordLoRAAdapterSwitch(const std::string& model_id, 
                                  const std::string& from_adapter,
                                  const std::string& to_adapter,
                                  double duration_ms);
+    /**
+     * @brief TBD: Describe recordContextLockWait.
+     * @param[in] model_id Input parameter.
+     * @param[in] wait_time_ms Input parameter.
+     */
     void recordContextLockWait(const std::string& model_id, double wait_time_ms);
+    /**
+     * @brief TBD: Describe recordConcurrentLoRAOperation.
+     * @param[in] model_id Input parameter.
+     * @param[in] sequential_mode Input parameter.
+     */
     void recordConcurrentLoRAOperation(const std::string& model_id, bool sequential_mode);
 
-    // Shared Worker Pool metrics (Phase 2 — Q2 2026)
-    // llm_worker_pool_queue_depth  : gauge   — current pending-task depth
-    // llm_worker_pool_tasks_completed_total : counter — tasks finished since start
+    /**
+     * @brief Shared Worker Pool metrics (Phase 2 — Q2 2026) llm_worker_pool_queue_depth : gauge — current pending-task depth llm_worker_pool_tasks_completed_total : counter — tasks finished since start
+     * @param[in] depth Input parameter.
+     */
     void recordWorkerPoolQueueDepth(size_t depth);
+    /**
+     * @brief TBD: Describe recordWorkerPoolTasksCompleted.
+     * @param[in] total_completed Input parameter.
+     */
     void recordWorkerPoolTasksCompleted(uint64_t total_completed);
 
-    // ── Unified dashboard metrics (Phase 2 — Q3 2026) ────────────────────────
-    // Engine-typed variants for the unified metrics dashboard.
-    // engine_type: "async"     → AsyncInferenceEngine
-    //              "enhanced"  → InferenceEngineEnhanced
-    //
-    // Prometheus metric names used:
-    //   llm_engine_inference_requests_total{model_id, engine_type}
-    //   llm_engine_inference_success_total{model_id, engine_type}
-    //   llm_engine_inference_failures_total{model_id, engine_type, error}
-    //   llm_engine_inference_duration_ms{model_id, engine_type}
-    //   llm_engine_tokens_generated_total{model_id, engine_type}
-    //   llm_engine_queue_depth{engine_type}
+    /**
+     * @brief ── Unified dashboard metrics (Phase 2 — Q3 2026) ──────────────────────── Engine-typed variants for the unified metrics dashboard.
+     * @param[in] model_id Input parameter.
+     * @param[in] engine_type Input parameter.
+     * @details engine_type: "async" → AsyncInferenceEngine "enhanced" → InferenceEngineEnhanced Prometheus metric names used: llm_engine_inference_requests_total{model_id, engine_type} llm_engine_inference_success_total{model_id, engine_type} llm_engine_inference_failures_total{model_id, engine_type, error} llm_engine_inference_duration_ms{model_id, engine_type} llm_engine_tokens_generated_total{model_id, engine_type} llm_engine_queue_depth{engine_type}
+     */
     void recordEngineInferenceRequest(const std::string& model_id,
                                       const std::string& engine_type);
+    /**
+     * @brief TBD: Describe recordEngineInferenceSuccess.
+     * @param[in] model_id Input parameter.
+     * @param[in] engine_type Input parameter.
+     * @param[in] duration_ms Input parameter.
+     */
     void recordEngineInferenceSuccess(const std::string& model_id,
                                       const std::string& engine_type,
                                       double duration_ms);
+    /**
+     * @brief TBD: Describe recordEngineInferenceFailure.
+     * @param[in] model_id Input parameter.
+     * @param[in] engine_type Input parameter.
+     * @param[in] error Input parameter.
+     */
     void recordEngineInferenceFailure(const std::string& model_id,
                                       const std::string& engine_type,
                                       const std::string& error);
+    /**
+     * @brief TBD: Describe recordEngineTokensGenerated.
+     * @param[in] model_id Input parameter.
+     * @param[in] engine_type Input parameter.
+     * @param[in] count Input parameter.
+     */
     void recordEngineTokensGenerated(const std::string& model_id,
                                      const std::string& engine_type,
                                      size_t count);
+    /**
+     * @brief TBD: Describe recordEngineQueueDepth.
+     * @param[in] engine_type Input parameter.
+     * @param[in] depth Input parameter.
+     */
     void recordEngineQueueDepth(const std::string& engine_type, size_t depth);
 
 private:
@@ -247,7 +473,13 @@ private:
     // Used to compute the delta for the Prometheus counter increment.
     std::atomic<uint64_t> last_pool_tasks_completed_{0};
 
+    /**
+     * @brief TBD: Describe initializeMetrics.
+     */
     void initializeMetrics();
+    /**
+     * @brief TBD: Describe initializeExtendedContextMetrics.
+     */
     void initializeExtendedContextMetrics();  // v1.4.0+ metrics
 };
 
@@ -265,9 +497,17 @@ public:
         bool enable_alerts = true;
     };
     
+    /**
+     * @brief TBD: Describe GrafanaDashboardGenerator.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit GrafanaDashboardGenerator(const DashboardConfig& config);
     
-    // Generate complete dashboard JSON
+    /**
+     * @brief Generate complete dashboard JSON
+     * @return Return value.
+     */
     std::string generateDashboard() const;
 
     /**
@@ -277,24 +517,67 @@ public:
      * (label engine_type="async" for AsyncInferenceEngine and
      * engine_type="enhanced" for InferenceEngineEnhanced) side-by-side,
      * together with shared worker-pool and cache panels.
+     * @return Return value.
      */
     std::string generateUnifiedDashboard() const;
     
-    // Generate individual panels
+    /**
+     * @brief Generate individual panels
+     * @return Return value.
+     */
     std::string generateInferencePanel() const;
+    /**
+     * @brief TBD: Describe generateLatencyPanel.
+     * @return Return value.
+     */
     std::string generateLatencyPanel() const;
+    /**
+     * @brief TBD: Describe generateThroughputPanel.
+     * @return Return value.
+     */
     std::string generateThroughputPanel() const;
+    /**
+     * @brief TBD: Describe generateGPUPanel.
+     * @return Return value.
+     */
     std::string generateGPUPanel() const;
+    /**
+     * @brief TBD: Describe generateCachePanel.
+     * @return Return value.
+     */
     std::string generateCachePanel() const;
+    /**
+     * @brief TBD: Describe generateSchedulerPanel.
+     * @return Return value.
+     */
     std::string generateSchedulerPanel() const;
+    /**
+     * @brief TBD: Describe generateErrorPanel.
+     * @return Return value.
+     */
     std::string generateErrorPanel() const;
     
-    // Save dashboard to file
+    /**
+     * @brief Save dashboard to file
+     * @param[in] filepath Input parameter.
+     * @return True on success.
+     */
     bool saveDashboard(const std::string& filepath) const;
     
 private:
     DashboardConfig config_;
     
+    /**
+     * @brief TBD: Describe createPanel.
+     * @param[in] title Input parameter.
+     * @param[in] query Input parameter.
+     * @param[in] type Input parameter.
+     * @param[in] grid_pos_x Input parameter.
+     * @param[in] grid_pos_y Input parameter.
+     * @param[in] grid_width Input parameter.
+     * @param[in] grid_height Input parameter.
+     * @return Return value.
+     */
     std::string createPanel(const std::string& title,
                            const std::string& query,
                            const std::string& type,
@@ -323,23 +606,70 @@ public:
         std::string admin_sessions_path = "/admin/sessions";
     };
     
+    /**
+     * @brief TBD: Describe MetricsServer.
+     * @param[in] config Input parameter.
+     * @param[in,out] exporter Input/output parameter.
+     * @return Return value.
+     */
     explicit MetricsServer(const ServerConfig& config,
                           PrometheusExporter* exporter);
     ~MetricsServer();
     
-    // Server lifecycle
+    /**
+     * @brief Server lifecycle
+     * @return True on success.
+     */
     bool start();
+    /**
+     * @brief TBD: Describe stop.
+     */
     void stop();
+    /**
+     * @brief TBD: Describe isRunning.
+     * @return True on success.
+     */
     bool isRunning() const;
     
-    // Get server URLs
+    /**
+     * @brief Get server URLs
+     * @return Return value.
+     */
     std::string getMetricsURL() const;
+    /**
+     * @brief TBD: Describe getDashboardURL.
+     * @return Return value.
+     */
     std::string getDashboardURL() const;
+    /**
+     * @brief TBD: Describe getHealthURL.
+     * @return Return value.
+     */
     std::string getHealthURL() const;
+    /**
+     * @brief TBD: Describe getReadyURL.
+     * @return Return value.
+     */
     std::string getReadyURL() const;
+    /**
+     * @brief TBD: Describe getModelsURL.
+     * @return Return value.
+     */
     std::string getModelsURL() const;
+    /**
+     * @brief TBD: Describe getAdminReloadURL.
+     * @return Return value.
+     */
     std::string getAdminReloadURL() const;
+    /**
+     * @brief TBD: Describe getAdminSimulateURL.
+     * @return Return value.
+     */
     std::string getAdminSimulateURL() const;
+    /**
+     * @brief TBD: Describe getAdminSessionsURL.
+     * @return Return value.
+     */
     std::string getAdminSessionsURL() const;
 
     /**
@@ -448,7 +778,11 @@ private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
     
-    // HTTP GET request handling (called from httplib route handlers inside Impl)
+    /**
+     * @brief HTTP GET request handling (called from httplib route handlers inside Impl)
+     * @param[in] path Input parameter.
+     * @param[in,out] response Input/output parameter.
+     */
     void handleRequest(const std::string& path, std::string& response);
 };
 

@@ -51,6 +51,12 @@ struct KeyMetadata {
  */
 class KeyNotFoundException : public std::runtime_error {
 public:
+    /**
+     * @brief TBD: Describe KeyNotFoundException.
+     * @param[in] key_id Input parameter.
+     * @param[in] version Input parameter.
+     * @return Return value.
+     */
     explicit KeyNotFoundException(const std::string& key_id, uint32_t version)
         : std::runtime_error("Key not found: " + key_id + " v" + std::to_string(version))
         , key_id_(key_id)
@@ -70,6 +76,11 @@ private:
  */
 class KeyOperationException : public std::runtime_error {
 public:
+    /**
+     * @brief TBD: Describe KeyOperationException.
+     * @param[in] message Input parameter.
+     * @return Return value.
+     */
     explicit KeyOperationException(const std::string& message)
         : std::runtime_error(message)
         , http_code_(-1)
@@ -219,6 +230,7 @@ public:
      * @param key_id  Logical key identifier
      * @return        Current active version number (≥ 1), or 0 if no version is found
      * @throws        KeyNotFoundException if the key does not exist at all
+     * @details Calls: getKey().
      */
     virtual uint32_t getCurrentVersion(const std::string& key_id) {
         // Default probe: walk up from version 1 until getKey(v+1) throws.
@@ -368,9 +380,25 @@ private:
     uint64_t total_requests_;
     uint64_t cache_hits_;
     
+    /**
+     * @brief TBD: Describe makeCacheKey.
+     * @param[in] key_id Input parameter.
+     * @param[in] version Input parameter.
+     * @return Return value.
+     */
     std::string makeCacheKey(const std::string& key_id, uint32_t version) const;
+    /**
+     * @brief TBD: Describe evictExpired.
+     */
     void evictExpired();
+    /**
+     * @brief TBD: Describe evictLRU.
+     */
     void evictLRU();
+    /**
+     * @brief TBD: Describe getCurrentTimeMs.
+     * @return Return value.
+     */
     int64_t getCurrentTimeMs() const;
 };
 

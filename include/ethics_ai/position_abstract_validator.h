@@ -26,6 +26,13 @@ namespace ethics {
 struct PositionAbstractSchemaError : public std::runtime_error {
     std::string school_id = {};
     int round_number{0};
+    /**
+     * @brief TBD: Describe PositionAbstractSchemaError.
+     * @param[in] school Input parameter.
+     * @param[in] round Input parameter.
+     * @param[in] reason Input parameter.
+     * @return Return value.
+     */
     explicit PositionAbstractSchemaError(
         const std::string& school, int round, const std::string& reason)
         : std::runtime_error(
@@ -96,6 +103,7 @@ public:
      *
      * Returns a ≤ 150-token instruction that tells the LLM to produce
      * a position_abstract matching the configured schema.
+     * @return Return value.
      */
     std::string buildSchemaInstruction() const;
 
@@ -104,9 +112,31 @@ public:
 private:
     PositionAbstractConfig config_;
 
+    /**
+     * @brief TBD: Describe isValidVerdict.
+     * @param[in] v Input parameter.
+     * @return True on success.
+     * @note Exception safety: noexcept.
+     */
     static bool        isValidVerdict(const std::string& v) noexcept;
+    /**
+     * @brief TBD: Describe countTokens.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     static int         countTokens(const std::string& text) noexcept;
+    /**
+     * @brief TBD: Describe extractVerdictFromContent.
+     * @param[in] content Input parameter.
+     * @return Return value.
+     */
     static std::string extractVerdictFromContent(const std::string& content);
+    /**
+     * @brief TBD: Describe buildDefaultAbstract.
+     * @param[in] output Input parameter.
+     * @return Return value.
+     */
     static std::string buildDefaultAbstract(const DiscourseRoundOutput& output);
 };
 

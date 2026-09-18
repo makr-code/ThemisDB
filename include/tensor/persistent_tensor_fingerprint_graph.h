@@ -65,22 +65,83 @@ private:
                                         const std::vector<uint8_t>& payload);
     [[nodiscard]] bool recoverJournal();
 
+    /**
+     * @brief TBD: Describe serializeEntry.
+     * @param[in] entry Input parameter.
+     * @return Return value.
+     */
     static std::vector<uint8_t> serializeEntry(const PersistedEntry& entry);
+    /**
+     * @brief TBD: Describe deserializeEntry.
+     * @param[in] bytes Input parameter.
+     * @return Return value.
+     */
     static std::optional<PersistedEntry> deserializeEntry(const std::vector<uint8_t>& bytes);
 
+    /**
+     * @brief TBD: Describe serializeJournalRecord.
+     * @param[in] op Input parameter.
+     * @param[in] target_key Input parameter.
+     * @param[in] payload Input parameter.
+     * @return Return value.
+     */
     static std::vector<uint8_t> serializeJournalRecord(JournalOp op,
                                                        const std::string& target_key,
                                                        const std::vector<uint8_t>& payload);
+    /**
+     * @brief TBD: Describe deserializeJournalRecord.
+     * @param[in] bytes Input parameter.
+     * @param[in,out] op Input/output parameter.
+     * @param[in,out] target_key Input/output parameter.
+     * @param[in,out] payload Input/output parameter.
+     * @return True on success.
+     */
     static bool deserializeJournalRecord(const std::vector<uint8_t>& bytes,
                                          JournalOp& op,
                                          std::string& target_key,
                                          std::vector<uint8_t>& payload);
 
+    /**
+     * @brief TBD: Describe appendU32.
+     * @param[in,out] out Input/output parameter.
+     * @param[in] v Input parameter.
+     */
     static void appendU32(std::vector<uint8_t>& out, uint32_t v);
+    /**
+     * @brief TBD: Describe readU32.
+     * @param[in] in Input parameter.
+     * @param[in,out] off Input/output parameter.
+     * @param[in,out] v Input/output parameter.
+     * @return True on success.
+     */
     static bool readU32(const std::vector<uint8_t>& in, std::size_t& off, uint32_t& v);
+    /**
+     * @brief TBD: Describe appendString.
+     * @param[in,out] out Input/output parameter.
+     * @param[in] v Input parameter.
+     */
     static void appendString(std::vector<uint8_t>& out, const std::string& v);
+    /**
+     * @brief TBD: Describe readString.
+     * @param[in] in Input parameter.
+     * @param[in,out] off Input/output parameter.
+     * @param[in,out] v Input/output parameter.
+     * @return True on success.
+     */
     static bool readString(const std::vector<uint8_t>& in, std::size_t& off, std::string& v);
+    /**
+     * @brief TBD: Describe appendBytes.
+     * @param[in,out] out Input/output parameter.
+     * @param[in] v Input parameter.
+     */
     static void appendBytes(std::vector<uint8_t>& out, const std::vector<uint8_t>& v);
+    /**
+     * @brief TBD: Describe readBytes.
+     * @param[in] in Input parameter.
+     * @param[in,out] off Input/output parameter.
+     * @param[in,out] v Input/output parameter.
+     * @return True on success.
+     */
     static bool readBytes(const std::vector<uint8_t>& in, std::size_t& off, std::vector<uint8_t>& v);
 
     std::shared_ptr<TensorFingerprintGraph> graph_;

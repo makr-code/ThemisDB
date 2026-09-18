@@ -68,7 +68,18 @@ public:
     struct Status {
         bool ok = true;
         std::string message;
+        /**
+         * @brief TBD: Describe OK.
+         * @return Return value.
+         * @details Implements OK without additional internal calls.
+         */
         static Status OK() { return {}; }
+        /**
+         * @brief TBD: Describe Error.
+         * @param[in] msg Input parameter.
+         * @return Return value.
+         * @details Calls: std::move().
+         */
         static Status Error(std::string msg) { return Status{false, std::move(msg)}; }
     };
 
@@ -88,10 +99,13 @@ public:
         std::string graph_id;
     };
 
-    /// Constructor
-    /// @param db RocksDB wrapper
-    /// @param pgm Property graph manager (for graph structure)
-    /// @param vim Vector index manager (for embedding storage)
+    /**
+     * @brief Constructor @param db RocksDB wrapper @param pgm Property graph manager (for graph structure) @param vim Vector index manager (for embedding storage)
+     * @param[in,out] db Input/output parameter.
+     * @param[in,out] pgm Input/output parameter.
+     * @param[in,out] vim Input/output parameter.
+     * @return Return value.
+     */
     explicit GNNEmbeddingManager(
         RocksDBWrapper& db,
         PropertyGraphManager& pgm,
@@ -257,10 +271,12 @@ public:
     };
     std::pair<Status, ModelInfo> getModelInfo(std::string_view model_name) const;
 
-    /// Set aggregation strategy for a model
-    /// @param model_name Model identifier
-    /// @param strategy Aggregation strategy
-    /// @return Status
+    /**
+     * @brief Set aggregation strategy for a model @param model_name Model identifier @param strategy Aggregation strategy @return Status
+     * @param[in] model_name Input parameter.
+     * @param[in] strategy Input parameter.
+     * @return Return value.
+     */
     Status setAggregationStrategy(
         std::string_view model_name,
         AggregationStrategy strategy
@@ -313,13 +329,25 @@ private:
     // Model registry
     std::unordered_map<std::string, ModelInfo> models_;
 
-    // Helper: Extract feature vector from entity fields
+    /**
+     * @brief Helper: Extract feature vector from entity fields
+     * @param[in] entity Input parameter.
+     * @param[in] feature_fields Input parameter.
+     * @return Return value.
+     */
     std::vector<float> extractFeatures_(
         const BaseEntity& entity,
         const std::vector<std::string>& feature_fields
     ) const;
 
-    // Helper: Build embedding key
+    /**
+     * @brief Helper: Build embedding key
+     * @param[in] entity_type Input parameter.
+     * @param[in] graph_id Input parameter.
+     * @param[in] entity_id Input parameter.
+     * @param[in] model_name Input parameter.
+     * @return Return value.
+     */
     std::string makeEmbeddingKey_(
         std::string_view entity_type,  // "node" or "edge"
         std::string_view graph_id,
@@ -334,6 +362,11 @@ private:
         std::string entity_id;
         std::string model_name;
     };
+    /**
+     * @brief TBD: Describe parseEmbeddingKey_.
+     * @param[in] key Input parameter.
+     * @return Return value.
+     */
     std::optional<EmbeddingKeyParts> parseEmbeddingKey_(std::string_view key) const;
 
     // Helper: Compute embedding using registered model

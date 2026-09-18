@@ -137,15 +137,46 @@ private:
     std::shared_ptr<ProcessGraphManager> process_graph_;
     std::shared_ptr<themis::AuthMiddleware> auth_;
 
-    // Helper methods
+    /**
+     * @brief Helper methods
+     * @param[in] target Input parameter.
+     * @param[in] prefix Input parameter.
+     * @return Return value.
+     */
     std::string extractPathParam(const std::string& target, const std::string& prefix);
+    /**
+     * @brief TBD: Describe makeErrorResponse.
+     * @param[in] status Input parameter.
+     * @param[in] message Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeErrorResponse(
         http::status status, const std::string& message, const http::request<http::string_body>& req);
+    /**
+     * @brief TBD: Describe makeResponse.
+     * @param[in] status Input parameter.
+     * @param[in] body Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeResponse(
         http::status status, const std::string& body, const http::request<http::string_body>& req);
     
-    // Authorization helpers
+    /**
+     * @brief Authorization helpers
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     AuthContext extractAuthContext(const http::request<http::string_body>& req) const;
+    /**
+     * @brief TBD: Describe requireAccess.
+     * @param[in] req Input parameter.
+     * @param[in] scope Input parameter.
+     * @param[in] action Input parameter.
+     * @param[in] resource Input parameter.
+     * @return Return value.
+     */
     std::optional<http::response<http::string_body>> requireAccess(
         const http::request<http::string_body>& req,
         const std::string& scope,

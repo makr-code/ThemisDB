@@ -214,6 +214,11 @@ public:
      * @brief Returns true when an audit logger is attached.
      */
     bool isAuditEnabled() const noexcept {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] rw_mu_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lk(rw_mu_);
         return audit_logger_ != nullptr;
     }
@@ -224,6 +229,11 @@ public:
      * Thread-safe: may be called concurrently with encrypt/decrypt.
      */
     void setAuditLogger(utils::AuditLogger* logger) noexcept {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] rw_mu_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lk(rw_mu_);
         audit_logger_ = logger;
     }
@@ -232,8 +242,15 @@ public:
      * @brief Replace the accessor identity string used in audit records.
      *
      * Thread-safe: may be called concurrently with encrypt/decrypt.
+     * @param[in] identity Input parameter.
+     * @details Calls: lk(), std::move().
      */
     void setAccessorIdentity(std::string identity) {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] rw_mu_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lk(rw_mu_);
         accessor_identity_ = std::move(identity);
     }
@@ -254,6 +271,13 @@ private:
     static std::vector<uint8_t> deriveDEK(const std::vector<uint8_t>& master_key,
                                           const std::string&          series_id);
 
+    /**
+     * @brief TBD: Describe auditKeyAccess.
+     * @param[in] operation Input parameter.
+     * @param[in] series_id Input parameter.
+     * @param[in] key_id Input parameter.
+     * @param[in] chunk_range Input parameter.
+     */
     void auditKeyAccess(const std::string& operation,
                         const std::string& series_id,
                         const std::string& key_id,

@@ -85,6 +85,7 @@ struct TraceContext {
      *
      * @param operation  Operation name for this span.
      * @return New root @c TraceContext.
+     * @details Calls: nextId(), std::string().
      */
     static TraceContext generate(std::string_view operation) {
         TraceContext ctx;
@@ -200,6 +201,7 @@ public:
      * @brief Construct and emit a span-start event.
      * @param ctx      Trace context for this span.
      * @param emitter  Emitter to receive span events (must outlive ScopedSpan).
+     * @return Return value.
      */
     explicit ScopedSpan(const TraceContext& ctx, SpanEmitter& emitter)
         : ctx_(ctx), emitter_(emitter), error_code_(0) {

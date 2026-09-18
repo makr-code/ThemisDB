@@ -138,19 +138,36 @@ public:
     );
 
 private:
-    // Internal: convert a single YAML node-map to ProcessModelRecord
+    /**
+     * @brief Internal: convert a single YAML node-map to ProcessModelRecord
+     * @param[in] yaml_as_json Input parameter.
+     * @param[in] meta_defaults Input parameter.
+     * @return Return value.
+     */
     static ImportResult parseModelNode_(
         const nlohmann::json& yaml_as_json,
         const ProcessModelRecord& meta_defaults
     );
 
-    // Internal: map VCC-VPB activity type string to BPMNNodeType
+    /**
+     * @brief Internal: map VCC-VPB activity type string to BPMNNodeType
+     * @param[in] type_str Input parameter.
+     * @return Return value.
+     */
     static BPMNNodeType activityTypeToNodeType_(std::string_view type_str);
 
-    // Internal: map VCC-VPB edge type string to ProcessEdgeType
+    /**
+     * @brief Internal: map VCC-VPB edge type string to ProcessEdgeType
+     * @param[in] type_str Input parameter.
+     * @return Return value.
+     */
     static ProcessEdgeType edgeTypeToProcessEdgeType_(std::string_view type_str);
 
-    // Internal: map VCC-VPB domain string to ProcessDomain
+    /**
+     * @brief Internal: map VCC-VPB domain string to ProcessDomain
+     * @param[in] domain Input parameter.
+     * @return Return value.
+     */
     static ProcessDomain domainStringToEnum_(std::string_view domain);
 };
 

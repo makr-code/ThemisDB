@@ -66,6 +66,10 @@ struct EthicsIndexQuery {
  */
 class IEthicsProfileRegistry {
 public:
+    /**
+     * @brief TBD: Describe ~IEthicsProfileRegistry.
+     * @return Return value.
+     */
     virtual ~IEthicsProfileRegistry() = default;
 
     /**
@@ -103,11 +107,14 @@ public:
 
     /**
      * @brief Number of profiles currently in the index.
+     * @return Return value.
      */
     virtual size_t indexSize() const = 0;
 
     /**
      * @brief Check whether @p school_id is known (without loading the profile).
+     * @param[in] school_id Input parameter.
+     * @return True on success.
      */
     virtual bool hasProfile(const std::string& school_id) const = 0;
 };

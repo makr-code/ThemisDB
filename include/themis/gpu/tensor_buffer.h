@@ -119,6 +119,7 @@ public:
      * @brief Fill the entire buffer with a constant scalar.
      *
      * The double @p value is cast to the buffer's DType.
+     * @param[in] value Input parameter.
      */
     void fill(double value);
 
@@ -126,6 +127,8 @@ public:
      * @brief Copy @p bytes bytes from @p src into the buffer.
      *
      * @pre bytes <= totalBytes()
+     * @param[in] src Input parameter.
+     * @param[in] bytes Input parameter.
      */
     void copyFromHost(const void* src, size_t bytes);
 
@@ -133,6 +136,8 @@ public:
      * @brief Copy @p bytes bytes from the buffer into @p dst.
      *
      * @pre bytes <= totalBytes()
+     * @param[in,out] dst Input/output parameter.
+     * @param[in] bytes Input parameter.
      */
     void copyToHost(void* dst, size_t bytes) const;
 
@@ -158,6 +163,11 @@ public:
     const std::string& name()       const noexcept { return name_;  }
     const Shape&       shape()      const noexcept { return shape_; }
     DType              dtype()      const noexcept { return dtype_; }
+    /**
+     * @brief TBD: Describe totalBytes.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     size_t             totalBytes() const noexcept;
     bool               isValid()    const noexcept { return !data_.empty(); }
 
@@ -171,6 +181,7 @@ public:
 
     /**
      * @brief Serialise the buffer (header + raw bytes) for checkpointing.
+     * @return Return value.
      */
     std::vector<uint8_t> serialize() const;
 
@@ -178,13 +189,19 @@ public:
      * @brief Reconstruct a GPUTensorBuffer from serialised bytes.
      *
      * @throws std::runtime_error on corrupt data.
+     * @param[in] bytes Input parameter.
+     * @return Return value.
      */
     static GPUTensorBuffer deserialize(const std::vector<uint8_t>& bytes);
 
-    // -----------------------------------------------------------------------
-    // Global stats
-    // -----------------------------------------------------------------------
+    /**
+     * @brief ----------------------------------------------------------------------- Global stats -----------------------------------------------------------------------
+     * @return Return value.
+     */
     static Stats getGlobalStats();
+    /**
+     * @brief TBD: Describe resetGlobalStats.
+     */
     static void  resetGlobalStats();
 
 private:

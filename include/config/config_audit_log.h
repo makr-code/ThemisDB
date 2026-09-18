@@ -52,17 +52,21 @@ public:
     /**
      * Enable audit logging.
      * Subsequent calls to record() will store entries.
+     * @brief TBD: Describe enable.
      */
     void enable();
 
     /**
      * Disable audit logging.
      * Subsequent calls to record() are no-ops.
+     * @brief TBD: Describe disable.
      */
     void disable();
 
     /**
      * Return true if audit logging is currently enabled.
+     * @brief TBD: Describe isEnabled.
+     * @return True on success.
      */
     bool isEnabled() const;
 
@@ -71,11 +75,14 @@ public:
      * Entries beyond this limit are evicted oldest-first.
      *
      * @param max  Maximum number of entries (clamped to >= 1).
+     * @brief TBD: Describe setMaxEntries.
      */
     void setMaxEntries(std::size_t max);
 
     /**
      * Return the current maximum entry limit.
+     * @brief TBD: Describe maxEntries.
+     * @return Return value.
      */
     std::size_t maxEntries() const;
 
@@ -84,21 +91,27 @@ public:
      * No-op when audit logging is disabled.
      *
      * @param entry  The audit entry to store.
+     * @brief TBD: Describe record.
      */
     void record(AuditEntry entry);
 
     /**
      * Return a snapshot of all current audit entries (oldest first).
+     * @brief TBD: Describe getEntries.
+     * @return Return value.
      */
     std::vector<AuditEntry> getEntries() const;
 
     /**
      * Return the number of entries currently stored.
+     * @brief TBD: Describe size.
+     * @return Return value.
      */
     std::size_t size() const;
 
     /**
      * Clear all audit entries.
+     * @brief TBD: Describe clear.
      */
     void clear();
 

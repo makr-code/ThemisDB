@@ -36,6 +36,10 @@ namespace observability {
  */
 class INotificationChannel {
 public:
+    /**
+     * @brief TBD: Describe ~INotificationChannel.
+     * @return Return value.
+     */
     virtual ~INotificationChannel() = default;
 
     /**
@@ -119,6 +123,11 @@ struct WebhookChannelConfig {
  */
 class WebhookNotificationChannel : public INotificationChannel {
 public:
+    /**
+     * @brief TBD: Describe WebhookNotificationChannel.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit WebhookNotificationChannel(WebhookChannelConfig config);
     ~WebhookNotificationChannel() override = default;
 
@@ -171,6 +180,11 @@ struct SlackChannelConfig {
  */
 class SlackNotificationChannel : public INotificationChannel {
 public:
+    /**
+     * @brief TBD: Describe SlackNotificationChannel.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit SlackNotificationChannel(SlackChannelConfig config);
     ~SlackNotificationChannel() override = default;
 
@@ -187,7 +201,11 @@ public:
 private:
     SlackChannelConfig config_;
 
-    // Build the Slack message attachment color string from severity.
+    /**
+     * @brief Build the Slack message attachment color string from severity.
+     * @param[in] severity Input parameter.
+     * @return Return value.
+     */
     static std::string severityColor(AlertSeverity severity);
 };
 
@@ -246,21 +264,28 @@ public:
 
     /**
      * Register a notification channel.  Channels are called in registration order.
+     * @brief TBD: Describe addChannel.
+     * @param[in] channel Input parameter.
      */
     void addChannel(std::shared_ptr<INotificationChannel> channel);
 
     /**
      * Remove all registered notification channels.
+     * @brief TBD: Describe clearChannels.
      */
     void clearChannels();
 
     /**
      * Return a snapshot of the currently-registered channels.
+     * @brief TBD: Describe channels.
+     * @return Return value.
      */
     std::vector<std::shared_ptr<INotificationChannel>> channels() const;
 
     /**
      * Return the number of registered channels.
+     * @brief TBD: Describe channelCount.
+     * @return Return value.
      */
     size_t channelCount() const;
 
@@ -270,6 +295,9 @@ public:
 
     /**
      * Access the underlying rule manager for CRUD operations.
+     * @brief TBD: Describe ruleManager.
+     * @return Return value.
+     * @details Implements ruleManager without additional internal calls.
      */
     AlertRuleManager& ruleManager() { return rule_manager_; }
     const AlertRuleManager& ruleManager() const { return rule_manager_; }
@@ -287,6 +315,7 @@ public:
      *  - Storage write amplification (> 20×)
      *
      * Existing rules with the same IDs are skipped (idempotent).
+     * @brief TBD: Describe loadDefaultRules.
      */
     void loadDefaultRules();
 

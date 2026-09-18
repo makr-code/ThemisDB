@@ -77,6 +77,7 @@ public:
      * @brief Construct a fairness detector with configuration.
      *
      * @param config Configuration for bias detection thresholds and models.
+     * @return Return value.
      */
     explicit FairnessDetector(const FairnessDetectorConfig& config);
 
@@ -165,16 +166,48 @@ private:
     class Impl;
     std::unique_ptr<Impl> impl_;
 
-    // Private helpers
+    /**
+     * @brief Private helpers
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     double computeGenderBias(const std::string& text);
+    /**
+     * @brief TBD: Describe computeOccupationalBias.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     double computeOccupationalBias(const std::string& text);
+    /**
+     * @brief TBD: Describe computeEthnicityBias.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     double computeEthnicityBias(const std::string& text);
+    /**
+     * @brief TBD: Describe computeIntersectionalBias.
+     * @param[in] text Input parameter.
+     * @param[in] gender_bias Input parameter.
+     * @param[in] occupational_bias Input parameter.
+     * @param[in] ethnicity_bias Input parameter.
+     * @return Return value.
+     */
     double computeIntersectionalBias(
         const std::string& text,
         double gender_bias,
         double occupational_bias,
         double ethnicity_bias);
+    /**
+     * @brief TBD: Describe computeStereotypeDensity.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     double computeStereotypeDensity(const std::string& text);
+    /**
+     * @brief TBD: Describe extractBiasedTerms.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     std::vector<std::string> extractBiasedTerms(const std::string& text);
 };
 

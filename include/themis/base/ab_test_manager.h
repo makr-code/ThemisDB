@@ -179,6 +179,8 @@ public:
      * When a HotReloadManager is provided, promoteTest() will call
      * HotReloadManager::reloadModule() to atomically swap the control binary
      * with the treatment binary without a database restart.
+     * @param[in,out] reload_manager Input/output parameter.
+     * @return Return value.
      */
     explicit ABTestManager(HotReloadManager& reload_manager);
 
@@ -306,6 +308,7 @@ public:
      * @brief Check whether the treatment binary was successfully loaded.
      *
      * @return true if the treatment is loaded, false otherwise.
+     * @param[in] test_id Input parameter.
      */
     bool isTreatmentLoaded(const std::string& test_id) const;
 
@@ -342,13 +345,29 @@ public:
      */
     ABModuleTestResult evaluateTest(const std::string& test_id) const;
 
-    // -------------------------------------------------------------------------
-    // Queries
-    // -------------------------------------------------------------------------
+    /**
+     * @brief ------------------------------------------------------------------------- Queries -------------------------------------------------------------------------
+     * @param[in] test_id Input parameter.
+     * @return Return value.
+     */
 
     ABTestStatus             getTestStatus(const std::string& test_id) const;
+    /**
+     * @brief TBD: Describe getActiveTests.
+     * @return Return value.
+     */
     std::vector<std::string> getActiveTests() const;
+    /**
+     * @brief TBD: Describe getControlMetrics.
+     * @param[in] test_id Input parameter.
+     * @return Return value.
+     */
     ABVariantMetrics         getControlMetrics(const std::string& test_id) const;
+    /**
+     * @brief TBD: Describe getTreatmentMetrics.
+     * @param[in] test_id Input parameter.
+     * @return Return value.
+     */
     ABVariantMetrics         getTreatmentMetrics(const std::string& test_id) const;
 
     /**
@@ -428,8 +447,12 @@ private:
     // Persistence helpers
     // -------------------------------------------------------------------------
 
-    /// Serialize and write @p entry to storage under key @c "ab_test::<test_id>".
-    /// No-op when storage_engine_ is null.  Must NOT be called while holding mutex_.
+    /**
+     * @brief Serialize and write @p entry to storage under key @c "ab_test::<test_id>".
+     * @param[in] test_id Input parameter.
+     * @param[in] entry Input parameter.
+     * @details No-op when storage_engine_ is null. Must NOT be called while holding mutex_.
+     */
     void persistTestEntry(const std::string& test_id, const TestEntry& entry) const;
 
     // -------------------------------------------------------------------------
@@ -446,6 +469,7 @@ private:
      * @param ctrl_failure  Control failures.
      * @param trt_success   Treatment successes.
      * @param trt_failure   Treatment failures.
+     * @return Return value.
      */
     static double thompsonProbTreatmentWins(size_t ctrl_success, size_t ctrl_failure,
                                             size_t trt_success,  size_t trt_failure);

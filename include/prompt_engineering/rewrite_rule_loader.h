@@ -73,7 +73,16 @@ public:
 private:
     std::string last_error_;
 
-    // Internal helper to parse and validate a single rule definition
+    /**
+     * @brief Internal helper to parse and validate a single rule definition
+     * @param[in] rule_id Input parameter.
+     * @param[in] rule_type Input parameter.
+     * @param[in] phase_str Input parameter.
+     * @param[in] priority Input parameter.
+     * @param[in] description Input parameter.
+     * @param[in] rule_config Input parameter.
+     * @return Return value.
+     */
     std::shared_ptr<IRewriteRule> parse_rule_definition(
         const std::string& rule_id,
         const std::string& rule_type,

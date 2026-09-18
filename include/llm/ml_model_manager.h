@@ -121,6 +121,10 @@ struct MLModelConfig {
  * @brief ML Model instance information
  */
 struct MLModelInstance {
+    /**
+     * @brief TBD: Describe ~MLModelInstance.
+     * @return Return value.
+     */
     virtual ~MLModelInstance() = default;
 
     // Wave-B L7: thread-safety audit — explicit copy constructor required because
@@ -208,6 +212,10 @@ struct MLModelInstance {
  * @brief ML Model inference request
  */
 struct MLInferenceRequest {
+    /**
+     * @brief TBD: Describe ~MLInferenceRequest.
+     * @return Return value.
+     */
     virtual ~MLInferenceRequest() = default;
     std::string model_id;
     std::string model_version;          // Optional: specific version, or "latest"
@@ -287,6 +295,11 @@ public:
         int scaling_check_interval_ms = 60000;
     };
     
+    /**
+     * @brief TBD: Describe MLModelManager.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit MLModelManager(const Config& config);
     // B1-EXCEPTION-SAFETY(2026-08-26): noexcept — shutdown() exceptions swallowed.
     ~MLModelManager() noexcept;
@@ -579,22 +592,58 @@ private:
     std::atomic<size_t> successful_requests_{0};
     std::atomic<size_t> failed_requests_{0};
     
-    // Internal methods
+    /**
+     * @brief Internal methods
+     */
     void healthMonitorLoop();
+    /**
+     * @brief TBD: Describe autoScalerLoop.
+     */
     void autoScalerLoop();
     
+    /**
+     * @brief TBD: Describe deployInstance.
+     * @param[in] model_id Input parameter.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     Result<std::string> deployInstance(const std::string& model_id, const MLModelConfig& config);
+    /**
+     * @brief TBD: Describe shutdownInstance.
+     * @param[in] instance_id Input parameter.
+     * @return True on success.
+     */
     bool shutdownInstance(const std::string& instance_id);
     
+    /**
+     * @brief TBD: Describe selectInstance.
+     * @param[in] model_id Input parameter.
+     * @return Pointer to the result.
+     */
     MLModelInstance* selectInstance(const std::string& model_id);
     /// Selects the least-busy DEPLOYED instance from an already-locked ModelEntry.
     /// Caller MUST hold model_cache_lock_. Returns nullptr when no DEPLOYED instance exists.
     [[nodiscard]] MLModelInstance* selectLeastBusy_(const ModelEntry& entry) const noexcept;
+    /**
+     * @brief TBD: Describe updateInstanceMetrics.
+     * @param[in,out] instance Input/output parameter.
+     * @param[in] latency_ms Input parameter.
+     * @param[in] success Input parameter.
+     */
     void updateInstanceMetrics(MLModelInstance* instance, float latency_ms, bool success);
     
+    /**
+     * @brief TBD: Describe generateInstanceId.
+     * @param[in] model_id Input parameter.
+     * @return Return value.
+     */
     std::string generateInstanceId(const std::string& model_id);
     std::atomic<uint64_t> instance_counter_{0};
     
+    /**
+     * @brief TBD: Describe generateRequestId.
+     * @return Return value.
+     */
     std::string generateRequestId();
     std::atomic<uint64_t> request_counter_{0};
 

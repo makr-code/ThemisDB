@@ -139,6 +139,10 @@ class PolicyEngine {
      * unavailable so PolicyEngine can fall back to native evaluation.
      */
     struct IPolicyEvaluator {
+        /**
+         * @brief TBD: Describe ~IPolicyEvaluator.
+         * @return Return value.
+         */
         virtual ~IPolicyEvaluator() = default;
         virtual std::optional<PolicyDecision> evaluate(
             const std::unordered_map<std::string, std::string>& headers,
@@ -147,7 +151,11 @@ class PolicyEngine {
 
     PolicyEngine() = default;
 
-    // Load policies from YAML file (returns false on error)
+    /**
+     * @brief Load policies from YAML file (returns false on error)
+     * @param[in] yaml_path Input parameter.
+     * @return True on success.
+     */
     bool loadFromYAML(const std::string &yaml_path);
 
     /**
@@ -164,11 +172,16 @@ class PolicyEngine {
      */
     bool reloadIfChanged(std::string *err = nullptr);
 
-    /// @return The file path last passed to loadFromYAML(), or empty string if
-    ///         no file has been loaded yet.
+    /**
+     * @brief @return The file path last passed to loadFromYAML(), or empty string if no file has been loaded yet.
+     * @return Return value.
+     */
     std::string getLoadedFilePath() const;
 
-    // Set audit logger for automatic logging of policy evaluations
+    /**
+     * @brief Set audit logger for automatic logging of policy evaluations
+     * @param[in] logger Input parameter.
+     */
     void setAuditLogger(std::shared_ptr<themis::utils::AuditLogger> logger);
 
     /**
@@ -181,16 +194,17 @@ class PolicyEngine {
      *
      * Pass nullptr to detach.  The PolicyEngine does NOT take ownership; the
      * caller must ensure the evaluator outlives the engine.
+     * @param[in,out] evaluator Input/output parameter.
      */
     void setOpaEvaluator(IPolicyEvaluator* evaluator);
 
     // ---- CCPA/CPRA opt-out registry ----------------------------------------
 
-    /// Register a set of data subject IDs that have opted out of data sale.
-    /// PolicyEngine::evaluate() will set PolicyDecision::ccpa_opted_out=true
-    /// and PolicyDecision::export_allowed=false for any request whose
-    /// "X-User-Id" header matches a subject in this registry.
-    /// Thread-safe; atomically replaces the previous registry.
+    /**
+     * @brief Register a set of data subject IDs that have opted out of data sale.
+     * @param[in] opt_out_registry Input parameter.
+     * @details PolicyEngine::evaluate() will set PolicyDecision::ccpa_opted_out=true and PolicyDecision::export_allowed=false for any request whose "X-User-Id" header matches a subject in this registry. Thread-safe; atomically replaces the previous registry.
+     */
     void setCcpaOptOutSubjects(std::shared_ptr<std::unordered_set<std::string>> opt_out_registry);
 
     /// Return true if the given subject ID is registered as opted-out.
@@ -198,20 +212,19 @@ class PolicyEngine {
 
     // ---- AI/ML Model Governance --------------------------------------------
 
-    /// Attach a ModelGovernancePolicy used by checkExportPermission().
-    /// Thread-safe; atomically replaces the previous instance.
+    /**
+     * @brief Attach a ModelGovernancePolicy used by checkExportPermission().
+     * @param[in] policy Input parameter.
+     * @details Thread-safe; atomically replaces the previous instance.
+     */
     void setModelGovernancePolicy(std::shared_ptr<ModelGovernancePolicy> policy);
 
-    /// Evaluate whether a training-data export is permitted.
-    ///
-    /// Delegates to the configured ModelGovernancePolicy (if set).  When no
-    /// ModelGovernancePolicy has been attached, the method applies the built-in
-    /// classification fallback: "geheim" and "streng-geheim" datasets are
-    /// always denied; all other classifications are permitted.
-    ///
-    /// Must be called before any training-purpose export begins.
-    /// @return ModelGovernanceDecision with is_permitted and, on denial,
-    ///         denial_reason; on approval, lineage_event_id is populated.
+    /**
+     * @brief Evaluate whether a training-data export is permitted.
+     * @param[in] request Input parameter.
+     * @return Return value.
+     * @details Delegates to the configured ModelGovernancePolicy (if set). When no ModelGovernancePolicy has been attached, the method applies the built-in classification fallback: "geheim" and "streng-geheim" datasets are always denied; all other classifications are permitted. Must be called before any training-purpose export begins. @return ModelGovernanceDecision with is_permitted and, on denial, denial_reason; on approval, lineage_event_id is populated.
+     */
     ModelGovernanceDecision checkExportPermission(const ModelTrainingExportRequest &request) const;
 
     // Evaluate headers for a given route key (e.g., "/vector/search" or handler name)
@@ -264,16 +277,12 @@ class PolicyEngine {
     /// @return A snapshot of the currently loaded FieldMaskingPolicy.
     FieldMaskingPolicy getMaskingPolicy() const;
 
-    /// Evaluate policies in dry-run (simulation) mode without writing an audit entry.
-    ///
-    /// Performs the same classification lookup, profile resolution, and header-override
-    /// steps as evaluate(), but intentionally suppresses audit logging so that the
-    /// caller can preview the access decision without any side effects on the audit
-    /// trail.  This satisfies the "deterministic and side-effect-free" requirement for
-    /// policy_validator.cpp dry-run usage described in FUTURE_ENHANCEMENTS.md.
-    ///
-    /// @param request  The simulation request (headers + route).
-    /// @return SimulationResult containing the decision and which rule/profile was matched.
+    /**
+     * @brief Evaluate policies in dry-run (simulation) mode without writing an audit entry.
+     * @param[in] request Input parameter.
+     * @return Return value.
+     * @details Performs the same classification lookup, profile resolution, and header-override steps as evaluate(), but intentionally suppresses audit logging so that the caller can preview the access decision without any side effects on the audit trail. This satisfies the "deterministic and side-effect-free" requirement for policy_validator.cpp dry-run usage described in FUTURE_ENHANCEMENTS.md. @param request The simulation request (headers + route). @return SimulationResult containing the decision and which rule/profile was matched.
+     */
     SimulationResult simulateDecision(const SimulationRequest &request) const;
 
     /**
@@ -293,9 +302,18 @@ class PolicyEngine {
      */
     SafeAccessValidator& getSafeAccessValidator();
 
-    // Get classification profile by name
+    /**
+     * @brief Get classification profile by name
+     * @param[in] level Input parameter.
+     * @return Return value.
+     */
     std::optional<ClassificationProfile> getClassificationProfile(const std::string &level) const;
 
+    /**
+     * @brief TBD: Describe isStrictClass.
+     * @param[in] cls Input parameter.
+     * @return True on success.
+     */
     static bool isStrictClass(const std::string &cls);
 
   private:
@@ -324,6 +342,11 @@ class PolicyEngine {
     // Safety validator for Phase 3B Extended (fail-closed access checks)
     std::unique_ptr<SafeAccessValidator> safety_validator_;
 
+    /**
+     * @brief TBD: Describe normalize.
+     * @param[in] s Input parameter.
+     * @return Return value.
+     */
     static std::string normalize(const std::string &s);
 };
 

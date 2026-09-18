@@ -164,6 +164,9 @@ enum class AuthErrorCode {
 
 /**
  * @brief Convert AuthErrorCode to ErrorRegistry ErrorCode
+ * @param[in] code Input parameter.
+ * @return Return value.
+ * @details Implements toErrorCode without additional internal calls.
  */
 inline errors::ErrorCode toErrorCode(AuthErrorCode code) {
     return static_cast<errors::ErrorCode>(static_cast<int>(code));
@@ -227,6 +230,8 @@ public:
     
     /**
      * @brief Set retry-after duration (for rate limiting)
+     * @param[in] duration Input parameter.
+     * @details Implements setRetryAfter without additional internal calls.
      */
     void setRetryAfter(std::chrono::seconds duration) {
         retry_after_ = duration;
@@ -241,11 +246,13 @@ public:
     
     /**
      * @brief Convert to JSON (public version for API responses)
+     * @return Return value.
      */
     nlohmann::json toPublicJSON() const;
     
     /**
      * @brief Convert to JSON (internal version for logging)
+     * @return Return value.
      */
     nlohmann::json toInternalJSON() const;
     
@@ -271,6 +278,8 @@ public:
      * - File paths (preserves filename)
      * - IP addresses (preserves first octet)
      * - UUIDs and tokens (shows first/last 4 chars)
+     * @param[in] input Input parameter.
+     * @return Return value.
      */
     static std::string maskSensitiveData(const std::string& input);
 
@@ -282,11 +291,40 @@ private:
     std::chrono::system_clock::time_point timestamp_;
     std::optional<std::chrono::seconds> retry_after_;
     
+    /**
+     * @brief TBD: Describe generateRequestId.
+     * @return Return value.
+     */
     static std::string generateRequestId();
+    /**
+     * @brief TBD: Describe maskEmail.
+     * @param[in] email Input parameter.
+     * @return Return value.
+     */
     static std::string maskEmail(const std::string& email);
+    /**
+     * @brief TBD: Describe maskPrincipal.
+     * @param[in] principal Input parameter.
+     * @return Return value.
+     */
     static std::string maskPrincipal(const std::string& principal);
+    /**
+     * @brief TBD: Describe maskFilePath.
+     * @param[in] path Input parameter.
+     * @return Return value.
+     */
     static std::string maskFilePath(const std::string& path);
+    /**
+     * @brief TBD: Describe maskIPAddress.
+     * @param[in] ip Input parameter.
+     * @return Return value.
+     */
     static std::string maskIPAddress(const std::string& ip);
+    /**
+     * @brief TBD: Describe maskToken.
+     * @param[in] token Input parameter.
+     * @return Return value.
+     */
     static std::string maskToken(const std::string& token);
 };
 
@@ -297,6 +335,11 @@ private:
  */
 class AuthException : public std::runtime_error {
 public:
+    /**
+     * @brief TBD: Describe AuthException.
+     * @param[in] error Input parameter.
+     * @return Return value.
+     */
     explicit AuthException(const AuthError& error)
         : std::runtime_error(error.publicMessage())
         , error_(error)

@@ -31,6 +31,10 @@ namespace lora {
  * @brief Cached embedding entry
  */
 struct EmbeddingCache {
+    /**
+     * @brief TBD: Describe ~EmbeddingCache.
+     * @return Return value.
+     */
     virtual ~EmbeddingCache() = default;
     std::string text;
     std::vector<float> embedding;  // Real embedding from model, not hash-based
@@ -49,6 +53,10 @@ struct EmbeddingCache {
  * @brief Statistics for embedding cache
  */
 struct EmbeddingCacheStats {
+    /**
+     * @brief TBD: Describe ~EmbeddingCacheStats.
+     * @return Return value.
+     */
     virtual ~EmbeddingCacheStats() = default;
     size_t total_requests = 0;
     size_t cache_hits = 0;
@@ -100,6 +108,7 @@ public:
      * @param model Base model to extract embeddings from
      * @param context Model context for inference
      * @param config Configuration
+     * @return Return value.
      */
     explicit EmbeddingProvider(
         llama_model* model,
@@ -194,6 +203,7 @@ public:
     /**
      * @brief Enable or disable cache
      * @param enable Enable cache
+     * @details Implements enableCache without additional internal calls.
      */
     void enableCache(bool enable) { config_.enable_cache = enable; }
     

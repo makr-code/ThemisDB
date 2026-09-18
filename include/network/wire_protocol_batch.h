@@ -98,6 +98,8 @@ public:
     /**
      * @brief Attach the controller to an open TCP socket.
      * @param fd  File descriptor for the socket.
+     * @return Return value.
+     * @note Exception safety: noexcept.
      */
     explicit NagleController(int fd) noexcept;
 
@@ -105,6 +107,8 @@ public:
      * @brief Apply @p mode to the socket.
      *
      * @return true on success; false if setsockopt(2) failed (errno set).
+     * @param[in] mode Input parameter.
+     * @note Exception safety: noexcept.
      */
     bool setMode(Mode mode) noexcept;
 
@@ -123,6 +127,8 @@ public:
     /**
      * @brief Release TCP_CORK, flushing any buffered data immediately.
      * Equivalent to setMode(Mode::DEFAULT).
+     * @return True on success.
+     * @note Exception safety: noexcept.
      */
     bool uncork() noexcept;
 
@@ -197,6 +203,11 @@ public:
         size_t max_messages_per_batch = 64;         ///< Flush after N messages
         size_t max_bytes_per_batch    = 64 * 1024;  ///< Flush after N bytes
         bool   auto_flush_on_limit    = true;        ///< Flush when limit hit inside add()
+        /**
+         * @brief TBD: Describe defaults.
+         * @return Return value.
+         * @details Implements defaults without additional internal calls.
+         */
         static Config defaults() { return {}; }
     };
 

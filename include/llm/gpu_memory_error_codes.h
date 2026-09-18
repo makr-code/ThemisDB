@@ -134,6 +134,7 @@ enum class GPUMemoryErrorCode : int32_t {
  * @brief Convert error code to human-readable string
  * @param code The error code
  * @return String description of the error
+ * @details Implements gpuMemoryErrorToString without additional internal calls.
  */
 inline std::string gpuMemoryErrorToString(GPUMemoryErrorCode code) {
     switch (code) {

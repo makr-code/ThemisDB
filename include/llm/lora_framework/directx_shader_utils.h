@@ -28,6 +28,9 @@ namespace directx {
  * 2. ../shaders/lora (relative to executable)
  * 3. ./shaders/lora (current directory)
  * 4. ../../build/shaders/lora (development build directory)
+ * @param[in] shader_name Input parameter.
+ * @return Return value.
+ * @details Calls: fs::current_path(), fs::exists(), string().
  */
 inline std::string get_shader_path(const std::string& shader_name) {
     namespace fs = std::filesystem;

@@ -98,6 +98,10 @@ public:
                                                int& grpc_status,
                                                std::string& grpc_message)>;
 
+    /**
+     * @brief TBD: Describe setBackendInvokeFn.
+     * @param[in] fn Input parameter.
+     */
     static void setBackendInvokeFn(BackendInvokeFn fn);
 
     /**
@@ -114,6 +118,7 @@ public:
      * so that the handler can be constructed before the gRPC server starts.
      *
      * @param config Proxy configuration.
+     * @return Return value.
      */
     explicit GrpcWebProxyHandler(Config config);
 
@@ -207,24 +212,50 @@ private:
     mutable std::shared_ptr<void> channel_holder_; ///< opaque grpc::Channel
     mutable std::shared_ptr<void> stub_holder_;    ///< opaque grpc::GenericStub
 
+    /**
+     * @brief TBD: Describe ensureChannel.
+     */
     void ensureChannel() const;
 
-    // ── HTTP response helpers ────────────────────────────────────────────────
+    /**
+     * @brief ── HTTP response helpers ────────────────────────────────────────────────
+     * @param[in,out] res Input/output parameter.
+     */
 
     void addCorsHeaders(http::response<http::string_body>& res) const;
 
+    /**
+     * @brief TBD: Describe makeResponse.
+     * @param[in] status Input parameter.
+     * @param[in] body Input parameter.
+     * @param[in] content_type Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeResponse(
         http::status status,
         const std::string& body,
         const std::string& content_type,
         const http::request<http::string_body>& req) const;
 
+    /**
+     * @brief TBD: Describe makeErrorResponse.
+     * @param[in] status Input parameter.
+     * @param[in] message Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeErrorResponse(
         http::status status,
         const std::string& message,
         const http::request<http::string_body>& req) const;
 
-    // ── Frame encoding helpers ───────────────────────────────────────────────
+    /**
+     * @brief ── Frame encoding helpers ───────────────────────────────────────────────
+     * @param[in,out] out Input/output parameter.
+     * @param[in] flags Input parameter.
+     * @param[in] length Input parameter.
+     */
 
     static void appendFrameHeader(std::string& out,
                                    uint8_t flags,

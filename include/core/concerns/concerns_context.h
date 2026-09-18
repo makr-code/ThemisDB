@@ -260,14 +260,53 @@ public:
       */
     static std::shared_ptr<ConcernsContext> createNoOp();
 
-    // Accessor methods
+    /**
+     * @brief Accessor methods
+     * @return Return value.
+     * @details Implements logger without additional internal calls.
+     */
     ILogger& logger() { return *logger_; }
+    /**
+     * @brief TBD: Describe tracer.
+     * @return Return value.
+     * @details Implements tracer without additional internal calls.
+     */
     ITracer& tracer() { return *tracer_; }
+    /**
+     * @brief TBD: Describe metrics.
+     * @return Return value.
+     * @details Implements metrics without additional internal calls.
+     */
     IMetrics& metrics() { return *metrics_; }
+    /**
+     * @brief TBD: Describe cache.
+     * @return Return value.
+     * @details Implements cache without additional internal calls.
+     */
     ICache& cache() { return *cache_; }
+    /**
+     * @brief TBD: Describe secrets.
+     * @return Return value.
+     * @details Implements secrets without additional internal calls.
+     */
     ISecrets& secrets() { return *secrets_; }
+    /**
+     * @brief TBD: Describe circuitBreaker.
+     * @return Return value.
+     * @details Implements circuitBreaker without additional internal calls.
+     */
     ICircuitBreaker& circuitBreaker() { return *circuit_breaker_; }
+    /**
+     * @brief TBD: Describe featureFlags.
+     * @return Return value.
+     * @details Implements featureFlags without additional internal calls.
+     */
     IFeatureFlags& featureFlags() { return *featureFlags_; }
+    /**
+     * @brief TBD: Describe auditLog.
+     * @return Return value.
+     * @details Implements auditLog without additional internal calls.
+     */
     IAuditLog& auditLog() { return *auditLog_; }
 
     const ILogger& logger() const { return *logger_; }
@@ -307,27 +346,67 @@ public:
     template<typename T>
     std::shared_ptr<T> resolve() const {
         if constexpr (std::is_same_v<T, ILogger>) {
+            /**
+             * @brief TBD: Describe lk.
+             * @param[in] adapters_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::shared_lock<std::shared_mutex> lk(adapters_mutex_);
             return std::static_pointer_cast<T>(logger_);
         } else if constexpr (std::is_same_v<T, ITracer>) {
+            /**
+             * @brief TBD: Describe lk.
+             * @param[in] adapters_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::shared_lock<std::shared_mutex> lk(adapters_mutex_);
             return std::static_pointer_cast<T>(tracer_);
         } else if constexpr (std::is_same_v<T, IMetrics>) {
+            /**
+             * @brief TBD: Describe lk.
+             * @param[in] adapters_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::shared_lock<std::shared_mutex> lk(adapters_mutex_);
             return std::static_pointer_cast<T>(metrics_);
         } else if constexpr (std::is_same_v<T, ICache>) {
+            /**
+             * @brief TBD: Describe lk.
+             * @param[in] adapters_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::shared_lock<std::shared_mutex> lk(adapters_mutex_);
             return std::static_pointer_cast<T>(cache_);
         } else if constexpr (std::is_same_v<T, ISecrets>) {
+            /**
+             * @brief TBD: Describe lk.
+             * @param[in] adapters_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::shared_lock<std::shared_mutex> lk(adapters_mutex_);
             return std::static_pointer_cast<T>(secrets_);
         } else if constexpr (std::is_same_v<T, IFeatureFlags>) {
+            /**
+             * @brief TBD: Describe lk.
+             * @param[in] adapters_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::shared_lock<std::shared_mutex> lk(adapters_mutex_);
             return std::static_pointer_cast<T>(featureFlags_);
         } else if constexpr (std::is_same_v<T, IAuditLog>) {
+            /**
+             * @brief TBD: Describe lk.
+             * @param[in] adapters_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::shared_lock<std::shared_mutex> lk(adapters_mutex_);
             return std::static_pointer_cast<T>(auditLog_);
         } else if constexpr (std::is_same_v<T, ICircuitBreaker>) {
+            /**
+             * @brief TBD: Describe lk.
+             * @param[in] adapters_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::shared_lock<std::shared_mutex> lk(adapters_mutex_);
             return std::static_pointer_cast<T>(circuit_breaker_);
         } else {
@@ -342,6 +421,7 @@ public:
      * @c resolve<T>().
      *
      * @return Mutable reference to the embedded @c AdapterRegistry.
+     * @details Implements registry without additional internal calls.
      */
     AdapterRegistry& registry() { return *registry_; }
 
@@ -351,10 +431,29 @@ public:
      */
     const AdapterRegistry& registry() const { return *registry_; }
 
-    // Convenience methods for common operations
+    /**
+     * @brief Convenience methods for common operations
+     * @param[in] message Input parameter.
+     * @details Calls: info().
+     */
     void logInfo(const std::string& message) { logger_->info(message); }
+    /**
+     * @brief TBD: Describe logError.
+     * @param[in] message Input parameter.
+     * @details Calls: error().
+     */
     void logError(const std::string& message) { logger_->error(message); }
+    /**
+     * @brief TBD: Describe logWarn.
+     * @param[in] message Input parameter.
+     * @details Calls: warn().
+     */
     void logWarn(const std::string& message) { logger_->warn(message); }
+    /**
+     * @brief TBD: Describe logDebug.
+     * @param[in] message Input parameter.
+     * @details Calls: debug().
+     */
     void logDebug(const std::string& message) { logger_->debug(message); }
 
     /**
@@ -366,6 +465,7 @@ public:
      *
         * @param level New minimum severity level.
         * @throws std::runtime_error if the logger adapter is unavailable.
+     * @details Calls: setLevel().
      */
     void setLogLevel(ILogger::Level level) { logger_->setLevel(level); }
 
@@ -465,6 +565,12 @@ public:
      */
     void replaceAuditLog(std::unique_ptr<IAuditLog> new_audit);
 
+    /**
+     * @brief TBD: Describe startSpan.
+     * @param[in] name Input parameter.
+     * @return Return value.
+     * @details Implements startSpan without additional internal calls.
+     */
     std::unique_ptr<ITracer::ISpan> startSpan(const std::string& name) {
         return tracer_->startSpan(name);
     }
@@ -491,6 +597,12 @@ public:
         tracer_->injectContext(headers);
     }
 
+    /**
+     * @brief TBD: Describe recordMetric.
+     * @param[in] name Input parameter.
+     * @param[in] value Input parameter.
+     * @details Calls: observeHistogram().
+     */
     void recordMetric(const std::string& name, double value) {
         metrics_->observeHistogram(name, value);
     }
@@ -529,6 +641,7 @@ public:
      * without fully shutting down.  Safe to call multiple times.
       * Any individual adapter failure should be handled by the adapter's own
       * implementation contract; the context does not swallow adapter errors.
+     * @details Implements flush without additional internal calls.
      */
     void flush() {
         logger_->flush();
@@ -556,6 +669,7 @@ public:
      *   std::atexit([]{ concerns->shutdown(); });
      *   // Or call explicitly in the signal handler / destructor.
      * @endcode
+     * @details Calls: flush().
      */
     void shutdown() {
         logger_->flush();

@@ -71,8 +71,27 @@ public:
         std::string conflict_set_id;
         /// Keys involved in the conflict (filled alongside conflict_id).
         std::vector<std::string> affected_keys;
+        /**
+         * @brief TBD: Describe OK.
+         * @return Return value.
+         * @details Implements OK without additional internal calls.
+         */
         static Status OK() { return {}; }
+        /**
+         * @brief TBD: Describe Error.
+         * @param[in] msg Input parameter.
+         * @return Return value.
+         * @details Calls: std::move().
+         */
         static Status Error(std::string msg) { return Status{false, std::move(msg), "", "", {}}; }
+        /**
+         * @brief TBD: Describe Conflict.
+         * @param[in] msg Input parameter.
+         * @param[in] cid Input parameter.
+         * @param[in] keys Input parameter.
+         * @return Return value.
+         * @details Calls: std::move().
+         */
         static Status Conflict(std::string msg, std::string cid,
                                std::vector<std::string> keys) {
             Status s;
@@ -85,6 +104,14 @@ public:
         }
     };
 
+    /**
+     * @brief TBD: Describe TransactionManager.
+     * @param[in,out] db Input/output parameter.
+     * @param[in,out] secIdx Input/output parameter.
+     * @param[in,out] graphIdx Input/output parameter.
+     * @param[in,out] vecIdx Input/output parameter.
+     * @return Return value.
+     */
     explicit TransactionManager(RocksDBWrapper& db,
                                 SecondaryIndexManager& secIdx,
                                 GraphIndexManager& graphIdx,
@@ -114,6 +141,10 @@ public:
         TransactionId getId() const { return id_; }
         IsolationLevel getIsolationLevel() const { return isolation_; }
         std::chrono::system_clock::time_point getStartTime() const { return start_time_; }
+        /**
+         * @brief TBD: Describe getDurationMs.
+         * @return Return value.
+         */
         uint64_t getDurationMs() const;
         bool isFinished() const { return finished_.load(std::memory_order_acquire); }
 
@@ -136,6 +167,7 @@ public:
          * roll it back.
          *
          * @param timeout  Maximum lifetime; pass 0 to disable the timeout.
+         * @details Calls: count(), store().
          */
         void setTimeout(std::chrono::milliseconds timeout) {
             // Clamp to 0: a negative duration is treated the same as "no timeout".
@@ -164,8 +196,19 @@ public:
             return getDurationMs() >= tms;
         }
 
-        // Relational
+        /**
+         * @brief Relational
+         * @param[in] table Input parameter.
+         * @param[in] entity Input parameter.
+         * @return Return value.
+         */
         Status putEntity(std::string_view table, const BaseEntity& entity);
+        /**
+         * @brief TBD: Describe eraseEntity.
+         * @param[in] table Input parameter.
+         * @param[in] pk Input parameter.
+         * @return Return value.
+         */
         Status eraseEntity(std::string_view table, std::string_view pk);
 
         /**
@@ -185,17 +228,37 @@ public:
         std::optional<std::string> readEntityJson(std::string_view table,
                               std::string_view pk);
 
-        // Graph
+        /**
+         * @brief Graph
+         * @param[in] edgeEntity Input parameter.
+         * @return Return value.
+         */
         Status addEdge(const BaseEntity& edgeEntity);
+        /**
+         * @brief TBD: Describe deleteEdge.
+         * @param[in] edgeId Input parameter.
+         * @return Return value.
+         */
         Status deleteEdge(std::string_view edgeId);
         
         // Vector
         Status addVector(const BaseEntity& entity, std::string_view vectorField = "embedding");
         Status updateVector(const BaseEntity& entity, std::string_view vectorField = "embedding");
+        /**
+         * @brief TBD: Describe removeVector.
+         * @param[in] pk Input parameter.
+         * @return Return value.
+         */
         Status removeVector(std::string_view pk);
 
-        // Abschluss
+        /**
+         * @brief Abschluss
+         * @return Return value.
+         */
         Status commit();
+        /**
+         * @brief TBD: Describe rollback.
+         */
         void rollback();
 
         // ── Optimistic Concurrency Control (OCC) ─────────────────────────────
@@ -319,6 +382,7 @@ public:
          *          Both share the same underlying RocksDB savepoint stack.  Using
          *          both on the same Transaction will corrupt the named-savepoint
          *          bookkeeping and produce undefined behaviour.
+         * @return Return value.
          */
         Status setSavePoint();
 
@@ -329,6 +393,7 @@ public:
          * outstanding savepoint or the transaction is not active.
          *
          * @warning Do not mix with the named savepoint API. See setSavePoint().
+         * @return Return value.
          */
         Status rollbackToSavePoint();
 
@@ -339,6 +404,7 @@ public:
          * transaction is not active.
          *
          * @warning Do not mix with the named savepoint API. See setSavePoint().
+         * @return Return value.
          */
         Status popSavePoint();
 
@@ -366,6 +432,7 @@ public:
          * or the transaction is not active.
          *
          * @param name  Name of the target savepoint.
+         * @return Return value.
          */
         Status rollbackToSavepoint(std::string_view name);
 
@@ -377,16 +444,20 @@ public:
          * savepoint with @p name exists or the transaction is not active.
          *
          * @param name  Name of the savepoint to release.
+         * @return Return value.
          */
         Status releaseSavepoint(std::string_view name);
 
         /**
          * @brief Return the names of all active savepoints in creation order.
+         * @return Return value.
          */
         std::vector<std::string> getSavepoints() const;
 
         /**
          * @brief Return true if a savepoint with the given name exists.
+         * @param[in] name Input parameter.
+         * @return True on success.
          */
         bool hasSavepoint(std::string_view name) const;
         
@@ -467,7 +538,11 @@ public:
          */
         bool hasWrites() const { return !write_set_.empty(); }
 
-        // SAGA support
+        /**
+         * @brief SAGA support
+         * @return Return value.
+         * @details Implements getSaga without additional internal calls.
+         */
         Saga& getSaga() { return *saga_; }
         const Saga& getSaga() const { return *saga_; }
 
@@ -515,6 +590,7 @@ public:
          * Collects the locks currently held (via LockManager) and the write set
          * accumulated since the transaction started.  Safe to call on both active
          * and finished transactions.
+         * @return Return value.
          */
         ExplainResult explain() const;
 
@@ -552,9 +628,11 @@ public:
         /// Used to populate ConflictRecord::ours_value on commit failure.
         std::unordered_map<std::string, std::vector<uint8_t>> our_values_;
 
-        /// Record the current wall-clock duration into finished_duration_ms_.
-        /// Must be called while the caller holds exclusive ownership (i.e. after
-        /// the finished_ CAS succeeds but before releasing the transaction).
+        /**
+         * @brief Record the current wall-clock duration into finished_duration_ms_.
+         * @note Exception safety: noexcept.
+         * @details Must be called while the caller holds exclusive ownership (i.e. after the finished_ CAS succeeds but before releasing the transaction).
+         */
         void captureDuration() noexcept;
 
         struct SavepointEntry {
@@ -626,13 +704,24 @@ public:
     TransactionId beginTransaction(std::string_view tenant_id,
                                    IsolationLevel isolation = IsolationLevel::ReadCommitted);
 
+    /**
+     * @brief TBD: Describe getTransaction.
+     * @param[in] id Input parameter.
+     * @return Return value.
+     */
     std::shared_ptr<Transaction> getTransaction(TransactionId id);
+    /**
+     * @brief TBD: Describe commitTransaction.
+     * @param[in] id Input parameter.
+     * @return Return value.
+     */
     Status commitTransaction(TransactionId id);
     /**
      * @brief Roll back an active session transaction.
      *
      * @return true  if the transaction was found in the active map and rolled back.
      * @return false if no active transaction with this ID exists (already completed).
+     * @param[in] id Input parameter.
      */
     bool rollbackTransaction(TransactionId id);
 
@@ -671,12 +760,14 @@ public:
      * when no transaction has ever been started for @p tenant_id.
      *
      * @param tenant_id  Tenant identifier to query.
+     * @return Return value.
      */
     TenantTransactionStats getTenantTransactionStats(std::string_view tenant_id) const;
 
     /**
      * @brief Return per-tenant statistics for all tenants that have ever
      *        started at least one transaction.
+     * @return Return value.
      */
     std::vector<TenantTransactionStats> getAllTenantTransactionStats() const;
 
@@ -730,6 +821,7 @@ public:
      * @brief Return the currently configured default transaction timeout.
      *
      * Returns 0 ms when no default timeout is set.
+     * @return Return value.
      */
     std::chrono::milliseconds getDefaultTransactionTimeout() const;
 
@@ -811,6 +903,7 @@ public:
 
     /**
      * @brief Return the number of transactions rolled back due to timeout.
+     * @return Return value.
      */
     uint64_t getTimedOutCount() const;
 
@@ -866,11 +959,13 @@ public:
 
     /**
      * @brief Set the victim-selection policy for deadlock resolution.
+     * @param[in] policy Input parameter.
      */
     void setDeadlockVictimPolicy(DeadlockVictimPolicy policy);
 
     /**
      * @brief Get current victim-selection policy.
+     * @return Return value.
      */
     DeadlockVictimPolicy getDeadlockVictimPolicy() const;
 
@@ -891,6 +986,7 @@ public:
 
     /**
      * @brief Get detailed deadlock metrics.
+     * @return Return value.
      */
     DeadlockMetrics getDeadlockMetrics() const;
 
@@ -909,11 +1005,13 @@ public:
      * outlives this TransactionManager.
      *
      * Pass nullptr to detach a previously set predictor.
+     * @param[in,out] predictor Input/output parameter.
      */
     void setDeadlockPredictor(DeadlockPredictor* predictor);
 
     /**
      * @brief Return the currently attached DeadlockPredictor, or nullptr.
+     * @return Pointer to the result.
      */
     DeadlockPredictor* getDeadlockPredictor() const;
 
@@ -925,6 +1023,7 @@ public:
      * predictor is attached or insufficient history exists.
      *
      * @param proposed_locks  Keys the caller intends to lock next.
+     * @return Return value.
      */
     double predictDeadlockProbability(
         const std::vector<std::string>& proposed_locks) const;
@@ -936,6 +1035,7 @@ public:
      * lexicographically when no predictor is attached.
      *
      * @param keys  Keys that need to be locked.
+     * @return Return value.
      */
     std::vector<std::string> recommendLockOrder(
         const std::vector<std::string>& keys) const;
@@ -948,6 +1048,7 @@ public:
      * no predictor is attached.
      *
      * @param keys  Keys that the transaction will lock.
+     * @return Return value.
      */
     std::chrono::milliseconds recommendTimeout(
         const std::vector<std::string>& keys) const;
@@ -977,6 +1078,7 @@ public:
      *
      * Should be called at startup before the first beginTransaction().
      * Returns false if WAL is disabled or clean.
+     * @return True on success.
      */
     bool needsCrashRecovery() const;
 
@@ -996,6 +1098,8 @@ public:
      * @brief Access the underlying CrashRecoveryManager (for testing/monitoring).
      *
      * Returns nullptr when crash recovery is disabled.
+     * @return Pointer to the result.
+     * @details Calls: get().
      */
     transaction::CrashRecoveryManager* getCrashRecoveryManager() {
         return crash_recovery_mgr_.get();
@@ -1014,6 +1118,7 @@ public:
      *
      * @param mgr Non-owning pointer to a HistoryManager backed by the same DB.
      *            Must outlive this TransactionManager.  Pass nullptr to disable.
+     * @details Implements setHistoryManager without additional internal calls.
      */
     void setHistoryManager(HistoryManager* mgr) { history_mgr_ = mgr; }
 
@@ -1026,6 +1131,7 @@ public:
      *
      * @param mgr Non-owning pointer to a ConflictManager backed by the same DB.
      *            Must outlive this TransactionManager.  Pass nullptr to disable.
+     * @details Implements setConflictManager without additional internal calls.
      */
     void setConflictManager(ConflictManager* mgr) { conflict_mgr_ = mgr; }
 
@@ -1055,6 +1161,7 @@ public:
      * to disable snapshot-based time-travel.
      *
      * @param mgr Non-owning pointer to a SnapshotManager.  May be nullptr.
+     * @details Implements setSnapshotManager without additional internal calls.
      */
     void setSnapshotManager(transaction::SnapshotManager* mgr) {
         snapshot_mgr_ = mgr;
@@ -1179,6 +1286,7 @@ public:
 
     /**
      * @brief Return the currently active SSI configuration.
+     * @return Return value.
      */
     SSIConfig getSSIConfig() const;
 
@@ -1249,7 +1357,15 @@ private:
     // SOLUTION 2B: Sequence lock for consistent lock-free statistics reads
     mutable std::atomic<uint64_t> stats_sequence_{0};
     
+    /**
+     * @brief TBD: Describe generateTransactionId.
+     * @return Return value.
+     */
     TransactionId generateTransactionId();
+    /**
+     * @brief TBD: Describe moveToCompleted.
+     * @param[in] id Input parameter.
+     */
     void moveToCompleted(TransactionId id);
     
     // Helper to update statistics with sequence lock protocol
@@ -1263,13 +1379,24 @@ private:
     };
     std::unordered_map<std::string, TenantStatsEntry> tenant_stats_;  ///< keyed by tenant_id
 
-    /// Count active transactions for a tenant without acquiring sessions_mutex_.
-    /// Must be called with sessions_mutex_ already held.
+    /**
+     * @brief Count active transactions for a tenant without acquiring sessions_mutex_.
+     * @param[in] tenant_id Input parameter.
+     * @return Return value.
+     * @details Must be called with sessions_mutex_ already held.
+     */
     size_t countActiveTenantTransactionsLocked(std::string_view tenant_id) const;
 
     // Transaction timeout
     std::atomic<uint64_t> default_transaction_timeout_ms_{0}; ///< 0 = no default timeout
+    /**
+     * @brief TBD: Describe timeoutExpiredTransactions.
+     */
     void timeoutExpiredTransactions(); ///< roll back active transactions that exceeded their timeout
+    /**
+     * @brief TBD: Describe applyDefaultTimeout.
+     * @param[in,out] txn Input/output parameter.
+     */
     void applyDefaultTimeout(Transaction& txn) const; ///< apply default timeout if configured
     
     // Deadlock detection state
@@ -1304,14 +1431,44 @@ private:
     mutable std::mutex deadlock_detector_mutex_;  // Separate mutex for condition variable
     std::condition_variable deadlock_detector_cv_;
     
+    /**
+     * @brief TBD: Describe deadlockDetectorLoop.
+     */
     void deadlockDetectorLoop();
+    /**
+     * @brief TBD: Describe detectDeadlockCycle.
+     * @param[in,out] cycle Input/output parameter.
+     * @return True on success.
+     */
     bool detectDeadlockCycle(std::vector<TransactionId>& cycle);
+    /**
+     * @brief TBD: Describe resolveDeadlock.
+     * @param[in] cycle Input parameter.
+     */
     void resolveDeadlock(const std::vector<TransactionId>& cycle);
     
-    // Lock tracking helpers called by transactions
+    /**
+     * @brief Lock tracking helpers called by transactions
+     * @param[in] txn_id Input parameter.
+     * @param[in] key Input parameter.
+     */
     void trackLockAcquired(TransactionId txn_id, const std::string& key);
+    /**
+     * @brief TBD: Describe trackLockReleased.
+     * @param[in] txn_id Input parameter.
+     * @param[in] key Input parameter.
+     */
     void trackLockReleased(TransactionId txn_id, const std::string& key);
+    /**
+     * @brief TBD: Describe trackLockWaiting.
+     * @param[in] txn_id Input parameter.
+     * @param[in] key Input parameter.
+     */
     void trackLockWaiting(TransactionId txn_id, const std::string& key);
+    /**
+     * @brief TBD: Describe clearWaiting.
+     * @param[in] txn_id Input parameter.
+     */
     void clearWaiting(TransactionId txn_id);
 
     /// Optional non-owning pointers – set to enable history/conflict tracking.

@@ -85,19 +85,48 @@ class DefaultDistributedTensorPlanner {
 	  const std::vector<TensorDependency>& dependencies,
 	  RetrievalLocation preferred_location = RetrievalLocation::ANY_TIER) const noexcept;
 
+  /**
+   * @brief TBD: Describe optimize_retrieval_plan.
+   * @param[in] plan Input parameter.
+   * @return Return value.
+   * @note Exception safety: noexcept.
+   */
   DistributedRetrievalPlan optimize_retrieval_plan(const DistributedRetrievalPlan& plan) const noexcept;
 
   bool is_tensor_available(const ArtifactManifest& manifest,
 						   ArtifactLifecycleStage required_stage = ArtifactLifecycleStage::ACTIVE) const noexcept;
 
+  /**
+   * @brief TBD: Describe estimate_retrieval_cost.
+   * @param[in] manifest Input parameter.
+   * @param[in] strategy Input parameter.
+   * @param[in] location Input parameter.
+   * @return Return value.
+   * @note Exception safety: noexcept.
+   */
   uint64_t estimate_retrieval_cost(const ArtifactManifest& manifest,
 								   RetrievalStrategy strategy,
 								   RetrievalLocation location) const noexcept;
 
  private:
+  /**
+   * @brief TBD: Describe select_retrieval_strategy.
+   * @param[in] manifest Input parameter.
+   * @param[in] dependencies Input parameter.
+   * @return Return value.
+   * @note Exception safety: noexcept.
+   */
   RetrievalStrategy select_retrieval_strategy(const ArtifactManifest& manifest,
 											  const std::vector<TensorDependency>& dependencies) const noexcept;
 
+  /**
+   * @brief TBD: Describe calculate_retrieval_time.
+   * @param[in] data_size Input parameter.
+   * @param[in] bandwidth_mbps Input parameter.
+   * @param[in] parallel_streams Input parameter.
+   * @return Return value.
+   * @note Exception safety: noexcept.
+   */
   uint64_t calculate_retrieval_time(uint64_t data_size,
 									float bandwidth_mbps,
 									uint32_t parallel_streams) const noexcept;
@@ -151,6 +180,10 @@ struct TensorRetrievalPlan {
 
 class IFragmentFetcher {
  public:
+	/**
+	 * @brief TBD: Describe ~IFragmentFetcher.
+	 * @return Return value.
+	 */
 	virtual ~IFragmentFetcher() = default;
 	virtual FragmentLoadResult fetchFragment(const FragmentLoadRequest& request, const std::string& correlation_id = {}) const noexcept = 0;
 	virtual std::vector<FragmentLoadResult> fetchFragments(const std::vector<FragmentLoadRequest>& requests, const std::string& correlation_id = {}) const noexcept = 0;

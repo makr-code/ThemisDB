@@ -66,33 +66,67 @@ public:
         std::shared_ptr<themis::AuthMiddleware> auth
     );
 
-    // Optimization endpoints
+    /**
+     * @brief Optimization endpoints
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleOptimize(
         const http::request<http::string_body>& req);
     
-    // A/B testing endpoints
+    /**
+     * @brief A/B testing endpoints
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleListABTests(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief TBD: Describe handleGetABTest.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleGetABTest(
         const http::request<http::string_body>& req);
     
-    // Feedback endpoints
+    /**
+     * @brief Feedback endpoints
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleSubmitFeedback(
         const http::request<http::string_body>& req);
     
-    // Statistics endpoints
+    /**
+     * @brief Statistics endpoints
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleGetStats(
         const http::request<http::string_body>& req);
     
-    // History endpoints
+    /**
+     * @brief History endpoints
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleGetHistory(
         const http::request<http::string_body>& req);
     
-    // Version control endpoints
+    /**
+     * @brief Version control endpoints
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleGetVersions(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief TBD: Describe handleRollback.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleRollback(
         const http::request<http::string_body>& req);
 
@@ -107,14 +141,33 @@ private:
     std::shared_ptr<prompt_engineering::PromptEngineeringIntegration> integration_;
     std::shared_ptr<themis::AuthMiddleware> auth_;
 
-    // Helper methods
+    /**
+     * @brief Helper methods
+     * @param[in] target Input parameter.
+     * @param[in] prefix Input parameter.
+     * @return Return value.
+     */
     std::string extractPathParam(const std::string& target, const std::string& prefix);
     
+    /**
+     * @brief TBD: Describe makeErrorResponse.
+     * @param[in] status Input parameter.
+     * @param[in] message Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeErrorResponse(
         http::status status, 
         const std::string& message, 
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief TBD: Describe makeResponse.
+     * @param[in] status Input parameter.
+     * @param[in] body Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeResponse(
         http::status status, 
         const std::string& body, 

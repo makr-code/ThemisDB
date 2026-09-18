@@ -92,6 +92,10 @@ public:
                                                  size_t total_bytes)>;
 
     BulkUploadInterface() = default;
+    /**
+     * @brief TBD: Describe ~BulkUploadInterface.
+     * @return Return value.
+     */
     virtual ~BulkUploadInterface() = default;
 
     /**

@@ -119,12 +119,14 @@ public:
     /**
      * @brief Construct an MCP server with default configuration.
      * @param io_context Asio I/O context for async operations.
+     * @return Return value.
      */
     explicit McpServer(asio::io_context& io_context);
     /**
      * @brief Construct an MCP server with explicit configuration.
      * @param io_context Asio I/O context for async operations.
      * @param config     Server configuration controlling transports and buffers.
+     * @return Return value.
      */
     explicit McpServer(asio::io_context& io_context, const Config& config);
     /** @brief Destroy the server and release all transport resources. */
@@ -220,6 +222,10 @@ public:
      * @param orchestrator Shared pointer to a fully initialised AIOrchestrator.
      */
     #ifdef THEMIS_ENABLE_LLM
+    /**
+     * @brief TBD: Describe attachOrchestrator.
+     * @param[in] orchestrator Input parameter.
+     */
     void attachOrchestrator(std::shared_ptr<themis::llm::AIOrchestrator> orchestrator);
     #endif
     /** @brief Get the stdio transport instance (may be null if stdio is disabled). */
@@ -237,76 +243,304 @@ public:
     json handleRequest(const json& request);
 
 private:
-    // Request handlers
+    /**
+     * @brief Request handlers
+     * @param[in] params Input parameter.
+     * @return Return value.
+     */
     json handleInitialize(const json& params);
+    /**
+     * @brief TBD: Describe handleToolsList.
+     * @param[in] params Input parameter.
+     * @return Return value.
+     */
     json handleToolsList(const json& params);
+    /**
+     * @brief TBD: Describe handleToolsCall.
+     * @param[in] params Input parameter.
+     * @return Return value.
+     */
     json handleToolsCall(const json& params);
+    /**
+     * @brief TBD: Describe handleResourcesList.
+     * @param[in] params Input parameter.
+     * @return Return value.
+     */
     json handleResourcesList(const json& params);
+    /**
+     * @brief TBD: Describe handleResourcesRead.
+     * @param[in] params Input parameter.
+     * @return Return value.
+     */
     json handleResourcesRead(const json& params);
+    /**
+     * @brief TBD: Describe handlePromptsList.
+     * @param[in] params Input parameter.
+     * @return Return value.
+     */
     json handlePromptsList(const json& params);
+    /**
+     * @brief TBD: Describe handlePromptsGet.
+     * @param[in] params Input parameter.
+     * @return Return value.
+     */
     json handlePromptsGet(const json& params);
 
-    // Default tool handlers
+    /**
+     * @brief Default tool handlers
+     */
     void registerDefaultTools();
+    /**
+     * @brief TBD: Describe toolQuery.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolQuery(const json& args);
+    /**
+     * @brief TBD: Describe toolPutEntity.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolPutEntity(const json& args);
+    /**
+     * @brief TBD: Describe toolGetEntity.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolGetEntity(const json& args);
+    /**
+     * @brief TBD: Describe toolDeleteEntity.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolDeleteEntity(const json& args);
+    /**
+     * @brief TBD: Describe toolCreateIndex.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolCreateIndex(const json& args);
+    /**
+     * @brief TBD: Describe toolDropIndex.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolDropIndex(const json& args);
+    /**
+     * @brief TBD: Describe toolListIndexes.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolListIndexes(const json& args);
+    /**
+     * @brief TBD: Describe toolGetSchema.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolGetSchema(const json& args);
+    /**
+     * @brief TBD: Describe toolGetStats.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolGetStats(const json& args);
 
-    // Error introspection tool handlers (NEW)
+    /**
+     * @brief Error introspection tool handlers (NEW)
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolGetErrorInfo(const json& args);
+    /**
+     * @brief TBD: Describe toolSearchErrors.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolSearchErrors(const json& args);
+    /**
+     * @brief TBD: Describe toolIntrospectDatabase.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolIntrospectDatabase(const json& args);
+    /**
+     * @brief TBD: Describe generateErrorAnswer.
+     * @param[in] question Input parameter.
+     * @return Return value.
+     */
     std::string generateErrorAnswer(const std::string& question);
 
     // LLM Tool handlers (NEW)
     #ifdef THEMIS_ENABLE_LLM
+    /**
+     * @brief TBD: Describe toolLLMComplete.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolLLMComplete(const json& args);
+    /**
+     * @brief TBD: Describe toolLLMEmbed.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolLLMEmbed(const json& args);
+    /**
+     * @brief TBD: Describe toolLLMChat.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolLLMChat(const json& args);
+    /**
+     * @brief TBD: Describe toolDatabaseQueryWithLLM.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolDatabaseQueryWithLLM(const json& args);
 
-    // AI Orchestrator tools – mode-based LLM pipelines (ask / edit / rag / agentic / ethics …)
+    /**
+     * @brief AI Orchestrator tools – mode-based LLM pipelines (ask / edit / rag / agentic / ethics …)
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolLLMOrchestrate(const json& args);
+    /**
+     * @brief TBD: Describe toolLLMListModes.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolLLMListModes(const json& args);
     #endif
 
-    // ── Group 1: Knowledge Graph tools (Q4 2026) ──────────────────────────
+    /**
+     * @brief ── Group 1: Knowledge Graph tools (Q4 2026) ──────────────────────────
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolKgNeighbours(const json& args);
+    /**
+     * @brief TBD: Describe toolKgShortestPath.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolKgShortestPath(const json& args);
+    /**
+     * @brief TBD: Describe toolKgNodeProperties.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolKgNodeProperties(const json& args);
 
-    // ── Group 2: Vector / Hybrid / RAG tools (Q4 2026) ────────────────────
+    /**
+     * @brief ── Group 2: Vector / Hybrid / RAG tools (Q4 2026) ────────────────────
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolSemanticSearch(const json& args);
+    /**
+     * @brief TBD: Describe toolHybridSearch.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolHybridSearch(const json& args);
+    /**
+     * @brief TBD: Describe toolRagRetrieve.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolRagRetrieve(const json& args);
+    /**
+     * @brief TBD: Describe toolVectorIndexList.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolVectorIndexList(const json& args);
 
-    // ── Group 7: Schema extensions (Q4 2026) ──────────────────────────────
+    /**
+     * @brief ── Group 7: Schema extensions (Q4 2026) ──────────────────────────────
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolSchemaDiff(const json& args);
+    /**
+     * @brief TBD: Describe toolSchemaValidate.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolSchemaValidate(const json& args);
+    /**
+     * @brief TBD: Describe toolExplainQuery.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolExplainQuery(const json& args);
 
-    // Default resource handlers
+    /**
+     * @brief Default resource handlers
+     */
     void registerDefaultResources();
+    /**
+     * @brief TBD: Describe resourceSchema.
+     * @param[in] uri Input parameter.
+     * @return Return value.
+     */
     json resourceSchema(const std::string& uri);
+    /**
+     * @brief TBD: Describe resourceStats.
+     * @param[in] uri Input parameter.
+     * @return Return value.
+     */
     json resourceStats(const std::string& uri);
+    /**
+     * @brief TBD: Describe resourceMetadata.
+     * @param[in] uri Input parameter.
+     * @return Return value.
+     */
     json resourceMetadata(const std::string& uri);
+    /**
+     * @brief TBD: Describe resourceExamples.
+     * @param[in] uri Input parameter.
+     * @return Return value.
+     */
     json resourceExamples(const std::string& uri);
 
-    // Default prompt handlers
+    /**
+     * @brief Default prompt handlers
+     */
     void registerDefaultPrompts();
+    /**
+     * @brief TBD: Describe promptSimpleQuery.
+     * @param[in] name Input parameter.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json promptSimpleQuery(const std::string& name, const json& args);
+    /**
+     * @brief TBD: Describe promptComplexQuery.
+     * @param[in] name Input parameter.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json promptComplexQuery(const std::string& name, const json& args);
+    /**
+     * @brief TBD: Describe promptEntityOperation.
+     * @param[in] name Input parameter.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json promptEntityOperation(const std::string& name, const json& args);
 
-    // Error handling
+    /**
+     * @brief Error handling
+     * @param[in] code Input parameter.
+     * @param[in] message Input parameter.
+     * @return Return value.
+     */
     json createError(int code, const std::string& message);
+    /**
+     * @brief TBD: Describe createSuccessResponse.
+     * @param[in] result Input parameter.
+     * @return Return value.
+     */
     json createSuccessResponse(const json& result);
 
 private:
@@ -451,10 +685,24 @@ private:
  */
 class McpTransport {
 public:
+    /**
+     * @brief TBD: Describe ~McpTransport.
+     * @return Return value.
+     */
     virtual ~McpTransport() = default;
 
+    /**
+     * @brief TBD: Describe start.
+     */
     virtual void start() = 0;
+    /**
+     * @brief TBD: Describe stop.
+     */
     virtual void stop() = 0;
+    /**
+     * @brief TBD: Describe send.
+     * @param[in] message Input parameter.
+     */
     virtual void send(const json& message) = 0;
     
     void setMessageHandler(std::function<json(const json&)> handler) {
@@ -484,10 +732,21 @@ public:
     // async stdin reading to be wired in without changing preprocessor guards.
     // Passing nullptr reverts to the default warn-only behaviour.
     using StdioReadFn = std::function<void()>;
+    /**
+     * @brief TBD: Describe setStdioReadFn.
+     * @param[in] fn Input parameter.
+     */
     static void setStdioReadFn(StdioReadFn fn);
 
 private:
+    /**
+     * @brief TBD: Describe readStdin.
+     */
     void readStdin();
+    /**
+     * @brief TBD: Describe writeStdout.
+     * @param[in] data Input parameter.
+     */
     void writeStdout(const std::string& data);
 
 private:
@@ -510,12 +769,31 @@ public:
     void stop() override;
     void send(const json& message) override;
 
+    /**
+     * @brief TBD: Describe addClient.
+     * @param[in] client_id Input parameter.
+     */
     void addClient(const std::string& client_id);
+    /**
+     * @brief TBD: Describe removeClient.
+     * @param[in] client_id Input parameter.
+     */
     void removeClient(const std::string& client_id);
+    /**
+     * @brief TBD: Describe getClientData.
+     * @param[in] client_id Input parameter.
+     * @return Return value.
+     */
     std::string getClientData(const std::string& client_id);
 
 private:
+    /**
+     * @brief TBD: Describe sendKeepalive.
+     */
     void sendKeepalive();
+    /**
+     * @brief TBD: Describe scheduleKeepalive.
+     */
     void scheduleKeepalive();
 
 private:
@@ -539,15 +817,44 @@ public:
     void stop() override;
     void send(const json& message) override;
     
+    /**
+     * @brief TBD: Describe sendToSession.
+     * @param[in] session_id Input parameter.
+     * @param[in] message Input parameter.
+     */
     void sendToSession(const std::string& session_id, const json& message);
 
+    /**
+     * @brief TBD: Describe addSession.
+     * @param[in] session_id Input parameter.
+     */
     void addSession(const std::string& session_id);
+    /**
+     * @brief TBD: Describe removeSession.
+     * @param[in] session_id Input parameter.
+     */
     void removeSession(const std::string& session_id);
+    /**
+     * @brief TBD: Describe handleMessage.
+     * @param[in] session_id Input parameter.
+     * @param[in] message Input parameter.
+     */
     void handleMessage(const std::string& session_id, const std::string& message);
+    /**
+     * @brief TBD: Describe getPendingMessages.
+     * @param[in] session_id Input parameter.
+     * @return Return value.
+     */
     std::vector<std::string> getPendingMessages(const std::string& session_id);
 
 private:
+    /**
+     * @brief TBD: Describe sendPing.
+     */
     void sendPing();
+    /**
+     * @brief TBD: Describe schedulePing.
+     */
     void schedulePing();
     
     struct SessionData {

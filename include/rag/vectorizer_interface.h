@@ -29,6 +29,10 @@ namespace themis::rag {
  */
 class IVectorizer {
 public:
+    /**
+     * @brief TBD: Describe ~IVectorizer.
+     * @return Return value.
+     */
     virtual ~IVectorizer() = default;
 
     /**
@@ -81,6 +85,7 @@ public:
      * @param passages Vector of passage texts.
      * @return Vector of dense vectors (same length as input).
      * @throws std::runtime_error if any encoding fails.
+     * @details Calls: reserve(), size(), push_back(), encodePassage().
      */
     virtual std::vector<std::vector<float>> encodePassageBatch(
         const std::vector<std::string>& passages) {

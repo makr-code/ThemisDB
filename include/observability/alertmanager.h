@@ -107,12 +107,17 @@ class Alertmanager {
 public:
     Alertmanager() = default;
     explicit Alertmanager(const AlertmanagerConfig& config) : config_(config) {}
+    /**
+     * @brief TBD: Describe ~Alertmanager.
+     * @return Return value.
+     */
     virtual ~Alertmanager() = default;
     
     /**
      * Initialize alertmanager with configuration.
      * @param config: Alertmanager configuration
      * @return Result<void> on success, Error on failure
+     * @brief TBD: Describe initialize.
      */
     virtual Result<void> initialize(const AlertmanagerConfig& config);
     
@@ -120,6 +125,7 @@ public:
      * Send an alert to the alertmanager backend.
      * @param alert: Alert to send
      * @return Result<void> on success, Error on failure
+     * @brief TBD: Describe sendAlert.
      */
     virtual Result<void> sendAlert(const Alert& alert);
     
@@ -127,6 +133,7 @@ public:
      * Resolve a previously-fired alert.
      * @param alert_id: ID of alert to resolve
      * @return Result<void> on success, Error on failure
+     * @brief TBD: Describe resolveAlert.
      */
     virtual Result<void> resolveAlert(const std::string& alert_id);
     
@@ -135,18 +142,21 @@ public:
      * @param alert_id: ID of alert to silence
      * @param duration_minutes: Duration to silence for
      * @return Result<void> on success, Error on failure
+     * @brief TBD: Describe silenceAlert.
      */
     virtual Result<void> silenceAlert(const std::string& alert_id, int duration_minutes);
     
     /**
      * Get all currently active (firing or silenced) alerts.
      * @return Vector of active alerts
+     * @brief TBD: Describe getActiveAlerts.
      */
     virtual std::vector<Alert> getActiveAlerts();
     
     /**
      * Test connectivity to the alertmanager backend.
      * @return Result<void> on success, Error on failure
+     * @brief TBD: Describe testConnection.
      */
     virtual Result<void> testConnection();
     
@@ -167,13 +177,25 @@ protected:
     std::vector<Alert> active_alerts_;
     mutable std::mutex active_alerts_mutex_;
     
-    // Helper: Convert severity to string
+    /**
+     * @brief Helper: Convert severity to string
+     * @param[in] severity Input parameter.
+     * @return Return value.
+     */
     static std::string severityToString(AlertSeverity severity);
     
-    // Helper: Convert status to string
+    /**
+     * @brief Helper: Convert status to string
+     * @param[in] status Input parameter.
+     * @return Return value.
+     */
     static std::string statusToString(AlertStatus status);
 
     [[nodiscard]] std::optional<Alert> findActiveAlertById(const std::string& alert_id) const;
+    /**
+     * @brief TBD: Describe upsertActiveAlert.
+     * @param[in] alert Input parameter.
+     */
     void upsertActiveAlert(const Alert& alert);
     [[nodiscard]] bool removeActiveAlertById(const std::string& alert_id, Alert* removed = nullptr);
 };
@@ -188,6 +210,11 @@ protected:
 class DefaultAlertmanager : public Alertmanager {
 public:
     DefaultAlertmanager() = default;
+    /**
+     * @brief TBD: Describe DefaultAlertmanager.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit DefaultAlertmanager(const AlertmanagerConfig& config);
     ~DefaultAlertmanager() override = default;
     
@@ -202,11 +229,18 @@ private:
     // Lazily-created HTTP client pool (only allocated when enabled)
     std::shared_ptr<utils::HTTPClientPool> http_pool_;
 
-    // Build the shared client pool if not already initialised
+    /**
+     * @brief Build the shared client pool if not already initialised
+     */
     void ensureHttpPool();
 
-    // Send a JSON payload to the Alertmanager with retry logic.
-    // Returns the HTTP status code on success or an Error on final failure.
+    /**
+     * @brief Send a JSON payload to the Alertmanager with retry logic.
+     * @param[in] path Input parameter.
+     * @param[in] json_body Input parameter.
+     * @return Return value.
+     * @details Returns the HTTP status code on success or an Error on final failure.
+     */
     Result<int> postWithRetry(const std::string& path, const std::string& json_body);
 };
 
@@ -285,29 +319,39 @@ public:
      * Register a new alert rule.
      * If rule.rule_id is empty a unique ID is generated automatically.
      * @return The assigned rule_id on success, or an Error if the ID already exists.
+     * @brief TBD: Describe addRule.
+     * @param[in] rule Input parameter.
      */
     Result<std::string> addRule(AlertRule rule);
 
     /**
      * Remove a rule by ID.
      * @return Result<void> on success, or Error if the rule is not found.
+     * @brief TBD: Describe removeRule.
+     * @param[in] rule_id Input parameter.
      */
     Result<void> removeRule(const std::string& rule_id);
 
     /**
      * Retrieve a rule by ID.
      * @return Copy of the AlertRule on success, or Error if not found.
+     * @brief TBD: Describe getRule.
+     * @param[in] rule_id Input parameter.
      */
     Result<AlertRule> getRule(const std::string& rule_id) const;
 
     /**
      * Replace an existing rule with an updated version (identified by rule.rule_id).
      * @return Result<void> on success, or Error if the rule_id is not found.
+     * @brief TBD: Describe updateRule.
+     * @param[in] rule Input parameter.
      */
     Result<void> updateRule(const AlertRule& rule);
 
     /**
      * List all registered rules (enabled and disabled).
+     * @brief TBD: Describe listRules.
+     * @return Return value.
      */
     std::vector<AlertRule> listRules() const;
 
@@ -327,11 +371,14 @@ public:
 
     /**
      * Remove all registered rules and clear any tracked alert state.
+     * @brief TBD: Describe clearRules.
      */
     void clearRules();
 
     /**
      * Return the number of registered rules.
+     * @brief TBD: Describe ruleCount.
+     * @return Return value.
      */
     size_t ruleCount() const;
 
@@ -341,13 +388,28 @@ private:
     // Tracks active alert IDs for rules that are currently firing: rule_id → alert_id
     std::map<std::string, std::string> active_rule_alerts_;
 
-    // Evaluate a single comparison; returns true when condition is met.
+    /**
+     * @brief Evaluate a single comparison; returns true when condition is met.
+     * @param[in] value Input parameter.
+     * @param[in] op Input parameter.
+     * @param[in] threshold Input parameter.
+     * @return True on success.
+     */
     static bool evaluateCondition(double value, AlertRuleOperator op, double threshold);
 
-    // Generate a unique rule ID.
+    /**
+     * @brief Generate a unique rule ID.
+     * @return Return value.
+     */
     static std::string generateRuleId();
 
-    // Expand {metric} and {value} placeholders in a message template.
+    /**
+     * @brief Expand {metric} and {value} placeholders in a message template.
+     * @param[in] tmpl Input parameter.
+     * @param[in] metric_name Input parameter.
+     * @param[in] value Input parameter.
+     * @return Return value.
+     */
     static std::string expandMessage(const std::string& tmpl,
                                      const std::string& metric_name,
                                      double value);

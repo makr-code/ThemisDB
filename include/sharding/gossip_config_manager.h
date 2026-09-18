@@ -56,10 +56,16 @@ class VectorClock {
 public:
     VectorClock() = default;
     
-    // Increment local clock for a shard
+    /**
+     * @brief Increment local clock for a shard
+     * @param[in] shard_id Input parameter.
+     */
     void increment(const std::string& shard_id);
     
-    // Merge with another vector clock (for received messages)
+    /**
+     * @brief Merge with another vector clock (for received messages)
+     * @param[in] other Input parameter.
+     */
     void merge(const VectorClock& other);
     
     // Compare two vector clocks
@@ -70,18 +76,38 @@ public:
         EQUAL        // Clocks are equal
     };
     
+    /**
+     * @brief TBD: Describe compare.
+     * @param[in] other Input parameter.
+     * @return Return value.
+     */
     Ordering compare(const VectorClock& other) const;
     
-    // Get clock value for a shard
+    /**
+     * @brief Get clock value for a shard
+     * @param[in] shard_id Input parameter.
+     * @return Return value.
+     */
     uint64_t get(const std::string& shard_id) const;
     
-    // Set clock value for a shard
+    /**
+     * @brief Set clock value for a shard
+     * @param[in] shard_id Input parameter.
+     * @param[in] value Input parameter.
+     */
     void set(const std::string& shard_id, uint64_t value);
     
-    // Serialize to protobuf
+    /**
+     * @brief Serialize to protobuf
+     * @return Return value.
+     */
     proto::VectorClock toProto() const;
     
-    // Deserialize from protobuf
+    /**
+     * @brief Deserialize from protobuf
+     * @param[in] proto Input parameter.
+     * @return Return value.
+     */
     static VectorClock fromProto(const proto::VectorClock& proto);
     
     // Get all clocks
@@ -106,10 +132,17 @@ struct ConfigUpdate {
     std::string originator_shard_id;
     uint32_t ttl;
     
-    // Convert to protobuf
+    /**
+     * @brief Convert to protobuf
+     * @return Return value.
+     */
     proto::ConfigUpdate toProto() const;
     
-    // Convert from protobuf
+    /**
+     * @brief Convert from protobuf
+     * @param[in] proto Input parameter.
+     * @return Return value.
+     */
     static ConfigUpdate fromProto(const proto::ConfigUpdate& proto);
 };
 
@@ -147,10 +180,17 @@ struct ResourceSnapshot {
     std::string status;
     std::vector<std::string> warnings;
     
-    // Convert to protobuf
+    /**
+     * @brief Convert to protobuf
+     * @return Return value.
+     */
     proto::ResourceSnapshot toProto() const;
     
-    // Convert from protobuf
+    /**
+     * @brief Convert from protobuf
+     * @param[in] proto Input parameter.
+     * @return Return value.
+     */
     static ResourceSnapshot fromProto(const proto::ResourceSnapshot& proto);
 };
 
@@ -238,11 +278,13 @@ public:
     
     /**
      * Start the gossip config manager
+     * @brief TBD: Describe start.
      */
     void start();
     
     /**
      * Stop the gossip config manager
+     * @brief TBD: Describe stop.
      */
     void stop();
     
@@ -256,6 +298,7 @@ public:
      * @param config_key Configuration key
      * @param config_value Configuration value (JSON-encoded)
      * @return Update ID
+     * @brief TBD: Describe publishConfigUpdate.
      */
     std::string publishConfigUpdate(const std::string& config_key, 
                                     const std::string& config_value);
@@ -263,6 +306,7 @@ public:
     /**
      * Publish a resource snapshot
      * @param snapshot Resource snapshot to publish
+     * @brief TBD: Describe publishResourceSnapshot.
      */
     void publishResourceSnapshot(const ResourceSnapshot& snapshot);
     
@@ -270,18 +314,21 @@ public:
      * Handle incoming gossip message
      * @param message Received gossip message
      * @return Response message
+     * @brief TBD: Describe handleGossipMessage.
      */
     proto::GossipMessage handleGossipMessage(const proto::GossipMessage& message);
     
     /**
      * Register callback for config updates
      * @param callback Function called when config update is received
+     * @brief TBD: Describe onConfigUpdate.
      */
     void onConfigUpdate(ConfigUpdateCallback callback);
     
     /**
      * Register callback for resource snapshots
      * @param callback Function called when resource snapshot is received
+     * @brief TBD: Describe onResourceSnapshot.
      */
     void onResourceSnapshot(ResourceSnapshotCallback callback);
 
@@ -296,6 +343,7 @@ public:
      *            `bool(const std::string& endpoint, const proto::GossipMessage&)`.
      *            Returning true counts as a successful delivery; false increments
      *            the error counter.  Must be thread-safe.
+     * @brief TBD: Describe setGossipSendFunction.
      */
     void setGossipSendFunction(GossipSendFn fn);
     
@@ -303,6 +351,7 @@ public:
      * Get current configuration value
      * @param config_key Configuration key
      * @return Configuration value (empty if not found)
+     * @brief TBD: Describe getConfig.
      */
     std::string getConfig(const std::string& config_key) const;
     
@@ -316,6 +365,7 @@ public:
      * Get resource snapshot for a shard
      * @param shard_id Shard identifier
      * @return Resource snapshot (empty if not found)
+     * @brief TBD: Describe getResourceSnapshot.
      */
     ResourceSnapshot getResourceSnapshot(const std::string& shard_id) const;
     
@@ -327,6 +377,8 @@ public:
     
     /**
      * Get local vector clock
+     * @brief TBD: Describe getVectorClock.
+     * @return Return value.
      */
     VectorClock getVectorClock() const;
     
@@ -346,6 +398,10 @@ public:
         double avg_propagation_latency_ms;
     };
     
+    /**
+     * @brief TBD: Describe getStatistics.
+     * @return Return value.
+     */
     Statistics getStatistics() const;
 
 private:
@@ -395,26 +451,86 @@ private:
     std::vector<double> propagation_latencies_ms_;
     mutable std::mutex latency_mutex_;
     
-    // Internal methods
+    /**
+     * @brief Internal methods
+     */
     void gossipLoop();
+    /**
+     * @brief TBD: Describe antiEntropyLoop.
+     */
     void antiEntropyLoop();
+    /**
+     * @brief TBD: Describe performGossipRound.
+     */
     void performGossipRound();
+    /**
+     * @brief TBD: Describe performAntiEntropyScan.
+     */
     void performAntiEntropyScan();
     
+    /**
+     * @brief TBD: Describe selectRandomPeers.
+     * @param[in] count Input parameter.
+     * @return Return value.
+     */
     std::vector<std::string> selectRandomPeers(size_t count);
+    /**
+     * @brief TBD: Describe sendGossipMessage.
+     * @param[in] peer_endpoint Input parameter.
+     * @param[in] message Input parameter.
+     */
     void sendGossipMessage(const std::string& peer_endpoint, 
                           const proto::GossipMessage& message);
     
+    /**
+     * @brief TBD: Describe handleConfigUpdate.
+     * @param[in] update Input parameter.
+     */
     void handleConfigUpdate(const ConfigUpdate& update);
+    /**
+     * @brief TBD: Describe handleResourceSnapshot.
+     * @param[in] snapshot Input parameter.
+     */
     void handleResourceSnapshot(const ResourceSnapshot& snapshot);
     
+    /**
+     * @brief TBD: Describe shouldAcceptUpdate.
+     * @param[in] update Input parameter.
+     * @return True on success.
+     */
     bool shouldAcceptUpdate(const ConfigUpdate& update);
+    /**
+     * @brief TBD: Describe mergeVectorClock.
+     * @param[in] other Input parameter.
+     */
     void mergeVectorClock(const VectorClock& other);
     
+    /**
+     * @brief TBD: Describe generateUpdateId.
+     * @return Return value.
+     */
     std::string generateUpdateId() const;
+    /**
+     * @brief TBD: Describe createHeartbeatMessage.
+     * @return Return value.
+     */
     proto::GossipMessage createHeartbeatMessage();
+    /**
+     * @brief TBD: Describe createConfigUpdateMessage.
+     * @param[in] update Input parameter.
+     * @return Return value.
+     */
     proto::GossipMessage createConfigUpdateMessage(const ConfigUpdate& update);
+    /**
+     * @brief TBD: Describe createResourceSnapshotMessage.
+     * @param[in] snapshot Input parameter.
+     * @return Return value.
+     */
     proto::GossipMessage createResourceSnapshotMessage(const ResourceSnapshot& snapshot);
+    /**
+     * @brief TBD: Describe createAntiEntropyMessage.
+     * @return Return value.
+     */
     proto::GossipMessage createAntiEntropyMessage();
 };
 

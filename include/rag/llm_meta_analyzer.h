@@ -53,6 +53,7 @@ public:
 
     /**
      * @brief Virtual destructor
+     * @return Return value.
      */
     virtual ~LLMMetaAnalyzer() = default;
 

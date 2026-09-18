@@ -37,6 +37,10 @@ namespace updates {
  */
 class DiagnosticListener {
 public:
+    /**
+     * @brief TBD: Describe ~DiagnosticListener.
+     * @return Return value.
+     */
     virtual ~DiagnosticListener() = default;
     
     /**
@@ -74,6 +78,7 @@ class DiagnosticEmitter {
 public:
     /**
      * @brief Construct a diagnostic emitter
+     * @return Return value.
      */
     explicit DiagnosticEmitter();
 
@@ -108,6 +113,7 @@ public:
 
     /**
      * @brief Get the number of registered listeners
+     * @return Return value.
      */
     size_t listenerCount() const;
 
@@ -224,6 +230,8 @@ private:
 
     /**
      * @brief Invoke all registered listeners for an event
+     * @param[in] context Input parameter.
+     * @param[in] is_error Input parameter.
      */
     void invokeListeners(const ErrorContext& context, bool is_error) const;
 };

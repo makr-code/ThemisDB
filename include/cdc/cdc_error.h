@@ -177,6 +177,15 @@ private:
     std::string message_;
     std::string context_ = {};
     
+    /**
+     * @brief TBD: Describe formatMessage.
+     * @param[in] code Input parameter.
+     * @param[in] severity Input parameter.
+     * @param[in] message Input parameter.
+     * @param[in] context Input parameter.
+     * @return Return value.
+     * @details Calls: errorCodeToString(), severityToString(), empty().
+     */
     static std::string formatMessage(ErrorCode code, 
                                      ErrorSeverity severity,
                                      const std::string& message,
@@ -190,6 +199,12 @@ private:
         return result;
     }
     
+    /**
+     * @brief TBD: Describe errorCodeToString.
+     * @param[in] code Input parameter.
+     * @return Return value.
+     * @details Implements errorCodeToString without additional internal calls.
+     */
     static std::string errorCodeToString(ErrorCode code) {
         switch (code) {
             case ErrorCode::SUCCESS: return "SUCCESS";
@@ -231,6 +246,12 @@ private:
         }
     }
     
+    /**
+     * @brief TBD: Describe severityToString.
+     * @param[in] severity Input parameter.
+     * @return Return value.
+     * @details Implements severityToString without additional internal calls.
+     */
     static std::string severityToString(ErrorSeverity severity) {
         switch (severity) {
             case ErrorSeverity::INFO: return "INFO";
@@ -246,6 +267,12 @@ private:
  * @brief Helper functions for creating CDC exceptions
  */
 namespace error {
+    /**
+     * @brief TBD: Describe sequenceGenerationFailed.
+     * @param[in] details Input parameter.
+     * @return Return value.
+     * @details Calls: CDCException().
+     */
     inline CDCException sequenceGenerationFailed(const std::string& details) {
         return CDCException(ErrorCode::SEQUENCE_GENERATION_FAILED, 
                            ErrorSeverity::CRITICAL,
@@ -253,6 +280,12 @@ namespace error {
                            details);
     }
     
+    /**
+     * @brief TBD: Describe eventRecordFailed.
+     * @param[in] details Input parameter.
+     * @return Return value.
+     * @details Calls: CDCException().
+     */
     inline CDCException eventRecordFailed(const std::string& details) {
         return CDCException(ErrorCode::EVENT_RECORD_FAILED,
                            ErrorSeverity::ERROR,
@@ -260,6 +293,13 @@ namespace error {
                            details);
     }
     
+    /**
+     * @brief TBD: Describe bufferOverflow.
+     * @param[in] currentSize Input parameter.
+     * @param[in] maxSize Input parameter.
+     * @return Return value.
+     * @details Calls: CDCException(), std::to_string().
+     */
     inline CDCException bufferOverflow(size_t currentSize, size_t maxSize) {
         return CDCException(ErrorCode::BUFFER_OVERFLOW,
                            ErrorSeverity::WARNING,
@@ -268,6 +308,12 @@ namespace error {
                            ", max=" + std::to_string(maxSize));
     }
     
+    /**
+     * @brief TBD: Describe compressionFailed.
+     * @param[in] details Input parameter.
+     * @return Return value.
+     * @details Calls: CDCException().
+     */
     inline CDCException compressionFailed(const std::string& details) {
         return CDCException(ErrorCode::COMPRESSION_FAILED,
                            ErrorSeverity::WARNING,
@@ -275,6 +321,12 @@ namespace error {
                            details);
     }
     
+    /**
+     * @brief TBD: Describe decompressionFailed.
+     * @param[in] details Input parameter.
+     * @return Return value.
+     * @details Calls: CDCException().
+     */
     inline CDCException decompressionFailed(const std::string& details) {
         return CDCException(ErrorCode::DECOMPRESSION_FAILED,
                            ErrorSeverity::ERROR,
@@ -282,6 +334,13 @@ namespace error {
                            details);
     }
     
+    /**
+     * @brief TBD: Describe retryExhausted.
+     * @param[in] attempts Input parameter.
+     * @param[in] lastError Input parameter.
+     * @return Return value.
+     * @details Calls: CDCException(), std::to_string().
+     */
     inline CDCException retryExhausted(int attempts, const std::string& lastError) {
         return CDCException(ErrorCode::RETRY_EXHAUSTED,
                            ErrorSeverity::ERROR,
@@ -290,6 +349,13 @@ namespace error {
                            ", last_error=" + lastError);
     }
     
+    /**
+     * @brief TBD: Describe rateLimitExceeded.
+     * @param[in] current Input parameter.
+     * @param[in] limit Input parameter.
+     * @return Return value.
+     * @details Calls: CDCException(), std::to_string().
+     */
     inline CDCException rateLimitExceeded(size_t current, size_t limit) {
         return CDCException(ErrorCode::RATE_LIMIT_EXCEEDED,
                            ErrorSeverity::WARNING,
@@ -298,6 +364,13 @@ namespace error {
                            ", limit=" + std::to_string(limit));
     }
     
+    /**
+     * @brief TBD: Describe dbOperationFailed.
+     * @param[in] operation Input parameter.
+     * @param[in] details Input parameter.
+     * @return Return value.
+     * @details Calls: CDCException().
+     */
     inline CDCException dbOperationFailed(const std::string& operation, const std::string& details) {
         return CDCException(ErrorCode::DB_OPERATION_FAILED,
                            ErrorSeverity::ERROR,
@@ -305,6 +378,13 @@ namespace error {
                            details);
     }
     
+    /**
+     * @brief TBD: Describe invalidArgument.
+     * @param[in] argName Input parameter.
+     * @param[in] reason Input parameter.
+     * @return Return value.
+     * @details Calls: CDCException().
+     */
     inline CDCException invalidArgument(const std::string& argName, const std::string& reason) {
         return CDCException(ErrorCode::INVALID_ARGUMENT,
                            ErrorSeverity::ERROR,
@@ -312,6 +392,12 @@ namespace error {
                            reason);
     }
 
+    /**
+     * @brief TBD: Describe invalidArgument.
+     * @param[in] message Input parameter.
+     * @return Return value.
+     * @details Calls: CDCException().
+     */
     inline CDCException invalidArgument(const std::string& message) {
         return CDCException(ErrorCode::INVALID_ARGUMENT,
                            ErrorSeverity::ERROR,
@@ -319,6 +405,12 @@ namespace error {
                            "");
     }
 
+    /**
+     * @brief TBD: Describe internalError.
+     * @param[in] message Input parameter.
+     * @return Return value.
+     * @details Calls: CDCException().
+     */
     inline CDCException internalError(const std::string& message) {
         return CDCException(ErrorCode::INTERNAL_ERROR,
                            ErrorSeverity::ERROR,

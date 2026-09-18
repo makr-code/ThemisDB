@@ -30,6 +30,7 @@ public:
     /**
      * @brief Initialize with PII Detector for classification
      * @param pii_detector Shared pointer to PIIDetector instance
+     * @return Return value.
      */
     explicit ClassificationApiHandler(std::shared_ptr<themis::utils::PIIDetector> pii_detector);
     

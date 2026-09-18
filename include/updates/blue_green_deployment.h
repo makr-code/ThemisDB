@@ -211,12 +211,14 @@ public:
      * @brief Current error rate since the last promotion (0.0 – 1.0).
      *
      * Returns 0.0 when no events have been recorded yet.
+     * @return Return value.
      */
     double errorRate() const;
 
     /**
      * @brief Return true if the error rate exceeds the threshold and the
      *        minimum sample count has been reached.
+     * @return True on success.
      */
     bool shouldRollback() const;
 
@@ -224,11 +226,13 @@ public:
 
     /**
      * @brief Get a snapshot of the current deployment state.
+     * @return Return value.
      */
     BlueGreenStatus status() const;
 
     /**
      * @brief Return the currently active slot.
+     * @return Return value.
      */
     DeploymentSlot activeSlot() const;
 
@@ -236,6 +240,8 @@ public:
      * @brief Return the version string associated with a slot.
      *
      * Returns an empty string when no version has been deployed to the slot.
+     * @param[in] slot Input parameter.
+     * @return Return value.
      */
     std::string slotVersion(DeploymentSlot slot) const;
 

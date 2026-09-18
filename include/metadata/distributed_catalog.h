@@ -49,8 +49,11 @@ namespace themis {
 /// Issue: makr-code/ThemisDB#1961
 class DistributedMetadataCatalog {
 public:
-    /// Constructor
-    /// @param router Distributed shard router (non-owning reference)
+    /**
+     * @brief Constructor @param router Distributed shard router (non-owning reference)
+     * @param[in,out] router Input/output parameter.
+     * @return Return value.
+     */
     explicit DistributedMetadataCatalog(themisdb::sharding::MetadataShardRouter& router);
 
     ~DistributedMetadataCatalog() = default;
@@ -65,44 +68,59 @@ public:
     // Write API
     // ========================================================================
 
-    /// Publish (create or update) a single table schema to the distributed catalog.
-    /// @param schema Table schema to publish
-    /// @return true on success, false if the router rejected the write
+    /**
+     * @brief Publish (create or update) a single table schema to the distributed catalog.
+     * @param[in] schema Input parameter.
+     * @return True on success.
+     * @details @param schema Table schema to publish @return true on success, false if the router rejected the write
+     */
     bool publishSchema(const SchemaManager::TableSchema& schema);
 
-    /// Sync all table schemas from a local SchemaManager to the distributed catalog.
-    /// Iterates all tables returned by schema_mgr.getAllTables() and calls
-    /// publishSchema() for each one.
-    /// @param schema_mgr Source of truth for local schemas
-    /// @return Number of schemas successfully published
+    /**
+     * @brief Sync all table schemas from a local SchemaManager to the distributed catalog.
+     * @param[in,out] schema_mgr Input/output parameter.
+     * @return Return value.
+     * @details Iterates all tables returned by schema_mgr.getAllTables() and calls publishSchema() for each one. @param schema_mgr Source of truth for local schemas @return Number of schemas successfully published
+     */
     size_t syncFromSchemaManager(SchemaManager& schema_mgr);
 
-    /// Remove a table schema from the distributed catalog.
-    /// @param table_name Table name to remove
-    /// @return true if removed, false if not found or router rejected the removal
+    /**
+     * @brief Remove a table schema from the distributed catalog.
+     * @param[in] table_name Input parameter.
+     * @return True on success.
+     * @details @param table_name Table name to remove @return true if removed, false if not found or router rejected the removal
+     */
     bool removeSchema(const std::string& table_name);
 
     // ========================================================================
     // Read API
     // ========================================================================
 
-    /// Fetch a table schema from the distributed catalog.
-    /// @param table_name Table name to look up
-    /// @return TableSchema if found, std::nullopt otherwise
+    /**
+     * @brief Fetch a table schema from the distributed catalog.
+     * @param[in] table_name Input parameter.
+     * @return Return value.
+     * @details @param table_name Table name to look up @return TableSchema if found, std::nullopt otherwise
+     */
     std::optional<SchemaManager::TableSchema> fetchSchema(
         const std::string& table_name) const;
 
-    /// List all table names present in the distributed catalog.
-    /// Performs a scatter-gather across all shards via the router.
-    /// @return Sorted vector of table names
+    /**
+     * @brief List all table names present in the distributed catalog.
+     * @return Return value.
+     * @details Performs a scatter-gather across all shards via the router. @return Sorted vector of table names
+     */
     std::vector<std::string> listTableNames() const;
 
     // ========================================================================
     // Diagnostics
     // ========================================================================
 
-    /// Return catalog statistics as a JSON object.
-    /// Includes counts of published, sync, fetch, and remove operations.
+    /**
+     * @brief Return catalog statistics as a JSON object.
+     * @return Return value.
+     * @details Includes counts of published, sync, fetch, and remove operations.
+     */
     nlohmann::json getStatistics() const;
 
 private:

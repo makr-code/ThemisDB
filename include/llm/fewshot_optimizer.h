@@ -144,11 +144,14 @@ public:
     
     /**
      * @brief Update configuration
+     * @param[in] config Input parameter.
+     * @details Implements setConfig without additional internal calls.
      */
     void setConfig(const FewShotConfig& config) { config_ = config; }
     
     /**
      * @brief Get cache statistics
+     * @return Return value.
      */
     nlohmann::json getCacheStats() const;
 
@@ -159,6 +162,10 @@ private:
     
     /**
      * @brief Select examples using greedy diversity sampling
+     * @param[in] query Input parameter.
+     * @param[in] candidates Input parameter.
+     * @param[in] num_examples Input parameter.
+     * @return Return value.
      */
     std::vector<FewShotExample> greedyDiversitySelection(
         const std::string& query,
@@ -168,6 +175,9 @@ private:
     
     /**
      * @brief Compute pairwise similarity between examples
+     * @param[in] ex1 Input parameter.
+     * @param[in] ex2 Input parameter.
+     * @return Return value.
      */
     static double computeSimilarity(
         const FewShotExample& ex1,

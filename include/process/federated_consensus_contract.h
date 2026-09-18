@@ -430,6 +430,7 @@ struct GossipVersionVector {
     /**
      * @brief Increment clock for a given shard.
      * @param shard_id Shard to increment
+     * @details Calls: find(), end().
      */
     void increment(const std::string& shard_id) {
         if (clock.find(shard_id) == clock.end()) {
@@ -442,6 +443,7 @@ struct GossipVersionVector {
     /**
      * @brief Merge with another version vector (take maximum per shard).
      * @param other Version vector to merge
+     * @details Calls: find(), end(), std::max().
      */
     void merge(const GossipVersionVector& other) {
         for (const auto& [shard_id, clock_value] : other.clock) {

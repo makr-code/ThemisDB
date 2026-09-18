@@ -63,14 +63,23 @@ public:
         std::shared_ptr<AuthMiddleware>                   auth
     );
 
+     * @brief TBD: Describe handleTopologyGet.
+     * @param[in] req Input parameter.
+     * @return Return value.
     /** GET /api/v1/replication/topology — full per-replica topology snapshot */
     http::response<http::string_body> handleTopologyGet(
         const http::request<http::string_body>& req);
 
+     * @brief TBD: Describe handleHealthGet.
+     * @param[in] req Input parameter.
+     * @return Return value.
     /** GET /api/v1/replication/health — aggregated cluster health summary */
     http::response<http::string_body> handleHealthGet(
         const http::request<http::string_body>& req);
 
+     * @brief TBD: Describe handleUiGet.
+     * @param[in] req Input parameter.
+     * @return Return value.
     /** GET /ui/replication/topology — serve the interactive HTML visualizer */
     http::response<http::string_body> handleUiGet(
         const http::request<http::string_body>& req);
@@ -81,17 +90,35 @@ private:
     std::string                                       primary_id_;
     std::shared_ptr<AuthMiddleware>                   auth_;
 
+    /**
+     * @brief TBD: Describe makeErrorResponse.
+     * @param[in] status Input parameter.
+     * @param[in] message Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeErrorResponse(
         http::status          status,
         const std::string&    message,
         const http::request<http::string_body>& req) const;
 
+    /**
+     * @brief TBD: Describe makeResponse.
+     * @param[in] status Input parameter.
+     * @param[in] body Input parameter.
+     * @param[in] content_type Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeResponse(
         http::status          status,
         const std::string&    body,
         const std::string&    content_type,
         const http::request<http::string_body>& req) const;
 
+     * @brief TBD: Describe buildUiHtml.
+     * @param[in] api_base Input parameter.
+     * @return Return value.
     /** Build the embedded HTML page for the topology visualizer. */
     static std::string buildUiHtml(const std::string& api_base);
 };

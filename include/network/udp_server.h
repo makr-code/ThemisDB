@@ -219,8 +219,9 @@ public:
 
     ~UDPServer();
 
-    /// Bind the socket, start the batch-flush thread (if batching enabled),
-    /// and launch I/O threads.
+    /**
+     * @brief Bind the socket, start the batch-flush thread (if batching enabled), and launch I/O threads.
+     */
     void start();
 
     /// Gracefully stop all threads and release the socket.
@@ -228,6 +229,10 @@ public:
 
     bool isRunning() const { return running_.load(std::memory_order_acquire); }
 
+    /**
+     * @brief TBD: Describe getStats.
+     * @return Return value.
+     */
     Stats getStats() const;
 
     // ── Packet helpers (public for unit-test access) ──────────────────────────
@@ -235,6 +240,7 @@ public:
     /**
      * @brief Validate the header of a raw UDP datagram.
      * @return true if magic, version, and payload-length field are consistent.
+     * @param[in] data Input parameter.
      */
     static bool validatePacket(const std::vector<uint8_t>& data);
 
@@ -242,18 +248,50 @@ public:
      * @brief Build an ACK datagram to send back to the client.
      * @param seq_num  Echoed from the original request.
      * @param status   Outcome to report to the client.
+     * @return Return value.
      */
     static std::vector<uint8_t> buildAck(uint32_t seq_num, UdpServerStatus status);
 
 private:
-    // ── Internal helpers ─────────────────────────────────────────────────────
+    /**
+     * @brief ── Internal helpers ─────────────────────────────────────────────────────
+     */
 
     void doReceive();
+    /**
+     * @brief TBD: Describe handleDatagram.
+     * @param[in] sender Input parameter.
+     * @param[in] data Input parameter.
+     */
     void handleDatagram(udp::endpoint sender, std::vector<uint8_t> data);
+    /**
+     * @brief TBD: Describe checkRateLimit.
+     * @param[in] ip Input parameter.
+     * @return True on success.
+     */
     bool checkRateLimit(const std::string& ip);
+    /**
+     * @brief TBD: Describe checkDuplicate.
+     * @param[in] ip Input parameter.
+     * @param[in] seq_num Input parameter.
+     * @return True on success.
+     */
     bool checkDuplicate(const std::string& ip, uint32_t seq_num);
+    /**
+     * @brief TBD: Describe sendAck.
+     * @param[in] dest Input parameter.
+     * @param[in] seq_num Input parameter.
+     * @param[in] status Input parameter.
+     */
     void sendAck(const udp::endpoint& dest, uint32_t seq_num, UdpServerStatus status);
+    /**
+     * @brief TBD: Describe dispatchPacket.
+     * @param[in] pkt Input parameter.
+     */
     void dispatchPacket(const UdpPacket& pkt);
+    /**
+     * @brief TBD: Describe batchFlushLoop.
+     */
     void batchFlushLoop();
 
     // ── Members ──────────────────────────────────────────────────────────────

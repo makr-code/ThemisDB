@@ -170,6 +170,7 @@ public:
     
     /**
      * @brief Set user context for resource tracking
+     * @param[in] user_id Input parameter.
      */
     void setUserContext(const std::string& user_id);
     
@@ -194,8 +195,13 @@ private:
     
     /**
      * @brief Free image resources
+     * @param[in,out] img_u8 Input/output parameter.
      */
     void freeImage(clip_image_u8* img_u8);
+    /**
+     * @brief TBD: Describe freeImage.
+     * @param[in,out] img_f32 Input/output parameter.
+     */
     void freeImage(clip_image_f32* img_f32);
     
 private:
@@ -211,9 +217,23 @@ private:
     std::shared_ptr<VisionResourceMonitor> resource_monitor_; ///< Resource monitor
     std::string current_user_id_;                             ///< Current user context
     
-    // Validation helpers
+    /**
+     * @brief Validation helpers
+     * @param[in] image_path Input parameter.
+     * @return True on success.
+     */
     bool validateImageSize(const std::string& image_path) const;
+    /**
+     * @brief TBD: Describe validateImageFormat.
+     * @param[in] image_path Input parameter.
+     * @return True on success.
+     */
     bool validateImageFormat(const std::string& image_path) const;
+    /**
+     * @brief TBD: Describe validateImageResolution.
+     * @param[in] image_path Input parameter.
+     * @return True on success.
+     */
     bool validateImageResolution(const std::string& image_path) const;
 };
 
@@ -244,6 +264,10 @@ struct VisionRequest {
  * Response from vision-enabled LLM
  */
 struct VisionResponse {
+    /**
+     * @brief TBD: Describe ~VisionResponse.
+     * @return Return value.
+     */
     virtual ~VisionResponse() = default;
     bool success = false;              ///< Success flag
     std::string text;                  ///< Generated text

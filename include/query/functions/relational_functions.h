@@ -1038,6 +1038,8 @@ public:
 
 /**
  * @brief Register all Relational functions with the registry
+ * @param[in,out] registry Input/output parameter.
+ * @details Calls: registerFunction().
  */
 inline void registerRelationalFunctions(FunctionRegistry& registry) {
     // Aggregation

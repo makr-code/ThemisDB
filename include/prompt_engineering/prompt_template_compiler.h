@@ -75,6 +75,12 @@ struct PromptContextValue {
     std::vector<std::string>                         list_val;
     std::vector<std::pair<std::string, std::string>> chunks; ///< (content, source)
 
+    /**
+     * @brief TBD: Describe fromString.
+     * @param[in] s Input parameter.
+     * @return Return value.
+     * @details Calls: std::move().
+     */
     static PromptContextValue fromString(std::string s) {
         PromptContextValue v;
         v.kind    = SlotType::STRING;
@@ -82,6 +88,12 @@ struct PromptContextValue {
         return v;
     }
 
+    /**
+     * @brief TBD: Describe fromList.
+     * @param[in] l Input parameter.
+     * @return Return value.
+     * @details Calls: std::move().
+     */
     static PromptContextValue fromList(std::vector<std::string> l) {
         PromptContextValue v;
         v.kind     = SlotType::LIST;
@@ -97,9 +109,11 @@ struct PromptContextValue {
         return v;
     }
 
+     * @return Return value.
     /** @brief Serialise to a plain string (for TEXT substitution). */
     std::string toString() const;
 
+     * @return True on success.
     /** @brief Truthy test used by `{% if %}` blocks. */
     bool asBool() const;
 };
@@ -118,6 +132,11 @@ using PromptContext = std::unordered_map<std::string, PromptContextValue>;
 /** @brief Thrown by `PromptTemplateCompiler::compile()` on parse errors. */
 class PromptTemplateCompileError : public std::runtime_error {
 public:
+    /**
+     * @brief TBD: Describe PromptTemplateCompileError.
+     * @param[in] what Input parameter.
+     * @return Return value.
+     */
     explicit PromptTemplateCompileError(const std::string& what)
         : std::runtime_error(what) {}
 };
@@ -125,6 +144,11 @@ public:
 /** @brief Thrown by `CompiledPromptTemplate::render()` when a required slot is missing. */
 class PromptTemplateMissingSlotError : public std::runtime_error {
 public:
+    /**
+     * @brief TBD: Describe PromptTemplateMissingSlotError.
+     * @param[in] slot_name Input parameter.
+     * @return Return value.
+     */
     explicit PromptTemplateMissingSlotError(const std::string& slot_name)
         : std::runtime_error("Missing required slot: " + slot_name)
         , slot_name_(slot_name) {}
@@ -137,6 +161,11 @@ private:
 /** @brief Thrown by `CompiledPromptTemplate::render()` on slot type mismatch. */
 class PromptTemplateTypeMismatchError : public std::runtime_error {
 public:
+    /**
+     * @brief TBD: Describe PromptTemplateTypeMismatchError.
+     * @param[in] msg Input parameter.
+     * @return Return value.
+     */
     explicit PromptTemplateTypeMismatchError(const std::string& msg)
         : std::runtime_error(msg) {}
 };
@@ -154,6 +183,10 @@ public:
  */
 class IPromptTemplate {
 public:
+    /**
+     * @brief TBD: Describe ~IPromptTemplate.
+     * @return Return value.
+     */
     virtual ~IPromptTemplate() = default;
 
     /** @brief Return the raw source string that was compiled. */
@@ -216,7 +249,10 @@ public:
     std::string                     render(const PromptContext& ctx) const override;
     std::vector<std::string>        validate(const PromptContext& ctx) const noexcept override;
 
-    // Serialisation ------------------------------------------------------------
+    /**
+     * @brief Serialisation ------------------------------------------------------------
+     * @return Return value.
+     */
 
     nlohmann::json toJson() const;
 

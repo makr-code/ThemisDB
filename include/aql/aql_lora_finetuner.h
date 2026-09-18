@@ -77,9 +77,11 @@ public:
     // Built-in sample sources
     // -------------------------------------------------------------------------
 
-    /// Append the standard set of ThemisDB AQL training samples.
-    /// Covers: relational, graph traversal, vector similarity, geo-spatial,
-    /// timeseries, LLM extensions (INFER, RAG, EMBED, LORA), and DDL.
+    /**
+     * @brief Append the standard set of ThemisDB AQL training samples.
+     * @return Return value.
+     * @details Covers: relational, graph traversal, vector similarity, geo-spatial, timeseries, LLM extensions (INFER, RAG, EMBED, LORA), and DDL.
+     */
     AQLDatasetBuilder& addBuiltinSamples();
 
     /// Append only samples for a specific category.
@@ -96,8 +98,12 @@ public:
         AQLSampleCategory category = AQLSampleCategory::NL_TO_AQL
     );
 
-    /// Append a batch of samples loaded from a JSON file.
-    /// Expected format: array of {"input": "...", "output": "..."} objects.
+    /**
+     * @brief Append a batch of samples loaded from a JSON file.
+     * @param[in] json_path Input parameter.
+     * @return Return value.
+     * @details Expected format: array of {"input": "...", "output": "..."} objects.
+     */
     AQLDatasetBuilder& loadFromJson(const std::string& json_path);
 
     /// Append samples from a JSON object (in-memory).
@@ -126,14 +132,37 @@ public:
 private:
     std::vector<TrainingDataSample> samples_;
 
-    // Helpers that populate the built-in sample tables
+    /**
+     * @brief Helpers that populate the built-in sample tables
+     */
     void addRelationalSamples();
+    /**
+     * @brief TBD: Describe addGraphSamples.
+     */
     void addGraphSamples();
+    /**
+     * @brief TBD: Describe addVectorSamples.
+     */
     void addVectorSamples();
+    /**
+     * @brief TBD: Describe addGeoSamples.
+     */
     void addGeoSamples();
+    /**
+     * @brief TBD: Describe addTimeseriesSamples.
+     */
     void addTimeseriesSamples();
+    /**
+     * @brief TBD: Describe addLLMExtensionSamples.
+     */
     void addLLMExtensionSamples();
+    /**
+     * @brief TBD: Describe addLoraCmdSamples.
+     */
     void addLoraCmdSamples();
+    /**
+     * @brief TBD: Describe addDDLSamples.
+     */
     void addDDLSamples();
 };
 
@@ -313,6 +342,7 @@ public:
     /**
      * @brief Load extra samples from a JSON file before calling train().
      * @throws std::runtime_error if the file cannot be parsed.
+     * @param[in] json_path Input parameter.
      */
     void loadExtraDataset(const std::string& json_path);
 
@@ -325,11 +355,13 @@ public:
      *
      * After a successful train() call this returns the versioned adapter ID.
      * Before training it returns the base adapter_id from the configuration.
+     * @return Return value.
      */
     std::string getAdapterID() const;
 
     /**
      * @brief True if train() has been called successfully at least once.
+     * @return True on success.
      */
     bool isTrained() const;
 
@@ -340,11 +372,13 @@ public:
     /**
      * @brief Return the dataset that would be used by the next train() call.
      * Useful for auditing or exporting the training data.
+     * @return Return value.
      */
     TrainingData buildDataset() const;
 
     /**
      * @brief Export current dataset samples as JSON (for review/editing).
+     * @return Return value.
      */
     json exportDatasetJson() const;
 
@@ -355,6 +389,7 @@ public:
     /**
      * @brief Attach an adapter registry.
      * When set, successful train() calls register the resulting adapter metadata.
+     * @param[in] registry Input parameter.
      */
     void setAdapterRegistry(std::shared_ptr<::themis::llm::AdapterRegistry> registry);
 

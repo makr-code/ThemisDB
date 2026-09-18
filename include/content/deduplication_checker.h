@@ -127,9 +127,26 @@ private:
     // eviction when max_band_entries is reached.
     std::unique_ptr<cache::BoundedLRUCache> band_cache_;
 
-    // Helpers
+    /**
+     * @brief Helpers
+     * @param[in] a Input parameter.
+     * @param[in] b Input parameter.
+     * @return Return value.
+     */
     static uint32_t hammingDistance(const std::string& a, const std::string& b);
+    /**
+     * @brief TBD: Describe bandHash.
+     * @param[in] sig Input parameter.
+     * @param[in] band Input parameter.
+     * @return Return value.
+     */
     static uint64_t bandHash(const std::vector<uint32_t>& sig, size_t band);
+    /**
+     * @brief TBD: Describe makeBandKey.
+     * @param[in] band Input parameter.
+     * @param[in] hash_val Input parameter.
+     * @return Return value.
+     */
     static std::string makeBandKey(size_t band, uint64_t hash_val);
 };
 

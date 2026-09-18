@@ -161,17 +161,45 @@ private:
     size_t max_regex_length_;
     uint32_t pattern_timeout_ms_ = DEFAULT_PATTERN_TIMEOUT_MS;  // Hardening: timeout bound
     
-    // Initialization and loading
+    /**
+     * @brief Initialization and loading
+     */
     void loadEmbeddedDefaults();
+    /**
+     * @brief TBD: Describe loadPatternsFromConfig.
+     * @param[in] config Input parameter.
+     * @return True on success.
+     */
     bool loadPatternsFromConfig(const nlohmann::json& config);
+    /**
+     * @brief TBD: Describe validateAndCompilePattern.
+     * @param[in,out] pattern Input/output parameter.
+     * @return True on success.
+     */
     bool validateAndCompilePattern(RegexPattern& pattern);
+    /**
+     * @brief TBD: Describe rebuildFieldHints.
+     */
     void rebuildFieldHints();
     
-    // Validation helpers
+    /**
+     * @brief Validation helpers
+     * @param[in] regex_str Input parameter.
+     * @return True on success.
+     */
     bool validateRegexComplexity(const std::string& regex_str) const;
+    /**
+     * @brief TBD: Describe parseRegexFlags.
+     * @param[in] flag_strings Input parameter.
+     * @return Return value.
+     */
     std::regex::flag_type parseRegexFlags(const std::vector<std::string>& flag_strings) const;
     
-    // Helper: Luhn algorithm for credit card validation
+    /**
+     * @brief Helper: Luhn algorithm for credit card validation
+     * @param[in] number Input parameter.
+     * @return True on success.
+     */
     bool luhnCheck(const std::string& number) const;
     
     // Phase A.1 Hardening: Input validation and safety checks

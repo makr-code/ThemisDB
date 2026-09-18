@@ -38,10 +38,18 @@ enum class MergePolicy {
 /// Workload statistics tracker
 class WorkloadStats {
 public:
+    /**
+     * @brief TBD: Describe record_read.
+     * @details Calls: fetch_add().
+     */
     void record_read() { 
         reads_.fetch_add(1, std::memory_order_relaxed);
     }
     
+    /**
+     * @brief TBD: Describe record_write.
+     * @details Calls: fetch_add().
+     */
     void record_write() {
         writes_.fetch_add(1, std::memory_order_relaxed);
     }
@@ -54,7 +62,10 @@ public:
         return static_cast<double>(r) / (r + w);
     }
     
-    // Reset statistics (for sliding window)
+    /**
+     * @brief Reset statistics (for sliding window)
+     * @details Calls: store().
+     */
     void reset() {
         reads_.store(0, std::memory_order_relaxed);
         writes_.store(0, std::memory_order_relaxed);
@@ -77,13 +88,26 @@ public:
     
     DostoevskeyLSM(int num_levels);
     
-    // Compute optimal merge policy for a level based on workload
+    /**
+     * @brief Compute optimal merge policy for a level based on workload
+     * @param[in] level Input parameter.
+     * @param[in] stats Input parameter.
+     * @return Return value.
+     */
     MergePolicy compute_optimal_policy(int level, const WorkloadStats& stats) const;
     
-    // Get current policy for level
+    /**
+     * @brief Get current policy for level
+     * @param[in] level Input parameter.
+     * @return Return value.
+     */
     MergePolicy get_policy(int level) const;
     
-    // Update policy for level (adaptive)
+    /**
+     * @brief Update policy for level (adaptive)
+     * @param[in] level Input parameter.
+     * @param[in] stats Input parameter.
+     */
     void update_policy(int level, const WorkloadStats& stats);
     
     // Get merge cost estimation
@@ -92,6 +116,12 @@ public:
         double write_amplification;
         double space_amplification;
     };
+    /**
+     * @brief TBD: Describe estimate_cost.
+     * @param[in] level Input parameter.
+     * @param[in] policy Input parameter.
+     * @return Return value.
+     */
     MergeCost estimate_cost(int level, MergePolicy policy) const;
 
 private:
@@ -105,16 +135,29 @@ class WorkloadMonitor {
 public:
     explicit WorkloadMonitor(std::chrono::seconds window_duration = std::chrono::seconds(60));
     
+    /**
+     * @brief TBD: Describe record_read.
+     * @details Implements record_read without additional internal calls.
+     */
     void record_read() { current_stats_.record_read(); }
+    /**
+     * @brief TBD: Describe record_write.
+     * @details Implements record_write without additional internal calls.
+     */
     void record_write() { current_stats_.record_write(); }
     
     // Get current workload statistics
     const WorkloadStats& get_stats() const { return current_stats_; }
     
-    // Check if it's time to update policies (sliding window expired)
+    /**
+     * @brief Check if it's time to update policies (sliding window expired)
+     * @return True on success.
+     */
     bool should_update_policies() const;
     
-    // Reset window
+    /**
+     * @brief Reset window
+     */
     void reset_window();
 
 private:

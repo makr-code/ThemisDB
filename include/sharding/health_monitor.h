@@ -207,6 +207,7 @@ public:
         std::chrono::steady_clock::time_point last_failover_time;
     };
     
+     * @return Return value.
     /** @brief Return monitor-wide statistics snapshot. */
     Statistics getStatistics() const;
 
@@ -215,14 +216,21 @@ private:
     void monitoringLoop();
     /** @brief Perform one full health-check pass over primaries and replicas. */
     void performHealthChecks();
+     * @param[in] node_id Input parameter.
     /** @brief Handle transition of a node into DOWN state. */
     void handleNodeFailure(const std::string& node_id);
+     * @param[in] node_id Input parameter.
+     * @return True on success.
     /** @brief Return whether failover is currently allowed by policy/cooldown. */
     bool shouldTriggerFailover(const std::string& node_id) const;
+     * @return Return value.
     /** @brief Select best standby candidate for promotion. */
     std::optional<std::string> selectStandbyForPromotion() const;
+     * @param[in] event Input parameter.
     /** @brief Persist one failover event into history and update timestamps. */
     void recordFailoverEvent(const FailoverEvent& event);
+     * @param[in] endpoint Input parameter.
+     * @return True on success.
     /** @brief Execute HTTP health probe against endpoint URL. */
     bool performHealthCheck(const std::string& endpoint);
     

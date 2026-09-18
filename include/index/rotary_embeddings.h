@@ -68,13 +68,22 @@ public:
         double avg_rotation_time_us = 0.0;
     };
 
+    /**
+     * @brief TBD: Describe RotaryEmbedding.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit RotaryEmbedding(const RotationConfig& config);
     
     // ===== Core rotation operations =====
     
-    /// Rotate embedding by position
-    /// Applies 2D rotations to coordinate pairs: R(x, θ) = [x₀ cos(θ) - x₁ sin(θ), x₀ sin(θ) + x₁ cos(θ)]
-    /// For position m: f(x_m) = R(x_m, mθ₀) ⊕ R(x_m, mθ₁) ⊕ ... ⊕ R(x_m, mθ_{d/2-1})
+    /**
+     * @brief Rotate embedding by position Applies 2D rotations to coordinate pairs: R(x, θ) = [x₀ cos(θ) - x₁ sin(θ), x₀ sin(θ) + x₁ cos(θ)] For position m: f(x_m) = R(x_m, mθ₀) ⊕ R(x_m, mθ₁) ⊕ .
+     * @param[in] embedding Input parameter.
+     * @param[in] position Input parameter.
+     * @return Return value.
+     * @details .. ⊕ R(x_m, mθ_{d/2-1})
+     */
     std::vector<float> rotate(
         const std::vector<float>& embedding,
         size_t position
@@ -96,9 +105,12 @@ public:
     
     // ===== Relational rotation (for Knowledge Graph edges) =====
     
-    /// Apply relational rotation based on relation type
-    /// Uses hash of relation_type to determine rotation angle
-    /// Enables TransE-like translational embeddings in vector space
+    /**
+     * @brief Apply relational rotation based on relation type Uses hash of relation_type to determine rotation angle Enables TransE-like translational embeddings in vector space
+     * @param[in] embedding Input parameter.
+     * @param[in] relation_type Input parameter.
+     * @return Return value.
+     */
     std::vector<float> rotateRelational(
         const std::vector<float>& embedding,
         const std::string& relation_type
@@ -107,6 +119,10 @@ public:
     // ===== Configuration =====
     
     const RotationConfig& getConfig() const { return config_; }
+    /**
+     * @brief TBD: Describe getStats.
+     * @return Return value.
+     */
     RotationStats getStats() const;
     
 private:
@@ -138,6 +154,13 @@ private:
     /// Normalize vector to unit length (L2 normalization)
     void normalizeL2(std::vector<float>& vec) const;
 
+    /**
+     * @brief TBD: Describe rotateImpl.
+     * @param[in] embedding Input parameter.
+     * @param[in] position Input parameter.
+     * @param[in] is_relational Input parameter.
+     * @return Return value.
+     */
     std::vector<float> rotateImpl(
         const std::vector<float>& embedding,
         size_t position,

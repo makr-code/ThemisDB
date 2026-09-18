@@ -236,7 +236,12 @@ public:
     );
     
 private:
-    // Internal helper for shape validation
+    /**
+     * @brief Internal helper for shape validation
+     * @param[in] input Input parameter.
+     * @param[in] B Input parameter.
+     * @param[in] A Input parameter.
+     */
     static void validate_shapes(
         const GPUTensor& input,
         const GPUTensor& B,

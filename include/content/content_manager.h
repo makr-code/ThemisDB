@@ -81,7 +81,16 @@ struct ContentMeta {
     std::string virtual_path;        // Virtual filesystem path (e.g., "/documents/report.pdf")
     bool is_directory = false;       // True if this represents a directory
     
+    /**
+     * @brief TBD: Describe toJson.
+     * @return Return value.
+     */
     json toJson() const;
+    /**
+     * @brief TBD: Describe fromJson.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static ContentMeta fromJson(const json& j);
 };
 
@@ -112,7 +121,16 @@ struct ChunkMeta {
     
     int64_t created_at;              // Creation timestamp
     
+    /**
+     * @brief TBD: Describe toJson.
+     * @return Return value.
+     */
     json toJson() const;
+    /**
+     * @brief TBD: Describe fromJson.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static ChunkMeta fromJson(const json& j);
 };
 
@@ -127,7 +145,11 @@ struct ContentAssembly {
     std::optional<std::string> assembled_text; // Full text (lazy: only if requested)
     int64_t total_size_bytes;                // Total size of all chunks
     
-    // Helper: Get chunk by sequence number
+    /**
+     * @brief Helper: Get chunk by sequence number
+     * @param[in] seq_num Input parameter.
+     * @return Return value.
+     */
     std::optional<ChunkMeta> getChunkBySeqNum(int seq_num) const;
 };
 
@@ -140,7 +162,18 @@ struct ContentAssembly {
 struct Status {
     bool ok = true;
     std::string message;
+    /**
+     * @brief TBD: Describe OK.
+     * @return Return value.
+     * @details Implements OK without additional internal calls.
+     */
     static Status OK() { return {}; }
+    /**
+     * @brief TBD: Describe Error.
+     * @param[in] msg Input parameter.
+     * @return Return value.
+     * @details Calls: std::move().
+     */
     static Status Error(std::string msg) { return Status{false, std::move(msg)}; }
 };
 
@@ -427,6 +460,8 @@ public:
 
     /**
      * @brief Get processor for a category
+     * @param[in] category Input parameter.
+     * @return Pointer to the result.
      */
     IContentProcessor* getProcessor(ContentCategory category);
 
@@ -440,6 +475,10 @@ public:
         std::unordered_map<ContentCategory, int> items_by_category;
         int64_t total_storage_bytes = 0; ///< CON-018
     };
+    /**
+     * @brief TBD: Describe getStats.
+     * @return Return value.
+     */
     Stats getStats();
 
     /// Metrics for Prometheus exposition
@@ -470,6 +509,10 @@ public:
         std::atomic<uint64_t> dedup_hits_total{0};    ///< Number of near-duplicates detected
     };
 
+    /**
+     * @brief TBD: Describe getMetrics.
+     * @return Return value.
+     */
     const Metrics& getMetrics() const;
 
     /**
@@ -489,6 +532,7 @@ public:
 
     /**
      * @brief Get malware filter (for status/metrics)
+     * @return Return value.
      */
     std::shared_ptr<themis::security::MalwareFilterManager> getMalwareFilter() const;
 
@@ -523,9 +567,11 @@ public:
     std::vector<float> generateEmbedding(const std::string& text,
                                           const std::string& model_name = "");
 
-    // =========================================================================
-    // LLM-assisted content analysis
-    // =========================================================================
+    /**
+     * @brief ========================================================================= LLM-assisted content analysis =========================================================================
+     * @param[in] content_id Input parameter.
+     * @return Return value.
+     */
 
     json analyzeContent(const std::string& content_id);
 
@@ -539,8 +585,18 @@ public:
         int max_words = 100
     );
 
+    /**
+     * @brief TBD: Describe classifyContent.
+     * @param[in] content_id Input parameter.
+     * @return Return value.
+     */
     std::string classifyContent(const std::string& content_id);
 
+    /**
+     * @brief TBD: Describe extractEntities.
+     * @param[in] content_id Input parameter.
+     * @return Return value.
+     */
     json extractEntities(const std::string& content_id);
 
     /**
@@ -559,6 +615,7 @@ public:
 
     /**
      * @brief Get the attached deduplication checker (may be nullptr).
+     * @return Return value.
      */
     std::shared_ptr<DeduplicationChecker> getDeduplicationChecker() const;
 
@@ -577,6 +634,7 @@ public:
 
     /**
      * @brief Get the current processor chain configuration.
+     * @return Return value.
      */
     const ProcessorChainConfig& getProcessorChainConfig() const;
 
@@ -603,27 +661,79 @@ private:
     // Metrics instance (atomics) for Prometheus exposition
     mutable Metrics metrics_;
 
-    // Helper methods
+    /**
+     * @brief Helper methods
+     * @return Return value.
+     */
     std::string generateUuid();
+    /**
+     * @brief TBD: Describe normalizeId.
+     * @param[in] id Input parameter.
+     * @param[in] prefix Input parameter.
+     * @return Return value.
+     */
     std::string normalizeId(const std::string& id, const std::string& prefix);
+    /**
+     * @brief TBD: Describe computeSHA256.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     std::string computeSHA256(const std::string& blob);
+    /**
+     * @brief TBD: Describe checkDuplicateByHash.
+     * @param[in] hash Input parameter.
+     * @return Return value.
+     */
     std::optional<std::string> checkDuplicateByHash(const std::string& hash);
     
+    /**
+     * @brief TBD: Describe createChunkGraph.
+     * @param[in] chunk_ids Input parameter.
+     * @param[in] content_id Input parameter.
+     * @param[in] chunk_type Input parameter.
+     */
     void createChunkGraph(
         const std::vector<std::string>& chunk_ids,
         const std::string& content_id,
         const std::string& chunk_type
     );
     
+    /**
+     * @brief TBD: Describe createHierarchicalGraph.
+     * @param[in] parent_id Input parameter.
+     * @param[in] child_ids Input parameter.
+     * @param[in] edge_type Input parameter.
+     */
     void createHierarchicalGraph(
         const std::string& parent_id,
         const std::vector<std::string>& child_ids,
         const std::string& edge_type
     );
 
+    /**
+     * @brief TBD: Describe parseAnalysisResult.
+     * @param[in] analysis_text Input parameter.
+     * @param[in] meta Input parameter.
+     * @return Return value.
+     */
     json parseAnalysisResult(const std::string& analysis_text, const ContentMeta& meta);
+    /**
+     * @brief TBD: Describe parseTags.
+     * @param[in] tags_text Input parameter.
+     * @return Return value.
+     */
     std::vector<std::string> parseTags(const std::string& tags_text);
+    /**
+     * @brief TBD: Describe parseEntities.
+     * @param[in] entities_text Input parameter.
+     * @return Return value.
+     */
     json parseEntities(const std::string& entities_text);
+    /**
+     * @brief TBD: Describe getExtractedText.
+     * @param[in] content_id Input parameter.
+     * @return Return value.
+     */
     std::string getExtractedText(const std::string& content_id);
 };
 

@@ -48,6 +48,10 @@ enum class JoinType {
  */
 class IStreamingJoin {
 public:
+    /**
+     * @brief TBD: Describe ~IStreamingJoin.
+     * @return Return value.
+     */
     virtual ~IStreamingJoin() = default;
 
     /**
@@ -124,9 +128,11 @@ public:
     /// A composite join key serialized to a string for use as a hash-map key.
     using CompositeKey = std::string;
 
-    // -----------------------------------------------------------------------
-    // Construction
-    // -----------------------------------------------------------------------
+    /**
+     * @brief ----------------------------------------------------------------------- Construction -----------------------------------------------------------------------
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
 
     explicit HashJoin(Config config);
     ~HashJoin() override = default;
@@ -154,6 +160,13 @@ public:
      * @tparam It  Iterator over `const ColumnBatch&`.
      */
     template<typename It>
+    /**
+     * @brief TBD: Describe build.
+     * @param[in] begin Input parameter.
+     * @param[in] end Input parameter.
+     * @return True on success.
+     * @details Calls: addBuildBatch().
+     */
     bool build(It begin, It end) {
         for (auto it = begin; it != end; ++it) {
             if (!addBuildBatch(*it)) {
@@ -185,13 +198,30 @@ private:
 
     size_t build_row_count_{0};
 
-    // Helpers
+    /**
+     * @brief Helpers
+     * @param[in] cols Input parameter.
+     * @param[in] key_col_indices Input parameter.
+     * @param[in] row Input parameter.
+     * @return Return value.
+     */
     CompositeKey makeKey(const std::vector<std::shared_ptr<Column>>& cols,
                          const std::vector<size_t>& key_col_indices,
                          size_t row) const;
 
+    /**
+     * @brief TBD: Describe getVal.
+     * @param[in] col Input parameter.
+     * @param[in] row Input parameter.
+     * @return Return value.
+     */
     ColumnValue getVal(const Column& col, size_t row) const;
 
+    /**
+     * @brief TBD: Describe appendNullRow.
+     * @param[in,out] cols Input/output parameter.
+     * @param[in] names Input parameter.
+     */
     void appendNullRow(std::vector<std::shared_ptr<Column>>& cols,
                        const std::vector<std::string>&       names) const;
 };
@@ -256,9 +286,11 @@ public:
         std::vector<std::string> probe_select;
     };
 
-    // -----------------------------------------------------------------------
-    // Construction
-    // -----------------------------------------------------------------------
+    /**
+     * @brief ----------------------------------------------------------------------- Construction -----------------------------------------------------------------------
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
 
     explicit IntervalJoin(Config config);
     ~IntervalJoin() override = default;
@@ -274,6 +306,7 @@ public:
      * @brief Add one batch of build-side events to the internal buffer.
      *
      * Events are stored in arrival order; sorting is performed on demand.
+     * @param[in] batch Input parameter.
      */
     void addBuildBatch(const ColumnBatch& batch);
 
@@ -298,13 +331,38 @@ private:
     std::vector<std::string>     build_col_names_;
     bool                         build_sorted_ = false;
 
-    // Helpers
+    /**
+     * @brief Helpers
+     */
     void sortBuildBuffer();
+    /**
+     * @brief TBD: Describe pruneBuildBuffer.
+     * @param[in] min_keep_ms Input parameter.
+     */
     void pruneBuildBuffer(int64_t min_keep_ms);
 
+    /**
+     * @brief TBD: Describe getVal.
+     * @param[in] col Input parameter.
+     * @param[in] row Input parameter.
+     * @return Return value.
+     */
     ColumnValue getVal(const Column& col, size_t row) const;
+    /**
+     * @brief TBD: Describe makeKey.
+     * @param[in] row Input parameter.
+     * @param[in] key_col_indices Input parameter.
+     * @return Return value.
+     */
     std::string makeKey(const BuildRow& row,
                         const std::vector<size_t>& key_col_indices) const;
+    /**
+     * @brief TBD: Describe makeProbeKey.
+     * @param[in] probe_cols Input parameter.
+     * @param[in] key_col_indices Input parameter.
+     * @param[in] row Input parameter.
+     * @return Return value.
+     */
     std::string makeProbeKey(const std::vector<std::shared_ptr<Column>>& probe_cols,
                               const std::vector<size_t>& key_col_indices,
                               size_t row) const;

@@ -39,6 +39,11 @@ public:
     };
 
     SearchHighlighter();
+    /**
+     * @brief TBD: Describe SearchHighlighter.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit SearchHighlighter(Config config);
 
     // ── Primary public API ────────────────────────────────────────────────────
@@ -54,6 +59,7 @@ public:
      * @param terms Search terms to highlight.
      * @return      @p text with matched terms wrapped in highlight tags, or
      *              an empty string when @p text is empty.
+     * @note Exception safety: noexcept.
      */
     std::string highlight(const std::string& text,
                           const std::vector<std::string>& terms) const noexcept;

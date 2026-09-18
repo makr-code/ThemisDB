@@ -153,6 +153,8 @@ public:
      * @note  Two overloads instead of `= {}` default arg to work around
      *        GCC DR1607 (nested struct with non-trivially-constructible
      *        default member initialisers used in an enclosing-class declaration).
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     explicit SchemaDeadWeightDetector(Config config);
     ~SchemaDeadWeightDetector() = default;
@@ -162,7 +164,10 @@ public:
     SchemaDeadWeightDetector(SchemaDeadWeightDetector&&) noexcept = default;
     SchemaDeadWeightDetector& operator=(SchemaDeadWeightDetector&&) noexcept = default;
 
-    // ─── Dependency injection ──────────────────────────────────────────────
+    /**
+     * @brief ─── Dependency injection ──────────────────────────────────────────────
+     * @param[in] processor Input parameter.
+     */
 
     void setDecisionRecordProcessor(
         std::shared_ptr<themis::llm::DecisionRecordYamlProcessor> processor);
@@ -208,9 +213,19 @@ private:
     Config config_;
     std::shared_ptr<themis::llm::DecisionRecordYamlProcessor> dr_processor_;
 
+    /**
+     * @brief TBD: Describe determineRecommendation.
+     * @param[in] field_path Input parameter.
+     * @param[in] days_since_access Input parameter.
+     * @return Return value.
+     */
     static std::string determineRecommendation(const std::string& field_path,
                                                uint32_t days_since_access);
 
+    /**
+     * @brief TBD: Describe emitDecisionRecord.
+     * @param[in] report Input parameter.
+     */
     void emitDecisionRecord(const DeadWeightReport& report) const;
 };
 

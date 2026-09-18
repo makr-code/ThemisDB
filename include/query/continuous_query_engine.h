@@ -55,6 +55,10 @@ struct CQResult {
  */
 class CQResultStream {
 public:
+    /**
+     * @brief TBD: Describe ~CQResultStream.
+     * @return Return value.
+     */
     virtual ~CQResultStream() = default;
 
     /** @return true as long as the query is alive and no cancel() was called. */
@@ -68,6 +72,7 @@ public:
     virtual std::optional<CQResult> next(
         std::chrono::milliseconds timeout = std::chrono::seconds(5)) = 0;
 
+     * @note Exception safety: noexcept.
     /** @brief Cancel this subscription.  Unblocks any pending next(). */
     virtual void cancel() noexcept = 0;
 
@@ -119,6 +124,10 @@ public:
     using ContinuousQueryHandle = std::string;
     using ResultStreamPtr = std::shared_ptr<CQResultStream>;
 
+    /**
+     * @brief TBD: Describe ~ContinuousQueryEngine.
+     * @return Return value.
+     */
     virtual ~ContinuousQueryEngine() = default;
 
     /**
@@ -137,6 +146,8 @@ public:
      *
      * Drains the result queue, cancels the scheduler job, and releases
      * synopsis storage.
+     * @param[in] name Input parameter.
+     * @return Return value.
      */
     virtual Result<void> dropQuery(const std::string& name) = 0;
 

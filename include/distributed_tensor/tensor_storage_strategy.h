@@ -353,6 +353,7 @@ public:
      * @brief Releases the mapping and resets this object to the not-open state.
      *
      * No-op when already closed.
+     * @note Exception safety: noexcept.
      */
     void close() noexcept;
 

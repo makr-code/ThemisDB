@@ -88,6 +88,11 @@ struct TemplateInstantiationResult {
  */
 class ProjectTemplate {
 public:
+    /**
+     * @brief TBD: Describe ProjectTemplate.
+     * @param[in] storage Input parameter.
+     * @return Return value.
+     */
     explicit ProjectTemplate(std::shared_ptr<RocksDBWrapper> storage);
     ~ProjectTemplate() = default;
 
@@ -120,6 +125,7 @@ public:
 
     /**
      * @brief List the names of all available built-in templates.
+     * @return Return value.
      */
     static std::vector<std::string> listBuiltinTemplates();
 
@@ -130,6 +136,7 @@ public:
      * Each object entry must have: "type" (string), "name" (string).
      *
      * @return Status{true} if the definition is valid, Status{false, reason} otherwise.
+     * @param[in] template_def Input parameter.
      */
     static Status validateTemplateDefinition(const json& template_def);
 

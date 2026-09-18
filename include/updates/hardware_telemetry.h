@@ -195,6 +195,10 @@ struct HardwareSnapshot {
  */
 class IHardwareInfoProvider {
 public:
+    /**
+     * @brief TBD: Describe ~IHardwareInfoProvider.
+     * @return Return value.
+     */
     virtual ~IHardwareInfoProvider() = default;
 
     /// @return CPU model name (e.g. "Intel Core i7-12700K"), empty if unknown.
@@ -243,6 +247,10 @@ public:
  */
 class IPerformanceMetricsProvider {
 public:
+    /**
+     * @brief TBD: Describe ~IPerformanceMetricsProvider.
+     * @return Return value.
+     */
     virtual ~IPerformanceMetricsProvider() = default;
 
     /**
@@ -339,6 +347,7 @@ public:
      *
      * Equivalent to `send(collect())`.  Returns `false` if telemetry is
      * disabled or if the HTTP POST failed.
+     * @return True on success.
      */
     bool report();
 

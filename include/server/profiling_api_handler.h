@@ -68,46 +68,114 @@ private:
     std::shared_ptr<observability::StorageProfiler> storage_profiler_;
     std::shared_ptr<observability::PerformanceAnalyzer> analyzer_;
     
-    // Handler methods
+    /**
+     * @brief Handler methods
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handle_enable(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief TBD: Describe handle_disable.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handle_disable(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief TBD: Describe handle_get_queries.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handle_get_queries(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief TBD: Describe handle_get_slow_queries.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handle_get_slow_queries(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief TBD: Describe handle_get_storage.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handle_get_storage(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief TBD: Describe handle_analyze.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handle_analyze(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief TBD: Describe handle_export.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handle_export(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief TBD: Describe handle_clear.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handle_clear(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief TBD: Describe handle_get_config.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handle_get_config(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief TBD: Describe handle_set_config.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handle_set_config(
         const http::request<http::string_body>& req);
     
-    // Utility methods
+    /**
+     * @brief Utility methods
+     * @param[in] status Input parameter.
+     * @param[in] body Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> make_response(
         http::status status, 
         const nlohmann::json& body);
     
+    /**
+     * @brief TBD: Describe make_error_response.
+     * @param[in] status Input parameter.
+     * @param[in] message Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> make_error_response(
         http::status status,
         const std::string& message);
     
+    /**
+     * @brief TBD: Describe get_query_param_int.
+     * @param[in] target Input parameter.
+     * @param[in] param_name Input parameter.
+     * @param[in] default_value Input parameter.
+     * @param[in,out] value Input/output parameter.
+     * @return True on success.
+     */
     bool get_query_param_int(const std::string& target,
                              const std::string& param_name,
                              int default_value,

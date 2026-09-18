@@ -119,6 +119,7 @@ enum class PromptEngineeringErrorCode : std::uint32_t {
  * @brief Convert error code to human-readable description.
  * @param code Error code from PromptEngineeringErrorCode
  * @return String description of the error
+ * @details Implements error_code_to_string without additional internal calls.
  */
 inline std::string error_code_to_string(PromptEngineeringErrorCode code) {
     switch (code) {

@@ -256,6 +256,7 @@ public:
      *
      * Entries are in chronological order (oldest first).  The buffer is
      * capped at `config.max_retained_entries`; older entries are evicted.
+     * @return Return value.
      */
     std::vector<LogEntry> entries() const;
 
@@ -263,6 +264,8 @@ public:
      * @brief Return buffered entries at or above @p min_level.
      *
      * Convenience wrapper that filters the result of entries().
+     * @param[in] min_level Input parameter.
+     * @return Return value.
      */
     std::vector<LogEntry> entriesAtLevel(Level min_level) const;
 
@@ -273,9 +276,11 @@ public:
      */
     void clear();
 
+     * @return Return value.
     /** @brief Total number of entries currently in the buffer. */
     size_t size() const;
 
+     * @return Return value.
     /** @brief Return current aggregator statistics. */
     LogAggregatorStats stats() const;
 
@@ -289,6 +294,7 @@ public:
      */
     void setEntryCallback(EntryCallback cb);
 
+     * @return Return value.
     /** @brief Return the active configuration. */
     LogAggregatorConfig getConfig() const;
 

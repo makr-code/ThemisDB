@@ -41,6 +41,10 @@ struct [[deprecated("Use Result<std::string> from utils/expected.h instead of Qu
  */
 class IExpressionEvaluator {
 public:
+    /**
+     * @brief TBD: Describe ~IExpressionEvaluator.
+     * @return Return value.
+     */
     virtual ~IExpressionEvaluator() = default;
     
     /**
@@ -71,6 +75,10 @@ using IExpressionEvaluatorPtr = std::shared_ptr<IExpressionEvaluator>;
  */
 class IQueryEngine {
 public:
+    /**
+     * @brief TBD: Describe ~IQueryEngine.
+     * @return Return value.
+     */
     virtual ~IQueryEngine() = default;
     
     /**
@@ -142,6 +150,10 @@ using IQueryEnginePtr = std::shared_ptr<IQueryEngine>;
  */
 class IQueryEngineFactory {
 public:
+    /**
+     * @brief TBD: Describe ~IQueryEngineFactory.
+     * @return Return value.
+     */
     virtual ~IQueryEngineFactory() = default;
     
     /**

@@ -303,21 +303,75 @@ public:
         std::string_view vector_field = "embedding");
 
 private:
-    // Background maintenance thread
+    /**
+     * @brief Background maintenance thread
+     */
     void maintenanceThreadFunc();
     
-    // Helper methods
+    /**
+     * @brief Helper methods
+     * @param[in] index_name Input parameter.
+     * @return Return value.
+     */
     Result<FragmentationMetrics> calculateFragmentation(const std::string& index_name);
+    /**
+     * @brief TBD: Describe performRebuild.
+     * @param[in] index_name Input parameter.
+     * @param[in,out] status Input/output parameter.
+     * @return Return value.
+     */
     Result<void> performRebuild(const std::string& index_name, MaintenanceJobStatus& status);
+    /**
+     * @brief TBD: Describe performReorganize.
+     * @param[in] index_name Input parameter.
+     * @param[in,out] status Input/output parameter.
+     * @return Return value.
+     */
     Result<void> performReorganize(const std::string& index_name, MaintenanceJobStatus& status);
+    /**
+     * @brief TBD: Describe performStatisticsUpdate.
+     * @param[in] index_name Input parameter.
+     * @param[in,out] status Input/output parameter.
+     * @return Return value.
+     */
     Result<void> performStatisticsUpdate(const std::string& index_name, MaintenanceJobStatus& status);
+    /**
+     * @brief TBD: Describe performOrphanCleanup.
+     * @param[in] index_name Input parameter.
+     * @param[in,out] status Input/output parameter.
+     * @return Return value.
+     */
     Result<void> performOrphanCleanup(const std::string& index_name, MaintenanceJobStatus& status);
+    /**
+     * @brief TBD: Describe performConsistencyCheck.
+     * @param[in] index_name Input parameter.
+     * @param[in] repair Input parameter.
+     * @param[in,out] status Input/output parameter.
+     * @return Return value.
+     */
     Result<void> performConsistencyCheck(const std::string& index_name, bool repair, MaintenanceJobStatus& status);
     
+    /**
+     * @brief TBD: Describe shouldRunMaintenance.
+     * @return True on success.
+     */
     bool shouldRunMaintenance() const;
+    /**
+     * @brief TBD: Describe isInMaintenanceWindow.
+     * @return True on success.
+     */
     bool isInMaintenanceWindow() const;
+    /**
+     * @brief TBD: Describe generateJobId.
+     * @return Return value.
+     */
     std::string generateJobId();
     
+    /**
+     * @brief TBD: Describe classifyFragmentation.
+     * @param[in] percentage Input parameter.
+     * @return Return value.
+     */
     FragmentationLevel classifyFragmentation(double percentage) const;
     
     // Members

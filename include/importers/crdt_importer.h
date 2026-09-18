@@ -47,11 +47,17 @@ public:
          * @brief Deterministic LWW merge: returns the record that should win.
          *
          * Ordering: wall_clock_ns DESC → lamport_clock DESC → replica_id ASC.
+         * @param[in] left Input parameter.
+         * @param[in] right Input parameter.
+         * @return Return value.
          */
         static CRDTRecord merge(const CRDTRecord& left, const CRDTRecord& right);
 
+         * @return Return value.
         /** @brief Serialise to JSON. */
         json toJson() const;
+         * @param[in] j Input parameter.
+         * @return Return value.
         /** @brief Deserialise from JSON. */
         static CRDTRecord fromJson(const json& j);
     };
@@ -77,6 +83,8 @@ public:
     /**
      * @brief Retrieve the current winning state for a record.
      * @return The merged CRDTRecord, or std::nullopt if not found.
+     * @param[in] table_name Input parameter.
+     * @param[in] record_id Input parameter.
      */
     const CRDTRecord* lookup(const std::string& table_name,
                              const std::string& record_id) const;
@@ -84,6 +92,7 @@ public:
     /**
      * @brief Increment and return the local Lamport clock.
      * Used internally; also callable by callers who need a monotonic counter.
+     * @return Return value.
      */
     uint64_t tickClock();
 

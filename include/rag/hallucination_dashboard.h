@@ -112,6 +112,7 @@ public:
     /**
      * @brief Construct with custom configuration
      * @param config Dashboard configuration
+     * @return Return value.
      */
     explicit HallucinationDashboard(const HallucinationDashboardConfig& config);
 
@@ -151,6 +152,7 @@ public:
 
     /**
      * @brief Compute and return a point-in-time statistics snapshot
+     * @return Return value.
      */
     DashboardSnapshot snapshot() const;
 
@@ -175,6 +177,7 @@ public:
      *
      * The callback is called while the internal mutex is NOT held, so
      * callers may safely call any dashboard method from within it.
+     * @param[in] callback Input parameter.
      */
     void setAlertCallback(AlertCallback callback);
 
@@ -224,11 +227,35 @@ private:
     AlertCallback alert_callback_;
     mutable std::mutex mutex_;
 
+    /**
+     * @brief TBD: Describe recordEntry.
+     * @param[in] entry Input parameter.
+     */
     void recordEntry(HallucinationEntry entry);
+    /**
+     * @brief TBD: Describe fireAlertsUnlocked.
+     * @param[in] rate Input parameter.
+     */
     void fireAlertsUnlocked(double rate);
 
+    /**
+     * @brief TBD: Describe computeMean.
+     * @param[in] data Input parameter.
+     * @return Return value.
+     */
     double computeMean(const std::deque<double>& data) const;
+    /**
+     * @brief TBD: Describe computeStdDev.
+     * @param[in] data Input parameter.
+     * @param[in] mean Input parameter.
+     * @return Return value.
+     */
     double computeStdDev(const std::deque<double>& data, double mean) const;
+    /**
+     * @brief TBD: Describe computeTrend.
+     * @param[in] data Input parameter.
+     * @return Return value.
+     */
     double computeTrend(const std::deque<double>& data) const;
 };
 

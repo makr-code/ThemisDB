@@ -99,11 +99,13 @@ public:
      * @brief Return the current pair.
      *
      * Valid only when the most recent call to `advance()` returned true.
+     * @return Return value.
      */
     const SpatialJoinPair& current() const;
 
     /**
      * @brief Return true once `advance()` has returned false.
+     * @return True on success.
      */
     bool done() const;
 

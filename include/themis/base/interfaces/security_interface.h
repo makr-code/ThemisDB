@@ -26,6 +26,10 @@ namespace themis {
  */
 class IFieldEncryption {
 public:
+    /**
+     * @brief TBD: Describe ~IFieldEncryption.
+     * @return Return value.
+     */
     virtual ~IFieldEncryption() = default;
     
     /**
@@ -70,6 +74,10 @@ using IFieldEncryptionPtr = std::shared_ptr<IFieldEncryption>;
  */
 class IKeyProvider {
 public:
+    /**
+     * @brief TBD: Describe ~IKeyProvider.
+     * @return Return value.
+     */
     virtual ~IKeyProvider() = default;
     
     /**
@@ -97,6 +105,10 @@ using IKeyProviderPtr = std::shared_ptr<IKeyProvider>;
  */
 class IFieldEncryptionFactory {
 public:
+    /**
+     * @brief TBD: Describe ~IFieldEncryptionFactory.
+     * @return Return value.
+     */
     virtual ~IFieldEncryptionFactory() = default;
     
     /**
@@ -112,6 +124,10 @@ public:
  */
 class IKeyProviderFactory {
 public:
+    /**
+     * @brief TBD: Describe ~IKeyProviderFactory.
+     * @return Return value.
+     */
     virtual ~IKeyProviderFactory() = default;
     
     /**

@@ -75,54 +75,174 @@ struct Exemplar {
  */
 class MetricsCollector {
 public:
+    /**
+     * @brief TBD: Describe getInstance.
+     * @return Return value.
+     */
     static MetricsCollector& getInstance();
     
     // Prevent copying
     MetricsCollector(const MetricsCollector&) = delete;
     MetricsCollector& operator=(const MetricsCollector&) = delete;
     
-    // TSStore Metrics
+    /**
+     * @brief TSStore Metrics
+     * @param[in] metric Input parameter.
+     * @param[in] batch_size Input parameter.
+     * @param[in] latency_ms Input parameter.
+     */
     void recordTSStoreWrite(const std::string& metric, size_t batch_size, double latency_ms);
+    /**
+     * @brief TBD: Describe recordTSStoreQuery.
+     * @param[in] metric Input parameter.
+     * @param[in] result_count Input parameter.
+     * @param[in] latency_ms Input parameter.
+     */
     void recordTSStoreQuery(const std::string& metric, size_t result_count, double latency_ms);
+    /**
+     * @brief TBD: Describe recordTSStoreAggregate.
+     * @param[in] metric Input parameter.
+     * @param[in] point_count Input parameter.
+     * @param[in] latency_ms Input parameter.
+     */
     void recordTSStoreAggregate(const std::string& metric, size_t point_count, double latency_ms);
+    /**
+     * @brief TBD: Describe recordTSStoreCompression.
+     * @param[in] compression_type Input parameter.
+     * @param[in] ratio Input parameter.
+     */
     void recordTSStoreCompression(const std::string& compression_type, double ratio);
     
-    // Query Engine Metrics
+    /**
+     * @brief Query Engine Metrics
+     * @param[in] query_type Input parameter.
+     * @param[in] latency_ms Input parameter.
+     * @param[in] result_count Input parameter.
+     */
     void recordQuery(const std::string& query_type, double latency_ms, size_t result_count);
+    /**
+     * @brief TBD: Describe recordIndexScan.
+     * @param[in] index_type Input parameter.
+     * @param[in] keys_scanned Input parameter.
+     */
     void recordIndexScan(const std::string& index_type, size_t keys_scanned);
+    /**
+     * @brief TBD: Describe recordFullScan.
+     * @param[in] table Input parameter.
+     * @param[in] keys_scanned Input parameter.
+     */
     void recordFullScan(const std::string& table, size_t keys_scanned);
     
-    // Cache Metrics
+    /**
+     * @brief Cache Metrics
+     * @param[in] cache_type Input parameter.
+     */
     void recordCacheHit(const std::string& cache_type);
+    /**
+     * @brief TBD: Describe recordCacheMiss.
+     * @param[in] cache_type Input parameter.
+     */
     void recordCacheMiss(const std::string& cache_type);
+    /**
+     * @brief TBD: Describe recordCacheEviction.
+     * @param[in] cache_type Input parameter.
+     */
     void recordCacheEviction(const std::string& cache_type);
     
-    // Sharding Metrics
+    /**
+     * @brief Sharding Metrics
+     * @param[in] shard_id Input parameter.
+     * @param[in] operation Input parameter.
+     */
     void recordShardRequest(const std::string& shard_id, const std::string& operation);
+    /**
+     * @brief TBD: Describe recordShardLatency.
+     * @param[in] shard_id Input parameter.
+     * @param[in] latency_ms Input parameter.
+     */
     void recordShardLatency(const std::string& shard_id, double latency_ms);
+    /**
+     * @brief TBD: Describe recordRebalanceProgress.
+     * @param[in] operation_id Input parameter.
+     * @param[in] records Input parameter.
+     * @param[in] percent Input parameter.
+     */
     void recordRebalanceProgress(const std::string& operation_id, int64_t records, double percent);
     
-    // Content Processing Metrics
+    /**
+     * @brief Content Processing Metrics
+     * @param[in] mime_type Input parameter.
+     * @param[in] size_bytes Input parameter.
+     */
     void recordContentImport(const std::string& mime_type, size_t size_bytes);
+    /**
+     * @brief TBD: Describe recordChunkCreation.
+     * @param[in] chunk_count Input parameter.
+     */
     void recordChunkCreation(size_t chunk_count);
+    /**
+     * @brief TBD: Describe recordEmbeddingGeneration.
+     * @param[in] count Input parameter.
+     * @param[in] latency_ms Input parameter.
+     */
     void recordEmbeddingGeneration(size_t count, double latency_ms);
     
-    // Security Metrics
+    /**
+     * @brief Security Metrics
+     * @param[in] success Input parameter.
+     */
     void recordAuthAttempt(bool success);
+    /**
+     * @brief TBD: Describe recordPolicyEvaluation.
+     * @param[in] allowed Input parameter.
+     * @param[in] latency_ms Input parameter.
+     */
     void recordPolicyEvaluation(bool allowed, double latency_ms);
+    /**
+     * @brief TBD: Describe recordEncryptionOperation.
+     * @param[in] operation Input parameter.
+     * @param[in] latency_ms Input parameter.
+     */
     void recordEncryptionOperation(const std::string& operation, double latency_ms);
     
-    // System Metrics
+    /**
+     * @brief System Metrics
+     * @param[in] bytes Input parameter.
+     */
     void recordMemoryUsage(size_t bytes);
+    /**
+     * @brief TBD: Describe recordCPUUsage.
+     * @param[in] percent Input parameter.
+     */
     void recordCPUUsage(double percent);
+    /**
+     * @brief TBD: Describe recordDiskIOps.
+     * @param[in] read_ops Input parameter.
+     * @param[in] write_ops Input parameter.
+     */
     void recordDiskIOps(size_t read_ops, size_t write_ops);
     
-    // Tracing Metrics
+    /**
+     * @brief Tracing Metrics
+     * @param[in] span_name Input parameter.
+     * @param[in] duration_ms Input parameter.
+     */
     void recordSpanDuration(const std::string& span_name, double duration_ms);
+    /**
+     * @brief TBD: Describe recordActiveSpans.
+     * @param[in] count Input parameter.
+     */
     void recordActiveSpans(int64_t count);
+    /**
+     * @brief TBD: Describe recordTotalSpans.
+     * @param[in] count Input parameter.
+     */
     void recordTotalSpans(int64_t count);
     
-    // Get metrics in Prometheus text format
+    /**
+     * @brief Get metrics in Prometheus text format
+     * @return Return value.
+     */
     std::string getPrometheusMetrics() const;
     
     /**
@@ -139,18 +259,32 @@ public:
      * @brief Set the maximum number of unique label-set combinations per metric
      *        name.  When the limit is reached, new series are silently dropped
      *        and a counter is incremented.  Set to 0 to disable.
+     * @param[in] limit Input parameter.
      */
     void setCardinalityLimit(size_t limit);
+    /**
+     * @brief TBD: Describe getCardinalityLimit.
+     * @return Return value.
+     */
     size_t getCardinalityLimit() const;
 
+     * @brief TBD: Describe getDroppedSeriesCount.
+     * @return Return value.
     /** Returns the number of metric observations dropped due to cardinality overflow. */
     int64_t getDroppedSeriesCount() const;
 
     // ===== Exporter health =====
+     * @brief TBD: Describe recordExporterFailure.
+     * @param[in] exporter_name Input parameter.
     /** Record a transient failure contacting an exporter (OTLP, Pushgateway, etc.). */
     void recordExporterFailure(const std::string& exporter_name);
+     * @brief TBD: Describe recordExporterRecovery.
+     * @param[in] exporter_name Input parameter.
     /** Record that an exporter has recovered after previous failures. */
     void recordExporterRecovery(const std::string& exporter_name);
+     * @brief TBD: Describe recordMalformedTelemetry.
+     * @param[in] metric_name Input parameter.
+     * @param[in] reason Input parameter.
     /** Record an exporter rejection caused by malformed telemetry input. */
     void recordMalformedTelemetry(const std::string& metric_name,
                                   const std::string& reason);
@@ -262,9 +396,25 @@ private:
         /// Empty trace_id means no exemplar has been recorded yet.
         Exemplar latest_exemplar;
         
+        /**
+         * @brief TBD: Describe observe.
+         * @param[in] value Input parameter.
+         */
         void observe(double value);
+        /**
+         * @brief TBD: Describe reset.
+         */
         void reset();
+        /**
+         * @brief TBD: Describe percentile.
+         * @param[in] p Input parameter.
+         * @return Return value.
+         */
         double percentile(double p) const;
+        /**
+         * @brief TBD: Describe mean.
+         * @return Return value.
+         */
         double mean() const;
     };
     std::map<std::string, std::shared_ptr<Histogram>> histograms_;
@@ -278,14 +428,28 @@ private:
      *        proceed, false if it should be dropped.
      *
      * Caller MUST hold mutex_ exclusively (unique_lock) before calling this.
+     * @param[in] name Input parameter.
+     * @param[in] key Input parameter.
+     * @return True on success.
      */
     bool checkCardinality(const std::string& name, const std::string& key);
     
     std::string makeKey(const std::string& name, const std::map<std::string, std::string>& labels) const;
     std::string formatLabels(const std::map<std::string, std::string>& labels) const;
+    /**
+     * @brief TBD: Describe formatMetricLine.
+     * @param[in] name Input parameter.
+     * @param[in] labels Input parameter.
+     * @param[in] value Input parameter.
+     * @return Return value.
+     */
     std::string formatMetricLine(const std::string& name, const std::string& labels, double value) const;
-    /// Format an exemplar for Prometheus OpenMetrics output.
-    /// Returns an empty string if the exemplar has no trace_id.
+    /**
+     * @brief Format an exemplar for Prometheus OpenMetrics output.
+     * @param[in] exemplar Input parameter.
+     * @return Return value.
+     * @details Returns an empty string if the exemplar has no trace_id.
+     */
     static std::string formatExemplar(const Exemplar& exemplar);
     static bool areLabelsValid(const std::map<std::string, std::string>& labels,
                                std::string* failure_reason = nullptr);
@@ -306,7 +470,10 @@ public:
                    const std::map<std::string, std::string>& labels = {});
     ~LatencyTracker();
     
-    // Get elapsed time without ending tracker
+    /**
+     * @brief Get elapsed time without ending tracker
+     * @return Return value.
+     */
     double elapsedMs() const;
 
 private:

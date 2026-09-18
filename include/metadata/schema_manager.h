@@ -229,10 +229,11 @@ public:
      */
     void setCacheTTL(std::chrono::seconds ttl);
 
-    /// Register a Changefeed for real-time schema change notifications.
-    /// When set, every schema mutation (create/update/delete) emits a
-    /// ChangeEvent with key "schema:{table_name}" into the given changefeed.
-    /// @param changefeed Non-owning pointer; may be nullptr to disable notifications.
+    /**
+     * @brief Register a Changefeed for real-time schema change notifications.
+     * @param[in,out] changefeed Input/output parameter.
+     * @details When set, every schema mutation (create/update/delete) emits a ChangeEvent with key "schema:{table_name}" into the given changefeed. @param changefeed Non-owning pointer; may be nullptr to disable notifications.
+     */
     void setChangefeed(Changefeed* changefeed);
 
     /**
@@ -338,8 +339,10 @@ private:
     // Internal Implementation
     // ========================================================================
 
-    /// Discover all tables by scanning RocksDB keys
-    /// Scans key prefixes to identify table/collection names
+    /**
+     * @brief Discover all tables by scanning RocksDB keys Scans key prefixes to identify table/collection names
+     * @return Return value.
+     */
     std::vector<std::string> discoverTableNames();
 
     /// Discover properties for a table by sampling entities
@@ -351,18 +354,25 @@ private:
         size_t sample_size = 100
     );
 
-    /// Discover indexes for a table from SecondaryIndexManager
-    /// @param table_name Table/collection name
+    /**
+     * @brief Discover indexes for a table from SecondaryIndexManager @param table_name Table/collection name
+     * @param[in] table_name Input parameter.
+     * @return Return value.
+     */
     std::vector<IndexInfo> discoverIndexes(std::string_view table_name);
 
-    /// Estimate row count for a table
-    /// Uses RocksDB iterator to count keys with table prefix
-    /// @param table_name Table/collection name
+    /**
+     * @brief Estimate row count for a table Uses RocksDB iterator to count keys with table prefix @param table_name Table/collection name
+     * @param[in] table_name Input parameter.
+     * @return Return value.
+     */
     size_t estimateRowCount(std::string_view table_name);
 
-    /// Determine table type from key schema
-    /// @param table_name Table/collection name
-    /// @return "relational", "document", "graph_node", "graph_edge", "vector"
+    /**
+     * @brief Determine table type from key schema @param table_name Table/collection name @return "relational", "document", "graph_node", "graph_edge", "vector"
+     * @param[in] table_name Input parameter.
+     * @return Return value.
+     */
     std::string determineTableType(std::string_view table_name);
 
     /// Check if cache is valid (not expired)
@@ -371,21 +381,29 @@ private:
     /// Build cache from scratch
     void buildCache();
 
-    /// Emit a schema change event to the registered changefeed (if any).
-    /// @param table_name Table that changed
-    /// @param event_kind "schema_created", "schema_updated", or "schema_deleted"
+    /**
+     * @brief Emit a schema change event to the registered changefeed (if any).
+     * @param[in] table_name Input parameter.
+     * @param[in] event_kind Input parameter.
+     * @details @param table_name Table that changed @param event_kind "schema_created", "schema_updated", or "schema_deleted"
+     */
     void notifySchemaChange(std::string_view table_name, std::string_view event_kind);
 
     /// Load custom schemas from RocksDB
     void loadCustomSchemas();
 
-    /// Save custom schema to RocksDB
-    /// @param table_name Table name
-    /// @param schema Schema to save
+    /**
+     * @brief Save custom schema to RocksDB @param table_name Table name @param schema Schema to save
+     * @param[in] table_name Input parameter.
+     * @param[in] schema Input parameter.
+     */
     void saveCustomSchema(std::string_view table_name, const TableSchema& schema);
 
-    /// Compute the adaptive TTL from current per-table mutation rates.
-    /// Caller must hold mutation_mutex_.
+    /**
+     * @brief Compute the adaptive TTL from current per-table mutation rates.
+     * @return Return value.
+     * @details Caller must hold mutation_mutex_.
+     */
     std::chrono::seconds computeAdaptiveTTL() const;
 
     // ========================================================================

@@ -91,6 +91,10 @@ struct MqttMetrics {
         return *this;
     }
     
+    /**
+     * @brief TBD: Describe reset.
+     * @details Calls: std::chrono::steady_clock::now().
+     */
     void reset() {
         messagesReceived = 0;
         messagesSent = 0;
@@ -162,58 +166,174 @@ public:
                         TransportType transport = TransportType::TCP);
     ~MqttSession() noexcept;
 
+    /**
+     * @brief TBD: Describe start.
+     */
     void start();
+    /**
+     * @brief TBD: Describe stop.
+     */
     void stop();
     
-    // WebSocket support
+    /**
+     * @brief WebSocket support
+     * @param[in] ws Input parameter.
+     */
     void setWebSocket(std::shared_ptr<websocket::stream<asio::ip::tcp::socket>> ws);
     bool isWebSocketTransport() const { return transportType_ == TransportType::WebSocket; }
 
-    // MQTT packet handlers
+    /**
+     * @brief MQTT packet handlers
+     */
     void handleConnect();
+    /**
+     * @brief TBD: Describe handlePublish.
+     * @param[in] topic Input parameter.
+     * @param[in] payload Input parameter.
+     * @param[in] qos Input parameter.
+     * @param[in] packetId Input parameter.
+     */
     void handlePublish(const std::string& topic, const std::string& payload, uint8_t qos, uint16_t packetId);
+    /**
+     * @brief TBD: Describe handlePubRec.
+     * @param[in] packetId Input parameter.
+     */
     void handlePubRec(uint16_t packetId);
+    /**
+     * @brief TBD: Describe handlePubRel.
+     * @param[in] packetId Input parameter.
+     */
     void handlePubRel(uint16_t packetId);
+    /**
+     * @brief TBD: Describe handlePubComp.
+     * @param[in] packetId Input parameter.
+     */
     void handlePubComp(uint16_t packetId);
+    /**
+     * @brief TBD: Describe handleSubscribe.
+     * @param[in] topic Input parameter.
+     * @param[in] qos Input parameter.
+     * @param[in] packetId Input parameter.
+     */
     void handleSubscribe(const std::string& topic, uint8_t qos, uint16_t packetId);
+    /**
+     * @brief TBD: Describe handleUnsubscribe.
+     * @param[in] topic Input parameter.
+     */
     void handleUnsubscribe(const std::string& topic);
+    /**
+     * @brief TBD: Describe handlePingReq.
+     */
     void handlePingReq();
+    /**
+     * @brief TBD: Describe handleDisconnect.
+     */
     void handleDisconnect();
 
-    // Send MQTT packets
+    /**
+     * @brief Send MQTT packets
+     * @param[in] sessionPresent Input parameter.
+     * @param[in] returnCode Input parameter.
+     */
     void sendConnAck(bool sessionPresent, uint8_t returnCode);
     void sendPublish(const std::string& topic, const std::string& payload, uint8_t qos, bool retain = false);
+    /**
+     * @brief TBD: Describe sendPubAck.
+     * @param[in] packetId Input parameter.
+     */
     void sendPubAck(uint16_t packetId);
+    /**
+     * @brief TBD: Describe sendPubRec.
+     * @param[in] packetId Input parameter.
+     */
     void sendPubRec(uint16_t packetId);
+    /**
+     * @brief TBD: Describe sendPubRel.
+     * @param[in] packetId Input parameter.
+     */
     void sendPubRel(uint16_t packetId);
+    /**
+     * @brief TBD: Describe sendPubComp.
+     * @param[in] packetId Input parameter.
+     */
     void sendPubComp(uint16_t packetId);
+    /**
+     * @brief TBD: Describe sendSubAck.
+     * @param[in] packetId Input parameter.
+     * @param[in] returnCodes Input parameter.
+     */
     void sendSubAck(uint16_t packetId, const std::vector<uint8_t>& returnCodes);
+    /**
+     * @brief TBD: Describe sendPingResp.
+     */
     void sendPingResp();
 
-    // MQTT 5.0 features
+    /**
+     * @brief MQTT 5.
+     * @param[in] props Input parameter.
+     * @details 0 features Implements setProperties without additional internal calls.
+     */
     void setProperties(const MqttProperties& props) { properties_ = props; }
     const MqttProperties& getProperties() const { return properties_; }
     
     // Session management
     std::string getClientId() const { return sessionState_.clientId; }
+    /**
+     * @brief TBD: Describe restoreSession.
+     * @param[in] state Input parameter.
+     */
     void restoreSession(const MqttSessionState& state);
     MqttSessionState getSessionState() const { return sessionState_; }
     
-    // Rate limiting
+    /**
+     * @brief Rate limiting
+     * @param[in] config Input parameter.
+     * @details Implements setRateLimitConfig without additional internal calls.
+     */
     void setRateLimitConfig(const MqttRateLimitConfig& config) { rateLimitConfig_ = config; }
+    /**
+     * @brief TBD: Describe checkRateLimit.
+     * @param[in] messageSize Input parameter.
+     * @return True on success.
+     */
     bool checkRateLimit(size_t messageSize);
     
     // Metrics
     const MqttMetrics& getMetrics() const { return metrics_; }
+    /**
+     * @brief TBD: Describe resetMetrics.
+     * @details Calls: reset().
+     */
     void resetMetrics() { metrics_.reset(); }
 
 private:
+    /**
+     * @brief TBD: Describe doRead.
+     */
     void doRead();
+    /**
+     * @brief TBD: Describe doWrite.
+     */
     void doWrite();
+    /**
+     * @brief TBD: Describe doWebSocketRead.
+     */
     void doWebSocketRead();
+    /**
+     * @brief TBD: Describe doWebSocketWrite.
+     */
     void doWebSocketWrite();
+    /**
+     * @brief TBD: Describe processQos2Timeouts.
+     */
     void processQos2Timeouts();
+    /**
+     * @brief TBD: Describe triggerWillMessage.
+     */
     void triggerWillMessage() const;
+    /**
+     * @brief TBD: Describe updateRateLimiter.
+     */
     void updateRateLimiter();
     
     asio::ip::tcp::socket socket_;
@@ -260,41 +380,116 @@ struct RetainedMessage {
 
 class MqttBroker {
 public:
+    /**
+     * @brief TBD: Describe getInstance.
+     * @return Return value.
+     */
     static MqttBroker& getInstance();
     
+    /**
+     * @brief TBD: Describe subscribe.
+     * @param[in] topic Input parameter.
+     * @param[in] session Input parameter.
+     * @param[in] qos Input parameter.
+     */
     void subscribe(const std::string& topic, std::shared_ptr<MqttSession> session, uint8_t qos);
+    /**
+     * @brief TBD: Describe unsubscribe.
+     * @param[in] topic Input parameter.
+     * @param[in] session Input parameter.
+     */
     void unsubscribe(const std::string& topic, std::shared_ptr<MqttSession> session);
     void publish(const std::string& topic, const std::string& payload, uint8_t qos, bool retain = false);
     
-    // Shared subscriptions (MQTT 5.0)
+    /**
+     * @brief Shared subscriptions (MQTT 5.
+     * @param[in] shareName Input parameter.
+     * @param[in] topic Input parameter.
+     * @param[in] session Input parameter.
+     * @param[in] qos Input parameter.
+     * @details 0)
+     */
     void subscribeShared(const std::string& shareName, const std::string& topic, 
                         std::shared_ptr<MqttSession> session, uint8_t qos);
     
-    // Session persistence
+    /**
+     * @brief Session persistence
+     * @param[in] clientId Input parameter.
+     * @param[in] state Input parameter.
+     */
     void saveSession(const std::string& clientId, const MqttSessionState& state);
+    /**
+     * @brief TBD: Describe loadSession.
+     * @param[in] clientId Input parameter.
+     * @param[in,out] state Input/output parameter.
+     * @return True on success.
+     */
     bool loadSession(const std::string& clientId, MqttSessionState& state);
+    /**
+     * @brief TBD: Describe deleteSession.
+     * @param[in] clientId Input parameter.
+     */
     void deleteSession(const std::string& clientId);
     
-    // Retained messages
+    /**
+     * @brief Retained messages
+     * @param[in] topic Input parameter.
+     * @param[in] payload Input parameter.
+     * @param[in] qos Input parameter.
+     */
     void setRetainedMessage(const std::string& topic, const std::string& payload, uint8_t qos);
+    /**
+     * @brief TBD: Describe getRetainedMessages.
+     * @param[in] topicFilter Input parameter.
+     * @return Return value.
+     */
     std::vector<RetainedMessage> getRetainedMessages(const std::string& topicFilter);
+    /**
+     * @brief TBD: Describe clearRetainedMessage.
+     * @param[in] topic Input parameter.
+     */
     void clearRetainedMessage(const std::string& topic);
     
-    // Metrics & monitoring
+    /**
+     * @brief Metrics & monitoring
+     * @return Return value.
+     */
     MqttMetrics getAggregatedMetrics();
+    /**
+     * @brief TBD: Describe setRateLimitConfig.
+     * @param[in] config Input parameter.
+     * @details Implements setRateLimitConfig without additional internal calls.
+     */
     void setRateLimitConfig(const MqttRateLimitConfig& config) { rateLimitConfig_ = config; }
     const MqttRateLimitConfig& getRateLimitConfig() const { return rateLimitConfig_; }
     
-    // Connection retry
+    /**
+     * @brief Connection retry
+     * @param[in] config Input parameter.
+     * @details Implements setRetryConfig without additional internal calls.
+     */
     void setRetryConfig(const MqttRetryConfig& config) { retryConfig_ = config; }
     const MqttRetryConfig& getRetryConfig() const { return retryConfig_; }
 
-    // Active-session registry — called by MqttSession on connect/disconnect
+    /**
+     * @brief Active-session registry — called by MqttSession on connect/disconnect
+     * @param[in] session Input parameter.
+     */
     void registerActiveSession(std::weak_ptr<MqttSession> session);
+    /**
+     * @brief TBD: Describe unregisterActiveSession.
+     * @param[in,out] raw_ptr Input/output parameter.
+     */
     void unregisterActiveSession(MqttSession* raw_ptr);
     
 private:
     MqttBroker() = default;
+    /**
+     * @brief TBD: Describe topicMatches.
+     * @param[in] filter Input parameter.
+     * @param[in] topic Input parameter.
+     * @return True on success.
+     */
     bool topicMatches(const std::string& filter, const std::string& topic);
     
     std::map<std::string, std::vector<std::weak_ptr<MqttSession>>> subscriptions_;

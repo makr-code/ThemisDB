@@ -149,14 +149,21 @@ struct RecoveryAction {
  */
 class IdempotentRecoveryOperation {
 public:
+    /**
+     * @brief TBD: Describe ~IdempotentRecoveryOperation.
+     * @return Return value.
+     */
     virtual ~IdempotentRecoveryOperation() = default;
 
     /// Execute the recovery operation. Safe to call multiple times.
     /// @return Pair of (success, description).
     virtual std::pair<bool, std::string> execute() = 0;
 
-    /// Get a unique operation identifier (e.g., transaction-id).
-    /// Used for deduplication and log tracking.
+    /**
+     * @brief Get a unique operation identifier (e.
+     * @return Return value.
+     * @details g., transaction-id). Used for deduplication and log tracking.
+     */
     virtual std::string getOperationId() const = 0;
 };
 

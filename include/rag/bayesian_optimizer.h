@@ -76,6 +76,7 @@ class BayesianOptimizer {
 
     /**
      * @brief Get number of observations recorded
+     * @return Return value.
      */
     size_t getNumObservations() const;
 

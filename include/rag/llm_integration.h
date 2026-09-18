@@ -173,16 +173,46 @@ public:
  */
 class PromptLibrary {
 public:
-    // Knowledge Gap Detector prompts
+    /**
+     * @brief Knowledge Gap Detector prompts
+     * @return Return value.
+     */
     static PromptTemplate getConfidenceEvaluationPrompt();
+    /**
+     * @brief TBD: Describe getClaimVerificationPrompt.
+     * @return Return value.
+     */
     static PromptTemplate getClaimVerificationPrompt();
+    /**
+     * @brief TBD: Describe getConsistencyCheckPrompt.
+     * @return Return value.
+     */
     static PromptTemplate getConsistencyCheckPrompt();
     
-    // RAG Judge prompts
+    /**
+     * @brief RAG Judge prompts
+     * @return Return value.
+     */
     static PromptTemplate getFaithfulnessEvaluationPrompt();
+    /**
+     * @brief TBD: Describe getRelevanceEvaluationPrompt.
+     * @return Return value.
+     */
     static PromptTemplate getRelevanceEvaluationPrompt();
+    /**
+     * @brief TBD: Describe getCompletenessEvaluationPrompt.
+     * @return Return value.
+     */
     static PromptTemplate getCompletenessEvaluationPrompt();
+    /**
+     * @brief TBD: Describe getCoherenceEvaluationPrompt.
+     * @return Return value.
+     */
     static PromptTemplate getCoherenceEvaluationPrompt();
+    /**
+     * @brief TBD: Describe getPairwiseComparisonPrompt.
+     * @return Return value.
+     */
     static PromptTemplate getPairwiseComparisonPrompt();
 };
 

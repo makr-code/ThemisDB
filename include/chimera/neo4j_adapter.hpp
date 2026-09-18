@@ -209,12 +209,23 @@ private:
     mutable std::mutex session_mutex_;
     std::map<std::string, SessionHandle> active_sessions_;
 
-    // ────────────────────────────────────────────────────────────────────────
-    // Private helpers
-    // ────────────────────────────────────────────────────────────────────────
+    /**
+     * @brief ──────────────────────────────────────────────────────────────────────── Private helpers ────────────────────────────────────────────────────────────────────────
+     * @return Return value.
+     */
 
     static std::string generate_id();
+    /**
+     * @brief TBD: Describe is_valid_connection_string.
+     * @param[in] cs Input parameter.
+     * @return True on success.
+     */
     static bool is_valid_connection_string(const std::string& cs);
+    /**
+     * @brief TBD: Describe mask_credentials.
+     * @param[in] cs Input parameter.
+     * @return Return value.
+     */
     static std::string mask_credentials(const std::string& cs);
 
     /// Convert Cypher parameter types.

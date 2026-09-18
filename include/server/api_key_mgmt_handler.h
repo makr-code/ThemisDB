@@ -55,6 +55,8 @@ public:
     /**
      * @param auth Shared pointer to the AuthMiddleware instance so that
      *             created keys are immediately active for authentication.
+     * @brief TBD: Describe ApiKeyMgmtHandler.
+     * @return Return value.
      */
     explicit ApiKeyMgmtHandler(std::shared_ptr<AuthMiddleware> auth);
 

@@ -69,6 +69,9 @@ public:
     
     /**
      * @brief Create or open a hypertable
+     * @param[in,out] db Input/output parameter.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     explicit Hypertable(RocksDBWrapper* db, const Config& config);
     ~Hypertable();
@@ -133,11 +136,13 @@ public:
      * Returns a health report for each tracked chunk, including
      * status (Active / Frozen / Compressible / Compressed / Expired)
      * and diagnostic messages.
+     * @return Return value.
      */
     std::vector<ChunkHealth> getChunkHealth();
 
     /**
      * @brief Get list of chunks
+     * @return Return value.
      */
     std::vector<ChunkInfo> listChunks();
     
@@ -168,6 +173,10 @@ public:
         int64_t newest_timestamp = 0;
     };
     
+    /**
+     * @brief TBD: Describe getStats.
+     * @return Return value.
+     */
     Stats getStats();
     
     /**
@@ -181,11 +190,15 @@ private:
     
     /**
      * @brief Get chunk name for timestamp
+     * @param[in] timestamp Input parameter.
+     * @return Return value.
      */
     std::string getChunkName(int64_t timestamp);
     
     /**
      * @brief Get or create chunk for timestamp
+     * @param[in] timestamp Input parameter.
+     * @return Pointer to the result.
      */
     rocksdb::ColumnFamilyHandle* getOrCreateChunk(int64_t timestamp);
     
@@ -196,6 +209,9 @@ private:
     
     /**
      * @brief Build key for time-series entry
+     * @param[in] timestamp Input parameter.
+     * @param[in] sequence_id Input parameter.
+     * @return Return value.
      */
     std::string buildKey(int64_t timestamp, uint64_t sequence_id);
 };

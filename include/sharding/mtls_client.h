@@ -103,6 +103,8 @@ public:
     /**
      * Construct mTLS client with configuration
      * @param config Client configuration
+     * @brief TBD: Describe MTLSClient.
+     * @return Return value.
      */
     explicit MTLSClient(const Config& config);
     
@@ -122,6 +124,7 @@ public:
      * Use the connection pool API instead: MTLSConnectionPoolManager::getConnection().
      * This method remains for backward compatibility but will be removed in v3.0.
      * Transition guide: See include/sharding/mtls_connection_factory.h
+     * @brief TBD: Describe get.
      */
     Response get(const std::string& endpoint, const std::string& path);
     
@@ -134,6 +137,7 @@ public:
      * 
      * @deprecated v2.0: See get() for migration details.
      * Transition to EndpointConnectionPool with MTLSConnectionFactory.
+     * @brief TBD: Describe post.
      */
     Response post(const std::string& endpoint, 
                   const std::string& path,
@@ -146,6 +150,7 @@ public:
      * @param body Request body (JSON)
      * @param authorization_header Value for the Authorization header (e.g. "Bearer <token>")
      * @return Response with JSON body, or error
+     * @brief TBD: Describe post.
      */
     Response post(const std::string& endpoint,
                   const std::string& path,
@@ -158,6 +163,7 @@ public:
      * @param path Request path
      * @param body Request body (JSON)
      * @return Response with JSON body, or error
+     * @brief TBD: Describe put.
      */
     Response put(const std::string& endpoint,
                  const std::string& path,
@@ -168,12 +174,14 @@ public:
      * @param endpoint Server endpoint
      * @param path Request path
      * @return Response with JSON body, or error
+     * @brief TBD: Describe del.
      */
     Response del(const std::string& endpoint, const std::string& path);
     
     /**
      * Check if client is configured and ready
      * @return true if client is ready to make requests
+     * @brief TBD: Describe isReady.
      */
     bool isReady() const;
     
@@ -185,12 +193,14 @@ public:
     
     /**
      * Close all connections and reset connection pool
+     * @brief TBD: Describe reset.
      */
     void reset();
     
     /**
      * Get connection pool statistics (JSON format for monitoring)
      * @return JSON object with pool statistics
+     * @brief TBD: Describe getPoolStatistics.
      */
     nlohmann::json getPoolStatistics() const;
     
@@ -231,11 +241,17 @@ private:
     
     /**
      * Initialize SSL context with certificates
+     * @brief TBD: Describe initSSLContext.
+     * @return True on success.
      */
     bool initSSLContext();
     
     /**
      * Verify peer certificate (called during TLS handshake)
+     * @brief TBD: Describe verifyPeerCertificate.
+     * @param[in] preverified Input parameter.
+     * @param[in,out] ctx Input/output parameter.
+     * @return True on success.
      */
     bool verifyPeerCertificate(bool preverified, void* ctx);
 };

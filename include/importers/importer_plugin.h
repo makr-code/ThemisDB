@@ -265,6 +265,11 @@ typedef const THEMIS_IMPORTER_PLUGIN_V1* (*themis_importer_create_fn_t)(void);
         {nullptr, nullptr, nullptr, nullptr}                                  \
     };                                                                        \
     extern "C" THEMIS_IMPORTER_V1_EXPORT_ATTR                                \
+    /**
+     * @brief TBD: Describe themis_importer_create.
+     * @return Pointer to the result.
+     * @details Implements themis_importer_create without additional internal calls.
+     */
     const THEMIS_IMPORTER_PLUGIN_V1* themis_importer_create(void) {          \
         return &themis_plugin_v1_descriptor_;                                 \
     }

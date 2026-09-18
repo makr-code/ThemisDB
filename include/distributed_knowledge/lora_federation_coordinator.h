@@ -155,6 +155,10 @@ struct FederationConfig {
  */
 class ILoRAFederationCoordinator {
 public:
+    /**
+     * @brief TBD: Describe ~ILoRAFederationCoordinator.
+     * @return Return value.
+     */
     virtual ~ILoRAFederationCoordinator() = default;
 
     /**
@@ -379,6 +383,7 @@ public:
      * participating shard's registered region before aggregation starts.
      * If any shard's region is PROHIBITED, a `std::runtime_error` is thrown
      * with the message "Cross-border transfer blocked: <region>".
+     * @param[in] policy Input parameter.
      */
     void setCrossBorderPolicy(
         std::shared_ptr<themis::governance::CrossBorderTransferPolicy> policy);

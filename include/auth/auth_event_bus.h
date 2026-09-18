@@ -84,12 +84,17 @@ struct AuthEvent {
  */
 class IAuthEventSubscriber {
 public:
+    /**
+     * @brief TBD: Describe ~IAuthEventSubscriber.
+     * @return Return value.
+     */
     virtual ~IAuthEventSubscriber() = default;
 
     /**
      * @brief Invoked for every published AuthEvent.
      *
      * Must complete quickly (< 1 ms); no I/O or heavy computation inline.
+     * @param[in] event Input parameter.
      */
     virtual void onAuthEvent(const AuthEvent& event) = 0;
 
@@ -114,12 +119,17 @@ public:
  */
 class IAuthEventBus {
 public:
+    /**
+     * @brief TBD: Describe ~IAuthEventBus.
+     * @return Return value.
+     */
     virtual ~IAuthEventBus() = default;
 
     /**
      * @brief Publish an auth event to all registered subscribers.
      *
      * Subscribers are notified in registration order.
+     * @param[in] event Input parameter.
      */
     virtual void publish(const AuthEvent& event) = 0;
 

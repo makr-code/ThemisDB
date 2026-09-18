@@ -166,6 +166,7 @@ public:
      * defined.  Pass `nullptr` to revert to the stub path.
      *
      * Roadmap ref: src/content/FUTURE_ENHANCEMENTS.md §STTProcessor WhisperActivation.
+     * @param[in] fn Input parameter.
      */
     void setTranscribeFn(STTTranscribeFn fn);
 
@@ -196,28 +197,67 @@ private:
     // Protected by stats_mutex_ for thread-safe set/clear.
     STTTranscribeFn transcribe_fn_;
 
-    // Internal methods
+    /**
+     * @brief Internal methods
+     * @return True on success.
+     */
     bool loadWhisperModel();
+    /**
+     * @brief TBD: Describe unloadWhisperModel.
+     */
     void unloadWhisperModel();
     
+    /**
+     * @brief TBD: Describe convertToWav16kHz.
+     * @param[in] audio_blob Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> convertToWav16kHz(const std::vector<uint8_t>& audio_blob);
+    /**
+     * @brief TBD: Describe extractPCMData.
+     * @param[in] wav_data Input parameter.
+     * @return Return value.
+     */
     std::vector<float> extractPCMData(const std::vector<uint8_t>& wav_data);
     
+    /**
+     * @brief TBD: Describe transcribeInternal.
+     * @param[in] pcm_data Input parameter.
+     * @param[in] options Input parameter.
+     * @return Return value.
+     */
     TranscriptionResult transcribeInternal(
         const std::vector<float>& pcm_data,
         const json& options
     );
     
+    /**
+     * @brief TBD: Describe performSpeakerDiarization.
+     * @param[in] segments Input parameter.
+     * @param[in] pcm_data Input parameter.
+     * @return Return value.
+     */
     std::vector<TranscriptionSegment> performSpeakerDiarization(
         const std::vector<TranscriptionSegment>& segments,
         const std::vector<float>& pcm_data
     );
     
+    /**
+     * @brief TBD: Describe formatAsProtocol.
+     * @param[in] result Input parameter.
+     * @param[in] options Input parameter.
+     * @return Return value.
+     */
     json formatAsProtocol(
         const TranscriptionResult& result,
         const json& options
     );
     
+    /**
+     * @brief TBD: Describe formatTimestamp.
+     * @param[in] ms Input parameter.
+     * @return Return value.
+     */
     std::string formatTimestamp(int64_t ms);
 };
 

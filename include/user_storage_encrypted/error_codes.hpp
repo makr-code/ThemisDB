@@ -85,6 +85,7 @@ enum class ErrorCode : uint16_t {
  * @brief Convert error code to human-readable string
  * @param code The error code
  * @return Human-readable error description
+ * @details Implements errorCodeToString without additional internal calls.
  */
 inline std::string errorCodeToString(ErrorCode code) {
     switch (code) {
@@ -175,8 +176,15 @@ struct DiagnosticEvent {
  */
 using DiagnosticEventHandler = std::function<void(const DiagnosticEvent&)>;
 
-// Forward declarations for diagnostic event API
+/**
+ * @brief Forward declarations for diagnostic event API
+ * @param[in] handler Input parameter.
+ */
 void registerDiagnosticEventHandler(DiagnosticEventHandler handler);
+/**
+ * @brief TBD: Describe emitDiagnosticEvent.
+ * @param[in] event Input parameter.
+ */
 void emitDiagnosticEvent(DiagnosticEvent event);
 
 } // namespace user_storage

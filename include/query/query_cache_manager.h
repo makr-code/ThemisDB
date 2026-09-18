@@ -133,11 +133,17 @@ public:
                 : 0.0;
         }
         
+        /**
+         * @brief TBD: Describe toJson.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
     };
     
     /**
      * @brief Construct cache manager with configuration
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     explicit QueryCacheManager(const Config& config);
     
@@ -231,6 +237,7 @@ public:
     
     /**
      * @brief Get cache statistics
+     * @return Return value.
      */
     CacheStatistics getStatistics() const;
     
@@ -246,21 +253,25 @@ public:
     
     /**
      * @brief Get current workload type
+     * @return Return value.
      */
     WorkloadType getCurrentWorkload() const;
     
     /**
      * @brief Get detailed monitoring information
+     * @return Return value.
      */
     nlohmann::json getMonitoringInfo() const;
     
     /**
      * @brief Update configuration
+     * @param[in] config Input parameter.
      */
     void setConfig(const Config& config);
     
     /**
      * @brief Get current configuration
+     * @return Return value.
      */
     Config getConfig() const;
 
@@ -281,17 +292,42 @@ private:
     // Last statistics report time
     std::chrono::system_clock::time_point last_stats_report_;
     
-    // Helper methods
+    /**
+     * @brief Helper methods
+     * @param[in] query Input parameter.
+     * @param[in] params Input parameter.
+     * @return Return value.
+     */
     std::string generateFingerprint(
         const std::string& query,
         const nlohmann::json& params
     ) const;
     
+    /**
+     * @brief TBD: Describe updateHitStats.
+     * @param[in] hit Input parameter.
+     * @param[in] lookup_time_us Input parameter.
+     */
     void updateHitStats(bool hit, int64_t lookup_time_us);
+    /**
+     * @brief TBD: Describe updateMemoryStats.
+     */
     void updateMemoryStats();
+    /**
+     * @brief TBD: Describe reportStatsIfNeeded.
+     */
     void reportStatsIfNeeded();
     
-    // Cache operations on selected implementation
+    /**
+     * @brief Cache operations on selected implementation
+     * @param[in] fingerprint Input parameter.
+     * @param[in] query Input parameter.
+     * @param[in] params Input parameter.
+     * @param[in] result Input parameter.
+     * @param[in] dependencies Input parameter.
+     * @param[in] ttl Input parameter.
+     * @return True on success.
+     */
     bool putInBasicCache(
         const std::string& fingerprint,
         const std::string& query,
@@ -301,6 +337,14 @@ private:
         std::chrono::seconds ttl
     );
     
+    /**
+     * @brief TBD: Describe putInAdaptiveCache.
+     * @param[in] fingerprint Input parameter.
+     * @param[in] params Input parameter.
+     * @param[in] result Input parameter.
+     * @param[in] ttl Input parameter.
+     * @return True on success.
+     */
     bool putInAdaptiveCache(
         const std::string& fingerprint,
         const nlohmann::json& params,

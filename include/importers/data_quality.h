@@ -80,6 +80,10 @@ public:
         double uniqueness{0.0};     ///< 1 – duplicate_rate            [0,1]
         double overall_quality_score{0.0}; ///< Weighted average       [0,100]
 
+        /**
+         * @brief TBD: Describe toJson.
+         * @return Return value.
+         */
         json toJson() const;
     };
 
@@ -159,10 +163,29 @@ public:
         );
 
     private:
+        /**
+         * @brief TBD: Describe computeCompleteness.
+         * @param[in] rows Input parameter.
+         * @param[in] column Input parameter.
+         * @return Return value.
+         */
         double computeCompleteness(const std::vector<json>& rows,
                                    const std::string& column) const;
+        /**
+         * @brief TBD: Describe computeUniqueness.
+         * @param[in] rows Input parameter.
+         * @param[in] column Input parameter.
+         * @return Return value.
+         */
         double computeUniqueness(const std::vector<json>& rows,
                                  const std::string& column) const;
+        /**
+         * @brief TBD: Describe computeValidity.
+         * @param[in] rows Input parameter.
+         * @param[in] column Input parameter.
+         * @param[in] declared_type Input parameter.
+         * @return Return value.
+         */
         double computeValidity(const std::vector<json>& rows,
                                const std::string& column,
                                const std::string& declared_type) const;

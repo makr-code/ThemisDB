@@ -183,7 +183,18 @@ public:
     struct Status {
         bool is_ok = true;
         std::string message;
+        /**
+         * @brief TBD: Describe OK.
+         * @return Return value.
+         * @details Implements OK without additional internal calls.
+         */
         static Status OK() { return {}; }
+        /**
+         * @brief TBD: Describe Error.
+         * @param[in] msg Input parameter.
+         * @return Return value.
+         * @details Calls: std::move().
+         */
         static Status Error(std::string msg) { return Status{false, std::move(msg)}; }
         bool ok() const { return is_ok; }
     };
@@ -255,6 +266,10 @@ public:
 
     /**
      * @brief Match an activity sequence in an event log.
+     * @param[in] log Input parameter.
+     * @param[in] pattern Input parameter.
+     * @param[in,out] out_matching_trace_indices Input/output parameter.
+     * @return Return value.
      */
     Status matchActivityPattern(
         const EventLog& log,
@@ -351,6 +366,10 @@ private:
      * - Edge overlap (Jaccard similarity)
      * - Path-based similarity (LCS)
      * - Graph edit distance (approximation)
+     * @param[in] pattern Input parameter.
+     * @param[in] log Input parameter.
+     * @param[in] case_id Input parameter.
+     * @return Return value.
      */
     double computeGraphSimilarity(
         const ProcessPattern& pattern,
@@ -365,6 +384,10 @@ private:
      * - Activity embeddings
      * - Trace2Vec (aggregated activity embeddings)
      * - Cosine similarity
+     * @param[in] pattern Input parameter.
+     * @param[in] log Input parameter.
+     * @param[in] case_id Input parameter.
+     * @return Return value.
      */
     double computeVectorSimilarity(
         const ProcessPattern& pattern,
@@ -379,6 +402,10 @@ private:
      * - Sequence patterns (longest common subsequence)
      * - Weak order relations
      * - Execution frequencies
+     * @param[in] pattern Input parameter.
+     * @param[in] log Input parameter.
+     * @param[in] case_id Input parameter.
+     * @return Return value.
      */
     double computeBehavioralSimilarity(
         const ProcessPattern& pattern,
@@ -388,6 +415,11 @@ private:
     
     /**
      * @brief Compute hybrid similarity (weighted combination)
+     * @param[in] pattern Input parameter.
+     * @param[in] log Input parameter.
+     * @param[in] case_id Input parameter.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     double computeHybridSimilarity(
         const ProcessPattern& pattern,
@@ -426,6 +458,9 @@ private:
     
     /**
      * @brief Compute longest common subsequence length
+     * @param[in] a Input parameter.
+     * @param[in] b Input parameter.
+     * @return Return value.
      */
     int longestCommonSubsequence(
         const std::vector<std::string>& a,
@@ -434,11 +469,16 @@ private:
     
     /**
      * @brief Embed activity sequence using VectorIndex
+     * @param[in] activities Input parameter.
+     * @return Return value.
      */
     std::vector<float> embedActivities(const std::vector<std::string>& activities) const;
     
     /**
      * @brief Compute cosine similarity between two vectors
+     * @param[in] a Input parameter.
+     * @param[in] b Input parameter.
+     * @return Return value.
      */
     double cosineSimilarity(const std::vector<float>& a, const std::vector<float>& b) const;
 };

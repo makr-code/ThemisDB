@@ -40,6 +40,10 @@ struct Soc2EvidenceItem {
     std::string detail;          ///< Human-readable evidence description
     nlohmann::json metadata;     ///< Additional structured metadata
 
+    /**
+     * @brief TBD: Describe toJson.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
 };
 
@@ -58,6 +62,10 @@ struct Soc2ControlResult {
     std::vector<std::string> missing_controls;  ///< Specific control gaps
     std::vector<Soc2EvidenceItem> evidence;     ///< Evidence items supporting this result
 
+    /**
+     * @brief TBD: Describe toJson.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
 };
 
@@ -76,6 +84,10 @@ struct Soc2AuditReport {
     std::vector<Soc2ControlResult> results;       ///< Per-control results
     std::vector<Soc2EvidenceItem> evidence_items; ///< All collected evidence
 
+    /**
+     * @brief TBD: Describe toJson.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
 };
 
@@ -88,6 +100,10 @@ struct Soc2AuditReport {
 /// control requirement and produce structured evidence for auditors.
 class ISoc2Control {
 public:
+    /**
+     * @brief TBD: Describe ~ISoc2Control.
+     * @return Return value.
+     */
     virtual ~ISoc2Control() = default;
 
     /// Short control identifier (e.g., "CC6.1")
@@ -241,8 +257,12 @@ public:
 
     // ---- Rule evaluation -------------------------------------------------
 
-    /// Evaluate all SOC 2 controls against a single PolicyRule.
-    /// @return A list of evaluation results, one per SOC 2 control.
+    /**
+     * @brief Evaluate all SOC 2 controls against a single PolicyRule.
+     * @param[in] rule Input parameter.
+     * @return Return value.
+     * @details @return A list of evaluation results, one per SOC 2 control.
+     */
     std::vector<Soc2ControlResult> evaluateRule(const PolicyRule& rule) const;
 
     /// Return true only if every SOC 2 control passes for the given rule.
@@ -259,9 +279,15 @@ public:
 
     // ---- Evidence collection ---------------------------------------------
 
-    /// Collect evidence for a single policy decision (called at query time).
-    /// Records an Soc2EvidenceItem for the most relevant control.
-    /// Thread-safe; may be called from any thread.
+    /**
+     * @brief Collect evidence for a single policy decision (called at query time).
+     * @param[in] resource Input parameter.
+     * @param[in] action Input parameter.
+     * @param[in] principal Input parameter.
+     * @param[in] access_granted Input parameter.
+     * @param[in] encrypted Input parameter.
+     * @details Records an Soc2EvidenceItem for the most relevant control. Thread-safe; may be called from any thread.
+     */
     void collectEvidence(
         const std::string& resource,
         const std::string& action,

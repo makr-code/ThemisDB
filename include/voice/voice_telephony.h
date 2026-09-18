@@ -122,6 +122,10 @@ struct IvrResult {
  */
 class ITtsBackend {
 public:
+    /**
+     * @brief TBD: Describe ~ITtsBackend.
+     * @return Return value.
+     */
     virtual ~ITtsBackend() = default;
 
     /**
@@ -218,9 +222,13 @@ public:
      */
     void unhold();
 
+     * @return True on success.
+     * @note Exception safety: noexcept.
     /** @brief True while the call is active (CONNECTING or ACTIVE state). */
     bool isActive() const noexcept;
 
+     * @return Return value.
+     * @note Exception safety: noexcept.
     /** @brief Current call state. */
     CallState state() const noexcept;
 
@@ -252,6 +260,7 @@ public:
 
     /**
      * @brief Inject a DTMF event (e.g. decoded from RFC 4733 RTP event packet).
+     * @param[in] event Input parameter.
      */
     void injectDtmf(const DtmfEvent& event);
 
@@ -277,6 +286,7 @@ public:
      * to revert to the stub (raw-text) fallback.
      *
      * Thread safety: must be called before the first `synthesizeTts()` call.
+     * @param[in] backend Input parameter.
      */
     void setTtsBackend(std::shared_ptr<ITtsBackend> backend);
 
@@ -287,20 +297,65 @@ public:
     using StateCb      = std::function<void(CallState)>;
     using ErrorCb      = std::function<void(const std::string&)>;
 
+    /**
+     * @brief TBD: Describe onTranscript.
+     * @param[in] cb Input parameter.
+     */
     void onTranscript(TranscriptCb cb);
+    /**
+     * @brief TBD: Describe onDtmf.
+     * @param[in] cb Input parameter.
+     */
     void onDtmf(DtmfCb cb);
+    /**
+     * @brief TBD: Describe onStateChange.
+     * @param[in] cb Input parameter.
+     */
     void onStateChange(StateCb cb);
+    /**
+     * @brief TBD: Describe onError.
+     * @param[in] cb Input parameter.
+     */
     void onError(ErrorCb cb);
 
-    // ── Session info ──────────────────────────────────────────────────────────
+    /**
+     * @brief ── Session info ──────────────────────────────────────────────────────────
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
 
     CallID            callId()          const noexcept;
+    /**
+     * @brief TBD: Describe config.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     const Config&     config()          const noexcept;
+    /**
+     * @brief TBD: Describe startedAtMs.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     int64_t           startedAtMs()     const noexcept;
+    /**
+     * @brief TBD: Describe bytesReceived.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     size_t            bytesReceived()   const noexcept;
+    /**
+     * @brief TBD: Describe rtpPacketsReceived.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     size_t            rtpPacketsReceived() const noexcept;
 
 private:
+    /**
+     * @brief TBD: Describe SipCallSession.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit SipCallSession(Config config);
 
     struct Impl;
@@ -349,6 +404,8 @@ public:
     /**
      * @brief Factory: construct and return a new WebRTC session.
      * @throws std::invalid_argument if config is invalid.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     static std::unique_ptr<WebRtcCallSession> create(Config config);
 
@@ -393,9 +450,13 @@ public:
      */
     void end();
 
+     * @return True on success.
+     * @note Exception safety: noexcept.
     /** @brief True while the connection is active. */
     bool isActive() const noexcept;
 
+     * @return Return value.
+     * @note Exception safety: noexcept.
     /** @brief Current call state. */
     CallState state() const noexcept;
 
@@ -411,6 +472,7 @@ public:
 
     /**
      * @brief Inject a DTMF event decoded from the media track.
+     * @param[in] event Input parameter.
      */
     void injectDtmf(const DtmfEvent& event);
 
@@ -423,6 +485,8 @@ public:
      * synthesis to that backend and wraps each returned frame with a minimal
      * Opus RTP header (PT=111).  Without an injected backend the previous stub
      * behaviour (raw text bytes in an RTP packet) is retained for compatibility.
+     * @param[in] text Input parameter.
+     * @return Return value.
      */
     std::vector<std::vector<uint8_t>> synthesizeTts(const std::string& text);
 
@@ -433,6 +497,7 @@ public:
      * to revert to the stub (raw-text) fallback.
      *
      * Thread safety: must be called before the first `synthesizeTts()` call.
+     * @param[in] backend Input parameter.
      */
     void setTtsBackend(std::shared_ptr<ITtsBackend> backend);
 
@@ -444,22 +509,68 @@ public:
     using ErrorCb      = std::function<void(const std::string&)>;
     using IceCandidateCb = std::function<void(const std::string& candidate_json)>;
 
+    /**
+     * @brief TBD: Describe onTranscript.
+     * @param[in] cb Input parameter.
+     */
     void onTranscript(TranscriptCb cb);
+    /**
+     * @brief TBD: Describe onDtmf.
+     * @param[in] cb Input parameter.
+     */
     void onDtmf(DtmfCb cb);
+    /**
+     * @brief TBD: Describe onStateChange.
+     * @param[in] cb Input parameter.
+     */
     void onStateChange(StateCb cb);
+    /**
+     * @brief TBD: Describe onError.
+     * @param[in] cb Input parameter.
+     */
     void onError(ErrorCb cb);
+     * @param[in] cb Input parameter.
     /** @brief Called when the local ICE candidate is ready to be sent to the peer. */
     void onLocalIceCandidate(IceCandidateCb cb);
 
-    // ── Session info ──────────────────────────────────────────────────────────
+    /**
+     * @brief ── Session info ──────────────────────────────────────────────────────────
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
 
     CallID            callId()        const noexcept;
+    /**
+     * @brief TBD: Describe config.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     const Config&     config()        const noexcept;
+    /**
+     * @brief TBD: Describe startedAtMs.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     int64_t           startedAtMs()   const noexcept;
+    /**
+     * @brief TBD: Describe bytesReceived.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     size_t            bytesReceived() const noexcept;
+    /**
+     * @brief TBD: Describe negotiatedSdp.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     std::string       negotiatedSdp() const noexcept; ///< SDP answer used
 
 private:
+    /**
+     * @brief TBD: Describe WebRtcCallSession.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit WebRtcCallSession(Config config);
 
     struct Impl;
@@ -495,11 +606,13 @@ public:
     /**
      * @brief Construct an IVR engine with the given root node ID.
      * @param root_node_id  ID of the node to start from.
+     * @return Return value.
      */
     explicit IvrEngine(std::string root_node_id);
 
     /**
      * @brief Register an IVR node.  Duplicate IDs overwrite the previous entry.
+     * @param[in] node Input parameter.
      */
     void addNode(IvrNode node);
 
@@ -519,17 +632,22 @@ public:
      */
     std::string handleSpeech(const std::string& text);
 
+     * @return Return value.
     /** @brief TTS prompt for the currently active node. */
     std::string currentPrompt() const;
 
+     * @return Return value.
     /** @brief ID of the currently active node. */
     std::string currentNodeId() const;
 
+     * @return True on success.
     /** @brief True if the current node is a terminal node. */
     bool isTerminal() const;
 
     /**
      * @brief Collect the full IVR result for the given call.
+     * @param[in] call_id Input parameter.
+     * @return Return value.
      */
     IvrResult collectResult(const CallID& call_id) const;
 
@@ -597,6 +715,7 @@ public:
     /**
      * @brief Initiate an outbound SIP call.
      * @return CallID of the new session.
+     * @param[in] config Input parameter.
      */
     CallID dialSip(SipCallSession::Config config);
 
@@ -604,12 +723,15 @@ public:
      * @brief Route an incoming RTP packet to the correct SIP session.
      *
      * @return Incremental transcript, or empty if call not found.
+     * @param[in] call_id Input parameter.
+     * @param[in] rtp_packet Input parameter.
      */
     CallTranscript routeSipRtp(const CallID&                call_id,
                                 const std::vector<uint8_t>& rtp_packet);
 
     /**
      * @brief Terminate a SIP call by ID.
+     * @param[in] call_id Input parameter.
      */
     void terminateSipCall(const CallID& call_id);
 
@@ -629,6 +751,8 @@ public:
 
     /**
      * @brief Forward a remote ICE candidate to the correct WebRTC session.
+     * @param[in] call_id Input parameter.
+     * @param[in] candidate_json Input parameter.
      */
     void routeIceCandidate(const CallID&      call_id,
                             const std::string& candidate_json);
@@ -637,12 +761,15 @@ public:
      * @brief Route a decoded audio frame to the correct WebRTC session.
      *
      * @return Incremental transcript, or empty if call not found.
+     * @param[in] call_id Input parameter.
+     * @param[in] pcm_samples Input parameter.
      */
     CallTranscript routeWebRtcAudio(const CallID&                  call_id,
                                      const std::vector<int16_t>&    pcm_samples);
 
     /**
      * @brief Terminate a WebRTC call by ID.
+     * @param[in] call_id Input parameter.
      */
     void terminateWebRtcCall(const CallID& call_id);
 
@@ -650,21 +777,29 @@ public:
 
     /**
      * @brief Terminate any call (SIP or WebRTC) by ID.
+     * @param[in] call_id Input parameter.
      */
     void terminateCall(const CallID& call_id);
 
+     * @return Return value.
+     * @note Exception safety: noexcept.
     /** @brief Total number of currently active calls (SIP + WebRTC). */
     size_t activeCallCount() const noexcept;
 
+     * @return Return value.
+     * @note Exception safety: noexcept.
     /** @brief Number of active SIP calls. */
     size_t activeSipCallCount() const noexcept;
 
+     * @return Return value.
+     * @note Exception safety: noexcept.
     /** @brief Number of active WebRTC calls. */
     size_t activeWebRtcCallCount() const noexcept;
 
     /**
      * @brief Return the state of any call by ID.
      * @return CallState::IDLE if the call is not found.
+     * @param[in] call_id Input parameter.
      */
     CallState callState(const CallID& call_id) const;
 

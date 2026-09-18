@@ -25,6 +25,11 @@ namespace themis::server {
 /** @brief Provides high-performance binary protocol access to all LLM capabilities. */
 class LLMGrpcService final : public llm::LLMService::Service {
 public:
+    /**
+     * @brief TBD: Describe LLMGrpcService.
+     * @param[in] plugin_manager Input parameter.
+     * @return Return value.
+     */
     explicit LLMGrpcService(std::shared_ptr<llm::LLMPluginManager> plugin_manager);
     ~LLMGrpcService() override = default;
 
@@ -127,8 +132,17 @@ private:
     std::shared_ptr<llm::LLMPluginManager> plugin_manager_;
     std::shared_ptr<auth::JWTValidator> jwt_validator_;
 
-    // Helper methods
+    /**
+     * @brief Helper methods
+     * @param[in,out] context Input/output parameter.
+     * @return True on success.
+     */
     bool validateBearerToken(grpc::ServerContext* context);
+    /**
+     * @brief TBD: Describe extractBearerToken.
+     * @param[in,out] context Input/output parameter.
+     * @return Return value.
+     */
     std::string extractBearerToken(grpc::ServerContext* context);
 
 public:
@@ -139,6 +153,7 @@ public:
      * tokens that are expired, have an invalid signature, or fail issuer /
      * audience checks.  If not set the method falls back to a structural
      * check only (well-formed JWT + non-expired exp claim).
+     * @param[in] validator Input parameter.
      */
     void setJwtValidator(std::shared_ptr<auth::JWTValidator> validator);
 
@@ -148,6 +163,11 @@ private:
         const llm::InferenceRequest& pb_req,
         ::themis::llm::InferenceRequest& internal_req);
     
+    /**
+     * @brief TBD: Describe convertToProtoResponse.
+     * @param[in] internal_resp Input parameter.
+     * @param[in,out] pb_resp Input/output parameter.
+     */
     void convertToProtoResponse(
         const ::themis::llm::InferenceResponse& internal_resp,
         llm::InferenceResponse& pb_resp);

@@ -245,6 +245,7 @@ struct ErrorContext {
     /**
      * @brief Add a nested error context (for cascading errors).
      * @param nested Error context to nest
+     * @details Calls: push_back().
      */
     void addNested(const ErrorContext& nested) {
         nested_errors.push_back(nested);

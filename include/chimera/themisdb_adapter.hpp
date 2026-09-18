@@ -414,8 +414,17 @@ private:
     std::map<std::string, TxnEntry> active_transactions_;
     size_t next_txn_id_ = 0;
 
-    // Credential security helpers
+    /**
+     * @brief Credential security helpers
+     * @param[in] connection_string Input parameter.
+     * @return True on success.
+     */
     static bool is_valid_connection_string(const std::string& connection_string);
+    /**
+     * @brief TBD: Describe mask_credentials.
+     * @param[in] connection_string Input parameter.
+     * @return Return value.
+     */
     static std::string mask_credentials(const std::string& connection_string);
 
     // ── Async cancellation tracking ──────────────────────────────────────────

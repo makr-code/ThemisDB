@@ -103,8 +103,14 @@ public:
      *
      * @param key Cache key.
      * @return Cached value, or std::nullopt on miss.
+     * @details Calls: lock(), find(), end(), promote(), evictFromTier(), insertToTier().
      */
     std::optional<V> get(const K& key) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         // Hot tier
         auto it = hot_.map.find(key);
@@ -142,8 +148,14 @@ public:
      *
      * @param key   Cache key.
      * @param value Value to store.
+     * @details Calls: lock(), removeFromAll(), insertToTier(), std::move().
      */
     void put(const K& key, V value) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         removeFromAll(key);
         insertToTier(cold_, cfg_.cold_capacity, key, std::move(value), nullptr);
@@ -154,14 +166,25 @@ public:
      * @brief Remove a key from whichever tier it resides in.
      * @param key Cache key.
      * @return true if the key was found and removed.
+     * @details Calls: lock(), removeFromAll().
      */
     bool remove(const K& key) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return removeFromAll(key);
     }
 
     /// Clear all three tiers.
     void clear() {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         hot_.map.clear();  hot_.lru.clear();
         warm_.map.clear(); warm_.lru.clear();
@@ -173,6 +196,11 @@ public:
      * @return Entry count.
      */
     size_t size() const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return hot_.map.size() + warm_.map.size() + cold_.map.size();
     }
@@ -182,6 +210,11 @@ public:
      * @return Hot-tier entry count.
      */
     size_t hotSize() const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return hot_.map.size();
     }
@@ -191,6 +224,11 @@ public:
      * @return Warm-tier entry count.
      */
     size_t warmSize() const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return warm_.map.size();
     }
@@ -200,6 +238,11 @@ public:
      * @return Cold-tier entry count.
      */
     size_t coldSize() const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return cold_.map.size();
     }
@@ -209,6 +252,11 @@ public:
      * @return Metrics snapshot.
      */
     Metrics metrics() const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return metrics_;
     }
@@ -219,8 +267,14 @@ public:
      * Existing entries that now exceed the new capacity are evicted (LRU).
      *
      * @param cfg New configuration.
+     * @details Calls: lock(), trimTier().
      */
     void reconfigure(Config cfg) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         cfg_ = cfg;
         trimTier(hot_,  cfg_.hot_capacity);
@@ -254,8 +308,15 @@ private:
         tier.map.erase(it);
     }
 
-    // Insert into a tier, demoting the LRU entry to `demote_to` if at
-    // capacity.  If `demote_to` is nullptr the evicted entry is discarded.
+    /**
+     * @brief Insert into a tier, demoting the LRU entry to `demote_to` if at capacity.
+     * @param[in,out] tier Input/output parameter.
+     * @param[in] capacity Input parameter.
+     * @param[in] key Input parameter.
+     * @param[in] value Input parameter.
+     * @param[in,out] demote_to Input/output parameter.
+     * @details If `demote_to` is nullptr the evicted entry is discarded. Calls: size(), back(), std::move(), at(), push_front(), emplace(), begin(), erase().
+     */
     void insertToTier(Tier& tier, size_t capacity, const K& key, V value,
                       Tier* demote_to) {
         if (capacity > 0 && tier.map.size() >= capacity) {
@@ -278,7 +339,12 @@ private:
         tier.map.emplace(key, Entry{std::move(value), tier.lru.begin()});
     }
 
-    // Remove key from all tiers. Returns true if found anywhere.
+    /**
+     * @brief Remove key from all tiers.
+     * @param[in] key Input parameter.
+     * @return True on success.
+     * @details Returns true if found anywhere. Calls: find(), end(), erase().
+     */
     bool removeFromAll(const K& key) {
         for (Tier* t : {&hot_, &warm_, &cold_}) {
             auto it = t->map.find(key);
@@ -291,7 +357,12 @@ private:
         return false;
     }
 
-    // Trim a tier to at most `capacity` entries by evicting LRU entries.
+    /**
+     * @brief Trim a tier to at most `capacity` entries by evicting LRU entries.
+     * @param[in,out] tier Input/output parameter.
+     * @param[in] capacity Input parameter.
+     * @details Calls: size(), back(), erase(), pop_back().
+     */
     void trimTier(Tier& tier, size_t capacity) {
         if (capacity == 0) {
           return;
@@ -360,6 +431,7 @@ public:
      * @param from Source vertex.
      * @param to   Target vertex.
      * @return Canonical string key.
+     * @details Implements shortestPathKey without additional internal calls.
      */
     static std::string shortestPathKey(const std::string& from,
                                         const std::string& to) {
@@ -371,6 +443,7 @@ public:
      *
      * @param key    Cache key (use bfsKey / shortestPathKey helpers).
      * @param result List of vertex IDs from the traversal.
+     * @details Calls: std::move().
      */
     void put(const std::string& key, ResultType result) {
         cache_.put(key, std::move(result));
@@ -381,6 +454,7 @@ public:
      *
      * @param key Cache key.
      * @return Result if cached, std::nullopt otherwise.
+     * @details Implements get without additional internal calls.
      */
     std::optional<ResultType> get(const std::string& key) {
         return cache_.get(key);
@@ -390,6 +464,7 @@ public:
      * @brief Invalidate a specific cache entry.
      * @param key Cache key to remove.
      * @return true if the entry was present and removed.
+     * @details Calls: remove().
      */
     bool invalidate(const std::string& key) { return cache_.remove(key); }
 

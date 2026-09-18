@@ -198,6 +198,8 @@ public:
 
     /**
      * @brief True while the session is active (between start() and end()).
+     * @return True on success.
+     * @note Exception safety: noexcept.
      */
     bool isActive() const noexcept;
 
@@ -227,6 +229,7 @@ public:
      * 
      * Detects mid-stream connection loss via TCP keep-alive.
      * @return true if connection is alive; false if connection lost
+     * @note Exception safety: noexcept.
      */
     bool sendHeartbeat() noexcept;
     
@@ -243,6 +246,7 @@ public:
      * 
      * @param last_acked_sequence_num Sequence number of last acknowledged chunk
      * @return Number of chunks resent
+     * @note Exception safety: noexcept.
      */
     size_t retryUnacknowledgedChunks(uint32_t last_acked_sequence_num) noexcept;
     
@@ -250,6 +254,7 @@ public:
      * @brief Detect lost chunks via sequence gaps (Phase 3).
      * 
      * @return true if sequence gap detected; false if all chunks accounted for
+     * @note Exception safety: noexcept.
      */
     bool detectSequenceGap() const noexcept;
     
@@ -257,6 +262,7 @@ public:
      * @brief Pause/resume streaming if buffer critical (Phase 3).
      * 
      * @return true if paused due to buffer pressure; false if streaming normally
+     * @note Exception safety: noexcept.
      */
     bool rebalanceBufferPressure() noexcept;
 
@@ -267,9 +273,25 @@ public:
     using TtsChunkCb          = std::function<void(const std::vector<uint8_t>&)>;
     using ErrorCb             = std::function<void(const std::string& error)>;
 
+    /**
+     * @brief TBD: Describe onPartialTranscript.
+     * @param[in] cb Input parameter.
+     */
     void onPartialTranscript(PartialTranscriptCb cb);
+    /**
+     * @brief TBD: Describe onFinalTranscript.
+     * @param[in] cb Input parameter.
+     */
     void onFinalTranscript(FinalTranscriptCb cb);
+    /**
+     * @brief TBD: Describe onTtsChunk.
+     * @param[in] cb Input parameter.
+     */
     void onTtsChunk(TtsChunkCb cb);       ///< Called with TTS audio chunks when enable_tts=true
+    /**
+     * @brief TBD: Describe onError.
+     * @param[in] cb Input parameter.
+     */
     void onError(ErrorCb cb);
 
     // ── STT backend injection ─────────────────────────────────────────────────
@@ -293,15 +315,37 @@ public:
         bool is_final,
         uint32_t seq)>;
 
-    /// Inject an STT transcription backend.  Passing null resets to the
-    /// built-in placeholder.
+    /**
+     * @brief Inject an STT transcription backend.
+     * @param[in] fn Input parameter.
+     * @details Passing null resets to the built-in placeholder.
+     */
     void setTranscribeBackend(TranscribeFn fn);
 
-    // ── Session info ──────────────────────────────────────────────────────────
+    /**
+     * @brief ── Session info ──────────────────────────────────────────────────────────
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
 
     StreamID     streamId()    const noexcept;
+    /**
+     * @brief TBD: Describe config.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     const Config& config()     const noexcept;
+    /**
+     * @brief TBD: Describe startedAtMs.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     int64_t      startedAtMs() const noexcept;
+    /**
+     * @brief TBD: Describe bytesReceived.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     size_t       bytesReceived()const noexcept;
 
     // ── Origin allowlist ──────────────────────────────────────────────────────
@@ -316,10 +360,16 @@ public:
      *
      * @param origin  Full scheme+host[:port] of the connecting client
      *                (e.g. "https://app.example.com").
+     * @return True on success.
      */
     bool checkOrigin(const std::string& origin) const;
 
 private:
+    /**
+     * @brief TBD: Describe VoiceStreamingSession.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit VoiceStreamingSession(Config config);
 
     struct Impl;
@@ -348,6 +398,7 @@ public:
      *
      * @return StreamID of the created session, or empty string when the
      *         max_concurrent_sessions limit is reached.
+     * @param[in] config Input parameter.
      */
     StreamID createSession(VoiceStreamingSession::Config config);
 
@@ -355,17 +406,22 @@ public:
      * @brief Route an incoming audio chunk to the correct session.
      *
      * @return PartialTranscript for the session, or empty if not found.
+     * @param[in] stream_id Input parameter.
+     * @param[in] audio_chunk Input parameter.
      */
     PartialTranscript routeAudio(const StreamID&             stream_id,
                                   const std::vector<uint8_t>& audio_chunk);
 
     /**
      * @brief Terminate and remove a session.
+     * @param[in] stream_id Input parameter.
      */
     void closeSession(const StreamID& stream_id);
 
     /**
      * @brief Return the number of currently active sessions.
+     * @return Return value.
+     * @note Exception safety: noexcept.
      */
     size_t activeSessionCount() const noexcept;
 

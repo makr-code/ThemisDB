@@ -72,6 +72,11 @@ public:
     };
 
     PromptInjectionDetector();
+    /**
+     * @brief TBD: Describe PromptInjectionDetector.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit PromptInjectionDetector(Config config);
     ~PromptInjectionDetector() = default;
 
@@ -109,12 +114,33 @@ private:
     std::vector<std::string> pattern_labels_;
     std::vector<std::string> dangerous_keywords_;
 
+    /**
+     * @brief TBD: Describe initializePatterns.
+     */
     void initializePatterns();
 
+    /**
+     * @brief TBD: Describe calculatePatternScore.
+     * @param[in] text Input parameter.
+     * @param[in,out] matched_out Input/output parameter.
+     * @return Return value.
+     */
     float calculatePatternScore(const std::string& text,
                                 std::vector<std::string>& matched_out) const;
+    /**
+     * @brief TBD: Describe calculateKeywordScore.
+     * @param[in] text Input parameter.
+     * @param[in,out] matched_out Input/output parameter.
+     * @return Return value.
+     */
     float calculateKeywordScore(const std::string& text,
                                 std::vector<std::string>& matched_out) const;
+    /**
+     * @brief TBD: Describe calculateSyntaxScore.
+     * @param[in] text Input parameter.
+     * @param[in,out] matched_out Input/output parameter.
+     * @return Return value.
+     */
     float calculateSyntaxScore(const std::string& text,
                                std::vector<std::string>& matched_out) const;
 };

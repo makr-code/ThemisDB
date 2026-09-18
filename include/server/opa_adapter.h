@@ -66,6 +66,11 @@ public:
         long timeout_ms = 50;
     };
 
+    /**
+     * @brief TBD: Describe OpaAdapter.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit OpaAdapter(const Config& config);
     ~OpaAdapter() override;
 

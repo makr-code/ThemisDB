@@ -171,6 +171,7 @@ public:
      * Returns true if:
      *   - No active key is registered (rotation needed to establish one), OR
      *   - The active key's age exceeds config_.max_key_age.
+     * @return True on success.
      */
     bool isRotationDue() const;
 
@@ -186,15 +187,20 @@ public:
     // Queries
     // ---------------------------------------------------------------------------
 
+     * @return Return value.
     /** @brief Return the kid of the currently ACTIVE key, or empty string. */
     std::string activeKeyId() const;
 
+     * @return Return value.
     /** @brief Return all key IDs with PASSIVE status. */
     std::vector<std::string> passiveKeyIds() const;
 
+     * @return Return value.
     /** @brief Return all key IDs with REVOKED status. */
     std::vector<std::string> revokedKeyIds() const;
 
+     * @param[in] kid Input parameter.
+     * @return Return value.
     /** @brief Return the full key info for a specific kid, or nullopt. */
     std::optional<JWKKeyInfo> getKeyInfo(const std::string& kid) const;
 
@@ -211,11 +217,17 @@ public:
         uint64_t total_revocations = 0;
     };
 
+    /**
+     * @brief TBD: Describe getStatistics.
+     * @return Return value.
+     */
     Statistics getStatistics() const;
 
     /**
      * @brief Attach an AuditLogger that receives KEY_ROTATED / KEY_DELETED events.
      * Pass nullptr to detach. The manager does NOT take ownership.
+     * @param[in,out] logger Input/output parameter.
+     * @details Implements setAuditLogger without additional internal calls.
      */
     void setAuditLogger(utils::AuditLogger* logger) { audit_logger_ = logger; }
 

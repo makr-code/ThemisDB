@@ -50,6 +50,7 @@ enum class HugePageSize {
  * @brief Check if huge pages are available on the system
  * 
  * @return true if huge pages can be used
+ * @details Calls: fopen(), fgets(), strncmp(), fclose(), defined().
  */
 inline bool huge_pages_available() {
     #ifdef THEMIS_USE_HUGE_PAGES
@@ -85,6 +86,7 @@ inline bool huge_pages_available() {
  * @brief Get the huge page size in bytes
  * 
  * @return Size of huge pages, or 0 if not available
+ * @details Calls: defined().
  */
 inline size_t get_huge_page_size() {
     #ifdef THEMIS_USE_HUGE_PAGES
@@ -193,6 +195,8 @@ inline void deallocate_huge_pages(void* ptr, [[maybe_unused]] size_t size) {
 
 /**
  * @brief Check if huge pages are enabled at compile time
+ * @return True on success.
+ * @details Implements is_huge_pages_enabled without additional internal calls.
  */
 inline bool is_huge_pages_enabled() {
     #ifdef THEMIS_USE_HUGE_PAGES
@@ -204,6 +208,8 @@ inline bool is_huge_pages_enabled() {
 
 /**
  * @brief Get status string for huge pages
+ * @return Return value.
+ * @details Calls: is_huge_pages_enabled(), huge_pages_available(), get_huge_page_size().
  */
 inline std::string huge_pages_status() {
     if (!is_huge_pages_enabled()) {

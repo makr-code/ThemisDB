@@ -86,18 +86,61 @@ private:
     
     bool initialized_ = false;
     
-    // Internal methods
+    /**
+     * @brief Internal methods
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     MediaExtractionData extractMetadata(const std::vector<uint8_t>& blob);
+    /**
+     * @brief TBD: Describe generateThumbnail.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> generateThumbnail(const std::vector<uint8_t>& blob);
+    /**
+     * @brief TBD: Describe extractSubtitles.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     std::string extractSubtitles(const std::vector<uint8_t>& blob);
+    /**
+     * @brief TBD: Describe detectScenes.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     std::vector<int64_t> detectScenes(const std::vector<uint8_t>& blob);
+    /**
+     * @brief TBD: Describe extractKeyframes.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     std::vector<int64_t> extractKeyframes(const std::vector<uint8_t>& blob);
     
 #ifdef THEMIS_HAS_FFMPEG
-    // FFmpeg-specific helper methods
+    /**
+     * @brief FFmpeg-specific helper methods
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     MediaExtractionData extractMetadataFFmpeg(const std::vector<uint8_t>& blob);
+    /**
+     * @brief TBD: Describe generateThumbnailFFmpeg.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> generateThumbnailFFmpeg(const std::vector<uint8_t>& blob);
+    /**
+     * @brief TBD: Describe extractKeyframesFFmpeg.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     std::vector<int64_t> extractKeyframesFFmpeg(const std::vector<uint8_t>& blob);
+    /**
+     * @brief TBD: Describe detectScenesFFmpeg.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     std::vector<int64_t> detectScenesFFmpeg(const std::vector<uint8_t>& blob);
 #endif
 };

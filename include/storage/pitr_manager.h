@@ -124,6 +124,10 @@ public:
             return end - start_time_ms;
         }
         
+        /**
+         * @brief TBD: Describe getCurrentTimeMs.
+         * @return Return value.
+         */
         static int64_t getCurrentTimeMs();
     };
 
@@ -135,8 +139,25 @@ public:
         std::string message;
         std::optional<RestoreProgress> progress;
         
+        /**
+         * @brief TBD: Describe OK.
+         * @return Return value.
+         * @details Implements OK without additional internal calls.
+         */
         static Status OK() { return {true, "", std::nullopt}; }
+        /**
+         * @brief TBD: Describe Error.
+         * @param[in] msg Input parameter.
+         * @return Return value.
+         * @details Calls: std::move().
+         */
         static Status Error(std::string msg) { return {false, std::move(msg), std::nullopt}; }
+        /**
+         * @brief TBD: Describe WithProgress.
+         * @param[in] prog Input parameter.
+         * @return Return value.
+         * @details Implements WithProgress without additional internal calls.
+         */
         static Status WithProgress(RestoreProgress prog) { 
             return {prog.phase == RestoreProgress::Phase::COMPLETED, "", prog}; 
         }
@@ -147,6 +168,7 @@ public:
      * @param db RocksDB wrapper instance (not owned)
      * @param changefeed Changefeed instance (not owned)
      * @param snapshot_mgr SnapshotManager instance (not owned)
+     * @return Return value.
      */
     explicit PITRManager(RocksDBWrapper* db,
                         Changefeed* changefeed,
@@ -281,6 +303,8 @@ private:
      * @brief Find sequence number for a given timestamp
      * 
      * Returns the latest sequence <= timestamp
+     * @param[in] timestamp_ms Input parameter.
+     * @return Return value.
      */
     std::optional<uint64_t> findSequenceForTimestamp(int64_t timestamp_ms) const;
 
@@ -291,6 +315,10 @@ private:
      * - PUT → DELETE (remove the value)
      * - DELETE → PUT (restore the value)
      * - TRANSACTION_COMMIT/ROLLBACK → Metadata only, skip
+     * @param[in] from_sequence Input parameter.
+     * @param[in] to_sequence Input parameter.
+     * @param[in] options Input parameter.
+     * @return Return value.
      */
     Status replayBackward(uint64_t from_sequence, uint64_t to_sequence, 
                          const RestoreOptions& options);
@@ -302,16 +330,23 @@ private:
     * - DELETE event → Restore previous value (requires value or before_snapshot)
     * 
     * Fails closed when the previous value is unavailable.
+     * @param[in] event Input parameter.
+     * @return Return value.
      */
     Status applyEventReverse(const Changefeed::ChangeEvent& event);
 
     /**
      * @brief Create automatic backup before restore
+     * @param[in] options Input parameter.
+     * @return Return value.
      */
     Status createAutoBackup(const RestoreOptions& options);
 
     /**
      * @brief Validate restore parameters
+     * @param[in] target_sequence Input parameter.
+     * @param[in] current_sequence Input parameter.
+     * @return Return value.
      */
     Status validate(uint64_t target_sequence, uint64_t current_sequence) const;
 

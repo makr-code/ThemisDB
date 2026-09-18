@@ -106,6 +106,10 @@ struct RoutingDecision {
  */
 class IModelRouter {
 public:
+    /**
+     * @brief TBD: Describe ~IModelRouter.
+     * @return Return value.
+     */
     virtual ~IModelRouter() = default;
 
     /**
@@ -121,6 +125,7 @@ public:
      * @brief Remove the route for the given model type.
      *
      * No-op if no route is registered for @c type.
+     * @param[in] type Input parameter.
      */
     virtual void removeRoute(QueryModelType type) = 0;
 

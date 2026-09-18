@@ -27,6 +27,10 @@ namespace attention {
  * @brief Tensor wrapper for KV cache data
  */
 struct KVTensor {
+    /**
+     * @brief TBD: Describe ~KVTensor.
+     * @return Return value.
+     */
     virtual ~KVTensor() = default;
     std::vector<float> data;
     size_t layer_id = 0;
@@ -38,6 +42,10 @@ struct KVTensor {
  * @brief Block table for mapping logical to physical blocks
  */
 struct BlockTable {
+    /**
+     * @brief TBD: Describe ~BlockTable.
+     * @return Return value.
+     */
     virtual ~BlockTable() = default;
     std::vector<int> block_ids;     // Physical block IDs
     int num_tokens = 0;             // Total tokens in this sequence
@@ -53,6 +61,10 @@ struct BlockTable {
  * @brief Physical block in KV cache
  */
 struct Block {
+    /**
+     * @brief TBD: Describe ~Block.
+     * @return Return value.
+     */
     virtual ~Block() = default;
     int block_id = -1;
     bool is_free = true;
@@ -70,6 +82,11 @@ struct Block {
  */
 class KVCacheManager {
 public:
+    /**
+     * @brief TBD: Describe KVCacheManager.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit KVCacheManager(const FlashAttentionConfig& config);
     ~KVCacheManager();
     
@@ -124,6 +141,7 @@ public:
     
     /**
      * @brief Get number of free blocks
+     * @return Return value.
      */
     size_t getFreeBlockCount() const;
     
@@ -147,9 +165,20 @@ private:
     // Thread safety
     mutable std::mutex mutex_;
     
-    // Helper methods
+    /**
+     * @brief Helper methods
+     * @return Return value.
+     */
     int allocateBlock();
+    /**
+     * @brief TBD: Describe freeBlock.
+     * @param[in] block_id Input parameter.
+     */
     void freeBlock(int block_id);
+    /**
+     * @brief TBD: Describe calculateBlockSize.
+     * @return Return value.
+     */
     size_t calculateBlockSize() const;
 };
 

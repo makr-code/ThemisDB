@@ -96,6 +96,7 @@ public:
     /**
      * @brief Constructs the pool and allocates @p cfg.min_size initial slots.
      * @param cfg  Pool configuration.
+     * @return Return value.
      */
     explicit AdaptiveConnectionPool(const Config& cfg);
 
@@ -145,6 +146,7 @@ public:
      * @brief Shuts down the pool, unblocking all waiters.
      *
      * After shutdown, @ref acquire() throws @c std::runtime_error.
+     * @note Exception safety: noexcept.
      */
     void shutdown() noexcept;
 
@@ -155,7 +157,15 @@ public:
     void forceScaleDown();
 
 private:
+    /**
+     * @brief TBD: Describe growLocked.
+     * @param[in] count Input parameter.
+     */
     void growLocked(std::size_t count);  ///< Grow pool (caller holds lock).
+    /**
+     * @brief TBD: Describe shrinkLocked.
+     * @param[in] count Input parameter.
+     */
     void shrinkLocked(std::size_t count); ///< Shrink pool (caller holds lock).
 
     Config                    cfg_;
@@ -230,6 +240,7 @@ public:
     /**
      * @brief Constructs and initialises all managed pools.
      * @param cfg  Configuration.
+     * @return Return value.
      */
     explicit ResourcePoolManager(const Config& cfg);
 
@@ -256,6 +267,7 @@ public:
      * @brief Shuts down all managed pools in dependency order.
      *
      * Safe to call multiple times.
+     * @note Exception safety: noexcept.
      */
     void shutdown() noexcept;
 

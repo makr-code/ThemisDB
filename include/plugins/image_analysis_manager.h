@@ -58,6 +58,7 @@ class ImageAnalysisManager {
 public:
     /**
      * @brief Get singleton instance
+     * @return Return value.
      */
     static ImageAnalysisManager& instance();
     
@@ -184,6 +185,7 @@ public:
     
     /**
      * @brief Get default plugin
+     * @return Return value.
      */
     std::string getDefaultPlugin() const;
     
@@ -258,6 +260,13 @@ public:
      * @return Embedding result from image analysis
      */
     template<typename LLMTask>
+    /**
+     * @brief TBD: Describe parallelExecuteWithLLM.
+     * @param[in] image_data Input parameter.
+     * @param[in] llm_task Input parameter.
+     * @return Return value.
+     * @details Calls: std::async(), generateEmbedding(), llm_task(), get().
+     */
     EmbeddingResult parallelExecuteWithLLM(
         const std::vector<uint8_t>& image_data,
         LLMTask llm_task
@@ -292,6 +301,10 @@ public:
         std::unordered_map<std::string, int64_t> time_per_plugin_ms;
     };
     
+    /**
+     * @brief TBD: Describe getStatistics.
+     * @return Return value.
+     */
     Statistics getStatistics() const;
     
     /**
@@ -326,17 +339,50 @@ private:
     // Statistics
     mutable Statistics stats_;
     
-    // Platform-specific loading
+    /**
+     * @brief Platform-specific loading
+     * @param[in] path Input parameter.
+     * @return Pointer to the result.
+     */
     void* loadLibrary(const std::string& path);
+    /**
+     * @brief TBD: Describe getSymbol.
+     * @param[in,out] handle Input/output parameter.
+     * @param[in] symbol_name Input parameter.
+     * @return Pointer to the result.
+     */
     void* getSymbol(void* handle, const std::string& symbol_name);
+    /**
+     * @brief TBD: Describe unloadLibrary.
+     * @param[in,out] handle Input/output parameter.
+     */
     void unloadLibrary(void* handle);
     
-    // Security
+    /**
+     * @brief Security
+     * @param[in] path Input parameter.
+     * @param[in,out] error_message Input/output parameter.
+     * @return True on success.
+     */
     bool verifyPlugin(const std::string& path, std::string& error_message);
+    /**
+     * @brief TBD: Describe calculateFileHash.
+     * @param[in] path Input parameter.
+     * @return Return value.
+     */
     std::string calculateFileHash(const std::string& path);
     
-    // Helper methods
+    /**
+     * @brief Helper methods
+     * @param[in] path Input parameter.
+     * @return Return value.
+     */
     std::string getPluginNameFromPath(const std::string& path);
+    /**
+     * @brief TBD: Describe isImagePlugin.
+     * @param[in] filename Input parameter.
+     * @return True on success.
+     */
     bool isImagePlugin(const std::string& filename);
 };
 

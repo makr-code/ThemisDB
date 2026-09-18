@@ -81,13 +81,25 @@ public:
         std::vector<uint8_t> ciphertext;// Encrypted secret
         std::vector<uint8_t> tag;       // Authentication tag
         
-        // Serialize to string for storage
+        /**
+         * @brief Serialize to string for storage
+         * @return Return value.
+         */
         std::string serialize() const;
         
-        // Deserialize from string
+        /**
+         * @brief Deserialize from string
+         * @param[in] data Input parameter.
+         * @return Return value.
+         */
         static EncryptedSecret deserialize(const std::string& data);
     };
     
+    /**
+     * @brief TBD: Describe TOTPSecretEncryption.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit TOTPSecretEncryption(const Config& config);
     ~TOTPSecretEncryption();
     
@@ -168,11 +180,19 @@ private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
     
-    // Derive encryption key from master key and salt.
-    // Returns a SecureBuffer so the derived key is zeroed when it goes out of scope.
+    /**
+     * @brief Derive encryption key from master key and salt.
+     * @param[in] salt Input parameter.
+     * @return Return value.
+     * @details Returns a SecureBuffer so the derived key is zeroed when it goes out of scope.
+     */
     SecureBuffer<uint8_t> deriveKey(const std::vector<uint8_t>& salt);
     
-    // Generate random bytes
+    /**
+     * @brief Generate random bytes
+     * @param[in] size Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> generateRandomBytes(size_t size);
 };
 
@@ -204,6 +224,11 @@ public:
     };
     
     TOTPSecretRotationManager();
+    /**
+     * @brief TBD: Describe TOTPSecretRotationManager.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit TOTPSecretRotationManager(const RotationConfig& config);
     
     /**

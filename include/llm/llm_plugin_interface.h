@@ -79,6 +79,10 @@ struct LLMCapabilities {
  * @brief Model information
  */
 struct ModelInfo {
+    /**
+     * @brief TBD: Describe ~ModelInfo.
+     * @return Return value.
+     */
     virtual ~ModelInfo() = default;
 
     /// @brief Move constructor — transfers all fields; source is left in a valid empty state.
@@ -117,6 +121,10 @@ struct ModelInfo {
  * @brief LoRA adapter information
  */
 struct LoRAInfo {
+    /**
+     * @brief TBD: Describe ~LoRAInfo.
+     * @return Return value.
+     */
     virtual ~LoRAInfo() = default;
 
     /// @brief Move constructor — transfers all fields; source left valid-empty.
@@ -229,6 +237,10 @@ struct InferenceRequest {
  * @brief Inference response
  */
 struct InferenceResponse {
+    /**
+     * @brief TBD: Describe ~InferenceResponse.
+     * @return Return value.
+     */
     virtual ~InferenceResponse() = default;
 
     /// @brief Move constructor — transfers all members including containers and optional fields.
@@ -291,6 +303,10 @@ struct InferenceResponse {
  * retrieved chunks.  Setting it to 0 triggers the 4 096-token fallback.
  */
 struct RAGContext {
+    /**
+     * @brief TBD: Describe ~RAGContext.
+     * @return Return value.
+     */
     virtual ~RAGContext() = default;
 
     /// @brief Move constructor — transfers query, collection, documents, and all parameters.
@@ -336,6 +352,10 @@ struct RAGContext {
  */
 class ILLMPlugin {
 public:
+    /**
+     * @brief TBD: Describe ~ILLMPlugin.
+     * @return Return value.
+     */
     virtual ~ILLMPlugin() = default;
 
     /// @brief Move constructor for polymorphic LLM plugin base.
@@ -443,11 +463,17 @@ public:
                           size_t                  /*k*/,
                           size_t                  /*vocab_size_hint*/)>;
 
-    /// Inject (or remove) a real generateDraftTokens() implementation into
-    /// the default virtual method body.  Pass nullptr / empty fn to restore
-    /// the built-in text-heuristic path.  Thread-safe with concurrent calls
-    /// to generateDraftTokens().
+    /**
+     * @brief Inject (or remove) a real generateDraftTokens() implementation into the default virtual method body.
+     * @param[in] fn Input parameter.
+     * @details Pass nullptr / empty fn to restore the built-in text-heuristic path. Thread-safe with concurrent calls to generateDraftTokens(). Calls: lk(), std::move().
+     */
     static void setDefaultGenerateDraftTokensFn(GenerateDraftTokensFn fn) {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] s_draft_fn_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(s_draft_fn_mutex_);
         s_default_draft_fn_ = std::move(fn);
     }
@@ -478,6 +504,11 @@ public:
         // Check injected fn first (STUB #261 bridge).
         GenerateDraftTokensFn fn_copy;
         {
+            /**
+             * @brief TBD: Describe lk.
+             * @param[in] s_draft_fn_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lk(s_draft_fn_mutex_);
             fn_copy = s_default_draft_fn_;
         }
@@ -509,6 +540,12 @@ public:
                 : 0;
             result.tokens.push_back(token_id);
 
+            /**
+             * @brief TBD: Describe row.
+             * @param[in] vocab Input parameter.
+             * @param[in] kBaseline Input parameter.
+             * @return Return value.
+             */
             std::vector<float> row(vocab, kBaseline);
             row[static_cast<size_t>(token_id)] = kPeak;
             result.logits.push_back(std::move(row));
@@ -603,6 +640,11 @@ public:
  */
 class LLMPluginAdapter : public plugins::IThemisPlugin {
 public:
+    /**
+     * @brief TBD: Describe LLMPluginAdapter.
+     * @param[in] llm_plugin Input parameter.
+     * @return Return value.
+     */
     explicit LLMPluginAdapter(std::unique_ptr<ILLMPlugin> llm_plugin)
         : llm_plugin_(std::move(llm_plugin)) {}
 
@@ -659,7 +701,11 @@ public:
         return llm_plugin_.get();
     }
     
-    // Direct access to LLM plugin
+    /**
+     * @brief Direct access to LLM plugin
+     * @return Pointer to the result.
+     * @details Calls: get().
+     */
     ILLMPlugin* getLLMPlugin() { return llm_plugin_.get(); }
     const ILLMPlugin* getLLMPlugin() const { return llm_plugin_.get(); }
     
@@ -677,6 +723,14 @@ private:
  */
 #define THEMIS_LLM_PLUGIN()                                                        \
     extern "C" THEMIS_PLUGIN_EXPORT                                                \
+        /**
+         * @brief TBD: Describe themis_llm_create.
+         * @return Pointer to the result.
+         */
         themis::llm::ILLMPlugin* themis_llm_create();                             \
     extern "C" THEMIS_PLUGIN_EXPORT                                                \
+        /**
+         * @brief TBD: Describe themis_llm_destroy.
+         * @param[in,out] p Input/output parameter.
+         */
         void themis_llm_destroy(themis::llm::ILLMPlugin* p)

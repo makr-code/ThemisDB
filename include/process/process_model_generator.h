@@ -113,6 +113,7 @@ public:
      *
      * Must be called before @c generateFromDescription() or @c refine().
      * If not set, both methods return @c {false, {}}.
+     * @param[in] backend Input parameter.
      */
     void setLlmBackend(LlmBackend backend);
 

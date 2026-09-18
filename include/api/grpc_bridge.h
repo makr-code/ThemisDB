@@ -139,6 +139,10 @@ struct GRPCRequest {
  */
 class IGRPCBridge {
 public:
+    /**
+     * @brief TBD: Describe ~IGRPCBridge.
+     * @return Return value.
+     */
     virtual ~IGRPCBridge() = default;
 
     /**
@@ -173,6 +177,7 @@ public:
 
     /**
      * @brief Return descriptors of all registered services.
+     * @return Return value.
      */
     virtual std::vector<ServiceDescriptor> registeredServices() const = 0;
 };

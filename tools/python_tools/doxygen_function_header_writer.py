@@ -13,6 +13,9 @@ It can add missing Doxygen blocks above function declarations/definitions with:
 Generated text prefers short heuristic descriptions over placeholder-heavy TBD
 entries. Default mode is dry-run. Use --apply to write changes after review.
 
+By default the tool scans the full repository tree for C/C++ source files,
+excluding known build and vendor directories.
+
 Single-line Doxygen `///` comments are preserved as-is. Multi-line `///`
 comment blocks and non-Doxygen comments are rewritten into `/** ... */` blocks.
 """
@@ -367,6 +370,9 @@ def find_immediate_doxygen_block(lines: List[str], func_start_line: int) -> Opti
         j = i
         while j < len(lines):
             if "*/" in lines[j]:
+                block = "".join(lines[i : j + 1])
+                if is_file_header_comment(block):
+                    return None
                 return (i, j)
             j += 1
         return None
@@ -382,6 +388,16 @@ def find_immediate_doxygen_block(lines: List[str], func_start_line: int) -> Opti
             k -= 1
 
     return None
+
+
+def normalize_existing_tag_text(text: str) -> str:
+    cleaned = text or ""
+    cleaned = re.sub(r"(?is)^\s*(?:\*\s*)?@brief\s+(?:@brief\s+)+", "@brief ", cleaned)
+    cleaned = re.sub(r"(?is)^\s*(?:\*\s*)?@details\s+(?:@details\s+)+", "@details ", cleaned)
+    cleaned = re.sub(r"(?is)^\s*(?:\*\s*)?@throws\s+(?:@throws\s+)+", "@throws ", cleaned)
+    cleaned = re.sub(r"(?is)\b@brief\s+@brief\b", "@brief", cleaned)
+    cleaned = re.sub(r"(?is)\b@details\s+@details\b", "@details", cleaned)
+    return cleaned.strip()
 
 
 def collect_multiline_triple_slash_comment(lines: List[str], func_start_line: int) -> Optional[ExistingComment]:
@@ -457,6 +473,8 @@ def find_preceding_normal_comment(lines: List[str], func_start_line: int) -> Opt
         for idx in range(start, end + 1):
             text_parts.append(lines[idx].split("//", 1)[1].strip())
         text = " ".join(part for part in text_parts if part).strip()
+        if is_file_header_comment(text):
+            return None
         return ExistingComment(start_line=start, end_line=end, text=text)
 
     if lines[i].strip().endswith("*/"):
@@ -474,13 +492,21 @@ def find_preceding_normal_comment(lines: List[str], func_start_line: int) -> Opt
                 if content:
                     text_parts.append(content)
             text = " ".join(text_parts).strip()
+            if is_file_header_comment(text):
+                return None
             return ExistingComment(start_line=k, end_line=end, text=text)
 
     return None
 
 
 def split_comment_text(comment_text: str, func_name: str) -> Tuple[str, str]:
-    cleaned = re.sub(r"\s+", " ", comment_text or "").strip()
+    cleaned = normalize_existing_tag_text(comment_text or "")
+    cleaned = re.sub(r"\s+", " ", cleaned).strip()
+    cleaned = re.sub(r"(?is)^(?:@brief|@details)\s+", "", cleaned)
+    cleaned = re.sub(r"(?is)^(?:@brief\s+)+", "", cleaned)
+    cleaned = re.sub(r"(?is)^(?:@details\s+)+", "", cleaned)
+    cleaned = re.sub(r"(?is)^(?:@brief\s+@brief\s+)+", "", cleaned)
+
     if not cleaned:
         return f"TBD: Describe {func_name}.", "Calls: none detected."
 
@@ -494,9 +520,17 @@ def split_comment_text(comment_text: str, func_name: str) -> Tuple[str, str]:
 
     if not brief:
         brief = f"TBD: Describe {func_name}."
+    brief = re.sub(r"(?is)^(?:@brief\s+)+", "", brief)
+    brief = re.sub(r"(?is)^(?:@details\s+)+", "", brief)
+    brief = re.sub(r"(?is)\b@brief\s+@brief\b", "@brief", brief)
 
     details = tail if tail else "Calls: none detected."
     return brief, details
+
+
+def is_file_header_comment(comment_text: str) -> bool:
+    text = comment_text.lower()
+    return "@file" in text or "@version" in text or "auto-generated" in text or "canonical doxygen file header" in text
 
 
 def find_function_body_block(lines: List[str], func: FunctionMatch) -> Optional[str]:
@@ -616,6 +650,10 @@ def build_doxygen_block(
         brief = f"TBD: Describe {name}."
         details = ""
 
+    brief = re.sub(r"(?is)^@brief\s+", "", brief)
+    brief = re.sub(r"(?is)\s+@brief\b", "", brief)
+    brief = re.sub(r"(?is)@brief\s+@brief", "@brief", brief)
+
     lines = [
         f"{indent}/**\n",
         f"{indent} * @brief {brief}\n",
@@ -657,6 +695,7 @@ def merge_existing_doxygen_block(
     thrown: List[str],
 ) -> Tuple[List[str], bool]:
     text = "".join(block_lines)
+    text = normalize_existing_tag_text(text)
     existing_params = set(re.findall(r"@param(?:\[[^\]]+\])?\s+([A-Za-z_]\w*)", text))
     existing_tparams = set(re.findall(r"@tparam\s+([A-Za-z_]\w*)", text))
     has_brief = re.search(r"@brief\b", text) is not None
@@ -788,8 +827,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--paths",
         nargs="+",
-        default=["src", "include", "plugins"],
-        help="Paths relative to --root to scan (default: src include plugins)",
+        default=["."],
+        help="Paths relative to --root to scan (default: . for the whole repository)",
     )
     parser.add_argument(
         "--public-only",

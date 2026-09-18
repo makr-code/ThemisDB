@@ -32,9 +32,27 @@ struct X509Certificate {
 	std::string key_usage;
 	std::vector<std::string> san;
 
+	/**
+	 * @brief TBD: Describe isValid.
+	 * @return True on success.
+	 */
 	bool isValid() const;
+	/**
+	 * @brief TBD: Describe isExpired.
+	 * @param[in] now_ms Input parameter.
+	 * @return True on success.
+	 */
 	bool isExpired(int64_t now_ms) const;
+	/**
+	 * @brief TBD: Describe toJson.
+	 * @return Return value.
+	 */
 	nlohmann::json toJson() const;
+	/**
+	 * @brief TBD: Describe fromJson.
+	 * @param[in] j Input parameter.
+	 * @return Return value.
+	 */
 	static X509Certificate fromJson(const nlohmann::json& j);
 };
 
@@ -44,7 +62,16 @@ struct CRLEntry {
 	int64_t revocation_time_ms{0};
 	std::string reason;
 
+	/**
+	 * @brief TBD: Describe toJson.
+	 * @return Return value.
+	 */
 	nlohmann::json toJson() const;
+	/**
+	 * @brief TBD: Describe fromJson.
+	 * @param[in] j Input parameter.
+	 * @return Return value.
+	 */
 	static CRLEntry fromJson(const nlohmann::json& j);
 };
 
@@ -56,6 +83,10 @@ struct CertificateRequest {
 	std::string key_usage;
 	int validity_days{0};
 
+	/**
+	 * @brief TBD: Describe toJson.
+	 * @return Return value.
+	 */
 	nlohmann::json toJson() const;
 };
 
@@ -77,15 +108,60 @@ public:
 	VCCPKIClient(VCCPKIClient&&) noexcept;
 	VCCPKIClient& operator=(VCCPKIClient&&) noexcept;
 
+	/**
+	 * @brief TBD: Describe httpGet.
+	 * @param[in] path Input parameter.
+	 * @return Return value.
+	 */
 	std::string httpGet(const std::string& path);
+	/**
+	 * @brief TBD: Describe httpPost.
+	 * @param[in] path Input parameter.
+	 * @param[in] body Input parameter.
+	 * @return Return value.
+	 */
 	std::string httpPost(const std::string& path, const nlohmann::json& body);
 
+	/**
+	 * @brief TBD: Describe requestCertificate.
+	 * @param[in] request Input parameter.
+	 * @return Return value.
+	 */
 	X509Certificate requestCertificate(const CertificateRequest& request);
+	/**
+	 * @brief TBD: Describe getCertificate.
+	 * @param[in] cert_id Input parameter.
+	 * @return Return value.
+	 */
 	X509Certificate getCertificate(const std::string& cert_id);
+	/**
+	 * @brief TBD: Describe getCRL.
+	 * @return Return value.
+	 */
 	std::vector<CRLEntry> getCRL();
+	/**
+	 * @brief TBD: Describe isRevoked.
+	 * @param[in] cert_id Input parameter.
+	 * @param[in] crl Input parameter.
+	 * @return True on success.
+	 */
 	bool isRevoked(const std::string& cert_id, const std::vector<CRLEntry>& crl) const;
+	/**
+	 * @brief TBD: Describe healthCheck.
+	 * @return True on success.
+	 */
 	bool healthCheck();
+	/**
+	 * @brief TBD: Describe parseCertificate.
+	 * @param[in] pem Input parameter.
+	 * @return Return value.
+	 */
 	X509Certificate parseCertificate(const std::string& pem);
+	/**
+	 * @brief TBD: Describe validateCertChain.
+	 * @param[in] cert Input parameter.
+	 * @return True on success.
+	 */
 	bool validateCertChain(const X509Certificate& cert) const;
 
 private:

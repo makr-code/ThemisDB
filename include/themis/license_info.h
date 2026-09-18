@@ -67,35 +67,51 @@ struct LicenseData {
 /**
  * Get the embedded license data from this build
  * Returns empty optional if no license data was embedded
+ * @brief TBD: Describe getEmbeddedLicense.
+ * @return Return value.
  */
 THEMIS_BASE_API std::optional<LicenseData> getEmbeddedLicense();
 
 /**
  * Check if this build has embedded license data
+ * @brief TBD: Describe hasEmbeddedLicense.
+ * @return Return value.
  */
 THEMIS_BASE_API bool hasEmbeddedLicense();
 
 /**
  * Get a human-readable summary of the license information
  * suitable for logging at server startup
+ * @brief TBD: Describe formatLicenseInfo.
+ * @param[in] license Input parameter.
+ * @return Return value.
  */
 THEMIS_BASE_API std::string formatLicenseInfo(const LicenseData& license);
 
 /**
  * Verify license validity (expiry date check)
  * Returns true if license is currently valid
+ * @brief TBD: Describe isLicenseValid.
+ * @param[in] license Input parameter.
+ * @return Return value.
  */
 THEMIS_BASE_API bool isLicenseValid(const LicenseData& license);
 
 /**
  * Get number of days until license expires
  * Returns negative value if already expired
+ * @brief TBD: Describe getDaysUntilExpiry.
+ * @param[in] license Input parameter.
+ * @return Return value.
  */
 THEMIS_BASE_API int getDaysUntilExpiry(const LicenseData& license);
 
 /**
  * Verify license signature (if present)
  * Returns true if signature is valid or no signature present
+ * @brief TBD: Describe verifyLicenseSignature.
+ * @param[in] license Input parameter.
+ * @return Return value.
  */
 THEMIS_BASE_API bool verifyLicenseSignature(const LicenseData& license);
 
@@ -143,6 +159,11 @@ struct LicenseClientConfig {
  */
 class THEMIS_BASE_API LicenseClient {
 public:
+    /**
+     * @brief TBD: Describe LicenseClient.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit LicenseClient(const LicenseClientConfig& config);
     ~LicenseClient();
 
@@ -174,11 +195,13 @@ public:
 
     /**
      * @brief Return the currently cached license, if any.
+     * @return Return value.
      */
     std::optional<LicenseData> getCachedLicense() const;
 
     /**
      * @brief Force-refresh the cached license from the server.
+     * @return Return value.
      */
     LicenseActivationResult refresh();
 
@@ -187,6 +210,7 @@ public:
      *
      * Computed from stable hardware identifiers (MAC address, CPU ID, etc.).
      * This value is sent to the license server during activation.
+     * @return Return value.
      */
     static std::string getMachineFingerprint();
 

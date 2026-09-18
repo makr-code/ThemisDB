@@ -62,6 +62,7 @@ public:
      *   edition_vram_limit_bytes, allocated_bytes, peak_bytes,
      *   allocation_count, deallocation_count, usage_percent,
      *   gpu_acceleration_enabled, edition_info
+     * @return Return value.
      */
     std::string getStatsJson() const;
 
@@ -70,6 +71,7 @@ public:
      *
      * Returns a JSON array where each element has:
      *   tenant_id, quota_bytes, allocated_bytes, peak_bytes, headroom_bytes
+     * @return Return value.
      */
     std::string getTenantsJson() const;
 
@@ -81,6 +83,7 @@ public:
      *   is_healthy, failure_reason
      *
      * Returns an empty JSON array if no load balancer was provided.
+     * @return Return value.
      */
     std::string getDevicesJson() const;
 
@@ -92,6 +95,8 @@ public:
      *
      * Input JSON (optional, for logging): { "bytes": <uint64>, "tag": "..." }
      * Returns JSON: { "accepted": true/false, "reason": "..." }
+     * @param[in] bytes Input parameter.
+     * @return Return value.
      */
     std::string simulateJson(uint64_t bytes) const;
 
@@ -105,6 +110,7 @@ public:
      *   batch_max_latency_us
      *
      * Suitable for the endpoint: GET /admin/gpu/geo
+     * @return Return value.
      */
     std::string getGeoBackendStatsJson() const;
 
@@ -120,6 +126,7 @@ public:
      * flag, the array will naturally be empty when the flag is disabled.
      *
      * Suitable for the endpoint: GET /admin/gpu/mig
+     * @return Return value.
      */
     std::string getMIGInstancesJson() const;
 
@@ -127,6 +134,11 @@ private:
     GPUConfig        config_;
     GPULoadBalancer* balancer_;
 
+    /**
+     * @brief TBD: Describe jsonEscape.
+     * @param[in] s Input parameter.
+     * @return Return value.
+     */
     static std::string jsonEscape(const std::string& s);
 };
 

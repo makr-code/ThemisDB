@@ -41,6 +41,8 @@ enum class ResultFieldType {
     VECTOR,    ///< Numeric array representing an embedding vector
 };
 
+ * @param[in] t Input parameter.
+ * @return Return value.
 /** @brief Human-readable name for a ResultFieldType (used in JSON schema). */
 std::string resultFieldTypeName(ResultFieldType t);
 

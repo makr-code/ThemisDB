@@ -124,104 +124,243 @@ public:
     static void setTokenValidatorFn(TokenValidatorFn fn);
 
 private:
-    // Core endpoints
+    /**
+     * @brief Core endpoints
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleTranscribe(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief TBD: Describe handleSynthesize.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleSynthesize(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief TBD: Describe handleVoiceCommand.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleVoiceCommand(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief TBD: Describe handleStreamCommand.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleStreamCommand(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief TBD: Describe handleWakeWordDetect.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleWakeWordDetect(
         const http::request<http::string_body>& req);
     
-    // Phone call endpoints
+    /**
+     * @brief Phone call endpoints
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleRecordCall(
         const http::request<http::string_body>& req);
     
-    // Meeting endpoints
+    /**
+     * @brief Meeting endpoints
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleGenerateProtocol(
         const http::request<http::string_body>& req);
     
-    // Session management endpoints
+    /**
+     * @brief Session management endpoints
+     * @param[in] req Input parameter.
+     * @param[in] session_id Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleGetSession(
         const http::request<http::string_body>& req,
         const std::string& session_id);
     
+    /**
+     * @brief TBD: Describe handleUpdateSessionContext.
+     * @param[in] req Input parameter.
+     * @param[in] session_id Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleUpdateSessionContext(
         const http::request<http::string_body>& req,
         const std::string& session_id);
     
+    /**
+     * @brief TBD: Describe handleDeleteSession.
+     * @param[in] req Input parameter.
+     * @param[in] session_id Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleDeleteSession(
         const http::request<http::string_body>& req,
         const std::string& session_id);
     
-    // Information endpoints
+    /**
+     * @brief Information endpoints
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleGetVoices(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief TBD: Describe handleGetLanguages.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleGetLanguages(
         const http::request<http::string_body>& req);
     
-    // Voice macro CRUD endpoints
+    /**
+     * @brief Voice macro CRUD endpoints
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleCreateMacro(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief TBD: Describe handleListMacros.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleListMacros(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief TBD: Describe handleGetMacro.
+     * @param[in] req Input parameter.
+     * @param[in] macro_id Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleGetMacro(
         const http::request<http::string_body>& req,
         const std::string& macro_id);
     
+    /**
+     * @brief TBD: Describe handleUpdateMacro.
+     * @param[in] req Input parameter.
+     * @param[in] macro_id Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleUpdateMacro(
         const http::request<http::string_body>& req,
         const std::string& macro_id);
     
+    /**
+     * @brief TBD: Describe handleDeleteMacro.
+     * @param[in] req Input parameter.
+     * @param[in] macro_id Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleDeleteMacro(
         const http::request<http::string_body>& req,
         const std::string& macro_id);
 
-    // Recording playback and transcript search endpoints
+    /**
+     * @brief Recording playback and transcript search endpoints
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleListRecordings(
         const http::request<http::string_body>& req);
 
+    /**
+     * @brief TBD: Describe handleGetRecording.
+     * @param[in] req Input parameter.
+     * @param[in] record_id Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleGetRecording(
         const http::request<http::string_body>& req,
         const std::string& record_id);
 
+    /**
+     * @brief TBD: Describe handleSearchTranscripts.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleSearchTranscripts(
         const http::request<http::string_body>& req);
 
-    // Voice biometric authentication endpoints
+    /**
+     * @brief Voice biometric authentication endpoints
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleAuthEnroll(
         const http::request<http::string_body>& req);
 
+    /**
+     * @brief TBD: Describe handleAuthVerify.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleAuthVerify(
         const http::request<http::string_body>& req);
 
+    /**
+     * @brief TBD: Describe handleAuthAuthenticate.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleAuthAuthenticate(
         const http::request<http::string_body>& req);
 
+    /**
+     * @brief TBD: Describe handleAuthIdentify.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleAuthIdentify(
         const http::request<http::string_body>& req);
 
+    /**
+     * @brief TBD: Describe handleAuthListProfiles.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleAuthListProfiles(
         const http::request<http::string_body>& req);
 
+    /**
+     * @brief TBD: Describe handleAuthDeleteProfile.
+     * @param[in] req Input parameter.
+     * @param[in] profile_id Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleAuthDeleteProfile(
         const http::request<http::string_body>& req,
         const std::string& profile_id);
 
-    // Statistics and health
+    /**
+     * @brief Statistics and health
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleStats(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief TBD: Describe handleHealth.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleHealth(
         const http::request<http::string_body>& req);
     
@@ -256,20 +395,51 @@ private:
         const json& data,
         http::status status = http::status::ok);
     
+    /**
+     * @brief TBD: Describe createAudioResponse.
+     * @param[in] audio_data Input parameter.
+     * @param[in] mime_type Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> createAudioResponse(
         const std::vector<uint8_t>& audio_data,
         const std::string& mime_type);
     
+    /**
+     * @brief TBD: Describe parseRequestBody.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     std::optional<json> parseRequestBody(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief TBD: Describe extractAudioData.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> extractAudioData(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief TBD: Describe decodeBase64.
+     * @param[in] encoded Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> decodeBase64(const std::string& encoded);
     
+    /**
+     * @brief TBD: Describe encodeBase64.
+     * @param[in] data Input parameter.
+     * @return Return value.
+     */
     std::string encodeBase64(const std::vector<uint8_t>& data);
     
+    /**
+     * @brief TBD: Describe downloadAudioFromUrl.
+     * @param[in] url Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> downloadAudioFromUrl(const std::string& url);
 
     /**

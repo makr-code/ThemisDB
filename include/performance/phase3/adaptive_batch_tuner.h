@@ -152,6 +152,7 @@ public:
          * @brief Finalise the measurement explicitly.
          *
          * Safe to call even if already ended; subsequent calls are no-ops.
+         * @note Exception safety: noexcept.
          */
         void end() noexcept;
 
@@ -169,6 +170,11 @@ public:
     // -----------------------------------------------------------------------
 
     LLMBatchTuner();
+    /**
+     * @brief TBD: Describe LLMBatchTuner.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit LLMBatchTuner(Config config);
     ~LLMBatchTuner();
 
@@ -184,6 +190,8 @@ public:
      *
      * Safe to call from multiple threads; the value is updated after
      * every tuning cycle.
+     * @return Return value.
+     * @note Exception safety: noexcept.
      */
     size_t recommendedBatchSize() const noexcept;
 
@@ -195,6 +203,13 @@ public:
      * @return RAII guard – call guard.end() or let it destruct.
      */
     [[nodiscard]]
+    /**
+     * @brief TBD: Describe beginBatch.
+     * @param[in] batch_size Input parameter.
+     * @param[in] total_tokens Input parameter.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     BatchGuard beginBatch(size_t batch_size, size_t total_tokens) noexcept;
 
     /**
@@ -205,6 +220,7 @@ public:
      * @param batch_size    Number of sequences processed.
      * @param total_tokens  Total tokens processed.
      * @param latency_ms    Wall-clock duration of the batch (ms).
+     * @note Exception safety: noexcept.
      */
     void recordBatch(size_t batch_size,
                      size_t total_tokens,
@@ -214,9 +230,12 @@ public:
     // Observation
     // -----------------------------------------------------------------------
 
+     * @return Return value.
     /** @brief Aggregate statistics over the current measurement window. */
     Stats getStats() const;
 
+     * @return Return value.
+     * @note Exception safety: noexcept.
     /** @brief Total batches recorded since construction. */
     size_t totalBatches() const noexcept;
 
@@ -226,9 +245,11 @@ public:
      */
     std::vector<BatchRecord> getRecentRecords(size_t limit = 32) const;
 
+     * @note Exception safety: noexcept.
     /** @brief Reset all accumulated state; batch size reverts to initial. */
     void reset() noexcept;
 
+     * @return Return value.
     /** @brief Human-readable summary for logging / diagnostics. */
     std::string summary() const;
 
@@ -238,8 +259,11 @@ private:
     /// Called from BatchGuard::end() after a batch completes.
     void pushRecord(BatchRecord record) noexcept;
 
-    /// Re-evaluate and possibly update current_batch_size_.
-    /// Must be called with mutex_ held.
+    /**
+     * @brief Re-evaluate and possibly update current_batch_size_.
+     * @note Exception safety: noexcept.
+     * @details Must be called with mutex_ held.
+     */
     void maybeTune() noexcept;
 
     Config config_;

@@ -56,6 +56,7 @@ public:
      * @brief Attach a persistence store for last_check_ms.
      *
      * Must be called before initialize().  Defaults to NullRotationStore.
+     * @param[in] store Input parameter.
      */
     void setRotationStore(std::shared_ptr<IRotationStore> store);
 
@@ -93,6 +94,7 @@ public:
      * @param interval_days Rotation interval in days
      * @param auto_rotate Enable automatic rotation
      * @param callback Callback function for rotation events
+     * @return Return value.
      */
     Result<void> scheduleRotation(
         SecurityLevel level,
@@ -103,6 +105,7 @@ public:
     
     /**
      * @brief Cancel scheduled rotation for a level
+     * @param[in] level Input parameter.
      */
     void cancelRotation(SecurityLevel level);
     
@@ -119,11 +122,13 @@ public:
      * @brief Get next rotation time for a level
      * 
      * @return Timestamp in milliseconds, 0 if not scheduled
+     * @param[in] level Input parameter.
      */
     int64_t getNextRotationTime(SecurityLevel level);
 
     /**
      * @brief Manually trigger rotation check for a level (for testing).
+     * @param[in] level Input parameter.
      */
     void triggerRotation(SecurityLevel level);
     
@@ -131,10 +136,25 @@ private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
     
+    /**
+     * @brief TBD: Describe schedulerLoop.
+     */
     void schedulerLoop();
+    /**
+     * @brief TBD: Describe getCurrentTimeMs.
+     * @return Return value.
+     */
     int64_t getCurrentTimeMs() const;
 
+    /**
+     * @brief TBD: Describe persistRotationState.
+     * @param[in] level Input parameter.
+     */
     void persistRotationState(SecurityLevel level);
+    /**
+     * @brief TBD: Describe loadRotationState.
+     * @param[in] level Input parameter.
+     */
     void loadRotationState(SecurityLevel level);
 };
 

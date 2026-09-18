@@ -203,8 +203,20 @@ struct Expression {
     struct UnaryOpExpression;
     struct FunctionCallExpression;
 
+    /**
+     * @brief TBD: Describe ~Expression.
+     * @return Return value.
+     */
     virtual ~Expression() = default;
+    /**
+     * @brief TBD: Describe getType.
+     * @return Return value.
+     */
     virtual ASTNodeType getType() const = 0;
+    /**
+     * @brief TBD: Describe toJSON.
+     * @return Return value.
+     */
     virtual nlohmann::json toJSON() const = 0;
 };
 
@@ -302,6 +314,11 @@ struct ProximityCallExpr : Expression {
 struct ArrayLiteralExpr : Expression {
     std::vector<std::shared_ptr<Expression>> elements;
     
+    /**
+     * @brief TBD: Describe ArrayLiteralExpr.
+     * @param[in] elems Input parameter.
+     * @return Return value.
+     */
     explicit ArrayLiteralExpr(std::vector<std::shared_ptr<Expression>> elems)
         : elements(std::move(elems)) {}
     
@@ -323,6 +340,11 @@ struct ObjectConstructExpr : Expression {
 struct SubqueryExpr : Expression {
     std::shared_ptr<Query> subquery;
     
+    /**
+     * @brief TBD: Describe SubqueryExpr.
+     * @param[in] sq Input parameter.
+     * @return Return value.
+     */
     explicit SubqueryExpr(std::shared_ptr<Query> sq)
         : subquery(std::move(sq)) {}
     
@@ -382,6 +404,10 @@ struct AllExpr : Expression {
  * flags.  No execution logic lives here — Phase 1 is parser-only.
  */
 struct MutationNode {
+    /**
+     * @brief TBD: Describe ~MutationNode.
+     * @return Return value.
+     */
     virtual ~MutationNode() = default;
 
     /// @brief ASTNodeType discriminator for safe downcasting.
@@ -592,6 +618,11 @@ struct ForNode {
 struct FilterNode {
     std::shared_ptr<Expression> condition;
     
+    /**
+     * @brief TBD: Describe FilterNode.
+     * @param[in] cond Input parameter.
+     * @return Return value.
+     */
     explicit FilterNode(std::shared_ptr<Expression> cond)
         : condition(std::move(cond)) {}
     
@@ -606,6 +637,11 @@ struct FilterNode {
 struct SortNode {
     std::vector<SortSpec> specifications;
     
+    /**
+     * @brief TBD: Describe SortNode.
+     * @param[in] specs Input parameter.
+     * @return Return value.
+     */
     explicit SortNode(std::vector<SortSpec> specs)
         : specifications(std::move(specs)) {}
     
@@ -639,6 +675,11 @@ struct LimitNode {
 struct ReturnNode {
     std::shared_ptr<Expression> expression;
     
+    /**
+     * @brief TBD: Describe ReturnNode.
+     * @param[in] expr Input parameter.
+     * @return Return value.
+     */
     explicit ReturnNode(std::shared_ptr<Expression> expr)
         : expression(std::move(expr)) {}
     
@@ -709,6 +750,10 @@ struct CollectNode {
 struct CTEDefinition {
     std::string name;                                  // CTE name (e.g., "expensiveHotels")
     std::shared_ptr<Query> subquery;                   // The subquery AST
+    /**
+     * @brief TBD: Describe toJSON.
+     * @return Return value.
+     */
     nlohmann::json toJSON() const; // out-of-line defined in aql_parser.cpp
 };
 
@@ -1202,6 +1247,7 @@ public:
      *   } else {
      *       // Handle result.error()
      *   }
+     * @brief TBD: Describe parse.
      */
     Result<std::shared_ptr<Query>> parse(const std::string& query_string);
 
@@ -1221,6 +1267,7 @@ public:
      *
      * @param input  The full multi-statement AQL transaction string.
      * @return       Result<AqlTransactionBlock> or an error.
+     * @brief TBD: Describe parseTransactionBlock.
      */
     Result<AqlTransactionBlock> parseTransactionBlock(const std::string& input);
 
@@ -1231,6 +1278,8 @@ public:
      * of a full FOR…RETURN query.  Kept public because external callers such as
      * QueryEngine::evalAqlExpression() and QueryExpressionEvaluator::canEvaluate()
      * construct a local AQLParser and call this method directly.
+     * @param[in] expr_str Input parameter.
+     * @return Return value.
      */
     std::shared_ptr<Expression> parseExpression(const std::string& expr_str);
 
@@ -1312,10 +1361,24 @@ public:
     [[nodiscard]] Result<SchemaDDL> parseSchemaDDL(const std::string& input);
 
 private:
-    // Helper methods (implemented in aql_parser.cpp)
+    /**
+     * @brief Helper methods (implemented in aql_parser.
+     * @param[in] expr_str Input parameter.
+     * @return Return value.
+     * @details cpp)
+     */
     std::shared_ptr<Expression> parsePrimaryExpression(const std::string& expr_str);
+    /**
+     * @brief TBD: Describe stringToOperator.
+     * @param[in] op_str Input parameter.
+     * @return Return value.
+     */
     BinaryOperator stringToOperator(const std::string& op_str);
-    // New: parse membership expression left IN right
+    /**
+     * @brief New: parse membership expression left IN right
+     * @param[in] left Input parameter.
+     * @return Return value.
+     */
     std::shared_ptr<Expression> parseMembership(std::shared_ptr<Expression> left);
 };
 

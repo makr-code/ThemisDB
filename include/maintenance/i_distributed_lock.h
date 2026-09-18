@@ -30,6 +30,10 @@ namespace maintenance {
  */
 class IDistributedLock {
 public:
+    /**
+     * @brief TBD: Describe ~IDistributedLock.
+     * @return Return value.
+     */
     virtual ~IDistributedLock() = default;
 
     /**
@@ -91,6 +95,11 @@ public:
         : node_id_(std::move(node_id)) {}
 
     bool tryAcquire(const std::string& key, int64_t ttl_ms) override {
+        /**
+         * @brief TBD: Describe lg.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lg(mutex_);
         auto now = std::chrono::steady_clock::now();
 
@@ -112,6 +121,11 @@ public:
     }
 
     void release(const std::string& key) override {
+        /**
+         * @brief TBD: Describe lg.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lg(mutex_);
         auto it = locks_.find(key);
         if (it != locks_.end() && it->second.holder == node_id_) {
@@ -120,6 +134,11 @@ public:
     }
 
     std::string getHolderNodeId(const std::string& key) const override {
+        /**
+         * @brief TBD: Describe lg.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lg(mutex_);
         auto now = std::chrono::steady_clock::now();
         auto it  = locks_.find(key);

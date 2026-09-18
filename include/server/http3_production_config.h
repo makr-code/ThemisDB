@@ -153,20 +153,29 @@ struct Http3ConnectionMetrics {
  */
 class Http3FallbackManager {
 public:
+    /**
+     * @brief TBD: Describe Http3FallbackManager.
+     * @param[in] cfg Input parameter.
+     * @return Return value.
+     */
     explicit Http3FallbackManager(const Http3ProductionConfig& cfg);
 
     /**
      * @brief Record a QUIC connection/handshake failure for the given client IP.
+     * @param[in] client_ip Input parameter.
      */
     void recordQuicFailure(const std::string& client_ip);
 
     /**
      * @brief Record a successful QUIC connection, resetting the failure counter.
+     * @param[in] client_ip Input parameter.
      */
     void recordQuicSuccess(const std::string& client_ip);
 
     /**
      * @brief Return true if this client should use HTTP/2 instead of QUIC.
+     * @param[in] client_ip Input parameter.
+     * @return True on success.
      */
     bool shouldFallbackToHttp2(const std::string& client_ip) const;
 
@@ -178,6 +187,7 @@ public:
      *
      * @param h3_port   UDP port on which HTTP/3 listens.
      * @param client_ip Source IP of the requesting client.
+     * @return Return value.
      */
     std::string altSvcValue(uint16_t h3_port,
                             const std::string& client_ip) const;
@@ -189,6 +199,7 @@ public:
 
     /**
      * @brief Total number of clients currently in fallback mode.
+     * @return Return value.
      */
     size_t fallbackClientCount() const;
 

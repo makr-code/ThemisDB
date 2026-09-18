@@ -141,6 +141,9 @@ struct QueueItemSize {
      *
      * Default implementation returns sizeof(T). Specializations can override
      * to account for heap allocations within the item.
+     * @param[in] item Input parameter.
+     * @return Return value.
+     * @details Implements getSize without additional internal calls.
      */
     static std::size_t getSize(const T& item) {
         return sizeof(T);
@@ -150,6 +153,12 @@ struct QueueItemSize {
 // Specialization for std::string
 template <>
 struct QueueItemSize<std::string> {
+    /**
+     * @brief TBD: Describe getSize.
+     * @param[in] item Input parameter.
+     * @return Return value.
+     * @details Calls: capacity().
+     */
     static std::size_t getSize(const std::string& item) {
         return sizeof(std::string) + item.capacity();
     }
@@ -232,6 +241,11 @@ public:
      * @return EnqueueResult describing success or failure
      */
     EnqueueResult enqueue(T item, bool allow_block = true) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lock(mutex_);
         const std::size_t item_size = QueueItemSize<T>::getSize(item);
 
@@ -283,8 +297,14 @@ public:
     /**
      * @brief Attempt to dequeue an item (non-blocking).
      * @return std::optional containing the item if available, std::nullopt otherwise
+     * @details Calls: lock(), empty(), std::move(), front(), pop_front(), getSize(), updateStats(), notify_one().
      */
     std::optional<T> tryDequeue() {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         if (queue_.empty()) {
             return std::nullopt;
@@ -304,8 +324,14 @@ public:
      * Blocks until an item is available or the timeout expires.
      * @param timeout Maximum time to wait
      * @return std::optional containing the item if available, std::nullopt on timeout
+     * @details Calls: lock(), wait_for(), empty(), std::move(), front(), pop_front(), getSize(), updateStats().
      */
     std::optional<T> dequeueWithTimeout(std::chrono::milliseconds timeout) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lock(mutex_);
         if (!condition_var_.wait_for(lock, timeout,
                                       [this] { return !queue_.empty(); })) {
@@ -335,6 +361,11 @@ public:
      * @brief Get current queue and resource statistics.
      */
     QueueResourceStats getStats() const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return stats_;
     }
@@ -343,6 +374,11 @@ public:
      * @brief Get current saturation state.
      */
     QueueSaturationState getState() const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return stats_.current_state;
     }
@@ -351,6 +387,11 @@ public:
      * @brief Check if the queue is saturated.
      */
     bool isSaturated() const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return stats_.current_state == QueueSaturationState::SATURATED ||
                stats_.current_state == QueueSaturationState::MEMORY_EXHAUSTION;
@@ -360,6 +401,11 @@ public:
      * @brief Check if saturation warning threshold is exceeded.
      */
     bool isWarningThresholdExceeded() const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return stats_.current_state == QueueSaturationState::SATURATION_WARNING ||
                stats_.current_state == QueueSaturationState::SATURATED ||
@@ -370,6 +416,11 @@ public:
      * @brief Get current number of items in queue.
      */
     std::size_t size() const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return queue_.size();
     }
@@ -378,6 +429,11 @@ public:
      * @brief Check if queue is empty.
      */
     bool empty() const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return queue_.empty();
     }
@@ -386,14 +442,25 @@ public:
      * @brief Get current memory usage in bytes.
      */
     std::size_t currentMemoryBytes() const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return current_memory_bytes_;
     }
 
     /**
      * @brief Clear all items from the queue.
+     * @details Calls: lock(), updateStats(), notify_all().
      */
     void clear() {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         queue_.clear();
         current_memory_bytes_ = 0;
@@ -407,6 +474,11 @@ public:
      * @brief Get the resource limit configuration.
      */
     QueueResourceLimitConfig getConfig() const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return config_;
     }
@@ -415,8 +487,15 @@ public:
      * @brief Update the resource limit configuration.
      *
      * Takes effect on the next enqueue operation.
+     * @param[in] new_config Input parameter.
+     * @details Calls: lock().
      */
     void setConfig(const QueueResourceLimitConfig& new_config) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         config_ = new_config;
     }
@@ -435,6 +514,10 @@ private:
      * Blocks until either the queue has space or the timeout expires.
      * @return EnqueueResult with success=true if space became available,
      *         or success=false with is_timeout=true if timeout expired
+     * @param[in,out] lock Input/output parameter.
+     * @param[in] item Input parameter.
+     * @param[in] item_size Input parameter.
+     * @details Calls: std::chrono::steady_clock::now(), size(), push_back(), std::move(), updateStats(), notify_one(), std::to_string(), count().
      */
     EnqueueResult waitForSpace(std::unique_lock<std::mutex>& lock, T item,
                                std::size_t item_size) {
@@ -477,6 +560,7 @@ private:
      *
      * Called after enqueue or dequeue to recalculate the saturation state.
      * Must be called while holding the lock.
+     * @details Calls: size().
      */
     void updateStats() {
         stats_.current_item_count = queue_.size();

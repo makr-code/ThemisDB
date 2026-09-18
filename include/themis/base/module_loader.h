@@ -73,6 +73,13 @@ struct HealthCheckResult {
         return result;
     }
     
+    /**
+     * @brief TBD: Describe failure.
+     * @param[in] name Input parameter.
+     * @param[in] msg Input parameter.
+     * @return Return value.
+     * @details Implements failure without additional internal calls.
+     */
     static HealthCheckResult failure(const std::string& name, const std::string& msg) {
         HealthCheckResult result;
         result.passed = false;
@@ -587,6 +594,7 @@ public:
 
     /**
      * @brief Return true if the watchdog background thread is running.
+     * @return True on success.
      */
     bool isWatchdogRunning() const;
 
@@ -717,44 +725,169 @@ private:
     std::condition_variable watchdogCv_;
     std::atomic<bool> watchdogRunning_{false};
     
-    // Platform-specific loading functions
+    /**
+     * @brief Platform-specific loading functions
+     * @param[in] path Input parameter.
+     * @return Pointer to the result.
+     */
     void* loadLibrary(const std::string& path);
+    /**
+     * @brief TBD: Describe unloadLibrary.
+     * @param[in,out] handle Input/output parameter.
+     */
     void unloadLibrary(void* handle);
+    /**
+     * @brief TBD: Describe getSymbol.
+     * @param[in,out] handle Input/output parameter.
+     * @param[in] symbolName Input parameter.
+     * @return Pointer to the result.
+     */
     void* getSymbol(void* handle, const std::string& symbolName);
     
-    // Helper functions
+    /**
+     * @brief Helper functions
+     * @param[in] modulePath Input parameter.
+     * @param[in,out] errorMessage Input/output parameter.
+     * @return True on success.
+     */
     bool verifyModuleSignature(const std::string& modulePath, std::string& errorMessage);
+    /**
+     * @brief TBD: Describe calculateModuleHash.
+     * @param[in] modulePath Input parameter.
+     * @return Return value.
+     */
     std::string calculateModuleHash(const std::string& modulePath);
+    /**
+     * @brief TBD: Describe getModuleNameFromPath.
+     * @param[in] path Input parameter.
+     * @return Return value.
+     */
     std::string getModuleNameFromPath(const std::string& path);
+    /**
+     * @brief TBD: Describe isThemisModule.
+     * @param[in] filename Input parameter.
+     * @return True on success.
+     */
     bool isThemisModule(const std::string& filename);
     
-    // Metadata extraction
+    /**
+     * @brief Metadata extraction
+     * @param[in] modulePath Input parameter.
+     * @return Return value.
+     */
     ModuleMetadata extractModuleMetadata(const std::string& modulePath);
+    /**
+     * @brief TBD: Describe getErrorMessage.
+     * @param[in] code Input parameter.
+     * @return Return value.
+     */
     std::string getErrorMessage(ModuleErrorCode code) const;
+    /**
+     * @brief TBD: Describe categorizeError.
+     * @param[in] code Input parameter.
+     * @return Return value.
+     */
     ErrorCategory categorizeError(ModuleErrorCode code) const;
     
-    // Quarantine and backoff helpers
+    /**
+     * @brief Quarantine and backoff helpers
+     * @param[in] modulePath Input parameter.
+     * @param[in] errorCode Input parameter.
+     * @param[in] errorMessage Input parameter.
+     */
     void recordFailure(const std::string& modulePath, ModuleErrorCode errorCode, const std::string& errorMessage);
+    /**
+     * @brief TBD: Describe shouldQuarantine.
+     * @param[in] modulePath Input parameter.
+     * @return True on success.
+     */
     bool shouldQuarantine(const std::string& modulePath) const;
+    /**
+     * @brief TBD: Describe quarantineModule.
+     * @param[in] modulePath Input parameter.
+     */
     void quarantineModule(const std::string& modulePath);
+    /**
+     * @brief TBD: Describe calculateBackoffTime.
+     * @param[in] consecutiveFailures Input parameter.
+     * @return Return value.
+     */
     uint64_t calculateBackoffTime(uint32_t consecutiveFailures) const;
+    /**
+     * @brief TBD: Describe checkQuarantine.
+     * @param[in] modulePath Input parameter.
+     * @param[in,out] result Input/output parameter.
+     * @return True on success.
+     */
     bool checkQuarantine(const std::string& modulePath, ModuleVerificationResult& result);
     
-    // Metrics helpers
+    /**
+     * @brief Metrics helpers
+     * @param[in] success Input parameter.
+     * @param[in] durationMs Input parameter.
+     * @param[in] errorCode Input parameter.
+     */
     void updateMetrics(bool success, uint64_t durationMs, ModuleErrorCode errorCode);
     
-    // Staged loading helpers
+    /**
+     * @brief Staged loading helpers
+     * @param[in] moduleName Input parameter.
+     * @param[in] newStage Input parameter.
+     * @return True on success.
+     */
     bool updateModuleStage(const std::string& moduleName, LoadStage newStage);
+    /**
+     * @brief TBD: Describe runHealthChecks.
+     * @param[in,out] module Input/output parameter.
+     * @param[in,out] result Input/output parameter.
+     * @return True on success.
+     */
     bool runHealthChecks(LoadedModule& module, ModuleVerificationResult& result);
+    /**
+     * @brief TBD: Describe extractMetadataFromHandle.
+     * @param[in,out] handle Input/output parameter.
+     * @return Return value.
+     */
     ModuleMetadata extractMetadataFromHandle(void* handle);
+    /**
+     * @brief TBD: Describe getCachedMetadata.
+     * @param[in] modulePath Input parameter.
+     * @return Return value.
+     */
     ModuleMetadata getCachedMetadata(const std::string& modulePath);
 
-    // Watchdog helpers (Issue #2373)
+    /**
+     * @brief Watchdog helpers (Issue #2373)
+     */
     void watchdogLoop();
+    /**
+     * @brief TBD: Describe watchdogCheckAllModules.
+     */
     void watchdogCheckAllModules();
+    /**
+     * @brief TBD: Describe watchdogRunHealthChecks.
+     * @param[in,out] module Input/output parameter.
+     * @param[in,out] errorMessage Input/output parameter.
+     * @return True on success.
+     */
     bool watchdogRunHealthChecks(LoadedModule& module, std::string& errorMessage);
+    /**
+     * @brief TBD: Describe watchdogRestartModule.
+     * @param[in,out] stats Input/output parameter.
+     * @param[in] modulePath Input parameter.
+     * @return True on success.
+     */
     bool watchdogRestartModule(WatchdogModuleStats& stats, const std::string& modulePath);
+    /**
+     * @brief TBD: Describe watchdogCalculateBackoff.
+     * @param[in] consecutiveFailures Input parameter.
+     * @return Return value.
+     */
     uint64_t watchdogCalculateBackoff(uint32_t consecutiveFailures) const;
+    /**
+     * @brief TBD: Describe nowMs.
+     * @return Return value.
+     */
     static uint64_t nowMs();
 };
 
@@ -786,10 +919,23 @@ public:
     
     /**
      * @brief Set security policy
+     * @param[in] require Input parameter.
      */
     void setRequireSignature(bool require);
+    /**
+     * @brief TBD: Describe setAllowUnsigned.
+     * @param[in] allow Input parameter.
+     */
     void setAllowUnsigned(bool allow);
+    /**
+     * @brief TBD: Describe addWhitelistedHash.
+     * @param[in] hash Input parameter.
+     */
     void addWhitelistedHash(const std::string& hash);
+    /**
+     * @brief TBD: Describe addBlacklistedHash.
+     * @param[in] hash Input parameter.
+     */
     void addBlacklistedHash(const std::string& hash);
     
 private:
@@ -805,25 +951,34 @@ private:
  */
 class ModuleRegistry {
 public:
+    /**
+     * @brief TBD: Describe instance.
+     * @return Return value.
+     */
     static ModuleRegistry& instance();
     
     /**
      * @brief Register a loaded module
+     * @param[in] module Input parameter.
      */
     void registerModule(const LoadedModule& module);
     
     /**
      * @brief Unregister a module
+     * @param[in] moduleName Input parameter.
      */
     void unregisterModule(const std::string& moduleName);
     
     /**
      * @brief Check if module is registered
+     * @param[in] moduleName Input parameter.
+     * @return True on success.
      */
     bool isRegistered(const std::string& moduleName) const;
     
     /**
      * @brief Get all registered modules
+     * @return Return value.
      */
     std::vector<LoadedModule> getAllModules() const;
     
@@ -1110,6 +1265,7 @@ public:
      *
      * Examples: "linux-x86_64", "linux-arm64", "windows-x86_64",
      *           "macos-arm64", "macos-x86_64".
+     * @return Return value.
      */
     static std::string currentPlatform();
 
@@ -1159,8 +1315,13 @@ private:
     std::string publicKeyPem_;
     bool allowUnsignedBundles_ = false;  ///< Must be explicitly opted in; never true by default.
 
-    /// Unpack the ZIP at bundlePath into a new temporary subdirectory.
-    /// Returns the path to the temp dir on success or an empty string + error.
+    /**
+     * @brief Unpack the ZIP at bundlePath into a new temporary subdirectory.
+     * @param[in] bundlePath Input parameter.
+     * @param[in,out] error Input/output parameter.
+     * @return Return value.
+     * @details Returns the path to the temp dir on success or an empty string + error.
+     */
     static std::string extractToTempDir(const std::string& bundlePath,
                                         std::string& error);
 };

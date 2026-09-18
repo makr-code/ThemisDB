@@ -30,6 +30,11 @@ enum class StorageTier {
     COLD,   // Archive: heavily compressed, slow access
     DELETED // Marked for deletion / purged
 };
+/**
+ * @brief TBD: Describe storageTierToString.
+ * @param[in] tier Input parameter.
+ * @return Return value.
+ */
 std::string storageTierToString(StorageTier tier);
 
 // Audio format descriptor
@@ -116,13 +121,25 @@ public:
         const json& metadata = {}
     );
 
-    // Retrieve audio data by record ID
+    /**
+     * @brief Retrieve audio data by record ID
+     * @param[in] record_id Input parameter.
+     * @return Return value.
+     */
     std::optional<std::vector<uint8_t>> retrieve(const std::string& record_id);
 
-    // Get record metadata without loading audio
+    /**
+     * @brief Get record metadata without loading audio
+     * @param[in] record_id Input parameter.
+     * @return Return value.
+     */
     std::optional<AudioStorageRecord> getRecord(const std::string& record_id) const;
 
-    // Delete record
+    /**
+     * @brief Delete record
+     * @param[in] record_id Input parameter.
+     * @return True on success.
+     */
     bool deleteRecord(const std::string& record_id);
 
     // List records matching filters
@@ -138,24 +155,68 @@ public:
         size_t limit = 100
     ) const;
 
-    // Deduplication: compute hash and check for duplicate
+    /**
+     * @brief Deduplication: compute hash and check for duplicate
+     * @param[in] audio_data Input parameter.
+     * @return Return value.
+     */
     DeduplicationResult checkDuplicate(const std::vector<uint8_t>& audio_data) const;
+    /**
+     * @brief TBD: Describe computeHash.
+     * @param[in] data Input parameter.
+     * @return Return value.
+     */
     std::string computeHash(const std::vector<uint8_t>& data) const;
 
-    // Tiered storage management
+    /**
+     * @brief Tiered storage management
+     * @return Return value.
+     */
     size_t applyTierPolicy();  // Returns number of records moved
+    /**
+     * @brief TBD: Describe computeTier.
+     * @param[in] record Input parameter.
+     * @return Return value.
+     */
     StorageTier computeTier(const AudioStorageRecord& record) const;
+    /**
+     * @brief TBD: Describe promoteTier.
+     * @param[in] record_id Input parameter.
+     * @return True on success.
+     */
     bool promoteTier(const std::string& record_id);   // Move up a tier
+    /**
+     * @brief TBD: Describe demoteTier.
+     * @param[in] record_id Input parameter.
+     * @return True on success.
+     */
     bool demoteTier(const std::string& record_id);    // Move down a tier
 
-    // Encryption wrapper (marks records as encrypted, stores key reference)
+    /**
+     * @brief Encryption wrapper (marks records as encrypted, stores key reference)
+     * @param[in] record_id Input parameter.
+     * @param[in] key_id Input parameter.
+     * @return True on success.
+     */
     bool markEncrypted(const std::string& record_id, const std::string& key_id);
+    /**
+     * @brief TBD: Describe isEncrypted.
+     * @param[in] record_id Input parameter.
+     * @return True on success.
+     */
     bool isEncrypted(const std::string& record_id) const;
 
-    // Audio format detection from raw bytes (magic bytes check)
+    /**
+     * @brief Audio format detection from raw bytes (magic bytes check)
+     * @param[in] data Input parameter.
+     * @return Return value.
+     */
     AudioFormat detectFormat(const std::vector<uint8_t>& data) const;
 
-    // Storage statistics
+    /**
+     * @brief Storage statistics
+     * @return Return value.
+     */
     StorageStats getStats() const;
 
 private:
@@ -167,7 +228,15 @@ private:
     std::map<std::string, std::vector<uint8_t>> data_;    // actual audio data
     std::map<std::string, std::string> hash_to_id_;       // dedup index
 
+    /**
+     * @brief TBD: Describe generateRecordId.
+     * @return Return value.
+     */
     std::string generateRecordId() const;
+    /**
+     * @brief TBD: Describe nowMs.
+     * @return Return value.
+     */
     int64_t nowMs() const;
 };
 

@@ -94,6 +94,7 @@ struct THEMIS_BASE_API GateResult {
      *        reason suitable for logging.
      *
      * Returns "Feature is allowed." when @c allowed is true.
+     * @return Return value.
      */
     std::string message() const;
 
@@ -213,8 +214,10 @@ public:
     /// Returns true if the gate has been initialized.
     bool isInitialized() const;
 
-    /// Returns the current license status string ("active", "grace", "expired",
-    /// "invalid", "offline", …).
+    /**
+     * @brief Returns the current license status string ("active", "grace", "expired", "invalid", "offline", …).
+     * @return Return value.
+     */
     std::string licenseStatus() const;
 
     /// Returns the number of grace days remaining (0 if not in grace period).

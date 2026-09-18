@@ -65,6 +65,11 @@ using RCUCallback = std::function<void()>;
  */
 class GracePeriodManager {
 public:
+    /**
+     * @brief TBD: Describe instance.
+     * @return Return value.
+     * @details Implements instance without additional internal calls.
+     */
     static GracePeriodManager& instance() {
         static GracePeriodManager instance;
         return instance;
@@ -100,6 +105,8 @@ public:
     
     /**
      * @brief Check if RCU is enabled at compile time
+     * @return True on success.
+     * @details Implements is_enabled without additional internal calls.
      */
     static bool is_enabled() {
         #ifdef THEMIS_USE_RCU_INDEX
@@ -116,7 +123,14 @@ private:
     GracePeriodManager(const GracePeriodManager&) = delete;
     GracePeriodManager& operator=(const GracePeriodManager&) = delete;
     
+    /**
+     * @brief TBD: Describe grace_period_thread.
+     */
     void grace_period_thread();
+    /**
+     * @brief TBD: Describe readers_active.
+     * @return True on success.
+     */
     bool readers_active();
     
     std::atomic<bool> running_{false};
@@ -137,6 +151,11 @@ private:
 template<typename T>
 class RCUPtr {
 public:
+    /**
+     * @brief TBD: Describe RCUPtr.
+     * @param[in,out] ptr Input/output parameter.
+     * @return Return value.
+     */
     explicit RCUPtr(std::atomic<T*>& ptr) 
         : lock_(), ptr_(ptr.load(std::memory_order_acquire)) {}
     
@@ -161,6 +180,13 @@ private:
  * @return Old value (caller must defer reclamation via call_rcu)
  */
 template<typename T>
+/**
+ * @brief TBD: Describe rcu_assign_pointer.
+ * @param[in,out] ptr Input/output parameter.
+ * @param[in,out] new_value Input/output parameter.
+ * @return Pointer to the result.
+ * @details Calls: exchange().
+ */
 T* rcu_assign_pointer(std::atomic<T*>& ptr, T* new_value) {
     T* old_value = ptr.exchange(new_value, std::memory_order_acq_rel);
     return old_value;
@@ -174,6 +200,11 @@ T* rcu_assign_pointer(std::atomic<T*>& ptr, T* new_value) {
  * @param ptr Pointer to object to delete
  */
 template<typename T>
+/**
+ * @brief TBD: Describe rcu_defer_delete.
+ * @param[in,out] ptr Input/output parameter.
+ * @details Calls: GracePeriodManager::instance(), call_rcu().
+ */
 void rcu_defer_delete(T* ptr) {
     if (!ptr) {
       return;
@@ -204,7 +235,11 @@ inline std::atomic<int64_t> g_rcu_reader_count{0};
 // Thread-local read counter definition
 inline thread_local std::atomic<uint64_t> ReadLock::read_count_{0};
 
-// ReadLock implementation
+/**
+ * @brief ReadLock implementation
+ * @return Return value.
+ * @details Calls: fetch_add().
+ */
 inline ReadLock::ReadLock() {
     read_count_.fetch_add(1, std::memory_order_acquire);
     g_rcu_reader_count.fetch_add(1, std::memory_order_relaxed);
@@ -215,7 +250,11 @@ inline ReadLock::~ReadLock() {
     read_count_.fetch_sub(1, std::memory_order_release);
 }
 
-// GracePeriodManager implementation
+/**
+ * @brief GracePeriodManager implementation
+ * @return Return value.
+ * @details Calls: start().
+ */
 inline GracePeriodManager::GracePeriodManager() {
     #ifdef THEMIS_USE_RCU_INDEX
     start();
@@ -226,6 +265,10 @@ inline GracePeriodManager::~GracePeriodManager() {
     stop();
 }
 
+/**
+ * @brief TBD: Describe start.
+ * @details Calls: exchange(), std::thread(), grace_period_thread().
+ */
 inline void GracePeriodManager::start() {
     if (running_.exchange(true)) {
       return;
@@ -236,6 +279,10 @@ inline void GracePeriodManager::start() {
     });
 }
 
+/**
+ * @brief TBD: Describe stop.
+ * @details Calls: exchange(), joinable(), join(), lock(), callback(), clear().
+ */
 inline void GracePeriodManager::stop() {
     if (!running_.exchange(false)) {
       return;
@@ -245,7 +292,11 @@ inline void GracePeriodManager::stop() {
         grace_thread_.join();
     }
     
-    // Process any remaining callbacks
+    /**
+     * @brief Process any remaining callbacks
+     * @param[in] callbacks_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(callbacks_mutex_);
     for (auto& callback : pending_callbacks_) {
         callback();
@@ -258,11 +309,25 @@ inline void GracePeriodManager::stop() {
     current_callbacks_.clear();
 }
 
+/**
+ * @brief TBD: Describe call_rcu.
+ * @param[in] callback Input parameter.
+ * @details Calls: lock(), push_back(), std::move().
+ */
 inline void GracePeriodManager::call_rcu(RCUCallback callback) {
+    /**
+     * @brief TBD: Describe lock.
+     * @param[in] callbacks_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(callbacks_mutex_);
     pending_callbacks_.push_back(std::move(callback));
 }
 
+/**
+ * @brief TBD: Describe synchronize_rcu.
+ * @details Calls: std::this_thread::sleep_for(), std::chrono::microseconds(), readers_active(), std::this_thread::yield().
+ */
 inline void GracePeriodManager::synchronize_rcu() {
     #ifdef THEMIS_USE_RCU_INDEX
     // Wait for grace period by checking if all readers have finished
@@ -276,6 +341,11 @@ inline void GracePeriodManager::synchronize_rcu() {
     #endif
 }
 
+/**
+ * @brief TBD: Describe readers_active.
+ * @return True on success.
+ * @details Calls: load().
+ */
 inline bool GracePeriodManager::readers_active() {
     // A grace period has elapsed when no reader holds a ReadLock.
     // g_rcu_reader_count is the authoritative global active-reader count;
@@ -283,6 +353,10 @@ inline bool GracePeriodManager::readers_active() {
     return g_rcu_reader_count.load(std::memory_order_acquire) > 0;
 }
 
+/**
+ * @brief TBD: Describe grace_period_thread.
+ * @details Calls: std::this_thread::sleep_for(), std::chrono::milliseconds(), lock(), swap(), callback(), fetch_add().
+ */
 inline void GracePeriodManager::grace_period_thread() {
     while (running_) {
         // Sleep for grace period duration
@@ -291,6 +365,11 @@ inline void GracePeriodManager::grace_period_thread() {
         // Swap callback lists
         std::vector<RCUCallback> callbacks_to_execute;
         {
+            /**
+             * @brief TBD: Describe lock.
+             * @param[in] callbacks_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(callbacks_mutex_);
             callbacks_to_execute.swap(current_callbacks_);
             current_callbacks_.swap(pending_callbacks_);

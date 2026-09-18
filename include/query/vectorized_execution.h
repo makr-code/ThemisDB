@@ -72,14 +72,59 @@ struct VectorizedPredicate {
     Op             op    = Op::Eq;
     nlohmann::json value;  // unused for IsNull / IsNotNull
 
-    // Convenience factories
+    /**
+     * @brief Convenience factories
+     * @param[in] field Input parameter.
+     * @param[in] value Input parameter.
+     * @return Return value.
+     */
     static VectorizedPredicate eq(std::string field, nlohmann::json value);
+    /**
+     * @brief TBD: Describe ne.
+     * @param[in] field Input parameter.
+     * @param[in] value Input parameter.
+     * @return Return value.
+     */
     static VectorizedPredicate ne(std::string field, nlohmann::json value);
+    /**
+     * @brief TBD: Describe lt.
+     * @param[in] field Input parameter.
+     * @param[in] value Input parameter.
+     * @return Return value.
+     */
     static VectorizedPredicate lt(std::string field, nlohmann::json value);
+    /**
+     * @brief TBD: Describe le.
+     * @param[in] field Input parameter.
+     * @param[in] value Input parameter.
+     * @return Return value.
+     */
     static VectorizedPredicate le(std::string field, nlohmann::json value);
+    /**
+     * @brief TBD: Describe gt.
+     * @param[in] field Input parameter.
+     * @param[in] value Input parameter.
+     * @return Return value.
+     */
     static VectorizedPredicate gt(std::string field, nlohmann::json value);
+    /**
+     * @brief TBD: Describe ge.
+     * @param[in] field Input parameter.
+     * @param[in] value Input parameter.
+     * @return Return value.
+     */
     static VectorizedPredicate ge(std::string field, nlohmann::json value);
+    /**
+     * @brief TBD: Describe isNull.
+     * @param[in] field Input parameter.
+     * @return Return value.
+     */
     static VectorizedPredicate isNull(std::string field);
+    /**
+     * @brief TBD: Describe isNotNull.
+     * @param[in] field Input parameter.
+     * @return Return value.
+     */
     static VectorizedPredicate isNotNull(std::string field);
 };
 
@@ -140,11 +185,34 @@ class VectorizedQueryPlan {
 public:
     VectorizedQueryPlan() = default;
 
+    /**
+     * @brief TBD: Describe addFilter.
+     * @param[in] predicates Input parameter.
+     * @return Return value.
+     */
     VectorizedQueryPlan& addFilter(std::vector<VectorizedPredicate> predicates);
+    /**
+     * @brief TBD: Describe addProject.
+     * @param[in] fields Input parameter.
+     * @return Return value.
+     */
     VectorizedQueryPlan& addProject(std::vector<std::string> fields);
+    /**
+     * @brief TBD: Describe addAggregate.
+     * @param[in] aggregations Input parameter.
+     * @return Return value.
+     */
     VectorizedQueryPlan& addAggregate(std::vector<VectorizedAggregation> aggregations);
+    /**
+     * @brief TBD: Describe addSort.
+     * @param[in] keys Input parameter.
+     * @return Return value.
+     */
     VectorizedQueryPlan& addSort(std::vector<VectorizedSortKey> keys);
 
+     * @brief TBD: Describe setLimit.
+     * @param[in] n Input parameter.
+     * @return Return value.
     /** Apply a row-count limit to the final result. */
     VectorizedQueryPlan& setLimit(size_t n);
 
@@ -218,6 +286,11 @@ public:
     };
 
     VectorizedExecutionEngine();
+    /**
+     * @brief TBD: Describe VectorizedExecutionEngine.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit VectorizedExecutionEngine(const Config& config);
     ~VectorizedExecutionEngine() = default;
 
@@ -235,21 +308,37 @@ public:
         const std::vector<nlohmann::json>& rows,
         const VectorizedQueryPlan&         plan);
 
+     * @brief TBD: Describe filter.
+     * @param[in] rows Input parameter.
+     * @param[in] predicates Input parameter.
+     * @return Return value.
     /** Convenience: apply one or more filter predicates (AND-combined). */
     Result<std::vector<nlohmann::json>> filter(
         const std::vector<nlohmann::json>& rows,
         std::vector<VectorizedPredicate>   predicates);
 
+     * @brief TBD: Describe aggregate.
+     * @param[in] rows Input parameter.
+     * @param[in] aggregations Input parameter.
+     * @return Return value.
     /** Convenience: apply aggregation(s) with optional GROUP BY. */
     Result<std::vector<nlohmann::json>> aggregate(
         const std::vector<nlohmann::json>&  rows,
         std::vector<VectorizedAggregation>  aggregations);
 
+     * @brief TBD: Describe project.
+     * @param[in] rows Input parameter.
+     * @param[in] fields Input parameter.
+     * @return Return value.
     /** Convenience: retain only named fields in each row. */
     Result<std::vector<nlohmann::json>> project(
         const std::vector<nlohmann::json>& rows,
         std::vector<std::string>           fields);
 
+     * @brief TBD: Describe sort.
+     * @param[in] rows Input parameter.
+     * @param[in] keys Input parameter.
+     * @return Return value.
     /** Convenience: sort rows by one or more fields. */
     Result<std::vector<nlohmann::json>> sort(
         const std::vector<nlohmann::json>& rows,
@@ -264,6 +353,10 @@ public:
     };
 
     const ExecStats& lastStats() const noexcept { return stats_; }
+    /**
+     * @brief TBD: Describe resetStats.
+     * @note Exception safety: noexcept.
+     */
     void             resetStats() noexcept;
 
     const Config& config() const noexcept { return config_; }
@@ -294,6 +387,8 @@ private:
      * @brief Materialize a ColumnBatch back to a vector of JSON objects.
      *
      * Any pending SelectionVector is applied first (materialization).
+     * @param[in] batch Input parameter.
+     * @return Return value.
      */
     static std::vector<nlohmann::json> columnBatchToJson(
         const themisdb::analytics::ColumnBatch& batch);
@@ -305,14 +400,22 @@ private:
      *
      * Predicate Op, AggregateSpec::Function, and SortKey enumerators are
      * mapped 1-to-1 to their analytics counterparts.
+     * @param[in] plan Input parameter.
+     * @return Return value.
      */
     static themisdb::analytics::VectorizedPipeline buildPipeline(
         const VectorizedQueryPlan& plan);
 
+     * @brief TBD: Describe translatePredicate.
+     * @param[in] pred Input parameter.
+     * @return Return value.
     /** Map a VectorizedPredicate to an analytics::Predicate. */
     static themisdb::analytics::Predicate translatePredicate(
         const VectorizedPredicate& pred);
 
+     * @brief TBD: Describe jsonToColumnValue.
+     * @param[in] val Input parameter.
+     * @return Return value.
     /** Map a nlohmann::json value to a ColumnValue variant. */
     static themisdb::analytics::ColumnValue jsonToColumnValue(
         const nlohmann::json& val);

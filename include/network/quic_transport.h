@@ -170,6 +170,10 @@ public:
 
     bool isRunning() const { return running_.load(std::memory_order_acquire); }
 
+    /**
+     * @brief TBD: Describe getStats.
+     * @return Return value.
+     */
     Stats getStats() const;
 
     // ── Helpers (public for unit-test access) ────────────────────────────────
@@ -193,20 +197,33 @@ public:
      * Validates that the port is in the ThemisDB reserved range and does not
      * conflict with the TCP wire protocol (8766), HTTP/1-2 server (8080/443),
      * or UDP fast-path (8769).
+     * @param[in] port Input parameter.
+     * @return True on success.
      */
     static bool isValidPort(uint16_t port);
 
 private:
-    // ── Internal helpers ─────────────────────────────────────────────────────
+    /**
+     * @brief ── Internal helpers ─────────────────────────────────────────────────────
+     */
 
     void doReceive();
 
+    /**
+     * @brief TBD: Describe handlePacket.
+     * @param[in] sender Input parameter.
+     * @param[in] data Input parameter.
+     * @param[in] len Input parameter.
+     */
     void handlePacket(const udp::endpoint& sender,
                       const uint8_t*       data,
                       std::size_t          len);
 
-    /// Enforce max_connections limit.  Returns false and increments the stat
-    /// when the limit is exceeded.
+    /**
+     * @brief Enforce max_connections limit.
+     * @return True on success.
+     * @details Returns false and increments the stat when the limit is exceeded.
+     */
     bool checkConnectionLimit();
 
     // ── Members ──────────────────────────────────────────────────────────────

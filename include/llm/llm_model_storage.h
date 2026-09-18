@@ -36,6 +36,10 @@ using json = nlohmann::json;
  * and all other ThemisDB data: BaseEntity → Document/Graph/Vector.
  */
 struct LLMModelMetadata {
+    /**
+     * @brief TBD: Describe ~LLMModelMetadata.
+     * @return Return value.
+     */
     virtual ~LLMModelMetadata() = default;
     // Identity
     std::string model_id;              // Unique identifier (e.g., "llama-2-7b")
@@ -124,6 +128,12 @@ struct LLMModelMetadata {
         };
     }
     
+    /**
+     * @brief TBD: Describe fromJSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     * @details Calls: contains().
+     */
     static LLMModelMetadata fromJSON(const json& j) {
         LLMModelMetadata metadata = {};
         
@@ -220,6 +230,11 @@ public:
     };
     
     LLMModelStorage();
+    /**
+     * @brief TBD: Describe LLMModelStorage.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit LLMModelStorage(const Config& config);
     ~LLMModelStorage();
     

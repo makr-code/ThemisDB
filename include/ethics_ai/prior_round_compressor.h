@@ -136,6 +136,7 @@ public:
      * Pass `nullptr` to revert to the extractive path.
      *
      * Roadmap ref: src/ethics_ai/FUTURE_ENHANCEMENTS.md §PriorRoundCompressor LLM (§12.2.1)
+     * @param[in] fn Input parameter.
      */
     void setLlmSummaryFn(LlmSummaryFn fn);
 
@@ -161,15 +162,13 @@ private:
         const EthicalArgument& arg,
         const CompressionConfig& config) const;
 
-    // STUB/SIMULATION NOTE:
-    // Purpose: STRUCTURED_SUMMARY mode requires a small LLM call. Until the
-    //          LLM backend integration (§1, Target Q3 2026) is complete, this
-    //          falls back to TF-weighted extractive sentence selection.
-    // Activation: Always when no LlmSummaryFn is injected via setLlmSummaryFn().
-    // Production Delta: Real impl sends the argument to a "small" model tier
-    //                   (§12.2.1 Cascade) and returns its abstractive summary.
-    // Removal Plan: Replace with real LLM dispatch when IArgumentGenerator
-    //               is integrated with the Cascade Router (§12.2.1 Q3 2026).
+    /**
+     * @brief STUB/SIMULATION NOTE: Purpose: STRUCTURED_SUMMARY mode requires a small LLM call.
+     * @param[in] arg Input parameter.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     * @details Until the LLM backend integration (§1, Target Q3 2026) is complete, this falls back to TF-weighted extractive sentence selection. Activation: Always when no LlmSummaryFn is injected via setLlmSummaryFn(). Production Delta: Real impl sends the argument to a "small" model tier (§12.2.1 Cascade) and returns its abstractive summary. Removal Plan: Replace with real LLM dispatch when IArgumentGenerator is integrated with the Cascade Router (§12.2.1 Q3 2026).
+     */
     CompressionResult compressStructuredSummary(
         const EthicalArgument& arg,
         const CompressionConfig& config) const;

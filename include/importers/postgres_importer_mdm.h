@@ -93,6 +93,8 @@ public:
 private:
     /**
      * @brief Build an MDMConfig from the EntityLinkingConfig in ImportOptions.
+     * @param[in] elc Input parameter.
+     * @return Return value.
      */
     static MDMConfig buildMDMConfig(const EntityLinkingConfig& elc);
 

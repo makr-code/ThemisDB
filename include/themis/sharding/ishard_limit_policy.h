@@ -40,6 +40,10 @@ namespace sharding {
  */
 class IShardLimitPolicy {
 public:
+    /**
+     * @brief TBD: Describe ~IShardLimitPolicy.
+     * @return Return value.
+     */
     virtual ~IShardLimitPolicy() = default;
 
     // Non-copyable, non-movable by default.

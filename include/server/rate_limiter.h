@@ -83,11 +83,13 @@ public:
     
     /**
      * @brief Get current token count
+     * @return Return value.
      */
     double getTokens() const;
     
     /**
      * @brief Get time until next token available (milliseconds)
+     * @return Return value.
      */
     uint64_t getRetryAfterMs() const;
     
@@ -97,6 +99,9 @@ public:
     void reset();
 
 private:
+    /**
+     * @brief TBD: Describe refill.
+     */
     void refill();
     
     size_t capacity_;
@@ -159,6 +164,8 @@ public:
     
     /**
      * @brief Check if IP is whitelisted
+     * @param[in] ip Input parameter.
+     * @return True on success.
      */
     bool isWhitelisted(const std::string& ip) const;
     
@@ -168,6 +175,7 @@ public:
      * The callback is invoked outside of the internal mutex so it is safe to
      * perform I/O (e.g. write to an audit log or send to a SIEM) without risk
      * of deadlock.  Pass nullptr or an empty function to deregister.
+     * @param[in] callback Input parameter.
      */
     void setAnomalyCallback(AnomalyCallback callback);
 
@@ -186,17 +194,20 @@ public:
     /**
      * @brief Check if IP is blacklisted
      * @param ip IP address to check
+     * @return True on success.
      */
     bool isBlacklisted(const std::string& ip) const;
 
     /**
      * @brief Return true if an IP is currently under an adaptive throttle penalty.
      * @param ip IP address to check.
+     * @return True on success.
      */
     bool isAdaptivelyThrottled(const std::string& ip) const;
     
     /**
      * @brief Update configuration at runtime
+     * @param[in] config Input parameter.
      */
     void updateConfig(const RateLimitConfig& config);
     
@@ -212,6 +223,10 @@ public:
         size_t adaptive_throttle_penalties = 0; ///< IPs currently penalised
     };
     
+    /**
+     * @brief TBD: Describe getStatistics.
+     * @return Return value.
+     */
     Statistics getStatistics() const;
     
     /**
@@ -253,13 +268,22 @@ private:
     };
     std::unordered_map<std::string, AdaptiveEntry> adaptive_state_;
 
+    /**
+     * @brief TBD: Describe recordRejectionForAdaptive.
+     * @param[in] ip Input parameter.
+     */
     void recordRejectionForAdaptive(const std::string& ip);
 
     // Anomaly detection callback – protected by a dedicated mutex so that
     // fireAnomaly() can be called while mutex_ is held without risk of deadlock.
     mutable std::shared_mutex callback_mutex_;
     AnomalyCallback anomaly_callback_;
-    // Fire the anomaly callback (safe to call while mutex_ is held).
+    /**
+     * @brief Fire the anomaly callback (safe to call while mutex_ is held).
+     * @param[in] type Input parameter.
+     * @param[in] ip Input parameter.
+     * @param[in] detail Input parameter.
+     */
     void fireAnomaly(AnomalyEvent::Type type, const std::string& ip, const std::string& detail) const;
     
     // Statistics

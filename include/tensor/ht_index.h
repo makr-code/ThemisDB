@@ -44,6 +44,10 @@ struct HTSearchResult {
  */
 class IHierarchicalTuckerIndex {
 public:
+    /**
+     * @brief TBD: Describe ~IHierarchicalTuckerIndex.
+     * @return Return value.
+     */
     virtual ~IHierarchicalTuckerIndex() = default;
 
     // ── Mutation ──────────────────────────────────────────────────────────────
@@ -60,6 +64,7 @@ public:
     /**
      * @brief Remove an entry from the index.
      * @return true if the entry existed and was removed; false otherwise.
+     * @param[in] id Input parameter.
      */
     virtual bool remove(const std::string& id) = 0;
 
@@ -82,12 +87,14 @@ public:
 
     /**
      * @brief Serialise the full index to a byte blob.
+     * @return Return value.
      */
     virtual std::vector<uint8_t> serialize() const = 0;
 
     /**
      * @brief Deserialise in-place from bytes.
      * @return true on success; false on format error.
+     * @param[in] bytes Input parameter.
      */
     virtual bool deserialize(const std::vector<uint8_t>& bytes) = 0;
 };

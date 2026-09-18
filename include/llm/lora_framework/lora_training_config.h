@@ -36,6 +36,10 @@ namespace lora {
  */
 class LoRATrainingConfig {
 public:
+    /**
+     * @brief TBD: Describe ~LoRATrainingConfig.
+     * @return Return value.
+     */
     virtual ~LoRATrainingConfig() = default;
     /**
      * @brief Training data source configuration
@@ -193,16 +197,46 @@ private:
     int max_concurrent_trainings_ = 2;
     int max_retry_attempts_ = 3;
     
-    // Helper methods
+    /**
+     * @brief Helper methods
+     * @param[in] adapter_id Input parameter.
+     * @param[in] node Input parameter.
+     * @return Return value.
+     */
     static AdapterConfig parseAdapterConfig(
         const std::string& adapter_id,
         const YAML::Node& node
     );
     
+    /**
+     * @brief TBD: Describe parseHyperparameters.
+     * @param[in] node Input parameter.
+     * @return Return value.
+     */
     static LoRAHyperparameters parseHyperparameters(const YAML::Node& node);
+    /**
+     * @brief TBD: Describe parseFeedbackWeighting.
+     * @param[in] node Input parameter.
+     * @return Return value.
+     */
     static FeedbackWeighting parseFeedbackWeighting(const YAML::Node& node);
+    /**
+     * @brief TBD: Describe parseTrainingTrigger.
+     * @param[in] node Input parameter.
+     * @return Return value.
+     */
     static TrainingTrigger parseTrainingTrigger(const YAML::Node& node);
+    /**
+     * @brief TBD: Describe parseQualityConfig.
+     * @param[in] node Input parameter.
+     * @return Return value.
+     */
     static QualityConfig parseQualityConfig(const YAML::Node& node);
+    /**
+     * @brief TBD: Describe parseTrainingDataSource.
+     * @param[in] node Input parameter.
+     * @return Return value.
+     */
     static TrainingDataSource parseTrainingDataSource(const YAML::Node& node);
 };
 

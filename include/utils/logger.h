@@ -65,6 +65,10 @@ struct LogMetrics {
         };
     }
 
+    /**
+     * @brief TBD: Describe reset.
+     * @details Implements reset without additional internal calls.
+     */
     void reset() {
         trace_count = 0;
         debug_count = 0;
@@ -132,19 +136,63 @@ public:
                              std::size_t max_files = 5,
                              Level level = Level::INFO);
 
+    /**
+     * @brief TBD: Describe shutdown.
+     */
     static void shutdown();
+    /**
+     * @brief TBD: Describe get.
+     * @return Return value.
+     */
     static std::shared_ptr<spdlog::logger> get();
 
+    /**
+     * @brief TBD: Describe setLevel.
+     * @param[in] level Input parameter.
+     */
     static void setLevel(Level level);
+    /**
+     * @brief TBD: Describe getLevel.
+     * @return Return value.
+     */
     static Level getLevel();
+    /**
+     * @brief TBD: Describe setPattern.
+     * @param[in] pattern Input parameter.
+     */
     static void setPattern(const std::string& pattern);
+    /**
+     * @brief TBD: Describe setTraceContext.
+     * @param[in] trace_id Input parameter.
+     */
     static void setTraceContext(const std::string& trace_id);
+    /**
+     * @brief TBD: Describe getTraceContext.
+     * @return Return value.
+     */
     static std::string getTraceContext();
 
+    /**
+     * @brief TBD: Describe levelFromString.
+     * @param[in] lvl Input parameter.
+     * @return Return value.
+     */
     static Level levelFromString(const std::string& lvl);
+    /**
+     * @brief TBD: Describe levelToString.
+     * @param[in] lvl Input parameter.
+     * @return Pointer to the result.
+     */
     static const char* levelToString(Level lvl);
 
+    /**
+     * @brief TBD: Describe getMetrics.
+     * @return Return value.
+     */
     static const LogMetrics& getMetrics();
+    /**
+     * @brief TBD: Describe resetMetrics.
+     */
     static void resetMetrics();
 
     template<typename FormatString, typename... Args>
@@ -191,7 +239,16 @@ private:
     inline static std::mutex trace_context_mu_{};
     inline static bool json_mode_ = false;
 
+    /**
+     * @brief TBD: Describe metricsStorage.
+     * @return Return value.
+     */
     static LogMetrics& metricsStorage();
+    /**
+     * @brief TBD: Describe toSpdlogLevel.
+     * @param[in] level Input parameter.
+     * @return Return value.
+     */
     static spdlog::level::level_enum toSpdlogLevel(Level level);
 };
 
@@ -244,6 +301,13 @@ public:
 private:
     struct Bucket;
 
+    /**
+     * @brief TBD: Describe should_log.
+     * @param[in] level Input parameter.
+     * @param[in] file Input parameter.
+     * @param[in] line Input parameter.
+     * @return True on success.
+     */
     bool should_log(Logger::Level level, const char* file, int line);
 
     std::shared_ptr<Logger>  underlying_;

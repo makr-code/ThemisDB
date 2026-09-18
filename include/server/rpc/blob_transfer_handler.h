@@ -112,6 +112,7 @@ public:
      * 
      * @param config Blob transfer configuration
      * @return Status code
+     * @brief TBD: Describe StartTransfer.
      */
     BlobStatus StartTransfer(const BlobConfig& config);
     
@@ -120,6 +121,7 @@ public:
      * 
      * @param callback Function to receive each chunk
      * @return Status code
+     * @brief TBD: Describe StreamChunks.
      */
     BlobStatus StreamChunks(BlobChunkCallback callback);
     
@@ -128,6 +130,7 @@ public:
      * 
      * @param expected_hash Expected SHA256 hash
      * @return Status code
+     * @brief TBD: Describe VerifyBlob.
      */
     BlobStatus VerifyBlob(const std::string& expected_hash);
     
@@ -136,6 +139,7 @@ public:
      * 
      * @param chunk Received blob chunk
      * @return Status code
+     * @brief TBD: Describe ReceiveChunk.
      */
     BlobStatus ReceiveChunk(const themis::sharding::proto::BlobChunk& chunk);
     
@@ -143,6 +147,7 @@ public:
      * Finalize blob after all chunks received.
      * 
      * @return Status code
+     * @brief TBD: Describe FinalizeBlob.
      */
     BlobStatus FinalizeBlob();
     
@@ -150,6 +155,7 @@ public:
      * Get current transfer progress.
      * 
      * @return Progress information
+     * @brief TBD: Describe GetProgress.
      */
     BlobProgress GetProgress() const;
     
@@ -157,6 +163,7 @@ public:
      * Create a checkpoint for resume support.
      * 
      * @return Checkpoint ID
+     * @brief TBD: Describe CreateCheckpoint.
      */
     std::string CreateCheckpoint();
     
@@ -165,14 +172,20 @@ public:
      * 
      * @param checkpoint_id Checkpoint to resume from
      * @return Status code
+     * @brief TBD: Describe ResumeTransfer.
      */
     BlobStatus ResumeTransfer(const std::string& checkpoint_id);
     
     /**
      * Cancel an in-progress transfer.
+     * @brief TBD: Describe Cancel.
      */
     void Cancel();
 
+    /**
+     * @brief TBD: Describe setChecksumFn.
+     * @param[in] fn Input parameter.
+     */
     static void setChecksumFn(ChecksumFn fn);
 
 private:

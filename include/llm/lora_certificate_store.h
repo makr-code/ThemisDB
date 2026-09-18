@@ -106,21 +106,37 @@ private:
     mutable std::mutex cache_mutex_;
     mutable std::unordered_map<std::string, std::string> cert_cache_;
 
-    // Load a PEM file from disk and return its contents.
+    /**
+     * @brief Load a PEM file from disk and return its contents.
+     * @param[in] path Input parameter.
+     * @return Return value.
+     */
     static std::optional<std::string> loadPemFile(const std::string& path);
 
-    // Compute SHA-256 fingerprint of a PEM certificate and compare.
+    /**
+     * @brief Compute SHA-256 fingerprint of a PEM certificate and compare.
+     * @param[in] cert_pem Input parameter.
+     * @param[in] fingerprint Input parameter.
+     * @return True on success.
+     */
     static bool fingerprintMatches(const std::string& cert_pem,
                                    const std::string& fingerprint);
 
-    // Search the system certificate directory for a cert matching fingerprint
-    // (Linux/macOS: iterates PEM/CRT files under system_store_path_).
+    /**
+     * @brief Search the system certificate directory for a cert matching fingerprint (Linux/macOS: iterates PEM/CRT files under system_store_path_).
+     * @param[in] fingerprint Input parameter.
+     * @return Return value.
+     */
     std::optional<std::string> searchSystemStore(
         const std::string& fingerprint) const;
 
 #if defined(_WIN32)
-    // Search the Windows system certificate store (HCERTSTORE) for a cert
-    // matching fingerprint.  Falls back gracefully if the store cannot be opened.
+    /**
+     * @brief Search the Windows system certificate store (HCERTSTORE) for a cert matching fingerprint.
+     * @param[in] fingerprint Input parameter.
+     * @return Return value.
+     * @details Falls back gracefully if the store cannot be opened.
+     */
     static std::optional<std::string> searchWindowsCertStore(
         const std::string& fingerprint);
 #endif

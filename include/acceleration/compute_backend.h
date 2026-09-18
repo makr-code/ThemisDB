@@ -290,9 +290,12 @@ struct BackendHealthStatus {
         return s;
     }
 
-    /// @brief Create a "degraded" status indicating partial operational capability.
-    /// @param issue Description of the degradation issue
-    /// @return BackendHealthStatus with healthy=false, ready=false, alive=true
+    /**
+     * @brief @brief Create a "degraded" status indicating partial operational capability.
+     * @param[in] issue Input parameter.
+     * @return Return value.
+     * @details @param issue Description of the degradation issue @return BackendHealthStatus with healthy=false, ready=false, alive=true Calls: push_back().
+     */
     static BackendHealthStatus makeDegraded(const std::string& issue) {
         BackendHealthStatus s;
         s.status  = "degraded";
@@ -304,9 +307,12 @@ struct BackendHealthStatus {
         return s;
     }
 
-    /// @brief Create an "unhealthy" status indicating complete non-operability.
-    /// @param issue Description of the failure
-    /// @return BackendHealthStatus with healthy=false, ready=false, alive=false
+    /**
+     * @brief @brief Create an "unhealthy" status indicating complete non-operability.
+     * @param[in] issue Input parameter.
+     * @return Return value.
+     * @details @param issue Description of the failure @return BackendHealthStatus with healthy=false, ready=false, alive=false Calls: push_back().
+     */
     static BackendHealthStatus makeUnhealthy(const std::string& issue) {
         BackendHealthStatus s;
         s.status  = "unhealthy";
@@ -381,6 +387,10 @@ struct KernelConfig {
 /// otherwise. All virtual methods are non-const unless the operation is read-only.
 class IComputeBackend {
 public:
+    /**
+     * @brief TBD: Describe ~IComputeBackend.
+     * @return Return value.
+     */
     virtual ~IComputeBackend() = default;
     
     /// @name Identification
@@ -416,9 +426,10 @@ public:
     /// multiple times; subsequent calls are idempotent.
     [[nodiscard]] virtual bool initialize() = 0;
     
-    /// @brief Shut down the backend and release all resources.
-    /// @details All pending operations must complete before shutdown.
-    /// Safe to call multiple times.
+    /**
+     * @brief @brief Shut down the backend and release all resources.
+     * @details @details All pending operations must complete before shutdown. Safe to call multiple times.
+     */
     virtual void shutdown() = 0;
     /// @}
     
@@ -539,8 +550,11 @@ protected:
     /// @name Error Management (Protected Helpers)
     /// @{
     
-    /// @brief Helper for backends to set error context.
-    /// Stores error state for retrieval via getLastError().
+    /**
+     * @brief @brief Helper for backends to set error context.
+     * @param[in] error Input parameter.
+     * @details Stores error state for retrieval via getLastError(). Calls: std::move().
+     */
     void setError(ErrorContext error) {
         lastError_ = std::move(error);
     }
@@ -615,6 +629,10 @@ struct PartialBatchResult {
 /// the one with the lower vector index is placed first.
 class IVectorBackend : public IComputeBackend {
 public:
+    /**
+     * @brief TBD: Describe ~IVectorBackend.
+     * @return Return value.
+     */
     virtual ~IVectorBackend() = default;
     
     /// @brief Compute pairwise distances between all queries and vectors.
@@ -717,6 +735,10 @@ public:
 /// or search results.
 class IGraphBackend : public IComputeBackend {
 public:
+    /**
+     * @brief TBD: Describe ~IGraphBackend.
+     * @return Return value.
+     */
     virtual ~IGraphBackend() = default;
     
     /// @brief Batch breadth-first search (BFS) traversal.
@@ -774,6 +796,10 @@ public:
 /// Distances are returned in kilometers. Containment uses ray-casting algorithm.
 class IGeoBackend : public IComputeBackend {
 public:
+    /**
+     * @brief TBD: Describe ~IGeoBackend.
+     * @return Return value.
+     */
     virtual ~IGeoBackend() = default;
     
     /// @brief Batch geospatial distance calculations.
@@ -850,6 +876,10 @@ public:
 /// operations and 1e-7 for BF16 operations when compared to FP32 CPU reference.
 class IMatrixBackend : public IComputeBackend {
 public:
+    /**
+     * @brief TBD: Describe ~IMatrixBackend.
+     * @return Return value.
+     */
     virtual ~IMatrixBackend() = default;
 
     /// @brief Compute C = alpha * A × B + beta * C (GEMM operation).
@@ -1042,6 +1072,7 @@ public:
      *
      * Restores the registry to an empty state. Used by unit tests to reset
      * global or local registries between cases.
+     * @details Implements clear without additional internal calls.
      */
     void clear() {
         annDispatch_.clear();
@@ -1062,36 +1093,77 @@ class PluginLoader;
 /** @brief Backend registry for managing different acceleration backends. */
 class BackendRegistry {
 public:
+    /**
+     * @brief TBD: Describe instance.
+     * @return Return value.
+     */
     static BackendRegistry& instance();
     
-    // Register a backend (manual registration)
+    /**
+     * @brief Register a backend (manual registration)
+     * @param[in] backend Input parameter.
+     */
     void registerBackend(std::unique_ptr<IComputeBackend> backend);
     
-    // Load plugins from directory (DLL/SO files)
-    // Returns number of plugins loaded
+    /**
+     * @brief Load plugins from directory (DLL/SO files) Returns number of plugins loaded
+     * @param[in] pluginDirectory Input parameter.
+     * @return Return value.
+     */
     size_t loadPlugins(const std::string& pluginDirectory);
     
-    // Load a specific plugin
+    /**
+     * @brief Load a specific plugin
+     * @param[in] pluginPath Input parameter.
+     * @return True on success.
+     */
     bool loadPlugin(const std::string& pluginPath);
     
-    // Get backend by type
+    /**
+     * @brief Get backend by type
+     * @param[in] type Input parameter.
+     * @return Pointer to the result.
+     */
     IComputeBackend* getBackend(BackendType type) const;
     
-    // Get best available backend for a capability
+    /**
+     * @brief Get best available backend for a capability
+     * @return Pointer to the result.
+     */
     IVectorBackend* getBestVectorBackend() const;
+    /**
+     * @brief TBD: Describe getBestGraphBackend.
+     * @return Pointer to the result.
+     */
     IGraphBackend* getBestGraphBackend() const;
+    /**
+     * @brief TBD: Describe getBestGeoBackend.
+     * @return Pointer to the result.
+     */
     IGeoBackend* getBestGeoBackend() const;
+    /**
+     * @brief TBD: Describe getBestMatrixBackend.
+     * @return Pointer to the result.
+     */
     IMatrixBackend* getBestMatrixBackend() const;
     
-    // Auto-detect and initialize all available backends
+    /**
+     * @brief Auto-detect and initialize all available backends
+     */
     void autoDetect();
     
-    // List all available backends
+    /**
+     * @brief List all available backends
+     * @return Return value.
+     */
     std::vector<BackendType> getAvailableBackends() const;
 
-    // Returns the ordered fallback chain used when selecting the best backend.
-    // The first element has the highest priority; BackendType::CPU is always last.
-    // All getBestXBackend() methods traverse this chain in order.
+    /**
+     * @brief Returns the ordered fallback chain used when selecting the best backend.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     * @details The first element has the highest priority; BackendType::CPU is always last. All getBestXBackend() methods traverse this chain in order.
+     */
     static const std::vector<BackendType>& getFallbackOrder() noexcept;
 
     // ---------------------------------------------------------------------------
@@ -1155,8 +1227,11 @@ struct CapabilityRequirements {
         return true;
     }
 
-    /// Returns the highest-priority available backend (per getFallbackOrder())
-    /// whose capabilities satisfy @p reqs, or nullptr if none do.
+    /**
+     * @brief Returns the highest-priority available backend (per getFallbackOrder()) whose capabilities satisfy @p reqs, or nullptr if none do.
+     * @param[in] reqs Input parameter.
+     * @return Pointer to the result.
+     */
     IComputeBackend* selectBackendFor(const CapabilityRequirements& reqs) const;
 
     /// Like selectBackendFor() but restricted to IVectorBackend instances.
@@ -1198,34 +1273,55 @@ struct CapabilityRequirements {
         const CapabilityRequirements& graphReqs  = defaultGraphRequirements(),
         const CapabilityRequirements& geoReqs    = defaultGeoRequirements());
 
-    /// Returns the vector backend selected by the last initializeRuntime() call,
-    /// or nullptr if initializeRuntime() has not been called yet.
+    /**
+     * @brief Returns the vector backend selected by the last initializeRuntime() call, or nullptr if initializeRuntime() has not been called yet.
+     * @return Pointer to the result.
+     * @note Exception safety: noexcept.
+     */
     IVectorBackend* getSelectedVectorBackend() const noexcept;
 
-    /// Returns the graph backend selected by the last initializeRuntime() call,
-    /// or nullptr if initializeRuntime() has not been called yet.
+    /**
+     * @brief Returns the graph backend selected by the last initializeRuntime() call, or nullptr if initializeRuntime() has not been called yet.
+     * @return Pointer to the result.
+     * @note Exception safety: noexcept.
+     */
     IGraphBackend* getSelectedGraphBackend() const noexcept;
 
-    /// Returns the geo backend selected by the last initializeRuntime() call,
-    /// or nullptr if initializeRuntime() has not been called yet.
+    /**
+     * @brief Returns the geo backend selected by the last initializeRuntime() call, or nullptr if initializeRuntime() has not been called yet.
+     * @return Pointer to the result.
+     * @note Exception safety: noexcept.
+     */
     IGeoBackend* getSelectedGeoBackend() const noexcept;
 
     /// Returns true if initializeRuntime() has been called at least once.
     bool isRuntimeInitialized() const noexcept;
 
-    // Default capability requirements used by initializeRuntime() when the
-    // caller does not supply explicit requirements.
+    /**
+     * @brief Default capability requirements used by initializeRuntime() when the caller does not supply explicit requirements.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     static CapabilityRequirements defaultVectorRequirements() noexcept;
+    /**
+     * @brief TBD: Describe defaultGraphRequirements.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     static CapabilityRequirements defaultGraphRequirements() noexcept;
+    /**
+     * @brief TBD: Describe defaultGeoRequirements.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     static CapabilityRequirements defaultGeoRequirements() noexcept;
 
-    /// Return the list of compute devices probed at the last initializeRuntime()
-    /// call.  Each entry contains the device name, BackendType, VRAM, compute
-    /// capability, and derived precision support flags.  Returns an empty vector
-    /// if initializeRuntime() has not been called yet.
-    ///
-    /// The returned snapshot is immutable; call initializeRuntime() again to
-    /// refresh the device list.
+    /**
+     * @brief Return the list of compute devices probed at the last initializeRuntime() call.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     * @details Each entry contains the device name, BackendType, VRAM, compute capability, and derived precision support flags. Returns an empty vector if initializeRuntime() has not been called yet. The returned snapshot is immutable; call initializeRuntime() again to refresh the device list.
+     */
     std::vector<DeviceCapabilityInfo> deviceInfo() const noexcept;
 
     // ---------------------------------------------------------------------------
@@ -1243,7 +1339,9 @@ struct CapabilityRequirements {
     /// Thread-safe (acquires shared lock).
     [[nodiscard]] const KernelRegistry& getKernelRegistry() const noexcept;
 
-    // Shutdown all backends
+    /**
+     * @brief Shutdown all backends
+     */
     void shutdownAll();
     
 private:
@@ -1482,6 +1580,10 @@ struct KernelDescriptor {
  */
 class IDeviceCapabilityQuery {
 public:
+    /**
+     * @brief TBD: Describe ~IDeviceCapabilityQuery.
+     * @return Return value.
+     */
     virtual ~IDeviceCapabilityQuery() = default;
 
     /**
@@ -1531,6 +1633,10 @@ public:
  */
 class IMultiGPUSelector {
 public:
+    /**
+     * @brief TBD: Describe ~IMultiGPUSelector.
+     * @return Return value.
+     */
     virtual ~IMultiGPUSelector() = default;
 
     /**
@@ -1575,6 +1681,10 @@ public:
  */
 class IKernelRegistry {
 public:
+    /**
+     * @brief TBD: Describe ~IKernelRegistry.
+     * @return Return value.
+     */
     virtual ~IKernelRegistry() = default;
 
     /**
@@ -1634,6 +1744,10 @@ public:
  */
 class IAsyncComputeDispatch {
 public:
+    /**
+     * @brief TBD: Describe ~IAsyncComputeDispatch.
+     * @return Return value.
+     */
     virtual ~IAsyncComputeDispatch() = default;
 
     /**

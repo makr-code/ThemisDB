@@ -72,11 +72,20 @@ public:
     /// Monotonic version counter — increments on each addPattern()/addKeyword().
     uint32_t version() const { return version_; }
 
-    // ── Mutators (for custom / test-only registries) ──────────────────────
+    /**
+     * @brief ── Mutators (for custom / test-only registries) ──────────────────────
+     * @param[in] entry Input parameter.
+     * @details Calls: push_back(), std::move().
+     */
     void addPattern(SharedPatternEntry entry) {
         patterns_.push_back(std::move(entry));
         ++version_;
     }
+    /**
+     * @brief TBD: Describe addKeyword.
+     * @param[in] keyword Input parameter.
+     * @details Calls: push_back(), std::move().
+     */
     void addKeyword(std::string keyword) {
         keywords_.push_back(std::move(keyword));
         ++version_;
@@ -88,6 +97,7 @@ public:
      *
      * Contains SHARED_INJECTION_PATTERN_COUNT patterns (see below) and
      * SHARED_INJECTION_KEYWORD_COUNT keywords.  Thread-safe after first call.
+     * @return Return value.
      */
     static const PromptInjectionPatternRegistry& defaultRegistry();
 

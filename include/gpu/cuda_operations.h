@@ -89,6 +89,7 @@ public:
      * @throws std::runtime_error If query fails
      * 
      * Safe on moved-from streams (returns true).
+     * @note Exception safety: noexcept.
      */
     bool is_ready() const noexcept;
 
@@ -96,6 +97,7 @@ public:
      * @brief Check if this stream is valid and not moved-from
      * 
      * @return true if stream is alive
+     * @note Exception safety: noexcept.
      */
     bool is_valid() const noexcept;
 
@@ -103,6 +105,7 @@ public:
      * @brief Check if this stream is in moved-from state
      * 
      * @return true if resources were transferred to another object
+     * @note Exception safety: noexcept.
      */
     bool is_moved_from() const noexcept;
 
@@ -179,6 +182,7 @@ public:
      * @brief Check current operation status
      * 
      * @return Current Status
+     * @note Exception safety: noexcept.
      */
     Status get_status() const noexcept;
 
@@ -186,6 +190,7 @@ public:
      * @brief Mark operation as completed (called internally by CUDA callbacks)
      * 
      * @internal Used by CUDA stream callbacks.
+     * @note Exception safety: noexcept.
      */
     void mark_completed() noexcept;
 
@@ -193,6 +198,7 @@ public:
      * @brief Mark operation as failed
      * 
      * @param error_msg Human-readable error message
+     * @note Exception safety: noexcept.
      */
     void mark_failed(const std::string& error_msg) noexcept;
 
@@ -202,6 +208,7 @@ public:
      * @brief Get operation name
      * 
      * @return Name, or empty string if moved-from
+     * @note Exception safety: noexcept.
      */
     const std::string& get_name() const noexcept;
 
@@ -209,6 +216,7 @@ public:
      * @brief Get error message if operation failed
      * 
      * @return Error message, or empty string if no error
+     * @note Exception safety: noexcept.
      */
     const std::string& get_error() const noexcept;
 
@@ -216,6 +224,7 @@ public:
      * @brief Get device ID where operation runs
      * 
      * @return Device ID, or -1 if moved-from
+     * @note Exception safety: noexcept.
      */
     int get_device_id() const noexcept;
 
@@ -223,6 +232,7 @@ public:
      * @brief Check if operation is in moved-from state
      * 
      * @return true if resources were transferred to another object
+     * @note Exception safety: noexcept.
      */
     bool is_moved_from() const noexcept;
 
@@ -247,6 +257,7 @@ public:
      * @brief Create empty operation batch
      * 
      * @param stream CUDA stream for batch operations
+     * @return Return value.
      */
     explicit CudaOperationBatch(const CudaStream& stream);
 
@@ -285,6 +296,7 @@ public:
      * @brief Get number of operations in batch
      * 
      * @return Count, or 0 if moved-from
+     * @note Exception safety: noexcept.
      */
     size_t size() const noexcept;
 
@@ -292,6 +304,7 @@ public:
      * @brief Check if all operations completed
      * 
      * @return true if all done (or batch empty)
+     * @note Exception safety: noexcept.
      */
     bool all_completed() const noexcept;
 
@@ -299,6 +312,7 @@ public:
      * @brief Get count of failed operations
      * 
      * @return Number of operations with errors
+     * @note Exception safety: noexcept.
      */
     size_t failed_count() const noexcept;
 
@@ -306,6 +320,7 @@ public:
      * @brief Check if batch is valid (not moved-from)
      * 
      * @return true if batch can accept operations
+     * @note Exception safety: noexcept.
      */
     bool is_valid() const noexcept;
 
@@ -313,6 +328,7 @@ public:
      * @brief Check if batch is in moved-from state
      * 
      * @return true if resources were transferred to another object
+     * @note Exception safety: noexcept.
      */
     bool is_moved_from() const noexcept;
 

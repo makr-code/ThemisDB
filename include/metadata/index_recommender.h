@@ -47,6 +47,10 @@ struct ColumnAccess {
     uint64_t    sort_count     = 0;   ///< Times used in ORDER BY / SORT
     double      avg_selectivity = 1.0; ///< Average selectivity (0=highly selective,1=not)
 
+    /**
+     * @brief TBD: Describe toJSON.
+     * @return Return value.
+     */
     json toJSON() const;
 };
 
@@ -61,6 +65,10 @@ struct IndexRecommendation {
     double      benefit_score;    ///< Estimated benefit (0–100)
     std::string rationale;        ///< Human-readable explanation
 
+    /**
+     * @brief TBD: Describe toJSON.
+     * @return Return value.
+     */
     json toJSON() const;
 };
 
@@ -159,23 +167,24 @@ public:
     /// Serialise all access stats to JSON.
     json toJSON() const;
 
-    /// Flush all in-memory access stats to RocksDB immediately.
-    /// No-op when no RocksDB instance was provided at construction.
+    /**
+     * @brief Flush all in-memory access stats to RocksDB immediately.
+     * @details No-op when no RocksDB instance was provided at construction.
+     */
     void persistStats();
 
-    /// Attach a StatisticsCollector to enable cost-model benefit scoring.
-    /// When set, `recommend()` uses StatisticsCollector cardinality and
-    /// selectivity data together with a write-amplification penalty to produce
-    /// more accurate benefit scores than the simple heuristic model.
-    /// Pass nullptr to revert to the heuristic model.
-    /// The pointed-to instance MUST outlive this IndexRecommender.
+    /**
+     * @brief Attach a StatisticsCollector to enable cost-model benefit scoring.
+     * @param[in,out] collector Input/output parameter.
+     * @details When set, `recommend()` uses StatisticsCollector cardinality and selectivity data together with a write-amplification penalty to produce more accurate benefit scores than the simple heuristic model. Pass nullptr to revert to the heuristic model. The pointed-to instance MUST outlive this IndexRecommender.
+     */
     void setStatisticsCollector(StatisticsCollector* collector);
 
-    /// Attach a MetricsCollector for emitting recommendation telemetry.
-    /// When set, each call to `recommend()` increments the counter
-    /// `metadata.index_recommendation.generated_total` labelled with the
-    /// table name.  Pass nullptr to stop emitting metrics.
-    /// The pointed-to instance MUST outlive this IndexRecommender.
+    /**
+     * @brief Attach a MetricsCollector for emitting recommendation telemetry.
+     * @param[in,out] metrics Input/output parameter.
+     * @details When set, each call to `recommend()` increments the counter `metadata.index_recommendation.generated_total` labelled with the table name. Pass nullptr to stop emitting metrics. The pointed-to instance MUST outlive this IndexRecommender.
+     */
     void setMetricsCollector(observability::MetricsCollector* metrics);
 
 private:
@@ -186,9 +195,13 @@ private:
     /// Compute the benefit score for a ColumnAccess record.
     double computeBenefit(const ColumnAccess& ca) const;
 
-    /// Compute the benefit score using StatisticsCollector data (cost-model).
-    /// Uses StatisticsCollector column selectivity for a more accurate estimate
-    /// and applies a write-amplification penalty based on table row count.
+    /**
+     * @brief Compute the benefit score using StatisticsCollector data (cost-model).
+     * @param[in] ca Input parameter.
+     * @param[in] tbl_stats Input parameter.
+     * @return Return value.
+     * @details Uses StatisticsCollector column selectivity for a more accurate estimate and applies a write-amplification penalty based on table row count.
+     */
     double computeCostModelBenefit(const ColumnAccess& ca, const TableStats& tbl_stats) const;
 
     /// Load access stats from RocksDB into stats_ (called once in constructor).

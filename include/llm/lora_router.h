@@ -95,6 +95,10 @@ struct RoutingDecision {
  * @brief Routing metrics for monitoring
  */
 struct RoutingMetrics {
+    /**
+     * @brief TBD: Describe ~RoutingMetrics.
+     * @return Return value.
+     */
     virtual ~RoutingMetrics() = default;
     size_t total_requests = 0;
     size_t successful_routes = 0;
@@ -104,6 +108,10 @@ struct RoutingMetrics {
     double avg_routing_latency_ms = 0.0;
     double avg_similarity_score = 0.0;
     
+    /**
+     * @brief TBD: Describe toJson.
+     * @return Return value.
+     */
     json toJson() const;
 };
 
@@ -167,6 +175,7 @@ public:
      * @param adapter_registry Registry for adapter metadata
      * @param load_balancer Load balancer for GPU-aware placement
      * @param lora_manager Multi-LoRA manager for adapter operations
+     * @return Return value.
      */
     explicit LoRARouter(
         std::shared_ptr<lora::EmbeddingProvider> embedding_provider,
@@ -182,6 +191,7 @@ public:
      * @param load_balancer Load balancer for GPU-aware placement
      * @param lora_manager Multi-LoRA manager for adapter operations
      * @param config Router configuration
+     * @return Return value.
      */
     explicit LoRARouter(
         std::shared_ptr<lora::EmbeddingProvider> embedding_provider,
@@ -242,6 +252,7 @@ public:
     
     /**
      * @brief Get current A/B test configuration
+     * @return Return value.
      */
     std::optional<ABTestConfig> getABTestConfig() const;
     
@@ -262,6 +273,7 @@ public:
     
     /**
      * @brief Get current rollout configuration
+     * @return Return value.
      */
     std::optional<RolloutConfig> getRolloutConfig() const;
     
@@ -290,6 +302,7 @@ public:
     
     /**
      * @brief Get fallback configuration
+     * @return Return value.
      */
     FallbackConfig getFallbackConfig() const;
     
@@ -311,6 +324,7 @@ public:
     
     /**
      * @brief Export metrics as JSON
+     * @return Return value.
      */
     json exportMetrics() const;
     
@@ -323,6 +337,7 @@ public:
     
     /**
      * @brief Get cache statistics
+     * @return Return value.
      */
     json getCacheStats() const;
 
@@ -417,11 +432,16 @@ private:
     
     /**
      * @brief Select fallback adapter
+     * @param[in] reason Input parameter.
+     * @return Return value.
      */
     RoutingDecision selectFallback(const std::string& reason);
     
     /**
      * @brief Calculate cosine similarity between embeddings
+     * @param[in] a Input parameter.
+     * @param[in] b Input parameter.
+     * @return Return value.
      */
     float cosineSimilarity(
         const std::vector<float>& a,
@@ -430,31 +450,40 @@ private:
     
     /**
      * @brief Update routing metrics
+     * @param[in] decision Input parameter.
      */
     void updateMetrics(const RoutingDecision& decision);
     
     /**
      * @brief Get cached decision if available
+     * @param[in] query Input parameter.
+     * @return Return value.
      */
     std::optional<RoutingDecision> getCachedDecision(const std::string& query);
     
     /**
      * @brief Add decision to cache
+     * @param[in] query Input parameter.
+     * @param[in] decision Input parameter.
      */
     void cacheDecision(const std::string& query, const RoutingDecision& decision);
     
     /**
      * @brief Compute hash for query (for caching)
+     * @param[in] query Input parameter.
+     * @return Return value.
      */
     std::string hashQuery(const std::string& query) const;
     
     /**
      * @brief Check if AB test is active
+     * @return True on success.
      */
     bool isABTestActive() const;
     
     /**
      * @brief Check if rollout is active
+     * @return True on success.
      */
     bool isRolloutActive() const;
     

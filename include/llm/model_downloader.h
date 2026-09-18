@@ -50,6 +50,10 @@ struct ModelDownloadConfig {
  * @brief Result of model download operation
  */
 struct ModelDownloadResult {
+    /**
+     * @brief TBD: Describe ~ModelDownloadResult.
+     * @return Return value.
+     */
     virtual ~ModelDownloadResult() = default;
     bool success = false;
     std::string model_path;           // Path to downloaded model
@@ -148,12 +152,18 @@ private:
     /**
      * @brief Pull model from Ollama API
      * Internal helper for downloadFromOllama
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     ModelDownloadResult pullFromOllama(const ModelDownloadConfig& config);
     
     /**
      * @brief Export model from Ollama to GGUF
      * After pulling, export to ThemisDB-compatible GGUF format
+     * @param[in] ollama_url Input parameter.
+     * @param[in] model_name Input parameter.
+     * @param[in] output_path Input parameter.
+     * @return True on success.
      */
     bool exportOllamaModel(
         const std::string& ollama_url,

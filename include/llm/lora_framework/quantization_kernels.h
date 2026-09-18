@@ -223,6 +223,7 @@ public:
      * @param src Host source
      * @param size Size in bytes
      * @param stream CUDA stream
+     * @return Return value.
      */
     cudaError_t transferToGPUAsync(
         void* dst,
@@ -237,6 +238,7 @@ public:
      * @param src Device source
      * @param size Size in bytes
      * @param stream CUDA stream
+     * @return Return value.
      */
     cudaError_t transferFromGPUAsync(
         void* dst,

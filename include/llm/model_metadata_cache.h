@@ -32,6 +32,10 @@ namespace llm {
  * - Unified monitoring with other ThemisDB caches
  */
 struct ModelMetadata {
+    /**
+     * @brief TBD: Describe ~ModelMetadata.
+     * @return Return value.
+     */
     virtual ~ModelMetadata() = default;
     std::string model_id;
     std::string path;
@@ -64,31 +68,41 @@ public:
     
     /**
      * @brief Store model metadata
+     * @param[in] model_id Input parameter.
+     * @param[in] metadata Input parameter.
      */
     void put(const std::string& model_id, const ModelMetadata& metadata);
     
     /**
      * @brief Get model metadata (lock-free read)
+     * @param[in] model_id Input parameter.
+     * @return Return value.
      */
     std::optional<ModelMetadata> get(const std::string& model_id) const;
     
     /**
      * @brief Update last accessed timestamp
+     * @param[in] model_id Input parameter.
      */
     void touch(const std::string& model_id);
     
     /**
      * @brief Check if model exists in cache
+     * @param[in] model_id Input parameter.
+     * @return True on success.
      */
     bool contains(const std::string& model_id) const;
     
     /**
      * @brief Remove model metadata
+     * @param[in] model_id Input parameter.
+     * @return True on success.
      */
     bool remove(const std::string& model_id);
     
     /**
      * @brief Get cache size
+     * @return Return value.
      */
     size_t size() const;
     
@@ -107,10 +121,16 @@ public:
         uint64_t total_accesses = 0;
     };
     
+    /**
+     * @brief TBD: Describe getStats.
+     * @return Return value.
+     */
     Stats getStats() const;
     
     /**
      * @brief Direct access to underlying cache for advanced operations
+     * @return Return value.
+     * @details Implements cache without additional internal calls.
      */
     CacheType& cache() { return cache_; }
     const CacheType& cache() const { return cache_; }

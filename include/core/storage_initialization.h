@@ -50,6 +50,7 @@ public:
      * @param eval Expression evaluator implementation. If null, build() will
      *        fail fast with a descriptive runtime error.
      * @return Reference to this builder for chaining
+     * @details Implements withEvaluator without additional internal calls.
      */
     StorageEngineBuilder& withEvaluator(IExpressionEvaluatorPtr eval) {
         evaluator_ = eval;
@@ -62,6 +63,7 @@ public:
      * @param enc Field encryption implementation. A null value is accepted at
      *        assignment time but rejected during build().
      * @return Reference to this builder for chaining
+     * @details Implements withEncryption without additional internal calls.
      */
     StorageEngineBuilder& withEncryption(IFieldEncryptionPtr enc) {
         encryption_ = enc;
@@ -74,6 +76,7 @@ public:
      * @param provider Key provider implementation. A null value is accepted at
      *        assignment time but rejected during build().
      * @return Reference to this builder for chaining
+     * @details Implements withKeyProvider without additional internal calls.
      */
     StorageEngineBuilder& withKeyProvider(IKeyProviderPtr provider) {
         key_provider_ = provider;
@@ -86,6 +89,7 @@ public:
      * @param index Index manager implementation. May be null to disable index
      *        integration in the constructed storage engine.
      * @return Reference to this builder for chaining
+     * @details Implements withIndexManager without additional internal calls.
      */
     StorageEngineBuilder& withIndexManager(IIndexManagerPtr index) {
         index_manager_ = index;
@@ -99,6 +103,7 @@ public:
         * @throws std::runtime_error if a required dependency is missing. The
         *         builder validates the evaluator, encryption provider, and key
         *         provider before constructing the engine.
+     * @details Implements build without additional internal calls.
      */
     std::shared_ptr<StorageEngine> build() {
         // Validate required dependencies
@@ -126,6 +131,7 @@ public:
      * build().
      * 
      * @return Builder with default implementations.
+     * @details Calls: withEvaluator(), StorageEngine::createDefaultEvaluator(), withEncryption(), StorageEngine::createDefaultEncryption(), withKeyProvider(), StorageEngine::createDefaultKeyProvider(), withIndexManager(), StorageEngine::createDefaultIndexManager().
      */
     static StorageEngineBuilder standard() {
         StorageEngineBuilder builder;

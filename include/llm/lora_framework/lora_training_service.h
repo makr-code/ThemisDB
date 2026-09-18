@@ -51,6 +51,12 @@ struct TrainingDataSample {
         };
     }
     
+    /**
+     * @brief TBD: Describe fromJSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     * @details Calls: contains().
+     */
     static TrainingDataSample fromJSON(const json& j) {
         TrainingDataSample sample = {};
         if (j.contains("input")) {
@@ -87,6 +93,12 @@ struct TrainingData {
         return j;
     }
     
+    /**
+     * @brief TBD: Describe fromJSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     * @details Calls: contains(), push_back().
+     */
     static TrainingData fromJSON(const json& j) {
         TrainingData data = {};
         if (j.contains("dataset_name")) {
@@ -108,6 +120,10 @@ struct TrainingData {
  * @brief Training result
  */
 struct TrainingResult {
+    /**
+     * @brief TBD: Describe ~TrainingResult.
+     * @return Return value.
+     */
     virtual ~TrainingResult() = default;
     bool success = false;
     std::string adapter_id;
@@ -138,6 +154,10 @@ struct TrainingResult {
  * @brief Training metrics
  */
 struct TrainingMetrics {
+    /**
+     * @brief TBD: Describe ~TrainingMetrics.
+     * @return Return value.
+     */
     virtual ~TrainingMetrics() = default;
     int current_epoch = 0;
     int total_epochs = 0;
@@ -228,7 +248,16 @@ public:
         bool auto_discover_shards = true;          // Auto-discover shards from topology
     };
     
+    /**
+     * @brief TBD: Describe LoRATrainingService.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit LoRATrainingService(const Config& config);
+    /**
+     * @brief TBD: Describe LoRATrainingService.
+     * @return Return value.
+     */
     explicit LoRATrainingService();
     ~LoRATrainingService() noexcept;
     

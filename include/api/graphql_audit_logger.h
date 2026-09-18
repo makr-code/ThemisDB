@@ -101,6 +101,9 @@ struct AuditLogEntry {
     
     /**
      * @brief Convert event type to string
+     * @param[in] type Input parameter.
+     * @return Return value.
+     * @details Implements eventTypeToString without additional internal calls.
      */
     static std::string eventTypeToString(EventType type) {
         switch (type) {
@@ -177,11 +180,18 @@ public:
      * and then each handler is called. This prevents slow handlers (file I/O,
      * network sinks, regex matching, etc.) from stalling concurrent API
      * threads. The buffer append and statistics update remain lock-protected.
+     * @param[in] entry Input parameter.
+     * @details Calls: lock(), handler(), size(), erase(), begin(), push_back().
      */
     void log(const AuditLogEntry& entry) {
         // Copy handlers under lock so we can invoke them without holding it.
         std::vector<LogHandler> handlers_copy;
         {
+            /**
+             * @brief TBD: Describe lock.
+             * @param[in] mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(mutex_);
             handlers_copy = handlers_;
         }
@@ -193,6 +203,11 @@ public:
 
         // Update buffer and stats under lock — both are fast in-memory ops.
         {
+            /**
+             * @brief TBD: Describe lock.
+             * @param[in] mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(mutex_);
 
             // Keep in memory buffer (circular buffer)
@@ -213,16 +228,29 @@ public:
      * 
      * Handlers are called for each log entry.
      * Example: write to file, send to monitoring system, etc.
+     * @param[in] handler Input parameter.
+     * @details Calls: lock(), push_back().
      */
     void addHandler(const LogHandler& handler) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         handlers_.push_back(handler);
     }
     
     /**
      * @brief Clear all handlers
+     * @details Calls: lock(), clear().
      */
     void clearHandlers() {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         handlers_.clear();
     }
@@ -239,6 +267,8 @@ public:
      * The returned handler captures a shared state object; ownership is
      * transferred to the internal handlers list and the caller need not
      * retain anything.
+     * @param[in] path Input parameter.
+     * @details Calls: addHandler(), lk(), ofs(), is_open(), toJSON().
      */
     void addFileHandler(const std::string& path) {
         // Shared state so the lambda captures by value without copying the path.
@@ -257,6 +287,11 @@ public:
      * @brief Get recent log entries
      */
     std::vector<AuditLogEntry> getRecent(size_t count) const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         size_t start = buffer_.size() > count ? buffer_.size() - count : 0;
@@ -267,6 +302,11 @@ public:
      * @brief Search log entries by user ID
      */
     std::vector<AuditLogEntry> searchByUser(const std::string& user_id) const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         std::vector<AuditLogEntry> results = {};
@@ -283,6 +323,11 @@ public:
      * @brief Search log entries by event type
      */
     std::vector<AuditLogEntry> searchByEventType(AuditLogEntry::EventType type) const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         std::vector<AuditLogEntry> results = {};
@@ -297,16 +342,29 @@ public:
     
     /**
      * @brief Clear the buffer
+     * @details Calls: lock().
      */
     void clear() {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         buffer_.clear();
     }
     
     /**
      * @brief Set buffer capacity
+     * @param[in] capacity Input parameter.
+     * @details Calls: lock(), size(), erase(), begin().
      */
     void setBufferCapacity(size_t capacity) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         buffer_capacity_ = capacity;
         
@@ -330,12 +388,19 @@ public:
     };
     
     Stats getStats() const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return stats_;
     }
     
     /**
      * @brief Singleton instance
+     * @return Return value.
+     * @details Implements instance without additional internal calls.
      */
     static AuditLogger& instance() {
         static AuditLogger instance;
@@ -368,13 +433,26 @@ public:
      * The file is opened in append mode on each write so that content
      * survives process restarts and multiple handler instances for the same
      * path do not conflict.
+     * @param[in] path Input parameter.
+     * @return Return value.
      */
     explicit FileAuditLogHandler(const std::string& path)
         : path_(path) {}
 
     /** Append @p entry as a JSON line to the configured file. */
     void operator()(const AuditLogEntry& entry) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
+        /**
+         * @brief TBD: Describe ofs.
+         * @param[in] path_ Input parameter.
+         * @param[in] app Input parameter.
+         * @return Return value.
+         */
         std::ofstream ofs(path_, std::ios::app);
         if (ofs.is_open()) {
             ofs << entry.toJSON() << "\n";
@@ -401,57 +479,122 @@ public:
         entry_.success = true;
     }
     
+    /**
+     * @brief TBD: Describe operationName.
+     * @param[in] name Input parameter.
+     * @return Return value.
+     * @details Implements operationName without additional internal calls.
+     */
     AuditLogBuilder& operationName(const std::string& name) {
         entry_.operation_name = name;
         return *this;
     }
     
+    /**
+     * @brief TBD: Describe operationType.
+     * @param[in] type Input parameter.
+     * @return Return value.
+     * @details Implements operationType without additional internal calls.
+     */
     AuditLogBuilder& operationType(const std::string& type) {
         entry_.operation_type = type;
         return *this;
     }
     
+    /**
+     * @brief TBD: Describe user.
+     * @param[in] user_id Input parameter.
+     * @return Return value.
+     * @details Implements user without additional internal calls.
+     */
     AuditLogBuilder& user(const std::string& user_id) {
         entry_.user_id = user_id;
         return *this;
     }
     
+    /**
+     * @brief TBD: Describe tenant.
+     * @param[in] tenant_id Input parameter.
+     * @return Return value.
+     * @details Implements tenant without additional internal calls.
+     */
     AuditLogBuilder& tenant(const std::string& tenant_id) {
         entry_.tenant_id = tenant_id;
         return *this;
     }
     
+    /**
+     * @brief TBD: Describe ipAddress.
+     * @param[in] ip Input parameter.
+     * @return Return value.
+     * @details Implements ipAddress without additional internal calls.
+     */
     AuditLogBuilder& ipAddress(const std::string& ip) {
         entry_.ip_address = ip;
         return *this;
     }
     
+    /**
+     * @brief TBD: Describe success.
+     * @param[in] succeeded Input parameter.
+     * @return Return value.
+     * @details Implements success without additional internal calls.
+     */
     AuditLogBuilder& success(bool succeeded) {
         entry_.success = succeeded;
         return *this;
     }
     
+    /**
+     * @brief TBD: Describe error.
+     * @param[in] error_msg Input parameter.
+     * @return Return value.
+     * @details Implements error without additional internal calls.
+     */
     AuditLogBuilder& error(const std::string& error_msg) {
         entry_.error_message = error_msg;
         entry_.success = false;
         return *this;
     }
     
+    /**
+     * @brief TBD: Describe queryHash.
+     * @param[in] hash Input parameter.
+     * @return Return value.
+     * @details Implements queryHash without additional internal calls.
+     */
     AuditLogBuilder& queryHash(const std::string& hash) {
         entry_.query_hash = hash;
         return *this;
     }
     
+    /**
+     * @brief TBD: Describe complexity.
+     * @param[in] complexity Input parameter.
+     * @return Return value.
+     * @details Implements complexity without additional internal calls.
+     */
     AuditLogBuilder& complexity(size_t complexity) {
         entry_.query_complexity = complexity;
         return *this;
     }
     
+    /**
+     * @brief TBD: Describe metadata.
+     * @param[in] key Input parameter.
+     * @param[in] value Input parameter.
+     * @return Return value.
+     * @details Implements metadata without additional internal calls.
+     */
     AuditLogBuilder& metadata(const std::string& key, const std::string& value) {
         entry_.metadata[key] = value;
         return *this;
     }
     
+    /**
+     * @brief TBD: Describe log.
+     * @details Calls: AuditLogger::instance().
+     */
     void log() {
         AuditLogger::instance().log(entry_);
     }

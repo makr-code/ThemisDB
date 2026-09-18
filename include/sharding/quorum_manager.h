@@ -97,6 +97,7 @@ public:
     /**
      * @brief Construct quorum manager with initial configuration.
      * @param config Quorum policy and timeout settings.
+     * @return Return value.
      */
     explicit QuorumManager(const QuorumConfig& config);
     ~QuorumManager() = default;

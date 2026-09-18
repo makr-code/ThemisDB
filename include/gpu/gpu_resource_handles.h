@@ -60,8 +60,10 @@ namespace gpu {
  */
 class GPUStreamHandle {
  public:
-    /// Create a new GPU stream
-    /// @throws std::runtime_error if stream creation fails
+    /**
+     * @brief Create a new GPU stream @throws std::runtime_error if stream creation fails
+     * @return Return value.
+     */
     explicit GPUStreamHandle();
 
     /// Destructor — destroy the stream
@@ -89,13 +91,18 @@ class GPUStreamHandle {
     /// Check if stream is valid
     bool isValid() const noexcept { return stream_ != nullptr; }
 
-    /// Synchronize (wait for all pending operations)
-    /// @throws std::runtime_error if synchronization fails
+    /**
+     * @brief Synchronize (wait for all pending operations) @throws std::runtime_error if synchronization fails
+     */
     void synchronize();
 
  private:
     cudaStream_t stream_;
 
+    /**
+     * @brief TBD: Describe destroy.
+     * @note Exception safety: noexcept.
+     */
     void destroy() noexcept;
 };
 
@@ -112,8 +119,10 @@ class GPUStreamHandle {
  */
 class GPUEventHandle {
  public:
-    /// Create a new GPU event
-    /// @throws std::runtime_error if event creation fails
+    /**
+     * @brief Create a new GPU event @throws std::runtime_error if event creation fails
+     * @return Return value.
+     */
     explicit GPUEventHandle();
 
     /// Destructor — destroy the event
@@ -145,16 +154,18 @@ class GPUEventHandle {
     /// Check if event is valid
     bool isValid() const noexcept { return event_ != nullptr; }
 
-    /// Record event in stream
-    /// @param stream CUDA stream to record in
-    /// @throws std::runtime_error if recording fails
+    /**
+     * @brief Record event in stream @param stream CUDA stream to record in @throws std::runtime_error if recording fails
+     * @param[in] stream Input parameter.
+     */
     void record(cudaStream_t stream);
 
     /// Query if event has completed
     bool isCompleted() noexcept;
 
-    /// Wait for event to complete
-    /// @throws std::runtime_error if wait fails
+    /**
+     * @brief Wait for event to complete @throws std::runtime_error if wait fails
+     */
     void wait();
 
  private:
@@ -164,6 +175,10 @@ class GPUEventHandle {
     void* event_;
 #endif
 
+    /**
+     * @brief TBD: Describe destroy.
+     * @note Exception safety: noexcept.
+     */
     void destroy() noexcept;
 };
 
@@ -222,7 +237,15 @@ class GPUKernelTimeoutGuard {
     std::atomic<bool> timed_out_{false};
     std::thread monitor_thread_;
 
+    /**
+     * @brief TBD: Describe monitorThread.
+     * @note Exception safety: noexcept.
+     */
     void monitorThread() noexcept;
+    /**
+     * @brief TBD: Describe cleanupStream.
+     * @note Exception safety: noexcept.
+     */
     void cleanupStream() noexcept;
 };
 

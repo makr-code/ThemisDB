@@ -257,6 +257,9 @@ enum class SubagentState {
 
 /**
  * @brief Human-readable state name.
+ * @param[in] state Input parameter.
+ * @return Pointer to the result.
+ * @details Implements subagentStateToString without additional internal calls.
  */
 inline const char* subagentStateToString(SubagentState state) {
     switch (state) {

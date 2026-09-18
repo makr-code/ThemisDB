@@ -37,6 +37,10 @@ namespace modules {
  */
 class IWasmRuntime {
 public:
+    /**
+     * @brief TBD: Describe ~IWasmRuntime.
+     * @return Return value.
+     */
     virtual ~IWasmRuntime() = default;
 
     /**
@@ -133,6 +137,7 @@ public:
      *
      * Must be called before any sandbox is created.
      * Duplicate names replace the previous registration.
+     * @param[in] desc Input parameter.
      */
     static void registerRuntime(WasmRuntimeDescriptor desc);
 
@@ -146,11 +151,14 @@ public:
 
     /**
      * @brief True if at least one backend is registered.
+     * @return True on success.
+     * @note Exception safety: noexcept.
      */
     static bool available() noexcept;
 
     /**
      * @brief List registered runtime names, sorted by descending priority.
+     * @return Return value.
      */
     static std::vector<std::string> registeredNames();
 

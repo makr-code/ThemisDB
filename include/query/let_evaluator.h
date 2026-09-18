@@ -46,8 +46,11 @@ class LetEvaluator {
 public:
     LetEvaluator() = default;
 
-    /// Wire a SecondaryIndexManager so that FULLTEXT/PHRASE/FUZZY AQL functions
-    /// can call through to the real index.  Caller retains ownership.
+    /**
+     * @brief Wire a SecondaryIndexManager so that FULLTEXT/PHRASE/FUZZY AQL functions can call through to the real index.
+     * @param[in,out] mgr Input/output parameter.
+     * @details Caller retains ownership. Implements setSecondaryIndexManager without additional internal calls.
+     */
     void setSecondaryIndexManager(themis::SecondaryIndexManager* mgr) {
         secondary_idx_mgr_ = mgr;
     }
@@ -106,64 +109,123 @@ private:
     // Optional secondary index manager for FULLTEXT/PHRASE/FUZZY AQL functions
     themis::SecondaryIndexManager* secondary_idx_mgr_ = nullptr;
 
-    // Helper: Evaluiert Field Access (z.B. doc.age, doc.address.city)
+    /**
+     * @brief Helper: Evaluiert Field Access (z.
+     * @param[in] fieldAccess Input parameter.
+     * @param[in] currentDoc Input parameter.
+     * @return Return value.
+     * @details B. doc.age, doc.address.city)
+     */
     nlohmann::json evaluateFieldAccess(
         const FieldAccessExpr* fieldAccess,
         const nlohmann::json& currentDoc
     ) const;
 
-    // Helper: Evaluiert Binary Operations (+, -, *, /, %, ==, !=, <, >, etc.)
+    /**
+     * @brief Helper: Evaluiert Binary Operations (+, -, *, /, %, ==, !
+     * @param[in] binOp Input parameter.
+     * @param[in] currentDoc Input parameter.
+     * @return Return value.
+     * @details =, <, >, etc.)
+     */
     nlohmann::json evaluateBinaryOp(
         const BinaryOpExpr* binOp,
         const nlohmann::json& currentDoc
     ) const;
 
-    // Helper: Evaluiert Unary Operations (-, NOT)
+    /**
+     * @brief Helper: Evaluiert Unary Operations (-, NOT)
+     * @param[in] unaryOp Input parameter.
+     * @param[in] currentDoc Input parameter.
+     * @return Return value.
+     */
     nlohmann::json evaluateUnaryOp(
         const UnaryOpExpr* unaryOp,
         const nlohmann::json& currentDoc
     ) const;
 
-    // Helper: Evaluiert Function Calls (LENGTH, CONCAT, SUBSTRING, etc.)
+    /**
+     * @brief Helper: Evaluiert Function Calls (LENGTH, CONCAT, SUBSTRING, etc.
+     * @param[in] funcCall Input parameter.
+     * @param[in] currentDoc Input parameter.
+     * @return Return value.
+     * @details )
+     */
     nlohmann::json evaluateFunctionCall(
         const FunctionCallExpr* funcCall,
         const nlohmann::json& currentDoc
     ) const;
 
-    // Helper: Evaluiert Array/Object Literal
+    /**
+     * @brief Helper: Evaluiert Array/Object Literal
+     * @param[in] lit Input parameter.
+     * @return Return value.
+     */
     nlohmann::json evaluateLiteral(const LiteralExpr* lit) const;
 
-    // Helper: Holt Wert aus nested JSON object (z.B. ["address", "city"])
+    /**
+     * @brief Helper: Holt Wert aus nested JSON object (z.
+     * @param[in] obj Input parameter.
+     * @param[in] path Input parameter.
+     * @return Return value.
+     * @details B. ["address", "city"])
+     */
     nlohmann::json getNestedValue(
         const nlohmann::json& obj,
         const std::vector<std::string>& path
     ) const;
 
-    // Helper: Arithmetische Operation auf zwei JSON-Werten
+    /**
+     * @brief Helper: Arithmetische Operation auf zwei JSON-Werten
+     * @param[in] op Input parameter.
+     * @param[in] left Input parameter.
+     * @param[in] right Input parameter.
+     * @return Return value.
+     */
     nlohmann::json applyArithmeticOp(
         const std::string& op,
         const nlohmann::json& left,
         const nlohmann::json& right
     ) const;
 
-    // Helper: Vergleichsoperation auf zwei JSON-Werten
+    /**
+     * @brief Helper: Vergleichsoperation auf zwei JSON-Werten
+     * @param[in] op Input parameter.
+     * @param[in] left Input parameter.
+     * @param[in] right Input parameter.
+     * @return Return value.
+     */
     nlohmann::json applyComparisonOp(
         const std::string& op,
         const nlohmann::json& left,
         const nlohmann::json& right
     ) const;
 
-    // Helper: Logische Operation (AND, OR)
+    /**
+     * @brief Helper: Logische Operation (AND, OR)
+     * @param[in] op Input parameter.
+     * @param[in] left Input parameter.
+     * @param[in] right Input parameter.
+     * @return Return value.
+     */
     nlohmann::json applyLogicalOp(
         const std::string& op,
         const nlohmann::json& left,
         const nlohmann::json& right
     ) const;
 
-    // Helper: Konvertiert JSON zu bool für Conditions
+    /**
+     * @brief Helper: Konvertiert JSON zu bool für Conditions
+     * @param[in] value Input parameter.
+     * @return True on success.
+     */
     bool toBool(const nlohmann::json& value) const;
 
-    // Helper: Konvertiert JSON zu number für Arithmetik
+    /**
+     * @brief Helper: Konvertiert JSON zu number für Arithmetik
+     * @param[in] value Input parameter.
+     * @return Return value.
+     */
     double toNumber(const nlohmann::json& value) const;
 };
 

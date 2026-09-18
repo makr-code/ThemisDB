@@ -34,6 +34,10 @@ struct HipaaRuleEvalResult {
     std::string description;       ///< Human-readable result description
     std::string recommendation;    ///< Remediation recommendation if not compliant
 
+    /**
+     * @brief TBD: Describe toJson.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
 };
 
@@ -164,8 +168,12 @@ public:
 
     // ---- Rule evaluation ------------------------------------------------
 
-    /// Evaluate all HIPAA rules against a single PolicyRule.
-    /// @return A list of evaluation results, one per HIPAA rule.
+    /**
+     * @brief Evaluate all HIPAA rules against a single PolicyRule.
+     * @param[in] rule Input parameter.
+     * @return Return value.
+     * @details @return A list of evaluation results, one per HIPAA rule.
+     */
     std::vector<HipaaRuleEvalResult> evaluateRule(const PolicyRule& rule) const;
 
     /// Return true if the PolicyRule satisfies all HIPAA checks.

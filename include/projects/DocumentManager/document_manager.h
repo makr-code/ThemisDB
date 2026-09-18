@@ -44,8 +44,16 @@ struct DocumentMeta {
     std::string chunking_strategy; // "fixed_size_512_overlap_50"
     json metadata;               // Additional user metadata (JSON object)
     
-    // Serialization
+    /**
+     * @brief Serialization
+     * @return Return value.
+     */
     json toJson() const;
+    /**
+     * @brief TBD: Describe fromJson.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static DocumentMeta fromJson(const json& j);
 };
 
@@ -65,8 +73,16 @@ struct ChunkMeta {
     std::vector<float> embedding; // Embedding vector (optional, can be in VectorIndex only)
     int64_t created_at;          // Unix timestamp (seconds)
     
-    // Serialization
+    /**
+     * @brief Serialization
+     * @return Return value.
+     */
     json toJson() const;
+    /**
+     * @brief TBD: Describe fromJson.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static ChunkMeta fromJson(const json& j);
 };
 
@@ -104,7 +120,18 @@ struct Status {
     Status(bool success, std::string msg = {}) 
         : ok(success), message(std::move(msg)) {}
     
+    /**
+     * @brief TBD: Describe OK.
+     * @return Return value.
+     * @details Implements OK without additional internal calls.
+     */
     static Status OK() { return Status{true, ""}; }
+    /**
+     * @brief TBD: Describe Error.
+     * @param[in] msg Input parameter.
+     * @return Return value.
+     * @details Calls: std::move().
+     */
     static Status Error(std::string msg) { return Status{false, std::move(msg)}; }
 };
 
@@ -196,6 +223,8 @@ public:
 
     /**
      * @brief Set chunking configuration
+     * @param[in] config Input parameter.
+     * @details Implements setChunkingConfig without additional internal calls.
      */
     void setChunkingConfig(const ChunkingConfig& config) {
         chunking_config_ = config;
@@ -215,16 +244,48 @@ private:
     
     ChunkingConfig chunking_config_;
 
-    // Helper methods
+    /**
+     * @brief Helper methods
+     * @return Return value.
+     */
     std::string generateUuid();
+    /**
+     * @brief TBD: Describe normalizeId.
+     * @param[in] id Input parameter.
+     * @param[in] prefix Input parameter.
+     * @return Return value.
+     */
     std::string normalizeId(const std::string& id, const std::string& prefix);
+    /**
+     * @brief TBD: Describe extractText.
+     * @param[in] blob Input parameter.
+     * @param[in] mime_type Input parameter.
+     * @return Return value.
+     */
     std::string extractText(const std::string& blob, const std::string& mime_type);
+    /**
+     * @brief TBD: Describe chunkText.
+     * @param[in] text Input parameter.
+     * @param[in] doc_id Input parameter.
+     * @param[in] embedding_dim Input parameter.
+     * @return Return value.
+     */
     std::vector<ChunkMeta> chunkText(
         const std::string& text,
         const std::string& doc_id,
         int embedding_dim
     );
+    /**
+     * @brief TBD: Describe generateEmbedding.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     std::vector<float> generateEmbedding(const std::string& text);
+    /**
+     * @brief TBD: Describe createChunkGraph.
+     * @param[in] chunk_ids Input parameter.
+     * @param[in] doc_id Input parameter.
+     */
     void createChunkGraph(const std::vector<std::string>& chunk_ids, const std::string& doc_id);
 };
 

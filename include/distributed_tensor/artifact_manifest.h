@@ -103,10 +103,13 @@ struct IntegrityReceipt {
 /// and query planning without carrying the tensor payload itself.
 class ArtifactManifest {
  public:
-  /// Construct a manifest for a tensor artifact.
-  ///
-  /// @param artifact_id Unique artifact identifier.
-  /// @param artifact_class Classification of the artifact.
+  /**
+   * @brief Construct a manifest for a tensor artifact.
+   * @param[in] artifact_id Input parameter.
+   * @param[in] artifact_class Input parameter.
+   * @return Return value.
+   * @details @param artifact_id Unique artifact identifier. @param artifact_class Classification of the artifact.
+   */
   explicit ArtifactManifest(const std::string& artifact_id,
                             ArtifactClass artifact_class);
 
@@ -177,9 +180,12 @@ class ArtifactManifest {
 
   // Shard placement management.
 
-  /// Add a shard placement.
-  ///
-  /// @param placement Shard placement metadata.
+  /**
+   * @brief Add a shard placement.
+   * @param[in] placement Input parameter.
+   * @note Exception safety: noexcept.
+   * @details @param placement Shard placement metadata.
+   */
   void add_shard_placement(ShardPlacement placement) noexcept;
 
   /// Retrieve all shard placements.
@@ -187,10 +193,13 @@ class ArtifactManifest {
     return shard_placements_;
   }
 
-  /// Retrieve a specific shard placement by shard ID.
-  ///
-  /// @param shard_id Shard identifier.
-  /// @return Optional shard placement if found.
+  /**
+   * @brief Retrieve a specific shard placement by shard ID.
+   * @param[in] shard_id Input parameter.
+   * @return Return value.
+   * @note Exception safety: noexcept.
+   * @details @param shard_id Shard identifier. @return Optional shard placement if found.
+   */
   std::optional<ShardPlacement> get_shard_placement(
       const std::string& shard_id) const noexcept;
 

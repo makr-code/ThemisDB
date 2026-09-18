@@ -53,29 +53,12 @@ struct CollectionMetadata {
     std::size_t                    estimated_count = 0; ///< Approximate document count (0 = unknown)
 };
 
-/// @brief Format a vector of CollectionMetadata into a human-readable / LLM-friendly schema context string.
-///
-/// The returned string is suitable for passing to
-/// @c AQLQueryBuilder::getCompletionSuggestions() or
-/// @c AQLQueryBuilder::getLLMSuggestion() as the @p schema_context argument,
-/// or it can be displayed to end users as schema documentation.
-///
-/// @param schema  Vector of collection metadata to format
-/// @return Formatted schema context string (empty if @p schema is empty)
-/// 
-/// Example output:
-/// @code
-/// Collection: users (document)
-///   - _key: string (indexed)
-///   - name: string (nullable)
-///   - age: integer (nullable)
-///   - tags: vector (nullable)
-/// 
-/// Collection: posts (document)
-///   - _key: string (indexed)
-///   - user_id: string
-///   - content: string (nullable)
-/// @endcode
+/**
+ * @brief @brief Format a vector of CollectionMetadata into a human-readable / LLM-friendly schema context string.
+ * @param[in] schema Input parameter.
+ * @return Return value.
+ * @details The returned string is suitable for passing to @c AQLQueryBuilder::getCompletionSuggestions() or @c AQLQueryBuilder::getLLMSuggestion() as the @p schema_context argument, or it can be displayed to end users as schema documentation. @param schema Vector of collection metadata to format @return Formatted schema context string (empty if @p schema is empty) Example output: @code Collection: users (document) - _key: string (indexed) - name: string (nullable) - age: integer (nullable) - tags: vector (nullable) Collection: posts (document) - _key: string (indexed) - user_id: string - content: string (nullable) @endcode
+ */
 std::string formatSchemaContext(const std::vector<CollectionMetadata>& schema);
 
 } // namespace aql

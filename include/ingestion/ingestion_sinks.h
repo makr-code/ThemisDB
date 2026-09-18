@@ -47,6 +47,10 @@ namespace ingestion {
  */
 class IGraphWriter {
 public:
+    /**
+     * @brief TBD: Describe ~IGraphWriter.
+     * @return Return value.
+     */
     virtual ~IGraphWriter() = default;
 
     /**
@@ -75,16 +79,20 @@ public:
      * @brief Convenience method: write an entire `BaseEntitySet`.
      *
      * Calls `writeEntities()` + `writeRelations()` in order.
+     * @param[in] entity_set Input parameter.
+     * @return Return value.
      */
     virtual Result<void> write(const BaseEntitySet& entity_set);
 
     /**
      * @brief Returns the number of nodes currently stored.
+     * @return Return value.
      */
     virtual std::size_t nodeCount() const = 0;
 
     /**
      * @brief Returns the number of edges currently stored.
+     * @return Return value.
      */
     virtual std::size_t edgeCount() const = 0;
 };
@@ -104,6 +112,10 @@ public:
  */
 class IVectorWriter {
 public:
+    /**
+     * @brief TBD: Describe ~IVectorWriter.
+     * @return Return value.
+     */
     virtual ~IVectorWriter() = default;
 
     /**
@@ -119,6 +131,7 @@ public:
 
     /**
      * @brief Returns the number of vectors currently indexed.
+     * @return Return value.
      */
     virtual std::size_t vectorCount() const = 0;
 
@@ -126,6 +139,8 @@ public:
      * @brief Retrieve a stored vector record by chunk_id.
      *
      * Returns nullptr when not found.
+     * @param[in] chunk_id Input parameter.
+     * @return Pointer to the result.
      */
     virtual const VectorRecord* findByChunkId(const std::string& chunk_id) const = 0;
 };
@@ -144,6 +159,10 @@ public:
  */
 class IDocWriter {
 public:
+    /**
+     * @brief TBD: Describe ~IDocWriter.
+     * @return Return value.
+     */
     virtual ~IDocWriter() = default;
 
     /**
@@ -158,6 +177,7 @@ public:
 
     /**
      * @brief Returns the number of documents written.
+     * @return Return value.
      */
     virtual std::size_t documentCount() const = 0;
 };
@@ -321,6 +341,7 @@ public:
      *
      * @param store    Backing store (must not be nullptr).
      * @throws std::invalid_argument when store is nullptr.
+     * @return Return value.
      */
     explicit DocumentStoreSinkAdapter(
         std::shared_ptr<themis::document::IDocumentStore> store);
@@ -382,6 +403,10 @@ public:
     const VectorRecord* findByChunkId(const std::string& chunk_id) const override;
 
 private:
+    /**
+     * @brief TBD: Describe ensureInitialized.
+     * @return Return value.
+     */
     Result<void> ensureInitialized() const;
 
     std::shared_ptr<themis::VectorIndexManager> vector_index_;
@@ -416,6 +441,10 @@ private:
  */
 class ITensorCoreBridge {
 public:
+    /**
+     * @brief TBD: Describe ~ITensorCoreBridge.
+     * @return Return value.
+     */
     virtual ~ITensorCoreBridge() = default;
 
     /**
@@ -430,6 +459,7 @@ public:
 
     /**
      * @brief Number of records successfully written since construction.
+     * @return Return value.
      */
     virtual std::size_t writeCount() const = 0;
 };
@@ -474,6 +504,12 @@ private:
     std::unordered_map<std::string, TensorCoreRecord> records_;
     std::size_t write_count_{0};
 
+    /**
+     * @brief TBD: Describe makeKey.
+     * @param[in] tenant_id Input parameter.
+     * @param[in] chunk_id Input parameter.
+     * @return Return value.
+     */
     static std::string makeKey(const std::string& tenant_id,
                                const std::string& chunk_id);
 };

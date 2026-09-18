@@ -557,6 +557,11 @@ public:
                            const FunctionContext&) const override {
         std::string str = args[0].get<std::string>();
         std::string pattern = args[1].get<std::string>();
+        /**
+         * @brief TBD: Describe re.
+         * @param[in] pattern Input parameter.
+         * @return Return value.
+         */
         std::regex re(pattern);
         return std::regex_search(str, re);
     }
@@ -590,6 +595,11 @@ public:
         std::string str = args[0].get<std::string>();
         std::string pattern = args[1].get<std::string>();
         std::string replacement = args[2].get<std::string>();
+        /**
+         * @brief TBD: Describe re.
+         * @param[in] pattern Input parameter.
+         * @return Return value.
+         */
         std::regex re(pattern);
         return std::regex_replace(str, re, replacement);
     }
@@ -625,6 +635,13 @@ public:
     }
     
 private:
+    /**
+     * @brief TBD: Describe levenshtein.
+     * @param[in] s1 Input parameter.
+     * @param[in] s2 Input parameter.
+     * @return Return value.
+     * @details Calls: length(), d(), std::min().
+     */
     static size_t levenshtein(const std::string& s1, const std::string& s2) {
         const size_t m = s1.length();
         const size_t n = s2.length();
@@ -658,9 +675,11 @@ private:
     }
 };
 
-// ============================================================================
-// Register String Functions
-// ============================================================================
+/**
+ * @brief ============================================================================ Register String Functions ============================================================================
+ * @param[in,out] reg Input/output parameter.
+ * @details Calls: registerFunction().
+ */
 
 inline void registerStringFunctions(FunctionRegistry& reg) {
     reg.registerFunction(std::make_unique<LengthFunction>());

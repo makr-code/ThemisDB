@@ -143,6 +143,7 @@ public:
      * PCM passthrough path.
      *
      * Roadmap ref: src/content/FUTURE_ENHANCEMENTS.md §TTS Audio Format Support
+     * @param[in] fn Input parameter.
      */
     void setMp3EncoderFn(AudioEncoderFn fn);
 
@@ -154,6 +155,7 @@ public:
      * PCM passthrough path.
      *
      * Roadmap ref: src/content/FUTURE_ENHANCEMENTS.md §TTS Audio Format Support
+     * @param[in] fn Input parameter.
      */
     void setOggEncoderFn(AudioEncoderFn fn);
 
@@ -177,6 +179,7 @@ public:
      * Pass `nullptr` to revert to the silence stub.
      *
      * Roadmap ref: src/content/FUTURE_ENHANCEMENTS.md §TTS Backend.
+     * @param[in] fn Input parameter.
      */
     void setSynthFn(TTSSynthFn fn);
 
@@ -212,26 +215,56 @@ private:
     // Injected PCM synthesis backend (null → silence stub fallback).
     TTSSynthFn synth_fn_;
 
-    // Internal methods
+    /**
+     * @brief Internal methods
+     * @return True on success.
+     */
     bool loadTTSModel();
+    /**
+     * @brief TBD: Describe unloadTTSModel.
+     */
     void unloadTTSModel();
     
+    /**
+     * @brief TBD: Describe synthesizeInternal.
+     * @param[in] text Input parameter.
+     * @param[in] options Input parameter.
+     * @return Return value.
+     */
     TTSResult synthesizeInternal(
         const std::string& text,
         const TTSOptions& options
     );
     
+    /**
+     * @brief TBD: Describe generatePCM.
+     * @param[in] text Input parameter.
+     * @param[in] options Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> generatePCM(
         const std::string& text,
         const TTSOptions& options
     );
     
+    /**
+     * @brief TBD: Describe convertToFormat.
+     * @param[in] pcm_data Input parameter.
+     * @param[in] format Input parameter.
+     * @param[in] sample_rate Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> convertToFormat(
         const std::vector<uint8_t>& pcm_data,
         const std::string& format,
         int sample_rate
     );
     
+    /**
+     * @brief TBD: Describe preprocessText.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     std::string preprocessText(const std::string& text);
 };
 

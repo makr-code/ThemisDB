@@ -133,6 +133,8 @@ public:
 
     /**
      * @brief Dequantise back to a (lossy) TTTrain with float32 cores.
+     * @param[in] qtrain Input parameter.
+     * @return Return value.
      */
     TTTrain dequantize(const QuantizedTrain& qtrain) const;
 
@@ -154,10 +156,30 @@ private:
          0.4407302f,  0.5626170f,  0.7229568f,  1.0f
     };
 
+    /**
+     * @brief TBD: Describe quantizeINT8.
+     * @param[in] core Input parameter.
+     * @return Return value.
+     */
     QuantizedCore quantizeINT8(const TTCore& core) const;
+    /**
+     * @brief TBD: Describe quantizeNF4.
+     * @param[in] core Input parameter.
+     * @return Return value.
+     */
     QuantizedCore quantizeNF4 (const TTCore& core) const;
 
+    /**
+     * @brief TBD: Describe dequantizeINT8.
+     * @param[in] qcore Input parameter.
+     * @return Return value.
+     */
     TTCore dequantizeINT8(const QuantizedCore& qcore) const;
+    /**
+     * @brief TBD: Describe dequantizeNF4.
+     * @param[in] qcore Input parameter.
+     * @return Return value.
+     */
     TTCore dequantizeNF4 (const QuantizedCore& qcore) const;
 
     /// Find nearest index in kNF4Table for a normalised value v ∈ [-1,1].

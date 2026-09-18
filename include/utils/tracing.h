@@ -70,8 +70,24 @@ public:
     explicit SamplingStrategy(Type type = Type::ALWAYS_ON, double probability = 1.0)
         : type_(type), probability_(probability) {}
 
+    /**
+     * @brief TBD: Describe alwaysOn.
+     * @return Return value.
+     * @details Calls: SamplingStrategy().
+     */
     static SamplingStrategy alwaysOn()  { return SamplingStrategy(Type::ALWAYS_ON, 1.0);  }
+    /**
+     * @brief TBD: Describe alwaysOff.
+     * @return Return value.
+     * @details Calls: SamplingStrategy().
+     */
     static SamplingStrategy alwaysOff() { return SamplingStrategy(Type::ALWAYS_OFF, 0.0); }
+    /**
+     * @brief TBD: Describe probability.
+     * @param[in] p Input parameter.
+     * @return Return value.
+     * @details Calls: SamplingStrategy().
+     */
     static SamplingStrategy probability(double p) {
         return SamplingStrategy(Type::PROBABILITY, p);
     }
@@ -79,10 +95,17 @@ public:
         return SamplingStrategy(Type::PARENT_BASED, root_probability);
     }
 
-    /// Adaptive sampler: automatically adjusts the sample probability based on
-    /// the current span creation rate to keep throughput near @p config.max_spans_per_second.
-    /// Copies of this strategy share the same rate-measurement state.
+    /**
+     * @brief Adaptive sampler: automatically adjusts the sample probability based on the current span creation rate to keep throughput near @p config.
+     * @return Return value.
+     * @details max_spans_per_second. Copies of this strategy share the same rate-measurement state.
+     */
     static SamplingStrategy adaptive();
+    /**
+     * @brief TBD: Describe adaptive.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     static SamplingStrategy adaptive(AdaptiveConfig config);
 
     /// Returns true if a new span with the given parent-sampled flag should be recorded.
@@ -91,9 +114,11 @@ public:
     Type   type()        const { return type_; }
     double probability() const { return probability_; }
 
-    /// Returns the current effective sample rate.
-    /// For ADAPTIVE strategies this reflects the most recently computed rate;
-    /// for all other strategies it equals probability().
+    /**
+     * @brief Returns the current effective sample rate.
+     * @return Return value.
+     * @details For ADAPTIVE strategies this reflects the most recently computed rate; for all other strategies it equals probability().
+     */
     double getEffectiveRate() const;
 
 private:
@@ -207,6 +232,7 @@ public:
     
     /**
      * Shutdown the tracer and flush remaining spans
+     * @brief TBD: Describe shutdown.
      */
     static void shutdown();
     
@@ -226,10 +252,28 @@ public:
         
         /**
          * Add an attribute to this span
+         * @brief TBD: Describe setAttribute.
+         * @param[in] key Input parameter.
+         * @param[in] value Input parameter.
          */
         void setAttribute(const std::string& key, const std::string& value);
+        /**
+         * @brief TBD: Describe setAttribute.
+         * @param[in] key Input parameter.
+         * @param[in] value Input parameter.
+         */
         void setAttribute(const std::string& key, int64_t value);
+        /**
+         * @brief TBD: Describe setAttribute.
+         * @param[in] key Input parameter.
+         * @param[in] value Input parameter.
+         */
         void setAttribute(const std::string& key, double value);
+        /**
+         * @brief TBD: Describe setAttribute.
+         * @param[in] key Input parameter.
+         * @param[in] value Input parameter.
+         */
         void setAttribute(const std::string& key, bool value);
         
         /**
@@ -260,6 +304,7 @@ public:
          * 
          * @see setStatus() to mark span with error status code
          * @see ErrorCode::ERR_TRACING_DEGRADED for tracing failures
+         * @brief TBD: Describe recordError.
          */
         void recordError(const std::string& errorMessage);
         
@@ -270,6 +315,7 @@ public:
         
         /**
          * Explicitly end the span (otherwise destructor will end it)
+         * @brief TBD: Describe end.
          */
         void end();
         
@@ -280,6 +326,8 @@ public:
         
         /**
          * Get span duration in milliseconds (for metrics)
+         * @brief TBD: Describe durationMs.
+         * @return Return value.
          */
         double durationMs() const;
         
@@ -287,6 +335,11 @@ public:
         friend class Tracer;
         
 #ifdef THEMIS_ENABLE_TRACING
+        /**
+         * @brief TBD: Describe Span.
+         * @param[in] span Input parameter.
+         * @return Return value.
+         */
         explicit Span(otel::nostd::shared_ptr<otel::trace::Span> span);
         otel::nostd::shared_ptr<otel::trace::Span> span_;
         otel::context::Context context_;
@@ -329,6 +382,7 @@ public:
      * @see startChildSpan() to explicitly specify parent
      * @see startSpanFromHeaders() for distributed tracing
      * @see Span::isValid() to check if creation succeeded
+     * @brief TBD: Describe startSpan.
      */
     static Span startSpan(const std::string& name);
      
@@ -366,6 +420,7 @@ public:
      * 
      * @see startSpan() for automatic parent detection
      * @see startSpanFromHeaders() for distributed tracing
+     * @brief TBD: Describe startChildSpan.
      */
     static Span startChildSpan(const std::string& name, const Span& parent);
 
@@ -433,22 +488,30 @@ public:
     
     /**
      * Get total number of spans created (for metrics)
+     * @brief TBD: Describe getTotalSpans.
+     * @return Return value.
      */
     static int64_t getTotalSpans();
     
     /**
      * Get active span count (for metrics)
+     * @brief TBD: Describe getActiveSpans.
+     * @return Return value.
      */
     static int64_t getActiveSpans();
 
     /**
      * Configure the sampling strategy used for new root spans.
      * This takes effect for all spans created after this call.
+     * @brief TBD: Describe setSamplingStrategy.
+     * @param[in] strategy Input parameter.
      */
     static void setSamplingStrategy(const SamplingStrategy& strategy);
 
     /**
      * Get the current sampling strategy.
+     * @brief TBD: Describe getSamplingStrategy.
+     * @return Return value.
      */
     static SamplingStrategy getSamplingStrategy();
 
@@ -459,12 +522,16 @@ public:
      *
      * Primarily intended for injecting the trace-ID into structured log
      * messages to correlate logs with traces.
+     * @brief TBD: Describe getCurrentTraceId.
+     * @return Return value.
      */
     static std::string getCurrentTraceId();
 
     /**
      * Get the span-ID of the most recently started span on this thread
      * as a 16-character hex string, or empty string when unavailable.
+     * @brief TBD: Describe getCurrentSpanId.
+     * @return Return value.
      */
     static std::string getCurrentSpanId();
 
@@ -487,6 +554,10 @@ public:
 
 private:
 #ifdef THEMIS_ENABLE_TRACING
+    /**
+     * @brief TBD: Describe getTracer.
+     * @return Return value.
+     */
     static otel::nostd::shared_ptr<otel::trace::Tracer> getTracer();
     static otel::nostd::shared_ptr<otel::trace::Tracer> tracer_;
 #endif
@@ -511,22 +582,51 @@ class ScopedSpan {
 public:
     explicit ScopedSpan(const std::string& name) : span_(Tracer::startSpan(name)), name_(name) {}
     
+    /**
+     * @brief TBD: Describe setAttribute.
+     * @param[in] key Input parameter.
+     * @param[in] value Input parameter.
+     * @details Implements setAttribute without additional internal calls.
+     */
     void setAttribute(const std::string& key, const std::string& value) {
         span_.setAttribute(key, value);
     }
     
+    /**
+     * @brief TBD: Describe setAttribute.
+     * @param[in] key Input parameter.
+     * @param[in] value Input parameter.
+     * @details Implements setAttribute without additional internal calls.
+     */
     void setAttribute(const std::string& key, int64_t value) {
         span_.setAttribute(key, value);
     }
     
+    /**
+     * @brief TBD: Describe setAttribute.
+     * @param[in] key Input parameter.
+     * @param[in] value Input parameter.
+     * @details Implements setAttribute without additional internal calls.
+     */
     void setAttribute(const std::string& key, double value) {
         span_.setAttribute(key, value);
     }
     
+    /**
+     * @brief TBD: Describe setAttribute.
+     * @param[in] key Input parameter.
+     * @param[in] value Input parameter.
+     * @details Implements setAttribute without additional internal calls.
+     */
     void setAttribute(const std::string& key, bool value) {
         span_.setAttribute(key, value);
     }
     
+    /**
+     * @brief TBD: Describe recordError.
+     * @param[in] errorMessage Input parameter.
+     * @details Implements recordError without additional internal calls.
+     */
     void recordError(const std::string& errorMessage) {
         span_.recordError(errorMessage);
     }
@@ -535,6 +635,11 @@ public:
         span_.setStatus(ok, description);
     }
     
+    /**
+     * @brief TBD: Describe span.
+     * @return Return value.
+     * @details Implements span without additional internal calls.
+     */
     Tracer::Span& span() { return span_; }
     
     ~ScopedSpan();
@@ -556,15 +661,48 @@ private:
  */
 class TracedSpan {
 public:
+    /**
+     * @brief TBD: Describe TracedSpan.
+     * @param[in] name Input parameter.
+     * @return Return value.
+     */
     explicit TracedSpan(const std::string& name);
     ~TracedSpan();
     
+    /**
+     * @brief TBD: Describe setAttribute.
+     * @param[in] key Input parameter.
+     * @param[in] value Input parameter.
+     */
     void setAttribute(const std::string& key, const std::string& value);
+    /**
+     * @brief TBD: Describe setAttribute.
+     * @param[in] key Input parameter.
+     * @param[in] value Input parameter.
+     */
     void setAttribute(const std::string& key, int64_t value);
+    /**
+     * @brief TBD: Describe setAttribute.
+     * @param[in] key Input parameter.
+     * @param[in] value Input parameter.
+     */
     void setAttribute(const std::string& key, double value);
+    /**
+     * @brief TBD: Describe setAttribute.
+     * @param[in] key Input parameter.
+     * @param[in] value Input parameter.
+     */
     void setAttribute(const std::string& key, bool value);
+    /**
+     * @brief TBD: Describe recordError.
+     * @param[in] errorMessage Input parameter.
+     */
     void recordError(const std::string& errorMessage);
     void setStatus(bool ok, const std::string& description = "");
+    /**
+     * @brief TBD: Describe span.
+     * @return Return value.
+     */
     Tracer::Span& span();
     
 private:

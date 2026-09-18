@@ -162,6 +162,15 @@ struct FailoverResult {
  */
 class AutoFailoverManager {
 public:
+    /**
+     * @brief TBD: Describe AutoFailoverManager.
+     * @param[in] config Input parameter.
+     * @param[in] replication_mgr Input parameter.
+     * @param[in] health_monitor Input parameter.
+     * @param[in] spare_manager Input parameter.
+     * @param[in] fencing_manager Input parameter.
+     * @return Return value.
+     */
     explicit AutoFailoverManager(
         const AutoFailoverConfig& config,
         std::shared_ptr<themisdb::replication::ReplicationManager> replication_mgr,
@@ -172,9 +181,20 @@ public:
 
     ~AutoFailoverManager();
 
-    // Lifecycle management
+    /**
+     * @brief Lifecycle management
+     * @return True on success.
+     */
     bool start();
+    /**
+     * @brief TBD: Describe stop.
+     * @return True on success.
+     */
     bool stop();
+    /**
+     * @brief TBD: Describe isRunning.
+     * @return True on success.
+     */
     bool isRunning() const;
 
     // Manual failover trigger (for testing/ops)
@@ -183,14 +203,36 @@ public:
         const std::string& target_promote_id = ""
     );
 
-    // Query current state
+    /**
+     * @brief Query current state
+     * @return Return value.
+     */
     FailoverOrchestratorState getState() const;
+    /**
+     * @brief TBD: Describe isFailoverInProgress.
+     * @return True on success.
+     */
     bool isFailoverInProgress() const;
+    /**
+     * @brief TBD: Describe getFailingNodes.
+     * @return Return value.
+     */
     std::vector<std::string> getFailingNodes() const;
+    /**
+     * @brief TBD: Describe getLastFailoverResult.
+     * @return Return value.
+     */
     std::optional<FailoverResult> getLastFailoverResult() const;
 
-    // Configuration management
+    /**
+     * @brief Configuration management
+     * @param[in] config Input parameter.
+     */
     void updateConfig(const AutoFailoverConfig& config);
+    /**
+     * @brief TBD: Describe getConfig.
+     * @return Return value.
+     */
     AutoFailoverConfig getConfig() const;
 
     // Statistics and monitoring
@@ -219,9 +261,15 @@ public:
         uint64_t total_recovery_attempts{0};
     };
 
+    /**
+     * @brief TBD: Describe getStatistics.
+     * @return Return value.
+     */
     Statistics getStatistics() const;
-    /// @brief Resets all statistics counters to zero.
-    /// @thread_safety Acquires stats_mutex_ internally; safe to call from any thread.
+    /**
+     * @brief @brief Resets all statistics counters to zero.
+     * @details @thread_safety Acquires stats_mutex_ internally; safe to call from any thread.
+     */
     void resetStatistics();
 
     // Event callback registration
@@ -231,25 +279,57 @@ public:
         const std::string&   // detail message
     )>;
 
+    /**
+     * @brief TBD: Describe registerEventCallback.
+     * @param[in] callback Input parameter.
+     */
     void registerEventCallback(FailoverEventCallback callback);
 
-    // State machine query — pure read, safe to call from any context.
+    /**
+     * @brief State machine query — pure read, safe to call from any context.
+     * @param[in] from Input parameter.
+     * @param[in] to Input parameter.
+     * @return True on success.
+     */
     bool canTransition(FailoverOrchestratorState from, FailoverOrchestratorState to) const;
 
 #ifdef THEMIS_TEST_BUILD
-    // Test-only accessors for phase-gated unit coverage (Phase 2/3).
+    /**
+     * @brief Test-only accessors for phase-gated unit coverage (Phase 2/3).
+     * @param[in] node_id Input parameter.
+     * @return True on success.
+     * @details Calls: preventSplitBrain().
+     */
     bool testPreventSplitBrain(const std::string& node_id) {
         return preventSplitBrain(node_id);
     }
+    /**
+     * @brief TBD: Describe testAttemptRecovery.
+     * @param[in] node_id Input parameter.
+     * @return True on success.
+     * @details Calls: attemptRecovery().
+     */
     bool testAttemptRecovery(const std::string& node_id) {
         return attemptRecovery(node_id);
     }
+    /**
+     * @brief TBD: Describe testEmitDiagnostic.
+     * @param[in] code Input parameter.
+     * @param[in] node_id Input parameter.
+     * @param[in] detail Input parameter.
+     * @details Calls: emitDiagnostic().
+     */
     void testEmitDiagnostic(FailoverErrorCode code,
                             const std::string& node_id,
                             const std::string& detail) {
         emitDiagnostic(code, node_id, detail);
     }
-    // FO-IMPL-003: exposes processFailover for Wave A fencing tests.
+    /**
+     * @brief FO-IMPL-003: exposes processFailover for Wave A fencing tests.
+     * @param[in] failed_node_id Input parameter.
+     * @return Return value.
+     * @details Calls: std::chrono::steady_clock::now(), processFailover().
+     */
     FailoverResult testProcessFailover(const std::string& failed_node_id) {
         FailoverTask task;
         task.failed_node_id = failed_node_id;
@@ -333,8 +413,11 @@ private:
     /// Monotonically increasing topology version; incremented on every new node seen.
     std::atomic<uint64_t> topology_version_{0};
 
-    /// @brief Captures an immutable topology snapshot under tracking_mutex_.
-    /// @thread_safety Caller must hold tracking_mutex_ (shared or exclusive).
+    /**
+     * @brief @brief Captures an immutable topology snapshot under tracking_mutex_.
+     * @return Return value.
+     * @details @thread_safety Caller must hold tracking_mutex_ (shared or exclusive).
+     */
     TopologySnapshot captureTopologySnapshot() const;
     std::optional<FailoverResult> last_failover_result_;
 
@@ -364,118 +447,186 @@ private:
     std::vector<FailoverEventCallback> event_callbacks_;
 
     // Helper methods - monitoring loop
-    /// @brief Main monitoring loop; runs on monitoring_thread_. Polls health, partitions, failures.
-    /// @thread_safety Must only be called from monitoring_thread_.
+    /**
+     * @brief @brief Main monitoring loop; runs on monitoring_thread_.
+     * @details Polls health, partitions, failures. @thread_safety Must only be called from monitoring_thread_.
+     */
     void monitoringLoop();
-    /// @brief Performs a bounded health-check round for all monitored nodes.
-    ///        Each individual call is capped by health_check_call_timeout_ms (default 5 s).
-    ///        On timeout, emits HEARTBEAT_MISSED diagnostic.
-    /// @thread_safety Called from monitoringLoop; must not be called from other threads.
+    /**
+     * @brief @brief Performs a bounded health-check round for all monitored nodes.
+     * @details Each individual call is capped by health_check_call_timeout_ms (default 5 s). On timeout, emits HEARTBEAT_MISSED diagnostic. @thread_safety Called from monitoringLoop; must not be called from other threads.
+     */
     void performHealthChecks();
-    /// @brief Checks for evidence of a network partition and triggers handling if detected.
-    /// @thread_safety Called from monitoringLoop.
+    /**
+     * @brief @brief Checks for evidence of a network partition and triggers handling if detected.
+     * @details @thread_safety Called from monitoringLoop.
+     */
     void checkForNetworkPartitions();
-    /// @brief Evaluates tracked failure counts and enqueues a FailoverTask if threshold exceeded.
-    ///        Uses topology snapshots to detect concurrent topology changes; retries once on race.
-    /// @thread_safety Called from monitoringLoop under failover_mutex_.
+    /**
+     * @brief @brief Evaluates tracked failure counts and enqueues a FailoverTask if threshold exceeded.
+     * @details Uses topology snapshots to detect concurrent topology changes; retries once on race. @thread_safety Called from monitoringLoop under failover_mutex_.
+     */
     void detectNodeFailures();
-    /// @brief Updates the per-node failure counter.
-    ///        Increments topology_version_ atomically when a previously unseen node is first observed.
-    /// @param node_id   The node whose health status changed.
-    /// @param is_healthy True if the node is currently healthy.
-    /// @thread_safety Must be called under tracking_mutex_.
+    /**
+     * @brief @brief Updates the per-node failure counter.
+     * @param[in] node_id Input parameter.
+     * @param[in] is_healthy Input parameter.
+     * @details Increments topology_version_ atomically when a previously unseen node is first observed. @param node_id The node whose health status changed. @param is_healthy True if the node is currently healthy. @thread_safety Must be called under tracking_mutex_.
+     */
     void updateFailureTracking(const std::string& node_id, bool is_healthy);
 
-    /// Performs a single bounded health-check for one node.
-    /// @returns true if the node is healthy; false if unhealthy or timed-out.
+    /**
+     * @brief Performs a single bounded health-check for one node.
+     * @param[in] node_id Input parameter.
+     * @return True on success.
+     * @note Exception safety: noexcept.
+     * @details @returns true if the node is healthy; false if unhealthy or timed-out.
+     */
     bool performBoundedHealthCheck(const std::string& node_id) noexcept;
 
     // ── Part B1: Adaptive interval + GC grace helpers ─────────────────────────
-    /// @brief Updates adaptive check interval from rolling p95 latency.
-    /// @param last_latency Duration of the most recent health-check call.
-    /// @thread_safety Acquires monitor_mutex_ internally; caller must NOT hold it.
+    /**
+     * @brief @brief Updates adaptive check interval from rolling p95 latency.
+     * @param[in] last_latency Input parameter.
+     * @details @param last_latency Duration of the most recent health-check call. @thread_safety Acquires monitor_mutex_ internally; caller must NOT hold it.
+     */
     void updateAdaptiveInterval(std::chrono::milliseconds last_latency);
 
-    /// @brief Checks if GC grace period applies; activates grace period on burst.
-    /// @param node_id Node that experienced the failure.
-    /// @returns true if the failure should be suppressed (grace period active).
-    /// @thread_safety Must be called under tracking_mutex_ (exclusive).
+    /**
+     * @brief @brief Checks if GC grace period applies; activates grace period on burst.
+     * @param[in] node_id Input parameter.
+     * @return True on success.
+     * @details @param node_id Node that experienced the failure. @returns true if the failure should be suppressed (grace period active). @thread_safety Must be called under tracking_mutex_ (exclusive).
+     */
     bool checkAndApplyGcGrace(const std::string& node_id);
 
     // Helper methods - failover orchestration
-    /// @brief Main failover orchestration loop; drains the failover task queue.
-    /// @thread_safety Must only be called from failover_thread_.
+    /**
+     * @brief @brief Main failover orchestration loop; drains the failover task queue.
+     * @details @thread_safety Must only be called from failover_thread_.
+     */
     void failoverLoop();
-    /// @brief Processes a single failover task end-to-end.
-    ///        Transitions state machine through VERIFYING_FAILURE → CHECKING_QUORUM →
-    ///        STARTING_LEADER_ELECTION → UPDATING_METADATA → COMPLETING_FAILOVER.
-    /// @param task The failover task to execute.
-    /// @returns FailoverResult with success flag, promoted node id, and error detail.
-    /// @thread_safety Must only be called from failoverLoop.
+    /**
+     * @brief @brief Processes a single failover task end-to-end.
+     * @param[in] task Input parameter.
+     * @return Return value.
+     * @details Transitions state machine through VERIFYING_FAILURE → CHECKING_QUORUM → STARTING_LEADER_ELECTION → UPDATING_METADATA → COMPLETING_FAILOVER. @param task The failover task to execute. @returns FailoverResult with success flag, promoted node id, and error detail. @thread_safety Must only be called from failoverLoop.
+     */
     FailoverResult processFailover(const FailoverTask& task);
-    /// @brief Waits for cluster quorum to be confirmed; persists QUORUM_REACHED to QuorumLog.
-    /// @returns true if quorum reached within quorum_timeout_ms; false otherwise.
-    ///          Fail-closed: returns false if QuorumLog write fails.
-    /// @thread_safety Must only be called from failoverLoop.
+    /**
+     * @brief @brief Waits for cluster quorum to be confirmed; persists QUORUM_REACHED to QuorumLog.
+     * @return True on success.
+     * @details @returns true if quorum reached within quorum_timeout_ms; false otherwise. Fail-closed: returns false if QuorumLog write fails. @thread_safety Must only be called from failoverLoop.
+     */
     bool checkAndWaitForQuorum();
+    /**
+     * @brief TBD: Describe startLeaderElection.
+     * @param[in] failed_node_id Input parameter.
+     * @return True on success.
+     */
     bool startLeaderElection(const std::string& failed_node_id);
-    /// @brief Selects the best available replica and promotes it to primary.
-    ///        Persists PROMOTE to QuorumLog before promotion.
-    ///        Verifies fencing via preventSplitBrain() before any replica promotion.
-    /// @param failed_node_id  The node that failed and must be replaced.
-    /// @param[out] promoted_id  Set to the node ID of the promoted replica on success.
-    /// @returns true if promotion succeeded.
-    /// @thread_safety Must only be called from failoverLoop.
+    /**
+     * @brief @brief Selects the best available replica and promotes it to primary.
+     * @param[in] failed_node_id Input parameter.
+     * @param[in,out] promoted_id Input/output parameter.
+     * @return True on success.
+     * @details Persists PROMOTE to QuorumLog before promotion. Verifies fencing via preventSplitBrain() before any replica promotion. @param failed_node_id The node that failed and must be replaced. @param[out] promoted_id Set to the node ID of the promoted replica on success. @returns true if promotion succeeded. @thread_safety Must only be called from failoverLoop.
+     */
     bool selectAndPromoteReplica(const std::string& failed_node_id, std::string& promoted_id);
+    /**
+     * @brief TBD: Describe activateSpareIfNeeded.
+     * @param[in] failed_node_id Input parameter.
+     * @return True on success.
+     */
     bool activateSpareIfNeeded(const std::string& failed_node_id);
+    /**
+     * @brief TBD: Describe updateMetadata.
+     * @param[in] old_leader_id Input parameter.
+     * @param[in] new_leader_id Input parameter.
+     * @return True on success.
+     */
     bool updateMetadata(const std::string& old_leader_id, const std::string& new_leader_id);
+    /**
+     * @brief TBD: Describe verifyFailoverCompletion.
+     * @param[in] task Input parameter.
+     * @return True on success.
+     */
     bool verifyFailoverCompletion(const FailoverTask& task);
 
     // Split-brain prevention
-    /// @brief Prevents split-brain by acquiring an exclusive epoch fence.
-    /// @details Fails closed when no EpochFencingManager is configured and
-    ///          enable_split_brain_prevention is true. Emits SPLIT_BRAIN_DETECTED
-    ///          diagnostic on failure.
-    /// @param failed_node_id Node being failed over.
-    /// @returns true if fencing succeeded or prevention is disabled; false if failed closed.
-    /// @thread_safety Must be called from failoverLoop thread only.
+    /**
+     * @brief @brief Prevents split-brain by acquiring an exclusive epoch fence.
+     * @param[in] failed_node_id Input parameter.
+     * @return True on success.
+     * @details @details Fails closed when no EpochFencingManager is configured and enable_split_brain_prevention is true. Emits SPLIT_BRAIN_DETECTED diagnostic on failure. @param failed_node_id Node being failed over. @returns true if fencing succeeded or prevention is disabled; false if failed closed. @thread_safety Must be called from failoverLoop thread only.
+     */
     bool preventSplitBrain(const std::string& failed_node_id);
 
-    /// @brief Selects the winning candidate on split-vote using deterministic tie-breaking.
-    /// @param candidates Non-empty vector of candidate node IDs with equal vote counts.
-    /// @returns The tie-breaking winner (smallest lexicographic node_id).
-    /// @thread_safety No locks required; operates on the passed-in copy.
+    /**
+     * @brief @brief Selects the winning candidate on split-vote using deterministic tie-breaking.
+     * @param[in] candidates Input parameter.
+     * @return Return value.
+     * @details @param candidates Non-empty vector of candidate node IDs with equal vote counts. @returns The tie-breaking winner (smallest lexicographic node_id). @thread_safety No locks required; operates on the passed-in copy.
+     */
     std::string resolveSplitVote(const std::vector<std::string>& candidates) const;
 
-    // Network partition handling
+    /**
+     * @brief Network partition handling
+     * @return True on success.
+     */
     bool handleNetworkPartition();
+    /**
+     * @brief TBD: Describe isNetworkPartitionedFromQuorum.
+     * @return True on success.
+     */
     bool isNetworkPartitionedFromQuorum() const;
 
-    // Recovery after failover
+    /**
+     * @brief Recovery after failover
+     * @param[in] failed_node_id Input parameter.
+     * @return True on success.
+     */
     bool attemptRecovery(const std::string& failed_node_id);
+    /**
+     * @brief TBD: Describe waitForNodeRecovery.
+     * @param[in] node_id Input parameter.
+     * @param[in] max_attempts Input parameter.
+     * @return True on success.
+     */
     bool waitForNodeRecovery(const std::string& node_id, uint32_t max_attempts);
 
     // State machine
-    /// @brief Transitions the orchestrator state machine to new_state.
-    ///        Logs a warning if the transition is not in the canonical table.
-    ///        Valid canonical transitions:
-    ///        IDLE → VERIFYING_FAILURE → CHECKING_QUORUM →
-    ///        STARTING_LEADER_ELECTION → LEADER_ELECTION_IN_PROGRESS →
-    ///        UPDATING_METADATA → COMPLETING_FAILOVER → IDLE.
-    ///        FAILED is reachable from any state; IDLE is always reachable as reset.
-    /// @param new_state Target state.
-    /// @thread_safety Must be called under failover_mutex_.
+    /**
+     * @brief @brief Transitions the orchestrator state machine to new_state.
+     * @param[in] new_state Input parameter.
+     * @details Logs a warning if the transition is not in the canonical table. Valid canonical transitions: IDLE → VERIFYING_FAILURE → CHECKING_QUORUM → STARTING_LEADER_ELECTION → LEADER_ELECTION_IN_PROGRESS → UPDATING_METADATA → COMPLETING_FAILOVER → IDLE. FAILED is reachable from any state; IDLE is always reachable as reset. @param new_state Target state. @thread_safety Must be called under failover_mutex_.
+     */
     void transitionState(FailoverOrchestratorState new_state);
 
-    // Unified diagnostics helper — logs the canonical error code and fires event callbacks.
-    // Exception-safe guarantee: Basic (noexcept wrapper ensures no exceptions escape to caller)
+    /**
+     * @brief Unified diagnostics helper — logs the canonical error code and fires event callbacks.
+     * @param[in] code Input parameter.
+     * @param[in] node_id Input parameter.
+     * @param[in] detail Input parameter.
+     * @note Exception safety: noexcept.
+     * @details Exception-safe guarantee: Basic (noexcept wrapper ensures no exceptions escape to caller)
+     */
     void emitDiagnostic(FailoverErrorCode code,
                         const std::string& node_id,
                         const std::string& detail) noexcept;
 
-    // Logging and callbacks
-    // Exception-safe guarantee: Basic (catches all exceptions from callbacks internally)
+    /**
+     * @brief Logging and callbacks Exception-safe guarantee: Basic (catches all exceptions from callbacks internally)
+     * @param[in] type Input parameter.
+     * @param[in] node_id Input parameter.
+     * @param[in] detail Input parameter.
+     * @note Exception safety: noexcept.
+     */
     void emitEvent(FailoverEventType type, const std::string& node_id, const std::string& detail) noexcept;
+    /**
+     * @brief TBD: Describe updateStatistics.
+     * @param[in] result Input parameter.
+     */
     void updateStatistics(const FailoverResult& result);
 
     /// Stores a timed-out health-check future so the monitoring loop doesn't block.

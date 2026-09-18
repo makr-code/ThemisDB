@@ -61,6 +61,7 @@ public:
     /**
      * @brief Construct health/error service with configuration
      * @param config Service configuration
+     * @return Return value.
      */
     explicit HealthErrorService(const Config& config);
     

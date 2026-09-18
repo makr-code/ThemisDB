@@ -102,6 +102,11 @@ public:
     GPUTimeSliceScheduler(const GPUTimeSliceScheduler&) = delete;
     GPUTimeSliceScheduler& operator=(const GPUTimeSliceScheduler&) = delete;
 
+    /**
+     * @brief TBD: Describe GetInstance.
+     * @return Return value.
+     * @details Implements GetInstance without additional internal calls.
+     */
     static GPUTimeSliceScheduler& GetInstance() {
         static GPUTimeSliceScheduler inst;
         return inst;
@@ -125,21 +130,26 @@ public:
      * @brief Unregister a tenant and discard any pending queue entries.
      *
      * @return true if the tenant was found and removed; false otherwise.
+     * @param[in] tenant_id Input parameter.
      */
     bool unregisterTenant(const std::string& tenant_id);
 
     /**
      * @brief Return true if the tenant is currently registered.
+     * @param[in] tenant_id Input parameter.
+     * @return True on success.
      */
     bool hasTenant(const std::string& tenant_id) const;
 
     /**
      * @brief Return the number of registered tenants.
+     * @return Return value.
      */
     size_t tenantCount() const;
 
     /**
      * @brief Return all registered tenant identifiers.
+     * @return Return value.
      */
     std::vector<std::string> tenantIds() const;
 
@@ -154,6 +164,8 @@ public:
      * dispatched in a future `dispatch()` call.
      *
      * @return true on success; false if the tenant is not registered.
+     * @param[in] tenant_id Input parameter.
+     * @param[in] item Input parameter.
      */
     bool submit(const std::string& tenant_id, GPULauncher::WorkItem item);
 
@@ -161,6 +173,8 @@ public:
      * @brief Return the number of items currently queued for @p tenant_id.
      *
      * Returns 0 if the tenant is not registered.
+     * @param[in] tenant_id Input parameter.
+     * @return Return value.
      */
     size_t queueDepth(const std::string& tenant_id) const;
 
@@ -198,6 +212,7 @@ public:
 
     /**
      * @brief Return true when all tenant queues are empty.
+     * @return True on success.
      */
     bool allQueuesEmpty() const;
 
@@ -209,16 +224,20 @@ public:
      * @brief Return stats for a specific tenant.
      *
      * Returns a zero-filled TenantStats if the tenant is not registered.
+     * @param[in] tenant_id Input parameter.
+     * @return Return value.
      */
     TenantStats getTenantStats(const std::string& tenant_id) const;
 
     /**
      * @brief Return stats for all registered tenants.
+     * @return Return value.
      */
     std::vector<TenantStats> getAllTenantStats() const;
 
     /**
      * @brief Return aggregate scheduler statistics.
+     * @return Return value.
      */
     Stats getStats() const;
 

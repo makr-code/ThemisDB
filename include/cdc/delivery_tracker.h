@@ -210,11 +210,13 @@ public:
 
     /**
      * @brief Return statistics for all tracked consumers.
+     * @return Return value.
      */
     std::vector<ConsumerDeliveryStats> getAllStats() const;
 
     /**
      * @brief Return the number of currently tracked consumers.
+     * @return Return value.
      */
     size_t consumerCount() const;
 
@@ -245,7 +247,13 @@ private:
     std::condition_variable cv_;
     std::mutex cv_mutex_;
 
+    /**
+     * @brief TBD: Describe redeliveryThreadFunc.
+     */
     void redeliveryThreadFunc();
+    /**
+     * @brief TBD: Describe checkAndRedeliver.
+     */
     void checkAndRedeliver();
 };
 

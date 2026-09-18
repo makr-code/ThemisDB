@@ -311,6 +311,11 @@ inline KernelExecutionResult executeKernelWithTimeout(
                          " at " + __FILE__ + ":" + std::to_string(__LINE__); \
         auto logger = spdlog::get("gpu"); \
         if (logger) { logger->error("{}", msg); } \
+        /**
+         * @brief TBD: Describe runtime_error.
+         * @param[in] msg Input parameter.
+         * @return Return value.
+         */
         throw std::runtime_error(msg); \
     } \
 } while(0)

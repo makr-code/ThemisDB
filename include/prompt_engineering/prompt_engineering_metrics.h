@@ -63,48 +63,186 @@ public:
     /// Signature of the alert callback
     using AlertCallback = std::function<void(const AlertEvent&)>;
 
+    /**
+     * @brief TBD: Describe PromptEngineeringMetrics.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit PromptEngineeringMetrics(const Config& config);
+    /**
+     * @brief TBD: Describe PromptEngineeringMetrics.
+     * @return Return value.
+     */
     explicit PromptEngineeringMetrics();
     ~PromptEngineeringMetrics() = default;
 
-    // Optimization metrics
+    /**
+     * @brief Optimization metrics
+     * @param[in] prompt_id Input parameter.
+     */
     void recordOptimizationAttempt(const std::string& prompt_id);
+    /**
+     * @brief TBD: Describe recordOptimizationSuccess.
+     * @param[in] prompt_id Input parameter.
+     * @param[in] improvement Input parameter.
+     */
     void recordOptimizationSuccess(const std::string& prompt_id, double improvement);
+    /**
+     * @brief TBD: Describe recordOptimizationFailure.
+     * @param[in] prompt_id Input parameter.
+     * @param[in] reason Input parameter.
+     */
     void recordOptimizationFailure(const std::string& prompt_id, const std::string& reason);
+    /**
+     * @brief TBD: Describe recordOptimizationDuration.
+     * @param[in] prompt_id Input parameter.
+     * @param[in] duration_ms Input parameter.
+     */
     void recordOptimizationDuration(const std::string& prompt_id, double duration_ms);
+    /**
+     * @brief TBD: Describe recordOptimizationIterations.
+     * @param[in] prompt_id Input parameter.
+     * @param[in] iterations Input parameter.
+     */
     void recordOptimizationIterations(const std::string& prompt_id, int iterations);
 
-    // A/B testing metrics
+    /**
+     * @brief A/B testing metrics
+     * @param[in] test_id Input parameter.
+     * @param[in] prompt_id Input parameter.
+     */
     void recordABTestStart(const std::string& test_id, const std::string& prompt_id);
+    /**
+     * @brief TBD: Describe recordABTestObservation.
+     * @param[in] test_id Input parameter.
+     * @param[in] version Input parameter.
+     * @param[in] success Input parameter.
+     */
     void recordABTestObservation(const std::string& test_id, const std::string& version, bool success);
+    /**
+     * @brief TBD: Describe recordABTestCompletion.
+     * @param[in] test_id Input parameter.
+     * @param[in] winner Input parameter.
+     * @param[in] confidence Input parameter.
+     */
     void recordABTestCompletion(const std::string& test_id, const std::string& winner, double confidence);
+    /**
+     * @brief TBD: Describe recordABTestDuration.
+     * @param[in] test_id Input parameter.
+     * @param[in] duration_seconds Input parameter.
+     */
     void recordABTestDuration(const std::string& test_id, double duration_seconds);
+    /**
+     * @brief TBD: Describe recordActiveABTests.
+     * @param[in] count Input parameter.
+     */
     void recordActiveABTests(int count);
 
-    // Performance tracking metrics
+    /**
+     * @brief Performance tracking metrics
+     * @param[in] prompt_id Input parameter.
+     * @param[in] success Input parameter.
+     * @param[in] latency_ms Input parameter.
+     */
     void recordPromptExecution(const std::string& prompt_id, bool success, double latency_ms);
+    /**
+     * @brief TBD: Describe recordPromptSuccessRate.
+     * @param[in] prompt_id Input parameter.
+     * @param[in] rate Input parameter.
+     */
     void recordPromptSuccessRate(const std::string& prompt_id, double rate);
+    /**
+     * @brief TBD: Describe recordPromptAverageLatency.
+     * @param[in] prompt_id Input parameter.
+     * @param[in] latency_ms Input parameter.
+     */
     void recordPromptAverageLatency(const std::string& prompt_id, double latency_ms);
+    /**
+     * @brief TBD: Describe recordPromptExecutionCount.
+     * @param[in] prompt_id Input parameter.
+     * @param[in] count Input parameter.
+     */
     void recordPromptExecutionCount(const std::string& prompt_id, int64_t count);
 
-    // Feedback collection metrics
+    /**
+     * @brief Feedback collection metrics
+     * @param[in] prompt_id Input parameter.
+     * @param[in] type Input parameter.
+     */
     void recordFeedback(const std::string& prompt_id, const std::string& type);
+    /**
+     * @brief TBD: Describe recordFeedbackSeverity.
+     * @param[in] prompt_id Input parameter.
+     * @param[in] severity Input parameter.
+     */
     void recordFeedbackSeverity(const std::string& prompt_id, double severity);
+    /**
+     * @brief TBD: Describe recordHallucinationDetection.
+     * @param[in] prompt_id Input parameter.
+     */
     void recordHallucinationDetection(const std::string& prompt_id);
+    /**
+     * @brief TBD: Describe recordFailedQuery.
+     * @param[in] prompt_id Input parameter.
+     * @param[in] failure_type Input parameter.
+     */
     void recordFailedQuery(const std::string& prompt_id, const std::string& failure_type);
+    /**
+     * @brief TBD: Describe recordTotalFeedbackCount.
+     * @param[in] prompt_id Input parameter.
+     * @param[in] count Input parameter.
+     */
     void recordTotalFeedbackCount(const std::string& prompt_id, int64_t count);
+    /**
+     * @brief TBD: Describe recordPositiveRatio.
+     * @param[in] prompt_id Input parameter.
+     * @param[in] ratio Input parameter.
+     */
     void recordPositiveRatio(const std::string& prompt_id, double ratio);
 
-    // Version control metrics
+    /**
+     * @brief Version control metrics
+     * @param[in] prompt_id Input parameter.
+     * @param[in] branch Input parameter.
+     */
     void recordVersionCommit(const std::string& prompt_id, const std::string& branch);
+    /**
+     * @brief TBD: Describe recordVersionRollback.
+     * @param[in] prompt_id Input parameter.
+     */
     void recordVersionRollback(const std::string& prompt_id);
+    /**
+     * @brief TBD: Describe recordBranchCreation.
+     * @param[in] prompt_id Input parameter.
+     */
     void recordBranchCreation(const std::string& prompt_id);
+    /**
+     * @brief TBD: Describe recordMergeOperation.
+     * @param[in] prompt_id Input parameter.
+     * @param[in] strategy Input parameter.
+     * @param[in] success Input parameter.
+     */
     void recordMergeOperation(const std::string& prompt_id, const std::string& strategy, bool success);
+    /**
+     * @brief TBD: Describe recordVersionCount.
+     * @param[in] prompt_id Input parameter.
+     * @param[in] count Input parameter.
+     */
     void recordVersionCount(const std::string& prompt_id, int count);
 
-    // Integration metrics
+    /**
+     * @brief Integration metrics
+     * @param[in] before Input parameter.
+     */
     void recordIntegrationExecution(bool before);  // true=beforeExecution, false=afterExecution
+    /**
+     * @brief TBD: Describe recordBackgroundWorkerCycle.
+     */
     void recordBackgroundWorkerCycle();
+    /**
+     * @brief TBD: Describe recordBackgroundWorkerDuration.
+     * @param[in] duration_ms Input parameter.
+     */
     void recordBackgroundWorkerDuration(double duration_ms);
 
     // -------------------------------------------------------------------------
@@ -116,6 +254,7 @@ public:
      *
      * Called by `PromptEngineeringIntegration` when an optional reflection
      * pass begins (i.e., `ReflectionTuner::tune()` is invoked).
+     * @param[in] prompt_id Input parameter.
      */
     void recordReflectionCycleStart(const std::string& prompt_id);
 
@@ -133,6 +272,7 @@ public:
     /**
      * @brief Record that the `ReflectionHallucinationGuard` fired and halted
      *        the reflection cycle early.
+     * @param[in] prompt_id Input parameter.
      */
     void recordReflectionGuardFired(const std::string& prompt_id);
 
@@ -141,6 +281,8 @@ public:
      *
      * @p delta may be negative when the guard fires and the best-response
      * was the initial one.
+     * @param[in] prompt_id Input parameter.
+     * @param[in] delta Input parameter.
      */
     void recordReflectionQualityDelta(const std::string& prompt_id,
                                        double delta);

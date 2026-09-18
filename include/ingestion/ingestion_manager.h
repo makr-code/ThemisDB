@@ -366,6 +366,9 @@ struct DocumentValidationResult {
 
     DocumentValidationResult() = default;
 
+     * @param[in] field Input parameter.
+     * @param[in] message Input parameter.
+     * @details Calls: push_back().
     /** @brief Add a violation and mark the result invalid */
     void addViolation(const std::string& field, const std::string& message) {
         is_valid = false;
@@ -602,12 +605,22 @@ public:
 
     /// Append a lineage record (thread-safe).
     void record(IngestionLineageRecord r) {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mutex_);
         records_.push_back(std::move(r));
     }
 
     /// Return all records whose `source_id` matches (thread-safe).
     std::vector<IngestionLineageRecord> getBySource(const std::string& source_id) const {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mutex_);
         std::vector<IngestionLineageRecord> out = {};
 
@@ -621,6 +634,11 @@ public:
 
     /// Return all records whose `run_correlation_id` matches (thread-safe).
     std::vector<IngestionLineageRecord> getByCorrelationId(const std::string& run_id) const {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mutex_);
         std::vector<IngestionLineageRecord> out = {};
 
@@ -634,18 +652,33 @@ public:
 
     /// Return a copy of all stored records (thread-safe).
     std::vector<IngestionLineageRecord> getAll() const {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mutex_);
         return records_;
     }
 
     /// Remove all records (thread-safe).
     void clear() {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mutex_);
         records_.clear();
     }
 
     /// Number of records currently stored (thread-safe).
     size_t size() const {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mutex_);
         return records_.size();
     }
@@ -696,12 +729,14 @@ public:
      * @brief Construct a store rooted at the given directory
      * @param checkpoint_dir Directory where checkpoint files are persisted.
      *        The directory must already exist (this class does not create it).
+     * @return Return value.
      */
     explicit CheckpointStore(const std::string& checkpoint_dir);
 
     /**
      * @brief Write (or overwrite) a checkpoint to disk
      * @return true on success
+     * @param[in] cp Input parameter.
      */
     bool write(const IngestionCheckpoint& cp);
 
@@ -716,15 +751,23 @@ public:
     /**
      * @brief Delete the checkpoint file for a source
      * @return true if the file existed and was removed
+     * @param[in] source_id Input parameter.
      */
     bool clear(const std::string& source_id);
 
     /**
      * @brief Check whether a checkpoint exists for a source
+     * @param[in] source_id Input parameter.
+     * @return True on success.
      */
     bool exists(const std::string& source_id) const;
 
 private:
+    /**
+     * @brief TBD: Describe checkpointPath.
+     * @param[in] source_id Input parameter.
+     * @return Return value.
+     */
     std::string checkpointPath(const std::string& source_id) const;
 
     std::string dir_;
@@ -809,6 +852,7 @@ public:
     /**
      * @brief Construct ingestion manager
      * @param db_connection Database connection string or handle
+     * @return Return value.
      */
     explicit IngestionManager(const std::string& db_connection);
     
@@ -929,6 +973,7 @@ public:
 
     /**
      * @brief Check whether dry-run mode is active
+     * @return True on success.
      */
     bool isDryRun() const;
 
@@ -974,6 +1019,7 @@ public:
 
     /**
      * @brief Return the current retry / back-off configuration
+     * @return Return value.
      */
     RetryConfig getRetryConfig() const;
 
@@ -982,6 +1028,7 @@ public:
      *
      * Used internally by `IngestionAdminApi::retryQuarantineItem()` to obtain
      * the injectable write function without exposing the Impl directly.
+     * @return Return value.
      */
     DocumentWriteFn getDocumentWriteFn() const;
 
@@ -990,6 +1037,7 @@ public:
      *
      * Counts every call to `IngestionAdminApi::retryQuarantineItem()` that
      * resulted in a successful re-write and removal from quarantine.
+     * @return Return value.
      */
     size_t getQuarantineRetrySuccessCount() const;
 
@@ -1070,6 +1118,7 @@ public:
 
     /**
      * @brief Check whether incremental mode is active
+     * @return True on success.
      */
     bool isIncrementalMode() const;
 
@@ -1088,6 +1137,7 @@ public:
      *
      * Call this to force a full re-ingest on the next run.
      * @return true if a checkpoint existed and was removed
+     * @param[in] source_id Input parameter.
      */
     bool clearCheckpoint(const std::string& source_id);
 
@@ -1098,6 +1148,7 @@ public:
      * by this manager will have the supplied function installed via
      * `setHttpGetForTesting()` before its first use.  Pass an empty
      * `ApiHttpGetFn{}` to restore real HTTP.
+     * @param[in] fn Input parameter.
      */
     void setApiHttpGetForTesting(ApiHttpGetFn fn);
 
@@ -1109,6 +1160,7 @@ public:
      * exercise both the success and failure code paths of the quarantine retry
      * loop.  Pass an empty `DocumentWriteFn{}` to restore the default
      * behaviour (always succeed).
+     * @param[in] fn Input parameter.
      */
     void setDocumentWriteForTesting(DocumentWriteFn fn);
 
@@ -1168,6 +1220,7 @@ public:
 
     /**
      * @brief Return whether lineage tracking is currently active.
+     * @return True on success.
      */
     bool isLineageTrackingEnabled() const;
 
@@ -1191,6 +1244,7 @@ public:
 
     /**
      * @brief Return all lineage records accumulated since the last clear.
+     * @return Return value.
      */
     std::vector<IngestionLineageRecord> getAllLineageRecords() const;
 
@@ -1285,6 +1339,7 @@ public:
      *
      * Never returns null: if no backend has been set the result is a
      * `NullTextGenerationBackend`.
+     * @return Return value.
      */
     std::shared_ptr<ITextGenerationBackend> getTextGenerationBackend() const;
 
@@ -1312,6 +1367,7 @@ public:
 
     /**
      * @brief Return the currently configured workflow engine, or nullptr.
+     * @return Return value.
      */
     std::shared_ptr<::themis::ingestion::WorkflowEngine> getWorkflowEngine() const;
 
@@ -1337,6 +1393,7 @@ public:
 
     /**
      * @brief Return the active `ReIngestionController`, or nullptr when unset.
+     * @return Return value.
      */
     std::shared_ptr<ReIngestionController> getReIngestionController() const;
 
@@ -1352,6 +1409,10 @@ private:
  */
 class ISourceConnector {
 public:
+    /**
+     * @brief TBD: Describe ~ISourceConnector.
+     * @return Return value.
+     */
     virtual ~ISourceConnector() = default;
     
     /**
@@ -1446,11 +1507,14 @@ public:
      * @brief Remove the factory registered under @p plugin_name.
      *
      * @return true if the name was registered and has been removed
+     * @param[in] plugin_name Input parameter.
      */
     bool unregisterFactory(const std::string& plugin_name);
 
     /**
      * @brief Check whether a factory is registered for @p plugin_name.
+     * @param[in] plugin_name Input parameter.
+     * @return True on success.
      */
     bool isRegistered(const std::string& plugin_name) const;
 
@@ -1459,11 +1523,13 @@ public:
      *
      * @return New connector instance, or nullptr if the name is not registered
      *         or the factory returns nullptr.
+     * @param[in] plugin_name Input parameter.
      */
     std::unique_ptr<ISourceConnector> create(const std::string& plugin_name) const;
 
     /**
      * @brief Return a sorted list of all registered plugin names.
+     * @return Return value.
      */
     std::vector<std::string> listPlugins() const;
 
@@ -1496,6 +1562,8 @@ public:
 
     /**
      * @brief Set the metric name prefix (default: "themis_ingestion")
+     * @param[in] prefix Input parameter.
+     * @details Implements setPrefix without additional internal calls.
      */
     void setPrefix(const std::string& prefix) { prefix_ = prefix; }
 
@@ -1556,6 +1624,7 @@ public:
     /**
      * @brief Construct builder targeting the specified database connection
      * @param db_connection Database connection string or handle
+     * @return Return value.
      */
     explicit IngestionBuilder(const std::string& db_connection);
 
@@ -1805,12 +1874,14 @@ public:
     /**
      * @brief Set retry configuration
      * @return *this for chaining
+     * @param[in] config Input parameter.
      */
     IngestionBuilder& withRetryConfig(const RetryConfig& config);
 
     /**
      * @brief Set rate-limit configuration
      * @return *this for chaining
+     * @param[in] config Input parameter.
      */
     IngestionBuilder& withRateLimitConfig(const RateLimitConfig& config);
 
@@ -1826,6 +1897,7 @@ public:
     /**
      * @brief Set the target collection name
      * @return *this for chaining
+     * @param[in] collection Input parameter.
      */
     IngestionBuilder& withTargetCollection(const std::string& collection);
 
@@ -1929,6 +2001,7 @@ public:
     /**
      * @brief Construct admin API around an existing IngestionManager
      * @param manager Reference to the manager to control (must outlive this object)
+     * @return Return value.
      */
     explicit IngestionAdminApi(IngestionManager& manager);
     ~IngestionAdminApi() = default;
@@ -1941,24 +2014,28 @@ public:
 
     /**
      * @brief List all registered sources with availability and document counts
+     * @return Return value.
      */
     std::vector<SourceStatus> listSources() const;
 
     /**
      * @brief Trigger an immediate ingestion run for a single source
      * @return Ingestion statistics from the run
+     * @param[in] source_id Input parameter.
      */
     IngestionStats startSource(const std::string& source_id);
 
     /**
      * @brief Disable a source so it is skipped in future `ingestAll()` runs
      * @return true if source was found and disabled
+     * @param[in] source_id Input parameter.
      */
     bool pauseSource(const std::string& source_id);
 
     /**
      * @brief Re-enable a previously paused source
      * @return true if source was found and re-enabled
+     * @param[in] source_id Input parameter.
      */
     bool resumeSource(const std::string& source_id);
 
@@ -1980,6 +2057,7 @@ public:
 
     /**
      * @brief List all items currently in quarantine
+     * @return Return value.
      */
     std::vector<QuarantineEntry> listQuarantine() const;
 
@@ -2015,6 +2093,7 @@ public:
     /**
      * @brief Dismiss (permanently delete) a quarantined item
      * @return true if the item was found and removed
+     * @param[in] item_path Input parameter.
      */
     bool dismissQuarantineItem(const std::string& item_path);
 

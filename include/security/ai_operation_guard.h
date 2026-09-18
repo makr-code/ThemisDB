@@ -43,6 +43,7 @@
  * - Other:   `/var/themis/ai-snapshots`
  *
  * @return Absolute path string suitable for use as `Config::snapshot_dir`.
+ * @details Calls: std::getenv(), std::string().
  */
 inline std::string themisDefaultSnapshotDir() {
 #ifdef _WIN32

@@ -38,14 +38,22 @@ enum class MetricType {
 /// Subclasses implement specific metric behavior (Counter, Gauge, Histogram, Summary).
 class Metric {
 public:
-    /// @brief Constructor
-    /// @param name Unique metric identifier (e.g., "themis_cuda_init_success_total")
-    /// @param description Human-readable metric description
-    /// @param type Classification of the metric (Counter, Gauge, Histogram, Summary)
+    /**
+     * @brief @brief Constructor @param name Unique metric identifier (e.
+     * @param[in] name Input parameter.
+     * @param[in] description Input parameter.
+     * @param[in] type Input parameter.
+     * @return Return value.
+     * @details g., "themis_cuda_init_success_total") @param description Human-readable metric description @param type Classification of the metric (Counter, Gauge, Histogram, Summary)
+     */
     explicit Metric(const std::string& name, const std::string& description,
                    MetricType type)
         : name_(name), description_(description), type_(type) {}
     
+    /**
+     * @brief TBD: Describe ~Metric.
+     * @return Return value.
+     */
     virtual ~Metric() = default;
     
     /// @brief Get metric name
@@ -94,8 +102,10 @@ public:
         return value_.load(std::memory_order_relaxed);
     }
     
-    /// @brief Reset counter to zero
-    /// @note Normally not used in production; provided for testing
+    /**
+     * @brief @brief Reset counter to zero @note Normally not used in production; provided for testing
+     * @details Calls: store().
+     */
     void reset() {
         value_.store(0, std::memory_order_relaxed);
     }
@@ -122,8 +132,11 @@ public:
     Gauge(const std::string& name, const std::string& description)
         : Metric(name, description, MetricType::GAUGE), value_(0.0) {}
     
-    /// @brief Set gauge to absolute value
-    /// @param value New value to set
+    /**
+     * @brief @brief Set gauge to absolute value @param value New value to set
+     * @param[in] value Input parameter.
+     * @details Calls: store().
+     */
     void set(double value) {
         value_.store(value, std::memory_order_relaxed);
     }
@@ -180,9 +193,17 @@ public:
         std::sort(buckets_.begin(), buckets_.end());
     }
     
-    /// @brief Record an observation in the histogram
-    /// @param value Observation value to add to distribution
+    /**
+     * @brief @brief Record an observation in the histogram @param value Observation value to add to distribution
+     * @param[in] value Input parameter.
+     * @details Calls: lock(), size(), back().
+     */
     void observe(double value) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         // Update sum and count
@@ -207,6 +228,11 @@ public:
     /// @brief Get sum of all observed values
     /// @return Total of all observations
     double sum() const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return sum_;
     }
@@ -214,6 +240,11 @@ public:
     /// @brief Get count of observations
     /// @return Number of observations recorded
     uint64_t count() const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return count_;
     }
@@ -221,6 +252,11 @@ public:
     /// @brief Get mean (average) of observations
     /// @return sum() / count() or 0.0 if no observations
     double mean() const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return count_ > 0 ? sum_ / count_ : 0.0;
     }
@@ -228,6 +264,11 @@ public:
     /// @brief Serialize to Prometheus text format
     /// @return Prometheus format histogram with bucket bounds and cumulative counts
     std::string serialize() const override {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         std::string result = name_ + "_sum " + std::to_string(sum_) + "\n";
         result += name_ + "_count " + std::to_string(count_) + "\n";
@@ -258,8 +299,11 @@ private:
 /// records the elapsed time to the associated histogram. Non-copyable but movable.
 class Timer {
 public:
-    /// @brief Constructor starting the timer
-    /// @param histogram Pointer to histogram to record duration into; nullptr is safe (no-op)
+    /**
+     * @brief @brief Constructor starting the timer @param histogram Pointer to histogram to record duration into; nullptr is safe (no-op)
+     * @param[in,out] histogram Input/output parameter.
+     * @return Return value.
+     */
     explicit Timer(Histogram* histogram)
         : histogram_(histogram),
           start_(std::chrono::steady_clock::now()) {}
@@ -299,8 +343,11 @@ private:
 /// All operations are thread-safe.
 class MetricsCollector {
 public:
-    /// @brief Get the singleton instance
-    /// @return Reference to the global metrics collector
+    /**
+     * @brief @brief Get the singleton instance @return Reference to the global metrics collector
+     * @return Return value.
+     * @details Implements instance without additional internal calls.
+     */
     static MetricsCollector& instance() {
         static MetricsCollector collector;
         return collector;
@@ -308,12 +355,20 @@ public:
     
     // ── Register metrics ──────────────────────────────────────────────────────
     
-    /// @brief Register a counter metric
-    /// @param name Unique metric identifier (e.g., "themis_cuda_init_success_total")
-    /// @param description Human-readable description for Prometheus metadata
-    /// @return Pointer to the registered counter (valid for lifetime of collector)
+    /**
+     * @brief @brief Register a counter metric @param name Unique metric identifier (e.
+     * @param[in] name Input parameter.
+     * @param[in] description Input parameter.
+     * @return Pointer to the result.
+     * @details g., "themis_cuda_init_success_total") @param description Human-readable description for Prometheus metadata @return Pointer to the registered counter (valid for lifetime of collector) Calls: lock(), get(), std::move().
+     */
     Counter* registerCounter(const std::string& name,
                             const std::string& description) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         auto counter = std::make_unique<Counter>(name, description);
         auto* ptr = counter.get();
@@ -321,12 +376,20 @@ public:
         return ptr;
     }
     
-    /// @brief Register a gauge metric
-    /// @param name Unique metric identifier
-    /// @param description Human-readable description for Prometheus metadata
-    /// @return Pointer to the registered gauge (valid for lifetime of collector)
+    /**
+     * @brief @brief Register a gauge metric @param name Unique metric identifier @param description Human-readable description for Prometheus metadata @return Pointer to the registered gauge (valid for lifetime of collector)
+     * @param[in] name Input parameter.
+     * @param[in] description Input parameter.
+     * @return Pointer to the result.
+     * @details Calls: lock(), get(), std::move().
+     */
     Gauge* registerGauge(const std::string& name,
                         const std::string& description) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         auto gauge = std::make_unique<Gauge>(name, description);
         auto* ptr = gauge.get();
@@ -342,6 +405,11 @@ public:
     Histogram* registerHistogram(const std::string& name,
                                 const std::string& description,
                                 const std::vector<double>& buckets = {}) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         auto histogram = buckets.empty() 
             ? std::make_unique<Histogram>(name, description)
@@ -353,28 +421,52 @@ public:
     
     // ── Get existing metrics ──────────────────────────────────────────────────
     
-    /// @brief Retrieve previously registered counter
-    /// @param name Metric identifier
-    /// @return Pointer to counter, or nullptr if not found or wrong type
+    /**
+     * @brief @brief Retrieve previously registered counter @param name Metric identifier @return Pointer to counter, or nullptr if not found or wrong type
+     * @param[in] name Input parameter.
+     * @return Pointer to the result.
+     * @details Calls: lock(), find(), end(), get().
+     */
     Counter* getCounter(const std::string& name) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = counters_.find(name);
         return it != counters_.end() ? it->second.get() : nullptr;
     }
     
-    /// @brief Retrieve previously registered gauge
-    /// @param name Metric identifier
-    /// @return Pointer to gauge, or nullptr if not found or wrong type
+    /**
+     * @brief @brief Retrieve previously registered gauge @param name Metric identifier @return Pointer to gauge, or nullptr if not found or wrong type
+     * @param[in] name Input parameter.
+     * @return Pointer to the result.
+     * @details Calls: lock(), find(), end(), get().
+     */
     Gauge* getGauge(const std::string& name) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = gauges_.find(name);
         return it != gauges_.end() ? it->second.get() : nullptr;
     }
     
-    /// @brief Retrieve previously registered histogram
-    /// @param name Metric identifier
-    /// @return Pointer to histogram, or nullptr if not found or wrong type
+    /**
+     * @brief @brief Retrieve previously registered histogram @param name Metric identifier @return Pointer to histogram, or nullptr if not found or wrong type
+     * @param[in] name Input parameter.
+     * @return Pointer to the result.
+     * @details Calls: lock(), find(), end(), get().
+     */
     Histogram* getHistogram(const std::string& name) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = histograms_.find(name);
         return it != histograms_.end() ? it->second.get() : nullptr;
@@ -385,6 +477,11 @@ public:
     /// @brief Export all metrics in Prometheus text-based format
     /// @return Prometheus format string suitable for scraping by Prometheus server
     std::string exportPrometheus() const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         std::string output = {};
         
@@ -412,6 +509,11 @@ public:
     /// @brief Export all metrics in JSON format
     /// @return JSON object with "counters", "gauges", and "histograms" sections
     std::string exportJSON() const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         std::string output = "{\n";
         
@@ -455,18 +557,32 @@ public:
         return output;
     }
     
-    /// @brief Reset all counters to zero
-    /// @note Gauges and histograms are not reset (represent current state)
+    /**
+     * @brief @brief Reset all counters to zero @note Gauges and histograms are not reset (represent current state)
+     * @details Calls: lock().
+     */
     void reset() {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         for (auto& [name, counter] : counters_) {
             counter->reset();
         }
     }
     
-    /// @brief Clear all registered metrics
-    /// @note All metric pointers become invalid after this call
+    /**
+     * @brief @brief Clear all registered metrics @note All metric pointers become invalid after this call
+     * @details Calls: lock().
+     */
     void clear() {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         counters_.clear();
         gauges_.clear();

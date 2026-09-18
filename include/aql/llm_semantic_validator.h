@@ -80,6 +80,10 @@ struct AttributeTypeInfo {
  */
 class SemanticSchemaContext {
 public:
+    /**
+     * @brief TBD: Describe ~SemanticSchemaContext.
+     * @return Return value.
+     */
     virtual ~SemanticSchemaContext() = default;
 
     /// Retrieve type information for an attribute
@@ -136,6 +140,10 @@ public:
         std::shared_ptr<SemanticSchemaContext> schema_context,
         const Config& config = Config());
 
+    /**
+     * @brief TBD: Describe ~LLMSemanticValidator.
+     * @return Return value.
+     */
     virtual ~LLMSemanticValidator() = default;
 
     /**
@@ -157,6 +165,7 @@ public:
 
     /**
      * @brief Get current configuration
+     * @return Return value.
      */
     const Config& getConfig() const;
 

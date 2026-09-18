@@ -43,6 +43,10 @@ enum class PrecisionMode {
  * @brief Model architecture information
  */
 struct ModelArchitecture {
+    /**
+     * @brief TBD: Describe ~ModelArchitecture.
+     * @return Return value.
+     */
     virtual ~ModelArchitecture() = default;
     std::string model_name;
     size_t num_parameters = 0;

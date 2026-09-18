@@ -176,6 +176,7 @@ public:
     /**
      * @brief Construct with default configuration and custom token verifier.
      * @param token_verifier Optional token validation callback.
+     * @return Return value.
      */
     explicit ZeroTrustAuthVerifier(TokenVerifier token_verifier);
     /**
@@ -199,6 +200,8 @@ public:
     /**
      * @brief Attach an AuditLogger to receive zero-trust decision events.
      * Pass nullptr to detach.  The verifier does NOT take ownership.
+     * @param[in,out] logger Input/output parameter.
+     * @details Implements setAuditLogger without additional internal calls.
      */
     void setAuditLogger(utils::AuditLogger* logger) { audit_logger_ = logger; }
 
@@ -209,17 +212,20 @@ public:
     /**
      * @brief Register a network policy.
      * @see security::ZeroTrustPolicyEnforcer::addNetworkPolicy
+     * @param[in] policy Input parameter.
      */
     void addNetworkPolicy(const security::NetworkPolicy& policy);
 
     /**
      * @brief Remove a network policy by id.
      * @return true if found and removed.
+     * @param[in] policy_id Input parameter.
      */
     bool removeNetworkPolicy(const std::string& policy_id);
 
     /**
      * @brief Snapshot of all currently registered policies.
+     * @return Return value.
      */
     std::vector<security::NetworkPolicy> getNetworkPolicies() const;
 
@@ -283,6 +289,7 @@ public:
 
     /**
      * @brief Number of sessions currently registered for background monitoring.
+     * @return Return value.
      */
     size_t monitoredSessionCount() const;
 
@@ -320,12 +327,15 @@ private:
     /// The monitor loop predicate checks this to wake early on schedule updates.
     std::atomic<uint64_t>                               schedule_generation_{0};
 
-    /// Background loop: wakes periodically and dispatches overdue sessions
-    /// to the worker thread pool for policy re-evaluation.
+    /**
+     * @brief Background loop: wakes periodically and dispatches overdue sessions to the worker thread pool for policy re-evaluation.
+     */
     void monitorLoop();
 
-    /// Executed on a worker thread: re-evaluates one session and terminates
-    /// it (+ emits audit event) if the policy check fails.
+    /**
+     * @brief Executed on a worker thread: re-evaluates one session and terminates it (+ emits audit event) if the policy check fails.
+     * @param[in] entry Input parameter.
+     */
     void reEvaluateSession(const MonitorEntry& entry);
 };
 

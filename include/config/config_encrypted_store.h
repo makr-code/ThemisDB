@@ -30,6 +30,11 @@ namespace config {
  */
 class ConfigEncryptionException : public std::runtime_error {
 public:
+    /**
+     * @brief TBD: Describe ConfigEncryptionException.
+     * @param[in] msg Input parameter.
+     * @return Return value.
+     */
     explicit ConfigEncryptionException(const std::string& msg)
         : std::runtime_error("ConfigEncryptedStore: " + msg) {}
 };
@@ -39,6 +44,11 @@ public:
  */
 class ConfigKeyNotFoundException : public std::runtime_error {
 public:
+    /**
+     * @brief TBD: Describe ConfigKeyNotFoundException.
+     * @param[in] key_id Input parameter.
+     * @return Return value.
+     */
     explicit ConfigKeyNotFoundException(const std::string& key_id)
         : std::runtime_error("ConfigEncryptedStore: key not found: " + key_id) {}
 };
@@ -290,7 +300,17 @@ private:
         const std::vector<uint8_t>& iv,
         const std::vector<uint8_t>& tag);
 
+    /**
+     * @brief TBD: Describe encryptValue.
+     * @param[in] plaintext Input parameter.
+     * @return Return value.
+     */
     ConfigEncryptedBlob encryptValue(const std::string& plaintext) const;
+    /**
+     * @brief TBD: Describe decryptBlob.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     std::string         decryptBlob(const ConfigEncryptedBlob& blob) const;
 
     // ---- state ----

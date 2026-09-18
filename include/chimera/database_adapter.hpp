@@ -95,7 +95,20 @@ struct Result {
     bool is_ok() const { return error_code == ErrorCode::SUCCESS; }
     bool is_err() const { return error_code != ErrorCode::SUCCESS; }
 
+    /**
+     * @brief TBD: Describe ok.
+     * @param[in] v Input parameter.
+     * @return Return value.
+     * @details Calls: std::move().
+     */
     static Result<T> ok(T v) { return Result<T>{std::optional<T>(std::move(v)), ErrorCode::SUCCESS, ""}; }
+    /**
+     * @brief TBD: Describe err.
+     * @param[in] c Input parameter.
+     * @param[in] m Input parameter.
+     * @return Return value.
+     * @details Calls: std::move().
+     */
     static Result<T> err(ErrorCode c, std::string m) { return Result<T>{std::nullopt, c, std::move(m)}; }
 };
 
@@ -146,6 +159,10 @@ struct StreamConfig {
  */
 class IResultStream {
 public:
+    /**
+     * @brief TBD: Describe ~IResultStream.
+     * @return Return value.
+     */
     virtual ~IResultStream() = default;
 
     /// Returns true while there are more rows to fetch.
@@ -172,6 +189,10 @@ public:
  */
 class IStreamingAdapter {
 public:
+    /**
+     * @brief TBD: Describe ~IStreamingAdapter.
+     * @return Return value.
+     */
     virtual ~IStreamingAdapter() = default;
 
     /// Execute a query and return a streaming cursor.
@@ -190,6 +211,10 @@ public:
  */
 class IPreparedStatement {
 public:
+    /**
+     * @brief TBD: Describe ~IPreparedStatement.
+     * @return Return value.
+     */
     virtual ~IPreparedStatement() = default;
 
     /// Opaque server-side statement identifier (UUID).
@@ -228,6 +253,10 @@ public:
  */
 class IPreparedStatementAdapter {
 public:
+    /**
+     * @brief TBD: Describe ~IPreparedStatementAdapter.
+     * @return Return value.
+     */
     virtual ~IPreparedStatementAdapter() = default;
 
     /// Parse and cache a query; return a statement handle.

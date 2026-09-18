@@ -223,6 +223,7 @@ public:
     
     /**
      * @brief Get current buffer statistics
+     * @return Return value.
      */
     VectorAutoBufferStats getStats() const;
     
@@ -233,6 +234,7 @@ public:
     
     /**
      * @brief Update configuration (takes effect on next flush)
+     * @param[in] config Input parameter.
      */
     void setConfig(const VectorAutoBufferConfig& config);
     
@@ -280,6 +282,11 @@ private:
         std::chrono::steady_clock::time_point first_op_time;
         size_t memory_bytes = 0;
         
+        /**
+         * @brief TBD: Describe add.
+         * @param[in] op Input parameter.
+         * @details Calls: empty(), std::chrono::steady_clock::now(), push_back(), std::move().
+         */
         void add(BufferedOp&& op) {
             if (operations.empty()) {
                 first_op_time = std::chrono::steady_clock::now();
@@ -288,6 +295,10 @@ private:
             operations.push_back(std::move(op));
         }
         
+        /**
+         * @brief TBD: Describe clear.
+         * @details Implements clear without additional internal calls.
+         */
         void clear() {
             operations.clear();
             memory_bytes = 0;
@@ -310,15 +321,41 @@ private:
     // Statistics
     VectorAutoBufferStats stats_;
     
-    // Helper functions
+    /**
+     * @brief Helper functions
+     * @param[in] entity Input parameter.
+     * @return Return value.
+     */
     std::string makeBufferKey(const BaseEntity& entity) const;
+    /**
+     * @brief TBD: Describe flushThread.
+     */
     void flushThread();
     size_t flushInternal(bool lock_held = false);
+    /**
+     * @brief TBD: Describe flushBuffer.
+     * @param[in] buffer_key Input parameter.
+     * @param[in,out] buffer Input/output parameter.
+     * @return Return value.
+     */
     size_t flushBuffer(const std::string& buffer_key, NamespaceBuffer& buffer);
+    /**
+     * @brief TBD: Describe shouldFlushBuffer.
+     * @param[in] buffer Input parameter.
+     * @return True on success.
+     */
     bool shouldFlushBuffer(const NamespaceBuffer& buffer) const;
+    /**
+     * @brief TBD: Describe shouldFlushGlobal.
+     * @return True on success.
+     */
     bool shouldFlushGlobal() const;
     
-    // Compression helpers (for future implementation)
+    /**
+     * @brief Compression helpers (for future implementation)
+     * @param[in] entities Input parameter.
+     * @return Return value.
+     */
     std::vector<BaseEntity> applyCompression(const std::vector<BaseEntity>& entities);
 };
 

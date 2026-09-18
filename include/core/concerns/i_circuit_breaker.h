@@ -56,6 +56,10 @@ public:
         std::chrono::seconds failure_window = std::chrono::seconds(60);
     };
 
+    /**
+     * @brief TBD: Describe ~ICircuitBreaker.
+     * @return Return value.
+     */
     virtual ~ICircuitBreaker() = default;
 
     // -----------------------------------------------------------------------
@@ -163,6 +167,9 @@ public:
 
     /**
      * @brief Convert a State value to its human-readable name.
+     * @param[in] state Input parameter.
+     * @return Return value.
+     * @details Implements stateToString without additional internal calls.
      */
     static std::string stateToString(State state) {
         switch (state) {

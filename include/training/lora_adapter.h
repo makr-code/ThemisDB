@@ -125,18 +125,24 @@ public:
     /**
      * @brief Remove a layer entry.
      * @return true if the layer existed and was removed; false otherwise
+     * @param[in] layer_name Input parameter.
      */
     bool removeLayer(const std::string& layer_name);
 
+     * @param[in] layer_name Input parameter.
+     * @return True on success.
     /** @brief Whether a layer with the given name is registered. */
     bool hasLayer(const std::string& layer_name) const;
 
+     * @return Return value.
     /** @brief Names of all registered layers (order unspecified). */
     std::vector<std::string> layerNames() const;
 
+     * @return Return value.
     /** @brief Number of registered layers. */
     size_t layerCount() const;
 
+     * @return Return value.
     /** @brief Total trainable parameter count across all layers. */
     size_t totalParameterCount() const;
 
@@ -147,6 +153,8 @@ public:
     /**
      * @brief Read-only snapshot of the weight entry for a layer.
      * @throws std::out_of_range if the layer does not exist
+     * @param[in] layer_name Input parameter.
+     * @return Return value.
      */
     const LoRAWeightEntry& getWeights(const std::string& layer_name) const;
 

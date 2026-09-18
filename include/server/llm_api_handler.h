@@ -139,6 +139,7 @@ public:
      * When set, handleRAG() embeds the user query via the LLM plugin and
      * executes a filtered vector search on the named collection before
      * forwarding the retrieved documents to LLMPluginManager::generateRAG().
+     * @param[in] query_engine Input parameter.
      */
     void setQueryEngine(std::shared_ptr<query::QueryEngine> query_engine);
     
@@ -156,93 +157,219 @@ public:
         const http::request<http::string_body>& req);
 
 private:
-    // Core inference endpoints
+    /**
+     * @brief Core inference endpoints
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleInference(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief TBD: Describe handleRAG.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleRAG(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief TBD: Describe handleEmbed.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleEmbed(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief TBD: Describe handleStreamInference.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleStreamInference(
         const http::request<http::string_body>& req);
     
-    // AQL streaming explanation endpoint
+    /**
+     * @brief AQL streaming explanation endpoint
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleStreamExplainAql(
         const http::request<http::string_body>& req);
     
-    // Model management endpoints
+    /**
+     * @brief Model management endpoints
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleListModels(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief TBD: Describe handleLoadModel.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleLoadModel(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief TBD: Describe handleUnloadModel.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleUnloadModel(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief TBD: Describe handleModelInfo.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleModelInfo(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief TBD: Describe handleIngestModel.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleIngestModel(
         const http::request<http::string_body>& req);
     
-    // LoRA management endpoints
+    /**
+     * @brief LoRA management endpoints
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleListLoRAs(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief TBD: Describe handleLoadLoRA.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleLoadLoRA(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief TBD: Describe handleUnloadLoRA.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleUnloadLoRA(
         const http::request<http::string_body>& req);
     
-    // Statistics and health
+    /**
+     * @brief Statistics and health
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleStats(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief TBD: Describe handleCacheStats.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleCacheStats(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief TBD: Describe handleClearCache.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleClearCache(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief TBD: Describe handleHealth.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleHealth(
         const http::request<http::string_body>& req);
     
-    // Documentation assistant endpoints
+    /**
+     * @brief Documentation assistant endpoints
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleDocsQuery(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief TBD: Describe handleDocsConfig.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleDocsConfig(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief TBD: Describe handleDocsTroubleshoot.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleDocsTroubleshoot(
         const http::request<http::string_body>& req);
     
-    // Feedback endpoints
+    /**
+     * @brief Feedback endpoints
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleCreateFeedback(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief TBD: Describe handleGetFeedback.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleGetFeedback(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief TBD: Describe handleListFeedback.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleListFeedback(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief TBD: Describe handleFeedbackStats.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleFeedbackStats(
         const http::request<http::string_body>& req);
 
-    // OpenAI-compatible endpoints
+    /**
+     * @brief OpenAI-compatible endpoints
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleOpenAIChatCompletions(
         const http::request<http::string_body>& req);
 
+    /**
+     * @brief TBD: Describe handleOpenAIListModels.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleOpenAIListModels(
         const http::request<http::string_body>& req);
     
-    // Helper methods
+    /**
+     * @brief Helper methods
+     * @param[in] req Input parameter.
+     * @return True on success.
+     */
     bool validateBearerToken(const http::request<http::string_body>& req);
     
     http::response<http::string_body> createErrorResponse(
@@ -254,6 +381,11 @@ private:
         const json& data,
         http::status status = http::status::ok);
     
+    /**
+     * @brief TBD: Describe parseRequestBody.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     std::optional<json> parseRequestBody(
         const http::request<http::string_body>& req);
     

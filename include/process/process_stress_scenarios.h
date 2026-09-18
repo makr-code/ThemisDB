@@ -442,22 +442,67 @@ struct ConcurrentQueryChurnStress {
  * Provides centralized access to all defined scenarios for test automation.
  */
 struct ProcessStressScenarios {
-    // Parser scenarios
+    /**
+     * @brief Parser scenarios
+     * @return Return value.
+     */
     static const DeepNestingStress& deepNesting();
+    /**
+     * @brief TBD: Describe largeElementCount.
+     * @return Return value.
+     */
     static const LargeElementCountStress& largeElementCount();
+    /**
+     * @brief TBD: Describe malformedXmlRecovery.
+     * @return Return value.
+     */
     static const MalformedXmlRecoveryStress& malformedXmlRecovery();
+    /**
+     * @brief TBD: Describe unsupportedGateway.
+     * @return Return value.
+     */
     static const UnsupportedGatewayStress& unsupportedGateway();
 
-    // Linker scenarios
+    /**
+     * @brief Linker scenarios
+     * @return Return value.
+     */
     static const OrphanedLinkResolutionStress& orphanedLinkResolution();
+    /**
+     * @brief TBD: Describe circularReferenceDetection.
+     * @return Return value.
+     */
     static const CircularReferenceDetectionStress& circularReferenceDetection();
+    /**
+     * @brief TBD: Describe bulkLinkCreation.
+     * @return Return value.
+     */
     static const BulkLinkCreationStress& bulkLinkCreation();
+    /**
+     * @brief TBD: Describe linkAttributeMutation.
+     * @return Return value.
+     */
     static const LinkAttributeMutationStress& linkAttributeMutation();
 
-    // Retriever scenarios
+    /**
+     * @brief Retriever scenarios
+     * @return Return value.
+     */
     static const EmptyGraphQueryStress& emptyGraphQuery();
+    /**
+     * @brief TBD: Describe largeContextSize.
+     * @return Return value.
+     */
     static const LargeContextSizeStress& largeContextSize();
+    /**
+     * @brief TBD: Describe communityDetectionTimeout.
+     * @return Return value.
+     */
     static const CommunityDetectionTimeoutStress& communityDetectionTimeout();
+    /**
+     * @brief TBD: Describe concurrentQueryChurn.
+     * @return Return value.
+     */
     static const ConcurrentQueryChurnStress& concurrentQueryChurn();
 
     /// Count of all defined scenarios

@@ -163,6 +163,7 @@ public:
      * @throws std::runtime_error If query fails
      * 
      * Safe to call on moved-from managers (returns false).
+     * @note Exception safety: noexcept.
      */
     bool is_running() const noexcept;
 
@@ -180,6 +181,7 @@ public:
      * 
      * @post Calling any operation on a moved-from manager that requires
      *       validity will throw std::logic_error
+     * @note Exception safety: noexcept.
      */
     bool is_moved_from() const noexcept;
 
@@ -192,6 +194,7 @@ public:
      * - Default-constructed (not yet initialized)
      * - Moved-from (resources transferred)
      * - Failed during initialization
+     * @note Exception safety: noexcept.
      */
     bool is_valid() const noexcept;
 
@@ -199,6 +202,7 @@ public:
      * @brief Get GPU device ID associated with this kernel
      * 
      * @return Device ID, or -1 if manager is invalid/moved-from
+     * @note Exception safety: noexcept.
      */
     int device_id() const noexcept;
 
@@ -206,6 +210,7 @@ public:
      * @brief Get kernel name
      * 
      * @return Name of managed kernel, or empty string if moved-from
+     * @note Exception safety: noexcept.
      */
     const std::string& kernel_name() const noexcept;
 
@@ -218,6 +223,7 @@ private:
      * - Move assignment (to release old resources)
      * 
      * Idempotent and noexcept: multiple calls are safe.
+     * @note Exception safety: noexcept.
      */
     void cleanup() noexcept;
 
@@ -272,14 +278,21 @@ public:
      * @brief Get GPU pointer to argument buffer
      * 
      * @return Device pointer (void*), null if moved-from
+     * @note Exception safety: noexcept.
      */
     void* device_ptr() noexcept;
+    /**
+     * @brief TBD: Describe device_ptr.
+     * @return Pointer to the result.
+     * @note Exception safety: noexcept.
+     */
     const void* device_ptr() const noexcept;
 
     /**
      * @brief Get CPU-side copy of arguments
      * 
      * @return Host pointer to argument data
+     * @note Exception safety: noexcept.
      */
     void* host_ptr() noexcept;
 
@@ -303,6 +316,7 @@ public:
      * @brief Get buffer size in bytes
      * 
      * @return Size, or 0 if moved-from
+     * @note Exception safety: noexcept.
      */
     size_t size() const noexcept;
 
@@ -310,10 +324,15 @@ public:
      * @brief Check if buffer is valid (not moved-from)
      * 
      * @return true if buffer holds GPU memory
+     * @note Exception safety: noexcept.
      */
     bool is_valid() const noexcept;
 
 private:
+    /**
+     * @brief TBD: Describe cleanup.
+     * @note Exception safety: noexcept.
+     */
     void cleanup() noexcept;
 
     void* device_ptr_;

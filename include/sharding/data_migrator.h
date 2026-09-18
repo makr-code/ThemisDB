@@ -181,6 +181,7 @@ public:
      * @param token_range_start Start of token range
      * @param token_range_end End of token range
      * @return true if data matches, false otherwise
+     * @brief TBD: Describe verifyIntegrity.
      */
     bool verifyIntegrity(
         const std::string& source_shard_id,
@@ -249,15 +250,21 @@ public:
         uint32_t batch_index
     );
     
+     * @param[in] migration_id Input parameter.
+     * @return True on success.
     /** @brief Prueft, ob eine Migration bereits als abgeschlossen markiert ist. */
     bool isMigrationCompleted(const std::string& migration_id);
 
+     * @param[in] migration_id Input parameter.
     /** @brief Markiert eine Migration als abgeschlossen und persistiert den Zustand. */
     void markMigrationCompleted(const std::string& migration_id);
 
+     * @param[in] batch_id Input parameter.
+     * @return True on success.
     /** @brief Prueft, ob eine Batch bereits erfolgreich verarbeitet wurde. */
     bool isBatchCompleted(const std::string& batch_id);
 
+     * @param[in] batch_id Input parameter.
     /** @brief Markiert eine Batch als abgeschlossen; persistiert periodisch den Status. */
     void markBatchCompleted(const std::string& batch_id);
 
@@ -273,11 +280,13 @@ private:
     
     /**
      * Load idempotency state from persistent storage
+     * @brief TBD: Describe loadIdempotencyState.
      */
     void loadIdempotencyState();
     
     /**
      * Save idempotency state to persistent storage
+     * @brief TBD: Describe saveIdempotencyState.
      */
     void saveIdempotencyState();
 
@@ -323,6 +332,11 @@ private:
      * @return true sobald ein Versuch erfolgreich war, sonst false.
      */
     template<typename Func>
+    /**
+     * @brief TBD: Describe retryOperation.
+     * @param[in] func Input parameter.
+     * @return True on success.
+     */
     bool retryOperation(Func func);
 };
 

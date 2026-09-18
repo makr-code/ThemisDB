@@ -195,6 +195,9 @@ struct WorkflowValidationResult {
     bool valid = true;
     std::vector<WorkflowValidationError> errors;
 
+     * @param[in] step_id Input parameter.
+     * @param[in] message Input parameter.
+     * @details Calls: push_back().
     /** @brief Helper: append an error and mark as invalid. */
     void addError(const std::string& step_id, const std::string& message) {
         errors.push_back({step_id, message});

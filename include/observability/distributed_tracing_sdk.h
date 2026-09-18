@@ -186,6 +186,7 @@ public:
 
     /**
      * @brief Virtual destructor for safe polymorphic deletion.
+     * @return Return value.
      */
     virtual ~DistributedTraceContext() = default;
 
@@ -274,6 +275,7 @@ public:
 
     /**
      * @brief Virtual destructor for safe polymorphic deletion.
+     * @return Return value.
      */
     virtual ~DistributedTracingSDK() = default;
 
@@ -364,8 +366,15 @@ private:
     DistributedTracingConfig config_;
     mutable std::shared_mutex config_mutex_;
 
-    // Helper methods
+    /**
+     * @brief Helper methods
+     * @return Return value.
+     */
     std::string generateTraceId();
+    /**
+     * @brief TBD: Describe generateSpanId.
+     * @return Return value.
+     */
     std::string generateSpanId();
 };
 

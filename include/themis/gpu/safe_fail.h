@@ -95,6 +95,11 @@ public:
     // Construction
     // -----------------------------------------------------------------------
     GPUSafeFail() = default;
+    /**
+     * @brief TBD: Describe GPUSafeFail.
+     * @param[in] cfg Input parameter.
+     * @return Return value.
+     */
     explicit GPUSafeFail(const Config& cfg);
     ~GPUSafeFail() = default;
 
@@ -102,6 +107,7 @@ public:
      * @brief Reconfigure and reset internal state.
      *
      * Useful for module re-initialization when the type is non-assignable.
+     * @param[in] cfg Input parameter.
      */
     void reset(const Config& cfg);
 
@@ -140,20 +146,40 @@ public:
      */
     void recordSuccess();
 
-    // -----------------------------------------------------------------------
-    // Circuit-breaker control
-    // -----------------------------------------------------------------------
+    /**
+     * @brief ----------------------------------------------------------------------- Circuit-breaker control -----------------------------------------------------------------------
+     * @return True on success.
+     */
     bool shouldAttemptGPU() const;
+    /**
+     * @brief TBD: Describe canResetCircuit.
+     * @return True on success.
+     */
     bool canResetCircuit()  const;
+    /**
+     * @brief TBD: Describe tryResetCircuit.
+     */
     void tryResetCircuit();
+    /**
+     * @brief TBD: Describe forceHealthy.
+     */
     void forceHealthy();
     void forceFailed(const std::string& reason = "");
 
-    // -----------------------------------------------------------------------
-    // Queries
-    // -----------------------------------------------------------------------
+    /**
+     * @brief ----------------------------------------------------------------------- Queries -----------------------------------------------------------------------
+     * @return True on success.
+     */
     bool          isHealthy()     const;
+    /**
+     * @brief TBD: Describe getStatus.
+     * @return Return value.
+     */
     HealthStatus  getStatus()     const;
+    /**
+     * @brief TBD: Describe getErrorRate.
+     * @return Return value.
+     */
     float         getErrorRate()  const;
 
     /**
@@ -185,8 +211,13 @@ private:
 
     std::chrono::steady_clock::time_point circuit_opened_at_;
 
-    // Helpers (called under lock).
+    /**
+     * @brief Helpers (called under lock).
+     */
     void applyFailure();
+    /**
+     * @brief TBD: Describe applySuccess.
+     */
     void applySuccess();
 };
 

@@ -119,6 +119,11 @@ public:
     // =========================================================================
 
     AdvancedCacheManager();
+    /**
+     * @brief TBD: Describe AdvancedCacheManager.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit AdvancedCacheManager(const CacheConfig& config);
     ~AdvancedCacheManager();
 
@@ -135,11 +140,13 @@ public:
      * @brief (Re)create partitions from a CacheConfig.
      *
      * Discards all existing entries and bloom-filter state.
+     * @param[in] config Input parameter.
      */
     void create_partitions(const CacheConfig& config);
 
     /**
      * @brief Return the names of all registered partitions.
+     * @return Return value.
      */
     std::vector<std::string> partition_names() const;
 
@@ -151,6 +158,8 @@ public:
      * @brief Look up key in the named partition.
      *
      * @return The cached value, or std::nullopt on a miss.
+     * @param[in] key Input parameter.
+     * @param[in] partition Input parameter.
      */
     std::optional<std::string> get(const std::string& key,
                                    const std::string& partition);
@@ -161,6 +170,9 @@ public:
      * Evicts the least-recently-used entry when the partition is full.
      * When bloom-filter pre-screening is enabled, the key is added to the
      * partition's Bloom filter.
+     * @param[in] key Input parameter.
+     * @param[in] value Input parameter.
+     * @param[in] partition Input parameter.
      */
     void put(const std::string& key,
              const std::string& value,
@@ -170,12 +182,17 @@ public:
      * @brief Remove key from the named partition.
      *
      * @return true if the key was present and removed.
+     * @param[in] key Input parameter.
+     * @param[in] partition Input parameter.
      */
     bool evict(const std::string& key, const std::string& partition);
 
     /**
      * @brief Check whether key is in the named partition without modifying
      *        LRU state.
+     * @param[in] key Input parameter.
+     * @param[in] partition Input parameter.
+     * @return True on success.
      */
     bool contains(const std::string& key, const std::string& partition) const;
 
@@ -207,12 +224,15 @@ public:
     // Statistics
     // =========================================================================
 
+     * @param[in] partition Input parameter.
+     * @return Return value.
     /** @brief Return per-partition statistics. */
     PartitionStats get_partition_stats(const std::string& partition) const;
 
     /** @brief Reset all statistics counters without flushing cached data. */
     void reset_stats();
 
+     * @param[in] partition Input parameter.
     /** @brief Flush all entries from a single partition. */
     void flush_partition(const std::string& partition);
 
@@ -225,7 +245,15 @@ public:
 
     const CacheConfig& config() const noexcept { return config_; }
 
+    /**
+     * @brief TBD: Describe setCompressFn.
+     * @param[in] fn Input parameter.
+     */
     static void setCompressFn(CompressFn fn);
+    /**
+     * @brief TBD: Describe setDecompressFn.
+     * @param[in] fn Input parameter.
+     */
     static void setDecompressFn(DecompressFn fn);
 
 private:
@@ -234,11 +262,33 @@ private:
         static constexpr size_t kBits = 1 << 16;  // 8 KB
         uint64_t bits[kBits / 64]{};
 
+        /**
+         * @brief TBD: Describe insert.
+         * @param[in] key Input parameter.
+         * @note Exception safety: noexcept.
+         */
         void insert(const std::string& key) noexcept;
+        /**
+         * @brief TBD: Describe maybe_contains.
+         * @param[in] key Input parameter.
+         * @return True on success.
+         * @note Exception safety: noexcept.
+         */
         bool maybe_contains(const std::string& key) const noexcept;
+        /**
+         * @brief TBD: Describe clear.
+         * @note Exception safety: noexcept.
+         */
         void clear() noexcept;
 
     private:
+        /**
+         * @brief TBD: Describe hash.
+         * @param[in] key Input parameter.
+         * @param[in] seed Input parameter.
+         * @return Return value.
+         * @note Exception safety: noexcept.
+         */
         static uint64_t hash(const std::string& key, uint64_t seed) noexcept;
     };
 
@@ -261,11 +311,35 @@ private:
     CacheConfig config_;
     std::vector<std::unique_ptr<PartitionState>> partitions_;
 
+    /**
+     * @brief TBD: Describe find_partition.
+     * @param[in] name Input parameter.
+     * @return Pointer to the result.
+     * @note Exception safety: noexcept.
+     */
     PartitionState* find_partition(const std::string& name) const noexcept;
 
+    /**
+     * @brief TBD: Describe entries_for_mb.
+     * @param[in] mb Input parameter.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     static size_t entries_for_mb(size_t mb) noexcept;
+    /**
+     * @brief TBD: Describe compress.
+     * @param[in] val Input parameter.
+     * @param[in] algo Input parameter.
+     * @return Return value.
+     */
     static std::string compress(const std::string& val,
                                 CompressionAlgorithm algo);
+    /**
+     * @brief TBD: Describe decompress.
+     * @param[in] val Input parameter.
+     * @param[in] algo Input parameter.
+     * @return Return value.
+     */
     static std::string decompress(const std::string& val,
                                   CompressionAlgorithm algo);
 };

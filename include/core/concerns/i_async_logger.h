@@ -79,6 +79,7 @@ public:
     *         to the underlying sink.
     * @throws std::system_error if the implementation cannot start the async
     *         task.
+     * @details Calls: std::async(), std::string(), log().
      */
     virtual std::future<void> logAsync(Level level, std::string_view message) {
         return std::async(std::launch::async,
@@ -93,6 +94,7 @@ public:
     * @return Future that resolves when the record is dispatched.
     * @throws std::system_error if the implementation cannot start the async
     *         task.
+     * @details Calls: logAsync().
      */
     virtual std::future<void> traceAsync(std::string_view message) {
         return logAsync(Level::TRACE, message);
@@ -104,6 +106,7 @@ public:
     * @return Future that resolves when the record is dispatched.
     * @throws std::system_error if the implementation cannot start the async
     *         task.
+     * @details Calls: logAsync().
      */
     virtual std::future<void> debugAsync(std::string_view message) {
         return logAsync(Level::DEBUG, message);
@@ -115,6 +118,7 @@ public:
     * @return Future that resolves when the record is dispatched.
     * @throws std::system_error if the implementation cannot start the async
     *         task.
+     * @details Calls: logAsync().
      */
     virtual std::future<void> infoAsync(std::string_view message) {
         return logAsync(Level::INFO, message);
@@ -126,6 +130,7 @@ public:
     * @return Future that resolves when the record is dispatched.
     * @throws std::system_error if the implementation cannot start the async
     *         task.
+     * @details Calls: logAsync().
      */
     virtual std::future<void> warnAsync(std::string_view message) {
         return logAsync(Level::WARN, message);
@@ -137,6 +142,7 @@ public:
     * @return Future that resolves when the record is dispatched.
     * @throws std::system_error if the implementation cannot start the async
     *         task.
+     * @details Calls: logAsync().
      */
     virtual std::future<void> errorAsync(std::string_view message) {
         return logAsync(Level::ERROR, message);
@@ -148,6 +154,7 @@ public:
     * @return Future that resolves when the record is dispatched.
     * @throws std::system_error if the implementation cannot start the async
     *         task.
+     * @details Calls: logAsync().
      */
     virtual std::future<void> criticalAsync(std::string_view message) {
         return logAsync(Level::CRITICAL, message);
@@ -226,6 +233,11 @@ public:
 private:
     Level level_ = Level::INFO;
 
+    /**
+     * @brief TBD: Describe noop_future.
+     * @return Return value.
+     * @details Calls: std::async().
+     */
     static std::future<void> noop_future() {
         return std::async(std::launch::deferred, [] {});
     }

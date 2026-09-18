@@ -36,7 +36,16 @@ struct PolicyReview {
     std::string review_notes;                      // Reviewer's notes
     std::string rejection_reason;                  // Reason if rejected
     
+    /**
+     * @brief TBD: Describe toJson.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
+    /**
+     * @brief TBD: Describe fromJson.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static PolicyReview fromJson(const nlohmann::json& j);
 };
 
@@ -50,7 +59,16 @@ public:
         int64_t next_review_date = 0;              // Next scheduled review
         bool auto_review_enabled = true;           // Whether automatic scheduling is enabled
         
+        /**
+         * @brief TBD: Describe toJson.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
+        /**
+         * @brief TBD: Describe fromJson.
+         * @param[in] j Input parameter.
+         * @return Return value.
+         */
         static ReviewSchedule fromJson(const nlohmann::json& j);
     };
     
@@ -137,6 +155,10 @@ private:
     mutable std::mutex mutex_;
     std::unordered_map<std::string, PolicyReview> reviews_;
     
+    /**
+     * @brief TBD: Describe generateReviewId.
+     * @return Return value.
+     */
     std::string generateReviewId() const;
 };
 
@@ -150,7 +172,16 @@ public:
         bool auto_disable_enabled = true;          // Whether to auto-disable on expiration
         std::vector<int> warning_days = {30, 14, 7}; // Days before expiration to warn
         
+        /**
+         * @brief TBD: Describe toJson.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
+        /**
+         * @brief TBD: Describe fromJson.
+         * @param[in] j Input parameter.
+         * @return Return value.
+         */
         static ExpirationConfig fromJson(const nlohmann::json& j);
     };
     
@@ -160,6 +191,10 @@ public:
         int days_until_expiration;
         std::string severity;                      // info, warning, critical
         
+        /**
+         * @brief TBD: Describe toJson.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
     };
     
@@ -211,6 +246,10 @@ public:
         bool sent = false;
         int64_t sent_at = 0;
         
+        /**
+         * @brief TBD: Describe toJson.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
     };
     
@@ -226,7 +265,16 @@ public:
         std::string webhook_url;
         std::string webhook_secret;
         
+        /**
+         * @brief TBD: Describe toJson.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
+        /**
+         * @brief TBD: Describe fromJson.
+         * @param[in] j Input parameter.
+         * @return Return value.
+         */
         static NotificationConfig fromJson(const nlohmann::json& j);
     };
     
@@ -270,8 +318,22 @@ private:
     NotificationConfig config_;
     std::unordered_map<std::string, Notification> notifications_;
     
+    /**
+     * @brief TBD: Describe generateNotificationId.
+     * @return Return value.
+     */
     std::string generateNotificationId() const;
+    /**
+     * @brief TBD: Describe sendEmail.
+     * @param[in] notification Input parameter.
+     * @return True on success.
+     */
     bool sendEmail(const Notification& notification);
+    /**
+     * @brief TBD: Describe sendWebhook.
+     * @param[in] notification Input parameter.
+     * @return True on success.
+     */
     bool sendWebhook(const Notification& notification);
 };
 

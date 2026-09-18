@@ -77,6 +77,7 @@ public:
      * 
      * @param cursor_token Base64-encoded cursor string
      * @return Optional CursorInfo, nullopt if invalid
+     * @brief TBD: Describe decodeDetailed.
      */
     static std::optional<CursorInfo> decodeDetailed(const std::string& cursor_token);
     
@@ -103,16 +104,29 @@ public:
      * @param requested_size Requested page size
      * @param config Pagination configuration
      * @return Normalized page size within [min, max]
+     * @brief TBD: Describe normalizePageSize.
      */
     static size_t normalizePageSize(size_t requested_size, const PaginationConfig& config);
     
-    // Base64 encode/decode helpers
+    /**
+     * @brief Base64 encode/decode helpers
+     * @param[in] input Input parameter.
+     * @return Return value.
+     */
     static std::string base64Encode(const std::string& input);
+    /**
+     * @brief TBD: Describe base64Decode.
+     * @param[in] input Input parameter.
+     * @return Return value.
+     */
     static std::optional<std::string> base64Decode(const std::string& input);
 
 private:
     
-    // Get current Unix timestamp
+    /**
+     * @brief Get current Unix timestamp
+     * @return Return value.
+     */
     static int64_t getCurrentTimestamp();
 };
 

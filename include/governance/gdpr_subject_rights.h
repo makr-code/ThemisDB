@@ -88,6 +88,10 @@ struct PortabilityPackage {
  */
 class IGdprEraseTarget {
 public:
+    /**
+     * @brief TBD: Describe ~IGdprEraseTarget.
+     * @return Return value.
+     */
     virtual ~IGdprEraseTarget() = default;
 
     /**
@@ -173,6 +177,7 @@ public:
 
     /**
      * @brief Return the number of registered erase targets.
+     * @return Return value.
      */
     size_t targetCount() const;
 
@@ -223,6 +228,11 @@ private:
     std::unordered_map<std::string, std::mutex> subject_mutexes_;
     std::mutex subject_map_mutex_;
 
+    /**
+     * @brief TBD: Describe getSubjectMutex.
+     * @param[in] subject_id Input parameter.
+     * @return Return value.
+     */
     std::mutex& getSubjectMutex(const std::string& subject_id);
 };
 

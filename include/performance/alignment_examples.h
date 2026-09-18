@@ -175,6 +175,12 @@ struct PacketHeader {
     uint64_t timestamp;
 };
 
+/**
+ * @brief TBD: Describe parse_packet_header.
+ * @param[in] buffer Input parameter.
+ * @return Return value.
+ * @details Implements parse_packet_header without additional internal calls.
+ */
 inline PacketHeader parse_packet_header(const uint8_t* buffer) {
     using namespace themis::utils;
     
@@ -197,6 +203,7 @@ inline PacketHeader parse_packet_header(const uint8_t* buffer) {
  * @param data Pointer to float array
  * @param size Number of elements
  * @return true if safe for aligned SIMD operations
+ * @details Implements is_simd_safe without additional internal calls.
  */
 inline bool is_simd_safe(const float* data, size_t size) {
     using namespace themis::performance;
@@ -221,6 +228,7 @@ inline bool is_simd_safe(const float* data, size_t size) {
  * @param buffer Input buffer
  * @param size Buffer size
  * @return Aligned pointer within buffer (or nullptr if not enough space)
+ * @details Implements align_for_simd without additional internal calls.
  */
 inline float* align_for_simd(float* buffer, size_t size) {
     using namespace themis::performance;
@@ -247,6 +255,7 @@ inline float* align_for_simd(float* buffer, size_t size) {
  * 
  * @param ptr Generic pointer
  * @return Vec4f* if properly aligned, nullptr otherwise
+ * @details Implements safe_cast_to_vec4f without additional internal calls.
  */
 inline Vec4f* safe_cast_to_vec4f(void* ptr) {
     return themis::utils::checked_aligned_cast<Vec4f>(ptr);
@@ -258,6 +267,7 @@ inline Vec4f* safe_cast_to_vec4f(void* ptr) {
  * @param data Generic pointer to vector data
  * @param count Number of vectors
  * @return true if processing succeeded
+ * @details Calls: safe_cast_to_vec4f().
  */
 inline bool process_vectors(void* data, size_t count) {
     Vec4f* vectors = safe_cast_to_vec4f(data);

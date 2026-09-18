@@ -98,6 +98,11 @@ public:
      * @brief Construct comparator with configuration
      */
     PairwiseComparator();
+    /**
+     * @brief TBD: Describe PairwiseComparator.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit PairwiseComparator(const Config& config);
     
     /**

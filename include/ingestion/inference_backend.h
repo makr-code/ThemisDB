@@ -59,6 +59,10 @@ namespace ingestion {
  */
 class ITextGenerationBackend {
 public:
+    /**
+     * @brief TBD: Describe ~ITextGenerationBackend.
+     * @return Return value.
+     */
     virtual ~ITextGenerationBackend() = default;
 
     /**
@@ -128,10 +132,20 @@ public:
                                                  const std::string& lora_adapter)>;
     using AvailabilityFn = std::function<bool()>;
 
+    /**
+     * @brief TBD: Describe setGenerateFn.
+     * @param[in] fn Input parameter.
+     * @details Calls: lk(), generateFnMutex(), generateFnStorage(), std::move().
+     */
     static void setGenerateFn(GenerateFn fn) {
         std::lock_guard<std::mutex> lk(generateFnMutex());
         generateFnStorage() = std::move(fn);
     }
+    /**
+     * @brief TBD: Describe setAvailabilityFn.
+     * @param[in] fn Input parameter.
+     * @details Calls: lk(), availabilityFnMutex(), availabilityFnStorage(), std::move().
+     */
     static void setAvailabilityFn(AvailabilityFn fn) {
         std::lock_guard<std::mutex> lk(availabilityFnMutex());
         availabilityFnStorage() = std::move(fn);
@@ -174,18 +188,38 @@ public:
     std::string description() const override { return "NullTextGenerationBackend (no-op)"; }
 
 private:
+    /**
+     * @brief TBD: Describe generateFnMutex.
+     * @return Return value.
+     * @details Implements generateFnMutex without additional internal calls.
+     */
     static std::mutex& generateFnMutex() {
         static std::mutex m;
         return m;
     }
+    /**
+     * @brief TBD: Describe generateFnStorage.
+     * @return Return value.
+     * @details Implements generateFnStorage without additional internal calls.
+     */
     static GenerateFn& generateFnStorage() {
         static GenerateFn fn;
         return fn;
     }
+    /**
+     * @brief TBD: Describe availabilityFnMutex.
+     * @return Return value.
+     * @details Implements availabilityFnMutex without additional internal calls.
+     */
     static std::mutex& availabilityFnMutex() {
         static std::mutex m;
         return m;
     }
+    /**
+     * @brief TBD: Describe availabilityFnStorage.
+     * @return Return value.
+     * @details Implements availabilityFnStorage without additional internal calls.
+     */
     static AvailabilityFn& availabilityFnStorage() {
         static AvailabilityFn fn;
         return fn;
@@ -208,6 +242,10 @@ private:
  */
 class IEmbeddingBackend {
 public:
+    /**
+     * @brief TBD: Describe ~IEmbeddingBackend.
+     * @return Return value.
+     */
     virtual ~IEmbeddingBackend() = default;
 
     /**
@@ -258,10 +296,20 @@ public:
     using EmbedFn = std::function<std::vector<float>(const std::string& text, int dims)>;
     using AvailabilityFn = std::function<bool()>;
 
+    /**
+     * @brief TBD: Describe setEmbedFn.
+     * @param[in] fn Input parameter.
+     * @details Calls: lk(), embedFnMutex(), embedFnStorage(), std::move().
+     */
     static void setEmbedFn(EmbedFn fn) {
         std::lock_guard<std::mutex> lk(embedFnMutex());
         embedFnStorage() = std::move(fn);
     }
+    /**
+     * @brief TBD: Describe setAvailabilityFn.
+     * @param[in] fn Input parameter.
+     * @details Calls: lk(), availabilityFnMutex(), availabilityFnStorage(), std::move().
+     */
     static void setAvailabilityFn(AvailabilityFn fn) {
         std::lock_guard<std::mutex> lk(availabilityFnMutex());
         availabilityFnStorage() = std::move(fn);
@@ -307,18 +355,38 @@ public:
     }
 
 private:
+    /**
+     * @brief TBD: Describe embedFnMutex.
+     * @return Return value.
+     * @details Implements embedFnMutex without additional internal calls.
+     */
     static std::mutex& embedFnMutex() {
         static std::mutex m;
         return m;
     }
+    /**
+     * @brief TBD: Describe embedFnStorage.
+     * @return Return value.
+     * @details Implements embedFnStorage without additional internal calls.
+     */
     static EmbedFn& embedFnStorage() {
         static EmbedFn fn;
         return fn;
     }
+    /**
+     * @brief TBD: Describe availabilityFnMutex.
+     * @return Return value.
+     * @details Implements availabilityFnMutex without additional internal calls.
+     */
     static std::mutex& availabilityFnMutex() {
         static std::mutex m;
         return m;
     }
+    /**
+     * @brief TBD: Describe availabilityFnStorage.
+     * @return Return value.
+     * @details Implements availabilityFnStorage without additional internal calls.
+     */
     static AvailabilityFn& availabilityFnStorage() {
         static AvailabilityFn fn;
         return fn;
@@ -395,6 +463,10 @@ struct TensorCoreRecord {
 /** @brief I tensor decomposition backend implementation. */
 class ITensorDecompositionBackend {
 public:
+    /**
+     * @brief TBD: Describe ~ITensorDecompositionBackend.
+     * @return Return value.
+     */
     virtual ~ITensorDecompositionBackend() = default;
 
     /**

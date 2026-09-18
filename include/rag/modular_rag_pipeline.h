@@ -187,6 +187,7 @@ struct ModularRAGContext {
      * @brief Append a provenance annotation.
      * @param stage     Stage that produced this annotation.
      * @param note      Short human-readable note.
+     * @details Calls: push_back(), std::string(), ragStageIdName(), std::move().
      */
     void addProvenance(RAGStageId stage, std::string note) {
         provenance_chain.push_back(
@@ -298,6 +299,8 @@ public:
     /**
      * @brief Construct a pipeline with the given configuration.
      * @throws std::invalid_argument if any stage handler is null.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     explicit ModularRAGPipeline(ModularRAGPipelineConfig config)
         : config_(std::move(config))

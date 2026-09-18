@@ -133,6 +133,7 @@ public:
      * the Bearer token, and returns `{status_code, response_body}`.
      *
      * Pass an empty `ApiHttpGetFn{}` to restore the real libcurl path.
+     * @param[in] fn Input parameter.
      */
     void setHttpGetForTesting(ApiHttpGetFn fn);
 
@@ -145,6 +146,7 @@ public:
      * `{status_code, response_body}`.
      *
      * Pass an empty `ApiHttpPostFn{}` to restore the real libcurl path.
+     * @param[in] fn Input parameter.
      */
     void setHttpPostForTesting(ApiHttpPostFn fn);
 

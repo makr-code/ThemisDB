@@ -87,6 +87,7 @@ public:
     /**
      * @brief Construct Infini-attention CUDA backend
      * @param config Infini-attention configuration
+     * @return Return value.
      */
     explicit InfiniAttentionCUDA(const InfiniAttentionConfig& config);
     
@@ -189,6 +190,11 @@ private:
     /**
      * @brief Compute local Flash Attention output
      * Uses TensorRT/cuDNN if available, fallback to kernel
+     * @param[in] Q Input parameter.
+     * @param[in] K Input parameter.
+     * @param[in] V Input parameter.
+     * @param[in,out] O_local Input/output parameter.
+     * @return Return value.
      */
     Status computeLocalAttention(
         const Tensor& Q,
@@ -199,6 +205,9 @@ private:
     /**
      * @brief Compute compressive memory interaction
      * Q @ M^T with causal masking
+     * @param[in] Q Input parameter.
+     * @param[in,out] O_comp Input/output parameter.
+     * @return Return value.
      */
     Status computeCompressiveAttention(
         const Tensor& Q,
@@ -207,6 +216,10 @@ private:
     /**
      * @brief Blend local and compressive attention outputs
      * Default: 50/50 averaging
+     * @param[in] O_local Input parameter.
+     * @param[in] O_comp Input parameter.
+     * @param[in,out] O_final Input/output parameter.
+     * @return Return value.
      */
     Status blendOutputs(
         const Tensor& O_local,
@@ -216,6 +229,9 @@ private:
     /**
      * @brief Update compressive memory M' = M + α * σ(k * v^T)
      * Uses low-rank decomposition if enabled
+     * @param[in] K Input parameter.
+     * @param[in] V Input parameter.
+     * @return Return value.
      */
     Status updateCompressiveMemory(
         const Tensor& K,

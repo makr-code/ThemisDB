@@ -54,6 +54,7 @@ public:
     /**
      * Remove a shard from the ring
      * @param shard_id Shard identifier to remove
+     * @brief TBD: Describe removeShard.
      */
     void removeShard(const std::string& shard_id);
     
@@ -62,6 +63,7 @@ public:
      * Uses clockwise search on the ring to find the first shard
      * @param hash 64-bit hash value
      * @return Shard ID, or empty string if ring is empty
+     * @brief TBD: Describe getShardForHash.
      */
     std::string getShardForHash(uint64_t hash) const;
     
@@ -70,11 +72,15 @@ public:
      * Convenience method that hashes the URN and finds the shard
      * @param urn URN to route
      * @return Shard ID, or empty string if ring is empty
+     * @brief TBD: Describe getShardForURN.
      */
     std::string getShardForURN(const URN& urn) const;
 
     /**
      * Get shard for an arbitrary key (wrapper returning optional)
+     * @brief TBD: Describe getNode.
+     * @param[in] key Input parameter.
+     * @return Return value.
      */
     std::optional<std::string> getNode(const std::string& key) const;
 
@@ -82,6 +88,8 @@ public:
      * Get replica shards following the primary for a key
      * @param key partition key
      * @param count number of replicas to return
+     * @brief TBD: Describe getReplicaNodes.
+     * @return Return value.
      */
     std::vector<std::string> getReplicaNodes(const std::string& key, size_t count) const;
     
@@ -91,6 +99,7 @@ public:
      * @param hash Starting hash position
      * @param count Number of successors to find
      * @return List of shard IDs (may be less than count if fewer shards exist)
+     * @brief TBD: Describe getSuccessors.
      */
     std::vector<std::string> getSuccessors(uint64_t hash, size_t count) const;
     
@@ -107,6 +116,7 @@ public:
     /**
      * Get all unique shards in the ring
      * @return List of unique shard IDs
+     * @brief TBD: Describe getAllShards.
      */
     std::vector<std::string> getAllShards() const;
 
@@ -120,6 +130,7 @@ public:
      * @param hash_start  Lower bound of the hash range (inclusive)
      * @param hash_end    Upper bound of the hash range (inclusive)
      * @return Ordered, deduplicated list of shard IDs (may be all shards)
+     * @brief TBD: Describe getShardsInRange.
      */
     std::vector<std::string> getShardsInRange(uint64_t hash_start, uint64_t hash_end) const;
 
@@ -136,6 +147,7 @@ public:
      * Calculate balance factor (standard deviation of virtual nodes per shard)
      * Lower is better. < 5% is considered well-balanced
      * @return Balance factor as percentage (0.0 to 100.0)
+     * @brief TBD: Describe getBalanceFactor.
      */
     double getBalanceFactor() const;
     
@@ -144,6 +156,11 @@ public:
      * @return Total virtual node count
      */
     size_t getVirtualNodeCount() const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return ring_.size();
     }
@@ -153,14 +170,26 @@ public:
      * @return Number of unique shards
      */
     size_t getShardCount() const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return shard_tokens_.size();
     }
     
     /**
      * Clear all shards from the ring
+     * @brief TBD: Describe clear.
+     * @details Calls: lock().
      */
     void clear() {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         ring_.clear();
         shard_tokens_.clear();
@@ -183,6 +212,7 @@ private:
      * Combines shard_id and virtual_node_index to generate unique positions
      * @param key String to hash
      * @return 64-bit hash value
+     * @brief TBD: Describe hash.
      */
     uint64_t hash(const std::string& key) const;
 };
@@ -190,6 +220,12 @@ private:
 /** @brief Consistent hash component. */
 class ConsistentHash {
 public:
+    /**
+     * @brief TBD: Describe ConsistentHash.
+     * @param[in] int Input parameter.
+     * @return Return value.
+     * @details Implements ConsistentHash without additional internal calls.
+     */
     explicit ConsistentHash(int /*expected_shards*/) {}
 
     void addNode(const std::string& shard_id, const std::string& endpoint, size_t virtual_nodes = 150) {
@@ -197,6 +233,11 @@ public:
         ring_.addShard(shard_id, virtual_nodes);
     }
 
+    /**
+     * @brief TBD: Describe removeNode.
+     * @param[in] shard_id Input parameter.
+     * @details Calls: erase(), removeShard().
+     */
     void removeNode(const std::string& shard_id) {
         endpoints_.erase(shard_id);
         ring_.removeShard(shard_id);

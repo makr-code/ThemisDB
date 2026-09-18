@@ -133,6 +133,13 @@ public:
         bool rerank_fallback = false;    ///< LLM reranker fallback applied
     };
 
+    /**
+     * @brief TBD: Describe HybridSearch.
+     * @param[in,out] fulltext_index Input/output parameter.
+     * @param[in,out] vector_index Input/output parameter.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit HybridSearch(
         SecondaryIndexManager* fulltext_index,
         VectorIndexManager* vector_index,
@@ -185,6 +192,11 @@ public:
     );
     
     const Config& getConfig() const { return config_; }
+    /**
+     * @brief TBD: Describe setConfig.
+     * @param[in] config Input parameter.
+     * @details Implements setConfig without additional internal calls.
+     */
     void setConfig(const Config& config) { config_ = config; }
 
     /**

@@ -57,6 +57,10 @@ public:
           context_(context) {
     }
 
+    /**
+     * @brief TBD: Describe ~TrainingException.
+     * @return Return value.
+     */
     virtual ~TrainingException() = default;
 
     /**

@@ -50,7 +50,17 @@
             return *this;
           }
           T* Get() const { return ptr; }
+          /**
+           * @brief TBD: Describe GetAddressOf.
+           * @return Pointer to the result.
+           * @details Implements GetAddressOf without additional internal calls.
+           */
           T** GetAddressOf() { return &ptr; }
+          /**
+           * @brief TBD: Describe ReleaseAndGetAddressOf.
+           * @return Pointer to the result.
+           * @details Calls: Reset().
+           */
           T** ReleaseAndGetAddressOf() { Reset(); return &ptr; }
           T** operator&() { return GetAddressOf(); }
           bool operator==(std::nullptr_t) const { return ptr == nullptr; }
@@ -58,6 +68,10 @@
           T* operator->() const { return ptr; }
           T& operator*() const { return *ptr; }
           explicit operator bool() const { return ptr != nullptr; }
+          /**
+           * @brief TBD: Describe Reset.
+           * @details Calls: Release().
+           */
           void Reset() { if (ptr) { ptr->Release(); ptr = nullptr; } }
           ComPtr& operator=(T* p) {
             if (ptr) {
@@ -185,11 +199,34 @@ public:
     const std::string& get_gpu_description() const { return gpu_description_; }
 
 private:
+    /**
+     * @brief TBD: Describe create_device.
+     * @return True on success.
+     */
     bool create_device();
+    /**
+     * @brief TBD: Describe create_command_queue.
+     * @return True on success.
+     */
     bool create_command_queue();
+    /**
+     * @brief TBD: Describe create_command_allocator.
+     * @return True on success.
+     */
     bool create_command_allocator();
+    /**
+     * @brief TBD: Describe create_command_list.
+     * @return True on success.
+     */
     bool create_command_list();
+    /**
+     * @brief TBD: Describe create_fence.
+     * @return True on success.
+     */
     bool create_fence();
+    /**
+     * @brief TBD: Describe enable_debug_layer.
+     */
     void enable_debug_layer();
     
     int adapter_id_ = 0;

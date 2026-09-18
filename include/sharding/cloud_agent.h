@@ -142,6 +142,13 @@ public:
         std::chrono::system_clock::time_point last_activity;
     };
     
+    /**
+     * @brief TBD: Describe CloudAgent.
+     * @param[in] topology Input parameter.
+     * @param[in] executor Input parameter.
+     * @param[in] metrics Input parameter.
+     * @return Return value.
+     */
     explicit CloudAgent(
         std::shared_ptr<ShardTopology> topology,
         std::shared_ptr<RemoteExecutor> executor,
@@ -159,11 +166,13 @@ public:
     
     /**
      * Start the cloud agent
+     * @brief TBD: Describe start.
      */
     void start();
     
     /**
      * Stop the cloud agent
+     * @brief TBD: Describe stop.
      */
     void stop();
     
@@ -176,6 +185,7 @@ public:
      * Delegate an operation to the cloud agent
      * @param operation Operation to delegate
      * @return Result of the operation (may be async if callback is set)
+     * @brief TBD: Describe delegate.
      */
     CloudAgentResult delegate(const CloudAgentOperation& operation);
     
@@ -183,6 +193,7 @@ public:
      * Delegate an operation asynchronously
      * @param operation Operation to delegate
      * @return Operation ID for tracking
+     * @brief TBD: Describe delegateAsync.
      */
     std::string delegateAsync(const CloudAgentOperation& operation);
     
@@ -190,6 +201,7 @@ public:
      * Get status of an operation
      * @param operation_id Operation identifier
      * @return Current status of the operation
+     * @brief TBD: Describe getOperationStatus.
      */
     CloudAgentResult getOperationStatus(const std::string& operation_id) const;
     
@@ -197,30 +209,35 @@ public:
      * Cancel a pending or running operation
      * @param operation_id Operation identifier
      * @return true if cancelled successfully
+     * @brief TBD: Describe cancelOperation.
      */
     bool cancelOperation(const std::string& operation_id);
     
     /**
      * Get all pending operations
      * @return List of pending operation IDs
+     * @brief TBD: Describe getPendingOperations.
      */
     std::vector<std::string> getPendingOperations() const;
     
     /**
      * Get agent statistics
      * @return Statistics object
+     * @brief TBD: Describe getStatistics.
      */
     Statistics getStatistics() const;
     
     /**
      * Get agent statistics as JSON
      * @return JSON statistics
+     * @brief TBD: Describe getStatisticsJson.
      */
     nlohmann::json getStatisticsJson() const;
     
     /**
      * Get agent health status
      * @return JSON with health information
+     * @brief TBD: Describe getHealthStatus.
      */
     nlohmann::json getHealthStatus() const;
     
@@ -233,12 +250,14 @@ public:
     /**
      * Update agent configuration
      * @param config New configuration
+     * @brief TBD: Describe updateConfig.
      */
     void updateConfig(const Config& config);
     
     /**
      * Execute health check on all shards
      * @return Health check results per shard
+     * @brief TBD: Describe executeHealthCheck.
      */
     nlohmann::json executeHealthCheck();
     
@@ -265,18 +284,54 @@ private:
     // Cleanup tracking (protected by mutex_)
     std::chrono::steady_clock::time_point last_cleanup_{std::chrono::steady_clock::now()};
     
-    // Internal methods
+    /**
+     * @brief Internal methods
+     */
     void workerLoop();
+    /**
+     * @brief TBD: Describe healthLoop.
+     */
     void healthLoop();
+    /**
+     * @brief TBD: Describe generateOperationId.
+     * @return Return value.
+     */
     std::string generateOperationId() const;
+    /**
+     * @brief TBD: Describe generateAgentId.
+     * @return Return value.
+     */
     std::string generateAgentId() const;
+    /**
+     * @brief TBD: Describe executeOperation.
+     * @param[in] operation Input parameter.
+     * @return Return value.
+     */
     CloudAgentResult executeOperation(const CloudAgentOperation& operation);
+    /**
+     * @brief TBD: Describe executeScatterGather.
+     * @param[in] operation Input parameter.
+     * @param[in] shards Input parameter.
+     * @return Return value.
+     */
     CloudAgentResult executeScatterGather(
         const CloudAgentOperation& operation,
         const std::vector<std::string>& shards
     );
+    /**
+     * @brief TBD: Describe updateStatistics.
+     * @param[in] result Input parameter.
+     */
     void updateStatistics(const CloudAgentResult& result);
+    /**
+     * @brief TBD: Describe recordMetrics.
+     * @param[in] operation Input parameter.
+     * @param[in] result Input parameter.
+     */
     void recordMetrics(const CloudAgentOperation& operation, const CloudAgentResult& result);
+    /**
+     * @brief TBD: Describe cleanupOldOperations.
+     */
     void cleanupOldOperations();
 };
 

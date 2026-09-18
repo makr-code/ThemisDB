@@ -115,6 +115,10 @@ public:
         AuthenticatorSelection authenticator_selection;
         std::vector<std::string> exclude_credentials;  ///< Prevent duplicate registration
 
+        /**
+         * @brief TBD: Describe to_json.
+         * @return Return value.
+         */
         nlohmann::json to_json() const;
     };
 
@@ -132,6 +136,10 @@ public:
         /// Credential IDs to allow (empty = discoverable credential / passkey flow)
         std::vector<std::string> allow_credentials;
 
+        /**
+         * @brief TBD: Describe to_json.
+         * @return Return value.
+         */
         nlohmann::json to_json() const;
     };
 
@@ -168,6 +176,7 @@ public:
      *
      * @param rp  RP domain and display name
      * @throws AuthException(AUTH_CONFIG_INVALID) if rp.id is empty
+     * @return Return value.
      */
     explicit WebAuthnAuthenticator(const RelyingParty& rp);
     ~WebAuthnAuthenticator() = default;
@@ -176,6 +185,8 @@ public:
      * @brief Attach an AuditLogger for security event recording
      *
      * Pass nullptr to detach. Does NOT take ownership of the pointer.
+     * @param[in,out] logger Input/output parameter.
+     * @details Implements setAuditLogger without additional internal calls.
      */
     void setAuditLogger(utils::AuditLogger* logger) { audit_logger_ = logger; }
 
@@ -271,6 +282,7 @@ public:
      *
      * Useful for test environments where the origin is "http://localhost:3000"
      * or similar non-HTTPS origins.
+     * @param[in] origin Input parameter.
      */
     void setExpectedOrigin(const std::string& origin);
 
@@ -305,12 +317,30 @@ private:
     /// Fill @p buf with @p len cryptographically random bytes
     void fillRandomBytes(unsigned char* buf, std::size_t len);
 
-    // Cryptographic primitives
+    /**
+     * @brief Cryptographic primitives
+     * @param[in] data Input parameter.
+     * @return Return value.
+     */
     static std::vector<uint8_t> sha256(const std::vector<uint8_t>& data);
+    /**
+     * @brief TBD: Describe sha256.
+     * @param[in] data Input parameter.
+     * @return Return value.
+     */
     static std::vector<uint8_t> sha256(const std::string& data);
 
-    // Base64URL codec (RFC 4648 §5, no padding)
+    /**
+     * @brief Base64URL codec (RFC 4648 §5, no padding)
+     * @param[in] data Input parameter.
+     * @return Return value.
+     */
     static std::string         base64UrlEncode(const std::vector<uint8_t>& data);
+    /**
+     * @brief TBD: Describe base64UrlDecode.
+     * @param[in] input Input parameter.
+     * @return Return value.
+     */
     static std::vector<uint8_t> base64UrlDecode(const std::string& input);
 
     // Parsed fields from the clientDataJSON byte sequence
@@ -319,6 +349,11 @@ private:
         std::string challenge;  ///< base64url
         std::string origin;
     };
+    /**
+     * @brief TBD: Describe parseClientDataJSON.
+     * @param[in] client_data_json Input parameter.
+     * @return Return value.
+     */
     static ClientData parseClientDataJSON(const std::vector<uint8_t>& client_data_json);
 
     // Parsed fields from the binary authenticatorData structure
@@ -333,6 +368,11 @@ private:
         std::string          credential_id;  ///< base64url
         std::vector<uint8_t> cose_key_bytes; ///< raw CBOR of the credential public key
     };
+    /**
+     * @brief TBD: Describe parseAuthData.
+     * @param[in] auth_data_bytes Input parameter.
+     * @return Return value.
+     */
     static AuthData parseAuthData(const std::vector<uint8_t>& auth_data_bytes);
 
     /**

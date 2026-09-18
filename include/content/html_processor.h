@@ -46,6 +46,11 @@ public:
     };
 
     HtmlProcessor();
+    /**
+     * @brief TBD: Describe HtmlProcessor.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit HtmlProcessor(Config config);
     ~HtmlProcessor() override = default;
 
@@ -155,14 +160,26 @@ public:
 private:
     Config config_;
 
-    // Collapse runs of whitespace to a single space / newline
+    /**
+     * @brief Collapse runs of whitespace to a single space / newline
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     static std::string normalizeWhitespace(const std::string& text);
 
-    // Count whitespace-delimited tokens
+    /**
+     * @brief Count whitespace-delimited tokens
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     static int countTokens(const std::string& text);
 
-    // Remove the full content of a block-level element by tag name
-    // (handles nested elements of the same name)
+    /**
+     * @brief Remove the full content of a block-level element by tag name (handles nested elements of the same name)
+     * @param[in] html Input parameter.
+     * @param[in] tag Input parameter.
+     * @return Return value.
+     */
     static std::string removeElement(const std::string& html, const std::string& tag);
 };
 

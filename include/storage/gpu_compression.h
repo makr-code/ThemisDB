@@ -224,12 +224,19 @@ public:
      *   - `!force_cpu_` flag is set.
      *
      * Falls back to the CPU implementation otherwise.
+     * @param[in] data Input parameter.
+     * @param[in] algorithm Input parameter.
+     * @return Return value.
      */
     GpuCompressionResult compress(
         const std::vector<uint8_t>& data,
         GpuCompressionAlgorithm algorithm
     );
 
+     * @param[in] data Input parameter.
+     * @param[in] size Input parameter.
+     * @param[in] algorithm Input parameter.
+     * @return Return value.
     /** @brief Convenience overload accepting a raw pointer. */
     GpuCompressionResult compress(
         const uint8_t* data,
@@ -288,12 +295,15 @@ public:
     // Runtime introspection
     // -------------------------------------------------------------------------
 
+     * @return True on success.
     /** @brief Returns true if a GPU backend is initialised and operational. */
     bool is_gpu_available() const;
 
+     * @return Return value.
     /** @brief Returns the actually active acceleration type. */
     GpuAccelerationType active_accel_type() const;
 
+     * @param[in] enable Input parameter.
     /** @brief Force CPU-only mode (useful for testing). */
     void force_cpu_fallback(bool enable);
 
@@ -302,9 +312,18 @@ public:
     // -------------------------------------------------------------------------
 
     const GpuCompressionConfig& get_config() const {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mu_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mu_);
         return config_;
     }
+    /**
+     * @brief TBD: Describe set_config.
+     * @param[in] cfg Input parameter.
+     */
     void set_config(const GpuCompressionConfig& cfg);
 
     // -------------------------------------------------------------------------
@@ -329,39 +348,92 @@ public:
     };
 
     Stats get_stats() const { std::lock_guard<std::mutex> lk(mu_); return stats_; }
+    /**
+     * @brief TBD: Describe reset_stats.
+     */
     void  reset_stats();
 
-    // -------------------------------------------------------------------------
-    // Helpers
-    // -------------------------------------------------------------------------
+    /**
+     * @brief ------------------------------------------------------------------------- Helpers -------------------------------------------------------------------------
+     * @param[in] algorithm Input parameter.
+     * @return Return value.
+     */
 
     static std::string algorithm_to_string(GpuCompressionAlgorithm algorithm);
+    /**
+     * @brief TBD: Describe accel_type_to_string.
+     * @param[in] type Input parameter.
+     * @return Return value.
+     */
     static std::string accel_type_to_string(GpuAccelerationType type);
 
 private:
-    // -------------------------------------------------------------------------
-    // GPU backend
-    // -------------------------------------------------------------------------
+    /**
+     * @brief ------------------------------------------------------------------------- GPU backend -------------------------------------------------------------------------
+     * @return True on success.
+     */
     bool init_gpu();
+    /**
+     * @brief TBD: Describe should_use_gpu.
+     * @param[in] data_size Input parameter.
+     * @return True on success.
+     */
     bool should_use_gpu(size_t data_size) const;
 
-    // -------------------------------------------------------------------------
-    // CPU fallback implementations
-    // -------------------------------------------------------------------------
+    /**
+     * @brief ------------------------------------------------------------------------- CPU fallback implementations -------------------------------------------------------------------------
+     * @param[in] data Input parameter.
+     * @param[in] size Input parameter.
+     * @return Return value.
+     */
     GpuCompressionResult cpu_compress_zstd(const uint8_t* data, size_t size);
+    /**
+     * @brief TBD: Describe cpu_compress_snappy.
+     * @param[in] data Input parameter.
+     * @param[in] size Input parameter.
+     * @return Return value.
+     */
     GpuCompressionResult cpu_compress_snappy(const uint8_t* data, size_t size);
+    /**
+     * @brief TBD: Describe cpu_compress_lz4.
+     * @param[in] data Input parameter.
+     * @param[in] size Input parameter.
+     * @return Return value.
+     */
     GpuCompressionResult cpu_compress_lz4(const uint8_t* data, size_t size);
 
+    /**
+     * @brief TBD: Describe cpu_decompress_zstd.
+     * @param[in] data Input parameter.
+     * @param[in] original_size Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> cpu_decompress_zstd(
         const std::vector<uint8_t>& data, size_t original_size);
+    /**
+     * @brief TBD: Describe cpu_decompress_snappy.
+     * @param[in] data Input parameter.
+     * @param[in] original_size Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> cpu_decompress_snappy(
         const std::vector<uint8_t>& data, size_t original_size);
+    /**
+     * @brief TBD: Describe cpu_decompress_lz4.
+     * @param[in] data Input parameter.
+     * @param[in] original_size Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> cpu_decompress_lz4(
         const std::vector<uint8_t>& data, size_t original_size);
 
-    /// CPU-side decoder for data produced by the GPU (nvCOMP) path.
-    /// Parses the GPU container format and decompresses each chunk with
-    /// the corresponding native CPU library.
+    /**
+     * @brief CPU-side decoder for data produced by the GPU (nvCOMP) path.
+     * @param[in] compressed Input parameter.
+     * @param[in] algorithm Input parameter.
+     * @return Return value.
+     * @details Parses the GPU container format and decompresses each chunk with the corresponding native CPU library.
+     */
     std::vector<uint8_t> cpu_decompress_gpu_container(
         const std::vector<uint8_t>& compressed,
         GpuCompressionAlgorithm algorithm);

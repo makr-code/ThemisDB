@@ -162,12 +162,20 @@ public:
         const std::vector<std::pair<std::string, nlohmann::json>>& filters = {})
         const;
 
+     * @brief TBD: Describe releaseSnapshot.
+     * @param[in] handle Input parameter.
+     * @return True on success.
     /** Release a snapshot and free its resources. */
     bool releaseSnapshot(const SnapshotHandle& handle);
 
+     * @brief TBD: Describe isAlive.
+     * @param[in] handle Input parameter.
+     * @return True on success.
     /** Return true if the snapshot handle is still alive. */
     bool isAlive(const SnapshotHandle& handle) const;
 
+     * @brief TBD: Describe snapshotCount.
+     * @return Return value.
     /** Number of live snapshots. */
     size_t snapshotCount() const;
 
@@ -177,6 +185,7 @@ public:
      * @param handle  A valid snapshot handle.
      * @return        Metadata, or a default-constructed (is_valid=false) struct
      *                if the snapshot does not exist.
+     * @brief TBD: Describe getSnapshotMetadata.
      */
     SnapshotMetadata getSnapshotMetadata(const SnapshotHandle& handle) const;
 
@@ -188,6 +197,7 @@ public:
      * @param max_age_ms  Maximum allowed age in milliseconds.  Pass 0 to
      *                    skip TTL-based collection.
      * @return            Number of snapshots removed.
+     * @brief TBD: Describe garbageCollectByAge.
      */
     size_t garbageCollectByAge(Timestamp max_age_ms);
 
@@ -198,9 +208,14 @@ public:
      *
      * @param max_snapshots  Maximum number of snapshots to keep.
      * @return               Number of snapshots removed.
+     * @brief TBD: Describe garbageCollectByCount.
      */
     size_t garbageCollectByCount(size_t max_snapshots);
 
+    /**
+     * @brief TBD: Describe getStatistics.
+     * @return Return value.
+     */
     nlohmann::json getStatistics() const;
 
     // ── Snapshot diffing ─────────────────────────────────────────────────────
@@ -230,6 +245,10 @@ public:
             return modified.empty() && added.empty() && removed.empty();
         }
 
+        /**
+         * @brief TBD: Describe toJson.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
     };
 
@@ -248,6 +267,7 @@ public:
      * @return       SnapshotDiff; empty() == true when the snapshots are equal.
      * @throws       std::invalid_argument when either handle is invalid or
      *               refers to a released snapshot.
+     * @brief TBD: Describe diff.
      */
     SnapshotDiff diff(const SnapshotHandle& base,
                       const SnapshotHandle& other) const;
@@ -267,6 +287,10 @@ private:
     size_t total_released_{0};
     size_t total_gc_collected_{0};
 
+    /**
+     * @brief TBD: Describe generateSnapshotId.
+     * @return Return value.
+     */
     static std::string generateSnapshotId();
 };
 

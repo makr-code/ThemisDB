@@ -167,6 +167,7 @@ public:
      *
      * @note Thread-Safety: caller must not call `detectObjects()` concurrently
      *       on the same instance; use separate plugin instances per thread.
+     * @return Return value.
      */
     OcrResult getLastOcrResult() const;
 

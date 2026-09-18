@@ -30,7 +30,16 @@ struct BinaryFileEntry {
     size_t size_bytes;             // File size in bytes
     std::string version;           // Binary version (optional)
     
+    /**
+     * @brief TBD: Describe to_json.
+     * @return Return value.
+     */
     nlohmann::json to_json() const;
+    /**
+     * @brief TBD: Describe from_json.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static BinaryFileEntry from_json(const nlohmann::json& j);
 };
 
@@ -62,6 +71,11 @@ public:
     };
     
     BinaryManifest() = default;
+    /**
+     * @brief TBD: Describe BinaryManifest.
+     * @param[in] metadata Input parameter.
+     * @return Return value.
+     */
     explicit BinaryManifest(const Metadata& metadata);
     
     /**
@@ -89,6 +103,7 @@ public:
      * @brief Set manifest metadata
      * 
      * @param metadata Manifest metadata
+     * @details Implements setMetadata without additional internal calls.
      */
     void setMetadata(const Metadata& metadata) { metadata_ = metadata; }
     
@@ -130,7 +145,16 @@ struct SignedManifest {
     std::string signature_algorithm; // "RSA-4096-SHA256"
     std::string signer_id;          // Key ID used for signing
     
+    /**
+     * @brief TBD: Describe to_json.
+     * @return Return value.
+     */
     nlohmann::json to_json() const;
+    /**
+     * @brief TBD: Describe from_json.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static SignedManifest from_json(const nlohmann::json& j);
     
     /**

@@ -262,6 +262,7 @@ public:
 
     /**
      * @brief Return the number of nodes.
+     * @return Return value.
      */
     size_t nodeCount() const;
 
@@ -276,12 +277,16 @@ public:
     /**
      * @brief Remove a specific directed edge.  Thread-safe.
      * @return true if the edge existed.
+     * @param[in] from_id Input parameter.
+     * @param[in] to_id Input parameter.
+     * @param[in] relation Input parameter.
      */
     bool removeEdge(const std::string& from_id, const std::string& to_id,
                     RelationType relation);
 
     /**
      * @brief Return the number of edges.
+     * @return Return value.
      */
     size_t edgeCount() const;
 
@@ -310,6 +315,8 @@ public:
 
     /**
      * @brief Return all outgoing edges from @p node_id.  Thread-safe.
+     * @param[in] node_id Input parameter.
+     * @return Return value.
      */
     std::vector<KGEdge> outEdges(const std::string& node_id) const;
 
@@ -426,11 +433,13 @@ public:
 
     /**
      * @brief Access current configuration.
+     * @return Return value.
      */
     const KGRetrieverConfig& getConfig() const;
 
     /**
      * @brief Replace configuration.
+     * @param[in] config Input parameter.
      */
     void setConfig(const KGRetrieverConfig& config);
 
@@ -470,6 +479,8 @@ public:
     /**
      * @brief Shallow retriever: 1-hop traversal, low KG weight (0.2).
      * Best for: quick augmentation with minimal latency overhead.
+     * @param[in] graph Input parameter.
+     * @return Return value.
      */
     static std::unique_ptr<KnowledgeGraphRetriever> createShallow(
         const KnowledgeGraph& graph);
@@ -477,22 +488,41 @@ public:
     /**
      * @brief Balanced retriever: 2-hop traversal, moderate KG weight (0.3).
      * Best for: general-purpose knowledge-graph augmented RAG.
+     * @param[in] graph Input parameter.
+     * @return Return value.
      */
     static std::unique_ptr<KnowledgeGraphRetriever> createBalanced(
         const KnowledgeGraph& graph);
 
+    /**
+     * @brief TBD: Describe createShallow.
+     * @param[in] graph Input parameter.
+     * @return Return value.
+     */
     static std::unique_ptr<KnowledgeGraphRetriever> createShallow(
         std::shared_ptr<IKnowledgeGraph> graph);
 
+    /**
+     * @brief TBD: Describe createBalanced.
+     * @param[in] graph Input parameter.
+     * @return Return value.
+     */
     static std::unique_ptr<KnowledgeGraphRetriever> createBalanced(
         std::shared_ptr<IKnowledgeGraph> graph);
 
+    /**
+     * @brief TBD: Describe createDeep.
+     * @param[in] graph Input parameter.
+     * @return Return value.
+     */
     static std::unique_ptr<KnowledgeGraphRetriever> createDeep(
         std::shared_ptr<IKnowledgeGraph> graph);
 
     /**
      * @brief Deep retriever: 3-hop traversal, higher KG weight (0.45).
      * Best for: entity-rich corpora where graph signal is highly informative.
+     * @param[in] graph Input parameter.
+     * @return Return value.
      */
     static std::unique_ptr<KnowledgeGraphRetriever> createDeep(
         const KnowledgeGraph& graph);

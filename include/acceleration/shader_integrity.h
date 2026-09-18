@@ -51,9 +51,10 @@ public:
         std::string message;        // human-readable reason for failure
     };
 
-    // -------------------------------------------------------------------------
-    // Singleton access
-    // -------------------------------------------------------------------------
+    /**
+     * @brief ------------------------------------------------------------------------- Singleton access -------------------------------------------------------------------------
+     * @return Return value.
+     */
     static ShaderIntegrityVerifier& instance();
 
     // Non-copyable, non-movable
@@ -64,15 +65,20 @@ public:
     // Registration
     // -------------------------------------------------------------------------
 
-    /// Register the expected SHA-256 hex hash for a shader identified by name.
-    /// Call this once at startup (e.g. from a signed manifest file).
-    /// @param name     Logical shader identifier, e.g. "l2_distance.comp.spv"
-    /// @param hexHash  Expected SHA-256 as 64-character lower-case hex string
+    /**
+     * @brief Register the expected SHA-256 hex hash for a shader identified by name.
+     * @param[in] name Input parameter.
+     * @param[in] hexHash Input parameter.
+     * @details Call this once at startup (e.g. from a signed manifest file). @param name Logical shader identifier, e.g. "l2_distance.comp.spv" @param hexHash Expected SHA-256 as 64-character lower-case hex string
+     */
     void registerExpectedHash(const std::string& name, const std::string& hexHash);
 
-    /// Register hashes from a simple text manifest (one "name sha256hex" per line).
-    /// Lines starting with '#' are treated as comments.
-    /// Returns the number of hashes successfully parsed.
+    /**
+     * @brief Register hashes from a simple text manifest (one "name sha256hex" per line).
+     * @param[in] manifestPath Input parameter.
+     * @return Return value.
+     * @details Lines starting with '#' are treated as comments. Returns the number of hashes successfully parsed.
+     */
     size_t loadManifest(const std::string& manifestPath);
 
     /// Remove all registered expected hashes (useful in tests).
@@ -82,15 +88,23 @@ public:
     // Verification
     // -------------------------------------------------------------------------
 
-    /// Compute SHA-256 of @p spvBytes and check against the registered hash
-    /// for @p name.
-    ///
-    /// If no hash is registered for @p name the call succeeds with a warning
-    /// in @p result.message (to allow graceful operation without a manifest).
-    /// Enable strict mode via setStrictMode(true) to fail on unregistered names.
+    /**
+     * @brief Compute SHA-256 of @p spvBytes and check against the registered hash for @p name.
+     * @param[in] name Input parameter.
+     * @param[in] spvWords Input parameter.
+     * @return Return value.
+     * @details If no hash is registered for @p name the call succeeds with a warning in @p result.message (to allow graceful operation without a manifest). Enable strict mode via setStrictMode(true) to fail on unregistered names.
+     */
     VerifyResult verify(const std::string& name,
                         const std::vector<uint32_t>& spvWords) const;
 
+    /**
+     * @brief TBD: Describe verify.
+     * @param[in] name Input parameter.
+     * @param[in] data Input parameter.
+     * @param[in] byteLen Input parameter.
+     * @return Return value.
+     */
     VerifyResult verify(const std::string& name,
                         const uint8_t* data,
                         size_t byteLen) const;
@@ -101,11 +115,23 @@ public:
 
     /// Compute the SHA-256 hash of raw bytes and return it as a 64-char hex string.
     static std::string sha256Hex(const uint8_t* data, size_t len);
+    /**
+     * @brief TBD: Describe sha256Hex.
+     * @param[in] spvWords Input parameter.
+     * @return Return value.
+     */
     static std::string sha256Hex(const std::vector<uint32_t>& spvWords);
 
-    /// Enable/disable strict mode.  In strict mode, verify() returns failure
-    /// when no hash is registered for the given shader name.
+    /**
+     * @brief Enable/disable strict mode.
+     * @param[in] strict Input parameter.
+     * @details In strict mode, verify() returns failure when no hash is registered for the given shader name.
+     */
     void setStrictMode(bool strict);
+    /**
+     * @brief TBD: Describe strictMode.
+     * @return True on success.
+     */
     bool strictMode() const;
 
     /// Returns true if an expected hash is registered for @p name.

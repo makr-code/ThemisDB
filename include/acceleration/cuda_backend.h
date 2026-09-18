@@ -108,8 +108,13 @@ public:
     /// Returns a pointer to the entry matching @p shape, or nullptr.
     CUDAGraphEntry* get(const QueryShape& shape) noexcept;
 
-    /// Inserts (or replaces) an entry for @p shape.
-    /// Returns a reference to the stored entry.
+    /**
+     * @brief Inserts (or replaces) an entry for @p shape.
+     * @param[in] shape Input parameter.
+     * @param[in] entry Input parameter.
+     * @return Return value.
+     * @details Returns a reference to the stored entry.
+     */
     CUDAGraphEntry& put(const QueryShape& shape, CUDAGraphEntry entry);
 
     /// Number of currently cached graphs.
@@ -119,6 +124,9 @@ public:
     void clear();
 
 private:
+    /**
+     * @brief TBD: Describe evictLRU.
+     */
     void evictLRU();
 
     std::unordered_map<QueryShape, CUDAGraphEntry, QueryShapeHash> entries_;
@@ -192,12 +200,30 @@ class CUDAGraphBFSCache {
 public:
     static constexpr size_t kMaxEntries = 16;
 
+    /**
+     * @brief TBD: Describe get.
+     * @param[in] shape Input parameter.
+     * @return Pointer to the result.
+     * @note Exception safety: noexcept.
+     */
     CUDAGraphBFSEntry* get(const GraphBFSShape& shape) noexcept;
+    /**
+     * @brief TBD: Describe put.
+     * @param[in] shape Input parameter.
+     * @param[in] entry Input parameter.
+     * @return Return value.
+     */
     CUDAGraphBFSEntry& put(const GraphBFSShape& shape, CUDAGraphBFSEntry entry);
     size_t size() const noexcept { return entries_.size(); }
+    /**
+     * @brief TBD: Describe clear.
+     */
     void clear();
 
 private:
+    /**
+     * @brief TBD: Describe evictLRU.
+     */
     void evictLRU();
     std::unordered_map<GraphBFSShape, CUDAGraphBFSEntry, GraphBFSShapeHash> entries_;
     uint64_t clock_ = 0;
@@ -259,12 +285,30 @@ class CUDAGraphSPCache {
 public:
     static constexpr size_t kMaxEntries = 16;
 
+    /**
+     * @brief TBD: Describe get.
+     * @param[in] shape Input parameter.
+     * @return Pointer to the result.
+     * @note Exception safety: noexcept.
+     */
     CUDAGraphSPEntry* get(const GraphSPShape& shape) noexcept;
+    /**
+     * @brief TBD: Describe put.
+     * @param[in] shape Input parameter.
+     * @param[in] entry Input parameter.
+     * @return Return value.
+     */
     CUDAGraphSPEntry& put(const GraphSPShape& shape, CUDAGraphSPEntry entry);
     size_t size() const noexcept { return entries_.size(); }
+    /**
+     * @brief TBD: Describe clear.
+     */
     void clear();
 
 private:
+    /**
+     * @brief TBD: Describe evictLRU.
+     */
     void evictLRU();
     std::unordered_map<GraphSPShape, CUDAGraphSPEntry, GraphSPShapeHash> entries_;
     uint64_t clock_ = 0;
@@ -312,24 +356,15 @@ public:
     // Frozen kernel dispatch — wires CUDA launchers to the interface contract
     ANNKernelDispatch populateANNDispatch() const override;
 
-    // -------------------------------------------------------------------------
-    // HNSW Graph-based ANN index management
-    //
-    // buildHnswAnnIndex() uploads a pre-built multi-layer HNSW graph and the
-    // associated flat vector store to the GPU (or falls back to CPU if no CUDA
-    // device is available).  Once built, subsequent calls to batchKnnSearch()
-    // and annBatchSearch() use the HNSW traversal path instead of the brute-
-    // force flat-search kernel.
-    //
-    // Parameters:
-    //   layers     — Multi-layer HNSW graph in CSR format (index 0 = bottom).
-    //   vectors    — Row-major flat float array [numVectors × dim].
-    //   numVectors — Number of vectors indexed.
-    //   dim        — Vector dimensionality.
-    //
-    // Returns true on success; false if the engine could not upload the data
-    // (the backend remains usable in brute-force fallback mode).
-    // -------------------------------------------------------------------------
+    /**
+     * @brief ------------------------------------------------------------------------- HNSW Graph-based ANN index management buildHnswAnnIndex() uploads a pre-built multi-layer HNSW graph and the associated flat vector store to the GPU (or falls back to CPU if no CUDA device is available).
+     * @param[in] layers Input parameter.
+     * @param[in] vectors Input parameter.
+     * @param[in] numVectors Input parameter.
+     * @param[in] dim Input parameter.
+     * @return True on success.
+     * @details Once built, subsequent calls to batchKnnSearch() and annBatchSearch() use the HNSW traversal path instead of the brute- force flat-search kernel. Parameters: layers — Multi-layer HNSW graph in CSR format (index 0 = bottom). vectors — Row-major flat float array [numVectors × dim]. numVectors — Number of vectors indexed. dim — Vector dimensionality. Returns true on success; false if the engine could not upload the data (the backend remains usable in brute-force fallback mode). -------------------------------------------------------------------------
+     */
     bool buildHnswAnnIndex(const std::vector<HnswLayerGraph>& layers,
                            const float* vectors,
                            size_t numVectors,
@@ -355,25 +390,17 @@ public:
         size_t k,
         uint32_t ef = 0);
 
+     * @brief TBD: Describe isHnswIndexBuilt.
+     * @return True on success.
+     * @note Exception safety: noexcept.
     /** True when buildHnswAnnIndex() has been called successfully. */
     bool isHnswIndexBuilt() const noexcept;
 
-    // -------------------------------------------------------------------------
-    // Visited bitset pool tuning
-    //
-    // setMaxBatchSize() controls the size of the persistent visited bitset
-    // pool allocated in the HNSW engine during buildHnswAnnIndex().  The pool
-    // is sized as maxBatchSize × ceil(numNodes / 8) bytes and lives for the
-    // lifetime of the index.  Calling setMaxBatchSize() before
-    // buildHnswAnnIndex() is the recommended usage pattern; calling it after
-    // the index has been built has no effect until the next buildHnswAnnIndex().
-    //
-    // Default: 512 queries.
-    //
-    // Pool allocation must not exceed BackendCapabilities::maxMemoryBytes.
-    // If the computed pool size would exceed that limit, the effective
-    // maxBatchSize is clamped automatically during buildHnswAnnIndex().
-    // -------------------------------------------------------------------------
+    /**
+     * @brief ------------------------------------------------------------------------- Visited bitset pool tuning setMaxBatchSize() controls the size of the persistent visited bitset pool allocated in the HNSW engine during buildHnswAnnIndex().
+     * @param[in] n Input parameter.
+     * @details The pool is sized as maxBatchSize × ceil(numNodes / 8) bytes and lives for the lifetime of the index. Calling setMaxBatchSize() before buildHnswAnnIndex() is the recommended usage pattern; calling it after the index has been built has no effect until the next buildHnswAnnIndex(). Default: 512 queries. Pool allocation must not exceed BackendCapabilities::maxMemoryBytes. If the computed pool size would exceed that limit, the effective maxBatchSize is clamped automatically during buildHnswAnnIndex(). -------------------------------------------------------------------------
+     */
     void setMaxBatchSize(size_t n);
 
     /** Return the current maxBatchSize setting (default: 512). */

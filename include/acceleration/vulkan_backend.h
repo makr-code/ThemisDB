@@ -102,6 +102,10 @@ struct VulkanDeviceInfo {
 #ifdef THEMIS_ENABLE_VULKAN
 class IVulkanComputeBackend : public IVectorBackend {
 public:
+    /**
+     * @brief TBD: Describe ~IVulkanComputeBackend.
+     * @return Return value.
+     */
     virtual ~IVulkanComputeBackend() = default;
 
     /**
@@ -122,6 +126,8 @@ public:
      * @brief Destroy a pipeline created by `createPipeline()`.
      *
      * No-op if the handle is already invalid or was previously destroyed.
+     * @param[in] handle Input parameter.
+     * @note Exception safety: noexcept.
      */
     virtual void destroyPipeline(VulkanPipelineHandle handle) noexcept = 0;
 

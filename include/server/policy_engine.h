@@ -79,7 +79,20 @@ public:
      * unavailable so PolicyEngine can fall back to native evaluation.
      */
     struct IPolicyEvaluator {
+        /**
+         * @brief TBD: Describe ~IPolicyEvaluator.
+         * @return Return value.
+         */
         virtual ~IPolicyEvaluator() = default;
+        /**
+         * @brief TBD: Describe evaluate.
+         * @param[in] user_id Input parameter.
+         * @param[in] action Input parameter.
+         * @param[in] resource_path Input parameter.
+         * @param[in] client_ip Input parameter.
+         * @param[in] user_agent Input parameter.
+         * @return Return value.
+         */
         virtual std::optional<Decision> evaluate(
             const std::string& user_id,
             const std::string& action,
@@ -119,13 +132,26 @@ public:
      */
     bool reloadIfChanged(std::string* err = nullptr);
 
-    // Replace all policies
+    /**
+     * @brief Replace all policies
+     * @param[in] policies Input parameter.
+     */
     void setPolicies(std::vector<Policy> policies);
-    // Append single policy
+    /**
+     * @brief Append single policy
+     * @param[in] p Input parameter.
+     */
     void addPolicy(const Policy& p);
-    // Remove by id
+    /**
+     * @brief Remove by id
+     * @param[in] id Input parameter.
+     * @return True on success.
+     */
     bool removePolicy(const std::string& id);
-    // List
+    /**
+     * @brief List
+     * @return Return value.
+     */
     std::vector<Policy> listPolicies() const;
 
     // Evaluate
@@ -143,6 +169,8 @@ public:
      *
      * Pass nullptr to detach.  The PolicyEngine does NOT take ownership; the
      * caller must ensure the logger outlives the engine.
+     * @param[in,out] logger Input/output parameter.
+     * @details Implements setAuditLogger without additional internal calls.
      */
     void setAuditLogger(utils::AuditLogger* logger) { audit_logger_ = logger; }
 
@@ -156,17 +184,53 @@ public:
      *
      * Pass nullptr to detach.  The PolicyEngine does NOT take ownership; the
      * caller must ensure the evaluator outlives the engine.
+     * @param[in,out] evaluator Input/output parameter.
+     * @details Implements setOpaEvaluator without additional internal calls.
      */
     void setOpaEvaluator(IPolicyEvaluator* evaluator) { opa_evaluator_ = evaluator; }
 
-    // JSON helpers
+    /**
+     * @brief JSON helpers
+     * @param[in] p Input parameter.
+     * @return Return value.
+     */
     static nlohmann::json toJson(const Policy& p);
+    /**
+     * @brief TBD: Describe fromJson.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static std::optional<Policy> fromJson(const nlohmann::json& j);
 
 private:
+    /**
+     * @brief TBD: Describe matchSubject.
+     * @param[in] p Input parameter.
+     * @param[in] user_id Input parameter.
+     * @return True on success.
+     */
     bool matchSubject(const Policy& p, const std::string& user_id) const;
+    /**
+     * @brief TBD: Describe matchAction.
+     * @param[in] p Input parameter.
+     * @param[in] action Input parameter.
+     * @return True on success.
+     */
     bool matchAction(const Policy& p, const std::string& action) const;
+    /**
+     * @brief TBD: Describe matchResource.
+     * @param[in] p Input parameter.
+     * @param[in] resource_path Input parameter.
+     * @return True on success.
+     */
     bool matchResource(const Policy& p, const std::string& resource_path) const;
+    /**
+     * @brief TBD: Describe matchConditions.
+     * @param[in] p Input parameter.
+     * @param[in] client_ip Input parameter.
+     * @param[in] user_agent Input parameter.
+     * @return True on success.
+     */
     bool matchConditions(const Policy& p,
                          const std::optional<std::string>& client_ip,
                          const std::optional<std::string>& user_agent) const;

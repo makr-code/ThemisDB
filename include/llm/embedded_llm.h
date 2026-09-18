@@ -64,7 +64,16 @@ public:
         std::string ethical_guidelines_config = "config/ethical_guidelines.yaml";
     };
     
+    /**
+     * @brief TBD: Describe EmbeddedLLM.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit EmbeddedLLM(const Config& config);
+    /**
+     * @brief TBD: Describe EmbeddedLLM.
+     * @return Return value.
+     */
     explicit EmbeddedLLM(); // Default constructor
     ~EmbeddedLLM();
     
@@ -107,6 +116,9 @@ public:
     
     /**
      * @brief Simple chat (system + user message)
+     * @param[in] system_prompt Input parameter.
+     * @param[in] user_message Input parameter.
+     * @return Return value.
      */
     std::string chatSimple(
         const std::string& system_prompt,
@@ -132,6 +144,8 @@ public:
      * time when no native batch API is available. Callers can therefore rely on
      * each returned vector being equivalent to a corresponding `embed(text)`
      * invocation, including deterministic fallback behavior and normalization.
+     * @param[in] texts Input parameter.
+     * @return Return value.
      */
     std::vector<std::vector<float>> embedBatch(const std::vector<std::string>& texts);
     
@@ -179,6 +193,8 @@ public:
     
     /**
      * @brief Generate with full response metadata
+     * @param[in] request Input parameter.
+     * @return Return value.
      */
     InferenceResponse generateFull(const InferenceRequest& request);
     
@@ -188,16 +204,19 @@ public:
     
     /**
      * @brief Check if model is loaded
+     * @return True on success.
      */
     bool isReady() const;
     
     /**
      * @brief Get model information
+     * @return Return value.
      */
     std::string getModelInfo() const;
     
     /**
      * @brief Get performance statistics
+     * @return Return value.
      */
     json getStats() const;
 
@@ -206,6 +225,7 @@ public:
      *
      * When set, generation methods delegate to this callback before using the
      * built-in wrapper/fallback path.
+     * @param[in] fn Input parameter.
      */
     void setGenerateFullFn(GenerateFullFn fn);
 
@@ -214,6 +234,7 @@ public:
      *
      * When set, embedding methods delegate to this callback before using the
      * built-in wrapper/fallback path.
+     * @param[in] fn Input parameter.
      */
     void setEmbedFn(EmbedFn fn);
     
@@ -237,6 +258,7 @@ public:
     
     /**
      * @brief Check if ethical guidelines are enabled
+     * @return True on success.
      */
     bool hasEthicalGuidelines() const;
     
@@ -276,20 +298,27 @@ private:
  */
 class EmbeddedLLMManager {
 public:
+    /**
+     * @brief TBD: Describe instance.
+     * @return Return value.
+     */
     static EmbeddedLLMManager& instance();
     
     /**
      * @brief Initialize with configuration
+     * @param[in] config Input parameter.
      */
     void initialize(const EmbeddedLLM::Config& config);
     
     /**
      * @brief Get the embedded LLM instance
+     * @return Return value.
      */
     EmbeddedLLM& get();
     
     /**
      * @brief Check if initialized
+     * @return True on success.
      */
     bool isInitialized() const;
     

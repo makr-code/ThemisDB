@@ -108,6 +108,11 @@ public:
     };
 
     MultiGPUVectorBackend();
+    /**
+     * @brief TBD: Describe MultiGPUVectorBackend.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit MultiGPUVectorBackend(const Config& config);
     ~MultiGPUVectorBackend() override;
 
@@ -184,6 +189,9 @@ public:
     /**
      * Returns the number of CUDA/HIP GPUs visible to the process.
      * Returns 0 on non-GPU builds or when no GPU is present.
+     * @brief TBD: Describe detectGPUCount.
+     * @return Return value.
+     * @note Exception safety: noexcept.
      */
     static int detectGPUCount() noexcept;
 

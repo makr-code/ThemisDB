@@ -60,6 +60,7 @@ public:
      * @brief Construct a compensation log.
      *
      * @param saga_id Unique identifier for the SAGA instance.
+     * @return Return value.
      */
     explicit CompensationLog(const std::string& saga_id);
 

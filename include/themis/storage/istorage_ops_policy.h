@@ -46,6 +46,10 @@ namespace storage {
  */
 class IStorageOpsPolicy {
 public:
+    /**
+     * @brief TBD: Describe ~IStorageOpsPolicy.
+     * @return Return value.
+     */
     virtual ~IStorageOpsPolicy() = default;
 
     // Non-copyable, non-movable by default.

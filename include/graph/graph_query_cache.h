@@ -124,6 +124,7 @@ public:
      *                l2_capacity must be > l1_capacity.
      * @throws std::invalid_argument if the configuration violates the capacity
      *         invariants or default_cost is non-positive.
+     * @return Return value.
      */
     explicit GraphQueryCache(Config config);
 
@@ -257,8 +258,10 @@ private:
     /// Returns true when the entry has exceeded the configured TTL.
     [[nodiscard]] bool isExpired(const Entry& e) const noexcept;
 
-    /// Evict the LRU entry from L1 and demote it to L2.  Evicts L2's
-    /// lowest-score entry first if L2 is full.
+    /**
+     * @brief Evict the LRU entry from L1 and demote it to L2.
+     * @details Evicts L2's lowest-score entry first if L2 is full.
+     */
     void evictL1ToL2();
 
     /// Evict the lowest-score entry from L2.

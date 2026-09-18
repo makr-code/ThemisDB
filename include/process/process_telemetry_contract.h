@@ -274,6 +274,10 @@ class ProcessAuditLogger {
    */
   virtual std::uint64_t GetNextEntryId() const = 0;
 
+  /**
+   * @brief TBD: Describe ~ProcessAuditLogger.
+   * @return Return value.
+   */
   virtual ~ProcessAuditLogger() = default;
 };
 

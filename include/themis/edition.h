@@ -61,7 +61,11 @@ enum class EditionType {
     UNKNOWN        // Fallback for unrecognized editions
 };
 
-// Get edition type from compile-time string
+/**
+ * @brief Get edition type from compile-time string
+ * @return Return value.
+ * @details Implements GetEditionType without additional internal calls.
+ */
 constexpr EditionType GetEditionType() {
     if (EDITION_STRING == "MINIMAL") {
         return EditionType::MINIMAL;
@@ -342,11 +346,21 @@ static constexpr std::size_t kGatedFeatureCount =
 
 // Check if this build is the specified edition at compile-time
 template<EditionType T>
+/**
+ * @brief TBD: Describe IsEdition.
+ * @return True on success.
+ * @details Calls: GetEditionType().
+ */
 constexpr bool IsEdition() {
     return GetEditionType() == T;
 }
 
-// Check if feature is enabled for this edition
+/**
+ * @brief Check if feature is enabled for this edition
+ * @param[in] feature_name Input parameter.
+ * @return True on success.
+ * @details Implements IsFeatureEnabled without additional internal calls.
+ */
 constexpr bool IsFeatureEnabled(std::string_view feature_name) {
     if (feature_name == "enterprise_plugins") {
         return FEATURE_ENTERPRISE_PLUGINS;
@@ -378,6 +392,11 @@ struct EditionInfo {
     bool supports_rbac;
     bool supports_hsm;
 
+    /**
+     * @brief TBD: Describe Get.
+     * @return Return value.
+     * @details Calls: GetEditionType().
+     */
     static constexpr EditionInfo Get() {
         const auto edition = GetEditionType();
         return EditionInfo{

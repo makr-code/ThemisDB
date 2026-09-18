@@ -81,6 +81,8 @@ public:
      * When `topology` is null (e.g. in unit tests), callers can register
      * ShardInfo objects directly via this map.  If a shard_id is present in
      * the static map it takes priority over the topology lookup.
+     * @param[in] instance_id Input parameter.
+     * @param[in] shard Input parameter.
      */
     void addStaticShard(const std::string& instance_id,
                         const sharding::ShardInfo& shard);

@@ -192,6 +192,11 @@ private:
  */
 class VectorReplayIterator : public ReplayIterator {
 public:
+    /**
+     * @brief TBD: Describe VectorReplayIterator.
+     * @param[in] entries Input parameter.
+     * @return Return value.
+     */
     explicit VectorReplayIterator(std::vector<SAGALogEntry> entries);
 
     bool        hasNext() const override;
@@ -212,6 +217,11 @@ private:
  */
 class SAGALogCompactorAdapter : public ISAGALogCompactor {
 public:
+    /**
+     * @brief TBD: Describe SAGALogCompactorAdapter.
+     * @param[in] cfg Input parameter.
+     * @return Return value.
+     */
     explicit SAGALogCompactorAdapter(const SAGALoggerConfig& cfg);
 
     std::future<CompactionResult> compact(SegmentRange range) override;

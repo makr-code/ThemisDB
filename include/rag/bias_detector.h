@@ -68,6 +68,7 @@ public:
     /**
      * @brief Construct bias detector with configuration.
      * @param config Detector configuration.
+     * @return Return value.
      */
     explicit BiasDetector(const BiasDetectorConfig& config);
     
@@ -134,14 +135,31 @@ public:
 private:
     BiasDetectorConfig config_;
     
-    // Statistical helper functions
+    /**
+     * @brief Statistical helper functions
+     * @param[in] x Input parameter.
+     * @param[in] y Input parameter.
+     * @return Return value.
+     */
     double calculateCorrelation(
         const std::vector<double>& x,
         const std::vector<double>& y
     );
     
+    /**
+     * @brief TBD: Describe calculatePValue.
+     * @param[in] correlation Input parameter.
+     * @param[in] sample_size Input parameter.
+     * @return Return value.
+     */
     double calculatePValue(double correlation, size_t sample_size);
     
+    /**
+     * @brief TBD: Describe calculateChiSquare.
+     * @param[in] observed Input parameter.
+     * @param[in] expected Input parameter.
+     * @return Return value.
+     */
     double calculateChiSquare(
         const std::vector<int>& observed,
         const std::vector<int>& expected

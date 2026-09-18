@@ -73,9 +73,11 @@ public:
         std::string error;
     };
 
-    // -----------------------------------------------------------------------
-    // Singleton
-    // -----------------------------------------------------------------------
+    /**
+     * @brief ----------------------------------------------------------------------- Singleton -----------------------------------------------------------------------
+     * @return Return value.
+     * @details Implements GetInstance without additional internal calls.
+     */
     static GPUModule& GetInstance() {
         static GPUModule inst;
         return inst;
@@ -140,6 +142,8 @@ public:
      * @brief Release @p bytes of VRAM previously granted to @p tenant_id.
      *
      * Records a dealloc metric and audit event.
+     * @param[in] tenant_id Input parameter.
+     * @param[in] bytes Input parameter.
      */
     void deallocate(const std::string& tenant_id, uint64_t bytes);
 
@@ -148,6 +152,10 @@ public:
     // -----------------------------------------------------------------------
     void grantCaller(const std::string& caller_id,
                      GPUPolicy::Capability cap = GPUPolicy::Capability::GPU_ANY);
+    /**
+     * @brief TBD: Describe revokeCaller.
+     * @param[in] caller_id Input parameter.
+     */
     void revokeCaller(const std::string& caller_id);
 
     // -----------------------------------------------------------------------
@@ -172,10 +180,15 @@ public:
     MIGManager& mig() noexcept { return MIGManager::GetInstance(); }
     const MIGManager& mig() const noexcept { return MIGManager::GetInstance(); }
 
-    // -----------------------------------------------------------------------
-    // Diagnostics
-    // -----------------------------------------------------------------------
+    /**
+     * @brief ----------------------------------------------------------------------- Diagnostics -----------------------------------------------------------------------
+     * @return Return value.
+     */
     GPUMemoryManager::Stats   getMemoryStats()  const;
+    /**
+     * @brief TBD: Describe getSafeFailStatus.
+     * @return Return value.
+     */
     GPUSafeFail::HealthStatus getSafeFailStatus() const;
     std::vector<GPUAuditLog::Event> getAuditLog(size_t last_n = 64) const;
 

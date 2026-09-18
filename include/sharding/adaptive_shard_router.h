@@ -171,6 +171,7 @@ public:
      * @param query Query string
      * @param stats Output: execution statistics
      * @return Combined results
+     * @brief TBD: Describe executeAdaptiveQuery.
      */
     nlohmann::json executeAdaptiveQuery(
         const std::string& query,
@@ -185,6 +186,7 @@ public:
      *
      * @param shard_id      Originating shard identifier (from GossipMessage::sender_id)
      * @param announcement  Deserialized capability announcement
+     * @brief TBD: Describe updateAdapterCapability.
      */
     void updateAdapterCapability(
         const std::string& shard_id,
@@ -201,6 +203,7 @@ public:
      * @param shard_id         Shard identifier
      * @param pending_requests Current waiting-request count on that shard
      * @param avg_queue_ms     Current average queue wait time on that shard
+     * @brief TBD: Describe updateShardLLMLoad.
      */
     void updateShardLLMLoad(
         const std::string& shard_id,
@@ -224,6 +227,7 @@ public:
      *
      * @param domain  Domain type to look up
      * @return shard_id of the best-scoring shard, or "" if no score exists
+     * @brief TBD: Describe routeByDomain.
      */
     std::string routeByDomain(
         themis::distributed_knowledge::AdapterDomainType domain
@@ -234,6 +238,10 @@ public:
      *
      * Returns 0.0 when the shard is unknown or has no score for the domain
      * (used by `FederatedRAGMerger` in DK-4).
+     * @brief TBD: Describe getAdapterAccuracyDelta.
+     * @param[in] shard_id Input parameter.
+     * @param[in] domain Input parameter.
+     * @return Return value.
      */
     double getAdapterAccuracyDelta(
         const std::string& shard_id,
@@ -243,12 +251,14 @@ public:
     /**
      * Get adaptive routing statistics
      * @return Statistics JSON
+     * @brief TBD: Describe getAdaptiveStatistics.
      */
     nlohmann::json getAdaptiveStatistics() const;
     
     /**
      * Update adaptive configuration at runtime
      * @param config New configuration
+     * @brief TBD: Describe updateAdaptiveConfig.
      */
     void updateAdaptiveConfig(const AdaptiveConfig& config);
 
@@ -276,7 +286,15 @@ public:
         std::string_view query
     )>;
 
+    /**
+     * @brief TBD: Describe setNlpContextFn.
+     * @param[in] fn Input parameter.
+     */
     void setNlpContextFn(NlpContextFn fn);
+    /**
+     * @brief TBD: Describe setNlpContextFn.
+     * @param[in] fn Input parameter.
+     */
     void setNlpContextFn(LegacyNlpContextFn fn);
     
     /**
@@ -324,6 +342,7 @@ private:
      * 
      * @param query Query string
      * @return Query context
+     * @brief TBD: Describe prepareQueryContext.
      */
     CapabilityMatcher::QueryContext prepareQueryContext(const std::string& query);
     
@@ -335,6 +354,7 @@ private:
      * @param max_shards Maximum shards to select
      * @param already_queried Set of already queried shard IDs
      * @return List of shard IDs to query in this iteration
+     * @brief TBD: Describe selectShardsForIteration.
      */
     std::vector<std::string> selectShardsForIteration(
         const std::vector<CapabilityMatchResult>& match_results,
@@ -350,6 +370,7 @@ private:
      * @param shard_ids Shard IDs to query
      * @param timeout_ms Timeout for this iteration
      * @return Shard results
+     * @brief TBD: Describe executeOnShards.
      */
     std::vector<ShardResult> executeOnShards(
         const std::string& query,
@@ -371,6 +392,7 @@ private:
      * @param iteration Current iteration number
      * @param reason Output: stop reason if stopping
      * @return true if should stop
+     * @brief TBD: Describe shouldStop.
      */
     bool shouldStop(
         uint32_t current_results,
@@ -385,6 +407,7 @@ private:
      * 
      * @param all_results Results from all iterations
      * @return Merged results
+     * @brief TBD: Describe mergeIterationResults.
      */
     nlohmann::json mergeIterationResults(
         const std::vector<std::vector<ShardResult>>& all_results
@@ -399,6 +422,7 @@ private:
      * @param match_results Capability match results
      * @param iteration_time_ms Iteration execution time
      * @return Iteration statistics
+     * @brief TBD: Describe calculateIterationStats.
      */
     IterationStats calculateIterationStats(
         uint32_t iteration,

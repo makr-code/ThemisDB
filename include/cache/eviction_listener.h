@@ -90,6 +90,10 @@ struct CacheEvictionEvent {
  */
 class IEvictionListener {
 public:
+    /**
+     * @brief TBD: Describe ~IEvictionListener.
+     * @return Return value.
+     */
     virtual ~IEvictionListener() = default;
 
     /**
@@ -120,6 +124,7 @@ public:
      * 
      * Allows coordinators to prepare promotion/demotion decisions
      * before evictions occur. Default implementation is no-op.
+     * @details Implements onCapacityPressure without additional internal calls.
      */
     virtual void onCapacityPressure(TierLevel from_tier,
                                     uint32_t current_capacity_percent,
@@ -136,6 +141,10 @@ public:
  */
 class EvictionListenerManager {
 public:
+    /**
+     * @brief TBD: Describe ~EvictionListenerManager.
+     * @return Return value.
+     */
     virtual ~EvictionListenerManager() = default;
 
     /**
@@ -181,6 +190,8 @@ public:
 
     /**
      * @brief Get count of registered listeners.
+     * @return Return value.
+     * @note Exception safety: noexcept.
      */
     virtual std::size_t getListenerCount() const noexcept = 0;
 };

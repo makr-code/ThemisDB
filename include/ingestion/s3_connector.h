@@ -145,11 +145,13 @@ public:
      *
      * When set, the connector reads the stored cursor on startup (used as
      * `StartAfter`) and writes an updated cursor after each successful run.
+     * @param[in] store Input parameter.
      */
     void setCheckpointStore(std::shared_ptr<CheckpointStore> store);
 
     /**
      * @brief Configure retry behaviour.
+     * @param[in] config Input parameter.
      */
     void setRetryConfig(const RetryConfig& config);
 
@@ -178,10 +180,23 @@ public:
      * @brief Inject mock listing/fetch functions (replaces all AWS SDK calls).
      *
      * Pass empty functors to restore the real provider path.
+     * @param[in] list_fn Input parameter.
      */
     void setObjectListProvider(ObjectListFn list_fn);
+    /**
+     * @brief TBD: Describe setObjectFetchProvider.
+     * @param[in] fetch_fn Input parameter.
+     */
     void setObjectFetchProvider(ObjectFetchFn fetch_fn);
+    /**
+     * @brief TBD: Describe setObjectListForTesting.
+     * @param[in] list_fn Input parameter.
+     */
     void setObjectListForTesting(ObjectListFn list_fn);
+    /**
+     * @brief TBD: Describe setObjectFetchForTesting.
+     * @param[in] fetch_fn Input parameter.
+     */
     void setObjectFetchForTesting(ObjectFetchFn fetch_fn);
 
     /**
@@ -197,6 +212,10 @@ public:
      */
     using DocumentWriteFn = std::function<void(const std::string& key,
                                                const std::string& text)>;
+    /**
+     * @brief TBD: Describe setDocumentWriteForTesting.
+     * @param[in] fn Input parameter.
+     */
     void setDocumentWriteForTesting(DocumentWriteFn fn);
 
 private:

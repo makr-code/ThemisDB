@@ -63,6 +63,7 @@ public:
      * @brief Remove all tuples with event_ts_us < window_start_us.
      *
      * @return the tuples that were evicted (for incremental aggregation).
+     * @param[in] window_start_us Input parameter.
      */
     std::deque<SynopsisTuple> expire(int64_t window_start_us);
 
@@ -75,6 +76,7 @@ public:
     /** @return Total byte footprint of stored payloads. */
     [[nodiscard]] size_t bytes() const noexcept;
 
+     * @brief TBD: Describe clear.
     /** Clear all stored tuples. */
     void clear();
 

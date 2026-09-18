@@ -95,6 +95,8 @@ class HTTPMetricsClient {
 public:
     /**
      * @brief Construct client with configuration
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     explicit HTTPMetricsClient(const HTTPMetricsClientConfig& config);
     
@@ -158,6 +160,10 @@ public:
         std::chrono::milliseconds avg_latency{0};
     };
     
+    /**
+     * @brief TBD: Describe getStatistics.
+     * @return Return value.
+     */
     Statistics getStatistics() const;
     
     /**
@@ -174,6 +180,10 @@ public:
      * @brief Set request callback (for logging/monitoring)
      */
     using RequestCallback = std::function<void(const std::string& method, const std::string& url, int status_code, int64_t latency_ms)>;
+    /**
+     * @brief TBD: Describe setRequestCallback.
+     * @param[in] callback Input parameter.
+     */
     void setRequestCallback(RequestCallback callback);
 
 private:
@@ -192,7 +202,17 @@ private:
         const std::unordered_map<std::string, std::string>& headers
     );
     
+    /**
+     * @brief TBD: Describe serializeMetric.
+     * @param[in] metric Input parameter.
+     * @return Return value.
+     */
     std::string serializeMetric(const QualityMetricPayload& metric);
+    /**
+     * @brief TBD: Describe serializeMetricsBatch.
+     * @param[in] metrics Input parameter.
+     * @return Return value.
+     */
     std::string serializeMetricsBatch(const std::vector<QualityMetricPayload>& metrics);
     
     void updateStatistics(const HTTPResponse& response, size_t metrics_count = 1);
@@ -210,6 +230,9 @@ public:
     
     /**
      * @brief Create client for production with authentication
+     * @param[in] endpoint Input parameter.
+     * @param[in] auth_token Input parameter.
+     * @return Return value.
      */
     static std::shared_ptr<HTTPMetricsClient> createProductionClient(
         const std::string& endpoint,
@@ -218,6 +241,8 @@ public:
     
     /**
      * @brief Create client with custom configuration
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     static std::shared_ptr<HTTPMetricsClient> createCustomClient(const HTTPMetricsClientConfig& config);
 };

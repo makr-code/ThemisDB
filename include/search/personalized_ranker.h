@@ -101,6 +101,11 @@ public:
         /// personalization signal (scales the [-1,1] score).
         double boost_weight = 0.2;
 
+        /**
+         * @brief TBD: Describe defaults.
+         * @return Return value.
+         * @details Implements defaults without additional internal calls.
+         */
         static Config defaults() { return {}; }
     };
 
@@ -171,17 +176,21 @@ public:
 
     /**
      * @brief Return all recorded interactions for a user (most-recent first).
+     * @param[in] user_id Input parameter.
+     * @return Return value.
      */
     std::vector<UserInteraction> getUserInteractions(
         const std::string& user_id) const;
 
     /**
      * @brief Return the number of distinct users with interaction history.
+     * @return Return value.
      */
     size_t userCount() const;
 
     /**
      * @brief Remove all interaction history for a specific user.
+     * @param[in] user_id Input parameter.
      */
     void clearUser(const std::string& user_id);
 
@@ -198,6 +207,11 @@ private:
     std::map<std::string, std::vector<UserInteraction>> history_;
     mutable std::mutex mu_;
 
+    /**
+     * @brief TBD: Describe typeWeight.
+     * @param[in] type Input parameter.
+     * @return Return value.
+     */
     static double typeWeight(InteractionType type);
     /// Compute personalization score without locking (caller must hold mu_).
     double computeScoreUnlocked(

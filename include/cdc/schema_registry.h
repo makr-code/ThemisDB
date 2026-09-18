@@ -82,6 +82,9 @@ enum class SchemaFormat {
     PROTOBUF,   ///< Protocol Buffers binary encoding
 };
 
+ * @param[in] fmt Input parameter.
+ * @return Return value.
+ * @details Implements schemaFormatString without additional internal calls.
 /** @brief Returns the Confluent magic type string for a format. */
 inline std::string schemaFormatString(SchemaFormat fmt) {
     switch (fmt) {
@@ -161,6 +164,10 @@ struct SchemaRegistryConfig {
  */
 class ISchemaRegistryBackend {
 public:
+    /**
+     * @brief TBD: Describe ~ISchemaRegistryBackend.
+     * @return Return value.
+     */
     virtual ~ISchemaRegistryBackend() = default;
 
     /**
@@ -206,6 +213,11 @@ public:
     int32_t registerSchema(const std::string& subject,
                            const std::string& schema_json,
                            SchemaFormat format) override {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
 
         // Return existing ID when the same (subject, schema_json) is re-registered.
@@ -234,6 +246,11 @@ public:
     }
 
     std::optional<SchemaInfo> getById(int32_t id) const override {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = id_map_.find(id);
         if (it == id_map_.end()) {
@@ -244,6 +261,11 @@ public:
 
     std::optional<SchemaInfo> getLatest(
         const std::string& subject) const override {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         auto sit = subject_latest_.find(subject);
         if (sit == subject_latest_.end()) {
@@ -258,12 +280,23 @@ public:
 
     /** @brief Return number of registered schemas (useful in tests). */
     size_t size() const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return id_map_.size();
     }
 
+     * @details Calls: lock().
     /** @brief Remove all schemas (useful in tests). */
     void clear() {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         id_map_.clear();
         subject_latest_.clear();
@@ -333,6 +366,7 @@ public:
      * @param schema_json  Schema definition.
      * @param format       Encoding format (defaults to config default).
      * @return Schema ID.
+     * @details Calls: lock(), find(), end(), isCacheExpired(), registerSchema(), getById(), cacheExpiry().
      */
     int32_t ensureSchema(
         const std::string& subject,
@@ -340,6 +374,11 @@ public:
         SchemaFormat format) {
         // Check subject cache first.
         {
+            /**
+             * @brief TBD: Describe lock.
+             * @param[in] cache_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(cache_mutex_);
             auto it = subject_cache_.find(subject);
             if (it != subject_cache_.end() && !isCacheExpired(it->second.second)) {
@@ -352,6 +391,11 @@ public:
         // Populate id + subject caches.
         auto info_opt = backend_->getById(id);
         if (info_opt) {
+            /**
+             * @brief TBD: Describe lock.
+             * @param[in] cache_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(cache_mutex_);
             auto expiry = cacheExpiry();
             id_cache_[id]          = {*info_opt, expiry};
@@ -367,6 +411,11 @@ public:
      */
     std::optional<SchemaInfo> getSchema(int32_t id) const {
         {
+            /**
+             * @brief TBD: Describe lock.
+             * @param[in] cache_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(cache_mutex_);
             auto it = id_cache_.find(id);
             if (it != id_cache_.end() && !isCacheExpired(it->second.second)) {
@@ -376,6 +425,11 @@ public:
 
         auto info = backend_->getById(id);
         if (info) {
+            /**
+             * @brief TBD: Describe lock.
+             * @param[in] cache_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(cache_mutex_);
             id_cache_[id] = {*info, cacheExpiry()};
         }
@@ -389,6 +443,11 @@ public:
     std::optional<SchemaInfo> getLatestSchema(
         const std::string& subject) const {
         {
+            /**
+             * @brief TBD: Describe lock.
+             * @param[in] cache_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(cache_mutex_);
             auto it = subject_cache_.find(subject);
             if (it != subject_cache_.end() && !isCacheExpired(it->second.second)) {
@@ -398,14 +457,25 @@ public:
 
         auto info = backend_->getLatest(subject);
         if (info) {
+            /**
+             * @brief TBD: Describe lock.
+             * @param[in] cache_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(cache_mutex_);
             subject_cache_[subject] = {*info, cacheExpiry()};
         }
         return info;
     }
 
+     * @details Calls: lock(), clear().
     /** @brief Invalidate all cached entries. */
     void clearCache() {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] cache_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(cache_mutex_);
         id_cache_.clear();
         subject_cache_.clear();
@@ -434,6 +504,12 @@ private:
         return std::chrono::steady_clock::now() + config_.cache_ttl;
     }
 
+    /**
+     * @brief TBD: Describe isCacheExpired.
+     * @param[in] expiry Input parameter.
+     * @return True on success.
+     * @details Calls: std::chrono::steady_clock::now().
+     */
     static bool isCacheExpired(const TimePoint& expiry) {
         return std::chrono::steady_clock::now() > expiry;
     }
@@ -513,6 +589,9 @@ public:
      *
      * The schema models the `ChangeEvent` payload with optional before/after
      * document snapshots and standard source metadata.
+     * @param[in] collection Input parameter.
+     * @return Return value.
+     * @details Calls: nlohmann::json::array(), dump().
      */
     static std::string defaultAvroSchema(const std::string& collection) {
         nlohmann::json schema = {
@@ -549,6 +628,10 @@ public:
 
     /**
      * @brief Returns the default JSON Schema for a CDC event collection.
+     * @param[in] collection Input parameter.
+     * @return Return value.
+     * @throws std::runtime_error if an error occurs.
+     * @details Calls: nlohmann::json::array(), dump(), defaultProtobufSchema(), std::string(), client(), CdcSchemaEncoder(), client_(), encoding().
      */
     static std::string defaultJsonSchema(const std::string& collection) {
         nlohmann::json schema = {
@@ -574,6 +657,9 @@ public:
 
     /**
      * @brief Returns the default Protobuf 3 schema for a CDC event collection.
+     * @param[in] collection Input parameter.
+     * @return Return value.
+     * @details Calls: std::string().
      */
     static std::string defaultProtobufSchema(const std::string& collection) {
         return std::string(R"(syntax = "proto3";
@@ -606,6 +692,7 @@ message CdcEvent {
     /**
      * @brief Construct the encoder.
      * @param client  Schema registry client (not owned; must outlive encoder).
+     * @return Return value.
      */
     explicit CdcSchemaEncoder(SchemaRegistryClient* client)
         : client_(client) {}
@@ -634,6 +721,7 @@ message CdcEvent {
      * UTF-8 JSON fallback is used instead.
      *
      * @param fn  Avro encoder callable (or nullptr to remove).
+     * @details Calls: std::move().
      */
     void setAvroEncoderFn(BinaryEncoderFn fn) {
         avro_encoder_fn_ = std::move(fn);
@@ -647,6 +735,7 @@ message CdcEvent {
      * UTF-8 JSON fallback is used instead.
      *
      * @param fn  Protobuf encoder callable (or nullptr to remove).
+     * @details Calls: std::move().
      */
     void setProtobufEncoderFn(BinaryEncoderFn fn) {
         protobuf_encoder_fn_ = std::move(fn);
@@ -727,6 +816,7 @@ message CdcEvent {
      *
      * @param wire_bytes  Bytes produced by encode().
      * @return Schema ID or -1 when the header is invalid.
+     * @details Calls: size().
      */
     static int32_t extractSchemaId(const std::vector<uint8_t>& wire_bytes) {
         if (wire_bytes.size() < SCHEMA_REGISTRY_HEADER_SIZE) {
@@ -756,6 +846,11 @@ message CdcEvent {
     int32_t ensureCollectionSchema(const std::string& collection) const {
         // Per-collection in-process cache (avoids hitting the backend on every event).
         {
+            /**
+             * @brief TBD: Describe lock.
+             * @param[in] local_cache_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(local_cache_mutex_);
             auto it = local_schema_id_cache_.find(collection);
             if (it != local_schema_id_cache_.end()) {
@@ -787,6 +882,11 @@ message CdcEvent {
         }
 
         {
+            /**
+             * @brief TBD: Describe lock.
+             * @param[in] local_cache_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(local_cache_mutex_);
             local_schema_id_cache_[collection] = id;
         }
@@ -798,8 +898,14 @@ message CdcEvent {
      *
      * Call this to force re-fetching schema IDs on next encode (e.g. after a
      * schema evolution).
+     * @details Calls: lock(), clear().
      */
     void clearLocalCache() {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] local_cache_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(local_cache_mutex_);
         local_schema_id_cache_.clear();
     }
@@ -815,6 +921,9 @@ private:
 
     // ── Helpers ────────────────────────────────────────────────────────────
 
+     * @param[in] key Input parameter.
+     * @return Return value.
+     * @details Calls: find(), substr().
     /** @brief Derive collection name from a ThemisDB key ("collection:id"). */
     static std::string collectionFromKey(const std::string& key) {
         const auto pos = key.find(':');
@@ -826,6 +935,9 @@ private:
         return client_->config().topic_prefix + collection + "-value";
     }
 
+     * @param[in] type Input parameter.
+     * @return Return value.
+     * @details Implements operationString without additional internal calls.
     /** @brief Convert a ChangeEventType to a string label. */
     static std::string operationString(Changefeed::ChangeEventType type) {
         switch (type) {
@@ -848,6 +960,10 @@ private:
      * This is the logical event representation.  When full Avro or Protobuf
      * binary encoding is required, replace this method's output with the
      * appropriate binary serializer.
+     * @param[in] event Input parameter.
+     * @param[in] collection Input parameter.
+     * @return Return value.
+     * @details Calls: operationString(), has_value().
      */
     static nlohmann::json eventToPayload(const Changefeed::ChangeEvent& event,
                                          const std::string& collection) {
@@ -894,6 +1010,10 @@ private:
      * @brief Build the Confluent wire-format bytes.
      *
      * Layout: [magic(1)][schema_id(4 BE)][payload_bytes...]
+     * @param[in] schema_id Input parameter.
+     * @param[in] payload Input parameter.
+     * @return Return value.
+     * @details Calls: reserve(), size(), push_back(), insert(), end(), begin().
      */
     static std::vector<uint8_t> buildWireFormat(
         int32_t schema_id,

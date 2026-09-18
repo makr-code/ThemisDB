@@ -94,6 +94,8 @@ public:
 
     /**
      * @brief Virtual destructor for polymorphic cleanup
+     * @return Return value.
+     * @note Exception safety: noexcept.
      */
     virtual ~CacheEvictionPolicy() noexcept = default;
 
@@ -180,6 +182,7 @@ public:
      * @brief Get policy type name
      * 
      * @return Human-readable policy name (e.g., "LRU", "LFU")
+     * @note Exception safety: noexcept.
      */
     virtual const char* policy_name() const noexcept = 0;
 
@@ -199,6 +202,7 @@ public:
      * @brief Check if policy is in moved-from state
      * 
      * @return true if resources have been moved out
+     * @note Exception safety: noexcept.
      */
     virtual bool is_moved_from() const noexcept = 0;
 
@@ -382,6 +386,11 @@ public:
     };
 
     WeightedTieredLRUEvictionPolicy();
+    /**
+     * @brief TBD: Describe WeightedTieredLRUEvictionPolicy.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit WeightedTieredLRUEvictionPolicy(Config config);
 
     WeightedTieredLRUEvictionPolicy(WeightedTieredLRUEvictionPolicy&& other) noexcept;
@@ -487,11 +496,36 @@ private:
         double decayed_frequency = 0.0;
     };
 
+    /**
+     * @brief TBD: Describe steady_now_ns.
+     * @return Return value.
+     */
     static int64_t steady_now_ns();
+    /**
+     * @brief TBD: Describe clamp_percent.
+     * @param[in] value Input parameter.
+     * @param[in] min_value Input parameter.
+     * @param[in] max_value Input parameter.
+     * @return Return value.
+     */
     static size_t clamp_percent(size_t value, size_t min_value, size_t max_value);
 
+    /**
+     * @brief TBD: Describe ensure_operational.
+     */
     void ensure_operational() const;
+    /**
+     * @brief TBD: Describe classify_locked.
+     * @param[in] access_count Input parameter.
+     * @return Return value.
+     */
     Tier classify_locked(size_t access_count) const;
+    /**
+     * @brief TBD: Describe score_locked.
+     * @param[in] state Input parameter.
+     * @param[in] now_ns Input parameter.
+     * @return Return value.
+     */
     double score_locked(const EntryState& state, int64_t now_ns) const;
 
     Config config_;

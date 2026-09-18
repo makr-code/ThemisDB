@@ -46,8 +46,14 @@ public:
      * @brief Inserts or overwrites a value for a key.
      * @param key Key to insert or update.
      * @param value Value to store.
+     * @details Calls: lock().
      */
     void insert(const Key& key, const Value& value) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         map_[key] = value;
     }
@@ -58,6 +64,11 @@ public:
      * @return Stored value when present, otherwise std::nullopt.
      */
     std::optional<Value> get(const Key& key) const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = map_.find(key);
         if (it != map_.end()) {
@@ -71,8 +82,14 @@ public:
      * @param key Key to update.
      * @param value Replacement value.
      * @return true when key exists and was updated; false when key is missing.
+     * @details Calls: lock(), find(), end().
      */
     bool try_update(const Key& key, const Value& value) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = map_.find(key);
         if (it == map_.end()) {
@@ -86,8 +103,14 @@ public:
      * @brief Removes a key from the cache.
      * @param key Key to erase.
      * @return true when an entry was removed, otherwise false.
+     * @details Calls: lock().
      */
     bool erase(const Key& key) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return map_.erase(key) > 0;
     }
@@ -98,6 +121,11 @@ public:
      * @return true when the key exists, otherwise false.
      */
     bool contains(const Key& key) const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return map_.find(key) != map_.end();
     }
@@ -107,14 +135,25 @@ public:
      * @return Entry count.
      */
     size_t size() const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return map_.size();
     }
 
     /**
      * @brief Removes all entries from the cache.
+     * @details Calls: lock().
      */
     void clear() {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         map_.clear();
     }
@@ -127,6 +166,11 @@ public:
      */
     template <typename Func>
     void for_each(Func fn) const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         for (const auto& item : map_) {
             fn(item.first, item.second);
@@ -136,6 +180,7 @@ public:
     /**
      * @brief Returns mutable access to the underlying map.
      * @return Mutable reference to the backing map.
+     * @details Implements map without additional internal calls.
      */
     MapType& map() { return map_; }
 
@@ -151,6 +196,11 @@ public:
      * @return Pointer to the stored value when present, otherwise nullptr.
      */
     const Value* find_ptr(const Key& key) const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = map_.find(key);
         return it != map_.end() ? &it->second : nullptr;

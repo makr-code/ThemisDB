@@ -33,6 +33,11 @@ struct Response {
     nlohmann::json body;
     std::string content_type = "application/json";
     
+    /**
+     * @brief TBD: Describe setJSON.
+     * @param[in] j Input parameter.
+     * @details Implements setJSON without additional internal calls.
+     */
     void setJSON(const nlohmann::json& j) {
         body = j;
         content_type = "application/json";
@@ -74,10 +79,29 @@ class ErrorApiHandler {
 public:
     ErrorApiHandler() = default;
     
-    // Handler methods
+    /**
+     * @brief Handler methods
+     * @param[in] req Input parameter.
+     * @param[in,out] res Input/output parameter.
+     */
     void handleGetErrors(const Request& req, Response& res);
+    /**
+     * @brief TBD: Describe handleGetError.
+     * @param[in] req Input parameter.
+     * @param[in,out] res Input/output parameter.
+     */
     void handleGetError(const Request& req, Response& res);
+    /**
+     * @brief TBD: Describe handleGetCategories.
+     * @param[in] req Input parameter.
+     * @param[in,out] res Input/output parameter.
+     */
     void handleGetCategories(const Request& req, Response& res);
+    /**
+     * @brief TBD: Describe handleSearchErrors.
+     * @param[in] req Input parameter.
+     * @param[in,out] res Input/output parameter.
+     */
     void handleSearchErrors(const Request& req, Response& res);
 };
 

@@ -164,23 +164,29 @@ public:
     /**
      * @brief Write a value to the hot tier.
      * @return false on I/O failure.
+     * @param[in] key Input parameter.
+     * @param[in] value Input parameter.
      */
     bool put(const std::string& key, const std::string& value);
 
     /**
      * @brief Read a value from whichever tier holds it.
      * @return empty string if not found.
+     * @param[in] key Input parameter.
      */
     std::string get(const std::string& key);
 
     /**
      * @brief Delete a key from all tiers.
      * @return true if the key existed in at least one tier.
+     * @param[in] key Input parameter.
      */
     bool del(const std::string& key);
 
     /**
      * @brief Return the current tier of a key (HOT if unknown).
+     * @param[in] key Input parameter.
+     * @return Return value.
      */
     StorageTierLevel tierOf(const std::string& key) const;
 
@@ -204,9 +210,18 @@ public:
         uint64_t migration_errors{0};
     };
 
+    /**
+     * @brief TBD: Describe stats.
+     * @return Return value.
+     */
     Stats stats() const;
 
     const TieredStorageConfig& config() const { return config_; }
+    /**
+     * @brief TBD: Describe accessTracker.
+     * @return Return value.
+     * @details Implements accessTracker without additional internal calls.
+     */
     AccessTracker&             accessTracker()       { return tracker_; }
     const AccessTracker&       accessTracker() const { return tracker_; }
 
@@ -230,6 +245,7 @@ public:
      *
      * @see include/access_model/access_coordinator.h
      * @see docs/architecture/UNIFIED_ACCESS_MODEL.md
+     * @note Exception safety: noexcept.
      */
     void setPromotionListener(access_model::PromotionListener* listener) noexcept;
 
@@ -262,24 +278,74 @@ private:
     std::mutex              worker_mutex_;
     std::condition_variable worker_cv_;
 
+    /**
+     * @brief TBD: Describe workerLoop.
+     */
     void workerLoop();
 
-    // Phase 5: BLOCK 3 Storage Integration — Emit promotion events to coordinator
+    /**
+     * @brief Phase 5: BLOCK 3 Storage Integration — Emit promotion events to coordinator
+     * @param[in] key Input parameter.
+     * @param[in] from_tier Input parameter.
+     * @param[in] access_count Input parameter.
+     * @param[in] access_window_secs Input parameter.
+     */
     void emitPromotionEvent(const std::string& key, access_model::TierLevel from_tier,
                            uint64_t access_count, int64_t access_window_secs);
 
-    // ── Tier I/O helpers ──────────────────────────────────────────────────
+    /**
+     * @brief ── Tier I/O helpers ──────────────────────────────────────────────────
+     * @param[in] tier Input parameter.
+     * @return Return value.
+     */
     std::string tierPath(StorageTierLevel tier) const;
+    /**
+     * @brief TBD: Describe keyFilePath.
+     * @param[in] key Input parameter.
+     * @param[in] tier Input parameter.
+     * @return Return value.
+     */
     std::string keyFilePath(const std::string& key, StorageTierLevel tier) const;
 
+    /**
+     * @brief TBD: Describe writeToTier.
+     * @param[in] key Input parameter.
+     * @param[in] value Input parameter.
+     * @param[in] tier Input parameter.
+     * @return True on success.
+     */
     bool writeToTier(const std::string& key, const std::string& value,
                      StorageTierLevel tier);
+    /**
+     * @brief TBD: Describe readFromTier.
+     * @param[in] key Input parameter.
+     * @param[in] tier Input parameter.
+     * @return Return value.
+     */
     std::string readFromTier(const std::string& key, StorageTierLevel tier) const;
+    /**
+     * @brief TBD: Describe deleteFromTier.
+     * @param[in] key Input parameter.
+     * @param[in] tier Input parameter.
+     * @return True on success.
+     */
     bool deleteFromTier(const std::string& key, StorageTierLevel tier);
+    /**
+     * @brief TBD: Describe existsInTier.
+     * @param[in] key Input parameter.
+     * @param[in] tier Input parameter.
+     * @return True on success.
+     */
     bool existsInTier(const std::string& key, StorageTierLevel tier) const;
 
-    // Migrate one key: copy to destination, then delete from source.
-    // Returns true on success.
+    /**
+     * @brief Migrate one key: copy to destination, then delete from source.
+     * @param[in] key Input parameter.
+     * @param[in] from Input parameter.
+     * @param[in] to Input parameter.
+     * @return True on success.
+     * @details Returns true on success.
+     */
     bool migrateKey(const std::string& key,
                     StorageTierLevel   from,
                     StorageTierLevel   to);

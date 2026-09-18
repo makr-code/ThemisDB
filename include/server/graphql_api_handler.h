@@ -72,6 +72,8 @@ public:
      * @brief Inject or replace the QueryEngine after construction.
      *
      * Thread-safe only if called before the handler starts serving requests.
+     * @param[in,out] engine Input/output parameter.
+     * @details Implements setQueryEngine without additional internal calls.
      */
     void setQueryEngine(QueryEngine* engine) { engine_ = engine; }
 
@@ -114,16 +116,33 @@ private:
     /// Non-owning pointer to the AQL engine; nullptr = no AQL resolver.
     QueryEngine* engine_ = nullptr;
 
+    /**
+     * @brief TBD: Describe makeResponse.
+     * @param[in] status Input parameter.
+     * @param[in] body Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeResponse(
         http::status status,
         const std::string& body,
         const http::request<http::string_body>& req);
 
+    /**
+     * @brief TBD: Describe makeErrorResponse.
+     * @param[in] status Input parameter.
+     * @param[in] message Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeErrorResponse(
         http::status status,
         const std::string& message,
         const http::request<http::string_body>& req);
 
+     * @brief TBD: Describe serializeValue.
+     * @param[in] val Input parameter.
+     * @return Return value.
     /** Serialize a graphql::Value tree to a nlohmann::json node. */
     nlohmann::json serializeValue(
         const std::shared_ptr<graphql::Value>& val) const;

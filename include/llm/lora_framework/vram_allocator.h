@@ -26,6 +26,10 @@ namespace lora {
  * @brief GPU VRAM memory block descriptor
  */
 struct VRAMBlock {
+    /**
+     * @brief TBD: Describe ~VRAMBlock.
+     * @return Return value.
+     */
     virtual ~VRAMBlock() = default;
     void* ptr = nullptr;           // GPU memory pointer
     size_t size = 0;               // Size in bytes
@@ -106,6 +110,10 @@ public:
         float fragmentation = 0.0f;    // Fragmentation ratio (0.0-1.0)
     };
     
+    /**
+     * @brief TBD: Describe get_stats.
+     * @return Return value.
+     */
     Stats get_stats() const;
     
     /**
@@ -139,15 +147,45 @@ private:
     // Backend-specific data
     void* backend_context_ = nullptr;  // CUDA context, Vulkan device, etc.
     
-    // Internal helpers
+    /**
+     * @brief Internal helpers
+     * @return True on success.
+     */
     bool initialize_backend();
+    /**
+     * @brief TBD: Describe shutdown_backend.
+     */
     void shutdown_backend();
+    /**
+     * @brief TBD: Describe allocate_from_backend.
+     * @param[in] size_bytes Input parameter.
+     * @param[in] alignment Input parameter.
+     * @return Pointer to the result.
+     */
     void* allocate_from_backend(size_t size_bytes, size_t alignment);
+    /**
+     * @brief TBD: Describe deallocate_to_backend.
+     * @param[in,out] ptr Input/output parameter.
+     */
     void deallocate_to_backend(void* ptr);
-    // Perform the actual backend deallocation WITHOUT holding mutex_.
-    // Callers must supply the known block size (for secure clearing).
+    /**
+     * @brief Perform the actual backend deallocation WITHOUT holding mutex_.
+     * @param[in,out] ptr Input/output parameter.
+     * @param[in] block_size Input parameter.
+     * @note Exception safety: noexcept.
+     * @details Callers must supply the known block size (for secure clearing).
+     */
     void release_backend_ptr_(void* ptr, size_t block_size) noexcept;
+    /**
+     * @brief TBD: Describe find_free_block.
+     * @param[in] size_bytes Input parameter.
+     * @param[in] alignment Input parameter.
+     * @return Pointer to the result.
+     */
     VRAMBlock* find_free_block(size_t size_bytes, size_t alignment);
+    /**
+     * @brief TBD: Describe coalesce_free_blocks.
+     */
     void coalesce_free_blocks();  // Assumes lock is already held
 };
 
@@ -168,7 +206,19 @@ public:
     void* ptr() const { return ptr_; }
     size_t size() const { return size_; }
     
+    /**
+     * @brief TBD: Describe upload.
+     * @param[in] src Input parameter.
+     * @param[in] size_bytes Input parameter.
+     * @return True on success.
+     */
     bool upload(const void* src, size_t size_bytes);
+    /**
+     * @brief TBD: Describe download.
+     * @param[in,out] dst Input/output parameter.
+     * @param[in] size_bytes Input parameter.
+     * @return True on success.
+     */
     bool download(void* dst, size_t size_bytes) const;
 
 private:

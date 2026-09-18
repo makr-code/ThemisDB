@@ -111,6 +111,7 @@ public:
      * @param backend  Shared pointer to any `ITextGenerationBackend`.
      *                 Must not be null; pass a `NullTextGenerationBackend`
      *                 explicitly when no LLM is desired.
+     * @return Return value.
      */
     explicit LegalLlmAdapter(std::shared_ptr<ITextGenerationBackend> backend);
 
@@ -136,6 +137,7 @@ public:
 
     /**
      * @brief Return the current LLM configuration.
+     * @return Return value.
      */
     const LlmAdapterConfig& getConfig() const;
 
@@ -195,6 +197,8 @@ private:
      *
      * Returns a structured prompt suitable for instruction-tuned models.
      * The prompt is in German to leverage legal-domain knowledge.
+     * @param[in] text Input parameter.
+     * @return Return value.
      */
     static std::string buildPrompt(const std::string& text);
 

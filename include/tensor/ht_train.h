@@ -67,11 +67,25 @@ struct HTNode {
 
     /// U[i, alpha] — only valid for leaf nodes.
     float  atU(std::size_t i, std::size_t alpha) const { return U[i * rank + alpha]; }
+    /**
+     * @brief TBD: Describe atU.
+     * @param[in] i Input parameter.
+     * @param[in] alpha Input parameter.
+     * @return Return value.
+     * @details Implements atU without additional internal calls.
+     */
     float& atU(std::size_t i, std::size_t alpha)       { return U[i * rank + alpha]; }
 
     /// B[l, r, alpha] — only valid for internal nodes.
     float  atB(std::size_t l, std::size_t r, std::size_t alpha) const
     { return B[l * r_right * rank + r * rank + alpha]; }
+    /**
+     * @brief TBD: Describe atB.
+     * @param[in] l Input parameter.
+     * @param[in] r Input parameter.
+     * @param[in] alpha Input parameter.
+     * @return Return value.
+     */
     float& atB(std::size_t l, std::size_t r, std::size_t alpha)
     { return B[l * r_right * rank + r * rank + alpha]; }
 
@@ -146,6 +160,7 @@ struct HTTrain {
      * eliminates repeated O(∏ n_k) reconstruction cost.  The long-term removal plan
      * (Q2 2028) is to extend `ITensorIndex` to support `IHierarchicalTuckerIndex`
      * directly, removing the round-trip entirely.
+     * @return Return value.
      */
     storage::TTTrain toTTTrain() const;
 
@@ -227,6 +242,9 @@ public:
      *
      * Both A and B must have the same tree topology (same shape and rank layout).
      * Returns 0.0 if the trees are structurally incompatible.
+     * @param[in] A Input parameter.
+     * @param[in] B Input parameter.
+     * @return Return value.
      */
     static double innerProduct(const HTTrain& A, const HTTrain& B);
 
@@ -237,8 +255,12 @@ public:
     static double cosineSimilarity(const HTTrain& A, const HTTrain& B);
 
 private:
-    /// Recursive helper: returns the Gram matrix Γ_t[α, β] as a flat row-major
-    /// vector of shape [r_A × r_B].
+    /**
+     * @brief Recursive helper: returns the Gram matrix Γ_t[α, β] as a flat row-major vector of shape [r_A × r_B].
+     * @param[in] A Input parameter.
+     * @param[in] B Input parameter.
+     * @return Return value.
+     */
     static std::vector<double> computeGram(const HTNode& A, const HTNode& B);
 };
 

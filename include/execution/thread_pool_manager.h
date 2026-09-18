@@ -106,6 +106,7 @@ public:
     /**
      * @brief Constructs the pool and starts @p cfg.min_threads workers.
      * @param cfg  Pool configuration.
+     * @return Return value.
      */
     explicit WorkStealingThreadPool(const Config& cfg);
 
@@ -177,8 +178,18 @@ private:
         mutable std::mutex    lock;
         std::atomic<bool>     active{false};
 
-        // Try to steal one item from the back.
+        /**
+         * @brief Try to steal one item from the back.
+         * @param[in,out] out Input/output parameter.
+         * @return True on success.
+         * @details Calls: lk(), empty(), std::move(), back(), pop_back().
+         */
         bool trySteal(WorkItem& out) {
+            /**
+             * @brief TBD: Describe lk.
+             * @param[in] lock Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lk(lock);
             if (items.empty()) {
               return false;
@@ -189,7 +200,17 @@ private:
         }
     };
 
+    /**
+     * @brief TBD: Describe workerLoop.
+     * @param[in] thread_idx Input parameter.
+     */
     void workerLoop(std::size_t thread_idx);
+    /**
+     * @brief TBD: Describe tryGetWork.
+     * @param[in] own_idx Input parameter.
+     * @param[in,out] out Input/output parameter.
+     * @return True on success.
+     */
     bool tryGetWork(std::size_t own_idx, WorkItem& out);
 
     Config  cfg_;

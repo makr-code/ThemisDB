@@ -53,7 +53,16 @@ public:
         std::string description;        // Human-readable description
         std::string created_by;         // User/service that created the tag
         
+        /**
+         * @brief TBD: Describe toJson.
+         * @return Return value.
+         */
         json toJson() const;
+        /**
+         * @brief TBD: Describe fromJson.
+         * @param[in] j Input parameter.
+         * @return Return value.
+         */
         static Snapshot fromJson(const json& j);
     };
     
@@ -67,6 +76,10 @@ public:
         uint64_t oldest_sequence = 0;
         uint64_t newest_sequence = 0;
         
+        /**
+         * @brief TBD: Describe toJson.
+         * @return Return value.
+         */
         json toJson() const;
     };
     
@@ -74,6 +87,7 @@ public:
      * @brief Construct SnapshotManager
      * @param db Reference to RocksDB wrapper
      * @param changefeed Reference to Changefeed for sequence numbers
+     * @return Return value.
      */
     explicit SnapshotManager(RocksDBWrapper& db, Changefeed& changefeed);
     
@@ -180,6 +194,7 @@ public:
 
     /**
      * @brief Set the retention policy applied during pruneOldSnapshots().
+     * @param[in] policy Input parameter.
      */
     void setRetentionPolicy(const RetentionPolicy& policy);
 
@@ -212,6 +227,10 @@ public:
         int64_t  timestamp_ms{0};      ///< Unix timestamp of the tag
         std::string message;           ///< Human-readable status or error
 
+        /**
+         * @brief TBD: Describe toJson.
+         * @return Return value.
+         */
         json toJson() const;
     };
 
@@ -247,21 +266,29 @@ private:
     
     /**
      * @brief Make RocksDB key for a tag
+     * @param[in] tag_name Input parameter.
+     * @return Return value.
      */
     std::string makeKey(const std::string& tag_name) const;
     
     /**
      * @brief Extract tag name from RocksDB key
+     * @param[in] key Input parameter.
+     * @return Return value.
      */
     std::string extractTagName(const std::string& key) const;
     
     /**
      * @brief Serialize snapshot to bytes
+     * @param[in] snapshot Input parameter.
+     * @return Return value.
      */
     std::vector<uint8_t> serialize(const Snapshot& snapshot) const;
     
     /**
      * @brief Deserialize snapshot from bytes
+     * @param[in] data Input parameter.
+     * @return Return value.
      */
     std::optional<Snapshot> deserialize(const std::vector<uint8_t>& data) const;
 };

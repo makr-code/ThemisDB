@@ -72,35 +72,124 @@ public:
     void start();
 
 private:
-    // TLS handshake with ALPN
+    /**
+     * @brief TLS handshake with ALPN
+     */
     void doHandshake();
+    /**
+     * @brief TBD: Describe onHandshake.
+     * @param[in] ec Input parameter.
+     */
     void onHandshake(boost::system::error_code ec);
     
-    // HTTP/2 session management
+    /**
+     * @brief HTTP/2 session management
+     */
     void doRead();
+    /**
+     * @brief TBD: Describe onRead.
+     * @param[in] ec Input parameter.
+     * @param[in] bytes_transferred Input parameter.
+     */
     void onRead(boost::system::error_code ec, std::size_t bytes_transferred);
+    /**
+     * @brief TBD: Describe doWrite.
+     */
     void doWrite();
+    /**
+     * @brief TBD: Describe onWrite.
+     * @param[in] ec Input parameter.
+     * @param[in] bytes_transferred Input parameter.
+     */
     void onWrite(boost::system::error_code ec, std::size_t bytes_transferred);
+    /**
+     * @brief TBD: Describe armReadTimer.
+     */
     void armReadTimer();
+    /**
+     * @brief TBD: Describe cancelReadTimer.
+     */
     void cancelReadTimer();
+    /**
+     * @brief TBD: Describe armWriteTimer.
+     */
     void armWriteTimer();
+    /**
+     * @brief TBD: Describe cancelWriteTimer.
+     */
     void cancelWriteTimer();
     
-    // nghttp2 callbacks
+    /**
+     * @brief nghttp2 callbacks
+     * @param[in,out] session Input/output parameter.
+     * @param[in] data Input parameter.
+     * @param[in] length Input parameter.
+     * @param[in] flags Input parameter.
+     * @param[in,out] user_data Input/output parameter.
+     * @return Return value.
+     */
     static ssize_t sendCallback(nghttp2_session* session, const uint8_t* data,
                                 size_t length, int flags, void* user_data);
+    /**
+     * @brief TBD: Describe onFrameRecvCallback.
+     * @param[in,out] session Input/output parameter.
+     * @param[in] frame Input parameter.
+     * @param[in,out] user_data Input/output parameter.
+     * @return Return value.
+     */
     static int onFrameRecvCallback(nghttp2_session* session,
                                    const nghttp2_frame* frame, void* user_data);
+    /**
+     * @brief TBD: Describe onDataChunkRecvCallback.
+     * @param[in,out] session Input/output parameter.
+     * @param[in] flags Input parameter.
+     * @param[in] stream_id Input parameter.
+     * @param[in] data Input parameter.
+     * @param[in] len Input parameter.
+     * @param[in,out] user_data Input/output parameter.
+     * @return Return value.
+     */
     static int onDataChunkRecvCallback(nghttp2_session* session, uint8_t flags,
                                        int32_t stream_id, const uint8_t* data,
                                        size_t len, void* user_data);
+    /**
+     * @brief TBD: Describe onStreamCloseCallback.
+     * @param[in,out] session Input/output parameter.
+     * @param[in] stream_id Input parameter.
+     * @param[in] error_code Input parameter.
+     * @param[in,out] user_data Input/output parameter.
+     * @return Return value.
+     */
     static int onStreamCloseCallback(nghttp2_session* session, int32_t stream_id,
                                      uint32_t error_code, void* user_data);
+    /**
+     * @brief TBD: Describe onHeaderCallback.
+     * @param[in,out] session Input/output parameter.
+     * @param[in] frame Input parameter.
+     * @param[in] name Input parameter.
+     * @param[in] namelen Input parameter.
+     * @param[in] value Input parameter.
+     * @param[in] valuelen Input parameter.
+     * @param[in] flags Input parameter.
+     * @param[in,out] user_data Input/output parameter.
+     * @return Return value.
+     */
     static int onHeaderCallback(nghttp2_session* session,
                                 const nghttp2_frame* frame,
                                 const uint8_t* name, size_t namelen,
                                 const uint8_t* value, size_t valuelen,
                                 uint8_t flags, void* user_data);
+    /**
+     * @brief TBD: Describe responseDataReadCallback.
+     * @param[in,out] session Input/output parameter.
+     * @param[in] stream_id Input parameter.
+     * @param[in,out] buf Input/output parameter.
+     * @param[in] length Input parameter.
+     * @param[in,out] data_flags Input/output parameter.
+     * @param[in,out] source Input/output parameter.
+     * @param[in,out] user_data Input/output parameter.
+     * @return Return value.
+     */
     static ssize_t responseDataReadCallback(nghttp2_session* session, int32_t stream_id,
                                             uint8_t* buf, size_t length, uint32_t* data_flags,
                                             nghttp2_data_source* source, void* user_data);
@@ -122,6 +211,10 @@ private:
         size_t offset = 0;
     };
     
+    /**
+     * @brief TBD: Describe processStream.
+     * @param[in] stream_id Input parameter.
+     */
     void processStream(int32_t stream_id);
     void sendResponse(int32_t stream_id, int status, 
                       const std::string& body,
@@ -131,7 +224,15 @@ private:
     void sendServerPush(int32_t stream_id, const std::string& push_path, 
                         const std::string& body,
                         const std::unordered_map<std::string, std::string>& headers = {});
+    /**
+     * @brief TBD: Describe subscribeToCDC.
+     * @param[in] stream_id Input parameter.
+     */
     void subscribeToCDC(int32_t stream_id);
+    /**
+     * @brief TBD: Describe broadcastCDCEvent.
+     * @param[in] event_data Input parameter.
+     */
     void broadcastCDCEvent(const std::string& event_data);
     
     // Members
@@ -168,11 +269,14 @@ public:
      * @brief Configure ALPN for HTTP/2 negotiation
      * 
      * Sets up "h2" protocol negotiation in TLS context
+     * @param[in,out] ssl_ctx Input/output parameter.
      */
     static void configureAlpn(boost::asio::ssl::context& ssl_ctx);
     
     /**
      * @brief Check if ALPN negotiated HTTP/2
+     * @param[in,out] ssl Input/output parameter.
+     * @return True on success.
      */
     static bool isHttp2Negotiated(SSL* ssl);
     

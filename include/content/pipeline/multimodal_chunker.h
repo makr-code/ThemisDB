@@ -66,6 +66,11 @@ public:
     };
 
     MultiModalChunker();
+    /**
+     * @brief TBD: Describe MultiModalChunker.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit MultiModalChunker(const MultiModalConfig& config);
     ~MultiModalChunker() = default;
 
@@ -113,11 +118,13 @@ public:
 
     /**
      * @brief Get current configuration
+     * @return Return value.
      */
     const MultiModalConfig& get_config() const;
 
     /**
      * @brief Set new configuration
+     * @param[in] config Input parameter.
      */
     void set_config(const MultiModalConfig& config);
 
@@ -125,8 +132,17 @@ private:
     MultiModalConfig config_;
     ContentChunker generic_chunker_;  // Fallback to generic chunking
     
-    // Helper methods
+    /**
+     * @brief Helper methods
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     std::vector<size_t> find_sentence_boundaries(const std::string& text);
+    /**
+     * @brief TBD: Describe find_paragraph_boundaries.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     std::vector<size_t> find_paragraph_boundaries(const std::string& text);
 };
 

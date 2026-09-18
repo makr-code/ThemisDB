@@ -198,6 +198,7 @@ public:
      *
      * When set, every librdkafka poll is replaced by a call to @p fn.  Pass
      * an empty `KafkaMessageFn{}` to restore the real consumer.
+     * @param[in] fn Input parameter.
      */
     void setMessageFetchForTesting(KafkaMessageFn fn);
 
@@ -259,6 +260,11 @@ private:
      */
     json extractEntity(const std::string& payload) const;
 
+     * @brief TBD: Describe consumeFromMock.
+     * @param[in] topic Input parameter.
+     * @param[in] options Input parameter.
+     * @param[in,out] stats Input/output parameter.
+     * @param[in,out] progress_cb Input/output parameter.
     /** Run the consume loop against the mock message function. */
     void consumeFromMock(const std::string& topic,
                          const ImportOptions& options,
@@ -266,6 +272,12 @@ private:
                          ProgressCallback& progress_cb);
 
 #ifdef THEMIS_ENABLE_KAFKA
+     * @brief TBD: Describe consumeFromKafka.
+     * @param[in] brokers Input parameter.
+     * @param[in] topic Input parameter.
+     * @param[in] options Input parameter.
+     * @param[in,out] stats Input/output parameter.
+     * @param[in,out] progress_cb Input/output parameter.
     /** Run the consume loop against a live Kafka broker via librdkafka. */
     void consumeFromKafka(const std::string& brokers,
                           const std::string& topic,
@@ -290,6 +302,13 @@ private:
                   const std::map<std::string, std::string>& attributes,
                   double duration_seconds) const;
 
+    /**
+     * @brief TBD: Describe reportProgress.
+     * @param[in,out] callback Input/output parameter.
+     * @param[in] stage Input parameter.
+     * @param[in] current Input parameter.
+     * @param[in] total Input parameter.
+     */
     void reportProgress(ProgressCallback& callback,
                         const std::string& stage,
                         size_t current,

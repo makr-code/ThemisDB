@@ -150,6 +150,10 @@ private:
  */
 class IRAGContextBudgetManager {
 public:
+    /**
+     * @brief TBD: Describe ~IRAGContextBudgetManager.
+     * @return Return value.
+     */
     virtual ~IRAGContextBudgetManager() = default;
 
     /**
@@ -172,6 +176,7 @@ public:
      *
      * All outstanding `BudgetHandle`s become no-ops after reset().
      * Call only when the RAG pipeline is idle (e.g., between requests).
+     * @note Exception safety: noexcept.
      */
     virtual void reset() noexcept = 0;
 
@@ -201,6 +206,8 @@ public:
     /**
      * @param total_budget  Maximum tokens available to all concurrent callers.
      * @throws std::invalid_argument if total_budget == 0.
+     * @brief TBD: Describe RagContextBudgetManager.
+     * @return Return value.
      */
     explicit RagContextBudgetManager(size_t total_budget);
 
@@ -211,6 +218,11 @@ public:
     BudgetSnapshot snapshot()  const noexcept override;
 
 private:
+    /**
+     * @brief TBD: Describe doRelease.
+     * @param[in] tokens Input parameter.
+     * @note Exception safety: noexcept.
+     */
     void doRelease(size_t tokens) noexcept;
 
     size_t                 total_budget_;

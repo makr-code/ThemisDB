@@ -60,6 +60,7 @@ public:
      *
      * Properly cleans up all resources associated with any concrete implementations
      * derived from this interface, ensuring safe polymorphic destruction.
+     * @return Return value.
      */
     virtual ~IWhisperTranscriber() = default;
 
@@ -159,6 +160,7 @@ public:
      *   restored by calling loadState(). The format must be strictly defined to ensure
      *   reproducibility across different application runs.
      * @return A byte buffer containing the entire persistent state of the transcriber.
+     * @brief TBD: Describe serialize.
      */
     virtual std::vector<char> serialize() const = 0;
 
@@ -169,6 +171,7 @@ public:
      *   metadata required for continued transcription. Failure to provide valid data
      *   will result in an exception or corrupted state.
      * @param stateData The byte buffer containing the serialized transcriber state. Must not be empty.
+     * @brief TBD: Describe loadState.
      */
     virtual void loadState(const std::vector<char>& stateData) = 0;
 
@@ -321,9 +324,17 @@ public:
     }
     bool isInitialized() const override { return initialized_; }
 
-    /// Inject (or remove) a real transcription fn.  Pass nullptr to restore
-    /// the empty-result stub.  Thread-safe with concurrent transcribe() calls.
+    /**
+     * @brief Inject (or remove) a real transcription fn.
+     * @param[in] fn Input parameter.
+     * @details Pass nullptr to restore the empty-result stub. Thread-safe with concurrent transcribe() calls. Calls: lk(), std::move().
+     */
     void setTranscribeFn(TranscribeFn fn) {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] transcribe_fn_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(transcribe_fn_mutex_);
         transcribe_fn_ = std::move(fn);
     }
@@ -332,6 +343,11 @@ public:
                                           float sample_rate) override {
         TranscribeFn fn_copy;
         {
+            /**
+             * @brief TBD: Describe lk.
+             * @param[in] transcribe_fn_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lk(transcribe_fn_mutex_);
             fn_copy = transcribe_fn_;
         }
@@ -368,6 +384,11 @@ public:
         result.model_id = model_id_;
         return result;
     }
+    /**
+     * @brief TBD: Describe setNextDiarisationResult.
+     * @param[in] r Input parameter.
+     * @details Calls: std::move().
+     */
     void setNextDiarisationResult(DiarisationResult r) {
         next_diarisation_ = std::move(r);
     }
@@ -431,13 +452,26 @@ private:
  */
 class InMemoryWhisperTranscriber : public IWhisperTranscriber {
 public:
+    /**
+     * @brief TBD: Describe setNextResult.
+     * @param[in] r Input parameter.
+     * @details Calls: std::move().
+     */
     void setNextResult(audio::TranscriptionResult r) {
         next_result_ = std::move(r);
         initialized_ = true;
     }
+    /**
+     * @brief TBD: Describe setNextLanguage.
+     * @param[in] r Input parameter.
+     * @details Calls: std::move().
+     */
     void setNextLanguage(audio::LanguageDetectionResult r) {
         next_lang_ = std::move(r);
     }
+     * @brief TBD: Describe setStreamTokens.
+     * @param[in] tokens Input parameter.
+     * @details Calls: std::move().
     /** Pre-set tokens to emit during transcribeStream() instead of one bulk token. */
     void setStreamTokens(std::vector<audio::TranscriptionToken> tokens) {
         stream_tokens_ = std::move(tokens);
@@ -473,6 +507,11 @@ public:
         }
         return r;
     }
+    /**
+     * @brief TBD: Describe setNextDiarisationResult.
+     * @param[in] r Input parameter.
+     * @details Calls: std::move().
+     */
     void setNextDiarisationResult(DiarisationResult r) {
         next_diarisation_ = std::move(r);
     }

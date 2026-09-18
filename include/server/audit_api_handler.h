@@ -37,6 +37,10 @@ struct AuditLogEntry {
     std::string session_id;
     std::string error_message;
     
+    /**
+     * @brief TBD: Describe toJson.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
 };
 
@@ -86,10 +90,18 @@ public:
                     std::shared_ptr<themis::utils::VCCPKIClient> pki,
                     const std::string& log_path);
 
-    // Query audit logs with filtering and pagination
+    /**
+     * @brief Query audit logs with filtering and pagination
+     * @param[in] filter Input parameter.
+     * @return Return value.
+     */
     nlohmann::json queryAuditLogs(const AuditQueryFilter& filter);
     
-    // Export audit logs as CSV
+    /**
+     * @brief Export audit logs as CSV
+     * @param[in] filter Input parameter.
+     * @return Return value.
+     */
     std::string exportAuditLogsCsv(const AuditQueryFilter& filter);
 
 private:
@@ -97,13 +109,26 @@ private:
     std::shared_ptr<themis::utils::VCCPKIClient> pki_;
     std::string log_path_;
 
-    // Read and decrypt audit log entries from JSONL file
+    /**
+     * @brief Read and decrypt audit log entries from JSONL file
+     * @param[in] filter Input parameter.
+     * @return Return value.
+     */
     std::vector<AuditLogEntry> readAuditLogs(const AuditQueryFilter& filter);
     
-    // Parse single JSON line to AuditLogEntry
+    /**
+     * @brief Parse single JSON line to AuditLogEntry
+     * @param[in] j Input parameter.
+     * @param[in] line_id Input parameter.
+     * @return Return value.
+     */
     AuditLogEntry parseLogLine(const nlohmann::json& j, int64_t line_id);
     
-    // Decrypt encrypted audit payload
+    /**
+     * @brief Decrypt encrypted audit payload
+     * @param[in] payload Input parameter.
+     * @return Return value.
+     */
     std::string decryptPayload(const nlohmann::json& payload);
 };
 

@@ -381,6 +381,7 @@ public:
 
     /**
      * @brief Get active connection count
+     * @return Return value.
      */
     size_t getActiveConnections() const;
 
@@ -397,6 +398,10 @@ public:
         uint64_t bytes_received = 0;
         uint64_t bytes_sent = 0;
     };
+    /**
+     * @brief TBD: Describe getStats.
+     * @return Return value.
+     */
     Stats getStats() const;
 
     // -------------------------------------------------------------------------
@@ -449,6 +454,7 @@ public:
 
     /**
      * @brief Retrieve bandwidth statistics for all registered tenants.
+     * @return Return value.
      */
     std::vector<QoSManager::TenantQuotaStats> getAllTenantBandwidthStats() const;
 
@@ -478,14 +484,38 @@ private:
     friend class WireProtocolWebSocketSession;
 #endif
 
-    // Accept new connections
+    /**
+     * @brief Accept new connections
+     */
     void doAccept();
+    /**
+     * @brief TBD: Describe handleAccept.
+     * @param[in] session Input parameter.
+     * @param[in] error Input parameter.
+     */
     void handleAccept(std::shared_ptr<Session> session, const boost::system::error_code& error);
 
-    // Security checks
+    /**
+     * @brief Security checks
+     * @param[in] remote_ip Input parameter.
+     * @return True on success.
+     */
     bool checkConnectionLimit(const std::string& remote_ip);
+    /**
+     * @brief TBD: Describe checkRateLimit.
+     * @param[in] remote_ip Input parameter.
+     * @return True on success.
+     */
     bool checkRateLimit(const std::string& remote_ip);
+    /**
+     * @brief TBD: Describe registerConnection.
+     * @param[in] remote_ip Input parameter.
+     */
     void registerConnection(const std::string& remote_ip);
+    /**
+     * @brief TBD: Describe unregisterConnection.
+     * @param[in] remote_ip Input parameter.
+     */
     void unregisterConnection(const std::string& remote_ip);
 
     // Configuration
@@ -597,6 +627,10 @@ public:
     /// @brief Close the session and release all associated resources.
     void close();
     
+    /**
+     * @brief TBD: Describe getRemoteIP.
+     * @return Return value.
+     */
     std::string getRemoteIP() const;
     uint64_t getSessionID() const { return session_id_; }
     bool isAuthenticated() const { return authenticated_.load(); }
@@ -613,11 +647,27 @@ public:
     void setTenant(const std::string& tenant_id);
 
 private:
-    // Async operations
+    /**
+     * @brief Async operations
+     */
     void asyncReadHeader();
+    /**
+     * @brief TBD: Describe asyncReadPayload.
+     * @param[in] payload_size Input parameter.
+     */
     void asyncReadPayload(uint32_t payload_size);
+    /**
+     * @brief TBD: Describe asyncReadChecksum.
+     */
     void asyncReadChecksum();
+    /**
+     * @brief TBD: Describe asyncWriteResponse.
+     * @param[in] data Input parameter.
+     */
     void asyncWriteResponse(const std::vector<uint8_t>& data);
+    /**
+     * @brief TBD: Describe doWrite.
+     */
     void doWrite();  // Internal write loop
 
     // Dispatch a heavy handler function to the server's worker_pool_.
@@ -627,45 +677,132 @@ private:
     void dispatchToWorkerPool(std::function<void()> handler);
 
 #ifdef THEMIS_ENABLE_WEBSOCKET
-    // Protocol detection: reads first 4 bytes and decides binary vs WebSocket
+    /**
+     * @brief Protocol detection: reads first 4 bytes and decides binary vs WebSocket
+     */
     void asyncDetectProtocol();
-    // Continues binary header read after 4 bytes have been peeked
+    /**
+     * @brief Continues binary header read after 4 bytes have been peeked
+     */
     void asyncReadRemainingHeader();
     // Reads the remaining HTTP request lines and performs WebSocket upgrade
     void asyncUpgradeToWebSocket(const std::array<uint8_t, 4>& first_bytes);
 #endif
 
-    // Message handlers (OpCode dispatch)
+    /**
+     * @brief Message handlers (OpCode dispatch)
+     */
     void handleMessage();
+    /**
+     * @brief TBD: Describe handleHello.
+     */
     void handleHello();
+    /**
+     * @brief TBD: Describe handleAuthRequest.
+     */
     void handleAuthRequest();   // 0x03 (backward-compat alias) and 0x04 AUTH_RESPONSE
+    /**
+     * @brief TBD: Describe handleGet.
+     */
     void handleGet();
+    /**
+     * @brief TBD: Describe handlePut.
+     */
     void handlePut();
+    /**
+     * @brief TBD: Describe handleDelete.
+     */
     void handleDelete();
+    /**
+     * @brief TBD: Describe handleBatchGet.
+     */
     void handleBatchGet();
+    /**
+     * @brief TBD: Describe handleBatchPut.
+     */
     void handleBatchPut();
+    /**
+     * @brief TBD: Describe handleQuery.
+     */
     void handleQuery();
+    /**
+     * @brief TBD: Describe handleCursorNext.
+     */
     void handleCursorNext();
+    /**
+     * @brief TBD: Describe handleCursorClose.
+     */
     void handleCursorClose();
+    /**
+     * @brief TBD: Describe handleTransactionBegin.
+     */
     void handleTransactionBegin();
+    /**
+     * @brief TBD: Describe handleTransactionCommit.
+     */
     void handleTransactionCommit();
+    /**
+     * @brief TBD: Describe handleTransactionAbort.
+     */
     void handleTransactionAbort();
+    /**
+     * @brief TBD: Describe handleVectorSearch.
+     */
     void handleVectorSearch();
+    /**
+     * @brief TBD: Describe handleGraphTraverse.
+     */
     void handleGraphTraverse();
+    /**
+     * @brief TBD: Describe handleGeoQuery.
+     */
     void handleGeoQuery();
+    /**
+     * @brief TBD: Describe handleTimeseriesQuery.
+     */
     void handleTimeseriesQuery();
+    /**
+     * @brief TBD: Describe handleBpmnStartProcess.
+     */
     void handleBpmnStartProcess();
+    /**
+     * @brief TBD: Describe handleBpmnTaskComplete.
+     */
     void handleBpmnTaskComplete();
+    /**
+     * @brief TBD: Describe handleBpmnQueryInstance.
+     */
     void handleBpmnQueryInstance();
+    /**
+     * @brief TBD: Describe handlePing.
+     */
     void handlePing();
+    /**
+     * @brief TBD: Describe handleClose.
+     */
     void handleClose();
 
-    // Error handling
+    /**
+     * @brief Error handling
+     * @param[in] error_code Input parameter.
+     * @param[in] message Input parameter.
+     */
     void sendError(uint32_t error_code, const std::string& message);
+    /**
+     * @brief TBD: Describe handleError.
+     * @param[in] context Input parameter.
+     * @param[in] ec Input parameter.
+     */
     void handleError(const std::string& context, const boost::system::error_code& ec);
 
-    // Timeout management
+    /**
+     * @brief Timeout management
+     * @param[in] timeout Input parameter.
+     */
     void startTimeout(std::chrono::seconds timeout);
+    /**
+     * @brief TBD: Describe cancelTimeout.
+     */
     void cancelTimeout();
 
     // Session data

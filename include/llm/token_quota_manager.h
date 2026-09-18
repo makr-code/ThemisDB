@@ -94,6 +94,8 @@ public:
      * After removal the pair is treated as unlimited.
      *
      * @return true if a quota entry was found and removed.
+     * @param[in] user_id Input parameter.
+     * @param[in] model_id Input parameter.
      */
     bool removeQuota(const std::string& user_id, const std::string& model_id);
 
@@ -110,6 +112,7 @@ public:
      * @param user_id          User identifier.
      * @param model_id         Model identifier.
      * @param estimated_tokens Estimated prompt + completion tokens.
+     * @return Return value.
      */
     QuotaCheckResult check(const std::string& user_id,
                            const std::string& model_id,
@@ -136,6 +139,9 @@ public:
      *        (user_id, model_id).
      *
      * Returns 0 if no quota entry exists or if all events have expired.
+     * @param[in] user_id Input parameter.
+     * @param[in] model_id Input parameter.
+     * @return Return value.
      */
     size_t currentUsage(const std::string& user_id,
                         const std::string& model_id) const;
@@ -153,6 +159,9 @@ public:
     /**
      * @brief Return the configured limit for (user_id, model_id), or
      *        std::nullopt if no quota is set.
+     * @param[in] user_id Input parameter.
+     * @param[in] model_id Input parameter.
+     * @return Return value.
      */
     std::optional<size_t> getLimit(const std::string& user_id,
                                    const std::string& model_id) const;
@@ -201,12 +210,23 @@ private:
         mutable std::vector<Event> events; ///< sliding-window log
     };
 
+    /**
+     * @brief TBD: Describe makeKey.
+     * @param[in] user_id Input parameter.
+     * @param[in] model_id Input parameter.
+     * @return Return value.
+     * @details Implements makeKey without additional internal calls.
+     */
     static std::string makeKey(const std::string& user_id,
                                const std::string& model_id) {
         return user_id + '\0' + model_id;
     }
 
-    // Discard events older than WINDOW.  Caller must hold mutex_.
+    /**
+     * @brief Discard events older than WINDOW.
+     * @param[in,out] entry Input/output parameter.
+     * @details Caller must hold mutex_.
+     */
     static void prune(QuotaEntry& entry);
 
     mutable std::mutex mutex_;

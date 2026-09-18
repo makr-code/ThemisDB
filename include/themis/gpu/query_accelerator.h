@@ -207,6 +207,11 @@ public:
     // Construction
     // -----------------------------------------------------------------------
     GPUQueryAccelerator();
+    /**
+     * @brief TBD: Describe GPUQueryAccelerator.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit GPUQueryAccelerator(const Config& config);
 
     // -----------------------------------------------------------------------
@@ -236,6 +241,10 @@ public:
      * @brief Compute an aggregate over @p rows using @p value_fn.
      *
      * GPU path would use a reduction kernel; CPU path is a sequential pass.
+     * @param[in] rows Input parameter.
+     * @param[in] func Input parameter.
+     * @param[in] value_fn Input parameter.
+     * @return Return value.
      */
     AggResult aggregate(const std::vector<Row>& rows,
                         AggFunc                  func,
@@ -247,6 +256,11 @@ public:
      * Builds a hash table on the smaller side then probes with the larger
      * side.  GPU path would use a parallel hash join; CPU path uses
      * std::unordered_multimap.
+     * @param[in] left Input parameter.
+     * @param[in] right Input parameter.
+     * @param[in] left_key Input parameter.
+     * @param[in] right_key Input parameter.
+     * @return Return value.
      */
     JoinResult hashJoin(const std::vector<Row>& left,
                         const std::vector<Row>& right,
@@ -338,10 +352,14 @@ public:
                     size_t           k,
                     SortOrder        order = SortOrder::ASC);
 
-    // -----------------------------------------------------------------------
-    // Stats
-    // -----------------------------------------------------------------------
+    /**
+     * @brief ----------------------------------------------------------------------- Stats -----------------------------------------------------------------------
+     * @return Return value.
+     */
     Stats getStats() const;
+    /**
+     * @brief TBD: Describe resetStats.
+     */
     void  resetStats();
 
     // -----------------------------------------------------------------------
@@ -368,6 +386,7 @@ public:
 
     /**
      * @brief Return statistics from the underlying GPUGraphCache.
+     * @return Return value.
      */
     GPUGraphCache::Stats getGraphCacheStats() const;
 
@@ -378,7 +397,19 @@ private:
     GPUGraphCache        graph_cache_;
     std::atomic<bool>    graph_cache_enabled_{false};
 
+    /**
+     * @brief TBD: Describe shouldUseGPU.
+     * @param[in] num_rows Input parameter.
+     * @return True on success.
+     * @note Exception safety: noexcept.
+     */
     bool shouldUseGPU(size_t num_rows) const noexcept;
+    /**
+     * @brief TBD: Describe recordOp.
+     * @param[in] rows Input parameter.
+     * @param[in] bytes Input parameter.
+     * @param[in] gpu_used Input parameter.
+     */
     void recordOp(size_t rows, uint64_t bytes, bool gpu_used);
 
     /// Build a QueryShape for a single-sided operation.

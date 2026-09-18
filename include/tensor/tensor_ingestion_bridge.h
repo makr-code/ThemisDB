@@ -147,9 +147,12 @@ private:
     // Concurrent workload hardening (Block A1)
     mutable std::atomic<size_t> pending_decompositions_{0};  ///< Track in-flight decomposition operations
 
-    /// Infer a balanced 2D mode-shape for a vector of length `n`.
-    /// Returns {rows, cols} such that rows * cols == n and |rows - cols|
-    /// is minimised.  Pads n to the next perfect product when necessary.
+    /**
+     * @brief Infer a balanced 2D mode-shape for a vector of length `n`.
+     * @param[in] n Input parameter.
+     * @return Return value.
+     * @details Returns {rows, cols} such that rows * cols == n and |rows - cols| is minimised. Pads n to the next perfect product when necessary.
+     */
     static std::vector<std::size_t> inferModeShape(std::size_t n);
 };
 

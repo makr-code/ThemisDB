@@ -40,6 +40,7 @@ public:
          * @brief Binds this accessor to an entry in an owning map.
          * @param owner Owning map instance.
          * @param it Iterator to the entry.
+         * @details Implements bind without additional internal calls.
          */
         void bind(concurrent_hash_map* owner, iterator it) {
             owner_ = owner;
@@ -48,6 +49,7 @@ public:
 
         /**
          * @brief Clears the accessor state.
+         * @details Implements reset without additional internal calls.
          */
         void reset() {
             owner_ = nullptr;
@@ -56,6 +58,7 @@ public:
 
         /**
          * @brief Releases this accessor.
+         * @details Calls: reset().
          */
         void release() {
             reset();
@@ -91,6 +94,7 @@ public:
          * @brief Binds this accessor to a const entry in an owning map.
          * @param owner Owning map instance.
          * @param it Iterator to the entry.
+         * @details Implements bind without additional internal calls.
          */
         void bind(concurrent_hash_map* owner, const_iterator it) {
             owner_ = owner;
@@ -99,6 +103,7 @@ public:
 
         /**
          * @brief Clears the accessor state.
+         * @details Implements reset without additional internal calls.
          */
         void reset() {
             owner_ = nullptr;
@@ -107,6 +112,7 @@ public:
 
         /**
          * @brief Releases this accessor.
+         * @details Calls: reset().
          */
         void release() {
             reset();
@@ -139,7 +145,19 @@ public:
      * @return true when the key exists, otherwise false.
      */
     template <typename AccessorT>
+    /**
+     * @brief TBD: Describe find.
+     * @param[in,out] acc Input/output parameter.
+     * @param[in] key Input parameter.
+     * @return True on success.
+     * @details Calls: lock(), end(), reset(), bind().
+     */
     bool find(AccessorT& acc, const Key& key) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = map_.find(key);
         if (it == map_.end()) {
@@ -154,8 +172,14 @@ public:
      * @brief Erases an entry by key.
      * @param key Key to erase.
      * @return true when an entry was erased, otherwise false.
+     * @details Calls: lock().
      */
     bool erase(const Key& key) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return map_.erase(key) > 0;
     }
@@ -164,8 +188,14 @@ public:
      * @brief Erases an entry referenced by accessor.
      * @param acc Accessor bound to the entry to erase.
      * @return true when an entry was erased, otherwise false.
+     * @details Calls: lock(), reset().
      */
     bool erase(accessor& acc) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         if (acc.owner_ != this || acc.it_ == iterator{}) {
             return false;
@@ -181,8 +211,14 @@ public:
      * @param acc Accessor that receives the inserted entry on success.
      * @param value Key/value pair to insert.
      * @return true when insertion happened, otherwise false.
+     * @details Calls: lock(), reset(), bind().
      */
     bool insert(accessor& acc, const value_type& value) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         auto inserted = map_.insert(value);
         if (!inserted.second) {
@@ -198,8 +234,14 @@ public:
      * @param acc Accessor that receives the inserted entry on success.
      * @param value Key/value pair to insert.
      * @return true when insertion happened, otherwise false.
+     * @details Calls: lock(), std::move(), reset(), bind().
      */
     bool insert(accessor& acc, value_type&& value) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         auto inserted = map_.insert(std::move(value));
         if (!inserted.second) {
@@ -213,8 +255,14 @@ public:
     /**
      * @brief Inserts an entry without exposing an accessor.
      * @param value Key/value pair to insert.
+     * @details Calls: lock().
      */
     void insert(const value_type& value) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         map_.insert(value);
     }
@@ -222,8 +270,14 @@ public:
     /**
      * @brief Move-inserts an entry without exposing an accessor.
      * @param value Key/value pair to insert.
+     * @details Calls: lock(), std::move().
      */
     void insert(value_type&& value) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         map_.insert(std::move(value));
     }
@@ -233,14 +287,25 @@ public:
      * @return Entry count.
      */
     size_t size() const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return map_.size();
     }
 
     /**
      * @brief Removes all entries from the map.
+     * @details Calls: lock().
      */
     void clear() {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         map_.clear();
     }
@@ -248,11 +313,13 @@ public:
     /**
      * @brief Returns iterator to the first element.
      * @return Mutable iterator.
+     * @details Implements begin without additional internal calls.
      */
     iterator begin() { return map_.begin(); }
     /**
      * @brief Returns iterator to one-past-last element.
      * @return Mutable end iterator.
+     * @details Implements end without additional internal calls.
      */
     iterator end() { return map_.end(); }
     /**

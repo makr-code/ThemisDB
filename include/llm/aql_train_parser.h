@@ -50,7 +50,16 @@ struct TrainStatementConfig : public TrainingConfig {
     bool shuffle = true;
     int random_seed = 42;
     
+    /**
+     * @brief TBD: Describe toJSON.
+     * @return Return value.
+     */
     nlohmann::json toJSON() const;
+    /**
+     * @brief TBD: Describe fromJSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static TrainStatementConfig fromJSON(const nlohmann::json& j);
 };
 
@@ -61,7 +70,16 @@ struct GraphContextConfig {
     std::string direction = "BOTH";             // "OUTBOUND", "INBOUND", "BOTH"
     int max_nodes = 100;                        // Maximum nodes to include
     
+    /**
+     * @brief TBD: Describe toJSON.
+     * @return Return value.
+     */
     nlohmann::json toJSON() const;
+    /**
+     * @brief TBD: Describe fromJSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static GraphContextConfig fromJSON(const nlohmann::json& j);
 };
 
@@ -72,7 +90,16 @@ struct VectorSimilarityConfig {
     int top_k = 10;                             // Top K similar documents
     std::string metric = "cosine";              // "cosine", "euclidean", "dot"
     
+    /**
+     * @brief TBD: Describe toJSON.
+     * @return Return value.
+     */
     nlohmann::json toJSON() const;
+    /**
+     * @brief TBD: Describe fromJSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static VectorSimilarityConfig fromJSON(const nlohmann::json& j);
 };
 
@@ -83,7 +110,16 @@ struct RelationalJoinConfig {
     std::string foreign_field;                  // Field in foreign collection
     std::string join_type = "LEFT";             // "LEFT", "INNER", "RIGHT"
     
+    /**
+     * @brief TBD: Describe toJSON.
+     * @return Return value.
+     */
     nlohmann::json toJSON() const;
+    /**
+     * @brief TBD: Describe fromJSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static RelationalJoinConfig fromJSON(const nlohmann::json& j);
 };
 
@@ -99,7 +135,16 @@ struct MultiModelEnrichment {
                !relational_joins.empty();
     }
     
+    /**
+     * @brief TBD: Describe toJSON.
+     * @return Return value.
+     */
     nlohmann::json toJSON() const;
+    /**
+     * @brief TBD: Describe fromJSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static MultiModelEnrichment fromJSON(const nlohmann::json& j);
 };
 
@@ -111,7 +156,16 @@ struct AQLDistributedTrainingConfig {
     std::vector<std::string> participant_shards; // Shards to participate
     int sync_frequency = 1;                     // Sync every N batches
     
+    /**
+     * @brief TBD: Describe toJSON.
+     * @return Return value.
+     */
     nlohmann::json toJSON() const;
+    /**
+     * @brief TBD: Describe fromJSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static AQLDistributedTrainingConfig fromJSON(const nlohmann::json& j);
 };
 
@@ -136,7 +190,16 @@ struct TrainAdapterStmt {
     // Output
     std::string output_path;                    // Where to save adapter
     
+    /**
+     * @brief TBD: Describe toJSON.
+     * @return Return value.
+     */
     nlohmann::json toJSON() const;
+    /**
+     * @brief TBD: Describe fromJSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static TrainAdapterStmt fromJSON(const nlohmann::json& j);
 };
 
@@ -148,7 +211,16 @@ struct DeployAdapterStmt {
     bool validate_compatibility = true;
     bool verify_signature = true;
     
+    /**
+     * @brief TBD: Describe toJSON.
+     * @return Return value.
+     */
     nlohmann::json toJSON() const;
+    /**
+     * @brief TBD: Describe fromJSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static DeployAdapterStmt fromJSON(const nlohmann::json& j);
 };
 
@@ -159,7 +231,16 @@ struct VerifyAdapterStmt {
     bool check_manifest = true;
     bool check_safetensors_match = false;
     
+    /**
+     * @brief TBD: Describe toJSON.
+     * @return Return value.
+     */
     nlohmann::json toJSON() const;
+    /**
+     * @brief TBD: Describe fromJSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static VerifyAdapterStmt fromJSON(const nlohmann::json& j);
 };
 
@@ -172,7 +253,16 @@ struct ListAdaptersStmt {
     bool descending = true;
     int limit = 100;
     
+    /**
+     * @brief TBD: Describe toJSON.
+     * @return Return value.
+     */
     nlohmann::json toJSON() const;
+    /**
+     * @brief TBD: Describe fromJSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static ListAdaptersStmt fromJSON(const nlohmann::json& j);
 };
 
@@ -185,25 +275,35 @@ class AQLTrainParser {
 public:
     AQLTrainParser() = default;
     
-    /// Parse TRAIN ADAPTER statement
-    /// Syntax: TRAIN ADAPTER <id> FROM <collection> [WHERE ...] 
-    ///         [USING GRAPH_CONTEXT(...)]
-    ///         [USING VECTOR_SIMILARITY(...)]
-    ///         [USING RELATIONAL_JOIN(...)]
-    ///         [DISTRIBUTED] WITH <config>
+    /**
+     * @brief Parse TRAIN ADAPTER statement Syntax: TRAIN ADAPTER <id> FROM <collection> [WHERE .
+     * @param[in] aql Input parameter.
+     * @return Return value.
+     * @details ..] [USING GRAPH_CONTEXT(...)] [USING VECTOR_SIMILARITY(...)] [USING RELATIONAL_JOIN(...)] [DISTRIBUTED] WITH <config>
+     */
     std::shared_ptr<TrainAdapterStmt> parseTrainAdapter(const std::string& aql);
     
-    /// Parse DEPLOY ADAPTER statement
-    /// Syntax: DEPLOY ADAPTER <id> TO SHARD '<shard>' [, '<shard2>'] 
-    ///         [WITH strategy = '...', validate_compatibility = TRUE]
+    /**
+     * @brief Parse DEPLOY ADAPTER statement Syntax: DEPLOY ADAPTER <id> TO SHARD '<shard>' [, '<shard2>'] [WITH strategy = '.
+     * @param[in] aql Input parameter.
+     * @return Return value.
+     * @details ..', validate_compatibility = TRUE]
+     */
     std::shared_ptr<DeployAdapterStmt> parseDeployAdapter(const std::string& aql);
     
-    /// Parse VERIFY ADAPTER statement
-    /// Syntax: VERIFY ADAPTER <id> [CHECK signature, manifest, safetensors_match]
+    /**
+     * @brief Parse VERIFY ADAPTER statement Syntax: VERIFY ADAPTER <id> [CHECK signature, manifest, safetensors_match]
+     * @param[in] aql Input parameter.
+     * @return Return value.
+     */
     std::shared_ptr<VerifyAdapterStmt> parseVerifyAdapter(const std::string& aql);
     
-    /// Parse LIST ADAPTERS statement
-    /// Syntax: LIST ADAPTERS [WHERE base_model = '...'] [ORDER BY created_at DESC] [LIMIT 100]
+    /**
+     * @brief Parse LIST ADAPTERS statement Syntax: LIST ADAPTERS [WHERE base_model = '.
+     * @param[in] aql Input parameter.
+     * @return Return value.
+     * @details ..'] [ORDER BY created_at DESC] [LIMIT 100]
+     */
     std::shared_ptr<ListAdaptersStmt> parseListAdapters(const std::string& aql);
     
     /// Detect statement type from AQL string
@@ -215,25 +315,80 @@ public:
         UNKNOWN
     };
     
+    /**
+     * @brief TBD: Describe detectStatementType.
+     * @param[in] aql Input parameter.
+     * @return Return value.
+     */
     StatementType detectStatementType(const std::string& aql) const;
     
 private:
-    // Helper methods for parsing
+    /**
+     * @brief Helper methods for parsing
+     * @param[in] with_clause Input parameter.
+     * @return Return value.
+     */
     TrainStatementConfig parseTrainingConfig(const std::string& with_clause);
+    /**
+     * @brief TBD: Describe parseEnrichment.
+     * @param[in] using_clauses Input parameter.
+     * @return Return value.
+     */
     MultiModelEnrichment parseEnrichment(const std::string& using_clauses);
+    /**
+     * @brief TBD: Describe parseGraphContext.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     GraphContextConfig parseGraphContext(const std::string& args);
+    /**
+     * @brief TBD: Describe parseVectorSimilarity.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     VectorSimilarityConfig parseVectorSimilarity(const std::string& args);
+    /**
+     * @brief TBD: Describe parseRelationalJoin.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     RelationalJoinConfig parseRelationalJoin(const std::string& args);
+    /**
+     * @brief TBD: Describe parseDistributed.
+     * @param[in] aql Input parameter.
+     * @return Return value.
+     */
     AQLDistributedTrainingConfig parseDistributed(const std::string& aql);
     
-    // Tokenization helpers
+    /**
+     * @brief Tokenization helpers
+     * @param[in] input Input parameter.
+     * @return Return value.
+     */
     std::vector<std::string> tokenize(const std::string& input);
+    /**
+     * @brief TBD: Describe extractClause.
+     * @param[in] input Input parameter.
+     * @param[in] keyword Input parameter.
+     * @return Return value.
+     */
     std::string extractClause(const std::string& input, const std::string& keyword);
     std::map<std::string, std::string> parseKeyValuePairs(const std::string& input);
     
-    // Validation
+    /**
+     * @brief Validation
+     * @param[in] name Input parameter.
+     */
     void validateAdapterName(const std::string& name);
+    /**
+     * @brief TBD: Describe validateBaseModel.
+     * @param[in] model Input parameter.
+     */
     void validateBaseModel(const std::string& model);
+    /**
+     * @brief TBD: Describe validateConfig.
+     * @param[in] config Input parameter.
+     */
     void validateConfig(const TrainStatementConfig& config);
 };
 
@@ -246,36 +401,117 @@ class TrainingQueryBuilder {
 public:
     TrainingQueryBuilder() = default;
     
-    // Adapter configuration
+    /**
+     * @brief Adapter configuration
+     * @param[in] id Input parameter.
+     * @return Return value.
+     */
     TrainingQueryBuilder& adapter(const std::string& id);
+    /**
+     * @brief TBD: Describe from.
+     * @param[in] collection Input parameter.
+     * @return Return value.
+     */
     TrainingQueryBuilder& from(const std::string& collection);
+    /**
+     * @brief TBD: Describe where.
+     * @param[in] condition Input parameter.
+     * @return Return value.
+     */
     TrainingQueryBuilder& where(const std::string& condition);
     
-    // Enrichment configuration
+    /**
+     * @brief Enrichment configuration
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     TrainingQueryBuilder& withGraphContext(const GraphContextConfig& config);
+    /**
+     * @brief TBD: Describe withVectorSimilarity.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     TrainingQueryBuilder& withVectorSimilarity(const VectorSimilarityConfig& config);
+    /**
+     * @brief TBD: Describe withRelationalJoin.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     TrainingQueryBuilder& withRelationalJoin(const RelationalJoinConfig& config);
     
-    // Training configuration
+    /**
+     * @brief Training configuration
+     * @param[in] model Input parameter.
+     * @return Return value.
+     */
     TrainingQueryBuilder& baseModel(const std::string& model);
+    /**
+     * @brief TBD: Describe loraRank.
+     * @param[in] rank Input parameter.
+     * @return Return value.
+     */
     TrainingQueryBuilder& loraRank(int rank);
+    /**
+     * @brief TBD: Describe epochs.
+     * @param[in] n Input parameter.
+     * @return Return value.
+     */
     TrainingQueryBuilder& epochs(int n);
+    /**
+     * @brief TBD: Describe batchSize.
+     * @param[in] size Input parameter.
+     * @return Return value.
+     */
     TrainingQueryBuilder& batchSize(int size);
+    /**
+     * @brief TBD: Describe learningRate.
+     * @param[in] lr Input parameter.
+     * @return Return value.
+     */
     TrainingQueryBuilder& learningRate(double lr);
+    /**
+     * @brief TBD: Describe quantization.
+     * @param[in] quant Input parameter.
+     * @return Return value.
+     */
     TrainingQueryBuilder& quantization(GGUFSTConfig::QuantizationType quant);
+    /**
+     * @brief TBD: Describe sizeMode.
+     * @param[in] mode Input parameter.
+     * @return Return value.
+     */
     TrainingQueryBuilder& sizeMode(GGUFSTConfig::SizeMode mode);
+    /**
+     * @brief TBD: Describe signAdapter.
+     * @param[in] sign Input parameter.
+     * @return Return value.
+     */
     TrainingQueryBuilder& signAdapter(bool sign);
     
-    // Distributed training
+    /**
+     * @brief Distributed training
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     TrainingQueryBuilder& distributed(const AQLDistributedTrainingConfig& config);
     
-    // Output
+    /**
+     * @brief Output
+     * @param[in] path Input parameter.
+     * @return Return value.
+     */
     TrainingQueryBuilder& outputPath(const std::string& path);
     
-    // Build the final statement
+    /**
+     * @brief Build the final statement
+     * @return Return value.
+     */
     std::shared_ptr<TrainAdapterStmt> build();
     
-    // Generate AQL string
+    /**
+     * @brief Generate AQL string
+     * @return Return value.
+     */
     std::string toAQL() const;
     
 private:

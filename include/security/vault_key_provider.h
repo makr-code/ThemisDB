@@ -113,6 +113,7 @@ public:
      * 
      * @param config Vault connection configuration
      * @throws KeyOperationException if libcurl initialization fails
+     * @return Return value.
      */
     explicit VaultKeyProvider(const Config& config);
     
@@ -166,6 +167,10 @@ public:
         size_t cache_hits;
         size_t cache_size;
     };
+    /**
+     * @brief TBD: Describe getCacheStats.
+     * @return Return value.
+     */
     CacheStats getCacheStats() const;
     
 private:
@@ -173,22 +178,66 @@ private:
     std::unique_ptr<Impl> impl_;
     
 protected:
-    // HTTP helpers - made virtual/protected so tests can override http behaviour
+    /**
+     * @brief HTTP helpers - made virtual/protected so tests can override http behaviour
+     * @param[in] path Input parameter.
+     * @return Return value.
+     */
     virtual std::string httpGet(const std::string& path);
+    /**
+     * @brief TBD: Describe httpPost.
+     * @param[in] path Input parameter.
+     * @param[in] body Input parameter.
+     * @return Return value.
+     */
     virtual std::string httpPost(const std::string& path, const std::string& body);
+    /**
+     * @brief TBD: Describe httpList.
+     * @param[in] path Input parameter.
+     * @return Return value.
+     */
     virtual std::string httpList(const std::string& path);
     
     // Vault API wrappers
     std::string readSecret(const std::string& key_id, uint32_t version = 0);
+    /**
+     * @brief TBD: Describe readSecretMetadata.
+     * @param[in] key_id Input parameter.
+     * @return Return value.
+     */
     std::string readSecretMetadata(const std::string& key_id);
+    /**
+     * @brief TBD: Describe writeSecret.
+     * @param[in] key_id Input parameter.
+     * @param[in] key_b64 Input parameter.
+     * @param[in] version Input parameter.
+     */
     void writeSecret(const std::string& key_id, const std::string& key_b64, uint32_t version);
+    /**
+     * @brief TBD: Describe listSecrets.
+     * @return Return value.
+     */
     std::vector<std::string> listSecrets();
     
-    // Key parsing
+    /**
+     * @brief Key parsing
+     * @param[in] json_response Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> parseKeyFromVaultResponse(const std::string& json_response);
+    /**
+     * @brief TBD: Describe parseMetadataFromVaultResponse.
+     * @param[in] json_response Input parameter.
+     * @return Return value.
+     */
     KeyMetadata parseMetadataFromVaultResponse(const std::string& json_response);
     
-    // Cache key generation
+    /**
+     * @brief Cache key generation
+     * @param[in] key_id Input parameter.
+     * @param[in] version Input parameter.
+     * @return Return value.
+     */
     std::string makeCacheKey(const std::string& key_id, uint32_t version) const;
 
 public:

@@ -65,9 +65,12 @@ public:
         std::string message = {};
         /// @brief Returns a successful Status.
         static Status OK() { return {}; }
-        /// @brief Returns an error Status with the given message.
-        /// @param msg Human-readable error description.
-        /// @return Status with ok=false and the provided message.
+        /**
+         * @brief @brief Returns an error Status with the given message.
+         * @param[in] msg Input parameter.
+         * @return Return value.
+         * @details @param msg Human-readable error description. @return Status with ok=false and the provided message. Calls: std::move().
+         */
         static Status Error(std::string msg) { return Status{false, std::move(msg)}; }
     };
 
@@ -77,8 +80,12 @@ public:
         float distance = 0.0f; // kleiner = besser (für COSINE: 1 - cosine)
     };
 
-    /// @brief Constructs a VectorIndexManager bound to the given RocksDB wrapper.
-    /// @param db Reference to the RocksDB wrapper used for persistence.
+    /**
+     * @brief @brief Constructs a VectorIndexManager bound to the given RocksDB wrapper.
+     * @param[in,out] db Input/output parameter.
+     * @return Return value.
+     * @details @param db Reference to the RocksDB wrapper used for persistence.
+     */
     explicit VectorIndexManager(RocksDBWrapper& db);
     /// @brief Destructor; saves the index if auto-save is enabled.
     ~VectorIndexManager() noexcept;
@@ -88,12 +95,18 @@ public:
     /// @param user_context User identifier attached to audit log entries.
     void setAuditLogger(std::shared_ptr<utils::AuditLogger> logger, std::string user_context = "system");
     
-    /// @brief Sets the user context used in audit log entries.
-    /// @param user_id Identifier of the acting user.
+    /**
+     * @brief @brief Sets the user context used in audit log entries.
+     * @param[in] user_id Input parameter.
+     * @details @param user_id Identifier of the acting user.
+     */
     void setUserContext(std::string user_id);
     
-    /// @brief Sets the optional expression evaluator used for advanced candidate filtering.
-    /// @param evaluator Shared evaluator instance; pass nullptr to disable.
+    /**
+     * @brief @brief Sets the optional expression evaluator used for advanced candidate filtering.
+     * @param[in] evaluator Input parameter.
+     * @details @param evaluator Shared evaluator instance; pass nullptr to disable.
+     */
     void setExpressionEvaluator(std::shared_ptr<IExpressionEvaluator> evaluator);
     
     /// @brief Returns the currently configured expression evaluator, or nullptr if none is set.
@@ -132,8 +145,12 @@ public:
         size_t      diskann_cache_mb = 1024; // RAM cache budget in MiB
     };
     
-    /// @brief Applies an advanced index configuration.
-    /// @param config Configuration to activate; must be called before init() to take effect.
+    /**
+     * @brief @brief Applies an advanced index configuration.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     * @details @param config Configuration to activate; must be called before init() to take effect.
+     */
     Status setAdvancedIndexConfig(const AdvancedIndexConfig& config);
     
     /// @brief Returns the current advanced index configuration.
@@ -165,12 +182,19 @@ public:
     /// @brief Shuts down the index, saving it if auto-save is enabled.
     Status shutdown(); // Speichert Index wenn auto_save aktiviert
 
-    /// @brief Adjusts the efSearch parameter at runtime (without rebuilding the index).
-    /// @param efSearch New efSearch value; larger values improve recall at the cost of speed.
+    /**
+     * @brief @brief Adjusts the efSearch parameter at runtime (without rebuilding the index).
+     * @param[in] efSearch Input parameter.
+     * @return Return value.
+     * @details @param efSearch New efSearch value; larger values improve recall at the cost of speed.
+     */
     Status setEfSearch(int efSearch);
 
-    /// @brief Rebuilds the HNSW index from storage by scanning the objectName: key prefix.
-    /// @return Status indicating success or failure of the rebuild.
+    /**
+     * @brief @brief Rebuilds the HNSW index from storage by scanning the objectName: key prefix.
+     * @return Return value.
+     * @details @return Status indicating success or failure of the rebuild.
+     */
     Status rebuildFromStorage();
 
     // ===== Incremental Re-indexing =====
@@ -206,13 +230,19 @@ public:
         float rebuild_threshold = 0.20f,
         std::string_view vectorField = "embedding");
 
-    /// @brief Persists the HNSW index, mapping, and metadata to the given directory.
-    /// @param directory Target directory; created if it does not exist.
-    /// @return Status indicating success or failure of the save operation.
+    /**
+     * @brief @brief Persists the HNSW index, mapping, and metadata to the given directory.
+     * @param[in] directory Input parameter.
+     * @return Return value.
+     * @details @param directory Target directory; created if it does not exist. @return Status indicating success or failure of the save operation.
+     */
     Status saveIndex(const std::string& directory) const;
-    /// @brief Loads an HNSW index from the given directory.
-    /// @param directory Source directory containing index files written by saveIndex().
-    /// @return Status indicating success or failure of the load operation.
+    /**
+     * @brief @brief Loads an HNSW index from the given directory.
+     * @param[in] directory Input parameter.
+     * @return Return value.
+     * @details @param directory Source directory containing index files written by saveIndex(). @return Status indicating success or failure of the load operation.
+     */
     Status loadIndex(const std::string& directory);
 
     /// @brief Adds an entity to the index using a direct commit.
@@ -223,9 +253,12 @@ public:
     /// @param e Entity with updated vector data.
     /// @param vectorField Name of the vector field within the entity.
     Status updateEntity(const BaseEntity& e, std::string_view vectorField = "embedding");
-    /// @brief Removes an entity from the index by primary key using a direct commit.
-    /// @param pk Primary key of the entity to remove.
-    /// @return Status indicating success or failure of the removal.
+    /**
+     * @brief @brief Removes an entity from the index by primary key using a direct commit.
+     * @param[in] pk Input parameter.
+     * @return Return value.
+     * @details @param pk Primary key of the entity to remove. @return Status indicating success or failure of the removal.
+     */
     Status removeByPk(std::string_view pk);
     
     /// @brief Adds an entity to the index within an existing WriteBatch transaction.
@@ -240,10 +273,13 @@ public:
     /// @param vectorField Name of the vector field within the entity.
     Status updateEntity(const BaseEntity& e, RocksDBWrapper::WriteBatchWrapper& batch,
                         std::string_view vectorField = "embedding");
-    /// @brief Removes an entity from the index within an existing WriteBatch transaction.
-    /// @param pk Primary key of the entity to remove.
-    /// @param batch WriteBatch to accumulate the delete into.
-    /// @return Status indicating success or failure of the removal.
+    /**
+     * @brief @brief Removes an entity from the index within an existing WriteBatch transaction.
+     * @param[in] pk Input parameter.
+     * @param[in,out] batch Input/output parameter.
+     * @return Return value.
+     * @details @param pk Primary key of the entity to remove. @param batch WriteBatch to accumulate the delete into. @return Status indicating success or failure of the removal.
+     */
     Status removeByPk(std::string_view pk, RocksDBWrapper::WriteBatchWrapper& batch);
 
     /// @brief Adds an entity to the index within an MVCC TransactionWrapper.
@@ -258,10 +294,13 @@ public:
     /// @param vectorField Name of the vector field within the entity.
     Status updateEntity(const BaseEntity& e, RocksDBWrapper::TransactionWrapper& txn,
                         std::string_view vectorField = "embedding");
-    /// @brief Removes an entity from the index within an MVCC TransactionWrapper.
-    /// @param pk Primary key of the entity to remove.
-    /// @param txn Active MVCC transaction.
-    /// @return Status indicating success or failure of the removal.
+    /**
+     * @brief @brief Removes an entity from the index within an MVCC TransactionWrapper.
+     * @param[in] pk Input parameter.
+     * @param[in,out] txn Input/output parameter.
+     * @return Return value.
+     * @details @param pk Primary key of the entity to remove. @param txn Active MVCC transaction. @return Status indicating success or failure of the removal.
+     */
     Status removeByPk(std::string_view pk, RocksDBWrapper::TransactionWrapper& txn);
 
     /// @brief Finds the k nearest neighbours of the query vector.
@@ -320,25 +359,34 @@ public:
         std::string value_min;          // For RANGE operator
         std::string value_max;          // For RANGE operator
         
-        /// @brief Creates an equality filter matching @p field == @p value.
-        /// @param field Attribute field name to match against.
-        /// @param value Expected value for the equality check.
-        /// @return AttributeFilterV2 configured for equality matching.
+        /**
+         * @brief @brief Creates an equality filter matching @p field == @p value.
+         * @param[in] field Input parameter.
+         * @param[in] value Input parameter.
+         * @return Return value.
+         * @details @param field Attribute field name to match against. @param value Expected value for the equality check. @return AttributeFilterV2 configured for equality matching. Calls: std::move().
+         */
         static AttributeFilterV2 Equals(std::string field, std::string value) {
             return {std::move(field), Op::EQUALS, std::move(value), {}, "", ""};
         }
-        /// @brief Creates a range filter matching @p min <= @p field <= @p max.
-        /// @param field Attribute field name to apply the range to.
-        /// @param min Lower bound of the range (inclusive).
-        /// @param max Upper bound of the range (inclusive).
-        /// @return AttributeFilterV2 configured for range matching.
+        /**
+         * @brief @brief Creates a range filter matching @p min <= @p field <= @p max.
+         * @param[in] field Input parameter.
+         * @param[in] min Input parameter.
+         * @param[in] max Input parameter.
+         * @return Return value.
+         * @details @param field Attribute field name to apply the range to. @param min Lower bound of the range (inclusive). @param max Upper bound of the range (inclusive). @return AttributeFilterV2 configured for range matching. Calls: std::move().
+         */
         static AttributeFilterV2 Range(std::string field, std::string min, std::string max) {
             return {std::move(field), Op::RANGE, "", {}, std::move(min), std::move(max)};
         }
-        /// @brief Creates a set-membership filter matching @p field in @p vals.
-        /// @param field Attribute field name to check membership for.
-        /// @param vals Set of accepted values.
-        /// @return AttributeFilterV2 configured for set-membership matching.
+        /**
+         * @brief @brief Creates a set-membership filter matching @p field in @p vals.
+         * @param[in] field Input parameter.
+         * @param[in] vals Input parameter.
+         * @return Return value.
+         * @details @param field Attribute field name to check membership for. @param vals Set of accepted values. @return AttributeFilterV2 configured for set-membership matching. Calls: std::move().
+         */
         static AttributeFilterV2 In(std::string field, std::vector<std::string> vals) {
             return {std::move(field), Op::IN, "", std::move(vals), "", ""};
         }
@@ -410,9 +458,12 @@ public:
     /// Update multiple entities in single batch
     Status updateBatch(const std::vector<BaseEntity>& entities, std::string_view vectorField = "embedding");
     
-    /// @brief Removes multiple entities by primary key in a single batch.
-    /// @param pks List of primary keys to remove.
-    /// @return Status indicating success or failure of the batch removal.
+    /**
+     * @brief @brief Removes multiple entities by primary key in a single batch.
+     * @param[in] pks Input parameter.
+     * @return Return value.
+     * @details @param pks List of primary keys to remove. @return Status indicating success or failure of the batch removal.
+     */
     Status removeBatch(const std::vector<std::string>& pks);
 
     // ===== Vector Statistics & Aggregation =====
@@ -455,6 +506,10 @@ public:
     
     /// Check if quantization is enabled and trained
     bool isQuantizationEnabled() const { return quantization_enabled_; }
+    /**
+     * @brief TBD: Describe isQuantizerTrained.
+     * @return True on success.
+     */
     bool isQuantizerTrained() const;
     
     /// @brief Product quantization state and compression statistics.
@@ -465,6 +520,10 @@ public:
         float compression_ratio = 0.0f;
         size_t memory_usage_bytes = 0;
     };
+    /**
+     * @brief TBD: Describe getQuantizationStats.
+     * @return Return value.
+     */
     QuantizationStats getQuantizationStats() const;
 
     /// @brief Returns the index namespace (object name).
@@ -491,8 +550,11 @@ public:
     /// @brief Returns the configured on-disk save path.
     const std::string& getSavePath() const { return savePath_; }
     
-    /// Get vector by primary key (for searchById support)
-    /// Returns nullopt if vector doesn't exist
+    /**
+     * @brief Get vector by primary key (for searchById support) Returns nullopt if vector doesn't exist
+     * @param[in] pk Input parameter.
+     * @return Return value.
+     */
     std::optional<std::vector<float>> getVectorByPk(std::string_view pk) const;
     
     /// @brief Returns true when per-vector encryption is enabled.
@@ -537,8 +599,10 @@ public:
     /// Check if rotary embeddings are enabled
     bool isRotaryEmbeddingEnabled() const { return rotary_enabled_; }
     
-    /// Get current rotary embedding configuration
-    /// Returns nullopt if rotary embeddings are not enabled
+    /**
+     * @brief Get current rotary embedding configuration Returns nullopt if rotary embeddings are not enabled
+     * @return Return value.
+     */
     std::optional<struct RotationConfig> getRotaryEmbeddingConfig() const;
 
     struct RotaryEmbeddingStats {
@@ -550,22 +614,28 @@ public:
     /// Get runtime RoPE stats. Returns nullopt when RoPE is disabled.
     std::optional<RotaryEmbeddingStats> getRotaryEmbeddingStats() const;
     
-    /// @brief Adds an entity with automatic positional rotation applied to its embedding.
-    /// @param e Entity whose vector field is indexed.
-    /// @param vectorField Name of the vector field within the entity.
-    /// @param position Position index used to compute the rotation angle.
-    /// @return Status indicating success or failure.
+    /**
+     * @brief @brief Adds an entity with automatic positional rotation applied to its embedding.
+     * @param[in] e Input parameter.
+     * @param[in] vectorField Input parameter.
+     * @param[in] position Input parameter.
+     * @return Return value.
+     * @details @param e Entity whose vector field is indexed. @param vectorField Name of the vector field within the entity. @param position Position index used to compute the rotation angle. @return Status indicating success or failure.
+     */
     Status addEntityWithRotation(
         const BaseEntity& e,
         std::string_view vectorField,
         size_t position
     );
     
-    /// @brief Adds an entity with relational rotation for Knowledge Graph edges.
-    /// @param e Entity whose vector field is indexed.
-    /// @param vectorField Name of the vector field within the entity.
-    /// @param relation_type Relation type identifier used to compute the rotation.
-    /// @return Status indicating success or failure.
+    /**
+     * @brief @brief Adds an entity with relational rotation for Knowledge Graph edges.
+     * @param[in] e Input parameter.
+     * @param[in] vectorField Input parameter.
+     * @param[in] relation_type Input parameter.
+     * @return Return value.
+     * @details @param e Entity whose vector field is indexed. @param vectorField Name of the vector field within the entity. @param relation_type Relation type identifier used to compute the rotation. @return Status indicating success or failure.
+     */
     Status addEntityWithRelationalRotation(
         const BaseEntity& e,
         std::string_view vectorField,
@@ -637,17 +707,54 @@ private:
     bool useHnsw_ = false;
 #endif
 
-    // Hilfsfunktionen
+    /**
+     * @brief Hilfsfunktionen
+     * @param[in] a Input parameter.
+     * @param[in] b Input parameter.
+     * @return Return value.
+     */
     static float l2(const std::vector<float>& a, const std::vector<float>& b);
+    /**
+     * @brief TBD: Describe cosineOneMinus.
+     * @param[in] a Input parameter.
+     * @param[in] b Input parameter.
+     * @return Return value.
+     */
     static float cosineOneMinus(const std::vector<float>& a, const std::vector<float>& b);
+    /**
+     * @brief TBD: Describe dotProduct.
+     * @param[in] a Input parameter.
+     * @param[in] b Input parameter.
+     * @return Return value.
+     */
     static float dotProduct(const std::vector<float>& a, const std::vector<float>& b);
+    /**
+     * @brief TBD: Describe normalizeL2.
+     * @param[in,out] v Input/output parameter.
+     */
     static void normalizeL2(std::vector<float>& v);
+    /**
+     * @brief TBD: Describe distance.
+     * @param[in] a Input parameter.
+     * @param[in] b Input parameter.
+     * @return Return value.
+     */
     float distance(const std::vector<float>& a, const std::vector<float>& b) const;
 
-    // Storage Keys
+    /**
+     * @brief Storage Keys
+     * @param[in] pk Input parameter.
+     * @return Return value.
+     */
     std::string makeObjectKey(std::string_view pk) const;
 
-    // Interne Suche
+    /**
+     * @brief Interne Suche
+     * @param[in] query Input parameter.
+     * @param[in] k Input parameter.
+     * @param[in] whitelist Input parameter.
+     * @return Return value.
+     */
     std::vector<Result> bruteForceSearch_(const std::vector<float>& query, size_t k,
                                           const std::vector<std::string>* whitelist) const;
 
@@ -655,9 +762,15 @@ private:
     std::unique_ptr<RocksDBWrapper::WriteBatchWrapper> encBatch_;
     size_t encBatchCount_ = 0;
     size_t encBatchSize_ = 256; // commit every N encrypted inserts
+    /**
+     * @brief TBD: Describe flushEncBatch.
+     */
     void flushEncBatch() const;
     
-    // Phase 5: Safe HNSW resource cleanup (RAII safety fix)
+    /**
+     * @brief Phase 5: Safe HNSW resource cleanup (RAII safety fix)
+     * @note Exception safety: noexcept.
+     */
     void releaseHnswResources_() noexcept;
     
     // Phase 1: Optional AuditLogger for knowledge graph protection
@@ -688,7 +801,9 @@ private:
     void logAuditEvent_(const std::string& event_type, const std::string& resource,
                        const std::string& operation, size_t count = 0) const;
     
-    // Helper: Load HNSW optimization configuration from YAML
+    /**
+     * @brief Helper: Load HNSW optimization configuration from YAML
+     */
     void loadHnswOptimizationConfig_();
 };
 

@@ -151,6 +151,10 @@ struct ValidationReport {
  */
 class IDocumentSchemaEvolution {
 public:
+    /**
+     * @brief TBD: Describe ~IDocumentSchemaEvolution.
+     * @return Return value.
+     */
     virtual ~IDocumentSchemaEvolution() = default;
 
     /**
@@ -165,6 +169,7 @@ public:
     /**
      * @brief Seal the registry; no further versions may be registered after
      *        this call.  Idempotent.
+     * @note Exception safety: noexcept.
      */
     virtual void seal() noexcept = 0;
 
@@ -201,6 +206,11 @@ public:
     Result<void> registerVersion(SchemaVersion           version,
                                  const SchemaDescriptor& descriptor) override
     {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mu_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mu_);
         if (sealed_) {
             return tl::unexpected(Error(
@@ -217,16 +227,31 @@ public:
     }
 
     void seal() noexcept override {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mu_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mu_);
         sealed_ = true;
     }
 
     bool isSealed() const noexcept override {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mu_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mu_);
         return sealed_;
     }
 
     std::vector<SchemaVersion> registeredVersions() const override {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mu_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mu_);
         std::vector<SchemaVersion> vs = {};
 
@@ -242,6 +267,11 @@ public:
         const nlohmann::json& document_body,
         SchemaVersion         version) const override
     {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mu_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mu_);
         auto it = schemas_.find(version);
         if (it == schemas_.end()) {
@@ -280,6 +310,13 @@ public:
     }
 
 private:
+    /**
+     * @brief TBD: Describe checkType.
+     * @param[in] val Input parameter.
+     * @param[in] expected Input parameter.
+     * @return True on success.
+     * @details Calls: is_string(), is_number(), is_boolean(), is_object(), is_array().
+     */
     static bool checkType(const nlohmann::json& val, SchemaFieldType expected) {
         switch (expected) {
             case SchemaFieldType::STRING:  return val.is_string();

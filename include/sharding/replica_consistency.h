@@ -37,27 +37,40 @@ public:
     /** @brief Construct vector clock from node->counter map. */
     explicit VectorClock(const std::map<std::string, uint64_t>& timestamps);
     
+     * @param[in] node_id Input parameter.
     /** @brief Increment logical counter for node_id. */
     void increment(const std::string& node_id);
     
+     * @param[in] other Input parameter.
     /** @brief Merge with another clock using element-wise maximum. */
     void update(const VectorClock& other);
     
+     * @param[in] node_id Input parameter.
+     * @return Return value.
     /** @brief Get node counter value (0 when node is absent). */
     uint64_t get(const std::string& node_id) const;
     
+     * @param[in] other Input parameter.
+     * @return True on success.
     /** @brief Return true when this clock causally precedes other clock. */
     bool happensBefore(const VectorClock& other) const;
     
+     * @param[in] other Input parameter.
+     * @return True on success.
     /** @brief Return true when this clock causally succeeds other clock. */
     bool happensAfter(const VectorClock& other) const;
     
+     * @param[in] other Input parameter.
+     * @return True on success.
     /** @brief Return true when clocks are concurrent (no causal ordering). */
     bool isConcurrent(const VectorClock& other) const;
     
+     * @return Return value.
     /** @brief Serialize to stable comma-separated node:counter string. */
     std::string serialize() const;
     
+     * @param[in] data Input parameter.
+     * @return Return value.
     /** @brief Parse vector clock from serialized node:counter representation. */
     static std::optional<VectorClock> deserialize(const std::string& data);
     
@@ -81,8 +94,11 @@ struct VersionedEntry {
     /** @brief Wall-clock timestamp used by LWW fallback policies. */
     std::chrono::system_clock::time_point timestamp;
     
+     * @return Return value.
     /** @brief Serialize versioned entry for transport/storage. */
     std::string serialize() const;
+     * @param[in] data Input parameter.
+     * @return Return value.
     /** @brief Parse versioned entry from serialized representation. */
     static std::optional<VersionedEntry> deserialize(const std::string& data);
 };
@@ -132,6 +148,8 @@ public:
         uint32_t max_version_history{100};
     };
     
+     * @param[in] config Input parameter.
+     * @return Return value.
     /** @brief Construct replica consistency manager with runtime policy config. */
     explicit ReplicaConsistencyManager(const Config& config);
     ~ReplicaConsistencyManager() = default;
@@ -157,19 +175,28 @@ public:
     mergeReplicas(const std::string& key,
                   const std::vector<VersionedEntry>& entries);
     
+     * @param[in] conflict Input parameter.
+     * @param[in] resolved_entry Input parameter.
     /** @brief Resolve previously detected conflict using caller-selected winner. */
     void resolveConflict(const VersionConflict& conflict,
                         const VersionedEntry& resolved_entry);
     
+     * @param[in] node_id Input parameter.
+     * @return Return value.
     /** @brief Return current vector clock snapshot for node_id. */
     VectorClock getVectorClock(const std::string& node_id) const;
     
+     * @param[in] node_id Input parameter.
+     * @param[in] clock Input parameter.
     /** @brief Merge node's vector clock with received remote clock. */
     void updateVectorClock(const std::string& node_id, const VectorClock& clock);
     
+     * @param[in] callback Input parameter.
     /** @brief Set custom callback used for resolving conflicts. */
     void setConflictCallback(ConflictCallback callback);
     
+     * @param[in] key Input parameter.
+     * @return Return value.
     /** @brief Return retained version history for key (possibly empty). */
     std::vector<VersionedEntry> getVersionHistory(const std::string& key) const;
     
@@ -216,14 +243,22 @@ private:
     Statistics stats_;
     ConflictCallback conflict_callback_;
     
+     * @param[in] key Input parameter.
+     * @param[in] entries Input parameter.
+     * @return Return value.
     /** @brief Detect whether input entries contain concurrent conflicting versions. */
     std::optional<VersionConflict> detectConflict(
         const std::string& key,
         const std::vector<VersionedEntry>& entries);
     
+     * @param[in] conflict Input parameter.
+     * @return Return value.
     /** @brief Resolve conflict using callback or configured strategy. */
     VersionedEntry autoResolveConflict(const VersionConflict& conflict);
     
+     * @param[in] entries Input parameter.
+     * @param[in] strategy Input parameter.
+     * @return Return value.
     /** @brief Select winner from entries according to conflict strategy. */
     VersionedEntry selectWinningVersion(
         const std::vector<VersionedEntry>& entries,

@@ -126,6 +126,7 @@ public:
 
     /**
      * @brief Return true if at least one subscription is active.
+     * @return True on success.
      */
     bool hasSubscriptions() const;
 
@@ -147,6 +148,12 @@ private:
         std::string consumer_id;
     };
 
+    /**
+     * @brief TBD: Describe buildEventFrame.
+     * @param[in] ev Input parameter.
+     * @param[in] sub_id Input parameter.
+     * @return Return value.
+     */
     static nlohmann::json buildEventFrame(const Changefeed::ChangeEvent& ev,
                                           const std::string& sub_id);
 

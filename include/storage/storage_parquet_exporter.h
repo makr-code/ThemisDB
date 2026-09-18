@@ -82,14 +82,14 @@ class StorageParquetExporter {
 public:
     StorageParquetExporter() = default;
 
-    /// Export a table to a Parquet file on disk.
-    ///
-    /// @param column_segments  One entry per column; each entry is the ordered
-    ///                         list of decoded ColumnSegments for that column
-    ///                         (matching row partitioning across all columns).
-    /// @param config           Export configuration (column names, compression).
-    /// @param output_path      Destination file path.
-    /// @returns                Ok(void) on success, or an Error.
+    /**
+     * @brief Export a table to a Parquet file on disk.
+     * @param[in] column_segments Input parameter.
+     * @param[in] config Input parameter.
+     * @param[in] output_path Input parameter.
+     * @return Return value.
+     * @details @param column_segments One entry per column; each entry is the ordered list of decoded ColumnSegments for that column (matching row partitioning across all columns). @param config Export configuration (column names, compression). @param output_path Destination file path. @returns Ok(void) on success, or an Error.
+     */
     Result<void> exportToFile(
         const std::vector<std::vector<ColumnSegment>>& column_segments,
         const ParquetExportConfig& config,
@@ -114,7 +114,12 @@ public:
 private:
     ExportStats stats_;
 
-    // Internal helpers
+    /**
+     * @brief Internal helpers
+     * @param[in] column_segments Input parameter.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     Result<std::vector<uint8_t>> buildParquet(
         const std::vector<std::vector<ColumnSegment>>& column_segments,
         const ParquetExportConfig& config);

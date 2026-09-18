@@ -306,16 +306,19 @@ public:
      *
      * When set, `step()` derives a tensor-layer summary after FLARE/TARG
      * triggers and exposes it through `RAGDecision`.
+     * @param[in] tensor_mid_layer Input parameter.
      */
     void setTensorMidLayer(std::shared_ptr<tensor::TensorMidLayer> tensor_mid_layer);
 
     /**
      * @brief Attach a GraphTruthValidator used after tensor mid-layer summarization.
+     * @param[in] graph_truth_validator Input parameter.
      */
     void setGraphTruthValidator(std::shared_ptr<GraphTruthValidator> graph_truth_validator);
 
     /**
      * @brief Attach the final LLM/LoRA orchestration layer.
+     * @param[in] final_layer_orchestrator Input parameter.
      */
     void setFinalLayerOrchestrator(std::shared_ptr<llm::FinalLayerOrchestrator> final_layer_orchestrator);
 

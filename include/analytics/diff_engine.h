@@ -66,7 +66,16 @@ public:
         int64_t timestamp_ms;                    // Timestamp of change
         json metadata;                           // Additional metadata
         
+        /**
+         * @brief TBD: Describe toJson.
+         * @return Return value.
+         */
         json toJson() const;
+        /**
+         * @brief TBD: Describe fromJson.
+         * @param[in] j Input parameter.
+         * @return Return value.
+         */
         static Change fromJson(const json& j);
     };
 
@@ -79,6 +88,10 @@ public:
         size_t deleted_count = 0;
         size_t total_changes = 0;
         
+        /**
+         * @brief TBD: Describe toJson.
+         * @return Return value.
+         */
         json toJson() const;
     };
 
@@ -96,7 +109,16 @@ public:
         std::optional<int64_t> from_timestamp_ms;
         std::optional<int64_t> to_timestamp_ms;
         
+        /**
+         * @brief TBD: Describe toJson.
+         * @return Return value.
+         */
         json toJson() const;
+        /**
+         * @brief TBD: Describe fromJson.
+         * @param[in] j Input parameter.
+         * @return Return value.
+         */
         static DiffResult fromJson(const json& j);
     };
 
@@ -147,6 +169,13 @@ public:
         const DiffOptions& options
     );
     
+    /**
+     * @brief TBD: Describe computeDiff.
+     * @param[in] from_sequence Input parameter.
+     * @param[in] to_sequence Input parameter.
+     * @return Return value.
+     * @details Implements computeDiff without additional internal calls.
+     */
     DiffResult computeDiff(
         uint64_t from_sequence,
         uint64_t to_sequence
@@ -167,6 +196,13 @@ public:
         const DiffOptions& options
     );
     
+    /**
+     * @brief TBD: Describe computeDiffByTimestamp.
+     * @param[in] from_timestamp Input parameter.
+     * @param[in] to_timestamp Input parameter.
+     * @return Return value.
+     * @details Implements computeDiffByTimestamp without additional internal calls.
+     */
     DiffResult computeDiffByTimestamp(
         int64_t from_timestamp,
         int64_t to_timestamp
@@ -190,6 +226,13 @@ public:
         const DiffOptions& options
     );
     
+    /**
+     * @brief TBD: Describe computeDiffByTag.
+     * @param[in] from_tag Input parameter.
+     * @param[in] to_tag Input parameter.
+     * @return Return value.
+     * @details Implements computeDiffByTag without additional internal calls.
+     */
     DiffResult computeDiffByTag(
         const std::string& from_tag,
         const std::string& to_tag
@@ -204,6 +247,7 @@ public:
 
     /**
      * @brief Get cache statistics
+     * @return Return value.
      */
     json getCacheStats() const;
 
@@ -254,6 +298,10 @@ private:
     
     /**
      * @brief Process changefeed events and categorize them
+     * @param[in] events Input parameter.
+     * @param[in] options Input parameter.
+     * @param[in] from_sequence Input parameter.
+     * @return Return value.
      */
     DiffResult processEvents(
         const std::vector<Changefeed::ChangeEvent>& events,
@@ -263,6 +311,9 @@ private:
     
     /**
      * @brief Apply filters to events
+     * @param[in] event Input parameter.
+     * @param[in] options Input parameter.
+     * @return True on success.
      */
     bool shouldIncludeEvent(
         const Changefeed::ChangeEvent& event,
@@ -294,6 +345,8 @@ private:
     
     /**
      * @brief Check if cached result is still valid
+     * @param[in] cached Input parameter.
+     * @return True on success.
      */
     bool isCacheValid(const CachedDiff& cached) const;
     

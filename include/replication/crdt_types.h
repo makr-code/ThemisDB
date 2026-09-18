@@ -58,6 +58,11 @@ struct Dot {
  */
 class GrowOnlyCounter {
 public:
+    /**
+     * @brief TBD: Describe GrowOnlyCounter.
+     * @param[in] node_id Input parameter.
+     * @return Return value.
+     */
     explicit GrowOnlyCounter(const std::string& node_id)
         : node_id_(node_id) {}
 
@@ -73,6 +78,8 @@ public:
         return total;
     }
 
+     * @param[in] other Input parameter.
+     * @details Implements merge without additional internal calls.
     /** @brief Merge another G-Counter state into this one (take per-node max). */
     void merge(const GrowOnlyCounter& other) {
         for (const auto& [nid, cnt] : other.state_) {
@@ -105,6 +112,11 @@ private:
  */
 class PNCounter {
 public:
+    /**
+     * @brief TBD: Describe PNCounter.
+     * @param[in] node_id Input parameter.
+     * @return Return value.
+     */
     explicit PNCounter(const std::string& node_id)
         : pos_(node_id), neg_(node_id) {}
 
@@ -117,6 +129,11 @@ public:
                static_cast<int64_t>(neg_.value());
     }
 
+    /**
+     * @brief TBD: Describe merge.
+     * @param[in] other Input parameter.
+     * @details Implements merge without additional internal calls.
+     */
     void merge(const PNCounter& other) {
         pos_.merge(other.pos_);
         neg_.merge(other.neg_);
@@ -148,6 +165,9 @@ public:
     /**
      * @brief Write @p value with the given @p timestamp_us (microseconds
      *        since epoch).
+     * @param[in] value Input parameter.
+     * @param[in] timestamp_us Input parameter.
+     * @details Calls: std::move().
      */
     void write(T value, uint64_t timestamp_us) {
         if (timestamp_us > ts_ ||
@@ -164,6 +184,11 @@ public:
     /** @brief Returns the timestamp of the winning write. */
     uint64_t timestamp() const { return ts_; }
 
+    /**
+     * @brief TBD: Describe merge.
+     * @param[in] other Input parameter.
+     * @details Implements merge without additional internal calls.
+     */
     void merge(const LWWRegister<T>& other) {
         if (!other.value_) {
           return;
@@ -206,6 +231,9 @@ public:
      * @brief Write @p value tagged with @p dot.
      *
      * Clears all previous values (simulating causally-dominating write).
+     * @param[in] value Input parameter.
+     * @param[in] dot Input parameter.
+     * @details Calls: clear(), emplace_back(), std::move().
      */
     void write(T value, const Dot& dot) {
         entries_.clear();
@@ -225,6 +253,8 @@ public:
 
     /**
      * @brief Merge another MVRegister into this one (union of entries).
+     * @param[in] other Input parameter.
+     * @details Calls: push_back().
      */
     void merge(const MVRegister<T>& other) {
         for (const auto& oe : other.entries_) {
@@ -254,6 +284,11 @@ private:
 template<typename T>
 class GrowOnlySet {
 public:
+    /**
+     * @brief TBD: Describe add.
+     * @param[in] element Input parameter.
+     * @details Calls: insert().
+     */
     void add(const T& element) { elements_.insert(element); }
 
     bool contains(const T& element) const {
@@ -262,6 +297,11 @@ public:
 
     const std::set<T>& elements() const { return elements_; }
 
+    /**
+     * @brief TBD: Describe merge.
+     * @param[in] other Input parameter.
+     * @details Calls: insert(), begin(), end().
+     */
     void merge(const GrowOnlySet<T>& other) {
         elements_.insert(other.elements_.begin(), other.elements_.end());
     }
@@ -286,11 +326,18 @@ private:
 template<typename T>
 class TwoPSet {
 public:
+    /**
+     * @brief TBD: Describe add.
+     * @param[in] element Input parameter.
+     * @details Implements add without additional internal calls.
+     */
     void add(const T& element) { added_.add(element); }
 
     /**
      * @brief Remove @p element (tombstone).  Has no effect if the element
      *        was never added.
+     * @param[in] element Input parameter.
+     * @details Calls: contains(), add().
      */
     void remove(const T& element) {
         if (added_.contains(element)) { removed_.add(element); }
@@ -300,6 +347,11 @@ public:
         return added_.contains(element) && !removed_.contains(element);
     }
 
+    /**
+     * @brief TBD: Describe merge.
+     * @param[in] other Input parameter.
+     * @details Implements merge without additional internal calls.
+     */
     void merge(const TwoPSet<T>& other) {
         added_.merge(other.added_);
         removed_.merge(other.removed_);
@@ -327,9 +379,16 @@ private:
 template<typename T>
 class ORSet {
 public:
+    /**
+     * @brief TBD: Describe ORSet.
+     * @param[in] node_id Input parameter.
+     * @return Return value.
+     */
     explicit ORSet(const std::string& node_id)
         : node_id_(node_id), counter_(0) {}
 
+     * @param[in] element Input parameter.
+     * @details Calls: insert(), erase().
     /** @brief Add @p element, generating a fresh dot. */
     void add(const T& element) {
         Dot dot{node_id_, ++counter_};
@@ -339,6 +398,8 @@ public:
 
     /**
      * @brief Remove @p element by tombstoning all currently-observed dots.
+     * @param[in] element Input parameter.
+     * @details Calls: find(), end(), insert(), erase().
      */
     void remove(const T& element) {
         auto it = entries_.find(element);
@@ -375,6 +436,11 @@ public:
         return result;
     }
 
+    /**
+     * @brief TBD: Describe merge.
+     * @param[in] other Input parameter.
+     * @details Calls: count(), insert(), begin(), end(), erase(), empty().
+     */
     void merge(const ORSet<T>& other) {
         for (const auto& [elem, dots] : other.entries_) {
             for (const auto& dot : dots) {
@@ -433,6 +499,10 @@ class LWWMap {
 public:
     explicit LWWMap(const std::string& node_id) : node_id_(node_id) {}
 
+     * @param[in] key Input parameter.
+     * @param[in] value Input parameter.
+     * @param[in] timestamp_us Input parameter.
+     * @details Calls: std::move().
     /** @brief Set @p key to @p value with @p timestamp_us. */
     void put(const K& key, V value, uint64_t timestamp_us) {
         auto& slot = entries_[key];
@@ -445,6 +515,9 @@ public:
         }
     }
 
+     * @param[in] key Input parameter.
+     * @param[in] timestamp_us Input parameter.
+     * @details Calls: reset().
     /** @brief Mark @p key as removed with @p timestamp_us. */
     void remove(const K& key, uint64_t timestamp_us) {
         auto& slot = entries_[key];
@@ -510,6 +583,11 @@ private:
 template<typename T>
 class RGArray {
 public:
+    /**
+     * @brief TBD: Describe RGArray.
+     * @param[in] node_id Input parameter.
+     * @return Return value.
+     */
     explicit RGArray(const std::string& node_id)
         : node_id_(node_id), counter_(0) {}
 
@@ -517,6 +595,10 @@ public:
      * @brief Insert @p value after the element with Dot @p after.
      *
      * Use an empty-string Dot{} to insert at the beginning.
+     * @param[in] after Input parameter.
+     * @param[in] value Input parameter.
+     * @return Return value.
+     * @details Calls: std::move(), empty(), insert(), begin(), findDot(), end(), push_back().
      */
     Dot insertAfter(const Dot& after, T value) {
         Dot new_dot{node_id_, ++counter_};
@@ -536,6 +618,9 @@ public:
         return new_dot;
     }
 
+     * @param[in] value Input parameter.
+     * @return Return value.
+     * @details Calls: push_back(), std::move().
     /** @brief Append @p value at the end of the sequence. */
     Dot append(T value) {
         Dot new_dot{node_id_, ++counter_};
@@ -543,6 +628,8 @@ public:
         return new_dot;
     }
 
+     * @param[in] dot Input parameter.
+     * @details Calls: findDot(), end().
     /** @brief Delete the element identified by @p dot. */
     void remove(const Dot& dot) {
         auto it = findDot(dot);
@@ -565,6 +652,8 @@ public:
 
     /**
      * @brief Merge another RGArray state (union of entries, order by dot).
+     * @param[in] other Input parameter.
+     * @details Calls: findDot(), end(), push_back().
      */
     void merge(const RGArray<T>& other) {
         for (const auto& oe : other.elements_) {
@@ -600,6 +689,12 @@ private:
 
     using It = typename std::vector<Entry>::iterator;
 
+    /**
+     * @brief TBD: Describe findDot.
+     * @param[in] dot Input parameter.
+     * @return Return value.
+     * @details Calls: begin(), end().
+     */
     It findDot(const Dot& dot) {
         for (auto it = elements_.begin(); it != elements_.end(); ++it) {
             if (it->dot == dot) {
@@ -626,7 +721,15 @@ private:
  */
 class EnableWinsFlag {
 public:
+    /**
+     * @brief TBD: Describe enable.
+     * @details Implements enable without additional internal calls.
+     */
     void enable()  { enabled_ = true;  ts_enable_  = ++global_ts_; }
+    /**
+     * @brief TBD: Describe disable.
+     * @details Implements disable without additional internal calls.
+     */
     void disable() { enabled_ = false; ts_disable_ = ++global_ts_; }
 
     bool value() const {
@@ -634,6 +737,11 @@ public:
         return ts_enable_ >= ts_disable_;
     }
 
+    /**
+     * @brief TBD: Describe merge.
+     * @param[in] other Input parameter.
+     * @details Calls: std::max().
+     */
     void merge(const EnableWinsFlag& other) {
         if (other.ts_enable_ > ts_enable_) {
             ts_enable_ = other.ts_enable_;
@@ -663,7 +771,15 @@ private:
  */
 class DisableWinsFlag {
 public:
+    /**
+     * @brief TBD: Describe enable.
+     * @details Implements enable without additional internal calls.
+     */
     void enable()  { enabled_ = true;  ts_enable_  = ++global_ts_; }
+    /**
+     * @brief TBD: Describe disable.
+     * @details Implements disable without additional internal calls.
+     */
     void disable() { enabled_ = false; ts_disable_ = ++global_ts_; }
 
     bool value() const {
@@ -671,6 +787,11 @@ public:
         return ts_enable_ > ts_disable_;
     }
 
+    /**
+     * @brief TBD: Describe merge.
+     * @param[in] other Input parameter.
+     * @details Calls: std::max().
+     */
     void merge(const DisableWinsFlag& other) {
         if (other.ts_enable_ > ts_enable_) {
             ts_enable_ = other.ts_enable_;

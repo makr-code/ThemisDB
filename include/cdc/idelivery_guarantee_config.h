@@ -63,6 +63,10 @@ enum class DeliveryMode {
  */
 class IIdempotentCDCListener {
 public:
+    /**
+     * @brief TBD: Describe ~IIdempotentCDCListener.
+     * @return Return value.
+     */
     virtual ~IIdempotentCDCListener() = default;
 
     /**
@@ -82,6 +86,8 @@ public:
      * @brief Record that the event has been successfully processed.
      *
      * Called by the CDC layer after successful delivery.
+     * @param[in] collection Input parameter.
+     * @param[in] sequence Input parameter.
      */
     virtual void markProcessed(const std::string& collection,
                                uint64_t           sequence) = 0;
@@ -98,6 +104,10 @@ public:
  */
 class IDeliveryGuaranteeConfig {
 public:
+    /**
+     * @brief TBD: Describe ~IDeliveryGuaranteeConfig.
+     * @return Return value.
+     */
     virtual ~IDeliveryGuaranteeConfig() = default;
 
     /**
@@ -112,6 +122,7 @@ public:
 
     /**
      * @brief Return the current delivery mode.
+     * @return Return value.
      */
     virtual DeliveryMode mode() const = 0;
 
@@ -127,6 +138,7 @@ public:
 
     /**
      * @brief Return the current acknowledgement timeout.
+     * @return Return value.
      */
     virtual std::chrono::milliseconds ackTimeout() const = 0;
 
@@ -144,6 +156,7 @@ public:
 
     /**
      * @brief Return the current deduplication window.
+     * @return Return value.
      */
     virtual std::chrono::milliseconds deduplicationWindow() const = 0;
 };
@@ -169,31 +182,61 @@ public:
     // ── IDeliveryGuaranteeConfig ─────────────────────────────────────────────
 
     void setMode(DeliveryMode mode) override {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         mode_ = mode;
     }
 
     DeliveryMode mode() const override {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         return mode_;
     }
 
     void setAckTimeout(std::chrono::milliseconds timeout) override {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         ack_timeout_ = timeout;
     }
 
     std::chrono::milliseconds ackTimeout() const override {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         return ack_timeout_;
     }
 
     void setDeduplicationWindow(std::chrono::milliseconds window) override {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         dedup_window_ = window;
     }
 
     std::chrono::milliseconds deduplicationWindow() const override {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         return dedup_window_;
     }
@@ -222,6 +265,11 @@ public:
     bool isDuplicate(const std::string& collection,
                      uint64_t           sequence) const override
     {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         return processed_.count(makeKey(collection, sequence)) > 0;
     }
@@ -229,6 +277,11 @@ public:
     void markProcessed(const std::string& collection,
                        uint64_t           sequence) override
     {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         const std::string key = makeKey(collection, sequence);
         if (processed_.count(key)) return; // already recorded
@@ -242,11 +295,23 @@ public:
     }
 
     std::size_t processedCount() const {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         return processed_.size();
     }
 
 private:
+    /**
+     * @brief TBD: Describe makeKey.
+     * @param[in] collection Input parameter.
+     * @param[in] seq Input parameter.
+     * @return Return value.
+     * @details Calls: std::to_string().
+     */
     static std::string makeKey(const std::string& collection, uint64_t seq) {
         return collection + ":" + std::to_string(seq);
     }

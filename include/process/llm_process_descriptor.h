@@ -156,11 +156,28 @@ public:
     );
 
 private:
+    /**
+     * @brief TBD: Describe truncate_.
+     * @param[in] s Input parameter.
+     * @param[in] max_chars Input parameter.
+     * @return Return value.
+     */
     static std::string truncate_(std::string_view s, size_t max_chars);
+    /**
+     * @brief TBD: Describe nodeToJson_.
+     * @param[in] node_doc Input parameter.
+     * @param[in] cfg Input parameter.
+     * @return Return value.
+     */
     static nlohmann::json nodeToJson_(
         const nlohmann::json& node_doc,
         const Config&         cfg
     );
+    /**
+     * @brief TBD: Describe edgeToJson_.
+     * @param[in] edge_doc Input parameter.
+     * @return Return value.
+     */
     static nlohmann::json edgeToJson_(const nlohmann::json& edge_doc);
 };
 

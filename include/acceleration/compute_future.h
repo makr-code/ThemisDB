@@ -235,6 +235,11 @@ public:
      */
     T get() {
         if (!fut_.valid()) {
+            /**
+             * @brief TBD: Describe future_error.
+             * @param[in] no_state Input parameter.
+             * @return Return value.
+             */
             throw std::future_error(std::future_errc::no_state);
         }
         return fut_.get();
@@ -251,6 +256,11 @@ public:
      * @param callback Function object accepting `const T&`.
      */
     template <typename F>
+    /**
+     * @brief TBD: Describe then.
+     * @param[in] callback Input parameter.
+     * @details Implements then without additional internal calls.
+     */
     void then(F&& callback) {
         then_ = std::forward<F>(callback);
     }
@@ -260,6 +270,8 @@ public:
      *
      * Called internally by the dispatcher once the promise is fulfilled.
      * No-op if no continuation was registered.
+     * @param[in] result Input parameter.
+     * @details Calls: then_().
      */
     void invoke_then(const T& result) {
         if (then_) {

@@ -120,6 +120,12 @@ struct StreamRecord {
         return std::nullopt;
     }
 
+    /**
+     * @brief TBD: Describe set.
+     * @param[in] field Input parameter.
+     * @param[in] value Input parameter.
+     * @details Calls: std::move().
+     */
     void set(const std::string& field, RecordValue value) {
         fields[field] = std::move(value);
     }
@@ -316,6 +322,11 @@ class TumblingWindow {
 public:
     using ResultCallback = std::function<void(WindowResult)>;
 
+    /**
+     * @brief TBD: Describe TumblingWindow.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit TumblingWindow(const TumblingWindowConfig& config);
     ~TumblingWindow();
 
@@ -326,11 +337,15 @@ public:
     /**
      * Register an aggregation to compute.
      * Must be called before the first ingest().
+     * @brief TBD: Describe addAggregation.
+     * @param[in] spec Input parameter.
      */
     void addAggregation(const WindowAggregateSpec& spec);
 
     /**
      * Register a callback that is invoked when a window closes.
+     * @brief TBD: Describe setResultCallback.
+     * @param[in] cb Input parameter.
      */
     void setResultCallback(ResultCallback cb);
 
@@ -338,14 +353,22 @@ public:
      * Ingest a record. Thread-safe.
      * Returns false if the record is older than the watermark and
      * late data is not allowed.
+     * @brief TBD: Describe ingest.
+     * @param[in] record Input parameter.
+     * @return True on success.
      */
     bool ingest(const StreamRecord& record);
 
     /**
      * Flush any open windows immediately (useful at shutdown).
+     * @brief TBD: Describe flush.
      */
     void flush();
 
+    /**
+     * @brief TBD: Describe getStats.
+     * @return Return value.
+     */
     WindowStats getStats() const;
 
 private:
@@ -388,15 +411,47 @@ private:
     std::mutex idle_mutex_;
     std::atomic<int64_t> last_event_us_{0};
 
+    /**
+     * @brief TBD: Describe slotIndex.
+     * @param[in] tp Input parameter.
+     * @return Return value.
+     */
     int64_t slotIndex(const std::chrono::system_clock::time_point& tp) const;
+    /**
+     * @brief TBD: Describe slotStart.
+     * @param[in] idx Input parameter.
+     * @return Return value.
+     */
     std::chrono::system_clock::time_point slotStart(int64_t idx) const;
+    /**
+     * @brief TBD: Describe computeResult.
+     * @param[in] win Input parameter.
+     * @param[in] late Input parameter.
+     * @return Return value.
+     */
     WindowResult computeResult(const InternalWindow& win, bool late) const;
-    // Returns results to emit; caller fires the callback outside the mutex.
+    /**
+     * @brief Returns results to emit; caller fires the callback outside the mutex.
+     * @param[in] watermark_us Input parameter.
+     * @return Return value.
+     */
     std::vector<WindowResult> closeExpiredWindows(int64_t watermark_us);
+    /**
+     * @brief TBD: Describe updateWatermark.
+     * @param[in] event_time Input parameter.
+     */
     void updateWatermark(const std::chrono::system_clock::time_point& event_time);
+    /**
+     * @brief TBD: Describe idleTimeoutLoop.
+     */
     void idleTimeoutLoop();
 };
 
+/**
+ * @brief TBD: Describe createTumblingWindow.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ */
 std::unique_ptr<TumblingWindow> createTumblingWindow(const TumblingWindowConfig& config);
 
 // ============================================================================
@@ -420,21 +475,42 @@ class SlidingWindow {
 public:
     using ResultCallback = std::function<void(WindowResult)>;
 
+    /**
+     * @brief TBD: Describe SlidingWindow.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit SlidingWindow(const SlidingWindowConfig& config);
     ~SlidingWindow();
 
     SlidingWindow(const SlidingWindow&) = delete;
     SlidingWindow& operator=(const SlidingWindow&) = delete;
 
+    /**
+     * @brief TBD: Describe addAggregation.
+     * @param[in] spec Input parameter.
+     */
     void addAggregation(const WindowAggregateSpec& spec);
+    /**
+     * @brief TBD: Describe setResultCallback.
+     * @param[in] cb Input parameter.
+     */
     void setResultCallback(ResultCallback cb);
 
+     * @brief TBD: Describe ingest.
+     * @param[in] record Input parameter.
+     * @return True on success.
     /** Ingest a record. Thread-safe. */
     bool ingest(const StreamRecord& record);
 
+     * @brief TBD: Describe flush.
     /** Flush all currently open windows. */
     void flush();
 
+    /**
+     * @brief TBD: Describe getStats.
+     * @return Return value.
+     */
     WindowStats getStats() const;
 
 private:
@@ -480,16 +556,47 @@ private:
     std::mutex idle_mutex_;
     std::atomic<int64_t> last_event_us_{0};
 
+    /**
+     * @brief TBD: Describe computeResult.
+     * @param[in] win Input parameter.
+     * @param[in] late Input parameter.
+     * @return Return value.
+     */
     WindowResult computeResult(const InternalWindow& win, bool late) const;
+    /**
+     * @brief TBD: Describe ensureWindowsExist.
+     * @param[in] event_time Input parameter.
+     * @param[in] partition_key Input parameter.
+     */
     void ensureWindowsExist(const std::chrono::system_clock::time_point& event_time,
                             const std::string& partition_key);
-    // Returns results to emit; caller fires the callback outside the mutex.
+    /**
+     * @brief Returns results to emit; caller fires the callback outside the mutex.
+     * @param[in] watermark_us Input parameter.
+     * @return Return value.
+     */
     std::vector<WindowResult> closeExpiredWindows(int64_t watermark_us);
+    /**
+     * @brief TBD: Describe updateWatermark.
+     * @param[in] event_time Input parameter.
+     */
     void updateWatermark(const std::chrono::system_clock::time_point& event_time);
+    /**
+     * @brief TBD: Describe idleTimeoutLoop.
+     */
     void idleTimeoutLoop();
+    /**
+     * @brief TBD: Describe generateId.
+     * @return Return value.
+     */
     static std::string generateId();
 };
 
+/**
+ * @brief TBD: Describe createSlidingWindow.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ */
 std::unique_ptr<SlidingWindow> createSlidingWindow(const SlidingWindowConfig& config);
 
 // ============================================================================
@@ -510,21 +617,42 @@ class SessionWindow {
 public:
     using ResultCallback = std::function<void(WindowResult)>;
 
+    /**
+     * @brief TBD: Describe SessionWindow.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit SessionWindow(const SessionWindowConfig& config);
     ~SessionWindow();
 
     SessionWindow(const SessionWindow&) = delete;
     SessionWindow& operator=(const SessionWindow&) = delete;
 
+    /**
+     * @brief TBD: Describe addAggregation.
+     * @param[in] spec Input parameter.
+     */
     void addAggregation(const WindowAggregateSpec& spec);
+    /**
+     * @brief TBD: Describe setResultCallback.
+     * @param[in] cb Input parameter.
+     */
     void setResultCallback(ResultCallback cb);
 
+     * @brief TBD: Describe ingest.
+     * @param[in] record Input parameter.
+     * @return True on success.
     /** Ingest a record. Thread-safe. Returns false on late/dropped record. */
     bool ingest(const StreamRecord& record);
 
+     * @brief TBD: Describe flush.
     /** Close all open sessions. */
     void flush();
 
+    /**
+     * @brief TBD: Describe getStats.
+     * @return Return value.
+     */
     WindowStats getStats() const;
 
 private:
@@ -563,10 +691,22 @@ private:
     std::atomic<uint64_t> windows_evicted_{0};
 
     WindowResult computeResult(const Session& s, bool late = false) const;
+    /**
+     * @brief TBD: Describe expiryLoop.
+     */
     void expiryLoop();
+    /**
+     * @brief TBD: Describe generateId.
+     * @return Return value.
+     */
     static std::string generateId();
 };
 
+/**
+ * @brief TBD: Describe createSessionWindow.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ */
 std::unique_ptr<SessionWindow> createSessionWindow(const SessionWindowConfig& config);
 
 // ============================================================================
@@ -586,21 +726,42 @@ class HoppingWindow {
 public:
     using ResultCallback = std::function<void(WindowResult)>;
 
+    /**
+     * @brief TBD: Describe HoppingWindow.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit HoppingWindow(const HoppingWindowConfig& config);
     ~HoppingWindow();
 
     HoppingWindow(const HoppingWindow&) = delete;
     HoppingWindow& operator=(const HoppingWindow&) = delete;
 
+    /**
+     * @brief TBD: Describe addAggregation.
+     * @param[in] spec Input parameter.
+     */
     void addAggregation(const WindowAggregateSpec& spec);
+    /**
+     * @brief TBD: Describe setResultCallback.
+     * @param[in] cb Input parameter.
+     */
     void setResultCallback(ResultCallback cb);
 
+     * @brief TBD: Describe ingest.
+     * @param[in] record Input parameter.
+     * @return True on success.
     /** Ingest a record. Thread-safe. */
     bool ingest(const StreamRecord& record);
 
+     * @brief TBD: Describe flush.
     /** Flush all open windows. */
     void flush();
 
+    /**
+     * @brief TBD: Describe getStats.
+     * @return Return value.
+     */
     WindowStats getStats() const;
 
 private:
@@ -638,14 +799,38 @@ private:
     /// Protected by mutex_. Used to enforce HoppingWindowConfig::max_distinct_partition_keys.
     std::unordered_set<std::string> seen_partition_keys_;
 
+    /**
+     * @brief TBD: Describe computeResult.
+     * @param[in] win Input parameter.
+     * @param[in] late Input parameter.
+     * @return Return value.
+     */
     WindowResult computeResult(const InternalWindow& win, bool late) const;
+    /**
+     * @brief TBD: Describe ensureWindowsExist.
+     * @param[in] event_time Input parameter.
+     */
     void ensureWindowsExist(const std::chrono::system_clock::time_point& event_time);
-    // Returns results to emit; caller fires the callback outside the mutex.
+    /**
+     * @brief Returns results to emit; caller fires the callback outside the mutex.
+     * @param[in] watermark_us Input parameter.
+     * @return Return value.
+     */
     std::vector<WindowResult> closeExpiredWindows(int64_t watermark_us);
+    /**
+     * @brief TBD: Describe updateWatermark.
+     * @param[in] event_time Input parameter.
+     */
     void updateWatermark(const std::chrono::system_clock::time_point& event_time);
+    /**
+     * @brief TBD: Describe generateId.
+     * @return Return value.
+     */
     static std::string generateId();
 };
 
+ * @param[in] config Input parameter.
+ * @return Return value.
 /** @brief Factory function for HoppingWindow. */
 std::unique_ptr<HoppingWindow> createHoppingWindow(const HoppingWindowConfig& config);
 
@@ -699,7 +884,11 @@ public:
                                             std::chrono::milliseconds hop,
                                             WatermarkConfig wm = {});
 
-    // ---- Builder methods ----
+    /**
+     * @brief ---- Builder methods ----
+     * @param[in] spec Input parameter.
+     * @return Return value.
+     */
 
     StreamingWindowPipeline& aggregate(const WindowAggregateSpec& spec);
     StreamingWindowPipeline& onResult(std::function<void(WindowResult)> callback);
@@ -707,17 +896,27 @@ public:
     /**
      * Finalize the pipeline; returns a shared_ptr to the window
      * (one of Tumbling/Sliding/Session/Hopping) wrapped in a uniform interface.
+     * @brief TBD: Describe build.
+     * @return Return value.
      */
     std::shared_ptr<StreamingWindowPipeline> build();
 
     // ---- Runtime interface (available after build()) ----
 
+     * @brief TBD: Describe ingest.
+     * @param[in] record Input parameter.
+     * @return True on success.
     /** Feed a record into the pipeline. */
     bool ingest(const StreamRecord& record);
 
+     * @brief TBD: Describe flush.
     /** Flush all pending windows and emit results. */
     void flush();
 
+    /**
+     * @brief TBD: Describe getStats.
+     * @return Return value.
+     */
     WindowStats getStats() const;
 
 private:
@@ -749,6 +948,10 @@ StreamRecord makeRecord(
 
 /**
  * Convert AggFunc to human-readable string.
+ * @brief TBD: Describe aggFuncToString.
+ * @param[in] f Input parameter.
+ * @return Pointer to the result.
+ * @details Implements aggFuncToString without additional internal calls.
  */
 inline const char* aggFuncToString(AggFunc f) {
     switch (f) {

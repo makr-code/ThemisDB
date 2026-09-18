@@ -58,6 +58,10 @@ enum class EncoderQuality : uint8_t {
  */
 class ITextEncoder {
 public:
+    /**
+     * @brief TBD: Describe ~ITextEncoder.
+     * @return Return value.
+     */
     virtual ~ITextEncoder() = default;
 
     /**
@@ -114,6 +118,10 @@ public:
  */
 class IImageEncoder {
 public:
+    /**
+     * @brief TBD: Describe ~IImageEncoder.
+     * @return Return value.
+     */
     virtual ~IImageEncoder() = default;
 
     /**

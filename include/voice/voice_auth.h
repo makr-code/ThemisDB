@@ -265,15 +265,21 @@ public:
     /**
      * @brief Delete a voice profile.
      * @return true if the profile existed and was removed; false otherwise.
+     * @param[in] profile_id Input parameter.
      */
     bool delete_profile(const VoiceProfileID& profile_id);
 
+     * @param[in] profile_id Input parameter.
+     * @return True on success.
     /** @brief Return true if the given profile ID exists. */
     bool has_profile(const VoiceProfileID& profile_id) const;
 
+     * @return Return value.
     /** @brief List all registered profile IDs. */
     std::vector<VoiceProfileID> list_profiles() const;
 
+     * @param[in] profile_id Input parameter.
+     * @return Return value.
     /** @brief Return the user_id associated with a profile, if it exists. */
     std::optional<std::string> get_user_id(const VoiceProfileID& profile_id) const;
 
@@ -281,12 +287,15 @@ public:
     // Configuration & statistics
     // -----------------------------------------------------------------------
 
+     * @param[in] config Input parameter.
     /** @brief Update runtime configuration (thread-safe). */
     void set_config(const VoiceAuthConfig& config);
 
+     * @return Return value.
     /** @brief Return a copy of the current configuration. */
     VoiceAuthConfig get_config() const;
 
+     * @return Return value.
     /** @brief Return JSON statistics (profiles enrolled, verifications, etc.). */
     json get_statistics() const;
 
@@ -328,19 +337,55 @@ private:
 
     std::function<void(const std::string&, const VoiceAuthResult&)> auth_audit_callback_;
 
-    // Feature extraction pipeline
+    /**
+     * @brief Feature extraction pipeline
+     * @param[in] audio Input parameter.
+     * @return Return value.
+     */
     std::vector<float> extractFeatures(const std::vector<uint8_t>& audio) const;
+    /**
+     * @brief TBD: Describe pcmToFloat.
+     * @param[in] raw Input parameter.
+     * @return Return value.
+     */
     std::vector<float> pcmToFloat(const std::vector<uint8_t>& raw) const;
+    /**
+     * @brief TBD: Describe l2Normalize.
+     * @param[in,out] vec Input/output parameter.
+     */
     void               l2Normalize(std::vector<float>& vec) const;
 
-    // Similarity & quality
+    /**
+     * @brief Similarity & quality
+     * @param[in] a Input parameter.
+     * @param[in] b Input parameter.
+     * @return Return value.
+     */
     float cosineSimilarity(const std::vector<float>& a,
                            const std::vector<float>& b) const;
+    /**
+     * @brief TBD: Describe computeAudioQuality.
+     * @param[in] samples Input parameter.
+     * @return Return value.
+     */
     float computeAudioQuality(const std::vector<float>& samples) const;
 
-    // Utilities
+    /**
+     * @brief Utilities
+     * @return Return value.
+     */
     int64_t     nowMs() const;
+    /**
+     * @brief TBD: Describe generateProfileId.
+     * @param[in] user_id Input parameter.
+     * @return Return value.
+     */
     std::string generateProfileId(const std::string& user_id) const;
+    /**
+     * @brief TBD: Describe emitAuthAuditEvent.
+     * @param[in] claimed_user_id Input parameter.
+     * @param[in] result Input parameter.
+     */
     void        emitAuthAuditEvent(
         const std::string& claimed_user_id,
         const VoiceAuthResult& result);

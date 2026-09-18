@@ -102,6 +102,8 @@ struct WorkloadCacheConfig {
     
     /**
      * @brief Create configuration optimized for specific workload type
+     * @param[in] type Input parameter.
+     * @return Return value.
      */
     static WorkloadCacheConfig forWorkload(WorkloadType type);
 };
@@ -150,9 +152,18 @@ public:
                 : 0.0;
         }
         
+        /**
+         * @brief TBD: Describe toJson.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
     };
     
+    /**
+     * @brief TBD: Describe WorkloadCacheStrategy.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit WorkloadCacheStrategy(const Config& config);
     ~WorkloadCacheStrategy() = default;
     
@@ -238,6 +249,7 @@ public:
     
     /**
      * @brief Get current workload statistics
+     * @return Return value.
      */
     WorkloadStats getStats() const;
     
@@ -248,11 +260,13 @@ public:
     
     /**
      * @brief Update configuration
+     * @param[in] config Input parameter.
      */
     void setConfig(const Config& config);
     
     /**
      * @brief Get current configuration
+     * @return Return value.
      */
     Config getConfig() const;
 
@@ -272,9 +286,19 @@ private:
     // Last detection time
     std::chrono::system_clock::time_point last_detection_;
     
-    // Helper methods
+    /**
+     * @brief Helper methods
+     * @return Return value.
+     */
     WorkloadType classifyWorkload() const;
+    /**
+     * @brief TBD: Describe updateStats.
+     */
     void updateStats();
+    /**
+     * @brief TBD: Describe shouldRunDetection.
+     * @return True on success.
+     */
     bool shouldRunDetection() const;
 };
 

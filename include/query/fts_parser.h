@@ -46,6 +46,13 @@ struct SearchNode {
     return node;
   }
 
+  /**
+   * @brief TBD: Describe makeBoolean.
+   * @param[in] boolean_type Input parameter.
+   * @param[in] operands Input parameter.
+   * @return Return value.
+   * @details Calls: std::move().
+   */
   static SearchNode makeBoolean(SearchNodeType boolean_type,
                                 std::vector<SearchNode> operands) {
     SearchNode node;

@@ -118,6 +118,9 @@ public:
      * @brief Retrieve an existing index without creating.
      *
      * @return Pointer, or nullptr if not found.
+     * @param[in] tenant_id Input parameter.
+     * @param[in] collection Input parameter.
+     * @param[in] field Input parameter.
      */
     ITensorIndex* getIndex(const std::string& tenant_id,
                             const std::string& collection,
@@ -127,6 +130,9 @@ public:
      * @brief Drop an index and delete its persisted data.
      *
      * @return true on success, false if not found.
+     * @param[in] tenant_id Input parameter.
+     * @param[in] collection Input parameter.
+     * @param[in] field Input parameter.
      */
     bool dropIndex(const std::string& tenant_id,
                    const std::string& collection,
@@ -134,6 +140,7 @@ public:
 
     /**
      * @brief Drop all indexes belonging to a tenant.
+     * @param[in] tenant_id Input parameter.
      */
     void dropTenantIndexes(const std::string& tenant_id);
 
@@ -220,10 +227,16 @@ public:
      * @brief Save all currently loaded indexes to their respective files.
      *
      * Returns the number of indexes successfully saved.
+     * @return Return value.
      */
     size_t flushAll();
 
 private:
+    /**
+     * @brief TBD: Describe TensorIndexManager.
+     * @param[in] db Input parameter.
+     * @return Return value.
+     */
     explicit TensorIndexManager(std::shared_ptr<RocksDBWrapper> db);
 
     /// Derive a safe filesystem path for an index with the given registry key.

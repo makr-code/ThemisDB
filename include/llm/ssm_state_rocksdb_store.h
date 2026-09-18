@@ -90,6 +90,7 @@ public:
      *
      * @throws std::invalid_argument if db is nullptr
      * @throws std::runtime_error if column family initialization fails
+     * @return Return value.
      */
     explicit SSMStateRocksDBStore(
         rocksdb::TransactionDB* db,
@@ -145,6 +146,9 @@ private:
      * @brief Construct RocksDB key for SSM state entry.
      *
      * Format: `ssm_state:{session_id}:{physical_time}:{logical_counter}`
+     * @param[in] session_id Input parameter.
+     * @param[in] ts Input parameter.
+     * @return Return value.
      */
     std::string makeSSMStateKey(const std::string& session_id,
                                const HLCTimestamp& ts);
@@ -153,6 +157,7 @@ private:
      * @brief Serialize SSMStateSnapshot to binary.
      *
      * @return Binary string with format version prefix + serialized data
+     * @param[in] snapshot Input parameter.
      */
     std::string serializeSnapshot(const SSMStateSnapshot& snapshot);
 
@@ -170,6 +175,7 @@ private:
      * Extracts the physical and logical components from a key.
      *
      * @return HLCTimestamp if key is valid, empty if parse failed
+     * @param[in] key Input parameter.
      */
     std::optional<HLCTimestamp> parseTimestampFromKey(const std::string& key);
 

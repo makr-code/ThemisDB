@@ -84,6 +84,10 @@ struct ConfidenceResult {
  * @brief Token-level confidence information
  */
 struct TokenConfidence {
+    /**
+     * @brief TBD: Describe ~TokenConfidence.
+     * @return Return value.
+     */
     virtual ~TokenConfidence() = default;
     std::string token;
     float probability = 0.0f;
@@ -266,22 +270,73 @@ private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
     
-    // Pattern matching helpers
+    /**
+     * @brief Pattern matching helpers
+     * @param[in] text Input parameter.
+     * @param[in] patterns Input parameter.
+     * @return True on success.
+     */
     bool containsPattern(const std::string& text, const std::vector<std::string>& patterns);
+    /**
+     * @brief TBD: Describe countPatternMatches.
+     * @param[in] text Input parameter.
+     * @param[in] patterns Input parameter.
+     * @return Return value.
+     */
     int countPatternMatches(const std::string& text, const std::vector<std::string>& patterns);
+    /**
+     * @brief TBD: Describe toLowerCase.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     std::string toLowerCase(const std::string& text);
     
-    // Entropy calculation
+    /**
+     * @brief Entropy calculation
+     * @param[in] tokens Input parameter.
+     * @return Return value.
+     */
     float calculateTokenEntropy(const std::vector<TokenConfidence>& tokens);
+    /**
+     * @brief TBD: Describe calculatePerplexity.
+     * @param[in] tokens Input parameter.
+     * @return Return value.
+     */
     float calculatePerplexity(const std::vector<TokenConfidence>& tokens);
     
-    // Scoring helpers
+    /**
+     * @brief Scoring helpers
+     * @param[in] technical Input parameter.
+     * @param[in] autonomy Input parameter.
+     * @param[in] transparency Input parameter.
+     * @return Return value.
+     */
     float combineScores(float technical, float autonomy, float transparency);
+    /**
+     * @brief TBD: Describe generateReasoning.
+     * @param[in] result Input parameter.
+     * @return Return value.
+     */
     std::string generateReasoning(const ConfidenceResult& result);
     
-    // Cache management
+    /**
+     * @brief Cache management
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     std::string generateCacheKey(const std::string& text);
+    /**
+     * @brief TBD: Describe getCachedResult.
+     * @param[in] key Input parameter.
+     * @param[in,out] result Input/output parameter.
+     * @return True on success.
+     */
     bool getCachedResult(const std::string& key, ConfidenceResult& result);
+    /**
+     * @brief TBD: Describe cacheResult.
+     * @param[in] key Input parameter.
+     * @param[in] result Input parameter.
+     */
     void cacheResult(const std::string& key, const ConfidenceResult& result);
 };
 
@@ -292,21 +347,26 @@ class ConfidenceDetectorFactory {
 public:
     /**
      * @brief Create detector with default configuration
+     * @return Return value.
      */
     static std::unique_ptr<EthicsAwareConfidenceDetector> createDefault();
     
     /**
      * @brief Create detector with strict thresholds
+     * @return Return value.
      */
     static std::unique_ptr<EthicsAwareConfidenceDetector> createStrict();
     
     /**
      * @brief Create detector with lenient thresholds
+     * @return Return value.
      */
     static std::unique_ptr<EthicsAwareConfidenceDetector> createLenient();
     
     /**
      * @brief Create detector with custom configuration
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     static std::unique_ptr<EthicsAwareConfidenceDetector> create(
         const EthicsAwareConfidenceConfig& config

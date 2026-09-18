@@ -189,6 +189,10 @@ public:
         std::shared_ptr<TokenQuotaManager> quota_manager,
         const Config& config);
 
+    /**
+     * @brief TBD: Describe ~SubagentFactory.
+     * @return Return value.
+     */
     virtual ~SubagentFactory() = default;
 
     // Non-copyable, non-moveable (internal mutex state)
@@ -341,6 +345,7 @@ public:
 
     /**
      * @brief Get factory statistics.
+     * @return Return value.
      */
     virtual FactoryStats getFactoryStats() = 0;
 

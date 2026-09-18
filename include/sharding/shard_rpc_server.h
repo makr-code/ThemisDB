@@ -61,6 +61,10 @@ public:
      */
     class RequestHandler {
     public:
+        /**
+         * @brief TBD: Describe ~RequestHandler.
+         * @return Return value.
+         */
         virtual ~RequestHandler() = default;
         
         /**
@@ -106,6 +110,8 @@ public:
          *
          * Default implementation returns an empty list (no local lock waits known).
          * Override in shards that maintain a local lock-wait state.
+         * @return Return value.
+         * @details Implements onCollectWaitForEdges without additional internal calls.
          */
         virtual std::vector<ShardRPCClient::WaitForEdge> onCollectWaitForEdges() {
             return {};
@@ -116,6 +122,8 @@ public:
      * @brief Create a new ShardRPCServer
      * @param listen_address Address to listen on (e.g., "0.0.0.0:50051")
      */
+     * @param[in] listen_address Input parameter.
+     * @return Return value.
     /** @brief Construct server using listen address only (default TLS config). */
     explicit ShardRPCServer(const std::string& listen_address);
     
@@ -123,6 +131,8 @@ public:
      * @brief Create a new ShardRPCServer with configuration
      * @param config Server configuration including mTLS settings
      */
+     * @param[in] config Input parameter.
+     * @return Return value.
     /** @brief Construct server using explicit runtime configuration. */
     explicit ShardRPCServer(const Config& config);
     

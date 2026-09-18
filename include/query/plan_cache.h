@@ -189,9 +189,11 @@ public:
         }
     };
 
-    // =========================================================================
-    // Construction
-    // =========================================================================
+    /**
+     * @brief ========================================================================= Construction =========================================================================
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
 
     explicit PlanCache(const Config& config);
     ~PlanCache();
@@ -297,14 +299,16 @@ public:
      */
     void clear();
 
-    // =========================================================================
-    // Diagnostics
-    // =========================================================================
+    /**
+     * @brief ========================================================================= Diagnostics =========================================================================
+     * @return Return value.
+     */
 
     CacheStats getStats() const;
 
     /**
      * @brief Return approximate memory used by all cached entries.
+     * @return Return value.
      */
     size_t estimateCurrentMemoryBytes() const;
 
@@ -314,6 +318,8 @@ public:
      * The fingerprint is a 64-character hex SHA256 digest of the normalized
      * query template. Literal numbers and quoted string values are replaced with
      * placeholders so the same parameterized structure reuses one entry.
+     * @param[in] query Input parameter.
+     * @return Return value.
      */
     static std::string fingerprint(const std::string& query);
 
@@ -322,6 +328,8 @@ public:
      *
      * Quoted string literals and numeric literals are replaced with `?`, while
      * parameter markers such as `@age` are preserved.
+     * @param[in] query Input parameter.
+     * @return Return value.
      */
     static std::string normalizeQueryTemplate(std::string_view query);
 
@@ -346,14 +354,29 @@ private:
     void removeEntry_locked(
         std::unordered_map<std::string, Entry>::iterator it);
 
-    /// Return true if the cardinality ratio between snapshot and current
-    /// exceeds statistics_drift_factor (in either direction).
+    /**
+     * @brief Return true if the cardinality ratio between snapshot and current exceeds statistics_drift_factor (in either direction).
+     * @param[in] snapshot Input parameter.
+     * @param[in] current Input parameter.
+     * @return True on success.
+     */
     bool isDriftExceeded(const Statistics& snapshot,
                          const Statistics& current) const;
 
+    /**
+     * @brief TBD: Describe makeCacheKey.
+     * @param[in] query Input parameter.
+     * @param[in] topology_fingerprint Input parameter.
+     * @return Return value.
+     */
     std::string makeCacheKey(const std::string& query,
                              const std::string& topology_fingerprint) const;
 
+    /**
+     * @brief TBD: Describe estimatePlanSizeBytes.
+     * @param[in] plan Input parameter.
+     * @return Return value.
+     */
     static size_t estimatePlanSizeBytes(const CachedPlan& plan);
 
     // -------------------------------------------------------------------------

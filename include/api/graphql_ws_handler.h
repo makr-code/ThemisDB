@@ -175,6 +175,7 @@ public:
 
     /**
      * @brief Return the number of active subscriptions on this connection.
+     * @return Return value.
      */
     size_t activeSubscriptionCount() const;
 
@@ -217,6 +218,8 @@ public:
      * @brief Return true if @p path targets the GraphQL WebSocket endpoint.
      *
      * Accepts `/graphql` (standard) and `/v2/graphql/subscriptions`.
+     * @param[in] path Input parameter.
+     * @return True on success.
      */
     static bool isGraphQLWsPath(std::string_view path);
 
@@ -239,14 +242,32 @@ public:
     }
 
 private:
-    // -----------------------------------------------------------------------
-    // Internal message handlers
-    // -----------------------------------------------------------------------
+    /**
+     * @brief ----------------------------------------------------------------------- Internal message handlers -----------------------------------------------------------------------
+     * @param[in] payload_json Input parameter.
+     * @return Return value.
+     */
 
     std::vector<std::string> handleConnectionInit(const std::string& payload_json);
+    /**
+     * @brief TBD: Describe handleSubscribe.
+     * @param[in] id Input parameter.
+     * @param[in] payload_json Input parameter.
+     * @return Return value.
+     */
     std::vector<std::string> handleSubscribe(const std::string& id,
                                               const std::string& payload_json);
+    /**
+     * @brief TBD: Describe handleComplete.
+     * @param[in] id Input parameter.
+     * @return Return value.
+     */
     std::vector<std::string> handleComplete(const std::string& id);
+    /**
+     * @brief TBD: Describe handlePing.
+     * @param[in] payload_json Input parameter.
+     * @return Return value.
+     */
     std::vector<std::string> handlePing(const std::string& payload_json);
 
     /// Extract the `onChange` collection argument from a parsed subscription document.

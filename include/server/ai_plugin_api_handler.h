@@ -96,17 +96,41 @@ private:
         std::optional<themis::plugins::ai::GeneratedPlugin> generated;
     };
 
+    /**
+     * @brief TBD: Describe toIso8601Now.
+     * @return Return value.
+     */
     static std::string toIso8601Now();
 
-    /// @name Route handlers
-    /// @{
+    /**
+     * @brief @name Route handlers @{
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleGenerate(
         const http::request<http::string_body>& req);
+    /**
+     * @brief TBD: Describe handleList.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleList(
         const http::request<http::string_body>& req);
+    /**
+     * @brief TBD: Describe handleStatus.
+     * @param[in] req Input parameter.
+     * @param[in] job_id Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleStatus(
         const http::request<http::string_body>& req,
         const std::string&                      job_id);
+    /**
+     * @brief TBD: Describe handleDelete.
+     * @param[in] req Input parameter.
+     * @param[in] job_id Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleDelete(
         const http::request<http::string_body>& req,
         const std::string&                      job_id);

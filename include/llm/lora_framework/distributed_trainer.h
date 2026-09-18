@@ -38,6 +38,10 @@ enum class DistributedBackend {
  * @brief Configuration for distributed training
  */
 struct DistributedConfig {
+    /**
+     * @brief TBD: Describe ~DistributedConfig.
+     * @return Return value.
+     */
     virtual ~DistributedConfig() = default;
     DistributedBackend backend = DistributedBackend::NONE;
     int world_size = 1;                 // Total number of processes
@@ -59,6 +63,12 @@ struct DistributedConfig {
         };
     }
     
+    /**
+     * @brief TBD: Describe fromJSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     * @details Calls: contains().
+     */
     static DistributedConfig fromJSON(const json& j) {
         DistributedConfig config = {};
         if (j.contains("backend")) {
@@ -90,6 +100,10 @@ struct DistributedConfig {
  * @brief Statistics for distributed training
  */
 struct DistributedStats {
+    /**
+     * @brief TBD: Describe ~DistributedStats.
+     * @return Return value.
+     */
     virtual ~DistributedStats() = default;
     int world_size = 1;
     int rank = 0;
@@ -166,6 +180,11 @@ public:
      * @throws std::runtime_error if called in distributed mode without callback.
      */
     using AllReduceCpuFn = std::function<void(std::vector<float>& data)>;
+    /**
+     * @brief TBD: Describe DistributedTrainer.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit DistributedTrainer(const DistributedConfig& config);
     ~DistributedTrainer();
     
@@ -317,8 +336,15 @@ private:
     // Statistics
     DistributedStats stats_;
     
-    // Helper methods
+    /**
+     * @brief Helper methods
+     * @param[in,out] data Input/output parameter.
+     */
     void allreduce_cpu(std::vector<float>& data);
+    /**
+     * @brief TBD: Describe broadcast_cpu.
+     * @param[in,out] data Input/output parameter.
+     */
     void broadcast_cpu(std::vector<float>& data);
 
     std::optional<BarrierFn>        barrier_fn_;
@@ -331,6 +357,11 @@ private:
  */
 class DistributedScope {
 public:
+    /**
+     * @brief TBD: Describe DistributedScope.
+     * @param[in,out] trainer Input/output parameter.
+     * @return Return value.
+     */
     explicit DistributedScope(DistributedTrainer* trainer)
         : trainer_(trainer) {
         if (trainer_) {

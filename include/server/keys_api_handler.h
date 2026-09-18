@@ -31,6 +31,7 @@ public:
     /**
      * @brief Initialize with KeyProvider for actual key operations
      * @param key_provider Shared pointer to KeyProvider implementation
+     * @return Return value.
      */
     explicit KeysApiHandler(std::shared_ptr<KeyProvider> key_provider);
     

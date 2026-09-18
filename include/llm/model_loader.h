@@ -65,6 +65,10 @@ class CancellationToken {
 public:
     CancellationToken() : cancelled_(std::make_shared<std::atomic<bool>>(false)) {}
     
+    /**
+     * @brief TBD: Describe cancel.
+     * @details Calls: store().
+     */
     void cancel() { cancelled_->store(true); }
     bool is_cancelled() const { return cancelled_->load(); }
     
@@ -82,6 +86,8 @@ struct CachedModel {
      * Frees the cached context before the underlying model handle so
      * outstanding shared owners can rely on RAII cleanup once the final
      * reference leaves scope.
+     * @return Return value.
+     * @note Exception safety: noexcept.
      */
     virtual ~CachedModel() noexcept;
     std::string model_id;
@@ -140,6 +146,11 @@ public:
         bool require_model_integrity = false;   // Require SHA-256 checksum for model loading
     };
     
+    /**
+     * @brief TBD: Describe LazyModelLoader.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit LazyModelLoader(const Config& config);
     ~LazyModelLoader() noexcept;
     
@@ -253,26 +264,33 @@ public:
      * @brief Pin a model in memory (prevent eviction)
      * 
      * Useful for frequently used models that should always be available.
+     * @param[in] model_id Input parameter.
      */
     void pinModel(const std::string& model_id);
     
     /**
      * @brief Unpin a model (allow eviction)
+     * @param[in] model_id Input parameter.
      */
     void unpinModel(const std::string& model_id);
     
     /**
      * @brief Check if model is loaded
+     * @param[in] model_id Input parameter.
+     * @return True on success.
      */
     bool isModelLoaded(const std::string& model_id) const;
     
     /**
      * @brief Get model info (if loaded)
+     * @param[in] model_id Input parameter.
+     * @return Return value.
      */
     std::optional<ModelInfo> getModelInfo(const std::string& model_id) const;
     
     /**
      * @brief List all loaded models
+     * @return Return value.
      */
     std::vector<std::string> listLoadedModels() const;
     
@@ -296,11 +314,13 @@ public:
     
     /**
      * @brief Get memory usage statistics
+     * @return Return value.
      */
     json getMemoryStats() const;
     
     /**
      * @brief Get cache statistics
+     * @return Return value.
      */
     json getCacheStats() const;
 
@@ -312,6 +332,10 @@ public:
         size_t models_loaded = 0;
     };
 
+    /**
+     * @brief TBD: Describe getStatistics.
+     * @return Return value.
+     */
     Stats getStatistics() const;
     
 private:
@@ -335,7 +359,13 @@ private:
     std::atomic<size_t> evictions_{0};
     std::atomic<size_t> models_loaded_{0};
     
-    // Internal helpers
+    /**
+     * @brief Internal helpers
+     * @param[in] model_id Input parameter.
+     * @param[in] model_path Input parameter.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     Result<CachedModel*> loadModelInternal(
         const std::string& model_id,
         const std::string& model_path,
@@ -347,8 +377,23 @@ private:
         const json& config
     ) const;
     
+    /**
+     * @brief TBD: Describe hasCapacity.
+     * @param[in] vram_mb Input parameter.
+     * @param[in] ram_mb Input parameter.
+     * @return True on success.
+     */
     bool hasCapacity(size_t vram_mb, size_t ram_mb) const;
+    /**
+     * @brief TBD: Describe updateMemoryUsage.
+     */
     void updateMemoryUsage();
+    /**
+     * @brief TBD: Describe unloadModelUnlocked.
+     * @param[in] model_id Input parameter.
+     * @param[in] force Input parameter.
+     * @return True on success.
+     */
     bool unloadModelUnlocked(const std::string& model_id, bool force);
     size_t evictLRUUnlocked(size_t target_vram_mb = 0);
 };

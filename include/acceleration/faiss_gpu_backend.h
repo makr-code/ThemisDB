@@ -129,16 +129,27 @@ public:
     
     /**
      * Initialize index with configuration
+     * @brief TBD: Describe initializeIndex.
+     * @param[in] config Input parameter.
+     * @return True on success.
      */
     bool initializeIndex(const Config& config);
     
     /**
      * Add vectors to the index (for persistent indices)
+     * @brief TBD: Describe addVectors.
+     * @param[in] vectors Input parameter.
+     * @param[in] numVectors Input parameter.
+     * @return True on success.
      */
     bool addVectors(const float* vectors, size_t numVectors);
     
     /**
      * Train index (required for IVF indices before adding vectors)
+     * @brief TBD: Describe trainIndex.
+     * @param[in] vectors Input parameter.
+     * @param[in] numVectors Input parameter.
+     * @return True on success.
      */
     bool trainIndex(const float* vectors, size_t numVectors);
     
@@ -153,11 +164,17 @@ public:
     
     /**
      * Save index to disk
+     * @brief TBD: Describe saveIndex.
+     * @param[in] filepath Input parameter.
+     * @return True on success.
      */
     bool saveIndex(const std::string& filepath);
     
     /**
      * Load index from disk
+     * @brief TBD: Describe loadIndex.
+     * @param[in] filepath Input parameter.
+     * @return True on success.
      */
     bool loadIndex(const std::string& filepath);
     
@@ -172,10 +189,15 @@ public:
         IndexType type;
     };
     
+    /**
+     * @brief TBD: Describe getIndexStats.
+     * @return Return value.
+     */
     IndexStats getIndexStats() const;
     
     /**
      * Reset index (clear all vectors)
+     * @brief TBD: Describe resetIndex.
      */
     void resetIndex();
     
@@ -199,6 +221,10 @@ private:
 
     // Helper methods
     std::unique_ptr<faiss::Index, IndexDeleter> createIndex(IndexType type, int dimension);
+    /**
+     * @brief TBD: Describe transferIndexToGPU.
+     * @return True on success.
+     */
     bool transferIndexToGPU();
 
     void setError(AccelerationErrorCode code, const std::string& msg,

@@ -79,17 +79,22 @@ public:
         
         /**
          * @brief Convert to JSON for storage
+         * @return Return value.
          */
         std::string toJson() const;
         
         /**
          * @brief Parse from JSON
+         * @param[in] json_str Input parameter.
+         * @return Return value.
          */
         static ExtractedMetadata fromJson(const std::string& json_str);
     };
     
     /**
      * @brief Constructor with configuration
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     explicit NlpMetadataExtractor(const Config& config);
     
@@ -172,11 +177,16 @@ private:
     
     /**
      * @brief Compute text statistics
+     * @param[in] text Input parameter.
+     * @param[in,out] meta Input/output parameter.
      */
     void computeTextStats(const std::string& text, ExtractedMetadata& meta) const;
     
     /**
      * @brief Concatenate text from multiple fields
+     * @param[in] entity Input parameter.
+     * @param[in] fields Input parameter.
+     * @return Return value.
      */
     std::string concatenateFields(
         const BaseEntity& entity,

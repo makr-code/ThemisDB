@@ -76,6 +76,7 @@ public:
      * @return A future that resolves to the cached `CacheEntry` if present
      *         and not expired, or `std::nullopt` on a cache miss.
     * @throws std::system_error if the async task cannot be launched.
+     * @details Calls: std::async(), std::string(), get().
      */
     virtual std::future<std::optional<CacheEntry>> getAsync(std::string_view key) {
         return std::async(std::launch::async,
@@ -110,6 +111,7 @@ public:
      * @return A future that resolves when the entry has been removed (or was
      *         already absent).
     * @throws std::system_error if the async task cannot be launched.
+     * @details Calls: std::async(), std::string(), invalidate().
      */
     virtual std::future<void> invalidateAsync(std::string_view key) {
         return std::async(std::launch::async,

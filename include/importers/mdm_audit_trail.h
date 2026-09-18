@@ -66,6 +66,10 @@ public:
         /// SHA-256 hex digest over: previous_hash + event_id + timestamp + source_id + target_id
         std::string  chain_hash;
 
+        /**
+         * @brief TBD: Describe toJson.
+         * @return Return value.
+         */
         json toJson() const;
     };
 
@@ -123,6 +127,7 @@ public:
 
     /**
      * @brief Return the total number of events recorded.
+     * @return Return value.
      */
     size_t eventCount() const;
 
@@ -133,6 +138,8 @@ public:
 
     /**
      * @brief Convert an Operation enum value to its string name.
+     * @param[in] op Input parameter.
+     * @return Return value.
      */
     static std::string operationName(Operation op);
 
@@ -140,11 +147,25 @@ private:
     mutable std::mutex   mutex_;
     std::vector<AuditEvent> events_;
 
+    /**
+     * @brief TBD: Describe computeChainHash.
+     * @param[in] previous_hash Input parameter.
+     * @param[in] event Input parameter.
+     * @return Return value.
+     */
     static std::string computeChainHash(
         const std::string& previous_hash,
         const AuditEvent&  event
     );
+    /**
+     * @brief TBD: Describe generateUUID.
+     * @return Return value.
+     */
     static std::string generateUUID();
+    /**
+     * @brief TBD: Describe nowRfc3339.
+     * @return Return value.
+     */
     static std::string nowRfc3339();
 };
 

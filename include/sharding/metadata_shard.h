@@ -73,6 +73,9 @@ struct MetadataEntry {
         };
     }
     
+     * @param[in] j Input parameter.
+     * @return Return value.
+     * @details Calls: std::chrono::system_clock::time_point(), std::chrono::milliseconds().
     /** @brief Deserialize metadata entry from JSON representation. */
     static MetadataEntry fromJson(const nlohmann::json& j) {
         MetadataEntry entry;
@@ -136,6 +139,9 @@ struct MetadataShardConfig {
  */
 class MetadataShard {
 public:
+     * @param[in] config Input parameter.
+     * @param[in] consensus Input parameter.
+     * @return Return value.
     /** @brief Construct metadata shard with routing/config and optional consensus module. */
     explicit MetadataShard(
         const MetadataShardConfig& config,
@@ -145,9 +151,11 @@ public:
     /** @brief Destructor stops shard and releases cache/persistence resources. */
     ~MetadataShard();
     
+     * @return True on success.
     /** @brief Initialize partitions, persistence backends, and recovery state. */
     bool initialize();
     
+     * @return True on success.
     /** @brief Mark shard as running and ready to serve operations. */
     bool start();
     
@@ -196,9 +204,12 @@ public:
      */
     std::vector<std::string> listKeys(MetadataPartitionKey partition) const;
     
+     * @param[in] partition Input parameter.
+     * @return Return value.
     /** @brief Return statistics for one partition. */
     nlohmann::json getPartitionStats(MetadataPartitionKey partition) const;
     
+     * @return Return value.
     /** @brief Return shard-wide statistics including cache and partitions. */
     nlohmann::json getStatistics() const;
     
@@ -212,29 +223,45 @@ public:
         std::function<void(const MetadataEntry&)> callback
     );
     
+     * @return True on success.
     /** @brief Create snapshot from current storage when persistence is enabled. */
     bool createPeriodicSnapshot();
     
+     * @return True on success.
     /** @brief Recover shard state from latest snapshot plus WAL replay. */
     bool recoverFromWAL();
 
 private:
+     * @param[in] partition Input parameter.
+     * @param[in] key Input parameter.
+     * @return Return value.
     /** @brief Determine owning shard id for given partition/key pair. */
     std::string determineShardOwner(
         MetadataPartitionKey partition,
         const std::string& key
     ) const;
     
+     * @param[in] entry Input parameter.
     /** @brief Insert/update one entry in cache when cache is enabled. */
     void cacheEntry(const MetadataEntry& entry);
+     * @param[in] partition Input parameter.
+     * @param[in] key Input parameter.
+     * @return Return value.
     /** @brief Lookup entry in cache by partition/key. */
     std::optional<MetadataEntry> getCachedEntry(
         MetadataPartitionKey partition,
         const std::string& key
     ) const;
+     * @param[in] partition Input parameter.
+     * @param[in] key Input parameter.
     /** @brief Invalidate one cache key after mutation/removal. */
     void invalidateCache(MetadataPartitionKey partition, const std::string& key);
     
+     * @param[in] operation Input parameter.
+     * @param[in] partition Input parameter.
+     * @param[in] key Input parameter.
+     * @param[in] value Input parameter.
+     * @return True on success.
     /** @brief Propose and wait for consensus commit of metadata mutation. */
     bool applyChange(
         const std::string& operation,
@@ -281,21 +308,33 @@ private:
  */
 class MetadataShardRouter {
 public:
+     * @param[in] num_shards Input parameter.
+     * @return Return value.
     /** @brief Construct router with configured shard-count hashing domain. */
     explicit MetadataShardRouter(size_t num_shards);
     
+     * @param[in] shard_id Input parameter.
+     * @param[in] shard Input parameter.
     /** @brief Register shard instance under shard id. */
     void addShard(const std::string& shard_id, std::shared_ptr<MetadataShard> shard);
     
+     * @param[in] shard_id Input parameter.
     /** @brief Unregister shard instance by shard id. */
     void removeShard(const std::string& shard_id);
     
+     * @param[in] partition Input parameter.
+     * @param[in] key Input parameter.
+     * @return Return value.
     /** @brief Route and read metadata entry from owning shard. */
     std::optional<MetadataEntry> get(
         MetadataPartitionKey partition,
         const std::string& key
     ) const;
     
+     * @param[in] partition Input parameter.
+     * @param[in] key Input parameter.
+     * @param[in] value Input parameter.
+     * @return True on success.
     /** @brief Route and write metadata entry to owning shard. */
     bool put(
         MetadataPartitionKey partition,
@@ -303,6 +342,9 @@ public:
         const nlohmann::json& value
     );
     
+     * @param[in] partition Input parameter.
+     * @param[in] key Input parameter.
+     * @return True on success.
     /** @brief Route and delete metadata entry on owning shard. */
     bool remove(
         MetadataPartitionKey partition,
@@ -311,19 +353,27 @@ public:
     
     /**
      * @brief List all keys in a partition (scatter-gather)
+     * @param[in] partition Input parameter.
+     * @return Return value.
      */
     std::vector<std::string> listKeys(MetadataPartitionKey partition) const;
     
+     * @return Return value.
     /** @brief Return router operation/error and shard-level statistics snapshot. */
     nlohmann::json getStatistics() const;
     
 private:
+     * @param[in] partition Input parameter.
+     * @param[in] key Input parameter.
+     * @return Return value.
     /** @brief Resolve target shard id for partition/key request. */
     std::string routeToShard(
         MetadataPartitionKey partition,
         const std::string& key
     ) const;
     
+     * @param[in] key Input parameter.
+     * @return Return value.
     /** @brief Hash key into shard-space index domain. */
     size_t hashKey(const std::string& key) const;
     

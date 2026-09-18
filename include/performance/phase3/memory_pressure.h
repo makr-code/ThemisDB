@@ -137,6 +137,11 @@ public:
     // -----------------------------------------------------------------------
 
     SystemMemoryPressureMonitor();
+    /**
+     * @brief TBD: Describe SystemMemoryPressureMonitor.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit SystemMemoryPressureMonitor(Config config);
     ~SystemMemoryPressureMonitor();
 
@@ -165,6 +170,8 @@ public:
 
     /**
      * @brief Returns true if the polling thread is currently running.
+     * @return True on success.
+     * @note Exception safety: noexcept.
      */
     bool is_running() const noexcept;
 
@@ -198,6 +205,7 @@ public:
 
     /**
      * @brief Take an immediate OS memory snapshot (may be called from any thread).
+     * @return Return value.
      */
     MemorySnapshot sample() const;
 
@@ -206,16 +214,21 @@ public:
      *
      * Valid only after start() has been called and at least one poll cycle
      * has elapsed; returns a zero-initialised snapshot otherwise.
+     * @return Return value.
      */
     MemorySnapshot last_snapshot() const;
 
     /**
      * @brief Cumulative number of times eviction callbacks were invoked.
+     * @return Return value.
+     * @note Exception safety: noexcept.
      */
     uint64_t eviction_trigger_count() const noexcept;
 
     /**
      * @brief Human-readable description of a pressure level.
+     * @param[in] level Input parameter.
+     * @return Return value.
      */
     static std::string level_name(PressureLevel level);
 

@@ -91,6 +91,7 @@ class TierSelector {
 public:
     /**
      * @brief Register a downsampling policy so the selector knows which tiers exist.
+     * @param[in] policy Input parameter.
      */
     void registerPolicy(const DownsamplingPolicy& policy);
 
@@ -109,6 +110,8 @@ public:
 
     /**
      * @brief Returns all registered tiers for a metric, ordered finest→coarsest.
+     * @param[in] metric Input parameter.
+     * @return Return value.
      */
     std::vector<DownsamplingTier> tiersFor(const std::string& metric) const;
 
@@ -136,6 +139,8 @@ public:
     /**
      * @param store     TSStore to read raw/tier data from and write tier output to.
      *                  Not owned; must outlive the pipeline.
+     * @brief TBD: Describe DownsamplingPipeline.
+     * @return Return value.
      */
     explicit DownsamplingPipeline(TSStore* store);
     ~DownsamplingPipeline() = default;
@@ -148,6 +153,7 @@ public:
      *
      * Must be called before any refresh() for the given metric.
      * Registers the policy's tiers with the internal TierSelector.
+     * @param[in] policy Input parameter.
      */
     void addPolicy(const DownsamplingPolicy& policy);
 
@@ -186,11 +192,17 @@ public:
      * @brief Get the current watermark for a metric:tier combination.
      *
      * Returns 0 if no data has been processed yet for that tier.
+     * @param[in] metric Input parameter.
+     * @param[in] tier_name Input parameter.
+     * @return Return value.
      */
     int64_t getWatermark(const std::string& metric, const std::string& tier_name) const;
 
     /**
      * @brief Manually set a watermark (e.g. for backfill or disaster recovery).
+     * @param[in] metric Input parameter.
+     * @param[in] tier_name Input parameter.
+     * @param[in] watermark_ms Input parameter.
      */
     void setWatermark(const std::string& metric, const std::string& tier_name, int64_t watermark_ms);
 
@@ -205,12 +217,29 @@ private:
     // Per-tier watermarks: "metric:tier_name" → watermark_ms
     std::unordered_map<std::string, int64_t> watermarks_;
 
+    /**
+     * @brief TBD: Describe watermarkKey.
+     * @param[in] metric Input parameter.
+     * @param[in] tier_name Input parameter.
+     * @return Return value.
+     */
     static std::string watermarkKey(const std::string& metric, const std::string& tier_name);
 
-    // Returns current epoch time in milliseconds
+    /**
+     * @brief Returns current epoch time in milliseconds
+     * @return Return value.
+     */
     static int64_t nowMs();
 
-    // Refresh a single tier for a metric, reading from input_metric over [from_ms, to_ms)
+    /**
+     * @brief Refresh a single tier for a metric, reading from input_metric over [from_ms, to_ms)
+     * @param[in] policy Input parameter.
+     * @param[in] tier Input parameter.
+     * @param[in] input_metric Input parameter.
+     * @param[in] from_ms Input parameter.
+     * @param[in] to_ms Input parameter.
+     * @return Return value.
+     */
     size_t refreshTier(const DownsamplingPolicy& policy,
                        const DownsamplingTier& tier,
                        const std::string& input_metric,

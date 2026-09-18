@@ -57,7 +57,15 @@ struct AuditQueryOptions {
 /** @brief I project audit log. */
 class IProjectAuditLog {
 public:
+    /**
+     * @brief TBD: Describe ~IProjectAuditLog.
+     * @return Return value.
+     */
     virtual ~IProjectAuditLog() = default;
+    /**
+     * @brief TBD: Describe record.
+     * @param[in] entry Input parameter.
+     */
     virtual void record(const ProjectAuditEntry& entry) = 0;
     [[nodiscard]] virtual std::vector<ProjectAuditEntry> query(const AuditQueryOptions& opts) const = 0;
     [[nodiscard]] virtual size_t count(const AuditQueryOptions& opts) const = 0;

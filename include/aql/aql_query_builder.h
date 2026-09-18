@@ -65,12 +65,14 @@ public:
      * @brief Add a FOR ... IN ... clause
      * @param variable Loop variable name (e.g., "user")
      * @param collection Collection name or expression (e.g., "users")
+     * @return Return value.
      */
     AQLQueryBuilder& forIn(const std::string& variable, const std::string& collection);
 
     /**
      * @brief Add a FILTER clause
      * @param condition Filter expression (e.g., "user.age > 18")
+     * @return Return value.
      */
     AQLQueryBuilder& filter(const std::string& condition);
 
@@ -91,6 +93,7 @@ public:
     /**
      * @brief Set the RETURN expression
      * @param expression Return expression (e.g., "user", "{name: user.name}")
+     * @return Return value.
      */
     AQLQueryBuilder& ret(const std::string& expression);
 
@@ -98,6 +101,7 @@ public:
      * @brief Add a LET variable binding
      * @param variable Variable name
      * @param expression Value expression
+     * @return Return value.
      */
     AQLQueryBuilder& let(const std::string& variable, const std::string& expression);
 
@@ -105,6 +109,7 @@ public:
      * @brief Add a COLLECT clause for grouping/aggregation
      * @param variable Grouping variable
      * @param expression Group expression
+     * @return Return value.
      */
     AQLQueryBuilder& collect(const std::string& variable, const std::string& expression);
 
@@ -143,6 +148,7 @@ public:
      * @brief Add an INSERT clause: INSERT doc_expr INTO collection
      * @param collection Target collection name
      * @param doc_expr   Document expression to insert (e.g., "{name: \"Alice\"}")
+     * @return Return value.
      */
     AQLQueryBuilder& insertInto(const std::string& collection, const std::string& doc_expr);
 
@@ -150,6 +156,7 @@ public:
      * @brief Add an UPDATE clause: UPDATE doc_expr IN collection
      * @param collection Target collection name
      * @param doc_expr   Document/key expression to update (e.g., "u WITH {active: false}")
+     * @return Return value.
      */
     AQLQueryBuilder& updateIn(const std::string& collection, const std::string& doc_expr);
 
@@ -157,6 +164,7 @@ public:
      * @brief Add a REMOVE clause: REMOVE doc_expr IN collection
      * @param collection Target collection name
      * @param doc_expr   Document/key expression to remove (e.g., "u" or "u._key")
+     * @return Return value.
      */
     AQLQueryBuilder& removeIn(const std::string& collection, const std::string& doc_expr);
 
@@ -166,6 +174,7 @@ public:
      * @param filter_expr Search/lookup expression (e.g., "{name: \"Alice\"}")
      * @param insert_expr Document expression for insert branch
      * @param update_expr Document expression for update branch
+     * @return Return value.
      */
     AQLQueryBuilder& upsertIn(
         const std::string& collection,
@@ -178,6 +187,7 @@ public:
      * @brief Add a REPLACE clause: REPLACE doc_expr IN collection
      * @param collection Target collection name
      * @param doc_expr   Document/key expression to replace (e.g., "u WITH {name: \"Bob\"}")
+     * @return Return value.
      */
     AQLQueryBuilder& replaceIn(const std::string& collection, const std::string& doc_expr);
 
@@ -207,6 +217,7 @@ public:
 
     /**
      * @brief Return `true` when ingestion enrichment has been requested.
+     * @return True on success.
      */
     bool hasIngestionEnrichment() const;
 
@@ -222,6 +233,7 @@ public:
      *
      * @param partition_expr Range expression (e.g., "t.time"); pass "" for row-based windows
      * @param window_spec    Window specification object (e.g., "{ preceding: \"PT30M\" }")
+     * @return Return value.
      */
     AQLQueryBuilder& window(const std::string& partition_expr, const std::string& window_spec);
 
@@ -234,11 +246,13 @@ public:
      * @param variable Variable name for the subquery result
      * @param inner    Builder holding the inner query (rendered via getPartialQuery())
      * @throws std::invalid_argument if variable is empty or inner has no clauses
+     * @return Return value.
      */
     AQLQueryBuilder& subquery(const std::string& variable, const AQLQueryBuilder& inner);
 
     /**
      * @brief Reset the builder to initial empty state
+     * @return Return value.
      */
     AQLQueryBuilder& reset();
 
@@ -249,11 +263,13 @@ public:
     /**
      * @brief Build and return the complete AQL query string
      * @throws std::logic_error if the query is missing required clauses (FOR or RETURN)
+     * @return Return value.
      */
     std::string build() const;
 
     /**
      * @brief Return the partial (possibly incomplete) query string built so far
+     * @return Return value.
      */
     std::string getPartialQuery() const;
 
@@ -263,11 +279,13 @@ public:
 
     /**
      * @brief Check whether the query has at least a FOR and a RETURN clause
+     * @return True on success.
      */
     bool isComplete() const;
 
     /**
      * @brief Check whether the query structure is valid (clauses in correct order)
+     * @return True on success.
      */
     bool isValid() const;
 
@@ -316,6 +334,7 @@ public:
      *
      * @param schema  Snapshot of collection metadata (e.g. built with
      *                @c aql::fromTableSchema() from `metadata/aql_schema_bridge.h`)
+     * @return Return value.
      */
     AQLQueryBuilder& setSchema(const std::vector<CollectionMetadata>& schema);
 
@@ -354,6 +373,7 @@ public:
      * Returned strings describe which clauses can logically follow the current state.
      *
      * Example return values: {"FILTER", "SORT", "LIMIT", "LET", "COLLECT", "RETURN"}
+     * @return Return value.
      */
     std::vector<std::string> getNextSteps() const;
 

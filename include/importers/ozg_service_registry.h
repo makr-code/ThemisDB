@@ -159,6 +159,10 @@ struct OZGServiceEntry {
  */
 class IOZGServiceRegistry {
 public:
+    /**
+     * @brief TBD: Describe ~IOZGServiceRegistry.
+     * @return Return value.
+     */
     virtual ~IOZGServiceRegistry() = default;
 
     /**
@@ -167,6 +171,7 @@ public:
      * @throws std::invalid_argument  if entry.id is empty.
      * @throws std::runtime_error     if a service with the same ID is already
      *                                registered.
+     * @param[in] entry Input parameter.
      */
     virtual void registerService(const OZGServiceEntry& entry) = 0;
 
@@ -175,11 +180,13 @@ public:
      *
      * @throws std::invalid_argument  if entry.id is empty or the ID is not
      *                                registered.
+     * @param[in] entry Input parameter.
      */
     virtual void updateService(const OZGServiceEntry& entry) = 0;
 
     /**
      * @brief Remove a service entry by ID.  No-op if ID is not registered.
+     * @param[in] id Input parameter.
      */
     virtual void removeService(std::string_view id) = 0;
 
@@ -187,6 +194,7 @@ public:
      * @brief Look up a service by its OZG service ID.
      *
      * @return The matching entry, or std::nullopt if not found.
+     * @param[in] id Input parameter.
      */
     virtual std::optional<OZGServiceEntry> findById(std::string_view id) const = 0;
 
@@ -212,16 +220,19 @@ public:
 
     /**
      * @brief Return all registered services.
+     * @return Return value.
      */
     virtual std::vector<OZGServiceEntry> all() const = 0;
 
     /**
      * @brief Return the total number of registered services.
+     * @return Return value.
      */
     virtual std::size_t size() const = 0;
 
     /**
      * @brief Return true if the registry contains no entries.
+     * @return True on success.
      */
     virtual bool empty() const = 0;
 };
@@ -243,6 +254,11 @@ public:
         if (entry.id.empty()) {
             throw std::invalid_argument("OZGServiceEntry::id must not be empty");
         }
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         if (entries_.count(entry.id)) {
             throw std::runtime_error("OZG service already registered: " + entry.id);
@@ -254,6 +270,11 @@ public:
         if (entry.id.empty()) {
             throw std::invalid_argument("OZGServiceEntry::id must not be empty");
         }
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         if (!entries_.count(entry.id)) {
             throw std::invalid_argument("OZG service not registered: " + entry.id);
@@ -262,6 +283,11 @@ public:
     }
 
     void removeService(std::string_view id) override {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         entries_.erase(std::string(id));
     }
@@ -269,6 +295,11 @@ public:
     // ── Queries ───────────────────────────────────────────────────────────────
 
     std::optional<OZGServiceEntry> findById(std::string_view id) const override {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         auto it = entries_.find(std::string(id));
         if (it == entries_.end()) {
@@ -278,6 +309,11 @@ public:
     }
 
     std::vector<OZGServiceEntry> findByStatus(OZGServiceStatus status) const override {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         std::vector<OZGServiceEntry> result = {};
 
@@ -290,8 +326,18 @@ public:
     }
 
     std::vector<OZGServiceEntry> findByState(std::string_view state_code) const override {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         std::vector<OZGServiceEntry> result;
+        /**
+         * @brief TBD: Describe sc.
+         * @param[in] state_code Input parameter.
+         * @return Return value.
+         */
         const std::string sc(state_code);
         for (const auto& [id, e] : entries_) {
             for (const auto& s : e.applicable_states) {
@@ -302,8 +348,18 @@ public:
     }
 
     std::vector<OZGServiceEntry> findByComplianceTag(std::string_view tag) const override {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         std::vector<OZGServiceEntry> result;
+        /**
+         * @brief TBD: Describe t.
+         * @param[in] tag Input parameter.
+         * @return Return value.
+         */
         const std::string t(tag);
         for (const auto& [id, e] : entries_) {
             for (const auto& ct : e.compliance_tags) {
@@ -314,6 +370,11 @@ public:
     }
 
     std::vector<OZGServiceEntry> all() const override {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         std::vector<OZGServiceEntry> result = {};
 
@@ -325,11 +386,21 @@ public:
     }
 
     std::size_t size() const override {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         return entries_.size();
     }
 
     bool empty() const override {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         return entries_.empty();
     }

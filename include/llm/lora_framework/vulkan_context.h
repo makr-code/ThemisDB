@@ -82,6 +82,7 @@ public:
     
     /**
      * @brief Check if Vulkan is available on this system
+     * @return True on success.
      */
     static bool is_available();
     
@@ -122,6 +123,7 @@ public:
      * @brief Free a command buffer
      *
      * No-op if the command buffer handle is null.
+     * @param[in] command_buffer Input parameter.
      */
     void free_command_buffer(VkCommandBuffer command_buffer);
     
@@ -137,6 +139,7 @@ public:
      * @brief Destroy a fence
      *
      * No-op if the fence handle is null.
+     * @param[in] fence Input parameter.
      */
     void destroy_fence(VkFence fence);
     
@@ -152,6 +155,7 @@ public:
      * @brief Reset a fence
      * @throws std::runtime_error if fence/context handle is invalid
      * @throws std::runtime_error if Vulkan fails to reset the fence
+     * @param[in] fence Input parameter.
      */
     void reset_fence(VkFence fence);
     
@@ -169,31 +173,39 @@ public:
 private:
     /**
      * @brief Create Vulkan instance
+     * @param[in] enable_validation Input parameter.
+     * @return True on success.
      */
     bool create_instance(bool enable_validation);
     
     /**
      * @brief Select physical device (GPU)
+     * @param[in] device_id Input parameter.
+     * @return True on success.
      */
     bool select_physical_device(int device_id);
     
     /**
      * @brief Find compute queue family
+     * @return True on success.
      */
     bool find_queue_family();
     
     /**
      * @brief Create logical device
+     * @return True on success.
      */
     bool create_device();
     
     /**
      * @brief Create command pool
+     * @return True on success.
      */
     bool create_command_pool();
     
     /**
      * @brief Setup debug messenger (if validation enabled)
+     * @return True on success.
      */
     bool setup_debug_messenger();
     
@@ -221,6 +233,7 @@ private:
     
     /**
      * @brief Check if validation layers are available
+     * @return True on success.
      */
     static bool check_validation_layer_support();
 };
@@ -248,8 +261,17 @@ public:
     VulkanContext& operator=(VulkanContext&&) noexcept = default;
     
     bool initialize(int = 0, bool = false) { return false; }
+    /**
+     * @brief TBD: Describe cleanup.
+     * @details Implements cleanup without additional internal calls.
+     */
     void cleanup() {}
     bool is_initialized() const { return false; }
+    /**
+     * @brief TBD: Describe is_available.
+     * @return True on success.
+     * @details Implements is_available without additional internal calls.
+     */
     static bool is_available() { return false; }
 };
 

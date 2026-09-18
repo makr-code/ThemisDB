@@ -184,6 +184,7 @@ public:
      * @param operation_name Operation name
      * @param metrics Cycle metrics
      * @return true if recorded, false if buffer full
+     * @details Calls: HardwareCycleCounter::cpu_cycles(), tryPush(), std::move().
      */
     bool recordOperation(const std::string& operation_name, const OperationCycleMetrics& metrics) {
         MetricsEntry entry;
@@ -200,6 +201,12 @@ public:
      * @return Number of entries drained
      */
     template<typename Container>
+    /**
+     * @brief TBD: Describe drain.
+     * @param[in,out] output Input/output parameter.
+     * @return Return value.
+     * @details Calls: load(), tryPop(), push_back(), std::move().
+     */
     size_t drain(Container& output) {
         MetricsEntry entry;
         size_t count = 0;

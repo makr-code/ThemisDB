@@ -115,6 +115,7 @@ public:
      * 
      * @param config Snapshot configuration
      * @return Status code
+     * @brief TBD: Describe CreateSnapshot.
      */
     SnapshotStatus CreateSnapshot(const SnapshotConfig& config);
     
@@ -126,6 +127,7 @@ public:
      * 
      * @param callback Function to receive each chunk
      * @return Status code
+     * @brief TBD: Describe StreamChunks.
      */
     SnapshotStatus StreamChunks(ChunkCallback callback);
     
@@ -139,6 +141,7 @@ public:
      * 
      * @param expected_hash Expected SHA256 hash of complete snapshot
      * @return Status code
+     * @brief TBD: Describe VerifySnapshot.
      */
     SnapshotStatus VerifySnapshot(const std::string& expected_hash);
     
@@ -158,6 +161,7 @@ public:
      * 
      * @param chunk Received snapshot chunk with file path and data
      * @return Status code (ERROR_SECURITY_PATH_TRAVERSAL on path traversal attempt)
+     * @brief TBD: Describe ReceiveChunk.
      */
     SnapshotStatus ReceiveChunk(const shard_proto::SnapshotChunk& chunk);
     
@@ -165,6 +169,7 @@ public:
      * Finalize snapshot after all chunks received.
      * 
      * @return Status code
+     * @brief TBD: Describe FinalizeSnapshot.
      */
     SnapshotStatus FinalizeSnapshot();
     
@@ -172,11 +177,13 @@ public:
      * Get current transfer progress.
      * 
      * @return Progress information
+     * @brief TBD: Describe GetProgress.
      */
     SnapshotProgress GetProgress() const;
     
     /**
      * Cancel an in-progress snapshot transfer.
+     * @brief TBD: Describe Cancel.
      */
     void Cancel();
 
@@ -185,6 +192,7 @@ public:
      * Must be called before CreateSnapshot() or FinalizeSnapshot().
      *
      * @param db Pointer to the open RocksDB instance (not owned by this handler).
+     * @brief TBD: Describe SetDB.
      */
     void SetDB(rocksdb::DB* db);
 

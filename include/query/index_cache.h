@@ -42,25 +42,34 @@ class IndexCache {
   /// @brief Construct the cache with size and bloom-filter settings.
   /// @param config: cache configuration (size, bloom filter params)
   IndexCache();
+  /**
+   * @brief TBD: Describe IndexCache.
+   * @param[in] config Input parameter.
+   * @return Return value.
+   */
   explicit IndexCache(const Config& config);
   
-  /// @brief Look up a posting list in the in-memory cache.
-  /// @param term: search term
-  /// @return posting list if present in cache, empty optional if not cached
-  /// @note Thread safety: acquires shared_lock (concurrent readers allowed).
-  /// @note: bloom filter consulted first (fast negative lookup)
+  /**
+   * @brief @brief Look up a posting list in the in-memory cache.
+   * @param[in] term Input parameter.
+   * @return Return value.
+   * @details @param term: search term @return posting list if present in cache, empty optional if not cached @note Thread safety: acquires shared_lock (concurrent readers allowed). @note: bloom filter consulted first (fast negative lookup)
+   */
   std::optional<PostingList> lookup(const std::string& term) const;
   
-  /// @brief Insert a posting list into the cache.
-  /// @param term: search term
-  /// @param list: posting list to cache
-  /// @return true if inserted, false if cache full (LRU eviction needed)
-  /// @note Thread safety: acquires unique_lock (exclusive access).
-  /// @note: may evict LRU entries to fit new posting list
+  /**
+   * @brief @brief Insert a posting list into the cache.
+   * @param[in] term Input parameter.
+   * @param[in] list Input parameter.
+   * @return True on success.
+   * @details @param term: search term @param list: posting list to cache @return true if inserted, false if cache full (LRU eviction needed) @note Thread safety: acquires unique_lock (exclusive access). @note: may evict LRU entries to fit new posting list
+   */
   bool insert(const std::string& term, PostingList&& list);
   
-  /// @brief Remove all posting lists from the cache.
-  /// @note Thread safety: acquires unique_lock.
+  /**
+   * @brief @brief Remove all posting lists from the cache.
+   * @details @note Thread safety: acquires unique_lock.
+   */
   void clear();
   
   /// @brief Cache counters and memory-usage totals.
@@ -79,8 +88,11 @@ class IndexCache {
     }
   };
   
-  /// @brief Return cache statistics snapshot.
-  /// @note Thread safety: acquires shared_lock.
+  /**
+   * @brief @brief Return cache statistics snapshot.
+   * @return Return value.
+   * @details @note Thread safety: acquires shared_lock.
+   */
   Stats getStats() const;
   
  private:

@@ -161,9 +161,11 @@ public:
         const std::vector<RetrievedChunk>& candidates,
         size_t max_total_length) const;
 
+     * @return Return value.
     /** @brief Return a read-only reference to the current configuration. */
     const RAGPromptConfig& getConfig() const;
 
+     * @param[in] config Input parameter.
     /** @brief Replace the current configuration. */
     void setConfig(const RAGPromptConfig& config);
 

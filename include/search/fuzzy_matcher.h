@@ -69,6 +69,8 @@ public:
     /**
      * @param index  Non-owning pointer to a SecondaryIndexManager.  Must outlive this.
      * @throws std::invalid_argument on invalid Config.
+     * @brief TBD: Describe FuzzyMatcher.
+     * @return Return value.
      */
     explicit FuzzyMatcher(SecondaryIndexManager* index);
     /**
@@ -104,11 +106,16 @@ public:
 
     /**
      * @brief Compute Levenshtein edit distance between two strings.
+     * @param[in] a Input parameter.
+     * @param[in] b Input parameter.
+     * @return Return value.
      */
     static int levenshtein(const std::string& a, const std::string& b);
 
     /**
      * @brief Compute the Soundex code for a word (American Soundex).
+     * @param[in] word Input parameter.
+     * @return Return value.
      */
     static std::string soundex(const std::string& word);
 
@@ -117,6 +124,8 @@ public:
      *
      * Implements a simplified (single) Metaphone that handles common English
      * consonant transformations.
+     * @param[in] word Input parameter.
+     * @return Return value.
      */
     static std::string metaphone(const std::string& word);
 
@@ -138,7 +147,12 @@ private:
     SecondaryIndexManager* index_;
     Config config_;
 
-    // Convert edit distance to a [0,1] similarity score
+    /**
+     * @brief Convert edit distance to a [0,1] similarity score
+     * @param[in] distance Input parameter.
+     * @param[in] query_len Input parameter.
+     * @return Return value.
+     */
     static double distanceToScore(int distance, size_t query_len);
 };
 

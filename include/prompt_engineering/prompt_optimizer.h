@@ -146,6 +146,8 @@ public:
     
     /**
      * @brief Update configuration
+     * @param[in] config Input parameter.
+     * @details Implements setConfig without additional internal calls.
      */
     void setConfig(const OptimizationConfig& config) { config_ = config; }
 
@@ -155,11 +157,17 @@ private:
     
     /**
      * @brief Check if optimization should continue
+     * @param[in] iteration Input parameter.
+     * @param[in] current_score Input parameter.
+     * @param[in] previous_score Input parameter.
+     * @return True on success.
      */
     bool shouldContinue(size_t iteration, double current_score, double previous_score) const;
     
     /**
      * @brief Validate prompt quality
+     * @param[in] prompt Input parameter.
+     * @return True on success.
      */
     bool validatePrompt(const std::string& prompt) const;
 };

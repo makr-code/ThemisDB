@@ -126,6 +126,7 @@ public:
 
     /**
      * @brief Update the current concurrent query count.
+     * @param[in] n Input parameter.
      */
     void set_concurrent_queries(size_t n);
 
@@ -135,21 +136,26 @@ public:
 
     /**
      * @brief Classify the current workload from recent observations.
+     * @return Return value.
      */
     WorkloadProfile classify_workload() const;
 
     /**
      * @brief Return the optimal OptimizationStrategy for a given profile.
+     * @param[in] profile Input parameter.
+     * @return Return value.
      */
     OptimizationStrategy get_strategy(const WorkloadProfile& profile) const;
 
     /**
      * @brief Apply a strategy (updates internal state; triggers callback).
+     * @param[in] strategy Input parameter.
      */
     void apply_strategy(const OptimizationStrategy& strategy);
 
     /**
      * @brief Return the currently applied strategy.
+     * @return Return value.
      */
     OptimizationStrategy current_strategy() const;
 
@@ -168,6 +174,8 @@ public:
      */
     void disable_auto_adapt();
 
+     * @return True on success.
+     * @note Exception safety: noexcept.
     /** @brief Return true when the background thread is running. */
     bool is_auto_adapt_enabled() const noexcept;
 
@@ -175,6 +183,7 @@ public:
      * @brief Register a callback invoked on every adaptation.
      *
      * Only one callback is supported; subsequent calls replace the previous.
+     * @param[in] cb Input parameter.
      */
     void set_callback(AdaptationCallback cb);
 
@@ -188,7 +197,14 @@ public:
         WorkloadType last_workload_type = WorkloadType::UNKNOWN;
     };
 
+    /**
+     * @brief TBD: Describe get_stats.
+     * @return Return value.
+     */
     Stats get_stats() const;
+    /**
+     * @brief TBD: Describe reset_stats.
+     */
     void  reset_stats();
 
     /**
@@ -207,6 +223,9 @@ public:
     [[nodiscard]] double getProfileDrift() const;
 
 private:
+    /**
+     * @brief TBD: Describe adapt_once.
+     */
     void adapt_once();
 
     // Rolling observation window (last kWindowSize queries)

@@ -40,6 +40,10 @@ namespace lora {
  */
 class AdaptiveBatcher {
 public:
+    /**
+     * @brief TBD: Describe ~AdaptiveBatcher.
+     * @return Return value.
+     */
     virtual ~AdaptiveBatcher() = default;
     struct Config {
         size_t min_batch_size = 1;
@@ -95,6 +99,10 @@ public:
         float avg_gpu_utilization = 0.0f;
     };
     
+    /**
+     * @brief TBD: Describe getStats.
+     * @return Return value.
+     */
     Stats getStats() const;
     
     /**
@@ -104,6 +112,7 @@ public:
     
     /**
      * @brief Reset OOM counter
+     * @details Implements resetOOMCounter without additional internal calls.
      */
     void resetOOMCounter() { oom_count_ = 0; }
     
@@ -133,16 +142,20 @@ private:
     
     /**
      * @brief Compute average GPU utilization from recent history
+     * @return Return value.
      */
     float computeAverageUtilization() const;
     
     /**
      * @brief Estimate memory per sample for given sequence length
+     * @param[in] sequence_length Input parameter.
+     * @return Return value.
      */
     size_t estimateMemoryPerSample(size_t sequence_length) const;
     
     /**
      * @brief Estimate shared memory (weights, optimizer state)
+     * @return Return value.
      */
     size_t estimateSharedMemory() const;
 };

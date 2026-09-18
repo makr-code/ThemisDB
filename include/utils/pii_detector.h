@@ -213,9 +213,21 @@ private:
     // Default redaction mode
     std::string default_redaction_mode_;
     
-    // Initialization and loading
+    /**
+     * @brief Initialization and loading
+     * @param[in] path Input parameter.
+     * @return True on success.
+     */
     bool loadFromYaml(const std::string& path);
+    /**
+     * @brief TBD: Describe initializeDefaultEngine.
+     */
     void initializeDefaultEngine();
+    /**
+     * @brief TBD: Describe verifyAndLoadEngine.
+     * @param[in] engine_config Input parameter.
+     * @return True on success.
+     */
     bool verifyAndLoadEngine(const nlohmann::json& engine_config);
     
     // Helper: Recursive JSON scanning
@@ -224,7 +236,11 @@ private:
         const std::string& path,
         std::unordered_map<std::string, std::vector<PIIFinding>>& findings) const;
     
-    // Helper: Deduplicate overlapping findings
+    /**
+     * @brief Helper: Deduplicate overlapping findings
+     * @param[in] findings Input parameter.
+     * @return Return value.
+     */
     static std::vector<PIIFinding> deduplicateFindings(std::vector<PIIFinding> findings);
 };
 

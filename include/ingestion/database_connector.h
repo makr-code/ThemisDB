@@ -140,6 +140,7 @@ public:
 
     /**
      * @brief Configure retry behaviour for this connector.
+     * @param[in] config Input parameter.
      */
     void setRetryConfig(const RetryConfig& config);
 
@@ -162,8 +163,13 @@ public:
      * When set, every database query that would normally be executed via ODBC
      * is replaced by calls to @p fn.  Pass an empty `RowFetchFn{}` to restore
      * the real ODBC path.
+     * @param[in] fn Input parameter.
      */
     void setRowBatchProvider(RowFetchFn fn);
+    /**
+     * @brief TBD: Describe setRowFetchForTesting.
+     * @param[in] fn Input parameter.
+     */
     void setRowFetchForTesting(RowFetchFn fn);
 
 private:

@@ -69,6 +69,10 @@ namespace themis::transaction {
  */
 class IGlobalRegionParticipant {
 public:
+    /**
+     * @brief TBD: Describe ~IGlobalRegionParticipant.
+     * @return Return value.
+     */
     virtual ~IGlobalRegionParticipant() = default;
 
     /**
@@ -200,6 +204,7 @@ public:
      *
      * @param coordinator_id  Unique name for this coordinator instance
      * @param truetime        TrueTime clock for commit-timestamp assignment
+     * @return Return value.
      */
     explicit GlobalTransactionManager(
         const std::string&                          coordinator_id,
@@ -212,6 +217,7 @@ public:
      * @param coordinator_id  Unique name for this coordinator instance
      * @param truetime        TrueTime clock for commit-timestamp assignment
      * @param config          Optional configuration (WAL, timeouts, …)
+     * @return Return value.
      */
     explicit GlobalTransactionManager(
         const std::string&                          coordinator_id,
@@ -244,9 +250,11 @@ public:
     /**
      * @brief Unregister a previously registered region.
      * @return true if the region was found and removed
+     * @param[in] region_id Input parameter.
      */
     bool unregisterRegion(const std::string& region_id);
 
+     * @return Return value.
     /** @brief Return the number of registered regions. */
     size_t regionCount() const;
 
@@ -339,11 +347,14 @@ public:
 
     /**
      * @brief Return the current state of a tracked transaction.
+     * @param[in] txn_id Input parameter.
+     * @return Return value.
      */
     std::optional<GlobalTxnState> getTransactionState(
         const std::string& txn_id
     ) const;
 
+     * @return Return value.
     /** @brief Return coordinator statistics as a JSON object. */
     nlohmann::json getStatistics() const;
 

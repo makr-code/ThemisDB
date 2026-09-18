@@ -29,6 +29,10 @@ namespace user_storage {
  */
 class IKeyDerivationService {
 public:
+    /**
+     * @brief TBD: Describe ~IKeyDerivationService.
+     * @return Return value.
+     */
     virtual ~IKeyDerivationService() = default;
 
     /**
@@ -66,8 +70,20 @@ public:
  */
 class KeyDerivationService {
 public:
+    /**
+     * @brief TBD: Describe ~KeyDerivationService.
+     * @return Return value.
+     */
     virtual ~KeyDerivationService() = default;
 
+    /**
+     * @brief TBD: Describe derive.
+     * @param[in] master_key Input parameter.
+     * @param[in] user_id Input parameter.
+     * @param[in] container_id Input parameter.
+     * @param[in] salt Input parameter.
+     * @return Return value.
+     */
     virtual std::vector<uint8_t> derive(
         const std::vector<uint8_t>& master_key,
         const std::string& user_id,
@@ -75,6 +91,11 @@ public:
         const std::vector<uint8_t>& salt
     ) = 0;
 
+    /**
+     * @brief TBD: Describe generateSalt.
+     * @param[in] length Input parameter.
+     * @return Return value.
+     */
     virtual std::vector<uint8_t> generateSalt(size_t length) = 0;
 };
 

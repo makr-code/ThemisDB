@@ -75,6 +75,8 @@ public:
 
     /**
      * @param index  Non-owning pointer to a SecondaryIndexManager.  Must outlive this.
+     * @brief TBD: Describe FacetedSearch.
+     * @return Return value.
      */
     explicit FacetedSearch(SecondaryIndexManager* index);
 

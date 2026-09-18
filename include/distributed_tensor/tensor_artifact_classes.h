@@ -176,10 +176,13 @@ class TensorArtifact {
   /// Return mutable metadata for updates.
   ArtifactMetadata& mutable_metadata() noexcept { return metadata_; }
 
-  /// Transition artifact to a new lifecycle stage.
-  ///
-  /// @param new_stage Target lifecycle stage.
-  /// @return true if transition is valid, false otherwise.
+  /**
+   * @brief Transition artifact to a new lifecycle stage.
+   * @param[in] new_stage Input parameter.
+   * @return True on success.
+   * @note Exception safety: noexcept.
+   * @details @param new_stage Target lifecycle stage. @return true if transition is valid, false otherwise.
+   */
   bool transition_lifecycle_stage(ArtifactLifecycleStage new_stage) noexcept;
 
   /// Mark the artifact as stale (requires refresh).
@@ -212,11 +215,14 @@ class TensorArtifact {
   /// Artifact metadata.
   ArtifactMetadata metadata_;
 
-  /// Validate lifecycle stage transition.
-  ///
-  /// @param current_stage Current stage.
-  /// @param target_stage Target stage.
-  /// @return true if transition is allowed, false otherwise.
+  /**
+   * @brief Validate lifecycle stage transition.
+   * @param[in] current_stage Input parameter.
+   * @param[in] target_stage Input parameter.
+   * @return True on success.
+   * @note Exception safety: noexcept.
+   * @details @param current_stage Current stage. @param target_stage Target stage. @return true if transition is allowed, false otherwise.
+   */
   static bool is_valid_transition(ArtifactLifecycleStage current_stage,
                                    ArtifactLifecycleStage target_stage) noexcept;
 };

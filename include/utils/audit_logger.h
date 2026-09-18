@@ -226,6 +226,10 @@ public:
         : AuditLogger(log_path.string(), enabled) {}
     explicit AuditLogger(const char* log_path, bool enabled = true)
         : AuditLogger(log_path ? std::string(log_path) : std::string(), enabled) {}
+    /**
+     * @brief TBD: Describe ~AuditLogger.
+     * @return Return value.
+     */
     virtual ~AuditLogger() = default;
 
     // Resource limits (Phase 2.6 cross-cutting hardening)
@@ -284,8 +288,15 @@ public:
         int64_t end_ms = 0,
         const std::string& filter = "") const;
 
+    /**
+     * @brief TBD: Describe getTotalEventCount.
+     * @return Return value.
+     */
     virtual size_t getTotalEventCount() const;
 
+    /**
+     * @brief TBD: Describe clear.
+     */
     virtual void clear();
      
     /**
@@ -526,22 +537,81 @@ private:
     std::map<std::string, TaskBaseline> task_baselines_;
     mutable std::mutex baselines_mu_;
 
+    /**
+     * @brief TBD: Describe sha256.
+     * @param[in] data Input parameter.
+     * @return Return value.
+     */
     static std::vector<uint8_t> sha256(const std::vector<uint8_t>& data);
+    /**
+     * @brief TBD: Describe appendJsonLine.
+     * @param[in] j Input parameter.
+     */
     void appendJsonLine(const nlohmann::json& j);
+    /**
+     * @brief TBD: Describe rotateLogIfNeeded.
+     */
     void rotateLogIfNeeded(); ///< rotate primary log when max_file_size_bytes is reached (file_mu_ must be held)
+    /**
+     * @brief TBD: Describe forwardToSiem.
+     * @param[in] event Input parameter.
+     */
     void forwardToSiem(const nlohmann::json& event);
+    /**
+     * @brief TBD: Describe loadChainState.
+     */
     void loadChainState();
+    /**
+     * @brief TBD: Describe saveChainState.
+     */
     void saveChainState();
+    /**
+     * @brief TBD: Describe computeEntryHash.
+     * @param[in] entry Input parameter.
+     * @return Return value.
+     */
     std::string computeEntryHash(const nlohmann::json& entry) const;
+    /**
+     * @brief TBD: Describe securityEventTypeToString.
+     * @param[in] type Input parameter.
+     * @return Return value.
+     */
     static std::string securityEventTypeToString(SecurityEventType type);
     
-    // SIEM format converters
+    /**
+     * @brief SIEM format converters
+     * @param[in] event Input parameter.
+     * @return Return value.
+     */
     std::string formatAsJson(const nlohmann::json& event) const;
+    /**
+     * @brief TBD: Describe formatAsCef.
+     * @param[in] event Input parameter.
+     * @param[in] event_type Input parameter.
+     * @return Return value.
+     */
     std::string formatAsCef(const nlohmann::json& event, SecurityEventType event_type) const;
+    /**
+     * @brief TBD: Describe formatAsSyslog.
+     * @param[in] event Input parameter.
+     * @param[in] event_type Input parameter.
+     * @return Return value.
+     */
     std::string formatAsSyslog(const nlohmann::json& event, SecurityEventType event_type) const;
     
-    // Anomaly detection helpers
+    /**
+     * @brief Anomaly detection helpers
+     * @param[in] task_id Input parameter.
+     * @param[in] execution_time_ms Input parameter.
+     */
     void updateTaskBaseline(const std::string& task_id, double execution_time_ms);
+    /**
+     * @brief TBD: Describe calculateZScore.
+     * @param[in] value Input parameter.
+     * @param[in] mean Input parameter.
+     * @param[in] stddev Input parameter.
+     * @return Return value.
+     */
     double calculateZScore(double value, double mean, double stddev) const;
      
     /**
@@ -601,16 +671,19 @@ public:
      * augmented record as a JSON line, then updates and persists the chain head.
      *
      * Thread-safe.
+     * @param[in] record Input parameter.
      */
     void write(nlohmann::json record);
 
     /**
      * @brief Returns the current chain head hash (hex-SHA-256).
+     * @return Return value.
      */
     std::string headHash() const;
 
     /**
      * @brief Returns the number of entries written since construction.
+     * @return Return value.
      */
     uint64_t sequenceNumber() const;
 
@@ -622,10 +695,27 @@ private:
     std::string                last_hash_;
     uint64_t                   seq_{0};
 
+    /**
+     * @brief TBD: Describe sha256.
+     * @param[in] data Input parameter.
+     * @return Return value.
+     */
     static std::vector<uint8_t> sha256(const std::vector<uint8_t>& data);
+    /**
+     * @brief TBD: Describe bytesToHex.
+     * @param[in] data Input parameter.
+     * @return Return value.
+     */
     static std::string bytesToHex(const std::vector<uint8_t>& data);
 
+    /**
+     * @brief TBD: Describe saveChainHead.
+     */
     void saveChainHead();
+    /**
+     * @brief TBD: Describe loadOrInitChainHead.
+     * @param[in] chain_seed Input parameter.
+     */
     void loadOrInitChainHead(const std::string& chain_seed);
 };
 
@@ -677,6 +767,12 @@ public:
                                    const std::string& genesis_hash = std::string(64, '0')) const;
 
 private:
+    /**
+     * @brief TBD: Describe computeEntryHash.
+     * @param[in] prev_hash Input parameter.
+     * @param[in] entry Input parameter.
+     * @return Return value.
+     */
     static std::string computeEntryHash(const std::string& prev_hash,
                                         const nlohmann::json& entry);
 };

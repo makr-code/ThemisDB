@@ -36,6 +36,10 @@ namespace training {
  */
 class ILLMRouter {
 public:
+    /**
+     * @brief TBD: Describe ~ILLMRouter.
+     * @return Return value.
+     */
     virtual ~ILLMRouter();
 
     /**

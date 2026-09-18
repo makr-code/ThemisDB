@@ -69,6 +69,11 @@ public:
         double fragmentation_ratio = 0.0;
     };
     
+    /**
+     * @brief TBD: Describe PagedBlockManager.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit PagedBlockManager(const Config& config);
     ~PagedBlockManager() = default;
     
@@ -86,7 +91,11 @@ public:
      */
     std::vector<int> allocateBlocks(int num_blocks);
 
-    // Convenience single-block allocate (v1.3.0 callers)
+    /**
+     * @brief Convenience single-block allocate (v1.
+     * @return Return value.
+     * @details 3.0 callers)
+     */
     int allocate();
     
     /**
@@ -96,7 +105,11 @@ public:
      */
     void freeBlocks(const std::vector<int>& block_ids);
 
-    // Convenience single-block free (v1.3.0 callers)
+    /**
+     * @brief Convenience single-block free (v1.
+     * @param[in] block_id Input parameter.
+     * @details 3.0 callers)
+     */
     void deallocate(int block_id);
     
     /**
@@ -133,11 +146,13 @@ public:
     
     /**
      * @brief Get statistics
+     * @return Return value.
      */
     Stats getStats() const;
     
     /**
      * @brief Get number of free blocks
+     * @return Return value.
      */
     int getNumFreeBlocks() const;
     

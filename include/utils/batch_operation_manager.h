@@ -64,6 +64,12 @@ public:
      */
     using BatchProcessor = std::function<size_t(const std::vector<T>&)>;
     
+    /**
+     * @brief TBD: Describe BatchOperationManager.
+     * @param[in] config Input parameter.
+     * @param[in] processor Input parameter.
+     * @return Return value.
+     */
     explicit BatchOperationManager(const Config& config, BatchProcessor processor);
     ~BatchOperationManager();
     
@@ -117,6 +123,10 @@ public:
         size_t current_batch_size = 0;
     };
     
+    /**
+     * @brief TBD: Describe getStats.
+     * @return Return value.
+     */
     Stats getStats() const;
     
     /**
@@ -132,11 +142,15 @@ private:
     
     /**
      * @brief Process a single batch
+     * @param[in] batch Input parameter.
+     * @return Return value.
      */
     size_t processBatch(const std::vector<T>& batch);
     
     /**
      * @brief Adapt batch size based on performance metrics
+     * @param[in] throughput Input parameter.
+     * @param[in] latency_ms Input parameter.
      */
     void adaptBatchSize(double throughput, double latency_ms);
     
@@ -192,6 +206,11 @@ BatchOperationManager<T>::~BatchOperationManager() {
 
 template<typename T>
 bool BatchOperationManager<T>::enqueue(T item) {
+    /**
+     * @brief TBD: Describe lock.
+     * @param[in] queue_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::mutex> lock(queue_mutex_);
     
     if (pending_queue_.size() >= config_.queue_capacity) {
@@ -210,6 +229,11 @@ template<typename T>
 size_t BatchOperationManager<T>::enqueueBatch(const std::vector<T>& items) {
     size_t enqueued = 0;
     
+    /**
+     * @brief TBD: Describe lock.
+     * @param[in] queue_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::mutex> lock(queue_mutex_);
     
     for (const auto& item : items) {
@@ -235,6 +259,11 @@ size_t BatchOperationManager<T>::flush() {
     std::vector<T> items;
     
     {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] queue_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(queue_mutex_);
         while (!pending_queue_.empty()) {
             items.push_back(std::move(pending_queue_.front()));
@@ -285,6 +314,11 @@ typename BatchOperationManager<T>::Stats BatchOperationManager<T>::getStats() co
     stats.current_batch_size = current_batch_size_.load();
     
     {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] queue_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(queue_mutex_);
         stats.items_queued = pending_queue_.size();
     }
@@ -370,6 +404,11 @@ std::vector<T> BatchOperationManager<T>::collectBatch(
     std::vector<T> batch;
     batch.reserve(max_items);
     
+    /**
+     * @brief TBD: Describe lock.
+     * @param[in] queue_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::mutex> lock(queue_mutex_);
     
     auto deadline = std::chrono::steady_clock::now() + timeout;

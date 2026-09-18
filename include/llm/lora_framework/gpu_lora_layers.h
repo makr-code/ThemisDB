@@ -134,6 +134,11 @@ public:
     // ========== Layer Metadata ==========
     
     const std::string& name() const { return name_; }
+    /**
+     * @brief TBD: Describe set_name.
+     * @param[in] name Input parameter.
+     * @details Implements set_name without additional internal calls.
+     */
     void set_name(const std::string& name) { name_ = name; }
     
     size_t parameter_count() const { return in_dim_ * rank_ + rank_ * out_dim_; }
@@ -144,8 +149,18 @@ public:
     size_t rank() const { return rank_; }
     float scaling() const { return scaling_; }
     bool use_fused_kernels() const { return use_fused_kernels_; }
+    /**
+     * @brief TBD: Describe set_use_fused_kernels.
+     * @param[in] use_fused Input parameter.
+     * @details Implements set_use_fused_kernels without additional internal calls.
+     */
     void set_use_fused_kernels(bool use_fused) { use_fused_kernels_ = use_fused; }
     bool use_flash_lora() const { return use_flash_lora_; }
+    /**
+     * @brief TBD: Describe set_use_flash_lora.
+     * @param[in] use_flash Input parameter.
+     * @details Implements set_use_flash_lora without additional internal calls.
+     */
     void set_use_flash_lora(bool use_flash) { use_flash_lora_ = use_flash; }
     
     // ========== Gradient Checkpointing ==========
@@ -153,6 +168,7 @@ public:
     /**
      * @brief Enable gradient checkpointing for this layer
      * @param enable Enable or disable checkpointing
+     * @details Implements set_checkpointing without additional internal calls.
      */
     void set_checkpointing(bool enable) { use_checkpointing_ = enable; }
     
@@ -163,6 +179,8 @@ public:
     
     /**
      * @brief Set layer ID for checkpointing
+     * @param[in] layer_id Input parameter.
+     * @details Implements set_layer_id without additional internal calls.
      */
     void set_layer_id(int layer_id) { layer_id_ = layer_id; }
     
@@ -243,12 +261,27 @@ public:
     // ========== Getters/Setters ==========
     
     float learning_rate() const { return learning_rate_; }
+    /**
+     * @brief TBD: Describe set_learning_rate.
+     * @param[in] lr Input parameter.
+     * @details Implements set_learning_rate without additional internal calls.
+     */
     void set_learning_rate(float lr) { learning_rate_ = lr; }
     
     float momentum() const { return momentum_; }
+    /**
+     * @brief TBD: Describe set_momentum.
+     * @param[in] m Input parameter.
+     * @details Implements set_momentum without additional internal calls.
+     */
     void set_momentum(float m) { momentum_ = m; }
     
     float weight_decay() const { return weight_decay_; }
+    /**
+     * @brief TBD: Describe set_weight_decay.
+     * @param[in] wd Input parameter.
+     * @details Implements set_weight_decay without additional internal calls.
+     */
     void set_weight_decay(float wd) { weight_decay_ = wd; }
     
     size_t num_parameters() const { return parameters_.size(); }
@@ -294,8 +327,19 @@ private:
     GPULoRALayer* layer_;
     GPUSGDOptimizer* optimizer_;
     
-    // MSE loss computation (GPU-accelerated)
+    /**
+     * @brief MSE loss computation (GPU-accelerated)
+     * @param[in] output Input parameter.
+     * @param[in] target Input parameter.
+     * @return Return value.
+     */
     float compute_mse_loss(const GPUTensor& output, const GPUTensor& target);
+    /**
+     * @brief TBD: Describe compute_mse_grad.
+     * @param[in] output Input parameter.
+     * @param[in] target Input parameter.
+     * @return Return value.
+     */
     GPUTensor compute_mse_grad(const GPUTensor& output, const GPUTensor& target);
 };
 

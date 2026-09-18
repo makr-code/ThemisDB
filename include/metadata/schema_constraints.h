@@ -37,6 +37,10 @@ struct ConstraintViolation {
     std::string constraint_type;  ///< "NOT_NULL", "UNIQUE", "CHECK", "DEFAULT", "FOREIGN_KEY"
     std::string message;
 
+    /**
+     * @brief TBD: Describe toJSON.
+     * @return Return value.
+     */
     json toJSON() const;
 };
 
@@ -61,11 +65,44 @@ struct ColumnConstraint {
     std::optional<std::string> fk_table;        ///< Foreign-key referenced table
     std::optional<std::string> fk_column;       ///< Foreign-key referenced column
 
+    /**
+     * @brief TBD: Describe toJSON.
+     * @return Return value.
+     */
     json toJSON() const;
+    /**
+     * @brief TBD: Describe makeNotNull.
+     * @param[in] constraint_name Input parameter.
+     * @return Return value.
+     */
     static ColumnConstraint makeNotNull(std::string constraint_name);
+    /**
+     * @brief TBD: Describe makeUnique.
+     * @param[in] constraint_name Input parameter.
+     * @return Return value.
+     */
     static ColumnConstraint makeUnique(std::string constraint_name);
+    /**
+     * @brief TBD: Describe makeCheck.
+     * @param[in] constraint_name Input parameter.
+     * @param[in] expr Input parameter.
+     * @return Return value.
+     */
     static ColumnConstraint makeCheck(std::string constraint_name, std::string expr);
+    /**
+     * @brief TBD: Describe makeDefault.
+     * @param[in] constraint_name Input parameter.
+     * @param[in] value Input parameter.
+     * @return Return value.
+     */
     static ColumnConstraint makeDefault(std::string constraint_name, ColumnValue value);
+    /**
+     * @brief TBD: Describe makeForeignKey.
+     * @param[in] constraint_name Input parameter.
+     * @param[in] ref_table Input parameter.
+     * @param[in] ref_column Input parameter.
+     * @return Return value.
+     */
     static ColumnConstraint makeForeignKey(
         std::string constraint_name,
         std::string ref_table,
@@ -182,28 +219,38 @@ public:
     // RocksDB persistence
     // ========================================================================
 
-    /// Persist all constraints to RocksDB under "config:constraints:<table>" keys.
-    /// @param db  RocksDB wrapper to write to
-    /// @return    true if all tables were persisted successfully
+    /**
+     * @brief Persist all constraints to RocksDB under "config:constraints:<table>" keys.
+     * @param[in,out] db Input/output parameter.
+     * @return True on success.
+     * @details @param db RocksDB wrapper to write to @return true if all tables were persisted successfully
+     */
     bool persistTo(RocksDBWrapper& db) const;
 
-    /// Persist constraints for a single table.
-    /// @param db          RocksDB wrapper to write to
-    /// @param table_name  Table whose constraints should be persisted
+    /**
+     * @brief Persist constraints for a single table.
+     * @param[in,out] db Input/output parameter.
+     * @param[in] table_name Input parameter.
+     * @return True on success.
+     * @details @param db RocksDB wrapper to write to @param table_name Table whose constraints should be persisted
+     */
     bool persistTableTo(RocksDBWrapper& db, std::string_view table_name) const;
 
-    /// Load constraints for all tables whose keys are found in RocksDB
-    /// under the "config:constraints:" prefix.
-    /// Replaces existing in-memory state.
-    /// @param db  RocksDB wrapper to read from
-    /// @return    Number of tables loaded (0 = none found)
+    /**
+     * @brief Load constraints for all tables whose keys are found in RocksDB under the "config:constraints:" prefix.
+     * @param[in,out] db Input/output parameter.
+     * @return Return value.
+     * @details Replaces existing in-memory state. @param db RocksDB wrapper to read from @return Number of tables loaded (0 = none found)
+     */
     size_t loadFrom(RocksDBWrapper& db);
 
-    /// Load constraints for a single table from RocksDB.
-    /// Merges with existing in-memory constraints for that table.
-    /// @param db          RocksDB wrapper to read from
-    /// @param table_name  Table to load
-    /// @return            true if constraints were found and loaded
+    /**
+     * @brief Load constraints for a single table from RocksDB.
+     * @param[in,out] db Input/output parameter.
+     * @param[in] table_name Input parameter.
+     * @return True on success.
+     * @details Merges with existing in-memory constraints for that table. @param db RocksDB wrapper to read from @param table_name Table to load @return true if constraints were found and loaded
+     */
     bool loadTableFrom(RocksDBWrapper& db, std::string_view table_name);
 
 private:
@@ -219,9 +266,14 @@ private:
         const ColumnValue& value
     ) const;
 
-    /// Check a CHECK constraint expression (simple key=value string comparison
-    /// for the initial implementation; real expression evaluation is a future
-    /// enhancement).
+    /**
+     * @brief Check a CHECK constraint expression (simple key=value string comparison for the initial implementation; real expression evaluation is a future enhancement).
+     * @param[in] table_name Input parameter.
+     * @param[in] column_name Input parameter.
+     * @param[in] c Input parameter.
+     * @param[in] value Input parameter.
+     * @return Return value.
+     */
     std::optional<ConstraintViolation> checkCheck(
         std::string_view table_name,
         std::string_view column_name,

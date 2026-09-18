@@ -231,6 +231,7 @@ public:
 
     /**
      * @brief Virtual destructor for safe polymorphic deletion.
+     * @return Return value.
      */
     virtual ~MockExporterBackend() = default;
 
@@ -333,6 +334,7 @@ public:
 
     /**
      * @brief Virtual destructor for safe polymorphic deletion.
+     * @return Return value.
      */
     virtual ~ExporterStressFramework() = default;
 
@@ -408,9 +410,18 @@ public:
     virtual std::string getGateName(std::size_t gate_index) const = 0;
 };
 
+/**
+ * @brief TBD: Describe createMockExporterBackend.
+ * @param[in] failure_mode Input parameter.
+ * @return Return value.
+ */
 std::unique_ptr<MockExporterBackend> createMockExporterBackend(
     FailureMode failure_mode);
 
+/**
+ * @brief TBD: Describe createExporterStressFramework.
+ * @return Return value.
+ */
 std::unique_ptr<ExporterStressFramework> createExporterStressFramework();
 
 } // namespace observability

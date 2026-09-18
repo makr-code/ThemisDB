@@ -104,6 +104,8 @@ public:
      * 
      * Tracks retry attempts after validation failure.
      * Metric: aql_validation_retries_total{outcome="success|failed"}
+     * @param[in] retry_succeeded Input parameter.
+     * @param[in] attempt_number Input parameter.
      */
     void recordValidationRetry(
         bool retry_succeeded,
@@ -112,6 +114,8 @@ public:
     
     /**
      * @brief Record cache hit/miss
+     * @param[in] cache_type Input parameter.
+     * @param[in] hit Input parameter.
      */
     void recordCacheAccess(
         const std::string& cache_type,  // "prefix" or "response"
@@ -120,6 +124,8 @@ public:
     
     /**
      * @brief Update model memory usage
+     * @param[in] model_id Input parameter.
+     * @param[in] memory_bytes Input parameter.
      */
     void updateModelMemory(
         const std::string& model_id,
@@ -128,6 +134,8 @@ public:
     
     /**
      * @brief Record circuit breaker state change
+     * @param[in] operation Input parameter.
+     * @param[in] state Input parameter.
      */
     void recordCircuitBreakerState(
         const std::string& operation,
@@ -136,6 +144,7 @@ public:
     
     /**
      * @brief Get singleton instance
+     * @return Return value.
      */
     static LLMMetricsCollector& instance();
 
@@ -144,6 +153,9 @@ private:
     std::mutex mutex_;
     bool initialized_ = false;
     
+    /**
+     * @brief TBD: Describe registerMetrics.
+     */
     void registerMetrics();
     std::unordered_map<std::string, std::string> makeLabels(
         const std::string& operation,

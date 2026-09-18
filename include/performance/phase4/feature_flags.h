@@ -31,6 +31,11 @@ namespace phase4 {
 /// Allows runtime toggling of optimizations without recompilation.
 class Phase4FeatureFlags {
 public:
+    /**
+     * @brief TBD: Describe instance.
+     * @return Return value.
+     * @details Implements instance without additional internal calls.
+     */
     static Phase4FeatureFlags& instance() {
         static Phase4FeatureFlags inst;
         return inst;
@@ -39,19 +44,37 @@ public:
     // Persistent Memory (Optane) aware storage layout
     // Expected gain: +50-200% write throughput for small random writes
     bool pmem_enabled() const { return pmem_enabled_.load(std::memory_order_relaxed); }
+    /**
+     * @brief TBD: Describe set_pmem_enabled.
+     * @param[in] enabled Input parameter.
+     * @details Calls: store().
+     */
     void set_pmem_enabled(bool enabled) { pmem_enabled_.store(enabled, std::memory_order_relaxed); }
 
     // Hardware PMU counters for cache miss analysis
     // Expected overhead: <1 ns per measurement point when amortised
     bool pmu_enabled() const { return pmu_enabled_.load(std::memory_order_relaxed); }
+    /**
+     * @brief TBD: Describe set_pmu_enabled.
+     * @param[in] enabled Input parameter.
+     * @details Calls: store().
+     */
     void set_pmu_enabled(bool enabled) { pmu_enabled_.store(enabled, std::memory_order_relaxed); }
 
     // io_uring zero-copy I/O path for network performance
     // Expected gain: 10-50x lower latency vs. epoll/read/write on Linux ≥ 5.1
     bool io_uring_enabled() const { return io_uring_enabled_.load(std::memory_order_relaxed); }
+    /**
+     * @brief TBD: Describe set_io_uring_enabled.
+     * @param[in] enabled Input parameter.
+     * @details Calls: store().
+     */
     void set_io_uring_enabled(bool enabled) { io_uring_enabled_.store(enabled, std::memory_order_relaxed); }
 
-    // Load configuration from JSON file
+    /**
+     * @brief Load configuration from JSON file
+     * @param[in] config_path Input parameter.
+     */
     void load_from_config(const std::string& config_path);
 
 private:

@@ -101,16 +101,22 @@ public:
     /**
      * Inject a LoRA inference backend.
      * Once set, classify() delegates to this function instead of the stub.
+     * @brief TBD: Describe setInferenceFn.
+     * @param[in] fn Input parameter.
      */
     void setInferenceFn(InferenceFn fn);
 
     /**
      * Inject an embedding function for adapter domain selection.
+     * @brief TBD: Describe setEmbeddingFn.
+     * @param[in] fn Input parameter.
      */
     void setEmbeddingFn(EmbeddingFn fn);
 
     /**
      * Register an adapter domain with its pre-computed embedding.
+     * @brief TBD: Describe registerAdapterDomain.
+     * @param[in] domain Input parameter.
      */
     void registerAdapterDomain(AdapterDomain domain);
 

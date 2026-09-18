@@ -47,6 +47,7 @@ public:
     /**
      * @brief Construct FeedbackAPIHandler
      * @param storage_service Feedback storage service
+     * @return Return value.
      */
     explicit FeedbackAPIHandler(
         std::shared_ptr<llm::lora::FeedbackStorageService> storage_service
@@ -125,11 +126,21 @@ public:
         const http::request<http::string_body>& req
     );
 
+    /**
+     * @brief TBD: Describe setLiveFeedbackCollector.
+     * @param[in] feedback_collector Input parameter.
+     * @details Calls: std::move().
+     */
     void setLiveFeedbackCollector(
         std::shared_ptr<themis::prompt_engineering::FeedbackCollector> feedback_collector) {
         feedback_collector_ = std::move(feedback_collector);
     }
 
+    /**
+     * @brief TBD: Describe setLearningOrchestrator.
+     * @param[in] orchestrator Input parameter.
+     * @details Calls: std::move().
+     */
     void setLearningOrchestrator(
         std::shared_ptr<themis::rag::learning::ContinuousLearningOrchestrator> orchestrator) {
         learning_orchestrator_ = std::move(orchestrator);
@@ -140,25 +151,50 @@ private:
     std::shared_ptr<themis::prompt_engineering::FeedbackCollector> feedback_collector_;
     std::shared_ptr<themis::rag::learning::ContinuousLearningOrchestrator> learning_orchestrator_;
     
-    // Helper methods
+    /**
+     * @brief Helper methods
+     * @param[in] status Input parameter.
+     * @param[in] body Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeResponse(
         http::status status,
         const std::string& body,
         const http::request<http::string_body>& req
     );
     
+    /**
+     * @brief TBD: Describe makeJsonResponse.
+     * @param[in] status Input parameter.
+     * @param[in] body Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeJsonResponse(
         http::status status,
         const json& body,
         const http::request<http::string_body>& req
     );
     
+    /**
+     * @brief TBD: Describe makeErrorResponse.
+     * @param[in] status Input parameter.
+     * @param[in] error Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeErrorResponse(
         http::status status,
         const std::string& error,
         const http::request<http::string_body>& req
     );
     
+    /**
+     * @brief TBD: Describe parseFilterFromQuery.
+     * @param[in] query Input parameter.
+     * @return Return value.
+     */
     llm::lora::FeedbackFilter parseFilterFromQuery(const std::string& query) const;
 };
 

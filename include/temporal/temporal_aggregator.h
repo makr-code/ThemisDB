@@ -138,6 +138,7 @@ public:
      * @param from   Query range start (inclusive, ms epoch).
      * @param to     Query range end   (exclusive,  ms epoch).
      * @return       One AggregateResult per window, ordered by window_start.
+     * @brief TBD: Describe aggregate.
      */
     std::vector<AggregateResult> aggregate(const SystemVersionedTable& table,
                                            const AggregationSpec& spec,
@@ -146,6 +147,10 @@ public:
 
     /**
      * Convenience overload that uses the full available time range.
+     * @brief TBD: Describe aggregate.
+     * @param[in] table Input parameter.
+     * @param[in] spec Input parameter.
+     * @return Return value.
      */
     std::vector<AggregateResult> aggregate(const SystemVersionedTable& table,
                                            const AggregationSpec& spec) const;
@@ -198,6 +203,7 @@ public:
      * @param from   Range start (inclusive, ms epoch).
      * @param to     Range end   (exclusive,  ms epoch).
      * @return       One AggregateResult per snapshot tick, ordered by window_start.
+     * @brief TBD: Describe aggregateSnapshots.
      */
     std::vector<AggregateResult> aggregateSnapshots(
         const SystemVersionedTable& table,
@@ -227,8 +233,13 @@ public:
                              int64_t window_size_ms = 0) const;
 
 private:
-    // Collect the numeric value of measure_field from a document.
-    // Returns std::nullopt when the field is absent or not numeric.
+    /**
+     * @brief Collect the numeric value of measure_field from a document.
+     * @param[in] doc Input parameter.
+     * @param[in] field Input parameter.
+     * @return Return value.
+     * @details Returns std::nullopt when the field is absent or not numeric.
+     */
     static std::optional<double> extractMeasure(const Document& doc,
                                                 const std::string& field);
 
@@ -238,23 +249,52 @@ private:
     buildGroupKey(const Document& doc,
                   const std::vector<std::string>& fields);
 
-    // Assign each row to its containing windows, then compute the aggregate.
+    /**
+     * @brief Assign each row to its containing windows, then compute the aggregate.
+     * @param[in] rows Input parameter.
+     * @param[in] spec Input parameter.
+     * @param[in] from Input parameter.
+     * @param[in] to Input parameter.
+     * @return Return value.
+     */
     static std::vector<AggregateResult> computeTumbling(
         const std::vector<VersionedDocument>& rows,
         const AggregationSpec& spec,
         Timestamp from, Timestamp to);
 
+    /**
+     * @brief TBD: Describe computeSliding.
+     * @param[in] rows Input parameter.
+     * @param[in] spec Input parameter.
+     * @param[in] from Input parameter.
+     * @param[in] to Input parameter.
+     * @return Return value.
+     */
     static std::vector<AggregateResult> computeSliding(
         const std::vector<VersionedDocument>& rows,
         const AggregationSpec& spec,
         Timestamp from, Timestamp to);
 
+    /**
+     * @brief TBD: Describe computeSession.
+     * @param[in] rows Input parameter.
+     * @param[in] spec Input parameter.
+     * @param[in] from Input parameter.
+     * @param[in] to Input parameter.
+     * @return Return value.
+     */
     static std::vector<AggregateResult> computeSession(
         const std::vector<VersionedDocument>& rows,
         const AggregationSpec& spec,
         Timestamp from, Timestamp to);
 
-    // Compute the aggregate value from a set of (value, present) pairs.
+    /**
+     * @brief Compute the aggregate value from a set of (value, present) pairs.
+     * @param[in] func Input parameter.
+     * @param[in] values Input parameter.
+     * @param[in] count Input parameter.
+     * @return Return value.
+     */
     static double applyFunc(AggregateFunc func,
                             const std::vector<double>& values,
                             size_t count);

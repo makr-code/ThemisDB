@@ -37,10 +37,35 @@ struct XpdlImportResult {
 /** @brief I xpdl importer component. */
 class IXpdlImporter {
 public:
+    /**
+     * @brief TBD: Describe ~IXpdlImporter.
+     * @return Return value.
+     */
     virtual ~IXpdlImporter() = default;
+    /**
+     * @brief TBD: Describe importFromFile.
+     * @param[in] xpdl_path Input parameter.
+     * @return Return value.
+     */
     virtual XpdlImportResult importFromFile(const std::string& xpdl_path) = 0;
+    /**
+     * @brief TBD: Describe importFromString.
+     * @param[in] xpdl_xml Input parameter.
+     * @return Return value.
+     */
     virtual XpdlImportResult importFromString(const std::string& xpdl_xml) = 0;
+    /**
+     * @brief TBD: Describe exportToXpdl.
+     * @param[in] package_id Input parameter.
+     * @return Return value.
+     */
     virtual std::string exportToXpdl(const std::string& package_id) = 0;
+    /**
+     * @brief TBD: Describe validateXpdl.
+     * @param[in] xpdl_xml Input parameter.
+     * @param[in,out] errors Input/output parameter.
+     * @return True on success.
+     */
     virtual bool validateXpdl(const std::string& xpdl_xml, std::vector<std::string>& errors) = 0;
     virtual std::string xpdlVersion() const { return "2.2"; }
 };

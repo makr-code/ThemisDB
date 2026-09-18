@@ -57,7 +57,16 @@ struct BatchConfig {
     std::optional<int> min_length;
     std::optional<int> max_length;
     
+    /**
+     * @brief TBD: Describe toJSON.
+     * @return Return value.
+     */
     nlohmann::json toJSON() const;
+    /**
+     * @brief TBD: Describe fromJSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static BatchConfig fromJSON(const nlohmann::json& j);
 };
 
@@ -65,6 +74,10 @@ struct BatchConfig {
  * @brief A batch of training examples
  */
 struct TrainingBatch {
+    /**
+     * @brief TBD: Describe ~TrainingBatch.
+     * @return Return value.
+     */
     virtual ~TrainingBatch() = default;
     std::vector<TrainingSample> examples;
     
@@ -82,6 +95,10 @@ struct TrainingBatch {
     std::vector<std::string> graph_contexts;
     std::vector<std::string> vector_similarities;
     
+    /**
+     * @brief TBD: Describe toJSON.
+     * @return Return value.
+     */
     nlohmann::json toJSON() const;
 };
 
@@ -89,6 +106,10 @@ struct TrainingBatch {
  * @brief Statistics about batch generation
  */
 struct BatchStatistics {
+    /**
+     * @brief TBD: Describe ~BatchStatistics.
+     * @return Return value.
+     */
     virtual ~BatchStatistics() = default;
     int total_batches = 0;
     int total_examples = 0;
@@ -105,6 +126,10 @@ struct BatchStatistics {
     int max_length = 0;
     float avg_length = 0.0f;
     
+    /**
+     * @brief TBD: Describe toJSON.
+     * @return Return value.
+     */
     nlohmann::json toJSON() const;
 };
 
@@ -146,21 +171,25 @@ public:
     
     /**
      * @brief Get total number of batches for one epoch
+     * @return Return value.
      */
     int getBatchCount() const;
     
     /**
      * @brief Get current batch index
+     * @return Return value.
      */
     int getCurrentBatchIndex() const;
     
     /**
      * @brief Check if there are more batches
+     * @return True on success.
      */
     bool hasNextBatch() const;
     
     /**
      * @brief Get batch generation statistics
+     * @return Return value.
      */
     BatchStatistics getStatistics() const;
     
@@ -172,6 +201,7 @@ public:
     
     /**
      * @brief Enable/disable prefetching
+     * @param[in] enabled Input parameter.
      */
     void setPrefetchEnabled(bool enabled);
     
@@ -180,16 +210,29 @@ private:
     class Impl;
     std::unique_ptr<Impl> impl_;
     
-    // Prefetch next batch in background
+    /**
+     * @brief Prefetch next batch in background
+     */
     void prefetchNextBatch();
     
-    // Apply sampling strategy
+    /**
+     * @brief Apply sampling strategy
+     * @param[in] total_count Input parameter.
+     * @param[in] batch_size Input parameter.
+     * @return Return value.
+     */
     std::vector<size_t> sampleIndices(size_t total_count, size_t batch_size);
     
-    // Tokenize batch
+    /**
+     * @brief Tokenize batch
+     * @param[in,out] batch Input/output parameter.
+     */
     void tokenizeBatch(TrainingBatch& batch);
     
-    // Apply padding
+    /**
+     * @brief Apply padding
+     * @param[in,out] batch Input/output parameter.
+     */
     void applyPadding(TrainingBatch& batch);
 };
 
@@ -200,6 +243,8 @@ class BatchGeneratorFactory {
 public:
     /**
      * @brief Create batch generator with default configuration
+     * @param[in] data_iterator Input parameter.
+     * @return Return value.
      */
     static std::unique_ptr<BatchGenerator> create(
         std::shared_ptr<TrainingDataIterator> data_iterator
@@ -207,6 +252,9 @@ public:
     
     /**
      * @brief Create batch generator with custom configuration
+     * @param[in] data_iterator Input parameter.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     static std::unique_ptr<BatchGenerator> create(
         std::shared_ptr<TrainingDataIterator> data_iterator,

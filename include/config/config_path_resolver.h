@@ -80,6 +80,7 @@ public:
      * @param legacy_path The original/legacy config path
      * @return Resolved path that exists on filesystem
      * @throws ConfigNotFoundException if neither new nor legacy path exists
+     * @brief TBD: Describe resolve.
      */
     static std::string resolve(const std::string& legacy_path);
     
@@ -88,6 +89,7 @@ public:
      * 
      * @param legacy_path The original/legacy config path
      * @return Resolved path if found, std::nullopt otherwise
+     * @brief TBD: Describe tryResolve.
      */
     static std::optional<std::string> tryResolve(const std::string& legacy_path);
     
@@ -96,6 +98,7 @@ public:
      * 
      * @param legacy_path The original/legacy config path
      * @return New path location, or empty string if no mapping exists
+     * @brief TBD: Describe mapLegacyToNew.
      */
     static std::string mapLegacyToNew(const std::string& legacy_path);
     
@@ -104,6 +107,7 @@ public:
      * 
      * @param path The path to check
      * @return true if this is a known legacy path
+     * @brief TBD: Describe isLegacyPath.
      */
     static bool isLegacyPath(const std::string& path);
     
@@ -112,6 +116,7 @@ public:
      * 
      * @param legacy_path The legacy path to look up
      * @return Metadata if mapping exists, std::nullopt otherwise
+     * @brief TBD: Describe getMetadata.
      */
     static std::optional<PathMappingMetadata> getMetadata(const std::string& legacy_path);
 
@@ -140,6 +145,9 @@ public:
     
     /**
      * Get current metrics.
+     * @brief TBD: Describe metrics.
+     * @return Return value.
+     * @details Implements metrics without additional internal calls.
      */
     static const Metrics& metrics() { return metrics_; }
 
@@ -157,11 +165,14 @@ public:
      * Returns the set of category labels used for legacy fallback counters.
      * Categories are initialized once from PATH_MAPPING to keep the label
      * cardinality stable for Prometheus exports.
+     * @brief TBD: Describe legacyFallbackCategories.
+     * @return Return value.
      */
     static std::vector<std::string> legacyFallbackCategories();
     
     /**
      * Reset metrics (primarily for testing).
+     * @brief TBD: Describe resetMetrics.
      */
     static void resetMetrics();
     
@@ -169,16 +180,22 @@ public:
      * Enable or disable caching.
      * 
      * @param enabled true to enable caching, false to disable
+     * @brief TBD: Describe setCachingEnabled.
      */
     static void setCachingEnabled(bool enabled);
     
     /**
      * Get cache statistics.
+     * @brief TBD: Describe cacheStats.
+     * @return Return value.
+     * @details Calls: stats().
      */
     static auto cacheStats() { return cache_.stats(); }
     
     /**
      * Clear the cache.
+     * @brief TBD: Describe clearCache.
+     * @details Calls: clear().
      */
     static void clearCache() { cache_.clear(); }
 
@@ -191,6 +208,7 @@ public:
      * entries from a previous environment from being returned.
      *
      * @param env The environment to activate
+     * @brief TBD: Describe setEnvironment.
      */
     static void setEnvironment(ConfigEnvironment env);
 
@@ -198,6 +216,7 @@ public:
      * Get the currently active deployment environment.
      *
      * @return Current ConfigEnvironment value
+     * @brief TBD: Describe getEnvironment.
      */
     static ConfigEnvironment getEnvironment();
 
@@ -215,6 +234,7 @@ public:
      * Thread-safety: safe to call from any thread.  The underlying signal
      * handler only sets an async-signal-safe flag (volatile sig_atomic_t);
      * the actual cache.clear() is executed on the next call to tryResolve().
+     * @brief TBD: Describe registerSighupHandler.
      */
     static void registerSighupHandler();
 
@@ -245,6 +265,7 @@ public:
     /**
      * Stop the file watcher started by startHotReload().
      * Idempotent – safe to call even if startHotReload() was never called.
+     * @brief TBD: Describe stopHotReload.
      */
     static void stopHotReload();
 
@@ -293,6 +314,7 @@ public:
      * or the compile-time defaults when the variables were absent or invalid.
      *
      * @return CacheConfig{capacity, ttl_seconds}
+     * @brief TBD: Describe currentCacheConfig.
      */
     static CacheConfig currentCacheConfig();
 
@@ -333,6 +355,7 @@ public:
      *
      * @param threshold Ratio in [0.0, 1.0].  Values outside this range are
      *                  clamped to [0.0, 1.0].
+     * @brief TBD: Describe setLegacyFallbackRateThreshold.
      */
     static void setLegacyFallbackRateThreshold(double threshold);
 
@@ -340,6 +363,7 @@ public:
      * Get the current legacy fallback rate warning threshold.
      *
      * @return Threshold in [0.0, 1.0]; 0.0 means threshold alerting is disabled.
+     * @brief TBD: Describe getLegacyFallbackRateThreshold.
      */
     static double getLegacyFallbackRateThreshold();
 
@@ -350,6 +374,7 @@ public:
      * resetMetrics() call, sorted by descending usage count.
      *
      * @return Vector of deprecation entries with usage counts
+     * @brief TBD: Describe deprecationReport.
      */
     static std::vector<DeprecationEntry> deprecationReport();
 
@@ -364,6 +389,7 @@ public:
      * cache hit.  Audit logging is disabled by default.
      *
      * @param enabled  true to enable, false to disable.
+     * @brief TBD: Describe setAuditLogEnabled.
      */
     static void setAuditLogEnabled(bool enabled);
 
@@ -372,11 +398,13 @@ public:
      * clearAuditLog() call (oldest entry first).
      *
      * @return Vector of AuditEntry objects.
+     * @brief TBD: Describe auditLog.
      */
     static std::vector<AuditEntry> auditLog();
 
     /**
      * Clear all entries from the audit log.
+     * @brief TBD: Describe clearAuditLog.
      */
     static void clearAuditLog();
 
@@ -385,6 +413,7 @@ public:
      * Entries beyond this limit are evicted oldest-first.
      *
      * @param max  Maximum number of entries (clamped to >= 1).
+     * @brief TBD: Describe setAuditLogMaxEntries.
      */
     static void setAuditLogMaxEntries(std::size_t max);
 
@@ -409,15 +438,29 @@ private:
     // Per-category legacy fallback counters (initialized once, then atomically incremented)
     static std::map<std::string, std::atomic<uint64_t>> legacy_fallbacks_by_category_;
     static std::once_flag category_init_flag_;
+    /**
+     * @brief TBD: Describe initLegacyFallbackCategoryCounters.
+     */
     static void initLegacyFallbackCategoryCounters();
     
-    // Helper to normalize path separators
+    /**
+     * @brief Helper to normalize path separators
+     * @param[in] path Input parameter.
+     * @return Return value.
+     */
     static std::string normalizePath(const std::string& path);
     
-    // Path validation
+    /**
+     * @brief Path validation
+     * @param[in] path Input parameter.
+     */
     static void validatePath(const std::string& path);
     
-    // Get category from new path
+    /**
+     * @brief Get category from new path
+     * @param[in] new_path Input parameter.
+     * @return Return value.
+     */
     static std::string inferCategory(const std::string& new_path);
 
     // Deprecation aggregator (tracks per-path legacy usage counts)
@@ -430,6 +473,10 @@ private:
 
     // SIGHUP hot-reload flag and handler (POSIX only; no-op on Windows)
     static volatile sig_atomic_t sighup_pending_;
+    /**
+     * @brief TBD: Describe handleSighup.
+     * @param[in] sig Input parameter.
+     */
     static void handleSighup(int sig);
 
     // Optional inotify/kqueue/ReadDirectoryChangesW file watcher (v1.8.0).
@@ -437,10 +484,17 @@ private:
     // public header (include config_file_watcher.h in the .cpp only).
     static std::unique_ptr<ConfigFileWatcher> file_watcher_;
 
-    // Converts a ConfigEnvironment to its lowercase string name
+    /**
+     * @brief Converts a ConfigEnvironment to its lowercase string name
+     * @param[in] env Input parameter.
+     * @return Return value.
+     */
     static std::string envToString(ConfigEnvironment env);
 
-    // Reads and validates THEMIS_CONFIG_ENV at initialisation time
+    /**
+     * @brief Reads and validates THEMIS_CONFIG_ENV at initialisation time
+     * @return Return value.
+     */
     static ConfigEnvironment envFromEnvironmentVariable();
     // Audit log (records all successful path resolutions with timestamps)
     static ConfigAuditLog audit_log_;
@@ -450,8 +504,9 @@ private:
     // 0 means no warning has been emitted yet in the current metrics window.
     static std::atomic<uint64_t> last_threshold_warn_count_;
 
-    // Check whether the current fallback rate has crossed the threshold and,
-    // if so, emit a rate-limited spdlog::warn.
+    /**
+     * @brief Check whether the current fallback rate has crossed the threshold and, if so, emit a rate-limited spdlog::warn.
+     */
     static void checkFallbackRateThreshold();
 };
 

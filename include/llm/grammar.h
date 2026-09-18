@@ -121,9 +121,16 @@ private:
     std::string start_symbol_;
     std::string error_;
     
-    // Helper to compile EBNF using a specific vocab pointer (may be nullptr
-    // only when the caller has verified that structural-only rules are used).
+    /**
+     * @brief Helper to compile EBNF using a specific vocab pointer (may be nullptr only when the caller has verified that structural-only rules are used).
+     * @return True on success.
+     */
     bool compile();
+    /**
+     * @brief TBD: Describe compileWithVocab.
+     * @param[in] vocab Input parameter.
+     * @return True on success.
+     */
     bool compileWithVocab(const ::llama_vocab* vocab);
 };
 

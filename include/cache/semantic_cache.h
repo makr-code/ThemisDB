@@ -46,7 +46,16 @@ public:
         int64_t timestamp_ms;
         int ttl_seconds;
         
+        /**
+         * @brief TBD: Describe toJson.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
+        /**
+         * @brief TBD: Describe fromJson.
+         * @param[in] j Input parameter.
+         * @return Return value.
+         */
         static std::optional<CacheEntry> fromJson(const nlohmann::json& j);
     };
 
@@ -61,6 +70,10 @@ public:
         double hit_rate = 0.0;
         double avg_latency_ms = 0.0;
         
+        /**
+         * @brief TBD: Describe toJson.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
     };
 
@@ -153,6 +166,7 @@ private:
 
     /**
      * @brief Get current timestamp in milliseconds
+     * @return Return value.
      */
     int64_t getCurrentTimestampMs() const;
 

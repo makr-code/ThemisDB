@@ -122,8 +122,14 @@ public:
         AugmentationStats* stats = nullptr
     ) const;
 
-    /// Apply a single strategy to produce @p count synthetic copies of @p entity.
-    /// Returns the generated copies (not including the original).
+    /**
+     * @brief Apply a single strategy to produce @p count synthetic copies of @p entity.
+     * @param[in] entity Input parameter.
+     * @param[in] strategy Input parameter.
+     * @param[in] count Input parameter.
+     * @return Return value.
+     * @details Returns the generated copies (not including the original).
+     */
     std::vector<BaseEntity> applyStrategy(
         const BaseEntity&       entity,
         AugmentationStrategy    strategy,
@@ -131,27 +137,66 @@ public:
     ) const;
 
     const AugmentationConfig& getConfig() const { return config_; }
+    /**
+     * @brief TBD: Describe setConfig.
+     * @param[in] config Input parameter.
+     * @details Implements setConfig without additional internal calls.
+     */
     void setConfig(const AugmentationConfig& config) { config_ = config; }
 
 private:
     AugmentationConfig config_;
 
-    // ── Strategy implementations ──────────────────────────────────────────
+    /**
+     * @brief ── Strategy implementations ──────────────────────────────────────────
+     * @param[in] entity Input parameter.
+     * @param[in] variant Input parameter.
+     * @return Return value.
+     */
 
     BaseEntity applySynonymReplacement(const BaseEntity& entity, uint32_t variant) const;
+    /**
+     * @brief TBD: Describe applyQuestionReformulation.
+     * @param[in] entity Input parameter.
+     * @param[in] variant Input parameter.
+     * @return Return value.
+     */
     BaseEntity applyQuestionReformulation(const BaseEntity& entity, uint32_t variant) const;
+    /**
+     * @brief TBD: Describe applyWhitespaceNormalization.
+     * @param[in] entity Input parameter.
+     * @return Return value.
+     */
     BaseEntity applyWhitespaceNormalization(const BaseEntity& entity) const;
+    /**
+     * @brief TBD: Describe applyLowercase.
+     * @param[in] entity Input parameter.
+     * @return Return value.
+     */
     BaseEntity applyLowercase(const BaseEntity& entity) const;
+    /**
+     * @brief TBD: Describe applySentenceCasing.
+     * @param[in] entity Input parameter.
+     * @return Return value.
+     */
     BaseEntity applySentenceCasing(const BaseEntity& entity) const;
 
     // ── Text helpers ──────────────────────────────────────────────────────
 
-    /// Determine which fields of @p entity should be augmented (respects
-    /// AugmentationConfig::augment_fields; empty = all string fields).
+    /**
+     * @brief Determine which fields of @p entity should be augmented (respects AugmentationConfig::augment_fields; empty = all string fields).
+     * @param[in] entity Input parameter.
+     * @return Return value.
+     */
     std::vector<std::string> selectFields(const BaseEntity& entity) const;
 
-    /// Replace words in @p text using the built-in + custom synonym map.
-    /// @p variant selects among multiple synonyms when the map has alternatives.
+    /**
+     * @brief Replace words in @p text using the built-in + custom synonym map.
+     * @param[in] text Input parameter.
+     * @param[in] variant Input parameter.
+     * @return Return value.
+     * @details @p variant selects among multiple synonyms when the map has alternatives.
+     */
     std::string replaceSynonyms(const std::string& text, uint32_t variant) const;
 
     /// Return the i-th question reformulation of @p text (wraps around).

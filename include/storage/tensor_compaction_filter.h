@@ -85,6 +85,7 @@ public:
      *
      * When set, filterTTCore()/filterTTNMeta() delegate recompression to this
      * callback instead of using TensorTrainDecomposer::recompress().
+     * @param[in] fn Input parameter.
      */
     static void setRecompressFn(RecompressFn fn);
 
@@ -107,13 +108,23 @@ private:
 
     // --- Per-format handlers ------------------------------------------------
 
-    /// Process a raw TTTrain value.  Returns true and sets *new_bytes if
-    /// recompression produced a smaller result.
+    /**
+     * @brief Process a raw TTTrain value.
+     * @param[in] value Input parameter.
+     * @param[in,out] new_bytes Input/output parameter.
+     * @return True on success.
+     * @details Returns true and sets *new_bytes if recompression produced a smaller result.
+     */
     bool filterTTCore(const rocksdb::Slice& value,
                       std::string*          new_bytes) const;
 
-    /// Process a QuantizedTrain meta value.  Returns true and sets *new_bytes
-    /// if recompression produced a smaller result.
+    /**
+     * @brief Process a QuantizedTrain meta value.
+     * @param[in] value Input parameter.
+     * @param[in,out] new_bytes Input/output parameter.
+     * @return True on success.
+     * @details Returns true and sets *new_bytes if recompression produced a smaller result.
+     */
     bool filterTTNMeta(const rocksdb::Slice& value,
                        std::string*          new_bytes) const;
 };

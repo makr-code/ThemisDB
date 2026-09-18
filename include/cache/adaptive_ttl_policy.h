@@ -100,6 +100,10 @@ struct AdaptiveTTLSuggestion {
  * callable concurrently from multiple cache-get/put threads.
  */
 struct IAdaptiveTTLPolicy {
+    /**
+     * @brief TBD: Describe ~IAdaptiveTTLPolicy.
+     * @return Return value.
+     */
     virtual ~IAdaptiveTTLPolicy() = default;
 
     // -----------------------------------------------------------------------
@@ -150,6 +154,7 @@ struct IAdaptiveTTLPolicy {
      * chronological order (oldest first).
      *
      * @param key  Cache key to query.
+     * @return Return value.
      */
     virtual std::vector<AccessRecord> getHistory(
         const std::string& key) const = 0;
@@ -195,11 +200,13 @@ struct IAdaptiveTTLPolicy {
 
     /**
      * @brief Return the active configuration.
+     * @return Return value.
      */
     virtual AdaptiveTTLPolicyConfig getConfig() const = 0;
 
     /**
      * @brief Return the number of keys for which history is currently tracked.
+     * @return Return value.
      */
     virtual size_t trackedKeyCount() const = 0;
 };

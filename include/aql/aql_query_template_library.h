@@ -88,6 +88,7 @@ public:
     /**
      * @brief Register a custom template.
      * @throws std::invalid_argument if the id is empty or already registered
+     * @param[in] tmpl Input parameter.
      */
     void registerTemplate(const AQLQueryTemplate& tmpl);
 
@@ -97,12 +98,14 @@ public:
 
     /**
      * @brief Return all registered templates.
+     * @return Return value.
      */
     const std::vector<AQLQueryTemplate>& all() const;
 
     /**
      * @brief Find templates whose tags contain @p tag (case-insensitive).
      * @return Matching templates (may be empty)
+     * @param[in] tag Input parameter.
      */
     std::vector<AQLQueryTemplate> findByTag(const std::string& tag) const;
 
@@ -110,12 +113,14 @@ public:
      * @brief Find templates whose name or description contains @p keyword
      *        (case-insensitive).
      * @return Matching templates (may be empty)
+     * @param[in] keyword Input parameter.
      */
     std::vector<AQLQueryTemplate> search(const std::string& keyword) const;
 
     /**
      * @brief Look up a template by its unique id.
      * @return Pointer to the template, or nullptr if not found
+     * @param[in] id Input parameter.
      */
     const AQLQueryTemplate* findById(const std::string& id) const;
 
@@ -153,6 +158,9 @@ private:
     std::vector<AQLQueryTemplate>                             templates_;
     std::unordered_map<std::string, std::size_t>              index_by_id_;
 
+    /**
+     * @brief TBD: Describe registerBuiltins_.
+     */
     void registerBuiltins_();
 };
 

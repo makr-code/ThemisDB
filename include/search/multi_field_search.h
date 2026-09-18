@@ -96,6 +96,8 @@ public:
      * @param index   Non-owning pointer to a SecondaryIndexManager. May be null
      *                (all searches will return empty results).
      * @throws std::invalid_argument on invalid config.
+     * @brief TBD: Describe MultiFieldBoostedSearch.
+     * @return Return value.
      */
     explicit MultiFieldBoostedSearch(SecondaryIndexManager* index);
     /**
@@ -145,6 +147,11 @@ public:
     static std::vector<FieldConfig> defaultFields(const std::string& table);
 
     const Config& getConfig() const { return config_; }
+    /**
+     * @brief TBD: Describe setConfig.
+     * @param[in] config Input parameter.
+     * @details Implements setConfig without additional internal calls.
+     */
     void setConfig(const Config& config) { config_ = config; }
 
     /**

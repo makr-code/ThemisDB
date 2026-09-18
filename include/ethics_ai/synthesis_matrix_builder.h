@@ -35,6 +35,11 @@ struct SchoolPositionSummary {
  * @brief Error thrown when a SchoolPositionSummary fails schema validation.
  */
 struct SchemaValidationError : public std::runtime_error {
+    /**
+     * @brief TBD: Describe SchemaValidationError.
+     * @param[in] msg Input parameter.
+     * @return Return value.
+     */
     explicit SchemaValidationError(const std::string& msg)
         : std::runtime_error("SchemaValidationError: " + msg) {}
 };
@@ -81,11 +86,24 @@ public:
      *
      * Validates: verdict is one of allowed values; confidence in [0,1];
      * core_thesis_ids not empty; school_id not empty.
+     * @param[in] summary Input parameter.
      */
     void validateSummary(const SchoolPositionSummary& summary) const;
 
 private:
+    /**
+     * @brief TBD: Describe countTokens.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     static int countTokens(const std::string& text) noexcept;
+    /**
+     * @brief TBD: Describe isValidVerdict.
+     * @param[in] verdict Input parameter.
+     * @return True on success.
+     * @note Exception safety: noexcept.
+     */
     static bool isValidVerdict(const std::string& verdict) noexcept;
 };
 

@@ -85,6 +85,8 @@ public:
     /**
      * Construct capability matcher
      * @param config Configuration
+     * @brief TBD: Describe CapabilityMatcher.
+     * @return Return value.
      */
     explicit CapabilityMatcher(const Config& config);
     CapabilityMatcher();
@@ -95,6 +97,7 @@ public:
      * @param query Query context with text and optional metadata
      * @param shards List of shards with their capabilities
      * @return Ranked list of match results sorted by score (descending)
+     * @brief TBD: Describe match.
      */
     std::vector<CapabilityMatchResult> match(
         const QueryContext& query,
@@ -107,6 +110,7 @@ public:
      * @param query Query context
      * @param shard Shard info with capabilities
      * @return Match result with detailed scoring
+     * @brief TBD: Describe matchShard.
      */
     CapabilityMatchResult matchShard(
         const QueryContext& query,
@@ -119,6 +123,7 @@ public:
      * 
      * @param query_text Query text
      * @return List of keywords
+     * @brief TBD: Describe extractKeywords.
      */
     std::vector<std::string> extractKeywords(const std::string& query_text);
     
@@ -127,12 +132,14 @@ public:
      * Used for TF-IDF scoring
      * 
      * @param shards List of shards with capabilities
+     * @brief TBD: Describe buildIDF.
      */
     void buildIDF(const std::vector<ShardInfo>& shards);
     
     /**
      * Get statistics about matching performance
      * @return JSON with match counts, avg scores, etc.
+     * @brief TBD: Describe getStatistics.
      */
     nlohmann::json getStatistics() const;
 
@@ -153,6 +160,8 @@ private:
      * @param query_keywords Query keywords
      * @param shard_keywords Shard keywords
      * @return Keyword score [0.0, 1.0]
+     * @brief TBD: Describe calculateKeywordScore.
+     * @param[in,out] matched_keywords Input/output parameter.
      */
     double calculateKeywordScore(
         const std::vector<std::string>& query_keywords,
@@ -165,6 +174,7 @@ private:
      * @param query_embedding Query embedding vector
      * @param shard_embedding Shard embedding vector
      * @return Cosine similarity [0.0, 1.0]
+     * @brief TBD: Describe calculateSemanticScore.
      */
     double calculateSemanticScore(
         const std::vector<float>& query_embedding,
@@ -177,6 +187,7 @@ private:
      * @param shard_domains Shard domains
      * @param matched_domains Output: matched domains
      * @return Domain score [0.0, 1.0]
+     * @brief TBD: Describe calculateDomainScore.
      */
     double calculateDomainScore(
         const std::vector<std::string>& query_domains,
@@ -186,6 +197,11 @@ private:
     
     /**
      * Calculate organization match score
+     * @brief TBD: Describe calculateOrganizationScore.
+     * @param[in] query_orgs Input parameter.
+     * @param[in] shard_orgs Input parameter.
+     * @param[in,out] matched_orgs Input/output parameter.
+     * @return Return value.
      */
     double calculateOrganizationScore(
         const std::vector<std::string>& query_orgs,
@@ -195,6 +211,11 @@ private:
     
     /**
      * Calculate region match score
+     * @brief TBD: Describe calculateRegionScore.
+     * @param[in] query_regions Input parameter.
+     * @param[in] shard_regions Input parameter.
+     * @param[in,out] matched_regions Input/output parameter.
+     * @return Return value.
      */
     double calculateRegionScore(
         const std::vector<std::string>& query_regions,
@@ -204,6 +225,11 @@ private:
     
     /**
      * Calculate data type match score
+     * @brief TBD: Describe calculateDataTypeScore.
+     * @param[in] query_types Input parameter.
+     * @param[in] shard_types Input parameter.
+     * @param[in,out] matched_types Input/output parameter.
+     * @return Return value.
      */
     double calculateDataTypeScore(
         const std::vector<std::string>& query_types,
@@ -216,6 +242,7 @@ private:
      * @param term Term to count
      * @param keywords List of keywords
      * @return Term frequency
+     * @brief TBD: Describe calculateTF.
      */
     double calculateTF(const std::string& term, const std::vector<std::string>& keywords);
     
@@ -223,6 +250,7 @@ private:
      * Get IDF (Inverse Document Frequency) for a term
      * @param term Term to lookup
      * @return IDF value
+     * @brief TBD: Describe getIDF.
      */
     double getIDF(const std::string& term) const;
     
@@ -230,6 +258,7 @@ private:
      * Normalize string for matching (lowercase, trim)
      * @param str Input string
      * @return Normalized string
+     * @brief TBD: Describe normalize.
      */
     std::string normalize(const std::string& str) const;
     
@@ -238,6 +267,7 @@ private:
      * @param set1 First set
      * @param set2 Second set
      * @return Jaccard similarity [0.0, 1.0]
+     * @brief TBD: Describe jaccardSimilarity.
      */
     double jaccardSimilarity(
         const std::set<std::string>& set1,

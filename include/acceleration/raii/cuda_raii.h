@@ -68,10 +68,12 @@ public:
         }
     }
     
-    /// @brief Wrap an existing stream without taking ownership.
-    /// @param stream The CUDA stream handle to wrap (not owned by the wrapper).
-    /// @return A CudaStream instance that wraps but does not own the stream.
-    /// @note The stream will not be destroyed when this wrapper goes out of scope.
+    /**
+     * @brief @brief Wrap an existing stream without taking ownership.
+     * @param[in] stream Input parameter.
+     * @return Return value.
+     * @details @param stream The CUDA stream handle to wrap (not owned by the wrapper). @return A CudaStream instance that wraps but does not own the stream. @note The stream will not be destroyed when this wrapper goes out of scope. Implements wrap without additional internal calls.
+     */
     static CudaStream wrap(cudaStream_t stream) {
         CudaStream wrapper;
         wrapper.stream_ = stream;
@@ -145,9 +147,11 @@ public:
         owned_ = true;
     }
     
-    /// @brief Wait for all operations in this stream to complete.
-    /// @throws std::runtime_error if synchronization fails.
-    /// @note No-op if stream is invalid (nullptr).
+    /**
+     * @brief @brief Wait for all operations in this stream to complete.
+     * @throws std::runtime_error if an error occurs.
+     * @details @throws std::runtime_error if synchronization fails. @note No-op if stream is invalid (nullptr). Calls: cudaStreamSynchronize(), std::string(), cudaGetErrorString().
+     */
     void synchronize() {
         if (stream_) {
             cudaError_t err = cudaStreamSynchronize(stream_);
@@ -169,9 +173,11 @@ public:
     /// @note The returned handle remains valid until this object is destroyed or reassigned.
     cudaStream_t get() const { return stream_; }
     
-    /// @brief Release ownership of the stream without destroying it.
-    /// @return The underlying CUDA stream handle.
-    /// @note After calling release(), the caller is responsible for destroying the stream.
+    /**
+     * @brief @brief Release ownership of the stream without destroying it.
+     * @return Return value.
+     * @details @return The underlying CUDA stream handle. @note After calling release(), the caller is responsible for destroying the stream. Implements release without additional internal calls.
+     */
     cudaStream_t release() {
         owned_ = false;
         cudaStream_t tmp = stream_;
@@ -180,6 +186,10 @@ public:
     }
     
 private:
+    /**
+     * @brief TBD: Describe destroy.
+     * @details Calls: cudaStreamDestroy().
+     */
     void destroy() {
         if (stream_ && owned_) {
             cudaStreamDestroy(stream_);
@@ -261,9 +271,12 @@ public:
         free();
     }
     
-    /// @brief Allocate device memory.
-    /// @param size Number of bytes to allocate.
-    /// @throws std::runtime_error if allocation fails or if memory is already allocated.
+    /**
+     * @brief @brief Allocate device memory.
+     * @param[in] size Input parameter.
+     * @throws std::runtime_error if an error occurs.
+     * @details @param size Number of bytes to allocate. @throws std::runtime_error if allocation fails or if memory is already allocated. Calls: free(), cudaMalloc(), std::string(), std::to_string(), cudaGetErrorString().
+     */
     void allocate(size_t size) {
         if (ptr_) {
             free();
@@ -352,9 +365,11 @@ public:
     /// @return The size of the allocated memory; 0 if unallocated.
     size_t size() const { return size_; }
     
-    /// @brief Release ownership of the memory without freeing it.
-    /// @return The raw device pointer.
-    /// @note After calling release(), the caller is responsible for calling cudaFree().
+    /**
+     * @brief @brief Release ownership of the memory without freeing it.
+     * @return Pointer to the result.
+     * @details @return The raw device pointer. @note After calling release(), the caller is responsible for calling cudaFree(). Implements release without additional internal calls.
+     */
     void* release() {
         void* tmp = ptr_;
         ptr_ = nullptr;
@@ -363,6 +378,10 @@ public:
     }
     
 private:
+    /**
+     * @brief TBD: Describe free.
+     * @details Calls: cudaFree().
+     */
     void free() {
         if (ptr_) {
             cudaFree(ptr_);
@@ -436,6 +455,7 @@ public:
     /**
      * @brief Create a cuBLAS handle, throwing on failure.
      * @throws std::runtime_error if cublasCreate fails.
+     * @details Calls: destroy(), cublasCreate().
      */
     void createOrThrow() {
         if (handle_) { destroy(); }
@@ -528,6 +548,8 @@ public:
     /**
      * @brief Allocate @p count elements on the device.
      * @throws std::runtime_error on allocation failure.
+     * @param[in] count Input parameter.
+     * @details Calls: free(), cudaMalloc(), std::string(), std::to_string(), cudaGetErrorString().
      */
     void allocate(size_t count) {
         if (ptr_) { free(); }
@@ -564,6 +586,7 @@ public:
      * @param src   Host pointer with at least @p count valid elements.
      * @param count Number of elements to copy (must be ≤ capacity).
      * @throws std::runtime_error on copy failure or bounds violation.
+     * @details Calls: cudaMemcpy(), std::string(), cudaGetErrorString().
      */
     void copyFrom(const T* src, size_t count) {
         if (!ptr_) {

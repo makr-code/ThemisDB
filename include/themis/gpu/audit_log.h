@@ -84,14 +84,31 @@ public:
                             const std::string& tenant_id = "");
     void recordAllocFailGlobalLimit(uint64_t bytes, const std::string& tag,
                                     const std::string& tenant_id = "");
+    /**
+     * @brief TBD: Describe recordAllocFailTenantQuota.
+     * @param[in] bytes Input parameter.
+     * @param[in] tag Input parameter.
+     * @param[in] tenant_id Input parameter.
+     */
     void recordAllocFailTenantQuota(uint64_t bytes, const std::string& tag,
                                     const std::string& tenant_id);
     void recordDealloc(uint64_t bytes, const std::string& tag,
                        const std::string& tenant_id = "");
     void recordFallbackToCPU(const std::string& reason,
                               const std::string& tenant_id = "");
+    /**
+     * @brief TBD: Describe recordDeviceUnavailable.
+     * @param[in] detail Input parameter.
+     */
     void recordDeviceUnavailable(const std::string& detail);
+    /**
+     * @brief TBD: Describe recordCircuitOpened.
+     * @param[in] detail Input parameter.
+     */
     void recordCircuitOpened(const std::string& detail);
+    /**
+     * @brief TBD: Describe recordCircuitReset.
+     */
     void recordCircuitReset();
 
     // -----------------------------------------------------------------------

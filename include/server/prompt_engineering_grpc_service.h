@@ -61,6 +61,7 @@ public:
      * @brief Return opaque pointer to an externally provided grpc::Service instance.
      *
      * Returns nullptr when no service accessor callback is configured.
+     * @return Pointer to the result.
      */
     void* service() const;
 
@@ -68,6 +69,7 @@ public:
      * @brief Configure process-wide callback that provides grpc::Service pointer.
      *
      * Used by non-proto builds to wire a generated service from another module.
+     * @param[in] fn Input parameter.
      */
     static void setServiceAccessorFn(ServiceAccessorFn fn);
 

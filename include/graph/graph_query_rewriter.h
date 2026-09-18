@@ -286,14 +286,44 @@ private:
     // Maximum fixed-point iterations to avoid infinite loops.
     static constexpr size_t kMaxIterations = 5;
 
-    // ─── Individual rule implementations ─────────────────────────────────
+    /**
+     * @brief ─── Individual rule implementations ─────────────────────────────────
+     * @param[in,out] plan Input/output parameter.
+     * @return Return value.
+     */
 
     static size_t applyPredicatePushdown(nlohmann::json& plan);
+    /**
+     * @brief TBD: Describe applyCommonSubexpressionElimination.
+     * @param[in,out] plan Input/output parameter.
+     * @return Return value.
+     */
     static size_t applyCommonSubexpressionElimination(nlohmann::json& plan);
+    /**
+     * @brief TBD: Describe applyJoinReordering.
+     * @param[in,out] plan Input/output parameter.
+     * @return Return value.
+     */
     static size_t applyJoinReordering(nlohmann::json& plan);
+    /**
+     * @brief TBD: Describe applyMaterializedView.
+     * @param[in,out] plan Input/output parameter.
+     * @param[in] aggressive Input parameter.
+     * @return Return value.
+     */
     static size_t applyMaterializedView(nlohmann::json& plan, bool aggressive);
+    /**
+     * @brief TBD: Describe applyQueryDecomposition.
+     * @param[in,out] plan Input/output parameter.
+     * @return Return value.
+     */
     static size_t applyQueryDecomposition(nlohmann::json& plan);
 
+    /**
+     * @brief TBD: Describe isEnabled.
+     * @param[in] rule Input parameter.
+     * @return True on success.
+     */
     bool isEnabled(RewriteRule rule) const;
 };
 

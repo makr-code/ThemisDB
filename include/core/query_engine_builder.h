@@ -52,29 +52,34 @@ public:
     /// @brief Default constructor - creates empty builder
     QueryEngineBuilder() = default;
     
-    /// @brief Set storage engine dependency
-    /// @param storage Storage engine instance (can be nullptr for late binding).
-    /// @return Reference to this builder for method chaining
+    /**
+     * @brief @brief Set storage engine dependency @param storage Storage engine instance (can be nullptr for late binding).
+     * @param[in] storage Input parameter.
+     * @return Return value.
+     * @details @return Reference to this builder for method chaining Implements withStorage without additional internal calls.
+     */
     QueryEngineBuilder& withStorage(IStorageEnginePtr storage) {
         storage_ = storage;
         return *this;
     }
     
-    /// @brief Set index manager dependency
-    /// @param index_manager Index manager instance (required).
-    /// @return Reference to this builder for method chaining
+    /**
+     * @brief @brief Set index manager dependency @param index_manager Index manager instance (required).
+     * @param[in] index_manager Input parameter.
+     * @return Return value.
+     * @details @return Reference to this builder for method chaining Implements withIndexManager without additional internal calls.
+     */
     QueryEngineBuilder& withIndexManager(IIndexManagerPtr index_manager) {
         index_manager_ = index_manager;
         return *this;
     }
     
-    /// @brief Build the QueryEngine with configured dependencies.
-    ///
-    /// index_manager must be configured before calling build(). storage may be
-    /// nullptr when late binding is intended.
-    ///
-    /// @throws std::runtime_error if required dependencies are not set
-    /// @return Shared pointer to constructed QueryEngine
+    /**
+     * @brief @brief Build the QueryEngine with configured dependencies.
+     * @return Return value.
+     * @throws std::runtime_error if an error occurs.
+     * @details index_manager must be configured before calling build(). storage may be nullptr when late binding is intended. @throws std::runtime_error if required dependencies are not set @return Shared pointer to constructed QueryEngine Implements build without additional internal calls.
+     */
     std::shared_ptr<query::QueryEngine> build() {
         if (!index_manager_) {
             throw std::runtime_error("QueryEngineBuilder: IndexManager is required");
@@ -84,12 +89,11 @@ public:
         return std::make_shared<query::QueryEngine>(storage_, index_manager_);
     }
     
-    /// @brief Create a standard builder instance.
-    ///
-    /// Currently returns an empty builder equivalent to QueryEngineBuilder().
-    /// Callers must still configure index manager explicitly before build().
-    ///
-    /// @return Empty builder to be configured with dependencies
+    /**
+     * @brief @brief Create a standard builder instance.
+     * @return Return value.
+     * @details Currently returns an empty builder equivalent to QueryEngineBuilder(). Callers must still configure index manager explicitly before build(). @return Empty builder to be configured with dependencies Implements standard without additional internal calls.
+     */
     static QueryEngineBuilder standard() {
         QueryEngineBuilder builder = {};
         return builder;

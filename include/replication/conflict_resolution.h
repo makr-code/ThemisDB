@@ -75,6 +75,10 @@ public:
         std::chrono::system_clock::time_point request_time = std::chrono::system_clock::now();
     };
 
+    /**
+     * @brief TBD: Describe ~AdvancedConflictResolver.
+     * @return Return value.
+     */
     virtual ~AdvancedConflictResolver() = default;
 
     /**
@@ -135,12 +139,20 @@ public:
     std::string strategyName() const override { return "THREE_WAY_MERGE"; }
 
 private:
+     * @brief TBD: Describe selectBase.
+     * @param[in] writes Input parameter.
+     * @return Return value.
     /** Select the best common-ancestor candidate from the write set. */
     MMWriteEntry selectBase(const std::vector<MMWriteEntry>& writes) const;
 
     /**
      * Perform the actual three-way merge of serialised JSON objects.
      * Returns merged JSON string; falls back to `left` on parse error.
+     * @brief TBD: Describe mergeJson.
+     * @param[in] base Input parameter.
+     * @param[in] left Input parameter.
+     * @param[in] right Input parameter.
+     * @return Return value.
      */
     std::string mergeJson(
         const std::string& base,
@@ -193,6 +205,9 @@ private:
     /**
      * Merge a collection of (field_name → value_string) maps.
      * Returns a JSON object string.
+     * @brief TBD: Describe mergeFields.
+     * @param[in] writes Input parameter.
+     * @return Return value.
      */
     std::string mergeFields(
         const std::vector<MMWriteEntry>& writes

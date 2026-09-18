@@ -47,6 +47,7 @@ struct CoTSpanRecord {
     std::chrono::microseconds duration{0};      ///< Wall-clock span duration
     std::chrono::system_clock::time_point start_time; ///< Span start timestamp
 
+     * @return Return value.
     /** @brief Serialise to JSON for logging / timeseries storage. */
     nlohmann::json toJson() const;
 };
@@ -68,6 +69,10 @@ struct CoTSpanRecord {
  */
 class IChainOfThoughtTracer {
 public:
+    /**
+     * @brief TBD: Describe ~IChainOfThoughtTracer.
+     * @return Return value.
+     */
     virtual ~IChainOfThoughtTracer() = default;
 
     /**
@@ -76,6 +81,7 @@ public:
      *
      * @param step_index  0-based index of the step being rendered.
      * @param label       Step label (auto-numbered or explicit).
+     * @note Exception safety: noexcept.
      */
     virtual void onStepBegin(StepId             step_index,
                              const std::string& label) noexcept = 0;
@@ -88,6 +94,7 @@ public:
      * @param content     The step content that was appended.
      * @param duration    Wall-clock time elapsed since `onStepBegin` for this
      *                    step (precision: microseconds).
+     * @note Exception safety: noexcept.
      */
     virtual void onStepEnd(StepId                    step_index,
                            const std::string&        content,
@@ -128,18 +135,24 @@ public:
     // Accessors
     // -------------------------------------------------------------------------
 
+     * @return Return value.
     /** @brief Return a snapshot of all recorded spans. */
     std::vector<CoTSpanRecord> spans() const;
 
+     * @return Return value.
+     * @note Exception safety: noexcept.
     /** @brief Return the number of complete spans recorded so far. */
     std::size_t spanCount() const noexcept;
 
+     * @return True on success.
+     * @note Exception safety: noexcept.
     /** @brief Return `true` when at least one span has been recorded. */
     bool hasSpans() const noexcept;
 
     /** @brief Remove all recorded spans. */
     void reset();
 
+     * @return Return value.
     /** @brief Serialise all recorded spans to a JSON array. */
     nlohmann::json toJson() const;
 
@@ -194,9 +207,12 @@ public:
 
     /**
      * @brief Remove a previously registered child tracer by pointer identity.
+     * @param[in] tracer Input parameter.
      */
     void removeTracer(const IChainOfThoughtTracer* tracer);
 
+     * @return Return value.
+     * @note Exception safety: noexcept.
     /** @brief Return the number of registered child tracers. */
     std::size_t tracerCount() const noexcept;
 
@@ -204,21 +220,27 @@ public:
     // Span access
     // -------------------------------------------------------------------------
 
+     * @return Return value.
     /** @brief Return a snapshot of all accumulated spans. */
     std::vector<CoTSpanRecord> spans() const;
 
+     * @return Return value.
+     * @note Exception safety: noexcept.
     /** @brief Return the total number of complete spans accumulated. */
     std::size_t spanCount() const noexcept;
 
     /** @brief Remove all accumulated spans and pending begin events. */
     void reset();
 
+     * @return Return value.
     /** @brief Serialise all accumulated spans to a JSON array. */
     nlohmann::json toJson() const;
 
     /**
      * @brief Total steps traced across all builds since last `reset()`.
      * Monotonically increasing; useful for latency / throughput monitoring.
+     * @return Return value.
+     * @note Exception safety: noexcept.
      */
     std::size_t totalStepsTraced() const noexcept;
 

@@ -22,6 +22,11 @@ namespace storage {
 /** @brief Filesystem blob backend implementation. */
 class FilesystemBlobBackend : public IBlobStorageBackend {
 public:
+    /**
+     * @brief TBD: Describe FilesystemBlobBackend.
+     * @param[in] base_path Input parameter.
+     * @return Return value.
+     */
     explicit FilesystemBlobBackend(const std::string& base_path);
     ~FilesystemBlobBackend() override = default;
 
@@ -35,7 +40,17 @@ public:
 private:
     std::string base_path_;
 
+    /**
+     * @brief TBD: Describe computeSHA256.
+     * @param[in] data Input parameter.
+     * @return Return value.
+     */
     static std::string computeSHA256(const std::vector<uint8_t>& data);
+    /**
+     * @brief TBD: Describe getPath.
+     * @param[in] blob_id Input parameter.
+     * @return Return value.
+     */
     std::string getPath(const std::string& blob_id) const;
 };
 

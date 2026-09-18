@@ -208,6 +208,7 @@ public:
     /**
      * @brief Construct PagedKVCache
      * @param config Cache configuration
+     * @return Return value.
      */
     explicit PagedKVCache(const KVCacheConfig& config);
     
@@ -362,11 +363,13 @@ public:
     
     /**
      * @brief Get current cache statistics
+     * @return Return value.
      */
     KVCacheStats getStats() const;
     
     /**
      * @brief Get detailed statistics as JSON
+     * @return Return value.
      */
     nlohmann::json getStatsJson() const;
     
@@ -377,16 +380,19 @@ public:
     
     /**
      * @brief Get memory usage
+     * @return Return value.
      */
     size_t getMemoryUsage() const;
     
     /**
      * @brief Get cache utilization
+     * @return Return value.
      */
     double getUtilization() const;
     
     /**
      * @brief Check if cache needs eviction
+     * @return True on success.
      */
     bool needsEviction() const;
     
@@ -402,21 +408,25 @@ public:
     
     /**
      * @brief Get current configuration
+     * @return Return value.
      */
     const KVCacheConfig& getConfig() const;
     
     /**
      * @brief Set block allocator callback
+     * @param[in] allocator Input parameter.
      */
     void setBlockAllocator(BlockAllocator allocator);
     
     /**
      * @brief Set block deallocator callback
+     * @param[in] deallocator Input parameter.
      */
     void setBlockDeallocator(BlockDeallocator deallocator);
     
     /**
      * @brief Set eviction callback
+     * @param[in] callback Input parameter.
      */
     void setEvictionCallback(EvictionCallback callback);
     
@@ -432,6 +442,7 @@ public:
     
     /**
      * @brief Get the associated scheduler
+     * @return Pointer to the result.
      */
     ContinuousBatchScheduler* getScheduler();
     
@@ -493,11 +504,16 @@ private:
     
     /**
      * @brief Calculate block memory size
+     * @return Return value.
      */
     size_t calculateBlockMemorySize() const;
 
     /**
      * @brief Reserve request state after external synchronization.
+     * @param[in] request_id Input parameter.
+     * @param[in] initial_tokens Input parameter.
+     * @param[in] initial_token_ids Input parameter.
+     * @return True on success.
      */
     bool reserveRequestUnlocked(int64_t request_id,
                                 uint32_t initial_tokens,
@@ -505,11 +521,13 @@ private:
     
     /**
      * @brief Allocate a new block ID
+     * @return Return value.
      */
     uint32_t allocateBlockId();
     
     /**
      * @brief Free a block ID
+     * @param[in] block_id Input parameter.
      */
     void freeBlockId(uint32_t block_id);
     
@@ -522,11 +540,14 @@ private:
 
     /**
      * @brief Release a shared or owned block from one request after locking.
+     * @param[in] request_id Input parameter.
+     * @param[in] block_id Input parameter.
      */
     void releaseRequestBlockUnlocked(int64_t request_id, uint32_t block_id);
 
     /**
      * @brief Destroy a block and detach it from all requests after locking.
+     * @param[in] block_id Input parameter.
      */
     void destroyBlockUnlocked(uint32_t block_id);
     

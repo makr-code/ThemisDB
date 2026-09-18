@@ -64,6 +64,11 @@ public:
     };
     
     GrpcChannelPool();
+    /**
+     * @brief TBD: Describe GrpcChannelPool.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit GrpcChannelPool(const Config& config);
     ~GrpcChannelPool();
     
@@ -132,6 +137,10 @@ public:
         size_t channels_reused = 0;
     };
     
+    /**
+     * @brief TBD: Describe getStats.
+     * @return Return value.
+     */
     Stats getStats() const;
     
     /**
@@ -176,6 +185,8 @@ public:
 
     /**
      * @brief Get the current circuit-breaker state for the given target.
+     * @param[in] target Input parameter.
+     * @return Return value.
      */
     CircuitState getCircuitState(const std::string& target) const;
 
@@ -184,6 +195,7 @@ public:
      *
      * Call this after every successful RPC.  It decrements the failure
      * counter and may transition HALF_OPEN → CLOSED.
+     * @param[in] target Input parameter.
      */
     void reportSuccess(const std::string& target);
 
@@ -250,6 +262,9 @@ private:
     
     /**
      * @brief Create new channel for target
+     * @param[in] target Input parameter.
+     * @param[in] credentials Input parameter.
+     * @return Return value.
      */
     std::shared_ptr<grpc::Channel> createChannel(
         const std::string& target,
@@ -258,6 +273,8 @@ private:
     
     /**
      * @brief Get or create target pool
+     * @param[in] target Input parameter.
+     * @return Return value.
      */
     std::shared_ptr<TargetPool> getOrCreateTargetPool(const std::string& target);
     

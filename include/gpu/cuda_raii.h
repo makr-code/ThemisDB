@@ -93,8 +93,11 @@ namespace gpu {
 struct CudaStreamGuard {
     cudaStream_t stream{nullptr};
 
-    /// @brief Construct and create a new CUDA stream.
-    /// @post  isValid() == true on success; stream == nullptr on failure.
+    /**
+     * @brief @brief Construct and create a new CUDA stream.
+     * @return Return value.
+     * @details @post isValid() == true on success; stream == nullptr on failure. Calls: cudaStreamCreate(), THEMIS_CUDA_RAII_LOG_WARN().
+     */
     explicit CudaStreamGuard() {
 #if THEMIS_CUDA_RAII_HAS_CUDA
         if (cudaStreamCreate(&stream) != cudaSuccess) {
@@ -197,8 +200,11 @@ struct CudaEventGuard {
     void* event{nullptr};
 #endif
 
-    /// @brief Construct and create a new CUDA event.
-    /// @post  isValid() == true on success; event == nullptr on failure.
+    /**
+     * @brief @brief Construct and create a new CUDA event.
+     * @return Return value.
+     * @details @post isValid() == true on success; event == nullptr on failure. Calls: cudaEventCreate(), THEMIS_CUDA_RAII_LOG_WARN().
+     */
     explicit CudaEventGuard() {
 #if THEMIS_CUDA_RAII_HAS_CUDA
         if (cudaEventCreate(&event) != cudaSuccess) {

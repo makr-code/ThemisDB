@@ -119,6 +119,11 @@ public:
     };
 
     SchemaMigrationTester();
+    /**
+     * @brief TBD: Describe SchemaMigrationTester.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit SchemaMigrationTester(const Config& config);
     ~SchemaMigrationTester() = default;
 

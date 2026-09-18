@@ -403,6 +403,11 @@ public:
                 [[maybe_unused]] std::string_view context) noexcept
     {
         const auto cls = classifyDocumentError(code);
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mu_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mu_);
         ++counts_[cls];
         ++total_;
@@ -421,6 +426,11 @@ public:
      */
     [[nodiscard]] std::size_t count(DocumentErrorClass cls) const noexcept
     {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mu_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mu_);
         const auto it = counts_.find(cls);
         return (it != counts_.end()) ? it->second : std::size_t{0};
@@ -433,6 +443,11 @@ public:
      */
     [[nodiscard]] std::size_t totalCount() const noexcept
     {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mu_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mu_);
         return total_;
     }
@@ -445,6 +460,11 @@ public:
      */
     void clear() noexcept
     {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mu_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mu_);
         counts_.clear();
         total_ = 0;

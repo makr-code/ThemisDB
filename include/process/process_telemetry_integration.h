@@ -63,6 +63,9 @@ class ProcessTelemetryIntegration {
  public:
   /**
    * @brief Factory method to create telemetry integration.
+   * @param[in] config Input parameter.
+   * @param[in] node_id Input parameter.
+   * @return Return value.
    */
   static std::unique_ptr<ProcessTelemetryIntegration> Create(
       const TelemetryConfig& config,
@@ -70,6 +73,8 @@ class ProcessTelemetryIntegration {
 
   /**
    * @brief Constructor.
+   * @param[in] impl Input parameter.
+   * @return Return value.
    */
   explicit ProcessTelemetryIntegration(
       std::unique_ptr<ProcessTelemetryIntegrationImpl> impl);
@@ -81,26 +86,35 @@ class ProcessTelemetryIntegration {
 
   /**
    * @brief Create a new distributed trace span.
+   * @param[in] operation_name Input parameter.
+   * @return Return value.
    */
   std::shared_ptr<DistributedSpan> CreateSpan(const std::string& operation_name);
 
   /**
    * @brief Set current trace context (for parent span linking).
+   * @param[in] context Input parameter.
    */
   void SetCurrentTraceContext(const TraceContext& context);
 
   /**
    * @brief Get current trace context (for header propagation).
+   * @return Return value.
    */
   TraceContext GetCurrentTraceContext() const;
 
   /**
    * @brief Record span in history and export to OTel collector.
+   * @param[in] span Input parameter.
    */
   void RecordSpan(const std::shared_ptr<DistributedSpan>& span);
 
   /**
    * @brief Validate tracing overhead budget (< 5% of operation latency).
+   * @param[in] operation_name Input parameter.
+   * @param[in] operation_latency_ms Input parameter.
+   * @param[in] tracing_overhead_ms Input parameter.
+   * @return True on success.
    */
   bool ValidateOverheadBudget(const std::string& operation_name,
                               uint64_t operation_latency_ms,
@@ -108,11 +122,13 @@ class ProcessTelemetryIntegration {
 
   /**
    * @brief Get telemetry statistics.
+   * @return Return value.
    */
   TelemetryStats GetStats() const;
 
   /**
    * @brief Export all recorded spans to OpenTelemetry collector.
+   * @return True on success.
    */
   bool ExportSpans();
 

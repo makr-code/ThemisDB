@@ -132,6 +132,7 @@ struct CompressedBatch {
      *
      * @param bytes  Wire-format bytes as produced by serialize().
      * @return Reconstructed batch, or std::nullopt if @p bytes is malformed.
+     * @details Calls: size(), assign(), begin(), end().
      */
     static std::optional<CompressedBatch> deserialize(const std::vector<uint8_t>& bytes) {
         constexpr size_t kHeaderSize = 4 + 1 + 1 + 4 + 4; // 14 bytes
@@ -245,10 +246,16 @@ public:
      *
      * @param events  Change events to pack.  May be empty.
      * @return        A CompressedBatch ready for serialisation and transport.
+     * @details Calls: lk(), nlohmann::json::array(), push_back(), toJson(), dump(), size(), fetch_add(), utils::zstd_compress().
      */
     CompressedBatch compress(const std::vector<Changefeed::ChangeEvent>& events) {
         // Snapshot config under the lock to avoid races with setConfig().
         const Config cfg = [&] {
+            /**
+             * @brief TBD: Describe lk.
+             * @param[in] config_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lk(config_mutex_);
             return config_;
         }();
@@ -298,6 +305,7 @@ public:
      * @param batch  Previously produced CompressedBatch.
      * @return       Reconstructed events in the original order.
      * @throws std::runtime_error on decompression or JSON parse failure.
+     * @details Calls: fetch_add(), utils::zstd_decompress(), empty(), assign(), begin(), end(), reserve(), nlohmann::json::parse().
      */
     std::vector<Changefeed::ChangeEvent> decompress(const CompressedBatch& batch) {
         stats_batches_decompressed_.fetch_add(1, std::memory_order_relaxed);
@@ -373,6 +381,11 @@ public:
      * @brief Return the current configuration (snapshot).
      */
     Config getConfig() const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] config_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(config_mutex_);
         return config_;
     }
@@ -381,8 +394,15 @@ public:
      * @brief Update the configuration.
      *
      * Takes effect on the next compress() or decompress() call.
+     * @param[in] config Input parameter.
+     * @details Calls: lock().
      */
     void setConfig(const Config& config) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] config_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(config_mutex_);
         config_ = config;
     }
@@ -410,6 +430,11 @@ private:
 // default argument inside the class body.
 namespace themis {
 namespace cdc {
+/**
+ * @brief TBD: Describe ChangeStreamCompressor.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ */
 inline ChangeStreamCompressor::ChangeStreamCompressor(Config config)
     : config_(std::move(config)) {}
 } // namespace cdc

@@ -122,82 +122,187 @@ public:
         const http::request<http::string_body>& req);
 
 private:
-    // Model management endpoints
+    /**
+     * @brief Model management endpoints
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleRegisterModel(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief TBD: Describe handleGetModel.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleGetModel(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief TBD: Describe handleListModels.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleListModels(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief TBD: Describe handleDeleteModel.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleDeleteModel(
         const http::request<http::string_body>& req);
     
-    // Adapter CRUD endpoints
+    /**
+     * @brief Adapter CRUD endpoints
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleCreateAdapter(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief TBD: Describe handleGetAdapter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleGetAdapter(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief TBD: Describe handleUpdateAdapter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleUpdateAdapter(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief TBD: Describe handleDeleteAdapter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleDeleteAdapter(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief TBD: Describe handleListAdapters.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleListAdapters(
         const http::request<http::string_body>& req);
     
-    // Adapter lifecycle endpoints
+    /**
+     * @brief Adapter lifecycle endpoints
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleLoadAdapter(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief TBD: Describe handleUnloadAdapter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleUnloadAdapter(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief TBD: Describe handleAdapterStatus.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleAdapterStatus(
         const http::request<http::string_body>& req);
 
-    /// GET /api/v1/llm/lora/adapters/{id}/load-status
-    /// Returns the status of the latest hot-load job for the adapter.
+    /**
+     * @brief GET /api/v1/llm/lora/adapters/{id}/load-status Returns the status of the latest hot-load job for the adapter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleHotLoadStatus(
         const http::request<http::string_body>& req);
     
-    // Cross-shard sync endpoint
+    /**
+     * @brief Cross-shard sync endpoint
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleReceiveAdapter(
         const http::request<http::string_body>& req);
     
-    // Inference endpoint
+    /**
+     * @brief Inference endpoint
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleLoRAQuery(
         const http::request<http::string_body>& req);
     
-    // Health & monitoring endpoints
+    /**
+     * @brief Health & monitoring endpoints
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleLoRAStats(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief TBD: Describe handleLoRAHealth.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleLoRAHealth(
         const http::request<http::string_body>& req);
 
-    // Provenance, Snapshots, and Audit Log endpoints
+    /**
+     * @brief Provenance, Snapshots, and Audit Log endpoints
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleGetProvenance(
         const http::request<http::string_body>& req);
 
+    /**
+     * @brief TBD: Describe handleAttachProvenance.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleAttachProvenance(
         const http::request<http::string_body>& req);
 
+    /**
+     * @brief TBD: Describe handleGetAuditLog.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleGetAuditLog(
         const http::request<http::string_body>& req);
 
+    /**
+     * @brief TBD: Describe handleListSnapshots.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleListSnapshots(
         const http::request<http::string_body>& req);
 
+    /**
+     * @brief TBD: Describe handleVerifyAuditChain.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleVerifyAuditChain(
         const http::request<http::string_body>& req);
     
-    // Helper methods
+    /**
+     * @brief Helper methods
+     * @param[in] req Input parameter.
+     * @return True on success.
+     */
     bool validateBearerToken(const http::request<http::string_body>& req);
     
     http::response<http::string_body> createErrorResponse(
@@ -209,9 +314,20 @@ private:
         const json& data,
         http::status status = http::status::ok);
     
+    /**
+     * @brief TBD: Describe parseRequestBody.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     std::optional<json> parseRequestBody(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief TBD: Describe extractPathParameter.
+     * @param[in] target Input parameter.
+     * @param[in] prefix Input parameter.
+     * @return Return value.
+     */
     std::string extractPathParameter(
         std::string_view target,
         std::string_view prefix);

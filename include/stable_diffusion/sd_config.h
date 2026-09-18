@@ -34,7 +34,16 @@ struct SDConfig {
     std::string negative_prompt;
     std::string model_sha256;           // optional expected SHA-256 for model_path
 
+    /**
+     * @brief TBD: Describe fromJson.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static SDConfig fromJson(const json& j);
+    /**
+     * @brief TBD: Describe toJson.
+     * @return Return value.
+     */
     json toJson() const;
 };
 

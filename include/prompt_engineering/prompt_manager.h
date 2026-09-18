@@ -61,6 +61,7 @@ public:
          * @brief Builds an image description from JSON data.
          * @param j JSON payload containing image fields.
          * @return Parsed image description object.
+         * @details Calls: value().
          */
 
         static ImageDescription fromJson(const nlohmann::json& j) {
@@ -230,6 +231,10 @@ public:
         const std::unordered_map<std::string, std::string>& context = {});
 
 private:
+    /**
+     * @brief TBD: Describe generateId.
+     * @return Return value.
+     */
     std::string generateId() const;
 
     // v1.1.0: Lock-free concurrent hash map (2-3x throughput)

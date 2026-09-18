@@ -142,6 +142,7 @@ private:
      *
      * @param rec   Transaction record to populate.
      * @param data  JSON payload from the WAL entry.
+     * @details Calls: contains(), is_string(), mergeParticipants().
      */
     static void applyBegin(
         RecoveredTwoPhaseCommitTransaction& rec,
@@ -167,6 +168,7 @@ private:
      * @param rec       Transaction record to update.
      * @param data      JSON payload from the WAL entry.
      * @param is_commit True for COMMIT_TX; false for ABORT_TX.
+     * @details Calls: contains(), is_string(), is_number().
      */
     static void applyDecisionOrComplete(
         RecoveredTwoPhaseCommitTransaction& rec,
@@ -206,6 +208,7 @@ private:
      * @param rec        Transaction record to populate.
      * @param data       JSON object potentially containing the list.
      * @param field_name Key to look up in @p data.
+     * @details Calls: contains(), is_array(), is_string(), push_back(), is_object().
      */
     static void mergeParticipants(
         RecoveredTwoPhaseCommitTransaction& rec,

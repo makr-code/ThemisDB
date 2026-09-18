@@ -103,6 +103,7 @@ public:
      * @brief Set the process-wide default backend factory (STUB #269 bridge).
      *
      * Thread-safe.  Replaces any previously set factory.
+     * @param[in] fn Input parameter.
      */
     static void setDefaultBackendFactory(BackendFactory fn);
 
@@ -136,6 +137,10 @@ public:
      * Format: `__ttcore__:<tenant_id>:<source_file_id>:<chunk_id>`
      *
      * @throws std::invalid_argument when any argument is empty or contains '/'.
+     * @param[in] tenant_id Input parameter.
+     * @param[in] source_file_id Input parameter.
+     * @param[in] chunk_id Input parameter.
+     * @return Return value.
      */
     static std::string makeKey(const std::string& tenant_id,
                                const std::string& source_file_id,
@@ -145,6 +150,10 @@ private:
     std::shared_ptr<storage::ITensorStorageBackend> backend_;
     std::atomic<std::size_t>                        write_count_{0};
 
+    /**
+     * @brief TBD: Describe validateTenantId.
+     * @param[in] tenant_id Input parameter.
+     */
     static void validateTenantId(const std::string& tenant_id);
 };
 

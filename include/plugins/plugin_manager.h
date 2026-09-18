@@ -178,9 +178,12 @@ private:
     void unloadLibrary(void* handle);
     
     // Manifest loading (with QW-43 path traversal guards)
-    /// @brief Load and validate a plugin manifest from JSON file.
-    /// @note Includes fail-closed guards (QW-43) for path traversal in plugin names.
-    /// @return nullopt if validation fails or manifest is malformed; manifest otherwise.
+    /**
+     * @brief @brief Load and validate a plugin manifest from JSON file.
+     * @param[in] manifest_path Input parameter.
+     * @return Return value.
+     * @details @note Includes fail-closed guards (QW-43) for path traversal in plugin names. @return nullopt if validation fails or manifest is malformed; manifest otherwise.
+     */
     std::optional<PluginManifest> loadManifest(const std::string& manifest_path);
     
     // Phase 2C: Unified validation logic
@@ -586,6 +589,7 @@ public:
     /**
      * @brief Get mutable plugin metrics (for testing)
      * @return Mutable reference to plugin metrics
+     * @details Implements getMetricsMutable without additional internal calls.
      */
     PluginMetrics& getMetricsMutable() { return metrics_; }
     
@@ -641,6 +645,7 @@ public:
     
     /**
      * @brief Singleton instance
+     * @return Return value.
      */
     static PluginManager& instance();
 
@@ -662,16 +667,20 @@ public:
 
     /**
      * @brief Human-readable error message for Community-edition plugin load attempts.
+     * @param[in] plugin_name Input parameter.
+     * @return Return value.
      */
     static std::string communityUnavailableMessage(const std::string& plugin_name);
 
     /**
      * @brief Returns marketplace availability info for the running edition.
+     * @return Return value.
      */
     static std::string marketplaceInfo();
 
     /**
      * @brief Returns installation instructions, gated by edition.
+     * @return Return value.
      */
     static std::string installationInstructions();
 };
@@ -707,6 +716,7 @@ public:
     
     /**
      * @brief Get singleton instance
+     * @return Return value.
      */
     static PluginManagerRegistry& instance();
     

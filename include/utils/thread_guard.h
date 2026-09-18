@@ -90,6 +90,7 @@ public:
      *
      * @note If thread is not joinable, returns false (idempotent).
      * @note Subsequent calls return immediately with false (thread already joined).
+     * @note Exception safety: noexcept.
      */
     bool join_with_timeout() noexcept;
 

@@ -152,6 +152,11 @@ public:
                            const TimestampToken& token,
                            const TSAConfig& config)>;
 
+    /**
+     * @brief TBD: Describe TimestampAuthority.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit TimestampAuthority(TSAConfig config);
     ~TimestampAuthority();
 
@@ -167,6 +172,7 @@ public:
      * Get timestamp for data
      * @param data: Data to timestamp (will be hashed internally)
      * @return Timestamp token
+     * @brief TBD: Describe getTimestamp.
      */
     TimestampToken getTimestamp(const std::vector<uint8_t>& data);
 
@@ -174,6 +180,7 @@ public:
      * Get timestamp for pre-computed hash
      * @param hash: Pre-computed hash (e.g., SHA-256)
      * @return Timestamp token
+     * @brief TBD: Describe getTimestampForHash.
      */
     TimestampToken getTimestampForHash(const std::vector<uint8_t>& hash);
 
@@ -182,6 +189,7 @@ public:
      * @param data: Original data
      * @param token: Timestamp token to verify
      * @return true if valid, false otherwise
+     * @brief TBD: Describe verifyTimestamp.
      */
     bool verifyTimestamp(const std::vector<uint8_t>& data, 
                          const TimestampToken& token);
@@ -191,6 +199,7 @@ public:
      * @param hash: Pre-computed hash
      * @param token: Timestamp token to verify
      * @return true if valid, false otherwise
+     * @brief TBD: Describe verifyTimestampForHash.
      */
     bool verifyTimestampForHash(const std::vector<uint8_t>& hash,
                                 const TimestampToken& token);
@@ -199,53 +208,89 @@ public:
      * Parse timestamp token from DER or Base64
      * @param token_data: Token in DER format or Base64 string
      * @return Parsed timestamp token
+     * @brief TBD: Describe parseToken.
      */
     TimestampToken parseToken(const std::vector<uint8_t>& token_data);
+    /**
+     * @brief TBD: Describe parseToken.
+     * @param[in] token_b64 Input parameter.
+     * @return Return value.
+     */
     TimestampToken parseToken(const std::string& token_b64);
 
     /**
      * Get TSA certificate
      * @return TSA certificate in PEM format, or empty optional if not available
+     * @brief TBD: Describe getTSACertificate.
      */
     std::optional<std::string> getTSACertificate();
 
     /**
      * Check if TSA is reachable
      * @return true if TSA responds, false otherwise
+     * @brief TBD: Describe isAvailable.
      */
     bool isAvailable();
 
     /**
      * Get last error message
+     * @brief TBD: Describe getLastError.
+     * @return Return value.
      */
     std::string getLastError() const;
 
-    /// Register a stamping bridge for non-OpenSSL TSA builds.
-    /// Thread-safe; pass an empty function to restore the deterministic fallback.
+    /**
+     * @brief Register a stamping bridge for non-OpenSSL TSA builds.
+     * @param[in] fn Input parameter.
+     * @details Thread-safe; pass an empty function to restore the deterministic fallback. Calls: lk(), getTimestampForHashFnMutex(), getTimestampForHashFnStorage(), std::move().
+     */
     static void setGetTimestampForHashFn(GetTimestampForHashFn fn) {
         std::lock_guard<std::mutex> lk(getTimestampForHashFnMutex());
         getTimestampForHashFnStorage() = std::move(fn);
     }
-    /// Register a verification bridge for non-OpenSSL TSA builds.
-    /// Thread-safe; pass an empty function to restore the built-in fallback.
+    /**
+     * @brief Register a verification bridge for non-OpenSSL TSA builds.
+     * @param[in] fn Input parameter.
+     * @details Thread-safe; pass an empty function to restore the built-in fallback. Calls: lk(), verifyTimestampForHashFnMutex(), verifyTimestampForHashFnStorage(), std::move().
+     */
     static void setVerifyTimestampForHashFn(VerifyTimestampForHashFn fn) {
         std::lock_guard<std::mutex> lk(verifyTimestampForHashFnMutex());
         verifyTimestampForHashFnStorage() = std::move(fn);
     }
 
 private:
+    /**
+     * @brief TBD: Describe getTimestampForHashFnMutex.
+     * @return Return value.
+     * @details Implements getTimestampForHashFnMutex without additional internal calls.
+     */
     static std::mutex& getTimestampForHashFnMutex() {
         static std::mutex m;
         return m;
     }
+    /**
+     * @brief TBD: Describe getTimestampForHashFnStorage.
+     * @return Return value.
+     * @details Implements getTimestampForHashFnStorage without additional internal calls.
+     */
     static GetTimestampForHashFn& getTimestampForHashFnStorage() {
         static GetTimestampForHashFn fn;
         return fn;
     }
+    /**
+     * @brief TBD: Describe verifyTimestampForHashFnMutex.
+     * @return Return value.
+     * @details Implements verifyTimestampForHashFnMutex without additional internal calls.
+     */
     static std::mutex& verifyTimestampForHashFnMutex() {
         static std::mutex m;
         return m;
     }
+    /**
+     * @brief TBD: Describe verifyTimestampForHashFnStorage.
+     * @return Return value.
+     * @details Implements verifyTimestampForHashFnStorage without additional internal calls.
+     */
     static VerifyTimestampForHashFn& verifyTimestampForHashFnStorage() {
         static VerifyTimestampForHashFn fn;
         return fn;
@@ -256,20 +301,37 @@ private:
     std::string last_error_;
     std::vector<uint8_t> cached_tsa_cert_;  // Most recently received TSA certificate
     
-    // Helper: Create TSP request (RFC 3161)
+    /**
+     * @brief Helper: Create TSP request (RFC 3161)
+     * @param[in] hash Input parameter.
+     * @param[in] nonce Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> createTSPRequest(const std::vector<uint8_t>& hash,
                                           const std::vector<uint8_t>& nonce);
     
-    // Helper: Parse TSP response
+    /**
+     * @brief Helper: Parse TSP response
+     * @param[in] response Input parameter.
+     * @return Return value.
+     */
     TimestampToken parseTSPResponse(const std::vector<uint8_t>& response);
     
-    // Helper: Send HTTP request to TSA
+    /**
+     * @brief Helper: Send HTTP request to TSA
+     * @param[in] request Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> sendTSPRequest(const std::vector<uint8_t>& request);
     
     // Helper: Generate nonce for replay protection
     std::vector<uint8_t> generateNonce(size_t bytes = 8);
     
-    // Helper: Compute hash of data
+    /**
+     * @brief Helper: Compute hash of data
+     * @param[in] data Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> computeHash(const std::vector<uint8_t>& data);
 };
 
@@ -293,14 +355,20 @@ public:
                                               const std::vector<std::string>& qtsp_list,
                                               std::vector<std::string>& validation_errors)>;
 
-    /// Register callback used by validateeIDASTimestamp() in non-OpenSSL builds.
-    /// Pass empty fn to restore default stub behavior.
+    /**
+     * @brief Register callback used by validateeIDASTimestamp() in non-OpenSSL builds.
+     * @param[in] fn Input parameter.
+     * @details Pass empty fn to restore default stub behavior. Calls: lk(), validateFnMutex(), validateFnStorage(), std::move().
+     */
     static void setValidateFn(ValidateFn fn) {
         std::lock_guard<std::mutex> lk(validateFnMutex());
         validateFnStorage() = std::move(fn);
     }
-    /// Register callback used by isQualifiedTSA() in non-OpenSSL builds.
-    /// Pass empty fn to restore default stub behavior.
+    /**
+     * @brief Register callback used by isQualifiedTSA() in non-OpenSSL builds.
+     * @param[in] fn Input parameter.
+     * @details Pass empty fn to restore default stub behavior. Calls: lk(), qualifiedTSAFnMutex(), qualifiedTSAFnStorage(), std::move().
+     */
     static void setQualifiedTSAFn(QualifiedTSAFn fn) {
         std::lock_guard<std::mutex> lk(qualifiedTSAFnMutex());
         qualifiedTSAFnStorage() = std::move(fn);
@@ -311,6 +379,7 @@ public:
      * @param token: Timestamp token
      * @param trust_anchors: Trusted CA certificates (PEM)
      * @return true if eIDAS-compliant, false otherwise
+     * @brief TBD: Describe validateeIDASTimestamp.
      */
     bool validateeIDASTimestamp(const TimestampToken& token,
                                 const std::vector<std::string>& trust_anchors);
@@ -328,28 +397,51 @@ public:
      * @param tsa_cert: TSA certificate (PEM)
      * @param qtsp_list: List of qualified TSPs
      * @return true if qualified, false otherwise
+     * @brief TBD: Describe isQualifiedTSA.
      */
     bool isQualifiedTSA(const std::string& tsa_cert,
                         const std::vector<std::string>& qtsp_list);
     
     /**
      * Get validation errors
+     * @brief TBD: Describe getValidationErrors.
+     * @return Return value.
      */
     std::vector<std::string> getValidationErrors() const;
 
 private:
+    /**
+     * @brief TBD: Describe validateFnMutex.
+     * @return Return value.
+     * @details Implements validateFnMutex without additional internal calls.
+     */
     static std::mutex& validateFnMutex() {
         static std::mutex m;
         return m;
     }
+    /**
+     * @brief TBD: Describe validateFnStorage.
+     * @return Return value.
+     * @details Implements validateFnStorage without additional internal calls.
+     */
     static ValidateFn& validateFnStorage() {
         static ValidateFn fn;
         return fn;
     }
+    /**
+     * @brief TBD: Describe qualifiedTSAFnMutex.
+     * @return Return value.
+     * @details Implements qualifiedTSAFnMutex without additional internal calls.
+     */
     static std::mutex& qualifiedTSAFnMutex() {
         static std::mutex m;
         return m;
     }
+    /**
+     * @brief TBD: Describe qualifiedTSAFnStorage.
+     * @return Return value.
+     * @details Implements qualifiedTSAFnStorage without additional internal calls.
+     */
     static QualifiedTSAFn& qualifiedTSAFnStorage() {
         static QualifiedTSAFn fn;
         return fn;

@@ -76,9 +76,11 @@ public:
         uint64_t    peak_bytes      = 0;  ///< high-water mark for this tenant
     };
 
-    // -----------------------------------------------------------------------
-    // Singleton
-    // -----------------------------------------------------------------------
+    /**
+     * @brief ----------------------------------------------------------------------- Singleton -----------------------------------------------------------------------
+     * @return Return value.
+     * @details Implements GetInstance without additional internal calls.
+     */
     static GPUMemoryManager& GetInstance() {
         static GPUMemoryManager instance;
         return instance;
@@ -113,6 +115,7 @@ public:
      *
      * The tenant entry is kept in the internal map so that usage tracking
      * continues until all its allocations have been freed.
+     * @param[in] tenant_id Input parameter.
      */
     void RemoveTenantQuota(const std::string& tenant_id);
 
@@ -150,6 +153,7 @@ public:
      *
      * Silently clamps to zero if @p size_bytes exceeds the tracked total to
      * guard against double-free or mis-matched sizes.
+     * @param[in] size_bytes Input parameter.
      */
     void DeallocateGPU(uint64_t size_bytes);
 
@@ -157,12 +161,15 @@ public:
      * @brief Tenant-aware deallocation.
      *
      * Decrements both the global counter and the per-tenant counter.
+     * @param[in] size_bytes Input parameter.
+     * @param[in] tenant_id Input parameter.
      */
     void DeallocateGPU(uint64_t size_bytes, const std::string& tenant_id);
 
     /**
      * @brief Validate a proposed allocation; throws std::runtime_error on
      *        rejection instead of returning false.
+     * @param[in] size_bytes Input parameter.
      */
     void ValidateAllocation(uint64_t size_bytes);
 
@@ -199,6 +206,7 @@ public:
      * @brief Release a previously reserved hint without allocating.
      *
      * Safe to call with an invalid (id == 0) handle.
+     * @param[in] hint_id Input parameter.
      */
     void CancelHint(uint64_t hint_id);
 
@@ -210,9 +218,11 @@ public:
      *
      * @return true if the hint was found and converted; false if the hint_id
      *         was not found (already consumed or cancelled).
+     * @param[in] hint_id Input parameter.
      */
     bool ConsumeHint(uint64_t hint_id);
 
+     * @return Return value.
     /** @brief Total bytes currently held by outstanding hints. */
     uint64_t GetHintReservedBytes() const;
 
@@ -260,14 +270,32 @@ public:
      */
     [[nodiscard]] bool isGPUEnabled() const noexcept override;
 
-    // -----------------------------------------------------------------------
-    // Queries
-    // -----------------------------------------------------------------------
+    /**
+     * @brief ----------------------------------------------------------------------- Queries -----------------------------------------------------------------------
+     * @return Return value.
+     */
     uint64_t GetGPUMemoryUsed() const;
+    /**
+     * @brief TBD: Describe GetGPUMemoryUsagePercent.
+     * @return Return value.
+     */
     float    GetGPUMemoryUsagePercent() const;
+    /**
+     * @brief TBD: Describe IsGPUAccelerationEnabled.
+     * @return True on success.
+     * @note Exception safety: noexcept.
+     */
     bool     IsGPUAccelerationEnabled() const noexcept;
+    /**
+     * @brief TBD: Describe GetStats.
+     * @return Return value.
+     */
     Stats    GetStats() const;
 
+    /**
+     * @brief TBD: Describe GetEditionInfo.
+     * @return Return value.
+     */
     std::string GetEditionInfo() const;
 
     /**
@@ -275,6 +303,7 @@ public:
      *
      * Useful for debugging and leak detection: callers can inspect which tags
      * still hold VRAM after their workload completes.
+     * @return Return value.
      */
     std::vector<AllocationRecord> GetActiveAllocations() const;
 
@@ -283,12 +312,15 @@ public:
      *
      * Returns a zero-filled TenantStats if the tenant has never allocated or
      * had a quota set.
+     * @param[in] tenant_id Input parameter.
+     * @return Return value.
      */
     TenantStats GetTenantStats(const std::string& tenant_id) const;
 
     /**
      * @brief Return a snapshot of stats for all tenants that have a quota or
      *        at least one live allocation.
+     * @return Return value.
      */
     std::vector<TenantStats> GetAllTenantStats() const;
 
@@ -297,6 +329,8 @@ public:
      *
      * Returns the lesser of (global_remaining) and (tenant_quota - tenant_used).
      * If the tenant has no quota registered, only the global limit is considered.
+     * @param[in] tenant_id Input parameter.
+     * @return Return value.
      */
     uint64_t GetTenantHeadroom(const std::string& tenant_id) const;
 
@@ -338,7 +372,13 @@ private:
     };
     std::unordered_map<std::string, TenantState> tenant_states_;
 
-    // Internal helper called under lock.
+    /**
+     * @brief Internal helper called under lock.
+     * @param[in] size_bytes Input parameter.
+     * @param[in] tag Input parameter.
+     * @param[in] tenant_id Input parameter.
+     * @return True on success.
+     */
     bool TryAllocateUnderLock(uint64_t size_bytes,
                               const std::string& tag,
                               const std::string& tenant_id);
@@ -346,6 +386,11 @@ private:
     // Rollback helper (Phase 3 Hardening) — called under lock for exception recovery.
     // Decrements both global and per-tenant counters; idempotent and noexcept.
     friend class AllocationGuard;
+    /**
+     * @brief TBD: Describe RollbackAllocationUnderLock.
+     * @param[in] tenant_id Input parameter.
+     * @param[in] size_bytes Input parameter.
+     */
     void RollbackAllocationUnderLock(const std::string& tenant_id, uint64_t size_bytes);
 };
 
@@ -363,6 +408,7 @@ inline bool CanUseGPUForVectorSearch() noexcept {
 
 /**
  * @brief Human-readable CPU-fallback message for when VRAM is exhausted.
+ * @return Return value.
  */
 std::string GetGPUFallbackStrategy();
 

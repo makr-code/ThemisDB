@@ -78,6 +78,10 @@ struct KeyRotationDescriptor {
  */
 class IEncryptedDocumentEntity {
 public:
+    /**
+     * @brief TBD: Describe ~IEncryptedDocumentEntity.
+     * @return Return value.
+     */
     virtual ~IEncryptedDocumentEntity() = default;
 
     /// @brief The document's unique identifier within its collection.
@@ -122,6 +126,10 @@ public:
  */
 class IDocumentManager {
 public:
+    /**
+     * @brief TBD: Describe ~IDocumentManager.
+     * @return Return value.
+     */
     virtual ~IDocumentManager() = default;
 
     // ── CRUD ──────────────────────────────────────────────────────────────
@@ -191,6 +199,7 @@ public:
      *
      * Thread-safe.  The hook is called for every subsequent CRUD operation.
      * Duplicates (same pointer) are silently ignored.
+     * @param[in,out] hook Input/output parameter.
      */
     virtual void registerLifecycleHook(IDocumentLifecycleHook& hook) = 0;
 
@@ -199,6 +208,7 @@ public:
      *
      * Thread-safe.  Any in-flight callback on @p hook completes before this
      * method returns.  No-op if @p hook was not registered.
+     * @param[in,out] hook Input/output parameter.
      */
     virtual void unregisterLifecycleHook(IDocumentLifecycleHook& hook) = 0;
 };
@@ -388,6 +398,11 @@ public:
     // ── Lifecycle hooks ───────────────────────────────────────────────────
 
     void registerLifecycleHook(IDocumentLifecycleHook& hook) override {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] hooks_mu_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lk(hooks_mu_);
         auto ptr = &hook;
         if (std::find(hooks_.begin(), hooks_.end(), ptr) == hooks_.end()) {
@@ -396,6 +411,11 @@ public:
     }
 
     void unregisterLifecycleHook(IDocumentLifecycleHook& hook) override {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] hooks_mu_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lk(hooks_mu_);
         auto ptr = &hook;
         hooks_.erase(std::remove(hooks_.begin(), hooks_.end(), ptr),
@@ -404,6 +424,11 @@ public:
 
 private:
     void dispatchHooks(const DocumentLifecycleEvent& evt) const {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] hooks_mu_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lk(hooks_mu_);
         for (auto* h : hooks_) {
             switch (evt.type) {
@@ -417,6 +442,11 @@ private:
         }
     }
 
+    /**
+     * @brief TBD: Describe nowMs.
+     * @return Return value.
+     * @details Calls: system_clock::now(), time_since_epoch(), count().
+     */
     static int64_t nowMs() {
         using namespace std::chrono;
         return duration_cast<milliseconds>(

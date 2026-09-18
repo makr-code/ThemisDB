@@ -66,6 +66,9 @@ public:
         std::deque<double> latency_samples;
         static constexpr size_t MAX_SAMPLES = 1000;
         
+        /**
+         * @brief TBD: Describe updatePercentiles.
+         */
         void updatePercentiles();
     };
     
@@ -138,7 +141,11 @@ private:
     std::unordered_map<std::string, PluginStats> stats_;
     mutable std::mutex mutex_;
     
-    // Helper to ensure plugin stats exist
+    /**
+     * @brief Helper to ensure plugin stats exist
+     * @param[in] plugin Input parameter.
+     * @return Return value.
+     */
     PluginStats& getOrCreateStats(const std::string& plugin);
 };
 

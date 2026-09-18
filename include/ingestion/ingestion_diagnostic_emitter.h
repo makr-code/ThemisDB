@@ -112,6 +112,7 @@ struct DiagnosticIncident {
 
     /**
      * @brief Serialize incident to JSON.
+     * @return Return value.
      */
     std::string toJson() const;
 };
@@ -185,8 +186,14 @@ public:
      *
      * @param listener Callback function to invoke on incidents
      * @return Listener ID (can be used to unregister)
+     * @details Calls: lock().
      */
     int registerListener(DiagnosticListener listener) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         const int id = next_listener_id_++;
         listeners_[id] = listener;
@@ -197,16 +204,28 @@ public:
      * @brief Unregister a previously registered listener.
      * @param listener_id ID returned by registerListener()
      * @return true if the listener was found and removed
+     * @details Calls: lock(), erase().
      */
     bool unregisterListener(int listener_id) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return listeners_.erase(listener_id) > 0;
     }
 
     /**
      * @brief Clear all registered listeners.
+     * @details Calls: lock(), clear().
      */
     void clearListeners() {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         listeners_.clear();
     }
@@ -215,6 +234,11 @@ public:
      * @brief Get the number of registered listeners.
      */
     std::size_t getListenerCount() const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return listeners_.size();
     }
@@ -228,8 +252,14 @@ public:
      * Thread-safe; can be called from multiple threads.
      *
      * @param incident Diagnostic incident to emit
+     * @details Calls: lock(), empty(), generateIncidentId(), std::chrono::system_clock::now(), second().
      */
     void emit(DiagnosticIncident incident) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
 
         // Generate unique incident ID if not already set
@@ -264,6 +294,7 @@ public:
      *
      * @param error_context Error context to convert
      * @return Generated incident ID
+     * @details Calls: categorizeError(), calculateSeverity(), getErrorMessage(), getRemediationHint(), getRunbookLink(), emit().
      */
     std::string emitFromError(const ErrorContext& error_context) {
         DiagnosticIncident incident;
@@ -289,6 +320,11 @@ public:
      * @return Number of incidents in this category since emitter creation
      */
     std::size_t getIncidentCount(IncidentCategory category) const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         auto key = static_cast<int>(category);
         auto it = incident_counts_.find(key);
@@ -299,6 +335,11 @@ public:
      * @brief Get total incident count across all categories.
      */
     std::size_t getTotalIncidentCount() const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         std::size_t total = 0;
         for (const auto& kv : incident_counts_) {
@@ -309,8 +350,14 @@ public:
 
     /**
      * @brief Reset all incident counters.
+     * @details Calls: lock(), clear().
      */
     void resetCounters() {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         incident_counts_.clear();
     }
@@ -323,6 +370,8 @@ private:
 
     /**
      * @brief Generate a unique incident identifier.
+     * @return Return value.
+     * @details Calls: counter(), std::to_string().
      */
     std::string generateIncidentId() {
         static std::atomic<uint64_t> counter(0);
@@ -331,6 +380,9 @@ private:
 
     /**
      * @brief Categorize an error code into an incident category.
+     * @param[in] code Input parameter.
+     * @return Return value.
+     * @details Implements categorizeError without additional internal calls.
      */
     IncidentCategory categorizeError(IngestionErrorCode code) {
         // Map error codes to incident categories
@@ -376,6 +428,9 @@ private:
 
     /**
      * @brief Calculate severity level for an incident category.
+     * @param[in] category Input parameter.
+     * @return Return value.
+     * @details Implements calculateSeverity without additional internal calls.
      */
     DiagnosticSeverity calculateSeverity(IncidentCategory category) {
         switch (category) {
@@ -399,6 +454,9 @@ private:
 
     /**
      * @brief Get remediation hint for an incident category.
+     * @param[in] category Input parameter.
+     * @return Return value.
+     * @details Implements getRemediationHint without additional internal calls.
      */
     std::string getRemediationHint(IncidentCategory category) {
         switch (category) {
@@ -433,6 +491,9 @@ private:
 
     /**
      * @brief Get runbook link for an incident category.
+     * @param[in] category Input parameter.
+     * @return Return value.
+     * @details Implements getRunbookLink without additional internal calls.
      */
     std::string getRunbookLink(IncidentCategory category) {
         switch (category) {

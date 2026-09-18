@@ -65,8 +65,10 @@ struct QueryProfile {
     /// True if the query was served entirely from cache.
     bool cache_hit = false;
 
-    /// Returns the operator profile with the highest `duration_ns`, or nullptr
-    /// if no operators have been recorded.
+    /**
+     * @brief Returns the operator profile with the highest `duration_ns`, or nullptr if no operators have been recorded.
+     * @return Pointer to the result.
+     */
     const OperatorProfile* slowestOperator() const;
 };
 
@@ -86,6 +88,10 @@ struct QueryProfile {
  */
 class IQueryProfiler {
 public:
+    /**
+     * @brief TBD: Describe ~IQueryProfiler.
+     * @return Return value.
+     */
     virtual ~IQueryProfiler() = default;
 
     /**

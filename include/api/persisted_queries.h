@@ -92,6 +92,11 @@ public:
         const std::string& query_text,
         const std::string& description = ""
     ) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         if (queries_.find(query_id) != queries_.end()) {
@@ -113,6 +118,11 @@ public:
      * @return Pointer to query if found, nullptr otherwise
      */
     std::shared_ptr<PersistedQuery> getQuery(const std::string& query_id) const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         auto it = queries_.find(query_id);
@@ -127,8 +137,14 @@ public:
      * @param query_id The query identifier
      * @param reason Deprecation reason
      * @return true if query was found and marked deprecated
+     * @details Calls: lock(), find(), end().
      */
     bool deprecateQuery(const std::string& query_id, const std::string& reason) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         auto it = queries_.find(query_id);
@@ -144,6 +160,11 @@ public:
      * @brief Check if a query is registered
      */
     bool isRegistered(const std::string& query_id) const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return queries_.find(query_id) != queries_.end();
     }
@@ -152,6 +173,11 @@ public:
      * @brief Get all registered query IDs
      */
     std::vector<std::string> getAllQueryIds() const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         std::vector<std::string> ids = {};
 
@@ -164,8 +190,14 @@ public:
     
     /**
      * @brief Clear all registered queries
+     * @details Calls: lock().
      */
     void clear() {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         queries_.clear();
     }
@@ -174,12 +206,19 @@ public:
      * @brief Get the number of registered queries
      */
     size_t size() const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return queries_.size();
     }
     
     /**
      * @brief Singleton instance
+     * @return Return value.
+     * @details Implements instance without additional internal calls.
      */
     static PersistedQueryRegistry& instance() {
         static PersistedQueryRegistry instance;
@@ -204,8 +243,14 @@ public:
     /**
      * @brief Add a query hash to the allow-list
      * @param query_hash Hash of the allowed query
+     * @details Calls: lock(), insert().
      */
     void allow(const std::string& query_hash) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         allowed_queries_.insert(query_hash);
     }
@@ -216,22 +261,40 @@ public:
      * @return true if query is in allow-list
      */
     bool isAllowed(const std::string& query_hash) const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return allowed_queries_.find(query_hash) != allowed_queries_.end();
     }
     
     /**
      * @brief Remove a query from allow-list
+     * @param[in] query_hash Input parameter.
+     * @details Calls: lock(), erase().
      */
     void remove(const std::string& query_hash) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         allowed_queries_.erase(query_hash);
     }
     
     /**
      * @brief Clear the allow-list
+     * @details Calls: lock().
      */
     void clear() {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         allowed_queries_.clear();
     }
@@ -240,6 +303,11 @@ public:
      * @brief Get the number of allowed queries
      */
     size_t size() const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return allowed_queries_.size();
     }
@@ -249,19 +317,33 @@ public:
      * 
      * When disabled, all queries are allowed (development mode).
      * When enabled, only queries in allow-list can execute (production mode).
+     * @param[in] enabled Input parameter.
+     * @details Calls: lock().
      */
     void setEnabled(bool enabled) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         enabled_ = enabled;
     }
     
     bool isEnabled() const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return enabled_;
     }
     
     /**
      * @brief Singleton instance
+     * @return Return value.
+     * @details Implements instance without additional internal calls.
      */
     static QueryAllowList& instance() {
         static QueryAllowList instance;
@@ -285,6 +367,7 @@ public:
      * @brief Compute a hash for a query string
      * @param query The GraphQL query text
      * @return Hash string
+     * @details Calls: std::to_string(), hasher().
      */
     static std::string hash(const std::string& query) {
         // Simple hash for now - could use SHA256 for production
@@ -297,6 +380,9 @@ public:
      * 
      * Removes whitespace and comments to ensure queries with
      * different formatting produce the same hash.
+     * @param[in] query Input parameter.
+     * @return Return value.
+     * @details Calls: reserve(), size(), std::isspace(), empty(), back(), pop_back().
      */
     static std::string normalize(const std::string& query) {
         std::string normalized = {};

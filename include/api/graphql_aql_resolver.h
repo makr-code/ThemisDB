@@ -124,11 +124,21 @@ public:
     /// Compute complexity score for a GraphQL Document.
     static uint32_t estimate(const std::shared_ptr<Document>& doc);
 
-    /// Derive QueryResourceLimits from a complexity score.
-    /// @throws std::runtime_error if complexity > kGraphQLMaxComplexity
+    /**
+     * @brief Derive QueryResourceLimits from a complexity score.
+     * @param[in] complexity Input parameter.
+     * @return Return value.
+     * @details @throws std::runtime_error if complexity > kGraphQLMaxComplexity
+     */
     static ::themis::query::QueryResourceLimits limitsFor(uint32_t complexity);
 
 private:
+    /**
+     * @brief TBD: Describe scoreSelectionSet.
+     * @param[in] set Input parameter.
+     * @param[in] depth Input parameter.
+     * @return Return value.
+     */
     static uint32_t scoreSelectionSet(const std::shared_ptr<SelectionSet>& set,
                                      uint32_t depth);
 };
@@ -178,6 +188,12 @@ public:
 private:
     ::themis::QueryEngine* engine_;
 
+    /**
+     * @brief TBD: Describe extractStringArg.
+     * @param[in] field Input parameter.
+     * @param[in] argName Input parameter.
+     * @return Return value.
+     */
     std::string extractStringArg(const Field& field,
                                 const std::string& argName) const;
 

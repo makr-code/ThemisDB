@@ -85,15 +85,37 @@ public:
     // Construction
     // -----------------------------------------------------------------------
     GPUAlerts() = default;
+    /**
+     * @brief TBD: Describe GPUAlerts.
+     * @param[in] cfg Input parameter.
+     * @return Return value.
+     */
     explicit GPUAlerts(const Config& cfg);
 
-    // -----------------------------------------------------------------------
-    // Metric update
-    // -----------------------------------------------------------------------
+    /**
+     * @brief ----------------------------------------------------------------------- Metric update -----------------------------------------------------------------------
+     * @param[in] used_fraction Input parameter.
+     */
     void setVRAMUsage(float used_fraction);   ///< 0.0–1.0
+    /**
+     * @brief TBD: Describe setErrorRate.
+     * @param[in] rate Input parameter.
+     */
     void setErrorRate(float rate);            ///< 0.0–1.0
+    /**
+     * @brief TBD: Describe setFallbackRate.
+     * @param[in] rate Input parameter.
+     */
     void setFallbackRate(float rate);         ///< 0.0–1.0
+    /**
+     * @brief TBD: Describe setCircuitOpen.
+     * @param[in] is_open Input parameter.
+     */
     void setCircuitOpen(bool is_open);
+    /**
+     * @brief TBD: Describe setDeviceAvailable.
+     * @param[in] available Input parameter.
+     */
     void setDeviceAvailable(bool available);
 
     // -----------------------------------------------------------------------
@@ -102,6 +124,7 @@ public:
 
     /**
      * @brief Register a callback invoked whenever an alert fires or resolves.
+     * @param[in] callback Input parameter.
      */
     void onAlert(AlertCallback callback);
 
@@ -119,11 +142,21 @@ public:
      */
     size_t evaluate();
 
-    // -----------------------------------------------------------------------
-    // Queries
-    // -----------------------------------------------------------------------
+    /**
+     * @brief ----------------------------------------------------------------------- Queries -----------------------------------------------------------------------
+     * @return Return value.
+     */
     std::vector<AlertStatus> currentStatuses() const;
+    /**
+     * @brief TBD: Describe firingCount.
+     * @return Return value.
+     */
     size_t firingCount() const;
+    /**
+     * @brief TBD: Describe isFiring.
+     * @param[in] alert_name Input parameter.
+     * @return True on success.
+     */
     bool isFiring(const std::string& alert_name) const;
 
 private:
@@ -141,10 +174,20 @@ private:
     std::unordered_map<std::string, AlertStatus> statuses_;
     std::vector<AlertCallback> callbacks_;
 
-    // Called under lock when a state transition occurs.
+    /**
+     * @brief Called under lock when a state transition occurs.
+     * @param[in] s Input parameter.
+     */
     void fireCallback(const AlertStatus& s);
 
-    // Helper: update a single alert rule.
+    /**
+     * @brief Helper: update a single alert rule.
+     * @param[in] name Input parameter.
+     * @param[in] condition Input parameter.
+     * @param[in] value Input parameter.
+     * @param[in] threshold Input parameter.
+     * @param[in] msg Input parameter.
+     */
     void updateAlert(const std::string& name,
                      bool condition,
                      float value,

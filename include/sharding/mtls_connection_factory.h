@@ -52,6 +52,10 @@ struct SSLDeleter {
  */
 class IEndpointConnectionFactory {
 public:
+    /**
+     * @brief TBD: Describe ~IEndpointConnectionFactory.
+     * @return Return value.
+     */
     virtual ~IEndpointConnectionFactory() = default;
     
     /**

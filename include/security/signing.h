@@ -31,6 +31,10 @@ struct SigningResult {
 /** @brief Signing service component. */
 class SigningService {
 public:
+    /**
+     * @brief TBD: Describe ~SigningService.
+     * @return Return value.
+     */
     virtual ~SigningService() = default;
     [[nodiscard]] virtual SigningResult sign(const std::vector<uint8_t>& data, const std::string& key_id) = 0;
     [[nodiscard]] virtual bool verify(const std::vector<uint8_t>& data,
@@ -38,12 +42,18 @@ public:
                         const std::string& key_id) = 0;
 };
 
-// Factories
+/**
+ * @brief Factories
+ * @return Return value.
+ */
 std::shared_ptr<SigningService> createMockSigningService();
 
-// KeyProvider-backed signing service: expects KeyProvider::getKey(key_id)
-// to return private key bytes (PEM or DER). If a certificate is present,
-// store it under key_id+":cert" and it will be used for CMS verification.
+/**
+ * @brief KeyProvider-backed signing service: expects KeyProvider::getKey(key_id) to return private key bytes (PEM or DER).
+ * @param[in] kp Input parameter.
+ * @return Return value.
+ * @details If a certificate is present, store it under key_id+":cert" and it will be used for CMS verification.
+ */
 std::shared_ptr<SigningService> createKeyProviderSigningService(std::shared_ptr<KeyProvider> kp);
 
 // HSM-backed signing service for update bundle signing with hardware-secured keys.

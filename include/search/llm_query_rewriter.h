@@ -111,6 +111,11 @@ public:
         /// (semantically nonsensical output filter).  Set to 0.0 to disable.
         /// Source: AI_ML_IMPACT_ASSESSMENT.md §7, Gap 2 / search/FUTURE_ENHANCEMENTS.md.
         float min_token_overlap_ratio = 0.2f;
+        /**
+         * @brief TBD: Describe defaults.
+         * @return Return value.
+         * @details Implements defaults without additional internal calls.
+         */
         static Config defaults() { return {}; }
     };
 
@@ -170,13 +175,22 @@ private:
     std::vector<std::string> parseRewrites(const std::string& llm_output,
                                            const std::string& original) const;
 
-    /// Compute the Jaccard overlap between the whitespace-token sets of
-    /// @p a and @p b.  Returns a value in [0, 1].
+    /**
+     * @brief Compute the Jaccard overlap between the whitespace-token sets of @p a and @p b.
+     * @param[in] a Input parameter.
+     * @param[in] b Input parameter.
+     * @return Return value.
+     * @details Returns a value in [0, 1].
+     */
     static float jaccardTokenOverlap(const std::string& a, const std::string& b);
 
-    /// Filter @p rewrites in-place: discard entries whose Jaccard overlap with
-    /// @p original falls below Config::min_token_overlap_ratio.
-    /// Returns true if at least one rewrite survived the filter.
+    /**
+     * @brief Filter @p rewrites in-place: discard entries whose Jaccard overlap with @p original falls below Config::min_token_overlap_ratio.
+     * @param[in,out] rewrites Input/output parameter.
+     * @param[in] original Input parameter.
+     * @return True on success.
+     * @details Returns true if at least one rewrite survived the filter.
+     */
     bool applyOverlapFilter(std::vector<std::string>& rewrites,
                             const std::string& original) const;
 };

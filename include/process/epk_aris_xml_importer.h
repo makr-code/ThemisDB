@@ -135,11 +135,15 @@ public:
      * @brief Map an ARIS TypeNum to the corresponding EPKNodeType.
      *
      * Returns EPKNodeType::FUNCTION for any unrecognised TypeNum.
+     * @param[in] type_num Input parameter.
+     * @return Return value.
      */
     static EPKNodeType typeNumToEpkNodeType(int type_num);
 
     /**
      * @brief Return a human-readable German label for an ARIS TypeNum.
+     * @param[in] type_num Input parameter.
+     * @return Return value.
      */
     static std::string_view typeNumToLabel(int type_num);
 

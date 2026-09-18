@@ -69,6 +69,9 @@ struct MetadataWALEntry {
         return entry;
     }
     
+     * @param[in] entry Input parameter.
+     * @return Return value.
+     * @details Implements fromWALEntry without additional internal calls.
     /** @brief Reconstruct metadata entry from generic WAL entry payload. */
     static MetadataWALEntry fromWALEntry(const WALEntry& entry) {
         MetadataWALEntry metadata_entry;
@@ -114,11 +117,14 @@ struct MetadataWALConfig {
  */
 class MetadataWAL {
 public:
+     * @param[in] config Input parameter.
+     * @return Return value.
     /** @brief Construct metadata WAL wrapper over shared WAL manager primitives. */
     explicit MetadataWAL(const MetadataWALConfig& config);
     /** @brief Destructor for metadata WAL wrapper. */
     ~MetadataWAL();
     
+     * @return True on success.
     /** @brief Initialize directories and underlying WAL manager instance. */
     bool initialize();
     
@@ -188,6 +194,8 @@ public:
     const MetadataWALConfig& getConfig() const { return config_; }
     
 private:
+     * @param[in] entry Input parameter.
+     * @return Return value.
     /** @brief Internal helper to append one metadata WAL entry. */
     LSN writeEntry(const MetadataWALEntry& entry);
     

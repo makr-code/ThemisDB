@@ -45,6 +45,8 @@ public:
     
     /**
      * @brief Handle hot-reload HTTP requests
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleRequest(
         const http::request<http::string_body>& req
@@ -56,6 +58,9 @@ private:
     
     /**
      * @brief GET /api/updates/manifests/:version
+     * @param[in] req Input parameter.
+     * @param[in] version Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleGetManifest(
         const http::request<http::string_body>& req,
@@ -64,6 +69,9 @@ private:
     
     /**
      * @brief POST /api/updates/download/:version
+     * @param[in] req Input parameter.
+     * @param[in] version Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleDownload(
         const http::request<http::string_body>& req,
@@ -72,6 +80,9 @@ private:
     
     /**
      * @brief POST /api/updates/apply/:version
+     * @param[in] req Input parameter.
+     * @param[in] version Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleApply(
         const http::request<http::string_body>& req,
@@ -80,6 +91,9 @@ private:
     
     /**
      * @brief POST /api/updates/rollback/:id
+     * @param[in] req Input parameter.
+     * @param[in] rollback_id Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleRollback(
         const http::request<http::string_body>& req,
@@ -88,6 +102,8 @@ private:
     
     /**
      * @brief GET /api/updates/rollback
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleListRollbacks(
         const http::request<http::string_body>& req
@@ -95,6 +111,10 @@ private:
     
     /**
      * @brief Create JSON response
+     * @param[in] status Input parameter.
+     * @param[in] body Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> createJsonResponse(
         http::status status,
@@ -104,6 +124,10 @@ private:
     
     /**
      * @brief Create error response
+     * @param[in] status Input parameter.
+     * @param[in] message Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> createErrorResponse(
         http::status status,
@@ -113,6 +137,9 @@ private:
     
     /**
      * @brief Extract path parameter (e.g., version from /api/updates/apply/:version)
+     * @param[in] path Input parameter.
+     * @param[in] prefix Input parameter.
+     * @return Return value.
      */
     std::string extractPathParam(const std::string& path, const std::string& prefix);
 };

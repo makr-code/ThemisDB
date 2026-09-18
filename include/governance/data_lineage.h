@@ -214,6 +214,7 @@ public:
      * Default: 10000.
      * 
      * @param limit Maximum events per dataset
+     * @details Implements setMaxEventsPerDataset without additional internal calls.
      */
     void setMaxEventsPerDataset(size_t limit) { max_events_per_dataset_ = limit; }
 
@@ -224,6 +225,7 @@ public:
      * Default: 1000000.
      * 
      * @param limit Maximum total events
+     * @details Implements setMaxTotalEvents without additional internal calls.
      */
     void setMaxTotalEvents(size_t limit) { max_total_events_ = limit; }
 
@@ -233,6 +235,7 @@ public:
      * Default: 3.
      * 
      * @param failures Failure count threshold
+     * @details Implements setCircuitBreakerThreshold without additional internal calls.
      */
     void setCircuitBreakerThreshold(int32_t failures) { cb_failure_threshold_ = failures; }
 
@@ -243,6 +246,7 @@ public:
      * Default: 30000 (30 seconds).
      * 
      * @param ms Recovery window in milliseconds
+     * @details Implements setCircuitBreakerRecoveryWindowMs without additional internal calls.
      */
     void setCircuitBreakerRecoveryWindowMs(int64_t ms) { cb_recovery_window_ms_ = ms; }
 

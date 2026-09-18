@@ -68,7 +68,16 @@ struct SignedBatch {
     std::vector<uint8_t> ciphertext_hash;  // SHA-256 over encrypted batch
     SignatureResult signature;
     
+    /**
+     * @brief TBD: Describe toJson.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
+    /**
+     * @brief TBD: Describe fromJson.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static SignedBatch fromJson(const nlohmann::json& j);
 };
 
@@ -121,17 +130,20 @@ public:
     /**
      * @brief Verify a signed batch by batch_id
      * @return true if signature valid and decryption successful
+     * @param[in] batch_id Input parameter.
      */
     bool verifyBatch(const std::string& batch_id);
     
     /**
      * @brief Load and decrypt a batch's entries
      * @return Decrypted SAGA steps or empty if verification fails
+     * @param[in] batch_id Input parameter.
      */
     std::vector<SAGAStep> loadBatch(const std::string& batch_id);
     
     /**
      * @brief Get all batch IDs in chronological order
+     * @return Return value.
      */
     std::vector<std::string> listBatches() const;
 
@@ -142,9 +154,26 @@ public:
     void logErrorContext(const ErrorContext& ctx);
 
 private:
+    /**
+     * @brief TBD: Describe signAndFlushBatch.
+     */
     void signAndFlushBatch();
+    /**
+     * @brief TBD: Describe sha256.
+     * @param[in] data Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> sha256(const std::vector<uint8_t>& data);
+    /**
+     * @brief TBD: Describe appendJsonLine.
+     * @param[in] path Input parameter.
+     * @param[in] j Input parameter.
+     */
     void appendJsonLine(const std::string& path, const nlohmann::json& j);
+    /**
+     * @brief TBD: Describe generateBatchId.
+     * @return Return value.
+     */
     std::string generateBatchId() const;
     
     std::shared_ptr<FieldEncryption> enc_;
@@ -168,6 +197,11 @@ private:
  */
 class SAGALogCompactor {
 public:
+    /**
+     * @brief TBD: Describe SAGALogCompactor.
+     * @param[in] cfg Input parameter.
+     * @return Return value.
+     */
     explicit SAGALogCompactor(const SAGALoggerConfig& cfg);
 
     /**
@@ -179,6 +213,7 @@ public:
 
     /**
      * @brief Get the path where archived steps are written.
+     * @return Return value.
      */
     std::string archivePath() const;
 
@@ -196,6 +231,11 @@ private:
  */
 class SAGALogReplayer {
 public:
+    /**
+     * @brief TBD: Describe SAGALogReplayer.
+     * @param[in] cfg Input parameter.
+     * @return Return value.
+     */
     explicit SAGALogReplayer(const SAGALoggerConfig& cfg);
 
     using RecoveryHandler = std::function<void(const SAGAStep&)>;

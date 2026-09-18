@@ -158,6 +158,9 @@ public:
      *
      * Boolean stage values retain backward compatibility (only `enabled` is set).
      * Omitted keys retain the default values.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     * @details Calls: is_boolean(), is_object(), contains(), is_number_integer(), load_stage(), load_stage_cfg(), begin(), end().
      */
     static ProcessorChainConfig fromJson(const json& j) {
         ProcessorChainConfig cfg;

@@ -236,6 +236,7 @@ public:
      * If config.auto_deduplicate is true, inserts into TensorFingerprintGraph.
      *
      * @return true on success.
+     * @param[in] exp Input parameter.
      */
     bool store(const AdaLoraTTExport& exp);
 
@@ -244,6 +245,9 @@ public:
      *
      * Forwards to store(exp) to preserve existing call sites and tests that
      * still use the historical method name.
+     * @param[in] exp Input parameter.
+     * @return True on success.
+     * @details Calls: store().
      */
     bool storeAdapter(const AdaLoraTTExport& exp) { return store(exp); }
 
@@ -321,8 +325,18 @@ public:
         double      avg_compression_ratio = 0.0; ///< TT vs. flat B+A matrices
     };
 
+    /**
+     * @brief TBD: Describe stats.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     BridgeStats stats() const noexcept;
 
+    /**
+     * @brief TBD: Describe config.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     const AdaLoraTTBridgeConfig& config() const noexcept;
 
     // -----------------------------------------------------------------------
@@ -347,6 +361,9 @@ public:
      * @param fn  Function called by `mapAdapter()` to inject TT-cores into llama.cpp.
      */
     void setMapAdapterFn(MapAdapterFn fn);
+    /**
+     * @brief TBD: Describe clearMapAdapterFn.
+     */
     void clearMapAdapterFn();
 
     /**
@@ -379,6 +396,7 @@ public:
      */
     using TrainingStepFn = std::function<std::size_t(AdaLoraTTExport&, double)>;
 
+     * @param[in] fn Input parameter.
     /** @brief Inject the Phase 4 training-loop backend. Thread-safe. */
     static void setTrainingStepFn(TrainingStepFn fn);
     /** @brief Clear the Phase 4 training-loop backend. */

@@ -166,6 +166,11 @@ T* checked_get(const std::shared_ptr<T>& ptr, const char* context = "unknown") {
     if (!ptr) {
         std::string msg = std::string("checked_get: null shared_ptr in context '") + context + "'";
         THEMIS_ERROR("{}", msg);
+        /**
+         * @brief TBD: Describe runtime_error.
+         * @param[in] msg Input parameter.
+         * @return Return value.
+         */
         throw std::runtime_error(msg);
     }
     return ptr.get();
@@ -179,6 +184,11 @@ T* checked_get(const std::unique_ptr<T>& ptr, const char* context = "unknown") {
     if (!ptr) {
         std::string msg = std::string("checked_get: null unique_ptr in context '") + context + "'";
         THEMIS_ERROR("{}", msg);
+        /**
+         * @brief TBD: Describe runtime_error.
+         * @param[in] msg Input parameter.
+         * @return Return value.
+         */
         throw std::runtime_error(msg);
     }
     return ptr.get();
@@ -202,6 +212,12 @@ T* checked_get(const std::unique_ptr<T>& ptr, const char* context = "unknown") {
  * @endcode
  */
 template<typename Target, typename Source>
+/**
+ * @brief TBD: Describe safe_cast.
+ * @param[in,out] ptr Input/output parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_DEBUG(), typeid(), name().
+ */
 std::optional<Target*> safe_cast(Source* ptr) {
     if (!ptr) {
         THEMIS_DEBUG("safe_cast: null pointer passed");
@@ -220,6 +236,12 @@ std::optional<Target*> safe_cast(Source* ptr) {
  * @brief Safe dynamic_cast (const version)
  */
 template<typename Target, typename Source>
+/**
+ * @brief TBD: Describe safe_cast.
+ * @param[in] ptr Input parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_DEBUG(), typeid(), name().
+ */
 std::optional<const Target*> safe_cast(const Source* ptr) {
     if (!ptr) {
         THEMIS_DEBUG("safe_cast: null pointer passed");

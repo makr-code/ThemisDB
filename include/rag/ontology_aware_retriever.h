@@ -152,11 +152,14 @@ public:
 
     /**
      * @brief Return the current configuration.
+     * @return Return value.
+     * @note Exception safety: noexcept.
      */
     const OntologyRetrieverConfig& config() const noexcept;
 
     /**
      * @brief Replace configuration.
+     * @param[in] config Input parameter.
      */
     void setConfig(const OntologyRetrieverConfig& config);
 
@@ -192,33 +195,60 @@ class OntologyAwareRetrieverFactory {
 public:
     /**
      * @brief Shallow: 1-hop, low KG weight (0.2), edge-type filtering disabled.
+     * @param[in] graph Input parameter.
+     * @param[in] ontology Input parameter.
+     * @return Return value.
      */
     static std::unique_ptr<OntologyAwareRetriever> createShallow(
         const kg::KnowledgeGraph&     graph,
         const graph::OntologyManager& ontology);
 
+    /**
+     * @brief TBD: Describe createShallow.
+     * @param[in] graph Input parameter.
+     * @param[in] ontology Input parameter.
+     * @return Return value.
+     */
     static std::unique_ptr<OntologyAwareRetriever> createShallow(
         std::shared_ptr<kg::IKnowledgeGraph> graph,
         const graph::OntologyManager&        ontology);
 
     /**
      * @brief Balanced: 2-hop, moderate KG weight (0.3), edge-type filtering enabled.
+     * @param[in] graph Input parameter.
+     * @param[in] ontology Input parameter.
+     * @return Return value.
      */
     static std::unique_ptr<OntologyAwareRetriever> createBalanced(
         const kg::KnowledgeGraph&     graph,
         const graph::OntologyManager& ontology);
 
+    /**
+     * @brief TBD: Describe createBalanced.
+     * @param[in] graph Input parameter.
+     * @param[in] ontology Input parameter.
+     * @return Return value.
+     */
     static std::unique_ptr<OntologyAwareRetriever> createBalanced(
         std::shared_ptr<kg::IKnowledgeGraph> graph,
         const graph::OntologyManager&        ontology);
 
     /**
      * @brief Deep: 3-hop, higher KG weight (0.45), edge-type filtering enabled.
+     * @param[in] graph Input parameter.
+     * @param[in] ontology Input parameter.
+     * @return Return value.
      */
     static std::unique_ptr<OntologyAwareRetriever> createDeep(
         const kg::KnowledgeGraph&     graph,
         const graph::OntologyManager& ontology);
 
+    /**
+     * @brief TBD: Describe createDeep.
+     * @param[in] graph Input parameter.
+     * @param[in] ontology Input parameter.
+     * @return Return value.
+     */
     static std::unique_ptr<OntologyAwareRetriever> createDeep(
         std::shared_ptr<kg::IKnowledgeGraph> graph,
         const graph::OntologyManager&        ontology);

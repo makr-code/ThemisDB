@@ -191,6 +191,10 @@ public:
      *                                (exceeds ModelServingConfig::max_models).
      * @throws std::runtime_error    if a model with the same (name,version)
      *                                is already registered.
+     * @brief TBD: Describe registerModel.
+     * @param[in] name Input parameter.
+     * @param[in] version Input parameter.
+     * @param[in] model Input parameter.
      */
     void registerModel(const std::string& name,
                        const std::string& version,
@@ -200,6 +204,9 @@ public:
      * Unregister the model identified by (name, version).
      *
      * @return true if the model was found and removed; false otherwise.
+     * @brief TBD: Describe unregisterModel.
+     * @param[in] name Input parameter.
+     * @param[in] version Input parameter.
      */
     bool unregisterModel(const std::string& name,
                          const std::string& version);
@@ -210,6 +217,11 @@ public:
      * Predict the label / value for a single DataPoint.
      *
      * @throws std::out_of_range if no model is registered under (name,version).
+     * @brief TBD: Describe predict.
+     * @param[in] name Input parameter.
+     * @param[in] version Input parameter.
+     * @param[in] point Input parameter.
+     * @return Return value.
      */
     std::string predict(const std::string& name,
                         const std::string& version,
@@ -222,6 +234,11 @@ public:
      *
      * @throws std::out_of_range if no model is registered under (name,version).
      * @throws std::invalid_argument if data.size() > ModelServingConfig::max_batch_size.
+     * @brief TBD: Describe predictBatch.
+     * @param[in] name Input parameter.
+     * @param[in] version Input parameter.
+     * @param[in] data Input parameter.
+     * @return Return value.
      */
     std::vector<std::string> predictBatch(
         const std::string&        name,
@@ -249,23 +266,37 @@ public:
 
     /**
      * Return metadata for all registered models (unordered).
+     * @brief TBD: Describe listModels.
+     * @return Return value.
      */
     std::vector<ModelInfo> listModels() const;
 
     /**
      * Return metadata for a specific model, or nullopt if not registered.
+     * @brief TBD: Describe modelInfo.
+     * @param[in] name Input parameter.
+     * @param[in] version Input parameter.
+     * @return Return value.
      */
     std::optional<ModelInfo> modelInfo(const std::string& name,
                                        const std::string& version) const;
 
     /**
      * Return health metrics for a specific model, or nullopt if not registered.
+     * @brief TBD: Describe healthMetrics.
+     * @param[in] name Input parameter.
+     * @param[in] version Input parameter.
+     * @return Return value.
      */
     std::optional<ModelHealthMetrics> healthMetrics(const std::string& name,
                                                      const std::string& version) const;
 
     /**
      * Return true iff (name, version) is currently registered.
+     * @brief TBD: Describe isRegistered.
+     * @param[in] name Input parameter.
+     * @param[in] version Input parameter.
+     * @return True on success.
      */
     bool isRegistered(const std::string& name,
                       const std::string& version) const;
@@ -276,6 +307,10 @@ public:
      * Serialise a registered model to a string (delegates to AutoMLModel::serialize).
      *
      * @throws std::out_of_range if not registered.
+     * @brief TBD: Describe serializeModel.
+     * @param[in] name Input parameter.
+     * @param[in] version Input parameter.
+     * @return Return value.
      */
     std::string serializeModel(const std::string& name,
                                 const std::string& version) const;
@@ -291,6 +326,10 @@ public:
      *                                is already registered.
      * @throws std::invalid_argument if integrity is required but no hash was provided.
      * @throws std::runtime_error    if a provided SHA-256 hash does not match.
+     * @brief TBD: Describe loadModel.
+     * @param[in] name Input parameter.
+     * @param[in] version Input parameter.
+     * @param[in] serialized_data Input parameter.
      */
     void loadModel(const std::string& name,
                    const std::string& version,
@@ -305,6 +344,10 @@ public:
      * @param expected_sha256_hex  Expected SHA-256 digest (64 lowercase hex chars).
      * @throws std::invalid_argument if expected_sha256_hex is empty or not valid 64-char hex.
      * @throws std::runtime_error    if digest mismatch.
+     * @brief TBD: Describe loadModel.
+     * @param[in] name Input parameter.
+     * @param[in] version Input parameter.
+     * @param[in] serialized_data Input parameter.
      */
     void loadModel(const std::string& name,
                    const std::string& version,
@@ -338,6 +381,11 @@ private:
 /**
  * Build the canonical registry key from (name, version).
  * Exposed so external code can build keys consistently.
+ * @brief TBD: Describe makeModelKey.
+ * @param[in] name Input parameter.
+ * @param[in] version Input parameter.
+ * @return Return value.
+ * @details Implements makeModelKey without additional internal calls.
  */
 inline std::string makeModelKey(const std::string& name,
                                  const std::string& version) {

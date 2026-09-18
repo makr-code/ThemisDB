@@ -327,6 +327,7 @@ public:
     /**
      * @brief Expose the mutable underlying RocksDB wrapper for advanced operations.
      * @return Non-owning pointer to the live RocksDB wrapper, or nullptr if unopened.
+     * @details Calls: get().
      */
     RocksDBWrapper* rawDB() { return rocksdb_.get(); }
     /**

@@ -255,16 +255,19 @@ public:
 
     /**
      * @brief Return the most recent evaluation result without re-evaluating.
+     * @return Return value.
      */
     EvaluationResult getLastResult() const;
 
     /**
      * @brief Return the current violation level without re-evaluating.
+     * @return Return value.
      */
     ViolationLevel getCurrentViolationLevel() const;
 
     /**
      * @brief Check whether any SLO violation is currently active (FIRING).
+     * @return True on success.
      */
     bool isSloViolated() const;
 
@@ -288,11 +291,13 @@ public:
      *   }
      * }
      * @endcode
+     * @return Return value.
      */
     nlohmann::json getStatus() const;
 
     /**
      * @brief Return IDs of all currently active (FIRING) SLO alerts.
+     * @return Return value.
      */
     std::vector<std::string> getActiveAlertIds() const;
 
@@ -313,6 +318,7 @@ public:
 
     /**
      * @brief Update the alertmanager (may be nullptr to disable alert dispatch).
+     * @param[in] alertmanager Input parameter.
      */
     void setAlertmanager(std::shared_ptr<observability::Alertmanager> alertmanager);
 
@@ -429,18 +435,72 @@ private:
     std::chrono::steady_clock::time_point last_latency_warning_alert_time_;
     std::chrono::steady_clock::time_point last_latency_critical_alert_time_;
 
-    // Helpers
+    /**
+     * @brief Helpers
+     * @param[in] level Input parameter.
+     * @param[in] hit_rate Input parameter.
+     * @param[in] total_requests Input parameter.
+     * @param[in,out] result Input/output parameter.
+     */
     void fireAlert(ViolationLevel level, double hit_rate, uint64_t total_requests, EvaluationResult& result);
+    /**
+     * @brief TBD: Describe resolveActiveAlerts.
+     * @param[in,out] result Input/output parameter.
+     */
     void resolveActiveAlerts(EvaluationResult& result);
+    /**
+     * @brief TBD: Describe buildAlert.
+     * @param[in] level Input parameter.
+     * @param[in] hit_rate Input parameter.
+     * @param[in] total_requests Input parameter.
+     * @return Return value.
+     */
     observability::Alert buildAlert(ViolationLevel level, double hit_rate, uint64_t total_requests) const;
+    /**
+     * @brief TBD: Describe isCooldownExpired.
+     * @param[in] level Input parameter.
+     * @return True on success.
+     */
     bool isCooldownExpired(ViolationLevel level) const;
+    /**
+     * @brief TBD: Describe makeAlertId.
+     * @param[in] cache_name Input parameter.
+     * @param[in] level Input parameter.
+     * @return Return value.
+     */
     static std::string makeAlertId(const std::string& cache_name, ViolationLevel level);
 
-    // Latency alert helpers
+    /**
+     * @brief Latency alert helpers
+     * @param[in] level Input parameter.
+     * @param[in] p99_ms Input parameter.
+     * @param[in,out] result Input/output parameter.
+     */
     void fireLatencyAlert(ViolationLevel level, double p99_ms, EvaluationResult& result);
+    /**
+     * @brief TBD: Describe resolveLatencyAlerts.
+     * @param[in,out] result Input/output parameter.
+     */
     void resolveLatencyAlerts(EvaluationResult& result);
+    /**
+     * @brief TBD: Describe buildLatencyAlert.
+     * @param[in] level Input parameter.
+     * @param[in] p99_ms Input parameter.
+     * @return Return value.
+     */
     observability::Alert buildLatencyAlert(ViolationLevel level, double p99_ms) const;
+    /**
+     * @brief TBD: Describe isLatencyCooldownExpired.
+     * @param[in] level Input parameter.
+     * @return True on success.
+     */
     bool isLatencyCooldownExpired(ViolationLevel level) const;
+    /**
+     * @brief TBD: Describe makeLatencyAlertId.
+     * @param[in] cache_name Input parameter.
+     * @param[in] level Input parameter.
+     * @return Return value.
+     */
     static std::string makeLatencyAlertId(const std::string& cache_name, ViolationLevel level);
 };
 

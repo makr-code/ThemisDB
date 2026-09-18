@@ -88,6 +88,10 @@ enum class LLMModelAuditEventType {
  * Similar to LoRAInferenceAudit but for base models.
  */
 struct LLMModelInferenceAudit {
+    /**
+     * @brief TBD: Describe ~LLMModelInferenceAudit.
+     * @return Return value.
+     */
     virtual ~LLMModelInferenceAudit() = default;
     // Timestamps
     std::chrono::system_clock::time_point timestamp;
@@ -219,6 +223,7 @@ public:
      * - Compliance audits
      * - Performance monitoring
      * - Cost tracking
+     * @param[in] audit Input parameter.
      */
     void logInference(const LLMModelInferenceAudit& audit);
     
@@ -303,11 +308,14 @@ public:
     
     /**
      * @brief Get statistics for model
+     * @param[in] model_id Input parameter.
+     * @return Return value.
      */
     json getModelStats(const std::string& model_id);
     
     /**
      * @brief Enable/disable audit logging
+     * @param[in] enabled Input parameter.
      */
     void setEnabled(bool enabled);
     
@@ -349,11 +357,14 @@ private:
 
 /**
  * @brief Helper to generate unique request ID
+ * @return Return value.
  */
 std::string generateModelRequestId();
 
 /**
  * @brief Helper to compute SHA256 hash of model file
+ * @param[in] file_path Input parameter.
+ * @return Return value.
  */
 std::string computeModelChecksum(const std::string& file_path);
 

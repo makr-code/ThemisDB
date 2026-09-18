@@ -139,6 +139,7 @@ public:
 
     /**
      * @brief Number of entries currently in the in-memory manifest.
+     * @return Return value.
      */
     size_t manifestSize() const;
 

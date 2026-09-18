@@ -246,6 +246,10 @@ public:
     static void clearAstVisitorFn();
 
 private:
+    /**
+     * @brief TBD: Describe rewriteNode.
+     * @param[in,out] node Input/output parameter.
+     */
     void rewriteNode(QueryPlanNode& node);
 
     RewriteStats last_stats_;

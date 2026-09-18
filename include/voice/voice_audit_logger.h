@@ -115,8 +115,11 @@ public:
     /// @brief Construct logger with default config
     VoiceAuditLogger() = default;
 
-    /// @brief Construct logger with custom config
-    /// @param config Audit logging configuration
+    /**
+     * @brief @brief Construct logger with custom config @param config Audit logging configuration
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit VoiceAuditLogger(const Config& config);
 
     /// @brief Destructor
@@ -221,8 +224,10 @@ private:
     /// @return Timestamp string (e.g., "2026-08-28T14:22:31.456Z")
     [[nodiscard]] std::string getTimestamp() const;
 
-    /// @brief Write event to output (console, file, or callback)
-    /// @param event JSON event object
+    /**
+     * @brief @brief Write event to output (console, file, or callback) @param event JSON event object
+     * @param[in] event Input parameter.
+     */
     void writeEvent(const json& event);
 
     /// @brief Serialize event to JSON string with formatting

@@ -66,6 +66,11 @@ public:
      * and the instance operates as a no-op stub until reconnected.
      */
     RedisTokenBlacklist();
+    /**
+     * @brief TBD: Describe RedisTokenBlacklist.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit RedisTokenBlacklist(const Config& config);
     ~RedisTokenBlacklist() override;
 
@@ -101,6 +106,7 @@ public:
     // Connectivity
     // -----------------------------------------------------------------------
 
+     * @brief TBD: Describe isConnected.
     /** @return true if the Redis connection is currently alive. */
     bool isConnected() const;
 
@@ -117,8 +123,20 @@ private:
     mutable std::mutex  mutex_;
     redisContext*       ctx_{nullptr};
 
+    /**
+     * @brief TBD: Describe connect.
+     * @return True on success.
+     */
     bool connect();
+    /**
+     * @brief TBD: Describe disconnect.
+     */
     void disconnect();
+    /**
+     * @brief TBD: Describe makeKey.
+     * @param[in] jti Input parameter.
+     * @return Return value.
+     */
     std::string makeKey(const std::string& jti) const;
 #else
     // In-memory fallback: revocations are not shared across processes but

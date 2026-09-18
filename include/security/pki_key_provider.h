@@ -86,6 +86,7 @@ public:
     
     /**
      * @brief Get current DEK version
+     * @return Return value.
      */
     uint32_t getCurrentDEKVersion() const;
     
@@ -122,14 +123,49 @@ public:
     std::vector<std::string> listGroups() const;
 
 private:
+    /**
+     * @brief TBD: Describe deriveKEK.
+     * @return Return value.
+     */
     std::vector<uint8_t> deriveKEK();
+    /**
+     * @brief TBD: Describe loadOrCreateDEK.
+     * @param[in] version Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> loadOrCreateDEK(uint32_t version);
+    /**
+     * @brief TBD: Describe deriveFieldKey.
+     * @param[in] field_context Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> deriveFieldKey(const std::string& field_context);
+    /**
+     * @brief TBD: Describe dekDbKey.
+     * @param[in] version Input parameter.
+     * @return Return value.
+     */
     std::string dekDbKey(uint32_t version) const;
     
-    // Group DEK helpers
+    /**
+     * @brief Group DEK helpers
+     * @param[in] group_name Input parameter.
+     * @param[in] version Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> loadOrCreateGroupDEK(const std::string& group_name, uint32_t version);
+    /**
+     * @brief TBD: Describe groupDekDbKey.
+     * @param[in] group_name Input parameter.
+     * @param[in] version Input parameter.
+     * @return Return value.
+     */
     std::string groupDekDbKey(const std::string& group_name, uint32_t version) const;
+    /**
+     * @brief TBD: Describe groupMetadataDbKey.
+     * @param[in] group_name Input parameter.
+     * @return Return value.
+     */
     std::string groupMetadataDbKey(const std::string& group_name) const;
     
     std::shared_ptr<utils::VCCPKIClient> pki_;

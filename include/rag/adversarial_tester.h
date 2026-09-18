@@ -205,16 +205,19 @@ public:
 
     /**
      * @brief Add a base document available to the judge during evaluation.
+     * @param[in] document Input parameter.
      */
     void addBaseDocument(const RetrievedDocument& document);
 
     /**
      * @brief Replace the entire base-query set.
+     * @param[in] queries Input parameter.
      */
     void setBaseQueries(const std::vector<BaseQuery>& queries);
 
     /**
      * @brief Replace the entire base-document set.
+     * @param[in] documents Input parameter.
      */
     void setBaseDocuments(const std::vector<RetrievedDocument>& documents);
 
@@ -244,6 +247,8 @@ public:
     /**
      * @brief Generate a sycophantic rephrasing of @p query that presupposes
      *        an incorrect or biased premise.
+     * @param[in] query Input parameter.
+     * @return Return value.
      */
     std::string generateSycophancyQuery(const std::string& query) const;
 
@@ -263,26 +268,36 @@ public:
 
     /**
      * @brief Test only query perturbation stability.
+     * @param[in,out] judge Input/output parameter.
+     * @param[in,out] report Input/output parameter.
      */
     void testQueryPerturbations(RAGJudge& judge, RobustnessReport& report);
 
     /**
      * @brief Test only document-poisoning robustness.
+     * @param[in,out] judge Input/output parameter.
+     * @param[in,out] report Input/output parameter.
      */
     void testDocumentPoisoning(RAGJudge& judge, RobustnessReport& report);
 
     /**
      * @brief Test only prompt-injection resilience.
+     * @param[in,out] judge Input/output parameter.
+     * @param[in,out] report Input/output parameter.
      */
     void testPromptInjection(RAGJudge& judge, RobustnessReport& report);
 
     /**
      * @brief Test only context-overflow degradation.
+     * @param[in,out] judge Input/output parameter.
+     * @param[in,out] report Input/output parameter.
      */
     void testContextOverflow(RAGJudge& judge, RobustnessReport& report);
 
     /**
      * @brief Test only sycophancy susceptibility.
+     * @param[in,out] judge Input/output parameter.
+     * @param[in,out] report Input/output parameter.
      */
     void testSycophancy(RAGJudge& judge, RobustnessReport& report);
 
@@ -294,12 +309,16 @@ public:
      *
      * Compares @p original_answer with @p adversarial_answer using a simple
      * word-overlap divergence metric.
+     * @param[in] original_answer Input parameter.
+     * @param[in] adversarial_answer Input parameter.
+     * @return True on success.
      */
     bool isSuccessfulAttack(const std::string& original_answer,
                             const std::string& adversarial_answer) const;
 
     /**
      * @brief Return the current configuration.
+     * @return Return value.
      */
     AdversarialTesterConfig getConfig() const;
 

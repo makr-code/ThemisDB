@@ -185,6 +185,11 @@ public:
     // -------------------------------------------------------------------------
 
     HotReloadManager();
+    /**
+     * @brief TBD: Describe HotReloadManager.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit HotReloadManager(const Config& config);
     ~HotReloadManager();
 
@@ -250,17 +255,21 @@ public:
      * @brief Get the current version of a registered module.
      * @return Version info, or std::nullopt if the module is not registered
      *         or not currently loaded.
+     * @param[in] module_name Input parameter.
      */
     std::optional<ModuleVersion> getCurrentVersion(
         const std::string& module_name) const;
 
     /**
      * @brief Check whether a rollback is available for a module.
+     * @param[in] module_name Input parameter.
+     * @return True on success.
      */
     bool isRollbackAvailable(const std::string& module_name) const;
 
     /**
      * @brief Return the list of all registered module names.
+     * @return Return value.
      */
     std::vector<std::string> registeredModules() const;
 
@@ -270,18 +279,31 @@ public:
      * @return SandboxStats sampled from the active sandbox, or std::nullopt if
      *         sandboxing is not configured for this manager, or the module is
      *         not registered / not currently sandboxed.
+     * @param[in] module_name Input parameter.
      */
     std::optional<SandboxStats> getSandboxStats(
         const std::string& module_name) const;
 
-    // -------------------------------------------------------------------------
-    // Callbacks
-    // -------------------------------------------------------------------------
+    /**
+     * @brief ------------------------------------------------------------------------- Callbacks -------------------------------------------------------------------------
+     * @param[in] cb Input parameter.
+     */
 
     void setStateSaveCallback(StateSaveCallback cb);
+    /**
+     * @brief TBD: Describe setStateRestoreCallback.
+     * @param[in] cb Input parameter.
+     */
     void setStateRestoreCallback(StateRestoreCallback cb);
 
+    /**
+     * @brief TBD: Describe addReloadCallback.
+     * @param[in] cb Input parameter.
+     */
     void addReloadCallback(ReloadCallback cb);
+    /**
+     * @brief TBD: Describe clearReloadCallbacks.
+     */
     void clearReloadCallbacks();
 
     // -------------------------------------------------------------------------
@@ -307,9 +329,11 @@ public:
      * emitter by value and pass it by reference into @c ScopedSpan; do not
      * bind it to a @c const& or @c auto& (that would dangle immediately).
      */
-    /// @brief Returns the current span emitter by value (thread-safe read).
-    /// Callers must not invoke setSpanEmitter() concurrently with active
-    /// reload/rollback operations.
+    /**
+     * @brief @brief Returns the current span emitter by value (thread-safe read).
+     * @return Return value.
+     * @details Callers must not invoke setSpanEmitter() concurrently with active reload/rollback operations.
+     */
     SpanEmitter spanEmitter() const;
 
     // -------------------------------------------------------------------------
@@ -328,7 +352,14 @@ public:
         uint64_t statesRestored     = 0;
     };
 
+    /**
+     * @brief TBD: Describe getStats.
+     * @return Return value.
+     */
     Stats getStats() const;
+    /**
+     * @brief TBD: Describe resetStats.
+     */
     void  resetStats();
 
 private:
@@ -369,14 +400,33 @@ private:
     /// @brief Wave D — injectable span emitter (default: no-op).
     SpanEmitter span_emitter_;
 
-    // -------------------------------------------------------------------------
-    // Helpers
-    // -------------------------------------------------------------------------
+    /**
+     * @brief ------------------------------------------------------------------------- Helpers -------------------------------------------------------------------------
+     * @param[in] name Input parameter.
+     * @param[in] phase Input parameter.
+     */
 
     void notify(const std::string& name, ReloadPhase phase);
+    /**
+     * @brief TBD: Describe saveState.
+     * @param[in] name Input parameter.
+     * @return Return value.
+     */
     std::string saveState(const std::string& name);
+    /**
+     * @brief TBD: Describe restoreState.
+     * @param[in] name Input parameter.
+     * @param[in] state Input parameter.
+     * @return True on success.
+     */
     bool restoreState(const std::string& name, const std::string& state);
 
+    /**
+     * @brief TBD: Describe versionFromLoader.
+     * @param[in,out] loader Input/output parameter.
+     * @param[in] module_name Input parameter.
+     * @return Return value.
+     */
     static ModuleVersion versionFromLoader(ModuleLoader& loader,
                                            const std::string& module_name);
 };

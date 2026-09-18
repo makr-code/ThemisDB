@@ -63,6 +63,7 @@ public:
      * for use as a pull-model scrape target.
      *
      * @return Prometheus text-format string ready to be served on /metrics.
+     * @brief TBD: Describe collect.
      */
     static std::string collect();
 
@@ -73,6 +74,7 @@ public:
      * Call this once per scrape interval (e.g. from the HTTP handler that
      * serves /metrics) to keep the MetricsCollector's values in sync with
      * the atomic counters maintained by ConfigPathResolver.
+     * @brief TBD: Describe updateMetricsCollector.
      */
     static void updateMetricsCollector();
 
@@ -81,21 +83,36 @@ public:
      * provided registry. Should be invoked during server startup so scrape
      * handlers can serialize the registry without additional setup. No-op when
      * Prometheus support (THEMIS_HAS_PROMETHEUS) is not available.
+     * @brief TBD: Describe registerWithRegistry.
+     * @param[in] registry Input parameter.
      */
     static void registerWithRegistry(const std::shared_ptr<prometheus::Registry>& registry);
 
-    /// Register an optional gauge sink used by lightweight test builds.
-    /// Thread-safe; sink exceptions are ignored by updateMetricsCollector().
+    /**
+     * @brief Register an optional gauge sink used by lightweight test builds.
+     * @param[in] fn Input parameter.
+     * @details Thread-safe; sink exceptions are ignored by updateMetricsCollector(). Calls: lk(), gaugeSinkFnMutex(), gaugeSinkFnStorage(), std::move().
+     */
     static void setGaugeSinkFn(GaugeSinkFn fn) {
         std::lock_guard<std::mutex> lk(gaugeSinkFnMutex());
         gaugeSinkFnStorage() = std::move(fn);
     }
 
 private:
+    /**
+     * @brief TBD: Describe gaugeSinkFnMutex.
+     * @return Return value.
+     * @details Implements gaugeSinkFnMutex without additional internal calls.
+     */
     static std::mutex& gaugeSinkFnMutex() {
         static std::mutex m;
         return m;
     }
+    /**
+     * @brief TBD: Describe gaugeSinkFnStorage.
+     * @return Return value.
+     * @details Implements gaugeSinkFnStorage without additional internal calls.
+     */
     static GaugeSinkFn& gaugeSinkFnStorage() {
         static GaugeSinkFn fn;
         return fn;

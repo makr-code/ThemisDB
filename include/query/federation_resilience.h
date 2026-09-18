@@ -60,6 +60,7 @@ public:
      * @brief Constructor
      * @param shard_id Shard identifier
      * @param config Circuit breaker configuration
+     * @return Return value.
      */
     explicit CircuitBreaker(const std::string& shard_id, const Config& config);
 
@@ -119,6 +120,9 @@ private:
     int half_open_requests_ = 0;
     std::optional<std::string> last_failure_reason_;
 
+    /**
+     * @brief TBD: Describe updateState.
+     */
     void updateState();
 };
 

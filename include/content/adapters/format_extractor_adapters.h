@@ -32,6 +32,7 @@ namespace adapters {
  *
  * Available when `THEMIS_ENABLE_CONTENT` is ON and libpoppler is present.
  * Returns nullptr when `THEMIS_ENABLE_CONTENT` is OFF (compile-time guard).
+ * @return Return value.
  */
 std::shared_ptr<ingestion::IFormatExtractor> createPdfExtractorAdapter();
 
@@ -41,6 +42,7 @@ std::shared_ptr<ingestion::IFormatExtractor> createPdfExtractorAdapter();
  * Handles application/vnd.openxmlformats-officedocument.* (DOCX, XLSX, PPTX)
  * and application/msword / application/vnd.ms-excel via libzip + pugixml.
  * Requires `THEMIS_ENABLE_CONTENT && THEMIS_ENABLE_OFFICE`.
+ * @return Return value.
  */
 std::shared_ptr<ingestion::IFormatExtractor> createOfficeExtractorAdapter();
 
@@ -50,6 +52,7 @@ std::shared_ptr<ingestion::IFormatExtractor> createOfficeExtractorAdapter();
  *
  * Extracts EXIF metadata and (optionally) OCR text.
  * Requires `THEMIS_ENABLE_CONTENT`.
+ * @return Return value.
  */
 std::shared_ptr<ingestion::IFormatExtractor> createImageExtractorAdapter();
 
@@ -60,6 +63,7 @@ std::shared_ptr<ingestion::IFormatExtractor> createImageExtractorAdapter();
  * Extracts members to a temporary directory and returns their paths in
  * `FormatExtractResult::child_paths`.
  * Requires `THEMIS_ENABLE_CONTENT`.
+ * @return Return value.
  */
 std::shared_ptr<ingestion::IFormatExtractor> createArchiveExtractorAdapter();
 
@@ -68,6 +72,7 @@ std::shared_ptr<ingestion::IFormatExtractor> createArchiveExtractorAdapter();
  *
  * Transcribes audio to text via Whisper/FFmpeg.
  * Available when `THEMIS_ENABLE_CONTENT && THEMIS_ENABLE_VOICE_ASSISTANT` is ON.
+ * @return Return value.
  */
 std::shared_ptr<ingestion::IFormatExtractor> createAudioExtractorAdapter();
 
@@ -76,6 +81,7 @@ std::shared_ptr<ingestion::IFormatExtractor> createAudioExtractorAdapter();
  *
  * Handles text/plain, text/html, text/markdown.  No heavy dependencies;
  * always available when `THEMIS_ENABLE_CONTENT` is ON.
+ * @return Return value.
  */
 std::shared_ptr<ingestion::IFormatExtractor> createTextExtractorAdapter();
 
@@ -121,6 +127,7 @@ private:
  * // ...
  * return f;
  * @endcode
+ * @return Return value.
  */
 std::shared_ptr<FormatExtractorFactory> createDefaultFormatExtractorFactory();
 

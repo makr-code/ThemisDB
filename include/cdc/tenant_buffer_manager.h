@@ -243,9 +243,24 @@ private:
     // Manager state
     std::atomic<bool> running_{false};
     
-    // Helper methods
+    /**
+     * @brief Helper methods
+     * @param[in] tenant_id Input parameter.
+     * @return Return value.
+     */
     TenantBufferState& getOrCreateTenantBuffer(const std::string& tenant_id);
+    /**
+     * @brief TBD: Describe checkTenantQuota.
+     * @param[in] tenant_id Input parameter.
+     * @param[in,out] state Input/output parameter.
+     * @return True on success.
+     */
     bool checkTenantQuota(const std::string& tenant_id, TenantBufferState& state);
+    /**
+     * @brief TBD: Describe updateTenantStats.
+     * @param[in] tenant_id Input parameter.
+     * @param[in,out] state Input/output parameter.
+     */
     void updateTenantStats(const std::string& tenant_id, TenantBufferState& state);
 };
 

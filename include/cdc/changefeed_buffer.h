@@ -187,6 +187,7 @@ public:
     
     /**
      * @brief Get current buffer statistics
+     * @return Return value.
      */
     const ChangefeedBufferStats& getStats() const;
     
@@ -198,6 +199,7 @@ public:
     
     /**
      * @brief Reset metrics (for testing or periodic reset)
+     * @details Calls: reset().
      */
     void resetMetrics() { metrics_.reset(); }
     
@@ -208,6 +210,7 @@ public:
     
     /**
      * @brief Update configuration (takes effect on next flush)
+     * @param[in] config Input parameter.
      */
     void setConfig(const ChangefeedBufferConfig& config);
     
@@ -224,6 +227,7 @@ public:
      * The DeadLetterQueue is NOT owned by this buffer.
      *
      * @param dlq  Pointer to an existing DeadLetterQueue, or nullptr to detach.
+     * @details Implements setDeadLetterQueue without additional internal calls.
      */
     void setDeadLetterQueue(cdc::DeadLetterQueue* dlq) { dlq_ = dlq; }
 
@@ -257,6 +261,11 @@ private:
         std::chrono::steady_clock::time_point first_event_time;
         size_t memory_bytes = 0;
         
+        /**
+         * @brief TBD: Describe add.
+         * @param[in] event Input parameter.
+         * @details Calls: empty(), std::chrono::steady_clock::now(), push_back(), std::move().
+         */
         void add(BufferedEvent&& event) {
             if (events.empty()) {
                 first_event_time = std::chrono::steady_clock::now();
@@ -265,6 +274,10 @@ private:
             events.push_back(std::move(event));
         }
         
+        /**
+         * @brief TBD: Describe clear.
+         * @details Implements clear without additional internal calls.
+         */
         void clear() {
             events.clear();
             memory_bytes = 0;
@@ -290,19 +303,53 @@ private:
     // Enhanced metrics (P1 feature)
     CDCMetrics metrics_;
     
-    // Helper functions
+    /**
+     * @brief Helper functions
+     * @param[in] event Input parameter.
+     * @return Return value.
+     */
     std::string makeBufferKey(const Changefeed::ChangeEvent& event) const;
+    /**
+     * @brief TBD: Describe flushThread.
+     */
     void flushThread();
     size_t flushInternal(bool lock_held = false);
+    /**
+     * @brief TBD: Describe flushBuffer.
+     * @param[in] event_type Input parameter.
+     * @param[in,out] buffer Input/output parameter.
+     * @return Return value.
+     */
     size_t flushBuffer(Changefeed::ChangeEventType event_type, EventTypeBuffer& buffer);
+    /**
+     * @brief TBD: Describe shouldFlushBuffer.
+     * @param[in] buffer Input parameter.
+     * @return True on success.
+     */
     bool shouldFlushBuffer(const EventTypeBuffer& buffer) const;
+    /**
+     * @brief TBD: Describe shouldFlushGlobal.
+     * @return True on success.
+     */
     bool shouldFlushGlobal() const;
     
-    // Rate limiting helper
+    /**
+     * @brief Rate limiting helper
+     * @return True on success.
+     */
     bool checkRateLimit();
     
-    // Compression helpers
+    /**
+     * @brief Compression helpers
+     * @param[in] payload Input parameter.
+     * @return Return value.
+     */
     std::string compressPayload(const std::string& payload);
+    /**
+     * @brief TBD: Describe decompressPayload.
+     * @param[in] compressed Input parameter.
+     * @return Return value.
+     */
     std::string decompressPayload(const std::string& compressed);
     
     // Rate limiting state

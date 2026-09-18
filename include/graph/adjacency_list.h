@@ -225,6 +225,7 @@ public:
 
     /**
      * @brief Clear all vertices and edges.
+     * @note Exception safety: noexcept.
      */
     void clear() noexcept;
 

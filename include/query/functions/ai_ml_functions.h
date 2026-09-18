@@ -334,9 +334,11 @@ public:
     }
 };
 
-// ============================================================================
-// Registration
-// ============================================================================
+/**
+ * @brief ============================================================================ Registration ============================================================================
+ * @param[in,out] registry Input/output parameter.
+ * @details Calls: registerFunction().
+ */
 
 inline void registerAIMLFunctions(FunctionRegistry& registry) {
     registry.registerFunction(std::make_unique<HybridSearchFunction>());

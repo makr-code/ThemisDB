@@ -95,6 +95,7 @@ public:
     /**
      * @brief Construct transport client
      * @param config Configuration
+     * @return Return value.
      */
     explicit SecureTransportClient(const Config& config);
     

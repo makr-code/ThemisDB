@@ -141,6 +141,11 @@ struct WorkspaceState {
  */
 class WorkspaceStateManager {
 public:
+    /**
+     * @brief TBD: Describe WorkspaceStateManager.
+     * @param[in] workspace_root Input parameter.
+     * @return Return value.
+     */
     explicit WorkspaceStateManager(const std::filesystem::path& workspace_root)
         : workspace_root_(workspace_root),
           state_file_(workspace_root / "wiki" / "state.json"),

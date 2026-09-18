@@ -42,7 +42,12 @@ struct FlightDescriptor {
     /** Opaque command bytes (used when type == COMMAND). */
     std::string command;
 
-    // Convenience constructors
+    /**
+     * @brief Convenience constructors
+     * @param[in] components Input parameter.
+     * @return Return value.
+     * @details Calls: std::move().
+     */
     static FlightDescriptor fromPath(std::vector<std::string> components) {
         FlightDescriptor fd;
         fd.type = Type::PATH;
@@ -50,6 +55,12 @@ struct FlightDescriptor {
         return fd;
     }
 
+    /**
+     * @brief TBD: Describe fromCommand.
+     * @param[in] cmd Input parameter.
+     * @return Return value.
+     * @details Calls: std::move().
+     */
     static FlightDescriptor fromCommand(std::string cmd) {
         FlightDescriptor fd;
         fd.type = Type::COMMAND;
@@ -57,6 +68,8 @@ struct FlightDescriptor {
         return fd;
     }
 
+     * @brief TBD: Describe toString.
+     * @return Return value.
     /** Returns a human-readable string representation. */
     std::string toString() const;
 };
@@ -172,6 +185,10 @@ struct FlightPutResult {
  */
 class ArrowFlightServer {
 public:
+    /**
+     * @brief TBD: Describe ~ArrowFlightServer.
+     * @return Return value.
+     */
     virtual ~ArrowFlightServer() = default;
 
     /// @brief Move constructor for polymorphic ArrowFlightServer base.
@@ -243,6 +260,7 @@ public:
 
     /**
      * @brief Remove a previously registered dataset or put handler.
+     * @param[in] path Input parameter.
      */
     virtual void unregisterDataset(const std::vector<std::string>& path) = 0;
 
@@ -271,6 +289,10 @@ public:
  */
 class ArrowFlightClient {
 public:
+    /**
+     * @brief TBD: Describe ~ArrowFlightClient.
+     * @return Return value.
+     */
     virtual ~ArrowFlightClient() = default;
 
     /// @brief Move constructor for polymorphic ArrowFlightClient base.

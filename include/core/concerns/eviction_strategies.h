@@ -39,6 +39,11 @@ public:
     }
 
     void onInsert(std::string_view key, [[maybe_unused]] uint64_t timestamp_ms) override {
+        /**
+         * @brief TBD: Describe key_str.
+         * @param[in] key Input parameter.
+         * @return Return value.
+         */
         std::string key_str(key);
         auto it = position_map_.find(key_str);
 
@@ -103,6 +108,11 @@ public:
     }
 
     void onInsert(std::string_view key, uint64_t timestamp_ms) override {
+        /**
+         * @brief TBD: Describe key_str.
+         * @param[in] key Input parameter.
+         * @return Return value.
+         */
         std::string key_str(key);
         auto it = frequency_map_.find(key_str);
         
@@ -223,6 +233,11 @@ public:
         return "TTL";
     }
 
+    /**
+     * @brief TBD: Describe setDefaultTTL.
+     * @param[in] ttl_ms Input parameter.
+     * @details Implements setDefaultTTL without additional internal calls.
+     */
     void setDefaultTTL(uint64_t ttl_ms) {
         default_ttl_ms_ = ttl_ms;
     }
@@ -329,6 +344,11 @@ public:
         : capacity_(capacity > 0 ? capacity : 128), p_(0) {}
 
     void onAccess(std::string_view key) override {
+        /**
+         * @brief TBD: Describe k.
+         * @param[in] key Input parameter.
+         * @return Return value.
+         */
         std::string k(key);
         // T1 hit → promote to T2
         auto it1 = t1_map_.find(k);
@@ -347,6 +367,11 @@ public:
     }
 
     void onInsert(std::string_view key, uint64_t /*timestamp_ms*/) override {
+        /**
+         * @brief TBD: Describe k.
+         * @param[in] key Input parameter.
+         * @return Return value.
+         */
         std::string k(key);
         // Already live — treat as access
         if (t1_map_.count(k) || t2_map_.count(k)) {
@@ -382,6 +407,11 @@ public:
     }
 
     void onRemove(std::string_view key) override {
+        /**
+         * @brief TBD: Describe k.
+         * @param[in] key Input parameter.
+         * @return Return value.
+         */
         std::string k(key);
         // Evicted from T1 → moves to B1 ghost
         auto it1 = t1_map_.find(k);

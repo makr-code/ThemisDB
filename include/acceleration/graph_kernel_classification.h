@@ -358,6 +358,7 @@ struct KernelClassificationTraits<KernelType::IRREGULAR_TRAVERSAL> {
  *
  * @param kernel_type The kernel to check
  * @return true if GPU acceleration is allowed (Category A or B), false if CPU-only
+ * @details Implements canGPUAccelerate without additional internal calls.
  */
 inline constexpr bool canGPUAccelerate(KernelType kernel_type) {
     switch (kernel_type) {
@@ -395,6 +396,7 @@ inline constexpr bool canGPUAccelerate(KernelType kernel_type) {
  *
  * @param kernel_type The kernel to classify
  * @return The KernelCategory (A, B, or C)
+ * @details Implements getKernelCategory without additional internal calls.
  */
 inline constexpr KernelCategory getKernelCategory(KernelType kernel_type) {
     switch (kernel_type) {
@@ -432,6 +434,7 @@ inline constexpr KernelCategory getKernelCategory(KernelType kernel_type) {
  *
  * @param kernel_type The kernel to name
  * @return String view with kernel name
+ * @details Implements getKernelName without additional internal calls.
  */
 inline constexpr std::string_view getKernelName(KernelType kernel_type) {
     switch (kernel_type) {

@@ -120,6 +120,11 @@ public:
         std::string wasm_bundle_path;
     };
 
+    /**
+     * @brief TBD: Describe OpaAdapter.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit OpaAdapter(const Config& config);
     ~OpaAdapter() override;
 

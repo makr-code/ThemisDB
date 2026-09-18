@@ -122,9 +122,11 @@ public:
         size_t active_instances = 0; ///< Current number of live instances
     };
 
-    // -----------------------------------------------------------------------
-    // Singleton
-    // -----------------------------------------------------------------------
+    /**
+     * @brief ----------------------------------------------------------------------- Singleton -----------------------------------------------------------------------
+     * @return Return value.
+     * @details Implements GetInstance without additional internal calls.
+     */
     static MIGManager& GetInstance() {
         static MIGManager inst;
         return inst;
@@ -170,6 +172,11 @@ public:
      * @brief Overload that accepts an explicit device list instead of calling
      * DeviceDiscovery::Enumerate().  Useful for unit testing without GPU
      * hardware.
+     * @param[in] device_index Input parameter.
+     * @param[in] profile Input parameter.
+     * @param[in,out] out_instance_id Input/output parameter.
+     * @param[in] devices Input parameter.
+     * @return Return value.
      */
     Status createPartition(int device_index,
                            const std::string& profile,
@@ -218,16 +225,21 @@ public:
 
     /**
      * @brief Return all active MIG instances across all devices.
+     * @return Return value.
      */
     std::vector<MIGInstance> getInstances() const;
 
     /**
      * @brief Return all active MIG instances on a specific device.
+     * @param[in] device_index Input parameter.
+     * @return Return value.
      */
     std::vector<MIGInstance> getInstancesForDevice(int device_index) const;
 
     /**
      * @brief Return all MIG instances currently assigned to a tenant.
+     * @param[in] tenant_id Input parameter.
+     * @return Return value.
      */
     std::vector<MIGInstance> getInstancesForTenant(
         const std::string& tenant_id) const;
@@ -237,6 +249,9 @@ public:
      *
      * Returns false (and leaves @p out unchanged) when the instance does not
      * exist.
+     * @param[in] instance_id Input parameter.
+     * @param[in,out] out Input/output parameter.
+     * @return True on success.
      */
     bool getInstance(const std::string& instance_id,
                      MIGInstance& out) const;
@@ -249,11 +264,17 @@ public:
      * @brief Return true when @p device supports MIG (compute major >= 8).
      *
      * Does NOT check whether MIG mode is currently enabled in the driver.
+     * @param[in] device Input parameter.
+     * @return True on success.
+     * @note Exception safety: noexcept.
      */
     static bool deviceSupportsMIG(const DeviceInfo& device) noexcept;
 
     /**
      * @brief Return true when @p profile is a recognised MIG profile string.
+     * @param[in] profile Input parameter.
+     * @return True on success.
+     * @note Exception safety: noexcept.
      */
     static bool isKnownProfile(const std::string& profile) noexcept;
 
@@ -261,12 +282,16 @@ public:
      * @brief Return the VRAM size in bytes associated with @p profile.
      *
      * Returns 0 for unknown profiles.
+     * @param[in] profile Input parameter.
+     * @return Return value.
+     * @note Exception safety: noexcept.
      */
     static uint64_t profileMemoryBytes(const std::string& profile) noexcept;
 
-    // -----------------------------------------------------------------------
-    // Statistics
-    // -----------------------------------------------------------------------
+    /**
+     * @brief ----------------------------------------------------------------------- Statistics -----------------------------------------------------------------------
+     * @return Return value.
+     */
     Stats getStats() const;
 
     /**
@@ -279,6 +304,9 @@ public:
      *
      * Public so that tests can construct expected IDs without duplicating the
      * naming logic.
+     * @param[in] device_index Input parameter.
+     * @param[in] gi_id Input parameter.
+     * @return Return value.
      */
     static std::string makeInstanceId(int device_index, int gi_id);
 
@@ -305,6 +333,9 @@ private:
 
 /**
  * @brief Human-readable name for a MIGManager::Status value.
+ * @param[in] s Input parameter.
+ * @return Pointer to the result.
+ * @note Exception safety: noexcept.
  */
 const char* migStatusName(MIGManager::Status s) noexcept;
 

@@ -96,6 +96,7 @@ public:
     /**
      * @brief Construct with a descriptive message.
      * @param msg Human-readable description of the parse failure.
+     * @return Return value.
      */
     explicit ParseError(const std::string& msg)
         : std::runtime_error("WireProtocol parse error: " + msg) {}
@@ -166,6 +167,12 @@ public:
      * **Iterator safety:** uses `AdvanceSafe::advance()` internally.
      */
     template<typename T>
+    /**
+     * @brief TBD: Describe read_big_endian.
+     * @param[in,out] it Input/output parameter.
+     * @param[in] end Input parameter.
+     * @return Return value.
+     */
     static T read_big_endian(std::vector<uint8_t>::const_iterator& it,
                              const std::vector<uint8_t>::const_iterator& end);
 

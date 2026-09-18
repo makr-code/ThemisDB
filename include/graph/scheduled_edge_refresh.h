@@ -362,6 +362,7 @@ public:
      * @brief Return statistics for the most recently completed refresh cycle.
      *
      * DE: Gibt Statistiken des letzten abgeschlossenen Zyklus zurück.
+     * @return Return value.
      */
     RefreshStats getStats() const;
 
@@ -373,6 +374,7 @@ public:
      * (oldest entries are evicted when the limit is reached).
      *
      * DE: Gibt eine Momentaufnahme des vollständigen Prüfpfads zurück.
+     * @return Return value.
      */
     std::vector<RefreshAuditEntry> getAuditTrail() const;
 
@@ -392,6 +394,7 @@ public:
      * @throws std::invalid_argument if the new policy is invalid.
      *
      * DE: Aktualisiert die Richtlinie zur Laufzeit.
+     * @param[in] policy Input parameter.
      */
     void setPolicy(const RefreshPolicy& policy);
 
@@ -408,6 +411,7 @@ public:
      * Thread-safe: may be called before or after start().
      *
      * DE: Registriert einen Changefeed für dauerhafte Ereignisprotokollierung.
+     * @param[in] changefeed Input parameter.
      */
     void setChangefeed(std::shared_ptr<Changefeed> changefeed);
 
@@ -426,6 +430,7 @@ public:
      * Thread-safe: may be called before or after start().
      *
      * DE: Registriert einen ANN-Index für beschleunigte Kantenkandidaten-Suche.
+     * @param[in] ann_index Input parameter.
      */
     void setANNIndex(std::shared_ptr<index::IAnnIndex> ann_index);
 
@@ -534,9 +539,11 @@ private:
     /// Append an entry to the audit trail (evicts oldest if at capacity).
     void appendAudit(RefreshAuditEntry entry);
 
-    /// (Re-)build the ANN index from the current vertex set and their
-    /// embeddings.  Populates ann_vertex_to_idx_ and ann_idx_to_vertex_.
-    /// No-op when ann_index_ is nullptr or embedding_fn_ is not set.
+    /**
+     * @brief (Re-)build the ANN index from the current vertex set and their embeddings.
+     * @param[in] vertices Input parameter.
+     * @details Populates ann_vertex_to_idx_ and ann_idx_to_vertex_. No-op when ann_index_ is nullptr or embedding_fn_ is not set.
+     */
     void rebuildANNIndex(const std::vector<std::string>& vertices) const;
 
     // ── Data members ──────────────────────────────────────────────────────────

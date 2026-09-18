@@ -81,26 +81,56 @@ public:
     static ApiSecurityAuditReport audit(const ApiAuthConfig& config);
 
 private:
+    /**
+     * @brief TBD: Describe checkGlobalAuthDisabled.
+     * @param[in] config Input parameter.
+     * @param[in,out] findings Input/output parameter.
+     */
     static void checkGlobalAuthDisabled(
         const ApiAuthConfig& config,
         std::vector<ApiSecurityAuditFinding>& findings);
 
+    /**
+     * @brief TBD: Describe checkMissingScopeOnAuthEndpoints.
+     * @param[in] config Input parameter.
+     * @param[in,out] findings Input/output parameter.
+     */
     static void checkMissingScopeOnAuthEndpoints(
         const ApiAuthConfig& config,
         std::vector<ApiSecurityAuditFinding>& findings);
 
+    /**
+     * @brief TBD: Describe checkSensitiveEndpointsRequireAuth.
+     * @param[in] config Input parameter.
+     * @param[in,out] findings Input/output parameter.
+     */
     static void checkSensitiveEndpointsRequireAuth(
         const ApiAuthConfig& config,
         std::vector<ApiSecurityAuditFinding>& findings);
 
+    /**
+     * @brief TBD: Describe checkRateLimitingDisabled.
+     * @param[in] config Input parameter.
+     * @param[in,out] findings Input/output parameter.
+     */
     static void checkRateLimitingDisabled(
         const ApiAuthConfig& config,
         std::vector<ApiSecurityAuditFinding>& findings);
 
+    /**
+     * @brief TBD: Describe checkMissingRateLimitOnAuthEndpoints.
+     * @param[in] config Input parameter.
+     * @param[in,out] findings Input/output parameter.
+     */
     static void checkMissingRateLimitOnAuthEndpoints(
         const ApiAuthConfig& config,
         std::vector<ApiSecurityAuditFinding>& findings);
 
+    /**
+     * @brief TBD: Describe checkExcessiveBurstCapacity.
+     * @param[in] config Input parameter.
+     * @param[in,out] findings Input/output parameter.
+     */
     static void checkExcessiveBurstCapacity(
         const ApiAuthConfig& config,
         std::vector<ApiSecurityAuditFinding>& findings);

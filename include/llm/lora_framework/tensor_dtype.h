@@ -35,6 +35,7 @@ enum class DType {
  * @brief Get size in bytes for a given data type
  * @param dtype Data type
  * @return Size in bytes
+ * @details Implements dtype_size without additional internal calls.
  */
 inline size_t dtype_size(DType dtype) {
     switch (dtype) {
@@ -52,6 +53,7 @@ inline size_t dtype_size(DType dtype) {
  * @brief Get string name for data type
  * @param dtype Data type
  * @return String representation
+ * @details Implements dtype_name without additional internal calls.
  */
 inline std::string dtype_name(DType dtype) {
     switch (dtype) {
@@ -70,6 +72,7 @@ inline std::string dtype_name(DType dtype) {
  * @brief Check if dtype is mixed precision (FP16 or BF16)
  * @param dtype Data type
  * @return true if FP16 or BF16
+ * @details Implements is_mixed_precision without additional internal calls.
  */
 inline bool is_mixed_precision(DType dtype) {
     return dtype == DType::FLOAT16 || dtype == DType::BFLOAT16;
@@ -83,6 +86,7 @@ inline bool is_mixed_precision(DType dtype) {
  * 
  * @param value FP32 value
  * @return FP16 value (stored in uint16_t)
+ * @details Calls: std::memcpy().
  */
 inline uint16_t fp32_to_fp16_bits(float value) {
     // IEEE 754 half precision conversion (simplified)
@@ -110,6 +114,7 @@ inline uint16_t fp32_to_fp16_bits(float value) {
  * 
  * @param value FP16 value (stored in uint16_t)
  * @return FP32 value
+ * @details Calls: std::memcpy().
  */
 inline float fp16_bits_to_fp32(uint16_t value) {
     uint32_t sign = (value & 0x8000) << 16;
@@ -147,6 +152,7 @@ inline float fp16_bits_to_fp32(uint16_t value) {
  * 
  * @param value FP32 value
  * @return BF16 value (stored in uint16_t)
+ * @details Calls: std::memcpy().
  */
 inline uint16_t fp32_to_bf16_bits(float value) {
     uint32_t bits = 0;
@@ -164,6 +170,7 @@ inline uint16_t fp32_to_bf16_bits(float value) {
  * 
  * @param value BF16 value (stored in uint16_t)
  * @return FP32 value
+ * @details Calls: std::memcpy().
  */
 inline float bf16_bits_to_fp32(uint16_t value) {
     uint32_t bits = static_cast<uint32_t>(value) << 16;

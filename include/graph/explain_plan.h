@@ -94,6 +94,10 @@ struct GraphExplainPlan {
  */
 class IGraphExplainProvider {
 public:
+    /**
+     * @brief TBD: Describe ~IGraphExplainProvider.
+     * @return Return value.
+     */
     virtual ~IGraphExplainProvider() = default;
 
     /**

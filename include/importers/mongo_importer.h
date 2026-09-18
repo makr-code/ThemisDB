@@ -90,6 +90,12 @@ private:
      * @brief Import all documents from a JSON-Lines (NDJSON) file.
      *
      * Each non-empty line must be a single JSON object.
+     * @param[in] file_path Input parameter.
+     * @param[in] collection Input parameter.
+     * @param[in] options Input parameter.
+     * @param[in,out] stats Input/output parameter.
+     * @param[in,out] callback Input/output parameter.
+     * @return True on success.
      */
     bool parseJsonLines(const std::string& file_path,
                         const std::string& collection,
@@ -101,6 +107,12 @@ private:
      * @brief Import all documents from a JSON array file.
      *
      * The file content must be a single JSON array whose elements are objects.
+     * @param[in] file_path Input parameter.
+     * @param[in] collection Input parameter.
+     * @param[in] options Input parameter.
+     * @param[in,out] stats Input/output parameter.
+     * @param[in,out] callback Input/output parameter.
+     * @return True on success.
      */
     bool parseJsonArray(const std::string& file_path,
                         const std::string& collection,
@@ -116,6 +128,11 @@ private:
      *
      * @return true if the document was accepted (imported or skipped by policy),
      *         false on a hard parse/conversion error.
+     * @param[in] doc Input parameter.
+     * @param[in] collection Input parameter.
+     * @param[in] options Input parameter.
+     * @param[in,out] stats Input/output parameter.
+     * @param[in] doc_index Input parameter.
      */
     bool importDocument(const json& doc,
                         const std::string& collection,
@@ -131,6 +148,8 @@ private:
      * @brief Map a JSON value's type to a ThemisDB logical type string.
      *
      * Handles BSON extended JSON v2 wrappers and plain JSON primitives.
+     * @param[in] value Input parameter.
+     * @return Return value.
      */
     static std::string inferThemisType(const json& value);
 
@@ -141,11 +160,15 @@ private:
      * {"$numberDecimal":"..."} into plain JSON scalars or strings.
      *
      * Non-BSON objects are returned unchanged.
+     * @param[in] value Input parameter.
+     * @return Return value.
      */
     static json unwrapBsonValue(const json& value);
 
     /**
      * @brief Recursively unwrap all BSON extended JSON values in a document.
+     * @param[in] doc Input parameter.
+     * @return Return value.
      */
     static json unwrapDocument(const json& doc);
 
@@ -155,11 +178,16 @@ private:
 
     /**
      * @brief Derive a collection name from a file path (basename without extension).
+     * @param[in] path Input parameter.
+     * @return Return value.
      */
     static std::string collectionFromPath(const std::string& path);
 
     /**
      * @brief Check whether a collection should be imported given the options.
+     * @param[in] collection Input parameter.
+     * @param[in] options Input parameter.
+     * @return True on success.
      */
     static bool shouldImportCollection(const std::string& collection,
                                        const ImportOptions& options);
@@ -184,6 +212,13 @@ private:
                   const std::map<std::string, std::string>& attributes,
                   double duration_seconds) const;
 
+    /**
+     * @brief TBD: Describe reportProgress.
+     * @param[in,out] callback Input/output parameter.
+     * @param[in] stage Input parameter.
+     * @param[in] current Input parameter.
+     * @param[in] total Input parameter.
+     */
     void reportProgress(ProgressCallback& callback,
                         const std::string& stage,
                         size_t current, size_t total);

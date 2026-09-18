@@ -273,6 +273,7 @@ public:
     /**
      * @brief Construct judge with configuration
      * @param config Evaluation configuration
+     * @return Return value.
      */
     explicit RAGJudge(const RAGJudgeConfig& config);
     
@@ -404,61 +405,199 @@ public:
 private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
+    /**
+     * @brief TBD: Describe getConfigSnapshot.
+     * @return Return value.
+     */
     RAGJudgeConfig getConfigSnapshot() const;
+    /**
+     * @brief TBD: Describe evaluateWithConfig.
+     * @param[in] input Input parameter.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     EvaluationResult evaluateWithConfig(const EvaluationInput& input, const RAGJudgeConfig& config);
     
-    // Internal evaluation methods
+    /**
+     * @brief Internal evaluation methods
+     * @param[in] input Input parameter.
+     * @return Return value.
+     */
     double evaluateFaithfulness(const EvaluationInput& input);
+    /**
+     * @brief TBD: Describe evaluateRelevance.
+     * @param[in] input Input parameter.
+     * @return Return value.
+     */
     double evaluateRelevance(const EvaluationInput& input);
+    /**
+     * @brief TBD: Describe evaluateCompleteness.
+     * @param[in] input Input parameter.
+     * @return Return value.
+     */
     double evaluateCompleteness(const EvaluationInput& input);
+    /**
+     * @brief TBD: Describe evaluateCoherence.
+     * @param[in] input Input parameter.
+     * @return Return value.
+     */
     double evaluateCoherence(const EvaluationInput& input);
+    /**
+     * @brief TBD: Describe evaluateEthicalCompliance.
+     * @param[in] input Input parameter.
+     * @return Return value.
+     */
     double evaluateEthicalCompliance(const EvaluationInput& input);
     
-    // Ethical compliance sub-evaluations
+    /**
+     * @brief Ethical compliance sub-evaluations
+     * @param[in] input Input parameter.
+     * @return Return value.
+     */
     double evaluateAutonomyRespect(const EvaluationInput& input);
+    /**
+     * @brief TBD: Describe evaluateMoralDiversity.
+     * @param[in] input Input parameter.
+     * @return Return value.
+     */
     double evaluateMoralDiversity(const EvaluationInput& input);
+    /**
+     * @brief TBD: Describe evaluateCitationQuality.
+     * @param[in] input Input parameter.
+     * @return Return value.
+     */
     double evaluateCitationQuality(const EvaluationInput& input);
     
-    // Ethical detection helpers
+    /**
+     * @brief Ethical detection helpers
+     * @param[in] text Input parameter.
+     * @return True on success.
+     */
     bool detectPatronizingLanguage(const std::string& text);
+    /**
+     * @brief TBD: Describe checkChoicePreservation.
+     * @param[in] text Input parameter.
+     * @return True on success.
+     */
     bool checkChoicePreservation(const std::string& text);
+    /**
+     * @brief TBD: Describe countMoralPerspectives.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     int countMoralPerspectives(const std::string& text);
+    /**
+     * @brief TBD: Describe detectBias.
+     * @param[in] text Input parameter.
+     * @return True on success.
+     */
     bool detectBias(const std::string& text);
+    /**
+     * @brief TBD: Describe hasEthicalCitations.
+     * @param[in] text Input parameter.
+     * @return True on success.
+     */
     bool hasEthicalCitations(const std::string& text);
     
+    /**
+     * @brief TBD: Describe extractClaims.
+     * @param[in] answer Input parameter.
+     * @return Return value.
+     */
     std::vector<std::string> extractClaims(const std::string& answer);
+    /**
+     * @brief TBD: Describe extractClaimsViaLLM.
+     * @param[in] answer Input parameter.
+     * @return Return value.
+     */
     std::vector<std::string> extractClaimsViaLLM(const std::string& answer);
+    /**
+     * @brief TBD: Describe extractClaimsViaHeuristic.
+     * @param[in] answer Input parameter.
+     * @return Return value.
+     */
     std::vector<std::string> extractClaimsViaHeuristic(const std::string& answer);
 
+    /**
+     * @brief TBD: Describe verifyClaimAgainstDocuments.
+     * @param[in] claim Input parameter.
+     * @param[in] documents Input parameter.
+     * @return True on success.
+     */
     bool verifyClaimAgainstDocuments(
         const std::string& claim,
         const std::vector<RetrievedDocument>& documents
     );
+    /**
+     * @brief TBD: Describe verifyClaimViaNLI.
+     * @param[in] claim Input parameter.
+     * @param[in] documents Input parameter.
+     * @return True on success.
+     */
     bool verifyClaimViaNLI(
         const std::string& claim,
         const std::vector<RetrievedDocument>& documents
     );
+    /**
+     * @brief TBD: Describe verifyClaimViaLLM.
+     * @param[in] claim Input parameter.
+     * @param[in] documents Input parameter.
+     * @return True on success.
+     */
     bool verifyClaimViaLLM(
         const std::string& claim,
         const std::vector<RetrievedDocument>& documents
     );
+    /**
+     * @brief TBD: Describe verifyClaimViaSemantic.
+     * @param[in] claim Input parameter.
+     * @param[in] documents Input parameter.
+     * @return True on success.
+     */
     bool verifyClaimViaSemantic(
         const std::string& claim,
         const std::vector<RetrievedDocument>& documents
     );
 
+    /**
+     * @brief TBD: Describe tokenizeForMatching.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     std::vector<std::string> tokenizeForMatching(const std::string& text);
+    /**
+     * @brief TBD: Describe calculateTermOverlap.
+     * @param[in] terms1 Input parameter.
+     * @param[in] terms2 Input parameter.
+     * @return Return value.
+     */
     double calculateTermOverlap(
         const std::vector<std::string>& terms1,
         const std::vector<std::string>& terms2
     );
     
+    /**
+     * @brief TBD: Describe generateEvaluationPrompt.
+     * @param[in] input Input parameter.
+     * @param[in] dimension Input parameter.
+     * @return Return value.
+     */
     std::string generateEvaluationPrompt(
         const EvaluationInput& input,
         EvaluationDimension dimension
     );
     
+    /**
+     * @brief TBD: Describe parseScoreFromResponse.
+     * @param[in] response Input parameter.
+     * @return Return value.
+     */
     double parseScoreFromResponse(const std::string& response);
+    /**
+     * @brief TBD: Describe extractExplanation.
+     * @param[in] response Input parameter.
+     * @return Return value.
+     */
     std::string extractExplanation(const std::string& response);
 };
 
@@ -511,6 +650,12 @@ private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
     
+    /**
+     * @brief TBD: Describe combineResults.
+     * @param[in] results Input parameter.
+     * @param[in] strategy Input parameter.
+     * @return Return value.
+     */
     EvaluationResult combineResults(
         const std::vector<EvaluationResult>& results,
         VotingStrategy strategy
@@ -524,21 +669,26 @@ class RAGJudgeFactory {
 public:
     /**
      * @brief Create a fast judge (single-dimension check)
+     * @return Return value.
      */
     static std::unique_ptr<RAGJudge> createFast();
     
     /**
      * @brief Create a balanced judge (multi-dimension)
+     * @return Return value.
      */
     static std::unique_ptr<RAGJudge> createBalanced();
     
     /**
      * @brief Create a thorough judge (full evaluation)
+     * @return Return value.
      */
     static std::unique_ptr<RAGJudge> createThorough();
     
     /**
      * @brief Create a custom configured judge
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     static std::unique_ptr<RAGJudge> create(const RAGJudgeConfig& config);
     
@@ -567,6 +717,9 @@ double calculateInterJudgeAgreement(const std::vector<EvaluationResult>& results
 
 /**
  * @brief Calculate Cohen's Kappa for judge consistency
+ * @param[in] judge1_results Input parameter.
+ * @param[in] judge2_results Input parameter.
+ * @return Return value.
  */
 double calculateCohensKappa(
     const std::vector<EvaluationResult>& judge1_results,

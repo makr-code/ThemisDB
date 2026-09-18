@@ -133,6 +133,8 @@ public:
      * @brief Return true if the underlying socket uses MPTCP (not plain TCP).
      *
      * Returns false after fallback or on platforms without MPTCP support.
+     * @return True on success.
+     * @note Exception safety: noexcept.
      */
     bool isMptcpEnabled() const noexcept;
 
@@ -141,11 +143,13 @@ public:
      *
      * On platforms without MPTCP or in fallback mode, returns a single
      * synthetic entry representing the plain TCP path.
+     * @return Return value.
      */
     std::vector<MptcpSubflowInfo> enumerateSubflows() const;
 
     /**
      * @brief Return aggregate connection statistics.
+     * @return Return value.
      */
     MptcpConnectionStats getStats() const;
 
@@ -225,6 +229,7 @@ int createMptcpListenSocket(const std::string& host,
  *
  * @return true if MPTCP is available (Linux ≥ 5.6, kernel compiled with
  *         CONFIG_MPTCP, and the MPTCP netlink family is responsive).
+ * @note Exception safety: noexcept.
  */
 bool isMptcpKernelSupported() noexcept;
 

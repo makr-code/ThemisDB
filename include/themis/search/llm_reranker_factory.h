@@ -8,6 +8,10 @@ namespace search {
 
 using LlmRerankerFactory = std::function<std::unique_ptr<ILlmReranker>(const ILlmReranker::Config&)>;
 
+/**
+ * @brief TBD: Describe registerLlmRerankerFactory.
+ * @param[in] f Input parameter.
+ */
 void registerLlmRerankerFactory(LlmRerankerFactory f);
 std::unique_ptr<ILlmReranker> createLlmReranker(const ILlmReranker::Config& cfg = ILlmReranker::Config::defaults());
 

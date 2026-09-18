@@ -89,6 +89,10 @@ struct HotReloadResult {
  */
 class IConfigHotReloader {
 public:
+    /**
+     * @brief TBD: Describe ~IConfigHotReloader.
+     * @return Return value.
+     */
     virtual ~IConfigHotReloader() = default;
 
     /**
@@ -99,6 +103,7 @@ public:
         * errors and return false instead of throwing.
         *
      * @return `false` if the path/key is not accessible or already watched.
+     * @param[in] config_path_or_key Input parameter.
      */
     virtual bool watch(const std::string& config_path_or_key) = 0;
 
@@ -109,6 +114,7 @@ public:
         * the current reload state.
         *
      * @return `false` if the path/key was not being watched.
+     * @param[in] config_path_or_key Input parameter.
      */
     virtual bool unwatch(const std::string& config_path_or_key) = 0;
 

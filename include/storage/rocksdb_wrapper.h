@@ -282,6 +282,11 @@ public:
         int blob_streaming_threads = 4;
     };
 
+    /**
+     * @brief TBD: Describe RocksDBWrapper.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit RocksDBWrapper(const Config& config);
     ~RocksDBWrapper();
 
@@ -291,8 +296,11 @@ public:
     RocksDBWrapper(RocksDBWrapper&&) noexcept;
     RocksDBWrapper& operator=(RocksDBWrapper&&) noexcept;
 
-    /// @brief Open the database.
-    /// @return true on success.
+    /**
+     * @brief @brief Open the database.
+     * @return True on success.
+     * @details @return true on success.
+     */
     bool open();
 
     /// @brief Close the database.
@@ -301,38 +309,56 @@ public:
     /// Check if database is open
     bool isOpen() const;
 
-    /// @brief Register a RocksDB event listener.
-    /// @param listener Listener that will receive compaction/flush/deletion events.
+    /**
+     * @brief @brief Register a RocksDB event listener.
+     * @param[in] listener Input parameter.
+     * @details @param listener Listener that will receive compaction/flush/deletion events.
+     */
     void addEventListener(std::shared_ptr<rocksdb::EventListener> listener);
 
     // ===== CRUD Operations =====
 
-    /// @brief Get a value by key.
-    /// @param key Lookup key.
-    /// @return Value bytes if the key exists; std::nullopt otherwise.
+    /**
+     * @brief @brief Get a value by key.
+     * @param[in] key Input parameter.
+     * @return Return value.
+     * @details @param key Lookup key. @return Value bytes if the key exists; std::nullopt otherwise.
+     */
     std::optional<std::vector<uint8_t>> get(std::string_view key);
 
-    /// @brief Get a value as a string.
-    /// @param key Lookup key.
-    /// @param out Output string.
-    /// @return true if the key exists.
+    /**
+     * @brief @brief Get a value as a string.
+     * @param[in] key Input parameter.
+     * @param[in,out] out Input/output parameter.
+     * @return True on success.
+     * @details @param key Lookup key. @param out Output string. @return true if the key exists.
+     */
     bool get(std::string_view key, std::string& out);
 
-    /// @brief Store a key-value pair.
-    /// @param key Lookup key.
-    /// @param value Value bytes.
-    /// @return true on success.
+    /**
+     * @brief @brief Store a key-value pair.
+     * @param[in] key Input parameter.
+     * @param[in] value Input parameter.
+     * @return True on success.
+     * @details @param key Lookup key. @param value Value bytes. @return true on success.
+     */
     bool put(std::string_view key, const std::vector<uint8_t>& value);
 
-    /// @brief Store a string value.
-    /// @param key Lookup key.
-    /// @param value String value.
-    /// @return true on success.
+    /**
+     * @brief @brief Store a string value.
+     * @param[in] key Input parameter.
+     * @param[in] value Input parameter.
+     * @return True on success.
+     * @details @param key Lookup key. @param value String value. @return true on success.
+     */
     bool put(std::string_view key, std::string_view value);
 
-    /// @brief Delete a key.
-    /// @param key Lookup key.
-    /// @return true if at least one entry was removed.
+    /**
+     * @brief @brief Delete a key.
+     * @param[in] key Input parameter.
+     * @return True on success.
+     * @details @param key Lookup key. @return true if at least one entry was removed.
+     */
     bool del(std::string_view key);
 
     /// @brief Struct for a key-value pair used in batch writes.
@@ -341,32 +367,47 @@ public:
         std::vector<uint8_t> value;
     };
 
-    /// @brief Write multiple key-value pairs atomically.
-    /// @param pairs Key-value pairs to write.
-    /// @return true if all writes were committed successfully.
+    /**
+     * @brief @brief Write multiple key-value pairs atomically.
+     * @param[in] pairs Input parameter.
+     * @return True on success.
+     * @details @param pairs Key-value pairs to write. @return true if all writes were committed successfully.
+     */
     bool putBatch(const std::vector<KeyValuePair>& pairs);
 
     // ===== Streaming Blob API (v2.0.0, PERF-D5) =====
 
-    /// @brief Store a blob using the streaming write path.
-    /// @param key Logical blob key.
-    /// @param data Blob bytes.
-    /// @return true on success.
+    /**
+     * @brief @brief Store a blob using the streaming write path.
+     * @param[in] key Input parameter.
+     * @param[in] data Input parameter.
+     * @return True on success.
+     * @details @param key Logical blob key. @param data Blob bytes. @return true on success.
+     */
     bool putBlob(std::string_view key, const std::vector<uint8_t>& data);
 
-    /// @brief Read a blob previously stored by putBlob() or put().
-    /// @param key Logical blob key.
-    /// @return Blob bytes, or std::nullopt if not found.
+    /**
+     * @brief @brief Read a blob previously stored by putBlob() or put().
+     * @param[in] key Input parameter.
+     * @return Return value.
+     * @details @param key Logical blob key. @return Blob bytes, or std::nullopt if not found.
+     */
     std::optional<std::vector<uint8_t>> getBlob(std::string_view key);
 
-    /// @brief Delete a blob stored by putBlob() or put().
-    /// @param key Logical blob key.
-    /// @return true if at least one key was deleted.
+    /**
+     * @brief @brief Delete a blob stored by putBlob() or put().
+     * @param[in] key Input parameter.
+     * @return True on success.
+     * @details @param key Logical blob key. @return true if at least one key was deleted.
+     */
     bool delBlob(std::string_view key);
 
-    /// @brief Multi-get batch read.
-    /// @param keys Lookup keys.
-    /// @return Values aligned with the input keys.
+    /**
+     * @brief @brief Multi-get batch read.
+     * @param[in] keys Input parameter.
+     * @return Return value.
+     * @details @param keys Lookup keys. @return Values aligned with the input keys.
+     */
     std::vector<std::optional<std::vector<uint8_t>>> multiGet(
         const std::vector<std::string>& keys
     );
@@ -378,19 +419,33 @@ public:
      */
     class WriteBatchWrapper {
     public:
+        /**
+         * @brief TBD: Describe WriteBatchWrapper.
+         * @param[in,out] db Input/output parameter.
+         * @return Return value.
+         */
         explicit WriteBatchWrapper(RocksDBWrapper* db);
         ~WriteBatchWrapper();
 
-        /// @brief Add a key-value pair to the batch.
-        /// @param key Lookup key.
-        /// @param value Value bytes.
+        /**
+         * @brief @brief Add a key-value pair to the batch.
+         * @param[in] key Input parameter.
+         * @param[in] value Input parameter.
+         * @details @param key Lookup key. @param value Value bytes.
+         */
         void put(std::string_view key, const std::vector<uint8_t>& value);
-        /// @brief Delete a key from the batch.
-        /// @param key Lookup key.
+        /**
+         * @brief @brief Delete a key from the batch.
+         * @param[in] key Input parameter.
+         * @details @param key Lookup key.
+         */
         void del(std::string_view key);
 
-        /// @brief Commit the batch atomically.
-        /// @return true on success.
+        /**
+         * @brief @brief Commit the batch atomically.
+         * @return True on success.
+         * @details @return true on success.
+         */
         bool commit();
 
         /// @brief Roll back the batch.
@@ -402,8 +457,11 @@ public:
         friend class RocksDBWrapper;
     };
 
-    /// @brief Create a new write batch wrapper.
-    /// @return Batch wrapper instance.
+    /**
+     * @brief @brief Create a new write batch wrapper.
+     * @return Return value.
+     * @details @return Batch wrapper instance.
+     */
     std::unique_ptr<WriteBatchWrapper> createWriteBatch();
 
     /**
@@ -414,12 +472,18 @@ public:
         explicit WriteBatchWithIndexWrapper(RocksDBWrapper* db, bool overwrite_key = true);
         ~WriteBatchWithIndexWrapper();
 
-        /// @brief Add a key-value pair to the batch.
-        /// @param key Lookup key.
-        /// @param value Value bytes.
+        /**
+         * @brief @brief Add a key-value pair to the batch.
+         * @param[in] key Input parameter.
+         * @param[in] value Input parameter.
+         * @details @param key Lookup key. @param value Value bytes.
+         */
         void put(std::string_view key, const std::vector<uint8_t>& value);
-        /// @brief Delete a key from the batch.
-        /// @param key Lookup key.
+        /**
+         * @brief @brief Delete a key from the batch.
+         * @param[in] key Input parameter.
+         * @details @param key Lookup key.
+         */
         void del(std::string_view key);
 
         /// @brief Get from batch only.
@@ -428,8 +492,11 @@ public:
         /// @brief Get from batch first, then DB if not found.
         std::optional<std::vector<uint8_t>> getFromBatchAndDB(std::string_view key) const;
 
-        /// @brief Commit the batch atomically.
-        /// @return true on success.
+        /**
+         * @brief @brief Commit the batch atomically.
+         * @return True on success.
+         * @details @return true on success.
+         */
         bool commit();
 
         /// @brief Roll back the batch.
@@ -471,36 +538,54 @@ public:
         explicit TransactionWrapper(RocksDBWrapper* db, TransactionIsolationLevel isolation = TransactionIsolationLevel::ReadCommitted);
         ~TransactionWrapper();
 
-        /// @brief Get a value with isolation-dependent behavior.
-        /// @param key Lookup key.
-        /// @return Value bytes if found.
+        /**
+         * @brief @brief Get a value with isolation-dependent behavior.
+         * @param[in] key Input parameter.
+         * @return Return value.
+         * @details @param key Lookup key. @return Value bytes if found.
+         */
         std::optional<std::vector<uint8_t>> get(std::string_view key);
 
-        /// @brief Acquire an exclusive write lock on a key.
-        /// @param key Lookup key.
-        /// @return true if the lock was acquired.
+        /**
+         * @brief @brief Acquire an exclusive write lock on a key.
+         * @param[in] key Input parameter.
+         * @return True on success.
+         * @details @param key Lookup key. @return true if the lock was acquired.
+         */
         bool getForUpdate(std::string_view key);
 
-        /// @brief Put a key-value pair.
-        /// @param key Lookup key.
-        /// @param value Value bytes.
-        /// @return true on success.
+        /**
+         * @brief @brief Put a key-value pair.
+         * @param[in] key Input parameter.
+         * @param[in] value Input parameter.
+         * @return True on success.
+         * @details @param key Lookup key. @param value Value bytes. @return true on success.
+         */
         bool put(std::string_view key, const std::vector<uint8_t>& value);
 
-        /// @brief Delete a key.
-        /// @param key Lookup key.
-        /// @return true on success.
+        /**
+         * @brief @brief Delete a key.
+         * @param[in] key Input parameter.
+         * @return True on success.
+         * @details @param key Lookup key. @return true on success.
+         */
         bool del(std::string_view key);
 
-        /// @brief Commit the transaction.
-        /// @return true on success.
+        /**
+         * @brief @brief Commit the transaction.
+         * @return True on success.
+         * @details @return true on success.
+         */
         bool commit();
 
         /// @brief Roll back the transaction.
         void rollback();
 
-        /// @brief Prepare the transaction.
-        /// @return true on success.
+        /**
+         * @brief @brief Prepare the transaction.
+         * @return True on success.
+         * @details @return true on success.
+         */
         bool prepare();
 
         // ── Savepoint API ────────────────────────────────────────────────────
@@ -591,8 +676,11 @@ public:
 
         ~SafeIterator() = default;
 
-        /// @brief Seek to a target key.
-        /// @param target Key to seek to.
+        /**
+         * @brief @brief Seek to a target key.
+         * @param[in] target Input parameter.
+         * @details @param target Key to seek to.
+         */
         void Seek(const std::string& target);
         /// @brief Seek to the first key.
         void SeekToFirst();
@@ -602,14 +690,23 @@ public:
         void Next();
         /// @brief Move to the previous key.
         void Prev();
-        /// @brief Check whether the iterator is positioned at a valid entry.
-        /// @return true when the iterator references a valid key-value pair.
+        /**
+         * @brief @brief Check whether the iterator is positioned at a valid entry.
+         * @return True on success.
+         * @details @return true when the iterator references a valid key-value pair.
+         */
         bool Valid() const;
-        /// @brief Get the current key.
-        /// @return View of the current key.
+        /**
+         * @brief @brief Get the current key.
+         * @return Return value.
+         * @details @return View of the current key.
+         */
         std::string_view key() const;
-        /// @brief Get the current value.
-        /// @return View of the current value.
+        /**
+         * @brief @brief Get the current value.
+         * @return Return value.
+         * @details @return View of the current value.
+         */
         std::string_view value() const;
 
         // Check if iterator is usable
@@ -633,30 +730,45 @@ public:
     Result<SafeIterator> newSafeIterator(const rocksdb::ReadOptions* read_options = nullptr);
 
     using ScanCallback = std::function<bool(std::string_view key, std::string_view value)>;
-    /// @brief Scan entries that share a prefix.
-    /// @param prefix Prefix to match.
-    /// @param callback Callback invoked for each entry.
+    /**
+     * @brief @brief Scan entries that share a prefix.
+     * @param[in] prefix Input parameter.
+     * @param[in] callback Input parameter.
+     * @details @param prefix Prefix to match. @param callback Callback invoked for each entry.
+     */
     void scanPrefix(std::string_view prefix, ScanCallback callback);
 
-    /// @brief Create a prefix iterator for enumeration.
-    /// @param prefix Prefix to search for.
-    /// @return Iterator positioned at the first matching key, or an error.
+    /**
+     * @brief @brief Create a prefix iterator for enumeration.
+     * @param[in] prefix Input parameter.
+     * @return Return value.
+     * @details @param prefix Prefix to search for. @return Iterator positioned at the first matching key, or an error.
+     */
     Result<SafeIterator> prefixIterator(std::string_view prefix);
 
-    /// @brief Scan range [start_key, end_key).
-    /// @param start_key Range start.
-    /// @param end_key Range end.
-    /// @param callback Callback invoked for each entry.
+    /**
+     * @brief @brief Scan range [start_key, end_key).
+     * @param[in] start_key Input parameter.
+     * @param[in] end_key Input parameter.
+     * @param[in] callback Input parameter.
+     * @details @param start_key Range start. @param end_key Range end. @param callback Callback invoked for each entry.
+     */
     void scanRange(std::string_view start_key, std::string_view end_key, ScanCallback callback);
 
-    /// @brief Iterate over a key range using a RocksDB iterator.
-    /// @param start_key Range start.
-    /// @param end_key Range end.
-    /// @param callback Callback invoked for each entry.
+    /**
+     * @brief @brief Iterate over a key range using a RocksDB iterator.
+     * @param[in] start_key Input parameter.
+     * @param[in] end_key Input parameter.
+     * @param[in] callback Input parameter.
+     * @details @param start_key Range start. @param end_key Range end. @param callback Callback invoked for each entry.
+     */
     void iterateRange(std::string_view start_key, std::string_view end_key, ScanCallback callback);
 
-    /// @brief Scan the whole database.
-    /// @param callback Callback invoked for each entry.
+    /**
+     * @brief @brief Scan the whole database.
+     * @param[in] callback Input parameter.
+     * @details @param callback Callback invoked for each entry.
+     */
     void scanAll(ScanCallback callback);
 
     // v1.3.0 Phase 2: Async I/O Scan Operations
@@ -680,18 +792,27 @@ public:
     std::vector<std::pair<std::string, std::vector<uint8_t>>> reverseScanWithAsyncIO(
         std::string_view start_key, int limit = 1000);
 
-    /// @brief MultiGet with async I/O optimization.
-    /// @param keys Lookup keys.
-    /// @return Values aligned with the input keys.
+    /**
+     * @brief @brief MultiGet with async I/O optimization.
+     * @param[in] keys Input parameter.
+     * @return Return value.
+     * @details @param keys Lookup keys. @return Values aligned with the input keys.
+     */
     std::vector<std::optional<std::vector<uint8_t>>> multiGetWithAsyncIO(
         const std::vector<std::string>& keys);
 
-    /// @brief Create an async iterator with prefetching.
-    /// @return Iterator or an error.
+    /**
+     * @brief @brief Create an async iterator with prefetching.
+     * @return Return value.
+     * @details @return Iterator or an error.
+     */
     Result<std::unique_ptr<rocksdb::Iterator>> newAsyncIterator();
 
-    /// @brief Create a standard iterator.
-    /// @return Iterator or an error.
+    /**
+     * @brief @brief Create a standard iterator.
+     * @return Return value.
+     * @details @return Iterator or an error.
+     */
     Result<std::unique_ptr<rocksdb::Iterator>> newIterator();
 
     /// @brief Check if async I/O is enabled.
@@ -699,42 +820,63 @@ public:
 
     // ===== Statistics & Maintenance =====
 
-    /// @brief Get database statistics.
-    /// @return Human-readable statistics string.
+    /**
+     * @brief @brief Get database statistics.
+     * @return Return value.
+     * @details @return Human-readable statistics string.
+     */
     std::string getStats() const;
 
-    /// @brief Get the active compression type.
-    /// @return Compression type string.
+    /**
+     * @brief @brief Get the active compression type.
+     * @return Return value.
+     * @details @return Compression type string.
+     */
     std::string getCompressionType() const;
 
-    /// @brief Trigger manual compaction.
-    /// @param start_key Range start.
-    /// @param end_key Range end.
+    /**
+     * @brief @brief Trigger manual compaction.
+     * @param[in] start_key Input parameter.
+     * @param[in] end_key Input parameter.
+     * @details @param start_key Range start. @param end_key Range end.
+     */
     void compactRange(std::string_view start_key, std::string_view end_key);
 
     /// @brief Flush memtable to disk.
     void flush();
 
-    /// @brief Get the approximate database size in bytes.
-    /// @return Approximate size in bytes.
+    /**
+     * @brief @brief Get the approximate database size in bytes.
+     * @return Return value.
+     * @details @return Approximate size in bytes.
+     */
     uint64_t getApproximateSize() const;
 
     /// @brief Get the current configuration.
     const Config& getConfig() const { return config_; }
 
-    /// @brief Get the latest RocksDB sequence number.
-    /// @return Sequence number, or 0 if the database is not open.
+    /**
+     * @brief @brief Get the latest RocksDB sequence number.
+     * @return Return value.
+     * @details @return Sequence number, or 0 if the database is not open.
+     */
     uint64_t getLatestSequenceNumber() const;
 
     // ===== Backup & Recovery (Checkpoints) =====
-    /// @brief Create a RocksDB checkpoint.
-    /// @param checkpoint_dir Destination directory.
-    /// @return true on success.
+    /**
+     * @brief @brief Create a RocksDB checkpoint.
+     * @param[in] checkpoint_dir Input parameter.
+     * @return True on success.
+     * @details @param checkpoint_dir Destination directory. @return true on success.
+     */
     bool createCheckpoint(const std::string& checkpoint_dir);
 
-    /// @brief Restore the database from a previously created checkpoint directory.
-    /// @param checkpoint_dir Checkpoint directory.
-    /// @return true on success.
+    /**
+     * @brief @brief Restore the database from a previously created checkpoint directory.
+     * @param[in] checkpoint_dir Input parameter.
+     * @return True on success.
+     * @details @param checkpoint_dir Checkpoint directory. @return true on success.
+     */
     bool restoreFromCheckpoint(const std::string& checkpoint_dir);
 
     // ===== v1.1.0: Advanced RocksDB Features =====
@@ -745,30 +887,45 @@ public:
     /// @return true on success.
     bool createIncrementalBackup(const std::string& backup_dir, bool flush_before_backup = true);
 
-    /// @brief Restore from the latest backup.
-    /// @param backup_dir Directory containing backups.
-    /// @return true on success.
+    /**
+     * @brief @brief Restore from the latest backup.
+     * @param[in] backup_dir Input parameter.
+     * @return True on success.
+     * @details @param backup_dir Directory containing backups. @return true on success.
+     */
     bool restoreFromBackup(const std::string& backup_dir);
 
-    /// @brief Get number of backups available.
-    /// @param backup_dir Directory containing backups.
-    /// @return Number of backups.
+    /**
+     * @brief @brief Get number of backups available.
+     * @param[in] backup_dir Input parameter.
+     * @return Return value.
+     * @details @param backup_dir Directory containing backups. @return Number of backups.
+     */
     uint32_t getBackupCount(const std::string& backup_dir) const;
 
-    /// @brief Export RocksDB statistics as JSON.
-    /// @return JSON object with statistics.
+    /**
+     * @brief @brief Export RocksDB statistics as JSON.
+     * @return Return value.
+     * @details @return JSON object with statistics.
+     */
     std::string exportStatisticsJSON() const;
 
-    /// @brief Get a specific statistic value by ticker name.
-    /// @param ticker_name Name of the ticker.
-    /// @return Ticker value.
+    /**
+     * @brief @brief Get a specific statistic value by ticker name.
+     * @param[in] ticker_name Input parameter.
+     * @return Return value.
+     * @details @param ticker_name Name of the ticker. @return Ticker value.
+     */
     uint64_t getStatistic(const std::string& ticker_name) const;
 
     // ===== Column Family Management =====
 
-    /// @brief Create or open a column family.
-    /// @param cf_name Column family name.
-    /// @return Handle or an error.
+    /**
+     * @brief @brief Create or open a column family.
+     * @param[in] cf_name Input parameter.
+     * @return Return value.
+     * @details @param cf_name Column family name. @return Handle or an error.
+     */
     Result<rocksdb::ColumnFamilyHandle*> getOrCreateColumnFamily(const std::string& cf_name);
 
     /// Lightweight metadata snapshot for one column family
@@ -778,8 +935,11 @@ public:
         uint64_t approx_size_bytes = 0; ///< rocksdb.total-sst-files-size
     };
 
-    /// @brief Enumerate all open column families with lightweight statistics.
-    /// @return Vector of CFInfo entries, or empty if the DB is not open.
+    /**
+     * @brief @brief Enumerate all open column families with lightweight statistics.
+     * @return Return value.
+     * @details @return Vector of CFInfo entries, or empty if the DB is not open.
+     */
     std::vector<CFInfo> listColumnFamilies() const;
 
     /// @brief Get the raw RocksDB pointer.
@@ -797,6 +957,11 @@ private:
      */
     class OperationGuard {
     public:
+        /**
+         * @brief TBD: Describe OperationGuard.
+         * @param[in] wrapper Input parameter.
+         * @return Return value.
+         */
         explicit OperationGuard(const RocksDBWrapper* wrapper)
             : wrapper_(wrapper), db_(nullptr) {
             if (wrapper_) {
@@ -861,7 +1026,15 @@ private:
     mutable std::atomic<bool> is_being_moved_{false};
     #endif
 
+    /**
+     * @brief TBD: Describe configureOptions.
+     */
     void configureOptions();
+    /**
+     * @brief TBD: Describe commitBatch.
+     * @param[in,out] batch Input/output parameter.
+     * @return True on success.
+     */
     bool commitBatch(rocksdb::WriteBatch* batch);
 };
 

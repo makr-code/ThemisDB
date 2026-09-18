@@ -24,6 +24,10 @@ namespace whisper {
  */
 class IAudioChunkReader {
 public:
+    /**
+     * @brief TBD: Describe ~IAudioChunkReader.
+     * @return Return value.
+     */
     virtual ~IAudioChunkReader() = default;
 
     /**
@@ -103,6 +107,12 @@ public:
     std::map<std::string, std::string> getMetadata(const std::string& path) const override;
 
 private:
+    /**
+     * @brief TBD: Describe parseWav.
+     * @param[in] data Input parameter.
+     * @param[in,out] out_sample_rate Input/output parameter.
+     * @return Return value.
+     */
     std::vector<float> parseWav(const std::vector<uint8_t>& data,
                                 float& out_sample_rate);
 };
@@ -134,8 +144,12 @@ public:
     std::map<std::string, std::string> getMetadata(const std::string& path) const override;
 
 private:
-    /// Shell-escape a path for use inside single quotes.
-    /// Throws std::runtime_error if the path contains a NUL byte.
+    /**
+     * @brief Shell-escape a path for use inside single quotes.
+     * @param[in] path Input parameter.
+     * @return Return value.
+     * @details Throws std::runtime_error if the path contains a NUL byte.
+     */
     static std::string shellEscape(const std::string& path);
 };
 

@@ -121,6 +121,10 @@ struct AdaptiveRetrievalParams {
  * replace the heuristic scorer.  When null, the heuristic is used.
  */
 struct IComplexityScorer {
+    /**
+     * @brief TBD: Describe ~IComplexityScorer.
+     * @return Return value.
+     */
     virtual ~IComplexityScorer() = default;
 
     /**
@@ -163,6 +167,8 @@ public:
 
     /**
      * @brief Construct with explicit configuration.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     explicit AdaptiveRetrieval(const AdaptiveRetrievalConfig& config);
 
@@ -205,6 +211,8 @@ public:
 
     /**
      * @brief Convert a QueryComplexity tier to a human-readable string.
+     * @param[in] complexity Input parameter.
+     * @return Pointer to the result.
      */
     static const char* complexityToString(QueryComplexity complexity);
 
@@ -247,6 +255,7 @@ private:
 struct AdaptiveRetrievalFactory {
     /**
      * @brief Minimal footprint: top_k in [3, 8]; tight thresholds.
+     * @return Return value.
      */
     static std::unique_ptr<AdaptiveRetrieval> createLightweight();
 
@@ -255,11 +264,13 @@ struct AdaptiveRetrievalFactory {
      *
      * base_top_k=5, max_top_k=15, base_similarity_threshold=0.75,
      * min_similarity_threshold=0.40, complexity_scaling=1.5.
+     * @return Return value.
      */
     static std::unique_ptr<AdaptiveRetrieval> createBalanced();
 
     /**
      * @brief Wide sweep: top_k in [8, 30]; loose thresholds for recall.
+     * @return Return value.
      */
     static std::unique_ptr<AdaptiveRetrieval> createHighRecall();
 };

@@ -92,6 +92,7 @@ public:
      * The returned toolbox is ready for immediate use.  Inject a real
      * `ITextGenerationBackend` via `setTextBackend()` to enable
      * LLM-backed NER and entity extraction.
+     * @return Return value.
      */
     static std::shared_ptr<IngestionToolbox> createDefault();
 
@@ -110,6 +111,7 @@ public:
      * When @p backend is `nullptr`, a `NullTextGenerationBackend` is
      * reinstated.  The new backend is propagated to all NER/LLM steps
      * that have been registered in the `StepRegistry`.
+     * @param[in] backend Input parameter.
      */
     void setTextBackend(std::shared_ptr<ingestion::ITextGenerationBackend> backend);
 
@@ -195,6 +197,7 @@ public:
      * @param entity_count Number of entities returned (0 on failure).
      * @param latency_ms   Wall-clock latency of the call in milliseconds.
      * @param success      Whether the workflow completed without error.
+     * @note Exception safety: noexcept.
      */
     void recordExtraction(std::size_t entity_count,
                           uint64_t    latency_ms,

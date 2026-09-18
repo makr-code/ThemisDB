@@ -47,7 +47,16 @@ struct SystemPrompt {
     bool           active = true;
     nlohmann::json metadata;    ///< Arbitrary metadata for tracking / experiments
 
+    /**
+     * @brief TBD: Describe toJson.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
+    /**
+     * @brief TBD: Describe fromJson.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static SystemPrompt fromJson(const nlohmann::json& j);
 };
 
@@ -87,6 +96,7 @@ public:
     /**
      * @brief Retrieve the SystemPrompt record for a built-in role.
      * @return `std::nullopt` if no prompt is registered for @p role.
+     * @param[in] role Input parameter.
      */
     std::optional<SystemPrompt> getPrompt(Role role) const;
 
@@ -102,6 +112,7 @@ public:
     /**
      * @brief Remove the system prompt for a built-in role.
      * @return `true` if a prompt was removed, `false` if none existed.
+     * @param[in] role Input parameter.
      */
     bool removePrompt(Role role);
 
@@ -122,6 +133,7 @@ public:
     /**
      * @brief Retrieve the SystemPrompt record for a custom role.
      * @return `std::nullopt` if no prompt is registered for @p role_name.
+     * @param[in] role_name Input parameter.
      */
     std::optional<SystemPrompt> getCustomPrompt(
         const std::string& role_name) const;
@@ -139,6 +151,7 @@ public:
     /**
      * @brief Remove the system prompt for a custom role.
      * @return `true` if a prompt was removed.
+     * @param[in] role_name Input parameter.
      */
     bool removeCustomPrompt(const std::string& role_name);
 
@@ -148,6 +161,7 @@ public:
 
     /**
      * @brief Return all registered system prompts (both built-in and custom).
+     * @return Return value.
      */
     std::vector<SystemPrompt> listPrompts() const;
 
@@ -179,11 +193,18 @@ public:
         const std::string& role_name,
         const std::unordered_map<std::string, std::string>& context = {}) const;
 
-    // -------------------------------------------------------------------------
-    // Role ↔ string conversion helpers
-    // -------------------------------------------------------------------------
+    /**
+     * @brief ------------------------------------------------------------------------- Role ↔ string conversion helpers -------------------------------------------------------------------------
+     * @param[in] role Input parameter.
+     * @return Return value.
+     */
 
     static std::string roleToString(Role role);
+    /**
+     * @brief TBD: Describe stringToRole.
+     * @param[in] role_str Input parameter.
+     * @return Return value.
+     */
     static Role        stringToRole(const std::string& role_str);
 
 private:

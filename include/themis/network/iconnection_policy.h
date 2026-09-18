@@ -47,6 +47,10 @@ namespace network {
  */
 class IConnectionPolicy {
 public:
+    /**
+     * @brief TBD: Describe ~IConnectionPolicy.
+     * @return Return value.
+     */
     virtual ~IConnectionPolicy() = default;
 
     // Non-copyable, non-movable by default.

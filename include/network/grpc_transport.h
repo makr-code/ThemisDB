@@ -147,9 +147,11 @@ public:
 
     ~GrpcTransport();
 
-    /// Build server credentials, start listening, and launch I/O threads.
-    /// @return true on success, false if the server could not be started
-    ///         (invalid config, port in use, TLS load failure, etc.).
+    /**
+     * @brief Build server credentials, start listening, and launch I/O threads.
+     * @return True on success.
+     * @details @return true on success, false if the server could not be started (invalid config, port in use, TLS load failure, etc.).
+     */
     bool start();
 
     /// Gracefully shut down the gRPC server and join all threads.
@@ -157,6 +159,10 @@ public:
 
     bool isRunning() const { return running_.load(std::memory_order_acquire); }
 
+    /**
+     * @brief TBD: Describe getStats.
+     * @return Return value.
+     */
     Stats getStats() const;
 
     // ── Helpers (public for unit-test access) ────────────────────────────────
@@ -166,6 +172,8 @@ public:
      *
      * Validates that the port is non-zero, not a well-known HTTP/HTTPS port,
      * and does not conflict with any other ThemisDB transport port.
+     * @param[in] port Input parameter.
+     * @return True on success.
      */
     static bool isValidPort(uint16_t port);
 
@@ -187,8 +195,11 @@ private:
     /// Completion-queue drain loop (one per thread).
     void drainCompletionQueue(grpc::ServerCompletionQueue* cq);
 
-    /// Enforce max_connections limit; increments connection_limit_drops on
-    /// failure.  Returns false when the limit is exceeded.
+    /**
+     * @brief Enforce max_connections limit; increments connection_limit_drops on failure.
+     * @return True on success.
+     * @details Returns false when the limit is exceeded.
+     */
     bool checkConnectionLimit();
 
     // ── Members ──────────────────────────────────────────────────────────────

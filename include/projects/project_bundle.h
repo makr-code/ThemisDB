@@ -46,6 +46,10 @@ struct BundleImportResult {
 /** @brief I project bundle manager component. */
 class IProjectBundleManager {
 public:
+    /**
+     * @brief TBD: Describe ~IProjectBundleManager.
+     * @return Return value.
+     */
     virtual ~IProjectBundleManager() = default;
     [[nodiscard]] virtual bool exportToZip(const std::string& project_id,
                               const std::string& output_path,

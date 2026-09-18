@@ -90,24 +90,42 @@ public:
 
     // ── CRUD handlers ────────────────────────────────────────────────────────
 
+     * @brief TBD: Describe handleRegister.
+     * @param[in] req Input parameter.
+     * @return Return value.
     /** POST /api/v1/functions – register a new function. */
     http::response<http::string_body> handleRegister(
         const http::request<http::string_body>& req);
 
+     * @brief TBD: Describe handleList.
+     * @param[in] req Input parameter.
+     * @return Return value.
     /** GET /api/v1/functions – list all functions. */
     http::response<http::string_body> handleList(
         const http::request<http::string_body>& req);
 
+     * @brief TBD: Describe handleGet.
+     * @param[in] req Input parameter.
+     * @param[in] id Input parameter.
+     * @return Return value.
     /** GET /api/v1/functions/{id} – get a single function definition. */
     http::response<http::string_body> handleGet(
         const http::request<http::string_body>& req,
         const std::string& id);
 
+     * @brief TBD: Describe handleUpdate.
+     * @param[in] req Input parameter.
+     * @param[in] id Input parameter.
+     * @return Return value.
     /** PUT /api/v1/functions/{id} – update a function definition. */
     http::response<http::string_body> handleUpdate(
         const http::request<http::string_body>& req,
         const std::string& id);
 
+     * @brief TBD: Describe handleDelete.
+     * @param[in] req Input parameter.
+     * @param[in] id Input parameter.
+     * @return Return value.
     /** DELETE /api/v1/functions/{id} – delete a function. */
     http::response<http::string_body> handleDelete(
         const http::request<http::string_body>& req,
@@ -115,6 +133,10 @@ public:
 
     // ── Invocation ───────────────────────────────────────────────────────────
 
+     * @brief TBD: Describe handleInvoke.
+     * @param[in] req Input parameter.
+     * @param[in] id Input parameter.
+     * @return Return value.
     /** POST /api/v1/functions/{id}/invoke – execute function in-process. */
     http::response<http::string_body> handleInvoke(
         const http::request<http::string_body>& req,
@@ -122,6 +144,10 @@ public:
 
     // ── Version history ──────────────────────────────────────────────────────
 
+     * @brief TBD: Describe handleVersions.
+     * @param[in] req Input parameter.
+     * @param[in] id Input parameter.
+     * @return Return value.
     /** GET /api/v1/functions/{id}/versions – list version snapshots. */
     http::response<http::string_body> handleVersions(
         const http::request<http::string_body>& req,
@@ -152,13 +178,26 @@ private:
                          nlohmann::json& output,
                          std::string& error) const;
 
-    // ── HTTP helpers ─────────────────────────────────────────────────────────
+    /**
+     * @brief ── HTTP helpers ─────────────────────────────────────────────────────────
+     * @param[in] status Input parameter.
+     * @param[in] body Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
 
     http::response<http::string_body> makeJsonResponse(
         http::status status,
         const nlohmann::json& body,
         const http::request<http::string_body>& req) const;
 
+    /**
+     * @brief TBD: Describe makeErrorResponse.
+     * @param[in] status Input parameter.
+     * @param[in] message Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeErrorResponse(
         http::status status,
         const std::string& message,

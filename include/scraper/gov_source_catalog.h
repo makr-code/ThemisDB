@@ -163,18 +163,29 @@ public:
      * fields from the YAML override the built-in defaults).
      *
      * @throws std::runtime_error on parse error.
+     * @param[in] yaml_content Input parameter.
      */
     void loadFromYaml(const std::string& yaml_content);
 
     /**
      * @brief Load overlay from a file path.
      * @throws std::runtime_error when file cannot be read.
+     * @param[in] path Input parameter.
      */
     void loadFromFile(const std::string& path);
 
 private:
+    /**
+     * @brief TBD: Describe populateBuiltinBund.
+     */
     void populateBuiltinBund();
+    /**
+     * @brief TBD: Describe populateBuiltinBundeslaender.
+     */
     void populateBuiltinBundeslaender();
+    /**
+     * @brief TBD: Describe populateBuiltinEU.
+     */
     void populateBuiltinEU();
 
     std::vector<GovDataSource> sources_;

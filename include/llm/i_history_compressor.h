@@ -53,6 +53,10 @@ struct CompressionResult {
  * @endcode
  */
 struct IHistoryCompressor {
+    /**
+     * @brief TBD: Describe ~IHistoryCompressor.
+     * @return Return value.
+     */
     virtual ~IHistoryCompressor() = default;
 
     /**

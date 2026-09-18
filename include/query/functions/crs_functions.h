@@ -167,12 +167,22 @@ inline const std::unordered_map<int, EPSGDefinition>& getEPSGDatabase() {
 // Conversion Helper Functions
 // ============================================================================
 
-// Degrees to radians
+/**
+ * @brief Degrees to radians
+ * @param[in] deg Input parameter.
+ * @return Return value.
+ * @details Implements deg2rad without additional internal calls.
+ */
 inline double deg2rad(double deg) {
     return deg * M_PI / 180.0;
 }
 
-// Radians to degrees
+/**
+ * @brief Radians to degrees
+ * @param[in] rad Input parameter.
+ * @return Return value.
+ * @details Implements rad2deg without additional internal calls.
+ */
 inline double rad2deg(double rad) {
     return rad * 180.0 / M_PI;
 }
@@ -468,6 +478,9 @@ struct DHDNToETRS89Params {
 
 /**
  * @brief Determine UTM zone from longitude
+ * @param[in] lon Input parameter.
+ * @return Return value.
+ * @details Implements getUTMZone without additional internal calls.
  */
 inline int getUTMZone(double lon) {
     return static_cast<int>((lon + 180.0) / 6.0) + 1;
@@ -982,6 +995,12 @@ public:
         std::string hemisphere = args.size() > 3 ? args[3].get<std::string>() : "N";
         
         bool isNorth = (hemisphere == "N" || hemisphere == "n");
+        /**
+         * @brief TBD: Describe utmZone.
+         * @param[in] zone Input parameter.
+         * @param[in] isNorth Input parameter.
+         * @return Return value.
+         */
         crs::UTMZone utmZone(zone, isNorth);
         
         auto [lat, lon] = crs::utmToGeographic(easting, northing, utmZone, crs::WGS84_ELLIPSOID);
@@ -999,6 +1018,8 @@ public:
 
 /**
  * @brief Register all CRS transformation functions with the registry
+ * @param[in,out] registry Input/output parameter.
+ * @details Calls: registerFunction().
  */
 inline void registerCrsFunctions(FunctionRegistry& registry) {
     registry.registerFunction(std::make_unique<StTransformFunction>());

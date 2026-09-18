@@ -426,25 +426,72 @@ private:
     std::map<std::string, std::shared_ptr<IngestionPlugin>> plugins_;
     mutable std::mutex plugins_mutex_;
     
-    // Worker thread function
+    /**
+     * @brief Worker thread function
+     * @param[in] worker_id Input parameter.
+     */
     void workerLoop(int worker_id);
     
-    // Job processing
+    /**
+     * @brief Job processing
+     * @param[in,out] job Input/output parameter.
+     */
     void processJob(IngestionJob& job);
+    /**
+     * @brief TBD: Describe processSingleFile.
+     * @param[in,out] job Input/output parameter.
+     */
     void processSingleFile(IngestionJob& job);
+    /**
+     * @brief TBD: Describe processStreamFile.
+     * @param[in,out] job Input/output parameter.
+     */
     void processStreamFile(IngestionJob& job);  // Stream-based large file ingestion
+    /**
+     * @brief TBD: Describe processArchive.
+     * @param[in,out] job Input/output parameter.
+     */
     void processArchive(IngestionJob& job);
+    /**
+     * @brief TBD: Describe processBatchFiles.
+     * @param[in,out] job Input/output parameter.
+     */
     void processBatchFiles(IngestionJob& job);
+    /**
+     * @brief TBD: Describe processPluginJob.
+     * @param[in,out] job Input/output parameter.
+     */
     void processPluginJob(IngestionJob& job);  // NEW: Plugin-based processing
     
-    // Helpers
+    /**
+     * @brief Helpers
+     * @return Return value.
+     */
     std::string generateJobId();
+    /**
+     * @brief TBD: Describe updateJobStatus.
+     * @param[in] job_id Input parameter.
+     * @param[in] status Input parameter.
+     */
     void updateJobStatus(const std::string& job_id, IngestionJobStatus status);
+    /**
+     * @brief TBD: Describe updateJobProgress.
+     * @param[in] job_id Input parameter.
+     * @param[in] processed Input parameter.
+     * @param[in] total Input parameter.
+     */
     void updateJobProgress(const std::string& job_id, int processed, int total);
+    /**
+     * @brief TBD: Describe getCurrentTimeMs.
+     * @return Return value.
+     */
     int64_t getCurrentTimeMs();
     
     // Auto-cleanup thread
     std::thread cleanup_thread_;
+    /**
+     * @brief TBD: Describe cleanupLoop.
+     */
     void cleanupLoop();
 };
 

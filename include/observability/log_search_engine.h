@@ -51,6 +51,8 @@ struct LogFieldFilter {
     /**
      * @brief Evaluate this filter against the given LogEntry.
      * @returns true when the entry satisfies the filter.
+     * @param[in] entry Input parameter.
+     * @return True on success.
      */
     bool matches(const LogEntry& entry) const;
 };
@@ -149,6 +151,7 @@ public:
      *                 LogAggregator::entries()).  The vector is not modified.
      * @param query    Search criteria.
      * @returns        LogSearchResult containing matching entries and metadata.
+     * @return Return value.
      */
     LogSearchResult search(const std::vector<LogEntry>& entries,
                            const LogSearchQuery& query) const;
@@ -157,6 +160,9 @@ public:
      * @brief Count how many entries in the snapshot match the query.
      *
      * Equivalent to search(...).total_matched but avoids copying entries.
+     * @param[in] entries Input parameter.
+     * @param[in] query Input parameter.
+     * @return Return value.
      */
     size_t count(const std::vector<LogEntry>& entries,
                  const LogSearchQuery& query) const;
@@ -167,6 +173,9 @@ public:
      *
      * Useful for building faceted search UIs (e.g. "all distinct component
      * values seen in this log buffer").
+     * @param[in] entries Input parameter.
+     * @param[in] field_key Input parameter.
+     * @return Return value.
      */
     std::vector<std::string> distinctFieldValues(
         const std::vector<LogEntry>& entries,

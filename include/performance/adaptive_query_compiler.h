@@ -55,6 +55,13 @@ struct QueryParams {
 
     QueryParams() = default;
 
+    /**
+     * @brief TBD: Describe set.
+     * @param[in] name Input parameter.
+     * @param[in] value Input parameter.
+     * @return Return value.
+     * @details Calls: std::move().
+     */
     QueryParams& set(std::string name, QueryValue value) {
         bindings[std::move(name)] = std::move(value);
         return *this;
@@ -398,6 +405,11 @@ public:
     // =========================================================================
 
     AdaptiveQueryCompiler();
+    /**
+     * @brief TBD: Describe AdaptiveQueryCompiler.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit AdaptiveQueryCompiler(CompilationConfig config);
     ~AdaptiveQueryCompiler();
 
@@ -464,6 +476,9 @@ public:
      *
      * Queries with op_type == Unknown are not compilable.  All other
      * recognised op types are supported by the specialisation layer.
+     * @param[in] query Input parameter.
+     * @return True on success.
+     * @note Exception safety: noexcept.
      */
     bool is_compilable(const ParsedQuery& query) const noexcept;
 
@@ -476,6 +491,7 @@ public:
      *
      * The query reverts to the cold path and will be recompiled after
      * `hot_threshold` more executions.
+     * @param[in] fingerprint Input parameter.
      */
     void invalidate(const std::string& fingerprint);
 
@@ -486,12 +502,16 @@ public:
      * @brief Return the current execution count for a query fingerprint.
      *
      * Returns 0 when the fingerprint is unknown.
+     * @param[in] fingerprint Input parameter.
+     * @return Return value.
      */
     size_t executionCount(const std::string& fingerprint) const;
 
     /**
      * @brief Return true when a compiled specialisation exists for the
      *        given fingerprint.
+     * @param[in] fingerprint Input parameter.
+     * @return True on success.
      */
     bool isCompiled(const std::string& fingerprint) const;
 
@@ -499,6 +519,7 @@ public:
     // Statistics
     // =========================================================================
 
+     * @return Return value.
     /** @brief Return a snapshot of current compiler statistics. */
     CompilationStats getStats() const;
 
@@ -513,9 +534,11 @@ public:
     /** @brief Reset all statistics counters without evicting compiled code. */
     void resetStats();
 
-    // =========================================================================
-    // Config accessor
-    // =========================================================================
+    /**
+     * @brief ========================================================================= Config accessor =========================================================================
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
 
     const CompilationConfig& config() const noexcept;
 

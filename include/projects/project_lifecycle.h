@@ -50,8 +50,13 @@ enum class ProjectState {
 /// Human-readable name for a ProjectState value.
 const char* projectStateToString(ProjectState state) noexcept;
 
-/// Parse a state string produced by projectStateToString().
-/// Returns std::nullopt for unknown strings.
+/**
+ * @brief Parse a state string produced by projectStateToString().
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @note Exception safety: noexcept.
+ * @details Returns std::nullopt for unknown strings.
+ */
 std::optional<ProjectState> projectStateFromString(const std::string& s) noexcept;
 
 // ─── Audit record ─────────────────────────────────────────────────────────────
@@ -71,7 +76,16 @@ struct ProjectStateTransition {
     std::string  actor;       ///< User / service that triggered the transition
     std::string  reason;      ///< Optional human-readable reason
 
+    /**
+     * @brief TBD: Describe toJson.
+     * @return Return value.
+     */
     json toJson() const;
+    /**
+     * @brief TBD: Describe fromJson.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static ProjectStateTransition fromJson(const json& j);
 };
 
@@ -93,6 +107,11 @@ struct ProjectStateTransition {
  */
 class ProjectLifecycle {
 public:
+    /**
+     * @brief TBD: Describe ProjectLifecycle.
+     * @param[in] storage Input parameter.
+     * @return Return value.
+     */
     explicit ProjectLifecycle(std::shared_ptr<RocksDBWrapper> storage);
     ~ProjectLifecycle() = default;
 
@@ -152,6 +171,7 @@ public:
     /**
      * @brief Return the current state of a project.
      * @return ProjectState if found, std::nullopt if unknown project.
+     * @param[in] project_id Input parameter.
      */
     std::optional<ProjectState> getState(const std::string& project_id) const;
 
@@ -159,6 +179,8 @@ public:
      * @brief Return the complete append-only audit trail for a project.
      *
      * Entries are ordered chronologically (oldest first).
+     * @param[in] project_id Input parameter.
+     * @return Return value.
      */
     std::vector<ProjectStateTransition> getAuditTrail(
         const std::string& project_id

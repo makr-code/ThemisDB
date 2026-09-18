@@ -108,14 +108,29 @@ struct TensorStorageStats {
  */
 class ITensorStorageBackend {
 public:
+    /**
+     * @brief TBD: Describe ~ITensorStorageBackend.
+     * @return Return value.
+     */
     virtual ~ITensorStorageBackend() = default;
 
+    /**
+     * @brief TBD: Describe put.
+     * @param[in] key Input parameter.
+     * @param[in] value Input parameter.
+     * @return True on success.
+     */
     virtual bool put(const std::string& key,
                      const std::vector<uint8_t>& value) = 0;
 
     virtual std::optional<std::vector<uint8_t>>
     get(const std::string& key) const = 0;
 
+    /**
+     * @brief TBD: Describe del.
+     * @param[in] key Input parameter.
+     * @return True on success.
+     */
     virtual bool del(const std::string& key) = 0;
 
     /// Iterate over all keys with the given prefix.
@@ -171,6 +186,8 @@ public:
     /**
      * @brief Construct with a shared RocksDBWrapper.
      * @throws std::invalid_argument when db is null.
+     * @param[in] db Input parameter.
+     * @return Return value.
      */
     explicit RocksDBTensorBackend(std::shared_ptr<RocksDBWrapper> db);
 
@@ -273,11 +290,14 @@ public:
 
     /**
      * @brief Remove the latest version of a field.
+     * @param[in] key Input parameter.
+     * @return True on success.
      */
     bool remove(const TensorFieldKey& key);
 
     /**
      * @brief Delete all versions below `keep_versions` newest ones.
+     * @param[in] key Input parameter.
      */
     void compact(const TensorFieldKey& key);
 
@@ -353,6 +373,7 @@ public:
      * @brief Delete an opaque metadata blob stored under @p key.
      *
      * @return True if the key existed and was removed.
+     * @param[in] key Input parameter.
      */
     bool deleteRawMetadata(const std::string& key);
 
@@ -379,11 +400,28 @@ private:
     TensorDeleteObserverFn delete_observer_;
     mutable std::mutex     observer_mutex_;
 
-    // ─── Internal key building ────────────────────────────────────────────
+    /**
+     * @brief ─── Internal key building ────────────────────────────────────────────
+     * @param[in] k Input parameter.
+     * @param[in] ver Input parameter.
+     * @return Return value.
+     */
 
     static std::string makeMetaKey(const TensorFieldKey& k, std::size_t ver);
+    /**
+     * @brief TBD: Describe makeCoreKey.
+     * @param[in] k Input parameter.
+     * @param[in] core_idx Input parameter.
+     * @param[in] ver Input parameter.
+     * @return Return value.
+     */
     static std::string makeCoreKey(const TensorFieldKey& k,
                                    std::size_t core_idx, std::size_t ver);
+    /**
+     * @brief TBD: Describe makePrefix.
+     * @param[in] k Input parameter.
+     * @return Return value.
+     */
     static std::string makePrefix(const TensorFieldKey& k);
 
     // ─── Version tracking (in-memory cache for speed) ─────────────────────
@@ -393,11 +431,31 @@ private:
                                std::size_t,
                                TensorFieldKeyHash> version_cache_;
 
+    /**
+     * @brief TBD: Describe currentVersion.
+     * @param[in] k Input parameter.
+     * @return Return value.
+     */
     std::size_t currentVersion(const TensorFieldKey& k) const;
+    /**
+     * @brief TBD: Describe setVersion.
+     * @param[in] k Input parameter.
+     * @param[in] version Input parameter.
+     */
     void setVersion(const TensorFieldKey& k, std::size_t version);
+    /**
+     * @brief TBD: Describe eraseVersion.
+     * @param[in] k Input parameter.
+     */
     void eraseVersion(const TensorFieldKey& k);
 
-    // ─── Persistence helpers ──────────────────────────────────────────────
+    /**
+     * @brief ─── Persistence helpers ──────────────────────────────────────────────
+     * @param[in] key Input parameter.
+     * @param[in] qtrain Input parameter.
+     * @param[in] version Input parameter.
+     * @return True on success.
+     */
 
     bool persistQuantizedTrain(const TensorFieldKey& key,
                                const QuantizedTrain& qtrain,

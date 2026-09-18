@@ -58,6 +58,12 @@ struct Measure {
     Function function = Function::Sum;
     double percentile_value = 0.0;  // For percentile function
     
+    /**
+     * @brief TBD: Describe functionName.
+     * @param[in] f Input parameter.
+     * @return Return value.
+     * @details Implements functionName without additional internal calls.
+     */
     static std::string functionName(Function f) {
         switch (f) {
             case Function::Count: return "COUNT";
@@ -266,10 +272,19 @@ public:
     };
 
     OLAPEngine();
+    /**
+     * @brief TBD: Describe OLAPEngine.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit OLAPEngine(const Config& config);
     ~OLAPEngine();
     
-    // Main query execution
+    /**
+     * @brief Main query execution
+     * @param[in] query Input parameter.
+     * @return Return value.
+     */
     OLAPResult execute(const OLAPQuery& query);
     
     // Specialized operations
@@ -311,9 +326,17 @@ public:
         std::vector<std::string> optimization_notes;
     };
     
+    /**
+     * @brief TBD: Describe explain.
+     * @param[in] query Input parameter.
+     * @return Return value.
+     */
     QueryPlan explain(const OLAPQuery& query);
     
-    // Statistics collection for optimization
+    /**
+     * @brief Statistics collection for optimization
+     * @param[in] collection Input parameter.
+     */
     void collectStatistics(std::string_view collection);
     
     // v1.1.0: Parquet Export for Data Lake Integration
@@ -347,14 +370,41 @@ public:
         const std::string& compression = "snappy"
     );
 
+    /**
+     * @brief TBD: Describe setExportToParquetFn.
+     * @param[in] fn Input parameter.
+     */
     static void setExportToParquetFn(ExportToParquetFn fn);
+    /**
+     * @brief TBD: Describe setExportCollectionToParquetFn.
+     * @param[in] fn Input parameter.
+     */
     static void setExportCollectionToParquetFn(ExportCollectionToParquetFn fn);
 
 private:
-    // Internal helpers
+    /**
+     * @brief Internal helpers
+     * @param[in] query Input parameter.
+     * @return Return value.
+     */
     OLAPResult executeSimpleGroupBy(const OLAPQuery& query);
+    /**
+     * @brief TBD: Describe executeCubeQuery.
+     * @param[in] query Input parameter.
+     * @return Return value.
+     */
     OLAPResult executeCubeQuery(const OLAPQuery& query);
+    /**
+     * @brief TBD: Describe executeRollupQuery.
+     * @param[in] query Input parameter.
+     * @return Return value.
+     */
     OLAPResult executeRollupQuery(const OLAPQuery& query);
+    /**
+     * @brief TBD: Describe executeGroupingSetsQuery.
+     * @param[in] query Input parameter.
+     * @return Return value.
+     */
     OLAPResult executeGroupingSetsQuery(const OLAPQuery& query);
     
     // Aggregation helpers
@@ -379,9 +429,22 @@ public:
     ColumnarStore();
     ~ColumnarStore();
     
-    // Column operations
+    /**
+     * @brief Column operations
+     * @param[in] name Input parameter.
+     * @param[in] type Input parameter.
+     */
     void createColumn(std::string_view name, std::string_view type);
+    /**
+     * @brief TBD: Describe dropColumn.
+     * @param[in] name Input parameter.
+     */
     void dropColumn(std::string_view name);
+    /**
+     * @brief TBD: Describe hasColumn.
+     * @param[in] name Input parameter.
+     * @return True on success.
+     */
     bool hasColumn(std::string_view name) const;
     
     // Data operations
@@ -389,18 +452,59 @@ public:
         const std::vector<std::unordered_map<std::string, std::variant<std::nullptr_t, bool, int64_t, double, std::string>>>& rows
     );
     
+    /**
+     * @brief TBD: Describe clear.
+     */
     void clear();
+    /**
+     * @brief TBD: Describe rowCount.
+     * @return Return value.
+     */
     size_t rowCount() const;
     
-    // Aggregation (vectorized)
+    /**
+     * @brief Aggregation (vectorized)
+     * @param[in] column Input parameter.
+     * @return Return value.
+     */
     double sum(std::string_view column) const;
+    /**
+     * @brief TBD: Describe avg.
+     * @param[in] column Input parameter.
+     * @return Return value.
+     */
     double avg(std::string_view column) const;
+    /**
+     * @brief TBD: Describe min.
+     * @param[in] column Input parameter.
+     * @return Return value.
+     */
     double min(std::string_view column) const;
+    /**
+     * @brief TBD: Describe max.
+     * @param[in] column Input parameter.
+     * @return Return value.
+     */
     double max(std::string_view column) const;
+    /**
+     * @brief TBD: Describe count.
+     * @param[in] column Input parameter.
+     * @return Return value.
+     */
     int64_t count(std::string_view column) const;
+    /**
+     * @brief TBD: Describe countDistinct.
+     * @param[in] column Input parameter.
+     * @return Return value.
+     */
     int64_t countDistinct(std::string_view column) const;
     
-    // Filtered aggregation
+    /**
+     * @brief Filtered aggregation
+     * @param[in] column Input parameter.
+     * @param[in] mask Input parameter.
+     * @return Return value.
+     */
     double sumWhere(std::string_view column, const std::vector<bool>& mask) const;
     
     // Statistics for query optimization
@@ -415,6 +519,11 @@ public:
         double avg_value = 0;
     };
     
+    /**
+     * @brief TBD: Describe getColumnStats.
+     * @param[in] column Input parameter.
+     * @return Return value.
+     */
     ColumnStats getColumnStats(std::string_view column) const;
     
 private:
@@ -449,7 +558,9 @@ public:
     
     const Definition& definition() const { return definition_; }
     
-    // Refresh the view
+    /**
+     * @brief Refresh the view
+     */
     void refresh();
     void incrementalRefresh(
         const std::vector<std::unordered_map<std::string, std::variant<std::nullptr_t, bool, int64_t, double, std::string>>>& changes
@@ -462,9 +573,20 @@ public:
         std::optional<int64_t> limit = std::nullopt
     );
     
-    // Metadata
+    /**
+     * @brief Metadata
+     * @return Return value.
+     */
     std::chrono::system_clock::time_point lastRefreshTime() const;
+    /**
+     * @brief TBD: Describe rowCount.
+     * @return Return value.
+     */
     int64_t rowCount() const;
+    /**
+     * @brief TBD: Describe isStale.
+     * @return True on success.
+     */
     bool isStale() const;
     
 private:

@@ -184,6 +184,7 @@ public:
      *
      * Convenience wrapper around getCalibrationFactors() +
      * OptimizerCostModel::calibrateCosts().
+     * @param[in,out] model Input/output parameter.
      */
     void calibrate(OptimizerCostModel& model) const;
 
@@ -201,6 +202,7 @@ public:
         std::unordered_map<std::string, size_t> per_type_count;
     };
 
+     * @return Return value.
     /** @brief Aggregate statistics over all recorded queries. */
     Stats getStats() const;
 
@@ -210,6 +212,7 @@ public:
      */
     std::vector<QueryCostRecord> getRecentRecords(size_t limit = 100) const;
 
+     * @note Exception safety: noexcept.
     /** @brief Reset all accumulated records. */
     void reset() noexcept;
 
@@ -223,6 +226,8 @@ private:
      * @brief Push a completed record into the rolling buffer.
      *
      * Called from QueryGuard::end(); internal use only.
+     * @param[in] record Input parameter.
+     * @note Exception safety: noexcept.
      */
     void pushRecord(QueryCostRecord record) noexcept;
 

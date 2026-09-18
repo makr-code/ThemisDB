@@ -34,6 +34,10 @@ namespace themis::llm {
  * **Phase 2 Implementation:** RocksDB backend with HLC-stamped keys
  */
 struct ISSMStateStore {
+    /**
+     * @brief TBD: Describe ~ISSMStateStore.
+     * @return Return value.
+     */
     virtual ~ISSMStateStore() = default;
 
     /**
@@ -153,11 +157,28 @@ private:
 // Inline simple implementation for InMemorySSMStateStore (phase-1)
 namespace themis::llm {
 
+/**
+ * @brief TBD: Describe InMemorySSMStateStore.
+ * @param[in] max_snapshots_per_session Input parameter.
+ * @return Return value.
+ */
 inline InMemorySSMStateStore::InMemorySSMStateStore(size_t max_snapshots_per_session)
     : max_snapshots_per_session_(max_snapshots_per_session) {}
 
+/**
+ * @brief TBD: Describe checkpoint.
+ * @param[in] session_id Input parameter.
+ * @param[in] snapshot Input parameter.
+ * @return True on success.
+ * @details Calls: lk(), push_back(), size(), erase(), begin().
+ */
 inline bool InMemorySSMStateStore::checkpoint(const std::string& session_id,
                                               const SSMStateSnapshot& snapshot) {
+    /**
+     * @brief TBD: Describe lk.
+     * @param[in] mu_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mu_);
     auto &vec = state_by_session_[session_id];
     // duplicate timestamp rejected
@@ -171,9 +192,21 @@ inline bool InMemorySSMStateStore::checkpoint(const std::string& session_id,
     return true;
 }
 
+/**
+ * @brief TBD: Describe resume.
+ * @param[in] session_id Input parameter.
+ * @param[in] snapshot_ts Input parameter.
+ * @return Return value.
+ * @details Calls: lk(), find(), end(), empty(), has_value(), value(), back().
+ */
 inline std::optional<SSMStateSnapshot> InMemorySSMStateStore::resume(
     const std::string& session_id,
     const std::optional<HLCTimestamp>& snapshot_ts) {
+    /**
+     * @brief TBD: Describe lk.
+     * @param[in] mu_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mu_);
     auto it = state_by_session_.find(session_id);
     if (it == state_by_session_.end() || it->second.empty()) {
@@ -188,17 +221,39 @@ inline std::optional<SSMStateSnapshot> InMemorySSMStateStore::resume(
     return it->second.back();
 }
 
+/**
+ * @brief TBD: Describe invalidate.
+ * @param[in] session_id Input parameter.
+ * @return True on success.
+ * @details Calls: lk(), erase().
+ */
 inline bool InMemorySSMStateStore::invalidate(const std::string& session_id) {
+    /**
+     * @brief TBD: Describe lk.
+     * @param[in] mu_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mu_);
     return state_by_session_.erase(session_id) > 0;
 }
 
+/**
+ * @brief TBD: Describe compact.
+ * @param[in] uint64_t Input parameter.
+ * @return Return value.
+ * @details Implements compact without additional internal calls.
+ */
 inline uint64_t InMemorySSMStateStore::compact(uint64_t /*retention_window_ms*/) {
     // Phase1: no-op
     return 0;
 }
 
 inline std::string InMemorySSMStateStore::getStats() const {
+    /**
+     * @brief TBD: Describe lk.
+     * @param[in] mu_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mu_);
     size_t sessions = state_by_session_.size();
     size_t total = 0;

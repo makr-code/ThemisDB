@@ -44,6 +44,7 @@ public:
     /**
      * @brief Construct DiffApiHandler
      * @param diff_engine Reference to DiffEngine instance
+     * @return Return value.
      */
     explicit DiffApiHandler(analytics::DiffEngine& diff_engine);
     
@@ -78,16 +79,22 @@ public:
      * - include_values: Include actual values (default: true)
      * - limit: Maximum changes to return (default: 1000)
      * - offset: Skip first N changes (default: 0)
+     * @param[in] req Input parameter.
+     * @param[in,out] res Input/output parameter.
      */
     void handleGetDiff(const httplib::Request& req, httplib::Response& res);
 
     /**
      * @brief Handle GET /api/v1/diff/cache/stats
+     * @param[in] req Input parameter.
+     * @param[in,out] res Input/output parameter.
      */
     void handleGetCacheStats(const httplib::Request& req, httplib::Response& res);
 
     /**
      * @brief Handle DELETE /api/v1/diff/cache
+     * @param[in] req Input parameter.
+     * @param[in,out] res Input/output parameter.
      */
     void handleClearCache(const httplib::Request& req, httplib::Response& res);
 
@@ -95,21 +102,30 @@ private:
 
     /**
      * @brief Parse query parameters into DiffOptions
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     analytics::DiffEngine::DiffOptions parseOptions(const httplib::Request& req) const;
 
     /**
      * @brief Parse timestamp from string (ISO 8601 or milliseconds)
+     * @param[in] str Input parameter.
+     * @return Return value.
      */
     int64_t parseTimestamp(const std::string& str) const;
 
     /**
      * @brief Check if string is a sequence number
+     * @param[in] str Input parameter.
+     * @return True on success.
      */
     bool isSequenceNumber(const std::string& str) const;
 
     /**
      * @brief Create error response
+     * @param[in,out] res Input/output parameter.
+     * @param[in] status_code Input parameter.
+     * @param[in] message Input parameter.
      */
     void sendError(httplib::Response& res, int status_code, const std::string& message) const;
 

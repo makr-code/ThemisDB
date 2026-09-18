@@ -677,6 +677,10 @@ enum class TrustDecision : uint8_t {
  */
 class IFederationTrustPolicy {
 public:
+    /**
+     * @brief TBD: Describe ~IFederationTrustPolicy.
+     * @return Return value.
+     */
     virtual ~IFederationTrustPolicy() = default;
 
     /**

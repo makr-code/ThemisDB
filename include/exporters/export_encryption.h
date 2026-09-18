@@ -38,15 +38,40 @@ struct ExportEncryptionConfig {
 /** @brief Export encryption. */
 class ExportEncryption {
 public:
+    /**
+     * @brief TBD: Describe ExportEncryption.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit ExportEncryption(const ExportEncryptionConfig& config);
 
+    /**
+     * @brief TBD: Describe encryptFile.
+     * @param[in] src_path Input parameter.
+     * @param[in] dst_path Input parameter.
+     */
     void encryptFile(const std::string& src_path,
                      const std::string& dst_path) const;
 
+    /**
+     * @brief TBD: Describe decryptFile.
+     * @param[in] src_path Input parameter.
+     * @param[in] dst_path Input parameter.
+     */
     void decryptFile(const std::string& src_path,
                      const std::string& dst_path) const;
 
+    /**
+     * @brief TBD: Describe encrypt.
+     * @param[in] plaintext Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> encrypt(const std::vector<uint8_t>& plaintext) const;
+    /**
+     * @brief TBD: Describe decrypt.
+     * @param[in] container Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> decrypt(const std::vector<uint8_t>& container) const;
 
 private:
@@ -58,8 +83,21 @@ private:
     /// raw key material is never logged.
     mutable std::mutex key_provider_mutex_;
 
+    /**
+     * @brief TBD: Describe deriveJobDEK.
+     * @param[in] key_version Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> deriveJobDEK(uint32_t key_version) const;
 
+    /**
+     * @brief TBD: Describe buildAAD.
+     * @param[in] job_id Input parameter.
+     * @param[in] kek_id Input parameter.
+     * @param[in] key_version Input parameter.
+     * @param[in] iv Input parameter.
+     * @return Return value.
+     */
     static std::vector<uint8_t> buildAAD(const std::string& job_id,
                                          const std::string& kek_id,
                                          uint32_t key_version,
@@ -73,11 +111,28 @@ public:
     static constexpr char kMagic[4] = {'T', 'M', 'E', 'X'};
     static constexpr size_t kChunkSize = 65536;
 
+    /**
+     * @brief TBD: Describe ExportEncryptor.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit ExportEncryptor(const ExportEncryptionConfig& config);
 
+    /**
+     * @brief TBD: Describe encryptFile.
+     * @param[in] input_path Input parameter.
+     * @param[in] output_path Input parameter.
+     * @return Return value.
+     */
     size_t encryptFile(const std::string& input_path,
                        const std::string& output_path) const;
 
+    /**
+     * @brief TBD: Describe decryptFile.
+     * @param[in] input_path Input parameter.
+     * @param[in] output_path Input parameter.
+     * @return Return value.
+     */
     size_t decryptFile(const std::string& input_path,
                        const std::string& output_path) const;
 
@@ -92,17 +147,45 @@ private:
     /// raw key material is never logged.
     mutable std::mutex key_provider_mutex_;
 
+    /**
+     * @brief TBD: Describe deriveDataKey.
+     * @param[in] kek Input parameter.
+     * @param[in] job_id Input parameter.
+     * @return Return value.
+     */
     static std::vector<uint8_t> deriveDataKey(const std::vector<uint8_t>& kek,
                                               const std::string& job_id);
 
+    /**
+     * @brief TBD: Describe generateJobId.
+     * @return Return value.
+     */
     static std::string generateJobId();
 
+    /**
+     * @brief TBD: Describe writeHeader.
+     * @param[in,out] out Input/output parameter.
+     * @param[in] kek_id Input parameter.
+     * @param[in] kek_version Input parameter.
+     * @param[in] job_id Input parameter.
+     * @param[in] iv Input parameter.
+     * @return Return value.
+     */
     static size_t writeHeader(std::ostream& out,
                               const std::string& kek_id,
                               uint32_t kek_version,
                               const std::string& job_id,
                               const std::vector<uint8_t>& iv);
 
+    /**
+     * @brief TBD: Describe readHeader.
+     * @param[in,out] in Input/output parameter.
+     * @param[in,out] kek_id Input/output parameter.
+     * @param[in,out] kek_version Input/output parameter.
+     * @param[in,out] job_id Input/output parameter.
+     * @param[in,out] iv Input/output parameter.
+     * @return True on success.
+     */
     static bool readHeader(std::istream& in,
                            std::string& kek_id,
                            uint32_t& kek_version,

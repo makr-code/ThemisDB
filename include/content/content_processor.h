@@ -74,6 +74,10 @@ struct ExtractionResult {
  */
 class IContentProcessor {
 public:
+    /**
+     * @brief TBD: Describe ~IContentProcessor.
+     * @return Return value.
+     */
     virtual ~IContentProcessor() = default;
     
     /**
@@ -153,6 +157,7 @@ public:
      * hash-projection path.
      *
      * Roadmap ref: src/content/ROADMAP.md §Phase 5; src/content/FUTURE_ENHANCEMENTS.md
+     * @param[in] fn Input parameter.
      */
     void setEmbeddingBackend(EmbeddingFn fn);
 
@@ -175,8 +180,23 @@ public:
     );
 
 private:
+    /**
+     * @brief TBD: Describe normalizeText.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     std::string normalizeText(const std::string& text);
+    /**
+     * @brief TBD: Describe countTokens.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     int countTokens(const std::string& text); // Simple whitespace-based tokenizer
+    /**
+     * @brief TBD: Describe splitIntoSentences.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     std::vector<std::string> splitIntoSentences(const std::string& text);
 
     /// Injected real embedding backend (null → hash-projection fallback).
@@ -201,6 +221,11 @@ public:
     }
 
 private:
+    /**
+     * @brief TBD: Describe extractEXIF.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     json extractEXIF(const std::string& blob);
     std::pair<int, int> getImageDimensions(const std::string& blob);
 };
@@ -223,7 +248,17 @@ public:
     }
 
 private:
+    /**
+     * @brief TBD: Describe parseGeoJSON.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     ExtractionResult::GeoData parseGeoJSON(const std::string& blob);
+    /**
+     * @brief TBD: Describe parseGPX.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     ExtractionResult::GeoData parseGPX(const std::string& blob);
 };
 
@@ -244,7 +279,17 @@ public:
     }
 
 private:
+    /**
+     * @brief TBD: Describe parseSTEP.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     json parseSTEP(const std::string& blob);
+    /**
+     * @brief TBD: Describe extractAssemblyHierarchy.
+     * @param[in] step_data Input parameter.
+     * @return Return value.
+     */
     json extractAssemblyHierarchy(const json& step_data);
 };
 
@@ -265,7 +310,17 @@ public:
     }
 
 private:
+    /**
+     * @brief TBD: Describe extractID3Tags.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     json extractID3Tags(const std::string& blob);
+    /**
+     * @brief TBD: Describe getDurationSeconds.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     int getDurationSeconds(const std::string& blob);
 };
 
@@ -286,7 +341,17 @@ public:
     }
 
 private:
+    /**
+     * @brief TBD: Describe parseCSV.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     std::vector<std::vector<std::string>> parseCSV(const std::string& blob);
+    /**
+     * @brief TBD: Describe extractSchema.
+     * @param[in] rows Input parameter.
+     * @return Return value.
+     */
     json extractSchema(const std::vector<std::vector<std::string>>& rows);
 };
 
@@ -307,6 +372,11 @@ public:
     }
 
 private:
+    /**
+     * @brief TBD: Describe computeHash.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     std::string computeHash(const std::string& blob);
 };
 

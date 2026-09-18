@@ -65,6 +65,10 @@ struct CompressionResult {
  */
 class IPromptCompressor {
 public:
+    /**
+     * @brief TBD: Describe ~IPromptCompressor.
+     * @return Return value.
+     */
     virtual ~IPromptCompressor() = default;
 
     /**
@@ -127,14 +131,42 @@ public:
     std::vector<CompressionStrategy> supportedStrategies() const override;
 
 private:
-    // ── Strategy implementations ─────────────────────────────────────────────
+    /**
+     * @brief ── Strategy implementations ─────────────────────────────────────────────
+     * @param[in] prompt Input parameter.
+     * @param[in] budget Input parameter.
+     * @return Return value.
+     */
 
     std::string truncateHead(const std::string& prompt, int budget) const;
+    /**
+     * @brief TBD: Describe truncateTail.
+     * @param[in] prompt Input parameter.
+     * @param[in] budget Input parameter.
+     * @return Return value.
+     */
     std::string truncateTail(const std::string& prompt, int budget) const;
+    /**
+     * @brief TBD: Describe selectiveTrim.
+     * @param[in] prompt Input parameter.
+     * @param[in] budget Input parameter.
+     * @param[in] preserve_system Input parameter.
+     * @param[in] preserve_turns Input parameter.
+     * @return Return value.
+     */
     std::string selectiveTrim(const std::string& prompt,
                                int budget,
                                bool preserve_system,
                                int  preserve_turns) const;
+    /**
+     * @brief TBD: Describe summarize.
+     * @param[in] prompt Input parameter.
+     * @param[in] budget Input parameter.
+     * @param[in] preserve_system Input parameter.
+     * @param[in] preserve_turns Input parameter.
+     * @param[in] model_id Input parameter.
+     * @return Return value.
+     */
     std::string summarize(const std::string& prompt,
                           int                budget,
                           bool               preserve_system,

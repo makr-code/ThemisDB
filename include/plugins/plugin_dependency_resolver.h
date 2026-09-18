@@ -66,6 +66,12 @@ public:
      * @return Complete dependency graph
      */
     template<typename MapType>
+    /**
+     * @brief TBD: Describe buildGraph.
+     * @param[in] plugins Input parameter.
+     * @return Return value.
+     * @details Calls: push_back().
+     */
     static DependencyGraph buildGraph(
         const MapType& plugins
     ) {
@@ -93,6 +99,7 @@ public:
      * @param graph Dependency graph
      * @return Vector of cycles, where each cycle is a vector of plugin names
      *         Empty vector if no cycles detected
+     * @details Calls: find(), end(), detectCyclesRecursive().
      */
     static std::vector<std::vector<std::string>> detectCircularDependencies(
         const DependencyGraph& graph
@@ -128,6 +135,7 @@ public:
      * @param graph Dependency graph
      * @return Vector of plugin names in safe load order
      * @throws std::runtime_error if circular dependencies detected
+     * @details Calls: size(), push(), empty(), front(), pop(), push_back(), find(), end().
      */
     static std::vector<std::string> computeLoadOrder(
         const DependencyGraph& graph
@@ -186,6 +194,7 @@ public:
      * @param plugin Plugin name
      * @param dependency Dependency name
      * @return true if dependency exists
+     * @details Calls: find(), end(), std::find(), begin().
      */
     static bool hasDependency(
         const DependencyGraph& graph,
@@ -237,6 +246,7 @@ public:
      * @param graph Dependency graph
      * @param plugin Plugin name
      * @return Vector of all transitive dependencies
+     * @details Calls: getTransitiveDependenciesRecursive().
      */
     static std::vector<std::string> getTransitiveDependencies(
         const DependencyGraph& graph,
@@ -256,6 +266,13 @@ private:
      * 
      * Uses DFS with a recursion stack to detect back edges (cycles).
      * When a back edge is found, extracts the cycle path.
+     * @param[in] node Input parameter.
+     * @param[in] graph Input parameter.
+     * @param[in,out] visited Input/output parameter.
+     * @param[in,out] recursion_stack Input/output parameter.
+     * @param[in,out] current_path Input/output parameter.
+     * @param[in,out] cycles Input/output parameter.
+     * @details Calls: insert(), push_back(), find(), end(), std::find(), begin(), cycle(), pop_back().
      */
     static void detectCyclesRecursive(
         const std::string& node,
@@ -309,6 +326,11 @@ private:
     
     /**
      * @brief Recursive helper for transitive dependency collection
+     * @param[in] node Input parameter.
+     * @param[in] graph Input parameter.
+     * @param[in,out] visited Input/output parameter.
+     * @param[in,out] result Input/output parameter.
+     * @details Calls: find(), end(), insert(), push_back().
      */
     static void getTransitiveDependenciesRecursive(
         const std::string& node,

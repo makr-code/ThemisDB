@@ -64,6 +64,7 @@ public:
      * does not prevent MetaVerdict assembly.
      *
      * @param grounding  Legal-DB citation data (or unavailability flag).
+     * @note Exception safety: noexcept.
      */
     void setLegalGrounding(LegalGrounding grounding) noexcept;
 

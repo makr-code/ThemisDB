@@ -194,6 +194,12 @@ public:
      * @brief Set configuration value
      */
     template<typename T>
+    /**
+     * @brief TBD: Describe set.
+     * @param[in] path Input parameter.
+     * @param[in] value Input parameter.
+     * @details Calls: std::replace(), begin(), end(), ptr().
+     */
     void set(const std::string& path, T value) {
         try {
             std::string fixed_path = path;
@@ -250,6 +256,10 @@ struct ExtractionOptions {
  */
 class IContentProcessorPlugin {
 public:
+    /**
+     * @brief TBD: Describe ~IContentProcessorPlugin.
+     * @return Return value.
+     */
     virtual ~IContentProcessorPlugin() = default;
     
     /**
@@ -386,12 +396,28 @@ using GetVersionFunc = const char* (*)();
 #ifdef THEMIS_BUILD_STANDALONE_PLUGINS
 #define THEMIS_CONTENT_PLUGIN(PluginClass) \
     extern "C" { \
+        /**
+         * @brief TBD: Describe themis_create_plugin.
+         * @return Pointer to the result.
+         * @details Calls: PluginClass().
+         */
         THEMIS_PLUGIN_API IContentProcessorPlugin* themis_create_plugin() { \
             return new PluginClass(); \
         } \
+        /**
+         * @brief TBD: Describe themis_destroy_plugin.
+         * @param[in,out] plugin Input/output parameter.
+         * @return Return value.
+         * @details Implements themis_destroy_plugin without additional internal calls.
+         */
         THEMIS_PLUGIN_API void themis_destroy_plugin(IContentProcessorPlugin* plugin) { \
             delete plugin; \
         } \
+        /**
+         * @brief TBD: Describe themis_get_plugin_api_version.
+         * @return Pointer to the result.
+         * @details Implements themis_get_plugin_api_version without additional internal calls.
+         */
         THEMIS_PLUGIN_API const char* themis_get_plugin_api_version() { \
             return THEMIS_PLUGIN_API_VERSION; \
         } \
@@ -406,6 +432,9 @@ using GetVersionFunc = const char* (*)();
 
 /**
  * @brief Simple token counter (whitespace-based)
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::isspace().
  */
 inline int countTokens(const std::string& text) {
     if (text.empty()) {
@@ -434,6 +463,9 @@ inline int countTokens(const std::string& text) {
 
 /**
  * @brief Split text into sentences
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: size(), std::isspace(), empty(), front(), erase(), push_back(), clear().
  */
 inline std::vector<std::string> splitSentences(const std::string& text) {
     std::vector<std::string> sentences;

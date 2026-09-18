@@ -44,6 +44,10 @@ namespace cdc {
  */
 class ICDCTransport {
 public:
+    /**
+     * @brief TBD: Describe ~ICDCTransport.
+     * @return Return value.
+     */
     virtual ~ICDCTransport() = default;
 
     /**

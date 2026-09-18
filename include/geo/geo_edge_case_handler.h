@@ -236,6 +236,7 @@ public:
      *
      * Should only be called after the GPU backend has been recalibrated or
      * reinitialized.
+     * @note Exception safety: noexcept.
      */
     void resetDriftCounter() noexcept;
 

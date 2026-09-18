@@ -60,6 +60,7 @@ public:
     /**
      * @brief Constructor
      * @param config Cache configuration
+     * @return Return value.
      */
     explicit BoundedLRUCache(const Config& config);
     
@@ -156,16 +157,19 @@ private:
     
     /**
      * @brief Move node to front (most recently used)
+     * @param[in] node Input parameter.
      */
     void moveToFront(std::shared_ptr<Node> node);
     
     /**
      * @brief Remove node from list
+     * @param[in] node Input parameter.
      */
     void removeNode(std::shared_ptr<Node> node);
     
     /**
      * @brief Add node to front
+     * @param[in] node Input parameter.
      */
     void addToFront(std::shared_ptr<Node> node);
     
@@ -176,6 +180,8 @@ private:
     
     /**
      * @brief Check if entry is expired
+     * @param[in] entry Input parameter.
+     * @return True on success.
      */
     bool isExpired(const CacheEntry& entry) const;
     

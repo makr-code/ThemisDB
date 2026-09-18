@@ -40,6 +40,11 @@ namespace sharding {
  */
 class GossipConsensusAdapter : public ConsensusModule {
 public:
+    /**
+     * @brief TBD: Describe GossipConsensusAdapter.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit GossipConsensusAdapter(const ConsensusConfig& config);
     ~GossipConsensusAdapter() override;
     
@@ -111,11 +116,15 @@ private:
     
     /**
      * @brief Check if a log entry has reached quorum
+     * @param[in] log_index Input parameter.
+     * @return True on success.
      */
     bool hasReachedQuorum(uint64_t log_index) const;
     
     /**
      * @brief FIXED: Check quorum without acquiring lock (assumes log_mutex_ already held)
+     * @param[in] log_index Input parameter.
+     * @return True on success.
      */
     bool hasReachedQuorumUnlocked(uint64_t log_index) const;
     

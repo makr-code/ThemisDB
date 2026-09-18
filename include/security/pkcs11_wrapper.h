@@ -476,6 +476,11 @@ inline std::vector<CK_SLOT_ID> listSlots(CK_FUNCTION_LIST_PTR api) noexcept {
     uint32_t count = 0;
     CK_RV rv = api->C_GetSlotList(1 /*tokenPresent*/, nullptr, &count);
     if (rv != CKR_OK || count == 0) return {};
+    /**
+     * @brief TBD: Describe slots.
+     * @param[in] count Input parameter.
+     * @return Return value.
+     */
     std::vector<CK_SLOT_ID> slots(count);
     rv = api->C_GetSlotList(1, slots.data(), &count);
     if (rv != CKR_OK) return {};
@@ -517,6 +522,11 @@ inline std::vector<CK_OBJECT_HANDLE> findObjects(
         static_cast<uint32_t>(attrs.size()));
     if (rv != CKR_OK) return {};
 
+    /**
+     * @brief TBD: Describe handles.
+     * @param[in] maxObjects Input parameter.
+     * @return Return value.
+     */
     std::vector<CK_OBJECT_HANDLE> handles(maxObjects);
     uint32_t found = 0;
     rv = api->C_FindObjects(session.handle(), handles.data(), maxObjects, &found);
@@ -573,6 +583,11 @@ inline std::vector<CK_OBJECT_HANDLE> findObjectsByLabel(
     if (rv != CKR_OK) return {};
 
     const uint32_t kMax = 16;
+    /**
+     * @brief TBD: Describe handles.
+     * @param[in] kMax Input parameter.
+     * @return Return value.
+     */
     std::vector<CK_OBJECT_HANDLE> handles(kMax);
     uint32_t found = 0;
     rv = api->C_FindObjects(session.handle(), handles.data(), kMax, &found);
@@ -617,6 +632,11 @@ inline std::vector<uint8_t> signData(
         nullptr, &sigLen);
     if (rv != CKR_OK || sigLen == 0) return {};
 
+    /**
+     * @brief TBD: Describe sig.
+     * @param[in] sigLen Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> sig(sigLen);
     rv = api->C_Sign(
         session.handle(),
@@ -702,6 +722,11 @@ inline std::vector<uint8_t> encryptData(
         nullptr, &ctLen);
     if (rv != CKR_OK || ctLen == 0) return {};
 
+    /**
+     * @brief TBD: Describe ct.
+     * @param[in] ctLen Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> ct(ctLen);
     rv = api->C_Encrypt(
         session.handle(),
@@ -749,6 +774,11 @@ inline std::vector<uint8_t> decryptData(
         nullptr, &ptLen);
     if (rv != CKR_OK || ptLen == 0) return {};
 
+    /**
+     * @brief TBD: Describe pt.
+     * @param[in] ptLen Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> pt(ptLen);
     rv = api->C_Decrypt(
         session.handle(),

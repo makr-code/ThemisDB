@@ -57,12 +57,40 @@ public:
     static std::string getFrameworkVersion(ComplianceFramework fw);
 
 private:
+    /**
+     * @brief TBD: Describe loadIso27001.
+     * @return Return value.
+     */
     static std::shared_ptr<ComplianceFrameworkRegistry> loadIso27001();
+    /**
+     * @brief TBD: Describe loadSoc2.
+     * @return Return value.
+     */
     static std::shared_ptr<ComplianceFrameworkRegistry> loadSoc2();
+    /**
+     * @brief TBD: Describe loadGdpr.
+     * @return Return value.
+     */
     static std::shared_ptr<ComplianceFrameworkRegistry> loadGdpr();
+    /**
+     * @brief TBD: Describe loadCcpa.
+     * @return Return value.
+     */
     static std::shared_ptr<ComplianceFrameworkRegistry> loadCcpa();
+    /**
+     * @brief TBD: Describe loadHipaa.
+     * @return Return value.
+     */
     static std::shared_ptr<ComplianceFrameworkRegistry> loadHipaa();
+    /**
+     * @brief TBD: Describe loadPciDss.
+     * @return Return value.
+     */
     static std::shared_ptr<ComplianceFrameworkRegistry> loadPciDss();
+    /**
+     * @brief TBD: Describe loadEuAiAct.
+     * @return Return value.
+     */
     static std::shared_ptr<ComplianceFrameworkRegistry> loadEuAiAct();
 };
 
@@ -366,15 +394,59 @@ private:
  */
 class ComplianceRequirementBuilder {
 public:
+    /**
+     * @brief TBD: Describe withId.
+     * @param[in] id Input parameter.
+     * @return Return value.
+     */
     ComplianceRequirementBuilder& withId(const std::string& id);
+    /**
+     * @brief TBD: Describe withFramework.
+     * @param[in] fw Input parameter.
+     * @return Return value.
+     */
     ComplianceRequirementBuilder& withFramework(ComplianceFramework fw);
+    /**
+     * @brief TBD: Describe withText.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     ComplianceRequirementBuilder& withText(const std::string& text);
+    /**
+     * @brief TBD: Describe withSection.
+     * @param[in] section Input parameter.
+     * @return Return value.
+     */
     ComplianceRequirementBuilder& withSection(const std::string& section);
+    /**
+     * @brief TBD: Describe withSeverity.
+     * @param[in] sev Input parameter.
+     * @return Return value.
+     */
     ComplianceRequirementBuilder& withSeverity(ComplianceSeverity sev);
+    /**
+     * @brief TBD: Describe withControl.
+     * @param[in] control_id Input parameter.
+     * @return Return value.
+     */
     ComplianceRequirementBuilder& withControl(const std::string& control_id);
+    /**
+     * @brief TBD: Describe withCategory.
+     * @param[in] cat Input parameter.
+     * @return Return value.
+     */
     ComplianceRequirementBuilder& withCategory(const std::string& cat);
+    /**
+     * @brief TBD: Describe withMandatory.
+     * @param[in] mandatory Input parameter.
+     * @return Return value.
+     */
     ComplianceRequirementBuilder& withMandatory(bool mandatory);
     
+    /**
+     * @brief TBD: Describe build.
+     * @return Return value.
+     */
     ComplianceRequirement build() const;
 
 private:
@@ -390,15 +462,59 @@ private:
  */
 class ComplianceControlBuilder {
 public:
+    /**
+     * @brief TBD: Describe withId.
+     * @param[in] id Input parameter.
+     * @return Return value.
+     */
     ComplianceControlBuilder& withId(const std::string& id);
+    /**
+     * @brief TBD: Describe withFramework.
+     * @param[in] fw Input parameter.
+     * @return Return value.
+     */
     ComplianceControlBuilder& withFramework(ComplianceFramework fw);
+    /**
+     * @brief TBD: Describe withName.
+     * @param[in] name Input parameter.
+     * @return Return value.
+     */
     ComplianceControlBuilder& withName(const std::string& name);
+    /**
+     * @brief TBD: Describe withDescription.
+     * @param[in] desc Input parameter.
+     * @return Return value.
+     */
     ComplianceControlBuilder& withDescription(const std::string& desc);
+    /**
+     * @brief TBD: Describe withImplementation.
+     * @param[in] impl Input parameter.
+     * @return Return value.
+     */
     ComplianceControlBuilder& withImplementation(const std::string& impl);
+    /**
+     * @brief TBD: Describe automated.
+     * @param[in] is_automated Input parameter.
+     * @return Return value.
+     */
     ComplianceControlBuilder& automated(bool is_automated);
+    /**
+     * @brief TBD: Describe withPolicyRule.
+     * @param[in] rule_id Input parameter.
+     * @return Return value.
+     */
     ComplianceControlBuilder& withPolicyRule(const std::string& rule_id);
+    /**
+     * @brief TBD: Describe withEvidenceType.
+     * @param[in] type Input parameter.
+     * @return Return value.
+     */
     ComplianceControlBuilder& withEvidenceType(const std::string& type);
     
+    /**
+     * @brief TBD: Describe build.
+     * @return Return value.
+     */
     ComplianceControl build() const;
 
 private:

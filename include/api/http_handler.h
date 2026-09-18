@@ -165,6 +165,11 @@ struct HttpResponse {
         return r;
     }
 
+    /**
+     * @brief TBD: Describe noContent.
+     * @return Return value.
+     * @details Implements noContent without additional internal calls.
+     */
     static HttpResponse noContent() {
         HttpResponse r;
         r.status_code = 204;
@@ -179,6 +184,11 @@ struct HttpResponse {
         return r;
     }
 
+    /**
+     * @brief TBD: Describe unauthorized.
+     * @return Return value.
+     * @details Implements unauthorized without additional internal calls.
+     */
     static HttpResponse unauthorized() {
         HttpResponse r;
         r.status_code = 401;
@@ -187,6 +197,11 @@ struct HttpResponse {
         return r;
     }
 
+    /**
+     * @brief TBD: Describe forbidden.
+     * @return Return value.
+     * @details Implements forbidden without additional internal calls.
+     */
     static HttpResponse forbidden() {
         HttpResponse r;
         r.status_code = 403;
@@ -195,6 +210,11 @@ struct HttpResponse {
         return r;
     }
 
+    /**
+     * @brief TBD: Describe notFound.
+     * @return Return value.
+     * @details Implements notFound without additional internal calls.
+     */
     static HttpResponse notFound() {
         HttpResponse r;
         r.status_code = 404;
@@ -237,6 +257,10 @@ struct HttpResponse {
  */
 class IHttpHandler {
 public:
+    /**
+     * @brief TBD: Describe ~IHttpHandler.
+     * @return Return value.
+     */
     virtual ~IHttpHandler() = default;
 
     /**
@@ -289,6 +313,7 @@ public:
      * @brief Append a handler to the end of the chain.
      * @param handler  Shared pointer to an `IHttpHandler` implementation.
      * @return Reference to `*this` for fluent construction.
+     * @details Calls: push_back(), std::move().
      */
     MiddlewareChain& append(std::shared_ptr<IHttpHandler> handler) {
         links_.push_back(std::move(handler));
@@ -324,6 +349,13 @@ public:
     std::size_t size() const noexcept { return links_.size(); }
 
 private:
+    /**
+     * @brief TBD: Describe invokeAt.
+     * @param[in] request Input parameter.
+     * @param[in] idx Input parameter.
+     * @return Return value.
+     * @details Calls: size(), tl::unexpected(), themis::Error(), handle(), has_value().
+     */
     themis::Result<HttpResponse> invokeAt(const HttpRequest& request, std::size_t idx) {
         if (idx >= links_.size()) {
             return tl::unexpected(themis::Error(

@@ -132,29 +132,115 @@ public:
     void shutdown() override;
     void* getInstance() override { return this; }
     
-    // User Management API
+    /**
+     * @brief User Management API
+     * @param[in] user Input parameter.
+     * @param[in] level Input parameter.
+     * @return Return value.
+     */
     Result<void> createUser(const User& user, SecurityLevel level);
+    /**
+     * @brief TBD: Describe getUser.
+     * @param[in] user_id Input parameter.
+     * @param[in] level Input parameter.
+     * @return Return value.
+     */
     Result<User> getUser(const std::string& user_id, SecurityLevel level);
+    /**
+     * @brief TBD: Describe updateUser.
+     * @param[in] user Input parameter.
+     * @param[in] level Input parameter.
+     * @return Return value.
+     */
     Result<void> updateUser(const User& user, SecurityLevel level);
+    /**
+     * @brief TBD: Describe deleteUser.
+     * @param[in] user_id Input parameter.
+     * @param[in] level Input parameter.
+     * @return Return value.
+     */
     Result<void> deleteUser(const std::string& user_id, SecurityLevel level);
+    /**
+     * @brief TBD: Describe listUsers.
+     * @param[in] level Input parameter.
+     * @return Return value.
+     */
     Result<std::vector<User>> listUsers(SecurityLevel level);
     
-    // Group Management API
+    /**
+     * @brief Group Management API
+     * @param[in] group Input parameter.
+     * @param[in] level Input parameter.
+     * @return Return value.
+     */
     Result<void> createGroup(const Group& group, SecurityLevel level);
+    /**
+     * @brief TBD: Describe getGroup.
+     * @param[in] group_id Input parameter.
+     * @param[in] level Input parameter.
+     * @return Return value.
+     */
     Result<Group> getGroup(const std::string& group_id, SecurityLevel level);
+    /**
+     * @brief TBD: Describe updateGroup.
+     * @param[in] group Input parameter.
+     * @param[in] level Input parameter.
+     * @return Return value.
+     */
     Result<void> updateGroup(const Group& group, SecurityLevel level);
+    /**
+     * @brief TBD: Describe deleteGroup.
+     * @param[in] group_id Input parameter.
+     * @param[in] level Input parameter.
+     * @return Return value.
+     */
     Result<void> deleteGroup(const std::string& group_id, SecurityLevel level);
+    /**
+     * @brief TBD: Describe listGroups.
+     * @param[in] level Input parameter.
+     * @return Return value.
+     */
     Result<std::vector<Group>> listGroups(SecurityLevel level);
     
-    // Container Management
+    /**
+     * @brief Container Management
+     * @return Return value.
+     */
     Result<void> mountAll();
+    /**
+     * @brief TBD: Describe unmountAll.
+     * @return Return value.
+     */
     Result<void> unmountAll();
+    /**
+     * @brief TBD: Describe mountLevel.
+     * @param[in] level Input parameter.
+     * @return Return value.
+     */
     Result<void> mountLevel(SecurityLevel level);
+    /**
+     * @brief TBD: Describe unmountLevel.
+     * @param[in] level Input parameter.
+     * @return Return value.
+     */
     Result<void> unmountLevel(SecurityLevel level);
+    /**
+     * @brief TBD: Describe rotateKey.
+     * @param[in] level Input parameter.
+     * @return Return value.
+     */
     Result<void> rotateKey(SecurityLevel level);
     
-    // Health Check
+    /**
+     * @brief Health Check
+     * @return Return value.
+     */
     Result<HealthStatus> checkHealth();
+    /**
+     * @brief TBD: Describe checkLevelHealth.
+     * @param[in] level Input parameter.
+     * @return Return value.
+     */
     Result<HealthStatus> checkLevelHealth(SecurityLevel level);
 
     // ── Prometheus Metrics (v0.3.0) ──────────────────────────────────────────
@@ -169,6 +255,7 @@ public:
      *  - `user_storage_container_size_bytes`    Gauge   Sum of encrypted container sizes on disk
      *
      * Thread-safe (reads std::atomic values).
+     * @return Return value.
      */
     std::string getMetricsText() const;
 
@@ -177,6 +264,7 @@ public:
      *
      * Called automatically by `rotateKey()`; exposed for testing and for
      * callers that manage rotation outside this class.
+     * @param[in] level Input parameter.
      */
     void recordKeyRotation(SecurityLevel level);
     
@@ -184,13 +272,35 @@ private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
     
-    // Configuration helpers
+    /**
+     * @brief Configuration helpers
+     * @param[in] config_json Input parameter.
+     * @return Return value.
+     */
     Result<void> loadConfiguration(const std::string& config_json);
+    /**
+     * @brief TBD: Describe validateConfiguration.
+     * @return Return value.
+     */
     Result<void> validateConfiguration();
     
-    // Container operations
+    /**
+     * @brief Container operations
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     Result<void> initializeLevel(const LevelConfig& config);
+    /**
+     * @brief TBD: Describe mountLevel.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     Result<void> mountLevel(const LevelConfig& config);
+    /**
+     * @brief TBD: Describe unmountLevel.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     Result<void> unmountLevel(const LevelConfig& config);
 
     /**
@@ -207,21 +317,64 @@ private:
      */
     void reconcileStaleMounts(const std::string& base_path);
     
-    // Key provider management
+    /**
+     * @brief Key provider management
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     Result<std::shared_ptr<KeyProvider>> getKeyProvider(const LevelConfig& config);
     
-    // File operations
+    /**
+     * @brief File operations
+     * @param[in] path Input parameter.
+     * @param[in] user Input parameter.
+     * @return Return value.
+     */
     Result<void> writeUserFile(const std::string& path, const User& user);
+    /**
+     * @brief TBD: Describe readUserFile.
+     * @param[in] path Input parameter.
+     * @return Return value.
+     */
     Result<User> readUserFile(const std::string& path);
+    /**
+     * @brief TBD: Describe writeGroupFile.
+     * @param[in] path Input parameter.
+     * @param[in] group Input parameter.
+     * @return Return value.
+     */
     Result<void> writeGroupFile(const std::string& path, const Group& group);
+    /**
+     * @brief TBD: Describe readGroupFile.
+     * @param[in] path Input parameter.
+     * @return Return value.
+     */
     Result<Group> readGroupFile(const std::string& path);
     
-    // Path helpers
+    /**
+     * @brief Path helpers
+     * @param[in] level Input parameter.
+     * @param[in] user_id Input parameter.
+     * @return Return value.
+     */
     std::string getUserPath(SecurityLevel level, const std::string& user_id);
+    /**
+     * @brief TBD: Describe getGroupPath.
+     * @param[in] level Input parameter.
+     * @param[in] group_id Input parameter.
+     * @return Return value.
+     */
     std::string getGroupPath(SecurityLevel level, const std::string& group_id);
+    /**
+     * @brief TBD: Describe getBasePath.
+     * @param[in] level Input parameter.
+     * @return Return value.
+     */
     std::string getBasePath(SecurityLevel level);
 
-    // Stale mount cleanup
+    /**
+     * @brief Stale mount cleanup
+     */
     void reconcileStaleMounts();
 };
 

@@ -88,6 +88,10 @@ struct Anomaly {
     std::string severity;          ///< low, medium, high, critical
     std::vector<std::string> contributing_factors;
 
+    /**
+     * @brief TBD: Describe toJson.
+     * @return Return value.
+     */
     json toJson() const;
 };
 
@@ -101,6 +105,10 @@ struct AnomalyExplanation {
     std::vector<std::pair<std::string, double>> feature_importance;
     std::string summary;
 
+    /**
+     * @brief TBD: Describe toJson.
+     * @return Return value.
+     */
     json toJson() const;
 };
 
@@ -143,17 +151,73 @@ private:
     double baseline_stddev_{0.0};
     bool trained_{false};
 
-    // Helpers
+    /**
+     * @brief Helpers
+     * @param[in] v Input parameter.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     static double clamp01(double v) noexcept;
+    /**
+     * @brief TBD: Describe tsFromMs.
+     * @param[in] ms Input parameter.
+     * @return Return value.
+     */
     static std::chrono::system_clock::time_point tsFromMs(int64_t ms);
+    /**
+     * @brief TBD: Describe toMs.
+     * @param[in] tp Input parameter.
+     * @return Return value.
+     */
     static int64_t                              toMs(std::chrono::system_clock::time_point tp);
+    /**
+     * @brief TBD: Describe mean.
+     * @param[in] v Input parameter.
+     * @return Return value.
+     */
     static double                               mean(const std::vector<double>& v);
+    /**
+     * @brief TBD: Describe stddev.
+     * @param[in] v Input parameter.
+     * @param[in] mu Input parameter.
+     * @return Return value.
+     */
     static double                               stddev(const std::vector<double>& v, double mu);
+    /**
+     * @brief TBD: Describe medianIntervalMs.
+     * @param[in] series Input parameter.
+     * @return Return value.
+     */
     double medianIntervalMs(const ForecastSeries& series) const;
+    /**
+     * @brief TBD: Describe dbscanLabels.
+     * @param[in] values Input parameter.
+     * @return Return value.
+     */
     std::vector<int> dbscanLabels(const std::vector<double>& values) const;
+    /**
+     * @brief TBD: Describe changePointScore.
+     * @param[in] values Input parameter.
+     * @return Return value.
+     */
     double changePointScore(const std::vector<double>& values) const;
+    /**
+     * @brief TBD: Describe severityForScore.
+     * @param[in] s Input parameter.
+     * @return Return value.
+     */
     std::string severityForScore(double s) const;
+    /**
+     * @brief TBD: Describe buildSeasonalTemplate.
+     * @param[in] d Input parameter.
+     * @return Return value.
+     */
     std::vector<double> buildSeasonalTemplate(const themisdb::analytics::DecompositionResult& d) const;
+    /**
+     * @brief TBD: Describe buildExplanation.
+     * @param[in] anomaly Input parameter.
+     * @return Return value.
+     */
     AnomalyExplanation buildExplanation(const Anomaly& anomaly) const;
 };
 

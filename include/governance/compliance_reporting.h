@@ -92,6 +92,10 @@ public:
         std::vector<std::string> uncovered_resource_list;
         std::unordered_map<std::string, int> coverage_by_action;
         
+        /**
+         * @brief TBD: Describe toJson.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
     };
     
@@ -101,6 +105,10 @@ public:
         std::vector<std::string> overlapping_rule_ids;
         int overlap_count = 0;
         
+        /**
+         * @brief TBD: Describe toJson.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
     };
     
@@ -135,7 +143,16 @@ public:
         bool requires_audit = false;
         int min_retention_days = 0;
         
+        /**
+         * @brief TBD: Describe toJson.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
+        /**
+         * @brief TBD: Describe fromJson.
+         * @param[in] j Input parameter.
+         * @return Return value.
+         */
         static ComplianceRequirement fromJson(const nlohmann::json& j);
     };
     
@@ -147,6 +164,10 @@ public:
         std::vector<std::string> affected_resources;
         std::string recommendation;
         
+        /**
+         * @brief TBD: Describe toJson.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
     };
     
@@ -158,6 +179,10 @@ public:
         double compliance_percentage = 0.0;
         std::vector<ComplianceGap> gaps;
         
+        /**
+         * @brief TBD: Describe toJson.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
     };
     
@@ -183,12 +208,22 @@ private:
     std::vector<ComplianceRequirement> requirements_;
     mutable std::mutex mutex_;
     
+    /**
+     * @brief TBD: Describe checkRequirement.
+     * @param[in] req Input parameter.
+     * @param[in] policy_mgr Input parameter.
+     * @return True on success.
+     */
     bool checkRequirement(const ComplianceRequirement& req, const PolicyManager& policy_mgr) const;
 };
 
 /// Base interface for all compliance report types.
 /// Concrete report structs derive from this interface to guarantee CSV export support.
 struct IComplianceReport {
+    /**
+     * @brief TBD: Describe ~IComplianceReport.
+     * @return Return value.
+     */
     virtual ~IComplianceReport() = default;
     /// Serialise the report as a CSV-formatted string.
     [[nodiscard]] virtual std::string toCSV() const = 0;
@@ -213,8 +248,16 @@ public:
         std::unordered_map<std::string, int> rules_with_audit;
         int64_t generated_at = 0;
         
+        /**
+         * @brief TBD: Describe toJson.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
         std::string toCSV() const override;
+        /**
+         * @brief TBD: Describe toHTML.
+         * @return Return value.
+         */
         std::string toHTML() const;
     };
     
@@ -226,8 +269,16 @@ public:
         std::vector<ComplianceGapDetector::ComplianceGap> gaps;
         int64_t generated_at = 0;
         
+        /**
+         * @brief TBD: Describe toJson.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
         std::string toCSV() const override;
+        /**
+         * @brief TBD: Describe toHTML.
+         * @return Return value.
+         */
         std::string toHTML() const;
     };
     
@@ -243,8 +294,16 @@ public:
         std::vector<Entry> entries;
         int64_t generated_at = 0;
         
+        /**
+         * @brief TBD: Describe toJson.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
         std::string toCSV() const override;
+        /**
+         * @brief TBD: Describe toHTML.
+         * @return Return value.
+         */
         std::string toHTML() const;
     };
     
@@ -263,8 +322,16 @@ public:
         int low_risks = 0;
         int64_t generated_at = 0;
         
+        /**
+         * @brief TBD: Describe toJson.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
         std::string toCSV() const override;
+        /**
+         * @brief TBD: Describe toHTML.
+         * @return Return value.
+         */
         std::string toHTML() const;
     };
     
@@ -275,8 +342,16 @@ public:
         int64_t start_time = 0;
         int64_t end_time = 0;
         
+        /**
+         * @brief TBD: Describe toJson.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
         std::string toCSV() const override;
+        /**
+         * @brief TBD: Describe toHTML.
+         * @return Return value.
+         */
         std::string toHTML() const;
     };
 
@@ -317,6 +392,10 @@ public:
         /// Report generation timestamp.
         int64_t generated_at = 0;
 
+        /**
+         * @brief TBD: Describe toJson.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
         std::string toCSV() const override;
     };

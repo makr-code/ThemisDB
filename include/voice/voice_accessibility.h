@@ -27,6 +27,11 @@ enum class CaptionFormat {
     HTML,       // HTML with accessibility attributes
     JSON        // Structured JSON
 };
+/**
+ * @brief TBD: Describe captionFormatToString.
+ * @param[in] fmt Input parameter.
+ * @return Return value.
+ */
 std::string captionFormatToString(CaptionFormat fmt);
 
 // A single timed caption cue
@@ -88,7 +93,11 @@ public:
         const std::string& speaker = ""
     );
 
-    // Generate captions from JSON transcript (as produced by STT processor)
+    /**
+     * @brief Generate captions from JSON transcript (as produced by STT processor)
+     * @param[in] transcript_json Input parameter.
+     * @return Return value.
+     */
     std::vector<CaptionCue> generateCaptionsFromJSON(const json& transcript_json);
 
     // Export captions to a specific format string
@@ -97,20 +106,66 @@ public:
         const TranscriptExportOptions& options = {}
     );
 
-    // Format helpers (public for testing)
+    /**
+     * @brief Format helpers (public for testing)
+     * @param[in] cues Input parameter.
+     * @param[in] opts Input parameter.
+     * @return Return value.
+     */
     std::string formatAsVTT(const std::vector<CaptionCue>& cues, const TranscriptExportOptions& opts) const;
+    /**
+     * @brief TBD: Describe formatAsSRT.
+     * @param[in] cues Input parameter.
+     * @param[in] opts Input parameter.
+     * @return Return value.
+     */
     std::string formatAsSRT(const std::vector<CaptionCue>& cues, const TranscriptExportOptions& opts) const;
+    /**
+     * @brief TBD: Describe formatAsPlainText.
+     * @param[in] cues Input parameter.
+     * @param[in] opts Input parameter.
+     * @return Return value.
+     */
     std::string formatAsPlainText(const std::vector<CaptionCue>& cues, const TranscriptExportOptions& opts) const;
+    /**
+     * @brief TBD: Describe formatAsHTML.
+     * @param[in] cues Input parameter.
+     * @param[in] opts Input parameter.
+     * @return Return value.
+     */
     std::string formatAsHTML(const std::vector<CaptionCue>& cues, const TranscriptExportOptions& opts) const;
+    /**
+     * @brief TBD: Describe formatAsJSONString.
+     * @param[in] cues Input parameter.
+     * @param[in] opts Input parameter.
+     * @return Return value.
+     */
     std::string formatAsJSONString(const std::vector<CaptionCue>& cues, const TranscriptExportOptions& opts) const;
 
-    // Caption cue helpers
+    /**
+     * @brief Caption cue helpers
+     * @param[in] cues Input parameter.
+     * @return Return value.
+     */
     std::vector<CaptionCue> mergeSortCues(const std::vector<CaptionCue>& cues) const;
     std::string formatTimestamp(int64_t ms, bool vtt_style = true) const; // HH:MM:SS.mmm or HH:MM:SS,mmm
+    /**
+     * @brief TBD: Describe splitLongCues.
+     * @param[in] cues Input parameter.
+     * @return Return value.
+     */
     std::vector<CaptionCue> splitLongCues(const std::vector<CaptionCue>& cues) const;
+    /**
+     * @brief TBD: Describe mergeSilentGaps.
+     * @param[in] cues Input parameter.
+     * @return Return value.
+     */
     std::vector<CaptionCue> mergeSilentGaps(const std::vector<CaptionCue>& cues) const;
 
-    // Statistics
+    /**
+     * @brief Statistics
+     * @return Return value.
+     */
     json getStatistics() const;
 
 private:
@@ -118,6 +173,12 @@ private:
     uint64_t exports_completed_ = 0;
     uint64_t total_cues_generated_ = 0;
 
+    /**
+     * @brief TBD: Describe wrapText.
+     * @param[in] text Input parameter.
+     * @param[in] max_chars Input parameter.
+     * @return Return value.
+     */
     std::string wrapText(const std::string& text, int max_chars) const;
 };
 

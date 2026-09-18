@@ -56,7 +56,16 @@ struct TemporalSnapshot {
     nlohmann::json data;
     std::string checksum;  // SHA-256
     
+    /**
+     * @brief TBD: Describe toJson.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
+    /**
+     * @brief TBD: Describe fromJson.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static std::optional<TemporalSnapshot> fromJson(const nlohmann::json& j);
 };
 
@@ -116,6 +125,10 @@ struct ConflictRecord {
  */
 class MergeResolver {
 public:
+    /**
+     * @brief TBD: Describe ~MergeResolver.
+     * @return Return value.
+     */
     virtual ~MergeResolver() = default;
 
     /**
@@ -194,6 +207,8 @@ public:
 
     /**
      * @param fn  Merge function.  Must not be null.
+     * @brief TBD: Describe CustomMergeResolver.
+     * @return Return value.
      */
     explicit CustomMergeResolver(MergeFn fn);
 
@@ -229,17 +244,24 @@ public:
     
     /**
      * Get all unresolved conflicts (for MANUAL policy)
+     * @brief TBD: Describe getUnresolvedConflicts.
+     * @return Return value.
      */
     std::vector<ConflictRecord> getUnresolvedConflicts() const;
     
     /**
      * Manually resolve a conflict
+     * @brief TBD: Describe resolveManually.
+     * @param[in] conflict_id Input parameter.
+     * @param[in] winner Input parameter.
      */
     void resolveManually(const std::string& conflict_id, const std::string& winner);
     
     /**
      * Get the complete conflict history (resolved + unresolved).
      * Useful for audit, compliance and replay.
+     * @brief TBD: Describe getConflictHistory.
+     * @return Return value.
      */
     std::vector<ConflictRecord> getConflictHistory() const;
 
@@ -247,11 +269,15 @@ public:
      * Export the complete conflict history as a JSON array.
      * Each entry contains: conflict_id, entity_id, winner, policy, resolved,
      * detected_at_ms.
+     * @brief TBD: Describe exportAuditLog.
+     * @return Return value.
      */
     nlohmann::json exportAuditLog() const;
 
     /**
      * Get conflict statistics
+     * @brief TBD: Describe getStatistics.
+     * @return Return value.
      */
     nlohmann::json getStatistics() const;
 
@@ -273,6 +299,7 @@ public:
      * @brief Return the currently active MergeResolver.
      *
      * Returns `nullptr` when the built-in LWW-per-field default is active.
+     * @return Return value.
      */
     std::shared_ptr<MergeResolver> getMergeResolver() const;
 
@@ -290,11 +317,39 @@ private:
     std::atomic<uint64_t> manual_resolutions_{0};
     std::atomic<uint64_t> crdt_merges_{0};
     
+    /**
+     * @brief TBD: Describe generateConflictId.
+     * @return Return value.
+     */
     std::string generateConflictId() const;
     
+    /**
+     * @brief TBD: Describe resolveLastWriteWins.
+     * @param[in] local Input parameter.
+     * @param[in] remote Input parameter.
+     * @return Return value.
+     */
     TemporalSnapshot resolveLastWriteWins(const TemporalSnapshot& local, const TemporalSnapshot& remote);
+    /**
+     * @brief TBD: Describe resolveFirstWriteWins.
+     * @param[in] local Input parameter.
+     * @param[in] remote Input parameter.
+     * @return Return value.
+     */
     TemporalSnapshot resolveFirstWriteWins(const TemporalSnapshot& local, const TemporalSnapshot& remote);
+    /**
+     * @brief TBD: Describe resolveNodePriority.
+     * @param[in] local Input parameter.
+     * @param[in] remote Input parameter.
+     * @return Return value.
+     */
     TemporalSnapshot resolveNodePriority(const TemporalSnapshot& local, const TemporalSnapshot& remote);
+    /**
+     * @brief TBD: Describe resolveCRDT.
+     * @param[in] local Input parameter.
+     * @param[in] remote Input parameter.
+     * @return Return value.
+     */
     TemporalSnapshot resolveCRDT(const TemporalSnapshot& local, const TemporalSnapshot& remote);
 };
 
@@ -365,6 +420,10 @@ public:
      *
      * @return A (possibly empty) list of detected Conflict objects. An empty list
      *         means the two snapshots are compatible.
+     * @brief TBD: Describe detectConflicts.
+     * @param[in] table_name Input parameter.
+     * @param[in] local Input parameter.
+     * @param[in] remote Input parameter.
      */
     std::vector<Conflict> detectConflicts(
         const std::string& table_name,
@@ -377,6 +436,9 @@ public:
      *
      * @return The winning snapshot, or std::nullopt when @p policy is MANUAL
      *         (call queueForManualResolution instead).
+     * @brief TBD: Describe autoResolveConflict.
+     * @param[in] conflict Input parameter.
+     * @param[in] policy Input parameter.
      */
     std::optional<TemporalSnapshot> autoResolveConflict(
         const Conflict& conflict,
@@ -393,17 +455,23 @@ public:
      *
      * @return true if the conflict was queued; false if an identical conflict
      *         entry is already in the queue.
+     * @brief TBD: Describe queueForManualResolution.
+     * @param[in] table_name Input parameter.
+     * @param[in] conflict Input parameter.
      */
     bool queueForManualResolution(const std::string& table_name,
                                   const Conflict& conflict);
 
     /**
      * Return a snapshot of all currently queued conflicts.
+     * @brief TBD: Describe getQueuedConflicts.
+     * @return Return value.
      */
     std::vector<Conflict> getQueuedConflicts() const;
 
     /**
      * Remove all entries from the manual-resolution queue.
+     * @brief TBD: Describe clearQueue.
      */
     void clearQueue();
 
@@ -422,16 +490,34 @@ private:
         const TemporalSnapshot& remote
     );
 
+    /**
+     * @brief TBD: Describe detectOverlappingPeriods.
+     * @param[in] local Input parameter.
+     * @param[in] remote Input parameter.
+     * @return Return value.
+     */
     static std::optional<Conflict> detectOverlappingPeriods(
         const TemporalSnapshot& local,
         const TemporalSnapshot& remote
     );
 
+    /**
+     * @brief TBD: Describe detectReferentialIntegrity.
+     * @param[in] local Input parameter.
+     * @param[in] remote Input parameter.
+     * @return Return value.
+     */
     static std::optional<Conflict> detectReferentialIntegrity(
         const TemporalSnapshot& local,
         const TemporalSnapshot& remote
     );
 
+    /**
+     * @brief TBD: Describe detectUniquenessViolation.
+     * @param[in] local Input parameter.
+     * @param[in] remote Input parameter.
+     * @return Return value.
+     */
     static std::optional<Conflict> detectUniquenessViolation(
         const TemporalSnapshot& local,
         const TemporalSnapshot& remote

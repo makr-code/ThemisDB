@@ -80,16 +80,20 @@ public:
      * CPU-fallback sentinel when no GPU is available.
      *
      * @param devices  List produced by Enumerate() (avoids re-enumeration).
+     * @return Return value.
      */
     static DeviceInfo GetBestDevice(const std::vector<DeviceInfo>& devices);
 
     /**
      * @brief Convenience overload: enumerate then pick best.
+     * @return Return value.
      */
     static DeviceInfo GetBestDevice();
 
     /**
      * @brief Return every device that reported is_healthy == true.
+     * @param[in] devices Input parameter.
+     * @return Return value.
      */
     static std::vector<DeviceInfo> GetHealthyDevices(
         const std::vector<DeviceInfo>& devices);
@@ -97,11 +101,14 @@ public:
     /**
      * @brief True when at least one real (non-CPU-fallback) device is present
      *        and healthy.
+     * @param[in] devices Input parameter.
+     * @return True on success.
      */
     static bool HasGPU(const std::vector<DeviceInfo>& devices);
 
     /**
      * @brief Convenience overload: enumerate then check.
+     * @return True on success.
      */
     static bool HasGPU();
 };

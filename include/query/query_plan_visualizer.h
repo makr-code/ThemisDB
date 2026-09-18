@@ -85,10 +85,13 @@ public:
     // Plan construction
     // ------------------------------------------------------------------
 
-    /// Build a plan tree from a ConjunctiveQuery and its optimized Plan.
-    /// @param query  The logical query.
-    /// @param plan   The optimizer plan with predicate ordering.
-    /// @returns Root node of the execution plan tree.
+    /**
+     * @brief Build a plan tree from a ConjunctiveQuery and its optimized Plan.
+     * @param[in] query Input parameter.
+     * @param[in] plan Input parameter.
+     * @return Return value.
+     * @details @param query The logical query. @param plan The optimizer plan with predicate ordering. @returns Root node of the execution plan tree.
+     */
     static QueryPlanNode buildPlan(const ConjunctiveQuery& query,
                                    const QueryOptimizer::Plan& plan);
 
@@ -108,23 +111,59 @@ public:
     /// @returns nlohmann::json object.
     static nlohmann::json toJSON(const QueryPlanNode& root, bool analyze = false);
 
-    /// Render the plan as a Graphviz DOT digraph string.
-    /// Can be piped to `dot -Tpng -o plan.png` for visualisation.
-    /// @param root  Root plan node.
-    /// @returns DOT source string.
+    /**
+     * @brief Render the plan as a Graphviz DOT digraph string.
+     * @param[in] root Input parameter.
+     * @return Return value.
+     * @details Can be piped to `dot -Tpng -o plan.png` for visualisation. @param root Root plan node. @returns DOT source string.
+     */
     static std::string toDOT(const QueryPlanNode& root);
 
     /// Return a short textual name for a PlanNodeType (public for tests).
     static std::string planNodeTypeName(PlanNodeType type);
 
 private:
-    // Internal helpers
+    /**
+     * @brief Internal helpers
+     * @param[in] node Input parameter.
+     * @param[in] analyze Input parameter.
+     * @param[in,out] out Input/output parameter.
+     * @param[in] depth Input parameter.
+     */
     static void toTextImpl(const QueryPlanNode& node, bool analyze,
                            std::string& out, int depth);
+    /**
+     * @brief TBD: Describe toJSONImpl.
+     * @param[in] node Input parameter.
+     * @param[in] analyze Input parameter.
+     * @return Return value.
+     */
     static nlohmann::json toJSONImpl(const QueryPlanNode& node, bool analyze);
+    /**
+     * @brief TBD: Describe toJSONImpl.
+     * @param[in] node Input parameter.
+     * @param[in] analyze Input parameter.
+     * @param[in] depth Input parameter.
+     * @return Return value.
+     */
     static nlohmann::json toJSONImpl(const QueryPlanNode& node, bool analyze, int depth);
+    /**
+     * @brief TBD: Describe toDOTImpl.
+     * @param[in] node Input parameter.
+     * @param[in,out] id_counter Input/output parameter.
+     * @param[in,out] nodes_out Input/output parameter.
+     * @param[in,out] edges_out Input/output parameter.
+     */
     static void toDOTImpl(const QueryPlanNode& node, int& id_counter,
                           std::string& nodes_out, std::string& edges_out);
+    /**
+     * @brief TBD: Describe toDOTImpl.
+     * @param[in] node Input parameter.
+     * @param[in,out] id_counter Input/output parameter.
+     * @param[in,out] nodes_out Input/output parameter.
+     * @param[in,out] edges_out Input/output parameter.
+     * @param[in] depth Input parameter.
+     */
     static void toDOTImpl(const QueryPlanNode& node, int& id_counter,
                           std::string& nodes_out, std::string& edges_out, int depth);
 

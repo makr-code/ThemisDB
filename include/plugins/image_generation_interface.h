@@ -84,15 +84,24 @@ struct Img2ImgConfig : public SDGenerationConfig {
  */
 class IImageGenerationBackend {
 public:
+    /**
+     * @brief TBD: Describe ~IImageGenerationBackend.
+     * @return Return value.
+     */
     virtual ~IImageGenerationBackend() = default;
 
     /**
      * @brief Load model and apply configuration.
      * @param model_path  Path to the GGUF/safetensors model file (empty for stub).
      * @param config      JSON configuration (see sd_config.h).
+     * @return True on success.
      */
     virtual bool initialize(const std::string& model_path, const json& config) = 0;
 
+    /**
+     * @brief TBD: Describe isInitialized.
+     * @return True on success.
+     */
     virtual bool isInitialized() const = 0;
 
     /**
@@ -101,6 +110,9 @@ public:
      * Implementations MUST check isPromptAllowed() before running inference.
      * If the prompt is blocked, they should return a GeneratedImage with
      * success=false and an appropriate error_message.
+     * @param[in] prompt Input parameter.
+     * @param[in] cfg Input parameter.
+     * @return Return value.
      */
     virtual GeneratedImage generate(const std::string& prompt,
                                     const SDGenerationConfig& cfg) = 0;
@@ -115,6 +127,7 @@ public:
      * @param prompts  List of text prompts (one per image).
      * @param cfg      Shared generation config applied to every prompt.
      * @return         One GeneratedImage per prompt, in the same order.
+     * @details Calls: reserve(), size(), push_back(), generate().
      */
     virtual std::vector<GeneratedImage> generateBatch(
             const std::vector<std::string>& prompts,
@@ -137,6 +150,7 @@ public:
      * @param prompt  Text prompt describing the desired output.
      * @param cfg     Img2Img config including the input image and denoising strength.
      * @return        GeneratedImage with the result.
+     * @details Calls: generate().
      */
     virtual GeneratedImage generateImg2Img(const std::string& prompt,
                                            const Img2ImgConfig& cfg) {
@@ -145,11 +159,25 @@ public:
 
     /**
      * @brief Content-policy check.  Returns false for blocked prompts.
+     * @param[in] prompt Input parameter.
+     * @return True on success.
      */
     virtual bool isPromptAllowed(const std::string& prompt) const = 0;
 
+    /**
+     * @brief TBD: Describe getModelId.
+     * @return Return value.
+     */
     virtual std::string getModelId() const = 0;
+    /**
+     * @brief TBD: Describe getPluginVersion.
+     * @return Return value.
+     */
     virtual std::string getPluginVersion() const = 0;
+    /**
+     * @brief TBD: Describe getStatistics.
+     * @return Return value.
+     */
     virtual json        getStatistics() const = 0;
 };
 
@@ -163,6 +191,14 @@ public:
  */
 #define THEMIS_IMGGEN_PLUGIN()                                                              \
     extern "C" THEMIS_PLUGIN_EXPORT                                                        \
+        /**
+         * @brief TBD: Describe themis_imggen_create.
+         * @return Pointer to the result.
+         */
         themis::imggen::IImageGenerationBackend* themis_imggen_create();                   \
     extern "C" THEMIS_PLUGIN_EXPORT                                                        \
+        /**
+         * @brief TBD: Describe themis_imggen_destroy.
+         * @param[in,out] p Input/output parameter.
+         */
         void themis_imggen_destroy(themis::imggen::IImageGenerationBackend* p)

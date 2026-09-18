@@ -49,6 +49,11 @@ struct HardwareCapabilities {
 /// Includes hardware capability detection and fallback mechanisms.
 class Phase2FeatureFlags {
 public:
+    /**
+     * @brief TBD: Describe instance.
+     * @return Return value.
+     * @details Implements instance without additional internal calls.
+     */
     static Phase2FeatureFlags& instance() {
         static Phase2FeatureFlags instance;
         return instance;
@@ -58,6 +63,11 @@ public:
     // Expected gain: +40-60% write throughput for values >1KB
     // Prerequisite: SSD/NVMe storage (fail-closed: throws if has_ssd is false)
     bool wisckey_enabled() const { return wisckey_enabled_.load(std::memory_order_relaxed); }
+    /**
+     * @brief TBD: Describe set_wisckey_enabled.
+     * @param[in] enabled Input parameter.
+     * @details Calls: store().
+     */
     void set_wisckey_enabled(bool enabled) { wisckey_enabled_.store(enabled, std::memory_order_relaxed); }
     bool wisckey_hardware_supported() const { return capabilities_.has_ssd; }
 
@@ -65,6 +75,11 @@ public:
     // Expected gain: +25-35% mixed workloads
     // Prerequisite: 2+ cores for effective merging decisions
     bool dostoevsky_enabled() const { return dostoevsky_enabled_.load(std::memory_order_relaxed); }
+    /**
+     * @brief TBD: Describe set_dostoevsky_enabled.
+     * @param[in] enabled Input parameter.
+     * @details Calls: store().
+     */
     void set_dostoevsky_enabled(bool enabled) { dostoevsky_enabled_.store(enabled, std::memory_order_relaxed); }
     bool dostoevsky_hardware_supported() const { return capabilities_.num_cores >= 2; }
 
@@ -72,6 +87,11 @@ public:
     // Expected gain: +100-150% transaction throughput
     // Prerequisite: RDTSC for version clock, CMPXCHG16B for lock-free reads
     bool cicada_enabled() const { return cicada_enabled_.load(std::memory_order_relaxed); }
+    /**
+     * @brief TBD: Describe set_cicada_enabled.
+     * @param[in] enabled Input parameter.
+     * @details Calls: store().
+     */
     void set_cicada_enabled(bool enabled) { cicada_enabled_.store(enabled, std::memory_order_relaxed); }
     bool cicada_hardware_supported() const { 
         return capabilities_.has_rdtsc && capabilities_.has_cmpxchg16b;
@@ -81,6 +101,11 @@ public:
     // Expected gain: +200-300% graph operations
     // Prerequisite: 4+ cores for scalable frontier processing
     bool ligra_enabled() const { return ligra_enabled_.load(std::memory_order_relaxed); }
+    /**
+     * @brief TBD: Describe set_ligra_enabled.
+     * @param[in] enabled Input parameter.
+     * @details Calls: store().
+     */
     void set_ligra_enabled(bool enabled) { ligra_enabled_.store(enabled, std::memory_order_relaxed); }
     bool ligra_hardware_supported() const { return capabilities_.num_cores >= 4; }
 
@@ -88,6 +113,11 @@ public:
     // Expected gain: 16x memory reduction, +50-80% throughput
     // Prerequisite: SSE2/AVX2 (x86) or ARM NEON for SIMD quantization
     bool rabitq_enabled() const { return rabitq_enabled_.load(std::memory_order_relaxed); }
+    /**
+     * @brief TBD: Describe set_rabitq_enabled.
+     * @param[in] enabled Input parameter.
+     * @details Calls: store().
+     */
     void set_rabitq_enabled(bool enabled) { rabitq_enabled_.store(enabled, std::memory_order_relaxed); }
     bool rabitq_hardware_supported() const { 
         return capabilities_.has_sse2 || capabilities_.has_avx2 || capabilities_.has_arm_neon;
@@ -101,7 +131,10 @@ public:
     /// Detect hardware capabilities (called once at singleton init)
     void detect_hardware_capabilities();
 
-    // Load configuration from JSON file
+    /**
+     * @brief Load configuration from JSON file
+     * @param[in] config_path Input parameter.
+     */
     void load_from_config(const std::string& config_path);
 
 private:

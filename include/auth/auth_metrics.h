@@ -73,11 +73,21 @@ public:
         // Histogram buckets for latency (in milliseconds)
         std::vector<double> latency_buckets = {1, 5, 10, 25, 50, 100, 250, 500, 1000, 2500};
 
+        /**
+         * @brief TBD: Describe defaults.
+         * @return Return value.
+         * @details Implements defaults without additional internal calls.
+         */
         static Config defaults() { return {}; }
     };
     
 #ifdef THEMIS_HAS_PROMETHEUS
     AuthMetrics();
+    /**
+     * @brief TBD: Describe AuthMetrics.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit AuthMetrics(const Config& config);
     explicit AuthMetrics(std::shared_ptr<prometheus::Registry> registry,
                         const Config& config = Config::defaults());
@@ -250,6 +260,7 @@ public:
 
     /**
      * @brief Get the total number of TOTP drift events recorded (always available).
+     * @return Return value.
      */
     uint64_t getTOTPDriftCount() const;
 
@@ -281,41 +292,49 @@ public:
     
     /**
      * @brief Get total authentication attempts
+     * @return Return value.
      */
     uint64_t getTotalAttempts() const;
     
     /**
      * @brief Get successful authentications
+     * @return Return value.
      */
     uint64_t getSuccessfulAuths() const;
     
     /**
      * @brief Get failed authentications
+     * @return Return value.
      */
     uint64_t getFailedAuths() const;
     
     /**
      * @brief Get success rate (0.0 to 1.0)
+     * @return Return value.
      */
     double getSuccessRate() const;
 
     /**
      * @brief Get total credential-stuffing detection events recorded.
+     * @return Return value.
      */
     uint64_t getCredentialStuffingTotal() const;
 
     /**
      * @brief Get current LDAP connection pool size.
+     * @return Return value.
      */
     int getLDAPPoolSize() const;
 
     /**
      * @brief Get number of idle LDAP connections.
+     * @return Return value.
      */
     int getLDAPIdleConnections() const;
 
     /**
      * @brief Get number of active LDAP connections.
+     * @return Return value.
      */
     int getLDAPActiveConnections() const;
 
@@ -365,7 +384,11 @@ private:
     std::atomic<int> ldap_idle_connections_count_{0};
     std::atomic<int> ldap_active_connections_count_{0};
     
-    // Helper methods
+    /**
+     * @brief Helper methods
+     * @param[in] method Input parameter.
+     * @return Return value.
+     */
     static std::string authMethodToString(AuthMethod method);
 };
 
@@ -394,6 +417,10 @@ public:
         }
     }
     
+    /**
+     * @brief TBD: Describe recordSuccess.
+     * @details Calls: getDuration(), recordAuthSuccess().
+     */
     void recordSuccess() {
         if (!recorded_) {
             auto duration = getDuration();
@@ -402,6 +429,11 @@ public:
         }
     }
     
+    /**
+     * @brief TBD: Describe recordFailure.
+     * @param[in] error_code Input parameter.
+     * @details Calls: getDuration(), recordAuthFailure().
+     */
     void recordFailure(int error_code) {
         if (!recorded_) {
             auto duration = getDuration();

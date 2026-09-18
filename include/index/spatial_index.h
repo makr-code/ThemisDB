@@ -34,10 +34,23 @@ namespace index {
 /** @brief Morton code encoder for Z-order spatial indexing. */
 class MortonEncoder {
 public:
-    // Encode 2D coordinates to Morton code (Z-order curve)
+    /**
+     * @brief Encode 2D coordinates to Morton code (Z-order curve)
+     * @param[in] x Input parameter.
+     * @param[in] y Input parameter.
+     * @param[in] bounds Input parameter.
+     * @return Return value.
+     */
     static uint64_t encode2D(double x, double y, const geo::MBR& bounds);
     
-    // Encode 3D coordinates to Morton code
+    /**
+     * @brief Encode 3D coordinates to Morton code
+     * @param[in] x Input parameter.
+     * @param[in] y Input parameter.
+     * @param[in] z Input parameter.
+     * @param[in] bounds Input parameter.
+     * @return Return value.
+     */
     static uint64_t encode3D(double x, double y, double z, const geo::MBR& bounds);
     
     // Decode Morton code to 2D coordinates
@@ -51,13 +64,30 @@ public:
     );
 
 private:
-    // Interleave bits of two 32-bit integers
+    /**
+     * @brief Interleave bits of two 32-bit integers
+     * @param[in] x Input parameter.
+     * @param[in] y Input parameter.
+     * @return Return value.
+     */
     static uint64_t interleaveBits2D(uint32_t x, uint32_t y);
     
-    // Interleave bits of three 21-bit integers
+    /**
+     * @brief Interleave bits of three 21-bit integers
+     * @param[in] x Input parameter.
+     * @param[in] y Input parameter.
+     * @param[in] z Input parameter.
+     * @return Return value.
+     */
     static uint64_t interleaveBits3D(uint32_t x, uint32_t y, uint32_t z);
     
-    // Normalize coordinate to [0, 2^32-1] range
+    /**
+     * @brief Normalize coordinate to [0, 2^32-1] range
+     * @param[in] coord Input parameter.
+     * @param[in] min_val Input parameter.
+     * @param[in] max_val Input parameter.
+     * @return Return value.
+     */
     static uint32_t normalizeCoord(double coord, double min_val, double max_val);
 };
 
@@ -85,7 +115,18 @@ public:
     struct Status {
         bool ok = true;
         std::string message;
+        /**
+         * @brief TBD: Describe OK.
+         * @return Return value.
+         * @details Implements OK without additional internal calls.
+         */
         static Status OK() { return {}; }
+        /**
+         * @brief TBD: Describe Error.
+         * @param[in] msg Input parameter.
+         * @return Return value.
+         * @details Calls: std::move().
+         */
         static Status Error(std::string msg) { return Status{false, std::move(msg)}; }
         explicit operator bool() const { return ok; }
     };
@@ -101,7 +142,10 @@ public:
         std::atomic<uint64_t> remove_count{0};          // Sidecar removes
         std::atomic<uint64_t> update_count{0};          // Sidecar updates
         
-        // Reset all metrics
+        /**
+         * @brief Reset all metrics
+         * @details Implements reset without additional internal calls.
+         */
         void reset() {
             query_count = 0;
             mbr_candidate_count = 0;
@@ -114,15 +158,33 @@ public:
         }
     };
 
+    /**
+     * @brief TBD: Describe SpatialIndexManager.
+     * @param[in,out] db Input/output parameter.
+     * @return Return value.
+     */
     explicit SpatialIndexManager(RocksDBWrapper& db);
     ~SpatialIndexManager() = default;
     
-    // Set exact geometry backend (optional, for exact checks)
+    /**
+     * @brief Set exact geometry backend (optional, for exact checks)
+     * @param[in,out] backend Input/output parameter.
+     * @details Implements setExactBackend without additional internal calls.
+     */
     void setExactBackend(geo::ISpatialComputeBackend* backend) { exact_backend_ = backend; }
     
     // Get metrics (G5)
     const Metrics& getMetrics() const { return metrics_; }
+    /**
+     * @brief TBD: Describe getMetrics.
+     * @return Return value.
+     * @details Implements getMetrics without additional internal calls.
+     */
     Metrics& getMetrics() { return metrics_; }
+    /**
+     * @brief TBD: Describe resetMetrics.
+     * @details Calls: reset().
+     */
     void resetMetrics() { metrics_.reset(); }
     
     // ===== Index Management =====
@@ -147,6 +209,11 @@ public:
         double avg_area = 0.0;
         size_t morton_buckets = 0;
     };
+    /**
+     * @brief TBD: Describe getStats.
+     * @param[in] table Input parameter.
+     * @return Return value.
+     */
     IndexStats getStats(std::string_view table) const;
     
     // ===== Bulk Operations =====
@@ -181,8 +248,14 @@ public:
         const geo::GeoSidecar& sidecar
     );
     
-    /// Insert entity into spatial index using WriteBatch (atomic with entity write)
-    /// This is used by GeoIndexHooks::onEntityPutAtomic for transactional updates
+    /**
+     * @brief Insert entity into spatial index using WriteBatch (atomic with entity write) This is used by GeoIndexHooks::onEntityPutAtomic for transactional updates
+     * @param[in,out] batch Input/output parameter.
+     * @param[in] table Input parameter.
+     * @param[in] primary_key Input parameter.
+     * @param[in] sidecar Input parameter.
+     * @return Return value.
+     */
     Status insertBatch(
         RocksDBWrapper::WriteBatchWrapper& batch,
         std::string_view table,
@@ -307,41 +380,108 @@ private:
     // concurrent read (shared) and exclusive write (unique) access.
     mutable std::shared_mutex rtree_mutex_;  // Tier 1: Global R-tree lock
 
-    // Lazily build the R-tree for `table` by scanning per-PK RocksDB keys.
-    // No-op if already built.  Called automatically inside searchIntersects.
+    /**
+     * @brief Lazily build the R-tree for `table` by scanning per-PK RocksDB keys.
+     * @param[in] table Input parameter.
+     * @details No-op if already built. Called automatically inside searchIntersects.
+     */
     void ensureRTree(std::string_view table) const;
 
-    // Convert an MBR to a GeometryInfo (polygon) suitable for GeoRTree.
+    /**
+     * @brief Convert an MBR to a GeometryInfo (polygon) suitable for GeoRTree.
+     * @param[in] mbr Input parameter.
+     * @return Return value.
+     */
     static geo::GeometryInfo mbrToGeometryInfo(const geo::MBR& mbr);
     
-    // RocksDB key prefixes
+    /**
+     * @brief RocksDB key prefixes
+     * @param[in] table Input parameter.
+     * @return Return value.
+     */
     std::string getSpatialKeyPrefix(std::string_view table) const;
+    /**
+     * @brief TBD: Describe getZRangeKeyPrefix.
+     * @param[in] table Input parameter.
+     * @return Return value.
+     */
     std::string getZRangeKeyPrefix(std::string_view table) const;
+    /**
+     * @brief TBD: Describe getConfigKey.
+     * @param[in] table Input parameter.
+     * @return Return value.
+     */
     std::string getConfigKey(std::string_view table) const;
     
-    // Key construction
+    /**
+     * @brief Key construction
+     * @param[in] table Input parameter.
+     * @param[in] morton_code Input parameter.
+     * @return Return value.
+     */
     std::string makeSpatialKey(std::string_view table, uint64_t morton_code) const;
+    /**
+     * @brief TBD: Describe makeZRangeKey.
+     * @param[in] table Input parameter.
+     * @param[in] z_bucket Input parameter.
+     * @return Return value.
+     */
     std::string makeZRangeKey(std::string_view table, int z_bucket) const;
     
-    // Per-PK sidecar key (storage improvement)
-    // Allows updating individual PKs without rewriting entire bucket JSON
+    /**
+     * @brief Per-PK sidecar key (storage improvement) Allows updating individual PKs without rewriting entire bucket JSON
+     * @param[in] table Input parameter.
+     * @param[in] morton_code Input parameter.
+     * @param[in] pk Input parameter.
+     * @return Return value.
+     */
     std::string makeSpatialPerPKKey(
         std::string_view table,
         uint64_t morton_code,
         std::string_view pk
     ) const;
     
-    // Get/Set config
+    /**
+     * @brief Get/Set config
+     * @param[in] table Input parameter.
+     * @return Return value.
+     */
     std::optional<RTreeConfig> getConfig(std::string_view table) const;
+    /**
+     * @brief TBD: Describe saveConfig.
+     * @param[in] table Input parameter.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     Status saveConfig(std::string_view table, const RTreeConfig& config);
     
-    // Haversine distance (lat/lon in degrees)
+    /**
+     * @brief Haversine distance (lat/lon in degrees)
+     * @param[in] lat1 Input parameter.
+     * @param[in] lon1 Input parameter.
+     * @param[in] lat2 Input parameter.
+     * @param[in] lon2 Input parameter.
+     * @return Return value.
+     */
     double haversineDistance(double lat1, double lon1, double lat2, double lon2) const;
     
-    // Euclidean 3D distance
+    /**
+     * @brief Euclidean 3D distance
+     * @param[in] x1 Input parameter.
+     * @param[in] y1 Input parameter.
+     * @param[in] z1 Input parameter.
+     * @param[in] x2 Input parameter.
+     * @param[in] y2 Input parameter.
+     * @param[in] z2 Input parameter.
+     * @return Return value.
+     */
     double euclidean3DDistance(double x1, double y1, double z1, double x2, double y2, double z2) const;
     
-    // Z-bucket for elevation indexing (10m buckets)
+    /**
+     * @brief Z-bucket for elevation indexing (10m buckets)
+     * @param[in] z Input parameter.
+     * @return Return value.
+     */
     int getZBucket(double z) const;
     
     // Parse sidecar entry from RocksDB value
@@ -349,7 +489,17 @@ private:
         std::string primary_key;
         geo::GeoSidecar sidecar;
     };
+    /**
+     * @brief TBD: Describe parseSidecarList.
+     * @param[in] value Input parameter.
+     * @return Return value.
+     */
     std::vector<SidecarEntry> parseSidecarList(const std::string& value) const;
+    /**
+     * @brief TBD: Describe serializeSidecarList.
+     * @param[in] entries Input parameter.
+     * @return Return value.
+     */
     std::string serializeSidecarList(const std::vector<SidecarEntry>& entries) const;
 };
 

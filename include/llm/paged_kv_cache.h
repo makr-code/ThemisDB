@@ -57,20 +57,43 @@ public:
     
     ~PagedKVCache();
 
-    // Store KV cache for a sequence.
-    // Returns true on success, false if blocks could not be allocated even after LRU eviction.
+    /**
+     * @brief Store KV cache for a sequence.
+     * @param[in] sequence_id Input parameter.
+     * @param[in] layer_id Input parameter.
+     * @param[in] kv_data Input parameter.
+     * @return True on success.
+     * @details Returns true on success, false if blocks could not be allocated even after LRU eviction.
+     */
     bool store(uint64_t sequence_id, size_t layer_id, const std::vector<float>& kv_data);
     
-    // Retrieve KV cache for a sequence
+    /**
+     * @brief Retrieve KV cache for a sequence
+     * @param[in] sequence_id Input parameter.
+     * @param[in] layer_id Input parameter.
+     * @return Return value.
+     */
     std::vector<float> retrieve(uint64_t sequence_id, size_t layer_id) const;
     
-    // Share prefix between sequences (Copy-on-Write)
+    /**
+     * @brief Share prefix between sequences (Copy-on-Write)
+     * @param[in] new_sequence_id Input parameter.
+     * @param[in] parent_sequence_id Input parameter.
+     * @param[in] prefix_length Input parameter.
+     */
     void sharePrefix(uint64_t new_sequence_id, uint64_t parent_sequence_id, size_t prefix_length);
     
-    // Get block table for sequence
+    /**
+     * @brief Get block table for sequence
+     * @param[in] sequence_id Input parameter.
+     * @return Return value.
+     */
     std::shared_ptr<BlockTable> getBlockTable(uint64_t sequence_id);
     
-    // Remove sequence and free blocks
+    /**
+     * @brief Remove sequence and free blocks
+     * @param[in] sequence_id Input parameter.
+     */
     void removeSequence(uint64_t sequence_id);
     
     // Get statistics
@@ -81,6 +104,10 @@ public:
         double fragmentation_rate = 0.0;
         double prefix_sharing_ratio = 0.0;
     };
+    /**
+     * @brief TBD: Describe getStats.
+     * @return Return value.
+     */
     Stats getStats() const;
 
     /**
@@ -170,6 +197,10 @@ private:
     // Total eviction counter (atomic for lock-free reads via evictionCount())
     std::atomic<uint64_t> eviction_count_{0};
     
+    /**
+     * @brief TBD: Describe calculateKVSize.
+     * @return Return value.
+     */
     size_t calculateKVSize() const;
 
     /**
@@ -177,6 +208,7 @@ private:
      *
      * Must be called while holding mutex_.  Returns false if there are no
      * sequences to evict.
+     * @return True on success.
      */
     bool evictLRU();
 

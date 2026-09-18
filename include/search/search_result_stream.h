@@ -111,6 +111,7 @@ public:
      * @param hybrid_search  Non-owning pointer to the underlying HybridSearch.
      *                       May be null; `open()` will return an empty stream.
      * @throws std::invalid_argument on invalid config values.
+     * @return Return value.
      */
     explicit SearchResultStream(HybridSearch* hybrid_search);
     /**
@@ -148,11 +149,13 @@ public:
      * Returns up to `Config::page_size` results starting at the current
      * cursor position, then advances the cursor by the number of results
      * returned.  Returns an empty vector when `hasMore()` is false.
+     * @return Return value.
      */
     std::vector<HybridSearch::Result> nextPage();
 
     /**
      * @brief Return true when there are more results beyond the current cursor.
+     * @return True on success.
      */
     bool hasMore() const;
 
@@ -196,6 +199,10 @@ public:
     size_t cursorPosition() const { return cursor_; }
 
     const Config& getConfig() const { return config_; }
+    /**
+     * @brief TBD: Describe setConfig.
+     * @param[in] config Input parameter.
+     */
     void setConfig(const Config& config);
 
 private:

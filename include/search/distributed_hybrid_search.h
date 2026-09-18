@@ -153,6 +153,7 @@ public:
      *                      inter-node communication.  May be null; in that case
      *                      only local search is executed.
      * @throws std::invalid_argument on invalid configuration values.
+     * @return Return value.
      */
     explicit DistributedHybridSearch(
         HybridSearch* local_search,
@@ -234,6 +235,11 @@ public:
     // -----------------------------------------------------------------------
 
     const Config& getConfig() const { return config_; }
+    /**
+     * @brief TBD: Describe setConfig.
+     * @param[in] config Input parameter.
+     * @details Implements setConfig without additional internal calls.
+     */
     void setConfig(const Config& config) { config_ = config; }
 
     /**
@@ -251,6 +257,8 @@ public:
      * @note This method is `public` primarily to enable direct unit testing
      *       of the JSON deserialization logic without requiring network
      *       infrastructure.  It is a stateless utility with no side effects.
+     * @param[in] data Input parameter.
+     * @return Return value.
      */
     static std::vector<HybridSearch::Result> parseShardResponse(
         const nlohmann::json& data
@@ -269,6 +277,11 @@ private:
 
     /**
      * @brief Query a single remote shard via HTTP POST (mTLS).
+     * @param[in] shard Input parameter.
+     * @param[in] text_query Input parameter.
+     * @param[in] vector_query Input parameter.
+     * @param[in] k Input parameter.
+     * @return Return value.
      */
     ShardSearchResult searchRemoteShard(
         const themis::sharding::ShardInfo& shard,

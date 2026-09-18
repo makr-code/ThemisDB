@@ -45,52 +45,76 @@ enum class SIMDLevel : uint8_t {
     AVX512  = 4,
 };
 
-/// Detect the best available SIMD level at runtime.
-/// Returns NEON on AArch64, SSE4/AVX2/AVX512 on x86 when supported,
-/// SCALAR otherwise.  Result is memoised after the first call.
+/**
+ * @brief Detect the best available SIMD level at runtime.
+ * @return Return value.
+ * @note Exception safety: noexcept.
+ * @details Returns NEON on AArch64, SSE4/AVX2/AVX512 on x86 when supported, SCALAR otherwise. Result is memoised after the first call.
+ */
 SIMDLevel detectSIMDLevel() noexcept;
 
 // ============================================================================
 // SIMD batch filter kernels
 // ============================================================================
 
-/// Filter a raw int32 data array.
-/// Writes the indices of matching rows into @p out_indices (appended).
-/// Returns the number of matching rows written.
-///
-/// Uses AVX2 (8-way) or scalar path depending on detectSIMDLevel().
-/// Graceful fallback: scalar path is always correct.
-///
-/// @param data        Pointer to contiguous int32 values.
-/// @param n           Number of elements.
-/// @param op          Comparison operator.
-/// @param threshold   Value to compare against.
-/// @param out_indices Output vector receiving matching row indices.
-/// @returns           Number of matching rows appended.
+/**
+ * @brief Filter a raw int32 data array.
+ * @param[in] data Input parameter.
+ * @param[in] n Input parameter.
+ * @param[in] op Input parameter.
+ * @param[in] threshold Input parameter.
+ * @param[in,out] out_indices Input/output parameter.
+ * @return Return value.
+ * @details Writes the indices of matching rows into @p out_indices (appended). Returns the number of matching rows written. Uses AVX2 (8-way) or scalar path depending on detectSIMDLevel(). Graceful fallback: scalar path is always correct. @param data Pointer to contiguous int32 values. @param n Number of elements. @param op Comparison operator. @param threshold Value to compare against. @param out_indices Output vector receiving matching row indices. @returns Number of matching rows appended.
+ */
 size_t simd_filter_int32(const int32_t* data,
                          size_t n,
                          FilterOp op,
                          int32_t threshold,
                          std::vector<uint32_t>& out_indices);
 
-/// Filter a raw int64 data array.
-/// Same contract as simd_filter_int32.
+/**
+ * @brief Filter a raw int64 data array.
+ * @param[in] data Input parameter.
+ * @param[in] n Input parameter.
+ * @param[in] op Input parameter.
+ * @param[in] threshold Input parameter.
+ * @param[in,out] out_indices Input/output parameter.
+ * @return Return value.
+ * @details Same contract as simd_filter_int32.
+ */
 size_t simd_filter_int64(const int64_t* data,
                          size_t n,
                          FilterOp op,
                          int64_t threshold,
                          std::vector<uint32_t>& out_indices);
 
-/// Filter a raw float (float32) data array.
-/// Same contract as simd_filter_int32.
+/**
+ * @brief Filter a raw float (float32) data array.
+ * @param[in] data Input parameter.
+ * @param[in] n Input parameter.
+ * @param[in] op Input parameter.
+ * @param[in] threshold Input parameter.
+ * @param[in,out] out_indices Input/output parameter.
+ * @return Return value.
+ * @details Same contract as simd_filter_int32.
+ */
 size_t simd_filter_float(const float* data,
                          size_t n,
                          FilterOp op,
                          float threshold,
                          std::vector<uint32_t>& out_indices);
 
-/// Filter a raw double (float64) data array.
-/// Same contract as simd_filter_int32.
+/**
+ * @brief Filter a raw double (float64) data array.
+ * @param[in] data Input parameter.
+ * @param[in] n Input parameter.
+ * @param[in] op Input parameter.
+ * @param[in] threshold Input parameter.
+ * @param[in,out] out_indices Input/output parameter.
+ * @return Return value.
+ * @details Same contract as simd_filter_int32.
+ */
 size_t simd_filter_double(const double* data,
                           size_t n,
                           FilterOp op,
@@ -136,24 +160,23 @@ class SIMDColumnFilter {
 public:
     SIMDColumnFilter() = default;
 
-    /// Scan a decoded ColumnSegment and return the indices of rows satisfying
-    /// the predicate.  The segment must already be decoded (i.e., rawData()
-    /// is populated with the column's native type data).
-    ///
-    /// @param segment   Decoded ColumnSegment.
-    /// @param predicate Predicate to evaluate (must match segment column type).
-    /// @returns         Sorted list of matching row indices (0-based).
-    ///                  Returns an empty vector if the zone-map eliminates the
-    ///                  entire segment.
+    /**
+     * @brief Scan a decoded ColumnSegment and return the indices of rows satisfying the predicate.
+     * @param[in] segment Input parameter.
+     * @param[in] predicate Input parameter.
+     * @return Return value.
+     * @details The segment must already be decoded (i.e., rawData() is populated with the column's native type data). @param segment Decoded ColumnSegment. @param predicate Predicate to evaluate (must match segment column type). @returns Sorted list of matching row indices (0-based). Returns an empty vector if the zone-map eliminates the entire segment.
+     */
     std::vector<uint32_t> scan(const ColumnSegment& segment,
                                const ColumnPredicate& predicate);
 
-    /// Batch-scan multiple segments for the same predicate (e.g., multi-chunk
-    /// column).  Offsets each segment's indices by its start row.
-    ///
-    /// @param segments     Ordered list of decoded ColumnSegments.
-    /// @param predicate    Predicate to evaluate.
-    /// @returns            Global row indices (ascending) of matching rows.
+    /**
+     * @brief Batch-scan multiple segments for the same predicate (e.
+     * @param[in] segments Input parameter.
+     * @param[in] predicate Input parameter.
+     * @return Return value.
+     * @details g., multi-chunk column). Offsets each segment's indices by its start row. @param segments Ordered list of decoded ColumnSegments. @param predicate Predicate to evaluate. @returns Global row indices (ascending) of matching rows.
+     */
     std::vector<uint32_t> scanBatch(const std::vector<ColumnSegment>& segments,
                                     const ColumnPredicate& predicate);
 
@@ -166,8 +189,13 @@ public:
 private:
     SIMDFilterStats stats_;
 
-    // Zone-map early-out check — returns true if the entire segment can be
-    // skipped without evaluating any rows.
+    /**
+     * @brief Zone-map early-out check — returns true if the entire segment can be skipped without evaluating any rows.
+     * @param[in] segment Input parameter.
+     * @param[in] pred Input parameter.
+     * @return True on success.
+     * @note Exception safety: noexcept.
+     */
     static bool canSkipSegment(const ColumnSegment& segment,
                                const ColumnPredicate& pred) noexcept;
 };

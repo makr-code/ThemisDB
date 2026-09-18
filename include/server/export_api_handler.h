@@ -87,6 +87,8 @@ public:
      * 
      * Request: JSON with query and export config
      * Response: Streaming JSONL (application/x-ndjson)
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleExportJsonlLlm(
         const http::request<http::string_body>& req);
@@ -96,6 +98,8 @@ public:
      * GET /api/export/status/{export_id}
      * 
      * Response: JSON with export progress
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleExportStatus(
         const http::request<http::string_body>& req);
@@ -114,21 +118,42 @@ private:
         std::string error_message;
     };
 
-    // Helper: Generate export ID
+    /**
+     * @brief Helper: Generate export ID
+     * @return Return value.
+     */
     std::string generateExportId();
 
-    // Helper: Validate authentication
+    /**
+     * @brief Helper: Validate authentication
+     * @param[in] req Input parameter.
+     * @return True on success.
+     */
     bool validateAdminToken(const http::request<http::string_body>& req);
 
-    // Helper: Build AQL query from request parameters
+    /**
+     * @brief Helper: Build AQL query from request parameters
+     * @param[in] request_json Input parameter.
+     * @return Return value.
+     */
     std::string buildAqlQuery(const nlohmann::json& request_json);
 
-    // Helper: Create JSON response
+    /**
+     * @brief Helper: Create JSON response
+     * @param[in] status Input parameter.
+     * @param[in] json_body Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> jsonResponse(
         http::status status,
         const std::string& json_body);
 
-    // Helper: Create error response
+    /**
+     * @brief Helper: Create error response
+     * @param[in] status Input parameter.
+     * @param[in] error_message Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> errorResponse(
         http::status status,
         const std::string& error_message);

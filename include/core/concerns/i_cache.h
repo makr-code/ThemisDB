@@ -54,6 +54,10 @@ struct CacheEntry {
  */
 class ICache {
 public:
+    /**
+     * @brief TBD: Describe ~ICache.
+     * @return Return value.
+     */
     virtual ~ICache() = default;
 
     // -----------------------------------------------------------------------
@@ -168,6 +172,8 @@ public:
      * @brief Return the active eviction strategy, or nullptr if not supported.
      *
      * The strategy object is owned by the cache; the caller must not delete it.
+     * @return Pointer to the result.
+     * @details Implements getEvictionStrategy without additional internal calls.
      */
     virtual IEvictionStrategy* getEvictionStrategy() { return nullptr; }
 

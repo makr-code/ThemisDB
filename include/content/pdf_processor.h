@@ -84,6 +84,11 @@ public:
     };
 
     PDFProcessor();
+    /**
+     * @brief TBD: Describe PDFProcessor.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit PDFProcessor(Config config);
     ~PDFProcessor() override = default;
 
@@ -133,29 +138,57 @@ public:
      * @brief Check if PDF processing is available
      * 
      * Returns true if poppler or PoDoFo library is linked.
+     * @return True on success.
      */
     static bool isAvailable();
 
     /**
      * @brief Get library version
+     * @return Return value.
      */
     static std::string getLibraryVersion();
 
 private:
     Config config_;
 
-    // Internal extraction methods
+    /**
+     * @brief Internal extraction methods
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     PDFMetadata extractMetadata(const std::string& blob);
+    /**
+     * @brief TBD: Describe extractPages.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     std::vector<PDFPageInfo> extractPages(const std::string& blob);
+    /**
+     * @brief TBD: Describe extractAllText.
+     * @param[in] pages Input parameter.
+     * @return Return value.
+     */
     std::string extractAllText(const std::vector<PDFPageInfo>& pages);
 
-    // Token counting (simple whitespace-based)
+    /**
+     * @brief Token counting (simple whitespace-based)
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     int countTokens(const std::string& text);
 
-    // Helper for PDF date format -> ISO 8601
+    /**
+     * @brief Helper for PDF date format -> ISO 8601
+     * @param[in] pdf_date Input parameter.
+     * @return Return value.
+     */
     std::string parsePDFDate(const std::string& pdf_date);
 
-    // Check PDF header/signature
+    /**
+     * @brief Check PDF header/signature
+     * @param[in] blob Input parameter.
+     * @return True on success.
+     */
     bool isPDFValid(const std::string& blob);
 
 #ifdef THEMIS_ENABLE_PDF

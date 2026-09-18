@@ -39,7 +39,11 @@ struct Device {
     DeviceType type = DeviceType::CPU;
     int device_id = 0;  // For multi-GPU systems
     
-    // Factory methods
+    /**
+     * @brief Factory methods
+     * @return Return value.
+     * @details Implements cpu without additional internal calls.
+     */
     static Device cpu() { return Device{DeviceType::CPU, 0}; }
     static Device cuda(int id = 0) { return Device{DeviceType::CUDA, id}; }
     static Device hip(int id = 0) { return Device{DeviceType::HIP, id}; }
@@ -54,6 +58,10 @@ struct Device {
         return !(*this == other);
     }
     
+    /**
+     * @brief TBD: Describe to_string.
+     * @return Return value.
+     */
     std::string to_string() const;
 };
 
@@ -77,6 +85,8 @@ public:
     
     /**
      * @brief Initialize with specific backend
+     * @param[in] backend Input parameter.
+     * @return Return value.
      */
     explicit GPUMemoryManager(acceleration::BackendType backend);
     
@@ -90,6 +100,8 @@ public:
     
     /**
      * @brief Get allocator for specific device
+     * @param[in] device Input parameter.
+     * @return Pointer to the result.
      */
     VRAMAllocator* get_allocator(const Device& device);
     
@@ -100,17 +112,21 @@ public:
     
     /**
      * @brief Check if device is available
+     * @param[in] device Input parameter.
+     * @return True on success.
      */
     bool is_device_available(const Device& device) const;
     
     /**
      * @brief Get available devices
+     * @return Return value.
      */
     std::vector<Device> available_devices() const;
     
     /**
      * @brief Auto-select best available device
      * Priority: Vulkan → CUDA → HIP → DirectX → CPU
+     * @return Return value.
      */
     static Device auto_select_device();
     
@@ -126,10 +142,16 @@ public:
         std::string version;
     };
     
+    /**
+     * @brief TBD: Describe detect_backends.
+     * @return Return value.
+     */
     static std::vector<BackendInfo> detect_backends();
     
     /**
      * @brief Get memory statistics for device
+     * @param[in] device Input parameter.
+     * @return Return value.
      */
     VRAMAllocator::Stats get_stats(const Device& device) const;
 
@@ -143,15 +165,25 @@ private:
     std::unique_ptr<VRAMAllocator> vulkan_allocator_;
     std::unique_ptr<VRAMAllocator> directx_allocator_;
     
-    // Helper to initialize allocators
+    /**
+     * @brief Helper to initialize allocators
+     * @param[in] preferred_backend Input parameter.
+     */
     void initialize_allocators(acceleration::BackendType preferred_backend);
     
-    // Convert DeviceType to BackendType
+    /**
+     * @brief Convert DeviceType to BackendType
+     * @param[in] type Input parameter.
+     * @return Return value.
+     */
     static acceleration::BackendType device_to_backend(DeviceType type);
 };
 
 /**
  * @brief Convert device type to string
+ * @param[in] type Input parameter.
+ * @return Return value.
+ * @details Implements device_type_to_string without additional internal calls.
  */
 inline std::string device_type_to_string(DeviceType type) {
     switch (type) {

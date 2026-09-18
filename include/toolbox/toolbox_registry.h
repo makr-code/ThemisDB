@@ -123,6 +123,8 @@ public:
      *
      * Use this guard in server health-check paths that must verify that the
      * toolbox has been fully configured before serving requests.
+     * @return True on success.
+     * @note Exception safety: noexcept.
      */
     static bool isInitialized() noexcept;
 
@@ -136,6 +138,7 @@ public:
      * @warning Not safe to call while any thread is executing a toolbox
      *          operation.  Always call from a single-threaded context
      *          (e.g. `TearDownTestSuite()`).
+     * @note Exception safety: noexcept.
      */
     static void reset() noexcept;
 };
@@ -153,12 +156,14 @@ public:
 /**
  * @brief Register the process-global toolbox.  Convenience alias for
  *        `ToolboxRegistry::initialize(toolbox)`.
+ * @param[in] toolbox Input parameter.
  */
 void initializeToolbox(std::shared_ptr<IngestionToolbox> toolbox);
 
 /**
  * @brief Return the process-global toolbox.  Convenience alias for
  *        `ToolboxRegistry::instance()`.
+ * @return Return value.
  */
 std::shared_ptr<IngestionToolbox> globalToolbox();
 

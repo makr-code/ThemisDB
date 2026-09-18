@@ -78,6 +78,10 @@ struct SearchResultPage {
  */
 class IScraperSearchEngine {
 public:
+    /**
+     * @brief TBD: Describe ~IScraperSearchEngine.
+     * @return Return value.
+     */
     virtual ~IScraperSearchEngine() = default;
 
     /**
@@ -199,12 +203,26 @@ class InMemorySearchEngine : public IScraperSearchEngine {
 public:
     InMemorySearchEngine() = default;
 
+    /**
+     * @brief TBD: Describe injectForms.
+     * @param[in] forms Input parameter.
+     * @details Calls: std::move().
+     */
     void injectForms(std::vector<SearchForm> forms) {
         injected_forms_ = std::move(forms);
     }
+    /**
+     * @brief TBD: Describe injectResultPage.
+     * @param[in] page Input parameter.
+     * @details Calls: push_back(), std::move().
+     */
     void injectResultPage(SearchResultPage page) {
         injected_pages_.push_back(std::move(page));
     }
+    /**
+     * @brief TBD: Describe clearInjections.
+     * @details Calls: clear().
+     */
     void clearInjections() {
         injected_forms_.clear();
         injected_pages_.clear();

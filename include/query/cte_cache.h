@@ -58,6 +58,11 @@ public:
      * @brief Construct cache with configuration
      */
     CTECache();
+    /**
+     * @brief TBD: Describe CTECache.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit CTECache(Config config);
     
     /**
@@ -97,11 +102,14 @@ public:
     
     /**
      * @brief Check if CTE exists in cache
+     * @param[in] name Input parameter.
+     * @return True on success.
      */
     bool contains(const std::string& name) const;
     
     /**
      * @brief Remove CTE from cache
+     * @param[in] name Input parameter.
      */
     void remove(const std::string& name);
     
@@ -132,31 +140,46 @@ public:
         size_t spill_operations = 0;
         size_t disk_reads = 0;
     };
+    /**
+     * @brief TBD: Describe getStats.
+     * @return Return value.
+     */
     Stats getStats() const;
     
 private:
     /**
      * @brief Estimate memory size of JSON array
+     * @param[in] data Input parameter.
+     * @return Return value.
      */
     size_t estimateSize(const std::vector<nlohmann::json>& data) const;
     
     /**
      * @brief Spill CTE to disk
+     * @param[in] name Input parameter.
+     * @param[in] data Input parameter.
+     * @return True on success.
      */
     bool spillToDisk(const std::string& name, const std::vector<nlohmann::json>& data);
     
     /**
      * @brief Load CTE from disk
+     * @param[in] name Input parameter.
+     * @return Return value.
      */
     std::optional<std::vector<nlohmann::json>> loadFromDisk(const std::string& name);
     
     /**
      * @brief Make room by spilling largest in-memory CTE
+     * @param[in] required_bytes Input parameter.
+     * @return True on success.
      */
     bool makeRoom(size_t required_bytes);
     
     /**
      * @brief Generate spill file path for CTE
+     * @param[in] name Input parameter.
+     * @return Return value.
      */
     std::string getSpillFilePath(const std::string& name) const;
     

@@ -36,6 +36,10 @@ namespace themis::rag {
  */
 class ILoRAScorer {
 public:
+    /**
+     * @brief TBD: Describe ~ILoRAScorer.
+     * @return Return value.
+     */
     virtual ~ILoRAScorer() = default;
 
     /**
@@ -52,6 +56,7 @@ public:
 
     /**
      * @brief Return the domain this scorer is specialised for (may be empty).
+     * @return Return value.
      */
     virtual std::string domain() const = 0;
 };
@@ -176,16 +181,20 @@ public:
 
     /**
      * @brief Return the current configuration.
+     * @return Return value.
+     * @note Exception safety: noexcept.
      */
     const LoRARetrieverConfig& config() const noexcept;
 
     /**
      * @brief Replace configuration.
+     * @param[in] config Input parameter.
      */
     void setConfig(const LoRARetrieverConfig& config);
 
     /**
      * @brief Replace the LoRA scorer.
+     * @param[in] scorer Input parameter.
      */
     void setScorer(std::shared_ptr<ILoRAScorer> scorer);
 
@@ -206,6 +215,7 @@ class LoRAEnhancedRetrieverFactory {
 public:
     /**
      * @brief Lightweight: top-20 re-rank, low LoRA weight (0.2), no domain.
+     * @return Return value.
      */
     static std::unique_ptr<LoRAEnhancedRetriever> createLightweight();
 
@@ -217,6 +227,8 @@ public:
 
     /**
      * @brief Domain-specific: top-50 re-rank, high LoRA weight (0.5), explicit domain.
+     * @param[in] domain Input parameter.
+     * @return Return value.
      */
     static std::unique_ptr<LoRAEnhancedRetriever> createDomainSpecific(
         const std::string& domain);

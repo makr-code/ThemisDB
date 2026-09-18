@@ -213,9 +213,12 @@ class IntegrityVerificationEngine {
   /// Construct the engine with default SHA-256 algorithm.
   IntegrityVerificationEngine();
 
-  /// Construct with explicit hash algorithm.
-  ///
-  /// @param algorithm Hash algorithm to use.
+  /**
+   * @brief Construct with explicit hash algorithm.
+   * @param[in] algorithm Input parameter.
+   * @return Return value.
+   * @details @param algorithm Hash algorithm to use.
+   */
   explicit IntegrityVerificationEngine(HashAlgorithm algorithm);
 
   /// Copy constructor deleted.
@@ -235,30 +238,35 @@ class IntegrityVerificationEngine {
   /// Virtual destructor.
   virtual ~IntegrityVerificationEngine() = default;
 
-  /// Compute integrity verification receipt for an artifact manifest.
-  ///
-  /// This computes the Merkle root hash based on shard placements
-  /// and their content hashes.
-  ///
-  /// @param manifest Artifact manifest to verify.
-  /// @return Integrity verification receipt.
+  /**
+   * @brief Compute integrity verification receipt for an artifact manifest.
+   * @param[in] manifest Input parameter.
+   * @return Return value.
+   * @note Exception safety: noexcept.
+   * @details This computes the Merkle root hash based on shard placements and their content hashes. @param manifest Artifact manifest to verify. @return Integrity verification receipt.
+   */
   virtual IntegrityVerificationReceipt compute_verification(
       const ArtifactManifest& manifest) const noexcept = 0;
 
-  /// Verify integrity of an artifact against its receipt.
-  ///
-  /// @param manifest Artifact manifest.
-  /// @param receipt Integrity verification receipt.
-  /// @return true if all hashes match, false otherwise.
+  /**
+   * @brief Verify integrity of an artifact against its receipt.
+   * @param[in] manifest Input parameter.
+   * @param[in] receipt Input parameter.
+   * @return True on success.
+   * @details @param manifest Artifact manifest. @param receipt Integrity verification receipt. @return true if all hashes match, false otherwise.
+   */
   virtual bool verify_integrity(const ArtifactManifest& manifest,
                                 const IntegrityVerificationReceipt& receipt)
       const noexcept = 0;
 
-  /// Verify integrity of a single shard.
-  ///
-  /// @param shard_data Shard content (raw bytes).
-  /// @param expected_hash Expected hash value.
-  /// @return true if shard hash matches expected value, false otherwise.
+  /**
+   * @brief Verify integrity of a single shard.
+   * @param[in] shard_data Input parameter.
+   * @param[in] expected_hash Input parameter.
+   * @return True on success.
+   * @note Exception safety: noexcept.
+   * @details @param shard_data Shard content (raw bytes). @param expected_hash Expected hash value. @return true if shard hash matches expected value, false otherwise.
+   */
   virtual bool verify_shard(const std::string& shard_data,
                             const std::string& expected_hash) const noexcept = 0;
 
@@ -266,10 +274,13 @@ class IntegrityVerificationEngine {
   /// Hash algorithm used by this engine.
   HashAlgorithm algorithm_;
 
-  /// Compute hash of arbitrary data.
-  ///
-  /// @param data Input data.
-  /// @return Hash value as hexadecimal string.
+  /**
+   * @brief Compute hash of arbitrary data.
+   * @param[in] data Input parameter.
+   * @return Return value.
+   * @note Exception safety: noexcept.
+   * @details @param data Input data. @return Hash value as hexadecimal string.
+   */
   virtual std::string compute_hash(const std::string& data) const noexcept = 0;
 };
 
@@ -281,9 +292,12 @@ class DefaultIntegrityVerificationEngine : public IntegrityVerificationEngine {
   /// Construct with default SHA-256 algorithm.
   DefaultIntegrityVerificationEngine();
 
-  /// Construct with explicit hash algorithm.
-  ///
-  /// @param algorithm Hash algorithm to use.
+  /**
+   * @brief Construct with explicit hash algorithm.
+   * @param[in] algorithm Input parameter.
+   * @return Return value.
+   * @details @param algorithm Hash algorithm to use.
+   */
   explicit DefaultIntegrityVerificationEngine(HashAlgorithm algorithm);
 
   /// Move constructor.

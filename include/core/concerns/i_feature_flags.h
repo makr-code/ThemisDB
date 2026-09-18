@@ -39,6 +39,10 @@ namespace concerns {
  */
 class IFeatureFlags {
 public:
+    /**
+     * @brief TBD: Describe ~IFeatureFlags.
+     * @return Return value.
+     */
     virtual ~IFeatureFlags() = default;
 
     // -----------------------------------------------------------------------
@@ -139,17 +143,32 @@ public:
         : flags_(std::move(initial)) {}
 
     bool isEnabled(std::string_view name) const override {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = flags_.find(std::string(name));
         return it != flags_.end() && it->second;
     }
 
     void setValue(std::string_view name, bool value) override {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         flags_[std::string(name)] = value;
     }
 
     std::unordered_map<std::string, bool> getAllFlags() const override {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return flags_;
     }

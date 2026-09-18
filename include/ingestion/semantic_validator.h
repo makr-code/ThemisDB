@@ -286,6 +286,12 @@ public:
     void setExtractor(DeonticExtractor extractor);
 
 private:
+    /**
+     * @brief TBD: Describe validateBuiltin.
+     * @param[in] extraction Input parameter.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     SemanticValidationResult validateBuiltin(const DeonticExtraction& extraction,
                                               const std::string& text) const;
 

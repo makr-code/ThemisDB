@@ -26,6 +26,7 @@ namespace utils {
  *
  * @return Lowercase UUID v4 string of the form
  *         "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".
+ * @details Calls: dist(), std::setfill(), std::setw(), str().
  */
 inline std::string generate_uuid_v4() {
     // Thread-local PRNG: seeded once per thread from a real entropy source.
@@ -81,6 +82,7 @@ namespace utils {
  * where the first 48 bits encode unix_ts_ms and y ∈ {8,9,a,b}.
  *
  * @return Lowercase UUID v7 string.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), dist(), std::setfill(), std::setw(), str().
  */
 inline std::string generate_uuid_v7() {
     // 48-bit Unix timestamp in milliseconds (wraps in year 10 889).
@@ -125,11 +127,20 @@ inline std::string generate_uuid_v7() {
 namespace themis {
 namespace utils {
 
-// Compatibility bridge: keep UUID helpers available under themis::utils.
+/**
+ * @brief Compatibility bridge: keep UUID helpers available under themis::utils.
+ * @return Return value.
+ * @details Implements generate_uuid_v4 without additional internal calls.
+ */
 inline std::string generate_uuid_v4() {
     return ::utils::generate_uuid_v4();
 }
 
+/**
+ * @brief TBD: Describe generate_uuid_v7.
+ * @return Return value.
+ * @details Implements generate_uuid_v7 without additional internal calls.
+ */
 inline std::string generate_uuid_v7() {
     return ::utils::generate_uuid_v7();
 }

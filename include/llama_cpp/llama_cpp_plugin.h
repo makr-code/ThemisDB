@@ -144,6 +144,10 @@ public:
      * `wrapper_` is nullptr.
      */
     using EmbedFn = std::function<std::vector<float>(const std::string& text)>;
+    /**
+     * @brief TBD: Describe setEmbedFn.
+     * @param[in] fn Input parameter.
+     */
     void setEmbedFn(EmbedFn fn);
 
     /**
@@ -155,6 +159,10 @@ public:
      * response when no callback is configured.
      */
     using GenerateFn = std::function<llm::InferenceResponse(const llm::InferenceRequest&)>;
+    /**
+     * @brief TBD: Describe setGenerateFn.
+     * @param[in] fn Input parameter.
+     */
     void setGenerateFn(GenerateFn fn);
 
     /**
@@ -175,6 +183,10 @@ public:
      * @param fn  Callable matching PolicyFn; nullptr disables the gate (default).
      */
     using PolicyFn = std::function<bool(const llm::InferenceRequest&, std::string& denial_reason)>;
+    /**
+     * @brief TBD: Describe setPolicyFn.
+     * @param[in] fn Input parameter.
+     */
     void setPolicyFn(PolicyFn fn);
 
     /**
@@ -207,6 +219,10 @@ public:
         const std::vector<llm::InferenceRequest>& requests);
 
     std::string getPluginVersion() const { return "2.1.0"; }
+    /**
+     * @brief TBD: Describe getModelId.
+     * @return Return value.
+     */
     std::string getModelId() const;
 
 private:
@@ -234,10 +250,12 @@ private:
     /// Optional inference policy gate (nullptr = no check).
     PolicyFn policy_fn_;
 
-    /// @brief Compute a hex digest of the file at @p path.
-    /// Uses FNV-64 as a CI-safe placeholder; swap for SHA-256 (OpenSSL EVP)
-    /// in production deployments where libcrypto is available.
-    /// Returns empty string on I/O error.
+    /**
+     * @brief @brief Compute a hex digest of the file at @p path.
+     * @param[in] path Input parameter.
+     * @return Return value.
+     * @details Uses FNV-64 as a CI-safe placeholder; swap for SHA-256 (OpenSSL EVP) in production deployments where libcrypto is available. Returns empty string on I/O error.
+     */
     static std::string computeFileDigest(const std::string& path);
 
 #ifdef THEMIS_LLM_ENABLED

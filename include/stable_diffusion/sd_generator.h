@@ -35,9 +35,22 @@ namespace imggen {
  */
 class ISDGenerator {
 public:
+    /**
+     * @brief TBD: Describe ~ISDGenerator.
+     * @return Return value.
+     */
     virtual ~ISDGenerator() = default;
 
+    /**
+     * @brief TBD: Describe initialize.
+     * @param[in] cfg Input parameter.
+     * @return True on success.
+     */
     virtual bool initialize(const SDConfig& cfg) = 0;
+    /**
+     * @brief TBD: Describe isInitialized.
+     * @return True on success.
+     */
     virtual bool isInitialized() const = 0;
 
     /**
@@ -50,6 +63,7 @@ public:
      * @param scale     Adapter scale factor.
      * @param error_out Detailed error text on failure.
      * @return true on success, false on validation/application failure.
+     * @details Calls: clear().
      */
     virtual bool applyLoRA(const std::string& lora_path,
                            float scale,
@@ -86,6 +100,7 @@ public:
      * @param out_height     Actual height of the generated image.
      * @param out_seed       Seed actually used.
      * @return Raw RGB byte buffer (width * height * 3 bytes).
+     * @details Calls: generate().
      */
     virtual std::vector<uint8_t> generateImg2Img(const std::string& prompt,
                                                   const Img2ImgConfig& cfg,
@@ -95,6 +110,10 @@ public:
         return generate(prompt, cfg, out_width, out_height, out_seed);
     }
 
+    /**
+     * @brief TBD: Describe getModelId.
+     * @return Return value.
+     */
     virtual std::string getModelId() const = 0;
 };
 
@@ -284,6 +303,11 @@ private:
 class SDCppGenerator : public ISDGenerator {
 public:
     ~SDCppGenerator() override {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] api_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(api_mutex_);
         if (ctx_) {
             free_sd_ctx(ctx_);
@@ -292,6 +316,11 @@ public:
     }
 
     bool initialize(const SDConfig& cfg) override {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] api_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(api_mutex_);
         // Mark uninitialized and release the old context up-front so that a
         // failed recreateContext() never leaves initialized_ == true with a
@@ -323,6 +352,11 @@ public:
     bool applyLoRA(const std::string& lora_path,
                    float scale,
                    std::string& error_out) override {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] api_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(api_mutex_);
         error_out.clear();
         if (!initialized_ || !ctx_) {
@@ -365,6 +399,11 @@ public:
                                    const SDGenerationConfig& cfg,
                                    int& out_w, int& out_h,
                                    uint64_t& out_seed) override {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] api_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(api_mutex_);
         if (!ctx_)
             throw std::runtime_error("SDCppGenerator: not initialized");
@@ -454,6 +493,11 @@ public:
                                           const Img2ImgConfig& cfg,
                                           int& out_w, int& out_h,
                                           uint64_t& out_seed) override {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] api_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(api_mutex_);
         if (!ctx_)
             throw std::runtime_error("SDCppGenerator: not initialized");
@@ -565,6 +609,15 @@ public:
     std::string getModelId() const override { return model_id_; }
 
 private:
+    /**
+     * @brief TBD: Describe recreateContext.
+     * @param[in] control_model_path Input parameter.
+     * @param[in] lora_path Input parameter.
+     * @param[in] lora_scale Input parameter.
+     * @param[in,out] error_out Input/output parameter.
+     * @return True on success.
+     * @details Calls: empty(), std::filesystem::exists(), std::filesystem::is_regular_file(), std::isfinite(), new_sd_ctx(), c_str(), free_sd_ctx().
+     */
     bool recreateContext(const std::string& control_model_path,
                          const std::string& lora_path,
                          float lora_scale,
@@ -626,6 +679,12 @@ private:
         return true;
     }
 
+    /**
+     * @brief TBD: Describe samplerFromString.
+     * @param[in] s Input parameter.
+     * @return Return value.
+     * @details Implements samplerFromString without additional internal calls.
+     */
     static sample_method_t samplerFromString(const std::string& s) {
         if (s == "euler") {
           return EULER;

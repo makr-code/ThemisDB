@@ -180,58 +180,85 @@ class TensorInfrastructureManager {
   /// Virtual destructor.
   virtual ~TensorInfrastructureManager() = default;
 
-  /// Register a node in the cluster.
-  ///
-  /// @param node Cluster node information.
-  /// @return true if registration succeeded, false otherwise.
+  /**
+   * @brief Register a node in the cluster.
+   * @param[in] node Input parameter.
+   * @return True on success.
+   * @note Exception safety: noexcept.
+   * @details @param node Cluster node information. @return true if registration succeeded, false otherwise.
+   */
   virtual bool register_node(const ClusterNode& node) noexcept = 0;
 
-  /// Unregister a node from the cluster.
-  ///
-  /// @param node_id Node identifier.
-  /// @return true if unregistration succeeded, false if node not found.
+  /**
+   * @brief Unregister a node from the cluster.
+   * @param[in] node_id Input parameter.
+   * @return True on success.
+   * @note Exception safety: noexcept.
+   * @details @param node_id Node identifier. @return true if unregistration succeeded, false if node not found.
+   */
   virtual bool unregister_node(const std::string& node_id) noexcept = 0;
 
-  /// Get information about a specific node.
-  ///
-  /// @param node_id Node identifier.
-  /// @return Cluster node information if found.
+  /**
+   * @brief Get information about a specific node.
+   * @param[in] node_id Input parameter.
+   * @return Return value.
+   * @note Exception safety: noexcept.
+   * @details @param node_id Node identifier. @return Cluster node information if found.
+   */
   virtual std::optional<ClusterNode> get_node(
       const std::string& node_id) const noexcept = 0;
 
-  /// List all registered nodes.
-  ///
-  /// @return Vector of all cluster nodes.
+  /**
+   * @brief List all registered nodes.
+   * @return Return value.
+   * @note Exception safety: noexcept.
+   * @details @return Vector of all cluster nodes.
+   */
   virtual std::vector<ClusterNode> list_nodes() const noexcept = 0;
 
-  /// Get healthy (operational) nodes.
-  ///
-  /// @return Vector of healthy cluster nodes.
+  /**
+   * @brief Get healthy (operational) nodes.
+   * @return Return value.
+   * @note Exception safety: noexcept.
+   * @details @return Vector of healthy cluster nodes.
+   */
   virtual std::vector<ClusterNode> get_healthy_nodes() const noexcept = 0;
 
-  /// Update node status.
-  ///
-  /// @param node_id Node identifier.
-  /// @param status New node status.
-  /// @return true if update succeeded, false if node not found.
+  /**
+   * @brief Update node status.
+   * @param[in] node_id Input parameter.
+   * @param[in] status Input parameter.
+   * @return True on success.
+   * @note Exception safety: noexcept.
+   * @details @param node_id Node identifier. @param status New node status. @return true if update succeeded, false if node not found.
+   */
   virtual bool update_node_status(const std::string& node_id,
                                    NodeStatus status) noexcept = 0;
 
-  /// Get transport configuration.
-  ///
-  /// @return Current stripe transport configuration.
+  /**
+   * @brief Get transport configuration.
+   * @return Return value.
+   * @note Exception safety: noexcept.
+   * @details @return Current stripe transport configuration.
+   */
   virtual const StripeTransport& get_stripe_transport() const noexcept = 0;
 
-  /// Update transport configuration.
-  ///
-  /// @param transport New stripe transport configuration.
+  /**
+   * @brief Update transport configuration.
+   * @param[in] transport Input parameter.
+   * @note Exception safety: noexcept.
+   * @details @param transport New stripe transport configuration.
+   */
   virtual void set_stripe_transport(StripeTransport transport) noexcept = 0;
 
-  /// Check node availability for shard placement.
-  ///
-  /// @param node_id Node identifier.
-  /// @param required_capacity Required storage capacity in bytes.
-  /// @return true if node is available with sufficient capacity.
+  /**
+   * @brief Check node availability for shard placement.
+   * @param[in] node_id Input parameter.
+   * @param[in] required_capacity Input parameter.
+   * @return True on success.
+   * @note Exception safety: noexcept.
+   * @details @param node_id Node identifier. @param required_capacity Required storage capacity in bytes. @return true if node is available with sufficient capacity.
+   */
   virtual bool is_node_available(const std::string& node_id,
                                   uint64_t required_capacity) const
       noexcept = 0;

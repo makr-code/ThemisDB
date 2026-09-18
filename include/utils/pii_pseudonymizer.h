@@ -131,8 +131,22 @@ public:
     size_t eraseAllPIIForEntity(const std::string& entity_pk);
 
 private:
+    /**
+     * @brief TBD: Describe generateUUID.
+     * @return Return value.
+     */
     std::string generateUUID() const;
+    /**
+     * @brief TBD: Describe dbKey.
+     * @param[in] pii_uuid Input parameter.
+     * @return Return value.
+     */
     std::string dbKey(const std::string& pii_uuid) const;
+    /**
+     * @brief TBD: Describe entityIndexKey.
+     * @param[in] entity_pk Input parameter.
+     * @return Return value.
+     */
     std::string entityIndexKey(const std::string& entity_pk) const;
     
     std::shared_ptr<themis::RocksDBWrapper> db_;

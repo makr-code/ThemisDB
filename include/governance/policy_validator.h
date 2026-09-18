@@ -30,6 +30,10 @@ struct PolicyConflict {
     std::string description;
     std::vector<std::string> resolution_suggestions;
     
+    /**
+     * @brief TBD: Describe toJson.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
 };
 
@@ -41,6 +45,10 @@ struct RuleEffectiveness {
     double performance_impact_ms = 0.0;                // Evaluation time
     std::string effectiveness_rating;                  // "high", "medium", "low", "unused"
     
+    /**
+     * @brief TBD: Describe toJson.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
 };
 
@@ -52,6 +60,10 @@ struct SecurityViolation {
     std::string description;
     std::vector<std::string> recommendations;
     
+    /**
+     * @brief TBD: Describe toJson.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
 };
 
@@ -68,6 +80,10 @@ struct ValidationReport {
     int total_issues = 0;
     double validation_score = 0.0;  // 0-100
     
+    /**
+     * @brief TBD: Describe toJson.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
 };
 
@@ -76,47 +92,60 @@ class PolicyValidator {
 public:
     PolicyValidator(std::shared_ptr<PolicyManager> policy_manager);
     
-    /// Detect contradictory rules
-    /// @return List of detected conflicts
+    /**
+     * @brief Detect contradictory rules @return List of detected conflicts
+     * @return Return value.
+     */
     std::vector<PolicyConflict> detectConflicts() const;
     
-    /// Detect overlapping permissions
-    /// @return List of overlapping rule pairs
+    /**
+     * @brief Detect overlapping permissions @return List of overlapping rule pairs
+     * @return Return value.
+     */
     std::vector<PolicyConflict> detectOverlappingPermissions() const;
     
-    /// Detect circular dependencies
-    /// @return List of circular dependency chains
+    /**
+     * @brief Detect circular dependencies @return List of circular dependency chains
+     * @return Return value.
+     */
     std::vector<PolicyConflict> detectCircularDependencies() const;
     
-    /// Calculate effectiveness metrics for all rules
-    /// @return Effectiveness metrics for each rule
+    /**
+     * @brief Calculate effectiveness metrics for all rules @return Effectiveness metrics for each rule
+     * @return Return value.
+     */
     std::vector<RuleEffectiveness> calculateEffectiveness() const;
     
-    /// Detect unused rules
-    /// @return List of rules that are never applied
+    /**
+     * @brief Detect unused rules @return List of rules that are never applied
+     * @return Return value.
+     */
     std::vector<std::string> detectUnusedRules() const;
     
-    /// Check security best practices
-    /// @return List of security violations
+    /**
+     * @brief Check security best practices @return List of security violations
+     * @return Return value.
+     */
     std::vector<SecurityViolation> checkSecurityBestPractices() const;
     
-    /// Detect conflicts between CCPA/CPRA requirements and policy rules.
-    ///
-    /// Identifies policy rules whose retention or export settings may conflict
-    /// with CCPA data subject rights (e.g., a HIPAA-mandated long retention
-    /// rule that would prevent honoring a CCPA right-to-delete request).
-    /// Intended to be called at policy load time.
-    ///
-    /// @return List of security violations describing each detected conflict.
+    /**
+     * @brief Detect conflicts between CCPA/CPRA requirements and policy rules.
+     * @return Return value.
+     * @details Identifies policy rules whose retention or export settings may conflict with CCPA data subject rights (e.g., a HIPAA-mandated long retention rule that would prevent honoring a CCPA right-to-delete request). Intended to be called at policy load time. @return List of security violations describing each detected conflict.
+     */
     std::vector<SecurityViolation> detectCcpaConflicts() const;
     
-    /// Validate current ruleset
-    /// @return Comprehensive validation report
+    /**
+     * @brief Validate current ruleset @return Comprehensive validation report
+     * @return Return value.
+     */
     ValidationReport validateRuleset() const;
     
-    /// Validate a single rule
-    /// @param rule Rule to validate
-    /// @return Validation issues for this rule
+    /**
+     * @brief Validate a single rule @param rule Rule to validate @return Validation issues for this rule
+     * @param[in] rule Input parameter.
+     * @return Return value.
+     */
     std::vector<std::string> validateSingleRule(const PolicyRule& rule) const;
     
     /// Record rule hit (for effectiveness tracking)

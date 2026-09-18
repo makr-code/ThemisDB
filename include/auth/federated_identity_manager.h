@@ -173,6 +173,7 @@ public:
      * @brief Check whether a realm is registered.
      *
      * @param issuer_url  Issuer URL (trailing slash normalized automatically).
+     * @return True on success.
      */
     bool hasRealm(const std::string& issuer_url) const;
 
@@ -273,6 +274,7 @@ public:
     /**
      * @brief Attach an AuthAuditLogger that receives JWT success/failure events.
      * @param logger Non-owning pointer; may be nullptr (disables audit logging).
+     * @details Implements setAuditLogger without additional internal calls.
      */
     void setAuditLogger(AuthAuditLogger* logger) { audit_logger_ = logger; }
 
@@ -340,12 +342,16 @@ public:
      * A realm always implicitly trusts itself (same-issuer tokens).
      *
      * @return true if the trust relationship is registered or the issuers match.
+     * @param[in] subject_issuer Input parameter.
+     * @param[in] trusting_issuer Input parameter.
      */
     bool isTrustedBy(const std::string& subject_issuer,
                      const std::string& trusting_issuer) const;
 
     /**
      * @brief Return all subject-issuers trusted by @p trusting_issuer.
+     * @param[in] trusting_issuer Input parameter.
+     * @return Return value.
      */
     std::vector<std::string> getCrossProviderTrusts(
         const std::string& trusting_issuer) const;
@@ -409,6 +415,7 @@ public:
      * @brief Look up @p token in the validation cache.
      *
      * @return The cached result if present and not expired, or std::nullopt.
+     * @param[in] token Input parameter.
      */
     std::optional<FederatedValidationResult> getCachedResult(
         const std::string& token) const;
@@ -436,8 +443,11 @@ private:
     /// Normalize an issuer URL by stripping trailing slashes.
     static std::string normalize(const std::string& url);
 
-    /// Peek at the JWT payload and extract the "iss" claim without
-    /// performing any cryptographic verification.
+    /**
+     * @brief Peek at the JWT payload and extract the "iss" claim without performing any cryptographic verification.
+     * @param[in] token Input parameter.
+     * @return Return value.
+     */
     static std::string extractIssuer(const std::string& token);
 
     /// Build an application/x-www-form-urlencoded request body from a list
@@ -445,8 +455,13 @@ private:
     static std::string buildFormBody(
         const std::vector<std::pair<std::string, std::string>>& params);
 
-    /// Perform an HTTP POST and return the raw response body.
-    /// Uses the mock function if setHttpPostForTesting() was called.
+    /**
+     * @brief Perform an HTTP POST and return the raw response body.
+     * @param[in] url Input parameter.
+     * @param[in] body Input parameter.
+     * @return Return value.
+     * @details Uses the mock function if setHttpPostForTesting() was called.
+     */
     std::string httpPost(const std::string& url, const std::string& body) const;
 
     mutable std::mutex mutex_;

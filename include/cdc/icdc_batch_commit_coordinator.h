@@ -122,6 +122,10 @@ struct BatchInfo {
  */
 class ICDCBatchCommitCoordinator {
 public:
+    /**
+     * @brief TBD: Describe ~ICDCBatchCommitCoordinator.
+     * @return Return value.
+     */
     virtual ~ICDCBatchCommitCoordinator() = default;
 
     /**
@@ -216,6 +220,11 @@ public:
     {}
 
     BatchId beginBatch() override {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         if (status_ == BatchStatus::Open) return 0; // already open
         current_batch_id_ = next_batch_id_.fetch_add(1, std::memory_order_relaxed);
@@ -225,6 +234,11 @@ public:
     }
 
     AddEventResult addEvent(const Changefeed::ChangeEvent& event) override {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         if (status_ != BatchStatus::Open) {
           return AddEventResult::NoBatchOpen;
@@ -237,6 +251,11 @@ public:
     }
 
     CommitResult commitBatch() override {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         if (status_ != BatchStatus::Open) {
             // Check history for idempotent re-commit detection
@@ -261,6 +280,11 @@ public:
     }
 
     RollbackResult rollbackBatch() override {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         if (status_ != BatchStatus::Open) {
           return RollbackResult::NoBatchOpen;
@@ -272,11 +296,21 @@ public:
     }
 
     BatchStatus status() const override {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         return status_;
     }
 
     BatchInfo info() const override {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         BatchInfo i;
         i.status               = status_;
@@ -292,6 +326,11 @@ public:
     std::vector<Changefeed::ChangeEvent> committedEvents(
         BatchId batch_id) const override
     {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         auto it = committed_.find(batch_id);
         if (it == committed_.end()) return {};
@@ -299,11 +338,20 @@ public:
     }
 
     bool isCommitted(BatchId batch_id) const override {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         return committed_.count(batch_id) > 0;
     }
 
 private:
+    /**
+     * @brief TBD: Describe evictOldestIfNeeded.
+     * @details Calls: size(), erase(), front(), pop_front().
+     */
     void evictOldestIfNeeded() {
         while (history_order_.size() >= history_limit_) {
             committed_.erase(history_order_.front());

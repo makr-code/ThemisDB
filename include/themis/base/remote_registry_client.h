@@ -247,33 +247,87 @@ public:
      */
     void setObservabilityHook(ObservabilityHook hook);
 
+    /**
+     * @brief TBD: Describe RemoteRegistryClient.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit RemoteRegistryClient(const RegistryConfig& config);
     ~RemoteRegistryClient();
 
     RemoteRegistryClient(const RemoteRegistryClient&)            = delete;
     RemoteRegistryClient& operator=(const RemoteRegistryClient&) = delete;
 
+    /**
+     * @brief TBD: Describe listPlugins.
+     * @return Return value.
+     */
     std::vector<RegistryPluginEntry> listPlugins();
+    /**
+     * @brief TBD: Describe listPluginsAsync.
+     * @return Return value.
+     */
     std::future<std::vector<RegistryPluginEntry>> listPluginsAsync();
 
+    /**
+     * @brief TBD: Describe fetchPlugin.
+     * @param[in] name Input parameter.
+     * @return Return value.
+     */
     std::optional<RegistryPluginEntry> fetchPlugin(const std::string& name);
+    /**
+     * @brief TBD: Describe fetchPluginAsync.
+     * @param[in] name Input parameter.
+     * @return Return value.
+     */
     std::future<std::optional<RegistryPluginEntry>> fetchPluginAsync(const std::string& name);
 
+    /**
+     * @brief TBD: Describe downloadPlugin.
+     * @param[in] entry Input parameter.
+     * @return Return value.
+     */
     PluginDownloadResult downloadPlugin(const RegistryPluginEntry& entry);
+    /**
+     * @brief TBD: Describe downloadPluginAsync.
+     * @param[in] entry Input parameter.
+     * @return Return value.
+     */
     std::future<PluginDownloadResult> downloadPluginAsync(const RegistryPluginEntry& entry);
 
+    /**
+     * @brief TBD: Describe downloadAndLoad.
+     * @param[in] entry Input parameter.
+     * @param[in,out] loader Input/output parameter.
+     * @return Return value.
+     */
     ModuleVerificationResult downloadAndLoad(const RegistryPluginEntry& entry,
                                              ModuleLoader& loader);
 
     const RegistryConfig& config() const { return config_; }
 
+    /**
+     * @brief TBD: Describe httpGetAsync.
+     * @param[in] url Input parameter.
+     * @return Return value.
+     */
     std::future<std::string> httpGetAsync(const std::string& url);
+    /**
+     * @brief TBD: Describe httpGetBinaryAsync.
+     * @param[in] url Input parameter.
+     * @param[in] out_path Input parameter.
+     * @return Return value.
+     */
     std::future<bool> httpGetBinaryAsync(const std::string& url,
                                          const std::string& out_path);
 
     static void setBackoffDispatcher(
         std::function<std::future<void>(std::chrono::milliseconds)> dispatcher);
 
+    /**
+     * @brief TBD: Describe lastRequestStats.
+     * @return Return value.
+     */
     RequestStats lastRequestStats() const;
 
 private:
@@ -284,13 +338,44 @@ private:
 
     ObservabilityHook  observability_hook_;  ///< Wave D exporter hook.
 
+    /**
+     * @brief TBD: Describe httpGet.
+     * @param[in] url Input parameter.
+     * @return Return value.
+     */
     std::string httpGet(const std::string& url);
+    /**
+     * @brief TBD: Describe httpGetBinary.
+     * @param[in] url Input parameter.
+     * @param[in] out_path Input parameter.
+     * @return True on success.
+     */
     bool        httpGetBinary(const std::string& url, const std::string& out_path);
 
+    /**
+     * @brief TBD: Describe verifyIntegrity.
+     * @param[in] file_path Input parameter.
+     * @param[in] expected_sha256 Input parameter.
+     * @return True on success.
+     */
     static bool verifyIntegrity(const std::string& file_path,
                                 const std::string& expected_sha256);
+    /**
+     * @brief TBD: Describe buildAuthorizationHeader.
+     * @return Return value.
+     */
     std::string buildAuthorizationHeader() const;
+    /**
+     * @brief TBD: Describe asyncBackoffSleep.
+     * @param[in] ms Input parameter.
+     */
     static void asyncBackoffSleep(int ms);
+    /**
+     * @brief TBD: Describe parseEntry.
+     * @param[in] obj Input parameter.
+     * @param[in,out] out Input/output parameter.
+     * @return True on success.
+     */
     static bool parseEntry(const nlohmann::json& obj, RegistryPluginEntry& out);
 };
 

@@ -38,14 +38,27 @@ namespace acceleration {
 // Compile-time dispatch: AVX-512 → AVX2 → NEON → scalar
 // ============================================================================
 
-/// Compute squared L2 distance between two float vectors using the best
-/// available SIMD instruction set.  Returns sum((a[i]-b[i])^2) without
-/// the final sqrt – sufficient for ranking.
+/**
+ * @brief Compute squared L2 distance between two float vectors using the best available SIMD instruction set.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @param[in] dim Input parameter.
+ * @return Return value.
+ * @note Exception safety: noexcept.
+ * @details Returns sum((a[i]-b[i])^2) without the final sqrt – sufficient for ranking.
+ */
 float simd_l2_sq(const float* a, const float* b, std::size_t dim) noexcept;
 
-/// Batch version: compute squared L2 distance from one query to n database
-/// vectors stored contiguously (n*dim floats).  Results written to out[n].
-/// Uses unrolled AVX2/AVX-512 loops for maximum throughput.
+/**
+ * @brief Batch version: compute squared L2 distance from one query to n database vectors stored contiguously (n*dim floats).
+ * @param[in] query Input parameter.
+ * @param[in] database Input parameter.
+ * @param[in] n Input parameter.
+ * @param[in] dim Input parameter.
+ * @param[in,out] out Input/output parameter.
+ * @note Exception safety: noexcept.
+ * @details Results written to out[n]. Uses unrolled AVX2/AVX-512 loops for maximum throughput.
+ */
 void simd_batch_l2_sq(const float* query,
                       const float* database,
                       std::size_t n,
@@ -95,6 +108,12 @@ private:
         float       value;
     };
 
+    /**
+     * @brief TBD: Describe makeKey.
+     * @param[in] a Input parameter.
+     * @param[in] b Input parameter.
+     * @return Return value.
+     */
     static std::string makeKey(const std::string& a, const std::string& b);
 
     std::size_t               max_entries_;
@@ -164,14 +183,18 @@ public:
     const BaseEntity&,
     std::string_view)>;
 
-  /// Installs a process-wide add-batch bridge for link profiles where
-  /// VectorIndexManager write symbols are provided by another module.
+  /**
+   * @brief Installs a process-wide add-batch bridge for link profiles where VectorIndexManager write symbols are provided by another module.
+   * @param[in] fn Input parameter.
+   */
   static void setAddBatchBridgeFn(AddBatchBridgeFn fn);
   /// Clears the add-batch bridge and restores fail-closed behavior.
   static void clearAddBatchBridgeFn();
 
-  /// Installs a process-wide vector-extraction bridge for link profiles
-  /// where BaseEntity conversion helpers are provided by another module.
+  /**
+   * @brief Installs a process-wide vector-extraction bridge for link profiles where BaseEntity conversion helpers are provided by another module.
+   * @param[in] fn Input parameter.
+   */
   static void setExtractVectorBridgeFn(ExtractVectorBridgeFn fn);
   /// Clears the vector-extraction bridge and restores fail-closed behavior.
   static void clearExtractVectorBridgeFn();
@@ -188,9 +211,16 @@ public:
                                    const std::vector<BaseEntity>&       entities,
                                    std::string_view                     vectorField = "");
 
-    /// Compute pairwise squared-L2 distances for a flat vector array.
-    /// Useful for pre-warming the cache or standalone distance queries.
-    /// query_vectors: numQueries * dim floats; db_vectors: numDB * dim floats.
+    /**
+     * @brief Compute pairwise squared-L2 distances for a flat vector array.
+     * @param[in] query_vectors Input parameter.
+     * @param[in] numQueries Input parameter.
+     * @param[in] db_vectors Input parameter.
+     * @param[in] numDB Input parameter.
+     * @param[in] dim Input parameter.
+     * @return Return value.
+     * @details Useful for pre-warming the cache or standalone distance queries. query_vectors: numQueries * dim floats; db_vectors: numDB * dim floats.
+     */
     std::vector<float> computeDistances(const float* query_vectors,
                                         std::size_t  numQueries,
                                         const float* db_vectors,
@@ -203,8 +233,20 @@ public:
 
     /// Runtime configuration.
     const VecKnnPipelineConfig& config() const { return config_; }
+    /**
+     * @brief TBD: Describe setBatchSize.
+     * @param[in] sz Input parameter.
+     */
     void setBatchSize(std::size_t sz);
+    /**
+     * @brief TBD: Describe setThreadCount.
+     * @param[in] n Input parameter.
+     */
     void setThreadCount(std::size_t n);
+    /**
+     * @brief TBD: Describe enableDistanceCache.
+     * @param[in] enable Input parameter.
+     */
     void enableDistanceCache(bool enable);
 
     /// Accumulated statistics across all insertBatch() calls.

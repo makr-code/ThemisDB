@@ -121,6 +121,10 @@ struct SchemaEvolutionDescriptor {
  */
 class ISchemaEvolutionCallback {
 public:
+    /**
+     * @brief TBD: Describe ~ISchemaEvolutionCallback.
+     * @return Return value.
+     */
     virtual ~ISchemaEvolutionCallback() = default;
 
     /**
@@ -164,6 +168,10 @@ public:
  */
 class ICDCEventSchema {
 public:
+    /**
+     * @brief TBD: Describe ~ICDCEventSchema.
+     * @return Return value.
+     */
     virtual ~ICDCEventSchema() = default;
 
     /**
@@ -235,6 +243,11 @@ public:
                         SchemaFormat       format,
                         int                version) override
     {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         auto& versions = schemas_[collection];
         if (versions.count(version)) return false; // already registered
@@ -248,6 +261,11 @@ public:
     std::string getSchema(const std::string& collection,
                           int                version = -1) const override
     {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         auto it = schemas_.find(collection);
         if (it == schemas_.end()) return {};
@@ -264,6 +282,11 @@ public:
     }
 
     int currentVersion(const std::string& collection) const override {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         auto it = latest_version_.find(collection);
         return it != latest_version_.end() ? it->second : -1;
@@ -273,6 +296,11 @@ public:
         const std::string&                          collection,
         std::shared_ptr<ISchemaEvolutionCallback>   callback) override
     {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         callbacks_[collection] = std::move(callback);
     }
@@ -280,6 +308,11 @@ public:
     bool triggerEvolution(const SchemaEvolutionDescriptor& descriptor) override {
         std::shared_ptr<ISchemaEvolutionCallback> cb;
         {
+            /**
+             * @brief TBD: Describe lk.
+             * @param[in] mutex_ Input parameter.
+             * @return Return value.
+             */
             std::unique_lock<std::mutex> lk(mutex_);
             auto it = callbacks_.find(descriptor.collection);
             if (it == callbacks_.end() || !it->second) {

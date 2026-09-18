@@ -41,6 +41,11 @@ enum class WizardStep : uint8_t {
     DONE     = 7,
 };
 
+/**
+ * @brief TBD: Describe wizardStepName.
+ * @param[in] step Input parameter.
+ * @return Return value.
+ */
 std::string wizardStepName(WizardStep step);
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -94,7 +99,16 @@ struct ImportWizardState {
     std::string started_at;
     std::string finished_at;
 
+    /**
+     * @brief TBD: Describe toJSON.
+     * @return Return value.
+     */
     json toJSON() const;
+    /**
+     * @brief TBD: Describe fromJSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static ImportWizardState fromJSON(const json& j);
 };
 
@@ -126,7 +140,16 @@ public:
             std::function<std::unique_ptr<IImporter>()>> importer_factories;
     };
 
+    /**
+     * @brief TBD: Describe ImportWizard.
+     * @return Return value.
+     */
     explicit ImportWizard();
+    /**
+     * @brief TBD: Describe ImportWizard.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit ImportWizard(Config config);
 
     // ── Session lifecycle ─────────────────────────────────────────────────────
@@ -139,6 +162,8 @@ public:
 
     /**
      * @brief Return the current wizard state for a session.
+     * @param[in] session_id Input parameter.
+     * @return Return value.
      */
     const ImportWizardState& getState(const std::string& session_id) const;
 
@@ -146,6 +171,9 @@ public:
 
     /**
      * @brief Set the source type (advances from SOURCE → CONNECT).
+     * @param[in] session_id Input parameter.
+     * @param[in] source_type Input parameter.
+     * @return Return value.
      */
     ImportWizardState& setSource(const std::string& session_id,
                                   const std::string& source_type);
@@ -155,6 +183,9 @@ public:
      *
      * Advances from CONNECT → PREVIEW on success.
      * Sets state.error_message and stays on CONNECT on failure.
+     * @param[in] session_id Input parameter.
+     * @param[in] connection_params Input parameter.
+     * @return Return value.
      */
     ImportWizardState& connect(const std::string& session_id,
                                 const json&        connection_params);
@@ -163,6 +194,10 @@ public:
      * @brief Apply user-supplied column mappings.
      *
      * Advances from PREVIEW / MAP → OPTIONS.
+     * @param[in] session_id Input parameter.
+     * @param[in] mappings Input parameter.
+     * @param[in] target_collection Input parameter.
+     * @return Return value.
      */
     ImportWizardState& setColumnMappings(const std::string&              session_id,
                                           const std::vector<ColumnMapping>& mappings,
@@ -172,6 +207,11 @@ public:
      * @brief Set import options (conflict strategy, batch size, dry-run).
      *
      * Advances to CONFIRM.
+     * @param[in] session_id Input parameter.
+     * @param[in] conflict_strategy Input parameter.
+     * @param[in] batch_size Input parameter.
+     * @param[in] dry_run Input parameter.
+     * @return Return value.
      */
     ImportWizardState& setOptions(const std::string& session_id,
                                    const std::string& conflict_strategy,
@@ -193,16 +233,19 @@ public:
 
     /**
      * @brief Cancel an in-progress import.
+     * @param[in] session_id Input parameter.
      */
     void cancel(const std::string& session_id);
 
     /**
      * @brief Remove a completed or cancelled session.
+     * @param[in] session_id Input parameter.
      */
     void deleteSession(const std::string& session_id);
 
     /**
      * @brief List all active session IDs.
+     * @return Return value.
      */
     std::vector<std::string> activeSessions() const;
 
@@ -210,7 +253,16 @@ private:
     Config config_;
     std::unordered_map<std::string, ImportWizardState> sessions_;
 
+    /**
+     * @brief TBD: Describe requireSession.
+     * @param[in] session_id Input parameter.
+     * @return Return value.
+     */
     ImportWizardState& requireSession(const std::string& session_id);
+    /**
+     * @brief TBD: Describe generateSessionId.
+     * @return Return value.
+     */
     std::string generateSessionId() const;
 };
 
@@ -225,9 +277,21 @@ private:
  */
 class ImportWizardManager {
 public:
+    /**
+     * @brief TBD: Describe instance.
+     * @return Return value.
+     */
     static ImportWizardManager& instance();
 
+    /**
+     * @brief TBD: Describe configure.
+     * @param[in] config Input parameter.
+     */
     void configure(ImportWizard::Config config);
+    /**
+     * @brief TBD: Describe wizard.
+     * @return Return value.
+     */
     ImportWizard& wizard();
 
 private:

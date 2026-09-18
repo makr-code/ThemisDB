@@ -20,30 +20,12 @@
 namespace themis {
 namespace aql {
 
-/// Convert a live @c SchemaManager::TableSchema to a lightweight
-/// @c CollectionMetadata snapshot.
-///
-/// This helper is the bridge between the metadata module (which owns live
-/// schema data) and the aql module (which consumes a portable snapshot for
-/// query generation and validation).
-///
-/// @param ts  Source table schema from SchemaManager.  An empty properties
-///            list is valid and results in a CollectionMetadata with no fields.
-/// @return    CollectionMetadata populated with name, type, estimated_count,
-///            and one @c CollectionFieldInfo per property in @p ts.
-///
-/// Usage example:
-/// @code
-///   SchemaManager schema_mgr(db, idx_mgr);
-///   auto tables = schema_mgr.getAllTables();
-///
-///   std::vector<aql::CollectionMetadata> meta;
-///   meta.reserve(tables.size());
-///   for (const auto& t : tables) {
-///       meta.push_back(aql::fromTableSchema(t));
-///   }
-///   builder.setSchema(meta);
-/// @endcode
+/**
+ * @brief Convert a live @c SchemaManager::TableSchema to a lightweight @c CollectionMetadata snapshot.
+ * @param[in] ts Input parameter.
+ * @return Return value.
+ * @details This helper is the bridge between the metadata module (which owns live schema data) and the aql module (which consumes a portable snapshot for query generation and validation). @param ts Source table schema from SchemaManager. An empty properties list is valid and results in a CollectionMetadata with no fields. @return CollectionMetadata populated with name, type, estimated_count, and one @c CollectionFieldInfo per property in @p ts. Usage example: @code SchemaManager schema_mgr(db, idx_mgr); auto tables = schema_mgr.getAllTables(); std::vector<aql::CollectionMetadata> meta; meta.reserve(tables.size()); for (const auto& t : tables) { meta.push_back(aql::fromTableSchema(t)); } builder.setSchema(meta); @endcode Calls: reserve(), size(), push_back(), std::move().
+ */
 inline CollectionMetadata fromTableSchema(const SchemaManager::TableSchema& ts) {
     CollectionMetadata meta;
     meta.name            = ts.name;

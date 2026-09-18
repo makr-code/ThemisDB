@@ -105,9 +105,11 @@ public:
     GPUStreamManager() = default;
     ~GPUStreamManager();
 
-    // -----------------------------------------------------------------------
-    // Singleton
-    // -----------------------------------------------------------------------
+    /**
+     * @brief ----------------------------------------------------------------------- Singleton -----------------------------------------------------------------------
+     * @return Return value.
+     * @details Implements GetInstance without additional internal calls.
+     */
     static GPUStreamManager& GetInstance() {
         static GPUStreamManager inst;
         return inst;
@@ -152,11 +154,25 @@ public:
      * @brief Destroy a named stream.
      *
      * @return false if no stream with that name exists.
+     * @param[in] name Input parameter.
      */
     bool destroyStream(const std::string& name);
 
+    /**
+     * @brief TBD: Describe hasStream.
+     * @param[in] name Input parameter.
+     * @return True on success.
+     */
     bool hasStream(const std::string& name) const;
+    /**
+     * @brief TBD: Describe streamNames.
+     * @return Return value.
+     */
     std::vector<std::string> streamNames() const;
+    /**
+     * @brief TBD: Describe streamCount.
+     * @return Return value.
+     */
     size_t streamCount() const;
 
     // -----------------------------------------------------------------------
@@ -168,6 +184,8 @@ public:
      *
      * @return A future that resolves to the WorkResult.  The future holds an
      *         error result if the stream does not exist.
+     * @param[in] stream_name Input parameter.
+     * @param[in] item Input parameter.
      */
     std::future<GPULauncher::WorkResult> submit(const std::string&         stream_name,
                                                  GPULauncher::WorkItem      item);
@@ -181,11 +199,14 @@ public:
      *
      * Returns a zero-filled StreamStats (with the given name) if the stream
      * does not exist.
+     * @param[in] name Input parameter.
+     * @return Return value.
      */
     StreamStats getStreamStats(const std::string& name) const;
 
     /**
      * @brief Return stats for all registered streams.
+     * @return Return value.
      */
     std::vector<StreamStats> getAllStreamStats() const;
 
@@ -214,10 +235,11 @@ public:
     using CudaStreamBackendFn =
         std::function<GPULauncher::BackendFn(int device_index)>;
 
-    /// Register a CUDA backend factory used by `createCudaStream()` when
-    /// THEMIS_ENABLE_CUDA is not defined.
-    /// Pass an empty `std::function` to clear and revert to the ROCm/CPU fallback.
-    /// Thread-safe (guarded by a static mutex).
+    /**
+     * @brief Register a CUDA backend factory used by `createCudaStream()` when THEMIS_ENABLE_CUDA is not defined.
+     * @param[in] fn Input parameter.
+     * @details Pass an empty `std::function` to clear and revert to the ROCm/CPU fallback. Thread-safe (guarded by a static mutex).
+     */
     static void setCudaStreamBackendFn(CudaStreamBackendFn fn);
 };
 

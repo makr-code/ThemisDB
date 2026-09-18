@@ -155,6 +155,14 @@ public:
         bool requires_mfa = false;
         std::string error_message;
         
+        /**
+         * @brief TBD: Describe Success.
+         * @param[in] user_id Input parameter.
+         * @param[in] session_token Input parameter.
+         * @param[in] roles Input parameter.
+         * @return Return value.
+         * @details Implements Success without additional internal calls.
+         */
         static AuthenticationResult Success(
             const std::string& user_id,
             const std::string& session_token,
@@ -163,10 +171,22 @@ public:
             return {true, user_id, session_token, roles, false, ""};
         }
         
+        /**
+         * @brief TBD: Describe RequiresMFA.
+         * @param[in] user_id Input parameter.
+         * @return Return value.
+         * @details Implements RequiresMFA without additional internal calls.
+         */
         static AuthenticationResult RequiresMFA(const std::string& user_id) {
             return {false, user_id, "", {}, true, "Multi-factor authentication required"};
         }
         
+        /**
+         * @brief TBD: Describe Failed.
+         * @param[in] error Input parameter.
+         * @return Return value.
+         * @details Implements Failed without additional internal calls.
+         */
         static AuthenticationResult Failed(const std::string& error) {
             return {false, "", "", {}, false, error};
         }
@@ -201,6 +221,8 @@ public:
     
     /**
      * @brief Constructor
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     explicit AccessControl(const Config& config);
     
@@ -472,6 +494,7 @@ public:
     /**
      * @brief Get RBAC system
      * @return RBAC instance
+     * @details Implements getRBAC without additional internal calls.
      */
     RBAC& getRBAC() { return *rbac_; }
     const RBAC& getRBAC() const { return *rbac_; }
@@ -479,6 +502,7 @@ public:
     /**
      * @brief Get user role store
      * @return UserRoleStore instance
+     * @details Implements getUserRoleStore without additional internal calls.
      */
     UserRoleStore& getUserRoleStore() { return *user_role_store_; }
     const UserRoleStore& getUserRoleStore() const { return *user_role_store_; }
@@ -486,6 +510,7 @@ public:
     /**
      * @brief Get user registration plugin manager
      * @return UserRegistrationPluginManager instance
+     * @details Implements getUserRegistrationPluginManager without additional internal calls.
      */
     UserRegistrationPluginManager& getUserRegistrationPluginManager() { 
         return *user_registration_plugin_manager_; 
@@ -573,19 +598,58 @@ private:
         std::atomic<uint64_t> suspicious_queries{0};
     } stats_;
     
-    // Helper methods
+    /**
+     * @brief Helper methods
+     * @param[in] session Input parameter.
+     * @return True on success.
+     */
     bool isSessionExpired(const Session& session) const;
+    /**
+     * @brief TBD: Describe cleanupExpiredSessions.
+     */
     void cleanupExpiredSessions();
+    /**
+     * @brief TBD: Describe generateSessionToken.
+     * @return Return value.
+     */
     std::string generateSessionToken() const;
+    /**
+     * @brief TBD: Describe updateRateLimit.
+     * @param[in] user_id Input parameter.
+     */
     void updateRateLimit(const std::string& user_id);
+    /**
+     * @brief TBD: Describe checkRateLimit.
+     * @param[in] user_id Input parameter.
+     * @return True on success.
+     */
     bool checkRateLimit(const std::string& user_id);
 
-    // Mutex-free variants for internal use when mutex_ is already held by the caller.
+    /**
+     * @brief Mutex-free variants for internal use when mutex_ is already held by the caller.
+     * @param[in] user_id Input parameter.
+     * @return Return value.
+     */
     std::vector<std::string> getUserRolesLocked(const std::string& user_id) const;
+    /**
+     * @brief TBD: Describe createSessionLocked.
+     * @param[in] user_id Input parameter.
+     * @param[in] roles Input parameter.
+     * @param[in] mfa_verified Input parameter.
+     * @return Return value.
+     */
     std::string createSessionLocked(const std::string& user_id,
                                     const std::vector<std::string>& roles,
                                     bool mfa_verified);
+    /**
+     * @brief TBD: Describe invalidateSessionLocked.
+     * @param[in] session_token Input parameter.
+     */
     void invalidateSessionLocked(const std::string& session_token);
+    /**
+     * @brief TBD: Describe invalidateUserSessionsLocked.
+     * @param[in] user_id Input parameter.
+     */
     void invalidateUserSessionsLocked(const std::string& user_id);
 };
 

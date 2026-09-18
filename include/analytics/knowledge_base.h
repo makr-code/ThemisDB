@@ -114,6 +114,8 @@ public:
     /**
      * Retract the fact with the given id.
      * @return true iff the fact was found and removed.
+     * @brief TBD: Describe retractFact.
+     * @param[in] fact_id Input parameter.
      */
     bool retractFact(const std::string& fact_id);
 
@@ -135,6 +137,7 @@ public:
 
     /**
      * Remove all facts (rules are preserved).
+     * @brief TBD: Describe clearFacts.
      */
     void clearFacts();
 
@@ -143,12 +146,16 @@ public:
     /**
      * Add a Horn clause rule programmatically.
      * Rules with the same id overwrite the previous entry.
+     * @brief TBD: Describe addRule.
+     * @param[in] rule Input parameter.
      */
     void addRule(HornClause rule);
 
     /**
      * Remove the rule with the given id.
      * @return true iff the rule was found and removed.
+     * @brief TBD: Describe removeRule.
+     * @param[in] rule_id Input parameter.
      */
     bool removeRule(const std::string& rule_id);
 
@@ -164,6 +171,7 @@ public:
 
     /**
      * Remove all rules (facts are preserved).
+     * @brief TBD: Describe clearRules.
      */
     void clearRules();
 
@@ -208,6 +216,7 @@ public:
      */
     using YamlParserFn = std::function<int(const std::string& path, KnowledgeBase&)>;
 
+     * @param[in] fn Input parameter.
     /** @brief Inject a full-featured YAML parser backend (STUB #272 bridge). */
     static void setYamlParserFn(YamlParserFn fn);
     /** @brief Clear the YAML parser backend; falls back to the built-in parser. */

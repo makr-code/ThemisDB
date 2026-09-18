@@ -37,6 +37,10 @@ namespace themis::rag {
  */
 class ILLMScorer {
 public:
+    /**
+     * @brief TBD: Describe ~ILLMScorer.
+     * @return Return value.
+     */
     virtual ~ILLMScorer() = default;
 
     /**
@@ -245,6 +249,8 @@ public:
 
     /**
      * @brief Read the current weight for a document ID (default 1.0).
+     * @param[in] document_id Input parameter.
+     * @return Return value.
      */
     double getWeight(const std::string& document_id) const;
 
@@ -252,24 +258,29 @@ public:
     // Configuration
     // ═══════════════════════════════════════════════════════════
 
+     * @return Return value.
     /** @brief Return the current configuration. */
     const ReplugConfig& getConfig() const;
 
     /**
      * @brief Replace the configuration.
      * @throws std::invalid_argument on invalid parameters.
+     * @param[in] config Input parameter.
      */
     void setConfig(const ReplugConfig& config);
 
+     * @param[in] scorer Input parameter.
     /** @brief Replace the LLM scorer (nullptr ⟹ heuristic fallback). */
     void setScorer(std::shared_ptr<ILLMScorer> scorer);
 
+     * @return Return value.
     /** @brief Return the active scorer name. */
     std::string scorerName() const;
 
     /**
      * @brief Validate a ReplugConfig.
      * @throws std::invalid_argument describing the first violation found.
+     * @param[in] config Input parameter.
      */
     static void validateConfig(const ReplugConfig& config);
 

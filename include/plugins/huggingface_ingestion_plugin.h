@@ -84,10 +84,25 @@ public:
         size_t max_retries = 3;
         size_t retry_delay_ms = 1000;
         
+        /**
+         * @brief TBD: Describe toJson.
+         * @return Return value.
+         */
         json toJson() const;
+        /**
+         * @brief TBD: Describe fromJson.
+         * @param[in] j Input parameter.
+         * @return Return value.
+         */
         static Config fromJson(const json& j);
     };
     
+    /**
+     * @brief TBD: Describe HuggingFaceIngestionPlugin.
+     * @param[in] config Input parameter.
+     * @param[in] content_manager Input parameter.
+     * @return Return value.
+     */
     explicit HuggingFaceIngestionPlugin(
         const Config& config,
         std::shared_ptr<content::ContentManager> content_manager
@@ -99,6 +114,7 @@ public:
      * @brief Register plugin with AsyncIngestionWorker
      * 
      * This adds a new job handler for HUGGINGFACE job type.
+     * @param[in,out] worker Input/output parameter.
      */
     void registerWithWorker(content::AsyncIngestionWorker& worker);
     
@@ -126,13 +142,24 @@ public:
         std::vector<std::string> splits;
         std::map<std::string, std::string> columns;
         
+        /**
+         * @brief TBD: Describe toJson.
+         * @return Return value.
+         */
         json toJson() const;
     };
     
+    /**
+     * @brief TBD: Describe getDatasetMetadata.
+     * @param[in] dataset_name Input parameter.
+     * @return Return value.
+     */
     DatasetMetadata getDatasetMetadata(const std::string& dataset_name);
     
     /**
      * @brief Estimate dataset size
+     * @param[in] dataset_name Input parameter.
+     * @return Return value.
      */
     size_t estimateDatasetSize(const std::string& dataset_name);
 
@@ -150,8 +177,17 @@ private:
     std::atomic<size_t> progress_errors_count_{0};    ///< Number of errors encountered
     std::atomic<size_t> progress_batches_completed_{0}; ///< Number of batches completed
     
-    // HTTP helpers
+    /**
+     * @brief HTTP helpers
+     * @param[in] url Input parameter.
+     * @return Return value.
+     */
     std::string httpGet(const std::string& url);
+    /**
+     * @brief TBD: Describe httpGetJson.
+     * @param[in] url Input parameter.
+     * @return Return value.
+     */
     json httpGetJson(const std::string& url);
     
     // Dataset fetching
@@ -161,6 +197,14 @@ private:
         size_t offset;
     };
     
+    /**
+     * @brief TBD: Describe fetchBatch.
+     * @param[in] dataset_name Input parameter.
+     * @param[in] split Input parameter.
+     * @param[in] offset Input parameter.
+     * @param[in] limit Input parameter.
+     * @return Return value.
+     */
     FetchResult fetchBatch(
         const std::string& dataset_name,
         const std::string& split,
@@ -168,22 +212,52 @@ private:
         size_t limit
     );
     
-    // Caching
+    /**
+     * @brief Caching
+     * @param[in] dataset_name Input parameter.
+     * @param[in] split Input parameter.
+     * @return Return value.
+     */
     std::string getCachePath(const std::string& dataset_name, const std::string& split) const;
+    /**
+     * @brief TBD: Describe loadFromCache.
+     * @param[in] dataset_name Input parameter.
+     * @param[in] split Input parameter.
+     * @param[in,out] docs Input/output parameter.
+     * @return True on success.
+     */
     bool loadFromCache(const std::string& dataset_name, const std::string& split, std::vector<json>& docs);
+    /**
+     * @brief TBD: Describe saveToCache.
+     * @param[in] dataset_name Input parameter.
+     * @param[in] split Input parameter.
+     * @param[in] docs Input parameter.
+     */
     void saveToCache(const std::string& dataset_name, const std::string& split, const std::vector<json>& docs);
     
-    // Rate limiting
+    /**
+     * @brief Rate limiting
+     */
     void waitForRateLimit();
     std::chrono::steady_clock::time_point last_request_time_;
     
-    // Job processing (static so it can be used as callback)
+    /**
+     * @brief Job processing (static so it can be used as callback)
+     * @param[in,out] job Input/output parameter.
+     * @param[in,out] plugin Input/output parameter.
+     */
     static void processHuggingFaceJob(
         content::IngestionJob& job,
         HuggingFaceIngestionPlugin* plugin
     );
     
-    // Helper to convert HF document to ContentManager format
+    /**
+     * @brief Helper to convert HF document to ContentManager format
+     * @param[in] doc Input parameter.
+     * @param[in] dataset_name Input parameter.
+     * @param[in] index Input parameter.
+     * @return Return value.
+     */
     json documentToContentSpec(const json& doc, const std::string& dataset_name, size_t index);
 };
 

@@ -299,6 +299,10 @@ struct InDoubtTxnDescriptor {
  */
 class ITransactionCoordinator {
 public:
+    /**
+     * @brief TBD: Describe ~ITransactionCoordinator.
+     * @return Return value.
+     */
     virtual ~ITransactionCoordinator() = default;
 
     // ─── Protocol introspection ───────────────────────────────────────────

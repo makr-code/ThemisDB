@@ -115,12 +115,20 @@ public:
         std::vector<float> weights_used;  // Actual weights applied
     };
 
+    /**
+     * @brief TBD: Describe MultiVectorSearch.
+     * @param[in,out] vector_manager Input/output parameter.
+     * @return Return value.
+     */
     explicit MultiVectorSearch(VectorIndexManager& vector_manager);
 
     /**
      * @brief Search with multiple query vectors
      * 
      * Combines results from multiple query vectors using specified fusion strategy.
+     * @param[in] query Input parameter.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     Result<MultiSearchResult> search(
         const MultiQuery& query,
@@ -132,6 +140,10 @@ public:
      * 
      * Each item has multiple vector fields (e.g., title_embedding, content_embedding).
      * Combines scores across fields using the specified fusion strategy.
+     * @param[in] query_vector Input parameter.
+     * @param[in] field_names Input parameter.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     Result<MultiSearchResult> searchMultiField(
         const std::vector<float>& query_vector,
@@ -144,6 +156,9 @@ public:
      * 
      * Useful for query expansion where multiple variants of the query are generated.
      * Combines results from all variants using the specified fusion strategy.
+     * @param[in] query_variants Input parameter.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     Result<MultiSearchResult> searchWithExpansion(
         const std::vector<std::vector<float>>& query_variants,
@@ -166,6 +181,9 @@ public:
      * @brief Batch multi-vector search
      * 
      * Process multiple multi-vector queries efficiently in sequence.
+     * @param[in] queries Input parameter.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     Result<std::vector<MultiSearchResult>> batchSearch(
         const std::vector<MultiQuery>& queries,
@@ -177,6 +195,9 @@ public:
      * 
      * Learn optimal weights for linear combination from labeled examples.
      * Uses grid search optimization with NDCG@10 as the objective function.
+     * @param[in] queries Input parameter.
+     * @param[in] relevance_judgments Input parameter.
+     * @return Return value.
      */
     Result<std::vector<float>> optimizeWeights(
         const std::vector<MultiQuery>& queries,
@@ -194,6 +215,9 @@ public:
     };
 
     const Statistics& getStatistics() const { return stats_; }
+    /**
+     * @brief TBD: Describe resetStatistics.
+     */
     void resetStatistics();
 
 private:

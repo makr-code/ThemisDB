@@ -52,6 +52,7 @@ struct SpanEvent {
     /**
      * @brief Construct a span event with name and timestamp.
      * @param event_name Name of the event.
+     * @return Return value.
      */
     explicit SpanEvent(std::string event_name)
         : name(std::move(event_name)), timestamp(std::chrono::system_clock::now()) {}
@@ -143,6 +144,7 @@ public:
      *
      * Automatically flushes any pending events/baggage to the tracer backend
      * when the span is destroyed.
+     * @return Return value.
      */
     virtual ~DistributedTraceSpan();
 
@@ -331,8 +333,14 @@ private:
 
     std::atomic<bool> flushed_{false};                       ///< Whether span has been flushed
 
-    // Helper methods
+    /**
+     * @brief Helper methods
+     * @return Return value.
+     */
     std::string generateSpanId();
+    /**
+     * @brief TBD: Describe flushInternal.
+     */
     void flushInternal();
 };
 

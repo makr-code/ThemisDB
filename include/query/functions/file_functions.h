@@ -262,6 +262,11 @@ public:
         
         // Split into components
         std::vector<std::string> parts;
+        /**
+         * @brief TBD: Describe iss.
+         * @param[in] path Input parameter.
+         * @return Return value.
+         */
         std::istringstream iss(path);
         std::string part = {};
         bool isAbsolute = !path.empty() && path[0] == '/';
@@ -334,6 +339,11 @@ public:
         }
         
         std::replace(path.begin(), path.end(), '\\', '/');
+        /**
+         * @brief TBD: Describe iss.
+         * @param[in] path Input parameter.
+         * @return Return value.
+         */
         std::istringstream iss(path);
         std::string part = {};
         
@@ -1035,6 +1045,8 @@ public:
 
 /**
  * @brief Register all File functions with the registry
+ * @param[in,out] registry Input/output parameter.
+ * @details Calls: registerFunction().
  */
 inline void registerFileFunctions(FunctionRegistry& registry) {
     // Path manipulation

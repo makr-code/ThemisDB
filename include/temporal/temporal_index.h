@@ -78,19 +78,33 @@ struct TemporalIndexStats {
  */
 class TemporalIndex {
 public:
+    /**
+     * @brief TBD: Describe TemporalIndex.
+     * @param[in] name Input parameter.
+     * @return Return value.
+     */
     explicit TemporalIndex(std::string name);
 
     // ── Mutation ─────────────────────────────────────────────────────────────
 
+     * @brief TBD: Describe insert.
+     * @param[in] entry Input parameter.
     /** Insert a new entry. */
     void insert(const TemporalIndexEntry& entry);
 
     /**
      * Remove entries matching the given key and range.
      * Returns the number of entries removed.
+     * @brief TBD: Describe remove.
+     * @param[in] key Input parameter.
+     * @param[in] range Input parameter.
+     * @return Return value.
      */
     size_t remove(const std::string& key, const TimeRange& range);
 
+     * @brief TBD: Describe removeKey.
+     * @param[in] key Input parameter.
+     * @return Return value.
     /** Remove all entries for the given key. */
     size_t removeKey(const std::string& key);
 
@@ -99,11 +113,18 @@ public:
     /**
      * Return all entries that are valid at timestamp t
      * (i.e., entry.range.contains(t) == true).
+     * @brief TBD: Describe queryPoint.
+     * @param[in] t Input parameter.
+     * @return Return value.
      */
     std::vector<TemporalIndexEntry> queryPoint(Timestamp t) const;
 
     /**
      * Return all entries whose range overlaps [from, to).
+     * @brief TBD: Describe queryRange.
+     * @param[in] from Input parameter.
+     * @param[in] to Input parameter.
+     * @return Return value.
      */
     std::vector<TemporalIndexEntry> queryRange(Timestamp from, Timestamp to) const;
 
@@ -117,7 +138,15 @@ public:
     // ── Metadata ─────────────────────────────────────────────────────────────
 
     const std::string& name() const noexcept { return name_; }
+    /**
+     * @brief TBD: Describe size.
+     * @return Return value.
+     */
     size_t size() const;
+    /**
+     * @brief TBD: Describe stats.
+     * @return Return value.
+     */
     TemporalIndexStats stats() const;
 
 private:

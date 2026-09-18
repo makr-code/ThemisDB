@@ -55,11 +55,21 @@ struct AnnSearchResult {
 /// Uniform interface implemented by every ANN backend.
 class IAnnIndex {
 public:
+    /**
+     * @brief TBD: Describe ~IAnnIndex.
+     * @return Return value.
+     */
     virtual ~IAnnIndex() = default;
 
-    /// Train/build the index from a flat array of @p count vectors of @p dim floats.
-    /// The corresponding int64_t labels are in @p ids (may be nullptr → use 0-based).
-    /// Returns false on failure.
+    /**
+     * @brief Train/build the index from a flat array of @p count vectors of @p dim floats.
+     * @param[in] vectors Input parameter.
+     * @param[in] ids Input parameter.
+     * @param[in] count Input parameter.
+     * @param[in] dim Input parameter.
+     * @return True on success.
+     * @details The corresponding int64_t labels are in @p ids (may be nullptr → use 0-based). Returns false on failure.
+     */
     virtual bool build(const float* vectors, const int64_t* ids,
                        size_t count, size_t dim) = 0;
 
@@ -148,9 +158,30 @@ private:
         // centroids[s][c][d]  s=subspace, c=centroid, d=sub_dim
         std::vector<std::vector<std::vector<float>>> centroids;
 
+        /**
+         * @brief TBD: Describe train.
+         * @param[in] data Input parameter.
+         * @param[in] n Input parameter.
+         * @param[in] d Input parameter.
+         * @param[in] nss Input parameter.
+         * @param[in] bits Input parameter.
+         * @param[in] iters Input parameter.
+         */
         void train(const float* data, size_t n, size_t d,
                    size_t nss, size_t bits, size_t iters);
+        /**
+         * @brief TBD: Describe encode.
+         * @param[in] vec Input parameter.
+         * @param[in] d Input parameter.
+         * @return Return value.
+         */
         std::vector<uint8_t> encode(const float* vec, size_t d) const;
+        /**
+         * @brief TBD: Describe decode_distance.
+         * @param[in] query Input parameter.
+         * @param[in] code Input parameter.
+         * @return Return value.
+         */
         float decode_distance(const float* query, const std::vector<uint8_t>& code) const;
     };
 
@@ -161,8 +192,24 @@ private:
         std::vector<std::vector<uint8_t>> codes; // PQ-compressed (optional)
     };
 
-    // ---- helpers ----
+    /**
+     * @brief ---- helpers ----
+     * @param[in] a Input parameter.
+     * @param[in] b Input parameter.
+     * @param[in] d Input parameter.
+     * @return Return value.
+     */
     static float l2sq(const float* a, const float* b, size_t d);
+    /**
+     * @brief TBD: Describe kmeans.
+     * @param[in] data Input parameter.
+     * @param[in] n Input parameter.
+     * @param[in] d Input parameter.
+     * @param[in] k Input parameter.
+     * @param[in] iters Input parameter.
+     * @param[in,out] centroids Input/output parameter.
+     * @param[in,out] assignments Input/output parameter.
+     */
     static void  kmeans(const float* data, size_t n, size_t d,
                         size_t k, size_t iters,
                         std::vector<std::vector<float>>& centroids,
@@ -252,6 +299,12 @@ public:
         // DiskANNIndex with the correct dimension even when build() was never called.
         const std::string meta_path = path + ".meta";
         if (dim_ == 0) {
+            /**
+             * @brief TBD: Describe peek.
+             * @param[in] meta_path Input parameter.
+             * @param[in] binary Input parameter.
+             * @return Return value.
+             */
             std::ifstream peek(meta_path, std::ios::binary);
             if (peek) {
                 size_t stored_dim = 0;

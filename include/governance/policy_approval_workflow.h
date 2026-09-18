@@ -75,7 +75,16 @@ struct ApprovalRecord {
     std::string new_state;                    ///< State after action
     bool is_emergency_override = false;       ///< Whether this was emergency override
     
+    /**
+     * @brief TBD: Describe toJson.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
+    /**
+     * @brief TBD: Describe fromJson.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static ApprovalRecord fromJson(const nlohmann::json& j);
 };
 
@@ -101,7 +110,16 @@ struct ApprovalStatus {
     std::vector<std::string> approvers;       ///< List of assigned approvers
     std::vector<std::string> approved_by_list;  ///< Users who have approved
     
+    /**
+     * @brief TBD: Describe toJson.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
+    /**
+     * @brief TBD: Describe fromJson.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static ApprovalStatus fromJson(const nlohmann::json& j);
 };
 
@@ -131,10 +149,12 @@ public:
         int required_approvers = 1
     );
     
-    /// Submit policy for review
-    /// @param rule_id Rule identifier
-    /// @param reviewer Assigning reviewer
-    /// @return True if successful
+    /**
+     * @brief Submit policy for review @param rule_id Rule identifier @param reviewer Assigning reviewer @return True if successful
+     * @param[in] rule_id Input parameter.
+     * @param[in] reviewer Input parameter.
+     * @return True on success.
+     */
     bool submitForReview(
         const std::string& rule_id,
         const std::string& reviewer
@@ -151,31 +171,37 @@ public:
         const std::string& comment = ""
     );
     
-    /// Reject a policy change, move back to DRAFT
-    /// @param rule_id Rule identifier
-    /// @param reviewer User rejecting
-    /// @param reason Rejection reason
-    /// @return True if successful
+    /**
+     * @brief Reject a policy change, move back to DRAFT @param rule_id Rule identifier @param reviewer User rejecting @param reason Rejection reason @return True if successful
+     * @param[in] rule_id Input parameter.
+     * @param[in] reviewer Input parameter.
+     * @param[in] reason Input parameter.
+     * @return True on success.
+     */
     bool rejectChange(
         const std::string& rule_id,
         const std::string& reviewer,
         const std::string& reason
     );
     
-    /// Activate an approved policy
-    /// @param rule_id Rule identifier
-    /// @param activator User activating the policy
-    /// @return True if successful
+    /**
+     * @brief Activate an approved policy @param rule_id Rule identifier @param activator User activating the policy @return True if successful
+     * @param[in] rule_id Input parameter.
+     * @param[in] activator Input parameter.
+     * @return True on success.
+     */
     bool activatePolicy(
         const std::string& rule_id,
         const std::string& activator
     );
     
-    /// Rollback an active policy to deprecated state
-    /// @param rule_id Rule identifier
-    /// @param operator_user User performing rollback
-    /// @param reason Rollback reason
-    /// @return True if successful
+    /**
+     * @brief Rollback an active policy to deprecated state @param rule_id Rule identifier @param operator_user User performing rollback @param reason Rollback reason @return True if successful
+     * @param[in] rule_id Input parameter.
+     * @param[in] operator_user Input parameter.
+     * @param[in] reason Input parameter.
+     * @return True on success.
+     */
     bool rollbackApproval(
         const std::string& rule_id,
         const std::string& operator_user,
@@ -195,28 +221,36 @@ public:
         int required_approvers = 1
     );
     
-    /// Get approval status for a rule
-    /// @param rule_id Rule identifier
-    /// @return Approval status if found
+    /**
+     * @brief Get approval status for a rule @param rule_id Rule identifier @return Approval status if found
+     * @param[in] rule_id Input parameter.
+     * @return Return value.
+     */
     std::optional<ApprovalStatus> getApprovalStatus(const std::string& rule_id) const;
     
-    /// Check if rule can be transitioned to target state
-    /// @param rule_id Rule identifier
-    /// @param target_state Desired target state
-    /// @return True if transition is allowed
+    /**
+     * @brief Check if rule can be transitioned to target state @param rule_id Rule identifier @param target_state Desired target state @return True if transition is allowed
+     * @param[in] rule_id Input parameter.
+     * @param[in] target_state Input parameter.
+     * @return True on success.
+     */
     bool canTransitionTo(
         const std::string& rule_id,
         ApprovalState target_state
     ) const;
     
-    /// Get all rules in a specific approval state
-    /// @param state State to query
-    /// @return Vector of rule IDs in that state
+    /**
+     * @brief Get all rules in a specific approval state @param state State to query @return Vector of rule IDs in that state
+     * @param[in] state Input parameter.
+     * @return Return value.
+     */
     std::vector<std::string> getRulesInState(ApprovalState state) const;
     
-    /// Get pending approvals for a specific approver
-    /// @param approver Approver identifier
-    /// @return Vector of rule IDs pending approval
+    /**
+     * @brief Get pending approvals for a specific approver @param approver Approver identifier @return Vector of rule IDs pending approval
+     * @param[in] approver Input parameter.
+     * @return Return value.
+     */
     std::vector<std::string> getPendingApprovalsFor(const std::string& approver) const;
     
     /// Query approval history

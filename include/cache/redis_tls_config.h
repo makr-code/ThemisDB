@@ -69,6 +69,10 @@ struct RedisTLSConfig {
  */
 class IRedisTLSEnforcer {
 public:
+    /**
+     * @brief TBD: Describe ~IRedisTLSEnforcer.
+     * @return Return value.
+     */
     virtual ~IRedisTLSEnforcer() = default;
 
     /**
@@ -76,6 +80,7 @@ public:
      *
      * @return `true` on success; `false` if the configuration is invalid or
      *         the TLS handshake with the Redis server failed.
+     * @param[in] config Input parameter.
      */
     virtual bool applyTLSConfig(const RedisTLSConfig& config) = 0;
 

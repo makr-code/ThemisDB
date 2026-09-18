@@ -71,28 +71,78 @@ private:
     std::atomic<bool> cancelled_{false};
     std::map<std::string, TableSchema> schemas_;
 
-    // Parsing methods
+    /**
+     * @brief Parsing methods
+     * @param[in] file_path Input parameter.
+     * @param[in] options Input parameter.
+     * @param[in,out] stats Input/output parameter.
+     * @param[in,out] callback Input/output parameter.
+     * @return True on success.
+     */
     bool parseDumpFile(const std::string& file_path, const ImportOptions& options,
                        ImportStats& stats, ProgressCallback& callback);
+    /**
+     * @brief TBD: Describe parseCreateTable.
+     * @param[in] sql Input parameter.
+     * @param[in,out] schema Input/output parameter.
+     * @return True on success.
+     */
     bool parseCreateTable(const std::string& sql, TableSchema& schema);
+    /**
+     * @brief TBD: Describe parseInsert.
+     * @param[in] sql Input parameter.
+     * @param[in] options Input parameter.
+     * @param[in,out] stats Input/output parameter.
+     * @param[in] line_number Input parameter.
+     * @return True on success.
+     */
     bool parseInsert(const std::string& sql, const ImportOptions& options,
                      ImportStats& stats, size_t line_number);
 
-    // Schema mapping
+    /**
+     * @brief Schema mapping
+     * @param[in] oracle_type Input parameter.
+     * @param[in] options Input parameter.
+     * @return Return value.
+     */
     std::string mapOracleTypeToThemis(const std::string& oracle_type,
                                       const ImportOptions& options) const;
+    /**
+     * @brief TBD: Describe shouldImportTable.
+     * @param[in] table_name Input parameter.
+     * @param[in] options Input parameter.
+     * @return True on success.
+     */
     bool shouldImportTable(const std::string& table_name, const ImportOptions& options) const;
 
-    // Data conversion
+    /**
+     * @brief Data conversion
+     * @param[in] schema Input parameter.
+     * @param[in] values Input parameter.
+     * @return Return value.
+     */
     json convertRowToEntity(const TableSchema& schema, const std::vector<std::string>& values);
 
-    // INSERT value parsing
+    /**
+     * @brief INSERT value parsing
+     * @param[in] values_clause Input parameter.
+     * @return Return value.
+     */
     std::vector<std::string> parseInsertValues(const std::string& values_clause) const;
 
-    // Identifier unquoting (strips double-quotes or returns plain identifiers as-is)
+    /**
+     * @brief Identifier unquoting (strips double-quotes or returns plain identifiers as-is)
+     * @param[in] s Input parameter.
+     * @return Return value.
+     */
     static std::string unquoteIdentifier(const std::string& s);
 
-    // Strip Oracle hint comments (/*+ ... */) and regular block comments (/* ... */)
+    /**
+     * @brief Strip Oracle hint comments (/*+ .
+     * @param[in] sql Input parameter.
+     * @return Return value.
+     * @details .. */) and regular block comments (/* ... */)
+     */
     static std::string stripOracleComments(const std::string& sql);
 
     // Error helpers
@@ -111,7 +161,13 @@ private:
                   const std::map<std::string, std::string>& attributes,
                   double duration_seconds) const;
 
-    // Progress reporting
+    /**
+     * @brief Progress reporting
+     * @param[in,out] callback Input/output parameter.
+     * @param[in] stage Input parameter.
+     * @param[in] current Input parameter.
+     * @param[in] total Input parameter.
+     */
     void reportProgress(ProgressCallback& callback, const std::string& stage,
                         size_t current, size_t total);
 };

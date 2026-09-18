@@ -70,6 +70,7 @@ public:
     /**
      * @brief Construct Raft/WAL integration bridge.
      * @param config Shared subsystem dependencies and node identity.
+     * @return Return value.
      */
     explicit RaftWALIntegration(const Config& config);
 
@@ -106,8 +107,10 @@ public:
     void compact(uint64_t snapshot_index);
 
     // Status queries
+     * @return True on success.
     /** @brief Return whether integration is currently in leader mode. */
     bool isLeader() const;
+     * @return Return value.
     /** @brief Return current leader ID from shared Raft state. */
     std::string getLeaderId() const;
 

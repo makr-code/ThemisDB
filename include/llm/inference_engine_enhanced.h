@@ -211,6 +211,11 @@ public:
         std::chrono::steady_clock::time_point submitted_at;
     };
     
+    /**
+     * @brief TBD: Describe InferenceEngineEnhanced.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit InferenceEngineEnhanced(const Config& config);
 
     /**
@@ -377,6 +382,7 @@ public:
 
     /**
      * @brief Return all registered routing rules in priority order.
+     * @return Return value.
      */
     std::vector<RoutingRule> getRoutingRules() const;
 
@@ -467,8 +473,15 @@ public:
      */
     void prewarmCache(const std::vector<std::string>& common_prompts);
     
-    // Statistics and monitoring
+    /**
+     * @brief Statistics and monitoring
+     * @return Return value.
+     */
     Statistics getStatistics() const;
+    /**
+     * @brief TBD: Describe getDetailedMetrics.
+     * @return Return value.
+     */
     json getDetailedMetrics() const;
     
     // Lifecycle
@@ -481,6 +494,10 @@ public:
      * @brief Stop worker infrastructure and reject further queued work.
      */
     void shutdown();
+    /**
+     * @brief TBD: Describe isRunning.
+     * @return True on success.
+     */
     bool isRunning() const;
 
     /**
@@ -512,6 +529,7 @@ public:
      * response carries `success=false` and an aggregated error message.
      *
      * Pass @c nullptr to detach a previously attached backend.
+     * @param[in] backend Input parameter.
      */
     void setFederatedBackend(std::shared_ptr<IFederatedInferenceBackend> backend);
 
@@ -559,12 +577,11 @@ public:
             size_t                             /*vocab_size*/,
             std::shared_ptr<ILLMPlugin>        /*target_plugin*/)>;
 
-    /// Inject a real target-logit computation into trySpeculativeGeneration().
-    /// Pass nullptr / empty fn to remove the override. Without an injected fn,
-    /// the engine auto-uses a native llama-backed target-logit bridge when the
-    /// target plugin exposes one; otherwise speculative decoding fails closed
-    /// back to the target-model generation path instead of fabricating logits.
-    /// Thread-safe.
+    /**
+     * @brief Inject a real target-logit computation into trySpeculativeGeneration().
+     * @param[in] fn Input parameter.
+     * @details Pass nullptr / empty fn to remove the override. Without an injected fn, the engine auto-uses a native llama-backed target-logit bridge when the target plugin exposes one; otherwise speculative decoding fails closed back to the target-model generation path instead of fabricating logits. Thread-safe.
+     */
     void setTargetLogitsFn(TargetLogitsFn fn);
 
     // ── STUB #263 bridge — tokenizer injection ────────────────────────────
@@ -583,11 +600,11 @@ public:
     using TokenizerFn = std::function<std::vector<int>(const std::string& text,
                                                        size_t             vocab_size)>;
 
-    /// Inject a real tokenizer into trySpeculativeGeneration() for the remote
-    /// and generic local draft paths. Pass nullptr / empty fn to remove the
-    /// override. Without an injected tokenizer, speculative decoding proceeds
-    /// only when the draft path has a known native llama-backed token source;
-    /// otherwise the engine falls back to the target-model path. Thread-safe.
+    /**
+     * @brief Inject a real tokenizer into trySpeculativeGeneration() for the remote and generic local draft paths.
+     * @param[in] fn Input parameter.
+     * @details Pass nullptr / empty fn to remove the override. Without an injected tokenizer, speculative decoding proceeds only when the draft path has a known native llama-backed token source; otherwise the engine falls back to the target-model path. Thread-safe.
+     */
     void setTokenizerFn(TokenizerFn fn);
 
     /**
@@ -695,56 +712,123 @@ private:
     // Timeout monitoring thread
     std::thread timeout_thread_;
     
-    // Internal methods
+    /**
+     * @brief Internal methods
+     * @param[in] worker_id Input parameter.
+     */
     void workerLoop(size_t worker_id);
+    /**
+     * @brief TBD: Describe timeoutMonitorLoop.
+     */
     void timeoutMonitorLoop();
+    /**
+     * @brief TBD: Describe processBatch.
+     * @param[in] batch Input parameter.
+     */
     void processBatch(const std::vector<std::shared_ptr<TrackedRequest>>& batch);
 
-    // Batch coordinator used when a shared pool is provided.
-    // Forms batches from the internal queue and submits processBatch()
-    // tasks to shared_pool_ rather than executing them inline.
+    /**
+     * @brief Batch coordinator used when a shared pool is provided.
+     * @details Forms batches from the internal queue and submits processBatch() tasks to shared_pool_ rather than executing them inline.
+     */
     void batchCoordinatorLoop();
     
-    // Cache integration
+    /**
+     * @brief Cache integration
+     * @param[in] request Input parameter.
+     * @return Return value.
+     */
     std::optional<InferenceResponse> checkCache(const InferenceRequest& request);
+    /**
+     * @brief TBD: Describe updateCache.
+     * @param[in] request Input parameter.
+     * @param[in] response Input parameter.
+     */
     void updateCache(const InferenceRequest& request, const InferenceResponse& response);
     
-    // Load balancing
+    /**
+     * @brief Load balancing
+     * @param[in] request Input parameter.
+     * @return Return value.
+     */
     std::string selectModel(const EnhancedInferenceRequest& request);
+    /**
+     * @brief TBD: Describe updateModelStats.
+     * @param[in] model_id Input parameter.
+     * @param[in] latency_ms Input parameter.
+     * @param[in] success Input parameter.
+     */
     void updateModelStats(const std::string& model_id, double latency_ms, bool success);
     
-    // Batch formation
+    /**
+     * @brief Batch formation
+     * @return Return value.
+     */
     std::vector<std::shared_ptr<TrackedRequest>> formBatch();
+    /**
+     * @brief TBD: Describe canAddToBatch.
+     * @param[in] req Input parameter.
+     * @param[in] current_batch_tokens Input parameter.
+     * @return True on success.
+     */
     bool canAddToBatch(const std::shared_ptr<TrackedRequest>& req, size_t current_batch_tokens);
     
-    // Timeout handling
+    /**
+     * @brief Timeout handling
+     */
     void checkAndHandleTimeouts();
     
-    // Embedding helper for cache operations.
-    // Uses the first available plugin (see implementation for selection rationale).
-    // Returns an empty vector when no plugin is registered or embedding fails
-    // (graceful degradation: falls back to exact-key matching only).
+    /**
+     * @brief Embedding helper for cache operations.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     * @details Uses the first available plugin (see implementation for selection rationale). Returns an empty vector when no plugin is registered or embedding fails (graceful degradation: falls back to exact-key matching only).
+     */
     std::vector<float> computeEmbeddingForCache(const std::string& text);
 
-    // Build a token-ID sequence for a given prompt.
-    // Uses the rough heuristic of 4 chars ≈ 1 token as a lightweight
-    // approximation.  A real tokenizer call would be required for exact counts,
-    // but the ILLMPlugin interface does not expose a standalone tokenize()
-    // method at this level of abstraction.
+    /**
+     * @brief Build a token-ID sequence for a given prompt.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     * @details Uses the rough heuristic of 4 chars ≈ 1 token as a lightweight approximation. A real tokenizer call would be required for exact counts, but the ILLMPlugin interface does not expose a standalone tokenize() method at this level of abstraction.
+     */
     static std::vector<int> estimateTokenSequence(const std::string& text);
 
-    // Statistics updates
+    /**
+     * @brief Statistics updates
+     * @param[in] tokens_saved Input parameter.
+     */
     void recordCacheHit(size_t tokens_saved);
+    /**
+     * @brief TBD: Describe recordCacheMiss.
+     */
     void recordCacheMiss();
+    /**
+     * @brief TBD: Describe recordBatchCompletion.
+     * @param[in] batch_size Input parameter.
+     */
     void recordBatchCompletion(size_t batch_size);
     void recordRequestCompletion(double latency_ms, const std::string& model_id,
                                  size_t tokens_generated = 0);
+    /**
+     * @brief TBD: Describe recordRequestTimeout.
+     */
     void recordRequestTimeout();
+    /**
+     * @brief TBD: Describe recordSpeculativeStep.
+     * @param[in] result Input parameter.
+     */
     void recordSpeculativeStep(const SpeculativeDecoder::VerifyResult& result);
 
-    // Speculative decoding helpers
-    // Returns true and fills `response` when speculative generation succeeds.
-    // Returns false to fall back to standard generation.
+    /**
+     * @brief Speculative decoding helpers Returns true and fills `response` when speculative generation succeeds.
+     * @param[in] request Input parameter.
+     * @param[in] target_plugin Input parameter.
+     * @param[in] draft_plugin Input parameter.
+     * @param[in,out] response Input/output parameter.
+     * @return True on success.
+     * @details Returns false to fall back to standard generation.
+     */
     bool trySpeculativeGeneration(
         const InferenceRequest&    request,
         std::shared_ptr<ILLMPlugin> target_plugin,
@@ -752,15 +836,18 @@ private:
         InferenceResponse&         response
     );
 
-    // Resolve the draft model ID for a given target model.
-    // Returns config_.speculative_draft_model_id when non-empty.
-    // Otherwise, if adapter_registry_ is set, queries it for a DRAFT adapter
-    // matching the target model's family (architecture field); returns the
-    // matching adapter_id when the corresponding model is registered, or
-    // an empty string when no suitable draft model is found.
+    /**
+     * @brief Resolve the draft model ID for a given target model.
+     * @param[in] target_model_id Input parameter.
+     * @return Return value.
+     * @details Returns config_.speculative_draft_model_id when non-empty. Otherwise, if adapter_registry_ is set, queries it for a DRAFT adapter matching the target model's family (architecture field); returns the matching adapter_id when the corresponding model is registered, or an empty string when no suitable draft model is found.
+     */
     std::string resolveDraftModelId(const std::string& target_model_id) const;
     
-    // Helper methods
+    /**
+     * @brief Helper methods
+     * @return Return value.
+     */
     std::string generateRequestId();
     std::atomic<uint64_t> request_counter_{0};
 };

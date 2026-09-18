@@ -171,8 +171,12 @@ private:
         std::vector<MigrationIssue>& issues
     ) const;
 
-    /// Extract a balanced-parentheses argument list starting at position @p open_paren
-    /// Returns the content between the parentheses or empty string on failure.
+    /**
+     * @brief Extract a balanced-parentheses argument list starting at position @p open_paren Returns the content between the parentheses or empty string on failure.
+     * @param[in] src Input parameter.
+     * @param[in] open_paren Input parameter.
+     * @return Return value.
+     */
     static std::string extractArgs(const std::string& src, std::size_t open_paren);
 };
 

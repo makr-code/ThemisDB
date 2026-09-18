@@ -71,6 +71,7 @@ public:
      * the geo compute-capability and VRAM thresholds.  Always returns at
      * least one entry (CPU_FALLBACK sentinel) so callers never receive an
      * empty list.
+     * @return Return value.
      */
     static std::vector<GeoDeviceCapability> Detect();
 
@@ -81,12 +82,14 @@ public:
      * CPU_FALLBACK sentinel capability when no suitable GPU device is present.
      *
      * @param capabilities  List produced by Detect() (avoids re-enumeration).
+     * @return Return value.
      */
     static GeoDeviceCapability BestDevice(
         const std::vector<GeoDeviceCapability>& capabilities);
 
     /**
      * @brief Convenience overload: detect then pick the best device.
+     * @return Return value.
      */
     static GeoDeviceCapability BestDevice();
 
@@ -94,12 +97,14 @@ public:
      * @brief True when at least one device suitable for geo operations exists.
      *
      * @param capabilities  List produced by Detect() (avoids re-enumeration).
+     * @return True on success.
      */
     static bool HasSuitableDevice(
         const std::vector<GeoDeviceCapability>& capabilities);
 
     /**
      * @brief Convenience overload: detect then check.
+     * @return True on success.
      */
     static bool HasSuitableDevice();
 
@@ -108,6 +113,8 @@ public:
      *
      * Useful for unit testing individual device records without invoking the
      * full discovery path.
+     * @param[in] device Input parameter.
+     * @return Return value.
      */
     static GeoDeviceCapability Assess(const themis::gpu::DeviceInfo& device);
 
@@ -136,27 +143,42 @@ public:
      * @endcode
      *
      * @param capabilities  List produced by Detect() (avoids re-enumeration).
+     * @return Return value.
      */
     static std::string ReportJson(
         const std::vector<GeoDeviceCapability>& capabilities);
 
     /**
      * @brief Convenience overload: detect then serialise.
+     * @return Return value.
      */
     static std::string ReportJson();
 
-    /// Register a custom device enumeration bridge for CPU-only or test builds.
-    /// Thread-safe; pass an empty function to fall back to DeviceDiscovery::Enumerate().
+    /**
+     * @brief Register a custom device enumeration bridge for CPU-only or test builds.
+     * @param[in] fn Input parameter.
+     * @details Thread-safe; pass an empty function to fall back to DeviceDiscovery::Enumerate(). Calls: lk(), enumerateFnMutex(), enumerateFnStorage(), std::move().
+     */
     static void setEnumerateFn(EnumerateFn fn) {
         std::lock_guard<std::mutex> lk(enumerateFnMutex());
         enumerateFnStorage() = std::move(fn);
     }
 
 private:
+    /**
+     * @brief TBD: Describe enumerateFnMutex.
+     * @return Return value.
+     * @details Implements enumerateFnMutex without additional internal calls.
+     */
     static std::mutex& enumerateFnMutex() {
         static std::mutex m;
         return m;
     }
+    /**
+     * @brief TBD: Describe enumerateFnStorage.
+     * @return Return value.
+     * @details Implements enumerateFnStorage without additional internal calls.
+     */
     static EnumerateFn& enumerateFnStorage() {
         static EnumerateFn fn;
         return fn;

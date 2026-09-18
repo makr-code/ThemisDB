@@ -175,6 +175,7 @@ public:
 
     /**
      * @brief Return the number of known law identifiers.
+     * @return Return value.
      */
     size_t knownLawCount() const;
 

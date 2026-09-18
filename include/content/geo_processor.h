@@ -70,16 +70,45 @@ private:
     
     bool initialized_ = false;
     
-    // Internal methods
+    /**
+     * @brief Internal methods
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     GeoExtractionData parseGeoJSON(const std::vector<uint8_t>& blob);
     GeoExtractionData parseShapefile(const std::vector<uint8_t>& blob, const ExtractionOptions& options = {});
+    /**
+     * @brief TBD: Describe parseGeoTIFF.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     GeoExtractionData parseGeoTIFF(const std::vector<uint8_t>& blob);
+    /**
+     * @brief TBD: Describe parseKML.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     GeoExtractionData parseKML(const std::vector<uint8_t>& blob);
+    /**
+     * @brief TBD: Describe parseGPX.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     GeoExtractionData parseGPX(const std::vector<uint8_t>& blob);
     GeoExtractionData parseGeoPackage(const std::vector<uint8_t>& blob, const ExtractionOptions& options = {});
     
     std::pair<double, double> calculateCentroid(const GeoExtractionData& geo);
+    /**
+     * @brief TBD: Describe calculateArea.
+     * @param[in] geo Input parameter.
+     * @return Return value.
+     */
     double calculateArea(const GeoExtractionData& geo);
+    /**
+     * @brief TBD: Describe calculateLength.
+     * @param[in] geo Input parameter.
+     * @return Return value.
+     */
     double calculateLength(const GeoExtractionData& geo);
 };
 

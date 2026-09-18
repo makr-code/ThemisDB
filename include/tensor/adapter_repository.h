@@ -186,6 +186,8 @@ public:
      * @brief Remove a stored adapter.
      *
      * @return true if the adapter was found and deleted, false otherwise.
+     * @param[in] domain Input parameter.
+     * @param[in] base_model_id Input parameter.
      */
     bool remove(const std::string& domain,
                 const std::string& base_model_id);
@@ -280,11 +282,13 @@ public:
 
     // ─── Bridge injection API (STUB #265 / #266) ────────────────────────────
 
+     * @param[in] fn Input parameter.
     /** @brief Inject a mmap-style loader backend for loadAdapter(). */
     static void setMmapLoadFn(MmapLoadFn fn);
     /** @brief Remove a previously injected mmap-style loader backend. */
     static void clearMmapLoadFn();
 
+     * @param[in] fn Input parameter.
     /** @brief Inject an exact similarity backend for findSimilarAdapters(). */
     static void setExactSimilarityFn(ExactSimilarityFn fn);
     /** @brief Remove a previously injected exact similarity backend. */
@@ -296,6 +300,7 @@ public:
      * When configured, findSimilarAdapters() exposes the adapter scope to the
      * ANN frontdoor so the retrieval plan can be tracked uniformly alongside
      * other ANN consumers.
+     * @param[in] frontdoor Input parameter.
      */
     void setAnnFrontdoor(std::shared_ptr<index::AnnFrontdoor> frontdoor);
 

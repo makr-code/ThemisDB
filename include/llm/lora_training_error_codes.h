@@ -315,6 +315,9 @@ private:
 
 /**
  * @brief Helper function to check if value is finite (not NaN or Inf)
+ * @param[in] value Input parameter.
+ * @return True on success.
+ * @details Calls: std::isfinite(), std::isnan(), std::isinf().
  */
 inline bool isFiniteValue(float value) {
     return std::isfinite(value) && !std::isnan(value) && !std::isinf(value);
@@ -322,6 +325,9 @@ inline bool isFiniteValue(float value) {
 
 /**
  * @brief Helper function to validate gradient magnitude
+ * @param[in] grad_magnitude Input parameter.
+ * @return True on success.
+ * @details Calls: isFiniteValue().
  */
 inline bool isValidGradientMagnitude(float grad_magnitude) {
     return isFiniteValue(grad_magnitude) && grad_magnitude >= 0.0f;

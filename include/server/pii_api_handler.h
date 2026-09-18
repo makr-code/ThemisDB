@@ -36,7 +36,16 @@ struct PiiMapping {
     std::string created_at; // ISO8601
     std::string updated_at; // ISO8601
 
+    /**
+     * @brief TBD: Describe toJson.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
+    /**
+     * @brief TBD: Describe fromJson.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static PiiMapping fromJson(const nlohmann::json& j);
 };
 
@@ -73,19 +82,45 @@ public:
     PIIApiHandler() = default;
     PIIApiHandler(rocksdb::TransactionDB* db, rocksdb::ColumnFamilyHandle* cf);
 
-    // CRUD
+    /**
+     * @brief CRUD
+     * @param[in] mapping Input parameter.
+     * @return True on success.
+     */
     bool addMapping(const PiiMapping& mapping); // false if duplicate
+    /**
+     * @brief TBD: Describe getMapping.
+     * @param[in] original_uuid Input parameter.
+     * @return Return value.
+     */
     std::optional<PiiMapping> getMapping(const std::string& original_uuid) const;
+    /**
+     * @brief TBD: Describe deleteMapping.
+     * @param[in] original_uuid Input parameter.
+     * @return True on success.
+     */
     bool deleteMapping(const std::string& original_uuid); // hard delete
 
-    // Listing helpers
-    // Returns a JSON object: { "items": [ ... ], "total": N, "page": p, "page_size": s }
+    /**
+     * @brief Listing helpers Returns a JSON object: { "items": [ .
+     * @param[in] filter Input parameter.
+     * @return Return value.
+     * @details .. ], "total": N, "page": p, "page_size": s }
+     */
     nlohmann::json listMappings(const PiiQueryFilter& filter);
 
-    // Returns CSV string with header
+    /**
+     * @brief Returns CSV string with header
+     * @param[in] filter Input parameter.
+     * @return Return value.
+     */
     std::string exportCsv(const PiiQueryFilter& filter);
 
-    // Backward-compatible demo method retained (delegates to deleteMapping)
+    /**
+     * @brief Backward-compatible demo method retained (delegates to deleteMapping)
+     * @param[in] uuid Input parameter.
+     * @return Return value.
+     */
     nlohmann::json deleteByUuid(const std::string& uuid);
 
 private:
@@ -93,7 +128,17 @@ private:
     rocksdb::ColumnFamilyHandle* cf_{nullptr};
 
     static constexpr const char* KEY_PREFIX = "pii:";
+    /**
+     * @brief TBD: Describe makeKey.
+     * @param[in] uuid Input parameter.
+     * @return Return value.
+     * @details Calls: std::string().
+     */
     static std::string makeKey(const std::string& uuid) { return std::string(KEY_PREFIX) + uuid; }
+    /**
+     * @brief TBD: Describe nowIso8601.
+     * @return Return value.
+     */
     static std::string nowIso8601();
 };
 

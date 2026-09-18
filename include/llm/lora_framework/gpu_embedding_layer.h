@@ -99,11 +99,35 @@ private:
     size_t hidden_dim_ = 0;
     Device device_;
     
-    // Helper methods
+    /**
+     * @brief Helper methods
+     * @param[in] token_ids Input parameter.
+     * @return Return value.
+     */
     GPUTensor forwardCPU(const GPUTensor& token_ids);
+    /**
+     * @brief TBD: Describe forwardCUDA.
+     * @param[in] token_ids Input parameter.
+     * @return Return value.
+     */
     GPUTensor forwardCUDA(const GPUTensor& token_ids);
+    /**
+     * @brief TBD: Describe forwardHIP.
+     * @param[in] token_ids Input parameter.
+     * @return Return value.
+     */
     GPUTensor forwardHIP(const GPUTensor& token_ids);
+    /**
+     * @brief TBD: Describe forwardVulkan.
+     * @param[in] token_ids Input parameter.
+     * @return Return value.
+     */
     GPUTensor forwardVulkan(const GPUTensor& token_ids);
+    /**
+     * @brief TBD: Describe forwardDirectX.
+     * @param[in] token_ids Input parameter.
+     * @return Return value.
+     */
     GPUTensor forwardDirectX(const GPUTensor& token_ids);
 };
 

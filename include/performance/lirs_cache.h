@@ -69,20 +69,16 @@ public:
      * @param key Key to lookup
      * @param value Output parameter for value
      * @return true if found (hit), false if not found (miss)
+     * @brief TBD: Describe get.
+     * @details Calls: lock(), find(), end(), access().
      */
     bool get(const Key& key, Value& value) {
-        // Use a single unique_lock for the whole get() operation.
-        //
-        // A two-phase shared→unique approach (shared for lookup, then upgrade to
-        // unique for access()) creates a TOCTOU race: the key can be evicted in the
-        // window between releasing the shared lock and acquiring the unique lock, so
-        // access() would silently be skipped and the caller would hold a stale value
-        // with no access-pattern update.
-        //
-        // With a single exclusive lock the trade-off is slightly reduced read
-        // concurrency; for workloads where reads dominate over writes the bottleneck
-        // is typically memory bandwidth rather than lock contention at cache sizes
-        // below ~10 M entries.  Large-scale deployments should use sharded instances.
+        /**
+         * @brief Use a single unique_lock for the whole get() operation.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         * @details A two-phase shared→unique approach (shared for lookup, then upgrade to unique for access()) creates a TOCTOU race: the key can be evicted in the window between releasing the shared lock and acquiring the unique lock, so access() would silently be skipped and the caller would hold a stale value with no access-pattern update. With a single exclusive lock the trade-off is slightly reduced read concurrency; for workloads where reads dominate over writes the bottleneck is typically memory bandwidth rather than lock contention at cache sizes below ~10 M entries. Large-scale deployments should use sharded instances.
+         */
         std::unique_lock<std::shared_mutex> lock(mutex_);
 
         auto it = map_.find(key);
@@ -101,8 +97,15 @@ public:
      * Put key-value pair into cache
      * @param key Key
      * @param value Value
+     * @brief TBD: Describe put.
+     * @details Calls: lock(), find(), end(), access(), size(), evict(), push_front(), begin().
      */
     void put(const Key& key, const Value& value) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lock(mutex_);
         
         auto it = map_.find(key);
@@ -144,6 +147,11 @@ public:
      * Check if key exists in cache
      */
     bool contains(const Key& key) const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(mutex_);
         return map_.find(key) != map_.end();
     }
@@ -152,6 +160,11 @@ public:
      * Get current cache size
      */
     size_t size() const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(mutex_);
         return map_.size();
     }
@@ -190,8 +203,15 @@ public:
 
     /**
      * Clear cache and reset statistics
+     * @brief TBD: Describe clear.
+     * @details Calls: lock().
      */
     void clear() {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lock(mutex_);
         map_.clear();
         stack_.clear();
@@ -205,6 +225,11 @@ public:
      * Get LIR count
      */
     size_t get_lir_count() const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(mutex_);
         return lir_count_;
     }
@@ -213,6 +238,11 @@ public:
      * Get HIR count
      */
     size_t get_hir_count() const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(mutex_);
         return map_.size() - lir_count_;
     }
@@ -228,6 +258,9 @@ private:
 
     /**
      * Handle access to existing entry
+     * @brief TBD: Describe access.
+     * @param[in] key Input parameter.
+     * @details Calls: erase(), push_front(), begin(), prune_stack(), promote_to_lir().
      */
     void access(const Key& key) {
         auto& entry = map_[key];
@@ -264,6 +297,9 @@ private:
 
     /**
      * Promote HIR entry to LIR
+     * @brief TBD: Describe promote_to_lir.
+     * @param[in] key Input parameter.
+     * @details Calls: erase(), push_front(), begin(), demote_lir_to_hir(), prune_stack().
      */
     void promote_to_lir(const Key& key) {
         auto& entry = map_[key];
@@ -297,6 +333,8 @@ private:
 
     /**
      * Demote LIR entry to HIR (when LIR set is full)
+     * @brief TBD: Describe demote_lir_to_hir.
+     * @details Calls: rbegin(), rend(), erase(), push_front(), begin().
      */
     void demote_lir_to_hir() {
         // Find bottom LIR in stack
@@ -324,6 +362,8 @@ private:
 
     /**
      * Prune stack: Remove HIR entries from stack bottom
+     * @brief TBD: Describe prune_stack.
+     * @details Calls: empty(), back(), find(), end(), erase().
      */
     void prune_stack() {
         while (!stack_.empty()) {
@@ -343,6 +383,8 @@ private:
 
     /**
      * Evict entry when cache is full
+     * @brief TBD: Describe evict.
+     * @details Calls: empty(), back(), erase(), pop_back().
      */
     void evict() {
         // Evict from HIR list (tail = least recently used HIR)

@@ -176,6 +176,7 @@ public:
      *
      * Should be called at startup *before* accepting new transactions.
      * Returns true if recover() needs to be run.
+     * @return True on success.
      */
     bool needsRecovery() const;
 
@@ -195,6 +196,7 @@ public:
      * @brief Get the IDs of transactions that were in-flight at last scan.
      *
      * Updated by needsRecovery() and recover().
+     * @return Return value.
      */
     std::vector<uint64_t> getInFlightTransactionIds() const;
 
@@ -214,6 +216,7 @@ public:
 
     /**
      * @brief Aggregate runtime metrics.
+     * @return Return value.
      */
     RecoveryMetrics getMetrics() const;
 
@@ -221,12 +224,14 @@ public:
 
     /**
      * @brief Read all log entries from the WAL file.
+     * @return Return value.
      */
     std::vector<LogEntry> readAllEntries() const;
 
     /**
      * @brief Number of entries currently in the in-memory pending map
      *        (transactions started but not yet committed/aborted).
+     * @return Return value.
      */
     size_t pendingTransactionCount() const;
 

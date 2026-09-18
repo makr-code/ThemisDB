@@ -61,6 +61,11 @@ public:
  */
 
 #pragma once
+/**
+ * @brief TBD: Describe normalizeText.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ */
 std::string normalizeText(std::string_view text);
 
 } // namespace toolbox

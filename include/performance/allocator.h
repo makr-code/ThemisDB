@@ -44,6 +44,7 @@ namespace memory {
  * 
  * @param size Number of bytes to allocate
  * @return Pointer to allocated memory
+ * @details Calls: je_malloc(), defined(), mi_malloc().
  */
 inline void* allocate(size_t size) {
     #ifdef THEMIS_ENABLE_JEMALLOC
@@ -59,6 +60,7 @@ inline void* allocate(size_t size) {
  * @brief Deallocate memory allocated with allocate()
  * 
  * @param ptr Pointer to memory to deallocate
+ * @details Calls: je_free(), defined(), mi_free().
  */
 inline void deallocate(void* ptr) {
     if (!ptr) {
@@ -80,6 +82,7 @@ inline void deallocate(void* ptr) {
  * @param size Number of bytes to allocate
  * @param alignment Alignment requirement in bytes (must be power of 2)
  * @return Pointer to aligned memory
+ * @details Calls: je_aligned_alloc(), defined(), mi_malloc_aligned(), std::align_val_t().
  */
 inline void* allocate_aligned(size_t size, size_t alignment) {
     #ifdef THEMIS_ENABLE_JEMALLOC
@@ -113,6 +116,8 @@ inline void deallocate_aligned(void* ptr, [[maybe_unused]] size_t alignment) {
 
 /**
  * @brief Get allocator name for logging/diagnostics
+ * @return Pointer to the result.
+ * @details Calls: defined().
  */
 inline const char* allocator_name() {
     #ifdef THEMIS_ENABLE_JEMALLOC
@@ -126,6 +131,8 @@ inline const char* allocator_name() {
 
 /**
  * @brief Check if jemalloc optimization is active
+ * @return True on success.
+ * @details Implements is_jemalloc_enabled without additional internal calls.
  */
 inline bool is_jemalloc_enabled() {
     #ifdef THEMIS_ENABLE_JEMALLOC
@@ -137,6 +144,8 @@ inline bool is_jemalloc_enabled() {
 
 /**
  * @brief Check if mimalloc optimization is active
+ * @return True on success.
+ * @details Implements is_mimalloc_enabled without additional internal calls.
  */
 inline bool is_mimalloc_enabled() {
     #ifdef THEMIS_ENABLE_MIMALLOC

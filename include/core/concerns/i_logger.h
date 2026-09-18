@@ -68,6 +68,10 @@ public:
         CRITICAL
     };
 
+    /**
+     * @brief TBD: Describe ~ILogger.
+     * @return Return value.
+     */
     virtual ~ILogger() = default;
 
     // -----------------------------------------------------------------------
@@ -85,28 +89,46 @@ public:
      */
     virtual void log(Level level, const std::string& message) = 0;
 
-    /// @brief Log at TRACE level (most verbose, diagnostic detail).
-    /// @param message Human-readable log text.
+    /**
+     * @brief @brief Log at TRACE level (most verbose, diagnostic detail).
+     * @param[in] message Input parameter.
+     * @details @param message Human-readable log text.
+     */
     virtual void trace(const std::string& message) = 0;
 
-    /// @brief Log at DEBUG level (developer-facing diagnostic detail).
-    /// @param message Human-readable log text.
+    /**
+     * @brief @brief Log at DEBUG level (developer-facing diagnostic detail).
+     * @param[in] message Input parameter.
+     * @details @param message Human-readable log text.
+     */
     virtual void debug(const std::string& message) = 0;
 
-    /// @brief Log at INFO level (normal operational events).
-    /// @param message Human-readable log text.
+    /**
+     * @brief @brief Log at INFO level (normal operational events).
+     * @param[in] message Input parameter.
+     * @details @param message Human-readable log text.
+     */
     virtual void info(const std::string& message) = 0;
 
-    /// @brief Log at WARN level (unexpected but recoverable condition).
-    /// @param message Human-readable log text.
+    /**
+     * @brief @brief Log at WARN level (unexpected but recoverable condition).
+     * @param[in] message Input parameter.
+     * @details @param message Human-readable log text.
+     */
     virtual void warn(const std::string& message) = 0;
 
-    /// @brief Log at ERROR level (failure that requires attention).
-    /// @param message Human-readable log text.
+    /**
+     * @brief @brief Log at ERROR level (failure that requires attention).
+     * @param[in] message Input parameter.
+     * @details @param message Human-readable log text.
+     */
     virtual void error(const std::string& message) = 0;
 
-    /// @brief Log at CRITICAL level (severe failure, may require restart).
-    /// @param message Human-readable log text.
+    /**
+     * @brief @brief Log at CRITICAL level (severe failure, may require restart).
+     * @param[in] message Input parameter.
+     * @details @param message Human-readable log text.
+     */
     virtual void critical(const std::string& message) = 0;
 
     /**

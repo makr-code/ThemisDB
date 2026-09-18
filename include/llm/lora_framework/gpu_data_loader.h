@@ -123,6 +123,7 @@ public:
     
     /**
      * @brief Check if more batches available
+     * @return True on success.
      */
     bool hasNext() const;
     
@@ -138,6 +139,7 @@ public:
     
     /**
      * @brief Get number of batches
+     * @return Return value.
      */
     size_t num_batches() const;
     
@@ -171,6 +173,10 @@ public:
         size_t prefetch_buffer_bytes = 0;
     };
     
+    /**
+     * @brief TBD: Describe get_memory_stats.
+     * @return Return value.
+     */
     MemoryStats get_memory_stats() const;
 
 private:
@@ -191,11 +197,29 @@ private:
     std::atomic<bool> stop_prefetch_{false};
     std::atomic<bool> prefetch_active_{false};
     
-    // Helper methods
+    /**
+     * @brief Helper methods
+     */
     void startPrefetching();
+    /**
+     * @brief TBD: Describe stopPrefetching.
+     */
     void stopPrefetching();
+    /**
+     * @brief TBD: Describe prefetchWorker.
+     */
     void prefetchWorker();
+    /**
+     * @brief TBD: Describe prepareBatch.
+     * @param[in] batch_idx Input parameter.
+     * @return Return value.
+     */
     GPUBatch prepareBatch(size_t batch_idx);
+    /**
+     * @brief TBD: Describe tokenizeSample.
+     * @param[in] sample Input parameter.
+     * @return Return value.
+     */
     std::vector<int> tokenizeSample(const InstructionDataSample& sample);
 };
 

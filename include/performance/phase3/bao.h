@@ -48,13 +48,26 @@ public:
     BaoOptimizer();
     ~BaoOptimizer();
     
-    // Generate alternative query plans
+    /**
+     * @brief Generate alternative query plans
+     * @param[in] query Input parameter.
+     * @return Return value.
+     */
     std::vector<QueryPlan> generate_plans(const std::string& query);
     
-    // Select best plan using Thompson Sampling
+    /**
+     * @brief Select best plan using Thompson Sampling
+     * @param[in] query Input parameter.
+     * @param[in] plans Input parameter.
+     * @return Return value.
+     */
     QueryPlan select_plan(const std::string& query, const std::vector<QueryPlan>& plans);
     
-    // Update model with execution feedback
+    /**
+     * @brief Update model with execution feedback
+     * @param[in] plan Input parameter.
+     * @param[in] result Input parameter.
+     */
     void update_model(const QueryPlan& plan, const QueryResult& result);
     
     // Get optimizer statistics
@@ -63,6 +76,10 @@ public:
         double avg_speedup;
         size_t model_updates;
     };
+    /**
+     * @brief TBD: Describe get_stats.
+     * @return Return value.
+     */
     Stats get_stats() const;
 
     /**

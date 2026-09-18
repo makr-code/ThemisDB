@@ -442,6 +442,12 @@ public:
     }
 
 private:
+    /**
+     * @brief TBD: Describe escapeHtml.
+     * @param[in] str Input parameter.
+     * @return Return value.
+     * @details Calls: reserve(), size().
+     */
     static std::string escapeHtml(const std::string& str) {
         std::string result = {};
         result.reserve(str.size() * 1.2);
@@ -458,6 +464,12 @@ private:
         return result;
     }
     
+    /**
+     * @brief TBD: Describe escapeSql.
+     * @param[in] str Input parameter.
+     * @return Return value.
+     * @details Calls: reserve(), size().
+     */
     static std::string escapeSql(const std::string& str) {
         std::string result = {};
         result.reserve(str.size() * 1.2);
@@ -473,6 +485,12 @@ private:
         return result;
     }
     
+    /**
+     * @brief TBD: Describe escapeJson.
+     * @param[in] str Input parameter.
+     * @return Return value.
+     * @details Calls: reserve(), size().
+     */
     static std::string escapeJson(const std::string& str) {
         std::string result = {};
         result.reserve(str.size() * 1.2);
@@ -491,6 +509,12 @@ private:
         return result;
     }
     
+    /**
+     * @brief TBD: Describe sanitizeFilename.
+     * @param[in] str Input parameter.
+     * @return Return value.
+     * @details Calls: reserve(), size(), std::isalnum().
+     */
     static std::string sanitizeFilename(const std::string& str) {
         std::string result = {};
         result.reserve(str.size());
@@ -874,6 +898,12 @@ public:
     }
 
 private:
+    /**
+     * @brief TBD: Describe fnv1aHash.
+     * @param[in] str Input parameter.
+     * @return Return value.
+     * @details Implements fnv1aHash without additional internal calls.
+     */
     static uint64_t fnv1aHash(const std::string& str) {
         uint64_t hash = 0xcbf29ce484222325ULL; // FNV-1a offset basis
         for (char c : str) {
@@ -883,6 +913,12 @@ private:
         return hash;
     }
     
+    /**
+     * @brief TBD: Describe djb2Hash.
+     * @param[in] str Input parameter.
+     * @return Return value.
+     * @details Implements djb2Hash without additional internal calls.
+     */
     static uint64_t djb2Hash(const std::string& str) {
         uint64_t hash = 5381;
         for (char c : str) {
@@ -937,6 +973,12 @@ public:
     }
 
 private:
+    /**
+     * @brief TBD: Describe crc32.
+     * @param[in] data Input parameter.
+     * @return Return value.
+     * @details Implements crc32 without additional internal calls.
+     */
     static uint32_t crc32(const std::string& data) {
         uint32_t crc = 0xFFFFFFFF;
         for (unsigned char c : data) {
@@ -948,6 +990,12 @@ private:
         return ~crc;
     }
     
+    /**
+     * @brief TBD: Describe adler32.
+     * @param[in] data Input parameter.
+     * @return Return value.
+     * @details Implements adler32 without additional internal calls.
+     */
     static uint32_t adler32(const std::string& data) {
         uint32_t a = 1, b = 0;
         for (unsigned char c : data) {
@@ -964,6 +1012,7 @@ private:
 
 /**
  * @brief Register all security functions
+ * @details Calls: FunctionRegistry::instance(), registerFunction().
  */
 inline void registerSecurityFunctions() {
     auto& registry = FunctionRegistry::instance();

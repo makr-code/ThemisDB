@@ -96,6 +96,11 @@ public:
  */
 
 #pragma once
+/**
+ * @brief TBD: Describe scoreText.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ */
 TextQualityScore scoreText(std::string_view text);
 
 } // namespace toolbox

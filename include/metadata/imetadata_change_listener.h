@@ -98,6 +98,10 @@ struct MetadataChangeEvent {
  */
 class IMetadataChangeListener {
 public:
+    /**
+     * @brief TBD: Describe ~IMetadataChangeListener.
+     * @return Return value.
+     */
     virtual ~IMetadataChangeListener() = default;
 
     /**
@@ -138,6 +142,11 @@ public:
     // ── IMetadataChangeListener ───────────────────────────────────────────────
 
     void onMetadataChanged(const MetadataChangeEvent& event) override {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         events_.push_back(event);
         auto cb = callback_;          // copy under lock
@@ -153,6 +162,11 @@ public:
      * @brief Return a snapshot of all recorded events, oldest first.
      */
     std::vector<MetadataChangeEvent> events() const {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         return events_;
     }
@@ -161,6 +175,11 @@ public:
      * @brief Return the number of events recorded so far.
      */
     std::size_t eventCount() const {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         return events_.size();
     }
@@ -169,6 +188,11 @@ public:
      * @brief Return the most recently recorded event, or nullopt if none.
      */
     std::optional<MetadataChangeEvent> lastEvent() const {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         if (events_.empty()) {
           return std::nullopt;
@@ -178,8 +202,14 @@ public:
 
     /**
      * @brief Clear all recorded events.
+     * @details Calls: lk().
      */
     void clear() {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         events_.clear();
     }
@@ -188,8 +218,15 @@ public:
      * @brief Replace the event callback.
      *
      * Thread-safe; the new callback takes effect for the next event.
+     * @param[in] cb Input parameter.
+     * @details Calls: lk(), std::move().
      */
     void setCallback(EventCallback cb) {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         callback_ = std::move(cb);
     }

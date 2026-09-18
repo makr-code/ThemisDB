@@ -56,6 +56,7 @@ public:
     /**
      * @brief Get service instance for gRPC server registration
      * This will return the actual grpc::Service* after proto generation
+     * @return Pointer to the result.
      */
     void* getServiceInstance();
 
@@ -63,8 +64,17 @@ private:
     std::shared_ptr<PITRManager> pitr_manager_;
     std::shared_ptr<transaction::SnapshotManager> snapshot_manager_;
     
-    // Helper methods
+    /**
+     * @brief Helper methods
+     * @param[in] tag_name Input parameter.
+     * @return True on success.
+     */
     bool validateTagName(const std::string& tag_name);
+    /**
+     * @brief TBD: Describe validateDescription.
+     * @param[in] description Input parameter.
+     * @return True on success.
+     */
     bool validateDescription(const std::string& description);
 };
 

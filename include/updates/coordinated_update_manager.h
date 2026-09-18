@@ -301,21 +301,25 @@ public:
 
     /**
      * @brief Return the sequence number assigned to the local node.
+     * @return Return value.
      */
     uint32_t localSequenceNumber() const;
 
     /**
      * @brief Return the total number of nodes in the update sequence.
+     * @return Return value.
      */
     uint32_t totalNodes() const;
 
     /**
      * @brief Return true when the local node is the replication leader.
+     * @return True on success.
      */
     bool isLeader() const;
 
     /**
      * @brief Return a snapshot of all known node statuses.
+     * @return Return value.
      */
     std::vector<NodeUpdateStatus> nodeStatuses() const;
 
@@ -326,6 +330,7 @@ public:
      *
      * When not set, the manager assumes it is the first node in the sequence
      * (or that there is no predecessor) and proceeds immediately.
+     * @param[in] fn Input parameter.
      */
     void setWaitForPreviousFunc(WaitForPreviousFunc fn);
 
@@ -333,25 +338,35 @@ public:
      * @brief Register the callback used to signal the next node.
      *
      * When not set, signalling is a no-op (useful when this is the last node).
+     * @param[in] fn Input parameter.
      */
     void setSignalReadyFunc(SignalReadyFunc fn);
 
     /**
      * @brief Register a progress callback.
+     * @param[in] fn Input parameter.
      */
     void setProgressCallback(ProgressCallback fn);
 
 private:
-    /// Returns a pointer to the local node's status entry (never null after
-    /// successful construction).
+    /**
+     * @brief Returns a pointer to the local node's status entry (never null after successful construction).
+     * @return Pointer to the result.
+     */
     NodeUpdateStatus* localStatus();
+    /**
+     * @brief TBD: Describe localStatus.
+     * @return Pointer to the result.
+     */
     const NodeUpdateStatus* localStatus() const;
 
     /// Returns the node descriptor for the local node.
     const NodeDescriptor* localDescriptor() const;
 
-    /// Returns the node descriptor for the predecessor of the local node,
-    /// or nullptr when the local node is first in the sequence.
+    /**
+     * @brief Returns the node descriptor for the predecessor of the local node, or nullptr when the local node is first in the sequence.
+     * @return Pointer to the result.
+     */
     const NodeDescriptor* predecessorDescriptor() const;
 
     /// Helper for coordinated rollback in reverse sequence
@@ -360,6 +375,10 @@ private:
     /// Mark a node as isolated due to rollback failure
     void isolateNode(const std::string& node_id, const std::string& reason);
 
+    /**
+     * @brief TBD: Describe reportProgress.
+     * @param[in] message Input parameter.
+     */
     void reportProgress(const std::string& message);
 
     mutable std::mutex mutex_;

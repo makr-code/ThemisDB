@@ -93,8 +93,11 @@ public:
     /// @brief Construct detector with default config
     VoiceLivenessDetector() = default;
 
-    /// @brief Construct detector with custom config
-    /// @param config Liveness detection configuration
+    /**
+     * @brief @brief Construct detector with custom config @param config Liveness detection configuration
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit VoiceLivenessDetector(const Config& config);
 
     /// @brief Destructor
@@ -154,22 +157,31 @@ private:
     std::set<uint64_t> verified_challenges_;               ///< Previously verified (replay detection)
     std::map<uint64_t, int64_t> verified_timestamps_;      ///< When each challenge was verified
 
-    /// @brief Extract a deterministic transcript candidate from the response payload.
-    /// @param audio Raw response payload; opaque/binary data is rejected fail-closed.
-    /// @return Recognized text; empty string if extraction failed
+    /**
+     * @brief @brief Extract a deterministic transcript candidate from the response payload.
+     * @param[in] audio Input parameter.
+     * @return Return value.
+     * @details @param audio Raw response payload; opaque/binary data is rejected fail-closed. @return Recognized text; empty string if extraction failed
+     */
     std::string speechToText(const std::string& audio);
 
-    /// @brief Generate random challenge phrase
-    /// @return Random phrase suitable for voice challenge
+    /**
+     * @brief @brief Generate random challenge phrase @return Random phrase suitable for voice challenge
+     * @return Return value.
+     */
     std::string generateRandomChallenge();
 
-    /// @brief Get current time in milliseconds
-    /// @return Milliseconds since epoch
+    /**
+     * @brief @brief Get current time in milliseconds @return Milliseconds since epoch
+     * @return Return value.
+     */
     int64_t nowMs() const;
 
-    /// @brief Normalize text for comparison (lowercase, remove punctuation)
-    /// @param text Raw text
-    /// @return Normalized text
+    /**
+     * @brief @brief Normalize text for comparison (lowercase, remove punctuation) @param text Raw text @return Normalized text
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     std::string normalizeText(const std::string& text);
 };
 

@@ -159,8 +159,14 @@ public:
     /// Human-readable description (useful for AQL EXPLAIN output).
     [[nodiscard]] std::string                describe()    const;
 
-    // ─── Bridge injection API (STUB #267) ───────────────────────────────────
+    /**
+     * @brief ─── Bridge injection API (STUB #267) ───────────────────────────────────
+     * @param[in] fn Input parameter.
+     */
     static void setFourierTransformFn(FourierTransformFn fn);
+    /**
+     * @brief TBD: Describe clearFourierTransformFn.
+     */
     static void clearFourierTransformFn();
 
     // ─── Bridge injection API (STUB #268 — RADON / GREENS_FUNCTION) ─────────
@@ -186,8 +192,12 @@ public:
      *
      * Once set, `build(RADON, ...)` no longer throws `std::logic_error`;
      * `apply()` delegates each mode-fiber transform to this function.
+     * @param[in] fn Input parameter.
      */
     static void setRadonTransformFn(RadonTransformFn fn);
+    /**
+     * @brief TBD: Describe clearRadonTransformFn.
+     */
     static void clearRadonTransformFn();
 
     /**
@@ -195,11 +205,20 @@ public:
      *
      * Once set, `build(GREENS_FUNCTION, ...)` no longer throws `std::logic_error`;
      * `apply()` delegates each mode-fiber transform to this function.
+     * @param[in] fn Input parameter.
      */
     static void setGreensTransformFn(GreensTransformFn fn);
+    /**
+     * @brief TBD: Describe clearGreensTransformFn.
+     */
     static void clearGreensTransformFn();
 
 private:
+    /**
+     * @brief TBD: Describe TensorButterflyOperator.
+     * @param[in] cfg Input parameter.
+     * @return Return value.
+     */
     explicit TensorButterflyOperator(ButterflyConfig cfg);
 
     /// Pre-built per-mode Hadamard matrices, row-major (n_k × n_k each).

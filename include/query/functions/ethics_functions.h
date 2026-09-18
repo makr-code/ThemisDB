@@ -581,6 +581,8 @@ public:
 
 /**
  * @brief Register all ethics AI functions with the registry
+ * @param[in,out] registry Input/output parameter.
+ * @details Calls: registerFunction().
  */
 inline void registerEthicsFunctions(FunctionRegistry& registry) {
     // Decision making

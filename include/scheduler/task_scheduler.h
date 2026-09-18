@@ -391,9 +391,12 @@ public:
         std::string authorization_justification;             ///< Why access was granted (policy/scope decision)
     };
 
-    /// Set the authentication context for the calling thread.
-    /// Must be called before any scheduler method that performs audit logging.
-    /// Thread-safe (each thread owns its own context slot).
+    /**
+     * @brief Set the authentication context for the calling thread.
+     * @param[in] ctx Input parameter.
+     * @note Exception safety: noexcept.
+     * @details Must be called before any scheduler method that performs audit logging. Thread-safe (each thread owns its own context slot).
+     */
     static void setRequestContext(const RequestContext& ctx) noexcept;
 
     /// Clear the authentication context for the calling thread.
@@ -404,7 +407,19 @@ public:
 
     /// Return the client IP from the thread-local request context (empty if not set).
     static std::string currentClientIp() noexcept;
+    /**
+     * @brief TBD: Describe hasPermission.
+     * @param[in] permission Input parameter.
+     * @return True on success.
+     * @note Exception safety: noexcept.
+     */
     static bool hasPermission(const std::string& permission) noexcept;
+    /**
+     * @brief TBD: Describe hasRole.
+     * @param[in] role Input parameter.
+     * @return True on success.
+     * @note Exception safety: noexcept.
+     */
     static bool hasRole(const std::string& role) noexcept;
     static std::string currentAuthorizationJustification(const char* fallback = "") noexcept;
     
@@ -430,8 +445,13 @@ public:
                           RocksDBWrapper* result_storage = nullptr);
     ~TaskScheduler();
     
-    // Lifecycle management
+    /**
+     * @brief Lifecycle management
+     */
     void start();
+    /**
+     * @brief TBD: Describe stop.
+     */
     void stop();
     bool isRunning() const { return running_.load(); }
     
@@ -550,6 +570,7 @@ public:
     
     /**
      * @brief Get scheduler statistics
+     * @return Return value.
      */
     Stats getStats() const;
 
@@ -574,6 +595,7 @@ public:
 
     /**
      * @brief List all registered tasks
+     * @return Return value.
      */
     std::vector<ScheduledTask> listTasks() const;
     
@@ -628,6 +650,7 @@ public:
      * Returns std::nullopt if result storage is disabled or no results exist.
      *
      * @param task_id  Task identifier.
+     * @return Return value.
      */
     std::optional<scheduler::TaskExecutionResult> getLatestTaskResult(
         const std::string& task_id) const;
@@ -642,11 +665,13 @@ public:
      * task subsequently succeeds.
      *
      * Pass nullptr to disable alertmanager integration (default behaviour).
+     * @param[in] alertmanager Input parameter.
      */
     void setAlertmanager(std::shared_ptr<observability::Alertmanager> alertmanager);
 
     /**
      * @brief Get the currently configured alertmanager (may be nullptr).
+     * @return Return value.
      */
     std::shared_ptr<observability::Alertmanager> getAlertmanager() const;
 
@@ -656,6 +681,8 @@ public:
      *        reached.
      *
      * Always returns 0 when @c enable_dynamic_scaling is false.
+     * @return Return value.
+     * @note Exception safety: noexcept.
      */
     size_t getQueueDepth() const noexcept;
 
@@ -666,6 +693,8 @@ public:
      * @c Config::max_concurrent_tasks.  When scaling is enabled it reflects
      * the dynamically adjusted value in the range
      * [@c min_concurrent_tasks, @c max_concurrent_tasks_ceil].
+     * @return Return value.
+     * @note Exception safety: noexcept.
      */
     size_t getDynamicConcurrencyLimit() const noexcept;
 
@@ -726,43 +755,137 @@ private:
     std::atomic<size_t> failed_executions_{0};
     std::chrono::system_clock::time_point last_run_;
     
-    // Scheduler loop
+    /**
+     * @brief Scheduler loop
+     */
     void schedulerLoop();
     
-    // Task execution
+    /**
+     * @brief Task execution
+     * @param[in] task Input parameter.
+     */
     void executeTask(std::shared_ptr<ScheduledTask> task);
+    /**
+     * @brief TBD: Describe executeAqlQuery.
+     * @param[in] aql Input parameter.
+     * @return Return value.
+     */
     nlohmann::json executeAqlQuery(const std::string& aql);
+    /**
+     * @brief TBD: Describe executeFunction.
+     * @param[in] name Input parameter.
+     * @param[in] params Input parameter.
+     * @return Return value.
+     */
     nlohmann::json executeFunction(const std::string& name, const nlohmann::json& params);
     
-    // Scheduling logic
+    /**
+     * @brief Scheduling logic
+     * @param[in] task Input parameter.
+     * @param[in] now Input parameter.
+     * @return True on success.
+     */
     bool shouldExecute(const ScheduledTask& task, const std::chrono::system_clock::time_point& now) const;
+    /**
+     * @brief TBD: Describe updateNextRun.
+     * @param[in,out] task Input/output parameter.
+     */
     void updateNextRun(ScheduledTask& task);
+    /**
+     * @brief TBD: Describe shouldExecuteCron.
+     * @param[in] task Input parameter.
+     * @param[in] now Input parameter.
+     * @return True on success.
+     */
     bool shouldExecuteCron(const ScheduledTask& task, const std::chrono::system_clock::time_point& now) const;
     
-    // Event trigger management
+    /**
+     * @brief Event trigger management
+     * @param[in] task Input parameter.
+     */
     void setupEventTrigger(std::shared_ptr<ScheduledTask> task);
+    /**
+     * @brief TBD: Describe removeEventTrigger.
+     * @param[in] task_id Input parameter.
+     */
     void removeEventTrigger(const std::string& task_id);
+    /**
+     * @brief TBD: Describe onCDCEvent.
+     * @param[in] task Input parameter.
+     * @param[in] event Input parameter.
+     */
     void onCDCEvent(std::shared_ptr<ScheduledTask> task, const Changefeed::ChangeEvent& event);
     
-    // Cron expression management
+    /**
+     * @brief Cron expression management
+     * @param[in] task_id Input parameter.
+     * @return Return value.
+     */
     std::shared_ptr<CronExpression> getCronExpression(const std::string& task_id);
+    /**
+     * @brief TBD: Describe updateCronExpression.
+     * @param[in] task_id Input parameter.
+     * @param[in] expression Input parameter.
+     */
     void updateCronExpression(const std::string& task_id, const std::string& expression);
     
-    // Persistence (optional)
+    /**
+     * @brief Persistence (optional)
+     */
     void saveTasks();
+    /**
+     * @brief TBD: Describe loadTasks.
+     */
     void loadTasks();
     
-    // Helpers
+    /**
+     * @brief Helpers
+     * @return Return value.
+     */
     int64_t getCurrentTimeMs() const;
+    /**
+     * @brief TBD: Describe generateTaskId.
+     * @param[in] task Input parameter.
+     * @return Return value.
+     */
     std::string generateTaskId(const ScheduledTask& task) const;
     
-    // Security & Validation helpers
+    /**
+     * @brief Security & Validation helpers
+     * @param[in] aql Input parameter.
+     */
     void validateAqlQuery(const std::string& aql) const;
+    /**
+     * @brief TBD: Describe validateResourceLimits.
+     * @param[in] task Input parameter.
+     */
     void validateResourceLimits(const ScheduledTask& task) const;
+    /**
+     * @brief TBD: Describe validateCronExpression.
+     * @param[in] expression Input parameter.
+     */
     void validateCronExpression(const std::string& expression) const;
+    /**
+     * @brief TBD: Describe validateCDCTrigger.
+     * @param[in] trigger Input parameter.
+     */
     void validateCDCTrigger(const ScheduledTask::CDCTrigger& trigger) const;
+    /**
+     * @brief TBD: Describe sanitizeTask.
+     * @param[in] task Input parameter.
+     * @return Return value.
+     */
     ScheduledTask sanitizeTask(const ScheduledTask& task) const;
+    /**
+     * @brief TBD: Describe enforceQueryComplexityLimits.
+     * @param[in] aql Input parameter.
+     */
     void enforceQueryComplexityLimits(const std::string& aql) const;
+    /**
+     * @brief TBD: Describe checkRateLimit.
+     * @param[in] task_id Input parameter.
+     * @return True on success.
+     */
     bool checkRateLimit(const std::string& task_id);  // Non-const since it logs security events
 
     // DAG execution helpers
@@ -772,17 +895,43 @@ private:
         const std::vector<std::string>& task_ids,
         const std::map<std::string, std::vector<std::string>>& adj) const;
 
-    // Alertmanager helpers
+    /**
+     * @brief Alertmanager helpers
+     * @param[in] task Input parameter.
+     * @param[in] error Input parameter.
+     */
     void fireTaskFailureAlert(const ScheduledTask& task, const std::string& error);
+    /**
+     * @brief TBD: Describe fireTaskSlaBreachAlert.
+     * @param[in] task Input parameter.
+     * @param[in] elapsed_ms Input parameter.
+     */
     void fireTaskSlaBreachAlert(const ScheduledTask& task, double elapsed_ms);
+    /**
+     * @brief TBD: Describe resolveTaskFailureAlert.
+     * @param[in] task_id Input parameter.
+     */
     void resolveTaskFailureAlert(const std::string& task_id);
+    /**
+     * @brief TBD: Describe makeTaskAlertId.
+     * @param[in] task_id Input parameter.
+     * @param[in] alert_type Input parameter.
+     * @return Return value.
+     */
     static std::string makeTaskAlertId(const std::string& task_id, const std::string& alert_type);
 
-    // Dynamic scaling helper (Issue #2269)
+    /**
+     * @brief Dynamic scaling helper (Issue #2269)
+     * @param[in] pending_count Input parameter.
+     * @note Exception safety: noexcept.
+     */
     void adjustConcurrencyLimit(size_t pending_count) noexcept;
     
-    // Task execution serialization (Phase 3 hardening)
-    // Returns the per-task execution lock, creating it lazily if needed.
+    /**
+     * @brief Task execution serialization (Phase 3 hardening) Returns the per-task execution lock, creating it lazily if needed.
+     * @param[in] task_id Input parameter.
+     * @return Return value.
+     */
     std::mutex& getTaskExecutionLock(const std::string& task_id);
 };
 

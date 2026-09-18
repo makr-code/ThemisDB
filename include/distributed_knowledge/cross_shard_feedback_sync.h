@@ -227,6 +227,7 @@ public:
      * and `rejectedByPolicyCount()` is incremented.
      *
      * Typical use: wrap `ZeroTrustPolicyEnforcer::verify()` in a lambda.
+     * @param[in] check Input parameter.
      */
     void setInboundPolicyCheck(InboundPolicyCheck check);
 
@@ -332,6 +333,11 @@ private:
     mutable std::mutex mutex_;
 
     [[nodiscard]] static std::string generateSummaryId();
+    /**
+     * @brief TBD: Describe emitFeedbackDecisionRecord.
+     * @param[in] direction Input parameter.
+     * @param[in] summary Input parameter.
+     */
     void emitFeedbackDecisionRecord(const std::string& direction,
                                     const FeedbackSummary& summary) const;
 };

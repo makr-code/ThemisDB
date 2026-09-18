@@ -38,6 +38,10 @@ struct ConflictInfo {
     std::vector<std::string> resolution_suggestions;    ///< Concrete steps to resolve
     std::int64_t detected_at = 0;                       ///< Unix timestamp of detection
 
+    /**
+     * @brief TBD: Describe toJson.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
 };
 
@@ -54,6 +58,11 @@ class PolicyManagerWithVersioning {
 public:
     PolicyManagerWithVersioning();
     
+    /**
+     * @brief TBD: Describe PolicyManagerWithVersioning.
+     * @param[in] policy_manager Input parameter.
+     * @return Return value.
+     */
     explicit PolicyManagerWithVersioning(
         std::shared_ptr<PolicyManager> policy_manager
     );
@@ -64,23 +73,27 @@ public:
     /// Get the version history manager
     std::shared_ptr<PolicyVersionHistory> getVersionHistory() const;
     
-    /// Add a rule with version tracking
-    /// @param rule Rule to add
-    /// @param user User creating the rule
-    /// @param change_description Description of changes
-    /// @return Version number assigned
+    /**
+     * @brief Add a rule with version tracking @param rule Rule to add @param user User creating the rule @param change_description Description of changes @return Version number assigned
+     * @param[in] rule Input parameter.
+     * @param[in] user Input parameter.
+     * @param[in] change_description Input parameter.
+     * @return Return value.
+     */
     std::string addRuleVersioned(
         const PolicyRule& rule,
         const std::string& user,
         const std::string& change_description
     );
     
-    /// Update a rule with version tracking
-    /// @param rule_id Rule identifier
-    /// @param rule Updated rule data
-    /// @param user User making the update
-    /// @param change_description Description of changes
-    /// @return New version number
+    /**
+     * @brief Update a rule with version tracking @param rule_id Rule identifier @param rule Updated rule data @param user User making the update @param change_description Description of changes @return New version number
+     * @param[in] rule_id Input parameter.
+     * @param[in] rule Input parameter.
+     * @param[in] user Input parameter.
+     * @param[in] change_description Input parameter.
+     * @return Return value.
+     */
     std::string updateRuleVersioned(
         const std::string& rule_id,
         const PolicyRule& rule,
@@ -88,62 +101,76 @@ public:
         const std::string& change_description
     );
     
-    /// Delete a rule with audit tracking
-    /// @param rule_id Rule identifier
-    /// @param user User deleting the rule
+    /**
+     * @brief Delete a rule with audit tracking @param rule_id Rule identifier @param user User deleting the rule
+     * @param[in] rule_id Input parameter.
+     * @param[in] user Input parameter.
+     */
     void deleteRuleVersioned(
         const std::string& rule_id,
         const std::string& user
     );
     
-    /// Rollback rule to a specific version
-    /// @param rule_id Rule identifier
-    /// @param target_version Version to rollback to
-    /// @param user User performing rollback
-    /// @return True if rollback succeeded
+    /**
+     * @brief Rollback rule to a specific version @param rule_id Rule identifier @param target_version Version to rollback to @param user User performing rollback @return True if rollback succeeded
+     * @param[in] rule_id Input parameter.
+     * @param[in] target_version Input parameter.
+     * @param[in] user Input parameter.
+     * @return True on success.
+     */
     bool rollbackToVersion(
         const std::string& rule_id,
         const std::string& target_version,
         const std::string& user
     );
     
-    /// Rollback rule to previous version
-    /// @param rule_id Rule identifier
-    /// @param user User performing rollback
-    /// @return True if rollback succeeded
+    /**
+     * @brief Rollback rule to previous version @param rule_id Rule identifier @param user User performing rollback @return True if rollback succeeded
+     * @param[in] rule_id Input parameter.
+     * @param[in] user Input parameter.
+     * @return True on success.
+     */
     bool rollbackToPreviousVersion(
         const std::string& rule_id,
         const std::string& user
     );
     
-    /// Preview rollback changes without applying them
-    /// @param rule_id Rule identifier
-    /// @param target_version Version to preview
-    /// @return Diff showing what would change
+    /**
+     * @brief Preview rollback changes without applying them @param rule_id Rule identifier @param target_version Version to preview @return Diff showing what would change
+     * @param[in] rule_id Input parameter.
+     * @param[in] target_version Input parameter.
+     * @return Return value.
+     */
     VersionDiff previewRollback(
         const std::string& rule_id,
         const std::string& target_version
     );
     
-    /// Get all versions of a rule
-    /// @param rule_id Rule identifier
-    /// @return Vector of versions (newest first)
+    /**
+     * @brief Get all versions of a rule @param rule_id Rule identifier @return Vector of versions (newest first)
+     * @param[in] rule_id Input parameter.
+     * @return Return value.
+     */
     std::vector<PolicyRuleVersion> getRuleVersions(const std::string& rule_id) const;
     
-    /// Get a specific version of a rule
-    /// @param rule_id Rule identifier
-    /// @param version Version number
-    /// @return Rule version if found
+    /**
+     * @brief Get a specific version of a rule @param rule_id Rule identifier @param version Version number @return Rule version if found
+     * @param[in] rule_id Input parameter.
+     * @param[in] version Input parameter.
+     * @return Return value.
+     */
     std::optional<PolicyRuleVersion> getRuleVersion(
         const std::string& rule_id,
         const std::string& version
     ) const;
     
-    /// Compare two versions of a rule
-    /// @param rule_id Rule identifier
-    /// @param version1 First version
-    /// @param version2 Second version
-    /// @return Differences between versions
+    /**
+     * @brief Compare two versions of a rule @param rule_id Rule identifier @param version1 First version @param version2 Second version @return Differences between versions
+     * @param[in] rule_id Input parameter.
+     * @param[in] version1 Input parameter.
+     * @param[in] version2 Input parameter.
+     * @return Return value.
+     */
     VersionDiff compareVersions(
         const std::string& rule_id,
         const std::string& version1,
@@ -169,17 +196,19 @@ public:
     /// Save versioning data to file
     bool saveVersionHistory(const std::string& path) const;
     
-    /// Check a candidate rule for conflicts with all currently-active rules.
-    /// Call this before or after adding/updating a rule to detect overlapping or
-    /// contradictory access-control settings in real time.
-    /// @param rule Rule to evaluate (may or may not already be in the rule set)
-    /// @return List of detected ConflictInfo entries (empty when conflict-free)
+    /**
+     * @brief Check a candidate rule for conflicts with all currently-active rules.
+     * @param[in] rule Input parameter.
+     * @return Return value.
+     * @details Call this before or after adding/updating a rule to detect overlapping or contradictory access-control settings in real time. @param rule Rule to evaluate (may or may not already be in the rule set) @return List of detected ConflictInfo entries (empty when conflict-free)
+     */
     std::vector<ConflictInfo> checkConflictsForRule(const PolicyRule& rule) const;
 
-    /// Return the current, live conflict state across the entire rule set.
-    /// All enabled rules are compared pairwise; the result reflects the state
-    /// at the moment of the call and can be used to feed a real-time report.
-    /// @return All detected ConflictInfo entries across the active rule set
+    /**
+     * @brief Return the current, live conflict state across the entire rule set.
+     * @return Return value.
+     * @details All enabled rules are compared pairwise; the result reflects the state at the moment of the call and can be used to feed a real-time report. @return All detected ConflictInfo entries across the active rule set
+     */
     std::vector<ConflictInfo> getActiveConflicts() const;
 
 private:

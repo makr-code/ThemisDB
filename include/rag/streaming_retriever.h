@@ -150,11 +150,13 @@ public:
 
     /**
      * @brief Return a snapshot of the current context window state.
+     * @return Return value.
      */
     ContextWindowState snapshot() const;
 
     /**
      * @brief Return only the documents currently in the window.
+     * @return Return value.
      */
     const std::vector<StreamedDocument>& documents() const;
 
@@ -222,16 +224,19 @@ public:
 
     /**
      * @brief Register callback invoked for each accepted document.
+     * @param[in] cb Input parameter.
      */
     void setDocumentAcceptedCallback(DocumentAcceptedCallback cb);
 
     /**
      * @brief Register callback invoked for each skipped document.
+     * @param[in] cb Input parameter.
      */
     void setDocumentSkippedCallback(DocumentSkippedCallback cb);
 
     /**
      * @brief Register callback invoked once the context window is full.
+     * @param[in] cb Input parameter.
      */
     void setWindowFullCallback(WindowFullCallback cb);
 
@@ -262,14 +267,20 @@ public:
 
     /**
      * @brief Return true if a stream is currently in progress.
+     * @return True on success.
      */
     bool isStreaming() const;
 
-    // -----------------------------------------------------------------------
-    // Configuration access
-    // -----------------------------------------------------------------------
+    /**
+     * @brief ----------------------------------------------------------------------- Configuration access -----------------------------------------------------------------------
+     * @return Return value.
+     */
 
     StreamingRetrieverConfig getConfig() const;
+    /**
+     * @brief TBD: Describe setConfig.
+     * @param[in] config Input parameter.
+     */
     void setConfig(const StreamingRetrieverConfig& config);
 
 private:

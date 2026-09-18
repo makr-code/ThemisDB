@@ -108,6 +108,10 @@ struct SealedBlob {
  */
 class ConfidentialComputing {
 public:
+    /**
+     * @brief TBD: Describe ~ConfidentialComputing.
+     * @return Return value.
+     */
     virtual ~ConfidentialComputing() = default;
 
     // Non-copyable, movable
@@ -120,6 +124,7 @@ public:
      * @brief Factory: detect the active TEE and return the appropriate
      *        implementation.  Falls back to software mode when no TEE HW
      *        is present.
+     * @return Return value.
      */
     static std::unique_ptr<ConfidentialComputing> create();
 
@@ -175,6 +180,9 @@ protected:
 
 /**
  * @brief Convert TeeType enum to a human-readable string.
+ * @param[in] t Input parameter.
+ * @return Return value.
+ * @details Implements teeTypeToString without additional internal calls.
  */
 inline std::string teeTypeToString(TeeType t) {
     switch (t) {

@@ -81,6 +81,10 @@ public:
         size_t failed = 0;
         double pass_rate = 0.0;
     };
+    /**
+     * @brief TBD: Describe getSchemaValidationStats.
+     * @return Return value.
+     */
     SchemaValidationStats getSchemaValidationStats() const;
     
     /// P1: Record PII detection
@@ -91,6 +95,10 @@ public:
     
     /// P1: Get PII detection stats
     size_t getPIIDetections() const;
+    /**
+     * @brief TBD: Describe getPIIRedactions.
+     * @return Return value.
+     */
     size_t getPIIRedactions() const;
     
     /// P2: Record compression stats
@@ -118,9 +126,12 @@ public:
     /// Delta: Get total documents skipped by incremental export
     size_t getDeltaDocsSkipped() const;
 
-    /// P3/Security: Record an export encryption event (exporter_encrypted_bytes_total)
-    /// @param plaintext_bytes  Number of plaintext bytes submitted for encryption.
-    /// @param encrypted_bytes  Number of bytes written to the encrypted container.
+    /**
+     * @brief P3/Security: Record an export encryption event (exporter_encrypted_bytes_total) @param plaintext_bytes Number of plaintext bytes submitted for encryption.
+     * @param[in] plaintext_bytes Input parameter.
+     * @param[in] encrypted_bytes Input parameter.
+     * @details @param encrypted_bytes Number of bytes written to the encrypted container.
+     */
     void recordEncryption(size_t plaintext_bytes, size_t encrypted_bytes);
 
     /// P3/Security: Get total plaintext bytes that were encrypted
@@ -128,38 +139,40 @@ public:
 
     /// P3/Security: Get total bytes written to encrypted containers
     size_t getEncryptedOutputBytes() const;
-    /// Encryption: Record bytes written to an encrypted export file
-    /// (exporter_encrypted_bytes_written_total)
+    /**
+     * @brief Encryption: Record bytes written to an encrypted export file (exporter_encrypted_bytes_written_total)
+     * @param[in] encrypted_bytes Input parameter.
+     */
     void recordEncryption(size_t encrypted_bytes);
 
     /// Encryption: Get total bytes written to encrypted export files
     size_t getEncryptedBytesWritten() const;
 
-    /// HuggingFace: Record an HTTP 429 rate-limit hit
-    /// (exporters.huggingface.rate_limit_hit)
+    /**
+     * @brief HuggingFace: Record an HTTP 429 rate-limit hit (exporters.
+     * @details huggingface.rate_limit_hit)
+     */
     void recordRateLimitHit();
 
     /// HuggingFace: Get total rate-limit hits recorded
     size_t getRateLimitHits() const;
 
-    /// @brief Record an export denied by PolicyEngine.
-    ///
-    /// Increments the policy-denial counter and registers the event under the
-    /// unified error type key "policy_denied" in @c getErrorsByType().
-    ///
-    /// @param collection   Name of the collection that was denied.
-    /// @param user         Identity of the requesting user/service.
+    /**
+     * @brief @brief Record an export denied by PolicyEngine.
+     * @param[in] collection Input parameter.
+     * @param[in] user Input parameter.
+     * @details Increments the policy-denial counter and registers the event under the unified error type key "policy_denied" in @c getErrorsByType(). @param collection Name of the collection that was denied. @param user Identity of the requesting user/service.
+     */
     void recordPolicyDenial(const std::string& collection, const std::string& user);
 
     /// @return Total number of policy-denial events recorded.
     size_t getPolicyDenials() const;
 
-    /// @brief Record a HuggingFace Hub upload failure.
-    ///
-    /// Increments the hub-upload-failure counter and registers the event under
-    /// the unified error type key "hub_upload_failure" in @c getErrorsByType().
-    ///
-    /// @param reason   Short reason string (e.g. HTTP status code or error class).
+    /**
+     * @brief @brief Record a HuggingFace Hub upload failure.
+     * @param[in] reason Input parameter.
+     * @details Increments the hub-upload-failure counter and registers the event under the unified error type key "hub_upload_failure" in @c getErrorsByType(). @param reason Short reason string (e.g. HTTP status code or error class).
+     */
     void recordHubUploadFailure(const std::string& reason);
 
     /// @return Total number of hub-upload-failure events recorded.
@@ -237,10 +250,17 @@ private:
     // HuggingFace Hub upload failures (exporter_hub_upload_failures_total)
     std::atomic<size_t> hub_upload_failures_{0};
     
-    // Helper to update latency histogram
+    /**
+     * @brief Helper to update latency histogram
+     * @param[in] duration Input parameter.
+     */
     void updateLatencyHistogram(std::chrono::milliseconds duration);
     
-    // Helper to calculate percentile from histogram
+    /**
+     * @brief Helper to calculate percentile from histogram
+     * @param[in] percentile Input parameter.
+     * @return Return value.
+     */
     double calculatePercentile(double percentile) const;
 };
 

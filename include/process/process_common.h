@@ -18,6 +18,7 @@ namespace themis::process {
  * @brief Get current wall-clock time in milliseconds since Unix epoch.
  *
  * @return Current time in milliseconds
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count().
  */
 inline int64_t nowMs() {
     return std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -118,6 +119,7 @@ enum class ProcessErrorCode : int32_t {
  *
  * @param code Error code to convert.
  * @return Short error name (e.g., "MALFORMED_INPUT").
+ * @note Exception safety: noexcept.
  */
 std::string errorCodeToString(ProcessErrorCode code) noexcept;
 
@@ -126,6 +128,7 @@ std::string errorCodeToString(ProcessErrorCode code) noexcept;
  *
  * @param code Error code.
  * @return Category name (e.g., "IMPORT", "RETRIEVAL", "SYSTEM").
+ * @note Exception safety: noexcept.
  */
 std::string errorCodeCategory(ProcessErrorCode code) noexcept;
 
@@ -204,6 +207,7 @@ constexpr int64_t kMaxOperationTimeoutMs = 30000;  // 30 seconds
  *
  * @param input_size Size of the input in bytes.
  * @return true if the input size is within limits.
+ * @details Implements isInputSizeValid without additional internal calls.
  */
 inline bool isInputSizeValid(size_t input_size) {
     return input_size <= kMaxModelInputBytes;
@@ -214,6 +218,7 @@ inline bool isInputSizeValid(size_t input_size) {
  *
  * @param depth Current nesting depth.
  * @return true if depth is within limits.
+ * @details Implements isNestingDepthValid without additional internal calls.
  */
 inline bool isNestingDepthValid(int32_t depth) {
     return depth <= kMaxModelNestingDepth;
@@ -224,6 +229,7 @@ inline bool isNestingDepthValid(int32_t depth) {
  *
  * @param element_count Number of elements in the model.
  * @return true if element count is within limits.
+ * @details Implements isElementCountValid without additional internal calls.
  */
 inline bool isElementCountValid(int32_t element_count) {
     return element_count <= kMaxModelElements;
@@ -234,6 +240,7 @@ inline bool isElementCountValid(int32_t element_count) {
  *
  * @param context_size Current context size in bytes.
  * @return true if context size is within limits.
+ * @details Implements isContextSizeValid without additional internal calls.
  */
 inline bool isContextSizeValid(size_t context_size) {
     return context_size <= kMaxRetrievalContextBytes;
@@ -244,6 +251,7 @@ inline bool isContextSizeValid(size_t context_size) {
  *
  * @param depth Current traversal depth.
  * @return true if depth is within limits.
+ * @details Implements isRetrievalDepthValid without additional internal calls.
  */
 inline bool isRetrievalDepthValid(int32_t depth) {
     return depth <= kMaxRetrievalDepth;
@@ -254,6 +262,7 @@ inline bool isRetrievalDepthValid(int32_t depth) {
  *
  * @param start_time_ms Time when the operation started (from nowMs()).
  * @return true if the operation has exceeded the timeout.
+ * @details Calls: nowMs().
  */
 inline bool hasOperationTimedOut(int64_t start_time_ms) {
     int64_t elapsed = nowMs() - start_time_ms;

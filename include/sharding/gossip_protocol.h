@@ -78,7 +78,12 @@ struct PeerInfo {
         };
     }
     
-    // Deserialize from JSON
+    /**
+     * @brief Deserialize from JSON
+     * @param[in] j Input parameter.
+     * @return Return value.
+     * @details Calls: value(), std::chrono::system_clock::time_point(), std::chrono::milliseconds(), std::chrono::system_clock::now().
+     */
     static PeerInfo fromJson(const nlohmann::json& j) {
         PeerInfo info;
         info.peer_id = j.value("peer_id", "");
@@ -121,6 +126,12 @@ struct GossipMessage {
         };
     }
     
+    /**
+     * @brief TBD: Describe fromJson.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     * @details Calls: value().
+     */
     static GossipMessage fromJson(const nlohmann::json& j) {
         GossipMessage msg;
         msg.message_id = j.value("message_id", "");
@@ -223,12 +234,14 @@ public:
     /**
      * Start the gossip protocol
      * Begins periodic gossip rounds and listens for incoming messages
+     * @brief TBD: Describe start.
      */
     void start();
     
     /**
      * Stop the gossip protocol
      * Sends leave message to peers and stops all threads
+     * @brief TBD: Describe stop.
      */
     void stop();
     
@@ -246,23 +259,28 @@ public:
     /**
      * Get healthy peers only
      * @return Vector of healthy peer endpoints
+     * @brief TBD: Describe getHealthyPeers.
      */
     std::vector<PeerInfo> getHealthyPeers() const;
     
     /**
      * Get peer count
+     * @brief TBD: Describe getPeerCount.
+     * @return Return value.
      */
     size_t getPeerCount() const;
     
     /**
      * Manually add a peer (for seed nodes or manual discovery)
      * @param peer Peer information
+     * @brief TBD: Describe addPeer.
      */
     void addPeer(const PeerInfo& peer);
     
     /**
      * Remove a peer
      * @param peer_id Peer identifier to remove
+     * @brief TBD: Describe removePeer.
      */
     void removePeer(const std::string& peer_id);
     
@@ -270,6 +288,7 @@ public:
      * Handle incoming gossip message (called by HTTP endpoint)
      * @param message Received gossip message
      * @return Response message
+     * @brief TBD: Describe handleMessage.
      */
     GossipMessage handleMessage(const GossipMessage& message);
     
@@ -296,12 +315,14 @@ public:
     /**
      * Register callback for peer discovery
      * @param callback Function called when new peer is discovered
+     * @brief TBD: Describe onPeerDiscovered.
      */
     void onPeerDiscovered(PeerDiscoveryCallback callback);
     
     /**
      * Register callback for peer loss
      * @param callback Function called when peer is lost
+     * @brief TBD: Describe onPeerLost.
      */
     void onPeerLost(PeerLostCallback callback);
 
@@ -328,6 +349,7 @@ public:
     /**
      * Get gossip statistics
      * @return JSON with gossip metrics
+     * @brief TBD: Describe getStatistics.
      */
     nlohmann::json getStatistics() const;
     
@@ -370,29 +392,99 @@ private:
     std::map<std::string, std::vector<std::chrono::system_clock::time_point>> rate_limit_map_;
     std::mutex rate_limit_mutex_;
     
-    // Internal methods
+    /**
+     * @brief Internal methods
+     */
     void gossipLoop();
+    /**
+     * @brief TBD: Describe cleanupLoop.
+     */
     void cleanupLoop();
+    /**
+     * @brief TBD: Describe performGossipRound.
+     */
     void performGossipRound();
+    /**
+     * @brief TBD: Describe sendHeartbeat.
+     * @param[in] peer Input parameter.
+     */
     void sendHeartbeat(const PeerInfo& peer);
+    /**
+     * @brief TBD: Describe sendPeerList.
+     * @param[in] peer Input parameter.
+     */
     void sendPeerList(const PeerInfo& peer);
+    /**
+     * @brief TBD: Describe sendLeaveMessage.
+     */
     void sendLeaveMessage();
+    /**
+     * @brief TBD: Describe bootstrapFromSeedNodes.
+     */
     void bootstrapFromSeedNodes();
     
+    /**
+     * @brief TBD: Describe selectRandomPeers.
+     * @param[in] count Input parameter.
+     * @return Return value.
+     */
     std::vector<PeerInfo> selectRandomPeers(size_t count);
+    /**
+     * @brief TBD: Describe mergePeerList.
+     * @param[in] peers Input parameter.
+     */
     void mergePeerList(const std::vector<PeerInfo>& peers);
+    /**
+     * @brief TBD: Describe updatePeerHealth.
+     */
     void updatePeerHealth();
+    /**
+     * @brief TBD: Describe syncWithTopology.
+     */
     void syncWithTopology();
-    // Requires peers_mutex_ already held by the calling thread.
+    /**
+     * @brief Requires peers_mutex_ already held by the calling thread.
+     */
     void syncWithTopologyLocked();
     
+    /**
+     * @brief TBD: Describe generateMessageId.
+     * @return Return value.
+     */
     std::string generateMessageId() const;
+    /**
+     * @brief TBD: Describe signMessage.
+     * @param[in] message Input parameter.
+     * @return Return value.
+     */
     std::string signMessage(const GossipMessage& message) const;
+    /**
+     * @brief TBD: Describe verifyMessage.
+     * @param[in] message Input parameter.
+     * @return True on success.
+     */
     bool verifyMessage(const GossipMessage& message) const;
+    /**
+     * @brief TBD: Describe checkRateLimit.
+     * @param[in] peer_id Input parameter.
+     * @return True on success.
+     */
     bool checkRateLimit(const std::string& peer_id);
     
+    /**
+     * @brief TBD: Describe createHeartbeatMessage.
+     * @return Return value.
+     */
     GossipMessage createHeartbeatMessage() const;
+    /**
+     * @brief TBD: Describe createPeerListMessage.
+     * @return Return value.
+     */
     GossipMessage createPeerListMessage() const;
+    /**
+     * @brief TBD: Describe createLeaveMessage.
+     * @return Return value.
+     */
     GossipMessage createLeaveMessage() const;
 };
 

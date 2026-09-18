@@ -100,6 +100,14 @@ struct HealthStatus {
 /** @brief Auto-Recovery Manager. */
 class AutoRecoveryManager {
 public:
+    /**
+     * @brief TBD: Describe AutoRecoveryManager.
+     * @param[in] config Input parameter.
+     * @param[in,out] strategy Input/output parameter.
+     * @param[in,out] ring Input/output parameter.
+     * @param[in,out] topology Input/output parameter.
+     * @return Return value.
+     */
     explicit AutoRecoveryManager(
         const AutoRecoveryConfig& config,
         RedundancyStrategy& strategy,
@@ -109,27 +117,60 @@ public:
     
     ~AutoRecoveryManager();
     
-    // Lifecycle
+    /**
+     * @brief Lifecycle
+     */
     void start();
+    /**
+     * @brief TBD: Describe stop.
+     */
     void stop();
+    /**
+     * @brief TBD: Describe isRunning.
+     * @return True on success.
+     */
     bool isRunning() const;
     
-    // Manual operations
+    /**
+     * @brief Manual operations
+     */
     void triggerHealthCheck();
+    /**
+     * @brief TBD: Describe triggerRepair.
+     */
     void triggerRepair();
+    /**
+     * @brief TBD: Describe pauseAutoRepair.
+     */
     void pauseAutoRepair();
+    /**
+     * @brief TBD: Describe resumeAutoRepair.
+     */
     void resumeAutoRepair();
 
     /**
      * Attach a ShardRepairEngine to be used for actual document recovery.
      * When set, repairDocument() delegates to ShardRepairEngine::triggerDocumentRepair()
      * instead of returning false (the old stub behaviour).
+     * @brief TBD: Describe setRepairEngine.
+     * @param[in] engine Input parameter.
      */
     void setRepairEngine(std::shared_ptr<themis::sharding::ShardRepairEngine> engine);
     
-    // Status
+    /**
+     * @brief Status
+     * @return Return value.
+     */
     HealthStatus getHealthStatus() const;
+    /**
+     * @brief TBD: Describe getDegradedDocuments.
+     * @return Return value.
+     */
     std::vector<std::string> getDegradedDocuments() const;
+    /**
+     * @brief TBD: Describe getCriticalDocuments.
+     * @return Return value.
+     */
     std::vector<std::string> getCriticalDocuments() const;
     
     // Statistics
@@ -142,23 +183,52 @@ public:
         std::chrono::milliseconds avg_repair_time{0};
     };
     
+    /**
+     * @brief TBD: Describe getStats.
+     * @return Return value.
+     */
     Stats getStats() const;
+    /**
+     * @brief TBD: Describe resetStats.
+     */
     void resetStats();
     
 private:
-    // Background threads
+    /**
+     * @brief Background threads
+     */
     void healthCheckLoop();
+    /**
+     * @brief TBD: Describe repairLoop.
+     */
     void repairLoop();
     
-    // Health monitoring
+    /**
+     * @brief Health monitoring
+     * @return Return value.
+     */
     HealthStatus performHealthCheck();
+    /**
+     * @brief TBD: Describe checkDocumentHealth.
+     * @param[in] doc_id Input parameter.
+     */
     void checkDocumentHealth(const std::string& doc_id);
     
-    // Recovery operations
+    /**
+     * @brief Recovery operations
+     * @param[in] doc_id Input parameter.
+     * @return True on success.
+     */
     bool repairDocument(const std::string& doc_id);
+    /**
+     * @brief TBD: Describe processRepairQueue.
+     */
     void processRepairQueue();
     
-    // Alerting
+    /**
+     * @brief Alerting
+     * @param[in] message Input parameter.
+     */
     void sendAlert(const std::string& message);
     
     // Configuration and state
@@ -209,6 +279,10 @@ inline AutoRecoveryManager::~AutoRecoveryManager() {
     stop();
 }
 
+/**
+ * @brief TBD: Describe start.
+ * @details Calls: exchange(), std::thread(), healthCheckLoop(), repairLoop().
+ */
 inline void AutoRecoveryManager::start() {
     if (running_.exchange(true)) {
         return;
@@ -227,6 +301,10 @@ inline void AutoRecoveryManager::start() {
     }
 }
 
+/**
+ * @brief TBD: Describe stop.
+ * @details Calls: exchange(), notify_all(), joinable(), join().
+ */
 inline void AutoRecoveryManager::stop() {
     if (!running_.exchange(false)) {
         return;
@@ -248,12 +326,21 @@ inline bool AutoRecoveryManager::isRunning() const {
     return running_.load();
 }
 
+/**
+ * @brief TBD: Describe healthCheckLoop.
+ * @details Calls: load(), performHealthCheck(), lock(), getCriticalPercentage(), sendAlert(), std::to_string(), getDegradedPercentage(), std::string().
+ */
 inline void AutoRecoveryManager::healthCheckLoop() {
     while (running_.load()) {
         try {
             auto health = performHealthCheck();
             
             {
+                /**
+                 * @brief TBD: Describe lock.
+                 * @param[in] health_mutex_ Input parameter.
+                 * @return Return value.
+                 */
                 std::unique_lock<std::shared_mutex> lock(health_mutex_);
                 current_health_ = health;
             }
@@ -268,6 +355,11 @@ inline void AutoRecoveryManager::healthCheckLoop() {
             }
             
             {
+                /**
+                 * @brief TBD: Describe lock.
+                 * @param[in] stats_mutex_ Input parameter.
+                 * @return Return value.
+                 */
                 std::lock_guard<std::mutex> lock(stats_mutex_);
                 stats_.health_checks_performed++;
             }
@@ -280,8 +372,17 @@ inline void AutoRecoveryManager::healthCheckLoop() {
     }
 }
 
+/**
+ * @brief TBD: Describe repairLoop.
+ * @details Calls: load(), lock(), wait_for(), empty(), processRepairQueue().
+ */
 inline void AutoRecoveryManager::repairLoop() {
     while (running_.load()) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] repair_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lock(repair_mutex_);
         
         // Wait for repair work or stop signal
@@ -302,6 +403,11 @@ inline void AutoRecoveryManager::repairLoop() {
     }
 }
 
+/**
+ * @brief TBD: Describe performHealthCheck.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now().
+ */
 inline HealthStatus AutoRecoveryManager::performHealthCheck() {
     HealthStatus status;
     status.last_check = std::chrono::system_clock::now();
@@ -312,7 +418,16 @@ inline HealthStatus AutoRecoveryManager::performHealthCheck() {
     return status;
 }
 
+/**
+ * @brief TBD: Describe processRepairQueue.
+ * @details Calls: lock(), empty(), front(), pop(), unlock(), std::chrono::steady_clock::now(), repairDocument(), stats_lock().
+ */
 inline void AutoRecoveryManager::processRepairQueue() {
+    /**
+     * @brief TBD: Describe lock.
+     * @param[in] repair_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::mutex> lock(repair_mutex_);
     
     uint32_t repairs_this_batch = 0;
@@ -334,6 +449,11 @@ inline void AutoRecoveryManager::processRepairQueue() {
         auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
         
         {
+            /**
+             * @brief TBD: Describe stats_lock.
+             * @param[in] stats_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> stats_lock(stats_mutex_);
             stats_.repairs_attempted++;
             if (success) {
@@ -354,6 +474,12 @@ inline void AutoRecoveryManager::processRepairQueue() {
     }
 }
 
+/**
+ * @brief TBD: Describe repairDocument.
+ * @param[in] doc_id Input parameter.
+ * @return True on success.
+ * @details Calls: triggerDocumentRepair().
+ */
 inline bool AutoRecoveryManager::repairDocument(const std::string& doc_id) {
     if (repair_engine_) {
         // Delegate to the full-featured ShardRepairEngine.
@@ -368,34 +494,67 @@ inline bool AutoRecoveryManager::repairDocument(const std::string& doc_id) {
     return false;
 }
 
+/**
+ * @brief TBD: Describe setRepairEngine.
+ * @param[in] engine Input parameter.
+ * @details Calls: std::move().
+ */
 inline void AutoRecoveryManager::setRepairEngine(
     std::shared_ptr<themis::sharding::ShardRepairEngine> engine) {
     repair_engine_ = std::move(engine);
 }
 
+/**
+ * @brief TBD: Describe sendAlert.
+ * @param[in] message Input parameter.
+ * @details Calls: alert_callback(), lock().
+ */
 inline void AutoRecoveryManager::sendAlert(const std::string& message) {
     if (config_.enable_alerts && config_.alert_callback) {
         config_.alert_callback(message);
         
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] stats_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(stats_mutex_);
         stats_.alerts_sent++;
     }
 }
 
 inline HealthStatus AutoRecoveryManager::getHealthStatus() const {
+    /**
+     * @brief TBD: Describe lock.
+     * @param[in] health_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(health_mutex_);
     return current_health_;
 }
 
 inline AutoRecoveryManager::Stats AutoRecoveryManager::getStats() const {
+    /**
+     * @brief TBD: Describe lock.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(stats_mutex_);
     return stats_;
 }
 
+/**
+ * @brief TBD: Describe pauseAutoRepair.
+ * @details Calls: store().
+ */
 inline void AutoRecoveryManager::pauseAutoRepair() {
     repair_paused_.store(true);
 }
 
+/**
+ * @brief TBD: Describe resumeAutoRepair.
+ * @details Calls: store(), notify_all().
+ */
 inline void AutoRecoveryManager::resumeAutoRepair() {
     repair_paused_.store(false);
     repair_cv_.notify_all();

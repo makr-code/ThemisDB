@@ -219,29 +219,41 @@ class RecoveryManager {
       RecoveryStrategy recovery_strategy,
       uint32_t priority = 50) noexcept = 0;
 
-  /// Get the status of a recovery job.
-  ///
-  /// @param job_id Job identifier.
-  /// @return Recovery job metadata if found.
+  /**
+   * @brief Get the status of a recovery job.
+   * @param[in] job_id Input parameter.
+   * @return Return value.
+   * @note Exception safety: noexcept.
+   * @details @param job_id Job identifier. @return Recovery job metadata if found.
+   */
   virtual std::optional<RecoveryJob> get_recovery_job(
       const std::string& job_id) const noexcept = 0;
 
-  /// Cancel a running recovery job.
-  ///
-  /// @param job_id Job identifier.
-  /// @return true if job was cancelled, false if not found or already done.
+  /**
+   * @brief Cancel a running recovery job.
+   * @param[in] job_id Input parameter.
+   * @return True on success.
+   * @note Exception safety: noexcept.
+   * @details @param job_id Job identifier. @return true if job was cancelled, false if not found or already done.
+   */
   virtual bool cancel_recovery_job(const std::string& job_id) noexcept = 0;
 
-  /// List all active recovery jobs.
-  ///
-  /// @return Vector of active recovery jobs.
+  /**
+   * @brief List all active recovery jobs.
+   * @return Return value.
+   * @note Exception safety: noexcept.
+   * @details @return Vector of active recovery jobs.
+   */
   virtual std::vector<RecoveryJob> list_active_recovery_jobs() const
       noexcept = 0;
 
-  /// Retry a failed recovery job.
-  ///
-  /// @param job_id Job identifier.
-  /// @return true if retry was scheduled, false if job not found or max retries exceeded.
+  /**
+   * @brief Retry a failed recovery job.
+   * @param[in] job_id Input parameter.
+   * @return True on success.
+   * @note Exception safety: noexcept.
+   * @details @param job_id Job identifier. @return true if retry was scheduled, false if job not found or max retries exceeded.
+   */
   virtual bool retry_recovery_job(const std::string& job_id) noexcept = 0;
 };
 

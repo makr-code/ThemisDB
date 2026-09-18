@@ -76,9 +76,12 @@ using Result = tl::expected<T, FtsError>;
 // ============================================================================
 class FtsExecutor {
  public:
-  /// @brief Construct an executor bound to one on-disk FTS index.
-  /// @param index_path: filesystem path to FTS index directory
-  /// @throws std::invalid_argument if index_path invalid
+  /**
+   * @brief @brief Construct an executor bound to one on-disk FTS index.
+   * @param[in] index_path Input parameter.
+   * @return Return value.
+   * @details @param index_path: filesystem path to FTS index directory @throws std::invalid_argument if index_path invalid
+   */
   explicit FtsExecutor(const std::string& index_path);
   
   /// @brief Construct an executor with explicit cache configuration.
@@ -119,25 +122,30 @@ class FtsExecutor {
   // Index Update API (Exclusive lock required)
   // ========================================================================
   
-  /// @brief Apply additions and deletions to the FTS index.
-  /// @param updates: batch of document additions/deletions
-  /// @return status (OK or FtsError)
-  /// @note Thread safety: acquires unique_lock (exclusive access, blocks readers).
-  /// @note Returns INDEX_LOCKED if waiting for readers times out.
+  /**
+   * @brief @brief Apply additions and deletions to the FTS index.
+   * @param[in] updates Input parameter.
+   * @return Return value.
+   * @details @param updates: batch of document additions/deletions @return status (OK or FtsError) @note Thread safety: acquires unique_lock (exclusive access, blocks readers). @note Returns INDEX_LOCKED if waiting for readers times out.
+   */
   Result<void> updateIndex(const IndexUpdateBatch& updates);
   
   // ========================================================================
   // Diagnostic API (Read-only, thread-safe)
   // ========================================================================
   
-  /// @brief Get read-only index statistics for diagnostics.
-  /// @note Thread safety: acquires shared_lock.
-  /// @return index metadata (document count, term count, size, etc.)
+  /**
+   * @brief @brief Get read-only index statistics for diagnostics.
+   * @return Return value.
+   * @details @note Thread safety: acquires shared_lock. @return index metadata (document count, term count, size, etc.)
+   */
   IndexStatistics getStatistics() const;
   
-  /// @brief Check whether index integrity checks currently pass.
-  /// @note Thread safety: acquires shared_lock.
-  /// @return true if index passes integrity checks, false otherwise
+  /**
+   * @brief @brief Check whether index integrity checks currently pass.
+   * @return True on success.
+   * @details @note Thread safety: acquires shared_lock. @return true if index passes integrity checks, false otherwise
+   */
   bool isIndexHealthy() const;
   
   /// @brief Cache hit/miss counters for executor diagnostics.
@@ -154,8 +162,11 @@ class FtsExecutor {
     }
   };
   
-  /// @brief Return current cache hit/miss counters.
-  /// @note Thread safety: no locking required (reads atomic counters).
+  /**
+   * @brief @brief Return current cache hit/miss counters.
+   * @return Return value.
+   * @details @note Thread safety: no locking required (reads atomic counters).
+   */
   CacheStats getCacheStats() const;
   
  private:
@@ -184,7 +195,12 @@ class FtsExecutor {
     std::atomic<uint64_t> total_result_count{0};
   } metrics_;
   
-  // Internal helper methods (implementation detail)
+  /**
+   * @brief Internal helper methods (implementation detail)
+   * @param[in] query Input parameter.
+   * @param[in] options Input parameter.
+   * @return Return value.
+   */
   Result<std::vector<SearchResult>> traverseAndScore(
       const SearchNode& query,
       const ExecutionOptions& options);

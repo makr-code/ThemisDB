@@ -169,6 +169,7 @@ public:
      * @note  The default-argument form `= {}` triggers GCC DR1607 when Config
      *        has default member initialisers of non-trivially-constructible
      *        types.  We therefore provide separate default + config overloads.
+     * @return Return value.
      */
     explicit DecisionRecordYamlProcessor(Config config);
 
@@ -215,15 +216,43 @@ public:
 
     /**
      * @brief Return a snapshot of processor statistics.  Thread-safe.
+     * @return Return value.
+     * @note Exception safety: noexcept.
      */
     Stats getStats() const noexcept;
 
 private:
+    /**
+     * @brief TBD: Describe processorThread.
+     */
     void processorThread();
+    /**
+     * @brief TBD: Describe writeRecord.
+     * @param[in] record Input parameter.
+     */
     void writeRecord(const DecisionRecord& record);
+    /**
+     * @brief TBD: Describe recordPath.
+     * @param[in] record Input parameter.
+     * @return Return value.
+     */
     std::filesystem::path recordPath(const DecisionRecord& record) const;
+    /**
+     * @brief TBD: Describe generateId.
+     * @return Return value.
+     */
     std::string generateId() const;
+    /**
+     * @brief TBD: Describe formatTimestamp.
+     * @param[in] tp Input parameter.
+     * @return Return value.
+     */
     std::string formatTimestamp(std::chrono::system_clock::time_point tp) const;
+    /**
+     * @brief TBD: Describe toYaml.
+     * @param[in] record Input parameter.
+     * @return Return value.
+     */
     std::string toYaml(const DecisionRecord& record) const;
 
     Config config_;

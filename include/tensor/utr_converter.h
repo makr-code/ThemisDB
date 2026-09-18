@@ -179,8 +179,9 @@ public:
      */
     static void setTextEncoder(std::shared_ptr<ITextEncoder> encoder);
 
-    /// Clear the registered text encoder; `fromDocument()` reverts to the
-    /// `EmbedFn` bridge tier or the built-in lexical encoder.
+    /**
+     * @brief Clear the registered text encoder; `fromDocument()` reverts to the `EmbedFn` bridge tier or the built-in lexical encoder.
+     */
     static void clearTextEncoder();
 
     /// Returns the currently registered `ITextEncoder`, or nullptr if none.
@@ -201,8 +202,9 @@ public:
      */
     static void setImageEncoder(std::shared_ptr<IImageEncoder> encoder);
 
-    /// Clear the registered image encoder; `fromImage()` reverts to the
-    /// `ImageEmbedFn` bridge tier or the built-in patch-statistics encoder.
+    /**
+     * @brief Clear the registered image encoder; `fromImage()` reverts to the `ImageEmbedFn` bridge tier or the built-in patch-statistics encoder.
+     */
     static void clearImageEncoder();
 
     /// Returns the currently registered `IImageEncoder`, or nullptr if none.

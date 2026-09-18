@@ -162,13 +162,24 @@ public:
         return {ContentCategory::ARCHIVE};
     }
     
-    // Archive-specific interface (used by ContentManager)
+    /**
+     * @brief Archive-specific interface (used by ContentManager)
+     * @param[in] blob Input parameter.
+     * @param[in] mime_type Input parameter.
+     * @param[in] filename Input parameter.
+     * @return Return value.
+     */
     ArchiveProcessorResult process(
         const std::string& blob,
         const std::string& mime_type,
         const std::string& filename
     );
     
+    /**
+     * @brief TBD: Describe canHandle.
+     * @param[in] mime_type Input parameter.
+     * @return True on success.
+     */
     bool canHandle(const std::string& mime_type) const;
 
     /**
@@ -176,6 +187,8 @@ public:
      * 
      * Returns true if libzip is available and the processor can function.
      * For plugin architecture - allows runtime detection of capability.
+     * @return True on success.
+     * @details Implements isAvailable without additional internal calls.
      */
     static bool isAvailable() {
         #ifdef THEMIS_ENABLE_ARCHIVES
@@ -205,6 +218,9 @@ public:
     
     /**
      * @brief Extract archive metadata without full extraction
+     * @param[in] blob Input parameter.
+     * @param[in] format Input parameter.
+     * @return Return value.
      */
     static std::optional<ArchiveMetadata> extractMetadata(
         const std::string& blob,
@@ -213,6 +229,9 @@ public:
 
     /**
      * @brief Check if archive is encrypted
+     * @param[in] blob Input parameter.
+     * @param[in] format Input parameter.
+     * @return True on success.
      */
     static bool isEncrypted(const std::string& blob, ArchiveFormat format);
 
@@ -232,6 +251,9 @@ public:
 
     /**
      * @brief Validate archive against security limits
+     * @param[in] metadata Input parameter.
+     * @param[in,out] error_message Input/output parameter.
+     * @return True on success.
      */
     bool validateArchive(const ArchiveMetadata& metadata, std::string& error_message) const;
 
@@ -239,11 +261,14 @@ public:
      * @brief Sanitize file path to prevent path traversal attacks
      * 
      * Removes ".." components and ensures path is relative
+     * @param[in] path Input parameter.
+     * @return Return value.
      */
     static std::string sanitizePath(const std::string& path);
 
     /**
      * @brief Clean up temporary extraction directory
+     * @param[in] temp_dir Input parameter.
      */
     static void cleanupTempDirectory(const std::string& temp_dir);
 
@@ -254,6 +279,8 @@ public:
 
     /**
      * @brief Update configuration
+     * @param[in] config Input parameter.
+     * @details Calls: std::move().
      */
     void setConfig(ArchiveProcessorConfig config) { config_ = std::move(config); }
 
@@ -263,6 +290,8 @@ public:
      * By default a ContentSecurityManager with zip-bomb checks enabled (ratio 100×,
      * max 1,000 files) is used automatically. Call this to supply a pre-configured
      * manager, e.g. to adjust thresholds or share metrics with another component.
+     * @param[in] security_config Input parameter.
+     * @details Calls: setConfig().
      */
     void setSecurityConfig(const ContentSecurityConfig& security_config) {
         security_manager_.setConfig(security_config);
@@ -272,12 +301,32 @@ private:
     ArchiveProcessorConfig config_;
     ContentSecurityManager security_manager_;
     
-    // Format-specific extraction methods
+    /**
+     * @brief Format-specific extraction methods
+     * @param[in] blob Input parameter.
+     * @param[in] password Input parameter.
+     * @return Return value.
+     */
     ArchiveExtractionResult extractZip(const std::string& blob, const std::string& password);
+    /**
+     * @brief TBD: Describe extractTar.
+     * @param[in] blob Input parameter.
+     * @param[in] format Input parameter.
+     * @return Return value.
+     */
     ArchiveExtractionResult extractTar(const std::string& blob, ArchiveFormat format);
     
-    // Helper methods
+    /**
+     * @brief Helper methods
+     * @return Return value.
+     */
     std::string generateTempDirectory() const;
+    /**
+     * @brief TBD: Describe checkCompressionRatio.
+     * @param[in] compressed Input parameter.
+     * @param[in] uncompressed Input parameter.
+     * @return True on success.
+     */
     bool checkCompressionRatio(uint64_t compressed, uint64_t uncompressed) const;
 };
 

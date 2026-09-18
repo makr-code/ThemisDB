@@ -76,8 +76,14 @@ public:
     /**
      * @brief Enable measurement for specific operation
      * @param operation_name Operation name
+     * @details Calls: lock(), insert().
      */
     void enableOperation(const std::string& operation_name) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lock(mutex_);
         enabled_operations_.insert(operation_name);
     }
@@ -85,8 +91,14 @@ public:
     /**
      * @brief Disable measurement for specific operation
      * @param operation_name Operation name
+     * @details Calls: lock(), erase().
      */
     void disableOperation(const std::string& operation_name) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lock(mutex_);
         enabled_operations_.erase(operation_name);
     }
@@ -97,6 +109,11 @@ public:
      * @return true if enabled
      */
     bool isOperationEnabled(const std::string& operation_name) const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(mutex_);
         // If no specific operations are enabled, all are enabled
         if (enabled_operations_.empty()) {
@@ -107,8 +124,14 @@ public:
 
     /**
      * @brief Clear all operation filters
+     * @details Calls: lock(), clear().
      */
     void clearOperationFilters() {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lock(mutex_);
         enabled_operations_.clear();
     }

@@ -306,6 +306,8 @@ public:
      * Can be called after construction (e.g. from HttpServer::setConcerns()).
      * Thread-safety: must not be called concurrently with handleLiveness() or
      * handleReadiness(); call only during server initialization.
+     * @param[in] concerns Input parameter.
+     * @details Calls: std::move().
      */
     void setConcerns(std::shared_ptr<core::concerns::ConcernsContext> concerns) {
         concerns_ = std::move(concerns);
@@ -316,6 +318,8 @@ public:
      *
      * Optional: when not set, the observability alert endpoints return empty
      * lists / a disabled status instead of errors.
+     * @param[in] alertmanager Input parameter.
+     * @details Calls: std::move().
      */
     void setAlertmanager(std::shared_ptr<observability::DefaultAlertmanager> alertmanager) {
         alertmanager_ = std::move(alertmanager);
@@ -326,6 +330,8 @@ public:
      *
      * Optional: when not set, provenance export endpoints return service
      * unavailable instead of failing implicitly.
+     * @param[in] provenance_store Input parameter.
+     * @details Calls: std::move().
      */
     void setProvenanceStore(std::shared_ptr<observability::IProvenanceStore> provenance_store) {
         provenance_store_ = std::move(provenance_store);
@@ -337,6 +343,8 @@ public:
      * Optional: when set, GET /metrics and GET /v1/monitoring/sharding/{name} expose
      * shard-level Prometheus metrics including anti-entropy repair statistics.
      * Must be called before start() for the first scrape to include repair data.
+     * @param[in] sharding_metrics Input parameter.
+     * @details Calls: std::move().
      */
     void setShardingMetrics(std::shared_ptr<ShardingMetricsHandler> sharding_metrics) {
         sharding_metrics_ = std::move(sharding_metrics);
@@ -361,6 +369,8 @@ public:
      *
      * When set, GET /stats and GET /metrics/html include the latest serialized
      * signal and guardrail context for the live continuous-learning loops.
+     * @param[in] orchestrator Input parameter.
+     * @details Calls: std::move().
      */
     void setContinuousLearningOrchestrator(
         std::shared_ptr<themis::rag::learning::ContinuousLearningOrchestrator> orchestrator) {
@@ -385,9 +395,22 @@ private:
     std::shared_ptr<themis::rag::learning::ContinuousLearningOrchestrator>
         continuous_learning_orchestrator_;
 
-    // Helper methods (to be implemented)
+    /**
+     * @brief Helper methods (to be implemented)
+     * @param[in] status Input parameter.
+     * @param[in] message Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeErrorResponse(
         http::status status, const std::string& message, const http::request<http::string_body>& req);
+    /**
+     * @brief TBD: Describe makeResponse.
+     * @param[in] status Input parameter.
+     * @param[in] body Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeResponse(
         http::status status, const std::string& body, const http::request<http::string_body>& req);
 

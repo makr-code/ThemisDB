@@ -34,6 +34,7 @@ public:
     /**
      * @brief Construct Raft adapter from generic consensus configuration.
      * @param config Consensus configuration values mapped to Raft settings.
+     * @return Return value.
      */
     explicit RaftConsensusAdapter(const ConsensusConfig& config);
 

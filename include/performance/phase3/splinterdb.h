@@ -34,10 +34,14 @@ public:
     explicit ConcurrentCompactor(size_t num_threads = 4);
     ~ConcurrentCompactor();
     
-    // Start background compaction
+    /**
+     * @brief Start background compaction
+     */
     void start();
     
-    // Stop background compaction
+    /**
+     * @brief Stop background compaction
+     */
     void stop();
     
     // Schedule compaction for a level
@@ -49,6 +53,10 @@ public:
         size_t compactions_in_progress;
         double avg_compaction_time_ms;
     };
+    /**
+     * @brief TBD: Describe get_stats.
+     * @return Return value.
+     */
     Stats get_stats() const;
 
 private:
@@ -56,7 +64,9 @@ private:
     std::vector<std::thread> worker_threads_;
     std::atomic<bool> running_{false};
     
-    // Worker function
+    /**
+     * @brief Worker function
+     */
     void worker_loop();
 };
 

@@ -175,6 +175,10 @@ struct XOEVExportResult {
  */
 class IXOEVImporter {
 public:
+    /**
+     * @brief TBD: Describe ~IXOEVImporter.
+     * @return Return value.
+     */
     virtual ~IXOEVImporter() = default;
 
     /**
@@ -204,6 +208,10 @@ public:
      *
      * @return true  if the document is schema-valid; false otherwise.
      *         Validation errors are written to @p errors_out.
+     * @param[in] xml_content Input parameter.
+     * @param[in] standard Input parameter.
+     * @param[in] version Input parameter.
+     * @param[in,out] errors_out Input/output parameter.
      */
     virtual bool validate(std::string_view xml_content,
                           XOEVStandard standard,
@@ -212,6 +220,7 @@ public:
 
     /**
      * @brief Return all records currently held in the importer's store.
+     * @return Return value.
      */
     virtual std::vector<XOEVRecord> storedRecords() const = 0;
 
@@ -244,7 +253,11 @@ public:
             return result;
         }
 
-        // Minimal extraction: find <record> … </record> elements.
+        /**
+         * @brief Minimal extraction: find <record> … </record> elements.
+         * @param[in] xml_content Input parameter.
+         * @return Return value.
+         */
         const std::string xml(xml_content);
         std::size_t pos = 0;
 
@@ -278,6 +291,11 @@ public:
 
         // Persist to internal store.
         {
+            /**
+             * @brief TBD: Describe lk.
+             * @param[in] mutex_ Input parameter.
+             * @return Return value.
+             */
             std::unique_lock<std::mutex> lk(mutex_);
             for (const auto& r : result.records) {
                 store_[r.id] = r;
@@ -333,6 +351,11 @@ public:
             errors_out.push_back({0, "", "Empty document", true});
             return false;
         }
+        /**
+         * @brief TBD: Describe xml.
+         * @param[in] xml_content Input parameter.
+         * @return Return value.
+         */
         const std::string xml(xml_content);
         // Basic well-formedness: every opening tag must have a closing tag.
         std::size_t open  = std::count(xml.begin(), xml.end(), '<');
@@ -345,6 +368,11 @@ public:
     }
 
     std::vector<XOEVRecord> storedRecords() const override {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         std::vector<XOEVRecord> result = {};
 
@@ -356,6 +384,11 @@ public:
     }
 
     void clearRecords() override {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         store_.clear();
     }

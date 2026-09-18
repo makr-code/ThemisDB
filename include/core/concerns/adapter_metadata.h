@@ -127,6 +127,10 @@ struct AdapterSignature {
  */
 class AdapterValidator {
 public:
+    /**
+     * @brief TBD: Describe ~AdapterValidator.
+     * @return Return value.
+     */
     virtual ~AdapterValidator() = default;
 
     /**

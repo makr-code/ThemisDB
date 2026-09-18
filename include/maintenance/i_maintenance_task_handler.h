@@ -25,6 +25,10 @@ namespace maintenance {
  */
 class IMaintenanceTaskHandler {
 public:
+    /**
+     * @brief TBD: Describe ~IMaintenanceTaskHandler.
+     * @return Return value.
+     */
     virtual ~IMaintenanceTaskHandler() = default;
 
     /**

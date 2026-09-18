@@ -55,6 +55,10 @@ struct PerformanceIssue {
     std::vector<std::string> recommendations;
     json metrics;
     
+    /**
+     * @brief TBD: Describe toJSON.
+     * @return Return value.
+     */
     json toJSON() const;
 };
 
@@ -67,7 +71,15 @@ struct PerformanceAnalysis {
     json summary_metrics;
     json recommendations;
     
+    /**
+     * @brief TBD: Describe toJSON.
+     * @return Return value.
+     */
     json toJSON() const;
+    /**
+     * @brief TBD: Describe toReport.
+     * @return Return value.
+     */
     std::string toReport() const;
 };
 
@@ -156,11 +168,13 @@ public:
     
     /**
      * @brief Get configuration
+     * @return Return value.
      */
     PerformanceAnalyzerConfig get_config() const;
     
     /**
      * @brief Set configuration
+     * @param[in] config Input parameter.
      */
     void set_config(const PerformanceAnalyzerConfig& config);
     
@@ -184,22 +198,80 @@ private:
     class Impl;
     std::unique_ptr<Impl> impl_;
     
+    /**
+     * @brief TBD: Describe check_slow_queries.
+     * @param[in] query_profiler Input parameter.
+     * @return Return value.
+     */
     PerformanceIssue check_slow_queries(const QueryProfiler& query_profiler);
+    /**
+     * @brief TBD: Describe check_full_scans.
+     * @param[in] query_profiler Input parameter.
+     * @return Return value.
+     */
     PerformanceIssue check_full_scans(const QueryProfiler& query_profiler);
+    /**
+     * @brief TBD: Describe check_index_usage.
+     * @param[in] query_profiler Input parameter.
+     * @return Return value.
+     */
     PerformanceIssue check_index_usage(const QueryProfiler& query_profiler);
+    /**
+     * @brief TBD: Describe check_cache_hit_rate.
+     * @param[in] query_profiler Input parameter.
+     * @param[in] storage_profiler Input parameter.
+     * @return Return value.
+     */
     PerformanceIssue check_cache_hit_rate(const QueryProfiler& query_profiler,
                                          const StorageProfiler& storage_profiler);
+    /**
+     * @brief TBD: Describe check_write_amplification.
+     * @param[in] storage_profiler Input parameter.
+     * @return Return value.
+     */
     PerformanceIssue check_write_amplification(const StorageProfiler& storage_profiler);
+    /**
+     * @brief TBD: Describe check_read_amplification.
+     * @param[in] storage_profiler Input parameter.
+     * @return Return value.
+     */
     PerformanceIssue check_read_amplification(const StorageProfiler& storage_profiler);
+    /**
+     * @brief TBD: Describe check_slow_storage_ops.
+     * @param[in] storage_profiler Input parameter.
+     * @return Return value.
+     */
     PerformanceIssue check_slow_storage_ops(const StorageProfiler& storage_profiler);
     
+    /**
+     * @brief TBD: Describe generate_html_header.
+     * @return Return value.
+     */
     std::string generate_html_header() const;
+    /**
+     * @brief TBD: Describe generate_html_footer.
+     * @return Return value.
+     */
     std::string generate_html_footer() const;
+    /**
+     * @brief TBD: Describe generate_html_issue_section.
+     * @param[in] issue Input parameter.
+     * @return Return value.
+     */
     std::string generate_html_issue_section(const PerformanceIssue& issue) const;
 };
 
-// Helper functions
+/**
+ * @brief Helper functions
+ * @param[in] severity Input parameter.
+ * @return Pointer to the result.
+ */
 const char* to_string(IssueSeverity severity);
+/**
+ * @brief TBD: Describe to_string.
+ * @param[in] category Input parameter.
+ * @return Pointer to the result.
+ */
 const char* to_string(IssueCategory category);
 
 } // namespace observability

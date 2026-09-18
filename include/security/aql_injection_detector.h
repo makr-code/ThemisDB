@@ -156,26 +156,36 @@ private:
     
     /**
      * @brief Check if the AQL template has valid syntax
+     * @param[in] template_str Input parameter.
+     * @return True on success.
      */
     bool isValidAQLTemplate(const std::string& template_str);
     
     /**
      * @brief Validate a single parameter value
+     * @param[in] param Input parameter.
+     * @return Return value.
      */
     InjectionCheckResult validateParameter(const std::string& param);
     
     /**
      * @brief Check if string contains suspicious injection patterns
+     * @param[in] str Input parameter.
+     * @return True on success.
      */
     bool containsSuspiciousPatterns(const std::string& str);
     
     /**
      * @brief Extract detected patterns from string
+     * @param[in] str Input parameter.
+     * @return Return value.
      */
     std::vector<std::string> extractPatterns(const std::string& str);
     
     /**
      * @brief Check if string contains SQL/AQL keywords (case-insensitive)
+     * @param[in] str Input parameter.
+     * @return True on success.
      */
     bool containsSQLKeywords(const std::string& str);
     
@@ -185,6 +195,8 @@ private:
      * Recursively traverse the AST checking for:
      * - DELETE, UPDATE, INSERT, REPLACE, UPSERT, REMOVE operations
      * - DROP, EXEC, SYSTEM calls (not valid in AQL but check for SQL injection)
+     * @param[in] ast Input parameter.
+     * @return True on success.
      */
     bool containsDangerousOperations(const query::Query& ast);
     
@@ -192,11 +204,15 @@ private:
      * @brief Extract all string literals from AST
      * 
      * Recursively traverse AST and collect all string literal values
+     * @param[in] ast Input parameter.
+     * @return Return value.
      */
     std::vector<std::string> extractStringLiterals(const query::Query& ast);
     
     /**
      * @brief Extract string literals from an expression
+     * @param[in] expr Input parameter.
+     * @param[in,out] literals Input/output parameter.
      */
     void extractStringLiteralsFromExpression(
         const std::shared_ptr<query::Expression>& expr,
@@ -205,6 +221,8 @@ private:
     
     /**
      * @brief Parse AQL query into AST
+     * @param[in] aql Input parameter.
+     * @return Return value.
      */
     Result<std::shared_ptr<query::Query>> parseAQL(const std::string& aql);
 
@@ -215,6 +233,8 @@ private:
      * FunctionCallExpr has a name that belongs to the disallowed-operations
      * list (EXECUTE, EXEC, SYSTEM, SHELL, etc.).  Sub-queries embedded inside
      * ANY/ALL/SubqueryExpr are delegated back to containsDangerousOperations().
+     * @param[in] expr Input parameter.
+     * @return True on success.
      */
     bool scanExpressionForDangerousOps(const std::shared_ptr<query::Expression>& expr);
 

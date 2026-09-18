@@ -65,6 +65,12 @@ public:
         size_t success_threshold = 2;
     };
 
+    /**
+     * @brief TBD: Describe JaegerTracerAdapter.
+     * @param[in] cb_config Input parameter.
+     * @return Return value.
+     * @details Implements JaegerTracerAdapter without additional internal calls.
+     */
     explicit JaegerTracerAdapter(const CircuitBreakerConfig& cb_config) {
         sharding::CircuitBreaker::Config cfg;
         cfg.failure_threshold = cb_config.failure_threshold;
@@ -83,6 +89,11 @@ public:
     /** @brief ISpan adapter – delegates to themis::Tracer::Span. */
     class JaegerSpanAdapter : public ISpan {
     public:
+        /**
+         * @brief TBD: Describe JaegerSpanAdapter.
+         * @param[in] span Input parameter.
+         * @return Return value.
+         */
         explicit JaegerSpanAdapter(themis::Tracer::Span span)
             : span_(std::move(span)) {}
 
@@ -113,6 +124,11 @@ public:
 
         ~JaegerSpanAdapter() override { span_.end(); }
 
+        /**
+         * @brief TBD: Describe getSpan.
+         * @return Return value.
+         * @details Implements getSpan without additional internal calls.
+         */
         themis::Tracer::Span& getSpan()             { return span_; }
         const themis::Tracer::Span& getSpan() const { return span_; }
 
@@ -312,6 +328,9 @@ private:
      * spanId and parentSpanId are up to 16 hex chars (64-bit).
      *
      * @return true if all four fields were successfully parsed.
+     * @param[in] value Input parameter.
+     * @param[in,out] out Input/output parameter.
+     * @details Calls: reserve(), find(), push_back(), substr(), size(), empty(), std::all_of(), begin().
      */
     static bool parseUberTraceId(const std::string& value, UberTraceIds& out) {
         // Split on ':'

@@ -36,6 +36,10 @@ using PageID = uint64_t;
  * and paged between them.
  */
 struct PagedBuffer {
+    /**
+     * @brief TBD: Describe ~PagedBuffer.
+     * @return Return value.
+     */
     virtual ~PagedBuffer() = default;
     PageID id = 0;
     size_t size_bytes = 0;
@@ -50,6 +54,10 @@ struct PagedBuffer {
  * @brief Page information for tracking
  */
 struct PageInfo {
+    /**
+     * @brief TBD: Describe ~PageInfo.
+     * @return Return value.
+     */
     virtual ~PageInfo() = default;
     PageID id = 0;
     size_t size_bytes = 0;
@@ -67,9 +75,19 @@ struct PageInfo {
 template<typename Key, typename Value>
 class LRUCache {
 public:
+    /**
+     * @brief TBD: Describe ~LRUCache.
+     * @return Return value.
+     */
     virtual ~LRUCache() = default;
     explicit LRUCache(size_t capacity) : capacity_(capacity) {}
     
+    /**
+     * @brief TBD: Describe put.
+     * @param[in] key Input parameter.
+     * @param[in] value Input parameter.
+     * @details Calls: find(), end(), size(), evictLRU().
+     */
     void put(const Key& key, const Value& value) {
         auto it = cache_.find(key);
         if (it != cache_.end()) {
@@ -82,6 +100,13 @@ public:
         }
     }
     
+    /**
+     * @brief TBD: Describe get.
+     * @param[in] key Input parameter.
+     * @param[in,out] value Input/output parameter.
+     * @return True on success.
+     * @details Calls: find(), end().
+     */
     bool get(const Key& key, Value& value) {
         auto it = cache_.find(key);
         if (it != cache_.end()) {
@@ -91,6 +116,11 @@ public:
         return false;
     }
     
+    /**
+     * @brief TBD: Describe remove.
+     * @param[in] key Input parameter.
+     * @details Calls: erase().
+     */
     void remove(const Key& key) {
         cache_.erase(key);
     }
@@ -123,6 +153,10 @@ public:
     size_t size() const { return cache_.size(); }
     
 private:
+    /**
+     * @brief TBD: Describe evictLRU.
+     * @details Calls: empty(), begin(), end(), erase().
+     */
     void evictLRU() {
         if (cache_.empty()) {
           return;
@@ -289,7 +323,11 @@ private:
         return access_counter_++;
     }
     
-    // Helper to convert Device to backend type
+    /**
+     * @brief Helper to convert Device to backend type
+     * @param[in] type Input parameter.
+     * @return Return value.
+     */
     static acceleration::BackendType device_to_backend(DeviceType type);
 };
 

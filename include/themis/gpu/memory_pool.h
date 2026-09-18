@@ -145,12 +145,21 @@ public:
      */
     bool release(uint64_t offset);
 
-    // -----------------------------------------------------------------------
-    // Queries
-    // -----------------------------------------------------------------------
+    /**
+     * @brief ----------------------------------------------------------------------- Queries -----------------------------------------------------------------------
+     * @return Return value.
+     */
     Stats  getStats()    const;
     size_t slabSize()    const { return slab_size_; }
+    /**
+     * @brief TBD: Describe numSlabs.
+     * @return Return value.
+     */
     size_t numSlabs()    const;
+    /**
+     * @brief TBD: Describe freeSlabs.
+     * @return Return value.
+     */
     size_t freeSlabs()   const;
 
     /**
@@ -159,11 +168,13 @@ public:
      * Because each request occupies exactly one slab, fragmentation equals
      * the fraction of allocated slab space that exceeds the actual request
      * size. This is always 0 when slab_size == request_size.
+     * @return Return value.
      */
     float fragmentation() const;
 
     /**
      * @brief Return a read-only snapshot of the slab table (for diagnostics).
+     * @return Return value.
      */
     std::vector<Slab> slabSnapshot() const;
 

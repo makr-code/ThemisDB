@@ -119,9 +119,11 @@ public:
         uint64_t total_elapsed_ms         = 0; ///< Cumulative execution time
     };
 
-    // -----------------------------------------------------------------------
-    // Singleton
-    // -----------------------------------------------------------------------
+    /**
+     * @brief ----------------------------------------------------------------------- Singleton -----------------------------------------------------------------------
+     * @return Return value.
+     * @details Implements GetInstance without additional internal calls.
+     */
     static WASMKernelSandbox& GetInstance() {
         static WASMKernelSandbox inst;
         return inst;
@@ -138,6 +140,8 @@ public:
 
     /**
      * @brief Construct with an explicit sandbox configuration.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     explicit WASMKernelSandbox(SandboxConfig config);
 
@@ -153,11 +157,13 @@ public:
      * @brief Replace the current sandbox configuration.
      *
      * Thread-safe; effective for all subsequent execute() calls.
+     * @param[in] config Input parameter.
      */
     void setConfig(SandboxConfig config);
 
     /**
      * @brief Return the current sandbox configuration.
+     * @return Return value.
      */
     SandboxConfig getConfig() const;
 
@@ -171,6 +177,8 @@ public:
      * Always returns false in the current build (CPU simulation path).
      * Returns true when `THEMIS_ENABLE_WASM` is defined and the runtime
      * initialises successfully.
+     * @return True on success.
+     * @note Exception safety: noexcept.
      */
     bool isWASMSupported() const noexcept;
 
@@ -202,9 +210,10 @@ public:
                             const std::vector<uint8_t>& blob,
                             GPULauncher::BackendFn      backend = nullptr);
 
-    // -----------------------------------------------------------------------
-    // Statistics
-    // -----------------------------------------------------------------------
+    /**
+     * @brief ----------------------------------------------------------------------- Statistics -----------------------------------------------------------------------
+     * @return Return value.
+     */
 
     Stats getStats() const;
 
@@ -229,17 +238,30 @@ private:
     mutable size_t   execution_errors_         = 0;
     mutable uint64_t total_elapsed_ms_         = 0;
 
-    // Internal helper: execute the kernel payload under CPU simulation.
-    // Assumes the mutex is NOT held.
+    /**
+     * @brief Internal helper: execute the kernel payload under CPU simulation.
+     * @param[in] kernel_id Input parameter.
+     * @param[in] blob Input parameter.
+     * @param[in] backend Input parameter.
+     * @return Return value.
+     * @details Assumes the mutex is NOT held.
+     */
     ExecutionResult runInSandbox(const std::string&          kernel_id,
                                  const std::vector<uint8_t>& blob,
                                  GPULauncher::BackendFn      backend);
 
+    /**
+     * @brief TBD: Describe recordResult.
+     * @param[in] r Input parameter.
+     */
     void recordResult(const ExecutionResult& r);
 };
 
 /**
  * @brief Human-readable name for a WASMKernelSandbox::Status value.
+ * @param[in] s Input parameter.
+ * @return Pointer to the result.
+ * @note Exception safety: noexcept.
  */
 const char* sandboxStatusName(WASMKernelSandbox::Status s) noexcept;
 

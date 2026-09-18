@@ -96,6 +96,7 @@ public:
      * @brief Constructor
      * @param rocksdb_instance RocksDB TransactionDB instance
      * @param config Durability configuration
+     * @return Return value.
      */
     explicit ShardDurability(
         rocksdb::TransactionDB* rocksdb_instance,
@@ -134,6 +135,7 @@ public:
     
     /**
      * @brief List available checkpoints
+     * @return Return value.
      */
     std::vector<CheckpointInfo> listCheckpoints() const;
     
@@ -160,17 +162,20 @@ public:
     
     /**
      * @brief Get current WAL sequence number
+     * @return Return value.
      */
     uint64_t getCurrentSequenceNumber() const;
     
     /**
      * @brief Set recovery callback
      * Called when recovery is performed
+     * @param[in] callback Input parameter.
      */
     void setRecoveryCallback(RecoveryCallback callback);
     
     /**
      * @brief Update configuration
+     * @param[in] config Input parameter.
      */
     void updateConfig(const ShardDurabilityConfig& config);
     
@@ -210,6 +215,7 @@ private:
     
     /**
      * @brief Generate unique checkpoint ID
+     * @return Return value.
      */
     std::string generateCheckpointId() const;
     
@@ -225,6 +231,8 @@ private:
     
     /**
      * @brief Validate checkpoint
+     * @param[in] checkpoint_path Input parameter.
+     * @return True on success.
      */
     bool validateCheckpoint(const std::string& checkpoint_path) const;
 };

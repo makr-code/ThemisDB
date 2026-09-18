@@ -241,6 +241,7 @@ struct LWWResolutionStrategy {
      * @param local Local model version
      * @param remote Remote model version
      * @return Result with LOCAL_WINS or REMOTE_WINS
+     * @note Exception safety: noexcept.
      */
     static ConflictResolutionResult resolve(
         const ModelVersion& local,
@@ -261,6 +262,7 @@ struct ThreeWayMergeStrategy {
      * @param remote Remote model version
      * @param base Base model version (common ancestor)
      * @return Result with MERGED strategy and merged_model, or UNRESOLVED if merge impossible
+     * @note Exception safety: noexcept.
      */
     static ConflictResolutionResult resolve(
         const ModelVersion& local,
@@ -280,6 +282,10 @@ struct ThreeWayMergeStrategy {
  */
 class IConflictResolutionPlugin {
 public:
+    /**
+     * @brief TBD: Describe ~IConflictResolutionPlugin.
+     * @return Return value.
+     */
     virtual ~IConflictResolutionPlugin() = default;
 
     /**
@@ -302,6 +308,7 @@ public:
     /**
      * @brief Get human-readable name of this plugin.
      * @return Plugin name (for logging and debugging)
+     * @note Exception safety: noexcept.
      */
     virtual std::string name() const noexcept = 0;
 

@@ -112,6 +112,12 @@ public:
         std::string error_message;
     };
     
+    /**
+     * @brief TBD: Describe verifyBinaries.
+     * @param[in] signed_manifest Input parameter.
+     * @param[in] root_path Input parameter.
+     * @return Return value.
+     */
     VerificationResult verifyBinaries(
         const SignedManifest& signed_manifest,
         const std::string& root_path
@@ -130,6 +136,12 @@ private:
     Config config_;
     mutable std::mutex mtx_;
     
+    /**
+     * @brief TBD: Describe matchesPattern.
+     * @param[in] filename Input parameter.
+     * @param[in] pattern Input parameter.
+     * @return True on success.
+     */
     bool matchesPattern(const std::string& filename, const std::string& pattern);
 };
 

@@ -28,6 +28,10 @@ namespace governance {
 /// regulatory requirement (CCPA, GDPR, HIPAA, etc.).
 class IComplianceRule {
 public:
+    /**
+     * @brief TBD: Describe ~IComplianceRule.
+     * @return Return value.
+     */
     virtual ~IComplianceRule() = default;
 
     /// Unique identifier for this rule (e.g., "ccpa_right_to_know")
@@ -52,6 +56,10 @@ struct CcpaRuleEvalResult {
     std::string description;      ///< Human-readable result description
     std::string recommendation;   ///< Remediation recommendation if not compliant
 
+    /**
+     * @brief TBD: Describe toJson.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
 };
 
@@ -72,6 +80,10 @@ struct DataSubjectRequest {
     std::string status;        ///< "pending" | "fulfilled" | "denied"
     std::string denial_reason; ///< Populated when status == "denied"
 
+    /**
+     * @brief TBD: Describe toJson.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
 };
 
@@ -164,8 +176,11 @@ public:
 
     // ---- Subject opt-out registry ----------------------------------------
 
-    /// Register a data subject as having opted out of data sale.
-    /// Thread-safe; may be called from any thread.
+    /**
+     * @brief Register a data subject as having opted out of data sale.
+     * @param[in] subject_id Input parameter.
+     * @details Thread-safe; may be called from any thread.
+     */
     void addOptOut(const std::string& subject_id);
 
     /// Remove a data subject from the opt-out registry (opt back in).
@@ -182,17 +197,23 @@ public:
 
     // ---- Rule evaluation -------------------------------------------------
 
-    /// Evaluate all CCPA rules against a single PolicyRule.
-    /// @return A list of evaluation results, one per CCPA rule.
+    /**
+     * @brief Evaluate all CCPA rules against a single PolicyRule.
+     * @param[in] rule Input parameter.
+     * @return Return value.
+     * @details @return A list of evaluation results, one per CCPA rule.
+     */
     std::vector<CcpaRuleEvalResult> evaluateRule(const PolicyRule& rule) const;
 
     /// Return true if the PolicyRule is fully CCPA-compliant (all checks pass).
     bool isRuleCompliant(const PolicyRule& rule) const;
 
-    /// Check whether the given rule has CCPA/HIPAA conflicts.
-    /// HIPAA mandates disclosure (audit_access) which may conflict with CCPA
-    /// right-to-delete if the rule simultaneously prohibits audit_changes.
-    /// @return List of conflict descriptions (empty == no conflicts).
+    /**
+     * @brief Check whether the given rule has CCPA/HIPAA conflicts.
+     * @param[in] rule Input parameter.
+     * @return Return value.
+     * @details HIPAA mandates disclosure (audit_access) which may conflict with CCPA right-to-delete if the rule simultaneously prohibits audit_changes. @return List of conflict descriptions (empty == no conflicts).
+     */
     std::vector<std::string> detectHipaaConflicts(const PolicyRule& rule) const;
 
     // ---- Data subject requests -------------------------------------------

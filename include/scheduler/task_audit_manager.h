@@ -194,11 +194,13 @@ public:
     
     /**
      * @brief Get current configuration
+     * @return Return value.
      */
     TaskAuditConfig getConfig() const;
     
     /**
      * @brief Update configuration
+     * @param[in] config Input parameter.
      */
     void updateConfig(const TaskAuditConfig& config);
     
@@ -242,6 +244,7 @@ public:
      * @param event Audit event
      * @param stored_hmac Previously stored HMAC
      * @return true if entry has not been tampered with
+     * @brief TBD: Describe verifyAuditEntryIntegrity.
      */
     bool verifyAuditEntryIntegrity(const TaskAuditEvent& event, const std::string& stored_hmac) const;
     
@@ -272,14 +275,47 @@ private:
     std::deque<TaskSecurityEvent> recent_security_events_;
     static constexpr size_t MAX_CACHE_SIZE = 10000;
     
-    // Helper methods
+    /**
+     * @brief Helper methods
+     * @param[in] event Input parameter.
+     */
     void cacheAuditEvent(const TaskAuditEvent& event);
+    /**
+     * @brief TBD: Describe cacheSecurityEvent.
+     * @param[in] event Input parameter.
+     */
     void cacheSecurityEvent(const TaskSecurityEvent& event);
+    /**
+     * @brief TBD: Describe writeToAuditLog.
+     * @param[in] event Input parameter.
+     */
     void writeToAuditLog(const TaskAuditEvent& event);
+    /**
+     * @brief TBD: Describe writeToSecurityLog.
+     * @param[in] event Input parameter.
+     */
     void writeToSecurityLog(const TaskSecurityEvent& event);
+    /**
+     * @brief TBD: Describe matchesQuery.
+     * @param[in] event Input parameter.
+     * @param[in] params Input parameter.
+     * @return True on success.
+     */
     bool matchesQuery(const TaskAuditEvent& event, const AuditQueryParams& params) const;
+    /**
+     * @brief TBD: Describe loadEventsFromFile.
+     * @param[in] file_path Input parameter.
+     * @param[in] params Input parameter.
+     * @return Return value.
+     */
     std::vector<TaskAuditEvent> loadEventsFromFile(const std::string& file_path,
                                                    const AuditQueryParams& params) const;
+    /**
+     * @brief TBD: Describe loadSecurityEventsFromFile.
+     * @param[in] file_path Input parameter.
+     * @param[in] params Input parameter.
+     * @return Return value.
+     */
     std::vector<TaskSecurityEvent> loadSecurityEventsFromFile(const std::string& file_path,
                                                               const AuditQueryParams& params) const;
 };

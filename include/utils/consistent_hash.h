@@ -44,18 +44,21 @@ public:
     /**
      * @brief Add a physical node to the ring.
      * No-op if the node is already present.
+     * @param[in] node Input parameter.
      */
     void addNode(const std::string& node);
 
     /**
      * @brief Remove a physical node and all its virtual replicas.
      * No-op if the node is not present.
+     * @param[in] node Input parameter.
      */
     void removeNode(const std::string& node);
 
     /**
      * @brief Get the node responsible for @p key.
      * @return Node name, or empty string if the ring is empty.
+     * @param[in] key Input parameter.
      */
     std::string getNode(const std::string& key) const;
 
@@ -67,12 +70,16 @@ public:
      * is exhausted.
      *
      * @return Vector of up to min(n, nodeCount()) distinct node names.
+     * @param[in] key Input parameter.
+     * @param[in] n Input parameter.
      */
     std::vector<std::string> getNodes(const std::string& key, size_t n) const;
 
+     * @return Return value.
     /** @brief Number of physical nodes in the ring. */
     size_t nodeCount() const;
 
+     * @return True on success.
     /** @brief True when no physical nodes have been added. */
     bool empty() const;
 

@@ -97,6 +97,7 @@ public:
          */
         bool verifyPrivacyBudget(double epsilon_total, double delta);
 
+         * @param[in] epsilon_used Input parameter.
         /** @brief Track privacy spend. */
         void spendBudget(double epsilon_used);
 
@@ -118,6 +119,10 @@ public:
          * The mask is derived from (participant_id, round_id) and can be
          * subtracted after summation to recover the original aggregate.
          * This models secure aggregation flow without introducing full HE.
+         * @param[in] gradient Input parameter.
+         * @param[in] participant_id Input parameter.
+         * @param[in] round_id Input parameter.
+         * @return Return value.
          */
         std::vector<double> maskGradient(
             const std::vector<double>& gradient,
@@ -127,6 +132,10 @@ public:
 
         /**
          * @brief Remove aggregate mask from summed masked gradients.
+         * @param[in] masked_sum Input parameter.
+         * @param[in] participant_ids Input parameter.
+         * @param[in] round_id Input parameter.
+         * @return Return value.
          */
         std::vector<double> unmaskAggregatedGradient(
             const std::vector<double>& masked_sum,

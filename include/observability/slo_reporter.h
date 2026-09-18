@@ -147,6 +147,8 @@ struct SloStatus {
     /// Burn-rate alerts that are currently firing for this SLO.
     std::vector<BurnRateAlert> active_burn_rate_alerts;
 
+     * @brief TBD: Describe toJson.
+     * @return Return value.
     /** Serialize to JSON. */
     json toJson() const;
 };
@@ -207,7 +209,16 @@ public:
         size_t max_samples_per_slo{100'000};
     };
 
+    /**
+     * @brief TBD: Describe SloReporter.
+     * @return Return value.
+     */
     explicit SloReporter();
+    /**
+     * @brief TBD: Describe SloReporter.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit SloReporter(const Config& config);
     ~SloReporter();
 
@@ -241,11 +252,14 @@ public:
      * @brief Return the current compliance status for one SLO.
      *
      * @throws std::out_of_range if the SLO name is not registered.
+     * @param[in] slo_name Input parameter.
+     * @return Return value.
      */
     SloStatus getStatus(const std::string& slo_name) const;
 
     /**
      * @brief Return compliance status snapshots for all registered SLOs.
+     * @return Return value.
      */
     std::vector<SloStatus> getAllStatuses() const;
 
@@ -262,11 +276,13 @@ public:
 
     /**
      * @brief Generate a human-readable compliance report.
+     * @return Return value.
      */
     std::string generateReport() const;
 
     /**
      * @brief Generate a JSON compliance report.
+     * @return Return value.
      */
     json generateReportJson() const;
 
@@ -277,6 +293,7 @@ public:
 
     /**
      * @brief Return the number of registered SLOs.
+     * @return Return value.
      */
     size_t sloCount() const;
 
@@ -305,6 +322,8 @@ private:
      *
      * @c now is passed in to avoid calling @c system_clock::now() repeatedly
      * under the lock.
+     * @param[in,out] state Input/output parameter.
+     * @param[in] now Input parameter.
      */
     static void expireSamples(SloState& state,
                               std::chrono::system_clock::time_point now);
@@ -314,6 +333,8 @@ private:
      *
      * @c now must equal the value used for @c expireSamples so that counts
      * and statistics are consistent.
+     * @param[in] state Input parameter.
+     * @return Return value.
      */
     static SloStatus computeStatus(const SloState& state);
 
@@ -325,6 +346,7 @@ private:
      * @param now      Reference point (wall clock at evaluation time).
      * @param allowed_error_rate  = 1 - slo.objective
      * @return         Burn rate, or 0.0 if there are no samples in the window.
+     * @note Exception safety: noexcept.
      */
     static double computeBurnRate(const std::deque<Sample>& samples,
                                   std::chrono::seconds window,
@@ -335,6 +357,9 @@ private:
      * @brief Extract the burn-rate gauge value for a specific level from a
      *        pre-computed SloStatus (used by publishMetrics to avoid redundant
      *        re-computation).
+     * @param[in] s Input parameter.
+     * @param[in] level Input parameter.
+     * @return Return value.
      */
     double computeBurnRateLevelPublish(const SloStatus& s,
                                        BurnRateLevel level) const;

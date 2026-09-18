@@ -48,11 +48,15 @@ enum class FeedbackType {
 
 /**
  * @brief Convert FeedbackType to string
+ * @param[in] type Input parameter.
+ * @return Return value.
  */
 std::string feedbackTypeToString(FeedbackType type);
 
 /**
  * @brief Convert string to FeedbackType
+ * @param[in] str Input parameter.
+ * @return Return value.
  */
 std::optional<FeedbackType> stringToFeedbackType(const std::string& str);
 
@@ -73,16 +77,20 @@ struct FeedbackEntry {
     
     /**
      * @brief Convert entry to JSON
+     * @return Return value.
      */
     nlohmann::json toJson() const;
     
     /**
      * @brief Parse entry from JSON
+     * @param[in] j Input parameter.
+     * @return Return value.
      */
     static FeedbackEntry fromJson(const nlohmann::json& j);
 
     /**
      * @brief Compute a simple audit checksum over key fields
+     * @return Return value.
      */
     std::string computeChecksum() const;
 };
@@ -103,6 +111,7 @@ struct FeedbackStats {
     
     /**
      * @brief Convert stats to JSON
+     * @return Return value.
      */
     nlohmann::json toJson() const;
 };
@@ -308,6 +317,10 @@ public:
      */
     struct IEmbeddingModel {
         [[nodiscard]] virtual std::vector<float> embed(const std::string& text) const = 0;
+        /**
+         * @brief TBD: Describe ~IEmbeddingModel.
+         * @return Return value.
+         */
         virtual ~IEmbeddingModel() = default;
     };
 
@@ -317,6 +330,7 @@ public:
      * When set together with an embedding model, `recordFeedback()` will
      * publish an anonymised `FeedbackSummary` (embedding only, no raw text)
      * to all peer shards via the sync component.
+     * @param[in] sync Input parameter.
      */
     void setCrossShardSync(
         std::shared_ptr<distributed_knowledge::CrossShardFeedbackSync> sync);
@@ -327,6 +341,7 @@ public:
      * Required alongside `setCrossShardSync()` for the cross-shard publish
      * path.  When absent, cross-shard publish is silently skipped and a
      * warning is logged.
+     * @param[in] model Input parameter.
      */
     void setEmbeddingModel(std::shared_ptr<IEmbeddingModel> model);
 
@@ -350,16 +365,19 @@ private:
     
     /**
      * @brief Generate unique feedback ID
+     * @return Return value.
      */
     std::string generateId() const;
     
     /**
      * @brief Persist feedback to RocksDB (primary key + time-based secondary index)
+     * @param[in] entry Input parameter.
      */
     void persist(const FeedbackEntry& entry);
 
     /**
      * @brief Remove primary record and its secondary index entry from RocksDB
+     * @param[in] entry Input parameter.
      */
     void deleteFromDB(const FeedbackEntry& entry);
     
@@ -372,17 +390,24 @@ private:
      * @brief Build a zero-padded microsecond timestamp string for use in index keys
      *
      * The zero-padding ensures lexicographic order equals chronological order.
+     * @param[in] tp Input parameter.
+     * @return Return value.
      */
     static std::string formatTimestampKey(
         const std::chrono::system_clock::time_point& tp);
     
     /**
      * @brief Calculate feedback statistics
+     * @param[in] entries Input parameter.
+     * @return Return value.
      */
     FeedbackStats calculateStats(const std::vector<FeedbackEntry>& entries) const;
     
     /**
      * @brief Extract query patterns using simple text analysis
+     * @param[in] entries Input parameter.
+     * @param[in] min_occurrences Input parameter.
+     * @return Return value.
      */
     std::vector<FailedQueryPattern> extractPatterns(
         const std::vector<FeedbackEntry>& entries,

@@ -87,6 +87,7 @@ public:
     /**
      * @brief Construct calibration manager.
      * @param config Calibration configuration.
+     * @return Return value.
      */
     explicit CalibrationManager(const CalibrationConfig& config);
     
@@ -209,8 +210,19 @@ private:
     };
     std::unordered_map<std::string, PlattParameters> platt_params_;
     
-    // Helper methods
+    /**
+     * @brief Helper methods
+     * @param[in] score Input parameter.
+     * @param[in] temperature Input parameter.
+     * @return Return value.
+     */
     double applyTemperatureScaling(double score, double temperature);
+    /**
+     * @brief TBD: Describe applyPlattScaling.
+     * @param[in] score Input parameter.
+     * @param[in] params Input parameter.
+     * @return Return value.
+     */
     double applyPlattScaling(double score, const PlattParameters& params);
     std::vector<std::pair<double, double>> buildIsotonicModel(
         const std::vector<double>& predictions,

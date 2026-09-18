@@ -46,6 +46,10 @@ namespace query {
  */
 class IQueryLimitPolicy {
 public:
+    /**
+     * @brief TBD: Describe ~IQueryLimitPolicy.
+     * @return Return value.
+     */
     virtual ~IQueryLimitPolicy() = default;
 
     // Non-copyable, non-movable by default.

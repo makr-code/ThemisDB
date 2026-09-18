@@ -89,6 +89,10 @@ using DistributedEvictionListener =
  * Thread-safety: all public methods are thread-safe.
  */
 struct IDistributedEviction {
+    /**
+     * @brief TBD: Describe ~IDistributedEviction.
+     * @return Return value.
+     */
     virtual ~IDistributedEviction() = default;
 
     // -----------------------------------------------------------------------

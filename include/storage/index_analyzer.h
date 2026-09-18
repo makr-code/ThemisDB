@@ -153,6 +153,9 @@ struct IndexAnalyzeConfig {
 
     /**
      * @brief Return the threshold set that applies to the given tier.
+     * @param[in] tier Input parameter.
+     * @return Return value.
+     * @note Exception safety: noexcept.
      */
     const TierThresholds& thresholdsFor(storage::StorageTierLevel tier) const noexcept;
 };
@@ -201,6 +204,10 @@ struct IndexAnalysisReport {
  */
 class IIndexAnalysisAdvisor {
 public:
+    /**
+     * @brief TBD: Describe ~IIndexAnalysisAdvisor.
+     * @return Return value.
+     */
     virtual ~IIndexAnalysisAdvisor() = default;
 
     /**
@@ -269,9 +276,14 @@ public:
      *
      * If the background thread is running, the new cron expression and index
      * list take effect at the next scheduler wake-up.
+     * @param[in] config Input parameter.
      */
     void setConfig(IndexAnalyzeConfig config);
 
+    /**
+     * @brief TBD: Describe config.
+     * @return Return value.
+     */
     const IndexAnalyzeConfig& config() const;
 
     // ── AI/ML advisor ─────────────────────────────────────────────────────
@@ -280,6 +292,7 @@ public:
      * @brief Register an AI/ML advisor for post-analysis recommendation override.
      *
      * Pass nullptr to remove the current advisor (reverts to rule-based only).
+     * @param[in] advisor Input parameter.
      */
     void setAdvisor(std::shared_ptr<IIndexAnalysisAdvisor> advisor);
 
@@ -334,6 +347,7 @@ public:
      * @brief Return the reports from the most recent analyzeAll() run.
      *
      * Returns an empty vector if no analysis has been performed yet.
+     * @return Return value.
      */
     std::vector<IndexAnalysisReport> lastReports() const;
 
@@ -341,23 +355,41 @@ public:
      * @brief Return the timestamp of the last scheduled analysis run.
      *
      * Returns nullopt if no scheduled run has completed yet.
+     * @return Return value.
      */
     std::optional<std::chrono::system_clock::time_point> lastRunTime() const;
 
 private:
-    // Background scheduler loop
+    /**
+     * @brief Background scheduler loop
+     */
     void schedulerLoop();
 
-    // Core analysis logic (called from analyze() and the scheduler)
+    /**
+     * @brief Core analysis logic (called from analyze() and the scheduler)
+     * @param[in] index_name Input parameter.
+     * @param[in] tier Input parameter.
+     * @param[in] thresholds Input parameter.
+     * @return Return value.
+     */
     IndexAnalysisReport computeReport(
         const std::string& index_name,
         storage::StorageTierLevel tier,
         const TierThresholds& thresholds);
 
-    // Apply the AI advisor (if set) and update the report in-place
+    /**
+     * @brief Apply the AI advisor (if set) and update the report in-place
+     * @param[in,out] report Input/output parameter.
+     */
     void applyAdvisor(IndexAnalysisReport& report);
 
-    // Derive recommendation from fragmentation metrics
+    /**
+     * @brief Derive recommendation from fragmentation metrics
+     * @param[in] frag_pct Input parameter.
+     * @param[in] stats_stale Input parameter.
+     * @param[in] thresholds Input parameter.
+     * @return Return value.
+     */
     static IndexRecommendation classify(
         double frag_pct,
         bool stats_stale,

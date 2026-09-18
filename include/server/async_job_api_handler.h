@@ -218,8 +218,11 @@ public:
     http::response<http::string_body> handleCancel(
         const http::request<http::string_body>& req);
 
-    /// GET /v2/health/jobs – OP-HEALTH-002 readiness probe (liveness check)
-    /// Returns operational status suitable for Kubernetes health checks
+    /**
+     * @brief GET /v2/health/jobs – OP-HEALTH-002 readiness probe (liveness check) Returns operational status suitable for Kubernetes health checks
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleHealthCheck(
         const http::request<http::string_body>& req);
 

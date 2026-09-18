@@ -63,6 +63,10 @@ enum class FilterResult {
  */
 class IEventFilter {
 public:
+    /**
+     * @brief TBD: Describe ~IEventFilter.
+     * @return Return value.
+     */
     virtual ~IEventFilter() = default;
 
     /**
@@ -191,6 +195,10 @@ private:
  */
 class ICDCFilterPipeline {
 public:
+    /**
+     * @brief TBD: Describe ~ICDCFilterPipeline.
+     * @return Return value.
+     */
     virtual ~ICDCFilterPipeline() = default;
 
     /**
@@ -284,6 +292,11 @@ public:
         if (!filter) {
           return false;
         }
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         const std::string n = filter->name();
         for (const auto& entry : stages_) {
@@ -296,6 +309,11 @@ public:
     }
 
     bool removeFilter(const std::string& name) override {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         for (auto it = stages_.begin(); it != stages_.end(); ++it) {
             if ((*it)->name() == name) {
@@ -307,6 +325,11 @@ public:
     }
 
     bool hasFilter(const std::string& name) const override {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         for (const auto& entry : stages_) {
             if (entry->name() == name) {
@@ -317,11 +340,21 @@ public:
     }
 
     std::size_t size() const override {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         return stages_.size();
     }
 
     bool empty() const override {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         return stages_.empty();
     }
@@ -329,6 +362,11 @@ public:
     FilterResult apply(const Changefeed::ChangeEvent& event) const override {
         std::vector<IEventFilter*> snapshot;
         {
+            /**
+             * @brief TBD: Describe lk.
+             * @param[in] mutex_ Input parameter.
+             * @return Return value.
+             */
             std::unique_lock<std::mutex> lk(mutex_);
             snapshot.reserve(stages_.size());
             for (const auto& s : stages_) {
@@ -360,6 +398,11 @@ public:
     }
 
     std::vector<std::string> filterNames() const override {
+        /**
+         * @brief TBD: Describe lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         std::vector<std::string> names = {};
 

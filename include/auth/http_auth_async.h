@@ -31,6 +31,12 @@ struct HTTPAuthResponse {
     bool success{false};
     std::string error_message;
     
+    /**
+     * @brief TBD: Describe Success.
+     * @param[in] code Input parameter.
+     * @param[in] body_content Input parameter.
+     * @return Return value.
+     */
     static HTTPAuthResponse Success(int code, const std::string& body_content)
     {
         HTTPAuthResponse r;
@@ -40,6 +46,11 @@ struct HTTPAuthResponse {
         return r;
     }
     
+    /**
+     * @brief TBD: Describe Failed.
+     * @param[in] error Input parameter.
+     * @return Return value.
+     */
     static HTTPAuthResponse Failed(const std::string& error)
     {
         HTTPAuthResponse r;
@@ -150,6 +161,7 @@ public:
     
     /**
      * @brief Return the number of active worker threads
+     * @return Return value.
      */
     size_t threadCount() const;
     
@@ -179,6 +191,8 @@ private:
     
     /**
      * @brief Perform the actual connectivity check (called by worker thread)
+     * @param[in] url Input parameter.
+     * @return True on success.
      */
     bool performConnectivityCheck(const std::string& url);
     
@@ -186,6 +200,7 @@ private:
      * @brief Validate URL format (must be absolute HTTP/HTTPS)
      *
      * @throws AuthException if URL is invalid
+     * @param[in] url Input parameter.
      */
     static void validateURL(const std::string& url);
 };

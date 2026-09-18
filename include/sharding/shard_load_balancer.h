@@ -119,6 +119,7 @@ public:
     /**
      * @brief Constructs the balancer with default weights.
      * @param shard_ids  List of shard identifiers.
+     * @return Return value.
      */
     explicit ShardLoadBalancer(std::vector<std::string> shard_ids);
 
@@ -146,6 +147,8 @@ public:
      *
      * The shard will not be selected for new queries.  Returns false if
      * the shard was not registered.
+     * @param[in] shard_id Input parameter.
+     * @return True on success.
      */
     bool removeShard(const std::string& shard_id);
 

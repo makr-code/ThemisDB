@@ -204,9 +204,15 @@ public:
 
     // ── Policy management ────────────────────────────────────────────────────
 
+     * @brief TBD: Describe setPolicy.
+     * @param[in] table_name Input parameter.
+     * @param[in] policy Input parameter.
     /** Set the retention policy for a named table. */
     void setPolicy(const std::string& table_name, const RetentionPolicy& policy);
 
+     * @brief TBD: Describe getPolicy.
+     * @param[in] table_name Input parameter.
+     * @return Return value.
     /** Retrieve the retention policy for a table, if set. */
     std::optional<RetentionPolicy> getPolicy(const std::string& table_name) const;
 
@@ -216,11 +222,18 @@ public:
      * Apply the registered policy to the given table.
      * Non-current versions that violate the policy are physically deleted
      * (and optionally archived before deletion).
+     * @brief TBD: Describe enforceRetention.
+     * @param[in,out] table Input/output parameter.
+     * @return Return value.
      */
     RetentionStats enforceRetention(SystemVersionedTable& table);
 
     /**
      * Apply the given policy directly without registering it.
+     * @brief TBD: Describe enforceRetention.
+     * @param[in,out] table Input/output parameter.
+     * @param[in] policy Input parameter.
+     * @return Return value.
      */
     RetentionStats enforceRetention(SystemVersionedTable& table,
                                     const RetentionPolicy& policy);
@@ -239,6 +252,7 @@ public:
      * @param interval  How often to enforce the policy (minimum 1 millisecond).
      *
      * Call startScheduler() once to activate background processing.
+     * @brief TBD: Describe scheduleTable.
      */
     void scheduleTable(SystemVersionedTable& table,
                        std::chrono::milliseconds interval);
@@ -246,30 +260,44 @@ public:
     /**
      * Start the background retention thread.
      * Calling this more than once is a no-op.
+     * @brief TBD: Describe startScheduler.
      */
     void startScheduler();
 
     /**
      * Stop the background retention thread and wait for it to exit.
+     * @brief TBD: Describe stopScheduler.
      */
     void stopScheduler();
 
+     * @brief TBD: Describe schedulerRunning.
+     * @return True on success.
+     * @note Exception safety: noexcept.
     /** Return true if the background scheduler is currently running. */
     bool schedulerRunning() const noexcept;
 
     // ── Archive ──────────────────────────────────────────────────────────────
 
+     * @brief TBD: Describe getArchivedRecords.
+     * @return Return value.
     /** Return all archived records (across all tables). */
     std::vector<ArchivedRecord> getArchivedRecords() const;
 
+     * @brief TBD: Describe getArchivedRecords.
+     * @param[in] table_name Input parameter.
+     * @return Return value.
     /** Return archived records for a specific table. */
     std::vector<ArchivedRecord> getArchivedRecords(
         const std::string& table_name) const;
 
+     * @brief TBD: Describe clearArchive.
     /** Clear the in-memory archive. */
     void clearArchive();
 
-    // ── Statistics ───────────────────────────────────────────────────────────
+    /**
+     * @brief ── Statistics ───────────────────────────────────────────────────────────
+     * @return Return value.
+     */
 
     nlohmann::json getCumulativeStats() const;
 
@@ -296,8 +324,17 @@ private:
     std::atomic<bool> scheduler_running_{false};
     std::atomic<bool> scheduler_stop_{false};
 
+    /**
+     * @brief TBD: Describe schedulerLoop.
+     */
     void schedulerLoop();
 
+    /**
+     * @brief TBD: Describe applyPolicy.
+     * @param[in,out] table Input/output parameter.
+     * @param[in] policy Input parameter.
+     * @return Return value.
+     */
     RetentionStats applyPolicy(SystemVersionedTable& table,
                                const RetentionPolicy& policy);
 };

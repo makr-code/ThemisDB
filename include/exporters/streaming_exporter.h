@@ -24,6 +24,10 @@ namespace themis::exporters {
 /// Enables streaming export without loading all entities into memory.
 class ExportCursor {
 public:
+    /**
+     * @brief TBD: Describe ~ExportCursor.
+     * @return Return value.
+     */
     virtual ~ExportCursor() = default;
 
     /// Returns true if more pages are available.

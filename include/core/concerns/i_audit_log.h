@@ -133,6 +133,10 @@ struct AuditEvent {
  */
 class IAuditLog {
 public:
+    /**
+     * @brief TBD: Describe ~IAuditLog.
+     * @return Return value.
+     */
     virtual ~IAuditLog() = default;
 
     /**
@@ -143,6 +147,7 @@ public:
      * `isHealthy()` rather than propagated to the caller.
      *
      * @param event The audit event to record.
+     * @note Exception safety: noexcept.
      */
     virtual void record(const AuditEvent& event) noexcept = 0;
 
@@ -191,6 +196,11 @@ public:
 class InMemoryAuditLog : public IAuditLog {
 public:
     void record(const AuditEvent& event) noexcept override {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         events_.push_back(event);
     }
@@ -201,6 +211,11 @@ public:
      * The returned vector is a copy; modifications do not affect the log.
      */
     std::vector<AuditEvent> getEvents() const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return events_;
     }
@@ -209,14 +224,25 @@ public:
      * @brief Return the number of recorded events.
      */
     size_t size() const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return events_.size();
     }
 
     /**
      * @brief Discard all recorded events.
+     * @details Calls: lock().
      */
     void clear() {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         events_.clear();
     }

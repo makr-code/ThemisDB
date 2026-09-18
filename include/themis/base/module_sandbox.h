@@ -95,6 +95,10 @@ struct AbiCheckResult {
  */
 class AbiChecker {
 public:
+    /**
+     * @brief TBD: Describe AbiChecker.
+     * @return Return value.
+     */
     explicit AbiChecker();
     ~AbiChecker();
 
@@ -175,7 +179,13 @@ private:
     std::vector<std::string> required_symbols_;
     std::vector<std::string> deprecated_symbols_;
 
-    // Platform-portable symbol lookup
+    /**
+     * @brief Platform-portable symbol lookup
+     * @param[in,out] handle Input/output parameter.
+     * @param[in] name Input parameter.
+     * @return Pointer to the result.
+     * @note Exception safety: noexcept.
+     */
     static void* resolveSymbol(void* handle, const std::string& name) noexcept;
 };
 
@@ -278,9 +288,11 @@ public:
         /// functions cause the WASM module load to fail.
         bool wasm_allow_unregistered_imports = false;
 
-        /// @brief Construct a Config with safe default values.
-        /// @return Config with 256 MiB memory limit, 50 % CPU share,
-        ///         read-only filesystem access, and no network.
+        /**
+         * @brief @brief Construct a Config with safe default values.
+         * @return Return value.
+         * @details @return Config with 256 MiB memory limit, 50 % CPU share, read-only filesystem access, and no network. Implements defaults without additional internal calls.
+         */
         static Config defaults() { return {}; }
     };
 
@@ -351,6 +363,8 @@ public:
      *
      * WASM isolation is active when Config::enable_wasm_isolation was true
      * *and* a WasmRuntime was successfully injected during launch().
+     * @return True on success.
+     * @note Exception safety: noexcept.
      */
     bool isWasmIsolationActive() const noexcept;
 
@@ -362,6 +376,7 @@ public:
      *
      * @return Pointer to the inner WasmPluginSandbox, or nullptr if WASM
      *         isolation is not active.
+     * @note Exception safety: noexcept.
      */
     WasmPluginSandbox*       wasmSandbox() noexcept;
     /**
@@ -372,6 +387,7 @@ public:
      *
      * @return Const pointer to the inner WasmPluginSandbox, or nullptr if WASM
      *         isolation is not active.
+     * @note Exception safety: noexcept.
      */
     const WasmPluginSandbox* wasmSandbox() const noexcept;
 
@@ -390,26 +406,43 @@ private:
     std::unique_ptr<WasmPluginSandbox> wasm_sandbox_;
     bool                               wasm_isolation_active_ = false;
 
+    /**
+     * @brief TBD: Describe applyMemoryLimit.
+     * @return True on success.
+     */
     bool applyMemoryLimit();
+    /**
+     * @brief TBD: Describe applyCpuLimit.
+     * @return True on success.
+     */
     bool applyCpuLimit();
+    /**
+     * @brief TBD: Describe applyNetworkIsolation.
+     * @return True on success.
+     */
     bool applyNetworkIsolation();
+    /**
+     * @brief TBD: Describe applyFilesystemRestrictions.
+     * @return True on success.
+     */
     bool applyFilesystemRestrictions();
+    /**
+     * @brief TBD: Describe applySyscallFilter.
+     * @return True on success.
+     */
     bool applySyscallFilter();
 
-    /// @brief Set up a cgroup v2 sub-hierarchy for this sandbox instance.
-    ///
-    /// Creates `/sys/fs/cgroup/themis/<sandbox_id>/`, enables the memory and
-    /// cpu controllers in `cgroup.subtree_control`, writes `memory.max`, then
-    /// moves the current process into the new cgroup.  If CPU limiting is
-    /// enabled, `cpu.max` is written later by applyCpuLimit() when active.
-    /// Returns true on success; on failure emits spdlog::warn and the caller
-    /// falls back to RLIMIT_* enforcement.
+    /**
+     * @brief @brief Set up a cgroup v2 sub-hierarchy for this sandbox instance.
+     * @return True on success.
+     * @details Creates `/sys/fs/cgroup/themis/<sandbox_id>/`, enables the memory and cpu controllers in `cgroup.subtree_control`, writes `memory.max`, then moves the current process into the new cgroup. If CPU limiting is enabled, `cpu.max` is written later by applyCpuLimit() when active. Returns true on success; on failure emits spdlog::warn and the caller falls back to RLIMIT_* enforcement.
+     */
     bool setupCgroupV2();
 
-    /// @brief Remove the cgroup v2 directory created by setupCgroupV2().
-    ///
-    /// Migrates the current process back to the root cgroup before issuing
-    /// rmdir(2) on the sandbox-specific sub-directory.
+    /**
+     * @brief @brief Remove the cgroup v2 directory created by setupCgroupV2().
+     * @details Migrates the current process back to the root cgroup before issuing rmdir(2) on the sandbox-specific sub-directory.
+     */
     void teardownCgroupV2();
 };
 

@@ -207,6 +207,11 @@ private:
     /// Evaluate whether DBA action is required for the given record.
     static bool requiresDbaAction(const AIDecisionRecord& record);
 
+    /**
+     * @brief TBD: Describe getTemplate.
+     * @param[in] decision_type Input parameter.
+     * @return Return value.
+     */
     static const TemplateEntry& getTemplate(const std::string& decision_type);
 };
 

@@ -42,6 +42,7 @@ public:
          * @brief Record a validation error and mark the result invalid.
          *
          * @param error Human-readable error message.
+         * @details Calls: push_back().
          */
         void addError(const std::string& error) {
             valid = false;
@@ -52,6 +53,7 @@ public:
          * @brief Record a non-fatal validation warning.
          *
          * @param warning Human-readable warning message.
+         * @details Calls: push_back().
          */
         void addWarning(const std::string& warning) {
             warnings.push_back(warning);
@@ -88,6 +90,7 @@ public:
      * @param config JSON configuration object to validate.
      * @return ValidationResult with errors for invalid input and warnings for
      *         risky defaults.
+     * @details Calls: contains(), empty(), addError(), find().
      */
     static ValidationResult validateVaultConfig(const nlohmann::json& config) {
         ValidationResult result;
@@ -130,6 +133,7 @@ public:
      * @param config JWT validator configuration to validate.
      * @param production_mode Whether production enforcement rules should apply.
      * @return ValidationResult capturing hard failures and soft warnings.
+     * @details Calls: empty(), addError(), has_value(), addWarning(), count().
      */
     static ValidationResult validateJWTConfig(const auth::JWTValidatorConfig& config, bool production_mode) {
         ValidationResult result = {};
@@ -185,6 +189,7 @@ public:
      * @param log_pattern  Pattern string for the logger backend.
      * @return ValidationResult with an error for an unknown level and warnings
      *         for empty or risky settings.
+     * @details Calls: addError(), empty(), addWarning().
      */
     static ValidationResult validateLogConfig(const std::string& log_level, const std::string& log_pattern) {
         ValidationResult result;
@@ -222,6 +227,7 @@ public:
      * @param endpoint     OpenTelemetry or collector endpoint.
      * @param service_name  Logical service name used in spans.
      * @return ValidationResult describing configuration issues.
+     * @details Calls: empty(), addError(), addWarning().
      */
     static ValidationResult validateTracingConfig(bool enabled, const std::string& endpoint, const std::string& service_name) {
         ValidationResult result = {};
@@ -327,6 +333,7 @@ public:
      * @param default_ttl  Default time-to-live in seconds.
      * @return ValidationResult with warnings for degenerate or risky cache
      *         settings.
+     * @details Calls: addWarning().
      */
     static ValidationResult validateCacheConfig(size_t max_size, uint64_t default_ttl) {
         ValidationResult result = {};

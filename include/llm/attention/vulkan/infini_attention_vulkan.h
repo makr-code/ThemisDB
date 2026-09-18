@@ -62,6 +62,7 @@ public:
      *
      * @param config Configuration parameters
      * @throws std::runtime_error if Vulkan unavailable or shader compilation fails
+     * @return Return value.
      */
     explicit InfiniAttentionVulkan(const Config& config);
 

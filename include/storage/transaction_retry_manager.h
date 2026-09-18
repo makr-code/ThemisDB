@@ -187,6 +187,7 @@ public:
     /**
      * @brief Construct retry manager with configuration
      * @param config Retry configuration
+     * @return Return value.
      */
     explicit TransactionRetryManager(const TransactionRetryConfig& config);
     
@@ -254,6 +255,11 @@ public:
                 
                 // Update error stats
                 {
+                    /**
+                     * @brief TBD: Describe lock.
+                     * @param[in] stats_mutex_ Input parameter.
+                     * @return Return value.
+                     */
                     std::lock_guard<std::shared_mutex> lock(stats_mutex_);
                     stats_.errors_by_type[error_type]++;
                 }
@@ -314,11 +320,13 @@ public:
     
     /**
      * @brief Get current statistics
+     * @return Return value.
      */
     RetryStatistics getStatistics() const;
     
     /**
      * @brief Get current circuit breaker state
+     * @return Return value.
      */
     CircuitState getCircuitState() const;
     
@@ -329,22 +337,30 @@ public:
     
     /**
      * @brief Set alert callback for circuit breaker state changes
+     * @param[in] callback Input parameter.
      */
     void setAlertCallback(AlertCallback callback);
     
     /**
      * @brief Classify an error by its message
+     * @param[in] error_message Input parameter.
+     * @return Return value.
      */
     static ErrorType classifyError(const std::string& error_message);
     
     /**
      * @brief Check if an error type is retryable
+     * @param[in] error_type Input parameter.
+     * @return True on success.
      */
     static bool isRetryable(ErrorType error_type);
 
 private:
     /**
      * @brief Calculate delay for next retry attempt
+     * @param[in] attempt Input parameter.
+     * @param[in] policy Input parameter.
+     * @return Return value.
      */
     uint32_t calculateDelay(size_t attempt, const RetryPolicy* policy);
     
@@ -360,16 +376,22 @@ private:
     
     /**
      * @brief Check if circuit breaker is open
+     * @return True on success.
      */
     bool isCircuitOpen() const;
     
     /**
      * @brief Transition circuit breaker state
+     * @param[in] new_state Input parameter.
+     * @param[in,out] alert_message Input/output parameter.
+     * @return True on success.
      */
     bool transitionCircuitState(CircuitState new_state, std::string* alert_message) const;
 
     /**
      * @brief Invoke alert callback, if configured
+     * @param[in] state Input parameter.
+     * @param[in] message Input parameter.
      */
     void invokeAlertCallback(CircuitState state, const std::string& message) const;
     

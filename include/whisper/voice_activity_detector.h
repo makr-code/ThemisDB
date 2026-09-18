@@ -67,6 +67,10 @@ struct VadConfig {
  */
 class IVoiceActivityDetector {
 public:
+    /**
+     * @brief TBD: Describe ~IVoiceActivityDetector.
+     * @return Return value.
+     */
     virtual ~IVoiceActivityDetector() = default;
 
     /**

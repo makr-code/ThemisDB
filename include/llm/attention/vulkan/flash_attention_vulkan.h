@@ -27,6 +27,11 @@ namespace vulkan {
  */
 class FlashAttentionVulkan : public IFlashAttention {
 public:
+    /**
+     * @brief TBD: Describe FlashAttentionVulkan.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit FlashAttentionVulkan(const FlashAttentionConfig& config);
     ~FlashAttentionVulkan() override;
     
@@ -50,6 +55,7 @@ public:
     
     /**
      * @brief Check if Vulkan is available
+     * @return True on success.
      */
     static bool isAvailable();
 
@@ -61,7 +67,13 @@ private:
     void* vk_pipeline_ = nullptr;
     void* vk_descriptor_set_ = nullptr;
     
+    /**
+     * @brief TBD: Describe initializeVulkan.
+     */
     void initializeVulkan();
+    /**
+     * @brief TBD: Describe cleanupVulkan.
+     */
     void cleanupVulkan();
 };
 

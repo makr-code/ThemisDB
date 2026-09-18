@@ -79,6 +79,10 @@ struct GraphEmbeddingStats {
  */
 class IGraphEmbeddingProvider {
 public:
+    /**
+     * @brief TBD: Describe ~IGraphEmbeddingProvider.
+     * @return Return value.
+     */
     virtual ~IGraphEmbeddingProvider() = default;
 
     /// @brief Train the embedding model over the current graph.

@@ -72,18 +72,27 @@ public:
     /**
      * Register a new materialized view for CDC-driven maintenance.
      * @return false if a view with the same name already exists.
+     * @brief TBD: Describe createView.
+     * @param[in] def Input parameter.
      */
     bool createView(const themisdb::analytics::ViewDefinition& def);
 
     /**
      * Remove a materialized view by name.
      * @return false if the view is not found.
+     * @brief TBD: Describe dropView.
+     * @param[in] name Input parameter.
      */
     bool dropView(const std::string& name);
 
+     * @brief TBD: Describe hasView.
+     * @param[in] name Input parameter.
+     * @return True on success.
     /** Return true if a view with the given name exists. */
     bool hasView(const std::string& name) const;
 
+     * @brief TBD: Describe listViews.
+     * @return Return value.
     /** List all registered view names. */
     std::vector<std::string> listViews() const;
 
@@ -101,6 +110,8 @@ public:
      *
      * TRANSACTION_COMMIT and TRANSACTION_ROLLBACK events are silently
      * skipped and do not increment totalEventsProcessed().
+     * @brief TBD: Describe applyEvent.
+     * @param[in] event Input parameter.
      */
     void applyEvent(const Changefeed::ChangeEvent& event);
 
@@ -110,6 +121,8 @@ public:
      * Equivalent to calling applyEvent() for each element but acquires
      * per-view locks once for the entire batch, making it more efficient
      * for high-throughput ingestion paths.
+     * @brief TBD: Describe applyEvents.
+     * @param[in] events Input parameter.
      */
     void applyEvents(const std::vector<Changefeed::ChangeEvent>& events);
 
@@ -147,6 +160,9 @@ private:
      * Extract the collection name from an event key.
      * Returns the substring before the first ':', or the full key if
      * no ':' is present.
+     * @brief TBD: Describe extractCollection.
+     * @param[in] key Input parameter.
+     * @return Return value.
      */
     static std::string extractCollection(const std::string& key);
 

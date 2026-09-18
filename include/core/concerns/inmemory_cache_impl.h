@@ -33,6 +33,11 @@ public:
         : maxSize_(maxSize), defaultTTL_(defaultTTL), hits_(0), misses_(0) {}
 
     std::optional<CacheEntry> get(std::string_view key) const override {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         auto it = cache_.find(std::string(key));
@@ -59,6 +64,11 @@ public:
     }
 
     bool put(std::string_view key, const CacheEntry& entry, uint64_t ttl_ms = 0) override {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         // Evict if at capacity.
@@ -74,11 +84,21 @@ public:
     }
 
     void invalidate(std::string_view key) override {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         cache_.erase(std::string(key));
     }
 
     void clear() override {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         cache_.clear();
         hits_ = 0;
@@ -86,10 +106,19 @@ public:
     }
 
     void invalidatePattern(std::string_view pattern) override {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         try {
-            // Use basic_regex directly to avoid potential macro conflicts with 'regex'
+            /**
+             * @brief Use basic_regex directly to avoid potential macro conflicts with 'regex'
+             * @param[in] pattern Input parameter.
+             * @return Return value.
+             */
             const ::std::string pattern_str(pattern);
             const ::std::basic_regex<char> rx{pattern_str};
             for (auto it = cache_.begin(); it != cache_.end();) {
@@ -105,6 +134,11 @@ public:
     }
 
     size_t size() const override {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return cache_.size();
     }
@@ -123,6 +157,11 @@ public:
     }
 
     void setMaxSize(size_t maxSize) override {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         maxSize_ = maxSize;
     }

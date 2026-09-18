@@ -100,6 +100,8 @@ public:
      * @brief Write a new version of @p key with an auto-generated HLC timestamp.
      *
      * @return The HLC timestamp assigned to this version.
+     * @param[in] key Input parameter.
+     * @param[in] value Input parameter.
      */
     HLCTimestamp put(std::string_view key, const std::vector<uint8_t>& value);
 
@@ -142,6 +144,8 @@ public:
      *
      * @param ts  Commit timestamp.  Must be strictly greater than any
      *            previously written version of the same key.
+     * @param[in] key Input parameter.
+     * @param[in] value Input parameter.
      */
     void putWithTimestamp(
         std::string_view key,
@@ -155,6 +159,7 @@ public:
      * @brief Read the latest committed version of @p key.
      *
      * @return The value bytes, or std::nullopt if the key does not exist.
+     * @param[in] key Input parameter.
      */
     std::optional<std::vector<uint8_t>> getLatest(std::string_view key);
 
@@ -206,6 +211,11 @@ public:
         GCOptions opts
     );
 
+     * @brief TBD: Describe gcVersionsBefore.
+     * @param[in] key Input parameter.
+     * @param[in] min_ts Input parameter.
+     * @return Return value.
+     * @details Implements gcVersionsBefore without additional internal calls.
     /** @overload Uses default GCOptions (min_versions_to_keep = 1). */
     uint64_t gcVersionsBefore(std::string_view key, HLCTimestamp min_ts) {
         return gcVersionsBefore(key, min_ts, GCOptions{});
@@ -218,9 +228,15 @@ public:
      * versioned key.  This is an O(N) scan – prefer per-key GC in hot paths.
      *
      * @return Total number of version entries deleted.
+     * @param[in] min_ts Input parameter.
+     * @param[in] opts Input parameter.
      */
     uint64_t gcAllBefore(HLCTimestamp min_ts, GCOptions opts);
 
+     * @brief TBD: Describe gcAllBefore.
+     * @param[in] min_ts Input parameter.
+     * @return Return value.
+     * @details Implements gcAllBefore without additional internal calls.
     /** @overload Uses default GCOptions. */
     uint64_t gcAllBefore(HLCTimestamp min_ts) {
         return gcAllBefore(min_ts, GCOptions{});
@@ -241,9 +257,14 @@ public:
 
     // ─── Clock access ─────────────────────────────────────────────────────────
 
+     * @brief TBD: Describe currentTimestamp.
+     * @return Return value.
     /** Return the current HLC timestamp without advancing it. */
     HLCTimestamp currentTimestamp() const;
 
+     * @brief TBD: Describe updateClock.
+     * @param[in] received Input parameter.
+     * @return Return value.
     /** Advance the HLC after receiving a remote timestamp. */
     HLCTimestamp updateClock(HLCTimestamp received);
 
@@ -253,6 +274,9 @@ public:
      * @brief Build the versioned storage key for @p base_key at @p ts.
      *
      * Format: `<base_key>'\\0'<8-byte-big-endian-ts>`
+     * @param[in] base_key Input parameter.
+     * @param[in] ts Input parameter.
+     * @return Return value.
      */
     static std::string encodeVersionedKey(std::string_view base_key, HLCTimestamp ts);
 
@@ -260,6 +284,8 @@ public:
      * @brief Build the prefix used to scan all versions of @p base_key.
      *
      * Format: `<base_key>'\\0'`
+     * @param[in] base_key Input parameter.
+     * @return Return value.
      */
     static std::string encodeVersionPrefix(std::string_view base_key);
 
@@ -273,6 +299,7 @@ public:
      *
      * @return The decoded HLCTimestamp, or a zero-valued timestamp if @p key
      *         is shorter than 9 bytes (and therefore cannot be a valid versioned key).
+     * @param[in] versioned_key Input parameter.
      */
     static HLCTimestamp decodeTimestamp(std::string_view versioned_key);
 

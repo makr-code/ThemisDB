@@ -166,6 +166,8 @@ public:
      * records, one per known cluster member (including the local node).
      *
      * Performance: O(N), ≤ 1 ms.
+     * @brief TBD: Describe getTopology.
+     * @return Return value.
      */
     std::vector<TopologyNode> getTopology() const;
 
@@ -174,6 +176,8 @@ public:
      * Returns an empty vector when the cluster is healthy.
      *
      * Performance: O(N), ≤ 5 ms.
+     * @brief TBD: Describe detectBottlenecks.
+     * @return Return value.
      */
     std::vector<Bottleneck> detectBottlenecks() const;
 
@@ -183,6 +187,8 @@ public:
      * recent failover events.
      *
      * Performance: O(N), ≤ 5 ms.
+     * @brief TBD: Describe calculateHealthScore.
+     * @return Return value.
      */
     HealthScore calculateHealthScore() const;
 

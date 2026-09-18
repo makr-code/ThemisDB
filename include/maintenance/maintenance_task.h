@@ -83,8 +83,12 @@ inline std::string taskTypeToString(MaintenanceTaskType t) {
     }
 }
 
-/// Parse a MaintenanceTaskType from its string representation.
-/// Returns MaintenanceTaskType::METRICS_COLLECTION if not recognized.
+/**
+ * @brief Parse a MaintenanceTaskType from its string representation.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Returns MaintenanceTaskType::METRICS_COLLECTION if not recognized. Implements taskTypeFromString without additional internal calls.
+ */
 inline MaintenanceTaskType taskTypeFromString(const std::string& s) {
     if (s == "metrics_collection") {
       return MaintenanceTaskType::METRICS_COLLECTION;
@@ -162,6 +166,12 @@ enum class MaintenanceJobState {
     SKIPPED,   ///< Skipped (e.g., outside maintenance window)
 };
 
+/**
+ * @brief TBD: Describe jobStateToString.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Implements jobStateToString without additional internal calls.
+ */
 inline std::string jobStateToString(MaintenanceJobState s) {
     switch (s) {
         case MaintenanceJobState::PENDING:   return "pending";

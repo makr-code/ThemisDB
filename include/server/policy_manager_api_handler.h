@@ -137,13 +137,26 @@ private:
     std::shared_ptr<themis::governance::PolicyManager> policy_manager_;
     std::shared_ptr<themis::AuthMiddleware> auth_;
     
-    // Helper methods
+    /**
+     * @brief Helper methods
+     * @param[in] status Input parameter.
+     * @param[in] message Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeErrorResponse(
         http::status status,
         const std::string& message,
         const http::request<http::string_body>& req
     );
     
+    /**
+     * @brief TBD: Describe makeResponse.
+     * @param[in] status Input parameter.
+     * @param[in] body Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeResponse(
         http::status status,
         const std::string& body,

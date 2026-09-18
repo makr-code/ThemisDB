@@ -83,8 +83,14 @@ public:
      *
      * @param key   Cache key.
      * @param value Value to store.
+     * @details Calls: lock(), find(), end(), erase(), push_front(), std::move(), Clock::now(), begin().
      */
     void put(const K& key, V value) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = map_.find(key);
         if (it != map_.end()) {
@@ -113,8 +119,14 @@ public:
      *
      * @param key Cache key.
      * @return The cached value, or std::nullopt on miss/expiry.
+     * @details Calls: lock(), find(), end(), isExpired(), evictEntry(), erase(), push_front(), begin().
      */
     std::optional<V> get(const K& key) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = map_.find(key);
         if (it == map_.end()) {
@@ -139,8 +151,14 @@ public:
      * @brief Remove a specific key from the cache.
      * @param key Cache key to remove.
      * @return true if the key was present and removed.
+     * @details Calls: lock(), find(), end(), erase().
      */
     bool remove(const K& key) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = map_.find(key);
         if (it == map_.end()) {
@@ -153,6 +171,11 @@ public:
 
     /// Clear all entries.
     void clear() {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         map_.clear();
         lru_.clear();
@@ -163,6 +186,11 @@ public:
      * @return Entry count.
      */
     size_t size() const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return map_.size();
     }
@@ -172,6 +200,11 @@ public:
      * @return Metrics snapshot.
      */
     Metrics metrics() const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return metrics_;
     }
@@ -179,8 +212,14 @@ public:
     /**
      * @brief Evict all TTL-expired entries.
      * @return Number of entries evicted.
+     * @details Calls: lock(), begin(), end(), isExpired(), erase().
      */
     size_t purgeExpired() {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         size_t count = 0;
         auto it = map_.begin();
@@ -200,8 +239,14 @@ public:
     /**
      * @brief Set or update the maximum cache size.
      * @param max_size New maximum (0 = unlimited).
+     * @details Calls: lock(), size(), evictLRU().
      */
     void setMaxSize(size_t max_size) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         max_size_ = max_size;
         while (max_size_ > 0 && map_.size() > max_size_) {
@@ -212,8 +257,14 @@ public:
     /**
      * @brief Set or update the TTL for new and existing lookups.
      * @param ttl New TTL (zero = no expiry).
+     * @details Calls: lock().
      */
     void setTTL(std::chrono::milliseconds ttl) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         ttl_ = ttl;
     }
@@ -244,7 +295,10 @@ private:
         return Clock::now() - e.inserted >= ttl_;
     }
 
-    // Must be called under lock.
+    /**
+     * @brief Must be called under lock.
+     * @details Calls: empty(), back(), erase(), pop_back().
+     */
     void evictLRU() {
         if (lru_.empty()) {
           return;
@@ -288,6 +342,7 @@ public:
     /**
      * @brief Record one observation.
      * @param latency_ms Observed latency in milliseconds.
+     * @details Calls: fetch_add().
      */
     void record(uint64_t latency_ms) {
         for (size_t i = 0; i < 9; ++i) {
@@ -351,6 +406,11 @@ public:
      * @return Vector of counts indexed by bucket.
      */
     std::vector<uint64_t> bucketCounts() const {
+        /**
+         * @brief TBD: Describe out.
+         * @param[in] kBucketCount Input parameter.
+         * @return Return value.
+         */
         std::vector<uint64_t> out(kBucketCount);
         for (size_t i = 0; i < kBucketCount; ++i)
             out[i] = counts_[i].load(std::memory_order_relaxed);
@@ -390,6 +450,7 @@ public:
      * EMA update requires external synchronisation if called concurrently.
      *
      * @param observed_ms Observed execution time in milliseconds.
+     * @details Calls: std::min(), record(), std::max().
      */
     void observe(double observed_ms) {
         if (exec_count_ == 0) {
@@ -453,6 +514,7 @@ public:
 
     /**
      * @brief Reset all learned state.
+     * @details Implements reset without additional internal calls.
      */
     void reset() {
         ema_cost_ms_ = 0.0;

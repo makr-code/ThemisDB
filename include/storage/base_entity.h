@@ -75,6 +75,11 @@ public:
     };
     
     BaseEntity() = default;
+    /**
+     * @brief TBD: Describe BaseEntity.
+     * @param[in] pk Input parameter.
+     * @return Return value.
+     */
     explicit BaseEntity(std::string_view pk);
     BaseEntity(std::string_view pk, const FieldMap& fields);
     BaseEntity(std::string_view pk, Blob blob, Format format = Format::BINARY);
@@ -104,6 +109,11 @@ public:
 
     /// Convenience helpers returning defaults
     std::string getFieldString(std::string_view field_name) const;
+    /**
+     * @brief TBD: Describe getFieldInt.
+     * @param[in] field_name Input parameter.
+     * @return Return value.
+     */
     int64_t getFieldInt(std::string_view field_name) const;
     
     /// Get field as string (with type conversion)
@@ -121,31 +131,20 @@ public:
     /// Get field as float vector (for embeddings)
     std::optional<std::vector<float>> getFieldAsVector(std::string_view field_name) const;
 
-    /// Get field as a string array.
-    ///
-    /// Attempts to decode the named field as an ordered list of strings.
-    /// The following encodings are recognised, in priority order:
-    ///   1. A JSON array stored as a plain string value, e.g. `["a","b","c"]`.
-    ///   2. A comma-separated plain string (legacy format, backward-compatible read).
-    ///
-    /// Returns `std::nullopt` when the field is absent or cannot be decoded as
-    /// any string-like type.  Returns an empty vector for an empty array or an
-    /// empty string.
+    /**
+     * @brief Get field as a string array.
+     * @param[in] field_name Input parameter.
+     * @return Return value.
+     * @details Attempts to decode the named field as an ordered list of strings. The following encodings are recognised, in priority order: 1. A JSON array stored as a plain string value, e.g. `["a","b","c"]`. 2. A comma-separated plain string (legacy format, backward-compatible read). Returns `std::nullopt` when the field is absent or cannot be decoded as any string-like type. Returns an empty vector for an empty array or an empty string.
+     */
     std::optional<std::vector<std::string>> getFieldAsStringArray(std::string_view field_name) const;
 
-    /// Set field value (modifies blob)
-    ///
-    /// Sets a field in the entity's field map, triggering a blob rebuild for serialization.
-    /// Implements fail-closed validation: rejects empty field_name to prevent silent field map corruption.
-    ///
-    /// @param field_name Field identifier (non-empty std::string_view required)
-    /// @param value Value to set for this field
-    ///
-    /// @note **Fail-Closed Behavior:** If field_name is empty, this method logs an error and returns
-    ///       without modifying the field cache. This prevents creating corrupt field map entries with
-    ///       empty keys that would propagate through getAllFields() and toJson() calls.
-    ///
-    /// @see getAllFields(), toJson() — downstream methods that depend on valid field keys
+    /**
+     * @brief Set field value (modifies blob) Sets a field in the entity's field map, triggering a blob rebuild for serialization.
+     * @param[in] field_name Input parameter.
+     * @param[in] value Input parameter.
+     * @details Implements fail-closed validation: rejects empty field_name to prevent silent field map corruption. @param field_name Field identifier (non-empty std::string_view required) @param value Value to set for this field @note **Fail-Closed Behavior:** If field_name is empty, this method logs an error and returns without modifying the field cache. This prevents creating corrupt field map entries with empty keys that would propagate through getAllFields() and toJson() calls. @see getAllFields(), toJson() — downstream methods that depend on valid field keys
+     */
     void setField(std::string_view field_name, const Value& value);
     
     /// Get all fields (full parse)
@@ -170,8 +169,11 @@ public:
     
     // ===== Index Support (fast field extraction) =====
     
-    /// Extract specific field without full deserialization
-    /// Critical for index updates - uses simdjson on-demand API
+    /**
+     * @brief Extract specific field without full deserialization Critical for index updates - uses simdjson on-demand API
+     * @param[in] field_name Input parameter.
+     * @return Return value.
+     */
     std::optional<std::string> extractField(std::string_view field_name) const;
     
     /// Extract vector embedding field (for ANN index)
@@ -199,8 +201,10 @@ public:
     
     // ===== Index Support (fast field extraction) =====
     
-    /// Get all indexable fields (for secondary index maintenance)
-    /// Returns field_name -> string_value pairs
+    /**
+     * @brief Get all indexable fields (for secondary index maintenance) Returns field_name -> string_value pairs
+     * @return Return value.
+     */
     Attributes extractAllFields() const;
     
     /// Extract fields matching a prefix (e.g., "metadata.*")
@@ -208,16 +212,25 @@ public:
     
     // ===== Rotary Embeddings Support =====
     
-    /// Check if entity has a rotated embedding for given field
-    /// Looks for field_name + "_rotation_pos" metadata
+    /**
+     * @brief Check if entity has a rotated embedding for given field Looks for field_name + "_rotation_pos" metadata
+     * @param[in] field_name Input parameter.
+     * @return True on success.
+     */
     bool hasRotatedEmbedding(std::string_view field_name) const;
     
-    /// Get rotation position used for this field's embedding
-    /// Returns nullopt if field is not rotated
+    /**
+     * @brief Get rotation position used for this field's embedding Returns nullopt if field is not rotated
+     * @param[in] field_name Input parameter.
+     * @return Return value.
+     */
     std::optional<size_t> getRotationPosition(std::string_view field_name) const;
     
-    /// Get rotation type (relation type for relational rotation)
-    /// Returns nullopt if field is not relationally rotated
+    /**
+     * @brief Get rotation type (relation type for relational rotation) Returns nullopt if field is not relationally rotated
+     * @param[in] field_name Input parameter.
+     * @return Return value.
+     */
     std::optional<std::string> getRotationType(std::string_view field_name) const;
     
     // ===== Metadata =====
@@ -245,19 +258,31 @@ private:
     std::optional<Blob> geometry_;                      // EWKB blob
     std::optional<geo::GeoSidecar> geo_sidecar_;       // MBR, centroid, z-range
     
-    // Parse blob into field cache
+    /**
+     * @brief Parse blob into field cache
+     */
     void ensureCache() const;
     
-    // Invalidate cache (after blob modification)
+    /**
+     * @brief Invalidate cache (after blob modification)
+     */
     void invalidateCache();
     
-    // Parse JSON using simdjson (fast path for JSON format)
+    /**
+     * @brief Parse JSON using simdjson (fast path for JSON format)
+     * @return Return value.
+     */
     FieldMap parseJson() const;
     
-    // Parse binary format
+    /**
+     * @brief Parse binary format
+     * @return Return value.
+     */
     FieldMap parseBinary() const;
     
-    // Rebuild blob from cache
+    /**
+     * @brief Rebuild blob from cache
+     */
     void rebuildBlob();
 };
 

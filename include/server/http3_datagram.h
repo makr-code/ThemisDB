@@ -152,11 +152,14 @@ public:
      * @brief Remove a previously registered context.
      *
      * @return true if the context existed and was removed.
+     * @param[in] context_id Input parameter.
      */
     bool unregisterContext(uint64_t context_id);
 
     /**
      * @brief Return true if a handler is registered for @p context_id.
+     * @param[in] context_id Input parameter.
+     * @return True on success.
      */
     bool hasContext(uint64_t context_id) const;
 
@@ -232,6 +235,10 @@ public:
         uint64_t datagrams_sent       = 0;  ///< Successfully sent outbound datagrams
     };
 
+    /**
+     * @brief TBD: Describe getStats.
+     * @return Return value.
+     */
     Stats getStats() const;
 
     // ── Config access ─────────────────────────────────────────────────────────

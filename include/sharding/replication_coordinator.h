@@ -51,6 +51,7 @@ public:
     /**
      * @brief Construct coordinator.
      * @param shipper WAL shipper used for replica topology and replication signals.
+     * @return Return value.
      */
     explicit ReplicationCoordinator(std::shared_ptr<WALShipper> shipper);
 
@@ -62,6 +63,7 @@ public:
      * @param entry_lsn LSN of the written entry.
      * @param concern Write concern level.
      * @return ReplicationResult with success status and replica count.
+     * @brief TBD: Describe waitForReplication.
      */
     ReplicationResult waitForReplication(
         const LSN& entry_lsn,
@@ -73,6 +75,7 @@ public:
      * @param replica_id Replica that acknowledged (non-empty required)
      * @param lsn LSN that was acknowledged
      * @note Rejects acknowledgments with empty replica_id (fail-closed guard)
+     * @brief TBD: Describe recordAcknowledgment.
      */
     void recordAcknowledgment(const std::string& replica_id, const LSN& lsn);
 
@@ -85,6 +88,8 @@ public:
     /**
      * Get current replica topology info (delegates to WALShipper)
      * Returns an empty vector if no shipper is configured.
+     * @brief TBD: Describe getReplicaInfo.
+     * @return Return value.
      */
     std::vector<ReplicaInfo> getReplicaInfo() const;
 
@@ -100,6 +105,7 @@ public:
      */
     void setEnabled(bool enabled);
 
+     * @return True on success.
     /** @brief Check whether coordinator is enabled. */
     bool isEnabled() const;
 

@@ -71,9 +71,11 @@ public:
         PEER_TO_PEER,      ///< Peer-to-peer GPU-to-GPU direct transfers (NVLink/PCIe)
     };
 
-    // -----------------------------------------------------------------------
-    // Singleton
-    // -----------------------------------------------------------------------
+    /**
+     * @brief ----------------------------------------------------------------------- Singleton -----------------------------------------------------------------------
+     * @return Return value.
+     * @details Implements GetInstance without additional internal calls.
+     */
     static GPUFeatureFlags& GetInstance() {
         static GPUFeatureFlags inst;
         return inst;
@@ -85,11 +87,16 @@ public:
 
     /**
      * @brief Return true if @p feature is currently enabled.
+     * @param[in] feature Input parameter.
+     * @return True on success.
      */
     bool isEnabled(Feature feature) const;
 
     /**
      * @brief Return the feature name as a string (for logging).
+     * @param[in] feature Input parameter.
+     * @return Pointer to the result.
+     * @note Exception safety: noexcept.
      */
     static const char* featureName(Feature feature) noexcept;
 
@@ -99,11 +106,13 @@ public:
 
     /**
      * @brief Explicitly enable a feature, overriding the edition default.
+     * @param[in] feature Input parameter.
      */
     void enable(Feature feature);
 
     /**
      * @brief Explicitly disable a feature, overriding the edition default.
+     * @param[in] feature Input parameter.
      */
     void disable(Feature feature);
 
@@ -126,10 +135,15 @@ public:
         bool        overridden = false;  ///< true = explicitly set, not edition default
     };
 
+    /**
+     * @brief TBD: Describe getAll.
+     * @return Return value.
+     */
     std::vector<FeatureStatus> getAll() const;
 
     /**
      * @brief Return the human-readable edition name.
+     * @return Return value.
      */
     static std::string editionName();
 
@@ -147,7 +161,15 @@ private:
 
     static int key(Feature f) noexcept { return static_cast<int>(f); }
 
+    /**
+     * @brief TBD: Describe initDefaults.
+     */
     void initDefaults();
+    /**
+     * @brief TBD: Describe editionDefaultFor.
+     * @param[in] f Input parameter.
+     * @return True on success.
+     */
     static bool editionDefaultFor(Feature f);
 };
 

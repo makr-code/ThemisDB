@@ -306,6 +306,7 @@ struct SpanAttributes {
      * @brief Add a generic attribute.
      * @param key Attribute key
      * @param value Attribute value
+     * @details Implements setAttribute without additional internal calls.
      */
     void setAttribute(const std::string& key, const std::string& value) {
         generic_attributes[key] = value;
@@ -333,6 +334,7 @@ struct SpanEvent {
      * @brief Create event with current timestamp.
      * @param event_name Event name
      * @return SpanEvent with current timestamp
+     * @details Calls: time_since_epoch(), count().
      */
     static SpanEvent now(const std::string& event_name) {
         auto ns = std::chrono::duration_cast<std::chrono::nanoseconds>(
@@ -354,11 +356,16 @@ struct SpanEvent {
  */
 class ISpan {
 public:
+    /**
+     * @brief TBD: Describe ~ISpan.
+     * @return Return value.
+     */
     virtual ~ISpan() = default;
 
     /**
      * @brief Get trace context (for RPC propagation).
      * @return TraceContext containing trace_id and span_id
+     * @note Exception safety: noexcept.
      */
     virtual TraceContext traceContext() const noexcept = 0;
 
@@ -401,6 +408,10 @@ public:
  */
 class IProcessTracer {
 public:
+    /**
+     * @brief TBD: Describe ~IProcessTracer.
+     * @return Return value.
+     */
     virtual ~IProcessTracer() = default;
 
     /**

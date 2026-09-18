@@ -236,8 +236,11 @@ public:
     explicit EnvoyXdsClient(const Config& config = Config{});
     ~EnvoyXdsClient();
 
-    /// Start the background polling thread.
-    /// @return true on success; false if already running.
+    /**
+     * @brief Start the background polling thread.
+     * @return True on success.
+     * @details @return true on success; false if already running.
+     */
     bool start();
 
     /// Stop the background polling thread and release resources.
@@ -245,14 +248,32 @@ public:
 
     bool isRunning() const { return running_.load(std::memory_order_acquire); }
 
-    // ── Callbacks ────────────────────────────────────────────────────────────
+    /**
+     * @brief ── Callbacks ────────────────────────────────────────────────────────────
+     * @param[in] cb Input parameter.
+     */
 
     void setListenerCallback(ListenerCallback cb);
+    /**
+     * @brief TBD: Describe setClusterCallback.
+     * @param[in] cb Input parameter.
+     */
     void setClusterCallback(ClusterCallback cb);
+    /**
+     * @brief TBD: Describe setRouteCallback.
+     * @param[in] cb Input parameter.
+     */
     void setRouteCallback(RouteCallback cb);
+    /**
+     * @brief TBD: Describe setEndpointCallback.
+     * @param[in] cb Input parameter.
+     */
     void setEndpointCallback(EndpointCallback cb);
 
-    // ── Accessors ────────────────────────────────────────────────────────────
+    /**
+     * @brief ── Accessors ────────────────────────────────────────────────────────────
+     * @return Return value.
+     */
 
     Stats getStats() const;
 
@@ -270,19 +291,29 @@ public:
 
     // ── Helpers (public for unit-test access) ────────────────────────────────
 
-    /// Build the JSON body for an xDS DiscoveryRequest.
-    /// @param type_url    xDS resource type URL (e.g. kXdsTypeUrlCluster)
-    /// @param version     Last received version_info (empty for initial request)
-    /// @param nonce       Last received response nonce (empty for initial)
-    /// @param names       Resource names to subscribe to (empty = all)
+    /**
+     * @brief Build the JSON body for an xDS DiscoveryRequest.
+     * @param[in] type_url Input parameter.
+     * @param[in] version Input parameter.
+     * @param[in] nonce Input parameter.
+     * @param[in] names Input parameter.
+     * @return Return value.
+     * @details @param type_url xDS resource type URL (e.g. kXdsTypeUrlCluster) @param version Last received version_info (empty for initial request) @param nonce Last received response nonce (empty for initial) @param names Resource names to subscribe to (empty = all)
+     */
     std::string buildDiscoveryRequest(const std::string&              type_url,
                                       const std::string&              version,
                                       const std::string&              nonce,
                                       const std::vector<std::string>& names) const;
 
-    /// Parse the JSON body of an xDS DiscoveryResponse.
-    /// Extracts version_info, nonce, and the resources array as a JSON string.
-    /// @return true if parsing succeeded and version differs from @p current_version.
+    /**
+     * @brief Parse the JSON body of an xDS DiscoveryResponse.
+     * @param[in] json_body Input parameter.
+     * @param[in,out] out_version Input/output parameter.
+     * @param[in,out] out_nonce Input/output parameter.
+     * @param[in,out] out_resources_json Input/output parameter.
+     * @return True on success.
+     * @details Extracts version_info, nonce, and the resources array as a JSON string. @return true if parsing succeeded and version differs from @p current_version.
+     */
     static bool parseDiscoveryResponse(const std::string& json_body,
                                        std::string&       out_version,
                                        std::string&       out_nonce,
@@ -306,9 +337,17 @@ private:
     /// Main polling loop executed on poll_thread_.
     void pollLoop();
 
-    /// Poll a single xDS endpoint and invoke callback on update.
-    /// @param out_resources_json  Populated with the resources JSON array on update.
-    /// @return true if a new version was received and applied; false on no change or error.
+    /**
+     * @brief Poll a single xDS endpoint and invoke callback on update.
+     * @param[in] type_url Input parameter.
+     * @param[in] rest_path Input parameter.
+     * @param[in,out] inout_version Input/output parameter.
+     * @param[in,out] inout_nonce Input/output parameter.
+     * @param[in,out] out_resources_json Input/output parameter.
+     * @param[in,out] out_error Input/output parameter.
+     * @return True on success.
+     * @details @param out_resources_json Populated with the resources JSON array on update. @return true if a new version was received and applied; false on no change or error.
+     */
     bool pollDiscoveryService(const std::string&              type_url,
                               const std::string&              rest_path,
                               std::string&                    inout_version,

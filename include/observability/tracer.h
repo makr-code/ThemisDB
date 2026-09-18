@@ -207,6 +207,7 @@ public:
     // Diagnostics
     // -----------------------------------------------------------------------
 
+     * @return Return value.
     /** @brief Return current tracer statistics (spans created/active/dropped). */
     TracerStats stats() const;
 
@@ -215,12 +216,14 @@ public:
      *
      * The buffer holds at most `config.max_retained_spans` entries; oldest
      * entries are evicted when full.
+     * @return Return value.
      */
     std::vector<SpanRecord> completedSpans() const;
 
     /** @brief Clear the in-process ring buffer of completed spans. */
     void clearCompletedSpans();
 
+     * @return Return value.
     /** @brief Return the active configuration. */
     ObservabilityTracerConfig getConfig() const;
 

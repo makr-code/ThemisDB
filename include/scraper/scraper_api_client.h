@@ -103,6 +103,10 @@ using HttpFetchFn = std::function<std::string(
  */
 class IScraperApiClient {
 public:
+    /**
+     * @brief TBD: Describe ~IScraperApiClient.
+     * @return Return value.
+     */
     virtual ~IScraperApiClient() = default;
 
     /**
@@ -142,11 +146,28 @@ public:
 private:
     HttpFetchFn fetch_fn_;
 
+    /**
+     * @brief TBD: Describe buildGetUrl.
+     * @param[in] cfg Input parameter.
+     * @param[in] query Input parameter.
+     * @param[in] page Input parameter.
+     * @param[in] offset Input parameter.
+     * @param[in] cursor Input parameter.
+     * @return Return value.
+     */
     std::string buildGetUrl(const ApiEndpointConfig& cfg,
                             const std::string& query,
                             int page, int offset,
                             const std::string& cursor) const;
 
+    /**
+     * @brief TBD: Describe buildBody.
+     * @param[in] cfg Input parameter.
+     * @param[in] query Input parameter.
+     * @param[in] page Input parameter.
+     * @param[in] cursor Input parameter.
+     * @return Return value.
+     */
     std::string buildBody(const ApiEndpointConfig& cfg,
                           const std::string& query,
                           int page,
@@ -183,6 +204,11 @@ class InMemoryScraperApiClient : public IScraperApiClient {
 public:
     InMemoryScraperApiClient() = default;
 
+    /**
+     * @brief TBD: Describe injectResults.
+     * @param[in] results Input parameter.
+     * @details Calls: std::move().
+     */
     void injectResults(std::vector<ApiResult> results) {
         injected_ = std::move(results);
     }

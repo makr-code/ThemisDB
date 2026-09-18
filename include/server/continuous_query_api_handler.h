@@ -43,6 +43,7 @@ public:
      * @brief Construct a handler backed by the given engine.
      *
      * @param engine  Shared ContinuousQueryEngine instance; must not be null.
+     * @return Return value.
      */
     explicit ContinuousQueryApiHandler(
         std::shared_ptr<themis::query::ContinuousQueryEngine> engine);

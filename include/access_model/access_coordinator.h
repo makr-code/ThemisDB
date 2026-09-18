@@ -60,6 +60,10 @@ namespace access_model {
  * - Thread-safe: may be called from concurrent cache operations
  */
 struct EvictionListener {
+    /**
+     * @brief TBD: Describe ~EvictionListener.
+     * @return Return value.
+     */
     virtual ~EvictionListener() = default;
 
     /**
@@ -85,6 +89,10 @@ struct EvictionListener {
  * interface and call `onStorageAccess()` when hot access patterns are detected.
  */
 struct PromotionListener {
+    /**
+     * @brief TBD: Describe ~PromotionListener.
+     * @return Return value.
+     */
     virtual ~PromotionListener() = default;
 
     /**
@@ -239,6 +247,10 @@ struct AccessTransitionEvent {
  */
 class AccessCoordinator {
 public:
+    /**
+     * @brief TBD: Describe ~AccessCoordinator.
+     * @return Return value.
+     */
     virtual ~AccessCoordinator() = default;
 
     /// ────────────────────────────────────────────────────────────────────
@@ -274,6 +286,7 @@ public:
 
     /**
      * @brief Check whether the coordinator is running.
+     * @return True on success.
      */
     virtual bool isRunning() const = 0;
 
@@ -313,6 +326,13 @@ public:
      * @brief Convenience adapter for cache eviction events from legacy callers.
      *
      * This bridges the older listener-style API to the structured coordinator API.
+     * @param[in] key Input parameter.
+     * @param[in] from_tier Input parameter.
+     * @param[in] size_bytes Input parameter.
+     * @param[in] access_count Input parameter.
+     * @param[in] last_access_age_secs Input parameter.
+     * @param[in] eviction_reason Input parameter.
+     * @details Calls: std::string(), onEviction().
      */
     virtual void onCacheEvicted(std::string_view key, TierLevel from_tier,
                                 std::size_t size_bytes, uint64_t access_count,
@@ -332,6 +352,11 @@ public:
      * @brief Convenience adapter for storage hot-access events from legacy callers.
      *
      * This bridges the older listener-style API to the structured coordinator API.
+     * @param[in] key Input parameter.
+     * @param[in] from_tier Input parameter.
+     * @param[in] access_count Input parameter.
+     * @param[in] access_window Input parameter.
+     * @details Calls: std::string(), onHotAccess().
      */
     virtual void onStorageAccess(std::string_view key, TierLevel from_tier,
                                 uint64_t access_count,

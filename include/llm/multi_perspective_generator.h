@@ -50,6 +50,10 @@ struct PerspectiveResponse {
  * @brief Multi-perspective generation result
  */
 struct MultiPerspectiveResult {
+    /**
+     * @brief TBD: Describe ~MultiPerspectiveResult.
+     * @return Return value.
+     */
     virtual ~MultiPerspectiveResult() = default;
     // Original query
     std::string query;
@@ -322,24 +326,50 @@ private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
     
-    // Helper methods
+    /**
+     * @brief Helper methods
+     * @param[in] query Input parameter.
+     * @param[in] perspective Input parameter.
+     * @return Return value.
+     */
     std::string buildPerspectivePrompt(
         const std::string& query,
         const EthicalPerspective& perspective
     );
     
+    /**
+     * @brief TBD: Describe buildSynthesisPrompt.
+     * @param[in] perspectives Input parameter.
+     * @param[in] query Input parameter.
+     * @return Return value.
+     */
     std::string buildSynthesisPrompt(
         const std::vector<PerspectiveResponse>& perspectives,
         const std::string& query
     );
     
+    /**
+     * @brief TBD: Describe detectEthicalQuery.
+     * @param[in] query Input parameter.
+     * @return True on success.
+     */
     bool detectEthicalQuery(const std::string& query);
     
+    /**
+     * @brief TBD: Describe extractKeyPoints.
+     * @param[in] response Input parameter.
+     * @param[in] perspective Input parameter.
+     * @return Return value.
+     */
     std::vector<std::string> extractKeyPoints(
         const std::string& response,
         const EthicalPerspective& perspective
     );
     
+    /**
+     * @brief TBD: Describe updateStatistics.
+     * @param[in] result Input parameter.
+     */
     void updateStatistics(const MultiPerspectiveResult& result);
 };
 
@@ -350,17 +380,20 @@ class MultiPerspectiveGeneratorFactory {
 public:
     /**
      * @brief Create generator with default configuration
+     * @return Return value.
      */
     static std::unique_ptr<MultiPerspectiveGenerator> createDefault();
     
     /**
      * @brief Create generator requiring high diversity
+     * @return Return value.
      */
     static std::unique_ptr<MultiPerspectiveGenerator> createHighDiversity();
     
     /**
      * @brief Create generator with specific perspectives
      * @param required_perspectives Vector of perspective IDs to require
+     * @return Return value.
      */
     static std::unique_ptr<MultiPerspectiveGenerator> createWithPerspectives(
         const std::vector<std::string>& required_perspectives
@@ -368,6 +401,8 @@ public:
     
     /**
      * @brief Create generator with custom configuration
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     static std::unique_ptr<MultiPerspectiveGenerator> create(
         const MultiPerspectiveConfig& config

@@ -62,12 +62,16 @@ class ProcessAuditLogger {
  public:
   /**
    * @brief Factory method to create audit logger.
+   * @param[in] config Input parameter.
+   * @return Return value.
    */
   static std::unique_ptr<ProcessAuditLogger> Create(
       const AuditLoggerConfig& config);
 
   /**
    * @brief Constructor.
+   * @param[in] impl Input parameter.
+   * @return Return value.
    */
   explicit ProcessAuditLogger(
       std::unique_ptr<ProcessAuditLoggerImpl> impl);
@@ -79,6 +83,11 @@ class ProcessAuditLogger {
 
   /**
    * @brief Append immutable entry to audit trail.
+   * @param[in] model_id Input parameter.
+   * @param[in] operation Input parameter.
+   * @param[in] before_state Input parameter.
+   * @param[in] after_state Input parameter.
+   * @return Return value.
    */
   uint64_t AppendEntry(const std::string& model_id,
                        const std::string& operation,
@@ -87,33 +96,44 @@ class ProcessAuditLogger {
 
   /**
    * @brief Verify audit trail integrity via CRC32 chain.
+   * @return True on success.
    */
   bool VerifyIntegrity() const;
 
   /**
    * @brief Query audit trail for entries of a specific model.
+   * @param[in] model_id Input parameter.
+   * @return Return value.
    */
   std::vector<AuditTrailEntry> QueryByModelId(const std::string& model_id) const;
 
   /**
    * @brief Query audit trail for entries in a time range.
+   * @param[in] start_ms Input parameter.
+   * @param[in] end_ms Input parameter.
+   * @return Return value.
    */
   std::vector<AuditTrailEntry> QueryByTimeRange(uint64_t start_ms,
                                                   uint64_t end_ms) const;
 
   /**
    * @brief Reconstruct model state at specific point in time.
+   * @param[in] model_id Input parameter.
+   * @param[in] timestamp_ms Input parameter.
+   * @return Return value.
    */
   std::string GetModelStateAt(const std::string& model_id,
                               uint64_t timestamp_ms) const;
 
   /**
    * @brief Get audit logger statistics.
+   * @return Return value.
    */
   AuditLoggerStats GetStats() const;
 
   /**
    * @brief Create snapshot of current audit trail state.
+   * @return Return value.
    */
   uint64_t CreateSnapshot();
 

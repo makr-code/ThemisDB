@@ -89,6 +89,10 @@ public:
         std::string error_message;
         json metadata;
         
+        /**
+         * @brief TBD: Describe toJSON.
+         * @return Return value.
+         */
         json toJSON() const;
     };
     
@@ -138,7 +142,16 @@ public:
         bool use_multi_lora_manager = true;  // Use advanced features when available
     };
     
+    /**
+     * @brief TBD: Describe LoRAOrchestrator.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit LoRAOrchestrator(const Config& config);
+    /**
+     * @brief TBD: Describe LoRAOrchestrator.
+     * @return Return value.
+     */
     explicit LoRAOrchestrator();
     ~LoRAOrchestrator();
     
@@ -440,8 +453,13 @@ public:
     // Provenance, Snapshots, and Audit Log
     // ═══════════════════════════════════════════════════════════
 
-    /// Attach a cryptographic provenance record to an adapter.
-    /// Returns false if the adapter is not registered.
+    /**
+     * @brief Attach a cryptographic provenance record to an adapter.
+     * @param[in] adapter_id Input parameter.
+     * @param[in] record Input parameter.
+     * @return True on success.
+     * @details Returns false if the adapter is not registered.
+     */
     bool attachProvenance(const std::string& adapter_id,
                           const LoRAProvenanceRecord& record);
 
@@ -466,8 +484,12 @@ public:
     std::vector<InferenceAuditEntry> getInferenceAuditLog(
         const std::string& adapter_id) const;
 
-    /// Verify the Merkle audit chain integrity.
-    /// Returns true when the chain is intact; false when tampered or corrupt.
+    /**
+     * @brief Verify the Merkle audit chain integrity.
+     * @param[in] adapter_id Input parameter.
+     * @return True on success.
+     * @details Returns true when the chain is intact; false when tampered or corrupt.
+     */
     bool verifyAuditChain(const std::string& adapter_id) const;
 
     /**

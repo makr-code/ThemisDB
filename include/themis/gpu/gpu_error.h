@@ -184,6 +184,10 @@ enum class ErrorRecoveryPolicy : std::uint8_t {
  */
 class GPUErrorHandler {
  public:
+  /**
+   * @brief TBD: Describe ~GPUErrorHandler.
+   * @return Return value.
+   */
   virtual ~GPUErrorHandler() = default;
 
   /// Non-copyable, non-movable (singleton pattern)
@@ -200,6 +204,12 @@ class GPUErrorHandler {
    * logs via spdlog. Does not apply recovery policy; caller is responsible.
    */
 #if defined(__CUDACC__) || defined(THEMIS_CUDA_ENABLED)
+  /**
+   * @brief TBD: Describe logError.
+   * @param[in] cuda_err Input parameter.
+   * @param[in] context Input parameter.
+   * @note Exception safety: noexcept.
+   */
   virtual void logError(cudaError_t cuda_err, const std::string& context) noexcept = 0;
 #endif
 
@@ -213,6 +223,12 @@ class GPUErrorHandler {
    * logs via spdlog. Does not apply recovery policy.
    */
 #if defined(THEMIS_HIP_ENABLED) || defined(__HIP__)
+  /**
+   * @brief TBD: Describe logError.
+   * @param[in] hip_err Input parameter.
+   * @param[in] context Input parameter.
+   * @note Exception safety: noexcept.
+   */
   virtual void logError(hipError_t hip_err, const std::string& context) noexcept = 0;
 #endif
 
@@ -259,6 +275,12 @@ class GPUErrorHandler {
    * Behavior: Pure lookup; no side effects. May be called frequently.
    */
 #if defined(__CUDACC__) || defined(THEMIS_CUDA_ENABLED)
+  /**
+   * @brief TBD: Describe classifyError.
+   * @param[in] cuda_err Input parameter.
+   * @return Return value.
+   * @note Exception safety: noexcept.
+   */
   virtual GPUErrorClass classifyError(cudaError_t cuda_err) const noexcept = 0;
 #endif
 
@@ -271,6 +293,12 @@ class GPUErrorHandler {
    * Behavior: Pure lookup; no side effects.
    */
 #if defined(THEMIS_HIP_ENABLED) || defined(__HIP__)
+  /**
+   * @brief TBD: Describe classifyError.
+   * @param[in] hip_err Input parameter.
+   * @return Return value.
+   * @note Exception safety: noexcept.
+   */
   virtual GPUErrorClass classifyError(hipError_t hip_err) const noexcept = 0;
 #endif
 
@@ -287,6 +315,7 @@ class GPUErrorHandler {
    * - kMemoryCommunication → kRetryOnce
    * - kNumerical → kEmitWarning
    * - kUnsupportedOperation → kFallbackCPU
+   * @note Exception safety: noexcept.
    */
   virtual ErrorRecoveryPolicy defaultPolicy(GPUErrorClass error_class) const noexcept = 0;
 
@@ -295,6 +324,7 @@ class GPUErrorHandler {
    *
    * @param error_class Error class
    * @return Description (e.g., "kQuotaExceeded")
+   * @note Exception safety: noexcept.
    */
   virtual std::string errorClassName(GPUErrorClass error_class) const noexcept = 0;
 
@@ -305,6 +335,7 @@ class GPUErrorHandler {
    * @return Description (e.g., "cudaErrorMemoryAllocation")
    * 
    * Wraps cudaGetErrorString() or equivalent.
+   * @note Exception safety: noexcept.
    */
   virtual std::string cudaErrorName(cudaError_t cuda_err) const noexcept = 0;
 
@@ -315,6 +346,7 @@ class GPUErrorHandler {
    * @return Description (e.g., "hipErrorOutOfMemory")
    * 
    * Wraps hipGetErrorName() or equivalent.
+   * @note Exception safety: noexcept.
    */
   virtual std::string hipErrorName(hipError_t hip_err) const noexcept = 0;
 
@@ -334,6 +366,7 @@ class GPUErrorHandler {
    * @return spdlog logger instance
    * 
    * May be configured at runtime via spdlog factory.
+   * @note Exception safety: noexcept.
    */
   static std::shared_ptr<spdlog::logger> GetLogger() noexcept;
 

@@ -129,6 +129,7 @@ public:
      * @brief Remove the metadata entry for a storage key.
      *
      * @return true if the key was found and removed, false otherwise.
+     * @param[in] storage_key Input parameter.
      */
     bool detach(const std::string& storage_key);
 

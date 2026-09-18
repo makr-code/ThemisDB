@@ -38,6 +38,8 @@ class UpdateApiHandler {
 public:
     /**
      * @brief Construct handler with update checker instance
+     * @param[in] checker Input parameter.
+     * @return Return value.
      */
     explicit UpdateApiHandler(std::shared_ptr<utils::UpdateChecker> checker);
     
@@ -55,6 +57,8 @@ private:
     
     /**
      * @brief GET /api/updates - Get update status
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleGetStatus(
         const http::request<http::string_body>& req
@@ -62,6 +66,8 @@ private:
     
     /**
      * @brief POST /api/updates/check - Trigger manual check
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleCheckNow(
         const http::request<http::string_body>& req
@@ -69,6 +75,8 @@ private:
     
     /**
      * @brief GET /api/updates/config - Get configuration
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleGetConfig(
         const http::request<http::string_body>& req
@@ -76,6 +84,8 @@ private:
     
     /**
      * @brief PUT /api/updates/config - Update configuration
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleUpdateConfig(
         const http::request<http::string_body>& req
@@ -83,6 +93,10 @@ private:
     
     /**
      * @brief Create JSON response
+     * @param[in] status Input parameter.
+     * @param[in] body Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> createJsonResponse(
         http::status status,
@@ -92,6 +106,10 @@ private:
     
     /**
      * @brief Create error response
+     * @param[in] status Input parameter.
+     * @param[in] message Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> createErrorResponse(
         http::status status,

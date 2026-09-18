@@ -85,6 +85,11 @@ class SearchAnalytics {
 public:
     struct Config {
         size_t max_events = 10'000; ///< Maximum events to retain in memory
+        /**
+         * @brief TBD: Describe defaults.
+         * @return Return value.
+         * @details Implements defaults without additional internal calls.
+         */
         static Config defaults() { return {}; }
     };
 
@@ -141,11 +146,13 @@ public:
      * @brief Compute aggregated metrics over all retained events.
      *
      * Computing metrics is O(n) in the number of retained events.
+     * @return Return value.
      */
     SearchMetrics computeMetrics() const;
 
     /**
      * @brief Return the number of currently retained events.
+     * @return Return value.
      */
     size_t eventCount() const;
 

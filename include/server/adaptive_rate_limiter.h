@@ -109,6 +109,11 @@ public:
         size_t min_samples_to_adapt = 10;
     };
 
+    /**
+     * @brief TBD: Describe AdaptiveRateLimiter.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit AdaptiveRateLimiter(const Config& config);
 
     /**
@@ -181,6 +186,11 @@ private:
         /// Start of the current token-replenishment window.
         std::chrono::steady_clock::time_point window_start;
 
+        /**
+         * @brief TBD: Describe TenantState.
+         * @param[in] base_cap Input parameter.
+         * @return Return value.
+         */
         explicit TenantState(size_t base_cap)
             : current_capacity(base_cap)
             , available_tokens(base_cap)
@@ -190,8 +200,11 @@ private:
 
     // ── Helpers ───────────────────────────────────────────────────────────────
 
-    /// Prune samples older than window_seconds and recompute the effective
-    /// capacity for @p state.  Must be called with tenants_mutex_ held.
+    /**
+     * @brief Prune samples older than window_seconds and recompute the effective capacity for @p state.
+     * @param[in,out] state Input/output parameter.
+     * @details Must be called with tenants_mutex_ held.
+     */
     void pruneAndAdapt(TenantState& state);
 
     /// Compute the 99th-percentile latency over @p samples.

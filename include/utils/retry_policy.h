@@ -66,6 +66,11 @@ struct RetryConfig {
  */
 class ExponentialBackoff {
 public:
+    /**
+     * @brief TBD: Describe ExponentialBackoff.
+     * @param[in] cfg Input parameter.
+     * @return Return value.
+     */
     explicit ExponentialBackoff(const RetryConfig& cfg)
         : cfg_(cfg)
         , current_ms_(cfg.initial_backoff_ms)
@@ -76,6 +81,7 @@ public:
      * @brief Sleep for the current backoff duration, then advance.
      *
      * @return false after `max_attempts - 1` calls (no more retries remain).
+     * @details Calls: dist(), std::min(), std::this_thread::sleep_for(), std::chrono::milliseconds().
      */
     bool wait() {
         ++attempt_;
@@ -138,6 +144,11 @@ template<typename Fn>
 auto retry_with_backoff(Fn&& fn, const RetryConfig& config = RetryConfig{})
     -> decltype(fn())
 {
+    /**
+     * @brief TBD: Describe backoff.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     ExponentialBackoff backoff(config);
 
     for (uint32_t attempt = 0; attempt < config.max_attempts; ++attempt) {

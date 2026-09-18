@@ -227,6 +227,10 @@ struct OriginRecord {
  */
 class ILoRACheckpointManager {
 public:
+    /**
+     * @brief TBD: Describe ~ILoRACheckpointManager.
+     * @return Return value.
+     */
     virtual ~ILoRACheckpointManager() = default;
 
     /**
@@ -277,6 +281,10 @@ public:
  */
 class ISampleProvenanceTracker {
 public:
+    /**
+     * @brief TBD: Describe ~ISampleProvenanceTracker.
+     * @return Return value.
+     */
     virtual ~ISampleProvenanceTracker() = default;
 
     /**
@@ -320,6 +328,10 @@ public:
  */
 class IKGEnrichmentInterface {
 public:
+    /**
+     * @brief TBD: Describe ~IKGEnrichmentInterface.
+     * @return Return value.
+     */
     virtual ~IKGEnrichmentInterface() = default;
 
     /**
@@ -363,6 +375,10 @@ public:
  */
 class IConfidenceCalibrator {
 public:
+    /**
+     * @brief TBD: Describe ~IConfidenceCalibrator.
+     * @return Return value.
+     */
     virtual ~IConfidenceCalibrator() = default;
 
     /**
@@ -406,6 +422,10 @@ public:
  */
 class ITrainingPipeline {
 public:
+    /**
+     * @brief TBD: Describe ~ITrainingPipeline.
+     * @return Return value.
+     */
     virtual ~ITrainingPipeline() = default;
 
     /**
@@ -444,6 +464,10 @@ public:
  */
 class ILineageQueryAPI {
 public:
+    /**
+     * @brief TBD: Describe ~ILineageQueryAPI.
+     * @return Return value.
+     */
     virtual ~ILineageQueryAPI() = default;
 
     /**

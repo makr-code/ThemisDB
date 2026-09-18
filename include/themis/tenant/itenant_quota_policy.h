@@ -46,6 +46,10 @@ namespace tenant {
  */
 class ITenantQuotaPolicy {
 public:
+    /**
+     * @brief TBD: Describe ~ITenantQuotaPolicy.
+     * @return Return value.
+     */
     virtual ~ITenantQuotaPolicy() = default;
 
     // Non-copyable, non-movable by default.

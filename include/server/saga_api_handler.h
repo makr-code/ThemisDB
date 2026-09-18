@@ -34,6 +34,10 @@ struct SAGABatchInfo {
     std::string cert_serial;
     std::string algorithm;
     
+    /**
+     * @brief TBD: Describe toJson.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
 };
 
@@ -43,6 +47,10 @@ struct SAGABatchDetail {
     std::string ciphertext_hash_b64;
     std::string signature_b64;
     
+    /**
+     * @brief TBD: Describe toJson.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
 };
 
@@ -78,22 +86,40 @@ class SAGAApiHandler {
 public:
     SAGAApiHandler(std::shared_ptr<themis::utils::SAGALogger> saga_logger);
 
-    // List all SAGA batches with summary info
+    /**
+     * @brief List all SAGA batches with summary info
+     * @return Return value.
+     */
     nlohmann::json listBatches();
     
-    // Get detailed info for a specific batch (including verification)
+    /**
+     * @brief Get detailed info for a specific batch (including verification)
+     * @param[in] batch_id Input parameter.
+     * @return Return value.
+     */
     nlohmann::json getBatchDetail(const std::string& batch_id);
     
-    // Verify a batch's signature and integrity
+    /**
+     * @brief Verify a batch's signature and integrity
+     * @param[in] batch_id Input parameter.
+     * @return Return value.
+     */
     nlohmann::json verifyBatch(const std::string& batch_id);
     
-    // Force flush current buffer to create new batch (admin operation)
+    /**
+     * @brief Force flush current buffer to create new batch (admin operation)
+     * @return Return value.
+     */
     nlohmann::json flushCurrentBatch();
 
 private:
     std::shared_ptr<themis::utils::SAGALogger> saga_logger_;
     
-    // Parse batch metadata from signature file
+    /**
+     * @brief Parse batch metadata from signature file
+     * @param[in] batch_id Input parameter.
+     * @return Return value.
+     */
     SAGABatchInfo parseBatchInfo(const std::string& batch_id);
 };
 

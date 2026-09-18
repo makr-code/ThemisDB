@@ -115,6 +115,10 @@ public:
     }
 
 private:
+    /**
+     * @brief TBD: Describe destroy.
+     * @details Calls: deleter_().
+     */
     void destroy() {
         if (handle_ != VK_NULL_HANDLE && device_ != VK_NULL_HANDLE) {
             deleter_(device_, handle_, nullptr);
@@ -171,47 +175,102 @@ using VulkanFence               = VulkanHandle<VkFence,
 // Factory helpers
 // ============================================================================
 
-/// @brief Create a VulkanBuffer wrapper from a raw VkBuffer handle.
-/// @param device The Vulkan logical device.
-/// @param buffer The VkBuffer handle to wrap.
-/// @return A VulkanBuffer RAII wrapper.
+/**
+ * @brief @brief Create a VulkanBuffer wrapper from a raw VkBuffer handle.
+ * @param[in] device Input parameter.
+ * @param[in] buffer Input parameter.
+ * @return Return value.
+ * @details @param device The Vulkan logical device. @param buffer The VkBuffer handle to wrap. @return A VulkanBuffer RAII wrapper. Calls: VulkanBuffer().
+ */
 inline VulkanBuffer makeBuffer(VkDevice device, VkBuffer buffer) {
     return VulkanBuffer(device, buffer, &vkDestroyBuffer);
 }
 
-/// @brief Create a VulkanDeviceMemory wrapper from a raw VkDeviceMemory handle.
-/// @param device The Vulkan logical device.
-/// @param memory The VkDeviceMemory handle to wrap.
-/// @return A VulkanDeviceMemory RAII wrapper.
+/**
+ * @brief @brief Create a VulkanDeviceMemory wrapper from a raw VkDeviceMemory handle.
+ * @param[in] device Input parameter.
+ * @param[in] memory Input parameter.
+ * @return Return value.
+ * @details @param device The Vulkan logical device. @param memory The VkDeviceMemory handle to wrap. @return A VulkanDeviceMemory RAII wrapper. Calls: VulkanDeviceMemory().
+ */
 inline VulkanDeviceMemory makeDeviceMemory(VkDevice device, VkDeviceMemory memory) {
     return VulkanDeviceMemory(device, memory, &vkFreeMemory);
 }
 
+/**
+ * @brief TBD: Describe makeCommandPool.
+ * @param[in] device Input parameter.
+ * @param[in] pool Input parameter.
+ * @return Return value.
+ * @details Calls: VulkanCommandPool().
+ */
 inline VulkanCommandPool makeCommandPool(VkDevice device, VkCommandPool pool) {
     return VulkanCommandPool(device, pool, &vkDestroyCommandPool);
 }
 
+/**
+ * @brief TBD: Describe makeDescriptorPool.
+ * @param[in] device Input parameter.
+ * @param[in] pool Input parameter.
+ * @return Return value.
+ * @details Calls: VulkanDescriptorPool().
+ */
 inline VulkanDescriptorPool makeDescriptorPool(VkDevice device, VkDescriptorPool pool) {
     return VulkanDescriptorPool(device, pool, &vkDestroyDescriptorPool);
 }
 
+/**
+ * @brief TBD: Describe makeDescriptorSetLayout.
+ * @param[in] device Input parameter.
+ * @param[in] layout Input parameter.
+ * @return Return value.
+ * @details Calls: VulkanDescriptorSetLayout().
+ */
 inline VulkanDescriptorSetLayout makeDescriptorSetLayout(VkDevice device,
                                                           VkDescriptorSetLayout layout) {
     return VulkanDescriptorSetLayout(device, layout, &vkDestroyDescriptorSetLayout);
 }
 
+/**
+ * @brief TBD: Describe makePipelineLayout.
+ * @param[in] device Input parameter.
+ * @param[in] layout Input parameter.
+ * @return Return value.
+ * @details Calls: VulkanPipelineLayout().
+ */
 inline VulkanPipelineLayout makePipelineLayout(VkDevice device, VkPipelineLayout layout) {
     return VulkanPipelineLayout(device, layout, &vkDestroyPipelineLayout);
 }
 
+/**
+ * @brief TBD: Describe makePipeline.
+ * @param[in] device Input parameter.
+ * @param[in] pipeline Input parameter.
+ * @return Return value.
+ * @details Calls: VulkanPipeline().
+ */
 inline VulkanPipeline makePipeline(VkDevice device, VkPipeline pipeline) {
     return VulkanPipeline(device, pipeline, &vkDestroyPipeline);
 }
 
+/**
+ * @brief TBD: Describe makeShaderModule.
+ * @param[in] device Input parameter.
+ * @param[in] mod Input parameter.
+ * @return Return value.
+ * @details Calls: VulkanShaderModule().
+ */
 inline VulkanShaderModule makeShaderModule(VkDevice device, VkShaderModule mod) {
     return VulkanShaderModule(device, mod, &vkDestroyShaderModule);
 }
 
+/**
+ * @brief TBD: Describe makeFence.
+ * @param[in] device Input parameter.
+ * @param[in] fence Input parameter.
+ * @return Return value.
+ * @details Calls: VulkanFence().
+ */
 inline VulkanFence makeFence(VkDevice device, VkFence fence) {
     return VulkanFence(device, fence, &vkDestroyFence);
 }
@@ -288,6 +347,10 @@ public:
     }
 
 private:
+    /**
+     * @brief TBD: Describe destroy.
+     * @details Calls: vkDestroyInstance().
+     */
     void destroy() {
         if (instance_ != VK_NULL_HANDLE) {
             vkDestroyInstance(instance_, nullptr);
@@ -380,6 +443,10 @@ public:
     }
 
 private:
+    /**
+     * @brief TBD: Describe destroy.
+     * @details Calls: vkDeviceWaitIdle(), vkDestroyDevice().
+     */
     void destroy() {
         if (device_ != VK_NULL_HANDLE) {
             vkDeviceWaitIdle(device_);

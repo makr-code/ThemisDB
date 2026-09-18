@@ -137,6 +137,9 @@ public:
      *   - *-TIMEOUT / *-ROTATION-INVALID → ERROR
      *   - *-UNAVAILABLE / *-FALLBACK → WARNING
      *   - other → INFO
+     * @param[in] incident_id Input parameter.
+     * @param[in] description Input parameter.
+     * @note Exception safety: noexcept.
      */
     void recordFromCallback(std::string_view incident_id,
                             std::string_view description) noexcept;
@@ -190,8 +193,25 @@ private:
     std::vector<TsIncident>  incidents_;
     uint64_t                 total_count_{0};
 
+    /**
+     * @brief TBD: Describe nowNs.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     static int64_t nowNs() noexcept;
+    /**
+     * @brief TBD: Describe severityFromId.
+     * @param[in] id Input parameter.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     static TsIncidentSeverity severityFromId(std::string_view id) noexcept;
+    /**
+     * @brief TBD: Describe remediationForId.
+     * @param[in] id Input parameter.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     static std::string remediationForId(std::string_view id) noexcept;
 };
 

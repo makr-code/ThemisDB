@@ -65,9 +65,11 @@ public:
         std::string message;
     };
 
-    // -----------------------------------------------------------------------
-    // Singleton
-    // -----------------------------------------------------------------------
+    /**
+     * @brief ----------------------------------------------------------------------- Singleton -----------------------------------------------------------------------
+     * @return Return value.
+     * @details Implements GetInstance without additional internal calls.
+     */
     static GPUKernelValidator& GetInstance() {
         static GPUKernelValidator inst;
         return inst;
@@ -96,16 +98,20 @@ public:
 
     /**
      * @brief Remove a kernel from the whitelist.
+     * @param[in] kernel_id Input parameter.
      */
     void unregisterKernel(const std::string& kernel_id);
 
     /**
      * @brief Return true when @p kernel_id is whitelisted.
+     * @param[in] kernel_id Input parameter.
+     * @return True on success.
      */
     bool isRegistered(const std::string& kernel_id) const;
 
     /**
      * @brief Return all registered kernel IDs.
+     * @return Return value.
      */
     std::vector<std::string> registeredKernels() const;
 
@@ -118,12 +124,17 @@ public:
      *        @p kernel_id.
      *
      * @return ValidationResult describing the outcome.
+     * @param[in] kernel_id Input parameter.
+     * @param[in] blob Input parameter.
      */
     ValidationResult validate(const std::string& kernel_id,
                                const std::vector<uint8_t>& blob) const;
 
     /**
      * @brief Convenience method — returns true iff validation succeeds.
+     * @param[in] kernel_id Input parameter.
+     * @param[in] blob Input parameter.
+     * @return True on success.
      */
     bool isValid(const std::string& kernel_id,
                   const std::vector<uint8_t>& blob) const;
@@ -134,11 +145,16 @@ public:
 
     /**
      * @brief Compute FNV-1a 64-bit checksum of @p data.
+     * @param[in] data Input parameter.
+     * @return Return value.
      */
     static uint64_t computeChecksum(const std::vector<uint8_t>& data);
 
     /**
      * @brief Compute FNV-1a 64-bit checksum of a raw byte range.
+     * @param[in] data Input parameter.
+     * @param[in] length Input parameter.
+     * @return Return value.
      */
     static uint64_t computeChecksum(const uint8_t* data, size_t length);
 
@@ -154,6 +170,10 @@ public:
         size_t empty_blob_count      = 0;
     };
 
+    /**
+     * @brief TBD: Describe getStats.
+     * @return Return value.
+     */
     Stats getStats() const;
 
     /**

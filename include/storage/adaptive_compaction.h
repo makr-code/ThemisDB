@@ -203,6 +203,9 @@ public:
     /** Construct with default configuration. */
     AdaptiveCompactionScheduler();
 
+     * @brief TBD: Describe AdaptiveCompactionScheduler.
+     * @param[in] config Input parameter.
+     * @return Return value.
     /** Construct with custom configuration. */
     explicit AdaptiveCompactionScheduler(const Config& config);
 
@@ -237,6 +240,7 @@ public:
     /**
      * @brief Return true when the current EMA I/O rates are below the
      *        configured low-load thresholds.
+     * @return True on success.
      */
     bool isLowLoadPeriod() const;
 
@@ -259,6 +263,7 @@ public:
     /**
      * @brief Compute a CompactionManager::Config adjusted for the current
      *        workload without applying it.
+     * @return Return value.
      */
     AdaptedConfig getAdaptedConfig() const;
 
@@ -270,6 +275,7 @@ public:
      *
      * @note This restarts the background GC thread inside mgr if it was
      *       already running, so the new interval takes effect immediately.
+     * @param[in,out] mgr Input/output parameter.
      */
     void applyAdaptedConfig(CompactionManager& mgr);
 
@@ -286,21 +292,42 @@ public:
      */
     void startSampling();
 
+     * @brief TBD: Describe stopSampling.
     /** Stop and join the background sampling thread. */
     void stopSampling();
 
+     * @brief TBD: Describe isSamplingRunning.
+     * @return True on success.
     /** Return true if the background sampling thread is running. */
     bool isSamplingRunning() const;
 
     // ── Metrics ───────────────────────────────────────────────────────────
 
+     * @brief TBD: Describe stats.
+     * @return Return value.
     /** Return a snapshot of current scheduler statistics. */
     Stats stats() const;
 
 private:
+    /**
+     * @brief TBD: Describe samplingLoop.
+     */
     void samplingLoop();
+    /**
+     * @brief TBD: Describe collectSample.
+     */
     void collectSample();
+    /**
+     * @brief TBD: Describe updateEMA.
+     * @param[in] new_value Input parameter.
+     * @param[in,out] ema Input/output parameter.
+     * @note Exception safety: noexcept.
+     */
     void updateEMA(double new_value, double& ema) noexcept;
+    /**
+     * @brief TBD: Describe computeAdaptedConfig.
+     * @return Return value.
+     */
     AdaptedConfig computeAdaptedConfig() const;
 
     Config config_;

@@ -67,12 +67,16 @@ class ProcessConflictResolver {
  public:
   /**
    * @brief Factory method to create conflict resolver.
+   * @param[in] config Input parameter.
+   * @return Return value.
    */
   static std::unique_ptr<ProcessConflictResolver> Create(
       const ConflictResolverConfig& config);
 
   /**
    * @brief Constructor.
+   * @param[in] impl Input parameter.
+   * @return Return value.
    */
   explicit ProcessConflictResolver(
       std::unique_ptr<ProcessConflictResolverImpl> impl);
@@ -84,6 +88,14 @@ class ProcessConflictResolver {
 
   /**
    * @brief Detect and resolve conflict between two versions.
+   * @param[in] model_id Input parameter.
+   * @param[in] v1_id Input parameter.
+   * @param[in] v1_timestamp Input parameter.
+   * @param[in] v1_sender Input parameter.
+   * @param[in] v2_id Input parameter.
+   * @param[in] v2_timestamp Input parameter.
+   * @param[in] v2_sender Input parameter.
+   * @return Return value.
    */
   std::string ResolveConflict(const std::string& model_id,
                               const std::string& v1_id,
@@ -95,6 +107,7 @@ class ProcessConflictResolver {
 
   /**
    * @brief Register application-provided resolver callback.
+   * @param[in] resolver Input parameter.
    */
   void RegisterResolver(std::shared_ptr<ProcessConflictResolverCallback> resolver);
 
@@ -106,6 +119,7 @@ class ProcessConflictResolver {
 
   /**
    * @brief Get conflict resolver statistics.
+   * @return Return value.
    */
   ConflictResolverStats GetStats() const;
 

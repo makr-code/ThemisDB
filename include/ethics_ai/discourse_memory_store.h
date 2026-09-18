@@ -114,6 +114,8 @@ public:
 
     /**
      * @brief Return the number of stored episodes for a school.
+     * @param[in] school_id Input parameter.
+     * @return Return value.
      */
     size_t episodeCount(const std::string& school_id) const;
 
@@ -125,7 +127,20 @@ private:
     // school_id → ring buffer (newest at back)
     std::map<std::string, std::vector<EpisodicMemoryEntry>> episodes_;
 
+    /**
+     * @brief TBD: Describe countTokens.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     static int         countTokens(const std::string& text) noexcept;
+    /**
+     * @brief TBD: Describe compressPosition.
+     * @param[in] position_abstract Input parameter.
+     * @param[in] max_tokens Input parameter.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     static std::string compressPosition(
         const std::string& position_abstract,
         int max_tokens) noexcept;

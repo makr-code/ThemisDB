@@ -158,6 +158,11 @@ struct MaterializedCTEResult {
  */
 class MaterializedCTEView {
 public:
+    /**
+     * @brief TBD: Describe MaterializedCTEView.
+     * @param[in] def Input parameter.
+     * @return Return value.
+     */
     explicit MaterializedCTEView(const MaterializedCTEDef& def);
     ~MaterializedCTEView();
 
@@ -169,6 +174,8 @@ public:
      * @return true  if the change was applied (passed base filters and
      *               belongs to this view's source collection).
      * @return false otherwise.
+     * @brief TBD: Describe applyChange.
+     * @param[in] change Input parameter.
      */
     bool applyChange(const CTEDataChange& change);
 
@@ -176,6 +183,8 @@ public:
      * Apply a batch of change records.
      * Acquires the writer lock once for the entire batch.
      * @return number of records actually applied.
+     * @brief TBD: Describe applyChanges.
+     * @param[in] changes Input parameter.
      */
     int applyChanges(const std::vector<CTEDataChange>& changes);
 
@@ -189,18 +198,27 @@ public:
     /** View definition. */
     const MaterializedCTEDef& definition() const { return def_; }
 
+     * @brief TBD: Describe isDirty.
+     * @return True on success.
     /** True if any change has been applied since the last clear(). */
     bool isDirty() const;
 
+     * @brief TBD: Describe isStale.
+     * @return True on success.
     /** True if staleness_seconds > 0 and last update was longer ago. */
     bool isStale() const;
 
+     * @brief TBD: Describe groupCount.
+     * @return Return value.
     /** Number of distinct groups currently tracked. */
     int64_t groupCount() const;
 
+     * @brief TBD: Describe changeCount.
+     * @return Return value.
     /** Total number of change records applied (monotonically increasing). */
     uint64_t changeCount() const;
 
+     * @brief TBD: Describe clear.
     /** Discard all aggregated state; after this, the view is empty. */
     void clear();
 
@@ -208,22 +226,52 @@ private:
     MaterializedCTEDef                                        def_;
     std::unique_ptr<themisdb::analytics::IncrementalView>    view_;
 
-    // ---- type-conversion helpers ----
+    /**
+     * @brief ---- type-conversion helpers ----
+     * @param[in] def Input parameter.
+     * @return Return value.
+     */
 
     static themisdb::analytics::ViewDefinition buildViewDef(
         const MaterializedCTEDef& def);
 
+    /**
+     * @brief TBD: Describe toViewAggFunc.
+     * @param[in] f Input parameter.
+     * @return Return value.
+     */
     static themisdb::analytics::ViewAggFunc toViewAggFunc(CTEAggFunc f);
 
+    /**
+     * @brief TBD: Describe toViewFilterOp.
+     * @param[in] op Input parameter.
+     * @return Return value.
+     */
     static themisdb::analytics::ViewFilter::Op toViewFilterOp(
         CTEBaseFilter::Op op);
 
+    /**
+     * @brief TBD: Describe jsonToRow.
+     * @param[in] json_row Input parameter.
+     * @return Return value.
+     */
     static themisdb::analytics::ChangeRecord::Row jsonToRow(
         const nlohmann::json& json_row);
 
+    /**
+     * @brief TBD: Describe toChangeRecord.
+     * @param[in] change Input parameter.
+     * @return Return value.
+     */
     static themisdb::analytics::ChangeRecord toChangeRecord(
         const CTEDataChange& change);
 
+    /**
+     * @brief TBD: Describe fromViewQueryResult.
+     * @param[in] vqr Input parameter.
+     * @param[in] def Input parameter.
+     * @return Return value.
+     */
     static MaterializedCTEResult fromViewQueryResult(
         const themisdb::analytics::ViewQueryResult& vqr,
         const MaterializedCTEDef& def);
@@ -270,31 +318,47 @@ public:
     /**
      * Register a new CTE for incremental maintenance.
      * @return false if a CTE with the same name already exists.
+     * @brief TBD: Describe registerCTE.
+     * @param[in] def Input parameter.
      */
     bool registerCTE(const MaterializedCTEDef& def);
 
     /**
      * Remove a CTE by name.
      * @return false if the name is not found.
+     * @brief TBD: Describe unregisterCTE.
+     * @param[in] name Input parameter.
      */
     bool unregisterCTE(const std::string& name);
 
+     * @brief TBD: Describe hasCTE.
+     * @param[in] name Input parameter.
+     * @return True on success.
     /** Check if a CTE is registered. */
     bool hasCTE(const std::string& name) const;
 
+     * @brief TBD: Describe listCTEs.
+     * @return Return value.
     /** List all registered CTE names. */
     std::vector<std::string> listCTEs() const;
 
+     * @brief TBD: Describe getView.
+     * @param[in] name Input parameter.
+     * @return Return value.
     /** Get a specific CTE view (nullptr if not found). */
     std::shared_ptr<MaterializedCTEView> getView(const std::string& name) const;
 
     /**
      * Apply a single change to all views that observe the change's collection.
+     * @brief TBD: Describe applyChange.
+     * @param[in] change Input parameter.
      */
     void applyChange(const CTEDataChange& change);
 
     /**
      * Apply a batch of changes to all relevant views.
+     * @brief TBD: Describe applyChanges.
+     * @param[in] changes Input parameter.
      */
     void applyChanges(const std::vector<CTEDataChange>& changes);
 

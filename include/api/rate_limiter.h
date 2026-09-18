@@ -69,10 +69,20 @@ public:
         size_t refill_rate = 10;            // Tokens per second
         std::chrono::seconds window = std::chrono::seconds(1);
         
+        /**
+         * @brief TBD: Describe defaults.
+         * @return Return value.
+         * @details Implements defaults without additional internal calls.
+         */
         static Config defaults() {
             return Config{};
         }
         
+        /**
+         * @brief TBD: Describe strict.
+         * @return Return value.
+         * @details Calls: std::chrono::seconds().
+         */
         static Config strict() {
             return Config{
                 .capacity = 10,
@@ -81,6 +91,11 @@ public:
             };
         }
         
+        /**
+         * @brief TBD: Describe permissive.
+         * @return Return value.
+         * @details Calls: std::chrono::seconds().
+         */
         static Config permissive() {
             return Config{
                 .capacity = 1000,
@@ -103,6 +118,11 @@ public:
             , refill_rate(rate)
         {}
         
+        /**
+         * @brief TBD: Describe refill.
+         * @param[in] now Input parameter.
+         * @details Calls: count(), std::min().
+         */
         void refill(std::chrono::steady_clock::time_point now) {
             auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
                 now - last_refill
@@ -138,6 +158,11 @@ public:
      */
     bool allow(const std::string& key, size_t cost = 1) {
         auto now = std::chrono::steady_clock::now();
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         // TTL-based eviction: sweep every 64 calls to avoid O(n) on every request.
@@ -177,9 +202,17 @@ public:
     
     /**
      * @brief Get remaining tokens for a key
+     * @param[in] key Input parameter.
+     * @return Return value.
+     * @details Calls: std::chrono::steady_clock::now(), lock(), find(), end(), refill(), available().
      */
     size_t remaining(const std::string& key) {
         auto now = std::chrono::steady_clock::now();
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         auto it = buckets_.find(key);
@@ -192,16 +225,29 @@ public:
     
     /**
      * @brief Reset rate limit for a key
+     * @param[in] key Input parameter.
+     * @details Calls: lock(), erase().
      */
     void reset(const std::string& key) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         buckets_.erase(key);
     }
     
     /**
      * @brief Clear all rate limit state
+     * @details Calls: lock().
      */
     void clear() {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         buckets_.clear();
         stats_ = Stats{};
@@ -245,13 +291,25 @@ public:
     
     /**
      * @brief Configure rate limiter
+     * @param[in] config Input parameter.
+     * @details Calls: lock().
      */
     void setConfig(const Config& config) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         config_ = config;
     }
     
     Config getConfig() const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return config_;
     }
@@ -302,8 +360,16 @@ class OperationRateLimiter {
 public:
     /**
      * @brief Set rate limit for an operation type
+     * @param[in] operation_type Input parameter.
+     * @param[in] config Input parameter.
+     * @details Calls: lock(), find(), end(), setConfig().
      */
     void setLimit(const std::string& operation_type, const RateLimiter::Config& config) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lock(mutex_);
         
         auto it = limiters_.find(operation_type);
@@ -322,6 +388,11 @@ public:
      * @return true if allowed, false if rate limited
      */
     bool allow(const std::string& operation_type, const std::string& key, size_t cost = 1) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(mutex_);
         
         auto it = limiters_.find(operation_type);
@@ -335,8 +406,17 @@ public:
     
     /**
      * @brief Get remaining tokens for operation and key
+     * @param[in] operation_type Input parameter.
+     * @param[in] key Input parameter.
+     * @return Return value.
+     * @details Calls: lock(), find(), end().
      */
     size_t remaining(const std::string& operation_type, const std::string& key) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(mutex_);
         
         auto it = limiters_.find(operation_type);
@@ -349,8 +429,17 @@ public:
     
     /**
      * @brief Get rate limit headers for operation
+     * @param[in] operation_type Input parameter.
+     * @param[in] key Input parameter.
+     * @return Return value.
+     * @details Calls: lock(), find(), end(), getConfig(), remaining().
      */
     RateLimitHeaders getHeaders(const std::string& operation_type, const std::string& key) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(mutex_);
         
         RateLimitHeaders headers;
@@ -368,14 +457,22 @@ public:
     
     /**
      * @brief Clear all rate limit state
+     * @details Calls: lock().
      */
     void clear() {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lock(mutex_);
         limiters_.clear();
     }
     
     /**
      * @brief Singleton instance
+     * @return Return value.
+     * @details Implements instance without additional internal calls.
      */
     static OperationRateLimiter& instance() {
         static OperationRateLimiter instance;

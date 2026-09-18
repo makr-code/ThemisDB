@@ -102,12 +102,24 @@ public:
     struct Status {
         bool ok = true;
         std::string message;
+        /**
+         * @brief TBD: Describe OK.
+         * @return Return value.
+         * @details Implements OK without additional internal calls.
+         */
         static Status OK() { return {}; }
+        /**
+         * @brief TBD: Describe Error.
+         * @param[in] msg Input parameter.
+         * @return Return value.
+         * @details Calls: std::move().
+         */
         static Status Error(std::string msg) { return Status{false, std::move(msg)}; }
     };
 
     /**
      * @brief Get singleton instance
+     * @return Return value.
      */
     static EdgeTypeRegistry& instance();
 
@@ -143,6 +155,8 @@ public:
 
     /**
      * @brief Check if a type is registered
+     * @param[in] type_name Input parameter.
+     * @return True on success.
      */
     bool isRegistered(std::string_view type_name) const;
 
@@ -184,21 +198,28 @@ public:
      * 
      * For bidirectional relationships, returns the inverse type.
      * E.g., getInverseType("PARENT_OF") returns "CHILD_OF"
+     * @param[in] type_name Input parameter.
+     * @return Return value.
      */
     std::optional<std::string> getInverseType(std::string_view type_name) const;
 
     /**
      * @brief List all registered type names
+     * @return Return value.
      */
     std::vector<std::string> listAllTypes() const;
 
     /**
      * @brief Get category name as string
+     * @param[in] category Input parameter.
+     * @return Return value.
      */
     static std::string categoryToString(EdgeCategory category);
 
     /**
      * @brief Parse category from string
+     * @param[in] str Input parameter.
+     * @return Return value.
      */
     static std::optional<EdgeCategory> categoryFromString(std::string_view str);
 
@@ -214,11 +235,18 @@ private:
     bool initialized_ = false;
     mutable std::shared_mutex registry_mutex_;
 
+    /**
+     * @brief TBD: Describe registerBuiltinType_.
+     * @param[in] info Input parameter.
+     */
     void registerBuiltinType_(const EdgeTypeInfo& info);
 };
 
 /**
  * @brief Helper to check if an edge type requires temporal validity
+ * @param[in] type_name Input parameter.
+ * @return True on success.
+ * @details Calls: EdgeTypeRegistry::instance(), getTypeInfo(), has_value().
  */
 inline bool requiresTemporalValidity(std::string_view type_name) {
     auto info = EdgeTypeRegistry::instance().getTypeInfo(type_name);
@@ -227,6 +255,9 @@ inline bool requiresTemporalValidity(std::string_view type_name) {
 
 /**
  * @brief Helper to check if an edge type is weighted
+ * @param[in] type_name Input parameter.
+ * @return True on success.
+ * @details Calls: EdgeTypeRegistry::instance(), getTypeInfo(), has_value().
  */
 inline bool isWeightedEdgeType(std::string_view type_name) {
     auto info = EdgeTypeRegistry::instance().getTypeInfo(type_name);
@@ -235,6 +266,9 @@ inline bool isWeightedEdgeType(std::string_view type_name) {
 
 /**
  * @brief Helper to check if an edge type is bidirectional
+ * @param[in] type_name Input parameter.
+ * @return True on success.
+ * @details Calls: EdgeTypeRegistry::instance(), getTypeInfo(), has_value().
  */
 inline bool isBidirectionalEdgeType(std::string_view type_name) {
     auto info = EdgeTypeRegistry::instance().getTypeInfo(type_name);

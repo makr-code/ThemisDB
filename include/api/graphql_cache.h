@@ -102,8 +102,14 @@ public:
      * @brief Get a value from the cache
      * @param key Cache key
      * @return Pointer to value if found and not expired, nullptr otherwise
+     * @details Calls: lock(), find(), end(), isExpired(), erase(), splice(), begin().
      */
     std::shared_ptr<T> get(const std::string& key) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         auto it = cache_.find(key);
@@ -132,8 +138,14 @@ public:
      * @brief Put a value in the cache
      * @param key Cache key
      * @param value Value to cache
+     * @details Calls: lock(), find(), end(), std::chrono::steady_clock::now(), splice(), begin(), size(), evictLRU().
      */
     void put(const std::string& key, const T& value) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         auto it = cache_.find(key);
@@ -163,8 +175,15 @@ public:
     
     /**
      * @brief Invalidate a cache entry
+     * @param[in] key Input parameter.
+     * @details Calls: lock(), find(), end(), erase().
      */
     void invalidate(const std::string& key) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = cache_.find(key);
         if (it != cache_.end()) {
@@ -178,7 +197,17 @@ public:
      * @param pred Callable with signature `bool(const T& value)`
      */
     template<typename Predicate>
+    /**
+     * @brief TBD: Describe eraseIf.
+     * @param[in] pred Input parameter.
+     * @details Calls: lock(), begin(), end(), pred(), erase().
+     */
     void eraseIf(Predicate pred) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         for (auto it = cache_.begin(); it != cache_.end(); ) {
             if (pred(it->second.first.value)) {
@@ -192,8 +221,14 @@ public:
 
     /**
      * @brief Clear all cache entries
+     * @details Calls: lock().
      */
     void clear() {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         cache_.clear();
         lru_order_.clear();
@@ -214,6 +249,11 @@ public:
     };
     
     CacheStats getStats() const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return stats_;
     }
@@ -222,12 +262,20 @@ public:
      * @brief Get current cache size
      */
     size_t size() const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return cache_.size();
     }
     
 private:
-    // Evict the least recently used entry (back of lru_order_). O(1).
+    /**
+     * @brief Evict the least recently used entry (back of lru_order_).
+     * @details O(1). Calls: empty(), back(), erase(), pop_back().
+     */
     void evictLRU() {
         if (lru_order_.empty()) {
           return;
@@ -264,6 +312,11 @@ public:
         Document parsed_document;
     };
     
+    /**
+     * @brief TBD: Describe instance.
+     * @return Return value.
+     * @details Implements instance without additional internal calls.
+     */
     static QueryPlanCache& instance() {
         static QueryPlanCache instance;
         return instance;
@@ -271,6 +324,9 @@ public:
     
     /**
      * @brief Get a cached query plan
+     * @param[in] query Input parameter.
+     * @return Return value.
+     * @details Implements get without additional internal calls.
      */
     std::shared_ptr<QueryPlan> get(const std::string& query) {
         return cache_.get(query);
@@ -278,6 +334,9 @@ public:
     
     /**
      * @brief Cache a query plan
+     * @param[in] query Input parameter.
+     * @param[in] plan Input parameter.
+     * @details Implements put without additional internal calls.
      */
     void put(const std::string& query, const QueryPlan& plan) {
         cache_.put(query, plan);
@@ -292,6 +351,7 @@ public:
     
     /**
      * @brief Clear the cache
+     * @details Implements clear without additional internal calls.
      */
     void clear() {
         cache_.clear();
@@ -318,6 +378,11 @@ public:
         std::unordered_set<std::string> collections;  // Collections read by this query
     };
     
+    /**
+     * @brief TBD: Describe instance.
+     * @return Return value.
+     * @details Implements instance without additional internal calls.
+     */
     static ResponseCache& instance() {
         static ResponseCache instance;
         return instance;
@@ -325,6 +390,9 @@ public:
     
     /**
      * @brief Get a cached response
+     * @param[in] query Input parameter.
+     * @return Return value.
+     * @details Implements get without additional internal calls.
      */
     std::shared_ptr<CachedResponse> get(const std::string& query) {
         return cache_.get(query);
@@ -332,6 +400,9 @@ public:
     
     /**
      * @brief Cache a response
+     * @param[in] query Input parameter.
+     * @param[in] response Input parameter.
+     * @details Implements put without additional internal calls.
      */
     void put(const std::string& query, const CachedResponse& response) {
         cache_.put(query, response);
@@ -342,6 +413,8 @@ public:
      *
      * Only evicts entries whose tag set includes @p pattern, leaving
      * responses that reference other collections untouched.
+     * @param[in] pattern Input parameter.
+     * @details Calls: eraseIf(), count().
      */
     void invalidatePattern(const std::string& pattern) {
         cache_.eraseIf([&pattern](const CachedResponse& response) {
@@ -358,6 +431,7 @@ public:
     
     /**
      * @brief Clear the cache
+     * @details Implements clear without additional internal calls.
      */
     void clear() {
         cache_.clear();

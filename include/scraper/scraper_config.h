@@ -148,12 +148,16 @@ struct ScraperConfig {
     /**
      * @brief Load config from a YAML file on disk.
      * @throws std::runtime_error when the file cannot be read or is invalid.
+     * @param[in] path Input parameter.
+     * @return Return value.
      */
     static ScraperConfig loadFromFile(const std::string& path);
 
     /**
      * @brief Parse config from an in-memory YAML string.
      * @throws std::runtime_error when the YAML is invalid.
+     * @param[in] yaml_content Input parameter.
+     * @return Return value.
      */
     static ScraperConfig loadFromYaml(const std::string& yaml_content);
 
@@ -162,6 +166,7 @@ struct ScraperConfig {
      *
      * If search_options.queries is non-empty, those are returned as-is.
      * Otherwise the gap_context keywords are used.
+     * @return Return value.
      */
     std::vector<std::string> effectiveSearchQueries() const;
 };
@@ -185,13 +190,29 @@ struct ScraperConfig {
  */
 class UrlPolicy {
 public:
+    /**
+     * @brief TBD: Describe UrlPolicy.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit UrlPolicy(const ScraperConfig& config);
     UrlPolicy(const std::vector<std::string>& whitelist,
               const std::vector<std::string>& blacklist);
 
+    /**
+     * @brief TBD: Describe isAllowed.
+     * @param[in] url Input parameter.
+     * @return True on success.
+     */
     bool isAllowed(const std::string& url) const;
 
 private:
+    /**
+     * @brief TBD: Describe matchesPattern.
+     * @param[in] url Input parameter.
+     * @param[in] pattern Input parameter.
+     * @return True on success.
+     */
     static bool matchesPattern(const std::string& url,
                                const std::string& pattern);
 

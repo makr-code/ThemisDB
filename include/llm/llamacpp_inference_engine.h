@@ -20,6 +20,10 @@ namespace llm {
  * @brief LLM output validation result
  */
 struct ValidationResult {
+    /**
+     * @brief TBD: Describe ~ValidationResult.
+     * @return Return value.
+     */
     virtual ~ValidationResult() = default;
     bool is_valid = false;
     std::vector<std::string> warnings;
@@ -70,6 +74,11 @@ public:
         bool allow_empty = false;        // Allow empty responses
     };
     
+    /**
+     * @brief TBD: Describe LLMOutputValidator.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit LLMOutputValidator(const Config& config);
     LLMOutputValidator();
     
@@ -96,19 +105,61 @@ public:
 private:
     Config config_;
     
-    // Validation helpers
+    /**
+     * @brief Validation helpers
+     * @param[in] text Input parameter.
+     * @return True on success.
+     */
     bool isValidUTF8(const std::string& text);
+    /**
+     * @brief TBD: Describe detectTruncation.
+     * @param[in] text Input parameter.
+     * @return True on success.
+     */
     bool detectTruncation(const std::string& text);
+    /**
+     * @brief TBD: Describe estimateCoherence.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     double estimateCoherence(const std::string& text);
+    /**
+     * @brief TBD: Describe hasCommonErrors.
+     * @param[in] text Input parameter.
+     * @return True on success.
+     */
     bool hasCommonErrors(const std::string& text);
     
-    // Metrics calculation
+    /**
+     * @brief Metrics calculation
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     int countWords(const std::string& text);
+    /**
+     * @brief TBD: Describe countSentences.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     int countSentences(const std::string& text);
+    /**
+     * @brief TBD: Describe calculateAvgWordLength.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     double calculateAvgWordLength(const std::string& text);
     
-    // Error pattern detection
+    /**
+     * @brief Error pattern detection
+     * @param[in] text Input parameter.
+     * @return True on success.
+     */
     bool hasRepeatingPatterns(const std::string& text);
+    /**
+     * @brief TBD: Describe hasInvalidControlChars.
+     * @param[in] text Input parameter.
+     * @return True on success.
+     */
     bool hasInvalidControlChars(const std::string& text);
 };
 

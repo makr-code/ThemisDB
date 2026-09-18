@@ -35,7 +35,11 @@ namespace performance {
  */
 class PerformanceFeatureFlags {
 public:
-    // Singleton instance
+    /**
+     * @brief Singleton instance
+     * @return Return value.
+     * @details Implements instance without additional internal calls.
+     */
     static PerformanceFeatureFlags& instance() {
         static PerformanceFeatureFlags instance;
         return instance;
@@ -50,6 +54,11 @@ public:
      * Runtime: performance.enable_mimalloc
      */
     bool mimalloc_enabled() const { return mimalloc_enabled_.load(); }
+    /**
+     * @brief TBD: Describe set_mimalloc_enabled.
+     * @param[in] enabled Input parameter.
+     * @details Calls: store().
+     */
     void set_mimalloc_enabled(bool enabled) { mimalloc_enabled_.store(enabled); }
 
     /**
@@ -59,6 +68,11 @@ public:
      * Runtime: performance.enable_huge_pages
      */
     bool huge_pages_enabled() const { return huge_pages_enabled_.load(); }
+    /**
+     * @brief TBD: Describe set_huge_pages_enabled.
+     * @param[in] enabled Input parameter.
+     * @details Calls: store().
+     */
     void set_huge_pages_enabled(bool enabled) { huge_pages_enabled_.store(enabled); }
 
     /**
@@ -68,6 +82,11 @@ public:
      * Runtime: performance.enable_rcu_index
      */
     bool rcu_index_enabled() const { return rcu_index_enabled_.load(); }
+    /**
+     * @brief TBD: Describe set_rcu_index_enabled.
+     * @param[in] enabled Input parameter.
+     * @details Calls: store().
+     */
     void set_rcu_index_enabled(bool enabled) { rcu_index_enabled_.store(enabled); }
 
     /**
@@ -77,6 +96,11 @@ public:
      * Runtime: performance.enable_lirs_cache
      */
     bool lirs_cache_enabled() const { return lirs_cache_enabled_.load(); }
+    /**
+     * @brief TBD: Describe set_lirs_cache_enabled.
+     * @param[in] enabled Input parameter.
+     * @details Calls: store().
+     */
     void set_lirs_cache_enabled(bool enabled) { lirs_cache_enabled_.store(enabled); }
 
     // Phase 2: Medium-Term (3-6 months, +100-200% overall)
@@ -88,6 +112,11 @@ public:
      * Runtime: performance.enable_wisckey
      */
     bool wisckey_enabled() const { return wisckey_enabled_.load(); }
+    /**
+     * @brief TBD: Describe set_wisckey_enabled.
+     * @param[in] enabled Input parameter.
+     * @details Calls: store().
+     */
     void set_wisckey_enabled(bool enabled) { wisckey_enabled_.store(enabled); }
 
     /**
@@ -97,6 +126,11 @@ public:
      * Runtime: performance.enable_cicada_cc
      */
     bool cicada_cc_enabled() const { return cicada_cc_enabled_.load(); }
+    /**
+     * @brief TBD: Describe set_cicada_cc_enabled.
+     * @param[in] enabled Input parameter.
+     * @details Calls: store().
+     */
     void set_cicada_cc_enabled(bool enabled) { cicada_cc_enabled_.store(enabled); }
 
     // Phase 3: Long-Term (6-12 months, +200-500% domain-specific)
@@ -108,6 +142,11 @@ public:
      * Runtime: performance.enable_diskann
      */
     bool diskann_enabled() const { return diskann_enabled_.load(); }
+    /**
+     * @brief TBD: Describe set_diskann_enabled.
+     * @param[in] enabled Input parameter.
+     * @details Calls: store().
+     */
     void set_diskann_enabled(bool enabled) { diskann_enabled_.store(enabled); }
 
     /**
@@ -117,6 +156,11 @@ public:
      * Runtime: performance.enable_bw_tree
      */
     bool bw_tree_enabled() const { return bw_tree_enabled_.load(); }
+    /**
+     * @brief TBD: Describe set_bw_tree_enabled.
+     * @param[in] enabled Input parameter.
+     * @details Calls: store().
+     */
     void set_bw_tree_enabled(bool enabled) { bw_tree_enabled_.store(enabled); }
 
     // Phase 4: ML-Based Optimization & CI Integration (6-12 months, Issue #2424)
@@ -129,6 +173,11 @@ public:
      * Runtime: performance.enable_pmem
      */
     bool pmem_enabled() const { return pmem_enabled_.load(); }
+    /**
+     * @brief TBD: Describe set_pmem_enabled.
+     * @param[in] enabled Input parameter.
+     * @details Calls: store().
+     */
     void set_pmem_enabled(bool enabled) { pmem_enabled_.store(enabled); }
 
     /**
@@ -140,6 +189,11 @@ public:
      * Runtime: performance.enable_ml_workload_predictor
      */
     bool ml_workload_predictor_enabled() const { return ml_workload_predictor_enabled_.load(); }
+    /**
+     * @brief TBD: Describe set_ml_workload_predictor_enabled.
+     * @param[in] enabled Input parameter.
+     * @details Calls: store().
+     */
     void set_ml_workload_predictor_enabled(bool enabled) { ml_workload_predictor_enabled_.store(enabled); }
 
     // Configuration loading

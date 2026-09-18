@@ -239,6 +239,7 @@ public:
     /**
      * @brief Construct detector with custom configuration
      * @param config Detection configuration parameters
+     * @return Return value.
      */
     explicit KnowledgeGapDetector(const KnowledgeGapConfig& config);
     
@@ -400,50 +401,174 @@ private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
     
-    // Internal detection methods (Phase 1)
+    /**
+     * @brief Internal detection methods (Phase 1)
+     * @param[in] docs Input parameter.
+     * @return Return value.
+     */
     double calculateAverageSimilarity(const std::vector<RetrievedDocument>& docs);
+    /**
+     * @brief TBD: Describe calculateQueryCoverage.
+     * @param[in] query Input parameter.
+     * @param[in] docs Input parameter.
+     * @return Return value.
+     */
     double calculateQueryCoverage(const std::string& query, 
                                   const std::vector<RetrievedDocument>& docs);
+    /**
+     * @brief TBD: Describe extractQueryAspects.
+     * @param[in] query Input parameter.
+     * @return Return value.
+     */
     std::vector<std::string> extractQueryAspects(const std::string& query);
+    /**
+     * @brief TBD: Describe findMissingAspects.
+     * @param[in] query Input parameter.
+     * @param[in] docs Input parameter.
+     * @return Return value.
+     */
     std::vector<std::string> findMissingAspects(
         const std::string& query,
         const std::vector<RetrievedDocument>& docs
     );
+    /**
+     * @brief TBD: Describe extractClaims.
+     * @param[in] answer Input parameter.
+     * @return Return value.
+     */
     std::vector<std::string> extractClaims(const std::string& answer);
+    /**
+     * @brief TBD: Describe verifyClaim.
+     * @param[in] claim Input parameter.
+     * @param[in] docs Input parameter.
+     * @return True on success.
+     */
     bool verifyClaim(const std::string& claim,
                     const std::vector<RetrievedDocument>& docs);
     
-    // Phase 2: Token Probability & Perplexity
+    /**
+     * @brief Phase 2: Token Probability & Perplexity
+     * @param[in] token_probs Input parameter.
+     * @return Return value.
+     */
     double calculatePerplexity(const std::vector<double>& token_probs);
+    /**
+     * @brief TBD: Describe calculateSlidingWindowPerplexity.
+     * @param[in] token_probs Input parameter.
+     * @param[in] window_size Input parameter.
+     * @return Return value.
+     */
     double calculateSlidingWindowPerplexity(const std::vector<double>& token_probs,
                                            size_t window_size);
+    /**
+     * @brief TBD: Describe detectPerplexityAnomaly.
+     * @param[in] perplexity Input parameter.
+     * @param[in] threshold Input parameter.
+     * @return True on success.
+     */
     bool detectPerplexityAnomaly(double perplexity, double threshold);
+    /**
+     * @brief TBD: Describe calculateConfidenceScore.
+     * @param[in] token_probs Input parameter.
+     * @return Return value.
+     */
     double calculateConfidenceScore(const std::vector<double>& token_probs);
+    /**
+     * @brief TBD: Describe removeOutlierTokens.
+     * @param[in] token_probs Input parameter.
+     * @param[in] zscore_threshold Input parameter.
+     * @return Return value.
+     */
     std::vector<double> removeOutlierTokens(const std::vector<double>& token_probs,
                                            double zscore_threshold);
+    /**
+     * @brief TBD: Describe calculateMovingAverage.
+     * @param[in] values Input parameter.
+     * @param[in] window_size Input parameter.
+     * @return Return value.
+     */
     double calculateMovingAverage(const std::vector<double>& values, size_t window_size);
     
-    // Phase 2: Self-Consistency Check
+    /**
+     * @brief Phase 2: Self-Consistency Check
+     * @param[in] query Input parameter.
+     * @param[in] docs Input parameter.
+     * @return True on success.
+     */
     bool checkSelfConsistency(const std::string& query,
                              const std::vector<RetrievedDocument>& docs);
+    /**
+     * @brief TBD: Describe generateMultipleSamples.
+     * @param[in] query Input parameter.
+     * @param[in] docs Input parameter.
+     * @param[in] num_samples Input parameter.
+     * @return Return value.
+     */
     std::vector<std::string> generateMultipleSamples(const std::string& query,
                                                     const std::vector<RetrievedDocument>& docs,
                                                     size_t num_samples);
+    /**
+     * @brief TBD: Describe calculateSemanticSimilarity.
+     * @param[in] text1 Input parameter.
+     * @param[in] text2 Input parameter.
+     * @return Return value.
+     */
     double calculateSemanticSimilarity(const std::string& text1, const std::string& text2);
+    /**
+     * @brief TBD: Describe calculateConsistencyScore.
+     * @param[in] samples Input parameter.
+     * @return Return value.
+     */
     double calculateConsistencyScore(const std::vector<std::string>& samples);
+    /**
+     * @brief TBD: Describe detectContradiction.
+     * @param[in] text1 Input parameter.
+     * @param[in] text2 Input parameter.
+     * @return True on success.
+     */
     bool detectContradiction(const std::string& text1, const std::string& text2);
     
-    // Phase 2: FLARE Active Retrieval
+    /**
+     * @brief Phase 2: FLARE Active Retrieval
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     std::vector<std::string> splitIntoSentences(const std::string& text);
+    /**
+     * @brief TBD: Describe monitorSentenceConfidence.
+     * @param[in] sentence Input parameter.
+     * @param[in] docs Input parameter.
+     * @return Return value.
+     */
     double monitorSentenceConfidence(const std::string& sentence,
                                     const std::vector<RetrievedDocument>& docs);
+    /**
+     * @brief TBD: Describe reformulateQuery.
+     * @param[in] original_query Input parameter.
+     * @param[in] missing_info Input parameter.
+     * @return Return value.
+     */
     std::string reformulateQuery(const std::string& original_query,
                                 const std::string& missing_info);
     std::vector<RetrievedDocument> performDynamicRetrieval(const std::string& query,
                                                            const std::string& tenant_id = {});
-    // Ethical gap detection helpers
+    /**
+     * @brief Ethical gap detection helpers
+     * @param[in] query Input parameter.
+     * @return True on success.
+     */
     bool isEthicalQuery(const std::string& query);
+    /**
+     * @brief TBD: Describe countEthicalPerspectives.
+     * @param[in] docs Input parameter.
+     * @return Return value.
+     */
     int countEthicalPerspectives(const std::vector<RetrievedDocument>& docs);
+    /**
+     * @brief TBD: Describe calculatePerspectiveDiversity.
+     * @param[in] docs Input parameter.
+     * @return Return value.
+     */
     double calculatePerspectiveDiversity(const std::vector<RetrievedDocument>& docs);
 };
 
@@ -454,21 +579,26 @@ class KnowledgeGapDetectorFactory {
 public:
     /**
      * @brief Create a fast detector (pre-generation only)
+     * @return Return value.
      */
     static std::unique_ptr<KnowledgeGapDetector> createFast();
     
     /**
      * @brief Create a balanced detector (pre + during generation)
+     * @return Return value.
      */
     static std::unique_ptr<KnowledgeGapDetector> createBalanced();
     
     /**
      * @brief Create a thorough detector (all detection levels)
+     * @return Return value.
      */
     static std::unique_ptr<KnowledgeGapDetector> createThorough();
     
     /**
      * @brief Create a custom configured detector
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     static std::unique_ptr<KnowledgeGapDetector> create(const KnowledgeGapConfig& config);
 
@@ -477,6 +607,7 @@ public:
      *
      * FLARE (Feedback Loop Active Retrieval) with Token Perplexity Threshold
      * gating is enabled by default. Use this factory for new deployments.
+     * @return Return value.
      */
     static std::unique_ptr<KnowledgeGapDetector> createProductionReady();
 
@@ -486,6 +617,7 @@ public:
      * Provides backward compatibility with v1.3.x behaviour where FLARE was
      * disabled. Use this factory when migrating from v1.3 or when FLARE must
      * be explicitly opted out.
+     * @return Return value.
      */
     static std::unique_ptr<KnowledgeGapDetector> createLegacy();
 };

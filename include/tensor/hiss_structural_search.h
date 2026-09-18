@@ -43,7 +43,17 @@ struct TensorGraphEdge {
 /** @brief Tensor network graph component. */
 class TensorNetworkGraph {
 public:
+    /**
+     * @brief TBD: Describe addNode.
+     * @param[in] node Input parameter.
+     * @return Return value.
+     */
     std::size_t addNode(TensorGraphNode node);
+    /**
+     * @brief TBD: Describe addEdge.
+     * @param[in] edge Input parameter.
+     * @return True on success.
+     */
     bool addEdge(TensorGraphEdge edge);
 
     [[nodiscard]] std::size_t nodeCount() const noexcept { return nodes_.size(); }
@@ -198,6 +208,7 @@ public:
      * Thread-safe.  Replaces any previously installed backend.
      * Pass `nullptr` (or call `clearQuanticsFn()`) to restore the built-in
      * pure-binary padded-QTT path.
+     * @param[in] fn Input parameter.
      */
     static void setQuanticsFn(QuanticsFn fn);
 
@@ -245,6 +256,11 @@ public:
 /** @brief Template catalog. */
 class TemplateCatalog {
 public:
+    /**
+     * @brief TBD: Describe registerTemplate.
+     * @param[in] domain_tag Input parameter.
+     * @param[in] graph Input parameter.
+     */
     void registerTemplate(const std::string& domain_tag, TensorNetworkGraph graph);
     [[nodiscard]] std::optional<TensorNetworkGraph> lookup(const std::string& domain_tag) const;
     [[nodiscard]] std::size_t size() const;

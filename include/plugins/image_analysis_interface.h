@@ -301,10 +301,15 @@ private:
  */
 class IImageAnalysisBackend {
 public:
+    /**
+     * @brief TBD: Describe ~IImageAnalysisBackend.
+     * @return Return value.
+     */
     virtual ~IImageAnalysisBackend() = default;
     
     /**
      * @brief Get plugin information
+     * @return Return value.
      */
     virtual PluginInfo getInfo() const = 0;
     
@@ -330,11 +335,13 @@ public:
     
     /**
      * @brief Check if plugin is ready for inference
+     * @return True on success.
      */
     virtual bool isReady() const = 0;
     
     /**
      * @brief Get current backend type in use
+     * @return Return value.
      */
     virtual BackendType getBackend() const = 0;
     
@@ -469,6 +476,7 @@ public:
      * 
      * @param images Vector of image data
      * @return Vector of embedding results
+     * @details Calls: reserve(), size(), push_back(), generateEmbedding().
      */
     virtual std::vector<EmbeddingResult> generateEmbeddingBatch(
         const std::vector<std::vector<uint8_t>>& images
@@ -531,6 +539,7 @@ public:
      * 
      * Run a dummy inference to ensure model is loaded
      * and GPU kernels are compiled.
+     * @details Implements warmup without additional internal calls.
      */
     virtual void warmup() {}
 };
@@ -569,12 +578,28 @@ using GetImagePluginVersionFunc = const char* (*)();
  */
 #define THEMIS_IMAGE_PLUGIN(PluginClass) \
     extern "C" { \
+        /**
+         * @brief TBD: Describe themis_create_image_plugin.
+         * @return Pointer to the result.
+         * @details Calls: PluginClass().
+         */
         THEMIS_IMAGE_PLUGIN_API themis::plugins::image::IImageAnalysisBackend* themis_create_image_plugin() { \
             return new PluginClass(); \
         } \
+        /**
+         * @brief TBD: Describe themis_destroy_image_plugin.
+         * @param[in,out] plugin Input/output parameter.
+         * @return Return value.
+         * @details Implements themis_destroy_image_plugin without additional internal calls.
+         */
         THEMIS_IMAGE_PLUGIN_API void themis_destroy_image_plugin(themis::plugins::image::IImageAnalysisBackend* plugin) { \
             delete plugin; \
         } \
+        /**
+         * @brief TBD: Describe themis_get_image_plugin_api_version.
+         * @return Pointer to the result.
+         * @details Implements themis_get_image_plugin_api_version without additional internal calls.
+         */
         THEMIS_IMAGE_PLUGIN_API const char* themis_get_image_plugin_api_version() { \
             return THEMIS_IMAGE_PLUGIN_API_VERSION; \
         } \

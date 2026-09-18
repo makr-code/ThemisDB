@@ -53,6 +53,10 @@ public:
      * Implementors must be thread-safe when shared across executors.
      */
     struct StorageContext {
+        /**
+         * @brief TBD: Describe ~StorageContext.
+         * @return Return value.
+         */
         virtual ~StorageContext() = default;
 
         /**
@@ -113,6 +117,9 @@ public:
          * @param collection  Collection to read from.
          * @param key         Document key.
          * @return Serialised document value if the key exists, std::nullopt otherwise.
+         * @param[in] string_view Input parameter.
+         * @param[in] string_view Input parameter.
+         * @details Implements get without additional internal calls.
          */
         virtual std::optional<std::string> get(std::string_view /*collection*/,
                                                std::string_view /*key*/) {
@@ -120,9 +127,10 @@ public:
         }
     };
 
-    // -----------------------------------------------------------------------
-    // Constructor / Destructor
-    // -----------------------------------------------------------------------
+    /**
+     * @brief ----------------------------------------------------------------------- Constructor / Destructor -----------------------------------------------------------------------
+     * @return Return value.
+     */
 
     explicit MutationExecutor() = default;
     ~MutationExecutor()         = default;

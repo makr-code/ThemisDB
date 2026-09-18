@@ -64,7 +64,16 @@ public:
         size_t partial_keep_suffix = 2;
     };
     
+    /**
+     * @brief TBD: Describe PIIDetector.
+     * @return Return value.
+     */
     explicit PIIDetector();
+    /**
+     * @brief TBD: Describe PIIDetector.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit PIIDetector(const Config& config);
     
     /// Detect PII in text
@@ -92,10 +101,34 @@ private:
     std::regex credit_card_pattern_;
     std::regex ip_pattern_;
     
+    /**
+     * @brief TBD: Describe initPatterns.
+     */
     void initPatterns();
+    /**
+     * @brief TBD: Describe applyRedaction.
+     * @param[in] value Input parameter.
+     * @param[in] strategy Input parameter.
+     * @return Return value.
+     */
     std::string applyRedaction(const std::string& value, RedactionStrategy strategy) const;
+    /**
+     * @brief TBD: Describe maskString.
+     * @param[in] value Input parameter.
+     * @return Return value.
+     */
     std::string maskString(const std::string& value) const;
+    /**
+     * @brief TBD: Describe hashString.
+     * @param[in] value Input parameter.
+     * @return Return value.
+     */
     std::string hashString(const std::string& value) const;
+    /**
+     * @brief TBD: Describe partialRedact.
+     * @param[in] value Input parameter.
+     * @return Return value.
+     */
     std::string partialRedact(const std::string& value) const;
 };
 
@@ -106,12 +139,21 @@ struct PIIMetrics {
     size_t pii_redacted = 0;
     std::map<PIIDetector::PIIType, size_t> detections_by_type;
     
+    /**
+     * @brief TBD: Describe recordDetection.
+     * @param[in] type Input parameter.
+     * @details Implements recordDetection without additional internal calls.
+     */
     void recordDetection(PIIDetector::PIIType type) {
         total_checks++;
         pii_detected++;
         detections_by_type[type]++;
     }
     
+    /**
+     * @brief TBD: Describe recordRedaction.
+     * @details Implements recordRedaction without additional internal calls.
+     */
     void recordRedaction() {
         pii_redacted++;
     }

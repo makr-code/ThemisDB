@@ -321,6 +321,13 @@ class unique_gpu_ptr {
  * @see unique_gpu_ptr
  */
 template <typename T>
+/**
+ * @brief TBD: Describe make_unique_gpu.
+ * @param[in] count Input parameter.
+ * @return Return value.
+ * @throws std::bad_alloc if an error occurs.
+ * @details Calls: defined(), CHECKED_CUDA(), cudaMalloc(), CHECKED_HIP(), hipMalloc(), std::malloc().
+ */
 inline unique_gpu_ptr<T> make_unique_gpu(size_t count) {
   if (count == 0) {
     return unique_gpu_ptr<T>(nullptr);
@@ -348,6 +355,10 @@ inline unique_gpu_ptr<T> make_unique_gpu(size_t count) {
   // No GPU backend available; allocate on CPU as fallback
   ptr = std::malloc(bytes);
   if (!ptr) {
+    /**
+     * @brief TBD: Describe bad_alloc.
+     * @return Return value.
+     */
     throw std::bad_alloc();
   }
 #endif
@@ -531,6 +542,13 @@ class shared_gpu_ptr {
  * ```
  */
 template <typename T>
+/**
+ * @brief TBD: Describe make_shared_gpu.
+ * @param[in] count Input parameter.
+ * @return Return value.
+ * @throws std::bad_alloc if an error occurs.
+ * @details Calls: defined(), CHECKED_CUDA(), cudaMalloc(), CHECKED_HIP(), hipMalloc(), std::malloc().
+ */
 inline shared_gpu_ptr<T> make_shared_gpu(size_t count) {
   if (count == 0) {
     return shared_gpu_ptr<T>(nullptr);
@@ -546,6 +564,10 @@ inline shared_gpu_ptr<T> make_shared_gpu(size_t count) {
 #else
   ptr = std::malloc(bytes);
   if (!ptr) {
+    /**
+     * @brief TBD: Describe bad_alloc.
+     * @return Return value.
+     */
     throw std::bad_alloc();
   }
 #endif

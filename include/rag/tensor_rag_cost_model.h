@@ -126,6 +126,7 @@ public:
      * @param query  The raw query string (UTF-8).
      * @param config Per-query pipeline configuration.
      * @return CostEstimate with per-phase breakdown and aggregate total.
+     * @note Exception safety: noexcept.
      */
     CostEstimate estimate(const std::string&    query,
                           const TensorRagConfig& config) const noexcept;

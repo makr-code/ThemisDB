@@ -120,6 +120,7 @@ public:
      * @brief Construct with custom configuration.
      * @param config Retriever configuration.
      * @throws std::invalid_argument if any config parameter is invalid.
+     * @return Return value.
      */
     explicit HybridRetriever(const HybridRetrieverConfig& config);
 
@@ -188,18 +189,21 @@ public:
 
     /**
      * @brief Return current configuration.
+     * @return Return value.
      */
     const HybridRetrieverConfig& getConfig() const;
 
     /**
      * @brief Update configuration.
      * @throws std::invalid_argument if any config parameter is invalid.
+     * @param[in] config Input parameter.
      */
     void setConfig(const HybridRetrieverConfig& config);
 
     /**
      * @brief Validate a configuration object.
      * @throws std::invalid_argument describing the first violation found.
+     * @param[in] config Input parameter.
      */
     static void validateConfig(const HybridRetrieverConfig& config);
 

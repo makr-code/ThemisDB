@@ -106,6 +106,10 @@ struct SubscriptionEvent {
  */
 class ISubscriptionMultiplexer {
 public:
+    /**
+     * @brief TBD: Describe ~ISubscriptionMultiplexer.
+     * @return Return value.
+     */
     virtual ~ISubscriptionMultiplexer() = default;
 
     /**
@@ -141,6 +145,7 @@ public:
      * whose filter matches the payload are counted and notified.
      *
      * @return Number of connections the event was delivered to.
+     * @param[in] event Input parameter.
      */
     virtual size_t publish(const SubscriptionEvent& event) = 0;
 

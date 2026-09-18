@@ -48,8 +48,12 @@ inline std::vector<uint8_t> zstd_compress(const std::vector<uint8_t>& input, int
     return zstd_compress(input.data(), input.size(), level);
 }
 
-// Decompress a buffer that contains ZSTD frame. Empty on failure/unsupported.
-// Now includes size validation to prevent buffer overflow and denial of service.
+/**
+ * @brief Decompress a buffer that contains ZSTD frame.
+ * @param[in] compressed Input parameter.
+ * @return Return value.
+ * @details Empty on failure/unsupported. Now includes size validation to prevent buffer overflow and denial of service.
+ */
 std::vector<uint8_t> zstd_decompress(const std::vector<uint8_t>& compressed);
 
 // New Result<T>-based API for better error handling and security validation
@@ -215,6 +219,7 @@ public:
      *
      * After is_done() returns true, reset() must be called before feeding
      * bytes from a new frame.
+     * @return True on success.
      */
     bool is_done() const;
 

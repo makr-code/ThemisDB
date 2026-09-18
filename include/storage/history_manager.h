@@ -139,6 +139,9 @@ public:
      * @brief Build the history key for @p base_key at @p ts.
      *
      * Format: `hist:<base_key>\x00<8-byte-big-endian-ts>`
+     * @param[in] base_key Input parameter.
+     * @param[in] ts Input parameter.
+     * @return Return value.
      */
     static std::string historyKey(std::string_view base_key, HLCTimestamp ts);
 
@@ -146,6 +149,8 @@ public:
      * @brief Build the scan prefix for all history versions of @p base_key.
      *
      * Format: `hist:<base_key>\x00`
+     * @param[in] base_key Input parameter.
+     * @return Return value.
      */
     static std::string historyPrefix(std::string_view base_key);
 
@@ -192,6 +197,8 @@ public:
      * @brief Return the most-recent history record for @p base_key at or before @p ts.
      *
      * @return HistoryRecord, or std::nullopt if no version exists at or before @p ts.
+     * @param[in] base_key Input parameter.
+     * @param[in] ts Input parameter.
      */
     std::optional<HistoryRecord> getAtTimestamp(
         std::string_view base_key,
@@ -200,12 +207,23 @@ public:
 
     /**
      * @brief Return all history versions of @p base_key, oldest first.
+     * @param[in] base_key Input parameter.
+     * @return Return value.
      */
     std::vector<HistoryRecord> listVersions(std::string_view base_key) const;
 
-    // ── Serialization helpers (public for testing) ────────────────────────────
+    /**
+     * @brief ── Serialization helpers (public for testing) ────────────────────────────
+     * @param[in] rec Input parameter.
+     * @return Return value.
+     */
 
     static std::vector<uint8_t> serializeHistoryRecord(const HistoryRecord& rec);
+    /**
+     * @brief TBD: Describe deserializeHistoryRecord.
+     * @param[in] data Input parameter.
+     * @return Return value.
+     */
     static std::optional<HistoryRecord> deserializeHistoryRecord(std::string_view data);
 
 private:
@@ -247,6 +265,8 @@ public:
      * @brief Build the storage key for a conflict record.
      *
      * Format: `conflict:<conflict_id>`
+     * @param[in] conflict_id Input parameter.
+     * @return Return value.
      */
     static std::string conflictKey(std::string_view conflict_id);
 
@@ -254,6 +274,8 @@ public:
      * @brief Build the storage key for a conflict set.
      *
      * Format: `conflictset:<conflict_set_id>`
+     * @param[in] conflict_set_id Input parameter.
+     * @return Return value.
      */
     static std::string conflictSetKey(std::string_view conflict_set_id);
 
@@ -266,6 +288,7 @@ public:
      * it to the conflict keyspace.
      *
      * @return The assigned conflict_id.
+     * @param[in,out] record Input/output parameter.
      */
     std::string storeConflict(ConflictRecord& record);
 
@@ -276,6 +299,7 @@ public:
      * it to the conflictset keyspace.
      *
      * @return The assigned conflict_set_id.
+     * @param[in,out] set Input/output parameter.
      */
     std::string storeConflictSet(ConflictSet& set);
 
@@ -285,6 +309,7 @@ public:
      * @brief Retrieve a specific ConflictRecord by ID.
      *
      * @return The record, or std::nullopt if not found.
+     * @param[in] conflict_id Input parameter.
      */
     std::optional<ConflictRecord> getConflict(std::string_view conflict_id) const;
 
@@ -292,6 +317,7 @@ public:
      * @brief Retrieve a specific ConflictSet by ID.
      *
      * @return The set, or std::nullopt if not found.
+     * @param[in] conflict_set_id Input parameter.
      */
     std::optional<ConflictSet> getConflictSet(std::string_view conflict_set_id) const;
 
@@ -299,6 +325,7 @@ public:
      * @brief List all stored conflict records, most-recent first.
      *
      * Note: this is an O(N) scan over all conflict entries.
+     * @return Return value.
      */
     std::vector<ConflictRecord> listConflicts() const;
 
@@ -306,15 +333,35 @@ public:
      * @brief List all stored conflict sets, most-recent first.
      *
      * Note: this is an O(N) scan over all conflictset entries.
+     * @return Return value.
      */
     std::vector<ConflictSet> listConflictSets() const;
 
-    // ── Serialization helpers (public for testing) ────────────────────────────
+    /**
+     * @brief ── Serialization helpers (public for testing) ────────────────────────────
+     * @param[in] rec Input parameter.
+     * @return Return value.
+     */
 
     static std::vector<uint8_t> serializeConflictRecord(const ConflictRecord& rec);
+    /**
+     * @brief TBD: Describe deserializeConflictRecord.
+     * @param[in] data Input parameter.
+     * @return Return value.
+     */
     static std::optional<ConflictRecord> deserializeConflictRecord(std::string_view data);
 
+    /**
+     * @brief TBD: Describe serializeConflictSet.
+     * @param[in] set Input parameter.
+     * @return Return value.
+     */
     static std::vector<uint8_t> serializeConflictSet(const ConflictSet& set);
+    /**
+     * @brief TBD: Describe deserializeConflictSet.
+     * @param[in] data Input parameter.
+     * @return Return value.
+     */
     static std::optional<ConflictSet> deserializeConflictSet(std::string_view data);
 
 private:

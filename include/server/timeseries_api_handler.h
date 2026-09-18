@@ -158,6 +158,10 @@ public:
      *            Pass `nullptr` to revert to the static default list.
      */
     using AggregateTypesProviderFn = std::function<nlohmann::json()>;
+    /**
+     * @brief TBD: Describe setAggregateTypesProvider.
+     * @param[in] fn Input parameter.
+     */
     void setAggregateTypesProvider(AggregateTypesProviderFn fn);
 
     /**
@@ -211,14 +215,18 @@ public:
     /// delegates to this function instead of returning an empty policy list.
     using RetentionsFn = std::function<std::map<std::string, int64_t>()>;
 
-    /// @brief Inject a provider that supplies real aggregate-function names.
-    /// @param fn Callable returning a vector of aggregate names; pass nullptr
-    ///           to revert to the built-in static list.
+    /**
+     * @brief @brief Inject a provider that supplies real aggregate-function names.
+     * @param[in] fn Input parameter.
+     * @details @param fn Callable returning a vector of aggregate names; pass nullptr to revert to the built-in static list. Calls: std::move().
+     */
     void setAggregatesProvider(AggregatesFn fn) { aggregates_fn_ = std::move(fn); }
 
-    /// @brief Inject a provider that supplies live retention-policy metadata.
-    /// @param fn Callable returning metric→retention-seconds map; pass nullptr
-    ///           to revert to the built-in empty-list response.
+    /**
+     * @brief @brief Inject a provider that supplies live retention-policy metadata.
+     * @param[in] fn Input parameter.
+     * @details @param fn Callable returning metric→retention-seconds map; pass nullptr to revert to the built-in empty-list response. Calls: std::move().
+     */
     void setRetentionPoliciesProvider(RetentionsFn fn) { retentions_fn_ = std::move(fn); }
 
 private:
@@ -241,9 +249,22 @@ private:
     AggregatesFn aggregates_fn_;  ///< Optional live aggregates provider (stub #301)
     RetentionsFn retentions_fn_;  ///< Optional live retention-policy provider (stub #301)
 
-    // Helper methods (to be implemented)
+    /**
+     * @brief Helper methods (to be implemented)
+     * @param[in] status Input parameter.
+     * @param[in] message Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeErrorResponse(
         http::status status, const std::string& message, const http::request<http::string_body>& req);
+    /**
+     * @brief TBD: Describe makeResponse.
+     * @param[in] status Input parameter.
+     * @param[in] body Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeResponse(
         http::status status, const std::string& body, const http::request<http::string_body>& req);
 };

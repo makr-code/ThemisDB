@@ -201,26 +201,38 @@ public:
 private:
     // ── Internal helpers ──────────────────────────────────────────────────────
 
-    /// Compute a non-negative locality score for @p shard.
-    /// Higher values mean the shard is topologically closer to this node.
-    ///   +4 : same region
-    ///   +2 : same zone
-    ///   +1 : same datacenter
+    /**
+     * @brief Compute a non-negative locality score for @p shard.
+     * @param[in] shard Input parameter.
+     * @return Return value.
+     * @details Higher values mean the shard is topologically closer to this node. +4 : same region +2 : same zone +1 : same datacenter
+     */
     int localityScore(const sharding::ShardInfo& shard) const;
 
-    /// Select the best shard by locality score (PREFER_LOCAL strategy).
-    /// Returns nullptr when @p healthy is empty.
+    /**
+     * @brief Select the best shard by locality score (PREFER_LOCAL strategy).
+     * @param[in] healthy Input parameter.
+     * @return Pointer to the result.
+     * @details Returns nullptr when @p healthy is empty.
+     */
     const sharding::ShardInfo* selectPreferLocal(
         const std::vector<sharding::ShardInfo>& healthy) const;
 
-    /// Select the shard whose region has the lowest configured latency hint
-    /// (LOWEST_LATENCY strategy).  Falls back to selectPreferLocal() when
-    /// @c region_latency_hints is empty.
+    /**
+     * @brief Select the shard whose region has the lowest configured latency hint (LOWEST_LATENCY strategy).
+     * @param[in] healthy Input parameter.
+     * @return Pointer to the result.
+     * @details Falls back to selectPreferLocal() when @c region_latency_hints is empty.
+     */
     const sharding::ShardInfo* selectLowestLatency(
         const std::vector<sharding::ShardInfo>& healthy) const;
 
-    /// Select the next shard in round-robin order (ROUND_ROBIN strategy).
-    /// Returns nullptr when @p healthy is empty.
+    /**
+     * @brief Select the next shard in round-robin order (ROUND_ROBIN strategy).
+     * @param[in] healthy Input parameter.
+     * @return Pointer to the result.
+     * @details Returns nullptr when @p healthy is empty.
+     */
     const sharding::ShardInfo* selectRoundRobin(
         const std::vector<sharding::ShardInfo>& healthy) const;
 

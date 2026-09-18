@@ -27,6 +27,10 @@ using json = nlohmann::json;
  * @brief Represents a single documentation document
  */
 struct DocumentEntry {
+    /**
+     * @brief TBD: Describe ~DocumentEntry.
+     * @return Return value.
+     */
     virtual ~DocumentEntry() = default;
     std::string file_path;
     std::string file_hash;
@@ -71,6 +75,8 @@ struct DocsAssistantConfig {
      * 3. data/docs_database.json (JSON)
      * 4. ./docs.db (RocksDB in current dir)
      * 5. ./docs_database.json (JSON in current dir)
+     * @return True on success.
+     * @details Calls: test(), good(), std::filesystem::exists().
      */
     bool discoverDatabase() {
         if (!auto_discover) {
@@ -91,6 +97,11 @@ struct DocsAssistantConfig {
         };
         
         for (const auto& [path, type] : search_paths) {
+            /**
+             * @brief TBD: Describe test.
+             * @param[in] path Input parameter.
+             * @return Return value.
+             */
             std::ifstream test(path);
             if (test.good() || std::filesystem::exists(path)) {
                 docs_database_path = path;
@@ -107,6 +118,10 @@ struct DocsAssistantConfig {
  * @brief Query result from documentation search
  */
 struct DocsQueryResult {
+    /**
+     * @brief TBD: Describe ~DocsQueryResult.
+     * @return Return value.
+     */
     virtual ~DocsQueryResult() = default;
     std::vector<DocumentEntry> relevant_docs;
     std::string generated_answer;
@@ -199,6 +214,8 @@ private:
     
     /**
      * @brief Parse and load documentation database
+     * @param[in] db_json Input parameter.
+     * @return True on success.
      */
     bool parseDatabase(const json& db_json);
     

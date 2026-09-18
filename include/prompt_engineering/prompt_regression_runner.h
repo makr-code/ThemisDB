@@ -44,9 +44,12 @@ struct RegressionFixture {
     std::string source;               ///< "golden" or "feedback"
     double      baseline_score = -1.0; ///< Score of baseline; -1 = unknown
 
+     * @return Return value.
     /** @brief Serialise to JSON. */
     nlohmann::json toJson() const;
 
+     * @param[in] j Input parameter.
+     * @return Return value.
     /** @brief Deserialise from JSON. */
     static RegressionFixture fromJson(const nlohmann::json& j);
 };
@@ -127,6 +130,7 @@ struct RegressionResult {
     /// Per-fixture breakdown.
     std::vector<FixtureDelta> fixture_deltas;
 
+     * @return Return value.
     /** @brief Serialise to JSON for logging / audit. */
     nlohmann::json toJson() const;
 };
@@ -197,6 +201,8 @@ public:
      */
     void clearFixtures();
 
+     * @return Return value.
+     * @note Exception safety: noexcept.
     /** @brief Return the current fixture count. */
     std::size_t fixtureCount() const noexcept;
 
@@ -241,12 +247,17 @@ public:
     // Config accessors
     // -------------------------------------------------------------------------
 
+     * @return Return value.
+     * @note Exception safety: noexcept.
     /** @brief Return the current evaluator config. */
     const EvaluatorConfig& evalConfig() const noexcept;
 
+     * @return Return value.
+     * @note Exception safety: noexcept.
     /** @brief Return the current runner config. */
     const RegressionConfig& runConfig() const noexcept;
 
+     * @param[in] cfg Input parameter.
     /** @brief Update the runner config. */
     void setRunConfig(const RegressionConfig& cfg);
 
@@ -258,6 +269,8 @@ private:
     std::vector<RegressionFixture> fixtures_;
     LogCallback                    log_callback_;
 
+     * @param[in] result Input parameter.
+     * @param[in] template_id Input parameter.
     /** @brief Emit a structured log entry (no-op when callback is empty). */
     void emitLog(const RegressionResult& result,
                  const std::string&       template_id) const;

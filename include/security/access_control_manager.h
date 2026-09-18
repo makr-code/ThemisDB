@@ -56,6 +56,12 @@ struct AccessDecision {
         return {true, reason, {}};
     }
     
+    /**
+     * @brief TBD: Describe Deny.
+     * @param[in] reason Input parameter.
+     * @return Return value.
+     * @details Implements Deny without additional internal calls.
+     */
     static AccessDecision Deny(const std::string& reason) {
         return {false, reason, {}};
     }
@@ -99,10 +105,17 @@ struct AccessControlConfig {
 /// Integrates RBAC, authentication, and authorization
 class AccessControlManager {
 public:
+    /**
+     * @brief TBD: Describe AccessControlManager.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit AccessControlManager(const AccessControlConfig& config);
     
-    /// Initialize the access control system
-    /// Loads RBAC configuration and user-role mappings
+    /**
+     * @brief Initialize the access control system Loads RBAC configuration and user-role mappings
+     * @return True on success.
+     */
     bool initialize();
     
     /// Create security context from authentication token
@@ -114,11 +127,14 @@ public:
         const std::string& source_ip = ""
     );
     
-    /// Check if user has permission to perform action on resource
-    /// @param context Security context from authenticate()
-    /// @param resource Resource identifier (e.g., "data", "config", "keys")
-    /// @param action Action identifier (e.g., "read", "write", "delete")
-    /// @return Access decision with details
+    /**
+     * @brief Check if user has permission to perform action on resource @param context Security context from authenticate() @param resource Resource identifier (e.
+     * @param[in] context Input parameter.
+     * @param[in] resource Input parameter.
+     * @param[in] action Input parameter.
+     * @return Return value.
+     * @details g., "data", "config", "keys") @param action Action identifier (e.g., "read", "write", "delete") @return Access decision with details
+     */
     AccessDecision authorize(
         const SecurityContext& context,
         const std::string& resource,
@@ -153,10 +169,11 @@ public:
     /// Set authentication middleware (for token validation)
     void setAuthMiddleware(std::shared_ptr<AuthMiddleware> auth_middleware);
     
-    /// Set zero-trust policy enforcer for per-request identity verification.
-    /// When set (and enable_zero_trust is true in config), checkAccess() runs
-    /// zero-trust verification between authentication and RBAC/ABAC evaluation.
-    /// Pass nullptr to disable. The manager does NOT take ownership.
+    /**
+     * @brief Set zero-trust policy enforcer for per-request identity verification.
+     * @param[in,out] enforcer Input/output parameter.
+     * @details When set (and enable_zero_trust is true in config), checkAccess() runs zero-trust verification between authentication and RBAC/ABAC evaluation. Pass nullptr to disable. The manager does NOT take ownership.
+     */
     void setZeroTrustEnforcer(ZeroTrustPolicyEnforcer* enforcer);
     
     /// Get RBAC instance (for advanced operations)
@@ -177,36 +194,45 @@ public:
     
     // ── Row-level security (RLS) ─────────────────────────────────────────────
 
-    /// Register an RLS policy.
-    /// Policies are keyed by policy.id; an existing policy with the same id is replaced.
+    /**
+     * @brief Register an RLS policy.
+     * @param[in] policy Input parameter.
+     * @details Policies are keyed by policy.id; an existing policy with the same id is replaced.
+     */
     void addRLSPolicy(const RLSPolicy& policy);
 
-    /// Remove an RLS policy by id.
-    /// @return true if the policy existed and was removed.
+    /**
+     * @brief Remove an RLS policy by id.
+     * @param[in] policy_id Input parameter.
+     * @return True on success.
+     * @details @return true if the policy existed and was removed.
+     */
     bool removeRLSPolicy(const std::string& policy_id);
 
     /// Access the underlying RLS manager (for advanced operations).
     RLSManager& getRLSManager() { return rls_manager_; }
     const RLSManager& getRLSManager() const { return rls_manager_; }
 
-    /// Filter a JSON array of query-result rows through applicable RLS policies.
-    ///
-    /// When RLS is active for the collection/user combination, rows that do not
-    /// satisfy any matching policy predicate are silently excluded.  If no RLS
-    /// policies apply the array is returned unchanged.
-    ///
-    /// @param collection  Name of the queried collection.
-    /// @param ctx         Security context of the requesting user.
-    /// @param rows        JSON array returned by the query engine.
-    /// @return            Filtered JSON array (subset of @p rows visible to the user).
+    /**
+     * @brief Filter a JSON array of query-result rows through applicable RLS policies.
+     * @param[in] collection Input parameter.
+     * @param[in] ctx Input parameter.
+     * @param[in] rows Input parameter.
+     * @return Return value.
+     * @details When RLS is active for the collection/user combination, rows that do not satisfy any matching policy predicate are silently excluded. If no RLS policies apply the array is returned unchanged. @param collection Name of the queried collection. @param ctx Security context of the requesting user. @param rows JSON array returned by the query engine. @return Filtered JSON array (subset of @p rows visible to the user).
+     */
     nlohmann::json filterQueryResults(
         const std::string& collection,
         const SecurityContext& ctx,
         const nlohmann::json& rows
     ) const;
 
-    /// Returns true when at least one enabled RLS policy matches the collection
-    /// and the security context.
+    /**
+     * @brief Returns true when at least one enabled RLS policy matches the collection and the security context.
+     * @param[in] collection Input parameter.
+     * @param[in] ctx Input parameter.
+     * @return True on success.
+     */
     bool isRLSActive(const std::string& collection, const SecurityContext& ctx) const;
     
     /// Reload configuration from disk

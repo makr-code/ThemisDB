@@ -109,6 +109,10 @@ enum class PasskeyVerifyResult {
  */
 class IPasskeyAuthenticator {
 public:
+    /**
+     * @brief TBD: Describe ~IPasskeyAuthenticator.
+     * @return Return value.
+     */
     virtual ~IPasskeyAuthenticator() = default;
 
     // -----------------------------------------------------------------------
@@ -203,6 +207,7 @@ public:
      *                           compute and validate the rpIdHash in authenticator data.
      * @param expected_origin    The full origin expected in clientDataJSON
      *                           (e.g. "https://example.com").
+     * @return Return value.
      */
     explicit PasskeyAuthenticator(std::string relying_party_id, std::string expected_origin);
 
@@ -284,6 +289,7 @@ public:
     /**
      * @brief Attach an AuthAuditLogger that receives passkey success/failure events.
      * @param logger Non-owning pointer; may be nullptr (disables audit logging).
+     * @details Implements setAuditLogger without additional internal calls.
      */
     void setAuditLogger(AuthAuditLogger* logger) { audit_logger_ = logger; }
 

@@ -51,6 +51,10 @@ namespace testing {
  */
 class ProductionValidator {
 public:
+    /**
+     * @brief TBD: Describe ~ProductionValidator.
+     * @return Return value.
+     */
     virtual ~ProductionValidator() = default;
     struct ValidationConfig {
         // Stress test duration
@@ -145,12 +149,33 @@ public:
         size_t skipped_requests = 0;
     };
     
+    /**
+     * @brief TBD: Describe ProductionValidator.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit ProductionValidator(const ValidationConfig& config);
     
-    // Main validation methods
+    /**
+     * @brief Main validation methods
+     * @return Return value.
+     */
     ValidationResult runEndToEndTests();
+    /**
+     * @brief TBD: Describe runStressTest.
+     * @return Return value.
+     */
     ValidationResult runStressTest();
+    /**
+     * @brief TBD: Describe runLoadTest.
+     * @return Return value.
+     */
     ValidationResult runLoadTest();
+    /**
+     * @brief TBD: Describe checkPerformanceRegression.
+     * @param[in] baseline_file Input parameter.
+     * @return Return value.
+     */
     ValidationResult checkPerformanceRegression(
         const std::string& baseline_file
     );
@@ -178,19 +203,59 @@ public:
      */
     bool validateQuality(const std::string& model_id);
     
-    // Individual test suites
+    /**
+     * @brief Individual test suites
+     * @return True on success.
+     */
     bool testModelLoading();
+    /**
+     * @brief TBD: Describe testInferencePipeline.
+     * @return True on success.
+     */
     bool testInferencePipeline();
+    /**
+     * @brief TBD: Describe testBatchScheduling.
+     * @return True on success.
+     */
     bool testBatchScheduling();
+    /**
+     * @brief TBD: Describe testMemoryManagement.
+     * @return True on success.
+     */
     bool testMemoryManagement();
+    /**
+     * @brief TBD: Describe testGPUOffload.
+     * @return True on success.
+     */
     bool testGPUOffload();
+    /**
+     * @brief TBD: Describe testQuantization.
+     * @return True on success.
+     */
     bool testQuantization();
+    /**
+     * @brief TBD: Describe testContinuousBatching.
+     * @return True on success.
+     */
     bool testContinuousBatching();
+    /**
+     * @brief TBD: Describe testKernelFusion.
+     * @return True on success.
+     */
     bool testKernelFusion();
     
-    // Stress testing
+    /**
+     * @brief Stress testing
+     */
     void startStressTest();
+    /**
+     * @brief TBD: Describe stopStressTest.
+     */
     void stopStressTest();
+    /**
+     * @brief TBD: Describe isStressTestRunning.
+     * @return True on success.
+     */
     bool isStressTestRunning() const;
     
     // Monitoring
@@ -202,6 +267,10 @@ public:
         size_t uptime_seconds = 0;
     };
     
+    /**
+     * @brief TBD: Describe getLiveStats.
+     * @return Return value.
+     */
     LiveStats getLiveStats() const;
 
     /**
@@ -210,6 +279,7 @@ public:
      * When set, benchmarkInference() and runStressTest() route requests
      * through this engine.  Without an engine the benchmark logs a warning
      * and reports skipped requests.
+     * @param[in] engine Input parameter.
      */
     void setInferenceEngine(std::shared_ptr<InferenceEngineEnhanced> engine);
     
@@ -256,13 +326,33 @@ private:
     /// Total failures (protected by metrics_lock_; may use std::memory_order_relaxed)
     std::atomic<size_t> total_failures_{0};
     
-    // Helper methods
+    /**
+     * @brief Helper methods
+     * @param[in] data Input parameter.
+     * @param[in] percentile Input parameter.
+     * @return Return value.
+     */
     double calculatePercentile(const std::vector<double>& data, double percentile);
+    /**
+     * @brief TBD: Describe recordLatency.
+     * @param[in] latency_ms Input parameter.
+     */
     void recordLatency(double latency_ms);
+    /**
+     * @brief TBD: Describe checkMemoryLeaks.
+     */
     void checkMemoryLeaks();
     
-    // Benchmark helpers
+    /**
+     * @brief Benchmark helpers
+     * @param[in] variant Input parameter.
+     * @return Return value.
+     */
     std::string generateBenchmarkPrompt(int variant);
+    /**
+     * @brief TBD: Describe measureMemoryUsage.
+     * @return Return value.
+     */
     size_t measureMemoryUsage();
     
     // Quality test helpers
@@ -271,7 +361,17 @@ private:
         std::string prompt;
         std::vector<std::string> expected_answers;
     };
+    /**
+     * @brief TBD: Describe getQualityTests.
+     * @return Return value.
+     */
     std::vector<QualityTest> getQualityTests();
+    /**
+     * @brief TBD: Describe evaluateQualityTest.
+     * @param[in] test Input parameter.
+     * @param[in] model_id Input parameter.
+     * @return True on success.
+     */
     bool evaluateQualityTest(const QualityTest& test, const std::string& model_id);
 };
 
@@ -282,6 +382,10 @@ private:
  */
 class PerformanceRegressionDetector {
 public:
+    /**
+     * @brief TBD: Describe ~PerformanceRegressionDetector.
+     * @return Return value.
+     */
     virtual ~PerformanceRegressionDetector() = default;
     struct Baseline {
         double avg_latency_ms = 0.0;
@@ -305,8 +409,19 @@ public:
         std::vector<std::string> improvements;
     };
     
-    // Save/load baselines
+    /**
+     * @brief Save/load baselines
+     * @param[in] filepath Input parameter.
+     * @param[in] baseline Input parameter.
+     * @return True on success.
+     */
     bool saveBaseline(const std::string& filepath, const Baseline& baseline);
+    /**
+     * @brief TBD: Describe loadBaseline.
+     * @param[in] filepath Input parameter.
+     * @param[in,out] baseline Input/output parameter.
+     * @return True on success.
+     */
     bool loadBaseline(const std::string& filepath, Baseline& baseline);
     
     // Compare current performance against baseline
@@ -327,26 +442,78 @@ private:
  */
 class IntegrationTestSuite {
 public:
-    // Component integration tests
+    /**
+     * @brief Component integration tests
+     * @return True on success.
+     */
     bool testLazyLoaderWithGPUMemory();
+    /**
+     * @brief TBD: Describe testSchedulerWithPagedAttention.
+     * @return True on success.
+     */
     bool testSchedulerWithPagedAttention();
+    /**
+     * @brief TBD: Describe testKernelFusionWithInference.
+     * @return True on success.
+     */
     bool testKernelFusionWithInference();
+    /**
+     * @brief TBD: Describe testFullPipelineE2E.
+     * @return True on success.
+     */
     bool testFullPipelineE2E();
     
-    // Multi-model scenarios
+    /**
+     * @brief Multi-model scenarios
+     * @return True on success.
+     */
     bool testMultiModelServing();
+    /**
+     * @brief TBD: Describe testModelSwitching.
+     * @return True on success.
+     */
     bool testModelSwitching();
+    /**
+     * @brief TBD: Describe testLoRAAdapterManagement.
+     * @return True on success.
+     */
     bool testLoRAAdapterManagement();
     
-    // Failure scenarios
+    /**
+     * @brief Failure scenarios
+     * @return True on success.
+     */
     bool testGPUOutOfMemory();
+    /**
+     * @brief TBD: Describe testModelLoadFailure.
+     * @return True on success.
+     */
     bool testModelLoadFailure();
+    /**
+     * @brief TBD: Describe testRequestCancellation.
+     * @return True on success.
+     */
     bool testRequestCancellation();
+    /**
+     * @brief TBD: Describe testPreemption.
+     * @return True on success.
+     */
     bool testPreemption();
     
-    // Performance scenarios
+    /**
+     * @brief Performance scenarios
+     * @return True on success.
+     */
     bool testHighConcurrency();
+    /**
+     * @brief TBD: Describe testLongRunningRequests.
+     * @return True on success.
+     */
     bool testLongRunningRequests();
+    /**
+     * @brief TBD: Describe testBurstTraffic.
+     * @return True on success.
+     */
     bool testBurstTraffic();
     
     struct TestResult {
@@ -356,6 +523,10 @@ public:
         double duration_ms = 0.0;
     };
     
+    /**
+     * @brief TBD: Describe runAllTests.
+     * @return Return value.
+     */
     std::vector<TestResult> runAllTests();
 };
 

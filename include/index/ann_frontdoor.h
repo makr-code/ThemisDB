@@ -393,6 +393,7 @@ public:
     /**
      * @brief Construct with explicit configuration.
      * @param config  Routing thresholds and defaults.
+     * @return Return value.
      */
     explicit AnnFrontdoor(Config config);
     ~AnnFrontdoor();
@@ -427,6 +428,8 @@ public:
      * This is useful when the backend is already registered, but the caller
      * wants to mark it explicitly as adapter-, package-, or shard-summary
      * scoped for clearer retrieval planning.
+     * @param[in] scope_id Input parameter.
+     * @param[in] kind Input parameter.
      */
     void registerScopeKind(std::string scope_id, AnnScopeKind kind);
 
@@ -560,7 +563,12 @@ private:
         AnnStrategy           strategy,
         const AnnQueryContext& context) const;
 
-    // Estimated recall fraction for a given strategy.
+    /**
+     * @brief Estimated recall fraction for a given strategy.
+     * @param[in] strategy Input parameter.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     static double recallEstimate(AnnStrategy strategy) noexcept;
 
     Config                                                    config_;

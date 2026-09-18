@@ -40,6 +40,10 @@ public:
  */
 class IOAuthTokenManager {
 public:
+    /**
+     * @brief TBD: Describe ~IOAuthTokenManager.
+     * @return Return value.
+     */
     virtual ~IOAuthTokenManager() = default;
 
     /**
@@ -49,6 +53,7 @@ public:
      *
      * @throws OAuthRefreshExpiredError when the refresh token has expired (401).
      * @throws std::runtime_error on persistent refresh failures.
+     * @return Return value.
      */
     virtual std::string getAccessToken() = 0;
 
@@ -64,6 +69,7 @@ public:
      * @brief Returns the current access token as a Bearer authorization header value.
      *
      * Format: "Bearer <access_token>"
+     * @return Return value.
      */
     virtual std::string getBearerAuthorizationHeader() = 0;
 };
@@ -136,8 +142,16 @@ private:
 
     std::chrono::system_clock::time_point expiry_time_;
 
+    /**
+     * @brief TBD: Describe isNearExpiry.
+     * @return True on success.
+     */
     bool isNearExpiry() const;
     std::pair<int, std::string> doHttpPost(const std::string& body);
+    /**
+     * @brief TBD: Describe parseTokenResponse.
+     * @param[in] body Input parameter.
+     */
     void parseTokenResponse(const std::string& body);
 };
 

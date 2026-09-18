@@ -56,9 +56,11 @@ struct ScanMatch {
     std::string migration_guide_url;
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Helpers
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── Helpers ─────────────────────────────────────────────────────────────────────────────
+ * @return Return value.
+ * @details Implements scanExtensions without additional internal calls.
+ */
 
 inline const std::set<std::string>& scanExtensions() {
     static const std::set<std::string> kExts = {
@@ -67,6 +69,12 @@ inline const std::set<std::string>& scanExtensions() {
     return kExts;
 }
 
+/**
+ * @brief TBD: Describe shouldScanFile.
+ * @param[in] p Input parameter.
+ * @return True on success.
+ * @details Calls: filename(), string(), std::transform(), begin(), end(), extension(), scanExtensions(), count().
+ */
 inline bool shouldScanFile(const fs::path& p) {
     std::string filename = p.filename().string();
     std::transform(filename.begin(), filename.end(), filename.begin(), ::tolower);
@@ -79,6 +87,12 @@ inline bool shouldScanFile(const fs::path& p) {
     return scanExtensions().count(ext) > 0;
 }
 
+/**
+ * @brief TBD: Describe formatTimePoint.
+ * @param[in] timestamp Input parameter.
+ * @return Return value.
+ * @details Calls: has_value(), year(), month(), day(), str().
+ */
 inline std::string formatTimePoint(
         const std::optional<std::chrono::system_clock::time_point>& timestamp) {
     if (!timestamp.has_value()) {
@@ -96,10 +110,20 @@ inline std::string formatTimePoint(
     return oss.str();
 }
 
-// Scan a single file for any legacy path references.
+/**
+ * @brief Scan a single file for any legacy path references.
+ * @param[in] file Input parameter.
+ * @return Return value.
+ * @details Calls: ifs(), is_open(), std::getline(), themis::config::ConfigPathResolver::legacyPathMappings(), find(), themis::config::ConfigPathResolver::getMetadata(), isRemovalDue(), formatTimePoint().
+ */
 inline std::vector<ScanMatch> scanFile(const fs::path& file) {
     std::vector<ScanMatch> matches;
 
+    /**
+     * @brief TBD: Describe ifs.
+     * @param[in] file Input parameter.
+     * @return Return value.
+     */
     std::ifstream ifs(file);
     if (!ifs.is_open()) {
       return matches;
@@ -137,9 +161,14 @@ inline std::vector<ScanMatch> scanFile(const fs::path& file) {
     return matches;
 }
 
-// Apply --fix: rewrite the file replacing legacy strings with new paths.
-// Creates a .bak backup before modifying.
-// Returns true on success (or when no change is needed), false on I/O error.
+/**
+ * @brief Apply --fix: rewrite the file replacing legacy strings with new paths.
+ * @param[in] file Input parameter.
+ * @param[in] matches Input parameter.
+ * @param[in] dry_run Input parameter.
+ * @return True on success.
+ * @details Creates a .bak backup before modifying. Returns true on success (or when no change is needed), false on I/O error. Calls: std::find_if(), begin(), end(), emplace_back(), empty(), ifs(), is_open(), content().
+ */
 inline bool fixFile(const fs::path& file,
                     const std::vector<ScanMatch>& matches,
                     bool dry_run) {
@@ -158,7 +187,12 @@ inline bool fixFile(const fs::path& file,
       return true;
     }
 
-    // Read original content
+    /**
+     * @brief Read original content
+     * @param[in] file Input parameter.
+     * @param[in] binary Input parameter.
+     * @return Return value.
+     */
     std::ifstream ifs(file, std::ios::binary);
     if (!ifs.is_open()) {
         std::cerr << "[ERROR] Cannot read: " << file << '\n';
@@ -206,9 +240,11 @@ inline bool fixFile(const fs::path& file,
     return true;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Output formatters
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── Output formatters ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] matches Input parameter.
+ * @details Calls: string(), empty().
+ */
 
 inline void printText(const std::vector<ScanMatch>& matches) {
     for (const auto& m : matches) {
@@ -228,6 +264,11 @@ inline void printText(const std::vector<ScanMatch>& matches) {
     }
 }
 
+/**
+ * @brief TBD: Describe printJson.
+ * @param[in] matches Input parameter.
+ * @details Calls: size(), escape(), string().
+ */
 inline void printJson(const std::vector<ScanMatch>& matches) {
     std::cout << "[\n";
     for (std::size_t i = 0; i < matches.size(); ++i) {
@@ -258,6 +299,11 @@ inline void printJson(const std::vector<ScanMatch>& matches) {
     std::cout << "]\n";
 }
 
+/**
+ * @brief TBD: Describe printCsv.
+ * @param[in] matches Input parameter.
+ * @details Calls: find(), q(), string().
+ */
 inline void printCsv(const std::vector<ScanMatch>& matches) {
     std::cout << "file,line,legacy_path,new_path,category,"
                  "deprecated_date,removal_date,removal_overdue,migration_guide\n";

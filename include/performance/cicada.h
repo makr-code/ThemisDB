@@ -38,10 +38,19 @@ public:
     static constexpr uint64_t VERSION_MASK = ~WRITE_LOCK_BIT;  // Bits 0-62 are version
     
     CicadaRecord() : version_and_lock_(0) {}
+    /**
+     * @brief TBD: Describe CicadaRecord.
+     * @param[in] initial_data Input parameter.
+     * @return Return value.
+     */
     explicit CicadaRecord(std::string initial_data)
         : version_and_lock_(0), data_(std::move(initial_data)) {}
     
-    // Try to acquire write lock
+    /**
+     * @brief Try to acquire write lock
+     * @return True on success.
+     * @details Calls: load(), compare_exchange_strong().
+     */
     bool try_lock() {
         uint64_t v = version_and_lock_.load(std::memory_order_acquire);
         if (v & WRITE_LOCK_BIT) {
@@ -54,7 +63,10 @@ public:
         );
     }
     
-    // Release write lock and bump version
+    /**
+     * @brief Release write lock and bump version
+     * @details Calls: load(), store().
+     */
     void unlock_and_increment_version() {
         uint64_t v = version_and_lock_.load(std::memory_order_relaxed);
         uint64_t new_version = ((v & VERSION_MASK) + 1) & VERSION_MASK;
@@ -71,12 +83,11 @@ public:
         return (version_and_lock_.load(std::memory_order_acquire) & WRITE_LOCK_BIT) != 0;
     }
 
-    // Data access.
-    // set_data(): caller must hold the write lock (try_lock() returned true).
-    // get_data(): safe to call after confirming get_version() matches the snapshot
-    //             taken before the read (standard OCC read-validation pattern).
-    //             Concurrent set_data() + get_data() without lock/version-check
-    //             is a data race — use the version stamp to detect this.
+    /**
+     * @brief Data access.
+     * @param[in] new_data Input parameter.
+     * @details set_data(): caller must hold the write lock (try_lock() returned true). get_data(): safe to call after confirming get_version() matches the snapshot taken before the read (standard OCC read-validation pattern). Concurrent set_data() + get_data() without lock/version-check is a data race — use the version stamp to detect this. Calls: std::move().
+     */
     void set_data(std::string new_data) {
         data_ = std::move(new_data);
     }
@@ -92,32 +103,60 @@ class CicadaTransaction {
 public:
     CicadaTransaction() : commit_timestamp_(0), aborted_(false) {}
     
-    // Record read operation
+    /**
+     * @brief Record read operation
+     * @param[in,out] record Input/output parameter.
+     * @param[in] version_read Input parameter.
+     */
     void record_read(CicadaRecord* record, uint64_t version_read);
     
-    // Record write operation — data is the new value to install on commit
+    /**
+     * @brief Record write operation — data is the new value to install on commit
+     * @param[in,out] record Input/output parameter.
+     * @param[in] data Input parameter.
+     */
     void record_write(CicadaRecord* record, std::string data);
     
     // Execute transaction logic
     using TransactionFunc = std::function<bool()>;
+    /**
+     * @brief TBD: Describe execute.
+     * @param[in] func Input parameter.
+     * @return True on success.
+     */
     bool execute(const TransactionFunc& func);
     
-    // Validate read set (Phase 1 of commit)
+    /**
+     * @brief Validate read set (Phase 1 of commit)
+     * @return True on success.
+     */
     bool validate_reads();
     
-    // Acquire write locks (Phase 2 of commit)
+    /**
+     * @brief Acquire write locks (Phase 2 of commit)
+     * @return True on success.
+     */
     bool acquire_write_locks();
     
-    // Install writes (Phase 3 of commit)
+    /**
+     * @brief Install writes (Phase 3 of commit)
+     */
     void install_writes();
     
-    // Release locks (cleanup)
+    /**
+     * @brief Release locks (cleanup)
+     */
     void release_locks();
     
-    // Full commit protocol
+    /**
+     * @brief Full commit protocol
+     * @return True on success.
+     */
     bool commit();
     
-    // Abort transaction
+    /**
+     * @brief Abort transaction
+     */
     void abort();
     
     bool is_aborted() const { return aborted_; }
@@ -145,11 +184,18 @@ class ContentionManager {
 public:
     ContentionManager() : abort_count_(0), commit_count_(0) {}
     
-    // Record transaction outcome
+    /**
+     * @brief Record transaction outcome
+     * @details Calls: fetch_add().
+     */
     void record_commit() {
         commit_count_.fetch_add(1, std::memory_order_relaxed);
     }
     
+    /**
+     * @brief TBD: Describe record_abort.
+     * @details Calls: fetch_add().
+     */
     void record_abort() {
         abort_count_.fetch_add(1, std::memory_order_relaxed);
     }
@@ -169,6 +215,10 @@ public:
         return get_abort_rate() > 0.5; // >50% abort rate
     }
     
+    /**
+     * @brief TBD: Describe reset_stats.
+     * @details Calls: store().
+     */
     void reset_stats() {
         abort_count_.store(0, std::memory_order_relaxed);
         commit_count_.store(0, std::memory_order_relaxed);

@@ -120,6 +120,9 @@ enum class DiagnosticSeverity {
 
 /**
  * @brief String representation of failure category.
+ * @param[in] cat Input parameter.
+ * @return Return value.
+ * @details Implements failureCategoryToString without additional internal calls.
  */
 inline std::string failureCategoryToString(DiagnosticFailureCategory cat) {
     switch (cat) {
@@ -150,6 +153,9 @@ inline std::string failureCategoryToString(DiagnosticFailureCategory cat) {
 
 /**
  * @brief String representation of severity level.
+ * @param[in] sev Input parameter.
+ * @return Return value.
+ * @details Implements severityToString without additional internal calls.
  */
 inline std::string severityToString(DiagnosticSeverity sev) {
     switch (sev) {
@@ -323,6 +329,7 @@ static constexpr const char* PII_MASK_FIELDS[] = {
  *
  * @param field_name Name of field to check
  * @return true if field is PII-sensitive
+ * @details Calls: find().
  */
 inline bool isPIIField(const std::string& field_name) {
     for (const auto* pii_field : PII_MASK_FIELDS) {
@@ -363,9 +370,21 @@ inline DiagnosticEvent& sanitizePII(DiagnosticEvent& event, char mask_char = '*'
 namespace nlohmann {
 template <>
 struct adl_serializer<themis::observability::DiagnosticEvent> {
+    /**
+     * @brief TBD: Describe to_json.
+     * @param[in,out] j Input/output parameter.
+     * @param[in] evt Input parameter.
+     * @details Calls: toJson().
+     */
     static void to_json(json& j, const themis::observability::DiagnosticEvent& evt) {
         j = evt.toJson();
     }
+    /**
+     * @brief TBD: Describe from_json.
+     * @param[in] j Input parameter.
+     * @param[in,out] evt Input/output parameter.
+     * @details Calls: contains(), at(), get_to(), ss(), std::get_time(), fail(), themis::observability::detail::mktime_utc(), std::chrono::system_clock::from_time_t().
+     */
     static void from_json(const json& j, themis::observability::DiagnosticEvent& evt) {
         using namespace themis::observability;
 
@@ -376,6 +395,11 @@ struct adl_serializer<themis::observability::DiagnosticEvent> {
             std::string ts_str = {};
             j.at("timestamp").get_to(ts_str);
             std::tm tm = {};
+            /**
+             * @brief TBD: Describe ss.
+             * @param[in] ts_str Input parameter.
+             * @return Return value.
+             */
             std::istringstream ss(ts_str);
             ss >> std::get_time(&tm, "%Y-%m-%dT%H:%M:%S");
             if (!ss.fail()) {

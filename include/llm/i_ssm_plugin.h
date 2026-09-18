@@ -64,6 +64,10 @@ struct SSMStateSnapshot {
  * fallback to transformer path via `KnowledgeGapDetector` + `AgenticRAG`.
  */
 struct ISSMPlugin : public ILLMPlugin {
+    /**
+     * @brief TBD: Describe ~ISSMPlugin.
+     * @return Return value.
+     */
     virtual ~ISSMPlugin() = default;
 
     /**

@@ -127,6 +127,7 @@ public:
      * @param success Whether the query succeeded
      * @param depth Maximum nesting depth of the query
      * @param field_count Total number of fields in the query
+     * @details Calls: getMetricsForType(), fetch_add(), load(), compare_exchange_weak().
      */
     void recordQuery(
         const std::string& operation_type,
@@ -159,6 +160,11 @@ public:
      * @brief Get metrics for a specific operation type
      */
     const QueryMetrics& getMetrics(const std::string& operation_type) const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = metrics_.find(operation_type);
         if (it != metrics_.end()) {
@@ -174,20 +180,33 @@ public:
      * @brief Get all metrics
      */
     std::unordered_map<std::string, QueryMetrics> getAllMetrics() const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return metrics_;
     }
     
     /**
      * @brief Reset all metrics
+     * @details Calls: lock(), clear().
      */
     void reset() {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         metrics_.clear();
     }
     
     /**
      * @brief Singleton instance
+     * @return Return value.
+     * @details Implements instance without additional internal calls.
      */
     static Metrics& instance() {
         static Metrics instance;
@@ -197,7 +216,18 @@ public:
 private:
     Metrics() = default;
     
+    /**
+     * @brief TBD: Describe getMetricsForType.
+     * @param[in] operation_type Input parameter.
+     * @return Return value.
+     * @details Calls: lock().
+     */
     QueryMetrics& getMetricsForType(const std::string& operation_type) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return metrics_[operation_type];
     }
@@ -232,6 +262,11 @@ public:
         );
     }
     
+    /**
+     * @brief TBD: Describe setSuccess.
+     * @param[in] success Input parameter.
+     * @details Implements setSuccess without additional internal calls.
+     */
     void setSuccess(bool success) {
         success_ = success;
     }

@@ -38,6 +38,11 @@ public:
     
     RaBitQVector() : dimension_(0) {}
     
+    /**
+     * @brief TBD: Describe RaBitQVector.
+     * @param[in] dimension Input parameter.
+     * @return Return value.
+     */
     explicit RaBitQVector(size_t dimension) 
         : dimension_(dimension),
           quantized_data_((dimension + VALUES_PER_BYTE - 1) / VALUES_PER_BYTE) {}
@@ -53,7 +58,12 @@ public:
         return (quantized_data_[byte_idx] >> bit_offset) & 0x3; // Mask 2 bits
     }
     
-    // Set 2-bit value at index
+    /**
+     * @brief Set 2-bit value at index
+     * @param[in] index Input parameter.
+     * @param[in] value Input parameter.
+     * @details Implements set without additional internal calls.
+     */
     void set(size_t index, uint8_t value) {
         size_t byte_idx = index / VALUES_PER_BYTE;
         size_t bit_offset = (index % VALUES_PER_BYTE) * BITS_PER_VALUE;
@@ -69,21 +79,47 @@ private:
 /// RaBitQ encoder with learned quantization parameters
 class RaBitQEncoder {
 public:
+    /**
+     * @brief TBD: Describe RaBitQEncoder.
+     * @param[in] dimension Input parameter.
+     * @return Return value.
+     */
     explicit RaBitQEncoder(size_t dimension);
     
-    // Train quantization parameters from dataset
+    /**
+     * @brief Train quantization parameters from dataset
+     * @param[in] training_data Input parameter.
+     */
     void train(const std::vector<std::vector<float>>& training_data);
     
-    // Encode float32 vector to 2-bit representation
+    /**
+     * @brief Encode float32 vector to 2-bit representation
+     * @param[in] vec Input parameter.
+     * @return Return value.
+     */
     RaBitQVector encode(const std::vector<float>& vec) const;
     
-    // Decode 2-bit vector back to float32 (for verification)
+    /**
+     * @brief Decode 2-bit vector back to float32 (for verification)
+     * @param[in] quantized Input parameter.
+     * @return Return value.
+     */
     std::vector<float> decode(const RaBitQVector& quantized) const;
     
-    // Compute quantized distance (faster than decoding + computing distance)
+    /**
+     * @brief Compute quantized distance (faster than decoding + computing distance)
+     * @param[in] a Input parameter.
+     * @param[in] b Input parameter.
+     * @return Return value.
+     */
     float compute_distance(const RaBitQVector& a, const RaBitQVector& b) const;
     
-    // Asymmetric distance: query (full precision) vs database vector (quantized)
+    /**
+     * @brief Asymmetric distance: query (full precision) vs database vector (quantized)
+     * @param[in] query Input parameter.
+     * @param[in] db_vector Input parameter.
+     * @return Return value.
+     */
     float asymmetric_distance(const std::vector<float>& query, const RaBitQVector& db_vector) const;
 
 private:
@@ -94,10 +130,20 @@ private:
     // Quantization thresholds for 2-bit encoding
     std::vector<std::array<float, 3>> thresholds_; // 3 thresholds for 4 bins
     
-    // Helper: Quantize single float value to 2 bits
+    /**
+     * @brief Helper: Quantize single float value to 2 bits
+     * @param[in] value Input parameter.
+     * @param[in] dim Input parameter.
+     * @return Return value.
+     */
     uint8_t quantize_value(float value, size_t dim) const;
     
-    // Helper: Dequantize 2-bit value to float
+    /**
+     * @brief Helper: Dequantize 2-bit value to float
+     * @param[in] quantized Input parameter.
+     * @param[in] dim Input parameter.
+     * @return Return value.
+     */
     float dequantize_value(uint8_t quantized, size_t dim) const;
 };
 
@@ -106,10 +152,17 @@ class RaBitQIndex {
 public:
     RaBitQIndex(size_t dimension, size_t max_capacity = 1000000);
     
-    // Train encoder with initial vectors
+    /**
+     * @brief Train encoder with initial vectors
+     * @param[in] training_vectors Input parameter.
+     */
     void train(const std::vector<std::vector<float>>& training_vectors);
     
-    // Add vector to index
+    /**
+     * @brief Add vector to index
+     * @param[in] id Input parameter.
+     * @param[in] vector Input parameter.
+     */
     void add(uint64_t id, const std::vector<float>& vector);
     
     // Search for k nearest neighbors
@@ -117,6 +170,12 @@ public:
         uint64_t id = 0;
         float distance;
     };
+    /**
+     * @brief TBD: Describe search.
+     * @param[in] query Input parameter.
+     * @param[in] k Input parameter.
+     * @return Return value.
+     */
     std::vector<SearchResult> search(const std::vector<float>& query, int k) const;
     
     // Get memory usage statistics
@@ -125,6 +184,10 @@ public:
         size_t compressed_bytes;    // 2-bit quantized size
         double compression_ratio;
     };
+    /**
+     * @brief TBD: Describe get_memory_stats.
+     * @return Return value.
+     */
     MemoryStats get_memory_stats() const;
     
     size_t size() const { return vectors_.size(); }
@@ -137,7 +200,12 @@ private:
     std::vector<uint64_t> ids_;
     std::vector<RaBitQVector> vectors_;
     
-    // Helper: Linear scan with quantized distance
+    /**
+     * @brief Helper: Linear scan with quantized distance
+     * @param[in] query Input parameter.
+     * @param[in] k Input parameter.
+     * @return Return value.
+     */
     std::vector<SearchResult> linear_scan(const std::vector<float>& query, int k) const;
 };
 
@@ -147,13 +215,24 @@ class ProductQuantizer {
 public:
     ProductQuantizer(size_t dimension, size_t num_subvectors);
     
-    // Split vector into subvectors
+    /**
+     * @brief Split vector into subvectors
+     * @param[in] vec Input parameter.
+     * @return Return value.
+     */
     std::vector<std::vector<float>> split_vector(const std::vector<float>& vec) const;
     
-    // Train codebooks for each subvector
+    /**
+     * @brief Train codebooks for each subvector
+     * @param[in] training_data Input parameter.
+     */
     void train(const std::vector<std::vector<float>>& training_data);
     
-    // Encode vector using product quantization
+    /**
+     * @brief Encode vector using product quantization
+     * @param[in] vec Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> encode(const std::vector<float>& vec) const;
 
 private:

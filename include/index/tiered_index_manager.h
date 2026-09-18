@@ -188,8 +188,13 @@ public:
     using ImportFn  = std::function<bool(const std::string& index_name,
                                           const std::string& src_path)>;
 
-    /// @param warm_base_dir  Root directory used for WARM tier snapshots.
-    /// @param cold_base_dir  Root directory (or URI prefix) for COLD tier archives.
+    /**
+     * @brief @param warm_base_dir Root directory used for WARM tier snapshots.
+     * @param[in] warm_base_dir Input parameter.
+     * @param[in] cold_base_dir Input parameter.
+     * @return Return value.
+     * @details @param cold_base_dir Root directory (or URI prefix) for COLD tier archives.
+     */
     explicit TieredIndexManager(std::string warm_base_dir,
                                  std::string cold_base_dir);
 
@@ -205,8 +210,11 @@ public:
     /// Return the active migration policy.
     TierMigrationPolicy policy() const;
 
-    /// Set the export callback (called on demotion).  Defaults to a no-op
-    /// that always returns true (useful for tests or read-only registries).
+    /**
+     * @brief Set the export callback (called on demotion).
+     * @param[in] fn Input parameter.
+     * @details Defaults to a no-op that always returns true (useful for tests or read-only registries).
+     */
     void setExportFn(ExportFn fn);
 
     /// Set the import callback (called on promotion).  Defaults to a no-op.
@@ -231,15 +239,23 @@ public:
                        const std::string&   data_path,
                        uint64_t             size_bytes = 0);
 
-    /// Remove an index from the registry (does not delete data on disk).
-    /// @returns true if the index existed and was removed.
+    /**
+     * @brief Remove an index from the registry (does not delete data on disk).
+     * @param[in] name Input parameter.
+     * @return True on success.
+     * @details @returns true if the index existed and was removed.
+     */
     bool unregisterIndex(const std::string& name);
 
     /// Return true if @p name is currently registered.
     bool hasIndex(const std::string& name) const;
 
-    /// Return a snapshot of the metadata for a registered index, or nullopt.
-    /// The returned value is a copy; it will not update as accesses occur.
+    /**
+     * @brief Return a snapshot of the metadata for a registered index, or nullopt.
+     * @param[in] name Input parameter.
+     * @return Return value.
+     * @details The returned value is a copy; it will not update as accesses occur.
+     */
     std::optional<IndexTierMeta> getMetadata(const std::string& name) const;
 
     /// Return names of all registered indexes.
@@ -252,8 +268,12 @@ public:
     // Access tracking
     // -----------------------------------------------------------------------
 
-    /// Record that @p name was accessed.  Updates last_access and access_count.
-    /// @returns true if the index was found; false otherwise.
+    /**
+     * @brief Record that @p name was accessed.
+     * @param[in] name Input parameter.
+     * @return True on success.
+     * @details Updates last_access and access_count. @returns true if the index was found; false otherwise.
+     */
     bool recordAccess(const std::string& name);
 
     /// Reset the access counter for @p name to zero.
@@ -268,17 +288,28 @@ public:
 
     /// Convenience wrappers.
     MigrationResult promoteToHot(const std::string& name);
+    /**
+     * @brief TBD: Describe demoteToWarm.
+     * @param[in] name Input parameter.
+     * @return Return value.
+     */
     MigrationResult demoteToWarm(const std::string& name);
+    /**
+     * @brief TBD: Describe demoteToCold.
+     * @param[in] name Input parameter.
+     * @return Return value.
+     */
     MigrationResult demoteToCold(const std::string& name);
 
     // -----------------------------------------------------------------------
     // Automatic migration pass
     // -----------------------------------------------------------------------
 
-    /// Evaluate all registered indexes against the active policy and migrate
-    /// those that qualify.  Returns the list of migrations performed.
-    ///
-    /// Call this periodically (e.g., from a background scheduler) or on-demand.
+    /**
+     * @brief Evaluate all registered indexes against the active policy and migrate those that qualify.
+     * @return Return value.
+     * @details Returns the list of migrations performed. Call this periodically (e.g., from a background scheduler) or on-demand.
+     */
     std::vector<MigrationResult> runMigrationPass();
 
     // -----------------------------------------------------------------------
@@ -292,11 +323,22 @@ public:
     std::string coldPath(const std::string& name) const;
 
 private:
-    // Derive the destination path for a tier.
+    /**
+     * @brief Derive the destination path for a tier.
+     * @param[in] name Input parameter.
+     * @param[in] tier Input parameter.
+     * @return Return value.
+     */
     std::string pathForTier(const std::string& name, IndexTierMeta::Tier tier) const;
 
-    // Execute the actual migration (calls export_fn_ / import_fn_ as needed).
-    // Caller must NOT hold registry_mutex_.
+    /**
+     * @brief Execute the actual migration (calls export_fn_ / import_fn_ as needed).
+     * @param[in] name Input parameter.
+     * @param[in] from Input parameter.
+     * @param[in] to Input parameter.
+     * @return Return value.
+     * @details Caller must NOT hold registry_mutex_.
+     */
     MigrationResult doMigrate(const std::string& name,
                                IndexTierMeta::Tier from,
                                IndexTierMeta::Tier to);

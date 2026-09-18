@@ -80,6 +80,8 @@ public:
 
     /**
      * @brief Add a column to the record batch
+     * @param[in] schema Input parameter.
+     * @details Calls: push_back(), std::move().
      */
     void addColumn(const ColumnSchema& schema) {
         Column col;
@@ -120,6 +122,7 @@ public:
 
     /**
      * @brief Clear all data
+     * @details Implements clear without additional internal calls.
      */
     void clear() {
         columns_.clear();
@@ -154,6 +157,7 @@ public:
 
     /**
      * @brief Export to JSON string (for testing/debugging)
+     * @return Return value.
      */
     std::string toJSON() const;
 
@@ -167,6 +171,10 @@ public:
         std::vector<ColumnSchema> schema;
     };
 
+    /**
+     * @brief TBD: Describe getMetadata.
+     * @return Return value.
+     */
     Metadata getMetadata() const;
 
 private:

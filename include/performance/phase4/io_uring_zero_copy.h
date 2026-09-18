@@ -76,9 +76,12 @@ struct IoUringStats {
 /// Movable.
 class ZeroCopyBuffer {
 public:
-    /// Allocate a buffer of @p size bytes aligned to the system page size.
-    /// The buffer is NOT registered at construction; call register_with_ring()
-    /// after associating it with an IoUringZeroCopyIO instance.
+    /**
+     * @brief Allocate a buffer of @p size bytes aligned to the system page size.
+     * @param[in] size Input parameter.
+     * @return Return value.
+     * @details The buffer is NOT registered at construction; call register_with_ring() after associating it with an IoUringZeroCopyIO instance.
+     */
     explicit ZeroCopyBuffer(size_t size);
     ~ZeroCopyBuffer() noexcept;
 
@@ -174,50 +177,89 @@ public:
     /// successfully.
     bool is_available() const noexcept { return available_; }
 
-    /// Register a socket file descriptor for fixed-file operations
-    /// (reduces fd-lookup overhead per SQE).  Only effective when
-    /// IoUringConfig::fixed_files is true and io_uring is available.
-    /// Returns true on success.
+    /**
+     * @brief Register a socket file descriptor for fixed-file operations (reduces fd-lookup overhead per SQE).
+     * @param[in] fd Input parameter.
+     * @return True on success.
+     * @note Exception safety: noexcept.
+     * @details Only effective when IoUringConfig::fixed_files is true and io_uring is available. Returns true on success.
+     */
     bool register_fd(int fd) noexcept;
 
-    /// Enqueue a zero-copy send of @p len bytes from pre-registered buffer
-    /// at index @p buf_index.  The caller must have written @p len bytes into
-    /// get_buffer(buf_index).data() before calling this.
-    ///
-    /// On io_uring: submits an IORING_OP_SEND with IORING_RECVSEND_FIXED_BUF.
-    /// On fallback: calls send() immediately and increments fallback_sends.
-    ///
-    /// @return 0 on success (io_uring submission or fallback), -errno on error.
+    /**
+     * @brief Enqueue a zero-copy send of @p len bytes from pre-registered buffer at index @p buf_index.
+     * @param[in] fd Input parameter.
+     * @param[in] buf_index Input parameter.
+     * @param[in] len Input parameter.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     * @details The caller must have written @p len bytes into get_buffer(buf_index).data() before calling this. On io_uring: submits an IORING_OP_SEND with IORING_RECVSEND_FIXED_BUF. On fallback: calls send() immediately and increments fallback_sends. @return 0 on success (io_uring submission or fallback), -errno on error.
+     */
     int send_zerocopy(int fd, uint32_t buf_index, size_t len) noexcept;
 
-    /// Enqueue a receive into pre-registered buffer at index @p buf_index.
-    ///
-    /// On io_uring: submits an IORING_OP_RECV with IORING_RECVSEND_FIXED_BUF.
-    /// On fallback: calls recv() immediately and increments fallback_recvs.
-    ///
-    /// @return number of bytes received on fallback, 0 on io_uring queue, -errno on error.
+    /**
+     * @brief Enqueue a receive into pre-registered buffer at index @p buf_index.
+     * @param[in] fd Input parameter.
+     * @param[in] buf_index Input parameter.
+     * @param[in] max_len Input parameter.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     * @details On io_uring: submits an IORING_OP_RECV with IORING_RECVSEND_FIXED_BUF. On fallback: calls recv() immediately and increments fallback_recvs. @return number of bytes received on fallback, 0 on io_uring queue, -errno on error.
+     */
     int recv_zerocopy(int fd, uint32_t buf_index, size_t max_len) noexcept;
 
     /// Block until at least @p min_completions CQEs are available and drain
     /// the completion queue.  Returns number of completions processed.
     uint32_t wait_completions(uint32_t min_completions = 1) noexcept;
 
-    /// Return a reference to pre-registered buffer @p index.
-    /// @p index must be < IoUringConfig::num_buffers.
+    /**
+     * @brief Return a reference to pre-registered buffer @p index.
+     * @param[in] index Input parameter.
+     * @return Return value.
+     * @details @p index must be < IoUringConfig::num_buffers.
+     */
     ZeroCopyBuffer& get_buffer(uint32_t index);
+    /**
+     * @brief TBD: Describe get_buffer.
+     * @param[in] index Input parameter.
+     * @return Return value.
+     */
     const ZeroCopyBuffer& get_buffer(uint32_t index) const;
 
     /// Return a snapshot of current operational statistics.
     IoUringStats get_stats() const noexcept;
 
-    /// Static probe: returns true if io_uring_setup(2) is available on
-    /// the running kernel.  Safe to call without constructing an instance.
+    /**
+     * @brief Static probe: returns true if io_uring_setup(2) is available on the running kernel.
+     * @return True on success.
+     * @note Exception safety: noexcept.
+     * @details Safe to call without constructing an instance.
+     */
     static bool io_uring_accessible() noexcept;
 
 private:
+    /**
+     * @brief TBD: Describe setup_ring.
+     * @param[in] config Input parameter.
+     * @note Exception safety: noexcept.
+     */
     void setup_ring(const IoUringConfig& config) noexcept;
+    /**
+     * @brief TBD: Describe teardown_ring.
+     * @note Exception safety: noexcept.
+     */
     void teardown_ring() noexcept;
+    /**
+     * @brief TBD: Describe register_buffers.
+     * @return True on success.
+     * @note Exception safety: noexcept.
+     */
     bool register_buffers() noexcept;
+    /**
+     * @brief TBD: Describe submit_sqes.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     int  submit_sqes() noexcept;
 
     IoUringConfig config_;
@@ -251,6 +293,12 @@ private:
 /// writes the elapsed nanoseconds to *output_ns on destruction.
 class ScopedIoUringTimer {
 public:
+    /**
+     * @brief TBD: Describe ScopedIoUringTimer.
+     * @param[in,out] output_ns Input/output parameter.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     explicit ScopedIoUringTimer(uint64_t* output_ns) noexcept;
     ~ScopedIoUringTimer() noexcept;
 

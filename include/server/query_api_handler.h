@@ -205,13 +205,33 @@ private:
     std::atomic<StatisticsCollector*> stats_collector_{nullptr};   ///< Optional; non-owning
     std::shared_ptr<security::QueryMaskingPolicy> masking_policy_;  ///< Optional PII masking
 
-    // Helper methods
+    /**
+     * @brief Helper methods
+     * @param[in] status Input parameter.
+     * @param[in] message Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeErrorResponse(
         http::status status, const std::string& message, const http::request<http::string_body>& req);
+    /**
+     * @brief TBD: Describe makeResponse.
+     * @param[in] status Input parameter.
+     * @param[in] body Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeResponse(
         http::status status, const std::string& body, const http::request<http::string_body>& req);
     
-    // Authorization helper
+    /**
+     * @brief Authorization helper
+     * @param[in] req Input parameter.
+     * @param[in] permission Input parameter.
+     * @param[in] resource_type Input parameter.
+     * @param[in] resource_id Input parameter.
+     * @return Return value.
+     */
     std::optional<http::response<http::string_body>> requireAccess(
         const http::request<http::string_body>& req,
         const std::string& permission,
@@ -223,9 +243,19 @@ private:
         std::string user_id;
         std::vector<std::string> groups;
     };
+    /**
+     * @brief TBD: Describe extractAuthContext.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     AuthContext extractAuthContext(const http::request<http::string_body>& req);
 
-    // Apply QueryMaskingPolicy to a JSON entities array if policy is configured.
+    /**
+     * @brief Apply QueryMaskingPolicy to a JSON entities array if policy is configured.
+     * @param[in] entities Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     nlohmann::json applyMasking(
         const nlohmann::json& entities,
         const http::request<http::string_body>& req);

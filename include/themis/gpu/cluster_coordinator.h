@@ -102,9 +102,11 @@ public:
         bool infiniband_available  = false;
     };
 
-    // -----------------------------------------------------------------------
-    // Singleton
-    // -----------------------------------------------------------------------
+    /**
+     * @brief ----------------------------------------------------------------------- Singleton -----------------------------------------------------------------------
+     * @return Return value.
+     * @details Implements GetInstance without additional internal calls.
+     */
     static GPUClusterCoordinator& GetInstance() {
         static GPUClusterCoordinator inst;
         return inst;
@@ -139,6 +141,7 @@ public:
 
     /**
      * @brief Remove a peer node (topology-aware path).
+     * @param[in] node_id Input parameter.
      */
     void removeNode(const std::string& node_id);
 
@@ -158,6 +161,7 @@ public:
      * registers the local node (STANDALONE / WORKER mode).
      *
      * @return true on success.
+     * @param[in] config Input parameter.
      */
     bool initialize(const ClusterConfig& config);
 
@@ -166,6 +170,7 @@ public:
      *
      * If a node with `node.id` already exists its information is updated;
      * otherwise a new entry is created.
+     * @param[in] node Input parameter.
      */
     void registerNode(const NodeInfo& node);
 
@@ -173,6 +178,7 @@ public:
      * @brief Remove a node from the cluster registry (registry path).
      *
      * @return false if no node with that ID exists.
+     * @param[in] node_id Input parameter.
      */
     bool deregisterNode(const std::string& node_id);
 
@@ -180,12 +186,15 @@ public:
      * @brief Record a heartbeat from @p node_id and update its free VRAM.
      *
      * Sets the node's status to ONLINE and records the current timestamp.
+     * @param[in] node_id Input parameter.
+     * @param[in] free_vram_bytes Input parameter.
      */
     void updateHeartbeat(const std::string& node_id,
                          uint64_t           free_vram_bytes);
 
     /**
      * @brief Immediately mark @p node_id as OFFLINE.
+     * @param[in] node_id Input parameter.
      */
     void markNodeOffline(const std::string& node_id);
 
@@ -250,13 +259,30 @@ public:
     /** @brief Return the active cluster configuration. */
     const ClusterConfig& clusterConfig() const noexcept { return config_; }
 
+     * @return Return value.
     /** @brief Return a cluster-wide health summary. */
     ClusterHealth clusterHealth() const;
 
+    /**
+     * @brief TBD: Describe getClusterNodes.
+     * @return Return value.
+     */
     std::vector<NodeInfo> getClusterNodes() const;
+    /**
+     * @brief TBD: Describe getOnlineNodes.
+     * @return Return value.
+     */
     std::vector<NodeInfo> getOnlineNodes()  const;
 
+    /**
+     * @brief TBD: Describe totalNodes.
+     * @return Return value.
+     */
     size_t totalNodes()      const;
+    /**
+     * @brief TBD: Describe onlineNodeCount.
+     * @return Return value.
+     */
     size_t onlineNodeCount() const;
 
     bool isCoordinator() const noexcept { return is_coordinator_; }
@@ -275,7 +301,11 @@ private:
     GPUClusterTopology      topology_;
     std::vector<NodeInfo>   nodes_;
 
-    // Internal helper — called under mutex_.
+    /**
+     * @brief Internal helper — called under mutex_.
+     * @param[in] id Input parameter.
+     * @return Pointer to the result.
+     */
     NodeInfo* findNode(const std::string& id);
 };
 

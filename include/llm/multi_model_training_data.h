@@ -32,13 +32,25 @@ class RelationalJoinProvider;
  * @brief Graph context enrichment result
  */
 struct GraphContext {
+    /**
+     * @brief TBD: Describe ~GraphContext.
+     * @return Return value.
+     */
     virtual ~GraphContext() = default;
     std::vector<std::string> related_nodes;
     std::vector<std::string> relationship_types;
     std::vector<std::string> paths;
     int depth = 0;
     
+    /**
+     * @brief TBD: Describe toString.
+     * @return Return value.
+     */
     std::string toString() const;
+    /**
+     * @brief TBD: Describe toJSON.
+     * @return Return value.
+     */
     nlohmann::json toJSON() const;
 };
 
@@ -50,7 +62,15 @@ struct VectorSimilarity {
     std::vector<float> similarity_scores;
     std::vector<std::string> document_texts;
     
+    /**
+     * @brief TBD: Describe toString.
+     * @return Return value.
+     */
     std::string toString() const;
+    /**
+     * @brief TBD: Describe toJSON.
+     * @return Return value.
+     */
     nlohmann::json toJSON() const;
 };
 
@@ -62,7 +82,15 @@ struct RelationalJoin {
     std::vector<std::string> joined_values;
     std::string join_type;
     
+    /**
+     * @brief TBD: Describe toString.
+     * @return Return value.
+     */
     std::string toString() const;
+    /**
+     * @brief TBD: Describe toJSON.
+     * @return Return value.
+     */
     nlohmann::json toJSON() const;
 };
 
@@ -85,9 +113,14 @@ struct EnrichedTrainingExample {
     
     /**
      * @brief Get enriched instruction with context
+     * @return Return value.
      */
     std::string getEnrichedInstruction() const;
     
+    /**
+     * @brief TBD: Describe toJSON.
+     * @return Return value.
+     */
     nlohmann::json toJSON() const;
 };
 
@@ -115,7 +148,16 @@ struct MultiModelEnrichmentConfig {
     std::string context_format = "default";
     int max_context_length = 512;
     
+    /**
+     * @brief TBD: Describe toJSON.
+     * @return Return value.
+     */
     nlohmann::json toJSON() const;
+    /**
+     * @brief TBD: Describe fromJSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static MultiModelEnrichmentConfig fromJSON(const nlohmann::json& j);
 };
 
@@ -123,6 +165,10 @@ struct MultiModelEnrichmentConfig {
  * @brief Statistics about multi-model enrichment
  */
 struct EnrichmentStatistics {
+    /**
+     * @brief TBD: Describe ~EnrichmentStatistics.
+     * @return Return value.
+     */
     virtual ~EnrichmentStatistics() = default;
     int total_examples = 0;
     int graph_enriched = 0;
@@ -138,6 +184,10 @@ struct EnrichmentStatistics {
     float avg_context_length = 0.0f;
     int max_context_length = 0;
     
+    /**
+     * @brief TBD: Describe toJSON.
+     * @return Return value.
+     */
     nlohmann::json toJSON() const;
 };
 
@@ -185,21 +235,25 @@ public:
     
     /**
      * @brief Get enrichment statistics
+     * @return Return value.
      */
     EnrichmentStatistics getStatistics() const;
     
     /**
      * @brief Set graph context provider
+     * @param[in] provider Input parameter.
      */
     void setGraphProvider(std::shared_ptr<GraphContextProvider> provider);
     
     /**
      * @brief Set vector similarity provider
+     * @param[in] provider Input parameter.
      */
     void setVectorProvider(std::shared_ptr<VectorSimilarityProvider> provider);
     
     /**
      * @brief Set relational join provider
+     * @param[in] provider Input parameter.
      */
     void setRelationalProvider(std::shared_ptr<RelationalJoinProvider> provider);
     
@@ -208,12 +262,30 @@ private:
     class Impl;
     std::unique_ptr<Impl> impl_;
     
-    // Enrich single example
+    /**
+     * @brief Enrich single example
+     * @param[in] example Input parameter.
+     * @return Return value.
+     */
     EnrichedTrainingExample enrichExample(const TrainingSample& example);
     
-    // Individual enrichment methods
+    /**
+     * @brief Individual enrichment methods
+     * @param[in] example Input parameter.
+     * @return Return value.
+     */
     std::optional<GraphContext> enrichWithGraph(const TrainingSample& example);
+    /**
+     * @brief TBD: Describe enrichWithVector.
+     * @param[in] example Input parameter.
+     * @return Return value.
+     */
     std::optional<VectorSimilarity> enrichWithVector(const TrainingSample& example);
+    /**
+     * @brief TBD: Describe enrichWithRelational.
+     * @param[in] example Input parameter.
+     * @return Return value.
+     */
     std::optional<RelationalJoin> enrichWithRelational(const TrainingSample& example);
 };
 
@@ -222,6 +294,10 @@ private:
  */
 class GraphContextProvider {
 public:
+    /**
+     * @brief TBD: Describe ~GraphContextProvider.
+     * @return Return value.
+     */
     virtual ~GraphContextProvider() = default;
     
     /**
@@ -243,6 +319,10 @@ public:
  */
 class VectorSimilarityProvider {
 public:
+    /**
+     * @brief TBD: Describe ~VectorSimilarityProvider.
+     * @return Return value.
+     */
     virtual ~VectorSimilarityProvider() = default;
     
     /**
@@ -264,6 +344,10 @@ public:
  */
 class RelationalJoinProvider {
 public:
+    /**
+     * @brief TBD: Describe ~RelationalJoinProvider.
+     * @return Return value.
+     */
     virtual ~RelationalJoinProvider() = default;
     
     /**
@@ -289,6 +373,8 @@ class MultiModelTrainingDataFactory {
 public:
     /**
      * @brief Create with default configuration
+     * @param[in] base_iterator Input parameter.
+     * @return Return value.
      */
     static std::unique_ptr<MultiModelTrainingData> create(
         std::shared_ptr<TrainingDataIterator> base_iterator
@@ -296,6 +382,9 @@ public:
     
     /**
      * @brief Create with custom configuration
+     * @param[in] base_iterator Input parameter.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     static std::unique_ptr<MultiModelTrainingData> create(
         std::shared_ptr<TrainingDataIterator> base_iterator,

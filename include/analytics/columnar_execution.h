@@ -72,17 +72,46 @@ using ColumnValue = std::variant<std::nullptr_t, bool, int64_t, double, std::str
 class SelectionVector {
 public:
     SelectionVector() = default;
+    /**
+     * @brief TBD: Describe SelectionVector.
+     * @param[in] capacity Input parameter.
+     * @return Return value.
+     */
     explicit SelectionVector(size_t capacity);
 
+     * @brief TBD: Describe reset.
+     * @param[in] total_rows Input parameter.
     /** Reset to a dense "select all" over @p total_rows rows. */
     void reset(size_t total_rows);
 
+    /**
+     * @brief TBD: Describe push_back.
+     * @param[in] idx Input parameter.
+     */
     void    push_back(uint32_t idx);
+    /**
+     * @brief TBD: Describe size.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     size_t  size() const noexcept;
+    /**
+     * @brief TBD: Describe empty.
+     * @return True on success.
+     * @note Exception safety: noexcept.
+     */
     bool    empty() const noexcept;
     uint32_t operator[](size_t pos) const;
+    /**
+     * @brief TBD: Describe indices.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     const std::vector<uint32_t>& indices() const noexcept;
 
+     * @brief TBD: Describe all.
+     * @param[in] n Input parameter.
+     * @return Return value.
     /** Construct a dense "select all" selection for @p n rows. */
     static SelectionVector all(size_t n);
 
@@ -115,6 +144,11 @@ public:
     ColumnType         type() const noexcept { return type_; }
     size_t             size() const noexcept { return row_count_; }
 
+    /**
+     * @brief TBD: Describe isNull.
+     * @param[in] row Input parameter.
+     * @return True on success.
+     */
     bool isNull(size_t row) const;
 
     // Typed data access (unchecked – caller must verify type())
@@ -139,17 +173,37 @@ public:
     void appendDouble(double     value, bool is_null = false);
     void appendString(std::string value, bool is_null = false);
     void appendBool(bool         value, bool is_null = false);
+    /**
+     * @brief TBD: Describe appendNull.
+     */
     void appendNull();
 
+     * @brief TBD: Describe get.
+     * @param[in] row Input parameter.
+     * @return Return value.
     /** Generic value access – slower; use typed accessors in hot paths. */
     ColumnValue get(size_t row) const;
 
+    /**
+     * @brief TBD: Describe reserve.
+     * @param[in] n Input parameter.
+     */
     void reserve(size_t n);
+    /**
+     * @brief TBD: Describe clear.
+     */
     void clear();
 
+     * @brief TBD: Describe filter.
+     * @param[in] sel Input parameter.
+     * @return Return value.
     /** Return a new Column containing only the rows in @p sel. */
     std::shared_ptr<Column> filter(const SelectionVector& sel) const;
 
+     * @brief TBD: Describe slice.
+     * @param[in] offset Input parameter.
+     * @param[in] length Input parameter.
+     * @return Return value.
     /** Return a shallow copy of rows [offset, offset+length). */
     std::shared_ptr<Column> slice(size_t offset, size_t length) const;
 
@@ -183,34 +237,82 @@ public:
     static constexpr size_t kDefaultBatchSize = 1024;
 
     ColumnBatch() = default;
+    /**
+     * @brief TBD: Describe ColumnBatch.
+     * @param[in] row_count Input parameter.
+     * @return Return value.
+     */
     explicit ColumnBatch(size_t row_count);
 
-    // Column management
+    /**
+     * @brief Column management
+     * @param[in] col Input parameter.
+     */
     void addColumn(std::shared_ptr<Column> col);
+    /**
+     * @brief TBD: Describe hasColumn.
+     * @param[in] name Input parameter.
+     * @return True on success.
+     */
     bool hasColumn(const std::string& name) const;
+    /**
+     * @brief TBD: Describe getColumn.
+     * @param[in] name Input parameter.
+     * @return Return value.
+     */
     std::shared_ptr<Column> getColumn(const std::string& name) const;
+    /**
+     * @brief TBD: Describe getColumnAt.
+     * @param[in] idx Input parameter.
+     * @return Return value.
+     */
     std::shared_ptr<Column> getColumnAt(size_t idx) const;
+    /**
+     * @brief TBD: Describe columnCount.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     size_t columnCount() const noexcept;
+    /**
+     * @brief TBD: Describe columns.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     const std::vector<std::shared_ptr<Column>>& columns() const noexcept;
 
     // Row count
     size_t rowCount() const noexcept { return row_count_; }
 
-    // Lazy selection (produced by FilterOperator)
+    /**
+     * @brief Lazy selection (produced by FilterOperator)
+     * @param[in] sel Input parameter.
+     */
     void setSelection(const SelectionVector& sel);
     const SelectionVector& selection() const noexcept { return selection_; }
     bool   hasSelection() const noexcept { return has_selection_; }
+    /**
+     * @brief TBD: Describe selectedRowCount.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     size_t selectedRowCount() const noexcept;
 
     /**
      * @brief Materialize: apply the selection vector and return a new,
      * dense batch without a selection vector.
+     * @return Return value.
      */
     ColumnBatch materialize() const;
 
+     * @brief TBD: Describe split.
+     * @param[in] max_rows_per_batch Input parameter.
+     * @return Return value.
     /** Split into sub-batches of at most @p max_rows_per_batch rows. */
     std::vector<ColumnBatch> split(size_t max_rows_per_batch) const;
 
+    /**
+     * @brief TBD: Describe clear.
+     */
     void clear();
 
 private:
@@ -238,14 +340,59 @@ struct Predicate {
     Op           op    = Op::Eq;
     ColumnValue  value;   // unused for IsNull / IsNotNull
 
-    // Convenience factories
+    /**
+     * @brief Convenience factories
+     * @param[in] col Input parameter.
+     * @param[in] val Input parameter.
+     * @return Return value.
+     */
     static Predicate eq(std::string col, ColumnValue val);
+    /**
+     * @brief TBD: Describe ne.
+     * @param[in] col Input parameter.
+     * @param[in] val Input parameter.
+     * @return Return value.
+     */
     static Predicate ne(std::string col, ColumnValue val);
+    /**
+     * @brief TBD: Describe lt.
+     * @param[in] col Input parameter.
+     * @param[in] val Input parameter.
+     * @return Return value.
+     */
     static Predicate lt(std::string col, ColumnValue val);
+    /**
+     * @brief TBD: Describe le.
+     * @param[in] col Input parameter.
+     * @param[in] val Input parameter.
+     * @return Return value.
+     */
     static Predicate le(std::string col, ColumnValue val);
+    /**
+     * @brief TBD: Describe gt.
+     * @param[in] col Input parameter.
+     * @param[in] val Input parameter.
+     * @return Return value.
+     */
     static Predicate gt(std::string col, ColumnValue val);
+    /**
+     * @brief TBD: Describe ge.
+     * @param[in] col Input parameter.
+     * @param[in] val Input parameter.
+     * @return Return value.
+     */
     static Predicate ge(std::string col, ColumnValue val);
+    /**
+     * @brief TBD: Describe isNull.
+     * @param[in] col Input parameter.
+     * @return Return value.
+     */
     static Predicate isNull(std::string col);
+    /**
+     * @brief TBD: Describe isNotNull.
+     * @param[in] col Input parameter.
+     * @return Return value.
+     */
     static Predicate isNotNull(std::string col);
 };
 
@@ -278,14 +425,28 @@ struct AggregateSpec {
  */
 class FilterOperator {
 public:
+    /**
+     * @brief TBD: Describe FilterOperator.
+     * @param[in] predicates Input parameter.
+     * @return Return value.
+     */
     explicit FilterOperator(std::vector<Predicate> predicates);
 
+     * @brief TBD: Describe execute.
+     * @param[in] input Input parameter.
+     * @return Return value.
     /** Apply predicates; returns batch with a SelectionVector attached. */
     ColumnBatch execute(const ColumnBatch& input) const;
 
     size_t predicateCount() const noexcept { return predicates_.size(); }
 
 private:
+    /**
+     * @brief TBD: Describe evalPredicate.
+     * @param[in] batch Input parameter.
+     * @param[in] pred Input parameter.
+     * @return Return value.
+     */
     SelectionVector evalPredicate(const ColumnBatch& batch,
                                   const Predicate&   pred) const;
 
@@ -305,8 +466,18 @@ private:
  */
 class ProjectOperator {
 public:
+    /**
+     * @brief TBD: Describe ProjectOperator.
+     * @param[in] column_names Input parameter.
+     * @return Return value.
+     */
     explicit ProjectOperator(std::vector<std::string> column_names);
 
+    /**
+     * @brief TBD: Describe execute.
+     * @param[in] input Input parameter.
+     * @return Return value.
+     */
     ColumnBatch execute(const ColumnBatch& input) const;
 
 private:
@@ -327,14 +498,35 @@ private:
  */
 class AggregateOperator {
 public:
+    /**
+     * @brief TBD: Describe AggregateOperator.
+     * @param[in] specs Input parameter.
+     * @return Return value.
+     */
     explicit AggregateOperator(std::vector<AggregateSpec> specs);
 
+    /**
+     * @brief TBD: Describe execute.
+     * @param[in] input Input parameter.
+     * @return Return value.
+     */
     ColumnBatch execute(const ColumnBatch& input) const;
 
     size_t specCount() const noexcept { return specs_.size(); }
 
 private:
+    /**
+     * @brief TBD: Describe aggregateAll.
+     * @param[in] input Input parameter.
+     * @return Return value.
+     */
     ColumnBatch aggregateAll(const ColumnBatch& input) const;
+    /**
+     * @brief TBD: Describe aggregateGroupBy.
+     * @param[in] input Input parameter.
+     * @param[in] group_cols Input parameter.
+     * @return Return value.
+     */
     ColumnBatch aggregateGroupBy(const ColumnBatch& input,
                                   const std::vector<std::string>& group_cols) const;
 
@@ -364,8 +556,18 @@ public:
         bool        ascending = true;
     };
 
+    /**
+     * @brief TBD: Describe SortOperator.
+     * @param[in] keys Input parameter.
+     * @return Return value.
+     */
     explicit SortOperator(std::vector<SortKey> keys);
 
+    /**
+     * @brief TBD: Describe execute.
+     * @param[in] input Input parameter.
+     * @return Return value.
+     */
     ColumnBatch execute(const ColumnBatch& input) const;
 
 private:
@@ -403,11 +605,36 @@ class VectorizedPipeline {
 public:
     VectorizedPipeline() = default;
 
+    /**
+     * @brief TBD: Describe addFilter.
+     * @param[in] predicates Input parameter.
+     * @return Return value.
+     */
     VectorizedPipeline& addFilter(std::vector<Predicate> predicates);
+    /**
+     * @brief TBD: Describe addProject.
+     * @param[in] column_names Input parameter.
+     * @return Return value.
+     */
     VectorizedPipeline& addProject(std::vector<std::string> column_names);
+    /**
+     * @brief TBD: Describe addAggregate.
+     * @param[in] specs Input parameter.
+     * @return Return value.
+     */
     VectorizedPipeline& addAggregate(std::vector<AggregateSpec> specs);
+    /**
+     * @brief TBD: Describe addSort.
+     * @param[in] keys Input parameter.
+     * @return Return value.
+     */
     VectorizedPipeline& addSort(std::vector<SortOperator::SortKey> keys);
 
+    /**
+     * @brief TBD: Describe execute.
+     * @param[in] input Input parameter.
+     * @return Return value.
+     */
     ColumnBatch execute(const ColumnBatch& input) const;
 
     size_t stageCount() const noexcept { return stages_.size(); }
@@ -469,20 +696,56 @@ public:
     };
 
     ColumnarExecutionEngine();
+    /**
+     * @brief TBD: Describe ColumnarExecutionEngine.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit ColumnarExecutionEngine(const Config& config);
     ~ColumnarExecutionEngine() = default;
 
+     * @brief TBD: Describe execute.
+     * @param[in] input Input parameter.
+     * @param[in] pipeline Input parameter.
+     * @return Return value.
     /** Execute a pipeline over a single ColumnBatch. */
     ColumnBatch execute(const ColumnBatch& input, const VectorizedPipeline& pipeline);
 
+     * @brief TBD: Describe executeBatched.
+     * @param[in] batches Input parameter.
+     * @param[in] pipeline Input parameter.
+     * @return Return value.
     /** Execute a pipeline over multiple batches and return all results. */
     std::vector<ColumnBatch> executeBatched(const std::vector<ColumnBatch>& batches,
                                              const VectorizedPipeline& pipeline);
 
-    // Convenience single-operator shortcuts
+    /**
+     * @brief Convenience single-operator shortcuts
+     * @param[in] input Input parameter.
+     * @param[in] predicates Input parameter.
+     * @return Return value.
+     */
     ColumnBatch filter(const ColumnBatch& input, std::vector<Predicate> predicates);
+    /**
+     * @brief TBD: Describe aggregate.
+     * @param[in] input Input parameter.
+     * @param[in] specs Input parameter.
+     * @return Return value.
+     */
     ColumnBatch aggregate(const ColumnBatch& input, std::vector<AggregateSpec> specs);
+    /**
+     * @brief TBD: Describe project.
+     * @param[in] input Input parameter.
+     * @param[in] columns Input parameter.
+     * @return Return value.
+     */
     ColumnBatch project(const ColumnBatch& input, std::vector<std::string> columns);
+    /**
+     * @brief TBD: Describe sort.
+     * @param[in] input Input parameter.
+     * @param[in] keys Input parameter.
+     * @return Return value.
+     */
     ColumnBatch sort(const ColumnBatch& input, std::vector<SortOperator::SortKey> keys);
 
     /** Statistics gathered over the lifetime of this engine (or since resetStats()). */
@@ -494,6 +757,10 @@ public:
     };
 
     const ExecutionStats& lastStats() const noexcept { return stats_; }
+    /**
+     * @brief TBD: Describe resetStats.
+     * @note Exception safety: noexcept.
+     */
     void resetStats() noexcept;
 
     const Config& config() const noexcept { return config_; }

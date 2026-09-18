@@ -43,6 +43,10 @@ public:
         double information_gain{0.0};    ///< ID3 algorithm gain
         std::vector<double> shap_values; ///< SHAP feature importance (approximated)
 
+        /**
+         * @brief TBD: Describe toJson.
+         * @return Return value.
+         */
         json toJson() const;
     };
 

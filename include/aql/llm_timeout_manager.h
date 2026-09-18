@@ -58,6 +58,11 @@ public:
         std::chrono::seconds rag_timeout{600};        ///< Soft default: 10 minutes (RAG is slower)
         std::chrono::seconds embed_timeout{60};       ///< Soft default: 1 minute
         std::chrono::seconds model_load_timeout{900}; ///< Soft default: 15 minutes
+        /**
+         * @brief TBD: Describe defaults.
+         * @return Return value.
+         * @details Implements defaults without additional internal calls.
+         */
         static TimeoutConfig defaults() { return {}; }
     };
     
@@ -86,6 +91,15 @@ public:
      *       check-point) use @ref executeWithCancelToken() instead.
      */
     template<typename Func, typename Duration, typename Result = std::invoke_result_t<Func>>
+    /**
+     * @brief TBD: Describe executeWithTimeout.
+     * @param[in] func Input parameter.
+     * @param[in] timeout Input parameter.
+     * @param[in] operation_name Input parameter.
+     * @return Return value.
+     * @throws LLMException if an error occurs.
+     * @details Calls: Result(), task(), get_future(), worker(), std::move(), t(), wait_for(), request_stop().
+     */
     Result executeWithTimeout(Func&& func, Duration timeout, const std::string& operation_name) {
         // Wrap the user callable in a packaged_task so we can retrieve the result
         // (or propagated exception) via a future.
@@ -130,6 +144,12 @@ public:
      * @brief Execute inference with configured timeout
      */
     template<typename Func>
+    /**
+     * @brief TBD: Describe executeInferWithTimeout.
+     * @param[in] func Input parameter.
+     * @return Return value.
+     * @details Calls: executeWithTimeout().
+     */
     auto executeInferWithTimeout(Func&& func) {
         return executeWithTimeout(std::forward<Func>(func), config_.infer_timeout, "LLM INFER");
     }
@@ -138,6 +158,12 @@ public:
      * @brief Execute RAG with configured timeout
      */
     template<typename Func>
+    /**
+     * @brief TBD: Describe executeRAGWithTimeout.
+     * @param[in] func Input parameter.
+     * @return Return value.
+     * @details Calls: executeWithTimeout().
+     */
     auto executeRAGWithTimeout(Func&& func) {
         return executeWithTimeout(std::forward<Func>(func), config_.rag_timeout, "LLM RAG");
     }
@@ -146,6 +172,12 @@ public:
      * @brief Execute embedding with configured timeout
      */
     template<typename Func>
+    /**
+     * @brief TBD: Describe executeEmbedWithTimeout.
+     * @param[in] func Input parameter.
+     * @return Return value.
+     * @details Calls: executeWithTimeout().
+     */
     auto executeEmbedWithTimeout(Func&& func) {
         return executeWithTimeout(std::forward<Func>(func), config_.embed_timeout, "LLM EMBED");
     }
@@ -154,6 +186,12 @@ public:
      * @brief Execute model load with configured timeout
      */
     template<typename Func>
+    /**
+     * @brief TBD: Describe executeModelLoadWithTimeout.
+     * @param[in] func Input parameter.
+     * @return Return value.
+     * @details Calls: executeWithTimeout().
+     */
     auto executeModelLoadWithTimeout(Func&& func) {
         return executeWithTimeout(std::forward<Func>(func), config_.model_load_timeout, "LLM MODEL LOAD");
     }
@@ -190,6 +228,15 @@ public:
     template<typename Func,
              typename Duration,
              typename Result = std::invoke_result_t<std::decay_t<Func>, std::shared_ptr<std::atomic<bool>>>>
+    /**
+     * @brief TBD: Describe executeWithCancelToken.
+     * @param[in] func Input parameter.
+     * @param[in] timeout Input parameter.
+     * @param[in] operation_name Input parameter.
+     * @return Return value.
+     * @throws LLMException if an error occurs.
+     * @details Calls: Result(), task(), f(), get_future(), worker(), std::move(), t(), wait_for().
+     */
     Result executeWithCancelToken(Func&& func,
                                   Duration timeout,
                                   const std::string& operation_name) {
@@ -235,6 +282,12 @@ public:
      * @brief Execute inference with configured timeout and cooperative cancellation.
      */
     template<typename Func>
+    /**
+     * @brief TBD: Describe executeInferWithCancelToken.
+     * @param[in] func Input parameter.
+     * @return Return value.
+     * @details Calls: executeWithCancelToken().
+     */
     auto executeInferWithCancelToken(Func&& func) {
         return executeWithCancelToken(std::forward<Func>(func),
                                       config_.infer_timeout, "LLM INFER");
@@ -244,6 +297,12 @@ public:
      * @brief Execute RAG with configured timeout and cooperative cancellation.
      */
     template<typename Func>
+    /**
+     * @brief TBD: Describe executeRAGWithCancelToken.
+     * @param[in] func Input parameter.
+     * @return Return value.
+     * @details Calls: executeWithCancelToken().
+     */
     auto executeRAGWithCancelToken(Func&& func) {
         return executeWithCancelToken(std::forward<Func>(func),
                                       config_.rag_timeout, "LLM RAG");
@@ -253,6 +312,12 @@ public:
      * @brief Execute embedding with configured timeout and cooperative cancellation.
      */
     template<typename Func>
+    /**
+     * @brief TBD: Describe executeEmbedWithCancelToken.
+     * @param[in] func Input parameter.
+     * @return Return value.
+     * @details Calls: executeWithCancelToken().
+     */
     auto executeEmbedWithCancelToken(Func&& func) {
         return executeWithCancelToken(std::forward<Func>(func),
                                       config_.embed_timeout, "LLM EMBED");
@@ -262,6 +327,12 @@ public:
      * @brief Execute model load with configured timeout and cooperative cancellation.
      */
     template<typename Func>
+    /**
+     * @brief TBD: Describe executeModelLoadWithCancelToken.
+     * @param[in] func Input parameter.
+     * @return Return value.
+     * @details Calls: executeWithCancelToken().
+     */
     auto executeModelLoadWithCancelToken(Func&& func) {
         return executeWithCancelToken(std::forward<Func>(func),
                                       config_.model_load_timeout, "LLM MODEL LOAD");
@@ -274,6 +345,8 @@ public:
     
     /**
      * @brief Update timeout configuration
+     * @param[in] config Input parameter.
+     * @details Implements setConfig without additional internal calls.
      */
     void setConfig(const TimeoutConfig& config) { config_ = config; }
 
@@ -291,6 +364,11 @@ public:
         std::chrono::milliseconds initial_delay{100};
         double backoff_multiplier = 2.0;
         std::chrono::milliseconds max_delay{10000};  // 10 seconds max
+        /**
+         * @brief TBD: Describe defaults.
+         * @return Return value.
+         * @details Implements defaults without additional internal calls.
+         */
         static Config defaults() { return {}; }
     };
     
@@ -345,6 +423,9 @@ public:
     
     /**
      * @brief Check if an LLM error is retryable
+     * @param[in] e Input parameter.
+     * @return True on success.
+     * @details Calls: getErrorCode().
      */
     static bool isRetryableError(const std::exception& e) {
         // Try to cast to LLMException

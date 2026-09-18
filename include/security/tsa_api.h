@@ -275,6 +275,10 @@ struct TSAEventHooks {
  */
 class ITSAClient {
 public:
+    /**
+     * @brief TBD: Describe ~ITSAClient.
+     * @return Return value.
+     */
     virtual ~ITSAClient() = default;
 
     /**
@@ -348,6 +352,10 @@ private:
     TSAEventHooks hooks_;
     std::string last_error_;
 
+    /**
+     * @brief TBD: Describe fireError.
+     * @param[in] msg Input parameter.
+     */
     void fireError(const std::string& msg);
 };
 

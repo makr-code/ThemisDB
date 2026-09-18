@@ -130,6 +130,11 @@ public:
     // =========================================================================
 
     IntelligentPrefetcher();
+    /**
+     * @brief TBD: Describe IntelligentPrefetcher.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit IntelligentPrefetcher(PrefetchConfig config);
     ~IntelligentPrefetcher();
 
@@ -199,6 +204,7 @@ public:
      * @brief Return the currently learned access pattern.
      *
      * Reflects the state after the most recent record_access() call.
+     * @return Return value.
      */
     AccessPattern current_pattern() const;
 
@@ -208,6 +214,7 @@ public:
      *
      * Increases when latency is high (prefetch further ahead) and decreases
      * when latency is low (avoid wasteful prefetching).
+     * @return Return value.
      */
     size_t adaptive_prefetch_distance() const;
 
@@ -215,6 +222,7 @@ public:
     // Statistics & feedback
     // =========================================================================
 
+     * @return Return value.
     /** @brief Return a snapshot of current prefetch statistics. */
     PrefetchStats get_stats() const;
 
@@ -228,6 +236,8 @@ public:
     // Config accessor
     // =========================================================================
 
+     * @return Return value.
+     * @note Exception safety: noexcept.
     /** @brief Return the configuration in effect. */
     const PrefetchConfig& config() const noexcept;
 

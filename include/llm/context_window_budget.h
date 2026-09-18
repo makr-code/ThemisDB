@@ -73,6 +73,8 @@ inline size_t estimateTokens(
 /**
  * @brief Convert an estimated token count back to an approximate character
  *        budget (inverse of the heuristic).
+ * @param[in] tokens Input parameter.
+ * @return Return value.
  */
 inline size_t tokensToChars(size_t tokens)
 {

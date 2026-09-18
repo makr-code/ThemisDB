@@ -42,6 +42,10 @@ public:
      */
     class ISpan {
     public:
+        /**
+         * @brief TBD: Describe ~ISpan.
+         * @return Return value.
+         */
         virtual ~ISpan() = default;
 
         /**
@@ -60,6 +64,7 @@ public:
          *
          * @param key   Attribute name (OpenTelemetry semantic convention recommended).
          * @param value Null-terminated string value, or null for empty.
+         * @details Calls: std::string().
          */
         void setAttribute(const std::string& key, const char* value) {
             setAttribute(key, std::string(value != nullptr ? value : ""));
@@ -124,6 +129,10 @@ public:
         [[nodiscard]] virtual bool isValid() const = 0;
     };
 
+    /**
+     * @brief TBD: Describe ~ITracer.
+     * @return Return value.
+     */
     virtual ~ITracer() = default;
 
     // -----------------------------------------------------------------------
@@ -282,6 +291,7 @@ public:
      * @brief Construct and immediately start a new span.
      * @param tracer Tracer that owns the span.
      * @param name   Span name.
+     * @return Return value.
      */
     explicit ScopedSpan(ITracer& tracer, const std::string& name)
         : span_(tracer.startSpan(name)) {}

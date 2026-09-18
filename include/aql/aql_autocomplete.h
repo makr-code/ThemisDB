@@ -179,11 +179,13 @@ public:
      * @brief Return all AQL keywords known to this engine.
      *
      * Useful for pre-populating editor grammars or syntax highlighting configs.
+     * @return Return value.
      */
     std::vector<std::string> allKeywords() const;
 
     /**
      * @brief Return all built-in AQL function names known to this engine.
+     * @return Return value.
      */
     std::vector<std::string> allFunctions() const;
 
@@ -213,6 +215,11 @@ private:
         std::string collection_name;
         std::vector<std::string> fields;
     };
+    /**
+     * @brief TBD: Describe parseSchema.
+     * @param[in] schema_context Input parameter.
+     * @return Return value.
+     */
     std::vector<SchemaInfo> parseSchema(const std::string& schema_context) const;
 
     /// Build keyword completion candidates

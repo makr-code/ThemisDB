@@ -90,6 +90,8 @@ public:
     /**
      * Replace the underlying KnowledgeBase.
      * Must not be called concurrently with any other method.
+     * @brief TBD: Describe setKnowledgeBase.
+     * @param[in] kb Input parameter.
      */
     void setKnowledgeBase(std::shared_ptr<KnowledgeBase> kb);
 
@@ -111,6 +113,8 @@ public:
     /**
      * Retract a fact by id.
      * @return true iff found.
+     * @brief TBD: Describe retractFact.
+     * @param[in] fact_id Input parameter.
      */
     bool retractFact(const std::string& fact_id);
 
@@ -164,6 +168,8 @@ public:
      *
      * Signature: double(const HornClause&, const vector<Fact>& matched)
      * Return value must be in [0.0, 1.0].
+     * @brief TBD: Describe setMLScorerFn.
+     * @param[in] fn Input parameter.
      */
     void setMLScorerFn(ScorerFn fn);
 
@@ -201,6 +207,12 @@ private:
         const HornClause&        rule,
         const std::vector<Fact>& all_facts) const;
 
+     * @brief TBD: Describe matchAllBindingsRec.
+     * @param[in] conditions Input parameter.
+     * @param[in] cond_idx Input parameter.
+     * @param[in] all_facts Input parameter.
+     * @param[in,out] current Input/output parameter.
+     * @param[in,out] results Input/output parameter.
     /** Recursive helper for matchAllConditions. */
     void matchAllBindingsRec(
         const std::vector<TriplePattern>& conditions,

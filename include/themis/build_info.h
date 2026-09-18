@@ -76,17 +76,24 @@ struct BuildConfiguration {
 //
 /**
  * Get complete build configuration including edition and modules
+ * @brief TBD: Describe getBuildConfiguration.
+ * @return Return value.
  */
 THEMIS_BASE_API BuildConfiguration getBuildConfiguration();
 
 /**
  * Format build configuration as a human-readable string
  * suitable for logging at server startup
+ * @brief TBD: Describe formatBuildInfo.
+ * @param[in] config Input parameter.
+ * @return Return value.
  */
 THEMIS_BASE_API std::string formatBuildInfo(const BuildConfiguration& config);
 
 /**
  * Get a compact summary of key build information for version endpoint
+ * @brief TBD: Describe getVersionSummary.
+ * @return Return value.
  */
 THEMIS_BASE_API std::string getVersionSummary();
 
@@ -96,16 +103,23 @@ THEMIS_BASE_API std::string getVersionSummary();
 
 /**
  * Check if a specific module was compiled into the binary
+ * @brief TBD: Describe isModuleCompiledIn.
+ * @param[in] module_name Input parameter.
+ * @return Return value.
  */
 THEMIS_BASE_API bool isModuleCompiledIn(const std::string& module_name);
 
 /**
  * Get list of all modules compiled into this binary
+ * @brief TBD: Describe getCompiledModules.
+ * @return Return value.
  */
 THEMIS_BASE_API std::vector<std::string> getCompiledModules();
 
 /**
  * Get list of all supported but not compiled modules
+ * @brief TBD: Describe getDisabledModules.
+ * @return Return value.
  */
 THEMIS_BASE_API std::vector<std::string> getDisabledModules();
 
@@ -139,6 +153,7 @@ struct ReproducibilityInfo {
  * via `execute_process()` and injects them as compile definitions
  * (THEMIS_GIT_COMMIT, THEMIS_GIT_BRANCH, THEMIS_GIT_DIRTY,
  *  THEMIS_BUILD_HOST, THEMIS_BUILD_USER).  Those definitions are read here.
+ * @return Return value.
  */
 THEMIS_BASE_API ReproducibilityInfo getReproducibilityInfo();
 
@@ -194,12 +209,19 @@ THEMIS_BASE_API bool verifyBuildManifest(const std::string& manifest_path);
 /// Callable that returns {is_real_hsm_active, description}.
 using HsmModuleStatusFn = std::function<std::pair<bool, std::string>()>;
 
-/// Register a bridge that reports runtime HSM module status.
-/// Thread-safe.  Pass an empty function to restore static defaults.
+/**
+ * @brief Register a bridge that reports runtime HSM module status.
+ * @param[in] fn Input parameter.
+ * @return Return value.
+ * @details Thread-safe. Pass an empty function to restore static defaults.
+ */
 THEMIS_BASE_API void setHsmModuleStatusFn(HsmModuleStatusFn fn);
 
-/// Remove any previously registered HSM module status bridge.
-/// Thread-safe.
+/**
+ * @brief Remove any previously registered HSM module status bridge.
+ * @return Return value.
+ * @details Thread-safe.
+ */
 THEMIS_BASE_API void clearHsmModuleStatusFn();
 
 } // namespace build_info

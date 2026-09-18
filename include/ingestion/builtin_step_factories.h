@@ -51,6 +51,9 @@ std::shared_ptr<IIngestionStep> createLlmExtractStep(
  *
  * Returns `false` when the step does not support backend injection (e.g. steps
  * from third-party DLL plugins).
+ * @param[in,out] step Input/output parameter.
+ * @param[in] backend Input parameter.
+ * @return True on success.
  */
 bool setStepBackend(IIngestionStep* step,
                     std::shared_ptr<ITextGenerationBackend> backend);
@@ -126,6 +129,7 @@ std::shared_ptr<IIngestionStep> createParseAudioStep(
  * Config keys (all optional):
  *  - `output_dir`   string   Base directory for extraction (default: /tmp/themis_decompress_XXXXXX)
  *  - `max_depth`    number   Maximum recursive unpack depth (default: 1, i.e. no recursion)
+ * @return Return value.
  */
 std::shared_ptr<IIngestionStep> createDecompressStep();
 
@@ -141,6 +145,7 @@ std::shared_ptr<IIngestionStep> createDecompressStep();
  *
  * Config keys (all optional):
  *  - `known_laws`  array of strings   Pre-populated law IDs (e.g. ["BImSchG","StGB"])
+ * @return Return value.
  */
 std::shared_ptr<IIngestionStep> createLegalReferenceExtractorStep();
 

@@ -52,11 +52,14 @@ struct ReleaseFile {
     
     /**
      * @brief Convert to JSON
+     * @return Return value.
      */
     json toJson() const;
     
     /**
      * @brief Parse from JSON
+     * @param[in] j Input parameter.
+     * @return Return value.
      */
     static std::optional<ReleaseFile> fromJson(const json& j);
 };
@@ -97,16 +100,20 @@ struct ReleaseManifest {
     
     /**
      * @brief Convert to JSON
+     * @return Return value.
      */
     json toJson() const;
     
     /**
      * @brief Parse from JSON
+     * @param[in] j Input parameter.
+     * @return Return value.
      */
     static std::optional<ReleaseManifest> fromJson(const json& j);
     
     /**
      * @brief Calculate manifest hash (excluding signature fields)
+     * @return Return value.
      */
     std::string calculateHash() const;
 };

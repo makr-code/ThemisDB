@@ -92,7 +92,16 @@ struct OutboxRecord {
     std::string  failure_reason;      ///< Last relay error (FAILED state)
     nlohmann::json metadata;          ///< Caller-supplied metadata (tx_id, user, …)
 
+    /**
+     * @brief TBD: Describe toJson.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
+    /**
+     * @brief TBD: Describe fromJson.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static OutboxRecord fromJson(const nlohmann::json& j);
 };
 
@@ -166,7 +175,16 @@ private:
     static constexpr const char* KEY_PREFIX    = "cdc_outbox:";
     static constexpr const char* SEQUENCE_KEY  = "cdc_outbox_sequence";
 
+    /**
+     * @brief TBD: Describe makeKey.
+     * @param[in] seq Input parameter.
+     * @return Return value.
+     */
     std::string  makeKey(uint64_t seq) const;
+    /**
+     * @brief TBD: Describe nextSequence.
+     * @return Return value.
+     */
     uint64_t     nextSequence();
 };
 
@@ -277,6 +295,7 @@ public:
      * Intended for PUBLISHED or FAILED records that have been inspected.
      *
      * @return true if found and deleted, false if not found.
+     * @param[in] outbox_sequence Input parameter.
      */
     bool removeRecord(uint64_t outbox_sequence);
 
@@ -289,11 +308,13 @@ public:
 
     /**
      * @brief Total records relayed since construction.
+     * @return Return value.
      */
     uint64_t totalRelayed() const;
 
     /**
      * @brief Total relay failures since construction (records marked FAILED).
+     * @return Return value.
      */
     uint64_t totalFailed() const;
 
@@ -314,9 +335,28 @@ private:
     static constexpr const char* KEY_PREFIX   = "cdc_outbox:";
     static constexpr const char* SEQUENCE_KEY = "cdc_outbox_sequence";
 
+    /**
+     * @brief TBD: Describe makeKey.
+     * @param[in] seq Input parameter.
+     * @return Return value.
+     */
     std::string makeKey(uint64_t seq) const;
+    /**
+     * @brief TBD: Describe relayThreadFunc.
+     */
     void        relayThreadFunc();
+    /**
+     * @brief TBD: Describe updateRecord.
+     * @param[in] rec Input parameter.
+     */
     void        updateRecord(const OutboxRecord& rec);
+    /**
+     * @brief TBD: Describe scanRecords.
+     * @param[in] limit Input parameter.
+     * @param[in] filter_state Input parameter.
+     * @param[in] all_states Input parameter.
+     * @return Return value.
+     */
     std::vector<OutboxRecord> scanRecords(size_t limit,
                                           OutboxState filter_state,
                                           bool all_states) const;

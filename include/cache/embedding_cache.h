@@ -85,6 +85,11 @@ public:
         double cost_savings_usd = 0.0; // Estimated cost savings
     };
     
+    /**
+     * @brief TBD: Describe EmbeddingCache.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit EmbeddingCache(const Config& config);
     ~EmbeddingCache();
     
@@ -129,6 +134,7 @@ public:
      * 
      * Scans all entries and removes those past TTL.
      * Updates vector index accordingly.
+     * @return Return value.
      */
     uint64_t clearExpired();
     
@@ -146,11 +152,14 @@ private:
     
     /**
      * @brief Check if entry is expired
+     * @param[in] entry Input parameter.
+     * @return True on success.
      */
     bool isExpired(const CacheEntry& entry) const;
     
     /**
      * @brief Get current timestamp in milliseconds
+     * @return Return value.
      */
     int64_t getCurrentTimestampMs() const;
 };

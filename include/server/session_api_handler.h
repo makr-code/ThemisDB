@@ -116,6 +116,12 @@ public:
     );
 
 private:
+    /**
+     * @brief TBD: Describe auditAuthorizationDecision.
+     * @param[in] scope Input parameter.
+     * @param[in] endpoint Input parameter.
+     * @param[in] auth_result Input parameter.
+     */
     void auditAuthorizationDecision(
         const std::string& scope,
         const std::string& endpoint,

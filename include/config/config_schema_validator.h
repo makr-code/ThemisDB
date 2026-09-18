@@ -57,11 +57,21 @@ public:
         std::string config_path;
         std::string schema_path;
 
+        /**
+         * @brief TBD: Describe addError.
+         * @param[in] error Input parameter.
+         * @details Calls: push_back().
+         */
         void addError(const std::string& error) {
             valid = false;
             errors.push_back(error);
         }
 
+        /**
+         * @brief TBD: Describe addWarning.
+         * @param[in] warning Input parameter.
+         * @details Calls: push_back().
+         */
         void addWarning(const std::string& warning) {
             warnings.push_back(warning);
         }
@@ -87,6 +97,7 @@ public:
      * @param config_path  Path to the YAML or JSON config file.
      * @param schema       JSON Schema as a nlohmann::json object.
      * @return ValidationResult describing any schema violations.
+     * @brief TBD: Describe validate.
      */
     static ValidationResult validate(const std::string& config_path,
                                      const nlohmann::json& schema);
@@ -103,6 +114,7 @@ public:
      * @param config_path  Path to the YAML or JSON config file.
      * @param schema_path  Path to the JSON Schema file (legacy or new path).
      * @return ValidationResult describing any schema violations.
+     * @brief TBD: Describe validateWithSchemaFile.
      */
     static ValidationResult validateWithSchemaFile(const std::string& config_path,
                                                    const std::string& schema_path);
@@ -116,6 +128,7 @@ public:
      * @param file_path  Path to the file to load.
      * @return Parsed JSON value.
      * @throws SchemaValidationException on read or parse errors.
+     * @brief TBD: Describe loadAsJson.
      */
     static nlohmann::json loadAsJson(const std::string& file_path);
 
@@ -131,6 +144,7 @@ public:
      *                 when false it is parsed as JSON with nlohmann::json.
      * @return Parsed JSON value.
      * @throws SchemaValidationException on parse errors.
+     * @brief TBD: Describe loadAsJson.
      */
     static nlohmann::json loadAsJson(const std::string& content, bool is_yaml);
 
@@ -148,22 +162,36 @@ public:
      *                 when false it is parsed as JSON with nlohmann::json.
      * @param schema   JSON Schema as a nlohmann::json object.
      * @return ValidationResult describing any schema violations.
+     * @brief TBD: Describe validateFromString.
      */
     static ValidationResult validateFromString(const std::string& content,
                                                bool is_yaml,
                                                const nlohmann::json& schema);
 
 private:
-    // Entry-point wrapper: uses schema itself as the root schema and an empty
-    // visited-refs set.  Called by validate() and validateWithSchemaFile().
+    /**
+     * @brief Entry-point wrapper: uses schema itself as the root schema and an empty visited-refs set.
+     * @param[in] value Input parameter.
+     * @param[in] schema Input parameter.
+     * @param[in] json_path Input parameter.
+     * @param[in,out] result Input/output parameter.
+     * @details Called by validate() and validateWithSchemaFile().
+     */
     static void validateValue(const nlohmann::json& value,
                               const nlohmann::json& schema,
                               const std::string& json_path,
                               ValidationResult& result);
 
-    // Internal recursive implementation.
-    // root_schema — top-level schema object used for $ref/$defs resolution.
-    // visited_refs — current $ref resolution chain for cycle detection.
+    /**
+     * @brief Internal recursive implementation.
+     * @param[in] value Input parameter.
+     * @param[in] schema Input parameter.
+     * @param[in] json_path Input parameter.
+     * @param[in,out] result Input/output parameter.
+     * @param[in] root_schema Input parameter.
+     * @param[in,out] visited_refs Input/output parameter.
+     * @details root_schema — top-level schema object used for $ref/$defs resolution. visited_refs — current $ref resolution chain for cycle detection.
+     */
     static void validateValueImpl(const nlohmann::json& value,
                                   const nlohmann::json& schema,
                                   const std::string& json_path,
@@ -171,18 +199,37 @@ private:
                                   const nlohmann::json& root_schema,
                                   std::vector<std::string>& visited_refs);
 
-    // Resolve a local $ref string (e.g. "#/$defs/Foo" or "#/definitions/Bar")
-    // against root_schema using a JSON Pointer walk (RFC 6901).
-    // Returns a pointer into root_schema, or nullptr on failure.
-    // Only document-internal refs starting with '#' are supported.
+    /**
+     * @brief Resolve a local $ref string (e.
+     * @param[in] ref Input parameter.
+     * @param[in] root_schema Input parameter.
+     * @return Pointer to the result.
+     * @details g. "#/$defs/Foo" or "#/definitions/Bar") against root_schema using a JSON Pointer walk (RFC 6901). Returns a pointer into root_schema, or nullptr on failure. Only document-internal refs starting with '#' are supported.
+     */
     static const nlohmann::json* resolveRef(const std::string& ref,
                                             const nlohmann::json& root_schema);
 
+    /**
+     * @brief TBD: Describe validateType.
+     * @param[in] value Input parameter.
+     * @param[in] expected_type Input parameter.
+     * @param[in] json_path Input parameter.
+     * @param[in,out] result Input/output parameter.
+     */
     static void validateType(const nlohmann::json& value,
                              const std::string& expected_type,
                              const std::string& json_path,
                              ValidationResult& result);
 
+    /**
+     * @brief TBD: Describe validateObject.
+     * @param[in] value Input parameter.
+     * @param[in] schema Input parameter.
+     * @param[in] json_path Input parameter.
+     * @param[in,out] result Input/output parameter.
+     * @param[in] root_schema Input parameter.
+     * @param[in,out] visited_refs Input/output parameter.
+     */
     static void validateObject(const nlohmann::json& value,
                                const nlohmann::json& schema,
                                const std::string& json_path,
@@ -190,6 +237,15 @@ private:
                                const nlohmann::json& root_schema,
                                std::vector<std::string>& visited_refs);
 
+    /**
+     * @brief TBD: Describe validateArray.
+     * @param[in] value Input parameter.
+     * @param[in] schema Input parameter.
+     * @param[in] json_path Input parameter.
+     * @param[in,out] result Input/output parameter.
+     * @param[in] root_schema Input parameter.
+     * @param[in,out] visited_refs Input/output parameter.
+     */
     static void validateArray(const nlohmann::json& value,
                               const nlohmann::json& schema,
                               const std::string& json_path,
@@ -197,16 +253,39 @@ private:
                               const nlohmann::json& root_schema,
                               std::vector<std::string>& visited_refs);
 
+    /**
+     * @brief TBD: Describe validateString.
+     * @param[in] value Input parameter.
+     * @param[in] schema Input parameter.
+     * @param[in] json_path Input parameter.
+     * @param[in,out] result Input/output parameter.
+     */
     static void validateString(const nlohmann::json& value,
                                const nlohmann::json& schema,
                                const std::string& json_path,
                                ValidationResult& result);
 
+    /**
+     * @brief TBD: Describe validateNumber.
+     * @param[in] value Input parameter.
+     * @param[in] schema Input parameter.
+     * @param[in] json_path Input parameter.
+     * @param[in,out] result Input/output parameter.
+     */
     static void validateNumber(const nlohmann::json& value,
                                const nlohmann::json& schema,
                                const std::string& json_path,
                                ValidationResult& result);
 
+    /**
+     * @brief TBD: Describe validateAllOf.
+     * @param[in] value Input parameter.
+     * @param[in] schemas Input parameter.
+     * @param[in] json_path Input parameter.
+     * @param[in,out] result Input/output parameter.
+     * @param[in] root_schema Input parameter.
+     * @param[in,out] visited_refs Input/output parameter.
+     */
     static void validateAllOf(const nlohmann::json& value,
                               const nlohmann::json& schemas,
                               const std::string& json_path,
@@ -214,6 +293,15 @@ private:
                               const nlohmann::json& root_schema,
                               std::vector<std::string>& visited_refs);
 
+    /**
+     * @brief TBD: Describe validateAnyOf.
+     * @param[in] value Input parameter.
+     * @param[in] schemas Input parameter.
+     * @param[in] json_path Input parameter.
+     * @param[in,out] result Input/output parameter.
+     * @param[in] root_schema Input parameter.
+     * @param[in,out] visited_refs Input/output parameter.
+     */
     static void validateAnyOf(const nlohmann::json& value,
                               const nlohmann::json& schemas,
                               const std::string& json_path,
@@ -221,6 +309,15 @@ private:
                               const nlohmann::json& root_schema,
                               std::vector<std::string>& visited_refs);
 
+    /**
+     * @brief TBD: Describe validateOneOf.
+     * @param[in] value Input parameter.
+     * @param[in] schemas Input parameter.
+     * @param[in] json_path Input parameter.
+     * @param[in,out] result Input/output parameter.
+     * @param[in] root_schema Input parameter.
+     * @param[in,out] visited_refs Input/output parameter.
+     */
     static void validateOneOf(const nlohmann::json& value,
                               const nlohmann::json& schemas,
                               const std::string& json_path,
@@ -228,6 +325,15 @@ private:
                               const nlohmann::json& root_schema,
                               std::vector<std::string>& visited_refs);
 
+    /**
+     * @brief TBD: Describe validateNot.
+     * @param[in] value Input parameter.
+     * @param[in] not_schema Input parameter.
+     * @param[in] json_path Input parameter.
+     * @param[in,out] result Input/output parameter.
+     * @param[in] root_schema Input parameter.
+     * @param[in,out] visited_refs Input/output parameter.
+     */
     static void validateNot(const nlohmann::json& value,
                             const nlohmann::json& not_schema,
                             const std::string& json_path,
@@ -235,7 +341,12 @@ private:
                             const nlohmann::json& root_schema,
                             std::vector<std::string>& visited_refs);
 
-    // Check whether a JSON value matches the given JSON Schema type string.
+    /**
+     * @brief Check whether a JSON value matches the given JSON Schema type string.
+     * @param[in] value Input parameter.
+     * @param[in] type Input parameter.
+     * @return True on success.
+     */
     static bool matchesType(const nlohmann::json& value, const std::string& type);
 };
 

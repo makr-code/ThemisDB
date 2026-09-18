@@ -92,21 +92,29 @@ public:
      */
     DspySignature(std::string name, std::string description = "");
 
+     * @param[in] field Input parameter.
+     * @return Return value.
     /** @brief Add an input field. */
     DspySignature& addInput(DspyField field);
 
+     * @param[in] field Input parameter.
+     * @return Return value.
     /** @brief Add an output field. */
     DspySignature& addOutput(DspyField field);
 
+     * @return Return value.
     /** @brief Return signature name. */
     const std::string& getName() const;
 
+     * @return Return value.
     /** @brief Return task description. */
     const std::string& getDescription() const;
 
+     * @return Return value.
     /** @brief Return all declared input fields. */
     const std::vector<DspyField>& inputs() const;
 
+     * @return Return value.
     /** @brief Return all declared output fields. */
     const std::vector<DspyField>& outputs() const;
 
@@ -152,6 +160,10 @@ private:
  */
 class IDspyLLMProvider {
 public:
+    /**
+     * @brief TBD: Describe ~IDspyLLMProvider.
+     * @return Return value.
+     */
     virtual ~IDspyLLMProvider() = default;
 
     /**
@@ -193,16 +205,28 @@ public:
  */
 class DspyModule {
 public:
+    /**
+     * @brief TBD: Describe DspyModule.
+     * @param[in] signature Input parameter.
+     * @return Return value.
+     */
     explicit DspyModule(DspySignature signature);
+    /**
+     * @brief TBD: Describe ~DspyModule.
+     * @return Return value.
+     */
     virtual ~DspyModule() = default;
 
     /**
      * @brief Inject the LLM provider.  Must be called before @c forward().
+     * @param[in] provider Input parameter.
+     * @return Return value.
      */
     DspyModule& setLLMProvider(std::shared_ptr<IDspyLLMProvider> provider);
 
     /**
      * @brief Return the declared signature.
+     * @return Return value.
      */
     const DspySignature& getSignature() const;
 
@@ -256,6 +280,8 @@ public:
     /**
      * @brief Construct by cloning the given signature and injecting the
      *        "Reasoning" output field at position 0.
+     * @param[in] signature Input parameter.
+     * @return Return value.
      */
     explicit DspyChainOfThought(DspySignature signature);
 
@@ -272,7 +298,16 @@ public:
  */
 class DspyMissingFieldError : public std::invalid_argument {
 public:
+    /**
+     * @brief TBD: Describe DspyMissingFieldError.
+     * @param[in] field_name Input parameter.
+     * @return Return value.
+     */
     explicit DspyMissingFieldError(const std::string& field_name);
+    /**
+     * @brief TBD: Describe fieldName.
+     * @return Return value.
+     */
     const std::string& fieldName() const;
 
 private:

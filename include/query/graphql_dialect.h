@@ -45,13 +45,31 @@ struct GraphQLResult {
 /** @brief I graph ql dialect. */
 class IGraphQLDialect {
 public:
+    /**
+     * @brief TBD: Describe ~IGraphQLDialect.
+     * @return Return value.
+     */
     virtual ~IGraphQLDialect() = default;
+    /**
+     * @brief TBD: Describe parse.
+     * @param[in] query_str Input parameter.
+     * @return Return value.
+     */
     virtual GraphQLQuery parse(const std::string& query_str) = 0;
+    /**
+     * @brief TBD: Describe toAQL.
+     * @param[in] query Input parameter.
+     * @return Return value.
+     */
     virtual std::string toAQL(const GraphQLQuery& query) = 0;
     virtual GraphQLResult execute(const std::string& query_str,
                                    const std::map<std::string, std::string>& variables = {}) = 0;
     virtual bool registerTypeResolver(const std::string& type_name,
                                        std::function<std::string(const GraphQLField&)> resolver) = 0;
+    /**
+     * @brief TBD: Describe schemaSDL.
+     * @return Return value.
+     */
     virtual std::string schemaSDL() const = 0;
 };
 

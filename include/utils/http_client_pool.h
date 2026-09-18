@@ -76,6 +76,8 @@ struct URLComponents {
 
 /**
  * @brief Parse URL into components
+ * @param[in] url Input parameter.
+ * @return Return value.
  */
 URLComponents parseURL(const std::string& url);
 
@@ -84,6 +86,10 @@ URLComponents parseURL(const std::string& url);
  */
 class HTTPClient {
 public:
+    /**
+     * @brief TBD: Describe ~HTTPClient.
+     * @return Return value.
+     */
     virtual ~HTTPClient() = default;
     
     virtual HTTPResponse post(
@@ -121,6 +127,11 @@ public:
         size_t lock_stripes = 8;                  ///< Number of lock stripes for reduced contention
     };
     
+    /**
+     * @brief TBD: Describe HTTPClientPool.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit HTTPClientPool(const Config& config);
     ~HTTPClientPool();
     
@@ -233,6 +244,10 @@ public:
         }
     };
     
+    /**
+     * @brief TBD: Describe getStats.
+     * @return Return value.
+     */
     Stats getStats() const;
     
     /**
@@ -276,16 +291,19 @@ private:
     
     /**
      * @brief Get connection from pool (or create new)
+     * @return Return value.
      */
     std::shared_ptr<HTTPClient> acquireConnection();
     
     /**
      * @brief Return connection to pool
+     * @param[in] client Input parameter.
      */
     void releaseConnection(std::shared_ptr<HTTPClient> client);
     
     /**
      * @brief Create new HTTP client instance
+     * @return Return value.
      */
     std::shared_ptr<HTTPClient> createClient();
     
@@ -296,6 +314,7 @@ private:
     
     /**
      * @brief Get stripe index for load distribution
+     * @return Return value.
      */
     size_t getStripeIndex() const;
     

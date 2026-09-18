@@ -147,6 +147,8 @@ public:
      * Returns a zero-valued HLCTimestamp by default, meaning "nothing is safe
      * to prune" until `setSafeHorizon()` has been called (e.g. by the
      * transaction manager after all active transactions are accounted for).
+     * @return Return value.
+     * @note Exception safety: noexcept.
      */
     HLCTimestamp safeHorizon() const noexcept;
 
@@ -160,6 +162,7 @@ public:
      *
      * @param horizon  New safe horizon.  All MVCC versions with timestamp
      *                 strictly less than this value are eligible for pruning.
+     * @note Exception safety: noexcept.
      */
     void setSafeHorizon(HLCTimestamp horizon) noexcept;
 
@@ -180,6 +183,8 @@ private:
      *
      * If @p raw contains valid UTF-8 JSON, it is parsed directly.
      * Otherwise the bytes are hex-encoded and wrapped as `{"_raw": "<hex>"}`.
+     * @param[in] raw Input parameter.
+     * @return Return value.
      */
     static themisdb::temporal::Document valueToDocument(
         const std::vector<uint8_t>& raw
@@ -192,6 +197,9 @@ private:
      * The raw uint64_t value is reinterpreted as int64_t.  HLC timestamps are
      * monotonically increasing and the physical component (physical_ms << 20)
      * stays well below INT64_MAX for any plausible wall-clock date.
+     * @param[in] ts Input parameter.
+     * @return Return value.
+     * @note Exception safety: noexcept.
      */
     static themisdb::temporal::Timestamp toTemporalTs(HLCTimestamp ts) noexcept;
 

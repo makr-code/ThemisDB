@@ -52,9 +52,13 @@ enum class Sentiment {
 // Helper: string conversion
 // ---------------------------------------------------------------------------
 
+ * @param[in] e Input parameter.
+ * @return Return value.
 /** @brief Return the name of an Emotion value as a lowercase string. */
 std::string to_string(Emotion e);
 
+ * @param[in] s Input parameter.
+ * @return Return value.
 /** @brief Return the name of a Sentiment value as a lowercase string. */
 std::string to_string(Sentiment s);
 
@@ -239,16 +243,21 @@ public:
     // Configuration
     // -----------------------------------------------------------------------
 
+     * @param[in] config Input parameter.
     /** @brief Update default configuration. */
     void set_config(const EmotionConfig& config);
 
+     * @return Return value.
     /** @brief Return a copy of the current default configuration. */
     EmotionConfig get_config() const;
     
     // Phase 3: Edge Case Handling
     
-    /// @brief Check if analyzer is available (Phase 3)
-    /// @return true if ready to analyze; false if unavailable (skip with safe default)
+    /**
+     * @brief @brief Check if analyzer is available (Phase 3) @return true if ready to analyze; false if unavailable (skip with safe default)
+     * @return True on success.
+     * @note Exception safety: noexcept.
+     */
     bool isAvailable() const noexcept;
     
     /// @brief Analyze with timeout protection (Phase 3)
@@ -263,6 +272,7 @@ public:
     // Statistics
     // -----------------------------------------------------------------------
 
+     * @return Return value.
     /** @brief Return cumulative analysis statistics as JSON. */
     json get_statistics() const;
 
@@ -272,7 +282,11 @@ private:
     mutable uint64_t timeout_fallbacks_ = 0;  // Phase 3: timeout count
     mutable bool is_available_ = true;        // Phase 3: availability flag
 
-    // PCM helpers
+    /**
+     * @brief PCM helpers
+     * @param[in] raw Input parameter.
+     * @return Return value.
+     */
     std::vector<float> pcmToFloat(const std::vector<uint8_t>& raw) const;
 
     // Acoustic feature extraction
@@ -288,6 +302,11 @@ private:
         std::vector<float> band_rms; ///< 8 sub-band RMS values
     };
 
+    /**
+     * @brief TBD: Describe extractFeatures.
+     * @param[in] samples Input parameter.
+     * @return Return value.
+     */
     AcousticFeatures extractFeatures(const std::vector<float>& samples) const;
 
     // Emotion scoring
@@ -296,11 +315,32 @@ private:
 
     // Derived signals
     float computeSentimentScore(const std::map<Emotion, float>& probs) const;
+    /**
+     * @brief TBD: Describe computeStressLevel.
+     * @param[in] f Input parameter.
+     * @return Return value.
+     */
     float computeStressLevel(const AcousticFeatures& f) const;
+    /**
+     * @brief TBD: Describe computeEngagementScore.
+     * @param[in] f Input parameter.
+     * @return Return value.
+     */
     float computeEngagementScore(const AcousticFeatures& f) const;
+    /**
+     * @brief TBD: Describe buildVoiceQuality.
+     * @param[in] f Input parameter.
+     * @return Return value.
+     */
     VoiceQuality buildVoiceQuality(const AcousticFeatures& f) const;
 
-    // Timeline helpers
+    /**
+     * @brief Timeline helpers
+     * @param[in] entries Input parameter.
+     * @param[in] stress_levels Input parameter.
+     * @param[in] engagement_scores Input parameter.
+     * @return Return value.
+     */
     static EmotionStatistics computeStatistics(
         const std::vector<TimedEmotion>& entries,
         const std::vector<float>&        stress_levels,

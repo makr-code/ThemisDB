@@ -43,11 +43,41 @@ public:
 
     void log(Level level, const std::string& message) override {
         switch (level) {
+            /**
+             * @brief TBD: Describe trace.
+             * @param[in] message Input parameter.
+             * @return Return value.
+             */
             case Level::TRACE: trace(message); break;
+            /**
+             * @brief TBD: Describe debug.
+             * @param[in] message Input parameter.
+             * @return Return value.
+             */
             case Level::DEBUG: debug(message); break;
+            /**
+             * @brief TBD: Describe info.
+             * @param[in] message Input parameter.
+             * @return Return value.
+             */
             case Level::INFO: info(message); break;
+            /**
+             * @brief TBD: Describe warn.
+             * @param[in] message Input parameter.
+             * @return Return value.
+             */
             case Level::WARN: warn(message); break;
+            /**
+             * @brief TBD: Describe error.
+             * @param[in] message Input parameter.
+             * @return Return value.
+             */
             case Level::ERROR: error(message); break;
+            /**
+             * @brief TBD: Describe critical.
+             * @param[in] message Input parameter.
+             * @return Return value.
+             */
             case Level::CRITICAL: critical(message); break;
         }
     }
@@ -223,6 +253,7 @@ public:
     /**
      * @brief Enable or disable JSON-mode at runtime.
      * @param enabled When true, structured logs are emitted as JSON objects.
+     * @details Implements setJsonMode without additional internal calls.
      */
     void setJsonMode(bool enabled) { json_mode_ = enabled; }
 
@@ -235,6 +266,12 @@ private:
     std::shared_ptr<spdlog::logger> logger_;
     bool json_mode_;
 
+    /**
+     * @brief TBD: Describe toSpdlogLevel.
+     * @param[in] level Input parameter.
+     * @return Return value.
+     * @details Implements toSpdlogLevel without additional internal calls.
+     */
     static spdlog::level::level_enum toSpdlogLevel(Level level) {
         switch (level) {
             case Level::TRACE: return spdlog::level::trace;
@@ -249,6 +286,9 @@ private:
 
     /**
      * @brief JSON-escape a string value.
+     * @param[in] s Input parameter.
+     * @return Return value.
+     * @details Calls: reserve(), size(), std::snprintf().
      */
     static std::string jsonEscape(const std::string& s) {
         std::string out = {};
@@ -278,6 +318,10 @@ private:
      *
      * Fields whose key contains "password", "secret", "token", "email",
      * "phone", or "ssn" (case-insensitive) are replaced with "[REDACTED]".
+     * @param[in] key Input parameter.
+     * @param[in] value Input parameter.
+     * @return Return value.
+     * @details Calls: pii_re(), std::regex_search().
      */
     static std::string redact(const std::string& key, const std::string& value) {
         static const std::regex pii_re(

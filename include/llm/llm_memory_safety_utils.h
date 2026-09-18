@@ -36,6 +36,8 @@ class GPUMemoryGuard {
    * Construct GPU memory guard with pointer and deleter function
    * @param ptr GPU memory pointer (nullptr allowed)
    * @param deleter Function to call when memory should be freed
+   * @brief TBD: Describe GPUMemoryGuard.
+   * @return Return value.
    */
   explicit GPUMemoryGuard(void* ptr, Deleter deleter) 
       : ptr_(ptr), deleter_(deleter) {}
@@ -76,7 +78,11 @@ class GPUMemoryGuard {
   // Check if valid
   explicit operator bool() const { return ptr_ != nullptr; }
   
-  // Release ownership without cleanup
+  /**
+   * @brief Release ownership without cleanup
+   * @return Pointer to the result.
+   * @details Implements release without additional internal calls.
+   */
   void* release() {
     void* tmp = ptr_;
     ptr_ = nullptr;
@@ -84,7 +90,10 @@ class GPUMemoryGuard {
     return tmp;
   }
   
-  // Reset to nullptr, calling deleter if set
+  /**
+   * @brief Reset to nullptr, calling deleter if set
+   * @details Calls: deleter_().
+   */
   void reset() {
     if (ptr_ && deleter_) {
       try {
@@ -116,6 +125,8 @@ class DBConnectionGuard {
    * Construct DB connection guard
    * @param connection_id Unique connection identifier
    * @param releaser Function to call when connection should be returned
+   * @brief TBD: Describe DBConnectionGuard.
+   * @return Return value.
    */
   explicit DBConnectionGuard(int connection_id, Releaser releaser) 
       : connection_id_(connection_id), 
@@ -158,7 +169,10 @@ class DBConnectionGuard {
   // Get connection ID
   int getId() const { return connection_id_; }
   
-  // Manual release (optional)
+  /**
+   * @brief Manual release (optional)
+   * @details Calls: releaser_().
+   */
   void release() {
     if (!is_released_ && releaser_) {
       try {
@@ -257,11 +271,20 @@ class VectorRAII {
   VectorRAII(const VectorRAII&) = default;
   VectorRAII& operator=(const VectorRAII&) = default;
   
-  // Safe push_back with capacity management
+  /**
+   * @brief Safe push_back with capacity management
+   * @param[in] value Input parameter.
+   * @details Implements push_back without additional internal calls.
+   */
   void push_back(const T& value) {
     data_.push_back(value);
   }
   
+  /**
+   * @brief TBD: Describe push_back.
+   * @param[in] value Input parameter.
+   * @details Calls: std::move().
+   */
   void push_back(T&& value) {
     data_.push_back(std::move(value));
   }
@@ -273,10 +296,24 @@ class VectorRAII {
   size_t size() const { return data_.size(); }
   size_t capacity() const { return data_.capacity(); }
   
+  /**
+   * @brief TBD: Describe clear.
+   * @details Implements clear without additional internal calls.
+   */
   void clear() { data_.clear(); }
   
+  /**
+   * @brief TBD: Describe begin.
+   * @return Return value.
+   * @details Implements begin without additional internal calls.
+   */
   typename std::vector<T>::iterator begin() { return data_.begin(); }
   typename std::vector<T>::const_iterator begin() const { return data_.begin(); }
+  /**
+   * @brief TBD: Describe end.
+   * @return Return value.
+   * @details Implements end without additional internal calls.
+   */
   typename std::vector<T>::iterator end() { return data_.end(); }
   typename std::vector<T>::const_iterator end() const { return data_.end(); }
   
@@ -372,7 +409,11 @@ class ManagedResource {
   Resource& operator*() { return *resource_; }
   const Resource& operator*() const { return *resource_; }
   
-  // Release ownership without cleanup
+  /**
+   * @brief Release ownership without cleanup
+   * @return Return value.
+   * @details Calls: std::move().
+   */
   Resource release() {
     Resource tmp = std::move(resource_);
     resource_ = nullptr;
@@ -442,6 +483,10 @@ class QuotaGuard {
   
   size_t getAmount() const { return quota_amount_; }
   
+  /**
+   * @brief TBD: Describe release.
+   * @details Calls: releaser_().
+   */
   void release() {
     if (!is_released_ && releaser_ && quota_amount_ > 0) {
       try {
@@ -471,6 +516,8 @@ class BatchGuard {
    * Construct batch guard for batch operation cleanup
    * @param batch_id Unique batch identifier
    * @param releaser Function to clean up batch resources
+   * @brief TBD: Describe BatchGuard.
+   * @return Return value.
    */
   explicit BatchGuard(int batch_id, BatchReleaser releaser)
       : batch_id_(batch_id),
@@ -498,6 +545,10 @@ class BatchGuard {
   
   int getId() const { return batch_id_; }
   
+  /**
+   * @brief TBD: Describe release.
+   * @details Calls: releaser_().
+   */
   void release() {
     if (!is_released_ && releaser_) {
       try {
@@ -527,10 +578,20 @@ class ThreadSafeCounter {
   explicit ThreadSafeCounter(size_t initial = 0) 
       : value_(initial) {}
   
+  /**
+   * @brief TBD: Describe increment.
+   * @return Return value.
+   * @details Calls: fetch_add().
+   */
   size_t increment() {
     return value_.fetch_add(1, std::memory_order_acq_rel) + 1;
   }
   
+  /**
+   * @brief TBD: Describe decrement.
+   * @return Return value.
+   * @details Calls: fetch_sub().
+   */
   size_t decrement() {
     return value_.fetch_sub(1, std::memory_order_acq_rel) - 1;
   }
@@ -539,6 +600,11 @@ class ThreadSafeCounter {
     return value_.load(std::memory_order_acquire);
   }
   
+  /**
+   * @brief TBD: Describe set.
+   * @param[in] val Input parameter.
+   * @details Calls: store().
+   */
   void set(size_t val) {
     value_.store(val, std::memory_order_release);
   }

@@ -99,6 +99,11 @@ struct PaxosInstance {
  */
 class PaxosConsensus : public ConsensusModule {
 public:
+    /**
+     * @brief TBD: Describe PaxosConsensus.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit PaxosConsensus(const ConsensusConfig& config);
     ~PaxosConsensus() override;
     
@@ -217,6 +222,7 @@ public:
      *
      * Must be called before start() in multi-node deployments.
      * Not required for single-node operation.
+     * @param[in] cb Input parameter.
      */
     void setPrepareRPCCallback(PaxosPrepareCallback cb);
 
@@ -226,6 +232,7 @@ public:
      * When registered this callback supersedes the basic PaxosPrepareCallback and
      * enables correct highest-accepted-value propagation (Paxos Phase-1b safety).
      * Prefer this over setPrepareRPCCallback in multi-node deployments.
+     * @param[in] cb Input parameter.
      */
     void setPrepareFullRPCCallback(PaxosPrepareFullCallback cb);
 
@@ -234,16 +241,24 @@ public:
      *
      * Must be called before start() in multi-node deployments.
      * Not required for single-node operation.
+     * @param[in] cb Input parameter.
      */
     void setAcceptRPCCallback(PaxosAcceptCallback cb);
 
     /**
      * @brief Handle prepare request from proposer
+     * @param[in] slot Input parameter.
+     * @param[in] proposal Input parameter.
+     * @return True on success.
      */
     bool handlePrepare(uint64_t slot, const ProposalNumber& proposal);
     
     /**
      * @brief Handle accept request from proposer
+     * @param[in] slot Input parameter.
+     * @param[in] proposal Input parameter.
+     * @param[in] value Input parameter.
+     * @return True on success.
      */
     bool handleAccept(
         uint64_t slot,
@@ -253,6 +268,8 @@ public:
     
     /**
      * @brief Handle commit notification
+     * @param[in] slot Input parameter.
+     * @param[in] value Input parameter.
      */
     void handleCommit(uint64_t slot, const ConsensusLogEntry& value);
     
@@ -274,11 +291,18 @@ private:
     
     /**
      * @brief Execute prepare phase for a slot
+     * @param[in] slot Input parameter.
+     * @param[in] value Input parameter.
+     * @return True on success.
      */
     bool executePreparePhase(uint64_t slot, const ConsensusLogEntry& value);
     
     /**
      * @brief Execute accept phase for a slot
+     * @param[in] slot Input parameter.
+     * @param[in] proposal Input parameter.
+     * @param[in] value Input parameter.
+     * @return True on success.
      */
     bool executeAcceptPhase(
         uint64_t slot,
@@ -289,31 +313,39 @@ private:
     /**
      * @brief Broadcast commit to all nodes
      * @return false if WAL COMMIT log fails (phase must be aborted to preserve durability)
+     * @param[in] slot Input parameter.
+     * @param[in] value Input parameter.
      */
     bool broadcastCommit(uint64_t slot, const ConsensusLogEntry& value);
     
     /**
      * @brief Calculate quorum size
+     * @return Return value.
      */
     size_t getQuorumSize() const;
     
     /**
      * @brief Check if we have quorum
+     * @param[in] count Input parameter.
+     * @return True on success.
      */
     bool hasQuorum(size_t count) const;
     
     /**
      * @brief Generate next proposal number
+     * @return Return value.
      */
     ProposalNumber generateProposalNumber();
     
     /**
      * @brief Load persistent state from disk
+     * @return True on success.
      */
     bool loadPersistentState();
     
     /**
      * @brief Save persistent state to disk
+     * @return True on success.
      */
     bool savePersistentState();
     
@@ -329,6 +361,7 @@ private:
     
     /**
      * @brief Recover from WAL and snapshot (Phase 2.1)
+     * @return True on success.
      */
     bool recoverFromWAL();
     

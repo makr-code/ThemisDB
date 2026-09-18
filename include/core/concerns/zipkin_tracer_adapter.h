@@ -66,6 +66,12 @@ public:
         size_t success_threshold = 2;
     };
 
+    /**
+     * @brief TBD: Describe ZipkinTracerAdapter.
+     * @param[in] cb_config Input parameter.
+     * @return Return value.
+     * @details Implements ZipkinTracerAdapter without additional internal calls.
+     */
     explicit ZipkinTracerAdapter(const CircuitBreakerConfig& cb_config) {
         sharding::CircuitBreaker::Config cfg;
         cfg.failure_threshold = cb_config.failure_threshold;
@@ -84,6 +90,11 @@ public:
     /** @brief ISpan adapter – delegates to themis::Tracer::Span. */
     class ZipkinSpanAdapter : public ISpan {
     public:
+        /**
+         * @brief TBD: Describe ZipkinSpanAdapter.
+         * @param[in] span Input parameter.
+         * @return Return value.
+         */
         explicit ZipkinSpanAdapter(themis::Tracer::Span span)
             : span_(std::move(span)) {}
 
@@ -114,6 +125,11 @@ public:
 
         ~ZipkinSpanAdapter() override { span_.end(); }
 
+        /**
+         * @brief TBD: Describe getSpan.
+         * @return Return value.
+         * @details Implements getSpan without additional internal calls.
+         */
         themis::Tracer::Span& getSpan()             { return span_; }
         const themis::Tracer::Span& getSpan() const { return span_; }
 
@@ -332,6 +348,9 @@ private:
      *   Accept: `b3: {traceId}-{spanId}[-{sampling}[-{parentSpanId}]]`
      *
      * @return true if at least traceId and spanId were successfully parsed.
+     * @param[in] value Input parameter.
+     * @param[in,out] out Input/output parameter.
+     * @details Calls: reserve(), find(), push_back(), substr(), size(), empty(), std::all_of(), begin().
      */
     static bool parseB3Single(const std::string& value, B3Ids& out) {
         // Reject sampling-deny shorthand.

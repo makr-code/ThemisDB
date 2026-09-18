@@ -35,6 +35,9 @@ enum class InterconnectType {
 
 /**
  * @brief Returns a human-readable name for an InterconnectType.
+ * @param[in] t Input parameter.
+ * @return Pointer to the result.
+ * @note Exception safety: noexcept.
  */
 const char* interconnectTypeName(InterconnectType t) noexcept;
 
@@ -128,11 +131,13 @@ public:
 
     /**
      * @brief Register a cluster node.  Duplicate node_ids are ignored.
+     * @param[in] node Input parameter.
      */
     void addNode(const ClusterNode& node);
 
     /**
      * @brief Remove a cluster node by id (also removes its links).
+     * @param[in] node_id Input parameter.
      */
     void removeNode(const std::string& node_id);
 
@@ -141,6 +146,7 @@ public:
      *
      * Both src and dst node_ids must have been added via addNode() first;
      * if either is unknown the call is silently ignored.
+     * @param[in] link Input parameter.
      */
     void addLink(const TopologyLink& link);
 
@@ -191,23 +197,32 @@ public:
     /**
      * @brief Return the estimated bandwidth in GB/s between two local GPU
      *        device indices.  Returns 0 when either index is out of range.
+     * @param[in] device_a Input parameter.
+     * @param[in] device_b Input parameter.
+     * @return Return value.
      */
     float bandwidthBetween(int device_a, int device_b) const;
 
     /**
      * @brief Return the interconnect type used on the highest-bandwidth path
      *        between two local device indices.
+     * @param[in] device_a Input parameter.
+     * @param[in] device_b Input parameter.
+     * @return Return value.
      */
     InterconnectType preferredInterconnect(int device_a, int device_b) const;
 
     /**
      * @brief Return all registered node ids.
+     * @return Return value.
      */
     std::vector<std::string> nodeIds() const;
 
     /**
      * @brief Return the node descriptor for a given id (empty node_id if not
      *        found).
+     * @param[in] node_id Input parameter.
+     * @return Return value.
      */
     ClusterNode getNode(const std::string& node_id) const;
 

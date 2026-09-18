@@ -103,10 +103,33 @@ struct DataPoint {
     int64_t     timestamp_ms = 0;
     std::map<std::string, PointValue> fields;
 
-    // Convenience helpers
+    /**
+     * @brief Convenience helpers
+     * @param[in] name Input parameter.
+     * @param[in] v Input parameter.
+     * @details Implements set without additional internal calls.
+     */
     void set(const std::string& name, double v)      { fields[name] = v; }
+    /**
+     * @brief TBD: Describe set.
+     * @param[in] name Input parameter.
+     * @param[in] v Input parameter.
+     * @details Implements set without additional internal calls.
+     */
     void set(const std::string& name, int64_t v)     { fields[name] = v; }
+    /**
+     * @brief TBD: Describe set.
+     * @param[in] name Input parameter.
+     * @param[in] v Input parameter.
+     * @details Implements set without additional internal calls.
+     */
     void set(const std::string& name, const std::string& v) { fields[name] = v; }
+    /**
+     * @brief TBD: Describe set.
+     * @param[in] name Input parameter.
+     * @param[in] v Input parameter.
+     * @details Implements set without additional internal calls.
+     */
     void set(const std::string& name, bool v)        { fields[name] = v; }
 
     template<typename T>
@@ -199,6 +222,11 @@ class AnomalyDetector {
 public:
     // ---- Construction ----
     explicit AnomalyDetector(AnomalyMethod method = AnomalyMethod::Z_SCORE);
+    /**
+     * @brief TBD: Describe AnomalyDetector.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit AnomalyDetector(const DetectorConfig& config);
     ~AnomalyDetector();
 
@@ -212,26 +240,56 @@ public:
     /**
      * Train on a set of representative (ideally normal) data points.
      * Must be called before predict/explain.
+     * @brief TBD: Describe train.
+     * @param[in] data Input parameter.
      */
     void train(const std::vector<DataPoint>& data);
+    /**
+     * @brief TBD: Describe isTrained.
+     * @return True on success.
+     * @note Exception safety: noexcept.
+     */
     bool isTrained() const noexcept;
 
-    // ---- Inference ----
+    /**
+     * @brief ---- Inference ----
+     * @param[in] point Input parameter.
+     * @return Return value.
+     */
     AnomalyResult             predict(const DataPoint& point) const;
+    /**
+     * @brief TBD: Describe predictBatch.
+     * @param[in] data Input parameter.
+     * @return Return value.
+     */
     std::vector<AnomalyResult> predictBatch(const std::vector<DataPoint>& data) const;
 
-    // ---- Explanation ----
+    /**
+     * @brief ---- Explanation ----
+     * @param[in] point Input parameter.
+     * @return Return value.
+     */
     AnomalyExplanation explain(const DataPoint& point) const;
 
     // ---- Adaptive learning (only when config.adaptive == true) ----
     /**
      * Incorporate a new observation into the model (sliding-window statistics).
      * For Isolation Forest / LOF this rebuilds a partial model efficiently.
+     * @brief TBD: Describe update.
+     * @param[in] point Input parameter.
      */
     void update(const DataPoint& point);
 
-    // ---- Serialisation ----
+    /**
+     * @brief ---- Serialisation ----
+     * @return Return value.
+     */
     std::string serialize() const;
+    /**
+     * @brief TBD: Describe deserialize.
+     * @param[in] data Input parameter.
+     * @return Return value.
+     */
     static AnomalyDetector deserialize(const std::string& data);
 
     // ---- Diagnostics ----
@@ -247,8 +305,17 @@ public:
         AnomalyMethod       method           = AnomalyMethod::Z_SCORE;
         bool                trained          = false;
     };
+    /**
+     * @brief TBD: Describe getStats.
+     * @return Return value.
+     */
     ModelStats getStats() const;
 
+    /**
+     * @brief TBD: Describe config.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     const DetectorConfig& config() const noexcept;
 
 private:
@@ -294,6 +361,11 @@ public:
     };
 
     StreamingAnomalyDetector();
+    /**
+     * @brief TBD: Describe StreamingAnomalyDetector.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit StreamingAnomalyDetector(const Config& config);
 
     /**
@@ -309,12 +381,18 @@ public:
      * Returns nullopt while warming up.
      * Lock-hold is bounded to ≤ 50 µs (window copy only); training runs
      * asynchronously on a background thread.
+     * @brief TBD: Describe process.
+     * @param[in] point Input parameter.
+     * @return Return value.
      */
     std::optional<AnomalyResult> process(const DataPoint& point);
 
+     * @brief TBD: Describe getAnomalies.
+     * @return Return value.
     /** Retrieve all anomalies detected since construction (or last clear). */
     std::vector<AnomalyResult> getAnomalies() const;
 
+     * @brief TBD: Describe clearAnomalies.
     /** Clear stored anomaly history. */
     void clearAnomalies();
 
@@ -324,14 +402,23 @@ public:
         double anomaly_rate;
         bool   trained;
     };
+    /**
+     * @brief TBD: Describe getWindowStats.
+     * @return Return value.
+     */
     WindowStats getWindowStats() const;
 
     /** Direct access to the underlying detector (read-only). */
     const AnomalyDetector& detector() const noexcept { return detector_; }
 
 private:
+     * @brief TBD: Describe snapshotWindow.
+     * @return Return value.
     /** Copy the current window under a brief shared lock and return it. */
     std::vector<DataPoint> snapshotWindow() const;
+     * @brief TBD: Describe makeDetectorConfig.
+     * @return Return value.
+     * @note Exception safety: noexcept.
     /** Build a DetectorConfig from config_ (used when creating a fresh retrain detector). */
     DetectorConfig makeDetectorConfig() const noexcept;
 

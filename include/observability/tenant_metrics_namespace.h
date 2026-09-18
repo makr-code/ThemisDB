@@ -99,21 +99,32 @@ public:
      * Idempotent — calling with an already-registered tenant_id is a no-op.
      * @returns true if the tenant was newly registered, false if it already
      *          existed or could not be added (max_tenants exceeded).
+     * @param[in] tenant_id Input parameter.
+     * @return True on success.
      */
     bool registerTenant(const std::string& tenant_id);
 
     /**
      * @brief Deregister a tenant and free all its metric data.
      * @returns true if the tenant existed and was removed.
+     * @param[in] tenant_id Input parameter.
+     * @return True on success.
      */
     bool deregisterTenant(const std::string& tenant_id);
 
+     * @brief TBD: Describe hasTenant.
+     * @param[in] tenant_id Input parameter.
+     * @return True on success.
     /** @returns true when the given tenant is currently registered. */
     bool hasTenant(const std::string& tenant_id) const;
 
+     * @brief TBD: Describe tenants.
+     * @return Return value.
     /** @returns the list of all currently registered tenant IDs. */
     std::vector<std::string> tenants() const;
 
+     * @brief TBD: Describe tenantCount.
+     * @return Return value.
     /** @returns the number of registered tenants. */
     size_t tenantCount() const;
 
@@ -158,6 +169,8 @@ public:
      * label set includes `tenant_id="<id>"`.
      *
      * @returns Prometheus text or an empty string if the tenant is unknown.
+     * @param[in] tenant_id Input parameter.
+     * @return Return value.
      */
     std::string exportTenant(const std::string& tenant_id) const;
 
@@ -165,6 +178,7 @@ public:
      * @brief Export Prometheus text-format metrics for all registered tenants.
      *
      * Equivalent to concatenating exportTenant() for every registered tenant.
+     * @return Return value.
      */
     std::string exportAll() const;
 
@@ -172,12 +186,19 @@ public:
     // Introspection
     // -----------------------------------------------------------------------
 
+     * @brief TBD: Describe stats.
+     * @param[in] tenant_id Input parameter.
+     * @return Return value.
     /** @returns runtime statistics for the given tenant, or a zeroed struct if unknown. */
     TenantMetricsStats stats(const std::string& tenant_id) const;
 
+     * @brief TBD: Describe allStats.
+     * @return Return value.
     /** @returns runtime statistics for all registered tenants. */
     std::vector<TenantMetricsStats> allStats() const;
 
+     * @brief TBD: Describe config.
+     * @return Return value.
     /** @returns the active configuration. */
     TenantMetricsConfig config() const;
 
@@ -221,8 +242,14 @@ private:
     static std::string makeKey(const std::string& metric_name,
                                 const std::map<std::string, std::string>& labels);
 
-    /// Check and enforce per-tenant cardinality.  Returns true when the
-    /// observation should proceed, false when it must be dropped.
+    /**
+     * @brief Check and enforce per-tenant cardinality.
+     * @param[in,out] store Input/output parameter.
+     * @param[in] metric_name Input parameter.
+     * @param[in] key Input parameter.
+     * @return True on success.
+     * @details Returns true when the observation should proceed, false when it must be dropped.
+     */
     bool checkCardinality(TenantStore& store,
                           const std::string& metric_name,
                           const std::string& key) const;

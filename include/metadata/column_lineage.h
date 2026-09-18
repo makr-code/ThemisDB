@@ -161,6 +161,8 @@ public:
 
     /**
      * @brief Return all recorded derivation entries whose target is @p col.
+     * @param[in] col Input parameter.
+     * @return Return value.
      */
     ColumnLineageRecord getColumnLineage(const ColumnRef& col) const;
 
@@ -171,6 +173,7 @@ public:
      * upward (toward roots).  The returned set does not include @p col itself.
      *
      * @return Unique ColumnRef values in BFS order (nearest ancestors first).
+     * @param[in] col Input parameter.
      */
     std::vector<ColumnRef> getUpstreamColumns(const ColumnRef& col) const;
 
@@ -181,6 +184,7 @@ public:
      * downward (toward leaves).  The returned set does not include @p col itself.
      *
      * @return Unique ColumnRef values in BFS order (nearest descendants first).
+     * @param[in] col Input parameter.
      */
     std::vector<ColumnRef> getDownstreamColumns(const ColumnRef& col) const;
 

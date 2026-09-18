@@ -166,6 +166,11 @@ public:
                 "adapter id='" + id + "'");
         }
 
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] registry_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lock(registry_mutex_);
         registry_[std::type_index(typeid(T))] = std::shared_ptr<void>(adapter);
     }
@@ -186,6 +191,11 @@ public:
      */
     template<typename T>
     std::shared_ptr<T> resolve() const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] registry_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(registry_mutex_);
         auto it = registry_.find(std::type_index(typeid(T)));
         if (it == registry_.end()) {
@@ -227,6 +237,11 @@ public:
 
         std::shared_ptr<void> old_adapter_void;
         {
+            /**
+             * @brief TBD: Describe lock.
+             * @param[in] registry_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::unique_lock<std::shared_mutex> lock(registry_mutex_);
             auto key = std::type_index(typeid(T));
             auto it  = registry_.find(key);
@@ -335,6 +350,12 @@ private:
         std::string path;             ///< Path used to open the library.
 
         PluginHandle() = default;
+        /**
+         * @brief TBD: Describe PluginHandle.
+         * @param[in,out] h Input/output parameter.
+         * @param[in] p Input parameter.
+         * @return Return value.
+         */
         explicit PluginHandle(void* h, std::string p)
             : handle(h), path(std::move(p)) {}
 

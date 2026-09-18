@@ -53,6 +53,10 @@ struct EvaluationResult {
  */
 class IScraperLLMEvaluator {
 public:
+    /**
+     * @brief TBD: Describe ~IScraperLLMEvaluator.
+     * @return Return value.
+     */
     virtual ~IScraperLLMEvaluator() = default;
 
     /**
@@ -124,7 +128,18 @@ private:
  */
 class InMemoryLLMEvaluator : public IScraperLLMEvaluator {
 public:
+    /**
+     * @brief TBD: Describe setDefaultResult.
+     * @param[in] r Input parameter.
+     * @details Calls: std::move().
+     */
     void setDefaultResult(EvaluationResult r) { default_ = std::move(r); }
+    /**
+     * @brief TBD: Describe injectResult.
+     * @param[in] url_substring Input parameter.
+     * @param[in] r Input parameter.
+     * @details Calls: std::move().
+     */
     void injectResult(const std::string& url_substring, EvaluationResult r) {
         overrides_[url_substring] = std::move(r);
     }

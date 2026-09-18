@@ -77,9 +77,11 @@ public:
         uint32_t    color     = 0xFF00FF00; ///< ARGB color hint for profiler UI
     };
 
-    // -----------------------------------------------------------------------
-    // Singleton
-    // -----------------------------------------------------------------------
+    /**
+     * @brief ----------------------------------------------------------------------- Singleton -----------------------------------------------------------------------
+     * @return Return value.
+     * @details Implements GetInstance without additional internal calls.
+     */
     static GPUProfiler& GetInstance() {
         static GPUProfiler inst;
         return inst;
@@ -139,6 +141,7 @@ public:
 
     /**
      * @brief Return a copy of all completed ranges.
+     * @return Return value.
      */
     std::vector<Range> getRanges() const;
 
@@ -163,6 +166,10 @@ private:
     std::vector<ActiveRange> range_stack_;
     std::vector<Range>       completed_ranges_;
 
+    /**
+     * @brief TBD: Describe nowNs.
+     * @return Return value.
+     */
     static uint64_t nowNs();
 };
 

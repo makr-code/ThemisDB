@@ -73,38 +73,81 @@ public:
     explicit VoiceModelCache(const ModelCacheConfig& config = {});
     ~VoiceModelCache();
 
-    // Register loaders/unloaders for model types
+    /**
+     * @brief Register loaders/unloaders for model types
+     * @param[in] model_type Input parameter.
+     * @param[in] loader Input parameter.
+     * @param[in] unloader Input parameter.
+     */
     void registerLoader(const std::string& model_type, ModelLoader loader, ModelUnloader unloader);
 
     // Get or load a model. Returns the CachedModel if it exists (or can be loaded).
     std::optional<CachedModel> get(const std::string& model_id, const std::string& model_path,
                                    const std::string& model_type, const json& config = {});
 
-    // Check if model is in cache
+    /**
+     * @brief Check if model is in cache
+     * @param[in] model_id Input parameter.
+     * @return True on success.
+     */
     bool isCached(const std::string& model_id) const;
 
-    // Manually insert an already-loaded model
+    /**
+     * @brief Manually insert an already-loaded model
+     * @param[in] model Input parameter.
+     * @return True on success.
+     */
     bool insert(const CachedModel& model);
 
-    // Remove a model from cache (calls unloader)
+    /**
+     * @brief Remove a model from cache (calls unloader)
+     * @param[in] model_id Input parameter.
+     * @return True on success.
+     */
     bool evict(const std::string& model_id);
 
-    // Pin a model so it won't be evicted
+    /**
+     * @brief Pin a model so it won't be evicted
+     * @param[in] model_id Input parameter.
+     * @return True on success.
+     */
     bool pin(const std::string& model_id);
+    /**
+     * @brief TBD: Describe unpin.
+     * @param[in] model_id Input parameter.
+     * @return True on success.
+     */
     bool unpin(const std::string& model_id);
 
-    // Evict models to free memory_needed bytes
+    /**
+     * @brief Evict models to free memory_needed bytes
+     * @param[in] memory_needed Input parameter.
+     * @return Return value.
+     */
     size_t evictToFree(size_t memory_needed);
 
-    // Clear entire cache
+    /**
+     * @brief Clear entire cache
+     */
     void clear();
 
-    // Statistics
+    /**
+     * @brief Statistics
+     * @return Return value.
+     */
     ModelCacheStats getStats() const;
+    /**
+     * @brief TBD: Describe getDetailedStats.
+     * @return Return value.
+     */
     json getDetailedStats() const;
 
-    // Path traversal protection: returns false if path contains "..", null bytes,
-    // or shell metacharacters that could be used for injection attacks.
+    /**
+     * @brief Path traversal protection: returns false if path contains ".
+     * @param[in] path Input parameter.
+     * @return True on success.
+     * @details .", null bytes, or shell metacharacters that could be used for injection attacks.
+     */
     static bool isSafeModelPath(const std::string& path);
 
 private:
@@ -124,8 +167,20 @@ private:
     mutable uint64_t cache_misses_ = 0;
     uint64_t evictions_ = 0;
 
+    /**
+     * @brief TBD: Describe touchLRU.
+     * @param[in] model_id Input parameter.
+     */
     void touchLRU(const std::string& model_id);
+    /**
+     * @brief TBD: Describe evictLRUOne.
+     * @return True on success.
+     */
     bool evictLRUOne();
+    /**
+     * @brief TBD: Describe nowMs.
+     * @return Return value.
+     */
     int64_t nowMs() const;
 };
 

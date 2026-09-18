@@ -83,9 +83,16 @@ struct LoRASecurityConfig {
  */
 class LoRASecurityValidator {
 public:
+    /**
+     * @brief TBD: Describe LoRASecurityValidator.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit LoRASecurityValidator(const LoRASecurityConfig& config);
-    /// @brief Virtual destructor to allow safe polymorphic use in tests and
-    ///        custom validator implementations injected via Config::security_validator.
+    /**
+     * @brief @brief Virtual destructor to allow safe polymorphic use in tests and custom validator implementations injected via Config::security_validator.
+     * @return Return value.
+     */
     virtual ~LoRASecurityValidator() = default;
     
     /**
@@ -230,6 +237,7 @@ public:
 
     /**
      * @brief Return the active certificate store.
+     * @return Return value.
      */
     std::shared_ptr<LoRACertificateStore> getCertificateStore() const;
 
@@ -238,15 +246,52 @@ private:
     std::shared_ptr<LLMModelAuditLogger> audit_logger_;
     std::shared_ptr<LoRACertificateStore> cert_store_;
     
-    // Helper methods
+    /**
+     * @brief Helper methods
+     * @param[in] path Input parameter.
+     * @param[in,out] data Input/output parameter.
+     * @return True on success.
+     */
     bool loadLoRAFile(const std::string& path, std::vector<uint8_t>& data);
+    /**
+     * @brief TBD: Describe parseLoRAMetadata.
+     * @param[in] data Input parameter.
+     * @param[in,out] metadata Input/output parameter.
+     * @return True on success.
+     */
     bool parseLoRAMetadata(const std::vector<uint8_t>& data, json& metadata);
+    /**
+     * @brief TBD: Describe loadWeightsFromLoRAFile.
+     * @param[in] path Input parameter.
+     * @return Return value.
+     */
     std::vector<float> loadWeightsFromLoRAFile(const std::string& path);
     
-    // Statistical helpers for anomaly detection
+    /**
+     * @brief Statistical helpers for anomaly detection
+     * @param[in] values Input parameter.
+     * @return Return value.
+     */
     float calculateMean(const std::vector<float>& values);
+    /**
+     * @brief TBD: Describe calculateStdDev.
+     * @param[in] values Input parameter.
+     * @param[in] mean Input parameter.
+     * @return Return value.
+     */
     float calculateStdDev(const std::vector<float>& values, float mean);
+    /**
+     * @brief TBD: Describe findOutliers.
+     * @param[in] values Input parameter.
+     * @param[in] threshold Input parameter.
+     * @return Return value.
+     */
     std::vector<size_t> findOutliers(const std::vector<float>& values, float threshold);
+    /**
+     * @brief TBD: Describe detectDistributionShift.
+     * @param[in] weights Input parameter.
+     * @return True on success.
+     */
     bool detectDistributionShift(const std::vector<float>& weights);
 };
 
@@ -264,6 +309,11 @@ public:
         bool log_detections = true;
     };
     
+    /**
+     * @brief TBD: Describe PromptInjectionDetector.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit PromptInjectionDetector(const Config& config);
     ~PromptInjectionDetector() = default;
     
@@ -306,12 +356,39 @@ private:
     std::vector<std::regex> injection_patterns_;
     std::vector<std::string> dangerous_keywords_;
     
-    // Helper methods
+    /**
+     * @brief Helper methods
+     */
     void initializePatterns();
+    /**
+     * @brief TBD: Describe calculatePatternScore.
+     * @param[in] prompt Input parameter.
+     * @return Return value.
+     */
     float calculatePatternScore(const std::string& prompt);
+    /**
+     * @brief TBD: Describe calculateKeywordScore.
+     * @param[in] prompt Input parameter.
+     * @return Return value.
+     */
     float calculateKeywordScore(const std::string& prompt);
+    /**
+     * @brief TBD: Describe calculateSyntaxScore.
+     * @param[in] prompt Input parameter.
+     * @return Return value.
+     */
     float calculateSyntaxScore(const std::string& prompt);
+    /**
+     * @brief TBD: Describe containsSystemPromptBypass.
+     * @param[in] prompt Input parameter.
+     * @return True on success.
+     */
     bool containsSystemPromptBypass(const std::string& prompt);
+    /**
+     * @brief TBD: Describe containsJailbreakAttempt.
+     * @param[in] prompt Input parameter.
+     * @return True on success.
+     */
     bool containsJailbreakAttempt(const std::string& prompt);
 };
 
@@ -329,6 +406,11 @@ public:
         bool use_isolation_forest = false;  // Advanced ML-based detection
     };
     
+    /**
+     * @brief TBD: Describe EmbeddingAnomalyDetector.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit EmbeddingAnomalyDetector(const Config& config);
     ~EmbeddingAnomalyDetector() = default;
     
@@ -367,15 +449,31 @@ private:
     std::vector<float> stddev_embedding_;
     size_t sample_count_ = 0;
     
-    // Helper methods
+    /**
+     * @brief Helper methods
+     * @param[in] a Input parameter.
+     * @param[in] b Input parameter.
+     * @return Return value.
+     */
     float calculateCosineSimilarity(
         const std::vector<float>& a,
         const std::vector<float>& b
     );
+    /**
+     * @brief TBD: Describe calculateEuclideanDistance.
+     * @param[in] a Input parameter.
+     * @param[in] b Input parameter.
+     * @return Return value.
+     */
     float calculateEuclideanDistance(
         const std::vector<float>& a,
         const std::vector<float>& b
     );
+    /**
+     * @brief TBD: Describe isOutlier.
+     * @param[in] embedding Input parameter.
+     * @return True on success.
+     */
     bool isOutlier(const std::vector<float>& embedding);
 };
 

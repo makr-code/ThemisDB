@@ -30,6 +30,10 @@ namespace themis::llm {
  * all-must-succeed, majority-vote, …) or aggregate partial results.
  */
 struct FanOutInstanceResult {
+    /**
+     * @brief TBD: Describe ~FanOutInstanceResult.
+     * @return Return value.
+     */
     virtual ~FanOutInstanceResult() = default;
     std::string instance_id;     ///< Instance that was targeted
     InferenceResponse response;  ///< Populated when success == true
@@ -57,6 +61,10 @@ struct FanOutInstanceResult {
  */
 class IFederatedInferenceBackend {
 public:
+    /**
+     * @brief TBD: Describe ~IFederatedInferenceBackend.
+     * @return Return value.
+     */
     virtual ~IFederatedInferenceBackend() = default;
 
     /**

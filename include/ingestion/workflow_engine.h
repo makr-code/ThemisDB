@@ -166,16 +166,20 @@ public:
      * @brief Retrieve a registered step by name.
      *
      * @return Shared pointer or nullptr when not found.
+     * @param[in] plugin_name Input parameter.
      */
     std::shared_ptr<IIngestionStep> getStep(const std::string& plugin_name) const;
 
     /**
      * @brief Returns true when a step with the given name is registered.
+     * @param[in] plugin_name Input parameter.
+     * @return True on success.
      */
     bool hasStep(const std::string& plugin_name) const;
 
     /**
      * @brief List all registered step names.
+     * @return Return value.
      */
     std::vector<std::string> listSteps() const;
 
@@ -184,6 +188,8 @@ public:
      *
      * For dynamically loaded plugins this also calls `themis_destroy_step()`
      * and closes the library handle.
+     * @param[in] plugin_name Input parameter.
+     * @return Return value.
      */
     Result<void> unloadStep(const std::string& plugin_name);
 
@@ -274,12 +280,16 @@ public:
      * @brief Return the loaded profile that best matches `mime` and `filename`.
      *
      * Returns nullptr when no profile matches and no "default" profile exists.
+     * @param[in] mime Input parameter.
+     * @param[in] filename Input parameter.
+     * @return Pointer to the result.
      */
     const WorkflowProfile* selectProfile(const std::string& mime,
                                           const std::string& filename) const;
 
     /**
      * @brief List the names of all loaded profiles.
+     * @return Return value.
      */
     std::vector<std::string> listProfiles() const;
 
@@ -289,8 +299,13 @@ public:
      * @brief Access the underlying step registry for custom registrations.
      *
      * Primarily used by tests and bootstrap code.
+     * @return Return value.
      */
     StepRegistry& stepRegistry();
+    /**
+     * @brief TBD: Describe stepRegistry.
+     * @return Return value.
+     */
     const StepRegistry& stepRegistry() const;
 
     // ── Execution ─────────────────────────────────────────────────────────

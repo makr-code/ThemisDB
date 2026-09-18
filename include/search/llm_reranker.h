@@ -121,6 +121,11 @@ public:
         /// Documents with final_score below this threshold are omitted from
         /// the output. Set to 0.0 to return all candidates.
         double min_score_threshold = 0.0;
+        /**
+         * @brief TBD: Describe defaults.
+         * @return Return value.
+         * @details Implements defaults without additional internal calls.
+         */
         static Config defaults() { return {}; }
     };
 
@@ -196,8 +201,13 @@ private:
         const std::vector<LlmRerankCandidate>& batch
     ) const;
 
-    /// Parse one integer score per line from the LLM response.
-    /// Returns a vector of `count` scores in [0, 1]; missing scores default to 0.
+    /**
+     * @brief Parse one integer score per line from the LLM response.
+     * @param[in] llm_output Input parameter.
+     * @param[in] count Input parameter.
+     * @return Return value.
+     * @details Returns a vector of `count` scores in [0, 1]; missing scores default to 0.
+     */
     std::vector<double> parseScores(
         const std::string& llm_output,
         size_t count

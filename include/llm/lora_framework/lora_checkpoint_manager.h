@@ -34,6 +34,10 @@ namespace lora {
  * @brief Snapshot of training state attached to a checkpoint.
  */
 struct CheckpointMeta {
+    /**
+     * @brief TBD: Describe ~CheckpointMeta.
+     * @return Return value.
+     */
     virtual ~CheckpointMeta() = default;
     std::string adapter_id;          ///< Unique adapter identifier
     uint64_t    step        = 0;     ///< Global training step at checkpoint
@@ -44,7 +48,16 @@ struct CheckpointMeta {
     std::string created_at;          ///< ISO-8601 UTC timestamp
     std::string weights_sha256;      ///< SHA-256 hex digest of the weight blob
 
+    /**
+     * @brief TBD: Describe toJSON.
+     * @return Return value.
+     */
     json toJSON() const;
+    /**
+     * @brief TBD: Describe fromJSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static CheckpointMeta fromJSON(const json& j);
 };
 
@@ -86,6 +99,11 @@ public:
     };
 
     LoRACheckpointManager();
+    /**
+     * @brief TBD: Describe LoRACheckpointManager.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit LoRACheckpointManager(Config config);
     ~LoRACheckpointManager();
 
@@ -116,6 +134,7 @@ public:
      *
      * @return Checkpoint reference including weights path and metadata,
      *         or std::nullopt when no checkpoint exists.
+     * @param[in] adapter_id Input parameter.
      */
     std::optional<CheckpointRef> loadLatest(const std::string& adapter_id) const;
 
@@ -123,11 +142,15 @@ public:
      * @brief Load the best (lowest val_loss) checkpoint for the given adapter.
      *
      * @return Checkpoint reference, or std::nullopt when no checkpoint exists.
+     * @param[in] adapter_id Input parameter.
      */
     std::optional<CheckpointRef> loadBest(const std::string& adapter_id) const;
 
     /**
      * @brief Load a specific checkpoint by training step.
+     * @param[in] adapter_id Input parameter.
+     * @param[in] step Input parameter.
+     * @return Return value.
      */
     std::optional<CheckpointRef> loadByStep(const std::string& adapter_id,
                                              uint64_t           step) const;
@@ -138,6 +161,7 @@ public:
      * Verifies SHA-256 if Config::verify_hash is set.
      * @return Decompressed weight blob.
      * @throws std::runtime_error on hash mismatch or I/O error.
+     * @param[in] ref Input parameter.
      */
     std::vector<uint8_t> readWeights(const CheckpointRef& ref) const;
 
@@ -145,22 +169,28 @@ public:
 
     /**
      * @brief List all stored checkpoints for an adapter, newest first.
+     * @param[in] adapter_id Input parameter.
+     * @return Return value.
      */
     std::vector<CheckpointRef> listCheckpoints(const std::string& adapter_id) const;
 
     /**
      * @brief Delete a specific checkpoint by step.
      * @return true if the checkpoint was found and deleted.
+     * @param[in] adapter_id Input parameter.
+     * @param[in] step Input parameter.
      */
     bool deleteCheckpoint(const std::string& adapter_id, uint64_t step);
 
     /**
      * @brief Delete all checkpoints for an adapter.
+     * @param[in] adapter_id Input parameter.
      */
     void deleteAll(const std::string& adapter_id);
 
     /**
      * @brief Prune checkpoints to satisfy Config::keep_last and Config::keep_best.
+     * @param[in] adapter_id Input parameter.
      */
     void prune(const std::string& adapter_id);
 
@@ -170,14 +200,51 @@ private:
     Config      config_;
     mutable std::mutex mutex_;
 
+    /**
+     * @brief TBD: Describe adapterDir.
+     * @param[in] adapter_id Input parameter.
+     * @return Return value.
+     */
     std::string adapterDir(const std::string& adapter_id) const;
+    /**
+     * @brief TBD: Describe weightPath.
+     * @param[in] adapter_id Input parameter.
+     * @param[in] step Input parameter.
+     * @return Return value.
+     */
     std::string weightPath(const std::string& adapter_id, uint64_t step) const;
+    /**
+     * @brief TBD: Describe metaPath.
+     * @param[in] adapter_id Input parameter.
+     * @param[in] step Input parameter.
+     * @return Return value.
+     */
     std::string metaPath(const std::string& adapter_id, uint64_t step) const;
 
+    /**
+     * @brief TBD: Describe writeMeta.
+     * @param[in] path Input parameter.
+     * @param[in] meta Input parameter.
+     */
     void writeMeta(const std::string& path, const CheckpointMeta& meta) const;
+    /**
+     * @brief TBD: Describe readMeta.
+     * @param[in] path Input parameter.
+     * @return Return value.
+     */
     CheckpointMeta readMeta(const std::string& path) const;
+    /**
+     * @brief TBD: Describe updateBestRecord.
+     * @param[in] adapter_id Input parameter.
+     * @param[in] meta Input parameter.
+     */
     void updateBestRecord(const std::string& adapter_id,
                           const CheckpointMeta& meta) const;
+    /**
+     * @brief TBD: Describe readBestMeta.
+     * @param[in] adapter_id Input parameter.
+     * @return Return value.
+     */
     std::optional<CheckpointMeta> readBestMeta(const std::string& adapter_id) const;
 };
 

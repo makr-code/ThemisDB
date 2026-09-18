@@ -97,16 +97,36 @@ public:
      */
     class Builder {
     public:
+        /**
+         * @brief TBD: Describe withMaxResultBytes.
+         * @param[in] max_bytes Input parameter.
+         * @return Return value.
+         * @details Implements withMaxResultBytes without additional internal calls.
+         */
         Builder& withMaxResultBytes(uint64_t max_bytes) {
             max_result_bytes_ = max_bytes;
             return *this;
         }
 
+        /**
+         * @brief TBD: Describe withOverflowPolicy.
+         * @param[in] policy Input parameter.
+         * @return Return value.
+         * @details Implements withOverflowPolicy without additional internal calls.
+         */
         Builder& withOverflowPolicy(OverflowPolicy policy) {
             overflow_policy_ = policy;
             return *this;
         }
 
+        /**
+         * @brief TBD: Describe withPressureThresholds.
+         * @param[in] elevated_pct Input parameter.
+         * @param[in] high_pct Input parameter.
+         * @param[in] critical_pct Input parameter.
+         * @return Return value.
+         * @details Implements withPressureThresholds without additional internal calls.
+         */
         Builder& withPressureThresholds(
             double elevated_pct,
             double high_pct,
@@ -117,11 +137,21 @@ public:
             return *this;
         }
 
+        /**
+         * @brief TBD: Describe withMaxBatchesPerShard.
+         * @param[in] max_batches Input parameter.
+         * @return Return value.
+         * @details Implements withMaxBatchesPerShard without additional internal calls.
+         */
         Builder& withMaxBatchesPerShard(size_t max_batches) {
             max_batches_per_shard_ = max_batches;
             return *this;
         }
 
+        /**
+         * @brief TBD: Describe build.
+         * @return Return value.
+         */
         MemoryPolicy build() const;
 
     private:
@@ -248,6 +278,7 @@ public:
     /**
      * @brief Constructor
      * @param policy Memory policy to enforce
+     * @return Return value.
      */
     explicit ResultAccumulator(const MemoryPolicy& policy);
 
@@ -363,8 +394,18 @@ private:
 
     // Helper methods
     [[nodiscard]] uint64_t estimateJsonSize(const nlohmann::json& json) const;
+    /**
+     * @brief TBD: Describe handleMemoryPressure.
+     * @param[in] needed_bytes Input parameter.
+     */
     void handleMemoryPressure(uint64_t needed_bytes);
+    /**
+     * @brief TBD: Describe dropOldestBatch.
+     */
     void dropOldestBatch();
+    /**
+     * @brief TBD: Describe truncateResults.
+     */
     void truncateResults();
 };
 

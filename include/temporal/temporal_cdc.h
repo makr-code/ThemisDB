@@ -129,9 +129,14 @@ struct ChangeEvent {
 
     std::string user_id;   ///< User / node that made the change (optional)
 
+     * @brief TBD: Describe toJson.
+     * @return Return value.
     /** Serialise to JSON for transport or storage. */
     nlohmann::json toJson() const;
 
+     * @brief TBD: Describe fromJson.
+     * @param[in] j Input parameter.
+     * @return Return value.
     /** Deserialise from JSON. */
     static ChangeEvent fromJson(const nlohmann::json& j);
 };
@@ -225,9 +230,13 @@ public:
     /**
      * Cancel a subscription.
      * @return true if the subscription was found and removed.
+     * @brief TBD: Describe unsubscribe.
+     * @param[in] sub_id Input parameter.
      */
     bool unsubscribe(const std::string& sub_id);
 
+     * @brief TBD: Describe subscriptionCount.
+     * @return Return value.
     /** Return the number of active subscriptions. */
     size_t subscriptionCount() const;
 
@@ -242,6 +251,8 @@ public:
      *
      * This method is intended to be called from write paths (insert/update/
      * delete) inside the temporal module.
+     * @brief TBD: Describe publishEvent.
+     * @param[in] event Input parameter.
      */
     void publishEvent(const ChangeEvent& event);
 
@@ -256,6 +267,10 @@ public:
      *
      * @note Only events retained in the ring-buffer are available.
      *       Events evicted due to log overflow are permanently lost.
+     * @brief TBD: Describe replayChanges.
+     * @param[in] table_name Input parameter.
+     * @param[in] range Input parameter.
+     * @return Return value.
      */
     std::vector<ChangeEvent> replayChanges(
         const std::string& table_name,
@@ -263,12 +278,17 @@ public:
 
     /**
      * Return the total number of events in the log (≤ max_log_size).
+     * @brief TBD: Describe logSize.
+     * @return Return value.
      */
     size_t logSize() const;
 
     /**
      * Return the total number of events ever published (monotonically
      * increasing, wraps on overflow).
+     * @brief TBD: Describe totalPublished.
+     * @return Return value.
+     * @note Exception safety: noexcept.
      */
     uint64_t totalPublished() const noexcept;
 
@@ -283,17 +303,27 @@ public:
      * A non-zero value indicates that `replayChanges()` may no longer return
      * the complete history.  Consumers that require guaranteed delivery should
      * use the subscription API instead.
+     * @brief TBD: Describe overflowCount.
+     * @return Return value.
+     * @note Exception safety: noexcept.
      */
     uint64_t overflowCount() const noexcept;
 
+     * @brief TBD: Describe clearLog.
     /** Clear the in-process event log.  Active subscriptions are unaffected. */
     void clearLog();
 
     // ── Public Helpers ────────────────────────────────────────────────────────
 
+     * @brief TBD: Describe changeTypeName.
+     * @param[in] ct Input parameter.
+     * @return Return value.
     /** Convert ChangeType enum to string representation. */
     static std::string changeTypeName(ChangeType ct);
 
+     * @brief TBD: Describe changeTypeFromString.
+     * @param[in] s Input parameter.
+     * @return Return value.
     /** Convert string to ChangeType enum. */
     static ChangeType changeTypeFromString(const std::string& s);
 
@@ -410,12 +440,14 @@ public:
      *
      * @throws std::runtime_error  on I/O errors during directory creation or
      *                             segment scanning.
+     * @brief TBD: Describe open.
      */
     void open();
 
     /**
      * Flush and close the current segment file handle.
      * Safe to call multiple times.
+     * @brief TBD: Describe close.
      */
     void close();
 
@@ -428,6 +460,8 @@ public:
      *
      * @throws std::runtime_error  when called before `open()`, or on I/O
      *                             errors.
+     * @brief TBD: Describe append.
+     * @param[in] event Input parameter.
      */
     void append(const ChangeEvent& event);
 
@@ -438,6 +472,8 @@ public:
      * This is a read-only scan and can be called concurrently with `append()`.
      *
      * @throws std::runtime_error  on segment directory I/O errors.
+     * @brief TBD: Describe replayAll.
+     * @return Return value.
      */
     std::vector<ChangeEvent> replayAll() const;
 
@@ -447,18 +483,32 @@ public:
      * @param segment_seq  Segment sequence number.
      * @throws std::out_of_range   when @p segment_seq >= segmentCount().
      * @throws std::runtime_error  on I/O errors.
+     * @brief TBD: Describe replaySegment.
+     * @return Return value.
      */
     std::vector<ChangeEvent> replaySegment(uint64_t segment_seq) const;
 
+     * @brief TBD: Describe segmentCount.
+     * @return Return value.
+     * @note Exception safety: noexcept.
     /** Number of WAL segments that have been created (including active). */
     uint64_t segmentCount() const noexcept;
 
+     * @brief TBD: Describe totalBytesWritten.
+     * @return Return value.
+     * @note Exception safety: noexcept.
     /** Total bytes written to all segments (approximation, not fsynced). */
     uint64_t totalBytesWritten() const noexcept;
 
+     * @brief TBD: Describe totalEventsAppended.
+     * @return Return value.
+     * @note Exception safety: noexcept.
     /** Total events successfully appended since open(). */
     uint64_t totalEventsAppended() const noexcept;
 
+     * @brief TBD: Describe isOpen.
+     * @return True on success.
+     * @note Exception safety: noexcept.
     /** true when the log is currently open for writing. */
     bool isOpen() const noexcept;
 
@@ -485,21 +535,37 @@ private:
 
     // ── Private helpers ───────────────────────────────────────────────────────
 
+     * @brief TBD: Describe segmentPath.
+     * @param[in] seq Input parameter.
+     * @return Return value.
     /** Build the full path for a segment with the given sequence number. */
     std::string segmentPath(uint64_t seq) const;
 
+     * @brief TBD: Describe listSegmentSeqs.
+     * @return Return value.
     /** Scan segment_dir_ for existing .wal files and return sorted seqs. */
     std::vector<uint64_t> listSegmentSeqs() const;
 
+     * @brief TBD: Describe writeSegmentHeader.
+     * @param[in,out] fd Input/output parameter.
+     * @param[in] seq Input parameter.
     /** Write the 22-byte segment header to @p fd. */
     static void writeSegmentHeader(std::FILE* fd, uint64_t seq);
 
+     * @brief TBD: Describe validateSegmentHeader.
+     * @param[in,out] fd Input/output parameter.
+     * @return True on success.
     /** Validate the header of a segment file; return true on success. */
     static bool validateSegmentHeader(std::FILE* fd);
 
+     * @brief TBD: Describe crc32.
+     * @param[in] data Input parameter.
+     * @return Return value.
+     * @note Exception safety: noexcept.
     /** Compute CRC-32/ISO-HDLC of @p data. */
     static uint32_t crc32(const std::string& data) noexcept;
 
+     * @brief TBD: Describe rotate.
     /** Rotate: close active segment, increment seq, open new segment. */
     void rotate();
 };

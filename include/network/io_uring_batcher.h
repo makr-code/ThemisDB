@@ -159,11 +159,27 @@ private:
     // Pointer into the sqes_mmap_ region — one 64-byte SQE per slot.
     uint8_t* sqe_base_ = nullptr;
 
+    /**
+     * @brief TBD: Describe initRing.
+     * @param[in] queue_depth Input parameter.
+     * @return True on success.
+     */
     bool initRing(unsigned queue_depth);
+    /**
+     * @brief TBD: Describe teardownRing.
+     * @note Exception safety: noexcept.
+     */
     void teardownRing() noexcept;
 
-    // Enqueue a single IORING_OP_WRITEV SQE for (fd, iovs).
-    // Returns false when the SQ ring is full.
+    /**
+     * @brief Enqueue a single IORING_OP_WRITEV SQE for (fd, iovs).
+     * @param[in] fd Input parameter.
+     * @param[in] iovs Input parameter.
+     * @param[in] iov_cnt Input parameter.
+     * @param[in] user_data Input parameter.
+     * @return True on success.
+     * @details Returns false when the SQ ring is full.
+     */
     bool enqueueSqe(int fd, const ::iovec* iovs, size_t iov_cnt, uint64_t user_data);
 };
 

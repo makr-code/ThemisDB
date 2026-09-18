@@ -21,8 +21,23 @@ namespace geo {
 /** @brief Extension interface for providing additional ST_* operations via plugins. */
 class IGeoOpsExtension {
 public:
+    /**
+     * @brief TBD: Describe ~IGeoOpsExtension.
+     * @return Return value.
+     */
     virtual ~IGeoOpsExtension() = default;
+    /**
+     * @brief TBD: Describe name.
+     * @return Pointer to the result.
+     * @note Exception safety: noexcept.
+     */
     virtual const char* name() const noexcept = 0;
+    /**
+     * @brief TBD: Describe supports.
+     * @param[in] op_name Input parameter.
+     * @return True on success.
+     * @note Exception safety: noexcept.
+     */
     virtual bool supports(const std::string& op_name) const noexcept = 0; // e.g., "ST_Buffer"
 };
 

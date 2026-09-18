@@ -129,6 +129,10 @@ struct WriteResult {
  */
 class IScraperMetadataWriter {
 public:
+    /**
+     * @brief TBD: Describe ~IScraperMetadataWriter.
+     * @return Return value.
+     */
     virtual ~IScraperMetadataWriter() = default;
 
     /**
@@ -184,6 +188,10 @@ public:
     const std::vector<ScraperGraphEdge>& graphEdges() const { return edges_; }
     const std::vector<ScraperVectorRecord>& vectorRecords() const { return vectors_; }
     int flushCount() const { return flush_called_; }
+    /**
+     * @brief TBD: Describe clear.
+     * @details Implements clear without additional internal calls.
+     */
     void clear() {
         relational_.clear(); nodes_.clear();
         edges_.clear(); vectors_.clear(); flush_called_ = 0;
@@ -223,17 +231,43 @@ struct ScraperRecordBuilder {
         const GapContext& gap,
         const std::string& plugin_version = "");
 
+    /**
+     * @brief TBD: Describe buildNode.
+     * @param[in] rel Input parameter.
+     * @return Return value.
+     */
     static ScraperGraphNode buildNode(const ScraperRelationalRecord& rel);
 
+    /**
+     * @brief TBD: Describe buildEdges.
+     * @param[in] rel Input parameter.
+     * @param[in] eval Input parameter.
+     * @return Return value.
+     */
     static std::vector<ScraperGraphEdge> buildEdges(
         const ScraperRelationalRecord& rel,
         const EvaluationResult& eval);
 
+    /**
+     * @brief TBD: Describe buildVector.
+     * @param[in] rel Input parameter.
+     * @return Return value.
+     */
     static ScraperVectorRecord buildVector(const ScraperRelationalRecord& rel);
 
 private:
+    /**
+     * @brief TBD: Describe computeDocId.
+     * @param[in] url Input parameter.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     static std::string computeDocId(const std::string& url,
                                     const std::string& text);
+    /**
+     * @brief TBD: Describe currentIso8601.
+     * @return Return value.
+     */
     static std::string currentIso8601();
 };
 

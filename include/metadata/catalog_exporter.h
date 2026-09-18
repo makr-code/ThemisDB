@@ -126,25 +126,27 @@ public:
     // Public API
     // =========================================================================
 
-    /// Publish all tables to the configured catalog.
-    ///
-    /// For Apache Atlas: creates/updates `rdbms_db` + `rdbms_table` + `rdbms_column`
-    /// entities in a single bulk call.
-    ///
-    /// For DataHub: emits one `MetadataChangeProposal` per table with
-    /// `datasetProperties` and `schemaMetadata` aspects.
-    ///
-    /// @param tables  Tables to export (typically from SchemaManager::getAllTables())
-    /// @return        PublishResult with success flag and entity count
+    /**
+     * @brief Publish all tables to the configured catalog.
+     * @param[in] tables Input parameter.
+     * @return Return value.
+     * @details For Apache Atlas: creates/updates `rdbms_db` + `rdbms_table` + `rdbms_column` entities in a single bulk call. For DataHub: emits one `MetadataChangeProposal` per table with `datasetProperties` and `schemaMetadata` aspects. @param tables Tables to export (typically from SchemaManager::getAllTables()) @return PublishResult with success flag and entity count
+     */
     PublishResult publishSchema(const std::vector<SchemaManager::TableSchema>& tables);
 
-    /// Publish a single table to the configured catalog.
-    /// @param table  Table schema to export
-    /// @return       PublishResult with success flag and entity count
+    /**
+     * @brief Publish a single table to the configured catalog.
+     * @param[in] table Input parameter.
+     * @return Return value.
+     * @details @param table Table schema to export @return PublishResult with success flag and entity count
+     */
     PublishResult publishTable(const SchemaManager::TableSchema& table);
 
-    /// Replace the real libcurl implementation with a test double.
-    /// Pass an empty HttpPostFn{} to restore the real implementation.
+    /**
+     * @brief Replace the real libcurl implementation with a test double.
+     * @param[in] fn Input parameter.
+     * @details Pass an empty HttpPostFn{} to restore the real implementation.
+     */
     void setHttpPostForTesting(HttpPostFn fn);
 
 private:
@@ -172,9 +174,15 @@ private:
     // HTTP helper
     // =========================================================================
 
-    /// Execute an HTTP POST request.
-    /// Delegates to the injected test function when set; otherwise uses libcurl.
-    /// @returns HTTP status code (0 on transport error)
+    /**
+     * @brief Execute an HTTP POST request.
+     * @param[in] url Input parameter.
+     * @param[in] body Input parameter.
+     * @param[in] auth_header Input parameter.
+     * @param[in,out] response_body Input/output parameter.
+     * @return Return value.
+     * @details Delegates to the injected test function when set; otherwise uses libcurl. @returns HTTP status code (0 on transport error)
+     */
     int httpPost(const std::string& url,
                  const std::string& body,
                  const std::string& auth_header,

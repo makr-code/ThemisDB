@@ -159,10 +159,20 @@ struct CmmnParsingDeterminismSpec {
     static constexpr DeterminismClass determinism = DeterminismClass::FULLY_DETERMINISTIC;
     static constexpr ConflictScope conflict_scope = ConflictScope::NO_CONFLICTS;
 
+    /**
+     * @brief TBD: Describe uuid_namespace.
+     * @return Return value.
+     * @details Implements uuid_namespace without additional internal calls.
+     */
     static std::string_view uuid_namespace() {
         return "themis-cmmn-parser";
     }
 
+    /**
+     * @brief TBD: Describe describe.
+     * @return Return value.
+     * @details Implements describe without additional internal calls.
+     */
     static std::string_view describe() {
         return "CMMN parsing is fully deterministic. "
                "Identical source produces identical model structure and ID.";
@@ -189,6 +199,11 @@ struct StateTransitionDeterminismSpec {
     static constexpr DeterminismClass determinism = DeterminismClass::CONFLICT_RESOLVED_DETERMINISTIC;
     static constexpr ConflictScope conflict_scope = ConflictScope::SINGLE_MODEL;
 
+    /**
+     * @brief TBD: Describe describe.
+     * @return Return value.
+     * @details Implements describe without additional internal calls.
+     */
     static std::string_view describe() {
         return "State transitions within a single instance are deterministic. "
                "Transition outcome determined by current state and incoming event. "
@@ -221,6 +236,11 @@ struct ModelUpdateDeterminismSpec {
     /// Expected conflict probability under >500 concurrent updates to same model
     static constexpr double expected_conflict_probability = 0.10;  // 10%
 
+    /**
+     * @brief TBD: Describe describe.
+     * @return Return value.
+     * @details Implements describe without additional internal calls.
+     */
     static std::string_view describe() {
         return "Model updates use Last-Write-Wins conflict resolution. "
                "Winner determined by version clock; outcome is deterministic. "
@@ -250,6 +270,11 @@ struct LinkConsistencyDeterminismSpec {
     static constexpr DeterminismClass determinism = DeterminismClass::SNAPSHOT_DETERMINISTIC;
     static constexpr ConflictScope conflict_scope = ConflictScope::NO_CONFLICTS;
 
+    /**
+     * @brief TBD: Describe describe.
+     * @return Return value.
+     * @details Implements describe without additional internal calls.
+     */
     static std::string_view describe() {
         return "Links to deleted models become stale but are not corrupted. "
                "Staleness detected at read-time. Manual cleanup required; "
@@ -280,6 +305,11 @@ struct RetrievalConsistencyDeterminismSpec {
     static constexpr DeterminismClass determinism = DeterminismClass::SNAPSHOT_DETERMINISTIC;
     static constexpr ConflictScope conflict_scope = ConflictScope::NO_CONFLICTS;
 
+    /**
+     * @brief TBD: Describe describe.
+     * @return Return value.
+     * @details Implements describe without additional internal calls.
+     */
     static std::string_view describe() {
         return "Retrieval queries operate over consistent snapshots. "
                "Graph traversal is deterministic per snapshot. "

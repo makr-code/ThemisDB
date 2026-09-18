@@ -340,28 +340,40 @@ class FederationConsensusManager {
   /// Create federation consensus manager (Phase 2 implementation)
   explicit FederationConsensusManager(const ProcessFederationConfig& config);
 
-  /// Get current consensus state
-  /// @return Current state (follower, candidate, leader, failed)
+  /**
+   * @brief Get current consensus state @return Current state (follower, candidate, leader, failed)
+   * @return Return value.
+   */
   virtual ConsensusState GetCurrentState() const = 0;
 
-  /// Detect network partition
-  /// @return Partition detection result with role and reachable nodes
+  /**
+   * @brief Detect network partition @return Partition detection result with role and reachable nodes
+   * @return Return value.
+   */
   virtual PartitionDetectionResult DetectPartition() const = 0;
 
-  /// Attempt write with given consistency level
-  /// @param data Operation data (Phase 2 will specify format)
-  /// @param consistency Consistency level (strong, eventual, local)
-  /// @return Status (success, timeout, partition_detected, failed)
+  /**
+   * @brief Attempt write with given consistency level @param data Operation data (Phase 2 will specify format) @param consistency Consistency level (strong, eventual, local) @return Status (success, timeout, partition_detected, failed)
+   * @param[in] data Input parameter.
+   * @param[in] consistency Input parameter.
+   * @return Return value.
+   */
   virtual std::string AttemptWrite(
       const std::string& data,
       ConsistencyLevel consistency) = 0;
 
-  /// Get replication status for operation
-  /// @param operation_id Unique operation ID
-  /// @return Replication status (state, replicated_on, quorum_achieved)
+  /**
+   * @brief Get replication status for operation @param operation_id Unique operation ID @return Replication status (state, replicated_on, quorum_achieved)
+   * @param[in] operation_id Input parameter.
+   * @return Return value.
+   */
   virtual ReplicationStatus GetReplicationStatus(
       const std::string& operation_id) const = 0;
 
+  /**
+   * @brief TBD: Describe ~FederationConsensusManager.
+   * @return Return value.
+   */
   virtual ~FederationConsensusManager() = default;
 
  protected:

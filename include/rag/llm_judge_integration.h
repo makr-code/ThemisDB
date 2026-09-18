@@ -38,6 +38,10 @@ namespace themis::rag::judge {
  * @endcode
  */
 struct ILLMInferenceEngine {
+    /**
+     * @brief TBD: Describe ~ILLMInferenceEngine.
+     * @return Return value.
+     */
     virtual ~ILLMInferenceEngine() = default;
     /**
      * @brief Generate a response for the given prompt.
@@ -105,6 +109,7 @@ public:
      * @param engine Pointer to an ILLMInferenceEngine implementation.
      *               Must not be nullptr.
      * @throws std::invalid_argument if engine is nullptr.
+     * @return Return value.
      */
     explicit LLMJudgeIntegration(ILLMInferenceEngine* engine);
     
@@ -114,6 +119,7 @@ public:
      * @param engine Pointer to an ILLMInferenceEngine implementation.
      * @param config Integration configuration.
      * @throws std::invalid_argument if engine is nullptr.
+     * @return Return value.
      */
     explicit LLMJudgeIntegration(ILLMInferenceEngine* engine, const Config& config);
 
@@ -133,6 +139,7 @@ public:
      * No backend is configured by this constructor. Callers must inject a
      * backend via setInferenceFunction() before evaluation or the unavailable
      * fail-closed path will be returned.
+     * @return Return value.
      */
     explicit LLMJudgeIntegration(const Config& config);
     
@@ -152,6 +159,9 @@ public:
     /**
      * @brief Directly evaluate a prompt for a dimension.
      *        Lightweight helper used by evaluator components.
+     * @param[in] prompt Input parameter.
+     * @param[in] dimension Input parameter.
+     * @return Return value.
      */
     std::string evaluateDimension(
         const std::string& prompt,

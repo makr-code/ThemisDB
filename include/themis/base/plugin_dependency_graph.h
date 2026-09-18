@@ -155,15 +155,19 @@ public:
     // Queries
     // -------------------------------------------------------------------------
 
+     * @return Return value.
     /** @brief Number of nodes in the graph. */
     std::size_t nodeCount() const;
 
+     * @return Return value.
     /** @brief Number of edges in the graph. */
     std::size_t edgeCount() const;
 
+     * @return Return value.
     /** @brief All nodes, sorted by name. */
     std::vector<Node> nodes() const;
 
+     * @return Return value.
     /** @brief All edges. */
     const std::vector<Edge>& edges() const;
 
@@ -212,12 +216,21 @@ private:
     std::map<std::string, std::string> nodes_;  // name → version
     std::vector<Edge>                  edges_;
 
-    // -------------------------------------------------------------------------
-    // Format-specific render helpers
-    // -------------------------------------------------------------------------
+    /**
+     * @brief ------------------------------------------------------------------------- Format-specific render helpers -------------------------------------------------------------------------
+     * @param[in,out] out Input/output parameter.
+     */
 
     void renderDot(std::ostream& out) const;
+    /**
+     * @brief TBD: Describe renderJson.
+     * @param[in,out] out Input/output parameter.
+     */
     void renderJson(std::ostream& out) const;
+    /**
+     * @brief TBD: Describe renderAscii.
+     * @param[in,out] out Input/output parameter.
+     */
     void renderAscii(std::ostream& out) const;
 
     // -------------------------------------------------------------------------
@@ -226,6 +239,11 @@ private:
 
     /// Escape a string for use as a DOT identifier / JSON string value.
     static std::string escapeDotId(const std::string& s);
+    /**
+     * @brief TBD: Describe escapeJson.
+     * @param[in] s Input parameter.
+     * @return Return value.
+     */
     static std::string escapeJson(const std::string& s);
 
     /// Build an adjacency list (name → set of direct dependency names).

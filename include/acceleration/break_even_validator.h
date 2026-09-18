@@ -391,9 +391,29 @@ private:
     std::optional<std::chrono::milliseconds> ProfileGPU(
         const WorkloadProfile& profile);
 
+    /**
+     * @brief TBD: Describe RequiresVectorDimension.
+     * @param[in] kernel Input parameter.
+     * @return True on success.
+     */
     static bool RequiresVectorDimension(KernelType kernel);
+    /**
+     * @brief TBD: Describe IsGpuCapableDevice.
+     * @param[in] device Input parameter.
+     * @return True on success.
+     */
     static bool IsGpuCapableDevice(DeviceType device);
+    /**
+     * @brief TBD: Describe EstimateWorkUnits.
+     * @param[in] profile Input parameter.
+     * @return Return value.
+     */
     static double EstimateWorkUnits(const WorkloadProfile& profile);
+    /**
+     * @brief TBD: Describe MillisecondsFromEstimate.
+     * @param[in] estimated_ms Input parameter.
+     * @return Return value.
+     */
     static std::optional<std::chrono::milliseconds> MillisecondsFromEstimate(
         double estimated_ms);
 

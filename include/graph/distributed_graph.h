@@ -76,6 +76,10 @@ struct DistributedGraphConfig {
  */
 class ShardGraphExecutor {
 public:
+    /**
+     * @brief TBD: Describe ~ShardGraphExecutor.
+     * @return Return value.
+     */
     virtual ~ShardGraphExecutor() = default;
 
     /// @brief Move constructor for polymorphic shard executor base.
@@ -238,6 +242,7 @@ public:
 
     /**
      * @brief Deregister a shard.  Active queries may still reference its results.
+     * @param[in] shard_id Input parameter.
      */
     void removeShard(const std::string& shard_id);
 

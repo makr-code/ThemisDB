@@ -53,7 +53,16 @@ struct ContentValidationConfig {
     bool enable_schema_validation = false;
     std::string schema_path;  // Path to JSON schema for validation
     
+    /**
+     * @brief TBD: Describe toJson.
+     * @return Return value.
+     */
     json toJson() const;
+    /**
+     * @brief TBD: Describe fromJson.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static ContentValidationConfig fromJson(const json& j);
 };
 
@@ -76,6 +85,10 @@ struct ContentValidationResult {
     bool policy_validated = false;
     bool malware_checked = false;
     
+    /**
+     * @brief TBD: Describe toJson.
+     * @return Return value.
+     */
     json toJson() const;
 };
 
@@ -183,12 +196,18 @@ public:
     
     /**
      * @brief Update configuration
+     * @param[in] config Input parameter.
      */
     void setConfig(const ContentValidationConfig& config);
+    /**
+     * @brief TBD: Describe getConfig.
+     * @return Return value.
+     */
     const ContentValidationConfig& getConfig() const;
     
     /**
      * @brief Set content policy
+     * @param[in] policy Input parameter.
      */
     void setPolicy(const ContentPolicy* policy);
     
@@ -204,9 +223,20 @@ public:
         uint64_t policy_violations = 0;
         uint64_t timeouts = 0;
         
+        /**
+         * @brief TBD: Describe toJson.
+         * @return Return value.
+         */
         json toJson() const;
     };
+    /**
+     * @brief TBD: Describe getStats.
+     * @return Return value.
+     */
     const Stats& getStats() const;
+    /**
+     * @brief TBD: Describe resetStats.
+     */
     void resetStats();
     
 private:
@@ -214,10 +244,32 @@ private:
     const ContentPolicy* policy_;
     mutable Stats stats_;
     
-    // Helper methods
+    /**
+     * @brief Helper methods
+     * @param[in] data Input parameter.
+     * @param[in] filename Input parameter.
+     * @return Return value.
+     */
     std::string detectMimeType(const std::string& data, const std::string& filename) const;
+    /**
+     * @brief TBD: Describe mimeToCategory.
+     * @param[in] mime_type Input parameter.
+     * @return Return value.
+     */
     ContentCategory mimeToCategory(const std::string& mime_type) const;
+    /**
+     * @brief TBD: Describe checkMagicBytes.
+     * @param[in] data Input parameter.
+     * @param[in] mime_type Input parameter.
+     * @return True on success.
+     */
     bool checkMagicBytes(const std::string& data, const std::string& mime_type) const;
+    /**
+     * @brief TBD: Describe validateWithPolicy.
+     * @param[in] mime_type Input parameter.
+     * @param[in] size Input parameter.
+     * @return Return value.
+     */
     ContentError validateWithPolicy(const std::string& mime_type, uint64_t size);
 };
 
@@ -238,11 +290,13 @@ public:
     
     /**
      * @brief Check if operation has timed out
+     * @return Return value.
      */
     ContentError check() const;
     
     /**
      * @brief Get elapsed time
+     * @return Return value.
      */
     std::chrono::milliseconds elapsed() const;
     

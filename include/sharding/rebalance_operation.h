@@ -70,34 +70,49 @@ public:
     /** @brief Optional callback notified after progress updates. */
     using ProgressCallback = std::function<void(const RebalanceProgress&)>;
 
+     * @param[in] config Input parameter.
+     * @return Return value.
     /** @brief Construct operation and validate basic shard/token-range invariants. */
     explicit RebalanceOperation(const RebalanceOperationConfig& config);
     ~RebalanceOperation() = default;
 
+     * @param[in] operator_signature Input parameter.
+     * @return True on success.
     /** @brief Start operation after operator signature validation. */
     bool start(const std::string& operator_signature);
 
+     * @return True on success.
     /** @brief Mark operation as completed from IN_PROGRESS state. */
     bool complete();
 
+     * @param[in] error_message Input parameter.
+     * @return True on success.
     /** @brief Mark operation as failed with terminal error message. */
     bool fail(const std::string& error_message);
 
+     * @return True on success.
     /** @brief Transition failed operation into rolled-back state. */
     bool rollback();
 
+     * @return Return value.
     /** @brief Return current atomic operation state. */
     RebalanceState getState() const;
 
+     * @return Return value.
     /** @brief Return current progress snapshot copy. */
     RebalanceProgress getProgress() const;
 
+     * @param[in] callback Input parameter.
     /** @brief Install callback invoked after progress updates. */
     void setProgressCallback(ProgressCallback callback);
 
+     * @param[in] records_migrated Input parameter.
+     * @param[in] bytes_transferred Input parameter.
     /** @brief Update migration counters and recompute completion estimate. */
     void updateProgress(uint64_t records_migrated, uint64_t bytes_transferred);
 
+     * @param[in] operator_signature Input parameter.
+     * @return True on success.
     /** @brief Validate operator signature and authorization material. */
     bool validateOperator(const std::string& operator_signature);
 
@@ -154,6 +169,9 @@ private:
     std::string error_message_;
     bool operator_validated_ = false;
 
+     * @param[in] from Input parameter.
+     * @param[in] to Input parameter.
+     * @return True on success.
     /** @brief Perform guarded state transition using atomic compare-exchange. */
     bool transitionState(RebalanceState from, RebalanceState to);
 };

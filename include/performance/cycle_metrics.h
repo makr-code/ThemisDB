@@ -98,12 +98,14 @@ public:
     /**
      * @brief Get CPU frequency in Hz
      * @return CPU frequency or 0 if unavailable
+     * @note Exception safety: noexcept.
      */
     static uint64_t cpu_frequency_hz() noexcept;
 
     /**
      * @brief Get CPU model string
      * @return CPU model name
+     * @note Exception safety: noexcept.
      */
     static std::string cpu_model() noexcept;
 
@@ -111,12 +113,21 @@ public:
     using GpuCyclesStartFn = std::function<void*()>;
     using GpuCyclesEndFn = std::function<uint64_t(void* event)>;
 
+    /**
+     * @brief TBD: Describe setGpuCyclesStartFn.
+     * @param[in] fn Input parameter.
+     */
     static void setGpuCyclesStartFn(GpuCyclesStartFn fn);
+    /**
+     * @brief TBD: Describe setGpuCyclesEndFn.
+     * @param[in] fn Input parameter.
+     */
     static void setGpuCyclesEndFn(GpuCyclesEndFn fn);
 
     /**
      * @brief Start GPU cycle measurement
      * @return GPU event handle
+     * @note Exception safety: noexcept.
      */
     static void* gpu_cycles_start() noexcept;
 
@@ -124,6 +135,7 @@ public:
      * @brief End GPU cycle measurement
      * @param event GPU event handle from gpu_cycles_start()
      * @return Elapsed GPU cycles
+     * @note Exception safety: noexcept.
      */
     static uint64_t gpu_cycles_end(void* event) noexcept;
 #endif

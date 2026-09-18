@@ -25,6 +25,7 @@ namespace server {
  * deployments.
  *
  * Served at: GET /import/wizard
+ * @return Return value.
  */
 std::string buildImportWizardHtml();
 

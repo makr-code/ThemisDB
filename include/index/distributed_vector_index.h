@@ -124,18 +124,14 @@ public:
     // Query – scatter-gather KNN
     // -------------------------------------------------------------------------
 
-    /// Search for the @p k nearest neighbours of @p query across ALL shards.
-    ///
-    /// Implementation:
-    ///   1. Scatter: query every shard for up to @p k candidates.
-    ///   2. Gather:  collect all partial results.
-    ///   3. Merge:   globally sort by distance and return top @p k.
-    ///
-    /// @param query  Pointer to @p dim floats.
-    /// @param dim    Dimensionality of the query vector.
-    /// @param k      Number of nearest neighbours to return.
-    /// @return Sorted (closest first) list of AnnSearchResult; may be shorter
-    ///         than @p k when fewer vectors are indexed.
+    /**
+     * @brief Search for the @p k nearest neighbours of @p query across ALL shards.
+     * @param[in] query Input parameter.
+     * @param[in] dim Input parameter.
+     * @param[in] k Input parameter.
+     * @return Return value.
+     * @details Implementation: 1. Scatter: query every shard for up to @p k candidates. 2. Gather: collect all partial results. 3. Merge: globally sort by distance and return top @p k. @param query Pointer to @p dim floats. @param dim Dimensionality of the query vector. @param k Number of nearest neighbours to return. @return Sorted (closest first) list of AnnSearchResult; may be shorter than @p k when fewer vectors are indexed.
+     */
     std::vector<AnnSearchResult> search(const float* query, size_t dim, int k) const;
 
     /// Convenience overload accepting std::vector<float>.
@@ -192,9 +188,29 @@ private:
     // Consistent-hash ring state (used when strategy == CONSISTENT_HASH)
     std::map<uint64_t, size_t> ring_; ///< token → shard_index
 
+    /**
+     * @brief TBD: Describe buildRing_.
+     */
     void buildRing_();
+    /**
+     * @brief TBD: Describe hashKey_.
+     * @param[in] key Input parameter.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     uint64_t hashKey_(const std::string& key) const noexcept;
+    /**
+     * @brief TBD: Describe shardFor_.
+     * @param[in] key Input parameter.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     size_t shardFor_(const std::string& key) const noexcept;
+    /**
+     * @brief TBD: Describe parseGlobalIdFromKey_.
+     * @param[in] key Input parameter.
+     * @return Return value.
+     */
     static std::optional<int64_t> parseGlobalIdFromKey_(const std::string& key);
 };
 

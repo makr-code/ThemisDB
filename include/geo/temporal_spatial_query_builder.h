@@ -129,6 +129,10 @@ private:
  */
 class ITemporalSpatialQueryBuilder {
 public:
+    /**
+     * @brief TBD: Describe ~ITemporalSpatialQueryBuilder.
+     * @return Return value.
+     */
     virtual ~ITemporalSpatialQueryBuilder() = default;
 
     /**
@@ -142,6 +146,8 @@ public:
      * @brief Set the spatial constraint to a composable filter predicate.
      *
      * Replaces any previously set spatial constraint.
+     * @param[in] predicate Input parameter.
+     * @return Return value.
      */
     virtual ITemporalSpatialQueryBuilder& withPredicate(
         std::shared_ptr<ISpatialJoinFilter> predicate) = 0;
@@ -151,6 +157,9 @@ public:
      *
      * Sets window type to `TimeWindowType::INTERVAL`.
      * Replaces any previously set temporal constraint.
+     * @param[in] start Input parameter.
+     * @param[in] end Input parameter.
+     * @return Return value.
      */
     virtual ITemporalSpatialQueryBuilder& duringInterval(
         themisdb::temporal::Timestamp start,
@@ -161,6 +170,8 @@ public:
      *
      * Sets window type to `TimeWindowType::POINT_IN_TIME`.
      * Replaces any previously set temporal constraint.
+     * @param[in] t Input parameter.
+     * @return Return value.
      */
     virtual ITemporalSpatialQueryBuilder& atTime(
         themisdb::temporal::Timestamp t) = 0;

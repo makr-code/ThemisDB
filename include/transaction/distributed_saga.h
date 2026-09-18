@@ -35,7 +35,18 @@ struct DistributedSagaStatus {
     bool ok = true;
     std::string message;
 
+    /**
+     * @brief TBD: Describe OK.
+     * @return Return value.
+     * @details Implements OK without additional internal calls.
+     */
     static DistributedSagaStatus OK()    { return {}; }
+    /**
+     * @brief TBD: Describe Error.
+     * @param[in] msg Input parameter.
+     * @return Return value.
+     * @details Calls: std::move().
+     */
     static DistributedSagaStatus Error(std::string msg) {
         return {false, std::move(msg)};
     }
@@ -401,6 +412,7 @@ public:
      * cycles.
      *
      * @return OK() on success, Error(...) with description on failure.
+     * @param[in] saga Input parameter.
      */
     DistributedSagaStatus validate(const DistributedSagaDefinition& saga) const;
 
@@ -422,6 +434,7 @@ public:
      * @brief Query the current execution state of a distributed SAGA.
      *
      * @return Report if a SAGA with this ID is known, nullopt otherwise.
+     * @param[in] saga_id Input parameter.
      */
     std::optional<DistributedSagaReport> getDistributedStatus(
         const std::string& saga_id) const;
@@ -490,6 +503,7 @@ public:
      * @brief Retrieve the execution report for a previously executed SAGA.
      *
      * @return The report, or std::nullopt if the saga_id is unknown.
+     * @param[in] saga_id Input parameter.
      */
     std::optional<DistributedSagaReport> getReport(const std::string& saga_id) const;
 
@@ -509,6 +523,10 @@ public:
         uint64_t consensus_checks_failed{0};
     };
 
+    /**
+     * @brief TBD: Describe getMetrics.
+     * @return Return value.
+     */
     Metrics getMetrics() const;
 
 private:

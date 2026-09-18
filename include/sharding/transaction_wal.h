@@ -98,11 +98,14 @@ struct TransactionWALConfig {
  */
 class TransactionWAL {
 public:
+     * @param[in] config Input parameter.
+     * @return Return value.
     /** @brief Construct transaction WAL facade with immutable configuration. */
     explicit TransactionWAL(const TransactionWALConfig& config);
     /** @brief Destroy transaction WAL facade and owned WAL manager. */
     ~TransactionWAL();
 
+     * @return True on success.
     /** @brief Initialize directories and underlying WAL manager instance. */
     bool initialize();
 
@@ -113,6 +116,7 @@ public:
      * @param protocol Transaction protocol (2PC, 3PC, SAGA, PERCOLATOR)
      * @param participants List of participant shard IDs
      * @return LSN of the logged entry
+     * @brief TBD: Describe logBegin.
      */
     LSN logBegin(const std::string& transaction_id,
                  TransactionProtocol protocol,
@@ -125,6 +129,7 @@ public:
      * @param participant_id Participant shard ID
      * @param data Protocol-specific prepare data
      * @return LSN of the logged entry
+     * @brief TBD: Describe logPrepare.
      */
     LSN logPrepare(const std::string& transaction_id,
                    const std::string& participant_id,
@@ -138,6 +143,7 @@ public:
      * @param vote true=prepared/yes, false=aborted/no
      * @param response Response data from participant
      * @return LSN of the logged entry
+     * @brief TBD: Describe logPrepared.
      */
     LSN logPrepared(const std::string& transaction_id,
                     const std::string& participant_id,
@@ -150,6 +156,7 @@ public:
      * @param transaction_id Transaction identifier
      * @param data Commit data
      * @return LSN of the logged entry
+     * @brief TBD: Describe logCommit.
      */
     LSN logCommit(const std::string& transaction_id,
                   const nlohmann::json& data);
@@ -160,6 +167,7 @@ public:
      * @param transaction_id Transaction identifier
      * @param participant_id Participant shard ID
      * @return LSN of the logged entry
+     * @brief TBD: Describe logCommitted.
      */
     LSN logCommitted(const std::string& transaction_id,
                      const std::string& participant_id);
@@ -170,6 +178,7 @@ public:
      * @param transaction_id Transaction identifier
      * @param reason Reason for abort
      * @return LSN of the logged entry
+     * @brief TBD: Describe logAbort.
      */
     LSN logAbort(const std::string& transaction_id,
                  const std::string& reason);
@@ -180,6 +189,7 @@ public:
      * @param transaction_id Transaction identifier
      * @param participant_id Participant shard ID
      * @return LSN of the logged entry
+     * @brief TBD: Describe logAborted.
      */
     LSN logAborted(const std::string& transaction_id,
                    const std::string& participant_id);
@@ -191,6 +201,7 @@ public:
      * @param step_id Step identifier
      * @param compensation_data Compensation data
      * @return LSN of the logged entry
+     * @brief TBD: Describe logCompensate.
      */
     LSN logCompensate(const std::string& transaction_id,
                       const std::string& step_id,
@@ -204,9 +215,12 @@ public:
      */
     std::vector<TransactionWALEntry> readEntries(LSN start_lsn = LSN(0, 0));
 
+     * @param[in] operations_count Input parameter.
+     * @return True on success.
     /** @brief Return whether operation count reached configured snapshot interval. */
     bool shouldCreateSnapshot(uint64_t operations_count) const;
 
+     * @return Return value.
     /** @brief Return latest known WAL LSN from manager (or cached fallback). */
     LSN getCurrentLSN() const;
 
@@ -217,9 +231,13 @@ private:
     mutable std::mutex lsn_mutex_;
     LSN current_lsn_;
 
+     * @param[in] txn_entry Input parameter.
+     * @return Return value.
     /** @brief Convert transaction WAL payload into generic WAL entry wire shape. */
     WALEntry toWALEntry(const TransactionWALEntry& txn_entry);
 
+     * @param[in] wal_entry Input parameter.
+     * @return Return value.
     /** @brief Decode generic WAL entry into transaction WAL payload if compatible. */
     std::optional<TransactionWALEntry> fromWALEntry(const WALEntry& wal_entry);
 };

@@ -68,52 +68,69 @@ public:
     
     /**
      * Construct circuit breaker with configuration
+     * @brief TBD: Describe CircuitBreaker.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     explicit CircuitBreaker(const Config& config);
     
     /**
      * Check if request should be allowed
      * @return true if request is allowed, false if circuit is OPEN
+     * @brief TBD: Describe allowRequest.
      */
     bool allowRequest();
     
     /**
      * Record successful request
+     * @brief TBD: Describe recordSuccess.
      */
     void recordSuccess();
     
     /**
      * Record failed request
+     * @brief TBD: Describe recordFailure.
      */
     void recordFailure();
     
     /**
      * Get current state
+     * @brief TBD: Describe getState.
+     * @return Return value.
      */
     State getState() const;
     
     /**
      * Get failure count in current window
+     * @brief TBD: Describe getFailureCount.
+     * @return Return value.
      */
     size_t getFailureCount() const;
     
     /**
      * Get success count in HALF_OPEN state
+     * @brief TBD: Describe getSuccessCount.
+     * @return Return value.
      */
     size_t getSuccessCount() const;
     
     /**
      * Reset circuit breaker to CLOSED state
+     * @brief TBD: Describe reset.
      */
     void reset();
     
     /**
      * Force circuit breaker to OPEN state
+     * @brief TBD: Describe forceOpen.
      */
     void forceOpen();
     
     /**
      * Get human-readable state name
+     * @brief TBD: Describe stateToString.
+     * @param[in] state Input parameter.
+     * @return Return value.
      */
     static std::string stateToString(State state);
 
@@ -134,21 +151,28 @@ private:
     
     /**
      * Transition to new state (thread-safe)
+     * @brief TBD: Describe transitionTo.
+     * @param[in] new_state Input parameter.
      */
     void transitionTo(State new_state);
     
     /**
      * Check if timeout has elapsed (OPEN → HALF_OPEN)
+     * @brief TBD: Describe isTimeoutElapsed.
+     * @return True on success.
      */
     bool isTimeoutElapsed() const;
     
     /**
      * Remove old failures outside the rolling window
+     * @brief TBD: Describe cleanupOldFailures.
      */
     void cleanupOldFailures();
     
     /**
      * Get current failure count in rolling window
+     * @brief TBD: Describe getCurrentFailureCount.
+     * @return Return value.
      */
     size_t getCurrentFailureCount() const;
 };
@@ -174,21 +198,29 @@ public:
     
     /**
      * Check if circuit breaker exists for shard
+     * @brief TBD: Describe hasCircuitBreaker.
+     * @param[in] shard_id Input parameter.
+     * @return True on success.
      */
     bool hasCircuitBreaker(const std::string& shard_id) const;
     
     /**
      * Remove circuit breaker for shard
+     * @brief TBD: Describe removeCircuitBreaker.
+     * @param[in] shard_id Input parameter.
      */
     void removeCircuitBreaker(const std::string& shard_id);
     
     /**
      * Reset all circuit breakers
+     * @brief TBD: Describe resetAll.
      */
     void resetAll();
     
     /**
      * Get all shard IDs with circuit breakers
+     * @brief TBD: Describe getAllShardIds.
+     * @return Return value.
      */
     std::vector<std::string> getAllShardIds() const;
     
@@ -200,6 +232,10 @@ public:
         size_t open = 0;
         size_t half_open = 0;
     };
+    /**
+     * @brief TBD: Describe getStateCount.
+     * @return Return value.
+     */
     StateCount getStateCount() const;
 
 private:

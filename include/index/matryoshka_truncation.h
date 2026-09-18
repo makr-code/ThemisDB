@@ -199,6 +199,11 @@ public:
 
         // Materialise the truncated flat array once and hand it to the backend.
         const size_t td = trunc_.trunc_dim();
+        /**
+         * @brief TBD: Describe buf.
+         * @param[in,out] td Input/output parameter.
+         * @return Return value.
+         */
         std::vector<float> buf(count * td);
         for (size_t i = 0; i < count; ++i) {
             auto t = trunc_.truncate(vectors + i * full_dim, full_dim);

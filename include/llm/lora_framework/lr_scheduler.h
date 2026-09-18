@@ -45,6 +45,10 @@ enum class SchedulerType {
  * @brief Configuration for learning rate scheduler
  */
 struct LRSchedulerConfig {
+    /**
+     * @brief TBD: Describe ~LRSchedulerConfig.
+     * @return Return value.
+     */
     virtual ~LRSchedulerConfig() = default;
     SchedulerType type = SchedulerType::CONSTANT;
     float base_lr = 1e-4f;              // Base learning rate
@@ -80,6 +84,12 @@ struct LRSchedulerConfig {
         };
     }
     
+    /**
+     * @brief TBD: Describe fromJSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     * @details Calls: contains().
+     */
     static LRSchedulerConfig fromJSON(const json& j) {
         LRSchedulerConfig config = {};
         if (j.contains("type")) {
@@ -133,6 +143,10 @@ struct LRSchedulerConfig {
  */
 class LRScheduler {
 public:
+    /**
+     * @brief TBD: Describe ~LRScheduler.
+     * @return Return value.
+     */
     virtual ~LRScheduler() = default;
     
     /**
@@ -409,10 +423,34 @@ public:
     
     /**
      * @brief Create common scheduler presets
+     * @param[in] lr Input parameter.
+     * @return Return value.
      */
     static std::unique_ptr<LRScheduler> createConstant(float lr);
+    /**
+     * @brief TBD: Describe createLinearDecay.
+     * @param[in] start_lr Input parameter.
+     * @param[in] end_lr Input parameter.
+     * @param[in] steps Input parameter.
+     * @return Return value.
+     */
     static std::unique_ptr<LRScheduler> createLinearDecay(float start_lr, float end_lr, int steps);
+    /**
+     * @brief TBD: Describe createCosineAnnealing.
+     * @param[in] max_lr Input parameter.
+     * @param[in] min_lr Input parameter.
+     * @param[in] steps Input parameter.
+     * @return Return value.
+     */
     static std::unique_ptr<LRScheduler> createCosineAnnealing(float max_lr, float min_lr, int steps);
+    /**
+     * @brief TBD: Describe createWarmupCosine.
+     * @param[in] max_lr Input parameter.
+     * @param[in] min_lr Input parameter.
+     * @param[in] warmup_steps Input parameter.
+     * @param[in] total_steps Input parameter.
+     * @return Return value.
+     */
     static std::unique_ptr<LRScheduler> createWarmupCosine(float max_lr, float min_lr, 
                                                             int warmup_steps, int total_steps);
 };

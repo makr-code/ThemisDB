@@ -55,13 +55,23 @@ struct PaxosWALEntry {
     std::string node_id;               // Node that created this entry
     nlohmann::json data;               // Operation data
     
-    // Serialize to WALEntry for storage
+    /**
+     * @brief Serialize to WALEntry for storage
+     * @return Return value.
+     */
     WALEntry toWALEntry() const;
     
-    // Deserialize from WALEntry
+    /**
+     * @brief Deserialize from WALEntry
+     * @param[in] entry Input parameter.
+     * @return Return value.
+     */
     static PaxosWALEntry fromWALEntry(const WALEntry& entry);
     
-    // Get size in bytes
+    /**
+     * @brief Get size in bytes
+     * @return Return value.
+     */
     size_t size() const;
 };
 
@@ -100,12 +110,18 @@ struct PaxosWALConfig {
  */
 class PaxosWAL {
 public:
+    /**
+     * @brief TBD: Describe PaxosWAL.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit PaxosWAL(const PaxosWALConfig& config);
     ~PaxosWAL();
     
     /**
      * Initialize WAL (create directories, load state)
      * @return true on success
+     * @brief TBD: Describe initialize.
      */
     bool initialize();
     
@@ -113,6 +129,7 @@ public:
      * Log a Paxos operation
      * @param entry Paxos WAL entry to log
      * @return LSN of logged entry
+     * @brief TBD: Describe logEntry.
      */
     LSN logEntry(const PaxosWALEntry& entry);
     
@@ -122,6 +139,7 @@ public:
      * @param round Proposal round
      * @param node_id Proposer node
      * @return LSN of logged entry
+     * @brief TBD: Describe logPrepare.
      */
     LSN logPrepare(uint64_t slot, uint64_t round, const std::string& node_id);
     
@@ -133,6 +151,7 @@ public:
      * @param accepted_round Previously accepted round (0 if none)
      * @param accepted_value Previously accepted value (empty if none)
      * @return LSN of logged entry
+     * @brief TBD: Describe logPromise.
      */
     LSN logPromise(uint64_t slot, uint64_t round, const std::string& node_id,
                    uint64_t accepted_round, const nlohmann::json& accepted_value);
@@ -144,6 +163,7 @@ public:
      * @param node_id Proposer node
      * @param value Value to accept
      * @return LSN of logged entry
+     * @brief TBD: Describe logAccept.
      */
     LSN logAccept(uint64_t slot, uint64_t round, const std::string& node_id,
                   const ConsensusLogEntry& value);
@@ -154,6 +174,7 @@ public:
      * @param round Accepted round
      * @param node_id Acceptor node
      * @return LSN of logged entry
+     * @brief TBD: Describe logAccepted.
      */
     LSN logAccepted(uint64_t slot, uint64_t round, const std::string& node_id);
     
@@ -162,6 +183,7 @@ public:
      * @param slot Paxos slot
      * @param value Committed value
      * @return LSN of logged entry
+     * @brief TBD: Describe logCommit.
      */
     LSN logCommit(uint64_t slot, const ConsensusLogEntry& value);
     
@@ -176,16 +198,21 @@ public:
     
     /**
      * Get current LSN (position of next write)
+     * @brief TBD: Describe getCurrentLSN.
+     * @return Return value.
      */
     LSN getCurrentLSN() const;
     
     /**
      * Get oldest available LSN
+     * @brief TBD: Describe getOldestLSN.
+     * @return Return value.
      */
     LSN getOldestLSN() const;
     
     /**
      * Force flush buffered entries to disk
+     * @brief TBD: Describe flush.
      */
     void flush();
     
@@ -193,6 +220,7 @@ public:
      * Check if snapshot should be created
      * @param operations_since_last Number of operations since last snapshot
      * @return true if snapshot should be created
+     * @brief TBD: Describe shouldCreateSnapshot.
      */
     bool shouldCreateSnapshot(size_t operations_since_last) const;
 
@@ -237,7 +265,15 @@ private:
     std::unique_ptr<WALManager> wal_manager_;
     mutable std::mutex mutex_;
     
-    // Helper to create WAL entry with timestamp and LSN
+    /**
+     * @brief Helper to create WAL entry with timestamp and LSN
+     * @param[in] type Input parameter.
+     * @param[in] slot Input parameter.
+     * @param[in] round Input parameter.
+     * @param[in] node_id Input parameter.
+     * @param[in] data Input parameter.
+     * @return Return value.
+     */
     PaxosWALEntry createEntry(PaxosWALEntryType type, uint64_t slot,
                               uint64_t round, const std::string& node_id,
                               const nlohmann::json& data);

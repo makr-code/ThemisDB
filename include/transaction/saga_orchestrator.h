@@ -33,7 +33,18 @@ struct SagaOrchestratorStatus {
     bool        ok{true};
     std::string message;
 
+    /**
+     * @brief TBD: Describe OK.
+     * @return Return value.
+     * @details Implements OK without additional internal calls.
+     */
     static SagaOrchestratorStatus OK()                       { return {}; }
+    /**
+     * @brief TBD: Describe Error.
+     * @param[in] msg Input parameter.
+     * @return Return value.
+     * @details Calls: std::move().
+     */
     static SagaOrchestratorStatus Error(std::string msg)     { return {false, std::move(msg)}; }
 };
 
@@ -256,6 +267,7 @@ public:
      * @see SAGAOrchestratorConfig::circuit_breaker_threshold for failure threshold
      * @see SAGAOrchestratorConfig::circuit_breaker_timeout for recovery window
      * @see CompensationLog for idempotency tracking
+     * @param[in] saga Input parameter.
      */
     SagaOrchestratorStatus execute(const SAGADefinition& saga);
 
@@ -264,6 +276,8 @@ public:
      *
      * Checks that all depends_on names exist and that there are no dependency
      * cycles.
+     * @param[in] saga Input parameter.
+     * @return Return value.
      */
     SagaOrchestratorStatus validate(const SAGADefinition& saga) const;
 
@@ -273,6 +287,7 @@ public:
      * @brief Retrieve the execution status for a previously executed SAGA.
      *
      * @return Status record, or std::nullopt if saga_id is unknown.
+     * @param[in] saga_id Input parameter.
      */
     std::optional<SAGAExecutionStatus> getStatus(const std::string& saga_id) const;
 
@@ -290,6 +305,10 @@ public:
         uint64_t total_steps_skipped{0};
     };
 
+    /**
+     * @brief TBD: Describe getMetrics.
+     * @return Return value.
+     */
     Metrics getMetrics() const;
 
     // ── Template support ──────────────────────────────────────────────────────
@@ -341,6 +360,8 @@ public:
      * ship_order        (terminal)
      * ─────────────────────────────────────────────
      * ```
+     * @param[in] saga Input parameter.
+     * @return Return value.
      */
     std::string renderWorkflow(const SAGADefinition& saga) const;
 
@@ -376,8 +397,12 @@ private:
     /// Record a success (resets failure counter).
     void recordCircuitBreakerSuccess(const std::string& step_name);
 
-    /// Acquire execution permission for a step under circuit-breaker control.
-    /// Returns false when the circuit is OPEN and not eligible for a probe.
+    /**
+     * @brief Acquire execution permission for a step under circuit-breaker control.
+     * @param[in] step_name Input parameter.
+     * @return True on success.
+     * @details Returns false when the circuit is OPEN and not eligible for a probe.
+     */
     bool tryAcquireCircuitBreakerExecution(const std::string& step_name);
 
     // ── Internal helpers ──────────────────────────────────────────────────────
@@ -391,9 +416,14 @@ private:
     /// Build map: step_name → pointer into saga.steps.
     static StepMap buildStepMap(const SAGADefinition& saga);
 
-    /// Execute a single step with retry and optional timeout.
-    /// Returns the final StepState (COMPLETED, SKIPPED, or FAILED).
-    /// Thread-safe: does NOT write to status_rec; caller applies the returned state.
+    /**
+     * @brief Execute a single step with retry and optional timeout.
+     * @param[in] step Input parameter.
+     * @param[in] saga_id Input parameter.
+     * @param[in] cfg Input parameter.
+     * @return Return value.
+     * @details Returns the final StepState (COMPLETED, SKIPPED, or FAILED). Thread-safe: does NOT write to status_rec; caller applies the returned state.
+     */
     StepState executeStep(const SAGAStep& step,
                           const std::string& saga_id,
                           const Config& cfg);

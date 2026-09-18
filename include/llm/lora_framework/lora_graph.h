@@ -91,6 +91,12 @@ struct LoRAGraphEdge {
         };
     }
     
+    /**
+     * @brief TBD: Describe edgeTypeToString.
+     * @param[in] type Input parameter.
+     * @return Return value.
+     * @details Implements edgeTypeToString without additional internal calls.
+     */
     static std::string edgeTypeToString(LoRAEdgeType type) {
         switch (type) {
             case LoRAEdgeType::DERIVED_FROM: return "DERIVED_FROM";
@@ -153,6 +159,7 @@ struct LoRAVectorEmbedding {
      *
      * @param j  JSON object produced by toJSON().
      * @return   Populated LoRAVectorEmbedding.
+     * @details Calls: contains(), is_array(), is_number_integer().
      */
     static LoRAVectorEmbedding fromJSON(const json& j) {
         LoRAVectorEmbedding emb = {};
@@ -294,6 +301,12 @@ struct AdapterMetadataEnhanced : public AdapterMetadata {
         return j;
     }
     
+    /**
+     * @brief TBD: Describe fromJSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     * @details Calls: contains(), push_back(), is_object().
+     */
     static AdapterMetadataEnhanced fromJSON(const json& j) {
         AdapterMetadataEnhanced metadata;
         

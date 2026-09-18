@@ -76,15 +76,54 @@ public:
     public:
         Encoder();
         
+        /**
+         * @brief TBD: Describe encodeNull.
+         */
         void encodeNull();
+        /**
+         * @brief TBD: Describe encodeBool.
+         * @param[in] value Input parameter.
+         */
         void encodeBool(bool value);
+        /**
+         * @brief TBD: Describe encodeInt32.
+         * @param[in] value Input parameter.
+         */
         void encodeInt32(int32_t value);
+        /**
+         * @brief TBD: Describe encodeInt64.
+         * @param[in] value Input parameter.
+         */
         void encodeInt64(int64_t value);
+        /**
+         * @brief TBD: Describe encodeUInt32.
+         * @param[in] value Input parameter.
+         */
         void encodeUInt32(uint32_t value);
+        /**
+         * @brief TBD: Describe encodeUInt64.
+         * @param[in] value Input parameter.
+         */
         void encodeUInt64(uint64_t value);
+        /**
+         * @brief TBD: Describe encodeFloat.
+         * @param[in] value Input parameter.
+         */
         void encodeFloat(float value);
+        /**
+         * @brief TBD: Describe encodeDouble.
+         * @param[in] value Input parameter.
+         */
         void encodeDouble(double value);
+        /**
+         * @brief TBD: Describe encodeString.
+         * @param[in] str Input parameter.
+         */
         void encodeString(std::string_view str);
+        /**
+         * @brief TBD: Describe encodeBinary.
+         * @param[in] data Input parameter.
+         */
         void encodeBinary(const std::vector<uint8_t>& data);
         
         /// Encode float vector (for embeddings) - optimized format
@@ -92,10 +131,16 @@ public:
         
         /// Begin/end array
         void beginArray(size_t size);
+        /**
+         * @brief TBD: Describe endArray.
+         */
         void endArray();
         
         /// Begin/end object
         void beginObject(size_t num_fields);
+        /**
+         * @brief TBD: Describe endObject.
+         */
         void endObject();
         
         /**
@@ -119,8 +164,20 @@ public:
         
     private:
         std::vector<uint8_t> buffer_;
+        /**
+         * @brief TBD: Describe writeTag.
+         * @param[in] tag Input parameter.
+         */
         void writeTag(TypeTag tag);
+        /**
+         * @brief TBD: Describe writeUInt32.
+         * @param[in] value Input parameter.
+         */
         void writeUInt32(uint32_t value);
+        /**
+         * @brief TBD: Describe writeUInt64.
+         * @param[in] value Input parameter.
+         */
         void writeUInt64(uint64_t value);
     };
     
@@ -160,18 +217,55 @@ public:
          *       Mismatches between expected and actual type return error, not silent coercion.
          * @note Nesting Depth: Tracks recursion depth during array/object decoding.
          *       Depth exceeding MAX_NESTING_DEPTH (32) causes deserialization error.
+         * @return Return value.
          */
         explicit Decoder(const std::vector<uint8_t>& data);
         
+        /**
+         * @brief TBD: Describe peekType.
+         * @return Return value.
+         */
         TypeTag peekType() const;
         
+        /**
+         * @brief TBD: Describe isNull.
+         * @return True on success.
+         */
         bool isNull() const;
+        /**
+         * @brief TBD: Describe decodeBool.
+         * @return True on success.
+         */
         bool decodeBool();
+        /**
+         * @brief TBD: Describe decodeInt32.
+         * @return Return value.
+         */
         int32_t decodeInt32();
+        /**
+         * @brief TBD: Describe decodeInt64.
+         * @return Return value.
+         */
         int64_t decodeInt64();
+        /**
+         * @brief TBD: Describe decodeUInt32.
+         * @return Return value.
+         */
         uint32_t decodeUInt32();
+        /**
+         * @brief TBD: Describe decodeUInt64.
+         * @return Return value.
+         */
         uint64_t decodeUInt64();
+        /**
+         * @brief TBD: Describe decodeFloat.
+         * @return Return value.
+         */
         float decodeFloat();
+        /**
+         * @brief TBD: Describe decodeDouble.
+         * @return Return value.
+         */
         double decodeDouble();
         
         /**
@@ -221,6 +315,9 @@ public:
          *       depth > 32 causes error to prevent stack overflow on crafted input.
          */
         size_t beginArray();
+        /**
+         * @brief TBD: Describe endArray.
+         */
         void endArray();
         
         /**
@@ -235,10 +332,21 @@ public:
          * @note Schema Validation: Mismatch between expected and actual type causes error.
          */
         size_t beginObject();
+        /**
+         * @brief TBD: Describe endObject.
+         */
         void endObject();
         
+        /**
+         * @brief TBD: Describe hasMore.
+         * @return True on success.
+         */
         bool hasMore() const;
         
+        /**
+         * @brief TBD: Describe readTag.
+         * @return Return value.
+         */
         TypeTag readTag();
     
     private:
@@ -248,7 +356,15 @@ public:
         size_t pos_ = 0;
         size_t nesting_depth_ = 0; ///< Current array/object nesting depth for overflow protection.
 
+        /**
+         * @brief TBD: Describe readUInt32.
+         * @return Return value.
+         */
         uint32_t readUInt32();
+        /**
+         * @brief TBD: Describe readUInt64.
+         * @return Return value.
+         */
         uint64_t readUInt64();
     };
 };

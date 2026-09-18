@@ -173,6 +173,7 @@ public:
 
     /**
      * @brief Check whether this node belongs to the *current* active stage.
+     * @return True on success.
      */
     bool isNodeInCurrentStage() const;
 
@@ -180,6 +181,7 @@ public:
 
     /**
      * @brief Return the 0-based index of the currently active stage.
+     * @return Return value.
      */
     size_t currentStage() const;
 
@@ -239,12 +241,14 @@ public:
      * @brief Current error rate since the last stage advance (0.0 – 1.0).
      *
      * Returns 0.0 when no events have been recorded yet.
+     * @return Return value.
      */
     double errorRate() const;
 
     /**
      * @brief Return true if the error rate exceeds the threshold and the
      *        minimum sample count has been reached.
+     * @return True on success.
      */
     bool shouldRollback() const;
 
@@ -252,6 +256,7 @@ public:
 
     /**
      * @brief Get a snapshot of the current rollout state.
+     * @return Return value.
      */
     CanaryStatus status() const;
 
@@ -276,6 +281,7 @@ private:
      * implementation-defined across different compilers/platforms.  Since all
      * nodes in a cluster run the same binary when evaluating canary membership,
      * this is sufficient for single-binary deployments.
+     * @return Return value.
      */
     double computeNodeHash() const;
 
@@ -432,6 +438,7 @@ public:
     // Builder API
     // -----------------------------------------------------------------------
 
+     * @param[in] version Input parameter.
     /** @brief Set the version string to deploy (e.g., "1.5.0"). */
     void setVersion(const std::string& version);
 
@@ -440,9 +447,11 @@ public:
      *
      * stage_number is filled in automatically (0-based).
      * The last stage must have percentage == 100 to guarantee full coverage.
+     * @param[in] stages Input parameter.
      */
     void setStages(std::vector<CanaryDeploymentStage> stages);
 
+     * @param[in] threshold Input parameter.
     /** @brief Set the error-rate threshold that triggers auto-rollback (0–1). */
     void setErrorRateThreshold(double threshold);
 
@@ -450,9 +459,11 @@ public:
      * @brief Set the p99 latency threshold that triggers auto-rollback.
      *
      * Checked each time reportLatency() is called.
+     * @param[in] p99_limit Input parameter.
      */
     void setLatencyThreshold(std::chrono::milliseconds p99_limit);
 
+     * @param[in] engine Input parameter.
     /** @brief Provide the HotReloadEngine used to apply / rollback the update. */
     void setEngine(std::shared_ptr<HotReloadEngine> engine);
 
@@ -460,6 +471,7 @@ public:
      * @brief Set the stable node identifier used for canary-group membership.
      *
      * If not set, deploy() will throw std::invalid_argument.
+     * @param[in] node_id Input parameter.
      */
     void setNodeId(const std::string& node_id);
 
@@ -490,6 +502,7 @@ public:
      *
      * The callback receives a copy of the CanaryDeploymentStage that just
      * finished (including the stage_number and percentage).
+     * @param[in] cb Input parameter.
      */
     void onStageComplete(StageCompleteCallback cb);
 
@@ -516,15 +529,19 @@ public:
      * Percentiles are recomputed lazily when getMetricsSnapshot() is called.
      * If the p99 of the current reservoir exceeds the configured latency
      * threshold, rollback is triggered automatically.
+     * @param[in] latency Input parameter.
      */
     void reportLatency(std::chrono::microseconds latency);
 
+     * @param[in] bytes Input parameter.
     /** @brief Update the latest memory-usage reading. */
     void reportMemoryUsage(double bytes);
 
+     * @param[in] fraction Input parameter.
     /** @brief Update the latest CPU-utilisation reading (0.0–1.0). */
     void reportCpuUsage(double fraction);
 
+     * @param[in] bytes_per_sec Input parameter.
     /** @brief Update the latest disk I/O throughput reading (bytes/s). */
     void reportDiskIO(double bytes_per_sec);
 
@@ -533,6 +550,8 @@ public:
      *
      * Custom metrics appear in the CanaryMetricsSnapshot and are useful for
      * domain-specific signals like query-error rates or transaction failures.
+     * @param[in] name Input parameter.
+     * @param[in] value Input parameter.
      */
     void recordCustomMetric(const std::string& name, double value);
 
@@ -545,6 +564,7 @@ public:
      *
      * Once enabled, isCanaryRequest() / isControlRequest() can be used to
      * deterministically route individual requests.
+     * @param[in] config Input parameter.
      */
     void enableABTesting(const ABTestConfig& config);
 
@@ -556,12 +576,16 @@ public:
      * same request always lands in the same bucket.
      *
      * Returns false when A/B testing is not enabled.
+     * @param[in] request_id Input parameter.
+     * @return True on success.
      */
     bool isCanaryRequest(const std::string& request_id) const;
 
     /**
      * @brief Return true if the given request key should be routed to the
      *        control (old-version) path.
+     * @param[in] request_id Input parameter.
+     * @return True on success.
      */
     bool isControlRequest(const std::string& request_id) const;
 
@@ -570,6 +594,7 @@ public:
      *        rollout stage (delegates to CanaryRollout::isNodeInCurrentStage).
      *
      * Returns false before deploy() is called.
+     * @return True on success.
      */
     bool isNodeInCanaryGroup() const;
 
@@ -577,12 +602,15 @@ public:
     // Status and metrics
     // -----------------------------------------------------------------------
 
+     * @return Return value.
     /** @brief Get a snapshot of metrics collected since the last stage advance. */
     CanaryMetricsSnapshot getMetricsSnapshot() const;
 
+     * @return Return value.
     /** @brief Get a snapshot of the rollout state (delegates to CanaryRollout). */
     CanaryStatus status() const;
 
+     * @return True on success.
     /** @brief Manually advance to the next stage (delegates to CanaryRollout). */
     bool advanceStage();
 
@@ -590,10 +618,15 @@ public:
     bool rollback(const std::string& reason = "");
 
 private:
-    // Compute percentile from sorted latency reservoir (caller must hold mutex).
+    /**
+     * @brief Compute percentile from sorted latency reservoir (caller must hold mutex).
+     * @return Return value.
+     */
     LatencyStats computeLatencyStats() const;
 
-    // Check latency threshold and trigger rollback if exceeded (must NOT hold mutex).
+    /**
+     * @brief Check latency threshold and trigger rollback if exceeded (must NOT hold mutex).
+     */
     void checkLatencyThreshold();
 
     mutable std::mutex mutex_;

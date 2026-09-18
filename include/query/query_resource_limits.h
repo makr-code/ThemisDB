@@ -49,6 +49,11 @@ struct QueryResourceLimits {
  */
 class QueryResourceGuard {
 public:
+    /**
+     * @brief TBD: Describe QueryResourceGuard.
+     * @param[in] limits Input parameter.
+     * @return Return value.
+     */
     explicit QueryResourceGuard(const QueryResourceLimits& limits)
         : limits_(limits)
         , row_count_(0)

@@ -85,6 +85,8 @@ public:
     
     /**
      * @brief Get default configuration
+     * @return Return value.
+     * @details Implements defaultConfig without additional internal calls.
      */
     static const Config& defaultConfig() {
         static Config cfg{};
@@ -103,6 +105,10 @@ public:
         const Config& config = defaultConfig()
     );
     
+    /**
+     * @brief TBD: Describe ~HotReloadEngine.
+     * @return Return value.
+     */
     virtual ~HotReloadEngine();
 
     /**
@@ -230,6 +236,7 @@ private:
     /**
      * @brief Create backup before update
      * @return Rollback ID for the backup
+     * @param[in] files Input parameter.
      */
     std::string createBackup(const std::vector<ReleaseFile>& files);
     

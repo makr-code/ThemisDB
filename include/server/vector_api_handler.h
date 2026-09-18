@@ -155,18 +155,44 @@ private:
     std::shared_ptr<FieldEncryption> field_encryption_;
     std::shared_ptr<KeyProvider> key_provider_;
 
-    // Helper methods
+    /**
+     * @brief Helper methods
+     * @param[in] status Input parameter.
+     * @param[in] message Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeErrorResponse(
         http::status status, const std::string& message, const http::request<http::string_body>& req);
+    /**
+     * @brief TBD: Describe makeResponse.
+     * @param[in] status Input parameter.
+     * @param[in] body Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeResponse(
         http::status status, const std::string& body, const http::request<http::string_body>& req);
     
+    /**
+     * @brief TBD: Describe requireAccess.
+     * @param[in] req Input parameter.
+     * @param[in] permission Input parameter.
+     * @param[in] resource Input parameter.
+     * @param[in] path Input parameter.
+     * @return Return value.
+     */
     std::optional<http::response<http::string_body>> requireAccess(
         const http::request<http::string_body>& req,
         const std::string& permission,
         const std::string& resource,
         const std::string& path);
     
+    /**
+     * @brief TBD: Describe extractAuthContext.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     AuthContext extractAuthContext(const http::request<http::string_body>& req) const;
 };
 

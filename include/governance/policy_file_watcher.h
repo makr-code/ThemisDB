@@ -57,6 +57,7 @@ public:
      *
      * @param engine  Governance PolicyEngine to reload on file change.
      *                Must outlive this watcher.
+     * @return Return value.
      */
     explicit PolicyFileWatcher(PolicyEngine& engine);
     /**
@@ -65,6 +66,7 @@ public:
      * @param engine  Governance PolicyEngine to reload on file change.
      *                Must outlive this watcher.
      * @param config  Watcher configuration.
+     * @return Return value.
      */
     explicit PolicyFileWatcher(PolicyEngine& engine, Config config);
 
@@ -99,6 +101,9 @@ public:
     }
 
 private:
+    /**
+     * @brief TBD: Describe run.
+     */
     void run();
 
     PolicyEngine& engine_;

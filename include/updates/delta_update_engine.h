@@ -58,7 +58,16 @@ struct FileDelta {
     /// Used only if DeltaManifest::enforce_order is true.
     uint32_t apply_order = 0;
 
+    /**
+     * @brief TBD: Describe toJson.
+     * @return Return value.
+     */
     json toJson() const;
+    /**
+     * @brief TBD: Describe fromJson.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static std::optional<FileDelta> fromJson(const json& j);
 };
 
@@ -100,7 +109,16 @@ struct DeltaManifest {
     /// Convenience: total bytes of the reconstructed files (sum of target_size)
     uint64_t totalTargetSize() const;
 
+    /**
+     * @brief TBD: Describe toJson.
+     * @return Return value.
+     */
     json toJson() const;
+    /**
+     * @brief TBD: Describe fromJson.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static std::optional<DeltaManifest> fromJson(const json& j);
 };
 
@@ -162,6 +180,7 @@ public:
 
     /**
      * @brief Register a delta manifest (e.g. parsed from a release asset)
+     * @param[in] manifest Input parameter.
      */
     void registerDelta(const DeltaManifest& manifest);
 
@@ -242,55 +261,124 @@ private:
     std::function<void(int, const std::string&)> progress_cb_;
     std::vector<DeltaManifest> registered_deltas_;
 
+    /**
+     * @brief TBD: Describe reportProgress.
+     * @param[in] pct Input parameter.
+     * @param[in] msg Input parameter.
+     */
     void reportProgress(int pct, const std::string& msg);
     
-    /// @brief Compute apply order using topological sort on dependencies.
-    /// @param manifest The manifest with patch dependencies
-    /// @return Ordered list of FileDelta, or empty on error (7402=circular, 7404=missing)
-    /// @error_code 7402 Circular dependency detected in patch ordering
-    /// @error_code 7404 Dependency file missing in manifest
+    /**
+     * @brief @brief Compute apply order using topological sort on dependencies.
+     * @param[in] manifest Input parameter.
+     * @return Return value.
+     * @details @param manifest The manifest with patch dependencies @return Ordered list of FileDelta, or empty on error (7402=circular, 7404=missing) @error_code 7402 Circular dependency detected in patch ordering @error_code 7404 Dependency file missing in manifest
+     */
     std::vector<FileDelta> computeApplyOrder(const DeltaManifest& manifest);
     
-    /// @brief Validate that all dependencies exist in the manifest.
-    /// @return true if valid, false if dependency missing
-    /// @error_code 7404 Dependency file missing in manifest
+    /**
+     * @brief @brief Validate that all dependencies exist in the manifest.
+     * @param[in] manifest Input parameter.
+     * @return True on success.
+     * @details @return true if valid, false if dependency missing @error_code 7404 Dependency file missing in manifest
+     */
     bool validateDependencies(const DeltaManifest& manifest);
     
-    /// @brief Detect circular dependencies using DFS.
-    /// @return true if circular dependency found, false otherwise
-    /// @error_code 7402 Circular dependency detected in patch ordering
+    /**
+     * @brief @brief Detect circular dependencies using DFS.
+     * @param[in] deltas Input parameter.
+     * @return True on success.
+     * @details @return true if circular dependency found, false otherwise @error_code 7402 Circular dependency detected in patch ordering
+     */
     bool hasCircularDependency(const std::vector<FileDelta>& deltas);
 
-    // Per-algorithm generate/apply helpers
+    /**
+     * @brief Per-algorithm generate/apply helpers
+     * @param[in] base Input parameter.
+     * @param[in] target Input parameter.
+     * @param[in] patch_path Input parameter.
+     * @return True on success.
+     */
     bool generatePatchZstdDict(
         const std::vector<uint8_t>& base,
         const std::vector<uint8_t>& target,
         const std::string& patch_path);
 
+    /**
+     * @brief TBD: Describe applyPatchZstdDict.
+     * @param[in] base Input parameter.
+     * @param[in] patch_path Input parameter.
+     * @param[in] target_path Input parameter.
+     * @return True on success.
+     */
     bool applyPatchZstdDict(
         const std::vector<uint8_t>& base,
         const std::string& patch_path,
         const std::string& target_path);
 
+    /**
+     * @brief TBD: Describe generatePatchVcdiff.
+     * @param[in] base Input parameter.
+     * @param[in] target Input parameter.
+     * @param[in] patch_path Input parameter.
+     * @return True on success.
+     */
     bool generatePatchVcdiff(
         const std::vector<uint8_t>& base,
         const std::vector<uint8_t>& target,
         const std::string& patch_path);
 
+    /**
+     * @brief TBD: Describe applyPatchVcdiff.
+     * @param[in] base Input parameter.
+     * @param[in] patch_path Input parameter.
+     * @param[in] target_path Input parameter.
+     * @return True on success.
+     */
     bool applyPatchVcdiff(
         const std::vector<uint8_t>& base,
         const std::string& patch_path,
         const std::string& target_path);
 
-    // Utility
+    /**
+     * @brief Utility
+     * @param[in] data Input parameter.
+     * @return Return value.
+     */
     static std::string calculateHash(const std::vector<uint8_t>& data);
+    /**
+     * @brief TBD: Describe readFile.
+     * @param[in] path Input parameter.
+     * @return Return value.
+     */
     static std::vector<uint8_t> readFile(const std::string& path);
+    /**
+     * @brief TBD: Describe writeFile.
+     * @param[in] path Input parameter.
+     * @param[in] data Input parameter.
+     * @return True on success.
+     */
     static bool writeFile(const std::string& path, const std::vector<uint8_t>& data);
+    /**
+     * @brief TBD: Describe atomicWriteFile.
+     * @param[in] path Input parameter.
+     * @param[in] data Input parameter.
+     * @return True on success.
+     */
     static bool atomicWriteFile(const std::string& path, const std::vector<uint8_t>& data);
 };
 
-// Helpers for converting PatchAlgorithm to/from string
+/**
+ * @brief Helpers for converting PatchAlgorithm to/from string
+ * @param[in] algo Input parameter.
+ * @return Return value.
+ */
 std::string patchAlgorithmToString(PatchAlgorithm algo);
+/**
+ * @brief TBD: Describe patchAlgorithmFromString.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ */
 std::optional<PatchAlgorithm> patchAlgorithmFromString(const std::string& s);
 
 } // namespace updates

@@ -109,20 +109,50 @@ private:
         std::vector<std::string> links;
     };
 
+    /**
+     * @brief TBD: Describe toIso8601Now.
+     * @return Return value.
+     */
     static std::string toIso8601Now();
 
-    /// @name Route handlers
-    /// @{
+    /**
+     * @brief @name Route handlers @{
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleCrawl(
         const http::request<http::string_body>& req);
+    /**
+     * @brief TBD: Describe handleListJobs.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleListJobs(
         const http::request<http::string_body>& req);
+    /**
+     * @brief TBD: Describe handleJobStatus.
+     * @param[in] req Input parameter.
+     * @param[in] job_id Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleJobStatus(
         const http::request<http::string_body>& req,
         const std::string&                      job_id);
+    /**
+     * @brief TBD: Describe handleJobResult.
+     * @param[in] req Input parameter.
+     * @param[in] job_id Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleJobResult(
         const http::request<http::string_body>& req,
         const std::string&                      job_id);
+    /**
+     * @brief TBD: Describe handleCancelJob.
+     * @param[in] req Input parameter.
+     * @param[in] job_id Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleCancelJob(
         const http::request<http::string_body>& req,
         const std::string&                      job_id);

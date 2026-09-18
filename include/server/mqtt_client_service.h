@@ -155,6 +155,10 @@ struct MqttClientStats {
  */
 class IMqttMessageHandler {
 public:
+    /**
+     * @brief TBD: Describe ~IMqttMessageHandler.
+     * @return Return value.
+     */
     virtual ~IMqttMessageHandler() = default;
 
     /**
@@ -162,6 +166,7 @@ public:
      * @param topic    Fully-qualified topic string.
      * @param payload  Raw message payload (UTF-8 or binary).
      * @param qos      QoS level of the received message (0, 1, or 2).
+     * @note Exception safety: noexcept.
      */
     virtual void onMessage(const std::string& topic,
                            const std::string& payload,
@@ -202,6 +207,7 @@ public:
     /**
      * @brief Construct; the service must outlive this object.
      * @param service  Owning MqttClientService.
+     * @return Return value.
      */
     explicit MqttCDCTransport(MqttClientService& service);
 
@@ -226,12 +232,16 @@ public:
      * Format: {cdc_topic_prefix}{collection}/{EVENT_TYPE}
      * where EVENT_TYPE is one of PUT, DELETE, TRANSACTION_COMMIT,
      * TRANSACTION_ROLLBACK, or UNKNOWN.
+     * @param[in] event Input parameter.
+     * @return Return value.
      */
     std::string topicForEvent(const Changefeed::ChangeEvent& event) const;
 
+     * @param[in] prefix Input parameter.
     /** @brief Override the CDC topic prefix (default from MqttClientConfig). */
     void setTopicPrefix(const std::string& prefix);
 
+     * @param[in] qos Input parameter.
     /** @brief Override the CDC publish QoS (default from MqttClientConfig). */
     void setQos(uint8_t qos);
 
@@ -298,6 +308,8 @@ public:
      */
     void stop();
 
+     * @brief TBD: Describe isConnected.
+     * @note Exception safety: noexcept.
     /** @return true while the CONNACK has been received and the link is live. */
     bool isConnected() const noexcept;
 
@@ -341,6 +353,8 @@ public:
      *
      * Sends UNSUBSCRIBE when connected; removes the filter from the pending
      * subscription list when not yet connected.
+     * @param[in] topic_filter Input parameter.
+     * @return True on success.
      */
     bool unsubscribe(const std::string& topic_filter);
 
@@ -351,6 +365,7 @@ public:
      *
      * The handler is invoked from the internal I/O thread for every inbound
      * PUBLISH message.  Replaces any previously registered handler.
+     * @param[in] handler Input parameter.
      */
     void setMessageHandler(std::shared_ptr<IMqttMessageHandler> handler);
 
@@ -397,27 +412,79 @@ public:
     const std::string& clientId() const noexcept { return effective_client_id_; }
 
 private:
-    // ── Internal helpers ───────────────────────────────────────────────────
+    /**
+     * @brief ── Internal helpers ───────────────────────────────────────────────────
+     */
 
     void ioThreadEntry();
+    /**
+     * @brief TBD: Describe doConnect.
+     */
     void doConnect();
+    /**
+     * @brief TBD: Describe sendMqttConnect.
+     */
     void sendMqttConnect();
+    /**
+     * @brief TBD: Describe doRead.
+     */
     void doRead();
+    /**
+     * @brief TBD: Describe doWrite.
+     */
     void doWrite();
+    /**
+     * @brief TBD: Describe onConnAck.
+     * @param[in] flags Input parameter.
+     * @param[in] return_code Input parameter.
+     */
     void onConnAck(uint8_t flags, uint8_t return_code);
+    /**
+     * @brief TBD: Describe onPublishReceived.
+     * @param[in] topic Input parameter.
+     * @param[in] payload Input parameter.
+     * @param[in] qos Input parameter.
+     */
     void onPublishReceived(const std::string& topic,
                            const std::string& payload,
                            uint8_t            qos);
+    /**
+     * @brief TBD: Describe processBuffer.
+     */
     void processBuffer();
+    /**
+     * @brief TBD: Describe startKeepalive.
+     */
     void startKeepalive();
+    /**
+     * @brief TBD: Describe scheduleReconnect.
+     */
     void scheduleReconnect();
+    /**
+     * @brief TBD: Describe handleDisconnect.
+     * @param[in] reason Input parameter.
+     */
     void handleDisconnect(const std::string& reason);
+    /**
+     * @brief TBD: Describe enqueuePacket.
+     * @param[in] packet Input parameter.
+     */
     void enqueuePacket(std::vector<uint8_t> packet);
+    /**
+     * @brief TBD: Describe sendSubscriptions.
+     */
     void sendSubscriptions();
 #ifdef THEMIS_ENABLE_MQTT_TLS
+    /**
+     * @brief TBD: Describe doHandshake.
+     */
     void doHandshake();
 #endif
 
+    /**
+     * @brief TBD: Describe generateClientId.
+     * @return Return value.
+     */
     static std::string generateClientId();
 
     // ── Members ────────────────────────────────────────────────────────────
@@ -495,7 +562,18 @@ struct MqttClientConfig {
 /** @brief I mqtt message event handler. */
 class IMqttMessageHandler {
 public:
+    /**
+     * @brief TBD: Describe ~IMqttMessageHandler.
+     * @return Return value.
+     */
     virtual ~IMqttMessageHandler() = default;
+    /**
+     * @brief TBD: Describe onMessage.
+     * @param[in] param Input parameter.
+     * @param[in] param Input parameter.
+     * @param[in] uint8_t Input parameter.
+     * @note Exception safety: noexcept.
+     */
     virtual void onMessage(const std::string&, const std::string&, uint8_t) noexcept = 0;
     virtual void onConnected(const std::string&) noexcept {}
     virtual void onDisconnected(const std::string&) noexcept {}
@@ -511,7 +589,17 @@ public:
     void stop()  override {}
     bool publish(const Changefeed::ChangeEvent&) override { return false; }
     std::string topicForEvent(const Changefeed::ChangeEvent&) const { return {}; }
+    /**
+     * @brief TBD: Describe setTopicPrefix.
+     * @param[in] param Input parameter.
+     * @details Implements setTopicPrefix without additional internal calls.
+     */
     void setTopicPrefix(const std::string&) {}
+    /**
+     * @brief TBD: Describe setQos.
+     * @param[in] uint8_t Input parameter.
+     * @details Implements setQos without additional internal calls.
+     */
     void setQos(uint8_t) {}
     const std::string& topicPrefix() const noexcept { static std::string s; return s; }
     uint8_t qos() const noexcept { return 0; }
@@ -526,12 +614,31 @@ public:
     ~MqttClientService() = default;
     MqttClientService(const MqttClientService&)            = delete;
     MqttClientService& operator=(const MqttClientService&) = delete;
+    /**
+     * @brief TBD: Describe start.
+     * @details Implements start without additional internal calls.
+     */
     void start()  {}
+    /**
+     * @brief TBD: Describe stop.
+     * @details Implements stop without additional internal calls.
+     */
     void stop()   {}
     bool isConnected() const noexcept { return false; }
     bool publish(const std::string&, const std::string&, uint8_t = 1, bool = false) { return false; }
     bool subscribe(const std::string&, uint8_t = 1) { return false; }
+    /**
+     * @brief TBD: Describe unsubscribe.
+     * @param[in] param Input parameter.
+     * @return True on success.
+     * @details Implements unsubscribe without additional internal calls.
+     */
     bool unsubscribe(const std::string&) { return false; }
+    /**
+     * @brief TBD: Describe setMessageHandler.
+     * @param[in] param Input parameter.
+     * @details Implements setMessageHandler without additional internal calls.
+     */
     void setMessageHandler(std::shared_ptr<IMqttMessageHandler>) {}
     MqttCDCTransport& cdcTransport() noexcept { return cdc_transport_; }
     void registerWithServiceRegistry(const std::string& = "mqtt_client") {}

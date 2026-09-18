@@ -210,6 +210,7 @@ public:
     
     /**
      * @brief Get current buffer statistics
+     * @return Return value.
      */
     GraphAutoBufferStats getStats() const;
     
@@ -220,6 +221,7 @@ public:
     
     /**
      * @brief Update configuration (takes effect on next flush)
+     * @param[in] config Input parameter.
      */
     void setConfig(const GraphAutoBufferConfig& config);
     
@@ -247,6 +249,11 @@ private:
                           estimateEntitySize(entity) + graph_id.size();
         }
         
+        /**
+         * @brief TBD: Describe estimateEntitySize.
+         * @param[in] entity Input parameter.
+         * @return Return value.
+         */
         static size_t estimateEntitySize(const BaseEntity& entity);
     };
     
@@ -258,6 +265,11 @@ private:
         size_t node_count = 0;
         size_t edge_count = 0;
         
+        /**
+         * @brief TBD: Describe add.
+         * @param[in] op Input parameter.
+         * @details Calls: empty(), std::chrono::steady_clock::now(), push_back(), std::move().
+         */
         void add(BufferedOp&& op) {
             if (operations.empty()) {
                 first_op_time = std::chrono::steady_clock::now();
@@ -271,6 +283,10 @@ private:
             operations.push_back(std::move(op));
         }
         
+        /**
+         * @brief TBD: Describe clear.
+         * @details Implements clear without additional internal calls.
+         */
         void clear() {
             operations.clear();
             memory_bytes = 0;
@@ -295,11 +311,28 @@ private:
     // Statistics
     GraphAutoBufferStats stats_;
     
-    // Helper functions
+    /**
+     * @brief Helper functions
+     */
     void flushThread();
     size_t flushInternal(bool lock_held = false);
+    /**
+     * @brief TBD: Describe flushBuffer.
+     * @param[in] graph_id Input parameter.
+     * @param[in,out] buffer Input/output parameter.
+     * @return Return value.
+     */
     size_t flushBuffer(const std::string& graph_id, GraphBuffer& buffer);
+    /**
+     * @brief TBD: Describe shouldFlushBuffer.
+     * @param[in] buffer Input parameter.
+     * @return True on success.
+     */
     bool shouldFlushBuffer(const GraphBuffer& buffer) const;
+    /**
+     * @brief TBD: Describe shouldFlushGlobal.
+     * @return True on success.
+     */
     bool shouldFlushGlobal() const;
 };
 

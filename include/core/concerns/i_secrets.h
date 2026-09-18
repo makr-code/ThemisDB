@@ -38,6 +38,10 @@ namespace concerns {
  */
 class ISecrets {
 public:
+    /**
+     * @brief TBD: Describe ~ISecrets.
+     * @return Return value.
+     */
     virtual ~ISecrets() = default;
 
     // -----------------------------------------------------------------------

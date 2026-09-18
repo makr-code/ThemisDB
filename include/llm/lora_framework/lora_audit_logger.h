@@ -101,6 +101,10 @@ enum class LoRAAuditEventType {
  * which LLM with which LoRA adapter generated which response.
  */
 struct LoRAInferenceAudit {
+    /**
+     * @brief TBD: Describe ~LoRAInferenceAudit.
+     * @return Return value.
+     */
     virtual ~LoRAInferenceAudit() = default;
     // Timestamps
     std::chrono::system_clock::time_point timestamp;
@@ -214,6 +218,7 @@ public:
      * - Compliance audits
      * - A/B testing analysis
      * - Model performance tracking
+     * @param[in] audit Input parameter.
      */
     void logInference(const LoRAInferenceAudit& audit);
     
@@ -298,11 +303,14 @@ public:
     
     /**
      * @brief Get statistics for adapter
+     * @param[in] adapter_id Input parameter.
+     * @return Return value.
      */
     json getAdapterStats(const std::string& adapter_id);
     
     /**
      * @brief Enable/disable audit logging
+     * @param[in] enabled Input parameter.
      */
     void setEnabled(bool enabled);
     
@@ -319,6 +327,7 @@ public:
      *
      * Must be called before the first logInference() for chain-based audit to work.
      * Passing nullptr disconnects the provenance manager.
+     * @param[in] mgr Input parameter.
      */
     void setProvenanceManager(std::shared_ptr<LoRAProvenanceManager> mgr);
 
@@ -327,6 +336,8 @@ public:
      *
      * Emits a PROVENANCE_ATTACHED event and, if a provenance manager is set,
      * records the attachment in the Merkle chain metadata.
+     * @param[in] adapter_id Input parameter.
+     * @param[in] record Input parameter.
      */
     void logProvenanceAttached(const std::string& adapter_id,
                                 const LoRAProvenanceRecord& record);
@@ -336,6 +347,8 @@ public:
      *
      * Emits a SNAPSHOT_CREATED event containing snapshot_id, version, and
      * weights_hash.
+     * @param[in] adapter_id Input parameter.
+     * @param[in] snapshot Input parameter.
      */
     void logSnapshotCreated(const std::string& adapter_id,
                              const AdapterSnapshot& snapshot);
@@ -345,6 +358,9 @@ public:
      *
      * Emits AUDIT_CHAIN_VERIFIED or AUDIT_CHAIN_TAMPERED based on @p valid,
      * and includes the entry count.
+     * @param[in] adapter_id Input parameter.
+     * @param[in] valid Input parameter.
+     * @param[in] entry_count Input parameter.
      */
     void logAuditChainVerified(const std::string& adapter_id,
                                 bool valid,
@@ -357,11 +373,14 @@ private:
 
 /**
  * @brief Helper function to create unique request ID
+ * @return Return value.
  */
 std::string generateRequestId();
 
 /**
  * @brief Helper to compute SHA256 hash of adapter weights
+ * @param[in] weights Input parameter.
+ * @return Return value.
  */
 std::string computeAdapterHash(const std::vector<uint8_t>& weights);
 

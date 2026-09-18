@@ -67,6 +67,11 @@ struct TemporalForeignKey {
      * Returns false → constraint violation: either @p parent_table is the
      *                 wrong table (name mismatch), or no parent row covers the
      *                 period.
+     * @brief TBD: Describe validate.
+     * @param[in] parent_table Input parameter.
+     * @param[in] parent_key Input parameter.
+     * @param[in] child_period Input parameter.
+     * @return True on success.
      */
     bool validate(const BiTemporalTable& parent_table,
                   const std::string& parent_key,
@@ -115,6 +120,11 @@ public:
      * Insert a row with an explicit valid-time period.
      * Returns false and leaves the table unchanged when the valid-time period
      * would overlap with an existing current row for the same key.
+     * @brief TBD: Describe insertWithValidTime.
+     * @param[in] key Input parameter.
+     * @param[in] doc Input parameter.
+     * @param[in] valid_time Input parameter.
+     * @return True on success.
      */
     bool insertWithValidTime(const std::string& key,
                              const Document& doc,
@@ -126,6 +136,11 @@ public:
      * The old row's sys_time is closed; a new row is created with the merged
      * data and the same valid-time period.
      * Returns false if no matching current row is found.
+     * @brief TBD: Describe updateForValidTime.
+     * @param[in] key Input parameter.
+     * @param[in] updates Input parameter.
+     * @param[in] valid_at Input parameter.
+     * @return True on success.
      */
     bool updateForValidTime(const std::string& key,
                             const Document& updates,
@@ -135,6 +150,10 @@ public:
      * Logically delete all current rows for a key whose valid-time period
      * contains the given timestamp.
      * Returns the number of rows closed.
+     * @brief TBD: Describe deleteForValidTime.
+     * @param[in] key Input parameter.
+     * @param[in] valid_at Input parameter.
+     * @return Return value.
      */
     size_t deleteForValidTime(const std::string& key, Timestamp valid_at);
 
@@ -144,6 +163,11 @@ public:
      * Bi-temporal AS-OF query.
      * Returns rows that were current at sys_as_of and whose valid-time period
      * contains valid_at.
+     * @brief TBD: Describe queryBiTemporal.
+     * @param[in] key Input parameter.
+     * @param[in] sys_as_of Input parameter.
+     * @param[in] valid_at Input parameter.
+     * @return Return value.
      */
     std::vector<VersionedDocument> queryBiTemporal(const std::string& key,
                                                    Timestamp sys_as_of,
@@ -152,6 +176,10 @@ public:
     /**
      * Return all current rows for a key whose valid-time period contains
      * valid_at.
+     * @brief TBD: Describe queryCurrentByValidTime.
+     * @param[in] key Input parameter.
+     * @param[in] valid_at Input parameter.
+     * @return Return value.
      */
     std::vector<VersionedDocument> queryCurrentByValidTime(
         const std::string& key, Timestamp valid_at) const;
@@ -174,6 +202,11 @@ public:
      * covered.  Returns `{{from, to}}` when the key has no current rows or
      * none of them overlap the query range (the entire interval is a gap).
      * Returns an empty vector when @p from >= @p to.
+     * @brief TBD: Describe findGaps.
+     * @param[in] key Input parameter.
+     * @param[in] from Input parameter.
+     * @param[in] to Input parameter.
+     * @return Return value.
      */
     std::vector<TimeRange> findGaps(const std::string& key,
                                     Timestamp from,
@@ -187,12 +220,19 @@ public:
      * Returns false immediately when @p period is empty or invalid
      * (i.e., `period.start >= period.end`).
      * Returns true when a conflict exists; false when the insert would succeed.
+     * @brief TBD: Describe hasUniquenessConflict.
+     * @param[in] key Input parameter.
+     * @param[in] period Input parameter.
+     * @return True on success.
      */
     bool hasUniquenessConflict(const std::string& key,
                                 const TimeRange& period) const;
 
     /**
      * Return all versions (history) for a key.
+     * @brief TBD: Describe getHistory.
+     * @param[in] key Input parameter.
+     * @return Return value.
      */
     std::vector<VersionedDocument> getHistory(const std::string& key) const;
 
@@ -201,6 +241,10 @@ public:
      * Returns all rows where sys_time contains sys_as_of AND
      * valid_time contains valid_at.
      * Equivalent to a full-table AS-OF bi-temporal query.
+     * @brief TBD: Describe scanBiTemporal.
+     * @param[in] sys_as_of Input parameter.
+     * @param[in] valid_at Input parameter.
+     * @return Return value.
      */
     std::vector<VersionedDocument> scanBiTemporal(Timestamp sys_as_of,
                                                    Timestamp valid_at) const;
@@ -209,6 +253,8 @@ public:
      * Return all known keys (including keys whose rows have all been
      * logically deleted).  Useful for bi-temporal joins that must
      * enumerate every key ever written to the table.
+     * @brief TBD: Describe getAllKeys.
+     * @return Return value.
      */
     std::vector<std::string> getAllKeys() const;
 
@@ -241,14 +287,27 @@ public:
      * @param other  Source table.  Must not be the same object as @p this.
      * @return       MergeResult with counters for inserted, skipped, and
      *               conflict-resolved rows.
+     * @brief TBD: Describe merge.
      */
     MergeResult merge(const BiTemporalTable& other);
 
     // ── Metadata ─────────────────────────────────────────────────────────────
 
     const std::string& tableName() const noexcept { return table_name_; }
+    /**
+     * @brief TBD: Describe keyCount.
+     * @return Return value.
+     */
     size_t keyCount() const;
+    /**
+     * @brief TBD: Describe versionCount.
+     * @return Return value.
+     */
     size_t versionCount() const;
+    /**
+     * @brief TBD: Describe getStatistics.
+     * @return Return value.
+     */
     nlohmann::json getStatistics() const;
 
 private:

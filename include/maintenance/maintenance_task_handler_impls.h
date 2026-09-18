@@ -39,6 +39,11 @@ namespace maintenance {
  */
 class StorageCompactionHandler : public IMaintenanceTaskHandler {
 public:
+    /**
+     * @brief TBD: Describe StorageCompactionHandler.
+     * @param[in] compaction_manager Input parameter.
+     * @return Return value.
+     */
     explicit StorageCompactionHandler(
         std::shared_ptr<CompactionManager> compaction_manager)
         : compaction_manager_(std::move(compaction_manager)) {}
@@ -90,6 +95,11 @@ class ReplicaValidationHandler : public IMaintenanceTaskHandler {
 public:
     using CheckFn = std::function<Result<std::string>()>;
 
+    /**
+     * @brief TBD: Describe ReplicaValidationHandler.
+     * @param[in] check_fn Input parameter.
+     * @return Return value.
+     */
     explicit ReplicaValidationHandler(CheckFn check_fn)
         : check_fn_(std::move(check_fn)) {}
 

@@ -292,6 +292,7 @@ enum class RecoveryStrategy {
  * @param error_type Error type (validation, translation, bridge, provider)
  * @param category Error category (MalformedAQL, timeout, etc.)
  * @return Recovery strategy to apply
+ * @details Implements getRecoveryStrategy without additional internal calls.
  */
 inline RecoveryStrategy getRecoveryStrategy(const std::string& error_type,
                                            const std::string& category) {

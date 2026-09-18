@@ -57,6 +57,15 @@ private:
     std::vector<MetricsSnapshot> metrics_before_;
     std::vector<MetricsSnapshot> metrics_after_;
     
+    /**
+     * @brief TBD: Describe WriteCallback.
+     * @param[in,out] contents Input/output parameter.
+     * @param[in] size Input parameter.
+     * @param[in] nmemb Input parameter.
+     * @param[in,out] userp Input/output parameter.
+     * @return Return value.
+     * @details Calls: append().
+     */
     static size_t WriteCallback(void* contents, size_t size, size_t nmemb, std::string* userp) {
         userp->append((char*)contents, size * nmemb);
         return size * nmemb;
@@ -67,6 +76,10 @@ public:
         initializeShards();
     }
     
+    /**
+     * @brief TBD: Describe initializeShards.
+     * @details Implements initializeShards without additional internal calls.
+     */
     void initializeShards() {
         shards_ = {
             {"themis-raid0-shard1", 8080, 9090, "RAID0"},
@@ -122,6 +135,13 @@ public:
         }
     }
     
+    /**
+     * @brief TBD: Describe pushTestData.
+     * @param[in] collection_name Input parameter.
+     * @param[in] num_records Input parameter.
+     * @return Return value.
+     * @details Calls: std::chrono::steady_clock::now(), size(), std::to_string(), getCurrentTimestamp(), curl_easy_init(), dump(), curl_easy_setopt(), c_str().
+     */
     PushResult pushTestData(const std::string& collection_name, int num_records) {
         auto start = std::chrono::steady_clock::now();
         
@@ -189,6 +209,12 @@ public:
         return result;
     }
     
+    /**
+     * @brief TBD: Describe getShardMetrics.
+     * @param[in] shard Input parameter.
+     * @return Return value.
+     * @details Calls: getCurrentTimestamp(), std::to_string(), curl_easy_init(), curl_easy_setopt(), c_str(), curl_easy_perform(), json::parse(), json::object().
+     */
     MetricsSnapshot getShardMetrics(const ShardConfig& shard) {
         MetricsSnapshot snapshot;
         snapshot.shard_name = shard.host;
@@ -224,6 +250,10 @@ public:
         return snapshot;
     }
     
+    /**
+     * @brief TBD: Describe collectMetricsBaseline.
+     * @details Calls: clear(), push_back(), getShardMetrics().
+     */
     void collectMetricsBaseline() {
         metrics_before_.clear();
         for (const auto& shard : shards_) {
@@ -231,6 +261,10 @@ public:
         }
     }
     
+    /**
+     * @brief TBD: Describe collectMetricsAfter.
+     * @details Calls: clear(), push_back(), getShardMetrics().
+     */
     void collectMetricsAfter() {
         metrics_after_.clear();
         for (const auto& shard : shards_) {
@@ -264,6 +298,11 @@ public:
     }
     
 private:
+    /**
+     * @brief TBD: Describe getCurrentTimestamp.
+     * @return Return value.
+     * @details Calls: std::chrono::system_clock::now(), std::chrono::system_clock::to_time_t(), std::put_time(), std::localtime(), str().
+     */
     static std::string getCurrentTimestamp() {
         auto now = std::chrono::system_clock::now();
         auto time = std::chrono::system_clock::to_time_t(now);

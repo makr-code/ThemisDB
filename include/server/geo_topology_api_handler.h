@@ -51,30 +51,51 @@ public:
         std::shared_ptr<AuthMiddleware> auth
     );
 
+     * @brief TBD: Describe handleTopologyGet.
+     * @param[in] req Input parameter.
+     * @return Return value.
     /** GET /api/v1/geo/topology — all shards with region/zone/health/raft_role */
     http::response<http::string_body> handleTopologyGet(
         const http::request<http::string_body>& req);
 
+     * @brief TBD: Describe handleRegionsGet.
+     * @param[in] req Input parameter.
+     * @return Return value.
     /** GET /api/v1/geo/regions — per-region aggregated health */
     http::response<http::string_body> handleRegionsGet(
         const http::request<http::string_body>& req);
 
+     * @brief TBD: Describe handleHealthGet.
+     * @param[in] req Input parameter.
+     * @return Return value.
     /** GET /api/v1/geo/health — overall geo-failover / quorum health */
     http::response<http::string_body> handleHealthGet(
         const http::request<http::string_body>& req);
 
+     * @brief TBD: Describe handleTopologyShardPost.
+     * @param[in] req Input parameter.
+     * @return Return value.
     /** POST /api/v1/geo/topology/shard — add or update shard region/zone */
     http::response<http::string_body> handleTopologyShardPost(
         const http::request<http::string_body>& req);
 
+     * @brief TBD: Describe handleTopologyShardDelete.
+     * @param[in] req Input parameter.
+     * @return Return value.
     /** DELETE /api/v1/geo/topology/shard/{shard_id} — remove a shard from the topology */
     http::response<http::string_body> handleTopologyShardDelete(
         const http::request<http::string_body>& req);
 
+     * @brief TBD: Describe handleConfigGet.
+     * @param[in] req Input parameter.
+     * @return Return value.
     /** GET /api/v1/geo/config/{collection} — get GeoReplicationConfig for a collection */
     http::response<http::string_body> handleConfigGet(
         const http::request<http::string_body>& req);
 
+     * @brief TBD: Describe handleConfigPut.
+     * @param[in] req Input parameter.
+     * @return Return value.
     /** PUT /api/v1/geo/config/{collection} — update GeoReplicationConfig for a collection */
     http::response<http::string_body> handleConfigPut(
         const http::request<http::string_body>& req);
@@ -84,16 +105,34 @@ private:
     std::shared_ptr<sharding::CollectionRedundancyManager> redundancy_manager_;
     std::shared_ptr<AuthMiddleware> auth_;
 
+    /**
+     * @brief TBD: Describe makeErrorResponse.
+     * @param[in] status Input parameter.
+     * @param[in] message Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeErrorResponse(
         http::status status,
         const std::string& message,
         const http::request<http::string_body>& req);
 
+    /**
+     * @brief TBD: Describe makeResponse.
+     * @param[in] status Input parameter.
+     * @param[in] body Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeResponse(
         http::status status,
         const std::string& body,
         const http::request<http::string_body>& req);
 
+     * @brief TBD: Describe extractTrailingSegment.
+     * @param[in] path Input parameter.
+     * @param[in] prefix Input parameter.
+     * @return Return value.
     /** Extract the last path segment after a prefix, e.g. "/api/v1/geo/config/mycoll" → "mycoll" */
     std::string extractTrailingSegment(const std::string& path,
                                        const std::string& prefix) const;

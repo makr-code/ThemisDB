@@ -146,6 +146,10 @@ struct RewriteDocument {
  */
 class IRewriteRule {
 public:
+    /**
+     * @brief TBD: Describe ~IRewriteRule.
+     * @return Return value.
+     */
     virtual ~IRewriteRule() = default;
 
     /**
@@ -226,6 +230,10 @@ public:
  */
 class IRewriteEngine {
 public:
+    /**
+     * @brief TBD: Describe ~IRewriteEngine.
+     * @return Return value.
+     */
     virtual ~IRewriteEngine() = default;
 
     /**

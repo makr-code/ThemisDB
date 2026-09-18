@@ -122,6 +122,7 @@ public:
      * @param fd  Open, writable file descriptor (TCP socket).
      * @return    Total bytes written on success (>= 0), or -1 on error
      *            (errno is set by the underlying writev call).
+     * @note Exception safety: noexcept.
      */
     ssize_t writeTo(int fd) const noexcept;
 
@@ -209,6 +210,8 @@ public:
      * @throws std::system_error  on open(2) or mmap(2) failure.
      * @throws std::runtime_error if the file is empty or too large
      *         (> MemoryMappedPayload::MAX_MAP_SIZE bytes).
+     * @param[in] path Input parameter.
+     * @return Return value.
      */
     explicit MemoryMappedPayload(const std::string& path);
 
@@ -220,6 +223,8 @@ public:
      *
      * @throws std::system_error  on mmap(2) failure.
      * @throws std::invalid_argument if @p size == 0.
+     * @param[in] size Input parameter.
+     * @return Return value.
      */
     explicit MemoryMappedPayload(size_t size);
 

@@ -129,6 +129,11 @@ private:
 
     /// Computes mean and sample stddev for a metric extracted by @p selector.
     template <typename Selector>
+    /**
+     * @brief TBD: Describe computeStats.
+     * @param[in] selector Input parameter.
+     * @return Return value.
+     */
     Stats computeStats(Selector selector) const;
 };
 

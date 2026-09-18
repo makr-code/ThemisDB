@@ -135,6 +135,10 @@ struct TrainingIncident {
  */
 class TrainingIncidentListener {
 public:
+    /**
+     * @brief TBD: Describe ~TrainingIncidentListener.
+     * @return Return value.
+     */
     virtual ~TrainingIncidentListener() = default;
 
     /**
@@ -183,8 +187,14 @@ public:
      *
      * @param listener Non-null shared_ptr to the listener. Duplicate registrations
      *                 result in duplicate notifications.
+     * @details Calls: lock(), push_back(), std::move().
      */
     void addListener(std::shared_ptr<TrainingIncidentListener> listener) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         listeners_.push_back(std::move(listener));
     }
@@ -193,8 +203,14 @@ public:
      * @brief Remove all registered listeners.
      *
      * After this call no incidents will be forwarded until new listeners are added.
+     * @details Calls: lock(), clear().
      */
     void removeListeners() {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         listeners_.clear();
     }
@@ -203,6 +219,11 @@ public:
      * @brief Number of currently registered listeners.
      */
     size_t listenerCount() const {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return listeners_.size();
     }
@@ -283,9 +304,18 @@ public:
     }
 
 private:
-    // -------------------------------------------------------------------------
-    // Internal helpers
-    // -------------------------------------------------------------------------
+    /**
+     * @brief ------------------------------------------------------------------------- Internal helpers -------------------------------------------------------------------------
+     * @param[in] cls Input parameter.
+     * @param[in] error_code Input parameter.
+     * @param[in] component Input parameter.
+     * @param[in] operation Input parameter.
+     * @param[in] message Input parameter.
+     * @param[in] recoverable Input parameter.
+     * @param[in] context Input parameter.
+     * @return Return value.
+     * @details Calls: std::time().
+     */
 
     static TrainingIncident makeIncident(TrainingIncidentClass cls,
                                          TrainingErrorCode  error_code,
@@ -306,7 +336,17 @@ private:
         return inc;
     }
 
+    /**
+     * @brief TBD: Describe broadcast.
+     * @param[in] incident Input parameter.
+     * @details Calls: lock(), onIncident().
+     */
     void broadcast(const TrainingIncident& incident) {
+        /**
+         * @brief TBD: Describe lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         for (const auto& listener : listeners_) {
             if (listener) {

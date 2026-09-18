@@ -177,7 +177,10 @@ public:
     StorageLayoutAdvisor(const StorageLayoutAdvisor&) = default;
     StorageLayoutAdvisor& operator=(const StorageLayoutAdvisor&) = default;
 
-    // ─── Dependency injection ─────────────────────────────────────────────
+    /**
+     * @brief ─── Dependency injection ─────────────────────────────────────────────
+     * @param[in] processor Input parameter.
+     */
 
     void setDecisionRecordProcessor(
         std::shared_ptr<themis::llm::DecisionRecordYamlProcessor> processor);
@@ -237,6 +240,10 @@ private:
                                       const CollectionAccessStats& stats,
                                       bool gdpr_affected);
 
+    /**
+     * @brief TBD: Describe emitDecisionRecord.
+     * @param[in] rec Input parameter.
+     */
     void emitDecisionRecord(const LayoutRecommendation& rec) const;
 };
 

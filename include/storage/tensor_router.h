@@ -40,6 +40,12 @@ enum class TensorRouteDecision : uint8_t {
     HYBRID  = 2,
 };
 
+/**
+ * @brief TBD: Describe to_string.
+ * @param[in] d Input parameter.
+ * @return Return value.
+ * @note Exception safety: noexcept.
+ */
 std::string to_string(TensorRouteDecision d) noexcept;
 
 // ============================================================================
@@ -211,6 +217,9 @@ public:
      *   κ ≥ 1.7 AND dim ≥ 256 → TENSOR_TRAIN
      *   κ ≥ 1.3              → HYBRID
      *   otherwise             → HNSW
+     * @param[in] p Input parameter.
+     * @return Return value.
+     * @note Exception safety: noexcept.
      */
     static Route decide(const DataProfile& p) noexcept;
 
@@ -319,9 +328,23 @@ public:
         double      avg_decision_us    = 0.0;
     };
 
+    /**
+     * @brief TBD: Describe stats.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     RouterStats stats() const noexcept;
 
+    /**
+     * @brief TBD: Describe policy.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     const TensorRoutingPolicy& policy() const noexcept;
+    /**
+     * @brief TBD: Describe setPolicy.
+     * @param[in] p Input parameter.
+     */
     void setPolicy(TensorRoutingPolicy p);
 
     /**
@@ -364,11 +387,14 @@ public:
      * router falls back to the pilot-based heuristic with a warning log entry.
      *
      * Passing nullptr disables template-catalog lookups (default).
+     * @param[in] catalog Input parameter.
      */
     void setTemplateCatalog(std::shared_ptr<tensor::TemplateCatalog> catalog);
 
     /**
      * @brief Return the currently wired TemplateCatalog (may be nullptr).
+     * @return Return value.
+     * @note Exception safety: noexcept.
      */
     std::shared_ptr<tensor::TemplateCatalog> templateCatalog() const noexcept;
 
@@ -376,8 +402,12 @@ public:
      * @brief Install/remove/read the template-topology embedding callback.
      *
      * Thread-safe. The callback is invoked on TemplateCatalog hits.
+     * @param[in] fn Input parameter.
      */
     void setTemplateTopologyApplyFn(TemplateTopologyApplyFn fn);
+    /**
+     * @brief TBD: Describe clearTemplateTopologyApplyFn.
+     */
     void clearTemplateTopologyApplyFn();
     [[nodiscard]] bool hasTemplateTopologyApplyFn() const;
     [[nodiscard]] TemplateTopologyApplyFn getTemplateTopologyApplyFn() const;

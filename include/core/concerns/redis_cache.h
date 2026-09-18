@@ -324,6 +324,7 @@ public:
       *
       * The result is a point-in-time diagnostic and may change immediately
       * after the call in a multi-threaded deployment.
+     * @return True on success.
      */
     bool isConnected() const;
 
@@ -345,6 +346,7 @@ public:
      *
      * This is useful for validating the consistent-hashing distribution in
      * tests and diagnostics.
+     * @return Return value.
      */
     size_t hashRingSize() const;
 
@@ -356,7 +358,11 @@ public:
     size_t nodeCount() const { return config_.nodes.size(); }
 
 private:
-    // Private constructor – use factory methods.
+    /**
+     * @brief Private constructor – use factory methods.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit RedisCache(const RedisCacheConfig& config);
 
     // -----------------------------------------------------------------------
@@ -402,8 +408,26 @@ private:
 
     std::vector<std::unique_ptr<NodeConn>> nodes_;
 
+    /**
+     * @brief TBD: Describe tcpConnect.
+     * @param[in] host Input parameter.
+     * @param[in] port Input parameter.
+     * @return Return value.
+     */
     SocketFd tcpConnect(const std::string& host, uint16_t port) const;
+    /**
+     * @brief TBD: Describe closeSocket.
+     * @param[in,out] fd Input/output parameter.
+     * @note Exception safety: noexcept.
+     */
     static void closeSocket(SocketFd& fd) noexcept;
+    /**
+     * @brief TBD: Describe sendAll.
+     * @param[in] fd Input parameter.
+     * @param[in] buf Input parameter.
+     * @return True on success.
+     * @note Exception safety: noexcept.
+     */
     static bool sendAll(SocketFd fd, const std::string& buf) noexcept;
 
     /// Read a single CRLF-terminated line from the socket.
@@ -418,13 +442,25 @@ private:
     /// Ensure the connection for the given node is open; reconnect if needed.
     bool ensureConnected(NodeConn& nc) const noexcept;
 
-    /// Send a RESP command and read the reply.  Returns reply string on
-    /// success, empty optional on error.
+    /**
+     * @brief Send a RESP command and read the reply.
+     * @param[in,out] nc Input/output parameter.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     * @details Returns reply string on success, empty optional on error.
+     */
     std::optional<std::string> sendCommand(NodeConn& nc,
                                            const std::vector<std::string>& args) const noexcept;
 
-    /// Same as sendCommand() but MUST be called with nc.mutex already held.
-    /// Used inside invalidatePattern() which holds the lock while iterating.
+    /**
+     * @brief Same as sendCommand() but MUST be called with nc.
+     * @param[in,out] nc Input/output parameter.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     * @details mutex already held. Used inside invalidatePattern() which holds the lock while iterating.
+     */
     std::optional<std::string> sendCommandLocked(NodeConn& nc,
                                                  const std::vector<std::string>& args) const noexcept;
 
@@ -435,12 +471,20 @@ private:
     // Serialization of CacheEntry
     // -----------------------------------------------------------------------
 
-    /// Encode a CacheEntry into the Redis value bytes.
-    /// Format: "<version>\n<timestamp_ms>\n<payload>"
+    /**
+     * @brief Encode a CacheEntry into the Redis value bytes.
+     * @param[in] e Input parameter.
+     * @return Return value.
+     * @details Format: "<version>\n<timestamp_ms>\n<payload>"
+     */
     static std::string encodeEntry(const CacheEntry& e);
 
-    /// Decode Redis value bytes back into a CacheEntry.
-    /// Returns nullopt if the bytes are malformed.
+    /**
+     * @brief Decode Redis value bytes back into a CacheEntry.
+     * @param[in] raw Input parameter.
+     * @return Return value.
+     * @details Returns nullopt if the bytes are malformed.
+     */
     static std::optional<CacheEntry> decodeEntry(const std::string& raw);
 
     // -----------------------------------------------------------------------
@@ -449,13 +493,35 @@ private:
 
     /// Publish a cluster-wide invalidation message for key_or_pattern.
     void publishInvalidation(const std::string& key_or_pattern);
+    /**
+     * @brief TBD: Describe ensureSubscriberLoopStarted.
+     */
     void ensureSubscriberLoopStarted();
 
+    /**
+     * @brief TBD: Describe subscriberLoop.
+     */
     void subscriberLoop();
+    /**
+     * @brief TBD: Describe subscriberSession.
+     * @param[in] fd Input parameter.
+     */
     void subscriberSession(SocketFd fd);
+    /**
+     * @brief TBD: Describe readPubSubMessage.
+     * @param[in] fd Input parameter.
+     * @param[in,out] channel_out Input/output parameter.
+     * @param[in,out] payload_out Input/output parameter.
+     * @return True on success.
+     * @note Exception safety: noexcept.
+     */
     static bool readPubSubMessage(SocketFd fd,
                                   std::string& channel_out,
                                   std::string& payload_out) noexcept;
+    /**
+     * @brief TBD: Describe dispatchInvalidation.
+     * @param[in] payload Input parameter.
+     */
     void dispatchInvalidation(const std::string& payload);
 
     std::thread            sub_thread_;

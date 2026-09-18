@@ -15,6 +15,7 @@
 #include <map>
 #include <memory>
 #include <chrono>
+#include <cstdint>
 
 namespace themis {
 namespace core {
@@ -31,6 +32,10 @@ class IMetrics {
 public:
     using Labels = std::map<std::string, std::string>;
 
+    /**
+     * @brief TBD: Describe ~IMetrics.
+     * @return Return value.
+     */
     virtual ~IMetrics() = default;
 
     // -----------------------------------------------------------------------

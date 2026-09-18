@@ -59,7 +59,16 @@ struct LoRAProvenanceRecord {
     json   hardware_info;                 ///< GPU model, VRAM, CPU, RAM, etc.
     json   custom_metadata;              ///< Application-specific extensions
 
+    /**
+     * @brief TBD: Describe toJSON.
+     * @return Return value.
+     */
     json toJSON() const;
+    /**
+     * @brief TBD: Describe fromJSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static LoRAProvenanceRecord fromJSON(const json& j);
 };
 
@@ -91,7 +100,16 @@ struct ExternalAdapterProvenance {
     bool        cert_chain_valid = false; ///< True when certificate chain is trusted
     std::vector<std::string> validation_errors; ///< Non-empty when validation failed
 
+    /**
+     * @brief TBD: Describe toJSON.
+     * @return Return value.
+     */
     json toJSON() const;
+    /**
+     * @brief TBD: Describe fromJSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static ExternalAdapterProvenance fromJSON(const json& j);
 };
 
@@ -117,7 +135,16 @@ struct AdapterSnapshot {
 
     LoRAProvenanceRecord provenance;  ///< Full provenance at snapshot time
 
+    /**
+     * @brief TBD: Describe toJSON.
+     * @return Return value.
+     */
     json toJSON() const;
+    /**
+     * @brief TBD: Describe fromJSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static AdapterSnapshot fromJSON(const json& j);
 };
 
@@ -149,7 +176,16 @@ struct InferenceAuditEntry {
     json commitments;                 ///< Additional cryptographic commitments (e.g. ZK)
     json metadata;                    ///< Request-level metadata (user ID, session, …)
 
+    /**
+     * @brief TBD: Describe toJSON.
+     * @return Return value.
+     */
     json toJSON() const;
+    /**
+     * @brief TBD: Describe fromJSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static InferenceAuditEntry fromJSON(const json& j);
 
     /**
@@ -158,6 +194,7 @@ struct InferenceAuditEntry {
      * The hash covers all content fields (timestamp through metadata) but
      * deliberately excludes entry_hash itself to avoid circular dependency.
      * It does include previous_hash so that the chain is verified end-to-end.
+     * @return Return value.
      */
     std::string computeContentHash() const;
 };

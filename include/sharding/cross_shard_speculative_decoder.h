@@ -283,6 +283,7 @@ public:
     /**
      * @brief Construct CrossShardSpeculativeDecoder
      * @param config Speculative decoding configuration
+     * @return Return value.
      */
     explicit CrossShardSpeculativeDecoder(const SpeculativeDecodingConfig& config);
     
@@ -309,6 +310,7 @@ public:
     
     /**
      * @brief Shutdown the coordinator
+     * @note Exception safety: noexcept.
      */
     void shutdown() noexcept;
     
@@ -320,6 +322,7 @@ public:
     
     /**
      * @brief Get current configuration
+     * @return Return value.
      */
     const SpeculativeDecodingConfig& getConfig() const;
     
@@ -354,6 +357,7 @@ public:
     
     /**
      * @brief Get all registered shards
+     * @return Return value.
      */
     std::vector<ShardCapabilityInfo> getAllShards() const;
     
@@ -445,6 +449,7 @@ public:
     
     /**
      * @brief Check if adaptive speculation is enabled
+     * @return True on success.
      */
     bool isAdaptiveSpeculationEnabled() const;
     
@@ -471,6 +476,7 @@ public:
     
     /**
      * @brief Get the local inference engine
+     * @return Pointer to the result.
      */
     InferenceEngineEnhanced* getLocalEngine();
     
@@ -482,6 +488,7 @@ public:
     
     /**
      * @brief Get the local shard ID
+     * @return Return value.
      */
     const std::string& getLocalShardId() const;
     
@@ -491,11 +498,13 @@ public:
     
     /**
      * @brief Get current statistics
+     * @return Return value.
      */
     SpeculativeDecodingStats getStats() const;
     
     /**
      * @brief Get detailed statistics as JSON
+     * @return Return value.
      */
     nlohmann::json getStatsJson() const;
     
@@ -506,6 +515,7 @@ public:
     
     /**
      * @brief Get performance report
+     * @return Return value.
      */
     nlohmann::json getPerformanceReport() const;
     
@@ -597,16 +607,21 @@ private:
     
     /**
      * @brief Calculate shard capability score
+     * @param[in] shard Input parameter.
+     * @return Return value.
      */
     double calculateCapabilityScore(const ShardCapabilityInfo& shard) const;
     
     /**
      * @brief Check if shard meets latency requirements
+     * @param[in] shard Input parameter.
+     * @return True on success.
      */
     bool meetsLatencyRequirements(const ShardCapabilityInfo& shard) const;
     
     /**
      * @brief Update statistics
+     * @param[in] speculation Input parameter.
      */
     void updateStats(const ActiveSpeculation& speculation);
     

@@ -103,11 +103,13 @@ public:
 
     /**
      * @brief Send a text (JSON) message to the client.
+     * @param[in] message Input parameter.
      */
     void send(const std::string& message);
 
     /**
      * @brief Send a binary frame to the client.
+     * @param[in] data Input parameter.
      */
     void sendBinary(const std::vector<uint8_t>& data);
 
@@ -146,32 +148,89 @@ public:
                                                           const std::vector<uint8_t>& payload);
 
 private:
-    // WebSocket handshake callback
+    /**
+     * @brief WebSocket handshake callback
+     * @param[in] ec Input parameter.
+     */
     void onAccept(beast::error_code ec);
 
-    // Async read loop
+    /**
+     * @brief Async read loop
+     */
     void doRead();
+    /**
+     * @brief TBD: Describe onRead.
+     * @param[in] ec Input parameter.
+     * @param[in] bytes_transferred Input parameter.
+     */
     void onRead(beast::error_code ec, std::size_t bytes_transferred);
 
-    // Message dispatch
+    /**
+     * @brief Message dispatch
+     * @param[in] text Input parameter.
+     */
     void processTextMessage(const std::string& text);
+    /**
+     * @brief TBD: Describe processBinaryFrame.
+     * @param[in] data Input parameter.
+     */
     void processBinaryFrame(const std::vector<uint8_t>& data);
 
-    // Binary frame helpers – build a wire-protocol response frame and dispatch
-    // to the appropriate storage operation, then reply as a binary WebSocket frame.
+    /**
+     * @brief Binary frame helpers – build a wire-protocol response frame and dispatch to the appropriate storage operation, then reply as a binary WebSocket frame.
+     * @param[in] opcode Input parameter.
+     * @param[in] payload Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> buildResponseFrame(uint8_t opcode,
                                             const std::vector<uint8_t>& payload) const;
+    /**
+     * @brief TBD: Describe sendBinaryError.
+     * @param[in] error_code Input parameter.
+     * @param[in] message Input parameter.
+     */
     void sendBinaryError(uint32_t error_code, const std::string& message);
+    /**
+     * @brief TBD: Describe handleBinaryPing.
+     */
     void handleBinaryPing();
+    /**
+     * @brief TBD: Describe handleBinaryGet.
+     * @param[in] payload_data Input parameter.
+     * @param[in] payload_size Input parameter.
+     */
     void handleBinaryGet(const uint8_t* payload_data, uint32_t payload_size);
+    /**
+     * @brief TBD: Describe handleBinaryPut.
+     * @param[in] payload_data Input parameter.
+     * @param[in] payload_size Input parameter.
+     */
     void handleBinaryPut(const uint8_t* payload_data, uint32_t payload_size);
+    /**
+     * @brief TBD: Describe handleBinaryDelete.
+     * @param[in] payload_data Input parameter.
+     * @param[in] payload_size Input parameter.
+     */
     void handleBinaryDelete(const uint8_t* payload_data, uint32_t payload_size);
 
-    // Write helpers
+    /**
+     * @brief Write helpers
+     */
     void doWrite();
+    /**
+     * @brief TBD: Describe onWrite.
+     * @param[in] ec Input parameter.
+     * @param[in] bytes_transferred Input parameter.
+     */
     void onWrite(beast::error_code ec, std::size_t bytes_transferred);
 
-    // Build JSON error response
+    /**
+     * @brief Build JSON error response
+     * @param[in] id Input parameter.
+     * @param[in] type Input parameter.
+     * @param[in] message Input parameter.
+     * @return Return value.
+     */
     std::string makeError(const std::string& id,
                           const std::string& type,
                           const std::string& message) const;

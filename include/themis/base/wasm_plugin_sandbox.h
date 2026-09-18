@@ -130,6 +130,10 @@ struct WasmCallResult {
  */
 class WasmRuntime {
 public:
+    /**
+     * @brief TBD: Describe ~WasmRuntime.
+     * @return Return value.
+     */
     virtual ~WasmRuntime() = default;
 
     /**
@@ -258,6 +262,11 @@ public:
         ///       call) to avoid infinite free calls when a budget is set.
         uint64_t fuel_check_interval = 1;
 
+        /**
+         * @brief TBD: Describe defaults.
+         * @return Return value.
+         * @details Implements defaults without additional internal calls.
+         */
         static Config defaults() { return {}; }
     };
 
@@ -294,6 +303,7 @@ public:
      * @brief Register a host function that the WASM plugin is allowed to call.
      *
      * Must be called *before* loadFromFile() / loadFromBytes().
+     * @param[in] fn Input parameter.
      */
     void addHostFunction(WasmHostFunction fn);
 
@@ -415,11 +425,33 @@ private:
     std::unique_ptr<ModuleSandbox>   os_sandbox_;
     uint64_t                         fuel_remaining_     = 0; ///< Remaining fuel units (UINT64_MAX when unlimited)
 
-    // ── Helpers ──────────────────────────────────────────────────────────
+    /**
+     * @brief ── Helpers ──────────────────────────────────────────────────────────
+     * @param[in] bytes Input parameter.
+     * @return True on success.
+     */
     bool validateWasmHeader(const std::vector<uint8_t>& bytes);
+    /**
+     * @brief TBD: Describe parseImportsExports.
+     * @param[in] bytes Input parameter.
+     * @return True on success.
+     */
     bool parseImportsExports(const std::vector<uint8_t>& bytes);
+    /**
+     * @brief TBD: Describe checkImportAllowlist.
+     * @return True on success.
+     */
     bool checkImportAllowlist();
+    /**
+     * @brief TBD: Describe allocateLinearMemory.
+     * @return True on success.
+     */
     bool allocateLinearMemory();
+    /**
+     * @brief TBD: Describe launchOsSandbox.
+     * @param[in] module_name Input parameter.
+     * @return True on success.
+     */
     bool launchOsSandbox(const std::string& module_name);
 };
 

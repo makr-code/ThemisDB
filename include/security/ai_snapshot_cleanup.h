@@ -55,8 +55,12 @@ public:
     /// @brief Construct with default configuration values.
     AiSnapshotCleanupJob();
 
-    /// @brief Construct with explicit configuration values.
-    /// @param cfg Configuration to use for cleanup operations.
+    /**
+     * @brief @brief Construct with explicit configuration values.
+     * @param[in] cfg Input parameter.
+     * @return Return value.
+     * @details @param cfg Configuration to use for cleanup operations.
+     */
     explicit AiSnapshotCleanupJob(Config cfg);
 
     /**

@@ -37,6 +37,10 @@ namespace llm {
  * @brief Inference request with priority and metadata
  */
 struct AsyncInferenceRequest {
+    /**
+     * @brief TBD: Describe ~AsyncInferenceRequest.
+     * @return Return value.
+     */
     virtual ~AsyncInferenceRequest() = default;
     InferenceRequest request;
     int priority = 0;              // Higher = more urgent
@@ -240,11 +244,13 @@ public:
     
     /**
      * @brief Get queue statistics
+     * @return Return value.
      */
     json getQueueStats() const;
     
     /**
      * @brief Get worker thread statistics
+     * @return Return value.
      */
     json getWorkerStats() const;
     
@@ -406,24 +412,43 @@ private:
     std::deque<double> latency_samples_;
     mutable std::mutex latency_mutex_;
     
-    // Worker thread function
+    /**
+     * @brief Worker thread function
+     * @param[in] worker_id Input parameter.
+     */
     void workerLoop(size_t worker_id);
 
-    // Timeout monitor — runs in a separate thread, marks requests cancelled
-    // when their deadline expires.
+    /**
+     * @brief Timeout monitor — runs in a separate thread, marks requests cancelled when their deadline expires.
+     */
     void timeoutMonitorLoop();
+    /**
+     * @brief TBD: Describe checkAndHandleTimeouts.
+     */
     void checkAndHandleTimeouts();
     
-    // Process single request
+    /**
+     * @brief Process single request
+     * @param[in] request Input parameter.
+     * @param[in] submit_time Input parameter.
+     * @return Return value.
+     */
     InferenceResponse processRequest(
         const AsyncInferenceRequest& request,
         std::chrono::steady_clock::time_point submit_time
     );
     
-    // Generate unique request ID
+    /**
+     * @brief Generate unique request ID
+     * @return Return value.
+     */
     std::string generateRequestId();
     
-    // Handle backpressure (expects queue_mutex_ locked)
+    /**
+     * @brief Handle backpressure (expects queue_mutex_ locked)
+     * @param[in,out] lock Input/output parameter.
+     * @return True on success.
+     */
     bool handleBackpressure(std::unique_lock<std::mutex>& lock);
 };
 

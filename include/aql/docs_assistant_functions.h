@@ -184,6 +184,7 @@ public:
      * - "Documentation database not found"
      * - "Documentation database failed to load: <exception message>"
      * - "LoRA adapter failed to load: <exception message>"
+     * @return Return value.
      */
     std::string degradedReason() const;
     
@@ -219,6 +220,7 @@ public:
      * static AQLFunctionClassifyBridge bridge;
      * getDocsAssistantFunctions().setClassifier(&bridge);
      * @endcode
+     * @param[in,out] classifier Input/output parameter.
      */
     void setClassifier(IClassifyFn* classifier);
 
@@ -236,7 +238,15 @@ protected:
 
 private:
     class Impl;
+  /**
+   * @brief TBD: Describe ensureImpl.
+   * @return Return value.
+   */
   Impl& ensureImpl();
+  /**
+   * @brief TBD: Describe tryGetImpl.
+   * @return Pointer to the result.
+   */
   Impl* tryGetImpl() const;
   mutable std::unique_ptr<Impl> impl_;
 
@@ -284,6 +294,8 @@ private:
  * 
  * This ensures we only have one instance of the documentation
  * database loaded in memory across all AQL queries.
+ * @return Return value.
+ * @note Exception safety: noexcept.
  */
 DocsAssistantFunctions& getDocsAssistantFunctions() noexcept;
 

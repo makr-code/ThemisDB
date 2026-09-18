@@ -76,12 +76,14 @@ public:
      * @return true if the watcher was started successfully; false if the
      *         platform does not support file watching or the watch_path is
      *         not accessible.
+     * @brief TBD: Describe start.
      */
     bool start();
 
     /**
      * Stop the background watcher thread and release OS resources.
      * Blocks until the thread has exited. Idempotent.
+     * @brief TBD: Describe stop.
      */
     void stop();
 
@@ -101,15 +103,26 @@ public:
     std::chrono::milliseconds debounceInterval() const { return debounce_; }
 
 private:
-    // ── Entry point for the watcher thread ──────────────────────────────
+    /**
+     * @brief ── Entry point for the watcher thread ──────────────────────────────
+     */
     void watchLoop();
 
     // ── Platform-specific watch loops ───────────────────────────────────
 #if defined(__linux__)
+    /**
+     * @brief TBD: Describe watchLoopInotify.
+     */
     void watchLoopInotify();
 #elif defined(__APPLE__)
+    /**
+     * @brief TBD: Describe watchLoopKqueue.
+     */
     void watchLoopKqueue();
 #elif defined(_WIN32)
+    /**
+     * @brief TBD: Describe watchLoopReadDirChanges.
+     */
     void watchLoopReadDirChanges();
 #endif
 
@@ -118,6 +131,7 @@ private:
      * Called from the watch loop whenever a relevant FS event arrives.
      * Resets the debounce timer; the callback fires after `debounce_` ms of
      * inactivity.
+     * @brief TBD: Describe scheduleCallback.
      */
     void scheduleCallback();
 

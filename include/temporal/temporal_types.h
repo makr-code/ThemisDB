@@ -86,6 +86,12 @@ struct TimeRange {
         return {{"start", start}, {"end", end}};
     }
 
+    /**
+     * @brief TBD: Describe fromJson.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     * @details Calls: at().
+     */
     static TimeRange fromJson(const nlohmann::json& j) {
         return {j.at("start").get<Timestamp>(), j.at("end").get<Timestamp>()};
     }

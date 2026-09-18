@@ -109,9 +109,11 @@ public:
         size_t peer_access_disabled_count = 0; ///< Successful disablePeerAccess() calls
     };
 
-    // -----------------------------------------------------------------------
-    // Singleton
-    // -----------------------------------------------------------------------
+    /**
+     * @brief ----------------------------------------------------------------------- Singleton -----------------------------------------------------------------------
+     * @return Return value.
+     * @details Implements GetInstance without additional internal calls.
+     */
     static GPUP2PTransferManager& GetInstance() {
         static GPUP2PTransferManager inst;
         return inst;
@@ -177,6 +179,9 @@ public:
     /**
      * @brief Return true when peer access has been enabled for the pair
      *        (src_device → dst_device).
+     * @param[in] src_device Input parameter.
+     * @param[in] dst_device Input parameter.
+     * @return True on success.
      */
     bool isPeerAccessEnabled(int src_device, int dst_device) const;
 
@@ -213,6 +218,7 @@ public:
 
     /**
      * @brief Return current transfer statistics.
+     * @return Return value.
      */
     Stats getStats() const;
 
@@ -245,6 +251,9 @@ private:
 
 /**
  * @brief Human-readable name for a GPUP2PTransferManager::Status value.
+ * @param[in] s Input parameter.
+ * @return Pointer to the result.
+ * @note Exception safety: noexcept.
  */
 const char* p2pStatusName(GPUP2PTransferManager::Status s) noexcept;
 
