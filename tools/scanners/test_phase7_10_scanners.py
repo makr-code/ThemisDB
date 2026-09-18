@@ -798,6 +798,43 @@ class TestThemisCppDoxygenPolicyRulesScan(unittest.TestCase):
         """)
         self.assertEqual(self.scanner.scan_files([header]), [])
 
+    def test_doxygen_profile_with_directional_params_and_details_passes(self):
+        header = self._header('profiled_api.h', """\
+            template<typename KeyType, typename ValueType>
+            class ProfiledApi {
+            public:
+                /**
+                 * @brief Update cached value.
+                 * @tparam KeyType Key type.
+                 * @tparam ValueType Value type.
+                 * @param[in] key Cache key.
+                 * @param[in,out] value Updated value.
+                 * @return True on success.
+                 * @details Calls: store().
+                 * @note Exception safety: noexcept.
+                 */
+                bool update(const KeyType& key, ValueType& value) noexcept;
+            };
+        """)
+        self.assertEqual(self.scanner.scan_files([header]), [])
+
+    def test_missing_details_flagged_for_function_body(self):
+        header = self._header('missing_details.h', """\
+            class MissingDetailsApi {
+            public:
+                /**
+                 * @brief Update cached value.
+                 * @param key Cache key.
+                 * @return True on success.
+                 */
+                bool update(const std::string& key) {
+                    return !key.empty();
+                }
+            };
+        """)
+        gaps = self.scanner.scan_files([header])
+        self.assertIn('missing_doxygen_details', _patterns(gaps))
+
 
 # ===========================================================================
 # Integration: scan_files() contract for all Phase 7-10 scanners

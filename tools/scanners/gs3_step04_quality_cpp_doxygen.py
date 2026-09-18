@@ -4,7 +4,7 @@ Phase 10-8: Themis C++ Doxygen Policy Rules Scanner
 
 Rule sources:
 - Public C++ API documentation requirements
-- Doxygen comment contracts for purpose/params/return behavior
+- Doxygen comment contracts for purpose/params/return/details behavior
 
 Detects:
 - missing doxygen comment for public API declarations
@@ -13,6 +13,7 @@ Detects:
 - missing @return tag for non-void return declarations
 - missing @tparam tags for named template parameters
 - missing @throws tags for documented throwing definitions
+- missing @details tag for documented function bodies
 """
 
 from __future__ import annotations
@@ -296,6 +297,16 @@ class ThemisCppDoxygenPolicyRulesScan:
                     signature,
                 )
 
+            if decl.has_body and not self._has_details_doc(doc):
+                self._append(
+                    rel,
+                    decl.start_line,
+                    "LOW",
+                    "missing_doxygen_details",
+                    f"Doxygen comment for '{info['name']}' is missing @details",
+                    signature,
+                )
+
     def _append(self, file_rel: str, line: int, severity: str, pattern: str, description: str, context: str) -> None:
         self.gaps.append(
             {
@@ -561,6 +572,10 @@ class ThemisCppDoxygenPolicyRulesScan:
     def _has_throws_doc(self, doc: str) -> bool:
         lowered = doc.lower()
         return "@throws" in lowered or "@exception" in lowered
+
+    def _has_details_doc(self, doc: str) -> bool:
+        lowered = doc.lower()
+        return "@details" in lowered or "@note" in lowered or "@remark" in lowered
 
     def _extract_template_params(self, signature: str) -> List[str]:
         match = re.search(r"template\s*<(.+?)>\s*", signature)
