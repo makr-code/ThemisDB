@@ -681,7 +681,12 @@ void WALManager::sync() {
 
         // Open file descriptor and fsync it
 #ifdef _WIN32
-        int fd = ::_open(entry.path().string().c_str(), _O_RDONLY | _O_BINARY);
+        // Windows CRT `_commit()` must operate on a writable handle; using a
+        // read-only descriptor here can trigger the lowio assertion
+        // "Invalid file descriptor. File possibly closed by a different thread".
+        // Opening in read/write mode keeps the underlying CRT state valid for the
+        // flush call while still being a local durability sync of the WAL file.
+        int fd = ::_open(entry.path().string().c_str(), _O_RDWR | _O_BINARY);
         if (fd < 0) {
             THEMIS_WARN("WALManager::sync: cannot open {}: {}", entry.path().string(), strerror(errno));
             continue;
