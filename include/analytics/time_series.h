@@ -4,7 +4,6 @@
  * @version 0.1.0
  * @note Maturity: 🟢 PRODUCTION-READY
  * @note Score: 88/100
- * @note Gap Summary: CWE-416 iterator safety applied (Sprint 7 Batch C, Phase 2C)
  * @note Status: Production Ready
  *
  * Provides sorted, append-only time-series storage with windowed read access.

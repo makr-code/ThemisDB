@@ -227,7 +227,6 @@ class CodeMaturityUpdater:
  * @note Module Context: {module_context}
  * @note Ownership Scope: {ownership_scope}
  * @note Primary Symbols: {primary_symbols}
- * @note Gap Summary: total={gaps}; TODO={todo}, Stub={stub}, Unimpl={unimpl}, Mock={mock}, Sim={sim}, Debt={debt}, C={ext_critical}, H={ext_high}, M={ext_medium}, L={ext_low}
  * @note Governance: {governance_context}
  * @note Release Context: {release_context}
  * @note Status: {status}{maturity_gate}
@@ -249,7 +248,6 @@ class CodeMaturityUpdater:
  * @note Module Context: {module_context}
  * @note Ownership Scope: {ownership_scope}
  * @note Primary Symbols: {primary_symbols}
- * @note Gap Summary: total={gaps}; TODO={todo}, Stub={stub}, Unimpl={unimpl}, Mock={mock}, Sim={sim}, Debt={debt}, C={ext_critical}, H={ext_high}, M={ext_medium}, L={ext_low}
  * @note PR History (last 5): {pr_info}
  * @note Governance: {governance_context}
  * @note Release Context: {release_context}
@@ -736,7 +734,6 @@ class CodeMaturityUpdater:
             '@note Module Context:',
             '@note Ownership Scope:',
             '@note Primary Symbols:',
-            '@note Gap Summary:',
             '@note Governance:',
             '@note Release Context:',
             '@note Status:',

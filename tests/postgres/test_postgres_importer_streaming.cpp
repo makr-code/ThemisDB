@@ -21,6 +21,8 @@
 
 using json = nlohmann::json;
 
+namespace {
+
 // ---------------------------------------------------------------------------
 // Minimal type re-implementations (mirrors importer_interface.h)
 // ---------------------------------------------------------------------------
@@ -789,3 +791,5 @@ TEST(ImportDataStreamingApiTest, MultipleCallbackInvocationsAreOrdered) {
     EXPECT_EQ(names[1], "Bob");
     EXPECT_EQ(names[2], "Carol");
 }
+
+} // namespace

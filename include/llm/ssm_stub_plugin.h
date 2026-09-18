@@ -3,7 +3,6 @@
  * @brief Synthetic SSM stub plugin for Phase 1 dataflow validation.
  * @version 0.1.0-alpha
  * @note Maturity: EXPERIMENTAL
- * @note Gap Summary: Stub/Simulation marker
  * @note Status: Phase 1 PoC
  */
 

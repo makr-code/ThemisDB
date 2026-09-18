@@ -3,7 +3,6 @@
  * @brief Field Diagnostics Collector - Thread-Safe Event Collection
  * @version 0.0.1
  * @note Maturity: 🟢 PRODUCTION-READY
- * @note Gap Summary: total=0; Stub=0, Unimpl=0, Mock=0, Sim=0
  *
  * Central collection point for structured diagnostic events from all ThemisDB modules.
  * Handles thread-safe buffering, PII masking, and integration with Prometheus metrics.

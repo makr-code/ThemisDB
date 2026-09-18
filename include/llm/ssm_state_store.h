@@ -3,7 +3,6 @@
  * @brief SSM state persistence interface for ThemisDB LLM stack.
  * @version 0.1.0-alpha
  * @note Maturity: EXPERIMENTAL (Phase 1 PoC)
- * @note Gap Summary: Interface draft; in-memory impl for Phase 1, RocksDB for Phase 2
  * @note Status: In-memory implementation only
  * @note This file is auto-generated and will be updated per Phase 1 gates.
  */

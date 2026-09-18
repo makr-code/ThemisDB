@@ -4,7 +4,6 @@
  * @version 0.1.0
  * @note Maturity: 🟢 PRODUCTION-READY
  * @note Score: 88/100
- * @note Gap Summary: CWE-416 iterator safety applied (Sprint 7 Batch C, Phase 2B+2D)
  * @note Status: Production Ready
  *
  * Provides GROUP BY aggregation (SUM, COUNT, AVG, MIN, MAX, FIRST, LAST) over

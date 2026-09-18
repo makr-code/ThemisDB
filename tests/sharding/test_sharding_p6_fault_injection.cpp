@@ -16,7 +16,6 @@
  *
  * @version 0.0.1
  * @note Maturity: 🟢 PRODUCTION-READY | Score: 95/100
- * @note Gap Summary: total=0; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=0
  * @note kCanonicalSeed = 42 for all seeded randomness
  * @note Coverage: P6-03 fault injection as specified in NEXT_PHASE_IMPLEMENTATION_PLAN.md §P6-03
  */

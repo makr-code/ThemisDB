@@ -13,7 +13,6 @@
  *
  * @version 1.9.0-beta
  * @note Maturity: 🟢 PRODUCTION-READY | Score: 95/100
- * @note Gap Summary: total=0; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=0
  * @note kCanonicalSeed = 42 for all seeded randomness
  * @note CTest labels: graph;phase3;optimization
  * @note Coverage:

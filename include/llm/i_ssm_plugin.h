@@ -3,7 +3,6 @@
  * @brief SSM / Mamba backend plugin interface for ThemisDB LLM stack.
  * @version 0.1.0-alpha
  * @note Maturity: EXPERIMENTAL (Phase 1 PoC)
- * @note Gap Summary: Interface draft; implementation pending Phase 1 design review
  * @note Status: Pending human architect approval (P1-D01 design gate)
  * @note This file is auto-generated and will be updated per design review feedback.
  * @note **Plugin Interface**: Abstract interface for SSM/Mamba backend implementations.

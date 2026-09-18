@@ -4,7 +4,6 @@
  * @version 0.0.47
  * @note Maturity: 🟢 PRODUCTION-READY
  * @note Score: 86/100
- * @note Gap Summary: total=6; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=3, C=0, H=3, M=3, L=0
  * @note Status: Production Ready; Core STT functional (Whisper integration); speaker diarization deferred
  * @note This block is auto-generated and will be overwritten.
  */

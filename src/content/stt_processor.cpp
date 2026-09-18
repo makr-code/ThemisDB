@@ -4,7 +4,6 @@
  * @version 0.0.47
  * @note Maturity: 🟡 BETA
  * @note Score: 82/100
- * @note Gap Summary: total=7; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=3, C=1, H=1, M=5, L=0
  * @note Status: Production Ready; Speech-to-text with Whisper working; real-time streaming deferred
  * @note This block is auto-generated and will be overwritten.
  */

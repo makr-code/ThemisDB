@@ -3,7 +3,6 @@
  * @brief Field Diagnostics Schema for ThemisDB Production Observability
  * @version 0.0.1
  * @note Maturity: 🟢 PRODUCTION-READY
- * @note Gap Summary: total=0; Stub=0, Unimpl=0, Mock=0, Sim=0
  *
  * Defines structured diagnostic event types for field deployment feedback loops.
  * Used by FieldDiagnosticsCollector to emit diagnostic events to Prometheus.

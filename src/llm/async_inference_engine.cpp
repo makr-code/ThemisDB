@@ -250,8 +250,9 @@ InferenceHandle AsyncInferenceEngine::submit(
 
         std::unique_lock<std::mutex> lock(queue_mutex_);
 
-        // Check queue size and handle backpressure
-        if (request_queue_.size() >= config_.max_queue_size) {
+        // Check total outstanding capacity (active workers + queued items)
+        // and only trigger DROP_OLDEST when there is an actual queued request to evict.
+        if (active_requests_.size() >= config_.max_queue_size && !request_queue_.empty()) {
             if (!handleBackpressure(lock)) {
                 stats_.total_rejected.fetch_add(1, std::memory_order_relaxed);
                 std::lock_guard<std::mutex> tl(tracking_mutex_);
@@ -354,7 +355,7 @@ std::string AsyncInferenceEngine::submitAsync(
 
         std::unique_lock<std::mutex> lock(queue_mutex_);
 
-        if (request_queue_.size() >= config_.max_queue_size) {
+        if (active_requests_.size() >= config_.max_queue_size && !request_queue_.empty()) {
             if (!handleBackpressure(lock)) {
                 stats_.total_rejected++;
                 std::lock_guard<std::mutex> tl(tracking_mutex_);
@@ -498,7 +499,7 @@ InferenceHandle AsyncInferenceEngine::submitStreaming(
         future = local_promise->get_future().share();
 
         std::unique_lock<std::mutex> lock(queue_mutex_);
-        if (request_queue_.size() >= config_.max_queue_size) {
+        if (active_requests_.size() >= config_.max_queue_size && !request_queue_.empty()) {
             if (!handleBackpressure(lock)) {
                 stats_.total_rejected.fetch_add(1, std::memory_order_relaxed);
                 std::lock_guard<std::mutex> tl(tracking_mutex_);
@@ -1076,6 +1077,8 @@ bool AsyncInferenceEngine::handleBackpressure(std::unique_lock<std::mutex>& lock
         case Config::BackpressurePolicy::DROP_OLDEST:
             // Find the queued request with the lowest priority and drop it
             // to make room for the incoming (presumably higher-priority) request.
+            // The effective capacity includes active workers as well as queued work,
+            // so saturation is evaluated against total outstanding requests.
             if (!request_queue_.empty()) {
                 auto min_it = std::min_element(
                     request_queue_.begin(), request_queue_.end(),

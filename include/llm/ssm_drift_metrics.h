@@ -3,7 +3,6 @@
  * @brief SSM drift metrics for Prometheus export (Phase 1 PoC).
  * @version 0.1.0-alpha
  * @note Maturity: EXPERIMENTAL
- * @note Gap Summary: Drift telemetry and router decision tracking
  * @note Status: Phase 1 PoC metrics
  */
 

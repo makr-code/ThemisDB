@@ -6,7 +6,6 @@
  * @brief Tests for 3PC (Three-Phase Commit) with non-blocking behavior
  * @version 0.0.47
  * @note Maturity: 🟢 PRODUCTION-READY | Score: 95/100
- * @note Gap Summary: total=0; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=0
  * @note Tests 3PC non-blocking behavior for RAID-Sharding Converged Storage-Inference
  */
 

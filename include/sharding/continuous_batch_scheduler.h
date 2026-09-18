@@ -7,7 +7,6 @@
  * @version 1.9.0-beta
  * @note Maturity: PRODUCTION-READY
  * @note Score: 100/100
- * @note Gap Summary: total=0; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=0
  * @note Implements vLLM-style continuous batching for per-shard inference
  */
 

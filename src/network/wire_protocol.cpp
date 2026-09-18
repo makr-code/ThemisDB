@@ -4,7 +4,6 @@
  * @version 0.1.0
  * @note Maturity: 🟢 PRODUCTION-READY
  * @note Score: 88/100
- * @note Gap Summary: CWE-416/CWE-129 iterator safety — Sprint 7 Batch C Phase 2B
  *   Gap B001: dereference without end check at packet byte 178 — FIXED
  *   Gap B003: user-controlled payload length drives advance — FIXED
  *   Gap B005: magic-byte read without buffer size guard — FIXED

@@ -3,7 +3,6 @@
  * @brief Infini-attention CPU fallback implementation (Phase 1 PoC).
  * @version 0.1.0-alpha
  * @note Maturity: EXPERIMENTAL
- * @note Gap Summary: CPU-only fallback for GPU-unavailable environments
  * @note Status: Phase 1 PoC
  */
 

@@ -521,7 +521,7 @@ endif()
 if(NOT THEMIS_ENABLE_LLM AND THEMIS_ENABLE_LEGAL_TRAINING)
     # Re-include: remove the data-selection and training-pipeline e2e tests from
     # the LLM-based exclusion list by explicitly adding them back to ALL_TEST_SOURCES.
-    # (list(FILTER ÔÇª EXCLUDE) has already run; we add them back before the
+    # (list(FILTER ... EXCLUDE) has already run; we add them back before the
     # add_executable call.)
     list(APPEND ALL_TEST_SOURCES
         "${CMAKE_CURRENT_SOURCE_DIR}/lora/test_lora_data_selection.cpp"
@@ -1255,7 +1255,7 @@ if(THEMIS_ENABLE_GPU)
         ${CMAKE_CURRENT_SOURCE_DIR}/gpu/test_gpu_launcher.cpp
         # GPUMemoryManagerEdition: tenant quotas, VRAM cap, pre-allocation hints
         ${CMAKE_CURRENT_SOURCE_DIR}/gpu/test_gpu_memory_management.cpp
-        # GPUModule facade: policy ÔåÆ circuit-breaker ÔåÆ alloc ÔåÆ launch pipeline
+        # GPUModule facade: policy -> circuit-breaker -> alloc -> launch pipeline
         ${CMAKE_CURRENT_SOURCE_DIR}/gpu/test_gpu_module.cpp
         # GPUOLAPAccelerator: parallel aggregation, sort, hash-join CPU paths
         ${CMAKE_CURRENT_SOURCE_DIR}/gpu/test_gpu_olap_accelerator.cpp
@@ -7164,7 +7164,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/prompt/test_prompt_injection_pattern_regi
     message(STATUS "  PromptInjectionPatternRegistry: PRR_01..08 shared registry parity + singleton")
 endif()
 
-# Governance ÔÇô compliance + security integration focused tests (Issue: #1778)
+# Governance - compliance + security integration focused tests (Issue: #1778)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/compliance/test_compliance_security_governance.cpp")
     message(STATUS "Adding Compliance & Security Governance integration tests (Issue #1778)")
     add_executable(test_compliance_security_governance_focused compliance/test_compliance_security_governance.cpp)
@@ -7381,7 +7381,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/policy/test_policy_review.cpp")
         LABELS "governance;policy-review;workflow;draft;approve;reject;unit"
         TIMEOUT 90
     )
-    message(STATUS "  Policy Review: draftÔåÆreviewÔåÆapprove/reject workflow, PolicyReview lifecycle, history tracking")
+    message(STATUS "  Policy Review: draft->review->approve/reject workflow, PolicyReview lifecycle, history tracking")
 endif()
 
 # Governance - policy template library focused tests (Issue: #1778)
@@ -11846,7 +11846,7 @@ endif()
 # ============================================================================
 # CDC Changefeed Sequence Counter Tests (v1.8.0 - roadmap #160)
 # Validates: SequenceIncrementOperator, atomic counter, crash recovery,
-# no-duplicate sequences under 8 threads, ÔëÑ200K seq/s throughput.
+# no-duplicate sequences under 8 threads, ~200K seq/s throughput.
 # ============================================================================
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_changefeed_sequence_counter.cpp")
@@ -14671,7 +14671,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/test_input_validation_security.c
     message(STATUS "  InputValidationSecurity: AQL/path-traversal/XSS/command-injection prevention (legacy API disabled; DISABLED placeholder)")
 endif()
 
-# ÔöÇÔöÇ USB Volume Hardening focused tests ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+# -- USB Volume Hardening focused tests ----------------------------------------
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/usb/test_usb_volume_hardening.cpp")
     message(STATUS "Adding USB Volume Hardening focused tests")
 
@@ -16247,7 +16247,7 @@ if(THEMIS_ENABLE_LLM)
         llm/test_json_schema_binding.cpp
         LlmJsonSchemaBindingFocusedTests
         "llm;json;schema;binding;tool-calls;unit"
-        "JSON schema binding: schemaÔåÆGBNF conversion, tool-call output validation, nested schemas"
+        "JSON schema binding: schema->GBNF conversion, tool-call output validation, nested schemas"
     )
 
     add_llm_focused_test(
@@ -16303,7 +16303,7 @@ if(THEMIS_ENABLE_LLM)
         llm/test_mcp_orchestrator_bridge.cpp
         LlmMcpOrchestratorBridgeFocusedTests
         "llm;mcp;orchestrator;bridge;unit"
-        "MCPÔåöOrchestrator bridge: tool registration, call routing, result marshalling"
+        "MCP->Orchestrator bridge: tool registration, call routing, result marshalling"
     )
 
     add_llm_focused_test(
@@ -18862,9 +18862,9 @@ else()
     message(STATUS "TrainingPhase2 focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/training/test_training_phase2.cpp")
 endif()
 
-# ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+# ------------------------------------------------------------------------------
 # Voice Module Focused Tests
-# ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+# ------------------------------------------------------------------------------
 
 # VoiceProduction focused tests - covers all 10 production-readiness phases
 # (AudioPreprocessing, WakeWordDetector, VoiceIntentDetector, VoiceSessionManager,
@@ -19769,7 +19769,7 @@ endif()
 # ContentManager::generateEmbedding() (Issue #62 / v1.8.0)
 # Covers:
 #   AC-1  EmbeddingPipeline disabled when model_name is empty; enabled otherwise
-#   AC-2  batch_size clamped to [1, 32]; timeout_ms clamped to ÔëÑ100 ms
+#   AC-2  batch_size clamped to [1, 32]; timeout_ms clamped to ~100 ms
 #   AC-3  generateEmbedding returns empty vector when pipeline is disabled
 #   AC-4  generateEmbeddingBatch result size matches input size (shape invariant)
 #   AC-5  ContentMetrics::recordEmbeddingFailure increments
@@ -22175,7 +22175,7 @@ else()
     message(STATUS "Distributed Cache Integration tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/distributed/test_distributed_cache_integration.cpp")
 endif()
 
-# ÔöÇÔöÇ Online Schema Migration focused tests (v1.7.0 Issue #208) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+# -- Online Schema Migration focused tests (v1.7.0 Issue #208) -------------
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/online/test_online_schema_migration.cpp")
     message(STATUS "Adding Storage: OnlineSchemaMigration focused tests")
     add_executable(test_online_schema_migration_focused
@@ -22595,7 +22595,7 @@ endif()
 # ============================================================================
 # BlobRedundancyManager - RocksDB Event Listener Focused Tests (v1.8.0)
 # Covers: createRocksDBListener(), notifySSTFileDeleted(),
-#         RocksDBBlobListener::OnTableFileDeleted(), healthyÔåÆunhealthy
+#         RocksDBBlobListener::OnTableFileDeleted(), healthy->unhealthy
 #         location marking, repair-queue notification.
 # ============================================================================
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/raid/test_raid_redundancy.cpp")
@@ -22741,10 +22741,10 @@ endif()
 #   AC-6  PatternMatch           (prefix, suffix, contains, exact)
 #   AC-7  VectorOp               (dot product correctness)
 #   AC-8  can_accelerate         (true for supported ops, false for Unknown)
-#   AC-9  estimate_speedup       (ÔëÑ1.0, scales with rows and device)
+#   AC-9  estimate_speedup       (~1.0, scales with rows and device)
 #   AC-10 Statistics             (counters incremented; resetStats clears)
 #   AC-11 Config thresholds      (hw_path / cpu_fallback by row-count config)
-#   AC-12 Error handling         (Unknown op_type ÔåÆ ok=false)
+#   AC-12 Error handling         (Unknown op_type -> ok=false)
 #   AC-13 Empty inputs           (no crash for empty row sets)
 #   AC-14 Thread safety          (concurrent execute() calls are safe)
 # ============================================================================
@@ -22787,13 +22787,13 @@ endif()
 # Custom Test Targets
 # LoRA Certificate Store - focused tests (v1.8.0, Issue #75)
 # Covers all four acceptance criteria:
-#   AC-1  missing cert ÔåÆ verifySignature returns SIGNATURE_UNVERIFIABLE (fail closed)
-#   AC-2  valid cert registered in store + valid sig ÔåÆ verifySignature passes
-#   AC-3  valid cert + tampered sig ÔåÆ verifySignature fails
+#   AC-1  missing cert -> verifySignature returns SIGNATURE_UNVERIFIABLE (fail closed)
+#   AC-2  valid cert registered in store + valid sig -> verifySignature passes
+#   AC-3  valid cert + tampered sig -> verifySignature fails
 #   AC-4  LoRACertificateStore: register / lookup / evict / filesystem lookup
 # ============================================================================
 
-# ÔöÇÔöÇ themisctl focused tests ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+# -- themisctl focused tests ----------------------------------------------------
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/themisctl/test_themisctl.cpp")
     message(STATUS "Adding themisctl focused tests (tools, unified CLI)")
 

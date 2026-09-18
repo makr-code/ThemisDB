@@ -4,7 +4,6 @@
  * @version 0.1.0
  * @note Maturity: 🟢 PRODUCTION-READY
  * @note Score: 88/100
- * @note Gap Summary: CWE-416/CWE-129 iterator safety — Sprint 7 Batch C Phase 2B
  *   Gap B002: post-increment may skip bounds guard at row 623 — FIXED
  *   Gap B006: user-supplied page offset drives advance — FIXED
  *   Gap B008: sub-range iteration without RangeValidator — FIXED

@@ -3,7 +3,6 @@
  * @brief ContextQualityBudget extension with state-quality metrics (Phase 1 PoC).
  * @version 0.1.0-alpha
  * @note Maturity: EXPERIMENTAL
- * @note Gap Summary: Context quality tracking for Agentic Memory transitions
  * @note Status: Phase 1 PoC
  * @note **Metrics/Configuration Header**: Defines metrics structures for context quality.
  *       No .cpp implementation needed. Used by consumers for state tracking.
