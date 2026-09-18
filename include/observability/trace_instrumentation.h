@@ -120,6 +120,11 @@ private:
 // Trace Instrumentation Macros
 // ============================================================================
 
+#ifndef THEMIS_TRACE_INSTRUMENTATION_MACROS
+#define THEMIS_TRACE_INSTRUMENTATION_MACROS
+
+#if defined(THEMIS_ENABLE_TRACING)
+
 /**
  * @brief RAII scope guard for distributed tracing.
  *
@@ -199,7 +204,6 @@ private:
         _trace_span_##__LINE__.get(), \
         _trace_span_##__LINE__->childContext(operation_name));
 
-#if defined(THEMIS_ENABLE_TRACING)
 inline void recordTraceEvent(std::string_view event_name,
                              std::initializer_list<std::pair<std::string, std::string>> attrs = {}) {
     auto* span = getCurrentSpan();
@@ -354,5 +358,4 @@ inline void recordTraceEvent(std::string_view,
 
 #endif
 
-} // namespace observability
-} // namespace themis
+#endif // THEMIS_TRACE_INSTRUMENTATION_MACROS
