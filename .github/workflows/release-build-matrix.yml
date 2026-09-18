@@ -167,7 +167,15 @@ jobs:
         git submodule update --init --depth 1 vcpkg whisper.cpp stable-diffusion.cpp ffmpeg external/GIUF || true
         if [ ! -f vcpkg/scripts/buildsystems/vcpkg.cmake ]; then
           rm -rf vcpkg
-          git clone --depth 1 https://github.com/microsoft/vcpkg.git vcpkg
+          git clone https://github.com/microsoft/vcpkg.git vcpkg
+        fi
+        # Fetch vcpkg builtin-baseline commit so versions/baseline.json is accessible.
+        # A shallow --depth 1 clone only fetches the submodule HEAD; the builtin-baseline
+        # may point to a different (older) commit not present in a shallow history.
+        VCPKG_BASELINE=$(python3 -c "import json; print(json.load(open('vcpkg.json')).get('builtin-baseline',''))" 2>/dev/null || echo "")
+        if [ -n "$VCPKG_BASELINE" ] && [ -d vcpkg/.git ]; then
+          git -C vcpkg fetch --depth=1 origin "$VCPKG_BASELINE" 2>/dev/null || \
+            git -C vcpkg fetch --unshallow 2>/dev/null || true
         fi
         test -f vcpkg/scripts/buildsystems/vcpkg.cmake || {
           echo "::error::vcpkg submodule/toolchain missing before bootstrap"
