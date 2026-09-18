@@ -409,5 +409,9 @@ private:
 // initializer … required before end of its enclosing class" diagnostic that
 // is triggered when a nested struct with defaulted members is used as a
 // default argument inside the class body.
-inline themis::cdc::ChangeStreamCompressor::ChangeStreamCompressor(Config config)
+namespace themis {
+namespace cdc {
+inline ChangeStreamCompressor::ChangeStreamCompressor(Config config)
     : config_(std::move(config)) {}
+} // namespace cdc
+} // namespace themis
