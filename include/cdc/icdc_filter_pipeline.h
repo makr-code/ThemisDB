@@ -46,9 +46,6 @@ namespace cdc {
 
 // ── FilterResult ─────────────────────────────────────────────────────────────
 
-/**
- * @brief Decision returned by a single IEventFilter stage.
- */
 enum class FilterResult {
     Pass, ///< Forward the event to the next stage / subscriber
     Drop, ///< Discard the event; do not deliver it
@@ -56,44 +53,21 @@ enum class FilterResult {
 
 // ── IEventFilter ──────────────────────────────────────────────────────────────
 
-/**
- * @brief Abstract single-stage event filter.
- *
- * Implementations must be thread-safe and must not throw.
- */
 class IEventFilter {
 public:
+    /**
+     * @brief IEvent Filter.
+     * @return Return value.
+     */
     virtual ~IEventFilter() = default;
 
-    /**
-     * @brief Evaluate the filter for a single event.
-     *
-     * @param event  The CDC change event to evaluate.
-     * @return FilterResult::Pass to forward; FilterResult::Drop to discard.
-     */
     [[nodiscard]] virtual FilterResult evaluate(const Changefeed::ChangeEvent& event) const noexcept = 0;
 
-    /**
-     * @brief Human-readable name for this filter stage (for diagnostics).
-     */
     [[nodiscard]] virtual std::string name() const = 0;
 };
 
 // ── PredicateFilter ───────────────────────────────────────────────────────────
 
-/**
- * @brief Convenience IEventFilter backed by a std::function predicate.
- *
- * Constructed with a callable that returns true to pass, false to drop.
- *
- * Example:
- * @code
- * auto f = std::make_unique<PredicateFilter>("only-puts",
- *     [](const auto& ev) {
- *         return ev.type == Changefeed::ChangeEventType::EVENT_PUT;
- *     });
- * @endcode
- */
 class PredicateFilter : public IEventFilter {
 public:
     using Predicate = std::function<bool(const Changefeed::ChangeEvent&)>;
@@ -120,9 +94,6 @@ private:
 
 // ── KeyPrefixFilter ───────────────────────────────────────────────────────────
 
-/**
- * @brief Built-in filter: pass only events whose key starts with a prefix.
- */
 class KeyPrefixFilter : public IEventFilter {
 public:
     KeyPrefixFilter(std::string name, std::string prefix)
@@ -148,9 +119,6 @@ private:
 
 // ── EventTypeFilter ───────────────────────────────────────────────────────────
 
-/**
- * @brief Built-in filter: pass only events matching one of the given types.
- */
 class EventTypeFilter : public IEventFilter {
 public:
     EventTypeFilter(std::string name,
@@ -180,102 +148,43 @@ private:
 
 // ── ICDCFilterPipeline ────────────────────────────────────────────────────────
 
-/**
- * @brief Abstract server-side CDC event filter pipeline.
- *
- * A pipeline is an ordered sequence of named IEventFilter stages.  The
- * apply() method runs each stage in order and returns FilterResult::Drop
- * as soon as any stage returns Drop; otherwise returns FilterResult::Pass.
- *
- * Thread-safety: all methods must be thread-safe in every implementation.
- */
 class ICDCFilterPipeline {
 public:
+    /**
+     * @brief ICDCFilter Pipeline.
+     * @return Return value.
+     */
     virtual ~ICDCFilterPipeline() = default;
 
-    /**
-     * @brief Append a filter stage to the end of the pipeline.
-     *
-     * @param filter  Non-null owning pointer to the filter.
-     * @return true if added; false if a filter with the same name already
-     *         exists.
-     */
     [[nodiscard]] virtual bool addFilter(std::unique_ptr<IEventFilter> filter) = 0;
 
-    /**
-     * @brief Remove a filter stage by name.
-     *
-     * @return true if the stage was found and removed; false otherwise.
-     */
     [[nodiscard]] virtual bool removeFilter(const std::string& name) = 0;
 
-    /**
-     * @brief Return true if a filter with the given name is registered.
-     */
     [[nodiscard]] virtual bool hasFilter(const std::string& name) const = 0;
 
-    /**
-     * @brief Return the number of filter stages in the pipeline.
-     */
     [[nodiscard]] virtual std::size_t size() const = 0;
 
-    /**
-     * @brief Return true when the pipeline contains no filter stages.
-     *
-     * An empty pipeline passes all events.
-     */
     [[nodiscard]] virtual bool empty() const = 0;
 
-    /**
-     * @brief Run all stages against an event and return the verdict.
-     *
-     * Short-circuits on the first Drop.  An empty pipeline always returns
-     * FilterResult::Pass.
-     *
-     * @param event  The event to evaluate.
-     * @return FilterResult::Pass or FilterResult::Drop.
-     */
     [[nodiscard]] virtual FilterResult apply(const Changefeed::ChangeEvent& event) const = 0;
 
-    /**
-     * @brief Filter a batch of events, returning only those that pass.
-     *
-     * @param events  Input batch.
-     * @return New vector containing only passing events (order preserved).
-     */
     [[nodiscard]] virtual std::vector<Changefeed::ChangeEvent> applyBatch(
         const std::vector<Changefeed::ChangeEvent>& events) const = 0;
 
-    /**
-     * @brief Names of registered filter stages, in pipeline order.
-     */
     [[nodiscard]] virtual std::vector<std::string> filterNames() const = 0;
 
-    /**
-     * @brief Cumulative count of events that passed all stages.
-     */
     [[nodiscard]] virtual std::size_t totalPassed() const = 0;
 
-    /**
-     * @brief Cumulative count of events that were dropped by any stage.
-     */
     [[nodiscard]] virtual std::size_t totalDropped() const = 0;
 
     /**
-     * @brief Reset the pass/drop counters to zero.
+     * @brief Reset Counters.
      */
     virtual void resetCounters() = 0;
 };
 
 // ── InMemoryFilterPipeline ────────────────────────────────────────────────────
 
-/**
- * @brief Thread-safe in-memory ICDCFilterPipeline implementation.
- *
- * Suitable for unit tests and standalone use.  All public methods acquire
- * a shared mutex; apply() acquires a shared (reader) lock to allow
- * concurrent evaluation without blocking each other.
- */
 class InMemoryFilterPipeline : public ICDCFilterPipeline {
 public:
     InMemoryFilterPipeline() = default;
@@ -284,6 +193,11 @@ public:
         if (!filter) {
           return false;
         }
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         const std::string n = filter->name();
         for (const auto& entry : stages_) {
@@ -296,6 +210,11 @@ public:
     }
 
     bool removeFilter(const std::string& name) override {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         for (auto it = stages_.begin(); it != stages_.end(); ++it) {
             if ((*it)->name() == name) {
@@ -307,6 +226,11 @@ public:
     }
 
     bool hasFilter(const std::string& name) const override {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         for (const auto& entry : stages_) {
             if (entry->name() == name) {
@@ -317,11 +241,21 @@ public:
     }
 
     std::size_t size() const override {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         return stages_.size();
     }
 
     bool empty() const override {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         return stages_.empty();
     }
@@ -329,6 +263,11 @@ public:
     FilterResult apply(const Changefeed::ChangeEvent& event) const override {
         std::vector<IEventFilter*> snapshot;
         {
+            /**
+             * @brief Lk.
+             * @param[in] mutex_ Input parameter.
+             * @return Return value.
+             */
             std::unique_lock<std::mutex> lk(mutex_);
             snapshot.reserve(stages_.size());
             for (const auto& s : stages_) {
@@ -360,6 +299,11 @@ public:
     }
 
     std::vector<std::string> filterNames() const override {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         std::vector<std::string> names = {};
 

@@ -47,9 +47,6 @@ namespace cache {
 // CacheReplicationEvent – payload for a single replication message
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Type of cache replication event
- */
 enum class CacheReplicationEventType {
     WRITE,         ///< A new entry was written (put)
     INVALIDATE,    ///< One or more entries were invalidated by pattern
@@ -57,24 +54,6 @@ enum class CacheReplicationEventType {
     SNAPSHOT,      ///< Full snapshot for bootstrapping a new replica
 };
 
-/**
- * @brief A single replication event transmitted to replica nodes.
- *
- * For WRITE events:
- *   - key:        cache key (fingerprint, possibly tenant-scoped)
- *   - payload:    serialised JSON of the cache entry
- *   - tenant_id:  tenant identifier (empty if isolation is disabled)
- *   - ttl_seconds: remaining TTL for the entry
- *
- * For INVALIDATE events:
- *   - pattern:    regex pattern used in AdaptiveQueryCache::invalidate()
- *
- * For INVALIDATE_TENANT events:
- *   - tenant_id:  tenant whose entries must be evicted
- *
- * For SNAPSHOT events:
- *   - payload:    newline-delimited JSON (same format as exportSnapshot())
- */
 struct CacheReplicationEvent {
     CacheReplicationEventType type = CacheReplicationEventType::WRITE;
     std::string key;            ///< Cache key (WRITE)
@@ -90,42 +69,23 @@ struct CacheReplicationEvent {
 // ICacheReplicationListener – implement this to receive events
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Interface that replica transport adapters must implement.
- *
- * Each registered listener receives every WRITE, INVALIDATE, and SNAPSHOT
- * event produced by the primary AdaptiveQueryCache. If a listener throws
- * or returns false, the CacheReplicationManager marks the replica as
- * UNHEALTHY and retries on the next heartbeat interval.
- */
 class ICacheReplicationListener {
 public:
+    /**
+     * @brief ICache Replication Listener.
+     * @return Return value.
+     */
     virtual ~ICacheReplicationListener() = default;
 
-    /**
-     * @brief Called on every cache mutation that must be replicated.
-     *
-     * @note This callback is invoked outside the cache tier's internal mutexes.
-     *       It is safe to call blocking operations here, although for
-     *       network-bound transports dispatching to a background queue is
-     *       recommended to keep cache write latency low.
-     *       Implementations must not call back into the originating
-     *       AdaptiveQueryCache to avoid potential re-entrancy issues.
-     *
-     * @param event  Structured replication event.
-     * @return true on success; false signals a transient failure.
-     */
     [[nodiscard]] virtual bool onReplicationEvent(const CacheReplicationEvent& event) = 0;
 
     /**
-     * @brief Called periodically so the listener can report its liveness.
-     * @return true if the replica is reachable and healthy.
+     * @brief Ping.
+     * @return True when the operation succeeds.
+     * @details Implements ping without additional internal calls.
      */
     virtual bool ping() { return true; }
 
-    /**
-     * @brief Human-readable replica identifier (host:port, node ID, …).
-     */
     [[nodiscard]] virtual std::string replicaId() const = 0;
 };
 
@@ -154,17 +114,12 @@ struct CacheReplicaState {
 // ---------------------------------------------------------------------------
 
 struct CacheReplicationConfig {
-    /// Maximum consecutive delivery failures before marking a replica UNHEALTHY.
     uint32_t max_consecutive_failures = 3;
 
-    /// Interval at which unhealthy replicas are probed for recovery (ms).
     uint32_t health_probe_interval_ms = 5000;
 
-    /// If true, the primary blocks on WRITE events until at least one replica
-    /// acknowledges (semi-sync).  If false, events are fire-and-forget (async).
     bool semi_sync = false;
 
-    /// Enable replication (can be set to false to disable without removing listeners).
     bool enabled = true;
 };
 
@@ -178,7 +133,6 @@ struct CacheReplicationStats {
     std::atomic<uint64_t> replicas_unhealthy{0};
     std::atomic<uint64_t> snapshots_sent{0};
 
-    /// Return a JSON snapshot of the stats (copy atomics to avoid races).
     nlohmann::json toJson() const {
         return {
             {"events_dispatched", events_dispatched.load()},
@@ -193,18 +147,6 @@ struct CacheReplicationStats {
 // CacheReplicationManager
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Manages a set of replica listeners and fan-outs cache events to them.
- *
- * Usage:
- * @code
- *   auto mgr = std::make_shared<CacheReplicationManager>(config);
- *   mgr->addReplica(std::make_shared<MyTransportListener>("node2:7001"));
- *   cache.setReplicationListener(mgr);
- * @endcode
- *
- * Thread-safety: all public methods are thread-safe.
- */
 class CacheReplicationManager : public ICacheReplicationListener {
 public:
     explicit CacheReplicationManager(const CacheReplicationConfig& config = {});
@@ -218,34 +160,23 @@ public:
     // Replica registration
     // ---------------------------------------------------------------------------
 
-    /**
-     * @brief Add a replica listener.
-     *
-     * Immediately sends a SNAPSHOT event so the new replica bootstraps its
-     * cache state from the provided snapshot data (may be empty).
-     *
-     * @param listener       Transport adapter for the replica.
-     * @param snapshot_ndjson NDJSON snapshot string (from exportSnapshot).
-     *                        Pass empty string to skip bootstrap snapshot.
-     */
     void addReplica(std::shared_ptr<ICacheReplicationListener> listener,
                     const std::string& snapshot_ndjson = "");
 
     /**
-     * @brief Remove a replica by its replicaId().
+     * @brief Remove Replica.
+     * @param[in] replica_id Identifier of the replica.
      */
     void removeReplica(const std::string& replica_id);
 
     /**
-     * @brief Number of registered replicas (healthy + unhealthy).
+     * @brief Replica Count.
+     * @return Return value.
      */
     size_t replicaCount() const;
 
     /**
-     * @brief Probe all unhealthy replicas to check whether they have recovered.
-     *
-     * Intended to be called from a periodic background timer; also safe to
-     * call from a test.
+     * @brief Probe Unhealthy Replicas.
      */
     void probeUnhealthyReplicas();
 
@@ -258,34 +189,28 @@ public:
     bool ping() override;
     std::string replicaId() const override { return "CacheReplicationManager"; }
 
-    // ---------------------------------------------------------------------------
-    // Convenience helpers called by AdaptiveQueryCache hooks
-    // ---------------------------------------------------------------------------
-
     /**
-     * @brief Fan-out a WRITE event to all healthy replicas.
-     *
-     * @param key         Cache key (fingerprint, possibly tenant-scoped).
-     * @param payload     Serialised JSON of the cache entry.
-     * @param tenant_id   Tenant identifier (empty when isolation is disabled).
-     * @param ttl_seconds Remaining TTL for the entry.
+     * @brief --------------------------------------------------------------------------- Convenience helpers called by AdaptiveQueryCache hooks ---------------------------------------------------------------------------
+     * @param[in] key Input parameter.
+     * @param[in] payload Input parameter.
+     * @param[in] tenant_id Identifier of the tenant.
+     * @param[in] ttl_seconds Input parameter.
      */
+
     void notifyWrite(const std::string& key,
                      const std::string& payload,
                      const std::string& tenant_id,
                      int ttl_seconds);
 
     /**
-     * @brief Fan-out an INVALIDATE event to all healthy replicas.
-     *
-     * @param pattern  Regex pattern used in AdaptiveQueryCache::invalidate().
+     * @brief Notify Invalidate.
+     * @param[in] pattern Input parameter.
      */
     void notifyInvalidate(const std::string& pattern);
 
     /**
-     * @brief Fan-out an INVALIDATE_TENANT event to all healthy replicas.
-     *
-     * @param tenant_id  Tenant whose entries must be evicted on replicas.
+     * @brief Notify Invalidate Tenant.
+     * @param[in] tenant_id Identifier of the tenant.
      */
     void notifyInvalidateTenant(const std::string& tenant_id);
 
@@ -294,18 +219,17 @@ public:
     // ---------------------------------------------------------------------------
 
     /**
-     * @brief Return replication statistics as JSON.
+     * @brief Get Stats.
+     * @return Return value.
      */
     nlohmann::json getStats() const;
 
     /**
-     * @brief Return per-replica health as JSON array.
+     * @brief Get Replica Health.
+     * @return Return value.
      */
     nlohmann::json getReplicaHealth() const;
 
-    /**
-     * @brief Access raw stats counters.
-     */
     const CacheReplicationStats& stats() const { return stats_; }
 
 private:
@@ -315,12 +239,24 @@ private:
     mutable CacheReplicationStats stats_;
     mutable std::atomic<uint64_t> sequence_{0};
 
-    /// Dispatch an event to all healthy replicas, updating health state.
+    /**
+     * @brief Dispatch.
+     * @param[in] event Input parameter.
+     */
     void dispatch(const CacheReplicationEvent& event);
 
-    /// Build a CacheReplicationEvent with a fresh sequence number and timestamp.
+    /**
+     * @brief Make Event.
+     * @param[in] type Input parameter.
+     * @return Return value.
+     */
     CacheReplicationEvent makeEvent(CacheReplicationEventType type) const;
 
+    /**
+     * @brief Health To String.
+     * @param[in] h Input parameter.
+     * @return Pointer to the result.
+     */
     static const char* healthToString(CacheReplicaHealth h);
 };
 

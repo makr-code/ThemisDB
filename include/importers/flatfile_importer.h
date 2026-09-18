@@ -19,9 +19,6 @@
 namespace themis {
 namespace importers {
 
-/**
- * @brief Flat-file source format
- */
 enum class FlatFileFormat {
     AUTO,    ///< Detect from file extension
     CSV,     ///< Comma-separated values (configurable delimiter)
@@ -30,39 +27,6 @@ enum class FlatFileFormat {
     PARQUET  ///< Apache Parquet columnar format (requires ARROW_ENABLED)
 };
 
-/**
- * @brief Flat-File Importer
- *
- * Imports data from CSV, TSV, JSON Lines (JSONL), and Apache Parquet files
- * into ThemisDB.
- *
- * Supports:
- * - CSV / TSV with configurable delimiter, quote character, and header row
- * - JSONL (one JSON object per line)
- * - Apache Parquet (columnar format; requires ARROW_ENABLED build flag)
- * - Format auto-detection from file extension
- * - Schema auto-detection from file contents
- * - Schema mapping to ThemisDB BaseEntity via column/table mappings
- * - Dry-run mode (validate without writing)
- * - Include / exclude table filtering
- * - Streaming row callback for large files
- * - Async import via importDataAsync()
- * - Metrics and distributed-tracing callbacks (Prometheus / OTel)
- * - Permission-check callback (ACL enforcement)
- * - Row-size limits and UTF-8 validation
- * - Structured error reporting (ImportErrorCode)
- *
- * Configuration (passed as JSON string to initialize()):
- * @code
- *   {
- *     "format":     "csv",     // "auto" (default), "csv", "tsv", "jsonl", "parquet"
- *     "delimiter":  ",",       // single character; overrides format default
- *     "quote_char": "\"",      // single character (default: double-quote)
- *     "has_header": true,      // first row contains column names (CSV/TSV)
- *     "table_name": "data"     // logical table name (default: stem of filename)
- *   }
- * @endcode
- */
 class FlatFileImporter : public IImporter {
 public:
     FlatFileImporter();
@@ -105,44 +69,49 @@ private:
     std::map<std::string, std::string> field_validator_state_;  ///< Per-field validation state (Phase 2A)
     std::map<std::string, std::string> schema_inference_cache_;  ///< Schema type hints cache (Phase 2A)
 
-    // ---- Format helpers -------------------------------------------------------
+    /**
+     * @brief ---- Format helpers -------------------------------------------------------
+     * @param[in] path Input parameter.
+     * @return Return value.
+     */
 
-    /// Detect format from file extension; returns AUTO if unknown.
     static FlatFileFormat detectFormat(const std::string& path);
 
-    /// Resolve effective format: uses configured format_ or auto-detects.
+    /**
+     * @brief Effective Format.
+     * @param[in] path Input parameter.
+     * @return Return value.
+     */
     FlatFileFormat effectiveFormat(const std::string& path) const;
 
-    /// Extract filename stem (basename without extension) for table name.
+    /**
+     * @brief Filename Stem.
+     * @param[in] path Input parameter.
+     * @return Return value.
+     */
     static std::string filenameStem(const std::string& path);
 
-    // ---- CSV / TSV parsing ---------------------------------------------------
-
     /**
-     * @brief Parse a single CSV/TSV row into fields.
-     *
-     * Handles quoted fields (RFC 4180), embedded newlines inside quotes are
-     * NOT supported (single-line records only).
-     *
-     * @param line      Input line (without the trailing newline).
-     * @param delim     Field delimiter character.
-     * @param quote     Quote character.
-     * @return          Vector of field strings (un-quoted, unescaped).
+     * @brief ---- CSV / TSV parsing ---------------------------------------------------
+     * @param[in] line Input parameter.
+     * @param[in] delim Input parameter.
+     * @param[in] quote Input parameter.
+     * @return Return value.
      */
+
     static std::vector<std::string> parseCsvRow(const std::string& line,
                                                  char delim,
                                                  char quote);
 
     /**
-     * @brief Import CSV or TSV file.
-     *
-     * @param path      File path.
-     * @param fmt       Resolved format (CSV or TSV).
-     * @param table     Logical table name.
-     * @param options   Import options.
-     * @param stats     Output statistics (updated in-place).
-     * @param cb        Progress callback (may be null).
-     * @return false on fatal I/O error; true otherwise.
+     * @brief Import Csv File.
+     * @param[in] path Input parameter.
+     * @param[in] fmt Input parameter.
+     * @param[in] table Input parameter.
+     * @param[in] options Input parameter.
+     * @param[in,out] stats Input/output parameter.
+     * @param[in,out] cb Input/output parameter.
+     * @return True when the operation succeeds.
      */
     bool importCsvFile(const std::string& path,
                        FlatFileFormat fmt,
@@ -152,19 +121,15 @@ private:
                        ProgressCallback& cb);
 
     /**
-     * @brief Sample up to @p sample_limit rows from @p file to build a
-     *        DetectedSchema, then seek back to @p data_start_pos.
-     *
-     * Called by importCsvFile() when ImportOptions::validate_schema is true.
-     *
-     * @param file            Open file stream positioned at the first data row.
-     * @param data_start_pos  Stream position to seek back to after sampling.
-     * @param columns         Column names (header row, already mapped).
-     * @param delim           Field delimiter.
-     * @param line_limit      Per-line size cap (0 = unlimited).
-     * @param sample_limit    Maximum rows to read for sampling.
-     * @param table           Logical table name embedded in the result.
-     * @return                Detected schema.
+     * @brief Detect Csv Schema.
+     * @param[in,out] file Input/output parameter.
+     * @param[in] data_start_pos Input parameter.
+     * @param[in] columns Input parameter.
+     * @param[in] delim Input parameter.
+     * @param[in] line_limit Input parameter.
+     * @param[in] sample_limit Input parameter.
+     * @param[in] table Input parameter.
+     * @return Return value.
      */
     DetectedSchema detectCsvSchema(std::ifstream& file,
                                    std::streampos data_start_pos,
@@ -174,18 +139,16 @@ private:
                                    size_t sample_limit,
                                    const std::string& table);
 
-    // ---- JSONL parsing -------------------------------------------------------
-
     /**
-     * @brief Import a JSONL file (one JSON object per line).
-     *
-     * @param path      File path.
-     * @param table     Logical table name.
-     * @param options   Import options.
-     * @param stats     Output statistics (updated in-place).
-     * @param cb        Progress callback (may be null).
-     * @return false on fatal I/O error; true otherwise.
+     * @brief ---- JSONL parsing -------------------------------------------------------
+     * @param[in] path Input parameter.
+     * @param[in] table Input parameter.
+     * @param[in] options Input parameter.
+     * @param[in,out] stats Input/output parameter.
+     * @param[in,out] cb Input/output parameter.
+     * @return True when the operation succeeds.
      */
+
     bool importJsonlFile(const std::string& path,
                          const std::string& table,
                          const ImportOptions& options,
@@ -193,21 +156,13 @@ private:
                          ProgressCallback& cb);
 
     /**
-     * @brief Import an Apache Parquet file.
-     *
-     * When the library is built with ARROW_ENABLED this uses the Apache Arrow
-     * Parquet reader.  Without Arrow the method records a CRITICAL error and
-     * returns false.
-     *
-     * Column types are inferred from the Parquet / Arrow schema and exposed
-     * via schema auto-detection (DetectedSchema).
-     *
-     * @param path      File path.
-     * @param table     Logical table name.
-     * @param options   Import options.
-     * @param stats     Output statistics (updated in-place).
-     * @param cb        Progress callback (may be null).
-     * @return false on fatal I/O error or missing Arrow support; true otherwise.
+     * @brief Import Parquet File.
+     * @param[in] path Input parameter.
+     * @param[in] table Input parameter.
+     * @param[in] options Input parameter.
+     * @param[in,out] stats Input/output parameter.
+     * @param[in,out] cb Input/output parameter.
+     * @return True when the operation succeeds.
      */
     bool importParquetFile(const std::string& path,
                            const std::string& table,
@@ -215,7 +170,12 @@ private:
                            ImportStats& stats,
                            ProgressCallback& cb);
 
-    // ---- Utility helpers -----------------------------------------------------
+    /**
+     * @brief ---- Utility helpers -----------------------------------------------------
+     * @param[in] table_name Name of the table.
+     * @param[in] options Input parameter.
+     * @return True when the operation succeeds.
+     */
 
     bool shouldImportTable(const std::string& table_name,
                            const ImportOptions& options) const;
@@ -235,18 +195,25 @@ private:
                   const std::map<std::string, std::string>& attributes,
                   double duration_seconds) const;
 
+    /**
+     * @brief Report Progress.
+     * @param[in,out] callback Input/output parameter.
+     * @param[in] stage Input parameter.
+     * @param[in] current Input parameter.
+     * @param[in] total Input parameter.
+     */
     void reportProgress(ProgressCallback& callback,
                         const std::string& stage,
                         size_t current, size_t total);
 
+    /**
+     * @brief Is Valid Utf8.
+     * @param[in] s Input parameter.
+     * @return True when the operation succeeds.
+     */
     static bool isValidUtf8(const std::string& s);
 };
 
-/**
- * @brief FlatFile Importer Plugin
- *
- * Wraps FlatFileImporter as a ThemisDB plugin.
- */
 class FlatFileImporterPlugin : public plugins::IThemisPlugin {
 public:
     FlatFileImporterPlugin();

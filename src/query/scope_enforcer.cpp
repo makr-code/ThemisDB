@@ -92,11 +92,23 @@ QueryScope ScopeEnforcerImpl::extractResultScope(
     return scope;
 }
 
+/**
+ * @brief Enforce Accumulated Scope Bounds.
+ * @param[in] scope_key Input parameter.
+ * @param[in] new_bytes Input parameter.
+ * @param[in] max_bytes_per_scope Input parameter.
+ * @return Return value.
+ */
 Result<void> ScopeEnforcerImpl::enforceAccumulatedScopeBounds(
     const std::string& scope_key,
     uint64_t new_bytes,
     uint64_t max_bytes_per_scope)
 {
+    /**
+     * @brief Lock.
+     * @param[in] accumulators_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(accumulators_mutex_);
     
     auto it = scope_accumulators_.find(scope_key);
@@ -129,14 +141,28 @@ Result<void> ScopeEnforcerImpl::enforceAccumulatedScopeBounds(
     return OkVoid();
 }
 
+/**
+ * @brief Reset Scope Accumulation.
+ * @param[in] scope_key Input parameter.
+ */
 void ScopeEnforcerImpl::resetScopeAccumulation(const std::string& scope_key)
 {
+    /**
+     * @brief Lock.
+     * @param[in] accumulators_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(accumulators_mutex_);
     scope_accumulators_.erase(scope_key);
 }
 
 uint64_t ScopeEnforcerImpl::getScopeAccumulatedBytes(const std::string& scope_key) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] accumulators_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(accumulators_mutex_);
     auto it = scope_accumulators_.find(scope_key);
     return it != scope_accumulators_.end() ? it->second : 0;

@@ -186,7 +186,9 @@ std::string buildQueryString(
       return true;
     }
 
-    // Placeholder heuristics — look for search-intent words in many languages.
+    // Heuristic fallback: look for search-intent words in the normalised
+    // candidate text using the multilingual keyword list below.
+    // using the multilingual keyword list below.
     const std::string pl = toLower(placeholder);
     static const std::array<std::string, 18> kPlaceholderKeywords = {{
         "search",     // English

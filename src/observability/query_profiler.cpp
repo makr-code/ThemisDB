@@ -19,7 +19,12 @@
 namespace themis {
 namespace observability {
 
-// Helper functions
+/**
+ * @brief Helper functions
+ * @param[in] phase Input parameter.
+ * @return Pointer to the result.
+ * @details Implements to_string without additional internal calls.
+ */
 const char* to_string(QueryPhase phase) {
     switch (phase) {
         case QueryPhase::PARSE: return "PARSE";
@@ -32,6 +37,12 @@ const char* to_string(QueryPhase phase) {
     }
 }
 
+/**
+ * @brief To string.
+ * @param[in] type Input parameter.
+ * @return Pointer to the result.
+ * @details Implements to_string without additional internal calls.
+ */
 const char* to_string(OperatorType type) {
     switch (type) {
         case OperatorType::SCAN: return "SCAN";
@@ -147,6 +158,10 @@ public:
     
     explicit Impl(const QueryProfilerConfig& cfg) : config(cfg) {}
     
+    /**
+     * @brief Cleanup old.
+     * @details Calls: std::chrono::system_clock::now(), push_back(), erase(), size(), std::sort(), begin(), end().
+     */
     void cleanup_old() {
         auto now = std::chrono::system_clock::now();
         std::vector<std::string> to_remove;
@@ -186,6 +201,13 @@ QueryProfiler::QueryProfiler(const QueryProfilerConfig& config)
 
 QueryProfiler::~QueryProfiler() = default;
 
+/**
+ * @brief Start query.
+ * @param[in] query_id Input parameter.
+ * @param[in] query_text Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), std::chrono::system_clock::now(), cleanup_old_profiles().
+ */
 std::string QueryProfiler::start_query(const std::string& query_id, 
                                       const std::string& query_text) {
     if (!impl_->config.enabled) {
@@ -206,6 +228,11 @@ std::string QueryProfiler::start_query(const std::string& query_id,
     return query_id;
 }
 
+/**
+ * @brief End query.
+ * @param[in] query_id Input parameter.
+ * @details Calls: lock(), find(), end(), std::chrono::system_clock::now(), log_slow_query().
+ */
 void QueryProfiler::end_query(const std::string& query_id) {
     if (!impl_->config.enabled) {
         return;
@@ -228,6 +255,13 @@ void QueryProfiler::end_query(const std::string& query_id) {
     }
 }
 
+/**
+ * @brief Record phase.
+ * @param[in] query_id Input parameter.
+ * @param[in] phase Input parameter.
+ * @param[in] duration Input parameter.
+ * @details Calls: lock(), find(), end().
+ */
 void QueryProfiler::record_phase(const std::string& query_id, QueryPhase phase,
                                 std::chrono::microseconds duration) {
     if (!impl_->config.enabled) {
@@ -242,6 +276,12 @@ void QueryProfiler::record_phase(const std::string& query_id, QueryPhase phase,
     }
 }
 
+/**
+ * @brief Record operator.
+ * @param[in] query_id Input parameter.
+ * @param[in] stats Input parameter.
+ * @details Calls: lock(), find(), end(), push_back().
+ */
 void QueryProfiler::record_operator(const std::string& query_id, 
                                    const OperatorStats& stats) {
     if (!impl_->config.enabled || !impl_->config.collect_operator_stats) {
@@ -256,6 +296,12 @@ void QueryProfiler::record_operator(const std::string& query_id,
     }
 }
 
+/**
+ * @brief Record index usage.
+ * @param[in] query_id Input parameter.
+ * @param[in] index_name Input parameter.
+ * @details Calls: lock(), find(), end(), push_back().
+ */
 void QueryProfiler::record_index_usage(const std::string& query_id, 
                                       const std::string& index_name) {
     if (!impl_->config.enabled) {
@@ -271,6 +317,12 @@ void QueryProfiler::record_index_usage(const std::string& query_id,
     }
 }
 
+/**
+ * @brief Record cache usage.
+ * @param[in] query_id Input parameter.
+ * @param[in] cache_hit Input parameter.
+ * @details Calls: lock(), find(), end().
+ */
 void QueryProfiler::record_cache_usage(const std::string& query_id, bool cache_hit) {
     if (!impl_->config.enabled) {
         return;
@@ -286,6 +338,12 @@ void QueryProfiler::record_cache_usage(const std::string& query_id, bool cache_h
     }
 }
 
+/**
+ * @brief Add hint.
+ * @param[in] query_id Input parameter.
+ * @param[in] hint Input parameter.
+ * @details Calls: lock(), find(), end(), push_back().
+ */
 void QueryProfiler::add_hint(const std::string& query_id, const std::string& hint) {
     if (!impl_->config.enabled) {
         return;
@@ -299,6 +357,12 @@ void QueryProfiler::add_hint(const std::string& query_id, const std::string& hin
     }
 }
 
+/**
+ * @brief Add warning.
+ * @param[in] query_id Input parameter.
+ * @param[in] warning Input parameter.
+ * @details Calls: lock(), find(), end(), push_back().
+ */
 void QueryProfiler::add_warning(const std::string& query_id, const std::string& warning) {
     if (!impl_->config.enabled) {
         return;
@@ -375,6 +439,10 @@ std::vector<std::shared_ptr<QueryProfile>> QueryProfiler::get_top_queries(size_t
     return result;
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lock().
+ */
 void QueryProfiler::clear() {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     impl_->profiles.clear();
@@ -388,6 +456,11 @@ void QueryProfiler::export_to_json(const std::string& filename) const {
         profiles_json.push_back(profile->toJSON());
     }
     
+    /**
+     * @brief File.
+     * @param[in] filename Input parameter.
+     * @return Return value.
+     */
     std::ofstream file(filename);
     file << profiles_json.dump(2);
 }
@@ -397,16 +470,29 @@ QueryProfilerConfig QueryProfiler::get_config() const {
     return impl_->config;
 }
 
+/**
+ * @brief Set config.
+ * @param[in] config Input parameter.
+ * @details Calls: lock().
+ */
 void QueryProfiler::set_config(const QueryProfilerConfig& config) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     impl_->config = config;
 }
 
+/**
+ * @brief Enable.
+ * @details Calls: lock().
+ */
 void QueryProfiler::enable() {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     impl_->config.enabled = true;
 }
 
+/**
+ * @brief Disable.
+ * @details Calls: lock().
+ */
 void QueryProfiler::disable() {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     impl_->config.enabled = false;
@@ -454,10 +540,19 @@ json QueryProfiler::get_statistics() const {
     };
 }
 
+/**
+ * @brief Cleanup old profiles.
+ * @details Calls: cleanup_old().
+ */
 void QueryProfiler::cleanup_old_profiles() {
     impl_->cleanup_old();
 }
 
+/**
+ * @brief Log slow query.
+ * @param[in] profile Input parameter.
+ * @details Implements log_slow_query without additional internal calls.
+ */
 void QueryProfiler::log_slow_query(const QueryProfile& profile) {
     (void)profile;
     // Log slow query (could be integrated with logging system)
@@ -476,19 +571,40 @@ ScopedQueryProfile::~ScopedQueryProfile() {
     profiler_.end_query(query_id_);
 }
 
+/**
+ * @brief Record phase.
+ * @param[in] phase Input parameter.
+ * @param[in] duration Input parameter.
+ * @details Implements record_phase without additional internal calls.
+ */
 void ScopedQueryProfile::record_phase(QueryPhase phase, 
                                      std::chrono::microseconds duration) {
     profiler_.record_phase(query_id_, phase, duration);
 }
 
+/**
+ * @brief Record operator.
+ * @param[in] stats Input parameter.
+ * @details Implements record_operator without additional internal calls.
+ */
 void ScopedQueryProfile::record_operator(const OperatorStats& stats) {
     profiler_.record_operator(query_id_, stats);
 }
 
+/**
+ * @brief Add hint.
+ * @param[in] hint Input parameter.
+ * @details Implements add_hint without additional internal calls.
+ */
 void ScopedQueryProfile::add_hint(const std::string& hint) {
     profiler_.add_hint(query_id_, hint);
 }
 
+/**
+ * @brief Add warning.
+ * @param[in] warning Input parameter.
+ * @details Implements add_warning without additional internal calls.
+ */
 void ScopedQueryProfile::add_warning(const std::string& warning) {
     profiler_.add_warning(query_id_, warning);
 }
@@ -510,26 +626,53 @@ ScopedOperatorProfile::~ScopedOperatorProfile() {
     profiler_.record_operator(query_id_, stats_);
 }
 
+/**
+ * @brief Record rows.
+ * @param[in] count Input parameter.
+ * @details Implements record_rows without additional internal calls.
+ */
 void ScopedOperatorProfile::record_rows(size_t count) {
     stats_.rows_processed += count;
 }
 
+/**
+ * @brief Record bytes.
+ * @param[in] count Input parameter.
+ * @details Implements record_bytes without additional internal calls.
+ */
 void ScopedOperatorProfile::record_bytes(size_t count) {
     stats_.bytes_processed += count;
 }
 
+/**
+ * @brief Record disk read.
+ * @details Implements record_disk_read without additional internal calls.
+ */
 void ScopedOperatorProfile::record_disk_read() {
     stats_.disk_reads++;
 }
 
+/**
+ * @brief Record cache hit.
+ * @details Implements record_cache_hit without additional internal calls.
+ */
 void ScopedOperatorProfile::record_cache_hit() {
     stats_.cache_hits++;
 }
 
+/**
+ * @brief Record cache miss.
+ * @details Implements record_cache_miss without additional internal calls.
+ */
 void ScopedOperatorProfile::record_cache_miss() {
     stats_.cache_misses++;
 }
 
+/**
+ * @brief Set details.
+ * @param[in] details Input parameter.
+ * @details Implements set_details without additional internal calls.
+ */
 void ScopedOperatorProfile::set_details(const std::string& details) {
     stats_.details = details;
 }

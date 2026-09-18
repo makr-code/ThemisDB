@@ -24,15 +24,9 @@ namespace geo {
 
 // Minimal abstraction for compute backends (CPU/GPU) used by Geo exact checks
 struct SpatialBatchInputs {
-    /// Number of geometry pairs to test.  When geoms_a / geoms_b are
-    /// populated they must contain exactly `count` elements each.  If the
-    /// vectors are empty, `count` is still used to size the output mask
-    /// (all entries will be 0).
     std::size_t count{0};
 
-    /// First geometry of each pair.  Size must equal count when non-empty.
     std::vector<GeometryInfo> geoms_a;
-    /// Second geometry of each pair.  Size must equal count when non-empty.
     std::vector<GeometryInfo> geoms_b;
 };
 
@@ -40,9 +34,12 @@ struct SpatialBatchResults {
     std::vector<uint8_t> mask; // 1 = hit, 0 = no hit
 };
 
-/** @brief I spatial compute backend implementation. */
 class ISpatialComputeBackend {
 public:
+    /**
+     * @brief ISpatial Compute Backend.
+     * @return Return value.
+     */
     virtual ~ISpatialComputeBackend() = default;
     [[nodiscard]] virtual const char* name() const noexcept = 0;
     [[nodiscard]] virtual bool isAvailable() const noexcept = 0;
@@ -99,10 +96,17 @@ public:
 };
 
 // Registry for dynamically loaded plugins
-/** @brief Registry for dynamically loaded plugins. */
 class IGeoRegistry {
 public:
+    /**
+     * @brief IGeo Registry.
+     * @return Return value.
+     */
     virtual ~IGeoRegistry() = default;
+    /**
+     * @brief Register Backend.
+     * @param[in] backend Input parameter.
+     */
     virtual void registerBackend(std::unique_ptr<ISpatialComputeBackend> backend) = 0;
 };
 
@@ -119,83 +123,70 @@ enum class GeoPrecisionMode {
     Approximate  // MBR-based fast approximation; safe for pre-filtering.
 };
 
-// Get the Boost CPU backend (if available)
+/**
+ * @brief Get the Boost CPU backend (if available)
+ * @return Pointer to the result.
+ */
 ISpatialComputeBackend* getBoostCpuBackend();
 
-// Get the built-in CPU exact backend (always available, no Boost dependency)
+/**
+ * @brief Get the built-in CPU exact backend (always available, no Boost dependency)
+ * @return Pointer to the result.
+ */
 ISpatialComputeBackend* getCpuExactBackend();
 
-// Get the built-in CPU approximate backend (always available).
-// Uses MBR overlap checks for fast conservative spatial tests.
+/**
+ * @brief Get the built-in CPU approximate backend (always available).
+ * @return Pointer to the result.
+ * @details Uses MBR overlap checks for fast conservative spatial tests.
+ */
 ISpatialComputeBackend* getCpuApproximateBackend();
 
-// Get the global geo backend registry.
-// Backends self-register at startup so they are discoverable at runtime.
+/**
+ * @brief Get the global geo backend registry.
+ * @return Pointer to the result.
+ * @details Backends self-register at startup so they are discoverable at runtime.
+ */
 IGeoRegistry* getGeoBackendRegistry();
 
-/**
- * @brief Point-in-polygon containment callback type.
- *
- * When injected via setCpuExactContainmentFn(), this function is called by
- * CpuExactBackend::exactIntersects() for every point-in-polygon test instead
- * of the built-in ray-casting algorithm.
- *
- * Signature: (px, py, polygon_ring) → true if (px, py) is inside the ring.
- *
- * This injection point lets callers (e.g. Boost.Geometry wrappers) provide
- * OGC-compliant geodesic or spherical containment without recompiling the
- * backend.  Pass nullptr to restore the built-in ray-casting fallback.
- */
 using GeoContainmentFn = std::function<bool(double px, double py,
                                              const std::vector<Coordinate>& ring)>;
 
 /**
- * @brief Inject a custom point-in-polygon function into the CPU exact backend.
- *
- * Thread-safe.  Can be called multiple times; the last value wins.
- * Pass nullptr to restore the built-in ray-casting algorithm.
- *
- * @param fn  Containment callback; nullptr clears the override.
+ * @brief Set Cpu Exact Containment Fn.
+ * @param[in] fn Input parameter.
  */
 void setCpuExactContainmentFn(GeoContainmentFn fn);
 
-// Get a backend for the requested precision mode.
-// Exact   → getCpuExactBackend()
-// Approximate → getCpuApproximateBackend()
+/**
+ * @brief Get a backend for the requested precision mode.
+ * @param[in] mode Input parameter.
+ * @return Pointer to the result.
+ * @details Exact → getCpuExactBackend() Approximate → getCpuApproximateBackend()
+ */
 ISpatialComputeBackend* getBackendForPrecision(GeoPrecisionMode mode);
 
-// Get the GPU spatial backend (falls back to CPU when no GPU is present)
+/**
+ * @brief Get the GPU spatial backend (falls back to CPU when no GPU is present)
+ * @return Pointer to the result.
+ */
 ISpatialComputeBackend* getGpuSpatialBackend();
 
-// Get the production GPU backend (CUDA/OpenCL/CPU-parallel with automatic fallback)
+/**
+ * @brief Get the production GPU backend (CUDA/OpenCL/CPU-parallel with automatic fallback)
+ * @return Pointer to the result.
+ */
 ISpatialComputeBackend* getProductionGpuBackend();
 
 /**
- * @brief Return a JSON string with current GPU spatial backend operational stats.
- *
- * The returned object contains:
- *   backend_name, gpu_present, circuit_open, device_name,
- *   batch_calls, batch_fallbacks, batch_pairs_processed,
- *   exact_calls, exact_errors,
- *   batch_avg_latency_us, batch_max_latency_us
- *
- * This free function surfaces the `GpuBatchBackend::Stats` struct without
- * exposing the concrete class to callers.
+ * @brief Get Gpu Spatial Backend Stats Json.
+ * @return Return value.
  */
 std::string getGpuSpatialBackendStatsJson();
 
 /**
- * @brief Return a JSON string with GPU device capability information for the
- *        geo module.
- *
- * Delegates to GeoDeviceDetector::ReportJson() and reports all enumerated
- * devices together with geo-specific suitability assessments
- * (compute capability, VRAM threshold).
- *
- * The returned object contains:
- *   has_suitable_device, devices[]{index, name, backend,
- *   total_vram_mb, free_vram_mb, compute_capability, is_healthy,
- *   suitable_for_geo, reason}
+ * @brief Get Geo Device Report Json.
+ * @return Return value.
  */
 std::string getGeoDeviceReportJson();
 

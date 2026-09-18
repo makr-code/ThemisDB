@@ -23,38 +23,14 @@
 
 namespace themis::acceleration {
 
-/**
- * @enum KernelCategory
- * @brief Classification of graph kernels for GPU acceleration eligibility
- *
- * Categories define whether a graph operation may be GPU-accelerated and under
- * what constraints.
- */
 enum class KernelCategory : std::uint8_t {
-    /// **Category A**: Acceleration-Eligible (no constraints)
-    /// GPU can safely accelerate with CPU fallback. Examples: ANN distance,
-    /// TopK selection, vector insertion. Timeline: Phase A (Q3 2026).
     ACCELERATION_ELIGIBLE = 0,
 
-    /// **Category B**: Conditional Acceleration (requires validation gates)
-    /// GPU may accelerate if explicit input/output validation and CPU fallback
-    /// are implemented. Examples: Geo distance/containment, bounded BFS.
-    /// Timeline: Phase B (Q3 2026+, after 60% gap reduction).
     CONDITIONAL_ACCELERATION = 1,
 
-    /// **Category C**: CPU-First Only (never GPU)
-    /// Operations are truth-bearing and must remain deterministic on CPU.
-    /// Examples: ACL enforcement, provenance chains, policy decisions.
-    /// These operations should never be delegated to GPU approximations.
     CPU_FIRST_ONLY = 2,
 };
 
-/**
- * @enum KernelType
- * @brief Specific kernel type identifiers
- *
- * Used for runtime kernel classification lookups and validation gates.
- */
 enum class KernelType : std::uint16_t {
     // Category A: Acceleration-Eligible
     ANN_L2_DISTANCE = 100,
@@ -81,51 +57,26 @@ enum class KernelType : std::uint16_t {
     UNKNOWN = 0xFFFF,
 };
 
-/**
- * @struct KernelClassificationTraits
- * @brief Compile-time traits for kernel classification
- *
- * Template specializations define category, constraints, and validation requirements
- * for each kernel type. This enables compile-time kernel safety checking.
- *
- * Example usage:
- * @code
- *     static_assert(
- *         KernelClassificationTraits<KernelType::ANN_L2_DISTANCE>::category
- *             == KernelCategory::ACCELERATION_ELIGIBLE
- *     );
- * @endcode
- */
 template <KernelType KT>
 struct KernelClassificationTraits {
-    /// Kernel category (A/B/C classification)
     static constexpr KernelCategory category = KernelCategory::CPU_FIRST_ONLY;
 
-    /// Human-readable kernel name
     static constexpr std::string_view name = "unknown";
 
-    /// Requires input validation gates before GPU dispatch
     static constexpr bool requires_input_validation = false;
 
-    /// Requires output validation gates after GPU dispatch
     static constexpr bool requires_output_validation = false;
 
-    /// CPU fallback is available for failure recovery
     static constexpr bool has_cpu_fallback = false;
 
-    /// GPU execution must be bounded (by time, memory, etc.)
     static constexpr bool gpu_execution_bounded = false;
 
-    /// Maximum GPU execution time (milliseconds) if bounded
     static constexpr std::uint32_t max_gpu_time_ms = 0;
 
-    /// Maximum frontier/output size if bounded
     static constexpr std::uint64_t max_output_size = 0;
 
-    /// GPU result is advisory-only (never truth-bearing)
     static constexpr bool is_advisory_only = false;
 
-    /// GPU may parallelize computation (false if GPU must preserve ordering)
     static constexpr bool gpu_may_parallelize = false;
 };
 
@@ -133,7 +84,6 @@ struct KernelClassificationTraits {
 // Category A: Acceleration-Eligible Specializations
 // ============================================================================
 
-/// L2 Euclidean distance kernel (Category A)
 template <>
 struct KernelClassificationTraits<KernelType::ANN_L2_DISTANCE> {
     static constexpr KernelCategory category = KernelCategory::ACCELERATION_ELIGIBLE;
@@ -147,7 +97,6 @@ struct KernelClassificationTraits<KernelType::ANN_L2_DISTANCE> {
     static constexpr bool gpu_may_parallelize = true;
 };
 
-/// Cosine distance kernel (Category A)
 template <>
 struct KernelClassificationTraits<KernelType::ANN_COSINE_DISTANCE> {
     static constexpr KernelCategory category = KernelCategory::ACCELERATION_ELIGIBLE;
@@ -161,7 +110,6 @@ struct KernelClassificationTraits<KernelType::ANN_COSINE_DISTANCE> {
     static constexpr bool gpu_may_parallelize = true;
 };
 
-/// Inner product kernel (Category A)
 template <>
 struct KernelClassificationTraits<KernelType::ANN_INNER_PRODUCT> {
     static constexpr KernelCategory category = KernelCategory::ACCELERATION_ELIGIBLE;
@@ -175,7 +123,6 @@ struct KernelClassificationTraits<KernelType::ANN_INNER_PRODUCT> {
     static constexpr bool gpu_may_parallelize = true;
 };
 
-/// TopK selection kernel (Category A)
 template <>
 struct KernelClassificationTraits<KernelType::TOPK_SELECTION> {
     static constexpr KernelCategory category = KernelCategory::ACCELERATION_ELIGIBLE;
@@ -189,7 +136,6 @@ struct KernelClassificationTraits<KernelType::TOPK_SELECTION> {
     static constexpr bool gpu_may_parallelize = false;  // Order must be deterministic
 };
 
-/// Vector KNN insertion pipeline (Category A)
 template <>
 struct KernelClassificationTraits<KernelType::VEC_KNN_INSERT> {
     static constexpr KernelCategory category = KernelCategory::ACCELERATION_ELIGIBLE;
@@ -204,7 +150,6 @@ struct KernelClassificationTraits<KernelType::VEC_KNN_INSERT> {
     static constexpr bool gpu_may_parallelize = true;
 };
 
-/// Tensor Core matrix multiply (Category A)
 template <>
 struct KernelClassificationTraits<KernelType::TENSOR_CORE_MATMUL> {
     static constexpr KernelCategory category = KernelCategory::ACCELERATION_ELIGIBLE;
@@ -222,7 +167,6 @@ struct KernelClassificationTraits<KernelType::TENSOR_CORE_MATMUL> {
 // Category B: Conditional Acceleration Specializations
 // ============================================================================
 
-/// Geographic Haversine distance (Category B)
 template <>
 struct KernelClassificationTraits<KernelType::GEO_DISTANCE> {
     static constexpr KernelCategory category = KernelCategory::CONDITIONAL_ACCELERATION;
@@ -236,7 +180,6 @@ struct KernelClassificationTraits<KernelType::GEO_DISTANCE> {
     static constexpr bool gpu_may_parallelize = true;
 };
 
-/// Geographic point-in-polygon (Category B)
 template <>
 struct KernelClassificationTraits<KernelType::GEO_CONTAINMENT> {
     static constexpr KernelCategory category = KernelCategory::CONDITIONAL_ACCELERATION;
@@ -250,7 +193,6 @@ struct KernelClassificationTraits<KernelType::GEO_CONTAINMENT> {
     static constexpr bool gpu_may_parallelize = true;
 };
 
-/// Graph bounded BFS (Category B)
 template <>
 struct KernelClassificationTraits<KernelType::GRAPH_BFS> {
     static constexpr KernelCategory category = KernelCategory::CONDITIONAL_ACCELERATION;
@@ -265,7 +207,6 @@ struct KernelClassificationTraits<KernelType::GRAPH_BFS> {
     static constexpr bool gpu_may_parallelize = true;
 };
 
-/// Graph shortest path (Category B)
 template <>
 struct KernelClassificationTraits<KernelType::GRAPH_DIJKSTRA> {
     static constexpr KernelCategory category = KernelCategory::CONDITIONAL_ACCELERATION;
@@ -284,7 +225,6 @@ struct KernelClassificationTraits<KernelType::GRAPH_DIJKSTRA> {
 // Category C: CPU-First Only Specializations
 // ============================================================================
 
-/// ACL enforcement (Category C)
 template <>
 struct KernelClassificationTraits<KernelType::ACL_ENFORCEMENT> {
     static constexpr KernelCategory category = KernelCategory::CPU_FIRST_ONLY;
@@ -297,7 +237,6 @@ struct KernelClassificationTraits<KernelType::ACL_ENFORCEMENT> {
     static constexpr bool gpu_may_parallelize = false;  // CPU deterministic
 };
 
-/// Provenance chains (Category C)
 template <>
 struct KernelClassificationTraits<KernelType::PROVENANCE_CHAINS> {
     static constexpr KernelCategory category = KernelCategory::CPU_FIRST_ONLY;
@@ -310,7 +249,6 @@ struct KernelClassificationTraits<KernelType::PROVENANCE_CHAINS> {
     static constexpr bool gpu_may_parallelize = false;  // Order critical
 };
 
-/// Policy validation (Category C)
 template <>
 struct KernelClassificationTraits<KernelType::POLICY_VALIDATION> {
     static constexpr KernelCategory category = KernelCategory::CPU_FIRST_ONLY;
@@ -323,7 +261,6 @@ struct KernelClassificationTraits<KernelType::POLICY_VALIDATION> {
     static constexpr bool gpu_may_parallelize = false;  // Decision logic
 };
 
-/// Exact multi-hop validation (Category C)
 template <>
 struct KernelClassificationTraits<KernelType::EXACT_MULTI_HOP> {
     static constexpr KernelCategory category = KernelCategory::CPU_FIRST_ONLY;
@@ -336,7 +273,6 @@ struct KernelClassificationTraits<KernelType::EXACT_MULTI_HOP> {
     static constexpr bool gpu_may_parallelize = false;  // Exact traversal
 };
 
-/// Irregular truth-bearing traversal (Category C)
 template <>
 struct KernelClassificationTraits<KernelType::IRREGULAR_TRAVERSAL> {
     static constexpr KernelCategory category = KernelCategory::CPU_FIRST_ONLY;
@@ -354,10 +290,10 @@ struct KernelClassificationTraits<KernelType::IRREGULAR_TRAVERSAL> {
 // ============================================================================
 
 /**
- * @brief Determine if GPU acceleration is allowed for a kernel type
- *
- * @param kernel_type The kernel to check
- * @return true if GPU acceleration is allowed (Category A or B), false if CPU-only
+ * @brief Can GPUAccelerate.
+ * @param[in] kernel_type Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements canGPUAccelerate without additional internal calls.
  */
 inline constexpr bool canGPUAccelerate(KernelType kernel_type) {
     switch (kernel_type) {
@@ -391,10 +327,10 @@ inline constexpr bool canGPUAccelerate(KernelType kernel_type) {
 }
 
 /**
- * @brief Get the category for a kernel type
- *
- * @param kernel_type The kernel to classify
- * @return The KernelCategory (A, B, or C)
+ * @brief Get Kernel Category.
+ * @param[in] kernel_type Input parameter.
+ * @return Return value.
+ * @details Implements getKernelCategory without additional internal calls.
  */
 inline constexpr KernelCategory getKernelCategory(KernelType kernel_type) {
     switch (kernel_type) {
@@ -428,10 +364,10 @@ inline constexpr KernelCategory getKernelCategory(KernelType kernel_type) {
 }
 
 /**
- * @brief Get the human-readable name of a kernel type
- *
- * @param kernel_type The kernel to name
- * @return String view with kernel name
+ * @brief Get Kernel Name.
+ * @param[in] kernel_type Input parameter.
+ * @return Return value.
+ * @details Implements getKernelName without additional internal calls.
  */
 inline constexpr std::string_view getKernelName(KernelType kernel_type) {
     switch (kernel_type) {

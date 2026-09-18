@@ -36,6 +36,12 @@ namespace query {
 
 namespace {
 
+/**
+ * @brief Sql Value To AQL.
+ * @param[in] val Input parameter.
+ * @return Return value.
+ * @details Calls: std::visit(), constexpr(), std::to_string(), str(), reserve(), size().
+ */
 std::string sqlValueToAQL(const SQLValue& val) {
     return std::visit([](auto&& v) -> std::string {
         using T = std::decay_t<decltype(v)>;
@@ -194,6 +200,11 @@ class SQLLexer {
 public:
     explicit SQLLexer(const std::string& input) : input_(input), pos_(0) {}
 
+    /**
+     * @brief Tokenize.
+     * @return Return value.
+     * @details Calls: size(), skipWhitespace(), push_back(), readString(), std::isdigit(), readNumber(), std::isalpha(), readIdent().
+     */
     std::vector<SQLToken> tokenize() {
         std::vector<SQLToken> tokens = {};
 
@@ -275,12 +286,23 @@ private:
     const std::string& input_;
     size_t pos_ = {};
 
+    /**
+     * @brief Skip Whitespace.
+     * @details Calls: size(), std::isspace().
+     */
     void skipWhitespace() {
         while (pos_ < input_.size() && std::isspace(static_cast<unsigned char>(input_[pos_]))) {
           ++pos_;
         }
     }
 
+    /**
+     * @brief Read String.
+     * @param[in] delim Input parameter.
+     * @param[in] start Input parameter.
+     * @return Return value.
+     * @details Calls: size().
+     */
     SQLToken readString(char delim, size_t start) {
         ++pos_; // skip opening delimiter
         std::string val = {};
@@ -347,9 +369,19 @@ private:
 
 class SQLParserImpl {
 public:
+    /**
+     * @brief SQLParser Impl.
+     * @param[in] tokens Input parameter.
+     * @return Return value.
+     */
     explicit SQLParserImpl(std::vector<SQLToken> tokens)
         : tokens_(std::move(tokens)), pos_(0) {}
 
+    /**
+     * @brief Parse Statement.
+     * @return Return value.
+     * @details Calls: current(), parseSelect(), error(), code(), context(), std::move(), value(), Ok().
+     */
     Result<SQLASTNode> parseStatement() {
         if (current().type == SQLTokenType::SELECT) {
             auto res = parseSelect();
@@ -401,6 +433,10 @@ private:
 
     const SQLToken& current() const { return tokens_[pos_]; }
 
+    /**
+     * @brief Advance.
+     * @details Calls: size().
+     */
     void advance() {
         if (pos_ + 1 < tokens_.size()) {
           ++pos_;
@@ -409,6 +445,12 @@ private:
 
     bool check(SQLTokenType t) const { return current().type == t; }
 
+    /**
+     * @brief Match.
+     * @param[in] t Input parameter.
+     * @return True on success.
+     * @details Calls: check(), advance().
+     */
     bool match(SQLTokenType t) {
         if (check(t)) { advance(); return true; }
         return false;
@@ -422,11 +464,22 @@ private:
     }
 
     template<typename T>
+    /**
+     * @brief Forward Error.
+     * @param[in] src Input parameter.
+     * @return Return value.
+     * @details Calls: error(), code(), context().
+     */
     static Result<T> forwardError(const Result<SQLASTNode>& src) {
         return Err<T>(src.error().code(), src.error().context());
     }
 
-    // ---------- SELECT ----------
+    /**
+     * @brief ---------- SELECT ----------
+     * @return Return value.
+     * @throws std::runtime_error if an error occurs.
+     * @details Calls: advance(), match(), check(), parseError(), error(), code(), context(), current().
+     */
 
     Result<SQLSelectStatement> parseSelect() {
         advance(); // consume SELECT
@@ -554,7 +607,11 @@ private:
         return Ok(std::move(stmt));
     }
 
-    // ---------- INSERT ----------
+    /**
+     * @brief ---------- INSERT ----------
+     * @return Return value.
+     * @details Calls: advance(), match(), parseError(), error(), code(), context(), check(), current().
+     */
 
     Result<SQLInsertStatement> parseInsert() {
         advance(); // consume INSERT
@@ -622,7 +679,11 @@ private:
         return Ok(std::move(stmt));
     }
 
-    // ---------- UPDATE ----------
+    /**
+     * @brief ---------- UPDATE ----------
+     * @return Return value.
+     * @details Calls: advance(), check(), parseError(), error(), code(), context(), current(), match().
+     */
 
     Result<SQLUpdateStatement> parseUpdate() {
         advance(); // consume UPDATE
@@ -677,7 +738,11 @@ private:
         return Ok(std::move(stmt));
     }
 
-    // ---------- DELETE ----------
+    /**
+     * @brief ---------- DELETE ----------
+     * @return Return value.
+     * @details Calls: advance(), match(), parseError(), error(), code(), context(), check(), current().
+     */
 
     Result<SQLDeleteStatement> parseDelete() {
         advance(); // consume DELETE
@@ -706,13 +771,21 @@ private:
         return Ok(std::move(stmt));
     }
 
-    // ---------- Expression parser (WHERE conditions) ----------
-    // Precedence: OR < AND < NOT < comparison < IS/IN/LIKE < primary
+    /**
+     * @brief ---------- Expression parser (WHERE conditions) ---------- Precedence: OR < AND < NOT < comparison < IS/IN/LIKE < primary
+     * @return Return value.
+     * @details Calls: parseOr().
+     */
 
     Result<std::shared_ptr<SQLExpr>> parseExpr() {
         return parseOr();
     }
 
+    /**
+     * @brief Parse Or.
+     * @return Return value.
+     * @details Calls: parseAnd(), check(), advance(), Ok(), std::move(), value().
+     */
     Result<std::shared_ptr<SQLExpr>> parseOr() {
         auto left = parseAnd();
         if (!left) {
@@ -729,6 +802,11 @@ private:
         return left;
     }
 
+    /**
+     * @brief Parse And.
+     * @return Return value.
+     * @details Calls: parseNot(), check(), advance(), Ok(), std::move(), value().
+     */
     Result<std::shared_ptr<SQLExpr>> parseAnd() {
         auto left = parseNot();
         if (!left) {
@@ -745,6 +823,11 @@ private:
         return left;
     }
 
+    /**
+     * @brief Parse Not.
+     * @return Return value.
+     * @details Calls: match(), parseComparison(), std::move(), value().
+     */
     Result<std::shared_ptr<SQLExpr>> parseNot() {
         if (match(SQLTokenType::NOT)) {
             auto operand = parseComparison();
@@ -758,6 +841,11 @@ private:
         return parseComparison();
     }
 
+    /**
+     * @brief Parse Comparison.
+     * @return Return value.
+     * @details Calls: parsePrimary(), check(), advance(), match(), parseError(), error(), code(), context().
+     */
     Result<std::shared_ptr<SQLExpr>> parseComparison() {
         auto left = parsePrimary();
         if (!left) {
@@ -852,6 +940,12 @@ private:
         );
     }
 
+    /**
+     * @brief Parse Primary.
+     * @return Return value.
+     * @throws std::runtime_error if an error occurs.
+     * @details Calls: match(), parseExpr(), parseError(), error(), code(), context(), check(), current().
+     */
     Result<std::shared_ptr<SQLExpr>> parsePrimary() {
         // Parenthesised sub-expression
         if (match(SQLTokenType::LPAREN)) {
@@ -944,7 +1038,12 @@ private:
         return Err<std::shared_ptr<SQLExpr>>(err.error().code(), err.error().context());
     }
 
-    // Parse a literal value (used in INSERT VALUES and UPDATE SET)
+    /**
+     * @brief Parse a literal value (used in INSERT VALUES and UPDATE SET)
+     * @return Return value.
+     * @throws std::runtime_error if an error occurs.
+     * @details Calls: match(), Ok(), check(), current(), advance(), std::stoll(), THEMIS_WARN(), std::stod().
+     */
     Result<SQLValue> parseLiteralValue() {
         if (match(SQLTokenType::NUL)) return Ok(SQLValue{std::nullptr_t{}});
         if (match(SQLTokenType::TRUE_KW))  return Ok(SQLValue{true});
@@ -980,7 +1079,12 @@ private:
         return Err<SQLValue>(err.error().code(), err.error().context());
     }
 
-    // Return true for token types that are SQL keywords (not plain identifiers)
+    /**
+     * @brief Return true for token types that are SQL keywords (not plain identifiers)
+     * @param[in] t Input parameter.
+     * @return True on success.
+     * @details Implements isKeyword without additional internal calls.
+     */
     static bool isKeyword(SQLTokenType t) {
         switch (t) {
             case SQLTokenType::SELECT: case SQLTokenType::FROM:   case SQLTokenType::WHERE:
@@ -1000,12 +1104,20 @@ private:
 
 } // anonymous namespace
 
-// ============================================================================
-// SQLParser – public API
-// ============================================================================
+/**
+ * @brief ============================================================================ SQLParser – public API ============================================================================
+ * @param[in] sql_query Input parameter.
+ * @return Return value.
+ * @details Calls: lexer(), tokenize(), impl(), std::move(), parseStatement(), std::string(), what().
+ */
 
 Result<SQLASTNode> SQLParser::parse(const std::string& sql_query) {
     try {
+        /**
+         * @brief Lexer.
+         * @param[in] sql_query Input parameter.
+         * @return Return value.
+         */
         SQLLexer lexer(sql_query);
         auto tokens = lexer.tokenize();
         SQLParserImpl impl(std::move(tokens));
@@ -1016,9 +1128,12 @@ Result<SQLASTNode> SQLParser::parse(const std::string& sql_query) {
     }
 }
 
-// ============================================================================
-// SQLToAQLTranspiler – public API
-// ============================================================================
+/**
+ * @brief ============================================================================ SQLToAQLTranspiler – public API ============================================================================
+ * @param[in] ast Input parameter.
+ * @return Return value.
+ * @details Calls: Ok(), transpileSelect(), transpileInsert(), transpileUpdate(), transpileDelete().
+ */
 
 Result<std::string> SQLToAQLTranspiler::transpile(const SQLASTNode& ast) {
     switch (ast.statement_type) {
@@ -1056,10 +1171,22 @@ Result<std::string> SQLToAQLTranspiler::transpile(const SQLASTNode& ast) {
 // Internal loop variable used for all generated FOR loops
 static constexpr const char* kDocVar = "_doc";
 
+/**
+ * @brief Value To AQL.
+ * @param[in] val Input parameter.
+ * @return Return value.
+ * @details Calls: sqlValueToAQL().
+ */
 std::string SQLToAQLTranspiler::valueToAQL(const SQLValue& val) {
     return sqlValueToAQL(val);
 }
 
+/**
+ * @brief Transpile Select.
+ * @param[in] stmt Input parameter.
+ * @return Return value.
+ * @details Calls: has_value(), toAQL(), empty(), size(), str().
+ */
 std::string SQLToAQLTranspiler::transpileSelect(const SQLSelectStatement& stmt) {
     std::ostringstream aql = {};
     const std::string var = kDocVar;
@@ -1112,6 +1239,12 @@ std::string SQLToAQLTranspiler::transpileSelect(const SQLSelectStatement& stmt) 
     return aql.str();
 }
 
+/**
+ * @brief Transpile Insert.
+ * @param[in] stmt Input parameter.
+ * @return Return value.
+ * @details Calls: size(), valueToAQL(), str().
+ */
 std::string SQLToAQLTranspiler::transpileInsert(const SQLInsertStatement& stmt) {
     std::ostringstream aql = {};
     aql << "INSERT {";
@@ -1125,6 +1258,12 @@ std::string SQLToAQLTranspiler::transpileInsert(const SQLInsertStatement& stmt) 
     return aql.str();
 }
 
+/**
+ * @brief Transpile Update.
+ * @param[in] stmt Input parameter.
+ * @return Return value.
+ * @details Calls: has_value(), toAQL(), size(), valueToAQL(), str().
+ */
 std::string SQLToAQLTranspiler::transpileUpdate(const SQLUpdateStatement& stmt) {
     std::ostringstream aql = {};
     const std::string var = kDocVar;
@@ -1147,6 +1286,12 @@ std::string SQLToAQLTranspiler::transpileUpdate(const SQLUpdateStatement& stmt) 
     return aql.str();
 }
 
+/**
+ * @brief Transpile Delete.
+ * @param[in] stmt Input parameter.
+ * @return Return value.
+ * @details Calls: has_value(), toAQL(), str().
+ */
 std::string SQLToAQLTranspiler::transpileDelete(const SQLDeleteStatement& stmt) {
     std::ostringstream aql = {};
     const std::string var = kDocVar;

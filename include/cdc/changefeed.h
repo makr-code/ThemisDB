@@ -35,23 +35,6 @@ namespace rocksdb {
 
 namespace themis {
 
-/**
- * @brief Minimal Change Data Capture (CDC) implementation
- * 
- * Features:
- * - Sequence-based event tracking
- * - Long-polling support for real-time updates
- * - Event filtering by type/key prefix
- * 
- * Implementation: Simple key-value storage of change events with sequence numbers
- * Key format: "changefeed:{sequence_number}"
- * 
- * Note: This is a minimal MVP implementation. Production-grade CDC would use:
- * - RocksDB WAL tailing for lower latency
- * - Persistent subscriptions with checkpointing
- * - Materialized views with automatic updates
- * - Stream-table duality patterns
- */
 class Changefeed {
 public:
     enum class ChangeEventType {
@@ -80,7 +63,16 @@ public:
         bool redacted = false;
 
         // Serialization
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
+        /**
+         * @brief From Json.
+         * @param[in] j Input parameter.
+         * @return Return value.
+         */
         static ChangeEvent fromJson(const nlohmann::json& j);
     };
 
@@ -104,6 +96,11 @@ public:
         std::chrono::minutes cleanup_interval{60};      // Cleanup interval (default: 1 hour)
         bool compact_on_cleanup = false;                // Run key-based compaction after each cleanup cycle
 
+        /**
+         * @brief Defaults.
+         * @return Return value.
+         * @details Implements defaults without additional internal calls.
+         */
         static RetentionPolicy defaults() { return {}; }
     };
     
@@ -122,113 +119,90 @@ public:
     };
 
     /**
-     * @brief Create a RocksDB merge operator for atomic sequence increments.
-     *
-     * Callers that open the changefeed RocksDB column family should set this
-     * operator via @c ColumnFamilyOptions::merge_operator before opening the DB:
-     * @code
-     *   rocksdb::Options opts;
-     *   opts.merge_operator = Changefeed::makeSequenceMergeOperator();
-     * @endcode
-     * Without it, @c Merge() calls will be buffered but @c Get() on
-     * @c SEQUENCE_KEY after a restart will fail.  The in-process atomic counter
-     * (`sequence_counter_`) provides correctness within a single process
-     * lifetime regardless.
-     *
-     * @return Shared pointer to a @c SequenceIncrementOperator instance.
+     * @brief Make Sequence Merge Operator.
+     * @return Return value.
      */
     static std::shared_ptr<rocksdb::MergeOperator> makeSequenceMergeOperator();
 
-    /**
-     * @brief Construct Changefeed
-     * @param db RocksDB TransactionDB instance (not owned)
-     * @param cf Optional column family handle (nullptr = default CF)
-     * @param retention Retention policy (optional)
-     */
     explicit Changefeed(rocksdb::TransactionDB* db, 
                         rocksdb::ColumnFamilyHandle* cf = nullptr,
                         RetentionPolicy retention = RetentionPolicy::defaults());
 
-    /**
-     * @brief Destructor - stops the retention cleanup worker.
-     */
     ~Changefeed() noexcept;
 
     /**
-     * @brief Record a change event
-     * @param event Event to record (sequence will be auto-generated)
-     * @return Event with assigned sequence number
+     * @brief Record Event.
+     * @param[in] event Input parameter.
+     * @return Return value.
      */
     ChangeEvent recordEvent(ChangeEvent event);
 
     /**
-     * @brief List change events with default options.
-     * @return Vector of change events.
+     * @brief List Events.
+     * @return Return value.
      */
     std::vector<ChangeEvent> listEvents() const;
     /**
-     * @brief List change events with optional filters.
-     * @param options List options (pagination, filters, long-poll).
-     * @return Vector of change events.
+     * @brief List Events.
+     * @param[in] options Input parameter.
+     * @return Return value.
      */
     std::vector<ChangeEvent> listEvents(const ListOptions& options) const;
 
     /**
-     * @brief Get the latest sequence number
-     * @return Latest sequence, or 0 if no events
+     * @brief Get Latest Sequence.
+     * @return Return value.
      */
     uint64_t getLatestSequence() const;
 
     /**
-     * @brief Get changefeed statistics
-     * @return Stats struct
+     * @brief Get Stats.
+     * @return Return value.
      */
     Stats getStats() const;
     
     /**
-     * @brief Get watermark information
-     * @return Watermarks struct
+     * @brief Get Watermarks.
+     * @return Return value.
      */
     Watermarks getWatermarks() const;
 
     /**
-     * @brief Clear all events (admin operation)
+     * @brief Clear.
      */
     void clear();
 
     /**
-     * @brief Delete events older than a given sequence (retention policy)
-     * @param before_sequence Delete events with sequence < this value
-     * @return Number of events deleted
+     * @brief Delete Old Events.
+     * @param[in] before_sequence Input parameter.
+     * @return Return value.
      */
     size_t deleteOldEvents(uint64_t before_sequence);
 
     /**
-     * @brief Alias for deleteOldEvents (sequence-based)
-     * @param before_sequence Delete events with sequence < this value
-     * @return Number of events deleted
+     * @brief Delete Old Events By Sequence.
+     * @param[in] before_sequence Input parameter.
+     * @return Return value.
+     * @details Calls: deleteOldEvents().
      */
     size_t deleteOldEventsBySequence(uint64_t before_sequence) {
         return deleteOldEvents(before_sequence);
     }
     
     /**
-     * @brief Delete events older than given timestamp
-     * @param before_timestamp_ms Delete events with timestamp < this value
-     * @return Number of events deleted
+     * @brief Delete Old Events By Timestamp.
+     * @param[in] before_timestamp_ms Input parameter.
+     * @return Return value.
      */
     size_t deleteOldEventsByTimestamp(int64_t before_timestamp_ms);
 
     /**
-     * @brief Get a single event by sequence number
-     * @param sequence The sequence number to look up
-     * @return The change event (throws on not found or error)
+     * @brief Get Event.
+     * @param[in] sequence Input parameter.
+     * @return Return value.
      */
     ChangeEvent getEvent(uint64_t sequence) const;
 
-    /**
-     * @brief Result of a compaction operation
-     */
     struct CompactionResult {
         size_t events_scanned = 0;   ///< Total events examined
         size_t events_deleted = 0;   ///< Superseded events removed
@@ -236,76 +210,57 @@ public:
         size_t events_retained = 0;  ///< Events kept (latest per key + tombstones)
     };
 
-    /**
-     * @brief Result of a GDPR redaction pass
-     */
     struct RedactionResult {
         size_t events_scanned = 0;   ///< Total events examined
         size_t events_redacted = 0;  ///< Events whose value field was scrubbed
-        /// Unique event keys that were redacted (for Kafka tombstone propagation).
         std::vector<std::string> affected_keys;
     };
 
     /**
-     * @brief Compact the change log by removing superseded entries per key
-     *
-     * For each document key, retains only the latest change event and removes
-     * all earlier events that have been superseded by a newer one.  A DELETE
-     * event is never discarded so that consumers can still observe tombstones.
-     *
-     * @return CompactionResult describing what was removed
+     * @brief Compact By Key.
+     * @return Return value.
      */
     CompactionResult compactByKey();
 
     /**
-     * @brief GDPR-aware in-place redaction of change log entries by key prefix
-     *
-     * Scans all stored change events and, for each event whose @p key field
-     * starts with @p key_prefix, replaces the @p value, @p before_snapshot,
-     * and @p after_snapshot fields with @c "[REDACTED]" / nullopt and sets
-     * @c redacted = true.  The @p sequence, @p type, @p key, and
-     * @p timestamp_ms fields are preserved for audit-trail integrity.
-     *
-     * Already-redacted events are skipped without error.
-     *
-     * @param key_prefix  Non-empty key prefix identifying the data subject
-     *                    (e.g. @c "user:42").
-     * @return RedactionResult with scan and redaction counts.
-     * @throws CDCException if @p key_prefix is empty.
+     * @brief Redact By Key Prefix.
+     * @param[in] key_prefix Input parameter.
+     * @return Return value.
      */
     RedactionResult redactByKeyPrefix(const std::string& key_prefix);
 
     /**
-     * @brief Apply retention policy (delete old events based on configured policy)
-     * @return Number of events deleted
+     * @brief Apply Retention Policy.
+     * @return Return value.
      */
     size_t applyRetentionPolicy();
     
     /**
-     * @brief Update the retention policy at runtime
-     * @param policy New retention policy to apply
+     * @brief Update Retention Policy.
+     * @param[in] policy Input parameter.
      */
     void updateRetentionPolicy(const RetentionPolicy& policy);
 
     /**
-     * @brief Get the current retention policy
-     * @return Current retention policy
+     * @brief Get Retention Policy.
+     * @return Return value.
      */
     RetentionPolicy getRetentionPolicy() const;
     
     /**
-     * @brief Start background retention cleanup thread
+     * @brief Start Retention Cleanup.
      */
     void startRetentionCleanup();
     
     /**
-     * @brief Stop background retention cleanup thread
+     * @brief Stop Retention Cleanup.
      */
     void stopRetentionCleanup();
 
     /**
-     * @brief Check whether the background retention cleanup thread is running
-     * @return true if the background thread is active
+     * @brief Is Retention Cleanup Running.
+     * @return True when the operation succeeds.
+     * @note Exception safety: noexcept.
      */
     bool isRetentionCleanupRunning() const noexcept;
 
@@ -313,34 +268,19 @@ public:
     // Push-based subscription API
     // -----------------------------------------------------------------------
 
-    /**
-     * @brief Filter for push-based change subscriptions.
-     *
-     * All fields are optional; an empty filter matches every event.
-     */
     struct SubscriptionFilter {
-        /// If non-empty, only events whose key starts with this prefix are delivered.
         std::string key_prefix;
-        /// If non-empty, only events matching one of these types are delivered.
         std::set<ChangeEventType> event_types;
 
+        /**
+         * @brief Matches.
+         * @param[in] ev Input parameter.
+         * @return True when the operation succeeds.
+         * @note Exception safety: noexcept.
+         */
         bool matches(const ChangeEvent& ev) const noexcept;
     };
 
-    /**
-     * @brief Opaque subscription handle.
-     *
-     * Cancels the subscription on destruction (RAII).  Copy/assign are deleted;
-     * move is supported.
-     *
-     * Usage:
-     * ```cpp
-     * auto h = feed.subscribe(filter, [](const ChangeEvent& ev) {
-     *     // deliver ev to the client
-     * });
-     * // Subscription active while h is in scope.
-     * ```
-     */
     class SubscriptionHandle {
     public:
         SubscriptionHandle() = default;
@@ -366,13 +306,14 @@ public:
             return *this;
         }
 
-        /// Explicitly cancel the subscription before the handle goes out of scope.
+        /**
+         * @brief Cancel.
+         * @note Exception safety: noexcept.
+         */
         void cancel() noexcept;
 
-        /// Return true if the subscription is still active.
         bool active() const noexcept { return feed_ != nullptr; }
 
-        /// Return the subscription ID (debug / logging).
         uint64_t id() const noexcept { return id_; }
 
     private:
@@ -384,31 +325,21 @@ public:
         uint64_t    id_   = 0;
     };
 
-    /// Callback type invoked for every matching event.  Must be noexcept.
     using SubscriptionCallback = std::function<void(const ChangeEvent&)>;
 
     /**
-     * @brief Register a push callback for CDC events matching @p filter.
-     *
-     * The @p callback is invoked synchronously during `recordEvent()` on the
-     * thread that records the event.  Keep the callback lightweight (e.g. enqueue
-     * the event into a per-connection queue and signal a worker thread).
-     *
-     * The subscription remains active until the returned @c SubscriptionHandle
-     * is destroyed or `SubscriptionHandle::cancel()` is called.
-     *
-     * Thread-safe: may be called concurrently with `recordEvent()` and other
-     * `subscribe()` calls.
-     *
-     * @param filter    Optional event filter (empty = all events).
-     * @param callback  Callable invoked with each matching event.
-     * @return RAII handle that cancels the subscription on destruction.
+     * @brief Subscribe.
+     * @param[in] filter Input parameter.
+     * @param[in] callback Input parameter.
+     * @return Return value.
      */
     SubscriptionHandle subscribe(SubscriptionFilter filter,
                                  SubscriptionCallback callback);
 
     /**
-     * @brief Unsubscribe by ID (called internally by SubscriptionHandle::cancel()).
+     * @brief Unsubscribe.
+     * @param[in] subscription_id Identifier of the subscription.
+     * @note Exception safety: noexcept.
      */
     void unsubscribe(uint64_t subscription_id) noexcept;
 
@@ -420,22 +351,38 @@ private:
     static constexpr const char* KEY_PREFIX = "changefeed:";
     static constexpr const char* SEQUENCE_KEY = "changefeed_sequence";
 
+    /**
+     * @brief Make Key.
+     * @param[in] sequence Input parameter.
+     * @return Return value.
+     */
     std::string makeKey(uint64_t sequence) const;
+    /**
+     * @brief Next Sequence.
+     * @return Return value.
+     */
     uint64_t nextSequence();
 
-    // Load the initial sequence counter value from RocksDB at construction.
-    // Handles both the binary little-endian uint64 format (new) and the legacy
-    // decimal-string format (old).  Falls back to scanning events when the DB
-    // key cannot be read (e.g. unresolved Merge operands without a registered
-    // merge operator).
+    /**
+     * @brief Load the initial sequence counter value from RocksDB at construction.
+     * @return Return value.
+     * @details Handles both the binary little-endian uint64 format (new) and the legacy decimal-string format (old). Falls back to scanning events when the DB key cannot be read (e.g. unresolved Merge operands without a registered merge operator).
+     */
     uint64_t loadInitialSequence() const;
 
-    // Scan all stored changefeed events and return the maximum sequence number.
-    // Used as a crash-recovery fallback when loadInitialSequence() cannot read
-    // SEQUENCE_KEY directly.
+    /**
+     * @brief Scan all stored changefeed events and return the maximum sequence number.
+     * @return Return value.
+     * @details Used as a crash-recovery fallback when loadInitialSequence() cannot read SEQUENCE_KEY directly.
+     */
     uint64_t scanMaxSequence() const;
     
-    // Helper to wait for new events (for long-poll)
+    /**
+     * @brief Helper to wait for new events (for long-poll)
+     * @param[in] from_sequence Input parameter.
+     * @param[in] timeout_ms Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool waitForEvents(uint64_t from_sequence, uint32_t timeout_ms) const;
     
     // In-process atomic sequence counter.  Updated by fetch_add on every
@@ -456,6 +403,9 @@ private:
     std::condition_variable retention_cv_;
     mutable std::mutex retention_mutex_;  // also protects retention_policy_ reads
     
+    /**
+     * @brief Retention Cleanup Thread.
+     */
     void retentionCleanupThread();
 
     // Push-based subscriptions
@@ -468,7 +418,10 @@ private:
     std::atomic<uint64_t> next_subscription_id_{1};
     std::atomic<size_t> subscription_count_{0};
 
-    /// Notify all registered subscribers whose filter matches @p event.
+    /**
+     * @brief Notify Subscribers.
+     * @param[in] event Input parameter.
+     */
     void notifySubscribers(const ChangeEvent& event);
 };
 

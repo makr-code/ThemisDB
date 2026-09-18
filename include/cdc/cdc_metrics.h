@@ -31,11 +31,6 @@
 namespace themis {
 namespace cdc {
 
-/**
- * @brief Latency histogram for tracking operation latencies
- * 
- * Uses fixed buckets for efficient percentile calculation.
- */
 class LatencyHistogram {
 public:
     LatencyHistogram() : count_(0), sum_micros_(0) {
@@ -45,8 +40,9 @@ public:
     }
     
     /**
-     * @brief Record a latency sample in microseconds
-     * @param latency_micros Sample latency value in microseconds.
+     * @brief Record.
+     * @param[in] latency_micros Input parameter.
+     * @details Calls: bucketIndex().
      */
     void record(uint64_t latency_micros) {
         count_++;
@@ -57,52 +53,27 @@ public:
         buckets_[bucket]++;
     }
     
-    /**
-     * @brief Get count of samples
-     * @return Total number of recorded samples.
-     */
     uint64_t count() const {
         return count_.load();
     }
     
-    /**
-     * @brief Get average latency in microseconds
-     * @return Average latency in microseconds, or 0.0 when empty.
-     */
     double average() const {
         uint64_t cnt = count_.load();
         return cnt > 0 ? static_cast<double>(sum_micros_.load()) / cnt : 0.0;
     }
     
-    /**
-     * @brief Get P50 (median) latency in microseconds
-     * @return Median latency in microseconds, or 0 when empty.
-     */
     uint64_t p50() const {
         return percentile(0.50);
     }
     
-    /**
-     * @brief Get P95 latency in microseconds
-     * @return 95th percentile latency in microseconds, or 0 when empty.
-     */
     uint64_t p95() const {
         return percentile(0.95);
     }
     
-    /**
-     * @brief Get P99 latency in microseconds
-     * @return 99th percentile latency in microseconds, or 0 when empty.
-     */
     uint64_t p99() const {
         return percentile(0.99);
     }
     
-    /**
-     * @brief Get percentile latency in microseconds
-     * @param p Target percentile as a fraction in the range [0.0, 1.0].
-     * @return Requested percentile latency in microseconds, or 0 when empty.
-     */
     uint64_t percentile(double p) const {
         uint64_t total = count_.load();
         if (total == 0) {
@@ -122,10 +93,6 @@ public:
         return bucketMidpoint(buckets_.size() - 1);
     }
     
-    /**
-     * @brief Convert to JSON for monitoring
-     * @return JSON object containing the histogram snapshot.
-     */
     nlohmann::json toJson() const {
         return {
             {"count", count_.load()},
@@ -138,7 +105,8 @@ public:
     }
     
     /**
-     * @brief Reset histogram
+     * @brief Reset the modification detection flag.
+     * @details Calls: store().
      */
     void reset() {
         count_.store(0, std::memory_order_relaxed);
@@ -209,9 +177,6 @@ private:
     }
 };
 
-/**
- * @brief Throughput tracker for events/bytes per second
- */
 class ThroughputTracker {
 public:
     ThroughputTracker() 
@@ -219,36 +184,24 @@ public:
           events_in_window_(0),
           bytes_in_window_(0) {}
     
-    /**
-     * @brief Record an event with payload size
-     */
     void recordEvent(size_t bytes = 0) {
         resetWindowIfNeeded();
         events_in_window_++;
         bytes_in_window_ += bytes;
     }
     
-    /**
-     * @brief Get events per second in current window
-     */
     double eventsPerSecond() const {
         auto elapsed = std::chrono::steady_clock::now() - window_start_;
         auto seconds = std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count() / 1000.0;
         return seconds > 0 ? events_in_window_.load() / seconds : 0.0;
     }
     
-    /**
-     * @brief Get bytes per second in current window
-     */
     double bytesPerSecond() const {
         auto elapsed = std::chrono::steady_clock::now() - window_start_;
         auto seconds = std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count() / 1000.0;
         return seconds > 0 ? bytes_in_window_.load() / seconds : 0.0;
     }
     
-    /**
-     * @brief Convert to JSON
-     */
     nlohmann::json toJson() const {
         return {
             {"events_per_second", eventsPerSecond()},
@@ -259,7 +212,8 @@ public:
     }
     
     /**
-     * @brief Reset tracker
+     * @brief Reset the modification detection flag.
+     * @details Calls: std::chrono::steady_clock::now().
      */
     void reset() {
         window_start_ = std::chrono::steady_clock::now();
@@ -274,6 +228,10 @@ private:
     std::atomic<uint64_t> events_in_window_;
     std::atomic<uint64_t> bytes_in_window_;
     
+    /**
+     * @brief Reset Window If Needed.
+     * @details Calls: std::chrono::steady_clock::now(), reset().
+     */
     void resetWindowIfNeeded() {
         auto elapsed = std::chrono::steady_clock::now() - window_start_;
         if (elapsed >= WINDOW_DURATION) {
@@ -282,9 +240,6 @@ private:
     }
 };
 
-/**
- * @brief Enhanced CDC metrics
- */
 struct CDCMetrics {
     // Latency histograms
     LatencyHistogram record_event_latency;
@@ -312,10 +267,6 @@ struct CDCMetrics {
     std::atomic<uint64_t> kafka_delivered_total{0}; ///< cdc_kafka_delivered_total
     std::atomic<uint64_t> kafka_error_total{0};     ///< cdc_kafka_error_total
     
-    /**
-     * @brief Convert all metrics to JSON
-     * @return JSON object containing the full CDC metrics snapshot.
-     */
     nlohmann::json toJson() const {
         return {
             {"latency", {
@@ -342,7 +293,8 @@ struct CDCMetrics {
     }
     
     /**
-     * @brief Reset all metrics
+     * @brief Reset the modification detection flag.
+     * @details Implements reset without additional internal calls.
      */
     void reset() {
         record_event_latency.reset();
@@ -365,9 +317,6 @@ struct CDCMetrics {
     }
 };
 
-/**
- * @brief RAII timer for automatic latency recording
- */
 class ScopedTimer {
 public:
     ScopedTimer(LatencyHistogram& histogram)
@@ -385,11 +334,6 @@ private:
     std::chrono::steady_clock::time_point start_;
 };
 
-/**
- * @brief Helper macro for easy latency recording.
- * Uses __LINE__ to generate a unique variable name per call site and
- * avoid variable-shadowing warnings (MSVC C4456, etc.).
- */
 #define CDC_CONCAT_INNER(a, b) a##b
 #define CDC_CONCAT(a, b) CDC_CONCAT_INNER(a, b)
 #define CDC_MEASURE_LATENCY_IMPL(histogram, line) \

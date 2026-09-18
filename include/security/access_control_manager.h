@@ -29,7 +29,6 @@ class AuthMiddleware;
 
 namespace security {
 
-/// Security context for a request
 struct SecurityContext {
     std::string user_id;                          // Authenticated user ID
     std::vector<std::string> roles;               // User's assigned roles
@@ -39,14 +38,21 @@ struct SecurityContext {
     std::optional<std::string> user_agent;        // HTTP User-Agent (used by ABAC policies)
     std::unordered_map<std::string, std::string> attributes; // Additional context
     
-    /// Check if context has a specific role
+    /**
+     * @brief Has Role.
+     * @param[in] role Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool hasRole(const std::string& role) const;
     
-    /// Check if context has a specific group
+    /**
+     * @brief Has Group.
+     * @param[in] group Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool hasGroup(const std::string& group) const;
 };
 
-/// Access decision result
 struct AccessDecision {
     bool granted = false;                         // Was access granted?
     std::string reason;                           // Reason for decision
@@ -56,20 +62,22 @@ struct AccessDecision {
         return {true, reason, {}};
     }
     
+    /**
+     * @brief Deny.
+     * @param[in] reason Input parameter.
+     * @return Return value.
+     * @details Implements Deny without additional internal calls.
+     */
     static AccessDecision Deny(const std::string& reason) {
         return {false, reason, {}};
     }
 };
 
-/// Authorization exception policy. The secure default is fail-closed; explicit
-/// fail-open requires a clear justification and is intended only for documented
-/// maintenance / local override scenarios.
 enum class AuthorizationFailureMode {
     DenyOnError,             // Default secure behavior: deny access on auth failures.
     AllowOnErrorExplicit     // Explicit fail-open override: requires an override reason.
 };
 
-/// Access control policy configuration
 struct AccessControlConfig {
     std::string rbac_config_path;                 // Path to RBAC configuration
     std::string user_role_store_path;             // Path to user-role mappings
@@ -89,48 +97,43 @@ struct AccessControlConfig {
     std::string rls_policy_path;                  // Path to RLS policy file (JSON)
     bool enable_rls = false;                      // Enable RLS filtering of query results
 
-    /// Custom authorization hook (optional)
-    /// Can be used to implement custom authorization logic
     std::function<AccessDecision(const SecurityContext&, const std::string&, const std::string&)> 
         custom_authorizer;
 };
 
-/// Central access control manager
-/// Integrates RBAC, authentication, and authorization
 class AccessControlManager {
 public:
+    /**
+     * @brief Access Control Manager.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit AccessControlManager(const AccessControlConfig& config);
     
-    /// Initialize the access control system
-    /// Loads RBAC configuration and user-role mappings
+    /**
+     * @brief Initialize.
+     * @return True when the operation succeeds.
+     */
     bool initialize();
     
-    /// Create security context from authentication token
-    /// @param token Bearer token or API key
-    /// @param source_ip Request source IP address
-    /// @return Security context if authentication succeeds
     std::optional<SecurityContext> authenticate(
         const std::string& token,
         const std::string& source_ip = ""
     );
     
-    /// Check if user has permission to perform action on resource
-    /// @param context Security context from authenticate()
-    /// @param resource Resource identifier (e.g., "data", "config", "keys")
-    /// @param action Action identifier (e.g., "read", "write", "delete")
-    /// @return Access decision with details
+    /**
+     * @brief Authorize an access control context.
+     * @param[in] context Authorization context to evaluate.
+     * @param[in] resource Input parameter.
+     * @param[in] action Input parameter.
+     * @return True when the context is authorized.
+     */
     AccessDecision authorize(
         const SecurityContext& context,
         const std::string& resource,
         const std::string& action
     );
     
-    /// Combined authenticate + authorize operation
-    /// @param token Authentication token
-    /// @param resource Resource identifier
-    /// @param action Action identifier
-    /// @param source_ip Request source IP (optional)
-    /// @return Access decision
     AccessDecision checkAccess(
         const std::string& token,
         const std::string& resource,
@@ -138,84 +141,126 @@ public:
         const std::string& source_ip = ""
     );
     
-    /// Assign role to user
+    /**
+     * @brief Assign a role to a user.
+     * @param[in] user_id User identifier.
+     * @param[in] role Role to assign.
+     */
     void assignRole(const std::string& user_id, const std::string& role);
     
-    /// Revoke role from user
+    /**
+     * @brief Revoke a role from a user.
+     * @param[in] user_id User identifier.
+     * @param[in] role Role to revoke.
+     */
     void revokeRole(const std::string& user_id, const std::string& role);
     
-    /// Get all roles assigned to user
+    /**
+     * @brief Get the roles assigned to a user.
+     * @param[in] user_id User identifier.
+     * @return Roles assigned to the user.
+     */
     std::vector<std::string> getUserRoles(const std::string& user_id) const;
     
-    /// Get all effective permissions for user
+    /**
+     * @brief Get the permissions assigned to a user.
+     * @param[in] user_id User identifier.
+     * @return Permissions assigned to the user.
+     */
     std::vector<Permission> getUserPermissions(const std::string& user_id) const;
     
-    /// Set authentication middleware (for token validation)
+    /**
+     * @brief Set Auth Middleware.
+     * @param[in] auth_middleware Input parameter.
+     */
     void setAuthMiddleware(std::shared_ptr<AuthMiddleware> auth_middleware);
     
-    /// Set zero-trust policy enforcer for per-request identity verification.
-    /// When set (and enable_zero_trust is true in config), checkAccess() runs
-    /// zero-trust verification between authentication and RBAC/ABAC evaluation.
-    /// Pass nullptr to disable. The manager does NOT take ownership.
+    /**
+     * @brief Set Zero Trust Enforcer.
+     * @param[in,out] enforcer Input/output parameter.
+     */
     void setZeroTrustEnforcer(ZeroTrustPolicyEnforcer* enforcer);
     
-    /// Get RBAC instance (for advanced operations)
     std::shared_ptr<RBAC> getRBAC() const { return rbac_; }
     
-    /// Get user-role store (for advanced operations)
     std::shared_ptr<UserRoleStore> getUserRoleStore() const { return user_store_; }
     
-    /// Get ABAC policy engine (for advanced operations)
+    /**
+     * @brief Return the ABAC policy engine.
+     * @return ABAC policy engine reference.
+     * @details Implements getABACEngine without additional internal calls.
+     */
     PolicyEngine& getABACEngine() { return policy_engine_; }
     const PolicyEngine& getABACEngine() const { return policy_engine_; }
     
-    /// Add an ABAC policy at runtime
+    /**
+     * @brief Add an ABAC policy.
+     * @param[in] policy ABAC policy to add.
+     */
     void addABACPolicy(const PolicyEngine::Policy& policy);
     
-    /// Remove an ABAC policy by id
+    /**
+     * @brief Remove an ABAC policy.
+     * @param[in] policy_id Identifier of the ABAC policy to remove.
+     * @return True when the policy was removed.
+     */
     bool removeABACPolicy(const std::string& policy_id);
     
-    // ── Row-level security (RLS) ─────────────────────────────────────────────
+    /**
+     * @brief ── Row-level security (RLS) ─────────────────────────────────────────────
+     * @param[in] policy Input parameter.
+     */
 
-    /// Register an RLS policy.
-    /// Policies are keyed by policy.id; an existing policy with the same id is replaced.
     void addRLSPolicy(const RLSPolicy& policy);
 
-    /// Remove an RLS policy by id.
-    /// @return true if the policy existed and was removed.
+    /**
+     * @brief Remove RLSPolicy.
+     * @param[in] policy_id Identifier of the policy.
+     * @return True when the operation succeeds.
+     */
     bool removeRLSPolicy(const std::string& policy_id);
 
-    /// Access the underlying RLS manager (for advanced operations).
+    /**
+     * @brief Get RLSManager.
+     * @return Return value.
+     * @details Implements getRLSManager without additional internal calls.
+     */
     RLSManager& getRLSManager() { return rls_manager_; }
     const RLSManager& getRLSManager() const { return rls_manager_; }
 
-    /// Filter a JSON array of query-result rows through applicable RLS policies.
-    ///
-    /// When RLS is active for the collection/user combination, rows that do not
-    /// satisfy any matching policy predicate are silently excluded.  If no RLS
-    /// policies apply the array is returned unchanged.
-    ///
-    /// @param collection  Name of the queried collection.
-    /// @param ctx         Security context of the requesting user.
-    /// @param rows        JSON array returned by the query engine.
-    /// @return            Filtered JSON array (subset of @p rows visible to the user).
+    /**
+     * @brief Filter Query Results.
+     * @param[in] collection Input parameter.
+     * @param[in] ctx Input parameter.
+     * @param[in] rows Input parameter.
+     * @return Return value.
+     */
     nlohmann::json filterQueryResults(
         const std::string& collection,
         const SecurityContext& ctx,
         const nlohmann::json& rows
     ) const;
 
-    /// Returns true when at least one enabled RLS policy matches the collection
-    /// and the security context.
+    /**
+     * @brief Is RLSActive.
+     * @param[in] collection Input parameter.
+     * @param[in] ctx Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool isRLSActive(const std::string& collection, const SecurityContext& ctx) const;
     
-    /// Reload configuration from disk
+    /**
+     * @brief Reload Configuration.
+     * @return True when the operation succeeds.
+     */
     bool reloadConfiguration();
     
-    /// Save current configuration to disk
+    /**
+     * @brief Save Configuration.
+     * @return True when the operation succeeds.
+     */
     bool saveConfiguration();
     
-    /// Get access control metrics
     struct Metrics {
         std::atomic<uint64_t> authentication_success{0};
         std::atomic<uint64_t> authentication_failure{0};
@@ -236,7 +281,13 @@ private:
     PolicyEngine policy_engine_;    ///< ABAC policy engine (evaluated alongside RBAC)
     RLSManager rls_manager_;        ///< Row-level security policy registry
     
-    /// Helper: log access decision for audit
+    /**
+     * @brief Audit Access Decision.
+     * @param[in] context Input parameter.
+     * @param[in] resource Input parameter.
+     * @param[in] action Input parameter.
+     * @param[in] decision Input parameter.
+     */
     void auditAccessDecision(
         const SecurityContext& context,
         const std::string& resource,

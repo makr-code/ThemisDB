@@ -32,9 +32,27 @@ struct X509Certificate {
 	std::string key_usage;
 	std::vector<std::string> san;
 
+	/**
+	 * @brief Is Valid.
+	 * @return True on success.
+	 */
 	bool isValid() const;
+	/**
+	 * @brief Is Expired.
+	 * @param[in] now_ms Input parameter.
+	 * @return True on success.
+	 */
 	bool isExpired(int64_t now_ms) const;
+	/**
+	 * @brief To Json.
+	 * @return Return value.
+	 */
 	nlohmann::json toJson() const;
+	/**
+	 * @brief From Json.
+	 * @param[in] j Input parameter.
+	 * @return Return value.
+	 */
 	static X509Certificate fromJson(const nlohmann::json& j);
 };
 
@@ -44,7 +62,16 @@ struct CRLEntry {
 	int64_t revocation_time_ms{0};
 	std::string reason;
 
+	/**
+	 * @brief To Json.
+	 * @return Return value.
+	 */
 	nlohmann::json toJson() const;
+	/**
+	 * @brief From Json.
+	 * @param[in] j Input parameter.
+	 * @return Return value.
+	 */
 	static CRLEntry fromJson(const nlohmann::json& j);
 };
 
@@ -56,6 +83,10 @@ struct CertificateRequest {
 	std::string key_usage;
 	int validity_days{0};
 
+	/**
+	 * @brief To Json.
+	 * @return Return value.
+	 */
 	nlohmann::json toJson() const;
 };
 
@@ -77,15 +108,60 @@ public:
 	VCCPKIClient(VCCPKIClient&&) noexcept;
 	VCCPKIClient& operator=(VCCPKIClient&&) noexcept;
 
+	/**
+	 * @brief Http Get.
+	 * @param[in] path Input parameter.
+	 * @return Return value.
+	 */
 	std::string httpGet(const std::string& path);
+	/**
+	 * @brief Http Post.
+	 * @param[in] path Input parameter.
+	 * @param[in] body Input parameter.
+	 * @return Return value.
+	 */
 	std::string httpPost(const std::string& path, const nlohmann::json& body);
 
+	/**
+	 * @brief Request Certificate.
+	 * @param[in] request Input parameter.
+	 * @return Return value.
+	 */
 	X509Certificate requestCertificate(const CertificateRequest& request);
+	/**
+	 * @brief Get Certificate.
+	 * @param[in] cert_id Input parameter.
+	 * @return Return value.
+	 */
 	X509Certificate getCertificate(const std::string& cert_id);
+	/**
+	 * @brief Get CRL.
+	 * @return Return value.
+	 */
 	std::vector<CRLEntry> getCRL();
+	/**
+	 * @brief Is Revoked.
+	 * @param[in] cert_id Input parameter.
+	 * @param[in] crl Input parameter.
+	 * @return True on success.
+	 */
 	bool isRevoked(const std::string& cert_id, const std::vector<CRLEntry>& crl) const;
+	/**
+	 * @brief Health Check.
+	 * @return True on success.
+	 */
 	bool healthCheck();
+	/**
+	 * @brief Parse Certificate.
+	 * @param[in] pem Input parameter.
+	 * @return Return value.
+	 */
 	X509Certificate parseCertificate(const std::string& pem);
+	/**
+	 * @brief Validate Cert Chain.
+	 * @param[in] cert Input parameter.
+	 * @return True on success.
+	 */
 	bool validateCertChain(const X509Certificate& cert) const;
 
 private:

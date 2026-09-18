@@ -19,16 +19,6 @@
 namespace themis {
 namespace importers {
 
-/**
- * @brief Polyglot Persistence pattern recommender.
- *
- * Analyses relational schemas and suggests the optimal data model for each
- * table (Relational, Document, Graph, TimeSeries, VectorSpace, KeyValue).
- *
- * References:
- *   - Marcus et al. (2016) "Polyglot Persistence in Enterprise Applications"
- *   - CAP Theorem & PACELC Framework
- */
 class PolyglotPersistenceMapper {
 public:
     enum class DataModel {
@@ -40,6 +30,11 @@ public:
         KEYVALUE     ///< Simple key-value store
     };
 
+    /**
+     * @brief Data Model To String.
+     * @param[in] m Input parameter.
+     * @return Return value.
+     */
     static std::string dataModelToString(DataModel m);
 
     struct QueryPattern {
@@ -56,10 +51,6 @@ public:
         std::vector<std::string> rationale;
     };
 
-    /**
-     * @brief Analyse schemas and observed query patterns to recommend the
-     *        most appropriate data model for each table.
-     */
     std::vector<DataModelMapping> recommendDataModels(
         const std::vector<InferenceTableSchema>& schemas,
         const std::vector<QueryPattern>& observed_queries = {}
@@ -68,12 +59,13 @@ public:
     // ------------------------------------------------------------------
     // Model transformers
     // ------------------------------------------------------------------
-    /** @brief Model transformers. */
     class ModelTransformer {
     public:
         /**
-         * @brief Flatten a relational row into a nested JSON document.
-         * Nested fields are created for FK-referenced columns.
+         * @brief Table To Document.
+         * @param[in] row Input parameter.
+         * @param[in] schema Input parameter.
+         * @return Return value.
          */
         json tableToDocument(const json& row,
                              const InferenceTableSchema& schema);
@@ -90,16 +82,18 @@ public:
             json properties;
         };
 
-        /**
-         * @brief Convert a set of rows to graph nodes and edges.
-         * Each FK column produces an edge; non-FK columns become node properties.
-         */
         std::pair<std::vector<GraphNode>, std::vector<GraphEdge>>
         tableToGraph(const std::vector<json>& rows,
                      const InferenceTableSchema& schema);
     };
 
 private:
+    /**
+     * @brief Infer Model From Schema.
+     * @param[in] schema Input parameter.
+     * @param[in] queries Input parameter.
+     * @return Return value.
+     */
     DataModel inferModelFromSchema(
         const InferenceTableSchema& schema,
         const std::vector<QueryPattern>& queries

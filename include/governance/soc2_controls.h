@@ -25,9 +25,6 @@ namespace governance {
 // Evidence artifact
 // ============================================================================
 
-/// A single piece of compliance evidence for a SOC 2 audit.
-/// Each evidence item links a specific control to a policy-rule decision
-/// and captures the metadata an auditor needs to verify the control.
 struct Soc2EvidenceItem {
     std::string evidence_id;     ///< Unique evidence identifier (uuid-like)
     std::string control_id;      ///< SOC 2 control this evidences (e.g., "CC6.1")
@@ -40,6 +37,10 @@ struct Soc2EvidenceItem {
     std::string detail;          ///< Human-readable evidence description
     nlohmann::json metadata;     ///< Additional structured metadata
 
+    /**
+     * @brief To Json.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
 };
 
@@ -47,7 +48,6 @@ struct Soc2EvidenceItem {
 // Control evaluation result
 // ============================================================================
 
-/// Result of evaluating a single SOC 2 control against a PolicyRule.
 struct Soc2ControlResult {
     std::string control_id;                      ///< SOC 2 control ID (e.g., "CC6.1")
     std::string criteria;                        ///< Trust Services Criteria category (e.g., "CC6")
@@ -58,6 +58,10 @@ struct Soc2ControlResult {
     std::vector<std::string> missing_controls;  ///< Specific control gaps
     std::vector<Soc2EvidenceItem> evidence;     ///< Evidence items supporting this result
 
+    /**
+     * @brief To Json.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
 };
 
@@ -65,7 +69,6 @@ struct Soc2ControlResult {
 // SOC 2 audit report
 // ============================================================================
 
-/// Aggregated SOC 2 compliance report for a PolicyRule or a full PolicyManager.
 struct Soc2AuditReport {
     std::string report_id;                         ///< Unique report identifier
     int64_t     generated_at_ms = 0;               ///< Report generation time
@@ -76,6 +79,10 @@ struct Soc2AuditReport {
     std::vector<Soc2ControlResult> results;       ///< Per-control results
     std::vector<Soc2EvidenceItem> evidence_items; ///< All collected evidence
 
+    /**
+     * @brief To Json.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
 };
 
@@ -83,27 +90,22 @@ struct Soc2AuditReport {
 // ISoc2Control – base interface
 // ============================================================================
 
-/// Abstract base interface for SOC 2 Trust Services Criteria control evaluators.
-/// Implementations evaluate whether a PolicyRule satisfies a specific SOC 2
-/// control requirement and produce structured evidence for auditors.
 class ISoc2Control {
 public:
+    /**
+     * @brief ISoc2 Control.
+     * @return Return value.
+     */
     virtual ~ISoc2Control() = default;
 
-    /// Short control identifier (e.g., "CC6.1")
     [[nodiscard]] virtual std::string id() const = 0;
 
-    /// Trust Services Criteria category (e.g., "CC6", "A1", "C1")
     [[nodiscard]] virtual std::string criteria() const = 0;
 
-    /// One-line title (e.g., "Logical Access Security – Encryption")
     [[nodiscard]] virtual std::string title() const = 0;
 
-    /// Detailed description of what this control verifies
     [[nodiscard]] virtual std::string description() const = 0;
 
-    /// Evaluate the control against a single PolicyRule.
-    /// Populates the returned Soc2ControlResult with compliance status and evidence.
     [[nodiscard]] virtual Soc2ControlResult evaluate(const PolicyRule& rule) const = 0;
 };
 
@@ -111,9 +113,6 @@ public:
 // Concrete control evaluators
 // ============================================================================
 
-/// CC6.1 – Logical Access Security: field-level encryption requirement.
-/// Verifies that rules protecting sensitive resources require encryption so
-/// that designated confidential data is protected at rest (SOC 2 CC6.1).
 class Soc2Cc6Control final : public ISoc2Control {
 public:
     std::string id()          const override { return "CC6.1"; }
@@ -130,9 +129,6 @@ public:
     Soc2ControlResult evaluate(const PolicyRule& rule) const override;
 };
 
-/// CC7.2 – System Operations: detection of unauthorized changes.
-/// Verifies that rules enable change auditing so that unauthorized or
-/// unexpected modifications to protected resources are detectable (SOC 2 CC7.2).
 class Soc2Cc7Control final : public ISoc2Control {
 public:
     std::string id()          const override { return "CC7.2"; }
@@ -148,9 +144,6 @@ public:
     Soc2ControlResult evaluate(const PolicyRule& rule) const override;
 };
 
-/// CC8.1 – Change Management: authorized change procedures.
-/// Verifies that rules governing critical resources enforce change-management
-/// controls (signature requirement, change auditing) (SOC 2 CC8.1).
 class Soc2Cc8Control final : public ISoc2Control {
 public:
     std::string id()          const override { return "CC8.1"; }
@@ -167,9 +160,6 @@ public:
     Soc2ControlResult evaluate(const PolicyRule& rule) const override;
 };
 
-/// A1.1 – Availability: data retention and recovery commitments.
-/// Verifies that rules define a finite retention period consistent with
-/// availability commitments (SOC 2 A1.1).
 class Soc2A1Control final : public ISoc2Control {
 public:
     std::string id()          const override { return "A1.1"; }
@@ -187,10 +177,6 @@ public:
     Soc2ControlResult evaluate(const PolicyRule& rule) const override;
 };
 
-/// C1.1 – Confidentiality: identification and protection of confidential data.
-/// Verifies that rules covering confidential resources enforce strict data
-/// controls: encryption, no unrestricted export, appropriate redaction
-/// (SOC 2 C1.1).
 class Soc2C1Control final : public ISoc2Control {
 public:
     std::string id()          const override { return "C1.1"; }
@@ -208,9 +194,6 @@ public:
     Soc2ControlResult evaluate(const PolicyRule& rule) const override;
 };
 
-/// PI1.2 – Processing Integrity: completeness and accuracy of processing.
-/// Verifies that rules ensure data processing is complete, valid, accurate,
-/// and timely through audit logging (SOC 2 PI1.2).
 class Soc2Pi1Control final : public ISoc2Control {
 public:
     std::string id()          const override { return "PI1.2"; }
@@ -231,37 +214,39 @@ public:
 // Soc2ControlSet
 // ============================================================================
 
-/// Aggregates all SOC 2 Trust Services Criteria control evaluators and provides:
-///   1. Per-PolicyRule compliance evaluation against the full SOC 2 control set.
-///   2. Evidence collection integrated with policy decisions.
-///   3. Full SOC 2 audit report generation.
 class Soc2ControlSet {
 public:
     Soc2ControlSet();
 
-    // ---- Rule evaluation -------------------------------------------------
+    /**
+     * @brief ---- Rule evaluation -------------------------------------------------
+     * @param[in] rule Input parameter.
+     * @return Return value.
+     */
 
-    /// Evaluate all SOC 2 controls against a single PolicyRule.
-    /// @return A list of evaluation results, one per SOC 2 control.
     std::vector<Soc2ControlResult> evaluateRule(const PolicyRule& rule) const;
 
-    /// Return true only if every SOC 2 control passes for the given rule.
+    /**
+     * @brief Is Rule Compliant.
+     * @param[in] rule Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool isRuleCompliant(const PolicyRule& rule) const;
 
-    /// Evaluate all rules in a PolicyManager and produce a full audit report.
-    /// Uses PolicyManager::listRules() to iterate over all registered rules.
-    /// @param policy_mgr   Source of PolicyRules to evaluate.
-    /// @param scope        Human-readable scope description for the report.
     Soc2AuditReport generateReport(
         const PolicyManager& policy_mgr,
         const std::string& scope = "All active policy rules"
     ) const;
 
-    // ---- Evidence collection ---------------------------------------------
+    /**
+     * @brief ---- Evidence collection ---------------------------------------------
+     * @param[in] resource Input parameter.
+     * @param[in] action Input parameter.
+     * @param[in] principal Input parameter.
+     * @param[in] access_granted Input parameter.
+     * @param[in] encrypted Input parameter.
+     */
 
-    /// Collect evidence for a single policy decision (called at query time).
-    /// Records an Soc2EvidenceItem for the most relevant control.
-    /// Thread-safe; may be called from any thread.
     void collectEvidence(
         const std::string& resource,
         const std::string& action,
@@ -270,13 +255,17 @@ public:
         bool encrypted
     );
 
-    /// Return all evidence items collected since the last reset.
+    /**
+     * @brief Get Evidence.
+     * @return Return value.
+     */
     std::vector<Soc2EvidenceItem> getEvidence() const;
 
-    /// Clear all collected evidence items.
+    /**
+     * @brief Clear Evidence.
+     */
     void clearEvidence();
 
-    /// Expose the list of control evaluators (for external iteration/reporting)
     const std::vector<std::shared_ptr<ISoc2Control>>& controls() const {
         return controls_;
     }

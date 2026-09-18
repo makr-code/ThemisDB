@@ -25,9 +25,6 @@ class AQLQueryBuilder;
 // Validation result types
 // ============================================================================
 
-/**
- * @brief A single validation issue found in an AQL query.
- */
 struct ValidationIssue {
     enum class Severity {
         ERROR,   ///< Query cannot be executed
@@ -40,18 +37,24 @@ struct ValidationIssue {
     std::string clause;   ///< Which part of the query triggered the issue
 };
 
-/**
- * @brief Aggregated result returned by AQLQueryValidator.
- */
 struct ValidationResult {
     bool                         is_valid = 0; ///< true iff no ERRORs are present
     std::vector<ValidationIssue> issues;
 
-    /// @return true if at least one ERROR issue is present
+    /**
+     * @brief Has Errors.
+     * @return True when the operation succeeds.
+     */
     bool hasErrors() const;
-    /// @return true if at least one WARNING issue is present
+    /**
+     * @brief Has Warnings.
+     * @return True when the operation succeeds.
+     */
     bool hasWarnings() const;
-    /// @return Single-line summary string (e.g. "1 error, 2 warnings")
+    /**
+     * @brief Summary.
+     * @return Return value.
+     */
     std::string summary() const;
 };
 
@@ -59,49 +62,23 @@ struct ValidationResult {
 // Validator
 // ============================================================================
 
-/**
- * @brief Rule-based structural validator and linter for AQL queries.
- *
- * Performs purely syntactic/structural checks — no LLM required.
- * The validator operates in three modes:
- *  1. String mode  — validates a complete AQL query string
- *  2. Builder mode — validates an `AQLQueryBuilder` in progress
- *  3. Schema-aware mode — validates a query string against known collections
- *
- * Rules checked:
- * - Presence of FOR and RETURN clauses (ERRORS when missing)
- * - Variables used in FILTER/SORT/RETURN are defined in a preceding FOR/LET (WARNING)
- * - LIMIT value > 0 (WARNING on 0)
- * - COLLECT and SORT ordering that could reduce performance (INFO)
- * - Missing RETURN (ERROR)
- * - Empty collection/variable names (ERROR, only in builder mode)
- * - Schema-aware: unknown collection names (WARNING, only in schema-aware mode)
- * - Schema-aware: unknown field names in FILTER/SORT/RETURN (WARNING, only in schema-aware mode)
- */
 class AQLQueryValidator {
 public:
     AQLQueryValidator()  = default;
     ~AQLQueryValidator() = default;
 
     /**
-     * @brief Validate a fully formed AQL query string.
-     * @param query AQL query to validate
-     * @return ValidationResult with all issues found
+     * @brief Validate.
+     * @param[in] query Input parameter.
+     * @return Return value.
      */
     ValidationResult validate(const std::string& query) const;
 
     /**
-     * @brief Validate a fully formed AQL query string against a schema.
-     *
-     * Runs all standard structural checks, then additionally:
-     *  - Warns when a collection used in a FOR clause is not present in
-     *    @p schema (@c WARNING severity).
-     *  - Warns when a field access (@c variable.field) refers to a field
-     *    that is not listed in the schema for that collection (@c WARNING).
-     *
-     * @param query   AQL query to validate.
-     * @param schema  Collection metadata snapshot to validate against.
-     * @return ValidationResult with all issues found.
+     * @brief Validate.
+     * @param[in] query Input parameter.
+     * @param[in] schema Input parameter.
+     * @return Return value.
      */
     ValidationResult validate(
         const std::string& query,
@@ -109,29 +86,17 @@ public:
     ) const;
 
     /**
-     * @brief Validate an AQLQueryBuilder (may be partial).
-     *
-     * Only issues that can be detected from the builder's current state are
-     * reported; clauses not yet added are not treated as errors.
-     *
-     * @param builder Builder to validate
-     * @return ValidationResult with all issues found
+     * @brief Validate.
+     * @param[in] builder Input parameter.
+     * @return Return value.
      */
     ValidationResult validate(const AQLQueryBuilder& builder) const;
 
     /**
-     * @brief Validate an AQLQueryBuilder against an explicit schema snapshot.
-     *
-     * Runs all structural checks (same as @c validate(builder)), then applies
-     * schema-aware checks against the provided @p schema instead of any schema
-     * that may be attached to the builder via @c AQLQueryBuilder::setSchema():
-     *  - Warns when a collection used in a FOR clause is absent from @p schema.
-     *  - Warns when a field access (@c variable.field) refers to a field not
-     *    listed in the schema for that collection.
-     *
-     * @param builder Builder to validate (may be partial or complete).
-     * @param schema  External collection metadata snapshot to validate against.
-     * @return ValidationResult with all issues found.
+     * @brief Validate.
+     * @param[in] builder Input parameter.
+     * @param[in] schema Input parameter.
+     * @return Return value.
      */
     ValidationResult validate(
         const AQLQueryBuilder& builder,
@@ -139,12 +104,24 @@ public:
     ) const;
 
 private:
+    /**
+     * @brief Check Unknown Collections.
+     * @param[in] query Input parameter.
+     * @param[in] schema Input parameter.
+     * @param[in,out] result Input/output parameter.
+     */
     void checkUnknownCollections(
         const std::string& query,
         const std::vector<CollectionMetadata>& schema,
         ValidationResult& result
     ) const;
 
+    /**
+     * @brief Check Unknown Fields.
+     * @param[in] query Input parameter.
+     * @param[in] schema Input parameter.
+     * @param[in,out] result Input/output parameter.
+     */
     void checkUnknownFields(
         const std::string& query,
         const std::vector<CollectionMetadata>& schema,

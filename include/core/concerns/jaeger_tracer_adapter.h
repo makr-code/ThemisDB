@@ -25,46 +25,22 @@ namespace themis {
 namespace core {
 namespace concerns {
 
-/**
- * @brief Jaeger tracing backend adapter implementing ITracer.
- *
- * Wraps the existing OpenTelemetry-based Tracer to target a Jaeger backend.
- * Modern Jaeger (1.35+) accepts OTLP traces on its OTLP-HTTP port (default
- * 4318), so this adapter uses the same underlying SDK as
- * OpenTelemetryTracerAdapter but applies Jaeger-specific defaults and handles
- * the Jaeger proprietary `uber-trace-id` propagation header.
- *
- * Default collector endpoint: http://localhost:14268/api/traces
- * (Jaeger HTTP collector, Thrift-over-HTTP; also accepted as an OTLP
- * endpoint when Jaeger's all-in-one binary is started with --collector.otlp.enabled).
- *
- * Header propagation:
- *   - startSpanFromHeaders() recognises the standard W3C `traceparent` header
- *     first. If that header is absent, it falls back to the Jaeger
- *     `uber-trace-id` header (format: {traceId}:{spanId}:{parentSpanId}:{flags})
- *     and records the decoded values as span attributes for correlation.
- *   - injectContext() writes both the Jaeger `uber-trace-id` header and the
- *     W3C `traceparent` header so downstream services using either convention
- *     can continue the trace.
- *
- * A circuit breaker guards every span-export call so that a failing or
- * unreachable Jaeger instance does not block the critical path. When the
- * breaker is open, span creation degrades to no-op spans.
- */
 class JaegerTracerAdapter : public ITracer {
 public:
-    /// Default Jaeger HTTP collector endpoint.
     static constexpr const char* kDefaultEndpoint = "http://localhost:14268/api/traces";
 
-    /**
-     * @brief Configuration for the circuit breaker that guards Jaeger export.
-     */
     struct CircuitBreakerConfig {
         size_t failure_threshold = 5;
         std::chrono::seconds timeout = std::chrono::seconds(30);
         size_t success_threshold = 2;
     };
 
+    /**
+     * @brief Jaeger Tracer Adapter.
+     * @param[in] cb_config Input parameter.
+     * @return Return value.
+     * @details Implements JaegerTracerAdapter without additional internal calls.
+     */
     explicit JaegerTracerAdapter(const CircuitBreakerConfig& cb_config) {
         sharding::CircuitBreaker::Config cfg;
         cfg.failure_threshold = cb_config.failure_threshold;
@@ -73,16 +49,19 @@ public:
         circuit_breaker_ = std::make_unique<sharding::CircuitBreaker>(cfg);
     }
 
-    /// Construct with default circuit-breaker settings.
     JaegerTracerAdapter() : JaegerTracerAdapter(CircuitBreakerConfig{}) {}
 
     // -------------------------------------------------------------------------
     // ISpan adapter – delegates to themis::Tracer::Span
     // -------------------------------------------------------------------------
 
-    /** @brief ISpan adapter – delegates to themis::Tracer::Span. */
     class JaegerSpanAdapter : public ISpan {
     public:
+        /**
+         * @brief Jaeger Span Adapter.
+         * @param[in] span Input parameter.
+         * @return Return value.
+         */
         explicit JaegerSpanAdapter(themis::Tracer::Span span)
             : span_(std::move(span)) {}
 
@@ -113,6 +92,11 @@ public:
 
         ~JaegerSpanAdapter() override { span_.end(); }
 
+        /**
+         * @brief Get Span.
+         * @return Return value.
+         * @details Implements getSpan without additional internal calls.
+         */
         themis::Tracer::Span& getSpan()             { return span_; }
         const themis::Tracer::Span& getSpan() const { return span_; }
 
@@ -153,16 +137,6 @@ public:
         return span_ptr;
     }
 
-    /**
-    * @brief Extract trace context from inbound headers and start a child span.
-     *
-    * Checks for headers in the following priority order:
-    *  1. W3C `traceparent` header (takes precedence when present).
-    *  2. Jaeger `uber-trace-id` header — the decoded IDs are recorded on the
-    *     new span so the trace can be correlated in the Jaeger UI even when
-    *     the full W3C context is absent.
-    *  3. Falls back to a new root span when neither header is present.
-     */
     std::unique_ptr<ISpan> startSpanFromHeaders(
             const std::string& name,
             const std::map<std::string, std::string>& carrier_headers) override {
@@ -207,13 +181,6 @@ public:
         return span_ptr;
     }
 
-    /**
-     * @brief Inject trace context into outgoing headers.
-     *
-    * Writes both the W3C `traceparent` header and the Jaeger `uber-trace-id`
-    * header so downstream services using either convention can continue the
-    * trace. Also injects W3C Baggage when any items are present.
-     */
     void injectContext(std::map<std::string, std::string>& carrier_headers) override {
         std::string trace_id = themis::Tracer::getCurrentTraceId();
         std::string span_id  = themis::Tracer::getCurrentSpanId();
@@ -265,7 +232,6 @@ public:
         return ProbeResult::healthy();
     }
 
-    /// Expose circuit-breaker state for monitoring.
     sharding::CircuitBreaker::State circuitBreakerState() const {
         return circuit_breaker_->getState();
     }
@@ -278,7 +244,6 @@ private:
     // Helpers
     // -------------------------------------------------------------------------
 
-    /// Case-insensitive header lookup.
     static std::string headerValueCI(const std::map<std::string, std::string>& headers,
                                      const std::string& name) {
         auto it = headers.find(name);
@@ -305,13 +270,11 @@ private:
     };
 
     /**
-     * @brief Parse a Jaeger `uber-trace-id` header value.
-     *
-     * Format: {traceId}:{spanId}:{parentSpanId}:{flags}
-     * All fields are hex strings.  traceId is 32 hex chars (128-bit);
-     * spanId and parentSpanId are up to 16 hex chars (64-bit).
-     *
-     * @return true if all four fields were successfully parsed.
+     * @brief Parse Uber Trace Id.
+     * @param[in] value Input parameter.
+     * @param[in,out] out Input/output parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: reserve(), find(), push_back(), substr(), size(), empty(), std::all_of(), begin().
      */
     static bool parseUberTraceId(const std::string& value, UberTraceIds& out) {
         // Split on ':'

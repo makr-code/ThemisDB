@@ -24,9 +24,6 @@
 
 namespace themis {
 
-/**
- * @brief Status of an encryption key
- */
 enum class KeyStatus : std::uint8_t {
     ACTIVE,      // Key is active and can be used for encryption/decryption
     ROTATING,    // Key rotation in progress (dual-write mode)
@@ -34,9 +31,6 @@ enum class KeyStatus : std::uint8_t {
     DELETED      // Key is deleted, no operations allowed
 };
 
-/**
- * @brief Metadata about an encryption key
- */
 struct KeyMetadata {
     std::string key_id;      // Logical key identifier (e.g., "user_pii")
     uint32_t version = 0;        // Key version for rotation (1, 2, 3, ...)
@@ -46,11 +40,14 @@ struct KeyMetadata {
     KeyStatus status = KeyStatus::ACTIVE;        // Current status of the key
 };
 
-/**
- * @brief Exception thrown when a key is not found
- */
 class KeyNotFoundException : public std::runtime_error {
 public:
+    /**
+     * @brief Key Not Found Exception.
+     * @param[in] key_id Identifier of the key.
+     * @param[in] version Input parameter.
+     * @return Return value.
+     */
     explicit KeyNotFoundException(const std::string& key_id, uint32_t version)
         : std::runtime_error("Key not found: " + key_id + " v" + std::to_string(version))
         , key_id_(key_id)
@@ -65,11 +62,13 @@ private:
     uint32_t version_;
 };
 
-/**
- * @brief Exception thrown when key operation is not allowed
- */
 class KeyOperationException : public std::runtime_error {
 public:
+    /**
+     * @brief Key Operation Exception.
+     * @param[in] message Input parameter.
+     * @return Return value.
+     */
     explicit KeyOperationException(const std::string& message)
         : std::runtime_error(message)
         , http_code_(-1)
@@ -91,41 +90,6 @@ private:
     std::string vault_message_;
     bool transient_;
 };
-/**
- * @brief Abstract interface for encryption key management
- * 
- * KeyProvider is responsible for:
- * - Retrieving encryption keys by ID and version
- * - Managing key rotation lifecycle
- * - Providing key metadata for auditing
- * 
- * Implementations:
- * - MockKeyProvider: In-memory provider for testing
- * - VaultKeyProvider: HashiCorp Vault integration
- * - KMSKeyProvider: Cloud KMS (AWS/Azure/GCP) integration
- * 
- * Thread Safety:
- * All implementations must be thread-safe.
- * 
- * Performance Considerations:
- * - Implement caching to avoid repeated external calls
- * - Use TTL-based cache eviction (recommended: 1 hour)
- * - Monitor cache hit rate via metrics
- * 
- * Example Usage:
- * @code
- * auto provider = std::make_shared<VaultKeyProvider>(vault_addr, token);
- * 
- * // Retrieve active key for encryption
- * auto key = provider->getKey("user_pii");
- * 
- * // Retrieve specific version for decryption
- * auto old_key = provider->getKey("user_pii", 2);
- * 
- * // Rotate to new version
- * provider->rotateKey("user_pii");
- * @endcode
- */
 class KeyProvider : public virtual IKeyProvider {
 public:
     KeyProvider() = default;
@@ -148,77 +112,40 @@ public:
     }
     
     /**
-     * @brief Retrieve an encryption key by ID (latest active version)
-     * 
-     * @param key_id Logical key identifier (e.g., "user_pii", "payment_info")
-     * @return Raw key bytes (256 bits for AES-256)
-     * @throws KeyNotFoundException if key does not exist
-     * @throws KeyOperationException if key is not in ACTIVE or DEPRECATED status
+     * @brief Get Key.
+     * @param[in] key_id Identifier of the key.
+     * @return Return value.
      */
     virtual std::vector<uint8_t> getKey(const std::string& key_id) = 0;
     
     /**
-     * @brief Retrieve a specific version of an encryption key
-     * 
-     * Used for decrypting old data that was encrypted with a previous key version.
-     * 
-     * @param key_id Logical key identifier
-     * @param version Key version number (1, 2, 3, ...)
-     * @return Raw key bytes (256 bits for AES-256)
-     * @throws KeyNotFoundException if key version does not exist
-     * @throws KeyOperationException if key is DELETED
+     * @brief Get Key.
+     * @param[in] key_id Identifier of the key.
+     * @param[in] version Input parameter.
+     * @return Return value.
      */
     virtual std::vector<uint8_t> getKey(const std::string& key_id, uint32_t version) = 0;
     
     /**
-     * @brief Create a new version of a key (rotation)
-     * 
-     * Process:
-     * 1. Generate new key version (current_max + 1)
-     * 2. Mark new version as ACTIVE
-     * 3. Mark previous version as DEPRECATED
-     * 4. New encryptions use new version
-     * 5. Old data still decryptable with deprecated version
-     * 
-     * @param key_id Key to rotate
-     * @return New key version number
-     * @throws KeyOperationException if rotation fails
+     * @brief Rotate Key.
+     * @param[in] key_id Identifier of the key.
+     * @return Return value.
      */
     virtual uint32_t rotateKey(const std::string& key_id) = 0;
     
     /**
-     * @brief List all available keys with metadata
-     * 
-     * Used for:
-     * - Auditing (which keys exist)
-     * - Monitoring (key age, rotation schedule)
-     * - Cleanup (identify deprecated keys for deletion)
-     * 
-     * @return Vector of key metadata (all versions)
+     * @brief List Keys.
+     * @return Return value.
      */
     virtual std::vector<KeyMetadata> listKeys() = 0;
     
-    /**
-     * @brief Get metadata for a specific key
-     * 
-     * @param key_id Key identifier
-     * @param version Key version (0 = latest active)
-     * @return Key metadata
-     * @throws KeyNotFoundException if key does not exist
-     */
     virtual KeyMetadata getKeyMetadata(const std::string& key_id, uint32_t version = 0) = 0;
     
     /**
-     * @brief Return the current (latest active) version number for a key.
-     *
-     * Default implementation uses a probe heuristic: attempts @c getKey(key_id, v)
-     * for increasing @c v until it throws, then returns the last successful version.
-     * Concrete subclasses with access to a version registry should override this for
-     * O(1) lookup and to eliminate the probe's TOCTOU window.
-     *
-     * @param key_id  Logical key identifier
-     * @return        Current active version number (≥ 1), or 0 if no version is found
-     * @throws        KeyNotFoundException if the key does not exist at all
+     * @brief Get Current Version.
+     * @param[in] key_id Identifier of the key.
+     * @return Return value.
+     * @details Calls: getKey().
      */
     virtual uint32_t getCurrentVersion(const std::string& key_id) {
         // Default probe: walk up from version 1 until getKey(v+1) throws.
@@ -245,57 +172,20 @@ public:
     }
 
     /**
-     * @brief Mark a deprecated key for deletion
-     * 
-     * Preconditions:
-     * - Key must be in DEPRECATED status
-     * - No data encrypted with this version (verified externally)
-     * 
-     * @param key_id Key identifier
-     * @param version Key version to delete
-     * @throws KeyOperationException if key is still ACTIVE or data exists
+     * @brief Delete Key.
+     * @param[in] key_id Identifier of the key.
+     * @param[in] version Input parameter.
      */
     virtual void deleteKey(const std::string& key_id, uint32_t version) = 0;
     
-    /**
-     * @brief Check if a key exists
-     * 
-     * @param key_id Key identifier
-     * @param version Key version (0 = check if any version exists)
-     * @return true if key exists, false otherwise
-     */
     virtual bool hasKey(const std::string& key_id, uint32_t version = 0) = 0;
     
-    /**
-     * @brief Create a new key from raw bytes
-     * 
-     * Used for importing keys or creating derived keys.
-     * 
-     * @param key_id Key identifier
-     * @param key_bytes Raw key material (must be 32 bytes for AES-256)
-     * @param metadata Optional metadata (algorithm, created_at, etc.)
-     * @return Key version number
-     * @throws KeyOperationException if key creation fails
-     */
     virtual uint32_t createKeyFromBytes(
         const std::string& key_id,
         const std::vector<uint8_t>& key_bytes,
         const KeyMetadata& metadata = KeyMetadata()) = 0;
 };
 
-/**
- * @brief Key cache for performance optimization
- * 
- * Caches recently used keys to avoid repeated calls to external key stores
- * (Vault, KMS, etc.) which can be slow (50-200ms per request).
- * 
- * Thread Safety: All methods are thread-safe
- * 
- * Eviction Policy:
- * - TTL-based: Keys expire after 1 hour
- * - LRU: When cache is full, evict least recently used
- * - Max size: 1000 keys (configurable)
- */
 class KeyCache {
 public:
     struct CacheEntry {
@@ -305,57 +195,41 @@ public:
         int64_t last_access_ms;
     };
     
-    /**
-     * @brief Construct key cache
-     * 
-     * @param max_size Maximum number of keys to cache (default: 1000)
-     * @param ttl_ms Time-to-live for cached keys in milliseconds (default: 1 hour)
-     */
     explicit KeyCache(size_t max_size = 1000, int64_t ttl_ms = 3600000);
     
     /**
-     * @brief Get a key from cache
-     * 
-     * @param key_id Key identifier
-     * @param version Key version
-     * @param out_key Output parameter for key bytes
-     * @return true if key found in cache, false otherwise
+     * @brief Get.
+     * @param[in] key_id Identifier of the key.
+     * @param[in] version Input parameter.
+     * @param[in,out] out_key Input/output parameter.
+     * @return True when the operation succeeds.
      */
     bool get(const std::string& key_id, uint32_t version, std::vector<uint8_t>& out_key);
     
     /**
-     * @brief Store a key in cache
-     * 
-     * @param key_id Key identifier
-     * @param version Key version
-     * @param key Key bytes to cache
+     * @brief Put.
+     * @param[in] key_id Identifier of the key.
+     * @param[in] version Input parameter.
+     * @param[in] key Input parameter.
      */
     void put(const std::string& key_id, uint32_t version, const std::vector<uint8_t>& key);
     
-    /**
-     * @brief Remove a key from cache
-     * 
-     * @param key_id Key identifier
-     * @param version Key version (0 = all versions)
-     */
     void evict(const std::string& key_id, uint32_t version = 0);
     
     /**
-     * @brief Clear all cached keys
+     * @brief Clear.
      */
     void clear();
     
     /**
-     * @brief Get cache statistics
-     * 
-     * @return Cache hit rate (0.0 to 1.0)
+     * @brief Get Hit Rate.
+     * @return Return value.
      */
     double getHitRate() const;
     
     /**
-     * @brief Get current cache size
-     * 
-     * @return Number of keys currently cached
+     * @brief Size.
+     * @return Return value.
      */
     size_t size() const;
 
@@ -368,9 +242,25 @@ private:
     uint64_t total_requests_;
     uint64_t cache_hits_;
     
+    /**
+     * @brief Make Cache Key.
+     * @param[in] key_id Identifier of the key.
+     * @param[in] version Input parameter.
+     * @return Return value.
+     */
     std::string makeCacheKey(const std::string& key_id, uint32_t version) const;
+    /**
+     * @brief Evict Expired.
+     */
     void evictExpired();
+    /**
+     * @brief Evict LRU.
+     */
     void evictLRU();
+    /**
+     * @brief Get Current Time Ms.
+     * @return Return value.
+     */
     int64_t getCurrentTimeMs() const;
 };
 

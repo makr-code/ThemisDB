@@ -25,10 +25,22 @@ namespace functions {
 
 // Portable timegm implementation for Windows compatibility
 #ifdef _WIN32
+/**
+ * @brief Portable timegm.
+ * @param[in,out] tm Input/output parameter.
+ * @return Return value.
+ * @details Calls: _mkgmtime().
+ */
 inline time_t portable_timegm(struct tm* tm) {
     return _mkgmtime(tm);
 }
 #else
+/**
+ * @brief Portable timegm.
+ * @param[in,out] tm Input/output parameter.
+ * @return Return value.
+ * @details Calls: timegm().
+ */
 inline time_t portable_timegm(struct tm* tm) {
     return ::timegm(tm);
 }
@@ -717,8 +729,20 @@ public:
     }
 
 private:
+    /**
+     * @brief Parse ISO8601.
+     * @param[in] str Input parameter.
+     * @return Return value.
+     * @throws std::runtime_error if an error occurs.
+     * @details Calls: ss(), std::get_time(), fail(), clear(), str(), std::chrono::system_clock::from_time_t(), portable_timegm(), time_since_epoch().
+     */
     static int64_t parseISO8601(const std::string& str) {
         std::tm tm = {};
+        /**
+         * @brief Ss.
+         * @param[in] str Input parameter.
+         * @return Return value.
+         */
         std::istringstream ss(str);
         ss >> std::get_time(&tm, "%Y-%m-%dT%H:%M:%S");
         if (ss.fail()) {
@@ -763,6 +787,12 @@ public:
     }
 
 private:
+    /**
+     * @brief Format ISO8601.
+     * @param[in] ms Input parameter.
+     * @return Return value.
+     * @details Calls: std::gmtime(), std::put_time(), str().
+     */
     static std::string formatISO8601(int64_t ms) {
         std::time_t seconds = static_cast<std::time_t>(ms / 1000);
         std::tm* tm = std::gmtime(&seconds);
@@ -2050,9 +2080,11 @@ public:
     }
 };
 
-// ============================================================================
-// Register Date Functions
-// ============================================================================
+/**
+ * @brief ============================================================================ Register Date Functions ============================================================================
+ * @param[in,out] reg Input/output parameter.
+ * @details Calls: registerFunction().
+ */
 
 inline void registerDateFunctions(FunctionRegistry& reg) {
     // Core date/time functions

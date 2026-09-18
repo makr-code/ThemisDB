@@ -23,46 +23,8 @@ namespace importers {
 
 using json = nlohmann::json;
 
-/**
- * @brief Maps Foreign Key constraints to ThemisDB graph relationships.
- *
- * Converts FK metadata captured during DDL parsing into typed graph edges,
- * detects cardinality, validates referential integrity, and detects circular
- * reference chains.
- *
- * ### Cardinality detection
- * | Scenario                                        | Cardinality     |
- * |-------------------------------------------------|-----------------|
- * | Source column is the sole primary key           | ONE_TO_ONE      |
- * | Source column is NOT a primary key (default)    | MANY_TO_ONE     |
- * | Target column is not a primary key              | MANY_TO_MANY    |
- *
- * ### Template requirement
- * The `TableSchemaMap` parameter must be a map-like container whose
- * `mapped_type` has:
- *   - `std::string name`
- *   - `std::vector<std::string> columns`
- *   - `std::vector<std::string> primary_keys`
- *   - An iterable `foreign_keys` range whose elements have:
- *       - `std::string name`
- *       - `std::string source_column`  (comma-joined for composite FKs)
- *       - `std::string target_table`
- *       - `std::string target_column`  (comma-joined for composite FKs)
- *
- * ### Usage
- * ```cpp
- * auto mappings = RelationshipMapper::mapFromForeignKeys(schemas, "auto");
- * std::vector<std::string> errs;
- * if (!RelationshipMapper::validateMappings(mappings, schemas, errs)) {
- *     for (auto& e : errs) THEMIS_WARN("{}", e);
- * }
- * ```
- */
 class RelationshipMapper {
 public:
-    /**
-     * @brief A single resolved FK → graph-edge mapping.
-     */
     struct RelationshipMapping {
         std::string edge_type;          ///< e.g. "orders_references_users"
         std::string source_table = {};
@@ -74,9 +36,6 @@ public:
         std::string on_update_action;   ///< CASCADE | SET NULL | RESTRICT | NO ACTION | SET DEFAULT
         bool is_self_referential = false; ///< source_table == target_table
 
-        /**
-         * @brief Serialize to a ThemisDB graph edge JSON object.
-         */
         json toThemisEdge() const {
             return json{
                 {"_type",              edge_type},
@@ -95,17 +54,10 @@ public:
     };
 
     /**
-     * @brief Generate inverse (ONE_TO_MANY) edges for every MANY_TO_ONE mapping.
-     *
-     * For each MANY_TO_ONE edge `A → B`, appends a ONE_TO_MANY edge `B ← A`
-     * with edge_type `<target>_has_many_<source>`.
-     *
-     * Self-referential relationships are not inverted (they already represent
-     * both sides of the hierarchy).
-     *
-     * @param mappings  Forward mappings (produced by mapFromForeignKeys()).
-     * @return          Additional inverse-direction mappings (does NOT include
-     *                  the forward ones).
+     * @brief Generate Inverse Edges.
+     * @param[in] mappings Input parameter.
+     * @return Return value.
+     * @details Calls: push_back(), std::move().
      */
     static std::vector<RelationshipMapping> generateInverseEdges(
             const std::vector<RelationshipMapping>& mappings) {
@@ -135,17 +87,6 @@ public:
         return inverse;
     }
 
-    /**
-     * @brief Derive RelationshipMappings from all parsed TableSchemas.
-     *
-     * Only FKs between tables that exist in @p schemas are mapped;
-     * dangling references are silently skipped here (use validateMappings()
-     * to report them as errors).
-     *
-     * @param schemas  Map from table name to TableSchema.
-     * @param mode     relationship_mapping_mode: "auto" | "manual" | "skip".
-     *                 Only "auto" produces mappings; others return empty.
-     */
     template <typename TableSchemaMap>
     static std::vector<RelationshipMapping> mapFromForeignKeys(
             const TableSchemaMap& schemas,
@@ -202,19 +143,15 @@ public:
         return result;
     }
 
-    /**
-     * @brief Validate a set of RelationshipMappings against the known schema set.
-     *
-     * Reports errors for:
-     *  - Mappings that reference tables not present in @p schemas
-     *  - Mappings that reference columns not present in the target table
-     *
-     * @param mappings  Mappings produced by mapFromForeignKeys().
-     * @param schemas   Map from table name to TableSchema.
-     * @param errors    Output: human-readable error descriptions.
-     * @return true if all mappings are valid, false if any error was found.
-     */
     template <typename TableSchemaMap>
+    /**
+     * @brief Validate Mappings.
+     * @param[in] mappings Input parameter.
+     * @param[in] schemas Input parameter.
+     * @param[in,out] errors Input/output parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: count(), push_back(), at(), splitColumns(), std::find(), begin(), end().
+     */
     static bool validateMappings(
             const std::vector<RelationshipMapping>& mappings,
             const TableSchemaMap& schemas,
@@ -247,15 +184,14 @@ public:
         return ok;
     }
 
-    /**
-     * @brief Detect circular FK reference chains using depth-first search.
-     *
-     * @param schemas   Map from table name to TableSchema.
-     * @param cycles    Output: each entry is a cycle expressed as
-     *                  "tableA → tableB → ... → tableA".
-     * @return true if at least one cycle is found.
-     */
     template <typename TableSchemaMap>
+    /**
+     * @brief Detect Circular References.
+     * @param[in] schemas Input parameter.
+     * @param[in,out] cycles Input/output parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: empty(), insert(), count(), dfsCycle().
+     */
     static bool detectCircularReferences(
             const TableSchemaMap& schemas,
             std::vector<std::string>& cycles) {
@@ -283,9 +219,12 @@ public:
         return found_cycle;
     }
 
-    // -------------------------------------------------------------------------
-    // Helpers (public for unit-testing)
-    // -------------------------------------------------------------------------
+    /**
+     * @brief ------------------------------------------------------------------------- Helpers (public for unit-testing) -------------------------------------------------------------------------
+     * @param[in] cols Input parameter.
+     * @return Return value.
+     * @details Calls: trimStr(), empty(), push_back(), clear().
+     */
 
     static std::vector<std::string> splitColumns(const std::string& cols) {
         std::vector<std::string> result;
@@ -309,21 +248,27 @@ public:
     }
 
 private:
+    /**
+     * @brief Trim Str.
+     * @param[in] s Input parameter.
+     * @return Return value.
+     * @details Calls: find_first_not_of(), find_last_not_of(), substr().
+     */
     static std::string trimStr(const std::string& s) {
         size_t l = s.find_first_not_of(" \t\r\n");
         size_t r = s.find_last_not_of(" \t\r\n");
         return (l == std::string::npos) ? "" : s.substr(l, r - l + 1);
     }
 
-    /**
-     * @brief Cardinality detection using duck-typed schema/FK objects.
-     *
-     * @param source  TableSchema of the table that holds the FK column.
-     * @param fk      The FK constraint object (has source_column, target_table,
-     *                target_column, name).
-     * @param schemas Full schema map to check the target table's primary keys.
-     */
     template <typename SourceSchema, typename FKConstraint, typename TableSchemaMap>
+    /**
+     * @brief Detect Cardinality Impl.
+     * @param[in] source Input parameter.
+     * @param[in] fk Input parameter.
+     * @param[in] schemas Input parameter.
+     * @return Return value.
+     * @details Calls: splitColumns(), empty(), size(), std::find(), begin(), end(), find().
+     */
     static std::string detectCardinalityImpl(
             const SourceSchema& source,
             const FKConstraint& fk,

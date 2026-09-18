@@ -41,6 +41,11 @@ namespace themis {
 namespace query {
 namespace functions {
 
+/**
+ * @brief Register Builtin Functions.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: FunctionRegistry::instance(), registerStringFunctions(), registerMathFunctions(), registerArrayFunctions(), registerDateFunctions(), registerDocumentFunctions(), registerJsonPathFunctions(), registerGeoFunctions().
+ */
 void registerBuiltinFunctions() {
     try {
         auto& registry = FunctionRegistry::instance();

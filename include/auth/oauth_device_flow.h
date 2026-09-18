@@ -24,31 +24,8 @@ namespace themis {
 namespace utils { class AuditLogger; }
 namespace auth {
 
-/**
- * @brief OAuth 2.0 Device Authorization Grant (RFC 8628) authenticator
- *
- * Implements the Device Authorization Grant flow for headless devices,
- * CLI tools, and IoT clients that cannot open a browser.
- *
- * Flow:
- *   1. Call requestDeviceCode() to obtain a device code and user code.
- *   2. Display verification_uri and user_code to the user.
- *   3. Call pollForToken() repeatedly (at `interval` second intervals)
- *      until authorization is granted, denied, or expires.
- *
- * Compliance: RFC 8628 – OAuth 2.0 Device Authorization Grant
- *
- * Security considerations:
- *   - Device codes must be treated as short-lived secrets.
- *   - Polling interval is enforced; slow_down errors increase it.
- *   - Authorization server TLS certificates are always verified.
- *   - access_token and refresh_token are not cached internally.
- */
 class OAuthDeviceFlow {
 public:
-    /**
-     * @brief Response from the device authorization endpoint (RFC 8628 §3.2)
-     */
     struct DeviceCodeResponse {
         std::string device_code;              ///< Opaque device code for polling
         std::string user_code;                ///< Human-readable code (e.g., "BDWP-HQMF")
@@ -58,9 +35,6 @@ public:
         int interval{5};                      ///< Minimum polling interval in seconds
     };
 
-    /**
-     * @brief Result of a token poll attempt
-     */
     enum class PollStatus {
         Authorized,         ///< Token granted; claims populated
         AuthorizationPending, ///< User has not yet authorized
@@ -70,9 +44,6 @@ public:
         Error               ///< Unexpected error
     };
 
-    /**
-     * @brief Token response from the token endpoint
-     */
     struct TokenResponse {
         std::string access_token;
         std::string token_type;
@@ -82,9 +53,6 @@ public:
         std::string id_token;  ///< OIDC id_token (if requested)
     };
 
-    /**
-     * @brief Configuration for the device flow
-     */
     struct Config {
         std::string device_authorization_endpoint; ///< RFC 8628 device auth endpoint
         std::string token_endpoint;                ///< OAuth token endpoint
@@ -97,55 +65,33 @@ public:
     };
 
     /**
-     * @brief Construct with explicit endpoint configuration
-     *
-     * @param config  Device flow configuration
+     * @brief OAuth Device Flow.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     explicit OAuthDeviceFlow(const Config& config);
 
     /**
-     * @brief Request a device code from the authorization server (RFC 8628 §3.1)
-     *
-     * Sends a POST to device_authorization_endpoint with client_id and scope,
-     * then parses and returns the DeviceCodeResponse.
-     *
-     * @return DeviceCodeResponse with user_code and verification_uri
-     * @throws AuthException (AUTH_INTERNAL_ERROR) on HTTP or parse failure
+     * @brief Request Device Code.
+     * @return Return value.
      */
     DeviceCodeResponse requestDeviceCode();
 
     /**
-     * @brief Poll the token endpoint for an access token (RFC 8628 §3.4)
-     *
-     * @param device_code  Device code from requestDeviceCode()
-     * @param status_out   Set to the PollStatus result
-     * @return TokenResponse if status_out == Authorized, empty otherwise
-     * @throws AuthException on authorization_denied or expired_token
+     * @brief Poll For Token.
+     * @param[in] device_code Input parameter.
+     * @param[in,out] status_out Input/output parameter.
+     * @return Return value.
      */
     TokenResponse pollForToken(const std::string& device_code, PollStatus& status_out);
 
     /**
-     * @brief Validate the id_token from a TokenResponse and extract JWTClaims
-     *
-     * Requires jwks_url to be set in Config.
-     *
-     * @param token_response  Token response containing id_token
-     * @return Validated JWTClaims
-     * @throws AuthException if id_token is missing, invalid, or fails validation
+     * @brief Validate Id Token.
+     * @param[in] token_response Input parameter.
+     * @return Return value.
      */
     JWTClaims validateIdToken(const TokenResponse& token_response);
 
-    /**
-     * @brief Run the complete device flow with optional progress callback
-     *
-     * Calls requestDeviceCode(), then polls until authorized, denied, or expired.
-     * Calls progress_cb after each requestDeviceCode() so the caller can display
-     * the user code and verification URI.
-     *
-     * @param progress_cb  Called once with the DeviceCodeResponse (may be nullptr)
-     * @return Validated JWTClaims on success
-     * @throws AuthException on denial, expiry, or error
-     */
     JWTClaims authenticate(
         std::function<void(const DeviceCodeResponse&)> progress_cb = nullptr
     );
@@ -154,19 +100,14 @@ public:
     // Testing helpers
     // -----------------------------------------------------------------------
 
-    /**
-     * @brief Override the HTTP POST function for unit testing
-     *
-     * The injected function must accept a URL and a URL-encoded body and
-     * return the raw HTTP response body (or throw on transport error).
-     */
     void setHttpPostForTesting(
         std::function<std::string(const std::string& url, const std::string& body)> fn
     );
 
     /**
-     * @brief Attach an AuditLogger to receive TOKEN_CREATED / UNAUTHORIZED_ACCESS events.
-     * Pass nullptr to detach.  The flow does NOT take ownership.
+     * @brief Set Audit Logger.
+     * @param[in,out] logger Input/output parameter.
+     * @details Implements setAuditLogger without additional internal calls.
      */
     void setAuditLogger(utils::AuditLogger* logger) { audit_logger_ = logger; }
 
@@ -175,8 +116,19 @@ private:
     std::function<std::string(const std::string& url, const std::string& body)> http_post_fn_;
     utils::AuditLogger* audit_logger_{nullptr};  ///< Non-owning, optional.
 
+    /**
+     * @brief Http Post.
+     * @param[in] url Input parameter.
+     * @param[in] body Input parameter.
+     * @return Return value.
+     */
     std::string httpPost(const std::string& url, const std::string& body);
 
+    /**
+     * @brief Url Encode.
+     * @param[in] value Input parameter.
+     * @return Return value.
+     */
     static std::string urlEncode(const std::string& value);
     static std::string buildFormBody(
         const std::vector<std::pair<std::string, std::string>>& params

@@ -51,20 +51,14 @@ namespace gpu {
 // GPU Stream Handle — RAII wrapper for cudaStream_t
 // ============================================================================
 
-/**
- * @class GPUStreamHandle
- * @brief RAII wrapper for GPU stream lifecycle management
- *
- * Automatically creates stream on construction and destroys on destruction.
- * Prevents stream handle leaks and ensures proper synchronization.
- */
 class GPUStreamHandle {
  public:
-    /// Create a new GPU stream
-    /// @throws std::runtime_error if stream creation fails
+    /**
+     * @brief GPUStream Handle.
+     * @return Return value.
+     */
     explicit GPUStreamHandle();
 
-    /// Destructor — destroy the stream
     ~GPUStreamHandle() noexcept;
 
     // Delete copy operations
@@ -83,19 +77,22 @@ class GPUStreamHandle {
         return *this;
     }
 
-    /// Get the underlying CUDA stream
     cudaStream_t get() const noexcept { return stream_; }
 
-    /// Check if stream is valid
     bool isValid() const noexcept { return stream_ != nullptr; }
 
-    /// Synchronize (wait for all pending operations)
-    /// @throws std::runtime_error if synchronization fails
+    /**
+     * @brief Synchronize.
+     */
     void synchronize();
 
  private:
     cudaStream_t stream_;
 
+    /**
+     * @brief Destroy.
+     * @note Exception safety: noexcept.
+     */
     void destroy() noexcept;
 };
 
@@ -103,20 +100,14 @@ class GPUStreamHandle {
 // GPU Event Handle — RAII wrapper for cudaEvent_t
 // ============================================================================
 
-/**
- * @class GPUEventHandle
- * @brief RAII wrapper for GPU event lifecycle management
- *
- * Automatically creates and destroys GPU events for synchronization.
- * Prevents event handle leaks and ensures proper timing.
- */
 class GPUEventHandle {
  public:
-    /// Create a new GPU event
-    /// @throws std::runtime_error if event creation fails
+    /**
+     * @brief GPUEvent Handle.
+     * @return Return value.
+     */
     explicit GPUEventHandle();
 
-    /// Destructor — destroy the event
     ~GPUEventHandle() noexcept;
 
     // Delete copy operations
@@ -135,26 +126,30 @@ class GPUEventHandle {
         return *this;
     }
 
-    /// Get the underlying CUDA event
 #ifdef THEMIS_HAS_CUDA
     cudaEvent_t get() const noexcept { return event_; }
 #else
     void* get() const noexcept { return event_; }
 #endif
 
-    /// Check if event is valid
     bool isValid() const noexcept { return event_ != nullptr; }
 
-    /// Record event in stream
-    /// @param stream CUDA stream to record in
-    /// @throws std::runtime_error if recording fails
+    /**
+     * @brief Record.
+     * @param[in] stream Input parameter.
+     */
     void record(cudaStream_t stream);
 
-    /// Query if event has completed
+    /**
+     * @brief Is Completed.
+     * @return True when the operation succeeds.
+     * @note Exception safety: noexcept.
+     */
     bool isCompleted() noexcept;
 
-    /// Wait for event to complete
-    /// @throws std::runtime_error if wait fails
+    /**
+     * @brief Wait.
+     */
     void wait();
 
  private:
@@ -164,6 +159,10 @@ class GPUEventHandle {
     void* event_;
 #endif
 
+    /**
+     * @brief Destroy.
+     * @note Exception safety: noexcept.
+     */
     void destroy() noexcept;
 };
 
@@ -171,26 +170,13 @@ class GPUEventHandle {
 // GPU Kernel Timeout Guard — Enforce strict timeout limits
 // ============================================================================
 
-/**
- * @class GPUKernelTimeoutGuard
- * @brief RAII wrapper for enforcing kernel execution timeouts
- *
- * Monitors kernel execution and enforces a strict 5-second timeout.
- * On timeout, cleans up resources and marks failure for CPU fallback.
- * 
- * This is separate from KernelTimeoutGuard in gpu_safe_raii.h and
- * provides enhanced timeout enforcement with resource cleanup.
- */
 class GPUKernelTimeoutGuard {
  public:
-    /// Create timeout guard with 5-second default SLA
-    /// @param stream CUDA stream to monitor (optional)
     explicit GPUKernelTimeoutGuard(
         cudaStream_t stream = nullptr,
         std::chrono::milliseconds timeout = std::chrono::seconds(5)
     );
 
-    /// Destructor — stop monitoring and cleanup
     ~GPUKernelTimeoutGuard() noexcept;
 
     // Delete copy operations
@@ -201,17 +187,19 @@ class GPUKernelTimeoutGuard {
     GPUKernelTimeoutGuard(GPUKernelTimeoutGuard&&) = delete;
     GPUKernelTimeoutGuard& operator=(GPUKernelTimeoutGuard&&) = delete;
 
-    /// Mark kernel as completed within timeout
     void markCompleted() noexcept {
         completed_.store(true, std::memory_order_release);
     }
 
-    /// Check if timeout was exceeded
     bool didTimeout() const noexcept {
         return timed_out_.load(std::memory_order_acquire);
     }
 
-    /// Get remaining timeout budget (milliseconds)
+    /**
+     * @brief Get Remaining Budget.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     std::chrono::milliseconds getRemainingBudget() const noexcept;
 
  private:
@@ -222,7 +210,15 @@ class GPUKernelTimeoutGuard {
     std::atomic<bool> timed_out_{false};
     std::thread monitor_thread_;
 
+    /**
+     * @brief Monitor Thread.
+     * @note Exception safety: noexcept.
+     */
     void monitorThread() noexcept;
+    /**
+     * @brief Cleanup Stream.
+     * @note Exception safety: noexcept.
+     */
     void cleanupStream() noexcept;
 };
 
@@ -230,12 +226,20 @@ class GPUKernelTimeoutGuard {
 // Factory Functions
 // ============================================================================
 
-/// Create a GPU stream with automatic cleanup
+/**
+ * @brief Create GPUStream.
+ * @return Return value.
+ * @details Calls: GPUStreamHandle().
+ */
 inline GPUStreamHandle createGPUStream() {
     return GPUStreamHandle();
 }
 
-/// Create a GPU event with automatic cleanup
+/**
+ * @brief Create GPUEvent.
+ * @return Return value.
+ * @details Calls: GPUEventHandle().
+ */
 inline GPUEventHandle createGPUEvent() {
     return GPUEventHandle();
 }

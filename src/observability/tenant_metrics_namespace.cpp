@@ -26,11 +26,19 @@ TenantMetricsNamespace::TenantMetricsNamespace(const TenantMetricsConfig& config
 
 TenantMetricsNamespace::~TenantMetricsNamespace() = default;
 
-// ---------------------------------------------------------------------------
-// Tenant lifecycle
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Tenant lifecycle ---------------------------------------------------------------------------
+ * @param[in] tenant_id Input parameter.
+ * @return True on success.
+ * @details Calls: lock(), count(), size(), emplace(), std::move().
+ */
 
 bool TenantMetricsNamespace::registerTenant(const std::string& tenant_id) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock lock(mutex_);
     if (stores_.count(tenant_id)) {
         return false; // already exists
@@ -44,17 +52,38 @@ bool TenantMetricsNamespace::registerTenant(const std::string& tenant_id) {
     return true;
 }
 
+/**
+ * @brief Deregister Tenant.
+ * @param[in] tenant_id Input parameter.
+ * @return True on success.
+ * @details Calls: lock(), erase().
+ */
 bool TenantMetricsNamespace::deregisterTenant(const std::string& tenant_id) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock lock(mutex_);
     return stores_.erase(tenant_id) > 0;
 }
 
 bool TenantMetricsNamespace::hasTenant(const std::string& tenant_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(mutex_);
     return stores_.count(tenant_id) > 0;
 }
 
 std::vector<std::string> TenantMetricsNamespace::tenants() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(mutex_);
     std::vector<std::string> ids = {};
 
@@ -66,6 +95,11 @@ std::vector<std::string> TenantMetricsNamespace::tenants() const {
 }
 
 size_t TenantMetricsNamespace::tenantCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(mutex_);
     return stores_.size();
 }
@@ -118,6 +152,11 @@ void TenantMetricsNamespace::increment(
     const std::string& metric_name,
     const std::map<std::string, std::string>& labels)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock lock(mutex_);
 
     // Auto-register in non-strict mode
@@ -151,6 +190,11 @@ void TenantMetricsNamespace::setGauge(
     double value,
     const std::map<std::string, std::string>& labels)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock lock(mutex_);
 
     if (!stores_.count(tenant_id)) {
@@ -183,6 +227,11 @@ void TenantMetricsNamespace::observeHistogram(
     double value,
     const std::map<std::string, std::string>& labels)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock lock(mutex_);
 
     if (!stores_.count(tenant_id)) {
@@ -281,6 +330,11 @@ std::string TenantMetricsNamespace::exportStore(const TenantStore& store) const 
 }
 
 std::string TenantMetricsNamespace::exportTenant(const std::string& tenant_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(mutex_);
     auto it = stores_.find(tenant_id);
     if (it == stores_.end()) return {};
@@ -288,6 +342,11 @@ std::string TenantMetricsNamespace::exportTenant(const std::string& tenant_id) c
 }
 
 std::string TenantMetricsNamespace::exportAll() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(mutex_);
     std::ostringstream out = {};
     for (const auto& kv : stores_) {
@@ -301,6 +360,11 @@ std::string TenantMetricsNamespace::exportAll() const {
 // ---------------------------------------------------------------------------
 
 TenantMetricsStats TenantMetricsNamespace::stats(const std::string& tenant_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(mutex_);
     auto it = stores_.find(tenant_id);
     if (it == stores_.end()) return TenantMetricsStats{tenant_id};
@@ -315,6 +379,11 @@ TenantMetricsStats TenantMetricsNamespace::stats(const std::string& tenant_id) c
 }
 
 std::vector<TenantMetricsStats> TenantMetricsNamespace::allStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(mutex_);
     std::vector<TenantMetricsStats> result = {};
 
@@ -332,11 +401,25 @@ std::vector<TenantMetricsStats> TenantMetricsNamespace::allStats() const {
 }
 
 TenantMetricsConfig TenantMetricsNamespace::config() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(mutex_);
     return config_;
 }
 
+/**
+ * @brief Reset.
+ * @details Calls: lock(), clear(), store().
+ */
 void TenantMetricsNamespace::reset() {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock lock(mutex_);
     for (auto& kv : stores_) {
         auto& store = *kv.second;

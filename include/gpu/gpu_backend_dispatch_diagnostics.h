@@ -20,59 +20,29 @@
 namespace themis {
 namespace gpu {
 
-/**
- * @brief Event types emitted by GPU backend dispatch diagnostics.
- */
 enum class GPUDispatchEventType : uint8_t {
-    /// Allocation request rejected (size/quota/device failure).
     ALLOCATION_FAILED = 10,
-    /// Backend selection failed (no device available).
     BACKEND_SELECTION_FAILED = 20,
-    /// Device capability mismatch (feature not supported).
     CAPABILITY_MISMATCH = 21,
-    /// Dispatch operation rejected due to concurrency or timeout.
     DISPATCH_FAILED = 30,
-    /// Device degradation detected (health check failed).
     DEVICE_DEGRADED = 31,
-    /// Fallback to CPU executed (expected recovery).
     FALLBACK_TO_CPU = 40,
 };
 
-/**
- * @brief Event callback signature for GPU backend dispatch diagnostics.
- * 
- * Callers can register an event callback to receive structured events for
- * observability/monitoring/alerting purposes.
- * 
- * @param event_type Type of event that occurred.
- * @param error_code Associated error code.
- * @param device_id GPU device ID (-1 if N/A).
- * @param detail Detailed context/reason for the event.
- */
 using GPUDispatchEventCallback = std::function<void(
     GPUDispatchEventType event_type,
     GPUDispatchErrorCode error_code,
     int device_id,
     const std::string& detail)>;
 
-/**
- * @brief Unified diagnostics emitter for GPU backend dispatch.
- * 
- * Provides synchronous structured logging and event callbacks for all
- * GPU backend dispatch error conditions.
- */
 class THEMIS_GEO_API GPUBackendDispatchDiagnostics {
 public:
     /**
-     * @brief Emit a diagnostic event for a GPU backend dispatch error.
-     * 
-     * Performs:
-     * 1. Structured error log via spdlog::error
-     * 2. Event callback invocation (if registered)
-     * 
-     * @param error_code The error code being reported.
-     * @param device_id GPU device ID (-1 if N/A or not applicable).
-     * @param detail Descriptive context for the error.
+     * @brief Emit Diagnostic.
+     * @param[in] error_code Input parameter.
+     * @param[in] device_id Identifier of the device.
+     * @param[in] detail Input parameter.
+     * @note Exception safety: noexcept.
      */
     static void emitDiagnostic(
         GPUDispatchErrorCode error_code,
@@ -80,51 +50,54 @@ public:
         const std::string& detail) noexcept;
 
     /**
-     * @brief Register an event callback for GPU backend dispatch diagnostics.
-     * 
-     * The callback will be invoked synchronously for every diagnostic event.
-     * Only one callback is active at a time; registering a new callback
-     * replaces the previous one.
-     * 
-     * @param callback The event callback function (nullptr to disable callbacks).
+     * @brief Set Event Callback.
+     * @param[in] callback Input parameter.
+     * @note Exception safety: noexcept.
      */
     static void setEventCallback(GPUDispatchEventCallback callback) noexcept;
 
     /**
-     * @brief Get the currently registered event callback.
-     * 
-     * @return The active callback, or nullptr if no callback is registered.
+     * @brief Get Event Callback.
+     * @return Return value.
+     * @note Exception safety: noexcept.
      */
     static GPUDispatchEventCallback getEventCallback() noexcept;
 
-    /// Map error code to corresponding event type.
+    /**
+     * @brief Error Code To Event Type.
+     * @param[in] code Input parameter.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     static GPUDispatchEventType errorCodeToEventType(GPUDispatchErrorCode code) noexcept;
 
-    /// Get human-readable string for error code.
+    /**
+     * @brief Error Code To String.
+     * @param[in] code Input parameter.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     static std::string errorCodeToString(GPUDispatchErrorCode code) noexcept;
 
-    /// Get human-readable string for event type.
+    /**
+     * @brief Event Type To String.
+     * @param[in] type Input parameter.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     static std::string eventTypeToString(GPUDispatchEventType type) noexcept;
 };
 
-/**
- * @brief RAII helper for bounded diagnostic emission timing.
- * 
- * Ensures diagnostic operations complete within MAX_EMIT_DIAGNOSTIC_LATENCY_US
- * and logs a warning if timeout is exceeded.
- */
 class THEMIS_GEO_API DiagnosticEmissionGuard {
 public:
     /**
-     * @brief Construct and start timing.
-     * 
-     * @param description Brief description of the operation being timed (for logging).
+     * @brief Diagnostic Emission Guard.
+     * @param[in] description Input parameter.
+     * @return Return value.
+     * @note Exception safety: noexcept.
      */
     explicit DiagnosticEmissionGuard(const std::string& description) noexcept;
 
-    /**
-     * @brief Destructor: verify emission completed within SLA and log if exceeded.
-     */
     ~DiagnosticEmissionGuard() noexcept;
 
 private:

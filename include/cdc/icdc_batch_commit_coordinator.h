@@ -50,7 +50,6 @@ namespace cdc {
 
 // ── BatchId ───────────────────────────────────────────────────────────────────
 
-/// Opaque monotonically increasing batch identifier.
 using BatchId = uint64_t;
 
 // ── AddEventResult ────────────────────────────────────────────────────────────
@@ -79,15 +78,9 @@ enum class RollbackResult {
 
 // ── BatchConfig ───────────────────────────────────────────────────────────────
 
-/**
- * @brief Configuration for the batch commit coordinator.
- */
 struct BatchConfig {
-    /// Maximum number of events per batch (0 = unlimited).
     std::size_t max_batch_size = 0;
 
-    /// Maximum number of committed batches retained in the commit history
-    /// (for AlreadyCommitted detection).  0 = use InMemoryBatchCommitCoordinator::kDefaultHistorySize.
     std::size_t commit_history_size = 1000;
 };
 
@@ -102,9 +95,6 @@ enum class BatchStatus {
 
 // ── BatchInfo ─────────────────────────────────────────────────────────────────
 
-/**
- * @brief Summary of the coordinator's current state.
- */
 struct BatchInfo {
     BatchStatus status = BatchStatus::Idle; ///< Current lifecycle state
     BatchId     current_batch_id = 0;       ///< ID of the open batch (0 = none)
@@ -115,89 +105,34 @@ struct BatchInfo {
 
 // ── ICDCBatchCommitCoordinator ────────────────────────────────────────────────
 
-/**
- * @brief Abstract interface for exactly-once CDC batch commit coordination.
- *
- * Thread-safety: all methods must be thread-safe in every implementation.
- */
 class ICDCBatchCommitCoordinator {
 public:
+    /**
+     * @brief ICDCBatch Commit Coordinator.
+     * @return Return value.
+     */
     virtual ~ICDCBatchCommitCoordinator() = default;
 
-    /**
-     * @brief Open a new batch.
-     *
-     * @return The new BatchId, or 0 if a batch is already open.
-     */
     [[nodiscard]] virtual BatchId beginBatch() = 0;
 
-    /**
-     * @brief Add an event to the currently open batch.
-     *
-     * @param event  The event to stage.
-     * @return AddEventResult indicating success or the failure reason.
-     */
     [[nodiscard]] virtual AddEventResult addEvent(const Changefeed::ChangeEvent& event) = 0;
 
-    /**
-     * @brief Commit all staged events in the current batch.
-     *
-     * After a successful commit, the coordinator transitions to Committed and
-     * is ready for the next beginBatch() call.  The committed events are
-     * accessible via committedEvents(batch_id) until they age out of the
-     * commit history.
-     *
-     * Calling commitBatch() when no batch is open returns NoBatchOpen.
-     * If the most recent batch has already been committed (status ==
-     * Committed), returns AlreadyCommitted — allowing safe duplicate-call
-     * detection for the same batch lifecycle without a batch_id parameter.
-     * If the most recent batch was rolled back, returns RolledBack.
-     *
-     * @return CommitResult indicating success or the failure reason.
-     */
     [[nodiscard]] virtual CommitResult commitBatch() = 0;
 
-    /**
-     * @brief Discard all staged events and close the current batch.
-     *
-     * @return RollbackResult indicating success or the failure reason.
-     */
     [[nodiscard]] virtual RollbackResult rollbackBatch() = 0;
 
-    /**
-     * @brief Return the current status of the coordinator.
-     */
     [[nodiscard]] virtual BatchStatus status() const = 0;
 
-    /**
-     * @brief Return summary info for the current or most recently closed batch.
-     */
     [[nodiscard]] virtual BatchInfo info() const = 0;
 
-    /**
-     * @brief Return the events committed in a specific batch.
-     *
-     * @param batch_id  ID of a previously committed batch.
-     * @return Events in commit order, or an empty vector if not found.
-     */
     [[nodiscard]] virtual std::vector<Changefeed::ChangeEvent> committedEvents(
         BatchId batch_id) const = 0;
 
-    /**
-     * @brief Return true if the given batch ID has been committed.
-     */
     [[nodiscard]] virtual bool isCommitted(BatchId batch_id) const = 0;
 };
 
 // ── InMemoryBatchCommitCoordinator ────────────────────────────────────────────
 
-/**
- * @brief Thread-safe in-memory ICDCBatchCommitCoordinator.
- *
- * Suitable for unit tests and standalone use.  Committed batches are
- * retained in a FIFO ring bounded by BatchConfig::commit_history_size;
- * older batches are evicted to bound memory usage.
- */
 class InMemoryBatchCommitCoordinator : public ICDCBatchCommitCoordinator {
 public:
     static constexpr std::size_t kDefaultHistorySize = 1000;
@@ -216,6 +151,11 @@ public:
     {}
 
     BatchId beginBatch() override {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         if (status_ == BatchStatus::Open) return 0; // already open
         current_batch_id_ = next_batch_id_.fetch_add(1, std::memory_order_relaxed);
@@ -225,6 +165,11 @@ public:
     }
 
     AddEventResult addEvent(const Changefeed::ChangeEvent& event) override {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         if (status_ != BatchStatus::Open) {
           return AddEventResult::NoBatchOpen;
@@ -237,6 +182,11 @@ public:
     }
 
     CommitResult commitBatch() override {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         if (status_ != BatchStatus::Open) {
             // Check history for idempotent re-commit detection
@@ -261,6 +211,11 @@ public:
     }
 
     RollbackResult rollbackBatch() override {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         if (status_ != BatchStatus::Open) {
           return RollbackResult::NoBatchOpen;
@@ -272,11 +227,21 @@ public:
     }
 
     BatchStatus status() const override {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         return status_;
     }
 
     BatchInfo info() const override {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         BatchInfo i;
         i.status               = status_;
@@ -292,6 +257,11 @@ public:
     std::vector<Changefeed::ChangeEvent> committedEvents(
         BatchId batch_id) const override
     {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         auto it = committed_.find(batch_id);
         if (it == committed_.end()) return {};
@@ -299,11 +269,20 @@ public:
     }
 
     bool isCommitted(BatchId batch_id) const override {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         return committed_.count(batch_id) > 0;
     }
 
 private:
+    /**
+     * @brief Evict Oldest If Needed.
+     * @details Calls: size(), erase(), front(), pop_front().
+     */
     void evictOldestIfNeeded() {
         while (history_order_.size() >= history_limit_) {
             committed_.erase(history_order_.front());

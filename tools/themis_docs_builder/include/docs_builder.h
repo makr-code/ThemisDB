@@ -108,6 +108,8 @@ public:
     /**
      * Constructor
      * @param config Builder configuration
+     * @brief Docs Builder.
+     * @return Return value.
      */
     explicit DocsBuilder(const BuilderConfig& config);
     
@@ -127,6 +129,7 @@ public:
      * Validate existing database
      * @param db_path Path to database
      * @return true if valid, false otherwise
+     * @brief Validate.
      */
     static bool validate(const std::string& db_path);
     
@@ -134,6 +137,7 @@ public:
      * Load configuration from YAML file
      * @param config_path Path to YAML configuration file
      * @return Configuration object
+     * @brief Load Config.
      */
     static BuilderConfig loadConfig(const std::string& config_path);
     

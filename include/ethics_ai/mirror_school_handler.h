@@ -41,20 +41,8 @@ namespace themis {
 namespace plugins {
 namespace ethics {
 
-/**
- * @brief Lightweight mirror-school inference handler.
- *
- * Provides exactly 1 LLM inference step per mirror school.  Inject a real
- * inference function via `setLLMInferenceFn()` for production use; omit it
- * to activate the deterministic stub path.
- *
- * @since LDM-5 (Target: Q2 2027)
- */
 class MirrorSchoolHandler {
 public:
-    /**
-     * @brief LLM inference function signature (same as DiscourseOrchestrator).
-     */
     using LLMInferenceFn = std::function<
         DiscourseRoundOutput(const std::string& school_id,
                              const std::string& dilemma_text)>;
@@ -69,33 +57,18 @@ public:
     MirrorSchoolHandler& operator=(MirrorSchoolHandler&&)      noexcept = default;
 
     /**
-     * @brief Inject a real LLM inference function.
-     *
-     * Pass an empty `std::function` (default) to activate the stub path.
-     *
-     * @param fn  Real LLM inference function; empty → stub mode.
+     * @brief Set LLMInference Fn.
+     * @param[in] fn Input parameter.
      */
     void setLLMInferenceFn(LLMInferenceFn fn);
 
     /**
-     * @brief Set per-school LLM timeout.
-     *
-     * @param timeout_ms  Timeout in milliseconds.  Default: 1000 ms.
+     * @brief Set School Timeout Ms.
+     * @param[in] timeout_ms Input parameter.
+     * @note Exception safety: noexcept.
      */
     void setSchoolTimeoutMs(int timeout_ms) noexcept;
 
-    /**
-     * @brief Run lightweight mirror inference for the given schools.
-     *
-     * Each school executes 1 LLM inference step (position_abstract + strongest_tension).
-     * Results are always returned regardless of convergence outcome, for audit-trail
-     * inclusion in MetaVerdict::minority_dissent.
-     *
-     * @param mirror_school_ids  List of mirror school identifiers.
-     * @param dilemma_text       Dilemma context text.
-     * @param domain             Dilemma domain (e.g. "bioethics").
-     * @return                   One DiscourseRoundOutput per mirror school.
-     */
     [[nodiscard]] std::vector<DiscourseRoundOutput> runMirror(
         const std::vector<std::string>& mirror_school_ids,
         const std::string&              dilemma_text,

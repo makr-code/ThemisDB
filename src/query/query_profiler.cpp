@@ -33,9 +33,11 @@ const OperatorProfile* QueryProfile::slowestOperator() const {
     return slowest;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// QueryProfiler
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── QueryProfiler ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] query_text Input parameter.
+ * @details Calls: reset(), std::chrono::steady_clock::now().
+ */
 
 void QueryProfiler::beginQuery(const std::string& query_text) {
     reset();
@@ -43,6 +45,12 @@ void QueryProfiler::beginQuery(const std::string& query_text) {
     query_start_ = std::chrono::steady_clock::now();
 }
 
+/**
+ * @brief End Query.
+ * @param[in] result_rows Input parameter.
+ * @param[in] cache_hit Input parameter.
+ * @details Calls: std::chrono::steady_clock::now(), count().
+ */
 void QueryProfiler::endQuery(size_t result_rows, bool cache_hit) {
     const auto now = std::chrono::steady_clock::now();
     profile_.total_duration_ns =
@@ -59,11 +67,24 @@ void QueryProfiler::endQuery(size_t result_rows, bool cache_hit) {
     }
 }
 
+/**
+ * @brief Begin Operator.
+ * @param[in] operator_name Input parameter.
+ * @details Calls: std::chrono::steady_clock::now().
+ */
 void QueryProfiler::beginOperator(const std::string& operator_name) {
     current_operator_ = operator_name;
     op_start_         = std::chrono::steady_clock::now();
 }
 
+/**
+ * @brief End Operator.
+ * @param[in] rows_in Input parameter.
+ * @param[in] rows_out Input parameter.
+ * @param[in] memory_bytes Input parameter.
+ * @param[in] io_reads Input parameter.
+ * @details Calls: std::chrono::steady_clock::now(), count(), push_back(), std::move(), clear().
+ */
 void QueryProfiler::endOperator(size_t rows_in, size_t rows_out,
                                  size_t memory_bytes, size_t io_reads) {
     const auto now = std::chrono::steady_clock::now();
@@ -83,6 +104,10 @@ QueryProfile QueryProfiler::getProfile() const {
     return profile_;
 }
 
+/**
+ * @brief Reset.
+ * @details Calls: clear().
+ */
 void QueryProfiler::reset() {
     profile_ = QueryProfile{};
     current_operator_.clear();

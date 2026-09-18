@@ -25,37 +25,28 @@
 namespace themis {
 namespace config {
 
-/**
- * @brief Exception thrown when an encryption or decryption operation fails.
- */
 class ConfigEncryptionException : public std::runtime_error {
 public:
+    /**
+     * @brief Config Encryption Exception.
+     * @param[in] msg Input parameter.
+     * @return Return value.
+     */
     explicit ConfigEncryptionException(const std::string& msg)
         : std::runtime_error("ConfigEncryptedStore: " + msg) {}
 };
 
-/**
- * @brief Exception thrown when a requested key ID is not found.
- */
 class ConfigKeyNotFoundException : public std::runtime_error {
 public:
+    /**
+     * @brief Config Key Not Found Exception.
+     * @param[in] key_id Identifier of the key.
+     * @return Return value.
+     */
     explicit ConfigKeyNotFoundException(const std::string& key_id)
         : std::runtime_error("ConfigEncryptedStore: key not found: " + key_id) {}
 };
 
-/**
- * @brief An encrypted blob produced by ConfigEncryptedStore.
- *
- * Serialisation format (Base64-encoded JSON stored inside the store):
- * @code
- * {
- *   "key_ver": <uint32_t>,
- *   "iv":      "<base64 12 bytes>",
- *   "ct":      "<base64 ciphertext>",
- *   "tag":     "<base64 16 bytes>"
- * }
- * @endcode
- */
 struct ConfigEncryptedBlob {
     uint32_t             key_version{0};
     std::vector<uint8_t> iv;          ///< 12 bytes (AES-GCM standard)
@@ -63,74 +54,21 @@ struct ConfigEncryptedBlob {
     std::vector<uint8_t> tag;         ///< 16 bytes (AES-GCM authentication tag)
 
     /**
-     * @brief Serialise this encrypted blob to a compact JSON string.
-     * @return JSON string containing key version, IV, ciphertext, and tag.
+     * @brief To Json.
+     * @return Return value.
      */
     std::string toJson() const;
 
     /**
-     * @brief Parse an encrypted blob from a JSON string previously produced by toJson().
-     * @param json_str Compact JSON string containing the encoded blob fields.
-     * @return Parsed ConfigEncryptedBlob value.
+     * @brief From Json.
+     * @param[in] json_str Input parameter.
+     * @return Return value.
      */
     static ConfigEncryptedBlob fromJson(const std::string& json_str);
 };
 
-/**
- * @brief Encrypted key-value store for sensitive configuration values.
- *
- * ConfigEncryptedStore wraps any string-valued config key with AES-256-GCM
- * authenticated encryption.  It is designed for storing small numbers of
- * sensitive configuration values (passwords, tokens, API keys) that must
- * survive process restarts when serialised and restored.
- *
- * ### Encryption scheme
- * - Algorithm : AES-256-GCM (NIST SP 800-38D)
- * - Key size  : 256 bits (32 bytes) per key version
- * - IV size   : 96 bits (12 bytes), randomly generated per encryption
- * - Tag size  : 128 bits (16 bytes), verified on every decryption
- *
- * ### Key rotation
- * rotateKey() generates a new 256-bit key version, re-encrypts all currently
- * stored values with the new key, and retires the old version.  The operation
- * is atomic with respect to the internal mutex: no read can observe a
- * partially rotated state.
- *
- * ### Thread safety
- * All public methods are thread-safe; they acquire the internal mutex.
- *
- * ### Persistence
- * serialize() returns a JSON string that captures all encrypted values and the
- * current key material.  deserialize() restores the store from such a string.
- * The serialised form contains the key bytes in plaintext — callers are
- * responsible for protecting it (e.g. wrapping it in a master-key envelope
- * before writing to disk).
- *
- * Example usage:
- * @code
- * ConfigEncryptedStore store;
- * store.set("db_password", "hunter2");
- * store.set("api_token",   "tok_abc123");
- *
- * std::string snapshot = store.serialize();
- * // ... persist snapshot ...
- *
- * ConfigEncryptedStore restored;
- * restored.deserialize(snapshot);
- * assert(restored.get("db_password") == "hunter2");
- *
- * // Key rotation — re-encrypts all values with a new AES-256 key.
- * store.rotateKey();
- * assert(store.get("db_password") == "hunter2");
- * @endcode
- */
 class ConfigEncryptedStore {
 public:
-    /**
-     * @brief Construct a store and generate an initial AES-256 key (version 1).
-     *
-     * @throws ConfigEncryptionException if the OS PRNG is unavailable.
-     */
     ConfigEncryptedStore();
 
     ~ConfigEncryptedStore() = default;
@@ -146,65 +84,54 @@ public:
     // -------------------------------------------------------------------------
 
     /**
-     * @brief Encrypt and store a config value.
-     *
-     * If a value already exists for @p config_key it is silently replaced.
-     *
-     * @param config_key  Logical key name (must not be empty).
-     * @param plaintext   The string value to protect.
-     * @throws ConfigEncryptionException on AES failure.
-     * @throws std::invalid_argument     if config_key is empty.
+     * @brief Set.
+     * @param[in] config_key Input parameter.
+     * @param[in] plaintext Input parameter.
      */
     void set(const std::string& config_key, const std::string& plaintext);
 
     /**
-     * @brief Decrypt and return a stored config value.
-     *
-     * @param config_key  Logical key name.
-     * @return Decrypted plaintext string.
-     * @throws ConfigKeyNotFoundException if no value is stored for config_key.
-     * @throws ConfigEncryptionException  if decryption or tag verification fails.
+     * @brief Get.
+     * @param[in] config_key Input parameter.
+     * @return Return value.
      */
     std::string get(const std::string& config_key) const;
 
     /**
-     * @brief Return a stored value, or std::nullopt if it does not exist.
-     *
-     * Unlike get(), this never throws ConfigKeyNotFoundException.
-     * @param config_key Logical key name.
-     * @return Stored plaintext, or std::nullopt when the key is absent.
+     * @brief Try Get.
+     * @param[in] config_key Input parameter.
+     * @return Return value.
      */
     std::optional<std::string> tryGet(const std::string& config_key) const;
 
     /**
-     * @brief Remove a stored config value.
-     *
-     * @param config_key Logical key name to erase.
-     * @return true if the key existed and was removed, false otherwise.
+     * @brief Remove.
+     * @param[in] config_key Input parameter.
+     * @return True when the operation succeeds.
      */
     bool remove(const std::string& config_key);
 
     /**
-     * @brief Check whether a config key has a stored value.
-     * @param config_key Logical key name to probe.
-     * @return true if the key exists in the store, false otherwise.
+     * @brief Contains.
+     * @param[in] config_key Input parameter.
+     * @return True when the operation succeeds.
      */
     bool contains(const std::string& config_key) const;
 
     /**
-     * @brief Return the list of stored config key names (not their values).
-     * @return Snapshot of all logical config keys currently stored.
+     * @brief Keys.
+     * @return Return value.
      */
     std::vector<std::string> keys() const;
 
     /**
-     * @brief Return the number of stored config entries.
-     * @return Count of encrypted config entries currently stored.
+     * @brief Size.
+     * @return Return value.
      */
     std::size_t size() const;
 
     /**
-     * @brief Remove all stored config entries (key material is retained).
+     * @brief Clear.
      */
     void clear();
 
@@ -213,24 +140,14 @@ public:
     // -------------------------------------------------------------------------
 
     /**
-     * @brief Rotate to a freshly generated AES-256 key.
-     *
-     * Process (atomic under the internal mutex):
-     * 1. Generate a new 256-bit key (version = current_version + 1).
-     * 2. Decrypt every stored value with the old key.
-     * 3. Re-encrypt each value with the new key.
-     * 4. Replace the in-memory key with the new version.
-     *
-     * The old key is securely zeroed from memory after rotation.
-     *
-     * @return The new key version number.
-     * @throws ConfigEncryptionException if re-encryption of any value fails.
+     * @brief Rotate Key.
+     * @return Return value.
      */
     uint32_t rotateKey();
 
     /**
-     * @brief Return the current key version number (starts at 1).
-     * @return Active encryption-key version used for new writes.
+     * @brief Current Key Version.
+     * @return Return value.
      */
     uint32_t currentKeyVersion() const;
 
@@ -239,24 +156,14 @@ public:
     // -------------------------------------------------------------------------
 
     /**
-     * @brief Serialise the store (key material + encrypted values) to JSON.
-     *
-     * The returned string contains the AES key in plaintext.  Callers must
-     * protect it appropriately (e.g. encrypt under a master key) before
-     * writing to persistent storage.
-     *
-     * @return JSON string representation.
+     * @brief Serialize.
+     * @return Return value.
      */
     std::string serialize() const;
 
     /**
-     * @brief Restore the store from a JSON string produced by serialize().
-     *
-     * Replaces all current state (key material and stored values).
-     *
-     * @param json_str JSON string previously produced by serialize().
-     * @throws ConfigEncryptionException if the JSON is malformed or the
-     *         key material has an unexpected size.
+     * @brief Deserialize.
+     * @param[in] json_str Input parameter.
      */
     void deserialize(const std::string& json_str);
 
@@ -268,29 +175,58 @@ private:
         std::vector<uint8_t> key_bytes; ///< 32 bytes (AES-256)
     };
 
-    // ---- helpers ----
+    /**
+     * @brief ---- helpers ----
+     * @return Return value.
+     */
 
-    /// Generate 32 cryptographically random bytes.
     static std::vector<uint8_t> generateKey();
 
-    /// Generate 12 cryptographically random bytes for use as an AES-GCM IV.
+    /**
+     * @brief Generate IV.
+     * @return Return value.
+     */
     static std::vector<uint8_t> generateIV();
 
-    /// AES-256-GCM encrypt.  Returns ciphertext; populates iv and tag.
+    /**
+     * @brief Aes Gcm Encrypt.
+     * @param[in] plaintext Input parameter.
+     * @param[in] key Input parameter.
+     * @param[in,out] out_iv Input/output parameter.
+     * @param[in,out] out_tag Input/output parameter.
+     * @return Return value.
+     */
     static std::vector<uint8_t> aesGcmEncrypt(
         const std::string&        plaintext,
         const std::vector<uint8_t>& key,
         std::vector<uint8_t>&     out_iv,
         std::vector<uint8_t>&     out_tag);
 
-    /// AES-256-GCM decrypt.  Verifies the authentication tag.
+    /**
+     * @brief Aes Gcm Decrypt.
+     * @param[in] ciphertext Input parameter.
+     * @param[in] key Input parameter.
+     * @param[in] iv Input parameter.
+     * @param[in] tag Input parameter.
+     * @return Return value.
+     */
     static std::string aesGcmDecrypt(
         const std::vector<uint8_t>& ciphertext,
         const std::vector<uint8_t>& key,
         const std::vector<uint8_t>& iv,
         const std::vector<uint8_t>& tag);
 
+    /**
+     * @brief Encrypt Value.
+     * @param[in] plaintext Input parameter.
+     * @return Return value.
+     */
     ConfigEncryptedBlob encryptValue(const std::string& plaintext) const;
+    /**
+     * @brief Decrypt Blob.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     std::string         decryptBlob(const ConfigEncryptedBlob& blob) const;
 
     // ---- state ----

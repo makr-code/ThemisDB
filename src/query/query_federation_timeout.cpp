@@ -113,6 +113,11 @@ bool TimeoutPolicy::isOverallTimeoutExceeded(
     return total_elapsed >= overall_timeout_;
 }
 
+/**
+ * @brief Record Timeout Event.
+ * @param[in] event Input parameter.
+ * @details Calls: push_back(), spdlog::debug(), count().
+ */
 void TimeoutPolicy::recordTimeoutEvent(const TimeoutEvent& event) {
     timeout_events_.push_back(event);
     
@@ -145,6 +150,12 @@ void TimeoutPolicy::recordTimeoutEvent(const TimeoutEvent& event) {
         event.correlation_id);
 }
 
+/**
+ * @brief Record Retry Stats.
+ * @param[in] shard_id Input parameter.
+ * @param[in] stats Input parameter.
+ * @details Calls: spdlog::debug(), count().
+ */
 void TimeoutPolicy::recordRetryStats(
     const std::string& shard_id,
     const RetryStats& stats) {
@@ -172,6 +183,10 @@ std::vector<TimeoutPolicy::TimeoutEvent> TimeoutPolicy::getTimeoutEvents() const
     return timeout_events_;
 }
 
+/**
+ * @brief Clear Statistics.
+ * @details Calls: clear().
+ */
 void TimeoutPolicy::clearStatistics() {
     shard_stats_.clear();
     timeout_events_.clear();
@@ -204,6 +219,12 @@ QueryTimeoutContext::QueryTimeoutContext(const TimeoutPolicy& policy)
     spdlog::debug("QueryTimeoutContext created");
 }
 
+/**
+ * @brief Start Shard Attempt.
+ * @param[in] shard_id Input parameter.
+ * @param[in] attempt Input parameter.
+ * @details Calls: std::chrono::steady_clock::now(), spdlog::debug().
+ */
 void QueryTimeoutContext::startShardAttempt(
     const std::string& shard_id,
     int attempt) {
@@ -215,6 +236,13 @@ void QueryTimeoutContext::startShardAttempt(
     spdlog::debug("Started shard attempt: shard={}, attempt={}", shard_id, attempt);
 }
 
+/**
+ * @brief End Shard Attempt.
+ * @param[in] shard_id Input parameter.
+ * @param[in] success Input parameter.
+ * @param[in] failure_reason Input parameter.
+ * @details Calls: std::chrono::steady_clock::now(), push_back(), size(), spdlog::debug(), count().
+ */
 void QueryTimeoutContext::endShardAttempt(
     const std::string& shard_id,
     bool success,

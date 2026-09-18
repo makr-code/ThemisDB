@@ -48,12 +48,24 @@ MLAnomalyDetector::tsFromMs(int64_t ms) {
     };
 }
 
+/**
+ * @brief To Ms.
+ * @param[in] tp Input parameter.
+ * @return Return value.
+ * @details Calls: time_since_epoch(), count().
+ */
 int64_t MLAnomalyDetector::toMs(std::chrono::system_clock::time_point tp) {
     return std::chrono::duration_cast<std::chrono::milliseconds>(
                tp.time_since_epoch())
         .count();
 }
 
+/**
+ * @brief Mean.
+ * @param[in] v Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::accumulate(), begin(), end(), size().
+ */
 double MLAnomalyDetector::mean(const std::vector<double>& v) {
     if (v.empty()) {
       return 0.0;
@@ -62,6 +74,13 @@ double MLAnomalyDetector::mean(const std::vector<double>& v) {
         return s / static_cast<double>(v.size());
 }
 
+/**
+ * @brief Stddev.
+ * @param[in] v Input parameter.
+ * @param[in] mu Input parameter.
+ * @return Return value.
+ * @details Calls: size(), std::sqrt().
+ */
 double MLAnomalyDetector::stddev(const std::vector<double>& v, double mu) {
     if (v.size() < 2) {
       return 0.0;
@@ -241,9 +260,12 @@ json AnomalyExplanation::toJson() const {
     };
 }
 
-// ---------------------------------------------------------------------------
-// MLAnomalyDetector: construction
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- MLAnomalyDetector: construction ---------------------------------------------------------------------------
+ * @param[in] b Input parameter.
+ * @return Return value.
+ * @details Implements mapBackend without additional internal calls.
+ */
 
 static ForecastMethod mapBackend(ForecastBackend b) {
     return (b == ForecastBackend::ARIMA)
@@ -257,9 +279,12 @@ MLAnomalyDetector::MLAnomalyDetector(const MLConfig& config)
     , outlier_detector_(cfg_.outlier_config)
 {}
 
-// ---------------------------------------------------------------------------
-// train
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- train ---------------------------------------------------------------------------
+ * @param[in] training_data Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: points(), insert(), end(), begin(), std::sort(), erase(), std::unique(), std::fabs().
+ */
 
 void MLAnomalyDetector::train(const std::vector<ForecastSeries>& training_data) {
     std::vector<themisdb::analytics::TimeSeriesPoint> merged = {};

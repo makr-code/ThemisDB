@@ -39,13 +39,6 @@ namespace cdc {
 
 // ── PauseReason ───────────────────────────────────────────────────────────────
 
-/**
- * @brief Reason a CDC stream was paused.
- *
- * Allows the admin interface and monitoring systems to distinguish between
- * operator-initiated pauses, backpressure-induced pauses, and pauses triggered
- * by incompatible schema evolution.
- */
 enum class PauseReason {
     AdminRequest,     ///< Explicitly paused by an administrative action
     Backpressure,     ///< Paused because a Critical backpressure level was reached
@@ -54,80 +47,27 @@ enum class PauseReason {
 
 // ── ICDCPauseControl ──────────────────────────────────────────────────────────
 
-/**
- * @brief Abstract interface for atomic CDC stream pause / resume control.
- *
- * Thread-safety: all methods must be thread-safe in every implementation.
- *
- * Design constraints:
- *  - pause() and resume() are atomic; no events are delivered between a
- *    successful pause() call returning and resume() being called.
- *  - Events that arrive during a pause are buffered up to maxBufferBytes.
- *    When the buffer is full, pause() / event ingestion returns an error.
- *  - isPaused() is non-blocking; it reflects the current pause state without
- *    acquiring any heavyweight lock.
- */
 class ICDCPauseControl {
 public:
+    /**
+     * @brief ICDCPause Control.
+     * @return Return value.
+     */
     virtual ~ICDCPauseControl() = default;
 
-    /**
-     * @brief Pause the stream.
-     *
-     * Subsequent change events are buffered rather than delivered until
-     * resume() is called.  Calling pause() on an already-paused stream is
-     * a no-op that returns true.
-     *
-     * @param reason  The reason for the pause (recorded for audit / monitoring).
-     * @return true on success; false if the operation failed (e.g. buffer
-     *         pre-condition check failed).
-     */
     [[nodiscard]] virtual bool pause(PauseReason reason = PauseReason::AdminRequest) = 0;
 
-    /**
-     * @brief Resume the stream.
-     *
-     * All buffered events are flushed to subscribers before new events are
-     * delivered.  Calling resume() on a running stream is a no-op that returns
-     * true.
-     *
-     * @return true on success; false if the operation failed.
-     */
     [[nodiscard]] virtual bool resume() = 0;
 
-    /**
-     * @brief Non-blocking query of the current pause state.
-     *
-     * @return true if the stream is currently paused.
-     */
     [[nodiscard]] virtual bool isPaused() const = 0;
 
-    /**
-     * @brief Return the reason the stream was most recently paused.
-     *
-     * The return value is undefined when isPaused() == false; callers should
-     * check isPaused() first.
-     */
     [[nodiscard]] virtual PauseReason pauseReason() const = 0;
 
-    /**
-     * @brief Number of events currently buffered during the pause.
-     */
     [[nodiscard]] virtual std::size_t bufferedEventCount() const = 0;
 };
 
 // ── InMemoryPauseControl ──────────────────────────────────────────────────────
 
-/**
- * @brief Thread-safe in-memory implementation of ICDCPauseControl.
- *
- * Suitable for unit tests and standalone use.  Events pushed via
- * bufferEvent() during a pause are stored in an internal deque.
- * drainBuffer() returns them in FIFO order after resume() is called.
- *
- * maxBufferBytes is enforced on the serialised JSON representation of
- * buffered events; each event is counted as its toJson().dump() size.
- */
 class InMemoryPauseControl : public ICDCPauseControl {
 public:
     static constexpr std::size_t kDefaultMaxBufferBytes = 64 * 1024 * 1024; // 64 MiB
@@ -139,6 +79,11 @@ public:
     // ── ICDCPauseControl ─────────────────────────────────────────────────────
 
     bool pause(PauseReason reason = PauseReason::AdminRequest) override {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         if (paused_.load(std::memory_order_relaxed)) {
             return true; // already paused — no-op
@@ -149,6 +94,11 @@ public:
     }
 
     bool resume() override {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         if (!paused_.load(std::memory_order_relaxed)) {
             return true; // already running — no-op
@@ -164,23 +114,32 @@ public:
     }
 
     PauseReason pauseReason() const override {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         return reason_;
     }
 
     std::size_t bufferedEventCount() const override {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         return buffer_.size();
     }
 
-    // ── InMemoryPauseControl-specific API ────────────────────────────────────
-
     /**
-     * @brief Buffer an event during a pause.
-     *
-     * @return true if the event was buffered; false if the buffer is full
-     *         (max_buffer_bytes exceeded) or the stream is not paused.
+     * @brief ── InMemoryPauseControl-specific API ────────────────────────────────────
+     * @param[in] event Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: lk(), load(), toJson(), dump(), size(), push_back().
      */
+
     bool bufferEvent(const Changefeed::ChangeEvent& event) {
         std::unique_lock<std::mutex> lk(mutex_);
         if (!paused_.load(std::memory_order_relaxed)) {
@@ -196,10 +155,9 @@ public:
     }
 
     /**
-     * @brief Drain and return all buffered events in FIFO order.
-     *
-     * Clears the internal buffer.  Should be called after resume() to
-     * replay buffered events to subscribers.
+     * @brief Drain Buffer.
+     * @return Return value.
+     * @details Calls: lk(), swap().
      */
     std::deque<Changefeed::ChangeEvent> drainBuffer() {
         std::unique_lock<std::mutex> lk(mutex_);
@@ -210,9 +168,10 @@ public:
     }
 
     /**
-     * @brief Block until the stream is resumed or the timeout elapses.
-     *
-     * @return true if the stream was resumed; false on timeout.
+     * @brief Wait For Resume.
+     * @param[in] timeout Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: lk(), wait_for(), load().
      */
     bool waitForResume(std::chrono::milliseconds timeout) {
         std::unique_lock<std::mutex> lk(mutex_);

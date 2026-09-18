@@ -20,9 +20,6 @@ namespace aql {
 // IAQLQueryDiffExplainer
 // ============================================================================
 
-/**
- * @brief A single structural difference between two AQL queries.
- */
 struct QueryDiffEntry {
     enum class Kind {
         CLAUSE_ADDED,    ///< A clause present in @c b is absent from @c a
@@ -44,65 +41,39 @@ struct QueryDiffEntry {
     std::string explanation; ///< Human-readable explanation of this difference
 };
 
-/**
- * @brief Aggregated result of a diff between two AQL queries.
- */
 struct QueryDiffResult {
-    /// Ordered list of structural differences (empty iff queries are equivalent).
     std::vector<QueryDiffEntry> diffs;
 
-    /// Human-readable summary of all differences (single string, newline-separated).
     std::string summary;
 
-    /// True when no structural differences were found.
     bool is_equivalent = false;
 
     /**
-     * @brief Count entries of the given kind.
+     * @brief Count.
+     * @param[in] kind Input parameter.
+     * @return Return value.
      */
     int count(QueryDiffEntry::Kind kind) const;
 };
 
-/**
- * @brief Explains the structural and semantic differences between two AQL queries.
- *
- * The explainer performs a clause-level diff: it normalises whitespace, splits
- * each query into its canonical clauses (FOR, LET, FILTER, SORT, LIMIT, RETURN,
- * COLLECT, INSERT, UPDATE, REMOVE, UPSERT, REPLACE), and reports every clause
- * that was added, removed, or changed.
- *
- * No LLM dependency is required — the analysis is purely rule-based and
- * runs in O(n) time with respect to the number of clauses.
- *
- * Typical use cases:
- *  - Showing users what changed when an AQL query is auto-migrated
- *  - Diff-view in query history / versioning UI
- *  - Regression tests: assert that an optimised query is semantically equivalent
- *    to the original (zero diffs except SORT/LIMIT)
- *
- * @see AQLMigrationAssistant  for automated query migration
- * @see AQLOptimizerAdvisor    for performance suggestions
- */
 class IAQLQueryDiffExplainer {
 public:
+    /**
+     * @brief IAQLQuery Diff Explainer.
+     * @return Return value.
+     */
     virtual ~IAQLQueryDiffExplainer() = default;
 
     /**
-     * @brief Compare two AQL queries and return an ordered list of differences.
-     *
-     * @param query_a  First AQL query (the "before" version)
-     * @param query_b  Second AQL query (the "after" version)
-     * @return         QueryDiffResult containing zero or more QueryDiffEntry items
+     * @brief Explain.
+     * @param[in] query_a Input parameter.
+     * @param[in] query_b Input parameter.
+     * @return Return value.
      */
     virtual QueryDiffResult explain(const std::string& query_a,
                                     const std::string& query_b) const = 0;
 };
 
-/**
- * @brief Default production implementation of IAQLQueryDiffExplainer.
- *
- * Performs clause-level structural diffing without any external dependencies.
- */
 class AQLQueryDiffExplainer : public IAQLQueryDiffExplainer {
 public:
     AQLQueryDiffExplainer()  = default;

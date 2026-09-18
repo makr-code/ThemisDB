@@ -24,7 +24,6 @@ namespace themis {
 namespace acceleration {
 
 // DirectX 12 Compute Shaders backend (Windows only)
-/** @brief DirectX 12 Compute Shaders backend (Windows only). */
 class DirectXVectorBackend : public IVectorBackend {
 public:
     using AvailabilityFn = std::function<bool()>;
@@ -75,60 +74,112 @@ public:
         bool useL2 = true
     ) override;
 
-    /// Register a non-DirectX availability bridge for stub builds.
-    /// Thread-safe setter; passing empty function restores fail-closed default.
+    /**
+     * @brief Set Availability Fn.
+     * @param[in] fn Input parameter.
+     * @details Calls: lk(), availabilityFnMutex(), availabilityFnStorage(), std::move().
+     */
     static void setAvailabilityFn(AvailabilityFn fn) {
         std::lock_guard<std::mutex> lk(availabilityFnMutex());
         availabilityFnStorage() = std::move(fn);
     }
-    /// Register a non-DirectX initialization bridge for stub builds.
-    /// Thread-safe setter; passing empty function restores fail-closed default.
+    /**
+     * @brief Set Initialize Fn.
+     * @param[in] fn Input parameter.
+     * @details Calls: lk(), initializeFnMutex(), initializeFnStorage(), std::move().
+     */
     static void setInitializeFn(InitializeFn fn) {
         std::lock_guard<std::mutex> lk(initializeFnMutex());
         initializeFnStorage() = std::move(fn);
     }
-    /// Register a non-DirectX distance-compute bridge for stub builds.
-    /// Thread-safe setter; passing empty function restores fail-closed default.
+    /**
+     * @brief Set Compute Distances Fn.
+     * @param[in] fn Input parameter.
+     * @details Calls: lk(), computeDistancesFnMutex(), computeDistancesFnStorage(), std::move().
+     */
     static void setComputeDistancesFn(ComputeDistancesFn fn) {
         std::lock_guard<std::mutex> lk(computeDistancesFnMutex());
         computeDistancesFnStorage() = std::move(fn);
     }
-    /// Register a non-DirectX batch-KNN bridge for stub builds.
-    /// Thread-safe setter; passing empty function restores fail-closed default.
+    /**
+     * @brief Set Batch Knn Search Fn.
+     * @param[in] fn Input parameter.
+     * @details Calls: lk(), batchKnnSearchFnMutex(), batchKnnSearchFnStorage(), std::move().
+     */
     static void setBatchKnnSearchFn(BatchKnnSearchFn fn) {
         std::lock_guard<std::mutex> lk(batchKnnSearchFnMutex());
         batchKnnSearchFnStorage() = std::move(fn);
     }
 
 private:
+    /**
+     * @brief Availability Fn Mutex.
+     * @return Return value.
+     * @details Implements availabilityFnMutex without additional internal calls.
+     */
     static std::mutex& availabilityFnMutex() {
         static std::mutex m;
         return m;
     }
+    /**
+     * @brief Availability Fn Storage.
+     * @return Return value.
+     * @details Implements availabilityFnStorage without additional internal calls.
+     */
     static AvailabilityFn& availabilityFnStorage() {
         static AvailabilityFn fn;
         return fn;
     }
+    /**
+     * @brief Initialize Fn Mutex.
+     * @return Return value.
+     * @details Implements initializeFnMutex without additional internal calls.
+     */
     static std::mutex& initializeFnMutex() {
         static std::mutex m;
         return m;
     }
+    /**
+     * @brief Initialize Fn Storage.
+     * @return Return value.
+     * @details Implements initializeFnStorage without additional internal calls.
+     */
     static InitializeFn& initializeFnStorage() {
         static InitializeFn fn;
         return fn;
     }
+    /**
+     * @brief Compute Distances Fn Mutex.
+     * @return Return value.
+     * @details Implements computeDistancesFnMutex without additional internal calls.
+     */
     static std::mutex& computeDistancesFnMutex() {
         static std::mutex m;
         return m;
     }
+    /**
+     * @brief Compute Distances Fn Storage.
+     * @return Return value.
+     * @details Implements computeDistancesFnStorage without additional internal calls.
+     */
     static ComputeDistancesFn& computeDistancesFnStorage() {
         static ComputeDistancesFn fn;
         return fn;
     }
+    /**
+     * @brief Batch Knn Search Fn Mutex.
+     * @return Return value.
+     * @details Implements batchKnnSearchFnMutex without additional internal calls.
+     */
     static std::mutex& batchKnnSearchFnMutex() {
         static std::mutex m;
         return m;
     }
+    /**
+     * @brief Batch Knn Search Fn Storage.
+     * @return Return value.
+     * @details Implements batchKnnSearchFnStorage without additional internal calls.
+     */
     static BatchKnnSearchFn& batchKnnSearchFnStorage() {
         static BatchKnnSearchFn fn;
         return fn;
@@ -139,7 +190,6 @@ private:
 };
 
 // Vulkan Compute backend (cross-platform)
-/** @brief Vulkan Compute backend (cross-platform). */
 class VulkanVectorBackend : public IVectorBackend {
 public:
     using AvailabilityFn = std::function<bool()>;
@@ -196,92 +246,155 @@ public:
 
     // ---- Vulkan-specific introspection --------------------------------
 
-    // Returns true when the selected physical device advertises
-    // VK_KHR_buffer_device_address (required for advanced buffer aliasing
-    // and bindless GPU pointer operations).  On Apple Silicon via MoltenVK
-    // this may return false even if Vulkan is otherwise functional.
-    // Only meaningful after a successful initialize().
+    /**
+     * @brief Returns true when the selected physical device advertises VK_KHR_buffer_device_address (required for advanced buffer aliasing and bindless GPU pointer operations).
+     * @return True when the operation succeeds.
+     * @note Exception safety: noexcept.
+     * @details On Apple Silicon via MoltenVK this may return false even if Vulkan is otherwise functional. Only meaningful after a successful initialize().
+     */
     bool hasBufferDeviceAddress() const noexcept;
 
-    // Tunable workgroup dimensions for SPIR-V specialization constants.
-    // Must be called before initialize() to take effect.
-    // Calls after initialize() are silently ignored; zero values are rejected.
-    // setWorkgroupSizeBatchSearch() additionally rejects values > 256 because
-    // batch_search.comp declares shared float sharedQuery[256].
+    /**
+     * @brief Tunable workgroup dimensions for SPIR-V specialization constants.
+     * @param[in] wgX Input parameter.
+     * @param[in] wgY Input parameter.
+     * @note Exception safety: noexcept.
+     * @details Must be called before initialize() to take effect. Calls after initialize() are silently ignored; zero values are rejected. setWorkgroupSizeBatchSearch() additionally rejects values > 256 because batch_search.comp declares shared float sharedQuery[256].
+     */
     void setWorkgroupSizeL2(uint32_t wgX, uint32_t wgY) noexcept;
+    /**
+     * @brief Set Workgroup Size Batch Search.
+     * @param[in] wgX Input parameter.
+     * @note Exception safety: noexcept.
+     */
     void setWorkgroupSizeBatchSearch(uint32_t wgX) noexcept;
 
     // Inspect current (pending or baked) workgroup sizes for testing/debugging.
     // Returns {wgX, wgY} for the L2 pipeline; {batchX, 1} for batch-search.
     std::pair<uint32_t, uint32_t> getWorkgroupSizeL2() const noexcept;
+    /**
+     * @brief Get Workgroup Size Batch Search.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     uint32_t getWorkgroupSizeBatchSearch() const noexcept;
 
-    /// Register a non-Vulkan availability bridge for stub builds.
+    /**
+     * @brief Set Availability Fn.
+     * @param[in] fn Input parameter.
+     * @details Calls: lk(), availabilityFnMutex(), availabilityFnStorage(), std::move().
+     */
     static void setAvailabilityFn(AvailabilityFn fn) {
         std::lock_guard<std::mutex> lk(availabilityFnMutex());
         availabilityFnStorage() = std::move(fn);
     }
-    /// Register a non-Vulkan initialization bridge for stub builds.
+    /**
+     * @brief Set Initialize Fn.
+     * @param[in] fn Input parameter.
+     * @details Calls: lk(), initializeFnMutex(), initializeFnStorage(), std::move().
+     */
     static void setInitializeFn(InitializeFn fn) {
         std::lock_guard<std::mutex> lk(initializeFnMutex());
         initializeFnStorage() = std::move(fn);
     }
-    /// Register a non-Vulkan distance-compute bridge for stub builds.
+    /**
+     * @brief Set Compute Distances Fn.
+     * @param[in] fn Input parameter.
+     * @details Calls: lk(), computeDistancesFnMutex(), computeDistancesFnStorage(), std::move().
+     */
     static void setComputeDistancesFn(ComputeDistancesFn fn) {
         std::lock_guard<std::mutex> lk(computeDistancesFnMutex());
         computeDistancesFnStorage() = std::move(fn);
     }
-    /// Register a non-Vulkan batch-KNN bridge for stub builds.
+    /**
+     * @brief Set Batch Knn Search Fn.
+     * @param[in] fn Input parameter.
+     * @details Calls: lk(), batchKnnSearchFnMutex(), batchKnnSearchFnStorage(), std::move().
+     */
     static void setBatchKnnSearchFn(BatchKnnSearchFn fn) {
         std::lock_guard<std::mutex> lk(batchKnnSearchFnMutex());
         batchKnnSearchFnStorage() = std::move(fn);
     }
     // ── STUB #169 bridge — runtime GLSL→SPIR-V compiler injection ──────────
-    /// Callback type for injecting a shaderc/glslang-based GLSL→SPIR-V
-    /// compiler so that compute shaders can be compiled at runtime without
-    /// pre-built .spv files.
-    ///
-    /// Parameters: (glsl_source, shader_type)
-    ///   shader_type is a string such as "compute", "vertex", "fragment".
-    /// Must return a non-empty SPIR-V buffer or an empty vector on failure.
     using CompileGLSLFn = std::function<
         std::vector<uint32_t>(const std::string& /*glsl_source*/,
                               const std::string& /*shader_type*/)>;
 
-    /// Inject (or remove) a runtime GLSL→SPIR-V compiler.  Pass nullptr /
-    /// empty fn to restore the stub path (returns empty SPIR-V).
-    /// Thread-safe.
+    /**
+     * @brief Set Compile GLSLFn.
+     * @param[in] fn Input parameter.
+     */
     static void setCompileGLSLFn(CompileGLSLFn fn);
 
 private:
+    /**
+     * @brief Availability Fn Mutex.
+     * @return Return value.
+     * @details Implements availabilityFnMutex without additional internal calls.
+     */
     static std::mutex& availabilityFnMutex() {
         static std::mutex m;
         return m;
     }
+    /**
+     * @brief Availability Fn Storage.
+     * @return Return value.
+     * @details Implements availabilityFnStorage without additional internal calls.
+     */
     static AvailabilityFn& availabilityFnStorage() {
         static AvailabilityFn fn;
         return fn;
     }
+    /**
+     * @brief Initialize Fn Mutex.
+     * @return Return value.
+     * @details Implements initializeFnMutex without additional internal calls.
+     */
     static std::mutex& initializeFnMutex() {
         static std::mutex m;
         return m;
     }
+    /**
+     * @brief Initialize Fn Storage.
+     * @return Return value.
+     * @details Implements initializeFnStorage without additional internal calls.
+     */
     static InitializeFn& initializeFnStorage() {
         static InitializeFn fn;
         return fn;
     }
+    /**
+     * @brief Compute Distances Fn Mutex.
+     * @return Return value.
+     * @details Implements computeDistancesFnMutex without additional internal calls.
+     */
     static std::mutex& computeDistancesFnMutex() {
         static std::mutex m;
         return m;
     }
+    /**
+     * @brief Compute Distances Fn Storage.
+     * @return Return value.
+     * @details Implements computeDistancesFnStorage without additional internal calls.
+     */
     static ComputeDistancesFn& computeDistancesFnStorage() {
         static ComputeDistancesFn fn;
         return fn;
     }
+    /**
+     * @brief Batch Knn Search Fn Mutex.
+     * @return Return value.
+     * @details Implements batchKnnSearchFnMutex without additional internal calls.
+     */
     static std::mutex& batchKnnSearchFnMutex() {
         static std::mutex m;
         return m;
     }
+    /**
+     * @brief Batch Knn Search Fn Storage.
+     * @return Return value.
+     * @details Implements batchKnnSearchFnStorage without additional internal calls.
+     */
     static BatchKnnSearchFn& batchKnnSearchFnStorage() {
         static BatchKnnSearchFn fn;
         return fn;
@@ -296,7 +409,6 @@ private:
 // Implements the IGeoBackend interface using Vulkan compute shaders for
 // Haversine distance and point-in-polygon operations, providing the same
 // geospatial compute capabilities as the CUDA geo backend.
-/** @brief geospatial compute capabilities as the CUDA geo backend. */
 class VulkanGeoBackend : public IGeoBackend {
 public:
     VulkanGeoBackend();
@@ -339,7 +451,6 @@ private:
 // supportsAsync = false: all compute dispatch calls (computeDistances,
 // batchKnnSearch) are fully synchronous — glMemoryBarrier + readback happen
 // on the calling thread before the function returns.
-/** @brief on the calling thread before the function returns. */
 class OpenGLVectorBackend : public IVectorBackend {
 public:
     using AvailabilityFn = std::function<bool()>;
@@ -390,60 +501,112 @@ public:
         bool useL2 = true
     ) override;
 
-    /// Register a non-OpenGL availability bridge for stub builds.
-    /// Thread-safe setter; passing empty function restores fail-closed default.
+    /**
+     * @brief Set Availability Fn.
+     * @param[in] fn Input parameter.
+     * @details Calls: lk(), availabilityFnMutex(), availabilityFnStorage(), std::move().
+     */
     static void setAvailabilityFn(AvailabilityFn fn) {
         std::lock_guard<std::mutex> lk(availabilityFnMutex());
         availabilityFnStorage() = std::move(fn);
     }
-    /// Register a non-OpenGL initialization bridge for stub builds.
-    /// Thread-safe setter; passing empty function restores fail-closed default.
+    /**
+     * @brief Set Initialize Fn.
+     * @param[in] fn Input parameter.
+     * @details Calls: lk(), initializeFnMutex(), initializeFnStorage(), std::move().
+     */
     static void setInitializeFn(InitializeFn fn) {
         std::lock_guard<std::mutex> lk(initializeFnMutex());
         initializeFnStorage() = std::move(fn);
     }
-    /// Register a non-OpenGL distance-compute bridge for stub builds.
-    /// Thread-safe setter; passing empty function restores fail-closed default.
+    /**
+     * @brief Set Compute Distances Fn.
+     * @param[in] fn Input parameter.
+     * @details Calls: lk(), computeDistancesFnMutex(), computeDistancesFnStorage(), std::move().
+     */
     static void setComputeDistancesFn(ComputeDistancesFn fn) {
         std::lock_guard<std::mutex> lk(computeDistancesFnMutex());
         computeDistancesFnStorage() = std::move(fn);
     }
-    /// Register a non-OpenGL batch-KNN bridge for stub builds.
-    /// Thread-safe setter; passing empty function restores fail-closed default.
+    /**
+     * @brief Set Batch Knn Search Fn.
+     * @param[in] fn Input parameter.
+     * @details Calls: lk(), batchKnnSearchFnMutex(), batchKnnSearchFnStorage(), std::move().
+     */
     static void setBatchKnnSearchFn(BatchKnnSearchFn fn) {
         std::lock_guard<std::mutex> lk(batchKnnSearchFnMutex());
         batchKnnSearchFnStorage() = std::move(fn);
     }
 
 private:
+    /**
+     * @brief Availability Fn Mutex.
+     * @return Return value.
+     * @details Implements availabilityFnMutex without additional internal calls.
+     */
     static std::mutex& availabilityFnMutex() {
         static std::mutex m;
         return m;
     }
+    /**
+     * @brief Availability Fn Storage.
+     * @return Return value.
+     * @details Implements availabilityFnStorage without additional internal calls.
+     */
     static AvailabilityFn& availabilityFnStorage() {
         static AvailabilityFn fn;
         return fn;
     }
+    /**
+     * @brief Initialize Fn Mutex.
+     * @return Return value.
+     * @details Implements initializeFnMutex without additional internal calls.
+     */
     static std::mutex& initializeFnMutex() {
         static std::mutex m;
         return m;
     }
+    /**
+     * @brief Initialize Fn Storage.
+     * @return Return value.
+     * @details Implements initializeFnStorage without additional internal calls.
+     */
     static InitializeFn& initializeFnStorage() {
         static InitializeFn fn;
         return fn;
     }
+    /**
+     * @brief Compute Distances Fn Mutex.
+     * @return Return value.
+     * @details Implements computeDistancesFnMutex without additional internal calls.
+     */
     static std::mutex& computeDistancesFnMutex() {
         static std::mutex m;
         return m;
     }
+    /**
+     * @brief Compute Distances Fn Storage.
+     * @return Return value.
+     * @details Implements computeDistancesFnStorage without additional internal calls.
+     */
     static ComputeDistancesFn& computeDistancesFnStorage() {
         static ComputeDistancesFn fn;
         return fn;
     }
+    /**
+     * @brief Batch Knn Search Fn Mutex.
+     * @return Return value.
+     * @details Implements batchKnnSearchFnMutex without additional internal calls.
+     */
     static std::mutex& batchKnnSearchFnMutex() {
         static std::mutex m;
         return m;
     }
+    /**
+     * @brief Batch Knn Search Fn Storage.
+     * @return Return value.
+     * @details Implements batchKnnSearchFnStorage without additional internal calls.
+     */
     static BatchKnnSearchFn& batchKnnSearchFnStorage() {
         static BatchKnnSearchFn fn;
         return fn;
@@ -462,7 +625,6 @@ private:
 //
 // supportsAsync = false: all dispatch is synchronous (glMemoryBarrier + readback
 // on the calling thread).
-/** @brief on the calling thread). */
 class OpenGLGeoBackend : public IGeoBackend {
 public:
     OpenGLGeoBackend();
@@ -507,7 +669,6 @@ private:
 // Falls back to CPU implementations when no EGL/OpenGL 4.3 driver is present.
 //
 // supportsAsync = false: all dispatch is synchronous.
-/** @brief supportsAsync = false: all dispatch is synchronous. */
 class OpenGLGraphBackend : public IGraphBackend {
 public:
     OpenGLGraphBackend();
@@ -564,26 +725,14 @@ private:
 namespace themis {
 namespace acceleration {
 
-/**
- * @brief Injection type for a runtime GLSL→SPIR-V compiler (e.g. shaderc).
- *
- * Signature: `std::vector<uint32_t> fn(const std::string& glsl_source,
- *                                      const std::string& shader_type)`
- *
- * A non-empty return replaces the built-in empty-SPIR-V stub path.
- */
 using GlslCompilerFn = std::function<
     std::vector<uint32_t>(const std::string& glsl_source,
                           const std::string& shader_type)>;
 
 /**
- * @brief Inject a real GLSL-to-SPIR-V compiler backend.
- *
- * When @p fn is non-null, `compileGLSLtoSPIRV()` in `vulkan_backend_full.cpp`
- * delegates to it instead of returning an empty buffer.  Pass @p nullptr to
- * revert to the stub.  Thread-safe.
- *
- * Roadmap ref: src/acceleration/FUTURE_ENHANCEMENTS.md §Vulkan GLSL Compiler.
+ * @brief Set Vulkan Glsl Compiler Fn.
+ * @param[in] fn Input parameter.
+ * @return Return value.
  */
 THEMIS_BASE_API void setVulkanGlslCompilerFn(GlslCompilerFn fn);
 

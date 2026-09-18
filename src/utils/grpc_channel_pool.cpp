@@ -29,6 +29,14 @@ GrpcChannelPool::~GrpcChannelPool() {
     clear();
 }
 
+/**
+ * @brief Acquire Channel.
+ * @param[in] target Input parameter.
+ * @param[in] credentials Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: load(), getOrCreateTargetPool(), lock(), std::chrono::steady_clock::now(), empty(), front(), pop(), isStale().
+ */
 std::shared_ptr<grpc::Channel> GrpcChannelPool::acquireChannel(
     const std::string& target,
     std::shared_ptr<grpc::ChannelCredentials> credentials
@@ -107,11 +115,22 @@ std::shared_ptr<grpc::Channel> GrpcChannelPool::acquireChannel(
     }
 }
 
+/**
+ * @brief Release Channel.
+ * @param[in] target Input parameter.
+ * @param[in] channel Input parameter.
+ * @details Calls: pools_lock(), find(), end(), unlock(), lock(), std::chrono::steady_clock::now(), push(), notify_one().
+ */
 void GrpcChannelPool::releaseChannel(const std::string& target, std::shared_ptr<grpc::Channel> channel) {
     if (!channel) {
         return;
     }
     
+    /**
+     * @brief Pools lock.
+     * @param[in] pools_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::mutex> pools_lock(pools_mutex_);
     auto pool_it = target_pools_.find(target);
     if (pool_it == target_pools_.end()) {
@@ -147,6 +166,11 @@ GrpcChannelPool::Stats GrpcChannelPool::getStats() const {
     stats.stale_channels_removed = stale_removed_.load();
     stats.acquire_timeouts = acquire_timeouts_.load();
     
+    /**
+     * @brief Lock.
+     * @param[in] pools_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(pools_mutex_);
     for (const auto& [target, pool] : target_pools_) {
         std::lock_guard<std::mutex> pool_lock(pool->mutex);
@@ -162,7 +186,16 @@ GrpcChannelPool::Stats GrpcChannelPool::getStats() const {
     return stats;
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lock(), pool_lock(), store().
+ */
 void GrpcChannelPool::clear() {
+    /**
+     * @brief Lock.
+     * @param[in] pools_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(pools_mutex_);
     
     for (auto& [target, pool] : target_pools_) {
@@ -175,7 +208,16 @@ void GrpcChannelPool::clear() {
     total_channels_.store(0);
 }
 
+/**
+ * @brief Prune Stale Channels.
+ * @details Calls: lock(), pool_lock(), empty(), front(), pop(), isStale(), push(), erase().
+ */
 void GrpcChannelPool::pruneStaleChannels() {
+    /**
+     * @brief Lock.
+     * @param[in] pools_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(pools_mutex_);
     
     for (auto& [target, pool] : target_pools_) {
@@ -199,6 +241,14 @@ void GrpcChannelPool::pruneStaleChannels() {
     }
 }
 
+/**
+ * @brief Create Channel.
+ * @param[in] target Input parameter.
+ * @param[in] credentials Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: SetInt(), count(), grpc::InsecureChannelCredentials(), grpc::CreateCustomChannel().
+ */
 std::shared_ptr<grpc::Channel> GrpcChannelPool::createChannel(
     const std::string& target,
     std::shared_ptr<grpc::ChannelCredentials> credentials
@@ -237,9 +287,20 @@ std::shared_ptr<grpc::Channel> GrpcChannelPool::createChannel(
     return grpc::CreateCustomChannel(target, credentials, args);
 }
 
+/**
+ * @brief Get Or Create Target Pool.
+ * @param[in] target Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end().
+ */
 std::shared_ptr<GrpcChannelPool::TargetPool> GrpcChannelPool::getOrCreateTargetPool(
     const std::string& target
 ) {
+    /**
+     * @brief Lock.
+     * @param[in] pools_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(pools_mutex_);
     
     auto it = target_pools_.find(target);
@@ -252,6 +313,13 @@ std::shared_ptr<GrpcChannelPool::TargetPool> GrpcChannelPool::getOrCreateTargetP
     return pool;
 }
 
+/**
+ * @brief Warmup.
+ * @param[in] target Input parameter.
+ * @param[in] credentials Input parameter.
+ * @param[in] num_channels Input parameter.
+ * @details Calls: load(), std::min(), getOrCreateTargetPool(), lock(), size(), createChannel(), std::chrono::steady_clock::now(), push().
+ */
 void GrpcChannelPool::warmup(
     const std::string& target,
     std::shared_ptr<grpc::ChannelCredentials> credentials,
@@ -302,6 +370,11 @@ void GrpcChannelPool::warmup(
 
 GrpcChannelPool::CircuitState GrpcChannelPool::getCircuitState(
     const std::string& target) const {
+    /**
+     * @brief Lk.
+     * @param[in] cb_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(cb_mutex_);
     auto it = circuit_breakers_.find(target);
     if (it == circuit_breakers_.end()) {
@@ -320,7 +393,17 @@ GrpcChannelPool::CircuitState GrpcChannelPool::getCircuitState(
     return cb.state;
 }
 
+/**
+ * @brief Report Success.
+ * @param[in] target Input parameter.
+ * @details Calls: lk().
+ */
 void GrpcChannelPool::reportSuccess(const std::string& target) {
+    /**
+     * @brief Lk.
+     * @param[in] cb_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(cb_mutex_);
     auto& cb = circuit_breakers_[target];
 
@@ -337,8 +420,19 @@ void GrpcChannelPool::reportSuccess(const std::string& target) {
     }
 }
 
+/**
+ * @brief Report Failure.
+ * @param[in] target Input parameter.
+ * @param[in] error_code Input parameter.
+ * @details Calls: lk(), std::chrono::steady_clock::now().
+ */
 void GrpcChannelPool::reportFailure(const std::string& target, uint16_t error_code) {
     (void)error_code;
+    /**
+     * @brief Lk.
+     * @param[in] cb_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(cb_mutex_);
     auto& cb = circuit_breakers_[target];
 
@@ -352,6 +446,13 @@ void GrpcChannelPool::reportFailure(const std::string& target, uint16_t error_co
     }
 }
 
+/**
+ * @brief Health Check.
+ * @param[in] target Input parameter.
+ * @param[in] timeout Input parameter.
+ * @return True on success.
+ * @details Calls: getCircuitState(), getOrCreateTargetPool(), lock(), empty(), front(), begin(), unlock(), createChannel().
+ */
 bool GrpcChannelPool::healthCheck(const std::string& target,
                                    std::chrono::milliseconds timeout) {
     // Don't health-check a tripped circuit

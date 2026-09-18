@@ -36,6 +36,11 @@ PlanCache::PlanCache(const Config& config)
 }
 
 PlanCache::~PlanCache() {
+    /**
+     * @brief Lock.
+     * @param[in] cache_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(cache_mutex_);
     cache_.clear();
     lru_list_.clear();
@@ -46,9 +51,12 @@ PlanCache::~PlanCache() {
                  stats_.invalidations.load(std::memory_order_acquire));
 }
 
-// =============================================================================
-// Static helper: fingerprint
-// =============================================================================
+/**
+ * @brief ============================================================================= Static helper: fingerprint =============================================================================
+ * @param[in] query Input parameter.
+ * @return Return value.
+ * @details Calls: normalizeQueryTemplate(), SHA256(), data(), size(), std::setfill(), std::setw(), str().
+ */
 
 std::string PlanCache::fingerprint(const std::string& query) {
     const std::string normalized = normalizeQueryTemplate(query);
@@ -64,6 +72,12 @@ std::string PlanCache::fingerprint(const std::string& query) {
     return ss.str();
 }
 
+/**
+ * @brief Normalize Query Template.
+ * @param[in] query Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), push_back(), std::isspace(), empty(), std::isalnum(), std::isdigit(), back().
+ */
 std::string PlanCache::normalizeQueryTemplate(std::string_view query) {
     std::string normalized = {};
     normalized.reserve(query.size());
@@ -175,9 +189,14 @@ std::string PlanCache::normalizeQueryTemplate(std::string_view query) {
     return normalized;
 }
 
-// =============================================================================
-// get (THREAD-SAFE with deadline propagation - GAP-5)
-// =============================================================================
+/**
+ * @brief ============================================================================= get (THREAD-SAFE with deadline propagation - GAP-5) =============================================================================
+ * @param[in] query Input parameter.
+ * @param[in] current_stats Input parameter.
+ * @param[in] topology_fingerprint Input parameter.
+ * @param[in] deadline Input parameter.
+ * @return Return value.
+ */
 
 std::optional<PlanCache::CachedPlan> PlanCache::get(
     const std::string& query,
@@ -198,7 +217,11 @@ std::optional<PlanCache::CachedPlan> PlanCache::get(
         }
     }
 
-    // Acquire cache lock after pre-lock deadline check (no timed wait on std::mutex).
+    /**
+     * @brief Acquire cache lock after pre-lock deadline check (no timed wait on std::mutex).
+     * @param[in] cache_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(cache_mutex_);
 
     auto it = cache_.find(fp);
@@ -241,9 +264,16 @@ std::optional<PlanCache::CachedPlan> PlanCache::get(
     return cached;
 }
 
-// =============================================================================
-// put (THREAD-SAFE with deadline propagation - GAP-5)
-// =============================================================================
+/**
+ * @brief ============================================================================= put (THREAD-SAFE with deadline propagation - GAP-5) =============================================================================
+ * @param[in] query Input parameter.
+ * @param[in] plan Input parameter.
+ * @param[in] stats Input parameter.
+ * @param[in] params Input parameter.
+ * @param[in] tables Input parameter.
+ * @param[in] topology_fingerprint Input parameter.
+ * @param[in] deadline Input parameter.
+ */
 
 void PlanCache::put(const std::string&                query,
                     const QueryOptimizer::Plan&        plan,
@@ -264,6 +294,11 @@ void PlanCache::put(const std::string&                query,
         }
     }
 
+    /**
+     * @brief Lock.
+     * @param[in] cache_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(cache_mutex_);
 
     // If already present, update in-place (refresh)
@@ -324,9 +359,21 @@ void PlanCache::put(const std::string&                query,
     THEMIS_DEBUG("PlanCache stored: fp={}, tables={}", fp.substr(0, 16),tables.size());
 }
 
+/**
+ * @brief Record Execution Failure.
+ * @param[in] query Input parameter.
+ * @param[in] topology_fingerprint Input parameter.
+ * @return True on success.
+ * @details Calls: makeCacheKey(), lock(), find(), end(), removeEntry_locked(), fetch_add().
+ */
 bool PlanCache::recordExecutionFailure(const std::string& query,
                                        const std::string& topology_fingerprint) {
     const std::string fp = makeCacheKey(query, topology_fingerprint);
+    /**
+     * @brief Lock.
+     * @param[in] cache_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(cache_mutex_);
 
     auto it = cache_.find(fp);
@@ -346,11 +393,19 @@ bool PlanCache::recordExecutionFailure(const std::string& query,
     return true;
 }
 
-// =============================================================================
-// invalidateTable (THREAD-SAFE - GAP-4)
-// =============================================================================
+/**
+ * @brief ============================================================================= invalidateTable (THREAD-SAFE - GAP-4) =============================================================================
+ * @param[in] table Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), std::sort(), begin(), removeEntry_locked(), erase(), fetch_add().
+ */
 
 size_t PlanCache::invalidateTable(const std::string& table) {
+    /**
+     * @brief Lock.
+     * @param[in] cache_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(cache_mutex_);
 
     auto tidx = table_index_.find(table);
@@ -387,11 +442,18 @@ size_t PlanCache::invalidateTable(const std::string& table) {
     return count;
 }
 
-// =============================================================================
-// evictExpired (THREAD-SAFE - GAP-4)
-// =============================================================================
+/**
+ * @brief ============================================================================= evictExpired (THREAD-SAFE - GAP-4) =============================================================================
+ * @return Return value.
+ * @details Calls: lock(), begin(), end(), isExpired(), push_back(), removeEntry_locked(), fetch_add(), empty().
+ */
 
 size_t PlanCache::evictExpired() {
+    /**
+     * @brief Lock.
+     * @param[in] cache_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(cache_mutex_);
 
     std::vector<std::unordered_map<std::string, Entry>::iterator> to_remove;
@@ -414,11 +476,17 @@ size_t PlanCache::evictExpired() {
     return to_remove.size();
 }
 
-// =============================================================================
-// clear (THREAD-SAFE - GAP-4)
-// =============================================================================
+/**
+ * @brief ============================================================================= clear (THREAD-SAFE - GAP-4) =============================================================================
+ * @details Calls: lock(), store(), THEMIS_DEBUG().
+ */
 
 void PlanCache::clear() {
+    /**
+     * @brief Lock.
+     * @param[in] cache_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(cache_mutex_);
     cache_.clear();
     lru_list_.clear();
@@ -434,6 +502,11 @@ void PlanCache::clear() {
 // =============================================================================
 
 PlanCache::CacheStats PlanCache::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] cache_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(cache_mutex_);
     // Read all atomic counters with acquire semantics (GAP-4)
     CacheStats s;
@@ -452,9 +525,10 @@ size_t PlanCache::estimateCurrentMemoryBytes() const {
     return stats_.current_memory_bytes.load(std::memory_order_acquire);
 }
 
-// =============================================================================
-// Private helpers (THREAD-SAFE - GAP-4)
-// =============================================================================
+/**
+ * @brief ============================================================================= Private helpers (THREAD-SAFE - GAP-4) =============================================================================
+ * @details Calls: empty(), back(), find(), end(), removeEntry_locked(), fetch_add().
+ */
 
 void PlanCache::evictLRU_locked() {
     if (lru_list_.empty()) {
@@ -557,6 +631,12 @@ std::string PlanCache::makeCacheKey(const std::string& query,
     return ss.str();
 }
 
+/**
+ * @brief Estimate Plan Size Bytes.
+ * @param[in] plan Input parameter.
+ * @return Return value.
+ * @details Calls: size().
+ */
 size_t PlanCache::estimatePlanSizeBytes(const CachedPlan& plan) {
     size_t total = sizeof(CachedPlan);
     total += plan.query_fingerprint.size();

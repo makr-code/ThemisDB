@@ -53,9 +53,6 @@ constexpr size_t MAX_GSSAPI_TOKEN_SIZE = 64 * 1024;  // 64KB max for GSSAPI toke
 constexpr size_t MAX_KERBEROS_PRINCIPAL_LENGTH = 256; // 256 chars max for Kerberos principals
 constexpr int DEFAULT_GSSAPI_CONTEXT_TIMEOUT = 30;    // 30 second timeout for GSSAPI context
 
-/**
- * @brief Configuration for Kerberos/GSSAPI authentication
- */
 struct KerberosConfig {
     bool enabled = false;
     std::string service_principal;      // e.g., "themisdb/hostname@REALM.COM"
@@ -72,54 +69,38 @@ struct KerberosConfig {
     std::vector<PrincipalMapping> principal_mappings;
 };
 
-/**
- * @brief Result of GSSAPI authentication
- */
 struct GSSAPIAuthResult {
     bool success = false;
     std::string principal_name;         // Authenticated Kerberos principal
     std::string error_message;
     std::vector<std::string> roles;     // Mapped roles from principal
     
+    /**
+     * @brief Success.
+     * @param[in] principal Input parameter.
+     * @param[in] roles Input parameter.
+     * @return Return value.
+     * @details Implements Success without additional internal calls.
+     */
     static GSSAPIAuthResult Success(const std::string& principal, const std::vector<std::string>& roles) {
         return {true, principal, "", roles};
     }
     
+    /**
+     * @brief Failed.
+     * @param[in] error Input parameter.
+     * @return Return value.
+     * @details Implements Failed without additional internal calls.
+     */
     static GSSAPIAuthResult Failed(const std::string& error) {
         return {false, "", error, {}};
     }
 };
 
-/**
- * @brief GSSAPI/Kerberos authenticator for enterprise SSO integration
- * 
- * This class provides Kerberos v5 authentication using GSSAPI (Generic Security
- * Services API) when the platform headers are available. It supports:
- * - MIT Kerberos 5
- * - Active Directory
- * - Heimdal Kerberos
- *
- * If GSSAPI headers are not available at build time, the class still compiles
- * but initialization fails closed and authentication returns an unsupported
- * error instead of dereferencing missing system types.
- * 
- * Authentication flow:
- * 1. Server initializes with service principal and keytab
- * 2. Client sends Kerberos ticket in authentication token
- * 3. Server validates ticket using GSSAPI
- * 4. Principal is extracted and mapped to ThemisDB roles
- * 5. User is authenticated with assigned roles
- */
 class GSSAPIAuthenticator {
 public:
-    /**
-     * @brief Constructor
-     */
     GSSAPIAuthenticator();
     
-    /**
-     * @brief Destructor - cleans up GSSAPI resources
-     */
     ~GSSAPIAuthenticator();
     
     // Disable copy and move
@@ -129,48 +110,37 @@ public:
     GSSAPIAuthenticator& operator=(GSSAPIAuthenticator&&) = delete;
     
     /**
-     * @brief Attach an AuditLogger to receive LOGIN_SUCCESS / LOGIN_FAILED events.
-     * Pass nullptr to detach.  The authenticator does NOT take ownership.
+     * @brief Set Audit Logger.
+     * @param[in,out] logger Input/output parameter.
+     * @details Implements setAuditLogger without additional internal calls.
      */
     void setAuditLogger(utils::AuditLogger* logger) { audit_logger_ = logger; }
     
     /**
-     * @brief Initialize GSSAPI with service principal
-     * 
-     * @param config Kerberos configuration
-     * @return true if initialization successful
+     * @brief Initialize.
+     * @param[in] config Input parameter.
+     * @return True when the operation succeeds.
      */
     bool initialize(const KerberosConfig& config);
     
-    /**
-     * @brief Check if authenticator is initialized
-     */
     bool isInitialized() const { return initialized_; }
     
     /**
-     * @brief Authenticate a Kerberos token
-     * 
-     * @param token Base64-encoded GSSAPI token from client
-     * @return Authentication result with principal and roles
+     * @brief Authenticate Token.
+     * @param[in] token Input parameter.
+     * @return Return value.
      */
     GSSAPIAuthResult authenticateToken(const std::string& token);
     
-    /**
-     * @brief Get the service principal name
-     */
     std::string getServicePrincipal() const { return config_.service_principal; }
     
     /**
-     * @brief Map Kerberos principal to ThemisDB roles
-     * 
-     * @param principal Kerberos principal (e.g., "user@REALM.COM")
-     * @return List of roles based on configuration
+     * @brief Map Principal To Roles.
+     * @param[in] principal Input parameter.
+     * @return Return value.
      */
     std::vector<std::string> mapPrincipalToRoles(const std::string& principal) const;
     
-    /**
-     * @brief Get configuration
-     */
     const KerberosConfig& getConfig() const { return config_; }
 
 private:
@@ -192,29 +162,39 @@ private:
 #endif
     
     /**
-     * @brief Initialize server credentials from keytab
+     * @brief Initialize Server Credentials.
+     * @return True when the operation succeeds.
      */
     bool initializeServerCredentials();
     
     /**
-     * @brief Accept security context from client token
+     * @brief Accept Security Context.
+     * @param[in] input_token Input parameter.
+     * @param[in,out] principal_name Name of the principal.
+     * @return True when the operation succeeds.
      */
     bool acceptSecurityContext(const std::vector<uint8_t>& input_token,
                               std::string& principal_name);
     
     /**
-     * @brief Cleanup GSSAPI resources
+     * @brief Cleanup.
      */
     void cleanup();
     
     /**
-     * @brief Check if principal matches pattern (supports wildcards)
+     * @brief Principal Matches Pattern.
+     * @param[in] principal Input parameter.
+     * @param[in] pattern Input parameter.
+     * @return True when the operation succeeds.
      */
     bool principalMatchesPattern(const std::string& principal,
                                  const std::string& pattern) const;
     
     /**
-     * @brief Get GSSAPI error string
+     * @brief Get GSSAPIError.
+     * @param[in] major_status Input parameter.
+     * @param[in] minor_status Input parameter.
+     * @return Return value.
      */
     std::string getGSSAPIError(uint32_t major_status, uint32_t minor_status) const;
 };

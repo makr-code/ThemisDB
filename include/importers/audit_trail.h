@@ -20,14 +20,6 @@ namespace importers {
 
 using json = nlohmann::json;
 
-/**
- * @brief Audit event type classification (Phase 2 T2.3.3).
- *
- * PHASE-2-HARDENING: Unified Audit Event Schema & Correlation
- * Determinism: yes (enum-based, no randomness)
- * Audit: all events tracked with structured type
- * Bounded: buffer limited to 100,000 events
- */
 enum class AuditEventType {
     IMPORT_STARTED,             ///< Import session started
     SCHEMA_ANALYZED,            ///< Schema inference completed
@@ -44,20 +36,12 @@ enum class AuditEventType {
     ERROR_OCCURRED              ///< Generic error occurred
 };
 
-/**
- * @brief Audit event constants (Phase 2 T2.3.3).
- *
- * PHASE-2-HARDENING: Audit Buffer Management
- * Bounded: circular buffer limited to kMaxAuditBufferSize events
- * Audit: events preserved in chronological order
- */
 constexpr size_t kMaxAuditBufferSize = 100000;  ///< Maximum events per process
 
 /**
- * @brief Convert AuditEventType to string.
- *
- * @param t Event type enum value
- * @return String representation suitable for logging/audit trail
+ * @brief Audit Event Type To String.
+ * @param[in] t Input parameter.
+ * @return Return value.
  */
 std::string auditEventTypeToString(AuditEventType t);
 
@@ -65,12 +49,6 @@ std::string auditEventTypeToString(AuditEventType t);
 // PHASE-3-ERROR-HANDLING: Rollback & Recovery Audit Trail
 // ============================================================================
 
-/**
- * @brief Reason for import rollback.
- *
- * PHASE-3-ERROR-HANDLING: Structured rollback reasons for diagnostics
- * Used to categorize why an import failed and was rolled back.
- */
 enum class RollbackReason {
     USER_REQUESTED,           ///< User explicitly requested rollback
     QUOTA_EXCEEDED,           ///< Resource quota limit exceeded
@@ -83,39 +61,25 @@ enum class RollbackReason {
 };
 
 /**
- * @brief Convert RollbackReason to string.
- *
- * @param reason Rollback reason enum value
- * @return String representation for logging/audit
+ * @brief Rollback Reason To String.
+ * @param[in] reason Input parameter.
+ * @return Return value.
  */
 std::string rollbackReasonToString(RollbackReason reason);
 
-/**
- * @brief Complete audit event for an import rollback.
- *
- * PHASE-3-ERROR-HANDLING: Rollback audit trail with full context
- * Captures all information needed to understand rollback and recovery path.
- */
 struct RollbackAuditEvent {
-    /// Reason for rollback
     RollbackReason reason;
 
-    /// Total rows attempted before rollback
     uint64_t rows_attempted = {};
 
-    /// Rows successfully committed before failure
     uint64_t rows_committed = {};
 
-    /// Rows rolled back (rows_attempted - rows_committed)
     uint64_t rows_rolled_back;
 
-    /// ID of first row where failure occurred (for deterministic replay)
     std::string failure_first_row_id;
 
-    /// Actionable suggestion for recovery (e.g., "reconnect and retry from row 5000")
     std::string recovery_suggestion;
 
-    /// Timestamp when rollback was initiated (nanoseconds)
     uint64_t rollback_timestamp_ns;
 
     json toJson() const {
@@ -131,16 +95,6 @@ struct RollbackAuditEvent {
     }
 };
 
-/**
- * @brief SOX 404 / HIPAA compliant immutable audit trail for import operations.
- *
- * Events are chained via a SHA-256 Merkle hash to detect tampering.
- *
- * Standards:
- *   - NIST RBAC Model
- *   - OASIS ABAC Standard
- *   - SOX 404 Compliance Audit Trail
- */
 class AuditedImporter {
 public:
     // ------------------------------------------------------------------
@@ -157,6 +111,11 @@ public:
         ERROR_OCCURRED
     };
 
+    /**
+     * @brief Event Type To String.
+     * @param[in] t Input parameter.
+     * @return Return value.
+     */
     static std::string eventTypeToString(EventType t);
 
     // ------------------------------------------------------------------
@@ -182,75 +141,52 @@ public:
     // ------------------------------------------------------------------
     // Immutable audit log (Merkle-chained, Phase 2 T2.3.3 extended)
     // ------------------------------------------------------------------
-    /** @brief Immutable audit log (Merkle-chained, Phase 2 T2.3.3 extended). */
     class ImmutableAuditLog {
     public:
-        /** @brief Append an event to the chain. Thread-safe. */
+        /**
+         * @brief Record Event.
+         * @param[in] event Input parameter.
+         */
         void recordEvent(const AuditEvent& event);
 
         /**
-         * @brief Verify that no event in the chain has been tampered with.
-         * @return true if all hashes are consistent.
+         * @brief Verify Integrity.
+         * @return True when the operation succeeds.
          */
         bool verifyIntegrity() const;
 
-        /**
-         * @brief Export all events as a SIEM-compatible JSON array.
-         * @param format  "splunk" | "elk" | "raw" (default).
-         */
         json exportForSIEM(const std::string& format = "raw") const;
 
-        /** @brief Number of events recorded so far. */
+        /**
+         * @brief Size.
+         * @return Return value.
+         */
         size_t size() const;
 
-        /** @brief Return all events (read-only). */
+        /**
+         * @brief Events.
+         * @return Return value.
+         */
         const std::vector<AuditEvent>& events() const;
 
         /**
-         * @brief Emit a structured audit event (Phase 2 T2.3.3).
-         *
-         * PHASE-2-HARDENING: Unified Audit Event Schema & Correlation
-         * Determinism: yes (all fields deterministic)
-         * Audit: centralized emission with timestamp and sequence
-         * Bounded: buffer limited to 100,000 events; drops oldest when full
-         *
-         * Centralized entry point for recording audit events with:
-         * - High-precision timestamp (nanosecond)
-         * - Correlation ID propagation
-         * - Chronological sequencing per import_id
-         * - Automatic buffer overflow handling
-         *
-         * @param event  Audit event to emit (event_type, import_id, correlation_id required)
-         * @throws std::exception if buffer is full and cannot drop oldest (rare)
+         * @brief Emit Audit Event.
+         * @param[in] event Input parameter.
          */
         void emitAuditEvent(const AuditEvent& event);
 
         /**
-         * @brief Retrieve audit trail for a specific import session (Phase 2 T2.3.3).
-         *
-         * PHASE-2-HARDENING: Audit Trail Replay
-         * Determinism: yes (ordered by sequence_number)
-         * Audit: enables audit trail replay for debugging
-         * Bounded: returns all events in chronological order
-         *
-         * Returns all events for a given import_id in chronological order
-         * (ordered by sequence_number). Enables debugging and compliance
-         * audit trail replay.
-         *
-         * @param import_id  Import session ID to retrieve events for
-         * @return           Events ordered by sequence_number, or empty vector if not found
+         * @brief Get Audit Trail For Import.
+         * @param[in] import_id Identifier of the import.
+         * @return Return value.
          */
         std::vector<AuditEvent> getAuditTrailForImport(const std::string& import_id) const;
 
         /**
-         * @brief Emit a rollback audit event with full recovery context.
-         *
-         * PHASE-3-ERROR-HANDLING: Rollback audit trail emission
-         * Records complete rollback details for diagnostics and recovery.
-         *
-         * @param rollback_event  Rollback event with reason and context
-         * @param import_id       Unique import session ID
-         * @param user_principal  User/principal that triggered rollback
+         * @brief Emit Rollback Event.
+         * @param[in] rollback_event Input parameter.
+         * @param[in] import_id Identifier of the import.
+         * @param[in] user_principal Input parameter.
          */
         void emitRollbackEvent(const RollbackAuditEvent& rollback_event,
                                const std::string& import_id,
@@ -261,6 +197,12 @@ public:
         std::vector<std::string> chain_hashes_; ///< SHA-256 per event
         mutable std::string current_root_;      ///< Running root hash
 
+        /**
+         * @brief Compute Event Hash.
+         * @param[in] event Input parameter.
+         * @param[in] prev_hash Input parameter.
+         * @return Return value.
+         */
         std::string computeEventHash(const AuditEvent& event,
                                      const std::string& prev_hash) const;
     };

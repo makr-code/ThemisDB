@@ -58,33 +58,19 @@
 namespace themis {
 namespace cdc {
 
-/**
- * @brief WebSocket transport for CDC change event delivery.
- *
- * Manages named CDC subscriptions for WebSocket sessions.  Event delivery is
- * decoupled from network I/O: the server layer supplies two callbacks
- * (SendFn / CloseFn) so this class can be unit-tested without live sockets.
- */
 class WsTransport {
 public:
-    /// Called to send a text message to a WebSocket session.
     using SendFn = std::function<void(const std::string& session_id,
                                      const std::string& message)>;
 
-    /// Called to close a WebSocket session (e.g. on back-pressure overflow).
     using CloseFn = std::function<void(const std::string& session_id)>;
 
-    /// Per-subscription filter options.
     struct SubscriptionFilter {
         std::string key_prefix;                          ///< Key prefix filter (empty = all)
         uint64_t from_sequence = 0;                      ///< Deliver events with sequence > this
         std::set<Changefeed::ChangeEventType> event_types; ///< Empty = all event types
     };
 
-    /// Transport-level statistics.
-    /// Note: total_overflow_closes maps to the Prometheus counter
-    /// cdc_ws_overflow_total; total_events_delivered maps to
-    /// cdc_ws_events_delivered_total.
     struct Stats {
         size_t active_sessions = 0;
         size_t total_subscriptions = 0;
@@ -93,20 +79,10 @@ public:
         uint64_t total_poll_cycles = 0;
     };
 
-    /// Maximum queued events per session before the session is closed (WS 1011).
     static constexpr size_t kMaxPendingEvents = 1000;
 
-    /// Default CDC polling interval in milliseconds.
     static constexpr uint32_t kDefaultPollIntervalMs = 500;
 
-    /**
-     * @brief Construct WsTransport.
-     * @param changefeed  Changefeed instance (not owned; must outlive transport).
-     * @param poll_interval_ms  Background polling interval in milliseconds.
-     * @param metrics     Optional CDCMetrics instance for Prometheus counter
-     *                    updates (ws_overflow_total, ws_events_delivered).
-     *                    Not owned; must outlive transport if non-null.
-     */
     explicit WsTransport(Changefeed* changefeed,
                          uint32_t poll_interval_ms = kDefaultPollIntervalMs,
                          cdc::CDCMetrics* metrics = nullptr);
@@ -117,86 +93,57 @@ public:
     WsTransport(const WsTransport&) = delete;
     WsTransport& operator=(const WsTransport&) = delete;
 
-    // ── Session lifecycle ──────────────────────────────────────────────────
-
     /**
-     * @brief Register a new WebSocket session with the transport.
-     * @param session_id  Unique session identifier (e.g. UUID string).
+     * @brief ── Session lifecycle ──────────────────────────────────────────────────
+     * @param[in] session_id Identifier of the session.
      */
+
     void addSession(const std::string& session_id);
 
     /**
-     * @brief Unregister a WebSocket session and remove all its subscriptions.
-     * @param session_id  Session to remove.
+     * @brief Remove Session.
+     * @param[in] session_id Identifier of the session.
      */
     void removeSession(const std::string& session_id);
 
-    // ── Subscription management ────────────────────────────────────────────
-
     /**
-     * @brief Add a named CDC subscription for a session.
-     *
-     * If @p sub_id already exists for the session the subscription is
-     * replaced (re-subscribe semantics).
-     *
-     * @param session_id  Owning session.
-     * @param sub_id      Client-provided subscription identifier.
-     * @param filter      Event filter.
+     * @brief ── Subscription management ────────────────────────────────────────────
+     * @param[in] session_id Identifier of the session.
+     * @param[in] sub_id Identifier of the sub.
+     * @param[in] filter Input parameter.
      */
+
     void subscribe(const std::string& session_id,
                    const std::string& sub_id,
                    const SubscriptionFilter& filter);
 
     /**
-     * @brief Remove a named subscription from a session.
-     * @param session_id  Owning session.
-     * @param sub_id      Subscription identifier to remove.
+     * @brief Unsubscribe.
+     * @param[in] session_id Identifier of the session.
+     * @param[in] sub_id Identifier of the sub.
      */
     void unsubscribe(const std::string& session_id, const std::string& sub_id);
 
     // ── Event delivery ─────────────────────────────────────────────────────
 
-    /**
-     * @brief Poll changefeed and deliver pending events to all subscribed sessions.
-     *
-     * Typically called from a background timer (see startPolling) or directly
-     * from a test.  For each subscription, fetches new events and calls
-     * @p send_fn to deliver them.  On back-pressure overflow @p close_fn is
-     * called and the session is removed.
-     *
-     * @param send_fn   Callback to send a message; must be thread-safe.
-     * @param close_fn  Callback to close a session; must be thread-safe.
-     *                  May be null if overflow handling is not required.
-     */
     void pollAndDeliver(const SendFn& send_fn, const CloseFn& close_fn = {});
 
     // ── Background polling ─────────────────────────────────────────────────
 
-    /**
-     * @brief Start background polling on the supplied io_context.
-     *
-     * Schedules a recurring timer that calls pollAndDeliver every
-     * poll_interval_ms milliseconds.  The callbacks are captured for the
-     * lifetime of the polling loop.
-     *
-     * @param ioc       Boost.Asio io_context (must remain alive while polling).
-     * @param send_fn   Message send callback.
-     * @param close_fn  Session close callback (may be null).
-     */
     void startPolling(boost::asio::io_context& ioc,
                       SendFn send_fn,
                       CloseFn close_fn = {});
 
     /**
-     * @brief Stop background polling.
+     * @brief Stop Polling.
      */
     void stopPolling();
 
-    // ── Observability ──────────────────────────────────────────────────────
-
     /**
-     * @brief Return a snapshot of current transport statistics.
+     * @brief ── Observability ──────────────────────────────────────────────────────
+     * @return Return value.
      */
+
     Stats getStats() const;
 
 private:
@@ -234,6 +181,9 @@ private:
     std::atomic<uint64_t> total_overflow_closes_{0};
     std::atomic<uint64_t> total_poll_cycles_{0};
 
+    /**
+     * @brief Schedule Next Poll.
+     */
     void scheduleNextPoll();
 };
 

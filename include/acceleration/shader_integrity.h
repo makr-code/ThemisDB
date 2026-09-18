@@ -37,7 +37,6 @@
 namespace themis {
 namespace acceleration {
 
-/** @brief Shader integrity verifier. */
 class ShaderIntegrityVerifier {
 public:
     // -------------------------------------------------------------------------
@@ -54,6 +53,10 @@ public:
     // -------------------------------------------------------------------------
     // Singleton access
     // -------------------------------------------------------------------------
+    /**
+     * @brief Instance.
+     * @return Return value.
+     */
     static ShaderIntegrityVerifier& instance();
 
     // Non-copyable, non-movable
@@ -64,33 +67,45 @@ public:
     // Registration
     // -------------------------------------------------------------------------
 
-    /// Register the expected SHA-256 hex hash for a shader identified by name.
-    /// Call this once at startup (e.g. from a signed manifest file).
-    /// @param name     Logical shader identifier, e.g. "l2_distance.comp.spv"
-    /// @param hexHash  Expected SHA-256 as 64-character lower-case hex string
+    /**
+     * @brief Register Expected Hash.
+     * @param[in] name Input parameter.
+     * @param[in] hexHash Input parameter.
+     */
     void registerExpectedHash(const std::string& name, const std::string& hexHash);
 
-    /// Register hashes from a simple text manifest (one "name sha256hex" per line).
-    /// Lines starting with '#' are treated as comments.
-    /// Returns the number of hashes successfully parsed.
+    /**
+     * @brief Load Manifest.
+     * @param[in] manifestPath Input parameter.
+     * @return Return value.
+     */
     size_t loadManifest(const std::string& manifestPath);
 
-    /// Remove all registered expected hashes (useful in tests).
+    /**
+     * @brief Clear Registry.
+     */
     void clearRegistry();
 
     // -------------------------------------------------------------------------
     // Verification
     // -------------------------------------------------------------------------
 
-    /// Compute SHA-256 of @p spvBytes and check against the registered hash
-    /// for @p name.
-    ///
-    /// If no hash is registered for @p name the call succeeds with a warning
-    /// in @p result.message (to allow graceful operation without a manifest).
-    /// Enable strict mode via setStrictMode(true) to fail on unregistered names.
+    /**
+     * @brief Verify identity and enforce network policies for a request.
+     * @param[in] name Input parameter.
+     * @param[in] spvWords Input parameter.
+     * @return Verification result.
+     */
     VerifyResult verify(const std::string& name,
                         const std::vector<uint32_t>& spvWords) const;
 
+    /**
+     * @brief Verify identity and enforce network policies for a request.
+     * @param[in] name Input parameter.
+     * @param[in] data Input parameter.
+     * @param[in] byteLen Input parameter.
+     * @return Verification result.
+     */
     VerifyResult verify(const std::string& name,
                         const uint8_t* data,
                         size_t byteLen) const;
@@ -99,16 +114,36 @@ public:
     // Utility
     // -------------------------------------------------------------------------
 
-    /// Compute the SHA-256 hash of raw bytes and return it as a 64-char hex string.
+    /**
+     * @brief Sha256 Hex.
+     * @param[in] data Input parameter.
+     * @param[in] len Input parameter.
+     * @return Return value.
+     */
     static std::string sha256Hex(const uint8_t* data, size_t len);
+    /**
+     * @brief Sha256 Hex.
+     * @param[in] spvWords Input parameter.
+     * @return Return value.
+     */
     static std::string sha256Hex(const std::vector<uint32_t>& spvWords);
 
-    /// Enable/disable strict mode.  In strict mode, verify() returns failure
-    /// when no hash is registered for the given shader name.
+    /**
+     * @brief Set Strict Mode.
+     * @param[in] strict Input parameter.
+     */
     void setStrictMode(bool strict);
+    /**
+     * @brief Strict Mode.
+     * @return True when the operation succeeds.
+     */
     bool strictMode() const;
 
-    /// Returns true if an expected hash is registered for @p name.
+    /**
+     * @brief Is Registered.
+     * @param[in] name Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool isRegistered(const std::string& name) const;
 
 private:

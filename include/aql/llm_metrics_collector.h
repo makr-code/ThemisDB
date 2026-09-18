@@ -20,25 +20,16 @@
 namespace themis {
 namespace aql {
 
-/**
- * @brief Metrics collector for LLM operations
- * 
- * Integrates with Prometheus/Grafana for comprehensive LLM observability.
- * Tracks latency, throughput, errors, cache hits, and resource usage.
- */
 class LLMMetricsCollector {
 public:
     LLMMetricsCollector();
     ~LLMMetricsCollector() = default;
     
     /**
-     * @brief Initialize metrics registry with all LLM metrics
+     * @brief Initialize.
      */
     void initialize();
     
-    /**
-     * @brief Record inference operation metrics
-     */
     void recordInference(
         const std::string& model_id,
         const std::string& lora_id,
@@ -49,9 +40,6 @@ public:
         const std::string& error_code = ""
     );
     
-    /**
-     * @brief Record RAG operation metrics
-     */
     void recordRAG(
         const std::string& collection,
         const std::string& lora_id,
@@ -63,9 +51,6 @@ public:
         const std::string& error_code = ""
     );
     
-    /**
-     * @brief Record embedding operation metrics
-     */
     void recordEmbedding(
         const std::string& model_id,
         std::chrono::milliseconds latency,
@@ -74,24 +59,12 @@ public:
         const std::string& error_code = ""
     );
     
-    /**
-     * @brief Record AQL parser validation metrics
-     * 
-     * Tracks AQL validation operations for consolidation Phase 2.
-     * Metric: aql_validation_total{status="success|parse_error|timeout|exception"}
-     */
     void recordAQLValidation(
         bool success,
         std::chrono::milliseconds duration,
         const std::string& error_reason = ""  // e.g., "parse_error", "timeout", "exception"
     );
     
-    /**
-     * @brief Record AQL generation attempt metrics
-     * 
-     * Tracks NL-to-AQL generation attempts for consolidation Phase 2.
-     * Metric: aql_generation_attempts_total{status="success|parse_error|retry|rejected"}
-     */
     void recordAQLGenerationAttempt(
         bool success,
         int attempt_number,
@@ -100,10 +73,9 @@ public:
     );
     
     /**
-     * @brief Record AQL validation retry
-     * 
-     * Tracks retry attempts after validation failure.
-     * Metric: aql_validation_retries_total{outcome="success|failed"}
+     * @brief Record Validation Retry.
+     * @param[in] retry_succeeded Input parameter.
+     * @param[in] attempt_number Input parameter.
      */
     void recordValidationRetry(
         bool retry_succeeded,
@@ -111,7 +83,9 @@ public:
     );
     
     /**
-     * @brief Record cache hit/miss
+     * @brief Record Cache Access.
+     * @param[in] cache_type Input parameter.
+     * @param[in] hit Input parameter.
      */
     void recordCacheAccess(
         const std::string& cache_type,  // "prefix" or "response"
@@ -119,7 +93,9 @@ public:
     );
     
     /**
-     * @brief Update model memory usage
+     * @brief Update Model Memory.
+     * @param[in] model_id Identifier of the model.
+     * @param[in] memory_bytes Input parameter.
      */
     void updateModelMemory(
         const std::string& model_id,
@@ -127,7 +103,9 @@ public:
     );
     
     /**
-     * @brief Record circuit breaker state change
+     * @brief Record Circuit Breaker State.
+     * @param[in] operation Input parameter.
+     * @param[in] state Input parameter.
      */
     void recordCircuitBreakerState(
         const std::string& operation,
@@ -135,7 +113,8 @@ public:
     );
     
     /**
-     * @brief Get singleton instance
+     * @brief Instance.
+     * @return Return value.
      */
     static LLMMetricsCollector& instance();
 
@@ -144,6 +123,9 @@ private:
     std::mutex mutex_;
     bool initialized_ = false;
     
+    /**
+     * @brief Register Metrics.
+     */
     void registerMetrics();
     std::unordered_map<std::string, std::string> makeLabels(
         const std::string& operation,
@@ -152,12 +134,6 @@ private:
     );
 };
 
-/**
- * @brief RAII helper for automatic latency tracking
- * 
- * Note: This is a simplified timer for elapsed time queries.
- * Actual metric recording is done explicitly by the caller with more context.
- */
 class ScopedLatencyTracker {
 public:
     ScopedLatencyTracker()

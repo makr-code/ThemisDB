@@ -128,6 +128,11 @@ static void closeCounter(int& fd) noexcept {
 /** @brief EbpfTracer::Impl. */
 class EbpfTracer::Impl {
 public:
+    /**
+     * @brief Impl.
+     * @param[in] cfg Input parameter.
+     * @return Return value.
+     */
     explicit Impl(const EbpfTracerConfig& cfg)
         : config_(cfg)
     {
@@ -150,8 +155,16 @@ public:
         stop();
     }
 
-    // -----------------------------------------------------------------------
+    /**
+     * @brief -----------------------------------------------------------------------
+     * @details Calls: lk(), openCounters(), unlock(), std::thread().
+     */
     void start() {
+        /**
+         * @brief Lk.
+         * @param[in] mu_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mu_);
         if (running_) {
           return;
@@ -166,8 +179,17 @@ public:
         thread_ = std::thread(&Impl::collectionLoop, this);
     }
 
+    /**
+     * @brief Stop.
+     * @details Calls: lk(), notify_all(), joinable(), join(), closeCounters().
+     */
     void stop() {
         {
+            /**
+             * @brief Lk.
+             * @param[in] mu_ Input parameter.
+             * @return Return value.
+             */
             std::unique_lock<std::mutex> lk(mu_);
             if (!running_) {
               return;
@@ -185,35 +207,72 @@ public:
     }
 
     bool isEnabled() const {
+        /**
+         * @brief Lk.
+         * @param[in] mu_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mu_);
         return running_;
     }
 
+    /**
+     * @brief Enable.
+     * @details Calls: start().
+     */
     void enable() {
         start();
     }
 
+    /**
+     * @brief Disable.
+     * @details Calls: stop().
+     */
     void disable() {
         stop();
     }
 
     EbpfTracerStats getStats() const {
+        /**
+         * @brief Lk.
+         * @param[in] mu_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mu_);
         return stats_;
     }
 
     std::vector<KernelEvent> getRecentEvents() const {
+        /**
+         * @brief Lk.
+         * @param[in] mu_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mu_);
         return {events_.begin(), events_.end()};
     }
 
     void registerEventCallback(std::function<void(const std::vector<KernelEvent>&)> cb) {
+        /**
+         * @brief Lk.
+         * @param[in] mu_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mu_);
         callback_ = std::move(cb);
     }
 
+    /**
+     * @brief Reset.
+     * @details Calls: lk(), clear(), store().
+     */
     void reset() {
         {
+            /**
+             * @brief Lk.
+             * @param[in] mu_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lk(mu_);
             stats_ = {};
             events_.clear();
@@ -228,6 +287,11 @@ public:
     }
 
     EbpfTracerConfig getConfig() const {
+        /**
+         * @brief Lk.
+         * @param[in] mu_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mu_);
         return config_;
     }
@@ -245,6 +309,10 @@ private:
     // Platform-specific counter management
     // -----------------------------------------------------------------------
 #if THEMIS_EBPF_LINUX
+    /**
+     * @brief Open Counters.
+     * @details Calls: openSoftwareCounter(), enableCounter(), readCounter().
+     */
     void openCounters() {
         if (config_.probe_context_switches) {
             fd_ctx_sw_ = openSoftwareCounter(PERF_COUNT_SW_CONTEXT_SWITCHES);
@@ -312,6 +380,8 @@ private:
      *        If a reset was requested via pending_reset_, the function
      *        re-reads all baselines and returns an empty batch so that the
      *        next call produces fresh deltas.
+     * @return Return value.
+     * @details Calls: exchange(), readCounter(), std::chrono::system_clock::now(), push_back(), std::move(), delta().
      */
     std::vector<KernelEvent> collectDeltas() {
         // Handle a pending reset: re-read baselines and return no events.
@@ -384,9 +454,10 @@ private:
     int64_t prev_task_clk_;
 #endif // THEMIS_EBPF_LINUX
 
-    // -----------------------------------------------------------------------
-    // Background collection loop (all platforms)
-    // -----------------------------------------------------------------------
+    /**
+     * @brief ----------------------------------------------------------------------- Background collection loop (all platforms) -----------------------------------------------------------------------
+     * @details Calls: wlk(), wait_for(), collectDeltas(), slk(), accumulateEvent(), appendEvent(), publishMetrics(), empty().
+     */
     void collectionLoop() {
         // Cache the interval once — config_ is read-only after construction.
         const auto interval = config_.collection_interval;
@@ -394,6 +465,11 @@ private:
         while (true) {
             // Wait for interval or stop signal
             {
+                /**
+                 * @brief Wlk.
+                 * @param[in] mu_ Input parameter.
+                 * @return Return value.
+                 */
                 std::unique_lock<std::mutex> wlk(mu_);
                 cv_.wait_for(wlk, interval, [this]{ return !running_; });
                 if (!running_) {
@@ -409,6 +485,11 @@ private:
             // Accumulate stats and publish metrics under the lock,
             // regardless of whether events were collected.
             {
+                /**
+                 * @brief Slk.
+                 * @param[in] mu_ Input parameter.
+                 * @return Return value.
+                 */
                 std::lock_guard<std::mutex> slk(mu_);
                 for (const auto& ev : batch) {
                     accumulateEvent(ev);
@@ -422,6 +503,11 @@ private:
             if (!batch.empty()) {
                 std::function<void(const std::vector<KernelEvent>&)> cb;
                 {
+                    /**
+                     * @brief Slk.
+                     * @param[in] mu_ Input parameter.
+                     * @return Return value.
+                     */
                     std::lock_guard<std::mutex> slk(mu_);
                     cb = callback_;
                 }
@@ -432,6 +518,11 @@ private:
         }
     }
 
+    /**
+     * @brief Accumulate Event.
+     * @param[in] ev Input parameter.
+     * @details Implements accumulateEvent without additional internal calls.
+     */
     void accumulateEvent(const KernelEvent& ev) {
         switch (ev.type) {
             case EbpfProbeType::CONTEXT_SWITCH:
@@ -451,6 +542,11 @@ private:
         }
     }
 
+    /**
+     * @brief Append Event.
+     * @param[in] ev Input parameter.
+     * @details Calls: push_back(), size(), pop_front().
+     */
     void appendEvent(const KernelEvent& ev) {
         events_.push_back(ev);
         while (events_.size() > config_.max_events_retained) {
@@ -458,6 +554,10 @@ private:
         }
     }
 
+    /**
+     * @brief Publish Metrics.
+     * @details Calls: MetricsCollector::getInstance(), setGauge().
+     */
     void publishMetrics() {
         // Called with mu_ held
         auto& mc = MetricsCollector::getInstance();
@@ -510,10 +610,26 @@ EbpfTracer::EbpfTracer(const EbpfTracerConfig& config)
 
 EbpfTracer::~EbpfTracer() = default;
 
+/**
+ * @brief Start.
+ * @details Implements start without additional internal calls.
+ */
 void EbpfTracer::start()  { impl_->start();  }
+/**
+ * @brief Stop.
+ * @details Implements stop without additional internal calls.
+ */
 void EbpfTracer::stop()   { impl_->stop();   }
 bool EbpfTracer::isEnabled() const { return impl_->isEnabled(); }
+/**
+ * @brief Enable.
+ * @details Implements enable without additional internal calls.
+ */
 void EbpfTracer::enable()  { impl_->enable();  }
+/**
+ * @brief Disable.
+ * @details Implements disable without additional internal calls.
+ */
 void EbpfTracer::disable() { impl_->disable(); }
 
 EbpfTracerStats EbpfTracer::getStats() const { return impl_->getStats(); }
@@ -527,6 +643,10 @@ void EbpfTracer::registerEventCallback(
     impl_->registerEventCallback(std::move(cb));
 }
 
+/**
+ * @brief Reset.
+ * @details Implements reset without additional internal calls.
+ */
 void EbpfTracer::reset() { impl_->reset(); }
 
 EbpfTracerConfig EbpfTracer::getConfig() const { return impl_->getConfig(); }

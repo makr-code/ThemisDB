@@ -36,8 +36,11 @@
 namespace themis {
 namespace query {
 
-// Lazy-initialized NLP analyzer with thread-safe std::call_once guard (Batch 1C determinism).
-// Ensures exactly-once initialization regardless of concurrent access from distributed nodes.
+/**
+ * @brief Lazy-initialized NLP analyzer with thread-safe std::call_once guard (Batch 1C determinism).
+ * @return Return value.
+ * @details Ensures exactly-once initialization regardless of concurrent access from distributed nodes. Calls: std::call_once(), THEMIS_DEBUG(), THEMIS_INFO(), THEMIS_ERROR(), what(), THEMIS_WARN().
+ */
 static themis::analytics::NlpTextAnalyzer& getOptimizerNlp() {
     static std::once_flag init_flag;
     static themis::analytics::NlpTextAnalyzer instance;
@@ -83,14 +86,12 @@ inline GpuInfo probeGpu() noexcept {
     return {true, free_bytes};
 }
 
-/// Infer WorkloadType from the query structure (conservative defaults).
-///
-/// NOTE: Only DOCUMENT_CRUD and ANALYTICS_OLAP can be inferred from the
-/// ConjunctiveQuery structure.  CDC_STREAM, CACHE_REPL, and VECTOR_SEARCH
-/// require caller-supplied context that is not captured in the query AST.
-/// Callers that need those workload types must call adviseSerializationStrategy()
-/// directly on their own OptimizerCostModel instance with the correct WorkloadType,
-/// rather than going through chooseOrderForAndQuery().
+/**
+ * @brief Infer WorkloadType from the query structure (conservative defaults).
+ * @param[in] q Input parameter.
+ * @return Return value.
+ * @details NOTE: Only DOCUMENT_CRUD and ANALYTICS_OLAP can be inferred from the ConjunctiveQuery structure. CDC_STREAM, CACHE_REPL, and VECTOR_SEARCH require caller-supplied context that is not captured in the query AST. Callers that need those workload types must call adviseSerializationStrategy() directly on their own OptimizerCostModel instance with the correct WorkloadType, rather than going through chooseOrderForAndQuery(). Calls: has_value(), empty().
+ */
 inline WorkloadType inferWorkloadType(const ConjunctiveQuery& q) {
     if (q.spatialPredicate.has_value()) {
         return WorkloadType::ANALYTICS_OLAP;
@@ -210,6 +211,11 @@ QueryOptimizer::Plan QueryOptimizer::chooseOrderForAndQuery(const ConjunctiveQue
 		const auto   workload  = inferWorkloadType(q);
 		// THREAD-SAFE: Acquire read lock when accessing advisor_cost_model_
 		{
+			/**
+			 * @brief Lock.
+			 * @param[in] advisor_cost_model_mutex_ Input parameter.
+			 * @return Return value.
+			 */
 			std::lock_guard<std::mutex> lock(advisor_cost_model_mutex_);
 			plan.serialization_advice = advisor_cost_model_.adviseSerializationStrategy(
 			    estimated_rows, avg_bytes, gpu.available, gpu.free_bytes, workload);
@@ -341,8 +347,11 @@ QueryOptimizer::executeOptimizedCount(QueryEngine& engine, const ConjunctiveQuer
 	return Ok(result.value().size());
 }
 
-// ---------------- Per-Query Cost Model Integration (Phase 3, Issue #2419) ----------------
-// THREAD-SAFETY (GAP-1): All access to per_query_cost_model_ must hold per_query_cost_model_mutex_
+/**
+ * @brief ---------------- Per-Query Cost Model Integration (Phase 3, Issue #2419) ---------------- THREAD-SAFETY (GAP-1): All access to per_query_cost_model_ must hold per_query_cost_model_mutex_
+ * @param[in] new_cost_model Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 
 void QueryOptimizer::attachPerQueryCostModel(
     // [WAVE1-FIX: scope_mismatch:345] Renamed parameter from 'cost_model' to
@@ -352,27 +361,50 @@ void QueryOptimizer::attachPerQueryCostModel(
     // disambiguation.  The public API is unchanged (parameter name only
     // matters for named-argument call sites, of which there are none here).
     std::shared_ptr<performance::phase3::PerQueryCostModel> new_cost_model) {
+    /**
+     * @brief Lock.
+     * @param[in] per_query_cost_model_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(per_query_cost_model_mutex_);
     per_query_cost_model_ = std::move(new_cost_model);
 }
 
 std::shared_ptr<performance::phase3::PerQueryCostModel>
 QueryOptimizer::perQueryCostModel() const {
+    /**
+     * @brief Lock.
+     * @param[in] per_query_cost_model_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(per_query_cost_model_mutex_);
     return per_query_cost_model_;
 }
 
-// ---------------- Serialization Advisor tuning (THREAD-SAFE - GAP-2) ----------------
-// THREAD-SAFETY (GAP-2): All access to advisor_cost_model_ must hold advisor_cost_model_mutex_
+/**
+ * @brief ---------------- Serialization Advisor tuning (THREAD-SAFE - GAP-2) ---------------- THREAD-SAFETY (GAP-2): All access to advisor_cost_model_ must hold advisor_cost_model_mutex_
+ * @param[in] c Input parameter.
+ * @details Calls: lock(), setConstants().
+ */
 
 void QueryOptimizer::setAdvisorCostConstants(
     const OptimizerCostModel::CostConstants& c) {
+    /**
+     * @brief Lock.
+     * @param[in] advisor_cost_model_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(advisor_cost_model_mutex_);
     advisor_cost_model_.setConstants(c);
 }
 
 OptimizerCostModel::CostConstants
 QueryOptimizer::advisorCostConstants() const {
+    /**
+     * @brief Lock.
+     * @param[in] advisor_cost_model_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(advisor_cost_model_mutex_);
     return advisor_cost_model_.getConstants();
 }
@@ -385,6 +417,11 @@ QueryOptimizer::executeOptimizedKeysWithCost(QueryEngine& engine,
     // THREAD-SAFE (GAP-1): Acquire lock when reading per_query_cost_model_
     std::shared_ptr<performance::phase3::PerQueryCostModel> cost_model;
     {
+        /**
+         * @brief Lock.
+         * @param[in] per_query_cost_model_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(per_query_cost_model_mutex_);
         cost_model = per_query_cost_model_;
     }
@@ -414,6 +451,11 @@ QueryOptimizer::executeOptimizedEntitiesWithCost(QueryEngine& engine,
     // THREAD-SAFE (GAP-1): Acquire lock when reading per_query_cost_model_
     std::shared_ptr<performance::phase3::PerQueryCostModel> cost_model;
     {
+        /**
+         * @brief Lock.
+         * @param[in] per_query_cost_model_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(per_query_cost_model_mutex_);
         cost_model = per_query_cost_model_;
     }
@@ -434,7 +476,12 @@ QueryOptimizer::executeOptimizedEntitiesWithCost(QueryEngine& engine,
     return executeOptimizedEntities(engine, q, plan);
 }
 
-// ---------------- Vector+Geo Cost Model ----------------
+/**
+ * @brief ---------------- Vector+Geo Cost Model ----------------
+ * @param[in] in Input parameter.
+ * @return Return value.
+ * @details Calls: spdlog::warn(), std::log().
+ */
 QueryOptimizer::VectorGeoCostResult QueryOptimizer::chooseVectorGeoPlan(const VectorGeoCostInput& in) {
 	// Tunable constants
 	const double C_vec_base = 1.0;      // base cost per vector distance at dim=1
@@ -485,7 +532,12 @@ QueryOptimizer::VectorGeoCostResult QueryOptimizer::chooseVectorGeoPlan(const Ve
 	return {plan, costSpatialFirst, costVectorFirst};
 }
 
-// ---------------- Content+Geo Cost Model (extended heuristic) ----------------
+/**
+ * @brief ---------------- Content+Geo Cost Model (extended heuristic) ----------------
+ * @param[in] in Input parameter.
+ * @return Return value.
+ * @details Calls: std::log(), std::max().
+ */
 QueryOptimizer::ContentGeoCostResult QueryOptimizer::estimateContentGeo(const ContentGeoCostInput& in) {
 	// Tunable constants
 	const double C_fulltext_base = 1.0;      // base cost for fulltext scoring batch
@@ -519,7 +571,12 @@ QueryOptimizer::ContentGeoCostResult QueryOptimizer::estimateContentGeo(const Co
 	return {costFulltextThenSpatial, costSpatialThenFulltext, chooseFT};
 }
 
-// ---------------- Graph Path Cost Model (rough estimate) ----------------
+/**
+ * @brief ---------------- Graph Path Cost Model (rough estimate) ----------------
+ * @param[in] in Input parameter.
+ * @return Return value.
+ * @details Calls: std::pow(), spdlog::warn().
+ */
 QueryOptimizer::GraphPathCostResult QueryOptimizer::estimateGraphPath(const GraphPathCostInput& in) {
 	// Protect against exponential overflow
 	constexpr double MAX_EXPANDED = 1e9; // Reasonable upper limit
@@ -543,7 +600,11 @@ QueryOptimizer::GraphPathCostResult QueryOptimizer::estimateGraphPath(const Grap
 	return {expanded, timeMs};
 }
 
-// ---------------- Adaptive & Distributed Optimization ----------------
+/**
+ * @brief ---------------- Adaptive & Distributed Optimization ----------------
+ * @param[in] enable Input parameter.
+ * @details Calls: spdlog::info().
+ */
 
 void QueryOptimizer::enableAdaptiveOptimization(bool enable) {
 	adaptive_enabled_ = enable;
@@ -560,6 +621,14 @@ void QueryOptimizer::enableAdaptiveOptimization(bool enable) {
 	}
 }
 
+/**
+ * @brief Record Query Execution.
+ * @param[in] query_hash Input parameter.
+ * @param[in] estimated_rows Input parameter.
+ * @param[in] actual_rows Input parameter.
+ * @param[in] execution_time_ms Input parameter.
+ * @details Calls: std::chrono::system_clock::now(), recordExecution(), spdlog::debug().
+ */
 void QueryOptimizer::recordQueryExecution(
 	const std::string& query_hash,
 	size_t estimated_rows,

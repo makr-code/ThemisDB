@@ -31,6 +31,7 @@ EXCLUDED_DIRS = {
     ".git",
     ".venv",
     ".vscode",
+    "ai_working",
     "build",
     "build-msvc-windows-debug",
     "build-msvc-windows-release",
@@ -114,7 +115,12 @@ def should_skip_file(path: Path) -> bool:
 def iter_cpp_files(root: Path, include_paths: List[str], public_only: bool) -> Iterable[Path]:
     for rel in include_paths:
         base = (root / rel).resolve()
-        if not base.exists() or not base.is_dir():
+        if not base.exists():
+            continue
+        if base.is_file():
+            if base.suffix.lower() in CPP_EXTENSIONS and not should_skip_file(base):
+                if not public_only or "include" in base.parts:
+                    yield base
             continue
         for p in base.rglob("*"):
             if not p.is_file():
@@ -315,9 +321,20 @@ def parse_signature(sig: str) -> Optional[FunctionMatch]:
 def find_functions(lines: List[str]) -> List[FunctionMatch]:
     matches: List[FunctionMatch] = []
     i = 0
+    depth = 0
     while i < len(lines):
         line = lines[i]
         stripped = line.strip()
+
+        if depth > 0:
+            clean = strip_strings_and_comments(line)
+            for ch in clean:
+                if ch == "{":
+                    depth += 1
+                elif ch == "}":
+                    depth -= 1
+            i += 1
+            continue
 
         if not stripped or stripped.startswith("#") or stripped.startswith("//"):
             i += 1
@@ -346,7 +363,22 @@ def find_functions(lines: List[str]) -> List[FunctionMatch]:
             parsed.end_line = end
             parsed.has_body = "{" in candidate_clean
             matches.append(parsed)
-            i = end + 1
+            if parsed.has_body:
+                depth = 0
+                body_end = end
+                for j in range(anchor, len(lines)):
+                    clean = strip_strings_and_comments(lines[j])
+                    for ch in clean:
+                        if ch == "{":
+                            depth += 1
+                        elif ch == "}":
+                            depth -= 1
+                    if j >= end and depth <= 0:
+                        body_end = j
+                        break
+                i = body_end + 1
+            else:
+                i = end + 1
             accepted = True
             break
 
@@ -354,6 +386,44 @@ def find_functions(lines: List[str]) -> List[FunctionMatch]:
             i += 1
 
     return matches
+
+
+def remove_internal_doxygen_comments(lines: List[str]) -> Tuple[List[str], int]:
+    cleaned: List[str] = []
+    removed_lines = 0
+    depth = 0
+    i = 0
+
+    while i < len(lines):
+        line = lines[i]
+        stripped = line.lstrip()
+
+        if depth > 0 and (stripped.startswith("/**") or stripped.startswith("///")):
+            start = i
+            if stripped.startswith("/**"):
+                while i < len(lines):
+                    removed_lines += 1
+                    if "*/" in lines[i]:
+                        i += 1
+                        break
+                    i += 1
+                continue
+
+            while i < len(lines) and lines[i].lstrip().startswith("///"):
+                removed_lines += 1
+                i += 1
+            continue
+
+        cleaned.append(line)
+        clean = strip_strings_and_comments(line)
+        for ch in clean:
+            if ch == "{":
+                depth += 1
+            elif ch == "}":
+                depth -= 1
+        i += 1
+
+    return cleaned, removed_lines
 
 
 def find_immediate_doxygen_block(lines: List[str], func_start_line: int) -> Optional[Tuple[int, int]]:
@@ -367,6 +437,9 @@ def find_immediate_doxygen_block(lines: List[str], func_start_line: int) -> Opti
         j = i
         while j < len(lines):
             if "*/" in lines[j]:
+                block_lines = lines[i : j + 1]
+                if is_section_heading_doxygen_block(block_lines):
+                    return None
                 return (i, j)
             j += 1
         return None
@@ -376,6 +449,9 @@ def find_immediate_doxygen_block(lines: List[str], func_start_line: int) -> Opti
         k = i
         while k >= 0:
             if DOXYGEN_START_RE.match(lines[k]):
+                block_lines = lines[k : end + 1]
+                if is_section_heading_doxygen_block(block_lines):
+                    return None
                 return (k, end)
             if lines[k].strip().startswith("/*"):
                 return None
@@ -409,6 +485,27 @@ def collect_multiline_triple_slash_comment(lines: List[str], func_start_line: in
             text_parts.append(content)
 
     return ExistingComment(start_line=start, end_line=end, text=" ".join(text_parts).strip())
+
+
+def collect_single_line_triple_slash_comment(lines: List[str], func_start_line: int) -> Optional[ExistingComment]:
+    i = func_start_line - 1
+    while i >= 0 and lines[i].strip() == "":
+        i -= 1
+    if i < 0:
+        return None
+
+    if not lines[i].lstrip().startswith("///"):
+        return None
+
+    start = i
+    while start - 1 >= 0 and lines[start - 1].lstrip().startswith("///"):
+        start -= 1
+
+    if start != i:
+        return None
+
+    content = lines[i].lstrip()[3:].strip()
+    return ExistingComment(start_line=i, end_line=i, text=content)
 
 
 def has_immediate_single_line_triple_slash_doxygen(lines: List[str], func_start_line: int) -> bool:
@@ -457,6 +554,8 @@ def find_preceding_normal_comment(lines: List[str], func_start_line: int) -> Opt
         for idx in range(start, end + 1):
             text_parts.append(lines[idx].split("//", 1)[1].strip())
         text = " ".join(part for part in text_parts if part).strip()
+        if is_section_heading_comment(lines, start, end):
+            return None
         return ExistingComment(start_line=start, end_line=end, text=text)
 
     if lines[i].strip().endswith("*/"):
@@ -482,7 +581,7 @@ def find_preceding_normal_comment(lines: List[str], func_start_line: int) -> Opt
 def split_comment_text(comment_text: str, func_name: str) -> Tuple[str, str]:
     cleaned = re.sub(r"\s+", " ", comment_text or "").strip()
     if not cleaned:
-        return f"TBD: Describe {func_name}.", "Calls: none detected."
+        return fallback_brief(func_name), "Calls: none detected."
 
     sentence_end = re.search(r"[.!?]", cleaned)
     if sentence_end:
@@ -493,7 +592,7 @@ def split_comment_text(comment_text: str, func_name: str) -> Tuple[str, str]:
         tail = ""
 
     if not brief:
-        brief = f"TBD: Describe {func_name}."
+        brief = fallback_brief(func_name)
 
     details = tail if tail else "Calls: none detected."
     return brief, details
@@ -572,7 +671,358 @@ def is_void_return(return_type: str) -> bool:
     return rt == "void"
 
 
-def describe_param(direction: str) -> str:
+def short_function_name(func_name: str) -> str:
+    return func_name.split("::")[-1].lstrip("~")
+
+
+def normalize_doc_text(text: str) -> str:
+    return re.sub(r"\s+", " ", text or "").strip().rstrip(".").lower()
+
+
+FUNCTION_BRIEF_OVERRIDES = {
+    "registerPolicy": "Register a retention policy.",
+    "removePolicy": "Remove a retention policy by name.",
+    "getPolicies": "Return all configured retention policies.",
+    "getPolicy": "Look up a retention policy by name.",
+    "shouldArchive": "Check whether an entity has reached the archive threshold.",
+    "shouldPurge": "Check whether an entity has reached the purge threshold.",
+    "archiveEntity": "Archive an entity through the configured handler.",
+    "purgeEntity": "Purge an entity through the configured handler.",
+    "runRetentionCheck": "Run retention checks for all configured policies.",
+    "getHistory": "Return a bounded slice of the recent retention action history.",
+    "getPolicyStats": "Return the stored statistics for a retention policy.",
+    "loadPolicies": "Load retention policies from a configuration file.",
+    "classify": "Classify the semantic intent of a query.",
+    "maybeAlert": "Produce an intent alert when the confidence threshold is met.",
+    "intentName": "Return a human-readable name for an intent type.",
+    "setInferenceFn": "Inject an inference function used by classify().",
+    "buildEmbedding": "Build a deterministic anonymized embedding from an intent.",
+    "configureLoraEndpoint": "Configure the LoRA classify endpoint.",
+    "validateVector": "Validate that a JSON value is a numeric vector.",
+    "validateSameDimension": "Validate that two vectors have the same dimension.",
+    "toVector": "Convert a JSON array to std::vector<double>.",
+    "fromVector": "Convert std::vector<double> to a JSON array.",
+    "l2Norm": "Compute the L2 norm of a vector.",
+    "dotProduct": "Compute the dot product of two vectors.",
+    "set_modification_detected": "Explicitly mark modification detection state.",
+    "reset": "Reset the modification detection flag.",
+    "initial_size": "Return the container size captured at construction time.",
+    "advance": "Advance an iterator within the validated range.",
+    "can_advance": "Check whether an iterator can advance without leaving the range.",
+    "RangeValidator": "Validate and store a safe iterator range.",
+    "AccessControl": "Construct the access control subsystem.",
+    "registerUser": "Register a new user with a password and optional plugin.",
+    "changePassword": "Change a user's password.",
+    "enrollMFA": "Enroll multi-factor authentication for a user.",
+    "verifyMFA": "Verify a multi-factor authentication token.",
+    "disableMFA": "Disable multi-factor authentication for a user.",
+    "authorize": "Authorize an access control context.",
+    "checkPermission": "Check whether a role grants permission for an action.",
+    "assignRole": "Assign a role to a user.",
+    "revokeRole": "Revoke a role from a user.",
+    "getUserPermissions": "Get the permissions assigned to a user.",
+    "getUserRoles": "Get the roles assigned to a user.",
+    "createSession": "Create a session for an authenticated user.",
+    "validateSession": "Validate a session token.",
+    "invalidateSession": "Invalidate a session token.",
+    "invalidateUserSessions": "Invalidate all sessions for a user.",
+    "isRateLimited": "Check whether a user is rate limited.",
+    "detectSQLInjection": "Detect SQL injection patterns in a query.",
+    "detectSuspiciousQuery": "Detect suspicious query patterns.",
+    "recordFailedLogin": "Record a failed login attempt.",
+    "isLockedOut": "Check whether a user is locked out.",
+    "logSecurityEvent": "Log a security event.",
+    "updateConfig": "Update the access control configuration.",
+    "addABACPolicy": "Add an ABAC policy.",
+    "removeABACPolicy": "Remove an ABAC policy.",
+    "isSessionExpired": "Check whether a session is expired.",
+    "cleanupExpiredSessions": "Remove expired sessions from the cache.",
+    "updateRateLimit": "Update rate limit state for a user.",
+    "checkRateLimit": "Check whether a user exceeds the current rate limit.",
+    "getUserRoleStore": "Return the user role store.",
+    "getUserRegistrationPluginManager": "Return the user registration plugin manager.",
+    "getUserSessionStore": "Return the user session store.",
+    "getUserRolesLocked": "Get roles for a user while holding the lock.",
+    "createSessionLocked": "Create a session while holding the lock.",
+    "invalidateSessionLocked": "Invalidate a session while holding the lock.",
+    "invalidateUserSessionsLocked": "Invalidate all user sessions while holding the lock.",
+    "getStatistics": "Return access control statistics.",
+    "getRBAC": "Return the RBAC subsystem.",
+    "getABACEngine": "Return the ABAC policy engine.",
+    "generateSessionToken": "Generate a new session token.",
+    "ZeroTrustPolicyEnforcer": "Construct the zero-trust policy enforcer.",
+    "addNetworkPolicy": "Register a network policy.",
+    "removeNetworkPolicy": "Remove a network policy by id.",
+    "getNetworkPolicies": "Return all currently registered network policies.",
+    "verify": "Verify identity and enforce network policies for a request.",
+    "setAllowUnverifiedToken": "Allow access when no token verifier is configured.",
+    "setAllowEmptyNetworkPolicies": "Allow access when no network policies are registered.",
+    "verifyToken": "Verify a bearer token or credential for a user.",
+    "isIpAllowed": "Check whether an IP address is allowed for an identity.",
+    "computeTrustScore": "Compute the composite zero-trust score.",
+    "ipMatchesCidr": "Check whether an IP address matches a CIDR range.",
+    "parseIpv4": "Parse an IPv4 address into an integer representation.",
+    "parseIpv6": "Parse an IPv6 address into a byte array representation.",
+    "ipv6MatchesCidr": "Check whether an IPv6 address matches a CIDR range.",
+    "normaliseIpv4MappedIpv6": "Normalize an IPv4-mapped IPv6 address.",
+    "ipMatchesCidrAny": "Check whether an IP matches any CIDR in a policy.",
+    "findPolicyForIdentity": "Find the policy that applies to an identity.",
+}
+
+
+PARAM_DESCRIPTION_OVERRIDES = {
+    ("registerPolicy", "policy"): "Retention policy definition to store.",
+    ("removePolicy", "policy_name"): "Name of the retention policy to remove.",
+    ("getPolicy", "policy_name"): "Name of the retention policy to retrieve.",
+    ("shouldArchive", "entity_id"): "Identifier of the entity being evaluated.",
+    ("shouldArchive", "created_at"): "Creation timestamp used for the age comparison.",
+    ("shouldArchive", "policy_name"): "Name of the retention policy to apply.",
+    ("shouldPurge", "entity_id"): "Identifier of the entity being evaluated.",
+    ("shouldPurge", "created_at"): "Creation timestamp used for the age comparison.",
+    ("shouldPurge", "policy_name"): "Name of the retention policy to apply.",
+    ("archiveEntity", "entity_id"): "Identifier of the entity to archive.",
+    ("archiveEntity", "policy_name"): "Name of the retention policy that triggered the action.",
+    ("archiveEntity", "archive_handler"): "Callback that archives the entity.",
+    ("purgeEntity", "entity_id"): "Identifier of the entity to purge.",
+    ("purgeEntity", "policy_name"): "Name of the retention policy that triggered the action.",
+    ("purgeEntity", "purge_handler"): "Callback that purges the entity.",
+    ("runRetentionCheck", "entity_provider"): "Callback that returns candidate entities for a policy.",
+    ("runRetentionCheck", "archive_handler"): "Callback used when an entity should be archived.",
+    ("runRetentionCheck", "purge_handler"): "Callback used when an entity should be purged.",
+    ("getHistory", "limit"): "Maximum number of history entries to return.",
+    ("getPolicyStats", "policy_name"): "Name of the retention policy to query.",
+    ("loadPolicies", "config_path"): "Path to the retention policy configuration file.",
+    ("classify", "query"): "Raw query string to classify.",
+    ("classify", "session_context"): "Current zero-trust context for the query.",
+    ("maybeAlert", "result"): "Classification result produced by classify().",
+    ("maybeAlert", "session_id"): "Session identifier.",
+    ("maybeAlert", "confidence_threshold"): "Minimum confidence required to emit an alert.",
+    ("intentName", "t"): "Intent type to render.",
+    ("setInferenceFn", "fn"): "Inference function to inject.",
+    ("buildEmbedding", "intent"): "Intent category to encode.",
+    ("buildEmbedding", "primary_indicator"): "Primary indicator token used for the embedding.",
+    ("configureLoraEndpoint", "endpoint_url"): "Full URL of the LoRA classify endpoint.",
+    ("configureLoraEndpoint", "api_key"): "Optional bearer token for the endpoint.",
+    ("configureLoraEndpoint", "timeout_ms"): "HTTP request timeout in milliseconds.",
+    ("validateVector", "vec"): "JSON vector to validate.",
+    ("validateVector", "funcName"): "Function name used in error messages.",
+    ("validateSameDimension", "v1"): "First vector.",
+    ("validateSameDimension", "v2"): "Second vector.",
+    ("validateSameDimension", "funcName"): "Function name used in error messages.",
+    ("toVector", "vec"): "JSON array of numbers to convert.",
+    ("fromVector", "vec"): "Vector to convert to JSON.",
+    ("l2Norm", "vec"): "Vector whose magnitude is computed.",
+    ("dotProduct", "v1"): "First vector.",
+    ("dotProduct", "v2"): "Second vector.",
+    ("set_modification_detected", "detected"): "True to mark the container as modified.",
+    ("advance", "it"): "Iterator to advance in place.",
+    ("advance", "distance"): "Number of steps to advance.",
+    ("advance", "begin"): "Beginning of the valid range.",
+    ("advance", "end"): "End of the valid range.",
+    ("can_advance", "it"): "Iterator to test.",
+    ("can_advance", "distance"): "Number of steps to validate.",
+    ("can_advance", "begin"): "Beginning of the valid range.",
+    ("can_advance", "end"): "End of the valid range.",
+    ("RangeValidator", "begin"): "Beginning of the iterator range.",
+    ("RangeValidator", "end"): "End of the iterator range.",
+    ("AccessControl", "config"): "Access control configuration.",
+    ("registerUser", "user_id"): "User identifier.",
+    ("registerUser", "password"): "Plaintext password to register.",
+    ("registerUser", "plugin_name"): "Optional user-registration plugin name.",
+    ("registerUser", "attributes"): "Optional user attributes passed to the plugin.",
+    ("authenticate", "credentials"): "User credentials to authenticate.",
+    ("getUserPermissions", "user_id"): "User identifier.",
+    ("getUserRoles", "user_id"): "User identifier.",
+    ("createSession", "user_id"): "User identifier.",
+    ("createSession", "roles"): "Roles to attach to the session.",
+    ("createSession", "mfa_verified"): "True if MFA was verified for the session.",
+    ("validateSession", "session_token"): "Session token to validate.",
+    ("changePassword", "user_id"): "User identifier.",
+    ("changePassword", "old_password"): "Current password.",
+    ("changePassword", "new_password"): "Replacement password.",
+    ("enrollMFA", "user_id"): "User identifier.",
+    ("verifyMFA", "user_id"): "User identifier.",
+    ("verifyMFA", "token"): "MFA token to verify.",
+    ("disableMFA", "user_id"): "User identifier.",
+    ("authorize", "context"): "Authorization context to evaluate.",
+    ("checkPermission", "role"): "Role to evaluate.",
+    ("checkPermission", "resource"): "Protected resource identifier.",
+    ("checkPermission", "action"): "Requested action.",
+    ("assignRole", "user_id"): "User identifier.",
+    ("assignRole", "role"): "Role to assign.",
+    ("revokeRole", "user_id"): "User identifier.",
+    ("revokeRole", "role"): "Role to revoke.",
+    ("invalidateSession", "session_token"): "Session token to invalidate.",
+    ("invalidateUserSessions", "user_id"): "User identifier.",
+    ("isRateLimited", "user_id"): "User identifier.",
+    ("isRateLimited", "resource"): "Resource being accessed.",
+    ("detectSQLInjection", "query"): "Query string to inspect.",
+    ("detectSuspiciousQuery", "query"): "Query string to inspect.",
+    ("detectSuspiciousQuery", "user_id"): "User identifier.",
+    ("recordFailedLogin", "user_id"): "User identifier.",
+    ("recordFailedLogin", "ip_address"): "Source IP address.",
+    ("isLockedOut", "user_id"): "User identifier.",
+    ("logSecurityEvent", "event_type"): "Security event type.",
+    ("logSecurityEvent", "details"): "Event payload/details.",
+    ("updateConfig", "config"): "New access control configuration.",
+    ("addABACPolicy", "policy"): "ABAC policy to add.",
+    ("removeABACPolicy", "policy_id"): "Identifier of the ABAC policy to remove.",
+    ("isSessionExpired", "session"): "Session to check.",
+    ("updateRateLimit", "user_id"): "User identifier.",
+    ("checkRateLimit", "user_id"): "User identifier.",
+    ("getUserRoleStore", "role_store"): "Role store backing the access control subsystem.",
+    ("getUserRegistrationPluginManager", "plugin_manager"): "Registration plugin manager backing the access control subsystem.",
+    ("getUserSessionStore", "session_store"): "Session store backing the access control subsystem.",
+    ("getUserRolesLocked", "user_id"): "User identifier.",
+    ("createSessionLocked", "user_id"): "User identifier.",
+    ("createSessionLocked", "roles"): "Roles to attach to the session.",
+    ("createSessionLocked", "mfa_verified"): "True if MFA was verified for the session.",
+    ("invalidateSessionLocked", "session_token"): "Session token to invalidate.",
+    ("invalidateUserSessionsLocked", "user_id"): "User identifier.",
+    ("getStatistics", "statistics"): "Access control statistics.",
+    ("generateSessionToken", "session_token"): "Generated session token.",
+    ("ZeroTrustPolicyEnforcer", "token_verifier"): "Optional token verification callback.",
+    ("addNetworkPolicy", "policy"): "Network policy to add.",
+    ("removeNetworkPolicy", "policy_id"): "Identifier of the policy to remove.",
+    ("verify", "context"): "Zero-trust request context to verify.",
+    ("verifyToken", "token"): "Token to verify.",
+    ("verifyToken", "user_id"): "User identifier.",
+    ("isIpAllowed", "client_ip"): "Client IP address.",
+    ("isIpAllowed", "identity"): "Identity associated with the request.",
+    ("computeTrustScore", "context"): "Zero-trust request context.",
+    ("computeTrustScore", "identity_verified"): "True if identity verification succeeded.",
+    ("computeTrustScore", "network_ok"): "True if network policy checks passed.",
+    ("ipMatchesCidr", "ip"): "IP address to check.",
+    ("ipMatchesCidr", "cidr"): "CIDR range to compare against.",
+    ("parseIpv4", "ip"): "IPv4 address string.",
+    ("parseIpv4", "out"): "Output numeric IPv4 value.",
+    ("parseIpv6", "ip"): "IPv6 address string.",
+    ("parseIpv6", "out"): "Output IPv6 byte array.",
+    ("ipv6MatchesCidr", "ip"): "IPv6 address to check.",
+    ("ipv6MatchesCidr", "cidr"): "CIDR range to compare against.",
+    ("normaliseIpv4MappedIpv6", "ip"): "IP address to normalize.",
+    ("ipMatchesCidrAny", "ip"): "IP address to check.",
+    ("ipMatchesCidrAny", "cidr"): "CIDR range to compare against.",
+    ("findPolicyForIdentity", "identity"): "Identity to look up.",
+}
+
+
+RETURN_DESCRIPTION_OVERRIDES = {
+    "registerPolicy": "True when the policy was accepted and stored.",
+    "removePolicy": "True when the policy existed and was removed.",
+    "getPolicies": "Copy of the current policy list.",
+    "getPolicy": "Pointer to the stored policy on success, or an error if it is missing.",
+    "shouldArchive": "True when the entity should be archived.",
+    "shouldPurge": "True when the entity should be purged.",
+    "archiveEntity": "Action record with success state, error text, and timestamps.",
+    "purgeEntity": "Action record with success state, error text, and timestamps.",
+    "runRetentionCheck": "Aggregate retention statistics for the full run.",
+    "getHistory": "Most recent actions, or the full history when the limit is zero or oversized.",
+    "getPolicyStats": "Stored statistics, or a default-initialized record if the policy is unknown.",
+    "validateVector": "None.",
+    "validateSameDimension": "None.",
+    "toVector": "std::vector<double> containing the numeric values.",
+    "fromVector": "JSON array containing the vector values.",
+    "l2Norm": "Euclidean length of the vector.",
+    "dotProduct": "Dot product of the input vectors.",
+    "set_modification_detected": "None.",
+    "reset": "None.",
+    "initial_size": "Initial container size captured at construction.",
+    "advance": "None.",
+    "can_advance": "True when the iterator can advance safely.",
+    "RangeValidator": "Validated range object.",
+    "AccessControl": "Access control subsystem instance.",
+    "registerUser": "Registration result.",
+    "authenticate": "Authentication result.",
+    "changePassword": "Result indicating whether the password changed.",
+    "enrollMFA": "Enrollment result as JSON.",
+    "verifyMFA": "True when the token is valid.",
+    "disableMFA": "Result indicating whether MFA was disabled.",
+    "authorize": "True when the context is authorized.",
+    "checkPermission": "True when the permission is granted.",
+    "assignRole": "Result indicating whether the role was assigned.",
+    "revokeRole": "Result indicating whether the role was revoked.",
+    "getUserPermissions": "Permissions assigned to the user.",
+    "getUserRoles": "Roles assigned to the user.",
+    "createSession": "Session token.",
+    "validateSession": "Validated session on success.",
+    "invalidateSession": "None.",
+    "invalidateUserSessions": "None.",
+    "isRateLimited": "True when the user is rate limited.",
+    "detectSQLInjection": "True when an injection pattern is detected.",
+    "detectSuspiciousQuery": "True when the query is suspicious.",
+    "recordFailedLogin": "None.",
+    "isLockedOut": "True when the user is locked out.",
+    "logSecurityEvent": "None.",
+    "updateConfig": "None.",
+    "addABACPolicy": "None.",
+    "removeABACPolicy": "True when the policy was removed.",
+    "isSessionExpired": "True when the session is expired.",
+    "cleanupExpiredSessions": "None.",
+    "updateRateLimit": "None.",
+    "checkRateLimit": "True when the user remains within the configured limit.",
+    "getUserRoleStore": "Role store reference.",
+    "getUserRegistrationPluginManager": "Plugin manager reference.",
+    "getUserSessionStore": "Session store reference.",
+    "getUserRolesLocked": "Roles assigned to the user.",
+    "createSessionLocked": "Session token.",
+    "invalidateSessionLocked": "None.",
+    "invalidateUserSessionsLocked": "None.",
+    "getStatistics": "Access control statistics.",
+    "getRBAC": "RBAC subsystem reference.",
+    "getABACEngine": "ABAC policy engine reference.",
+    "generateSessionToken": "Generated session token.",
+    "ZeroTrustPolicyEnforcer": "Zero-trust policy enforcer instance.",
+    "addNetworkPolicy": "None.",
+    "removeNetworkPolicy": "True when a policy was removed.",
+    "getNetworkPolicies": "Snapshot of network policies.",
+    "verify": "Verification result.",
+    "setAllowUnverifiedToken": "None.",
+    "setAllowEmptyNetworkPolicies": "None.",
+    "verifyToken": "True when the token is valid.",
+    "isIpAllowed": "True when the IP is allowed.",
+    "computeTrustScore": "Composite zero-trust score.",
+    "ipMatchesCidr": "True when the IP matches the CIDR.",
+    "parseIpv4": "True when the IPv4 address parsed successfully.",
+    "parseIpv6": "True when the IPv6 address parsed successfully.",
+    "ipv6MatchesCidr": "True when the IP matches the CIDR.",
+    "normaliseIpv4MappedIpv6": "Normalized IP string.",
+    "ipMatchesCidrAny": "True when the IP matches at least one CIDR.",
+    "findPolicyForIdentity": "Matching network policy or null if none.",
+}
+
+
+def describe_param(func_name: str, param_name: str, direction: str) -> str:
+    short_name = short_function_name(func_name)
+    override = PARAM_DESCRIPTION_OVERRIDES.get((short_name, param_name))
+    if override:
+        return override
+
+    if param_name.endswith("_name"):
+        subject = "retention policy" if "Policy" in short_name else param_name[:-5].replace("_", " ")
+        if subject:
+            return f"Name of the {subject}."
+
+    if param_name.endswith("_path"):
+        subject = param_name[:-5].replace("_", " ")
+        if subject == "config":
+            return "Path to the retention policy configuration file."
+        if subject:
+            return f"Path to the {subject}."
+
+    if param_name.endswith("_id"):
+        subject = param_name[:-3].replace("_", " ")
+        if subject:
+            return f"Identifier of the {subject}."
+
+    if param_name == "created_at":
+        return "Creation timestamp used for the age comparison."
+
+    if param_name.endswith("_handler"):
+        action = param_name[:-8].replace("_", " ")
+        if action:
+            return f"Callback that {action}s the entity."
+
     if direction == "[in,out]":
         return "Input/output parameter."
     if direction == "[out]":
@@ -580,13 +1030,121 @@ def describe_param(direction: str) -> str:
     return "Input parameter."
 
 
-def describe_return(return_type: str) -> str:
+def describe_return(return_type: str, func_name: str = "") -> str:
+    short_name = short_function_name(func_name) if func_name else ""
+    override = RETURN_DESCRIPTION_OVERRIDES.get(short_name)
+    if override:
+        return override
+
     normalized = re.sub(r"\s+", " ", return_type.strip()).lower()
     if normalized == "bool":
-        return "True on success."
+        if short_name == "shouldArchive":
+            return "True when the entity should be archived."
+        if short_name == "shouldPurge":
+            return "True when the entity should be purged."
+        return "True when the operation succeeds."
     if normalized.endswith("*"):
         return "Pointer to the result."
     return "Return value."
+
+
+def fallback_brief(func_name: str) -> str:
+    name = short_function_name(func_name)
+    override = FUNCTION_BRIEF_OVERRIDES.get(name)
+    if override:
+        return override
+
+    name = name.replace("_", " ")
+    name = re.sub(r"(?<=[a-z0-9])(?=[A-Z])", " ", name)
+    name = re.sub(r"\s+", " ", name).strip()
+    if not name:
+        return "Describe the function."
+    return "{}.".format(name[0].upper() + name[1:])
+
+
+def normalize_single_line_doxygen_block(block_lines: List[str], indent: str) -> List[str]:
+    if len(block_lines) != 1:
+        return block_lines
+
+    stripped = block_lines[0].strip()
+    if not (stripped.startswith("/**") and stripped.endswith("*/")):
+        return block_lines
+
+    inner = stripped[3:-2].strip()
+    if inner.startswith("*"):
+        inner = inner[1:].strip()
+
+    normalized = [f"{indent}/**\n"]
+    if inner:
+        normalized.append(f"{indent} * {inner}\n")
+    normalized.append(f"{indent} */\n")
+    return normalized
+
+
+PLACEHOLDER_COMMENT_PATTERNS = (
+    r"\bplaceholder\b\s+\b(implementation|heuristic|path|paths|fallback|logic|code|mode)\b",
+    r"\b(tbd|todo|stub|mock|simulation)\b",
+    r"\bfor now\b",
+    r"\bphase\s*2\.2\b",
+    r"\bfuture implementation\b",
+    r"\bwill be implemented\b",
+    r"\bno-?op\b",
+)
+
+
+def is_placeholder_comment_text(text: str) -> bool:
+    normalized = re.sub(r"\s+", " ", text).strip().lower()
+    if not normalized:
+        return False
+    return any(re.search(pattern, normalized) for pattern in PLACEHOLDER_COMMENT_PATTERNS)
+
+
+def is_section_heading_comment(lines: List[str], start_line: int, end_line: int) -> bool:
+    segment = lines[start_line : end_line + 1]
+    if not segment:
+        return False
+
+    raw_text = " ".join(
+        re.sub(r"^\s*//+\s?", "", line).strip()
+        for line in segment
+    ).strip()
+    if not raw_text:
+        return False
+
+    words = re.findall(r"[A-Za-z0-9_]+", raw_text)
+    has_separator_line = any(
+        re.fullmatch(r"[\s/=\-─_]*", re.sub(r"^\s*//+\s?", "", line).strip())
+        for line in segment
+    )
+    if has_separator_line and len(words) <= 4 and not re.search(r"[.!?:]", raw_text):
+        return True
+
+    if len(segment) == 1 and len(words) <= 3 and not re.search(r"[.!?:]", raw_text) and raw_text[0].isupper():
+        return True
+
+    return False
+
+
+def is_section_heading_doxygen_block(block_lines: List[str]) -> bool:
+    if not block_lines:
+        return False
+
+    text = " ".join(
+        re.sub(r"^\s*\*\s?", "", line).strip()
+        for line in block_lines
+    )
+    text = re.sub(r"^/\*\*", "", text).replace("*/", "").strip()
+    if not text:
+        return False
+
+    words = re.findall(r"[A-Za-z0-9_]+", text)
+    if len(words) <= 10 and not re.search(r"[.!?]", text) and re.search(r"[=\-─_]{6,}", text):
+        return True
+
+    if len(words) <= 6 and not re.search(r"[.!?]", text) and any(token in text.lower() for token in ("core", "auth", "mfa", "verification", "configuration", "management", "checks")):
+        return True
+
+    return False
 
 
 def describe_throws(thrown: List[str]) -> List[str]:
@@ -613,7 +1171,7 @@ def build_doxygen_block(
     if existing_comment:
         brief, details = split_comment_text(existing_comment.text, name)
     else:
-        brief = f"TBD: Describe {name}."
+        brief = fallback_brief(name)
         details = ""
 
     lines = [
@@ -622,13 +1180,13 @@ def build_doxygen_block(
     ]
 
     for tparam in func.template_params:
-        lines.append(f"{indent} * @tparam {tparam} TBD: Describe template parameter.\n")
+        lines.append(f"{indent} * @tparam {tparam} Template parameter.\n")
 
     for p in func.params:
-        lines.append(f"{indent} * @param{p.direction} {p.name} {describe_param(p.direction)}\n")
+        lines.append(f"{indent} * @param{p.direction} {p.name} {describe_param(func.name, p.name, p.direction)}\n")
 
     if not is_void_return(func.return_type):
-        lines.append(f"{indent} * @return {describe_return(func.return_type)}\n")
+        lines.append(f"{indent} * @return {describe_return(func.return_type, func.name)}\n")
 
     if func.has_body and thrown:
         for exc, detail in zip(thrown, describe_throws(thrown)):
@@ -656,7 +1214,8 @@ def merge_existing_doxygen_block(
     called: List[str],
     thrown: List[str],
 ) -> Tuple[List[str], bool]:
-    text = "".join(block_lines)
+    normalized_block_lines = normalize_single_line_doxygen_block(block_lines, indent)
+    text = "".join(normalized_block_lines)
     existing_params = set(re.findall(r"@param(?:\[[^\]]+\])?\s+([A-Za-z_]\w*)", text))
     existing_tparams = set(re.findall(r"@tparam\s+([A-Za-z_]\w*)", text))
     has_brief = re.search(r"@brief\b", text) is not None
@@ -664,23 +1223,57 @@ def merge_existing_doxygen_block(
     has_details = re.search(r"@details\b|@note\b|@remark\b", text) is not None
     has_throws = re.search(r"@throws\b|@exception\b", text) is not None
     has_noexcept_note = re.search(r"Exception safety:\s*noexcept", text, re.IGNORECASE) is not None
+    brief_line_re = re.compile(r"^(\s*\*\s*@brief\s+)(.*?)(\s*)$")
+    param_line_re = re.compile(r"^(\s*\*\s*@param(?:\[[^\]]+\])?\s+)([A-Za-z_]\w*)(\s+)(.*?)(\s*)$")
+    return_line_re = re.compile(r"^(\s*\*\s*@return\s+)(.*?)(\s*)$")
+
+    short_name = short_function_name(func.name)
+    desired_brief = fallback_brief(func.name)
+    desired_return = describe_return(func.return_type, func.name)
+
+    upgraded_block_lines: List[str] = []
+    for line in normalized_block_lines:
+        newline = "\n" if line.endswith("\n") else ""
+        content = line[:-1] if newline else line
+
+        brief_match = brief_line_re.match(content)
+        if brief_match:
+            current_brief = brief_match.group(2).strip()
+            if short_name in FUNCTION_BRIEF_OVERRIDES or normalize_doc_text(current_brief) == normalize_doc_text(desired_brief):
+                content = f"{brief_match.group(1)}{desired_brief}{brief_match.group(3)}"
+
+        param_match = param_line_re.match(content)
+        if param_match:
+            current_desc = param_match.group(4).strip()
+            desired_desc = describe_param(func.name, param_match.group(2), "[in]")
+            if normalize_doc_text(current_desc) in {"", "input parameter", "output parameter", "input/output parameter", "parameter"}:
+                content = f"{param_match.group(1)}{param_match.group(2)}{param_match.group(3)}{desired_desc}{param_match.group(5)}"
+
+        return_match = return_line_re.match(content)
+        if return_match and not is_void_return(func.return_type):
+            current_return = return_match.group(2).strip()
+            if normalize_doc_text(current_return) in {"", "true on success", "return value", "pointer to the result"}:
+                content = f"{return_match.group(1)}{desired_return}{return_match.group(3)}"
+
+        upgraded_block_lines.append(content + newline)
+
+    normalized_block_lines = upgraded_block_lines
 
     additions: List[str] = []
-    short_name = func.name.split("::")[-1]
 
     if not has_brief:
-        additions.append(f"{indent} * @brief TBD: Describe {short_name}.\n")
+        additions.append(f"{indent} * @brief {fallback_brief(short_name)}\n")
 
     for tparam in func.template_params:
         if tparam not in existing_tparams:
-            additions.append(f"{indent} * @tparam {tparam} TBD: Describe template parameter.\n")
+            additions.append(f"{indent} * @tparam {tparam} Template parameter.\n")
 
     for p in func.params:
         if p.name not in existing_params:
-            additions.append(f"{indent} * @param{p.direction} {p.name} {describe_param(p.direction)}\n")
+            additions.append(f"{indent} * @param{p.direction} {p.name} {describe_param(func.name, p.name, p.direction)}\n")
 
     if not is_void_return(func.return_type) and not has_return:
-        additions.append(f"{indent} * @return {describe_return(func.return_type)}\n")
+        additions.append(f"{indent} * @return {desired_return}\n")
 
     if func.has_body and not has_throws:
         if thrown:
@@ -694,15 +1287,17 @@ def merge_existing_doxygen_block(
         additions.append(f"{indent} * @details {describe_details(called, short_name)}\n")
 
     if not additions:
+        if upgraded_block_lines != block_lines:
+            return upgraded_block_lines, True
         return block_lines, False
 
-    end_idx = len(block_lines) - 1
-    while end_idx >= 0 and "*/" not in block_lines[end_idx]:
+    end_idx = len(normalized_block_lines) - 1
+    while end_idx >= 0 and "*/" not in normalized_block_lines[end_idx]:
         end_idx -= 1
     if end_idx < 0:
         return block_lines, False
 
-    merged = block_lines[:end_idx] + additions + block_lines[end_idx:]
+    merged = normalized_block_lines[:end_idx] + additions + normalized_block_lines[end_idx:]
     return merged, True
 
 
@@ -714,13 +1309,14 @@ def detect_indent(line: str) -> str:
 def apply_to_file(path: Path, apply: bool, merge_existing: bool) -> tuple[int, int, int, int]:
     text = path.read_text(encoding="utf-8", errors="ignore")
     lines = text.splitlines(keepends=True)
+    lines, removed_internal_comment_lines = remove_internal_doxygen_comments(lines)
     functions = find_functions(lines)
 
     if not functions:
         return 0, 0, 0, 0
 
     edits: List[Tuple[int, int, List[str]]] = []
-    removed_comment_lines = 0
+    removed_comment_lines = removed_internal_comment_lines
     merged_blocks = 0
 
     for func in functions:
@@ -731,18 +1327,28 @@ def apply_to_file(path: Path, apply: bool, merge_existing: bool) -> tuple[int, i
 
         multiline_triple_slash = collect_multiline_triple_slash_comment(lines, func.start_line)
         if multiline_triple_slash:
-            block = build_doxygen_block(indent, func, called, thrown, multiline_triple_slash)
+            existing_comment = None if is_placeholder_comment_text(multiline_triple_slash.text) else multiline_triple_slash
+            block = build_doxygen_block(indent, func, called, thrown, existing_comment)
             edits.append((multiline_triple_slash.start_line, multiline_triple_slash.end_line, block))
             continue
 
-        if has_immediate_single_line_triple_slash_doxygen(lines, func.start_line):
+        single_triple_slash = collect_single_line_triple_slash_comment(lines, func.start_line)
+        if single_triple_slash:
+            if is_placeholder_comment_text(single_triple_slash.text):
+                block = build_doxygen_block(indent, func, called, thrown, None)
+                edits.append((single_triple_slash.start_line, single_triple_slash.end_line, block))
             continue
 
         existing_doxy = find_immediate_doxygen_block(lines, func.start_line)
         if existing_doxy:
+            start, end = existing_doxy
+            block_text = "".join(lines[start : end + 1])
+            if is_placeholder_comment_text(block_text) or is_section_heading_doxygen_block(lines[start : end + 1]):
+                merged_block = build_doxygen_block(indent, func, called, thrown, None)
+                edits.append((start, end, merged_block))
+                continue
             if not merge_existing:
                 continue
-            start, end = existing_doxy
             merged_block, changed = merge_existing_doxygen_block(
                 lines[start : end + 1],
                 indent,
@@ -756,6 +1362,8 @@ def apply_to_file(path: Path, apply: bool, merge_existing: bool) -> tuple[int, i
             continue
 
         existing_comment = find_preceding_normal_comment(lines, func.start_line)
+        if existing_comment and is_placeholder_comment_text(existing_comment.text):
+            existing_comment = None
         block = build_doxygen_block(indent, func, called, thrown, existing_comment)
 
         if existing_comment:

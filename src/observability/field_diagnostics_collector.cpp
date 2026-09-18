@@ -22,6 +22,7 @@ namespace observability {
  * thread-safe construction (C++11 magic statics).
  *
  * @return Reference to the global `FieldDiagnosticsCollector`.
+ * @details Implements getInstance without additional internal calls.
  */
 FieldDiagnosticsCollector& FieldDiagnosticsCollector::getInstance() {
     static FieldDiagnosticsCollector instance;
@@ -67,8 +68,14 @@ FieldDiagnosticsCollector::~FieldDiagnosticsCollector() {
  * under a shared lock will not observe a partially updated state.
  *
  * @param config New configuration to apply.
+ * @details Calls: lock().
  */
 void FieldDiagnosticsCollector::configure(const FieldDiagnosticsConfig& config) {
+    /**
+     * @brief Lock.
+     * @param[in] buffer_mu_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::shared_mutex> lock(buffer_mu_);
     config_ = config;
 }
@@ -85,10 +92,16 @@ void FieldDiagnosticsCollector::configure(const FieldDiagnosticsConfig& config) 
  *
  * @return `true` if the event was buffered; `false` if collection is disabled
  *         or the buffer rejected the event (e.g. `max_buffer_size == 0`).
+ * @details Calls: lock(), sanitizePII(), emitDiagnosticEvent().
  */
 bool FieldDiagnosticsCollector::emitWithPIIMasking(const DiagnosticEvent& event) {
     bool enabled, pii_masking;
     {
+        /**
+         * @brief Lock.
+         * @param[in] buffer_mu_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(buffer_mu_);
         enabled = config_.enabled;
         pii_masking = config_.enable_pii_masking;
@@ -120,10 +133,16 @@ bool FieldDiagnosticsCollector::emitWithPIIMasking(const DiagnosticEvent& event)
  *
  * @return `true` if the event was buffered; `false` if disabled or the buffer
  *         was full and the event was dropped (increments `events_dropped_`).
+ * @details Calls: lock(), addEventToBuffer(), updateMetricsForEvent(), invokeCallbacks().
  */
 bool FieldDiagnosticsCollector::emitDiagnosticEvent(const DiagnosticEvent& event) {
     bool enabled, metrics_enabled;
     {
+        /**
+         * @brief Lock.
+         * @param[in] buffer_mu_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(buffer_mu_);
         enabled = config_.enabled;
         metrics_enabled = config_.enable_metrics_emission;
@@ -162,8 +181,14 @@ bool FieldDiagnosticsCollector::emitDiagnosticEvent(const DiagnosticEvent& event
  * @param event Event to insert.
  * @return `true` if the event was inserted; `false` if the buffer is disabled
  *         (`max_buffer_size == 0`).
+ * @details Calls: lock(), size(), pop_front(), push_back().
  */
 bool FieldDiagnosticsCollector::addEventToBuffer(const DiagnosticEvent& event) {
+    /**
+     * @brief Lock.
+     * @param[in] buffer_mu_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::shared_mutex> lock(buffer_mu_);
 
     if (config_.max_buffer_size == 0) {
@@ -191,6 +216,11 @@ bool FieldDiagnosticsCollector::addEventToBuffer(const DiagnosticEvent& event) {
  */
 std::vector<DiagnosticEvent> FieldDiagnosticsCollector::getEventsSince(
     const std::chrono::system_clock::time_point& since_timestamp) const {
+    /**
+     * @brief Lock.
+     * @param[in] buffer_mu_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(buffer_mu_);
 
     std::vector<DiagnosticEvent> result = {};
@@ -213,6 +243,11 @@ std::vector<DiagnosticEvent> FieldDiagnosticsCollector::getEventsSince(
  * @return All currently buffered `DiagnosticEvent` instances.
  */
 std::vector<DiagnosticEvent> FieldDiagnosticsCollector::getAllEvents() const {
+    /**
+     * @brief Lock.
+     * @param[in] buffer_mu_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(buffer_mu_);
     return std::vector<DiagnosticEvent>(event_buffer_.begin(), event_buffer_.end());
 }
@@ -228,6 +263,11 @@ std::vector<DiagnosticEvent> FieldDiagnosticsCollector::getAllEvents() const {
  */
 std::map<DiagnosticFailureCategory, size_t> 
 FieldDiagnosticsCollector::getEventCountsByCategory() const {
+    /**
+     * @brief Lock.
+     * @param[in] buffer_mu_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(buffer_mu_);
 
     std::map<DiagnosticFailureCategory, size_t> counts = {};
@@ -244,8 +284,14 @@ FieldDiagnosticsCollector::getEventCountsByCategory() const {
  * Acquires an exclusive lock and clears the internal deque.  Does not reset
  * the `total_events_emitted_` or `events_dropped_` counters; those reflect
  * lifetime totals.  Useful for test teardown or explicit state resets.
+ * @details Calls: lock(), clear().
  */
 void FieldDiagnosticsCollector::clearBuffer() {
+    /**
+     * @brief Lock.
+     * @param[in] buffer_mu_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::shared_mutex> lock(buffer_mu_);
     event_buffer_.clear();
 }
@@ -259,6 +305,11 @@ void FieldDiagnosticsCollector::clearBuffer() {
  * @return Number of events currently held in the internal buffer.
  */
 size_t FieldDiagnosticsCollector::getBufferSize() const {
+    /**
+     * @brief Lock.
+     * @param[in] buffer_mu_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(buffer_mu_);
     return event_buffer_.size();
 }
@@ -272,8 +323,14 @@ size_t FieldDiagnosticsCollector::getBufferSize() const {
  *
  * @param enabled `true` to enable collection; `false` to suppress all
  *                incoming events (they will be silently discarded).
+ * @details Calls: lock().
  */
 void FieldDiagnosticsCollector::setEnabled(bool enabled) {
+    /**
+     * @brief Lock.
+     * @param[in] buffer_mu_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::shared_mutex> lock(buffer_mu_);
     config_.enabled = enabled;
 }
@@ -287,6 +344,11 @@ void FieldDiagnosticsCollector::setEnabled(bool enabled) {
  * @return `true` if the collector is accepting events.
  */
 bool FieldDiagnosticsCollector::isEnabled() const {
+    /**
+     * @brief Lock.
+     * @param[in] buffer_mu_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(buffer_mu_);
     return config_.enabled;
 }
@@ -306,6 +368,11 @@ bool FieldDiagnosticsCollector::isEnabled() const {
  */
 void FieldDiagnosticsCollector::registerEmitCallback(
     std::function<void(const DiagnosticEvent&)> callback) {
+    /**
+     * @brief Lock.
+     * @param[in] callback_mu_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(callback_mu_);
     emit_callbacks_.push_back(callback);
 }
@@ -321,6 +388,11 @@ void FieldDiagnosticsCollector::registerEmitCallback(
  * @param event The event that was just buffered (already PII-sanitized).
  */
 void FieldDiagnosticsCollector::invokeCallbacks(const DiagnosticEvent& event) const {
+    /**
+     * @brief Lock.
+     * @param[in] callback_mu_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(callback_mu_);
     for (const auto& cb : emit_callbacks_) {
         try {
@@ -341,6 +413,11 @@ void FieldDiagnosticsCollector::invokeCallbacks(const DiagnosticEvent& event) co
  * @return `nlohmann::json` array containing one object per buffered event.
  */
 nlohmann::json FieldDiagnosticsCollector::exportAsJSON() const {
+    /**
+     * @brief Lock.
+     * @param[in] buffer_mu_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(buffer_mu_);
 
     nlohmann::json arr = nlohmann::json::array();
@@ -351,15 +428,8 @@ nlohmann::json FieldDiagnosticsCollector::exportAsJSON() const {
 }
 
 /**
- * @brief Force-flush any pending batched events to the configured backend.
- *
- * Currently a no-op placeholder: all buffered events are already accessible
- * via `getAllEvents()` / `exportAsJSON()`.  A future implementation will
- * trigger a synchronous async-export cycle and wait for acknowledgement from
- * the backend before returning.
- *
- * Call this before process shutdown or before taking a checkpoint to ensure
- * no events are lost.
+ * @brief Flush.
+ * @details Implements flush without additional internal calls.
  */
 void FieldDiagnosticsCollector::flush() {
     // For now, just ensure all buffered events are accessible
@@ -395,6 +465,11 @@ nlohmann::json FieldDiagnosticsCollector::getStats() const {
     size_t buf_size, max_buf;
     bool enabled, pii_masking, metrics_emit;
     {
+        /**
+         * @brief Lock.
+         * @param[in] buffer_mu_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(buffer_mu_);
         buf_size    = event_buffer_.size();
         max_buf     = config_.max_buffer_size;
@@ -429,6 +504,7 @@ nlohmann::json FieldDiagnosticsCollector::getStats() const {
  * corresponding category/module combination.
  *
  * @param event The buffered event whose metrics should be recorded.
+ * @details Calls: MetricsCollector::getInstance(), addCounter(), failureCategoryToString(), severityToString(), setGauge().
  */
 void FieldDiagnosticsCollector::updateMetricsForEvent(const DiagnosticEvent& event) {
     auto& metrics = MetricsCollector::getInstance();

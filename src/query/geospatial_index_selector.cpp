@@ -17,9 +17,14 @@
 namespace themis {
 namespace query {
 
-// =============================================================================
-// DataDistribution
-// =============================================================================
+/**
+ * @brief ============================================================================= DataDistribution =============================================================================
+ * @param[in] totalPoints Input parameter.
+ * @param[in] distinctLocationCells Input parameter.
+ * @param[in] spatialVariance Input parameter.
+ * @return Return value.
+ * @details Calls: std::min().
+ */
 
 DataDistribution DataDistribution::infer(
     size_t totalPoints,
@@ -185,6 +190,12 @@ std::map<std::string, IndexStatistics> GeospatialIndexSelector::getAvailableInde
     return std::map<std::string, IndexStatistics>();
 }
 
+/**
+ * @brief Infer Distribution.
+ * @param[in] histogram Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), std::sqrt(), std::min(), DataDistribution::infer().
+ */
 DataDistribution GeospatialIndexSelector::inferDistribution(
     const SpatialHistogram& histogram) {
     
@@ -218,6 +229,14 @@ DataDistribution GeospatialIndexSelector::inferDistribution(
     return DataDistribution::infer(histogram.totalPoints, distinctCells, normalizedVariance);
 }
 
+/**
+ * @brief Calculate Selectivity Gain.
+ * @param[in] indexType Input parameter.
+ * @param[in] totalRows Input parameter.
+ * @param[in] predicateType Input parameter.
+ * @return Return value.
+ * @details Calls: std::log2(), std::max().
+ */
 double GeospatialIndexSelector::calculateSelectivityGain(
     SpatialIndexType indexType,
     size_t totalRows,
@@ -249,6 +268,15 @@ double GeospatialIndexSelector::calculateSelectivityGain(
     return fullScanCost / indexCost;
 }
 
+/**
+ * @brief Score Index.
+ * @param[in] index Input parameter.
+ * @param[in] predicateType Input parameter.
+ * @param[in] dataDistribution Input parameter.
+ * @param[in] totalRows Input parameter.
+ * @return Return value.
+ * @details Calls: getEfficiencyScore().
+ */
 double GeospatialIndexSelector::scoreIndex(
     const IndexStatistics& index,
     const std::string& predicateType,
@@ -304,6 +332,13 @@ double GeospatialIndexSelector::scoreIndex(
     return score;
 }
 
+/**
+ * @brief Score Full Scan.
+ * @param[in] totalRows Input parameter.
+ * @param[in] predicateType Input parameter.
+ * @return Return value.
+ * @details Implements scoreFullScan without additional internal calls.
+ */
 double GeospatialIndexSelector::scoreFullScan(
     size_t totalRows,
     const std::string& predicateType) {
@@ -320,6 +355,13 @@ double GeospatialIndexSelector::scoreFullScan(
     }
 }
 
+/**
+ * @brief Get Index Type Cost Multiplier.
+ * @param[in] type Input parameter.
+ * @param[in] distribution Input parameter.
+ * @return Return value.
+ * @details Implements getIndexTypeCostMultiplier without additional internal calls.
+ */
 double GeospatialIndexSelector::getIndexTypeCostMultiplier(
     SpatialIndexType type,
     const DataDistribution& distribution) {

@@ -17,12 +17,6 @@
 namespace themis {
 namespace aql {
 
-/**
- * @brief Error code taxonomy for LLM operations
- * 
- * Provides structured error codes for better error handling and monitoring.
- * Error codes follow the pattern: LLM_<CATEGORY>_<SPECIFIC_ERROR>
- */
 enum class LLMErrorCode {
     // Input validation errors (1xxx)
     INVALID_PROMPT = 1001,
@@ -58,14 +52,7 @@ enum class LLMErrorCode {
     CACHE_FULL = 5002,
 
     // Provider / capability errors (6xxx) — frozen contract (Q3 2026)
-    /// The configured LLM provider does not support the requested operation mode
-    /// (e.g., streaming requested on a non-streaming provider).
-    /// Callers must treat this as a non-retryable failure and fall back to a
-    /// supported mode or return an error to the user.
     PROVIDER_UNSUPPORTED = 6001,
-    /// The model or adapter does not expose the requested capability
-    /// (e.g., LoRA fine-tuning requested on a base-only model).
-    /// Callers must treat this as a non-retryable configuration error.
     CAPABILITY_UNSUPPORTED = 6002,
 
     // Internal errors (9xxx)
@@ -73,11 +60,6 @@ enum class LLMErrorCode {
     UNKNOWN_ERROR = 9999
 };
 
-/**
- * @brief Exception class for LLM operations
- * 
- * Provides structured error information with error codes and correlation IDs.
- */
 class LLMException : public std::runtime_error {
 public:
     LLMException(LLMErrorCode code, const std::string& message)
@@ -95,15 +77,15 @@ public:
     LLMErrorCode getErrorCode() const { return error_code_; }
     const std::string& getCorrelationId() const { return correlation_id_; }
     
-    /**
-     * @brief Get user-friendly error message (masks internal details)
-     */
     std::string getSafeMessage() const {
         return formatErrorMessage(error_code_, what());
     }
     
     /**
-     * @brief Get error code as string
+     * @brief Get Error Code String.
+     * @param[in] code Input parameter.
+     * @return Return value.
+     * @details Implements getErrorCodeString without additional internal calls.
      */
     static std::string getErrorCodeString(LLMErrorCode code) {
         switch (code) {
@@ -139,9 +121,6 @@ private:
     LLMErrorCode error_code_;
     std::string correlation_id_;
     
-    /**
-     * @brief Format error message for user consumption (masks internal details)
-     */
     static std::string formatErrorMessage(LLMErrorCode code, [[maybe_unused]] const std::string& internal_msg) {
         // For user-facing errors, provide generic safe messages
         switch (code) {
@@ -200,9 +179,6 @@ private:
     }
 };
 
-/**
- * @brief Input validation constants
- */
 namespace ValidationLimits {
     // Maximum prompt length (approximately 32K tokens at 4 chars/token)
     constexpr size_t MAX_PROMPT_LENGTH = 128000;
@@ -231,38 +207,22 @@ namespace ValidationLimits {
     constexpr size_t MAX_SCHEMA_CONTEXT_LENGTH = 32768;
 }
 
-/**
- * @brief Runtime-configurable counterpart of the @c ValidationLimits constants.
- *
- * Inject an instance into @c LLMAQLHandler via
- * @c LLMAQLHandler::setValidationLimits() to tune all input-length and
- * query-count caps without recompilation. Fields default to the same values
- * as the corresponding @c ValidationLimits constexpr constants so that
- * existing deployments are unaffected until an explicit override is applied.
- */
 struct ValidationLimitsConfig {
-    /// Maximum prompt length (chars).  Default: ValidationLimits::MAX_PROMPT_LENGTH
     std::size_t max_prompt_length           = ValidationLimits::MAX_PROMPT_LENGTH;
-    /// Maximum NL query length (chars).  Default: ValidationLimits::MAX_NL_QUERY_LENGTH
     std::size_t max_nl_query_length         = ValidationLimits::MAX_NL_QUERY_LENGTH;
-    /// Maximum schema context length (chars).  Default: ValidationLimits::MAX_SCHEMA_CONTEXT_LENGTH
     std::size_t max_schema_context_length   = ValidationLimits::MAX_SCHEMA_CONTEXT_LENGTH;
-    /// Maximum RAG top_k.  Default: ValidationLimits::MAX_RAG_TOP_K
     int         max_rag_top_k               = ValidationLimits::MAX_RAG_TOP_K;
-    /// Minimum RAG top_k.  Default: ValidationLimits::MIN_RAG_TOP_K
     int         min_rag_top_k               = ValidationLimits::MIN_RAG_TOP_K;
-    /// Default execution timeout (seconds).  Default: ValidationLimits::DEFAULT_TIMEOUT_SECONDS
     int         default_timeout_seconds     = ValidationLimits::DEFAULT_TIMEOUT_SECONDS;
 };
 
-/**
- * @brief Validation helper functions
- */
 class LLMValidator {
 public:
     /**
-     * @brief Validate prompt length
-     * @throws LLMException if validation fails
+     * @brief Validate Prompt.
+     * @param[in] prompt Input parameter.
+     * @throws LLMException if an error occurs.
+     * @details Calls: empty(), length(), std::to_string().
      */
     static void validatePrompt(const std::string& prompt) {
         if (prompt.empty()) {
@@ -275,10 +235,6 @@ public:
         }
     }
     
-    /**
-     * @brief Validate model or LoRA ID format (alphanumeric + dash/underscore)
-     * @throws LLMException if validation fails
-     */
     static void validateId(const std::string& id, bool is_lora = false) {
         if (id.empty()) {
             return; // Empty IDs are allowed (use default)
@@ -303,8 +259,10 @@ public:
     }
     
     /**
-     * @brief Validate collection name
-     * @throws LLMException if validation fails
+     * @brief Validate Collection.
+     * @param[in] collection Input parameter.
+     * @throws LLMException if an error occurs.
+     * @details Calls: empty(), length(), std::to_string().
      */
     static void validateCollection(const std::string& collection) {
         if (collection.empty()) {
@@ -317,8 +275,10 @@ public:
     }
     
     /**
-     * @brief Validate RAG top_k parameter
-     * @throws LLMException if validation fails
+     * @brief Validate Top K.
+     * @param[in] top_k Input parameter.
+     * @throws LLMException if an error occurs.
+     * @details Calls: std::to_string().
      */
     static void validateTopK(int top_k) {
         if (top_k < ValidationLimits::MIN_RAG_TOP_K || top_k > ValidationLimits::MAX_RAG_TOP_K) {

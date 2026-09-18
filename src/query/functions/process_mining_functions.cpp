@@ -40,26 +40,62 @@ std::mutex                                 PmLoadAdminModelFunction::admin_model
 PmListAdminModelsFunction::AdminModelListFn PmListAdminModelsFunction::admin_model_list_fn_;
 std::mutex                                  PmListAdminModelsFunction::admin_model_list_fn_mutex_;
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Bridge setters
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── Bridge setters ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 
 void PmPredictEndFunction::setPredictEndFn(PredictEndFn fn) {
+    /**
+     * @brief Lock.
+     * @param[in] predict_end_fn_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(predict_end_fn_mutex_);
     predict_end_fn_ = std::move(fn);
 }
 
+/**
+ * @brief Set Admin Model Load Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void PmLoadAdminModelFunction::setAdminModelLoadFn(AdminModelLoadFn fn) {
+    /**
+     * @brief Lock.
+     * @param[in] admin_model_load_fn_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(admin_model_load_fn_mutex_);
     admin_model_load_fn_ = std::move(fn);
 }
 
+/**
+ * @brief Set Admin Model List Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void PmListAdminModelsFunction::setAdminModelListFn(AdminModelListFn fn) {
+    /**
+     * @brief Lock.
+     * @param[in] admin_model_list_fn_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(admin_model_list_fn_mutex_);
     admin_model_list_fn_ = std::move(fn);
 }
 
+/**
+ * @brief Clear Predict End Fn.
+ * @details Calls: lock().
+ */
 void PmPredictEndFunction::clearPredictEndFn() {
+    /**
+     * @brief Lock.
+     * @param[in] predict_end_fn_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(predict_end_fn_mutex_);
     predict_end_fn_ = nullptr;
 }
@@ -71,6 +107,12 @@ void PmPredictEndFunction::clearPredictEndFn() {
 namespace {
 constexpr std::size_t kProcessEmbeddingDimensions = 256;
 
+/**
+ * @brief Trace Activities.
+ * @param[in] trace Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), push_back().
+ */
 std::vector<std::string> traceActivities(const ProcessTrace& trace) {
     std::vector<std::string> activities = {};
 
@@ -90,6 +132,13 @@ std::set<std::pair<std::string, std::string>> traceEdges(const ProcessTrace& tra
 }
 
 template <typename T>
+/**
+ * @brief Jaccard Similarity.
+ * @param[in] lhs Input parameter.
+ * @param[in] rhs Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::set_intersection(), begin(), end(), std::back_inserter(), std::set_union(), size().
+ */
 double jaccardSimilarity(const std::set<T>& lhs, const std::set<T>& rhs) {
     if (lhs.empty() && rhs.empty()) {
         return 1.0;
@@ -107,6 +156,13 @@ double jaccardSimilarity(const std::set<T>& lhs, const std::set<T>& rhs) {
            static_cast<double>(union_values.size());
 }
 
+/**
+ * @brief Longest Common Subsequence.
+ * @param[in] lhs Input parameter.
+ * @param[in] rhs Input parameter.
+ * @return Return value.
+ * @details Calls: previous(), size(), current(), std::max(), std::swap(), std::fill(), begin(), end().
+ */
 int longestCommonSubsequence(const std::vector<std::string>& lhs,
                              const std::vector<std::string>& rhs) {
     std::vector<int> previous(rhs.size() + 1, 0);
@@ -138,6 +194,12 @@ std::set<std::pair<std::string, std::string>> weakOrderPairs(
     return pairs;
 }
 
+/**
+ * @brief Embed Activities.
+ * @param[in] activities Input parameter.
+ * @return Return value.
+ * @details Calls: embedding(), reserve(), size(), push_back(), std::tolower(), std::sqrt().
+ */
 std::vector<float> embedActivities(const std::vector<std::string>& activities) {
     std::vector<float> embedding(kProcessEmbeddingDimensions, 0.0f);
     for (const auto& activity : activities) {
@@ -172,6 +234,13 @@ std::vector<float> embedActivities(const std::vector<std::string>& activities) {
     return embedding;
 }
 
+/**
+ * @brief Cosine Similarity.
+ * @param[in] lhs Input parameter.
+ * @param[in] rhs Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size().
+ */
 double cosineSimilarity(const std::vector<float>& lhs, const std::vector<float>& rhs) {
     if (lhs.empty() || rhs.empty() || lhs.size() != rhs.size()) {
         return 0.0;
@@ -183,12 +252,24 @@ double cosineSimilarity(const std::vector<float>& lhs, const std::vector<float>&
     return dot;
 }
 
+/**
+ * @brief Make Error.
+ * @param[in] msg Input parameter.
+ * @return Return value.
+ * @details Implements makeError without additional internal calls.
+ */
 json makeError(const std::string& msg) {
     json j;
     j["error"] = msg;
     return j;
 }
 
+/**
+ * @brief Normalize Admin Models.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: is_array(), json::array(), is_object(), contains(), is_string(), push_back().
+ */
 json normalizeAdminModels(const json& value) {
     if (!value.is_array()) {
         return json::array();
@@ -206,8 +287,19 @@ json normalizeAdminModels(const json& value) {
     return result;
 }
 
+/**
+ * @brief Parse Event Log.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ */
 EventLog parseEventLog(const json& j);
 
+/**
+ * @brief Parse Process Pattern.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: is_object(), value(), contains(), is_array(), is_string(), push_back(), empty(), emplace_back().
+ */
 ProcessPattern parseProcessPattern(const json& j) {
     ProcessPattern pattern = {};
     if (!j.is_object()) {
@@ -237,6 +329,12 @@ ProcessPattern parseProcessPattern(const json& j) {
     return pattern;
 }
 
+/**
+ * @brief Parse Similarity Method.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: value().
+ */
 SimilarityMethod parseSimilarityMethod(const json& config) {
     const auto method = config.value("method", std::string{"hybrid"});
     if (method == "graph") {
@@ -251,6 +349,12 @@ SimilarityMethod parseSimilarityMethod(const json& config) {
     return SimilarityMethod::HYBRID;
 }
 
+/**
+ * @brief Parse Event Log Config.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: value(), contains(), is_number_integer().
+ */
 EventLogConfig parseEventLogConfig(const json& config) {
     EventLogConfig log_config;
     log_config.case_id_field = config.value("case_id_field", std::string{"case_id"});
@@ -265,6 +369,14 @@ EventLogConfig parseEventLogConfig(const json& config) {
     return log_config;
 }
 
+/**
+ * @brief Build Event Log From Scanner.
+ * @param[in] ctx Input parameter.
+ * @param[in] collection Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: scanCollection(), find(), end(), is_string(), is_number_integer(), at(), push_back(), size().
+ */
 EventLog buildEventLogFromScanner(const FunctionContext& ctx,
                                   const std::string& collection,
                                   const EventLogConfig& config) {
@@ -374,6 +486,13 @@ EventLog getEventLogFromContext(const FunctionContext& ctx, const json& config =
     return buildEventLogFromScanner(ctx, collection, log_cfg);
 }
 
+/**
+ * @brief Find Trace By Case Id.
+ * @param[in] log Input parameter.
+ * @param[in] case_id Input parameter.
+ * @return Pointer to the result.
+ * @details Implements findTraceByCaseId without additional internal calls.
+ */
 const ProcessTrace* findTraceByCaseId(const EventLog& log, const std::string& case_id) {
     for (const auto& trace : log.traces) {
         if (trace.case_id == case_id) {
@@ -383,6 +502,13 @@ const ProcessTrace* findTraceByCaseId(const EventLog& log, const std::string& ca
     return nullptr;
 }
 
+/**
+ * @brief Compute Graph Similarity.
+ * @param[in] pattern Input parameter.
+ * @param[in] trace Input parameter.
+ * @return Return value.
+ * @details Calls: pattern_activities(), begin(), end(), traceActivities(), trace_activity_set(), pattern_edges(), traceEdges(), jaccardSimilarity().
+ */
 double computeGraphSimilarity(const ProcessPattern& pattern, const ProcessTrace& trace) {
     const std::set<std::string> pattern_activities(pattern.activities.begin(), pattern.activities.end());
     const std::vector<std::string> trace_activity_sequence = traceActivities(trace);
@@ -401,6 +527,13 @@ double computeGraphSimilarity(const ProcessPattern& pattern, const ProcessTrace&
     return 0.4 * node_overlap + 0.35 * edge_overlap + 0.25 * path_similarity;
 }
 
+/**
+ * @brief Compute Behavioral Similarity.
+ * @param[in] pattern Input parameter.
+ * @param[in] trace Input parameter.
+ * @return Return value.
+ * @details Calls: traceActivities(), empty(), longestCommonSubsequence(), std::max(), size(), weakOrderPairs(), jaccardSimilarity().
+ */
 double computeBehavioralSimilarity(const ProcessPattern& pattern, const ProcessTrace& trace) {
     const auto trace_activity_sequence = traceActivities(trace);
     if (pattern.activities.empty() && trace_activity_sequence.empty()) {
@@ -420,10 +553,28 @@ double computeBehavioralSimilarity(const ProcessPattern& pattern, const ProcessT
     return 0.5 * seq_similarity + 0.5 * order_similarity;
 }
 
+/**
+ * @brief Compute Vector Similarity.
+ * @param[in] pattern Input parameter.
+ * @param[in] trace Input parameter.
+ * @return Return value.
+ * @details Calls: cosineSimilarity(), embedActivities(), traceActivities().
+ */
 double computeVectorSimilarity(const ProcessPattern& pattern, const ProcessTrace& trace) {
     return cosineSimilarity(embedActivities(pattern.activities), embedActivities(traceActivities(trace)));
 }
 
+/**
+ * @brief Make Similarity Entry.
+ * @param[in] pattern Input parameter.
+ * @param[in] trace Input parameter.
+ * @param[in] overall_similarity Input parameter.
+ * @param[in] graph_similarity Input parameter.
+ * @param[in] vector_similarity Input parameter.
+ * @param[in] behavioral_similarity Input parameter.
+ * @return Return value.
+ * @details Calls: pattern_activities(), begin(), end(), traceActivities(), trace_activity_set(), pattern_edges(), traceEdges(), json::array().
+ */
 json makeSimilarityEntry(const ProcessPattern& pattern,
                          const ProcessTrace& trace,
                          double overall_similarity,
@@ -478,6 +629,12 @@ json makeSimilarityEntry(const ProcessPattern& pattern,
     };
 }
 
+/**
+ * @brief Trace To Json.
+ * @param[in] trace Input parameter.
+ * @return Return value.
+ * @details Calls: json::array(), is_null(), push_back(), std::move().
+ */
 json traceToJson(const ProcessTrace& trace) {
     json events = json::array();
     for (const auto& event : trace.events) {
@@ -507,6 +664,13 @@ json traceToJson(const ProcessTrace& trace) {
     };
 }
 
+/**
+ * @brief Compare Trace With Pattern.
+ * @param[in] pattern Input parameter.
+ * @param[in] trace Input parameter.
+ * @return Return value.
+ * @details Calls: computeGraphSimilarity(), computeBehavioralSimilarity(), computeVectorSimilarity(), makeSimilarityEntry(), json::array(), push_back(), std::max(), size().
+ */
 json compareTraceWithPattern(const ProcessPattern& pattern, const ProcessTrace& trace) {
     const auto graph_similarity = computeGraphSimilarity(pattern, trace);
     const auto behavioral_similarity = computeBehavioralSimilarity(pattern, trace);
@@ -534,22 +698,12 @@ json compareTraceWithPattern(const ProcessPattern& pattern, const ProcessTrace& 
     };
 }
 
-// ---------------------------------------------------------------------------
-// JSON → EventLog
-//
-// Expected JSON format (produced by PM_EXTRACT_LOG):
-// {
-//   "traces": [
-//     {
-//       "case_id": "V-001",
-//       "events": [
-//         {"activity": "A", "timestamp_ms": 1000, "resource": "u1"},
-//         ...
-//       ]
-//     }
-//   ]
-// }
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- JSON → EventLog Expected JSON format (produced by PM_EXTRACT_LOG): { "traces": [ { "case_id": "V-001", "events": [ {"activity": "A", "timestamp_ms": 1000, "resource": "u1"}, .
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details .. ] } ] } --------------------------------------------------------------------------- Calls: is_object(), contains(), is_array(), value(), is_string(), empty(), find(), end().
+ */
 EventLog parseEventLog(const json& j) {
     EventLog log = {};
     if (!j.is_object() || !j.contains("traces") || !j["traces"].is_array()) {
@@ -599,9 +753,12 @@ EventLog parseEventLog(const json& j) {
     return log;
 }
 
-// ---------------------------------------------------------------------------
-// DiscoveredProcess → JSON
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- DiscoveredProcess → JSON ---------------------------------------------------------------------------
+ * @param[in] proc Input parameter.
+ * @return Return value.
+ * @details Calls: json::array(), push_back(), std::move(), size().
+ */
 json discoveredProcessToJson(const DiscoveredProcess& proc) {
     json j;
     j["id"]             = proc.id;
@@ -640,9 +797,12 @@ json discoveredProcessToJson(const DiscoveredProcess& proc) {
     return j;
 }
 
-// ---------------------------------------------------------------------------
-// JSON → DiscoveredProcess  (for PM_CONFORMANCE / PM_EXPORT_BPMN input)
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- JSON → DiscoveredProcess (for PM_CONFORMANCE / PM_EXPORT_BPMN input) ---------------------------------------------------------------------------
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: is_object(), value(), contains(), is_array(), push_back(), std::move().
+ */
 DiscoveredProcess parseDiscoveredProcess(const json& j) {
     DiscoveredProcess proc = {};
     if (!j.is_object()) {
@@ -684,9 +844,12 @@ DiscoveredProcess parseDiscoveredProcess(const json& j) {
     return proc;
 }
 
-// ---------------------------------------------------------------------------
-// JSON → MiningConfig
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- JSON → MiningConfig ---------------------------------------------------------------------------
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: is_object(), value().
+ */
 MiningConfig parseMiningConfig(const json& j) {
     MiningConfig cfg = {};
     if (!j.is_object()) {

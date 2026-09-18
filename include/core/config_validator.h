@@ -20,28 +20,17 @@
 namespace themis {
 namespace core {
 
-/**
- * @brief Configuration validation utilities
- * 
- * Provides schema validation for security and observability configurations
- */
 class ConfigValidator {
 public:
-    /**
-     * @brief Validation result returned by configuration checks.
-     *
-     * The result is considered valid only when valid is true and errors is
-     * empty. Warnings do not invalidate the configuration.
-     */
     struct ValidationResult {
         bool valid = true;
         std::vector<std::string> errors;
         std::vector<std::string> warnings;
         
         /**
-         * @brief Record a validation error and mark the result invalid.
-         *
-         * @param error Human-readable error message.
+         * @brief Add Error.
+         * @param[in] error Input parameter.
+         * @details Calls: push_back().
          */
         void addError(const std::string& error) {
             valid = false;
@@ -49,23 +38,14 @@ public:
         }
         
         /**
-         * @brief Record a non-fatal validation warning.
-         *
-         * @param warning Human-readable warning message.
+         * @brief Add Warning.
+         * @param[in] warning Input parameter.
+         * @details Calls: push_back().
          */
         void addWarning(const std::string& warning) {
             warnings.push_back(warning);
         }
         
-        /**
-         * @brief Format all validation messages into a single text block.
-         *
-         * Errors are emitted before warnings so callers can present the most
-         * important failures first.
-         *
-         * @return Multi-line summary string suitable for exception messages or
-         *         log output.
-         */
         std::string formatErrors() const {
             std::string result = {};
             for (const auto& error : errors) {
@@ -79,15 +59,10 @@ public:
     };
     
     /**
-     * @brief Validate Vault key provider configuration
-     *
-     * Requires `vault_addr` and `vault_token`. The address must use HTTP or
-     * HTTPS. Missing optional keys are reported as warnings when they imply a
-     * production-hardened default.
-     *
-     * @param config JSON configuration object to validate.
-     * @return ValidationResult with errors for invalid input and warnings for
-     *         risky defaults.
+     * @brief Validate Vault Config.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     * @details Calls: contains(), empty(), addError(), find().
      */
     static ValidationResult validateVaultConfig(const nlohmann::json& config) {
         ValidationResult result;
@@ -120,16 +95,11 @@ public:
     }
     
     /**
-     * @brief Validate JWT configuration
-     *
-     * In production mode the validator requires a JWKS URL and issuer, and it
-     * requires an audience when audience validation is enabled. In development
-     * mode the same gaps are downgraded to warnings so the caller can bootstrap
-     * local test environments.
-     *
-     * @param config JWT validator configuration to validate.
-     * @param production_mode Whether production enforcement rules should apply.
-     * @return ValidationResult capturing hard failures and soft warnings.
+     * @brief Validate JWTConfig.
+     * @param[in] config Input parameter.
+     * @param[in] production_mode Input parameter.
+     * @return Return value.
+     * @details Calls: empty(), addError(), has_value(), addWarning(), count().
      */
     static ValidationResult validateJWTConfig(const auth::JWTValidatorConfig& config, bool production_mode) {
         ValidationResult result = {};
@@ -175,16 +145,11 @@ public:
     }
     
     /**
-     * @brief Validate logging configuration
-     *
-     * Accepts only the canonical log levels used by the runtime logging stack.
-     * An empty pattern is allowed but reported as a warning so callers can fall
-     * back to the default formatter explicitly.
-     *
-     * @param log_level   Requested log level string.
-     * @param log_pattern  Pattern string for the logger backend.
-     * @return ValidationResult with an error for an unknown level and warnings
-     *         for empty or risky settings.
+     * @brief Validate Log Config.
+     * @param[in] log_level Input parameter.
+     * @param[in] log_pattern Input parameter.
+     * @return Return value.
+     * @details Calls: addError(), empty(), addWarning().
      */
     static ValidationResult validateLogConfig(const std::string& log_level, const std::string& log_pattern) {
         ValidationResult result;
@@ -212,16 +177,12 @@ public:
     }
     
     /**
-     * @brief Validate tracing configuration
-     *
-     * Tracing is only valid when the feature is enabled and the endpoint is
-     * provided. Missing service names are treated as warnings because the
-     * backend can often inject a fallback identifier.
-     *
-     * @param enabled      Whether tracing is enabled.
-     * @param endpoint     OpenTelemetry or collector endpoint.
-     * @param service_name  Logical service name used in spans.
-     * @return ValidationResult describing configuration issues.
+     * @brief Validate Tracing Config.
+     * @param[in] enabled Input parameter.
+     * @param[in] endpoint Input parameter.
+     * @param[in] service_name Name of the service.
+     * @return Return value.
+     * @details Calls: empty(), addError(), addWarning().
      */
     static ValidationResult validateTracingConfig(bool enabled, const std::string& endpoint, const std::string& service_name) {
         ValidationResult result = {};
@@ -239,25 +200,6 @@ public:
         return result;
     }
     
-    /**
-     * @brief Validate adapter type configuration
-     * 
-     * Validates that the adapter type strings in ConcernsContext::Config refer
-     * to known, supported adapters.
-     *
-     * @param logger_adapter           Value of Config::loggerAdapter
-     * @param tracer_adapter           Value of Config::tracerAdapter (empty = auto)
-     * @param metrics_adapter          Value of Config::metricsAdapter (empty = auto)
-     * @param cache_adapter            Value of Config::cacheAdapter
-     * @param circuit_breaker_adapter  Value of Config::circuitBreakerAdapter
-     * @param feature_flags_adapter    Value of Config::featureFlagsAdapter
-     * @param audit_adapter            Value of Config::auditAdapter
-     * @param secrets_adapter          Value of Config::secretsAdapter
-     * @param cache_redis_url          Redis endpoint required when cache is set
-     *                                 to redis.
-     * @return ValidationResult with explicit adapter-name errors and missing
-     *         endpoint errors.
-     */
     static ValidationResult validateAdapterConfig(
         const std::string& logger_adapter,
         const std::string& tracer_adapter,
@@ -318,15 +260,11 @@ public:
     }
     
     /**
-     * @brief Validate cache configuration
-     *
-     * Zero size disables the cache and very large capacities are reported as
-     * warnings because they can increase memory pressure.
-     *
-     * @param max_size     Maximum number of entries retained by the cache.
-     * @param default_ttl  Default time-to-live in seconds.
-     * @return ValidationResult with warnings for degenerate or risky cache
-     *         settings.
+     * @brief Validate Cache Config.
+     * @param[in] max_size Input parameter.
+     * @param[in] default_ttl Input parameter.
+     * @return Return value.
+     * @details Calls: addWarning().
      */
     static ValidationResult validateCacheConfig(size_t max_size, uint64_t default_ttl) {
         ValidationResult result = {};

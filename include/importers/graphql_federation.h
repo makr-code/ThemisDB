@@ -18,38 +18,13 @@
 namespace themis {
 namespace importers {
 
-/**
- * @brief Apollo Federation v2 GraphQL schema generation from PostgreSQL.
- *
- * Converts relational schemas to federated GraphQL SDL (Schema Definition
- * Language), emitting \@key, \@shareable, and \@requires directives for
- * multi-subgraph gateway setups.
- *
- * Standard: Apollo Federation v2 (GraphQL)
- */
 class GraphQLFederationSupport {
 public:
     // ------------------------------------------------------------------
     // Schema generator
     // ------------------------------------------------------------------
-    /** @brief Schema generator. */
     class GraphQLSchemaGenerator {
     public:
-        /**
-         * @brief Generate a Federation v2-compatible GraphQL SDL for the
-         *        given table schemas.
-         *
-         * The generator:
-         *  - Maps each table to a GraphQL type with \@key(fields: "<pk>")
-         *  - Emits scalar overrides for semantic types (UUID, DateTime, …)
-         *  - Adds \@relationship annotations on FK columns
-         *  - Wraps list fields as non-null arrays where appropriate
-         *
-         * @param schemas          Table schemas to convert.
-         * @param service_name     Name of this subgraph service.
-         * @param external_entities  Types owned by other subgraphs (\@external).
-         * @return Apollo Federation v2 SDL string.
-         */
         std::string generateFederatedSchema(
             const std::vector<InferenceTableSchema>& schemas,
             const std::string& service_name,
@@ -57,16 +32,34 @@ public:
         );
 
         /**
-         * @brief Generate a plain (non-federated) GraphQL SDL.
-         * Useful for single-service setups.
+         * @brief Generate Plain Schema.
+         * @param[in] schemas Input parameter.
+         * @return Return value.
          */
         std::string generatePlainSchema(
             const std::vector<InferenceTableSchema>& schemas
         );
 
     private:
+        /**
+         * @brief Pg Type To Graph QL.
+         * @param[in] pg_type Input parameter.
+         * @return Return value.
+         */
         std::string pgTypeToGraphQL(const std::string& pg_type) const;
+        /**
+         * @brief Table Name To Type Name.
+         * @param[in] table Input parameter.
+         * @return Return value.
+         */
         std::string tableNameToTypeName(const std::string& table) const;
+        /**
+         * @brief Column To Field.
+         * @param[in] col Input parameter.
+         * @param[in] pg_type Input parameter.
+         * @param[in] nullable Input parameter.
+         * @return Return value.
+         */
         std::string columnToField(const std::string& col,
                                    const std::string& pg_type,
                                    bool nullable) const;

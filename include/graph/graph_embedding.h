@@ -19,7 +19,6 @@ namespace graph {
 // EmbeddingAlgorithm
 // ---------------------------------------------------------------------------
 
-/// @brief Graph embedding algorithm selector.
 enum class EmbeddingAlgorithm {
     NODE2VEC,
     GRAPHSAGE,
@@ -34,7 +33,6 @@ enum class EmbeddingAlgorithm {
 // GraphEmbeddingConfig
 // ---------------------------------------------------------------------------
 
-/// @brief Configuration for training a graph embedding model.
 struct GraphEmbeddingConfig {
     EmbeddingAlgorithm algorithm   = EmbeddingAlgorithm::NODE2VEC;
     size_t dimensions              = 128;
@@ -51,7 +49,6 @@ struct GraphEmbeddingConfig {
 // NodeEmbedding
 // ---------------------------------------------------------------------------
 
-/// @brief Embedding vector for a single graph node.
 struct NodeEmbedding {
     std::string node_id;
     std::vector<float> embedding;
@@ -62,7 +59,6 @@ struct NodeEmbedding {
 // GraphEmbeddingStats
 // ---------------------------------------------------------------------------
 
-/// @brief Summary statistics returned after training completes.
 struct GraphEmbeddingStats {
     size_t nodes_embedded    = 0;
     double training_time_ms  = 0.0;
@@ -74,31 +70,24 @@ struct GraphEmbeddingStats {
 // IGraphEmbeddingProvider
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Interface for graph embedding training and nearest-node queries.
- */
 class IGraphEmbeddingProvider {
 public:
+    /**
+     * @brief IGraph Embedding Provider.
+     * @return Return value.
+     */
     virtual ~IGraphEmbeddingProvider() = default;
 
-    /// @brief Train the embedding model over the current graph.
     [[nodiscard]] virtual GraphEmbeddingStats train(const GraphEmbeddingConfig& config) = 0;
 
-    /// @brief Retrieve the embedding vector for a single node.
     [[nodiscard]] virtual NodeEmbedding getEmbedding(const std::string& node_id) = 0;
 
-    /// @brief Retrieve embedding vectors for multiple nodes.
     [[nodiscard]] virtual std::vector<NodeEmbedding> getEmbeddings(
         const std::vector<std::string>& node_ids) = 0;
 
-    /**
-     * @brief Find the k nearest nodes to the given node in embedding space.
-     * @return Pairs of (node_id, cosine_similarity) sorted descending by similarity.
-     */
     [[nodiscard]] virtual std::vector<std::pair<std::string, float>> findSimilarNodes(
         const std::string& node_id, size_t k) = 0;
 
-    /// @brief Return true if a model has been successfully trained.
     [[nodiscard]] virtual bool isModelTrained() const = 0;
 };
 

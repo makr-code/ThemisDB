@@ -20,26 +20,6 @@
 namespace themis {
 namespace auth {
 
-/**
- * @brief Kerberos Security Hardening
- * 
- * Security Feature: Enhances GSSAPI/Kerberos authentication with additional security checks.
- * Prevents replay attacks, MITM attacks, and validates token structure.
- * 
- * Features:
- * - Channel bindings (RFC 5056, RFC 5929) to prevent MITM
- * - Strict ASN.1 validation for GSSAPI tokens
- * - Service ticket target principal verification
- * - Token structure validation
- * - Replay detection integration
- * 
- * Channel Bindings:
- * - tls-unique: TLS Finished message binding
- * - tls-server-end-point: Server certificate binding
- * - tls-exporter: TLS exporter binding (RFC 5705)
- * 
- * P1 (High Priority) security hardening feature.
- */
 class KerberosSecurityValidator {
 public:
     enum class ChannelBindingType {
@@ -74,55 +54,32 @@ public:
         bool reject_expired_tickets = true;
     };
     
+    /**
+     * @brief Kerberos Security Validator.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit KerberosSecurityValidator(const Config& config);
     
-    /**
-     * @brief Get the configuration
-     */
     const Config& getConfig() const { return config_; }
     
-    /**
-     * @brief Validate GSSAPI token with security checks
-     * 
-     * Performs comprehensive validation:
-     * - ASN.1 structure validation
-     * - Service principal verification
-     * - Channel binding verification
-     * - Expiration checking
-     * 
-     * @param token_data GSSAPI token bytes
-     * @param channel_binding Channel binding data (optional)
-     * @return true if token is valid and secure
-     * @throws std::runtime_error on validation failure with details
-     */
     bool validateToken(
         const std::vector<uint8_t>& token_data,
         const std::vector<uint8_t>& channel_binding = {}
     );
     
     /**
-     * @brief Validate ASN.1 structure
-     * 
-     * Checks for:
-     * - Valid ASN.1 encoding
-     * - Proper tag/length encoding
-     * - No buffer overruns
-     * - Depth limits
-     * - Length limits
-     * 
-     * @param data ASN.1 encoded data
-     * @return true if structure is valid
+     * @brief Validate ASN1 Structure.
+     * @param[in] data Input parameter.
+     * @return True when the operation succeeds.
      */
     bool validateASN1Structure(const std::vector<uint8_t>& data);
     
     /**
-     * @brief Verify service ticket target principal
-     * 
-     * Ensures ticket was issued for the expected service.
-     * 
-     * @param token_data GSSAPI token
-     * @param expected_principal Expected service principal
-     * @return true if principal matches
+     * @brief Verify Service Principal.
+     * @param[in] token_data Input parameter.
+     * @param[in] expected_principal Input parameter.
+     * @return True when the operation succeeds.
      */
     bool verifyServicePrincipal(
         const std::vector<uint8_t>& token_data,
@@ -130,13 +87,10 @@ public:
     );
     
     /**
-     * @brief Verify channel bindings
-     * 
-     * Binds Kerberos authentication to TLS channel, preventing MITM.
-     * 
-     * @param token_data GSSAPI token
-     * @param channel_binding Channel binding data from TLS
-     * @return true if channel binding is valid
+     * @brief Verify Channel Binding.
+     * @param[in] token_data Input parameter.
+     * @param[in] channel_binding Input parameter.
+     * @return True when the operation succeeds.
      */
     bool verifyChannelBinding(
         const std::vector<uint8_t>& token_data,
@@ -144,24 +98,19 @@ public:
     );
     
     /**
-     * @brief Extract service principal from token
-     * 
-     * @param token_data GSSAPI token
-     * @return std::string Service principal name
+     * @brief Extract Service Principal.
+     * @param[in] token_data Input parameter.
+     * @return Return value.
      */
     std::string extractServicePrincipal(const std::vector<uint8_t>& token_data);
     
     /**
-     * @brief Check if ticket is expired
-     * 
-     * @param token_data GSSAPI token
-     * @return true if ticket is expired
+     * @brief Is Ticket Expired.
+     * @param[in] token_data Input parameter.
+     * @return True when the operation succeeds.
      */
     bool isTicketExpired(const std::vector<uint8_t>& token_data);
     
-    /**
-     * @brief Get token info for debugging/auditing
-     */
     struct TokenInfo {
         std::string service_principal;
         std::string client_principal;
@@ -176,28 +125,30 @@ public:
         bool has_channel_binding;
     };
     
+    /**
+     * @brief Get Token Info.
+     * @param[in] token_data Input parameter.
+     * @return Return value.
+     */
     TokenInfo getTokenInfo(const std::vector<uint8_t>& token_data);
     
     /**
-     * @brief Create config with channel bindings
-     * 
-     * @param type Channel binding type
-     * @return Config Configuration with channel bindings enabled
+     * @brief With Channel Bindings.
+     * @param[in] type Input parameter.
+     * @return Return value.
      */
     static Config withChannelBindings(ChannelBindingType type);
     
     /**
-     * @brief Create config with strict validation
-     * 
-     * @return Config Maximally strict security configuration
+     * @brief Strict Validation.
+     * @return Return value.
      */
     static Config strictValidation();
     
     /**
-     * @brief Create config for specific service
-     * 
-     * @param service_principal Expected service principal
-     * @return Config Configuration with service verification
+     * @brief For Service.
+     * @param[in] service_principal Input parameter.
+     * @return Return value.
      */
     static Config forService(const std::string& service_principal);
 
@@ -213,72 +164,67 @@ private:
         const uint8_t* value;
     };
     
+    /**
+     * @brief Parse ASN1 Tag.
+     * @param[in] data Input parameter.
+     * @param[in] size Input parameter.
+     * @param[in,out] tag Input/output parameter.
+     * @return True when the operation succeeds.
+     */
     bool parseASN1Tag(const uint8_t* data, size_t size, ASN1Tag& tag);
+    /**
+     * @brief Validate ASN1 Depth.
+     * @param[in] data Input parameter.
+     * @param[in] size Input parameter.
+     * @param[in] current_depth Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool validateASN1Depth(const uint8_t* data, size_t size, size_t current_depth);
     
     // Channel binding helpers
+    /**
+     * @brief Compute TLSServer Endpoint.
+     * @param[in] cert_data Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> computeTLSServerEndpoint(const std::vector<uint8_t>& cert_data);
 };
 
-/**
- * @brief Channel Binding Generator
- * 
- * Generates channel binding data from TLS connection info.
- * 
- * Usage:
- * ```cpp
- * ChannelBindingGenerator generator;
- * auto binding = generator.generateFromTLSCertificate(cert_data);
- * validator.verifyChannelBinding(token, binding);
- * ```
- */
 class ChannelBindingGenerator {
 public:
     /**
-     * @brief Generate TLS server endpoint binding
-     * 
-     * Hash of server certificate (RFC 5929 tls-server-end-point).
-     * 
-     * @param server_cert Server certificate (DER or PEM)
-     * @return std::vector<uint8_t> Channel binding data
+     * @brief Generate From TLSCertificate.
+     * @param[in] server_cert Input parameter.
+     * @return Return value.
      */
     static std::vector<uint8_t> generateFromTLSCertificate(
         const std::vector<uint8_t>& server_cert
     );
     
     /**
-     * @brief Generate TLS unique binding
-     * 
-     * TLS Finished message (RFC 5929 tls-unique).
-     * 
-     * @param finished_message TLS Finished message
-     * @return std::vector<uint8_t> Channel binding data
+     * @brief Generate From TLSFinished.
+     * @param[in] finished_message Input parameter.
+     * @return Return value.
      */
     static std::vector<uint8_t> generateFromTLSFinished(
         const std::vector<uint8_t>& finished_message
     );
     
     /**
-     * @brief Generate TLS exporter binding
-     * 
-     * TLS exporter (RFC 5705).
-     * 
-     * @param exporter_value TLS exporter value
-     * @return std::vector<uint8_t> Channel binding data
+     * @brief Generate From TLSExporter.
+     * @param[in] exporter_value Input parameter.
+     * @return Return value.
      */
     static std::vector<uint8_t> generateFromTLSExporter(
         const std::vector<uint8_t>& exporter_value
     );
     
     /**
-     * @brief Format channel binding for GSSAPI
-     * 
-     * Formats channel binding data per RFC 5056.
-     * 
-     * @param initiator_address Initiator address (optional)
-     * @param acceptor_address Acceptor address (optional)
-     * @param application_data Application-specific data
-     * @return std::vector<uint8_t> Formatted channel binding
+     * @brief Format Channel Binding.
+     * @param[in] initiator_address Input parameter.
+     * @param[in] acceptor_address Input parameter.
+     * @param[in] application_data Input parameter.
+     * @return Return value.
      */
     static std::vector<uint8_t> formatChannelBinding(
         const std::vector<uint8_t>& initiator_address,

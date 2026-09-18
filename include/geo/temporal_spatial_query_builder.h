@@ -30,15 +30,9 @@ namespace geo {
 // TimeWindowType
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Supported temporal constraint types for a `BuiltTemporalSpatialQuery`.
- */
 enum class TimeWindowType {
-    /// Query as of a single point in time (T).
     POINT_IN_TIME,
-    /// Query over a closed time interval [start, end].
     INTERVAL,
-    /// Sliding window: [now − width_ms, now] evaluated at query execution time.
     SLIDING_WINDOW,
 };
 
@@ -46,18 +40,8 @@ enum class TimeWindowType {
 // BuiltTemporalSpatialQuery — immutable value type
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Immutable result of `ITemporalSpatialQueryBuilder::build()`.
- *
- * Encapsulates all temporal and spatial constraints.  Provides an `execute()`
- * method that runs the query against a `SystemVersionedTable` and returns
- * matching (key, geometry) pairs.
- *
- * The query object is safe to share across threads once built.
- */
 class BuiltTemporalSpatialQuery {
 public:
-    /// Spatial constraint type.
     enum class SpatialType { BBOX, PREDICATE };
 
     struct TemporalConstraint {
@@ -93,19 +77,6 @@ public:
         return geo_field_;
     }
 
-    /**
-     * @brief Execute the query against @p table.
-     *
-     * Returns a vector of (key, geometry) pairs for entities that satisfy
-     * both the temporal and spatial constraints.
-     *
-     * For `POINT_IN_TIME` and `INTERVAL` windows, `temporal_.point_in_time` /
-     * `temporal_.interval_start .. interval_end` are used as-is.
-     * For `SLIDING_WINDOW`, the window is computed as [now − width_ms, now].
-     *
-     * @param table  System-versioned table to query.
-     * @return       Matching (key, geometry) pairs.
-     */
     [[nodiscard]] std::vector<std::pair<std::string, GeometryInfo>> execute(
         const themisdb::temporal::SystemVersionedTable& table) const;
 
@@ -119,77 +90,46 @@ private:
 // ITemporalSpatialQueryBuilder — abstract builder interface
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Abstract fluent builder for `BuiltTemporalSpatialQuery`.
- *
- * A concrete implementation is `TemporalSpatialQueryBuilder`.
- *
- * Builders are NOT thread-safe.  Each thread should use its own builder
- * instance.
- */
 class ITemporalSpatialQueryBuilder {
 public:
+    /**
+     * @brief ITemporal Spatial Query Builder.
+     * @return Return value.
+     */
     virtual ~ITemporalSpatialQueryBuilder() = default;
 
-    /**
-     * @brief Set the spatial constraint to a bounding box.
-     *
-     * Replaces any previously set spatial constraint.
-     */
     [[nodiscard]] virtual ITemporalSpatialQueryBuilder& withinBBox(const MBR& bbox) = 0;
 
     /**
-     * @brief Set the spatial constraint to a composable filter predicate.
-     *
-     * Replaces any previously set spatial constraint.
+     * @brief With Predicate.
+     * @param[in] predicate Input parameter.
+     * @return Return value.
      */
     virtual ITemporalSpatialQueryBuilder& withPredicate(
         std::shared_ptr<ISpatialJoinFilter> predicate) = 0;
 
     /**
-     * @brief Set the temporal constraint to a closed interval [start, end].
-     *
-     * Sets window type to `TimeWindowType::INTERVAL`.
-     * Replaces any previously set temporal constraint.
+     * @brief During Interval.
+     * @param[in] start Input parameter.
+     * @param[in] end Input parameter.
+     * @return Return value.
      */
     virtual ITemporalSpatialQueryBuilder& duringInterval(
         themisdb::temporal::Timestamp start,
         themisdb::temporal::Timestamp end) = 0;
 
     /**
-     * @brief Set the temporal constraint to a single point in time.
-     *
-     * Sets window type to `TimeWindowType::POINT_IN_TIME`.
-     * Replaces any previously set temporal constraint.
+     * @brief At Time.
+     * @param[in] t Input parameter.
+     * @return Return value.
      */
     virtual ITemporalSpatialQueryBuilder& atTime(
         themisdb::temporal::Timestamp t) = 0;
 
-    /**
-     * @brief Set the temporal constraint to a sliding window of @p width_ms ms.
-     *
-     * Sets window type to `TimeWindowType::SLIDING_WINDOW`.
-     * The window is evaluated as [now − width_ms, now] at `build()` time.
-     * Replaces any previously set temporal constraint.
-     *
-     * @param width_ms  Window width in milliseconds (must be > 0).
-     */
     [[nodiscard]] virtual ITemporalSpatialQueryBuilder& slidingWindow(int64_t width_ms) = 0;
 
-    /**
-     * @brief Set the name of the JSON field containing geometry data.
-     *
-     * Default is `TemporalSpatialQuery::kDefaultGeoField` ("location").
-     */
     [[nodiscard]] virtual ITemporalSpatialQueryBuilder& withGeoField(const std::string& field) = 0;
 
-    /**
-     * @brief Build and return an immutable `BuiltTemporalSpatialQuery`.
-     *
-     * @throws std::logic_error when temporal or spatial constraints are missing.
-     * @throws std::invalid_argument when constraints are mutually inconsistent.
-     * @return Immutable query value.
-     */
     [[nodiscard]] virtual BuiltTemporalSpatialQuery build() = 0;
 };
 
@@ -197,11 +137,6 @@ public:
 // TemporalSpatialQueryBuilder — concrete implementation
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Concrete fluent builder.
- *
- * Reset the builder with `reset()` to reuse for a second query.
- */
 class TemporalSpatialQueryBuilder final : public ITemporalSpatialQueryBuilder {
 public:
     TemporalSpatialQueryBuilder() = default;
@@ -218,7 +153,10 @@ public:
 
     [[nodiscard]] BuiltTemporalSpatialQuery build() override;
 
-    /// Reset all constraints so the builder can be reused.
+    /**
+     * @brief Reset the modification detection flag.
+     * @return None.
+     */
     TemporalSpatialQueryBuilder& reset();
 
 private:

@@ -19,6 +19,12 @@
 namespace themis {
 namespace utils {
 
+/**
+ * @brief Mix64.
+ * @param[in] x Input parameter.
+ * @return Return value.
+ * @details Implements mix64 without additional internal calls.
+ */
 static uint64_t mix64(uint64_t x) {
     x ^= x >> 33;
     x *= 0xff51afd7ed558ccdULL;
@@ -28,14 +34,24 @@ static uint64_t mix64(uint64_t x) {
     return x;
 }
 
-// ---------------------------------------------------------------------------
-// FNV-1a 64-bit
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- FNV-1a 64-bit ---------------------------------------------------------------------------
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: mix64().
+ */
 
 uint64_t ConsistentHashRing::fnv1a64(const std::string& s) {
     return mix64(themis::hash::fnv1a64(s));
 }
 
+/**
+ * @brief Virtual Key.
+ * @param[in] node Input parameter.
+ * @param[in] idx Input parameter.
+ * @return Return value.
+ * @details Calls: fnv1a64(), std::to_string().
+ */
 uint64_t ConsistentHashRing::virtualKey(const std::string& node, size_t idx) {
     return fnv1a64(node + '#' + std::to_string(idx));
 }
@@ -48,11 +64,18 @@ ConsistentHashRing::ConsistentHashRing(size_t virtual_nodes)
     : virtual_nodes_(virtual_nodes == 0 ? 1 : virtual_nodes)
 {}
 
-// ---------------------------------------------------------------------------
-// Mutation
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Mutation ---------------------------------------------------------------------------
+ * @param[in] node Input parameter.
+ * @details Calls: lock(), count(), insert(), emplace(), virtualKey().
+ */
 
 void ConsistentHashRing::addNode(const std::string& node) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock lock(mutex_);
     if (nodes_.count(node)) {
       return;
@@ -63,7 +86,17 @@ void ConsistentHashRing::addNode(const std::string& node) {
     }
 }
 
+/**
+ * @brief Remove Node.
+ * @param[in] node Input parameter.
+ * @details Calls: lock(), count(), erase(), virtualKey().
+ */
 void ConsistentHashRing::removeNode(const std::string& node) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock lock(mutex_);
     if (!nodes_.count(node)) {
       return;
@@ -79,6 +112,11 @@ void ConsistentHashRing::removeNode(const std::string& node) {
 // ---------------------------------------------------------------------------
 
 std::string ConsistentHashRing::getNode(const std::string& key) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(mutex_);
     if (ring_.empty()) return {};
 
@@ -91,6 +129,11 @@ std::string ConsistentHashRing::getNode(const std::string& key) const {
 }
 
 std::vector<std::string> ConsistentHashRing::getNodes(const std::string& key, size_t n) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(mutex_);
     if (ring_.empty() || n == 0) return {};
 
@@ -130,11 +173,21 @@ std::vector<std::string> ConsistentHashRing::getNodes(const std::string& key, si
 // ---------------------------------------------------------------------------
 
 size_t ConsistentHashRing::nodeCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(mutex_);
     return nodes_.size();
 }
 
 bool ConsistentHashRing::empty() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(mutex_);
     return nodes_.empty();
 }

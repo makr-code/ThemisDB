@@ -18,37 +18,11 @@
 
 namespace chimera {
 
-/**
- * @class QdrantAdapter
- * @brief Qdrant vector database adapter for CHIMERA Suite
- * 
- * @details
- * Provides integration between Qdrant (vector search engine) and CHIMERA.
- * Primary focus: KNN search and vector indexing.
- * 
- * Features:
- * - Real Qdrant driver integration (gRPC or REST API)
- * - Vector insert with automatic ID generation
- * - KNN search with optional metadata filtering
- * - Index creation with customizable distance metrics
- * - Batch vector operations for throughput
- * 
- * Limitations (by design):
- * - Relational operations not supported; use MongoDB/ThemisDB
- * - Graph operations not supported; use Neo4j
- * - Document operations not supported
- * 
- * Thread-safety: Client is thread-safe for concurrent requests.
- */
 class QdrantAdapter : public IDatabaseAdapter,
                       public IBatchAdapter {
 public:
-    /**
-     * @brief Construct Qdrant adapter with default settings.
-     */
     QdrantAdapter();
 
-    /// @brief Destructor; closes Qdrant connection.
     ~QdrantAdapter() override;
 
     // ────────────────────────────────────────────────────────────────────────
@@ -249,8 +223,22 @@ private:
     // Private helpers
     // ────────────────────────────────────────────────────────────────────────
 
+    /**
+     * @brief Generate id.
+     * @return Return value.
+     */
     static std::string generate_id();
+    /**
+     * @brief Is valid connection string.
+     * @param[in] cs Input parameter.
+     * @return True when the operation succeeds.
+     */
     static bool is_valid_connection_string(const std::string& cs);
+    /**
+     * @brief Mask credentials.
+     * @param[in] cs Input parameter.
+     * @return Return value.
+     */
     static std::string mask_credentials(const std::string& cs);
 };
 

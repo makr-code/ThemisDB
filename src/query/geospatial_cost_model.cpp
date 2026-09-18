@@ -95,6 +95,15 @@ double SpatialHistogram::estimateSpatialSelectivity(
 
 static EstimateValidation g_geospatial_estimates;
 
+/**
+ * @brief Estimate Distance Cost.
+ * @param[in] totalRows Input parameter.
+ * @param[in] distanceMeters Input parameter.
+ * @param[in] hasRtreeIndex Input parameter.
+ * @param[in] histogram Input parameter.
+ * @return Return value.
+ * @details Calls: estimateDistanceSelectivity(), rtreeTraversalCost().
+ */
 GeospatialCostEstimator::CostEstimate GeospatialCostEstimator::estimateDistanceCost(
     size_t totalRows,
     double distanceMeters,
@@ -125,6 +134,15 @@ GeospatialCostEstimator::CostEstimate GeospatialCostEstimator::estimateDistanceC
     return result;
 }
 
+/**
+ * @brief Estimate Contains Cost.
+ * @param[in] totalRows Input parameter.
+ * @param[in] polygonComplexity Input parameter.
+ * @param[in] hasRtreeIndex Input parameter.
+ * @param[in] histogram Input parameter.
+ * @return Return value.
+ * @details Calls: estimateContainsSelectivity(), geometryCheckCost(), rtreeTraversalCost().
+ */
 GeospatialCostEstimator::CostEstimate GeospatialCostEstimator::estimateContainsCost(
     size_t totalRows,
     size_t polygonComplexity,
@@ -157,6 +175,15 @@ GeospatialCostEstimator::CostEstimate GeospatialCostEstimator::estimateContainsC
     return result;
 }
 
+/**
+ * @brief Estimate Intersects Cost.
+ * @param[in] totalRows Input parameter.
+ * @param[in] queryGeometryComplexity Input parameter.
+ * @param[in] hasRtreeIndex Input parameter.
+ * @param[in] histogram Input parameter.
+ * @return Return value.
+ * @details Calls: estimateIntersectsSelectivity(), geometryCheckCost(), rtreeTraversalCost().
+ */
 GeospatialCostEstimator::CostEstimate GeospatialCostEstimator::estimateIntersectsCost(
     size_t totalRows,
     size_t queryGeometryComplexity,
@@ -189,6 +216,15 @@ GeospatialCostEstimator::CostEstimate GeospatialCostEstimator::estimateIntersect
     return result;
 }
 
+/**
+ * @brief Estimate Spatial Selectivity.
+ * @param[in] predicateType Input parameter.
+ * @param[in] searchRadius Input parameter.
+ * @param[in] geometryComplexity Input parameter.
+ * @param[in] histogram Input parameter.
+ * @return Return value.
+ * @details Calls: estimateDistanceSelectivity(), estimateContainsSelectivity(), estimateIntersectsSelectivity().
+ */
 double GeospatialCostEstimator::estimateSpatialSelectivity(
     const std::string& predicateType,
     double searchRadius,
@@ -271,6 +307,14 @@ SpatialHistogram GeospatialCostEstimator::buildSpatialHistogram(
     return hist;
 }
 
+/**
+ * @brief Record Actual Cost.
+ * @param[in] estimated Input parameter.
+ * @param[in] actualRows Input parameter.
+ * @param[in] actualCostUs Input parameter.
+ * @param[in] predicateType Input parameter.
+ * @details Calls: getError(), THEMIS_WARN(), push_back(), std::move().
+ */
 void GeospatialCostEstimator::recordActualCost(
     const CostEstimate& estimated,
     size_t actualRows,
@@ -295,17 +339,30 @@ void GeospatialCostEstimator::recordActualCost(
     g_geospatial_estimates.samples.push_back(std::move(sample));
 }
 
+/**
+ * @brief Get Metrics.
+ * @return Return value.
+ * @details Implements getMetrics without additional internal calls.
+ */
 const EstimateValidation& GeospatialCostEstimator::getMetrics() {
     return g_geospatial_estimates;
 }
 
+/**
+ * @brief Clear Metrics.
+ * @details Calls: clear().
+ */
 void GeospatialCostEstimator::clearMetrics() {
     g_geospatial_estimates.samples.clear();
 }
 
-// =============================================================================
-// Private Helper Methods
-// =============================================================================
+/**
+ * @brief ============================================================================= Private Helper Methods =============================================================================
+ * @param[in] distanceMeters Input parameter.
+ * @param[in] histogram Input parameter.
+ * @return Return value.
+ * @details Calls: std::clamp().
+ */
 
 double GeospatialCostEstimator::estimateDistanceSelectivity(
     double distanceMeters,
@@ -344,6 +401,13 @@ double GeospatialCostEstimator::estimateDistanceSelectivity(
     }
 }
 
+/**
+ * @brief Estimate Contains Selectivity.
+ * @param[in] polygonComplexity Input parameter.
+ * @param[in] histogram Input parameter.
+ * @return Return value.
+ * @details Calls: std::log(), std::max(), std::clamp().
+ */
 double GeospatialCostEstimator::estimateContainsSelectivity(
     size_t polygonComplexity,
     const SpatialHistogram* histogram) {
@@ -362,6 +426,13 @@ double GeospatialCostEstimator::estimateContainsSelectivity(
     return 0.01 * std::log(std::max(1.0, static_cast<double>(polygonComplexity)));
 }
 
+/**
+ * @brief Estimate Intersects Selectivity.
+ * @param[in] queryGeometryComplexity Input parameter.
+ * @param[in] histogram Input parameter.
+ * @return Return value.
+ * @details Calls: std::log(), std::max(), std::clamp().
+ */
 double GeospatialCostEstimator::estimateIntersectsSelectivity(
     size_t queryGeometryComplexity,
     const SpatialHistogram* histogram) {
@@ -378,6 +449,12 @@ double GeospatialCostEstimator::estimateIntersectsSelectivity(
     return 0.02 * std::log(std::max(1.0, static_cast<double>(queryGeometryComplexity)));
 }
 
+/**
+ * @brief Rtree Traversal Cost.
+ * @param[in] totalRows Input parameter.
+ * @return Return value.
+ * @details Calls: std::log2().
+ */
 double GeospatialCostEstimator::rtreeTraversalCost(size_t totalRows) {
     // R-tree: O(log N) traversal
     // Cost per level: approximately 10 microseconds (node access + comparison)
@@ -389,6 +466,12 @@ double GeospatialCostEstimator::rtreeTraversalCost(size_t totalRows) {
     return logN * 10.0;  // µs
 }
 
+/**
+ * @brief Geometry Check Cost.
+ * @param[in] complexity Input parameter.
+ * @return Return value.
+ * @details Implements geometryCheckCost without additional internal calls.
+ */
 double GeospatialCostEstimator::geometryCheckCost(size_t complexity) {
     // Basic geometry check: point-in-polygon using ray casting
     // Cost: O(complexity) with ~0.5µs per vertex

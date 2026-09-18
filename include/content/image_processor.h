@@ -19,17 +19,6 @@ namespace content {
 
 #define THEMIS_CONTENT_PLUGIN_IMAGE_PROCESSOR_DEFINED 1
 
-/**
- * @brief Image Processor Plugin
- * 
- * Uses libvips for high-performance image processing.
- * Extracts:
- * - EXIF/XMP/IPTC metadata
- * - Color analysis (dominant colors, histogram)
- * - OCR text (via Tesseract integration)
- * - Object detection labels (optional ML)
- * - Face detection
- */
 class ImageProcessor : public IContentProcessorPlugin {
 public:
     ImageProcessor();
@@ -57,22 +46,9 @@ public:
     json getStatistics() const override;
 
     /**
-     * @brief Compute a DCT-based 64-bit perceptual hash (pHash) for an image blob.
-     *
-     * Implements the standard pHash algorithm:
-     *  1. Extract a 32×32 grayscale sample grid from the image data.
-     *  2. Apply a 2-D DCT and take the top-left 8×8 sub-matrix (64 values).
-     *  3. Compute the median of those 64 DCT coefficients.
-     *  4. Set bit i if dct[i] > median → yields a 64-bit hash.
-     *
-     * BMP images (BI_RGB, 24 bpp) are fully decoded to obtain accurate pixel
-     * values.  For all other formats the raw byte stream is sampled uniformly
-     * as a grayscale proxy, which still captures structural similarity without
-     * requiring an external image-decode library.
-     *
-     * @param blob  Raw image bytes (JPEG, PNG, BMP, etc.).
-     * @return 16-character lowercase hex string representing the 64-bit hash,
-     *         or an empty string if the blob is too small to hash.
+     * @brief Compute PHash.
+     * @param[in] blob Input parameter.
+     * @return Return value.
      */
     static std::string computePHash(const std::vector<uint8_t>& blob);
 
@@ -97,12 +73,42 @@ private:
     bool initialized_ = false;
     
     // Internal methods
+    /**
+     * @brief Extract Exif Metadata.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     json extractExifMetadata(const std::vector<uint8_t>& blob);
+    /**
+     * @brief Extract Xmp Metadata.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     json extractXmpMetadata(const std::vector<uint8_t>& blob);
+    /**
+     * @brief Generate Thumbnail.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> generateThumbnail(const std::vector<uint8_t>& blob);
+    /**
+     * @brief Perform OCR.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     std::string performOCR(const std::vector<uint8_t>& blob);
     std::vector<std::array<uint8_t, 3>> extractDominantColors(const std::vector<uint8_t>& blob);
+    /**
+     * @brief Detect Faces.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     json detectFaces(const std::vector<uint8_t>& blob);
+    /**
+     * @brief Detect Objects.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     json detectObjects(const std::vector<uint8_t>& blob);
 };
 

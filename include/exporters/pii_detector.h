@@ -19,10 +19,8 @@
 
 namespace themis::exporters {
 
-/// PII (Personally Identifiable Information) detection and redaction
 class PIIDetector {
 public:
-    /// PII category types
     enum class PIIType {
         EMAIL,
         PHONE,
@@ -32,7 +30,6 @@ public:
         CUSTOM
     };
     
-    /// Redaction strategy
     enum class RedactionStrategy {
         MASK,       // Replace with ***
         HASH,       // Replace with SHA-256 hash
@@ -40,7 +37,6 @@ public:
         PARTIAL     // Keep first/last characters
     };
     
-    /// PII detection result
     struct PIIMatch {
         PIIType type;
         std::string value;
@@ -48,7 +44,6 @@ public:
         size_t end_pos;
     };
     
-    /// Configuration for PII detection
     struct Config {
         bool detect_email = true;
         bool detect_phone = true;
@@ -64,22 +59,52 @@ public:
         size_t partial_keep_suffix = 2;
     };
     
+    /**
+     * @brief PIIDetector.
+     * @return Return value.
+     */
     explicit PIIDetector();
+    /**
+     * @brief PIIDetector.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit PIIDetector(const Config& config);
     
-    /// Detect PII in text
+    /**
+     * @brief Detect PII.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     std::vector<PIIMatch> detectPII(const std::string& text) const;
     
-    /// Redact PII in text
+    /**
+     * @brief Redact PII.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     std::string redactPII(const std::string& text) const;
     
-    /// Redact with specific strategy
+    /**
+     * @brief Redact PII.
+     * @param[in] text Input parameter.
+     * @param[in] strategy Input parameter.
+     * @return Return value.
+     */
     std::string redactPII(const std::string& text, RedactionStrategy strategy) const;
     
-    /// Check if text contains PII
+    /**
+     * @brief Contains PII.
+     * @param[in] text Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool containsPII(const std::string& text) const;
     
-    /// Get redaction strategy for type
+    /**
+     * @brief Get Strategy.
+     * @param[in] type Input parameter.
+     * @return Return value.
+     */
     RedactionStrategy getStrategy(PIIType type) const;
     
 private:
@@ -92,26 +117,58 @@ private:
     std::regex credit_card_pattern_;
     std::regex ip_pattern_;
     
+    /**
+     * @brief Init Patterns.
+     */
     void initPatterns();
+    /**
+     * @brief Apply Redaction.
+     * @param[in] value Input parameter.
+     * @param[in] strategy Input parameter.
+     * @return Return value.
+     */
     std::string applyRedaction(const std::string& value, RedactionStrategy strategy) const;
+    /**
+     * @brief Mask String.
+     * @param[in] value Input parameter.
+     * @return Return value.
+     */
     std::string maskString(const std::string& value) const;
+    /**
+     * @brief Hash String.
+     * @param[in] value Input parameter.
+     * @return Return value.
+     */
     std::string hashString(const std::string& value) const;
+    /**
+     * @brief Partial Redact.
+     * @param[in] value Input parameter.
+     * @return Return value.
+     */
     std::string partialRedact(const std::string& value) const;
 };
 
-/// PII detection metrics
 struct PIIMetrics {
     size_t total_checks = 0;
     size_t pii_detected = 0;
     size_t pii_redacted = 0;
     std::map<PIIDetector::PIIType, size_t> detections_by_type;
     
+    /**
+     * @brief Record Detection.
+     * @param[in] type Input parameter.
+     * @details Implements recordDetection without additional internal calls.
+     */
     void recordDetection(PIIDetector::PIIType type) {
         total_checks++;
         pii_detected++;
         detections_by_type[type]++;
     }
     
+    /**
+     * @brief Record Redaction.
+     * @details Implements recordRedaction without additional internal calls.
+     */
     void recordRedaction() {
         pii_redacted++;
     }

@@ -70,12 +70,6 @@
 namespace themis {
 namespace graphql {
 
-/**
- * @brief LRU cache with time-based expiration
- *
- * Thread-safe cache for storing query plans and results.
- * Eviction is O(1) using a doubly-linked list to track access order.
- */
 template<typename T>
 class Cache {
 public:
@@ -90,18 +84,14 @@ public:
         }
     };
     
-    /**
-     * @brief Create a cache with specified size and TTL
-     * @param max_size Maximum number of entries
-     * @param ttl Time-to-live for entries in seconds
-     */
     Cache(size_t max_size = 1000, std::chrono::seconds ttl = std::chrono::seconds(300))
         : max_size_(max_size), ttl_(ttl) {}
     
     /**
-     * @brief Get a value from the cache
-     * @param key Cache key
-     * @return Pointer to value if found and not expired, nullptr otherwise
+     * @brief Get.
+     * @param[in] key Input parameter.
+     * @return Return value.
+     * @details Calls: lock(), find(), end(), isExpired(), erase(), splice(), begin().
      */
     std::shared_ptr<T> get(const std::string& key) {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -129,9 +119,10 @@ public:
     }
     
     /**
-     * @brief Put a value in the cache
-     * @param key Cache key
-     * @param value Value to cache
+     * @brief Put.
+     * @param[in] key Input parameter.
+     * @param[in] value Input parameter.
+     * @details Calls: lock(), find(), end(), std::chrono::steady_clock::now(), splice(), begin(), size(), evictLRU().
      */
     void put(const std::string& key, const T& value) {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -162,7 +153,9 @@ public:
     }
     
     /**
-     * @brief Invalidate a cache entry
+     * @brief Invalidate.
+     * @param[in] key Input parameter.
+     * @details Calls: lock(), find(), end(), erase().
      */
     void invalidate(const std::string& key) {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -173,11 +166,12 @@ public:
         }
     }
     
-    /**
-     * @brief Erase all entries for which the predicate returns true
-     * @param pred Callable with signature `bool(const T& value)`
-     */
     template<typename Predicate>
+    /**
+     * @brief Erase If.
+     * @param[in] pred Input parameter.
+     * @details Calls: lock(), begin(), end(), pred(), erase().
+     */
     void eraseIf(Predicate pred) {
         std::lock_guard<std::mutex> lock(mutex_);
         for (auto it = cache_.begin(); it != cache_.end(); ) {
@@ -191,7 +185,8 @@ public:
     }
 
     /**
-     * @brief Clear all cache entries
+     * @brief Clear.
+     * @details Calls: lock().
      */
     void clear() {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -200,9 +195,6 @@ public:
         stats_ = CacheStats{};
     }
     
-    /**
-     * @brief Get cache statistics
-     */
     struct CacheStats {
         uint64_t hits = 0;
         uint64_t misses = 0;
@@ -214,20 +206,30 @@ public:
     };
     
     CacheStats getStats() const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return stats_;
     }
     
-    /**
-     * @brief Get current cache size
-     */
     size_t size() const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return cache_.size();
     }
     
 private:
-    // Evict the least recently used entry (back of lru_order_). O(1).
+    /**
+     * @brief Evict the least recently used entry (back of lru_order_).
+     * @details O(1). Calls: empty(), back(), erase(), pop_back().
+     */
     void evictLRU() {
         if (lru_order_.empty()) {
           return;
@@ -246,12 +248,6 @@ private:
     CacheStats stats_;
 };
 
-/**
- * @brief Query plan cache for parsed and validated queries
- * 
- * Caches the parsed AST and validation results to avoid
- * re-parsing the same queries.
- */
 class QueryPlanCache {
 public:
     struct QueryPlan {
@@ -264,34 +260,43 @@ public:
         Document parsed_document;
     };
     
+    /**
+     * @brief Instance.
+     * @return Return value.
+     * @details Implements instance without additional internal calls.
+     */
     static QueryPlanCache& instance() {
         static QueryPlanCache instance;
         return instance;
     }
     
     /**
-     * @brief Get a cached query plan
+     * @brief Get.
+     * @param[in] query Input parameter.
+     * @return Return value.
+     * @details Implements get without additional internal calls.
      */
     std::shared_ptr<QueryPlan> get(const std::string& query) {
         return cache_.get(query);
     }
     
     /**
-     * @brief Cache a query plan
+     * @brief Put.
+     * @param[in] query Input parameter.
+     * @param[in] plan Input parameter.
+     * @details Implements put without additional internal calls.
      */
     void put(const std::string& query, const QueryPlan& plan) {
         cache_.put(query, plan);
     }
     
-    /**
-     * @brief Get cache statistics
-     */
     Cache<QueryPlan>::CacheStats getStats() const {
         return cache_.getStats();
     }
     
     /**
-     * @brief Clear the cache
+     * @brief Clear.
+     * @details Implements clear without additional internal calls.
      */
     void clear() {
         cache_.clear();
@@ -303,12 +308,6 @@ private:
     Cache<QueryPlan> cache_;
 };
 
-/**
- * @brief Response cache for query results
- * 
- * Caches complete query responses with configurable TTL.
- * Useful for read-heavy workloads with relatively static data.
- */
 class ResponseCache {
 public:
     struct CachedResponse {
@@ -318,30 +317,40 @@ public:
         std::unordered_set<std::string> collections;  // Collections read by this query
     };
     
+    /**
+     * @brief Instance.
+     * @return Return value.
+     * @details Implements instance without additional internal calls.
+     */
     static ResponseCache& instance() {
         static ResponseCache instance;
         return instance;
     }
     
     /**
-     * @brief Get a cached response
+     * @brief Get.
+     * @param[in] query Input parameter.
+     * @return Return value.
+     * @details Implements get without additional internal calls.
      */
     std::shared_ptr<CachedResponse> get(const std::string& query) {
         return cache_.get(query);
     }
     
     /**
-     * @brief Cache a response
+     * @brief Put.
+     * @param[in] query Input parameter.
+     * @param[in] response Input parameter.
+     * @details Implements put without additional internal calls.
      */
     void put(const std::string& query, const CachedResponse& response) {
         cache_.put(query, response);
     }
     
     /**
-     * @brief Invalidate responses for a specific collection/type
-     *
-     * Only evicts entries whose tag set includes @p pattern, leaving
-     * responses that reference other collections untouched.
+     * @brief Invalidate Pattern.
+     * @param[in] pattern Input parameter.
+     * @details Calls: eraseIf(), count().
      */
     void invalidatePattern(const std::string& pattern) {
         cache_.eraseIf([&pattern](const CachedResponse& response) {
@@ -349,15 +358,13 @@ public:
         });
     }
     
-    /**
-     * @brief Get cache statistics
-     */
     Cache<CachedResponse>::CacheStats getStats() const {
         return cache_.getStats();
     }
     
     /**
-     * @brief Clear the cache
+     * @brief Clear.
+     * @details Implements clear without additional internal calls.
      */
     void clear() {
         cache_.clear();

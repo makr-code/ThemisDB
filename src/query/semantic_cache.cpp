@@ -34,7 +34,13 @@ SemanticQueryCache::SemanticQueryCache(
 SemanticQueryCache::SemanticQueryCache(RocksDBWrapper& db, VectorIndexManager& vim)
     : SemanticQueryCache(db, vim, Config{}) {}
 
-// ===== Cache Operations =====
+/**
+ * @brief ===== Cache Operations =====
+ * @param[in] query Input parameter.
+ * @param[in] result_json Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), Status::Error(), lock(), evictOne_(), computeQueryEmbedding_(), std::string(), std::chrono::system_clock::now(), size().
+ */
 
 SemanticQueryCache::Status SemanticQueryCache::put(
     std::string_view query,
@@ -44,6 +50,11 @@ SemanticQueryCache::Status SemanticQueryCache::put(
         return Status::Error("Query and result cannot be empty");
     }
     
+    /**
+     * @brief Lock.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(stats_mutex_);
     
     // Check if we need to evict
@@ -95,7 +106,18 @@ SemanticQueryCache::Status SemanticQueryCache::put(
     return Status::OK();
 }
 
+/**
+ * @brief Get.
+ * @param[in] query Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), loadCacheEntry_(), has_value(), isExpired(), std::string(), std::chrono::system_clock::now(), saveCacheEntry_(), updateLRU_().
+ */
 SemanticQueryCache::LookupResult SemanticQueryCache::get(std::string_view query) {
+    /**
+     * @brief Lock.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(stats_mutex_);
     stats_.total_lookups++;
     
@@ -170,11 +192,28 @@ SemanticQueryCache::LookupResult SemanticQueryCache::get(std::string_view query)
     return result;
 }
 
+/**
+ * @brief Remove.
+ * @param[in] query Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), removeInternal_().
+ */
 SemanticQueryCache::Status SemanticQueryCache::remove(std::string_view query) {
+    /**
+     * @brief Lock.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(stats_mutex_);
     return removeInternal_(query);
 }
 
+/**
+ * @brief Remove Internal.
+ * @param[in] query Input parameter.
+ * @return Return value.
+ * @details Calls: loadCacheEntry_(), has_value(), Status::Error(), makeCacheEntryKey_(), del(), makeExactMatchKey_(), lruLock(), find().
+ */
 SemanticQueryCache::Status SemanticQueryCache::removeInternal_(std::string_view query) {
     // NOTE: Assumes stats_mutex_ is already locked by caller!
     
@@ -197,6 +236,11 @@ SemanticQueryCache::Status SemanticQueryCache::removeInternal_(std::string_view 
     
     // Update LRU
     {
+        /**
+         * @brief Lru Lock.
+         * @param[in] lru_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lruLock(lru_mutex_);
         auto it = lru_map_.find(std::string(query));
         if (it != lru_map_.end()) {
@@ -216,11 +260,26 @@ SemanticQueryCache::Status SemanticQueryCache::removeInternal_(std::string_view 
     return Status::OK();
 }
 
+/**
+ * @brief Clear.
+ * @return Return value.
+ * @details Calls: lock(), lruLock(), scanPrefix(), del(), std::string(), Status::OK().
+ */
 SemanticQueryCache::Status SemanticQueryCache::clear() {
+    /**
+     * @brief Lock.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(stats_mutex_);
     
     // Clear LRU
     {
+        /**
+         * @brief Lru Lock.
+         * @param[in] lru_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lruLock(lru_mutex_);
         lru_list_.clear();
         lru_map_.clear();
@@ -242,11 +301,25 @@ SemanticQueryCache::Status SemanticQueryCache::clear() {
 // ===== Statistics =====
 
 SemanticQueryCache::CacheStats SemanticQueryCache::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(stats_mutex_);
     return stats_;
 }
 
+/**
+ * @brief Reset Stats.
+ * @details Calls: lock().
+ */
 void SemanticQueryCache::resetStats() {
+    /**
+     * @brief Lock.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(stats_mutex_);
     stats_.total_lookups = 0;
     stats_.exact_hits = 0;
@@ -256,7 +329,11 @@ void SemanticQueryCache::resetStats() {
     // Keep current_entries and total_result_bytes
 }
 
-// ===== Configuration =====
+/**
+ * @brief ===== Configuration =====
+ * @param[in] config Input parameter.
+ * @details Implements setConfig without additional internal calls.
+ */
 
 void SemanticQueryCache::setConfig(const Config& config) {
     config_ = config;
@@ -266,9 +343,18 @@ SemanticQueryCache::Config SemanticQueryCache::getConfig() const {
     return config_;
 }
 
-// ===== Maintenance =====
+/**
+ * @brief ===== Maintenance =====
+ * @return Return value.
+ * @details Calls: lock(), scanPrefix(), BaseEntity::deserialize(), std::string(), begin(), end(), getFieldAsInt(), has_value().
+ */
 
 SemanticQueryCache::Status SemanticQueryCache::evictExpired() {
+    /**
+     * @brief Lock.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(stats_mutex_);
     
     int evicted = 0;
@@ -308,7 +394,18 @@ SemanticQueryCache::Status SemanticQueryCache::evictExpired() {
     return Status::OK();
 }
 
+/**
+ * @brief Evict LRU.
+ * @param[in] count Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), evictOne_(), Status::OK().
+ */
 SemanticQueryCache::Status SemanticQueryCache::evictLRU(size_t count) {
+    /**
+     * @brief Lock.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(stats_mutex_);
     
     for (size_t i = 0; i < count; ++i) {
@@ -435,9 +532,20 @@ SemanticQueryCache::loadCacheEntry_(std::string_view query) const {
     return entry;
 }
 
+/**
+ * @brief Save Cache Entry.
+ * @param[in] entry Input parameter.
+ * @return Return value.
+ * @details Calls: makeCacheEntryKey_(), entity(), setField(), time_since_epoch(), count(), put(), serialize(), makeExactMatchKey_().
+ */
 SemanticQueryCache::Status SemanticQueryCache::saveCacheEntry_(const CacheEntry& entry) {
     std::string key = makeCacheEntryKey_(entry.query);
     
+    /**
+     * @brief Entity.
+     * @param[in] key Input parameter.
+     * @return Return value.
+     */
     BaseEntity entity(key);
     entity.setField("id", key);
     entity.setField("query", entry.query);
@@ -460,9 +568,24 @@ SemanticQueryCache::Status SemanticQueryCache::saveCacheEntry_(const CacheEntry&
     return Status::OK();
 }
 
+/**
+ * @brief Update LRU.
+ * @param[in] query Input parameter.
+ * @details Calls: lock(), queryStr(), find(), end(), erase(), push_front(), begin().
+ */
 void SemanticQueryCache::updateLRU_(std::string_view query) {
+    /**
+     * @brief Lock.
+     * @param[in] lru_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(lru_mutex_);
     
+    /**
+     * @brief Query Str.
+     * @param[in] query Input parameter.
+     * @return Return value.
+     */
     std::string queryStr(query);
     
     // Remove from current position (if exists)
@@ -476,6 +599,11 @@ void SemanticQueryCache::updateLRU_(std::string_view query) {
     lru_map_[queryStr] = lru_list_.begin();
 }
 
+/**
+ * @brief Evict One.
+ * @return Return value.
+ * @details Calls: lruLock(), empty(), Status::Error(), back(), removeInternal_().
+ */
 SemanticQueryCache::Status SemanticQueryCache::evictOne_() {
     // NOTE: Assumes stats_mutex_ is already locked by caller!
     
@@ -483,6 +611,11 @@ SemanticQueryCache::Status SemanticQueryCache::evictOne_() {
     
     // Get LRU query in limited scope
     {
+        /**
+         * @brief Lru Lock.
+         * @param[in] lru_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lruLock(lru_mutex_);
         
         if (lru_list_.empty()) {

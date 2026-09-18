@@ -37,78 +37,10 @@ namespace spdlog {
 
 namespace themis::security {
 
-/**
- * @brief Safe iterator wrapper library to prevent iterator-related memory safety vulnerabilities.
- *
- * Iterator vulnerabilities are a significant source of memory safety issues:
- * - **CWE-416: Use-After-Free** — Iterators pointing to freed memory
- * - **CWE-129: Improper Validation of Array Index** — Out-of-bounds iterator access
- * - **CWE-475: Undefined Behavior for Input to API** — Invalid iterator operations
- *
- * This module provides safety wrappers for common iterator patterns:
- * - BoundsChecker: Validates iterator bounds before dereferencing
- * - InvalidationDetector: Tracks container modifications during iteration
- * - AdvanceSafe: Safe std::advance with bounds verification
- * - RangeValidator: Validates iterator pairs (begin, end)
- *
- * **Usage Pattern:**
- * ```cpp
- * // UNSAFE - Don't do this:
- * auto it = container.begin();
- * container.erase(it);  // Invalidates iterator
- * ++it;                 // Use-after-free or undefined behavior
- *
- * // SAFE - Use SafeIterator patterns:
- * SafeIterator::InvalidationDetector detector(container);
- * {
- *     auto range = SafeIterator::RangeValidator(container.begin(), container.end());
- *     for (auto it = range.begin(); it != range.end(); ++it) {
- *         // Safe iteration with invalidation detection
- *     }
- * }
- * ```
- *
- * **CWE References:**
- * - CWE-416: Use-After-Free
- * - CWE-129: Improper Validation of Array Index
- * - CWE-475: Undefined Behavior for Input to API
- * - OWASP: Memory Corruption Vulnerabilities
- */
 namespace SafeIterator {
 
-/**
- * @brief Tracks container state to detect modifications during iteration.
- *
- * This detector captures the container size at construction and monitors
- * for unexpected changes during iteration. Modifications detected trigger
- * warnings (debug) or errors (strict mode).
- *
- * **Purpose:** Prevent iterator invalidation from silent container modifications.
- * **Threat Model:** Detect use-after-free and use-after-invalidation patterns.
- *
- * **Activation:** Create detector before iteration loops.
- * **Production Delta:** Adds thread-safe size tracking; minimal overhead.
- *
- * ```cpp
- * std::vector<int> vec = {1, 2, 3};
- * {
- *     InvalidationDetector detector(vec);
- *     for (auto it = vec.begin(); it != vec.end(); ++it) {
- *         // If container modified here, detector.check() warns/throws
- *         detector.check();
- *     }
- * }
- * ```
- */
 class InvalidationDetector {
 public:
-    /**
-     * @brief Construct detector for a container.
-     * @param container Pointer to the container to monitor.
-     * @param strict If true, throw on modification detection; else warn only.
-     * 
-     * **Thread-Safety:** Captures initial size atomically; monitor thread-safe.
-     */
     template<typename Container>
     explicit InvalidationDetector(const Container& container, bool strict = false)
         : container_ptr_(&container),
@@ -122,25 +54,26 @@ public:
     ~InvalidationDetector() = default;
 
     /**
-     * @brief Check if container has been modified since detector creation.
-     * @throws std::runtime_error if modification detected and strict_mode is true.
-     * @return true if modification detected, false otherwise.
-     * 
-     * **Usage:** Call periodically during iteration or before critical operations.
+     * @brief Check.
+     * @return True when the operation succeeds.
+     * @throws std::runtime_error if an error occurs.
+     * @details Calls: load().
      */
     bool check() {
         if (!container_ptr_) {
             throw std::runtime_error("InvalidationDetector: container pointer is null");
         }
         
-        // For now, we rely on the container type's introspection
-        // Subclasses must implement container-specific size tracking
+        // The base detector relies on subclass-provided container tracking to
+        // determine whether a modification was observed.
         return modification_detected_.load(std::memory_order_acquire);
     }
 
     /**
-     * @brief Explicitly mark modification as detected.
-     * @param detected true to mark container as modified.
+     * @brief Explicitly mark modification detection state.
+     * @param[in] detected True to mark the container as modified.
+     * @throws std::runtime_error if an error occurs.
+     * @details Calls: store(), spdlog::warn().
      */
     void set_modification_detected(bool detected) {
         modification_detected_.store(detected, std::memory_order_release);
@@ -155,16 +88,13 @@ public:
     }
 
     /**
-     * @brief Reset modification detection flag.
+     * @brief Reset the modification detection flag.
+     * @details Calls: store().
      */
     void reset() {
         modification_detected_.store(false, std::memory_order_release);
     }
 
-    /**
-     * @brief Get initial container size.
-     * @return Size at detector construction time.
-     */
     size_t initial_size() const { return initial_size_; }
 
 private:
@@ -174,41 +104,18 @@ private:
     std::atomic<bool> modification_detected_;
 };
 
-/**
- * @brief Validates and safely advances an iterator within bounds.
- *
- * std::advance() provides no bounds checking; advancing past end()
- * leads to undefined behavior. AdvanceSafe verifies distance before
- * advancing and throws on out-of-bounds attempts.
- *
- * **Limitation:** Works with random-access iterators (vector, array, deque).
- * Non-random-access iterators require manual validation.
- *
- * ```cpp
- * std::vector<int> vec = {1, 2, 3};
- * auto it = vec.begin();
- * AdvanceSafe(it, 2, vec.begin(), vec.end());  // Safe, stays within [begin, end)
- * AdvanceSafe(it, 10, vec.begin(), vec.end()); // Throws: out-of-bounds
- * ```
- */
 class AdvanceSafe {
 public:
-    /**
-     * @brief Safely advance iterator by distance with bounds checking.
-     * @tparam Iterator The iterator type (must be random-access for full safety).
-     * @param it The iterator to advance (modified in-place).
-     * @param distance Number of steps to advance.
-     * @param begin Start of valid range.
-     * @param end End of valid range.
-     * @throws std::out_of_range if result would be outside [begin, end).
-     * @throws std::invalid_argument if input parameters are invalid.
-     * 
-     * **Behavior:**
-     * - For random-access iterators: performs O(1) bounds check.
-     * - For non-random-access: performs O(distance) check (linear cost).
-     * - Throws exception and does not modify iterator on invalid advance.
-     */
     template<typename Iterator>
+    /**
+     * @brief Advance an iterator within the validated range.
+     * @param[in,out] it Iterator to advance in place.
+     * @param[in] distance Number of steps to advance.
+     * @param[in] begin Beginning of the valid range.
+     * @param[in] end End of the valid range.
+     * @throws std::out_of_range if an error occurs.
+     * @details Calls: constexpr(), std::distance(), std::to_string(), spdlog::debug().
+     */
     static void advance(Iterator& it, typename std::iterator_traits<Iterator>::difference_type distance,
                        const Iterator& begin, const Iterator& end) {
         if (distance == 0) {
@@ -261,15 +168,6 @@ public:
         spdlog::debug("AdvanceSafe: Iterator advanced by {} within bounds", distance);
     }
 
-    /**
-     * @brief Check if an advance operation would be valid without performing it.
-     * @tparam Iterator The iterator type.
-     * @param it The current iterator position.
-     * @param distance Number of steps to advance.
-     * @param begin Start of valid range.
-     * @param end End of valid range.
-     * @return true if advance would be valid, false otherwise.
-     */
     template<typename Iterator>
     static bool can_advance(const Iterator& it, typename std::iterator_traits<Iterator>::difference_type distance,
                            const Iterator& begin, const Iterator& end) noexcept {
@@ -299,34 +197,14 @@ public:
     }
 };
 
-/**
- * @brief Validates a pair of iterators representing a valid range.
- *
- * Many algorithms assume begin <= end, but this is never verified.
- * RangeValidator checks iterator pair validity before iteration begins.
- *
- * ```cpp
- * std::vector<int> vec = {1, 2, 3, 4, 5};
- * auto range = RangeValidator(vec.begin() + 2, vec.begin() + 1);  // Throws
- * 
- * auto range = RangeValidator(vec.begin(), vec.end());  // OK
- * for (auto it = range.begin(); it != range.end(); ++it) {
- *     // Safe iteration
- * }
- * ```
- */
 template<typename Iterator>
 class RangeValidator {
 public:
     /**
-     * @brief Construct and validate a range [begin, end).
-     * @param begin Start of range.
-     * @param end End of range.
-     * @throws std::invalid_argument if begin > end (for random-access iterators).
-     * 
-     * **Behavior:**
-     * - Random-access: validates begin <= end in O(1).
-     * - Other types: defers validation to first dereference.
+     * @brief Validate and store a safe iterator range.
+     * @param[in] begin Beginning of the iterator range.
+     * @param[in] end End of the iterator range.
+     * @return Validated range object.
      */
     explicit RangeValidator(const Iterator& begin, const Iterator& end)
         : begin_(begin), end_(end), validated_(false) {
@@ -342,29 +220,12 @@ public:
         }
     }
 
-    /**
-     * @brief Get begin iterator.
-     * @return Copy of begin iterator.
-     */
     Iterator begin() const { return begin_; }
 
-    /**
-     * @brief Get end iterator.
-     * @return Copy of end iterator.
-     */
     Iterator end() const { return end_; }
 
-    /**
-     * @brief Check if range is empty.
-     * @return true if begin == end.
-     */
     bool empty() const { return begin_ == end_; }
 
-    /**
-     * @brief Get range size (for random-access iterators only).
-     * @return Number of elements in range.
-     * @throws std::runtime_error if iterator type does not support distance.
-     */
     size_t size() const {
         if constexpr (std::is_same_v<typename std::iterator_traits<Iterator>::iterator_category,
                                      std::random_access_iterator_tag>) {
@@ -387,38 +248,17 @@ private:
     bool validated_;
 };
 
-/**
- * @brief Checks iterator bounds before dereference or access.
- *
- * The most common iterator error: dereferencing past end() or before begin().
- * BoundsChecker validates iterator position before any access operation.
- *
- * ```cpp
- * std::vector<int> vec = {1, 2, 3};
- * auto it = vec.end();
- * BoundsChecker::check_dereference(it, vec.begin(), vec.end());  // Throws
- * 
- * auto it = vec.begin();
- * BoundsChecker::check_dereference(it, vec.begin(), vec.end());  // OK
- * int value = *it;
- * ```
- */
 class BoundsChecker {
 public:
-    /**
-     * @brief Verify iterator is valid for dereference.
-     * @tparam Iterator The iterator type.
-     * @param it The iterator to check.
-     * @param begin Start of valid range.
-     * @param end End of valid range.
-     * @throws std::out_of_range if iterator is not in [begin, end).
-     * 
-     * **Checks:**
-     * - Iterator is in range [begin, end)
-     * - Iterator is not past end()
-     * - Iterator is not before begin()
-     */
     template<typename Iterator>
+    /**
+     * @brief Check dereference.
+     * @param[in] it Input parameter.
+     * @param[in] begin Input parameter.
+     * @param[in] end Input parameter.
+     * @throws std::out_of_range if an error occurs.
+     * @details Calls: constexpr(), std::distance(), spdlog::debug().
+     */
     static void check_dereference(const Iterator& it, const Iterator& begin, const Iterator& end) {
         // For random-access iterators, we can do O(1) bounds checking
         if constexpr (std::is_same_v<typename std::iterator_traits<Iterator>::iterator_category,
@@ -438,17 +278,15 @@ public:
         spdlog::debug("BoundsChecker: Iterator dereference validated");
     }
 
-    /**
-     * @brief Verify iterator is valid for access (allows end()).
-     * @tparam Iterator The iterator type.
-     * @param it The iterator to check.
-     * @param begin Start of valid range.
-     * @param end End of valid range.
-     * @throws std::out_of_range if iterator is outside [begin, end].
-     * 
-     * **Usage:** For operations that allow end() but not beyond.
-     */
     template<typename Iterator>
+    /**
+     * @brief Check access.
+     * @param[in] it Input parameter.
+     * @param[in] begin Input parameter.
+     * @param[in] end Input parameter.
+     * @throws std::out_of_range if an error occurs.
+     * @details Calls: constexpr(), std::distance(), spdlog::debug().
+     */
     static void check_access(const Iterator& it, const Iterator& begin, const Iterator& end) {
         if constexpr (std::is_same_v<typename std::iterator_traits<Iterator>::iterator_category,
                                      std::random_access_iterator_tag>) {
@@ -465,14 +303,6 @@ public:
         spdlog::debug("BoundsChecker: Iterator access validated");
     }
 
-    /**
-     * @brief Check if an iterator is valid for dereference without throwing.
-     * @tparam Iterator The iterator type.
-     * @param it The iterator to check.
-     * @param begin Start of valid range.
-     * @param end End of valid range.
-     * @return true if iterator can be safely dereferenced, false otherwise.
-     */
     template<typename Iterator>
     static bool is_valid_for_dereference(const Iterator& it, const Iterator& begin,
                                         const Iterator& end) noexcept {
@@ -488,14 +318,6 @@ public:
         }
     }
 
-    /**
-     * @brief Check if an iterator is valid for access without throwing.
-     * @tparam Iterator The iterator type.
-     * @param it The iterator to check.
-     * @param begin Start of valid range.
-     * @param end End of valid range.
-     * @return true if iterator is in valid range, false otherwise.
-     */
     template<typename Iterator>
     static bool is_valid_for_access(const Iterator& it, const Iterator& begin,
                                    const Iterator& end) noexcept {

@@ -23,11 +23,6 @@ namespace auth {
 // AuthEventType — strongly-typed auth event taxonomy
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Enumeration of security-relevant authentication and authorisation events.
- *
- * SIEM consumers use this to route events to the correct index/stream.
- */
 enum class AuthEventType {
     LOGIN_SUCCESS,
     LOGIN_FAILED,
@@ -52,14 +47,6 @@ enum class AuthEventType {
 // AuthEvent — structured auth event record
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Structured record representing a single auth security event.
- *
- * `correlation_id` links related events across subsystems (e.g., a login that
- * triggers MFA which produces a token — all share one correlation_id).
- * `metadata` carries type-specific fields (e.g., credential_id for passkey
- * events, policy_id for POLICY_UPDATED).
- */
 struct AuthEvent {
     std::string   event_id;
     AuthEventType type;
@@ -76,24 +63,20 @@ struct AuthEvent {
 // IAuthEventSubscriber — consumer interface for auth events
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Pure-virtual subscriber interface for auth event consumers.
- *
- * `onAuthEvent()` is called synchronously on the publishing thread; implementations
- * must not block.  Use an async queue internally if heavy processing is needed.
- */
 class IAuthEventSubscriber {
 public:
+    /**
+     * @brief IAuth Event Subscriber.
+     * @return Return value.
+     */
     virtual ~IAuthEventSubscriber() = default;
 
     /**
-     * @brief Invoked for every published AuthEvent.
-     *
-     * Must complete quickly (< 1 ms); no I/O or heavy computation inline.
+     * @brief On Auth Event.
+     * @param[in] event Input parameter.
      */
     virtual void onAuthEvent(const AuthEvent& event) = 0;
 
-    /// Unique subscriber identifier used for (de)registration.
     [[nodiscard]] virtual std::string subscriberId() const = 0;
 };
 
@@ -101,43 +84,24 @@ public:
 // IAuthEventBus — publish/subscribe bus for auth events
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Pure-virtual auth event publish/subscribe bus.
- *
- * ### Thread safety
- * All methods must be safe to call concurrently from multiple threads.
- *
- * ### Delivery guarantee
- * Events are delivered synchronously to all subscribers registered at the
- * time of `publish()`.  No persistence or replay is provided at this layer;
- * SIEM forwarding durability is the subscriber's responsibility.
- */
 class IAuthEventBus {
 public:
+    /**
+     * @brief IAuth Event Bus.
+     * @return Return value.
+     */
     virtual ~IAuthEventBus() = default;
 
     /**
-     * @brief Publish an auth event to all registered subscribers.
-     *
-     * Subscribers are notified in registration order.
+     * @brief Publish.
+     * @param[in] event Input parameter.
      */
     virtual void publish(const AuthEvent& event) = 0;
 
-    /**
-     * @brief Register a subscriber.
-     *
-     * @return `false` if a subscriber with the same `subscriberId()` is already registered.
-     */
     [[nodiscard]] virtual bool subscribe(std::shared_ptr<IAuthEventSubscriber> subscriber) = 0;
 
-    /**
-     * @brief Unregister a subscriber by ID.
-     *
-     * @return `false` if no subscriber with @p subscriber_id was found.
-     */
     [[nodiscard]] virtual bool unsubscribe(const std::string& subscriber_id) = 0;
 
-    /// Return the current number of registered subscribers.
     [[nodiscard]] virtual size_t subscriberCount() const = 0;
 };
 

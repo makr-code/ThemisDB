@@ -51,23 +51,17 @@ namespace distributed_knowledge {
 // Listener interface
 // ============================================================================
 
-/**
- * @brief Interface for receiving distributed-knowledge diagnostic events.
- *
- * Implement this interface to forward events to a logging backend, telemetry
- * system, or test assertion harness.
- */
 class IDKDiagnosticListener {
 public:
+    /**
+     * @brief IDKDiagnostic Listener.
+     * @return Return value.
+     */
     virtual ~IDKDiagnosticListener() = default;
 
     /**
-     * @brief Called when a diagnostic event is emitted.
-     *
-     * Must be thread-safe: the emitter holds its internal lock while invoking
-     * this method, so implementations must not re-enter the emitter.
-     *
-     * @param event  The diagnostic event (read-only).
+     * @brief On Event.
+     * @param[in] event Input parameter.
      */
     virtual void onEvent(const DKDiagnosticEvent& event) = 0;
 };
@@ -76,24 +70,6 @@ public:
 // Emitter
 // ============================================================================
 
-/**
- * @brief Thread-safe diagnostic event emitter for the distributed_knowledge module.
- *
- * Central fan-out point for all federation incidents.  Components obtain a
- * shared pointer to a single emitter instance (or one per coordinator) and
- * call `emit()` with a populated `DKDiagnosticEvent`.
- *
- * ### Thread safety
- * All public methods are safe for concurrent access from multiple threads.
- * Listener callbacks are invoked with the internal mutex held; each listener
- * must complete quickly and must not call back into the emitter.
- *
- * ### Timestamp auto-fill
- * If `event.timestamp_utc` is empty when `emit()` is called, the emitter
- * populates it with the current UTC time formatted as ISO-8601.
- *
- * @since Phase 3 hardening (Q4 2026)
- */
 class DistributedKnowledgeDiagnosticEmitter {
 public:
     DistributedKnowledgeDiagnosticEmitter() = default;
@@ -110,11 +86,9 @@ public:
     // -------------------------------------------------------------------------
 
     /**
-     * @brief Register a listener to receive future diagnostic events.
-     *
-     * Listeners are called in registration order.  A null pointer is ignored.
-     *
-     * @param listener  Shared pointer to the listener implementation.
+     * @brief Add Listener.
+     * @param[in] listener Input parameter.
+     * @details Calls: lock(), push_back(), std::move().
      */
     void addListener(std::shared_ptr<IDKDiagnosticListener> listener) {
         if (!listener) { return; }
@@ -123,17 +97,20 @@ public:
     }
 
     /**
-     * @brief Remove all registered listeners.
+     * @brief Clear Listeners.
+     * @details Calls: lock(), clear().
      */
     void clearListeners() {
         std::lock_guard<std::mutex> lock(mutex_);
         listeners_.clear();
     }
 
-    /**
-     * @brief Return the number of currently registered listeners.
-     */
     [[nodiscard]] std::size_t listenerCount() const noexcept {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return listeners_.size();
     }
@@ -143,14 +120,9 @@ public:
     // -------------------------------------------------------------------------
 
     /**
-     * @brief Emit a diagnostic event to all registered listeners.
-     *
-     * If `event.timestamp_utc` is empty, it is populated with the current UTC
-     * time before dispatch.  Each listener is called in registration order; an
-     * exception thrown by a listener is caught and suppressed so that subsequent
-     * listeners still receive the event.
-     *
-     * @param event  Diagnostic event to broadcast (copied internally).
+     * @brief Emit.
+     * @param[in] event Input parameter.
+     * @details Calls: lock(), empty(), utcNow(), onEvent().
      */
     void emit(DKDiagnosticEvent event) {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -168,14 +140,6 @@ public:
         }
     }
 
-    /**
-     * @brief Convenience overload: emit a MERGE_TIMEOUT event.
-     *
-     * @param shard_id       Shard that timed out.
-     * @param operation_id   Merge operation identifier.
-     * @param cause          Human-readable description of the timeout.
-     * @param severity       Diagnostic severity (default: WARNING).
-     */
     void emitMergeTimeout(const std::string& shard_id,
                           const std::string& operation_id,
                           const std::string& cause,
@@ -190,11 +154,11 @@ public:
     }
 
     /**
-     * @brief Convenience overload: emit a DEDUP_COLLISION event.
-     *
-     * @param shard_id       Shard that produced the duplicate entry.
-     * @param operation_id   Operation identifier.
-     * @param duplicate_key  The duplicated doc_id or summary_id.
+     * @brief Emit Dedup Collision.
+     * @param[in] shard_id Identifier of the shard.
+     * @param[in] operation_id Identifier of the operation.
+     * @param[in] duplicate_key Input parameter.
+     * @details Calls: emit(), std::move().
      */
     void emitDedupCollision(const std::string& shard_id,
                             const std::string& operation_id,
@@ -210,11 +174,11 @@ public:
     }
 
     /**
-     * @brief Convenience overload: emit a TRUST_GATE_REJECT event.
-     *
-     * @param shard_id       Shard whose announcement was rejected.
-     * @param operation_id   Operation identifier.
-     * @param cause          Reason for rejection.
+     * @brief Emit Trust Gate Reject.
+     * @param[in] shard_id Identifier of the shard.
+     * @param[in] operation_id Identifier of the operation.
+     * @param[in] cause Input parameter.
+     * @details Calls: emit(), std::move().
      */
     void emitTrustGateReject(const std::string& shard_id,
                              const std::string& operation_id,
@@ -229,11 +193,11 @@ public:
     }
 
     /**
-     * @brief Convenience overload: emit a PARTIAL_SHARD_MERGE event.
-     *
-     * @param operation_id       Merge operation identifier.
-     * @param responding_shards  Number of shards that responded.
-     * @param total_shards       Total number of shards contacted.
+     * @brief Emit Partial Shard Merge.
+     * @param[in] operation_id Identifier of the operation.
+     * @param[in] responding_shards Input parameter.
+     * @param[in] total_shards Input parameter.
+     * @details Calls: std::to_string(), emit(), std::move().
      */
     void emitPartialShardMerge(const std::string& operation_id,
                                std::size_t responding_shards,
@@ -249,13 +213,6 @@ public:
         emit(std::move(ev));
     }
 
-    /**
-     * @brief Convenience overload: emit a FEDERATION_ROLLBACK event.
-     *
-     * @param operation_id  Rollback operation identifier.
-     * @param cause         Reason for rollback.
-     * @param severity      Diagnostic severity (default: ERROR).
-     */
     void emitFederationRollback(const std::string& operation_id,
                                 const std::string& cause,
                                 DKDiagnosticSeverity severity = DKDiagnosticSeverity::ERROR) {
@@ -271,7 +228,6 @@ private:
     mutable std::mutex                                    mutex_;
     std::vector<std::shared_ptr<IDKDiagnosticListener>>   listeners_;
 
-    /// Return current UTC time as an ISO-8601 string (seconds precision).
     [[nodiscard]] static std::string utcNow() {
         const auto now  = std::chrono::system_clock::now();
         const auto time = std::chrono::system_clock::to_time_t(now);

@@ -37,7 +37,6 @@ namespace themis::exporters {
 // Forward declaration
 class ExporterMetrics;
 
-/// Export statistics collected during export
 struct ExportStats {
     size_t total_entities = 0;
     size_t exported_entities = 0;
@@ -47,29 +46,29 @@ struct ExportStats {
     std::chrono::milliseconds duration{0};
     std::vector<std::string> errors;
 
-    /// Estimated time remaining in seconds (populated during streaming exports)
     double estimated_eta_seconds = 0.0;
     
     // Optional: Detailed metrics
     std::shared_ptr<ExporterMetrics> metrics;
     
+    /**
+     * @brief To Json.
+     * @return Return value.
+     */
     std::string toJson() const;
 };
 
-/// Tenant context for multi-tenant exports
 struct ExportTenantContext {
     std::string tenant_id;                  // Tenant identifier
     std::string user_id;                    // User performing export
     std::vector<std::string> scopes;        // Authorization scopes (export:read, export:write, etc.)
     bool enforce_isolation = true;          // Enforce tenant data isolation
     
-    /// Check if user has required scope
     bool hasScope(const std::string& scope) const {
         return std::find(scopes.begin(), scopes.end(), scope) != scopes.end();
     }
 };
 
-/// Export options for configuring export behavior
 struct ExportOptions {
     // Output file path
     std::string output_path;
@@ -118,61 +117,38 @@ struct ExportOptions {
     // A PolicyEngine::checkExportPermission() denial throws ExporterException
     // with code ERR_EXPORT_POLICY_DENIED.
 
-    /// Name of the collection being exported (required when policy_engine is set).
     std::string collection_name;
 
-    /// Identity of the user/service requesting the export (required when
-    /// policy_engine is set; falls back to tenant_context.user_id when empty).
     std::string requesting_user;
 
-    /// Optional PolicyEngine for per-collection authorization checks.
-    /// Raw non-owning pointer; the caller must ensure it outlives all
-    /// export calls.  Null = no policy check (backward compatible default).
     themis::governance::PolicyEngine* policy_engine = nullptr;
 
-    /// Optional AuditLogger for recording export authorization decisions.
-    /// When non-null, enforceExportPolicy() logs BULK_EXPORT on approval and
-    /// EXPORT_DENIED on denial.  Null = no audit logging (backward compatible).
     themis::utils::AuditLogger* audit_logger = nullptr;
 };
 
-/// @brief Enforce export policy before any cursor or output file is opened.
-///
-/// Builds a `ModelTrainingExportRequest` from `options` and calls
-/// `PolicyEngine::checkExportPermission()`.  If the engine denies the
-/// request an `ExporterException(ERR_EXPORT_POLICY_DENIED, ...)` is thrown.
-/// On denial, if `options.audit_logger` is non-null, an EXPORT_DENIED event
-/// is written with requester, collection, and denial reason.
-/// On approval, if `options.audit_logger` is non-null, a BULK_EXPORT event
-/// is written.
-///
-/// This is a no-op when `options.policy_engine == nullptr`.
-///
-/// All concrete exporters MUST call this at the very start of
-/// `exportEntities()`, before opening any file or database cursor.
+/**
+ * @brief Enforce Export Policy.
+ * @param[in] options Input parameter.
+ */
 void enforceExportPolicy(const ExportOptions& options);
 
-/// Generic exporter interface
 class IExporter {
 public:
+    /**
+     * @brief IExporter.
+     * @return Return value.
+     */
     virtual ~IExporter() = default;
     
-    /// Export entities to the configured format
-    /// @param entities Vector of entities to export
-    /// @param options Export configuration
-    /// @return Export statistics
     [[nodiscard]] virtual ExportStats exportEntities(
         const std::vector<BaseEntity>& entities,
         const ExportOptions& options
     ) = 0;
     
-    /// Get supported output formats
     [[nodiscard]] virtual std::vector<std::string> getSupportedFormats() const = 0;
     
-    /// Get exporter name
     [[nodiscard]] virtual std::string getName() const = 0;
     
-    /// Get exporter version
     [[nodiscard]] virtual std::string getVersion() const = 0;
 };
 

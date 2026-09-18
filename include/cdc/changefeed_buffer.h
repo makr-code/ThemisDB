@@ -44,9 +44,6 @@
 namespace themis {
 using namespace themis::cdc;
 
-/**
- * @brief Configuration for changefeed auto-batching
- */
 struct ChangefeedBufferConfig {
     // Buffer size thresholds
     size_t max_events_per_buffer = 500;       // Max events per buffer before flush
@@ -77,9 +74,6 @@ struct ChangefeedBufferConfig {
     std::chrono::milliseconds rate_limit_window{1000};  // Rate limit window
 };
 
-/**
- * @brief Statistics for changefeed auto-batching buffer
- */
 struct ChangefeedBufferStats {
     std::atomic<uint64_t> events_buffered{0};
     std::atomic<uint64_t> events_flushed{0};
@@ -110,43 +104,11 @@ struct ChangefeedBufferStats {
     ChangefeedBufferStats() = default;
 };
 
-/**
- * @brief Auto-batching buffer for CDC events
- * 
- * Automatically buffers change events and flushes them as batches.
- * Thread-safe, with configurable size and time thresholds.
- * 
- * Usage:
- * @code
- * ChangefeedBufferConfig config;
- * config.max_events_per_buffer = 500;
- * config.flush_interval = std::chrono::seconds(1);
- * config.compress_payloads = true;
- * 
- * ChangefeedBuffer buffer(&changefeed, config);
- * buffer.start();  // Start background flush thread
- * 
- * // Add events (will be buffered)
- * buffer.recordEvent(event1);
- * buffer.recordEvent(event2);
- * // ... events are automatically flushed in batches
- * 
- * buffer.stop();   // Stop and flush remaining events
- * @endcode
- */
 class ChangefeedBuffer {
 public:
-    /**
-     * @brief Construct auto-batching buffer
-     * @param changefeed Changefeed instance (not owned)
-     * @param config Buffer configuration
-     */
     explicit ChangefeedBuffer(Changefeed* changefeed, 
                               ChangefeedBufferConfig config = ChangefeedBufferConfig{});
     
-    /**
-     * @brief Destructor - stops the background flush thread and suppresses shutdown exceptions.
-     */
     ~ChangefeedBuffer() noexcept;
     
     // Non-copyable, non-movable (contains threads)
@@ -156,80 +118,66 @@ public:
     ChangefeedBuffer& operator=(ChangefeedBuffer&&) = delete;
     
     /**
-     * @brief Start background flush thread
+     * @brief Start.
      */
     void start();
     
     /**
-     * @brief Stop background flush thread and flush remaining events
+     * @brief Stop.
      */
     void stop();
     
     /**
-     * @brief Record a change event (will be buffered)
-     * @param event Event to record
-     * @return Recorded event with assigned sequence (0 if buffered)
+     * @brief Record Event.
+     * @param[in] event Input parameter.
+     * @return Return value.
      */
     Changefeed::ChangeEvent recordEvent(Changefeed::ChangeEvent event);
     
     /**
-     * @brief Force immediate flush of all buffered events
-     * @return Number of events flushed
+     * @brief Flush.
+     * @return Return value.
      */
     size_t flush();
     
     /**
-     * @brief Flush buffered events for specific event type
-     * @param event_type Event type to flush
-     * @return Number of events flushed
+     * @brief Flush For.
+     * @param[in] event_type Input parameter.
+     * @return Return value.
      */
     size_t flushFor(Changefeed::ChangeEventType event_type);
     
     /**
-     * @brief Get current buffer statistics
+     * @brief Get Stats.
+     * @return Return value.
      */
     const ChangefeedBufferStats& getStats() const;
     
-    /**
-     * @brief Get enhanced metrics (latency, throughput, etc.)
-     * @return CDCMetrics with histograms and counters
-     */
     const CDCMetrics& getMetrics() const { return metrics_; }
     
     /**
-     * @brief Reset metrics (for testing or periodic reset)
+     * @brief Reset Metrics.
+     * @details Calls: reset().
      */
     void resetMetrics() { metrics_.reset(); }
     
-    /**
-     * @brief Get current configuration
-     */
     const ChangefeedBufferConfig& getConfig() const { return config_; }
     
     /**
-     * @brief Update configuration (takes effect on next flush)
+     * @brief Set Config.
+     * @param[in] config Input parameter.
      */
     void setConfig(const ChangefeedBufferConfig& config);
     
-    /**
-     * @brief Check if buffer is running
-     */
     bool isRunning() const { return running_.load(); }
 
     /**
-     * @brief Attach a dead-letter queue to receive events that exhaust retries.
-     *
-     * When set, any event for which all delivery attempts fail is enqueued in
-     * the provided DeadLetterQueue instead of being silently discarded.
-     * The DeadLetterQueue is NOT owned by this buffer.
-     *
-     * @param dlq  Pointer to an existing DeadLetterQueue, or nullptr to detach.
+     * @brief Set Dead Letter Queue.
+     * @param[in,out] dlq Input/output parameter.
+     * @details Implements setDeadLetterQueue without additional internal calls.
      */
     void setDeadLetterQueue(cdc::DeadLetterQueue* dlq) { dlq_ = dlq; }
 
-    /**
-     * @brief Return the attached dead-letter queue (may be nullptr).
-     */
     cdc::DeadLetterQueue* getDeadLetterQueue() const { return dlq_; }
 
 private:
@@ -257,6 +205,11 @@ private:
         std::chrono::steady_clock::time_point first_event_time;
         size_t memory_bytes = 0;
         
+        /**
+         * @brief Add.
+         * @param[in] event Input parameter.
+         * @details Calls: empty(), std::chrono::steady_clock::now(), push_back(), std::move().
+         */
         void add(BufferedEvent&& event) {
             if (events.empty()) {
                 first_event_time = std::chrono::steady_clock::now();
@@ -265,6 +218,10 @@ private:
             events.push_back(std::move(event));
         }
         
+        /**
+         * @brief Clear.
+         * @details Implements clear without additional internal calls.
+         */
         void clear() {
             events.clear();
             memory_bytes = 0;
@@ -291,18 +248,55 @@ private:
     CDCMetrics metrics_;
     
     // Helper functions
+    /**
+     * @brief Make Buffer Key.
+     * @param[in] event Input parameter.
+     * @return Return value.
+     */
     std::string makeBufferKey(const Changefeed::ChangeEvent& event) const;
+    /**
+     * @brief Flush Thread.
+     */
     void flushThread();
     size_t flushInternal(bool lock_held = false);
+    /**
+     * @brief Flush Buffer.
+     * @param[in] event_type Input parameter.
+     * @param[in,out] buffer Input/output parameter.
+     * @return Return value.
+     */
     size_t flushBuffer(Changefeed::ChangeEventType event_type, EventTypeBuffer& buffer);
+    /**
+     * @brief Should Flush Buffer.
+     * @param[in] buffer Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool shouldFlushBuffer(const EventTypeBuffer& buffer) const;
+    /**
+     * @brief Should Flush Global.
+     * @return True when the operation succeeds.
+     */
     bool shouldFlushGlobal() const;
     
     // Rate limiting helper
+    /**
+     * @brief Check whether a user exceeds the current rate limit.
+     * @return True when the user remains within the configured limit.
+     */
     bool checkRateLimit();
     
     // Compression helpers
+    /**
+     * @brief Compress Payload.
+     * @param[in] payload Input parameter.
+     * @return Return value.
+     */
     std::string compressPayload(const std::string& payload);
+    /**
+     * @brief Decompress Payload.
+     * @param[in] compressed Input parameter.
+     * @return Return value.
+     */
     std::string decompressPayload(const std::string& compressed);
     
     // Rate limiting state

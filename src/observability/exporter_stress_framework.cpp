@@ -26,6 +26,11 @@ namespace observability {
 
 class MockExporterBackendImpl : public MockExporterBackend {
 public:
+    /**
+     * @brief Mock Exporter Backend Impl.
+     * @param[in] failure_mode Input parameter.
+     * @return Return value.
+     */
     explicit MockExporterBackendImpl(FailureMode failure_mode)
         : failure_mode_(failure_mode),
           healthy_(true),
@@ -36,6 +41,11 @@ public:
     std::size_t export_observations(
         const std::vector<Observation>& observations) override {
 
+        /**
+         * @brief Lock.
+         * @param[in] backend_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(backend_mutex_);
 
         total_exports_++;
@@ -134,11 +144,21 @@ public:
     }
 
     bool isHealthy() override {
+        /**
+         * @brief Lock.
+         * @param[in] backend_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(backend_mutex_);
         return healthy_;
     }
 
     void reset() override {
+        /**
+         * @brief Lock.
+         * @param[in] backend_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(backend_mutex_);
         healthy_ = true;
         total_exports_ = 0;
@@ -147,6 +167,11 @@ public:
     }
 
     std::map<std::string, double> getStatistics() override {
+        /**
+         * @brief Lock.
+         * @param[in] backend_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(backend_mutex_);
         std::map<std::string, double> stats;
         stats["export_calls"] = total_exports_;
@@ -494,14 +519,22 @@ private:
     std::function<void(std::uint32_t progress_percent)> progress_callback_;
 };
 
-// ============================================================================
-// Factory functions
-// ============================================================================
+/**
+ * @brief ============================================================================ Factory functions ============================================================================
+ * @param[in] failure_mode Input parameter.
+ * @return Return value.
+ * @details Implements createMockExporterBackend without additional internal calls.
+ */
 
 std::unique_ptr<MockExporterBackend> createMockExporterBackend(FailureMode failure_mode) {
     return std::make_unique<MockExporterBackendImpl>(failure_mode);
 }
 
+/**
+ * @brief Create Exporter Stress Framework.
+ * @return Return value.
+ * @details Implements createExporterStressFramework without additional internal calls.
+ */
 std::unique_ptr<ExporterStressFramework> createExporterStressFramework() {
     return std::make_unique<ExporterStressFrameworkImpl>();
 }

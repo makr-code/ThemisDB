@@ -22,27 +22,6 @@
 namespace themis {
 namespace index {
 
-/**
- * GPU-Accelerated Vector Index
- * 
- * Provides GPU-accelerated vector similarity search with multiple backend support:
- * - Vulkan: Cross-platform GPU compute (NVIDIA, AMD, Intel, Apple via MoltenVK) - v2.2
- * - CUDA: NVIDIA GPUs (planned)
- * - HIP: AMD GPUs (planned)
- * - CPU: Fallback with SIMD acceleration
- * 
- * Features:
- * - Cross-platform GPU acceleration via Vulkan
- * - CPU-optimized SIMD fallback
- * - Multi-threaded batch processing
- * - Automatic backend selection
- * - Production-ready performance (200K+ queries/sec on GPU)
- * 
- * Sources:
- * - HNSW Algorithm: Malkov & Yashunin (2018) - IEEE TPAMI
- * - FAISS: Johnson et al. (2019) - IEEE Transactions on Big Data
- * - ROCm/HIP: https://rocm.docs.amd.com/
- */
 class GPUVectorIndex {
 public:
     enum class Backend {
@@ -119,43 +98,132 @@ public:
     
     // Constructor
     GPUVectorIndex();
+    /**
+     * @brief GPUVector Index.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit GPUVectorIndex(const Config& config);
     ~GPUVectorIndex() noexcept;
     
     // Initialization
+    /**
+     * @brief Initialize.
+     * @param[in] dimension Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool initialize(int dimension);
+    /**
+     * @brief Shutdown.
+     */
     void shutdown();
     
     // Vector operations
+    /**
+     * @brief Add Vector.
+     * @param[in] id Input parameter.
+     * @param[in] vector Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool addVector(const std::string& id, const std::vector<float>& vector);
+    /**
+     * @brief Add Vector Batch.
+     * @param[in] ids Input parameter.
+     * @param[in] vectors Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool addVectorBatch(const std::vector<std::string>& ids, 
                        const std::vector<std::vector<float>>& vectors);
+    /**
+     * @brief Remove Vector.
+     * @param[in] id Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool removeVector(const std::string& id);
+    /**
+     * @brief Update Vector.
+     * @param[in] id Input parameter.
+     * @param[in] vector Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool updateVector(const std::string& id, const std::vector<float>& vector);
     
     // Search operations
+    /**
+     * @brief Search.
+     * @param[in] query Input parameter.
+     * @param[in] k Input parameter.
+     * @return Return value.
+     */
     std::vector<SearchResult> search(const std::vector<float>& query, size_t k);
+    /**
+     * @brief Search Batch.
+     * @param[in] queries Input parameter.
+     * @param[in] k Input parameter.
+     * @return Return value.
+     */
     std::vector<std::vector<SearchResult>> searchBatch(
         const std::vector<std::vector<float>>& queries, size_t k);
     
     // Index management
+    /**
+     * @brief Build Index.
+     * @return True when the operation succeeds.
+     */
     bool buildIndex();
+    /**
+     * @brief Save Index.
+     * @param[in] path Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool saveIndex(const std::string& path);
+    /**
+     * @brief Load Index.
+     * @param[in] path Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool loadIndex(const std::string& path);
     
     // Configuration
+    /**
+     * @brief Set Ef Search.
+     * @param[in] ef Input parameter.
+     */
     void setEfSearch(int ef);
+    /**
+     * @brief Set Batch Size.
+     * @param[in] size Input parameter.
+     */
     void setBatchSize(int size);
+    /**
+     * @brief Get Active Backend.
+     * @return Return value.
+     */
     Backend getActiveBackend() const;
+    /**
+     * @brief Return access control statistics.
+     * @return Access control statistics.
+     */
     Statistics getStatistics() const;
     
     // Backend control
+    /**
+     * @brief Switch Backend.
+     * @param[in] backend Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool switchBackend(Backend backend);
+    /**
+     * @brief Get Available Backends.
+     * @return Return value.
+     */
     std::vector<Backend> getAvailableBackends() const;
 
-    // Oversubscription control (v1.7.0)
-    // Returns the oversubscription stats; the returned Stats::oversubscriptionActive
-    // field is false when oversubscription is disabled.
+    /**
+     * @brief Oversubscription control (v1.
+     * @return Return value.
+     * @details 7.0) Returns the oversubscription stats; the returned Stats::oversubscriptionActive field is false when oversubscription is disabled.
+     */
     GPUMemoryOversubscriptionManager::Stats getOversubscriptionStats() const;
     
     // Backend availability:

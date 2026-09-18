@@ -19,24 +19,6 @@
 namespace themis {
 namespace importers {
 
-/**
- * @brief Oracle Database expdp/SQL Dump Importer
- *
- * Imports data from Oracle Data Pump SQL dump files produced by `expdp`
- * with `SQLFILE=` or from Oracle SQL*Plus spool output.
- *
- * Supports:
- * - DDL parsing (CREATE TABLE with double-quoted identifiers)
- * - DML parsing (INSERT INTO … VALUES – single-row and multi-row)
- * - Oracle-style schema qualifiers ("OWNER"."TABLE")
- * - Oracle hint comment stripping (hints of the form: --+ ... --)
- * - Type mapping for 30+ Oracle built-in column types
- * - Batch processing with configurable chunk size
- * - Async import via importDataAsync()
- * - Structured error reporting (ImportErrorCode)
- * - Observability: metrics and tracing callbacks
- * - Permission-check callback (ACL enforcement)
- */
 class OracleImporter : public IImporter {
 public:
     OracleImporter();
@@ -72,27 +54,81 @@ private:
     std::map<std::string, TableSchema> schemas_;
 
     // Parsing methods
+    /**
+     * @brief Parse Dump File.
+     * @param[in] file_path Path to the file.
+     * @param[in] options Input parameter.
+     * @param[in,out] stats Input/output parameter.
+     * @param[in,out] callback Input/output parameter.
+     * @return True when the operation succeeds.
+     */
     bool parseDumpFile(const std::string& file_path, const ImportOptions& options,
                        ImportStats& stats, ProgressCallback& callback);
+    /**
+     * @brief Parse Create Table.
+     * @param[in] sql Input parameter.
+     * @param[in,out] schema Input/output parameter.
+     * @return True when the operation succeeds.
+     */
     bool parseCreateTable(const std::string& sql, TableSchema& schema);
+    /**
+     * @brief Parse Insert.
+     * @param[in] sql Input parameter.
+     * @param[in] options Input parameter.
+     * @param[in,out] stats Input/output parameter.
+     * @param[in] line_number Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool parseInsert(const std::string& sql, const ImportOptions& options,
                      ImportStats& stats, size_t line_number);
 
     // Schema mapping
+    /**
+     * @brief Map Oracle Type To Themis.
+     * @param[in] oracle_type Input parameter.
+     * @param[in] options Input parameter.
+     * @return Return value.
+     */
     std::string mapOracleTypeToThemis(const std::string& oracle_type,
                                       const ImportOptions& options) const;
+    /**
+     * @brief Should Import Table.
+     * @param[in] table_name Name of the table.
+     * @param[in] options Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool shouldImportTable(const std::string& table_name, const ImportOptions& options) const;
 
     // Data conversion
+    /**
+     * @brief Convert Row To Entity.
+     * @param[in] schema Input parameter.
+     * @param[in] values Input parameter.
+     * @return Return value.
+     */
     json convertRowToEntity(const TableSchema& schema, const std::vector<std::string>& values);
 
     // INSERT value parsing
+    /**
+     * @brief Parse Insert Values.
+     * @param[in] values_clause Input parameter.
+     * @return Return value.
+     */
     std::vector<std::string> parseInsertValues(const std::string& values_clause) const;
 
-    // Identifier unquoting (strips double-quotes or returns plain identifiers as-is)
+    /**
+     * @brief Identifier unquoting (strips double-quotes or returns plain identifiers as-is)
+     * @param[in] s Input parameter.
+     * @return Return value.
+     */
     static std::string unquoteIdentifier(const std::string& s);
 
-    // Strip Oracle hint comments (/*+ ... */) and regular block comments (/* ... */)
+    /**
+     * @brief Strip Oracle hint comments (/*+ .
+     * @param[in] sql Input parameter.
+     * @return Return value.
+     * @details .. */) and regular block comments (/* ... */)
+     */
     static std::string stripOracleComments(const std::string& sql);
 
     // Error helpers
@@ -112,15 +148,17 @@ private:
                   double duration_seconds) const;
 
     // Progress reporting
+    /**
+     * @brief Report Progress.
+     * @param[in,out] callback Input/output parameter.
+     * @param[in] stage Input parameter.
+     * @param[in] current Input parameter.
+     * @param[in] total Input parameter.
+     */
     void reportProgress(ProgressCallback& callback, const std::string& stage,
                         size_t current, size_t total);
 };
 
-/**
- * @brief Oracle Database Importer Plugin
- *
- * Wraps OracleImporter as a ThemisDB plugin.
- */
 class OracleImporterPlugin : public plugins::IThemisPlugin {
 public:
     OracleImporterPlugin();

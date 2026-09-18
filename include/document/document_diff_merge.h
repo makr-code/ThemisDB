@@ -39,9 +39,6 @@ namespace document {
 // FieldChange
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief A single field-level change between two document versions.
- */
 struct FieldChange {
     std::string    field_name;  ///< JSON key that changed
     nlohmann::json old_value;   ///< Value in the base document (null if added)
@@ -52,12 +49,6 @@ struct FieldChange {
 // DocumentDiff
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief Structured change list between a base and a target document.
- *
- * Computed by IDocumentDiffMerge::diff().  Operating on document IDs ensures
- * that no plaintext content of encrypted entities is exposed.
- */
 struct DocumentDiff {
     std::vector<std::string>  added_fields;    ///< Keys present in target but not base
     std::vector<std::string>  removed_fields;  ///< Keys present in base but not target
@@ -74,9 +65,6 @@ struct DocumentDiff {
 // MergeConflict
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief A field modified differently in both branches of a three-way merge.
- */
 struct MergeConflict {
     std::string    field_name;   ///< Conflicting JSON key
     nlohmann::json base_value;   ///< Value in the common base
@@ -88,9 +76,6 @@ struct MergeConflict {
 // MergeStrategy
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief Strategy applied to resolve the three-way merge.
- */
 enum class MergeStrategy {
     OURS_WINS,   ///< On conflict, "ours" value is used
     THEIRS_WINS, ///< On conflict, "theirs" value is used
@@ -101,9 +86,6 @@ enum class MergeStrategy {
 // MergeResult
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief Outcome of IDocumentDiffMerge::merge().
- */
 struct MergeResult {
     nlohmann::json              merged_body; ///< Resulting merged document body
     std::vector<MergeConflict>  conflicts;   ///< Empty ⟹ clean merge
@@ -114,50 +96,25 @@ struct MergeResult {
 // IDocumentDiffMerge
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief Structural diff and three-way merge interface for document pairs.
- *
- * Operates on document IDs, not raw payloads; implementations resolve IDs
- * against their backing store.  The interface never exposes the plaintext
- * content of encrypted entities.
- *
- * ### Error codes
- *   - ERR_DOC_DIFF_NOT_FOUND    — one or both document IDs not found
- *   - ERR_DOC_MERGE_CONFLICT    — merge() with MergeStrategy::FAIL and conflicts present
- *   - ERR_DOC_INVALID_ARGUMENT  — empty document ID supplied
- */
 class IDocumentDiffMerge {
 public:
+    /**
+     * @brief IDocument Diff Merge.
+     * @return Return value.
+     */
     virtual ~IDocumentDiffMerge() = default;
 
     /**
-     * @brief Compute a field-level diff between two documents.
-     *
-     * @param collection Collection owning both documents.
-     * @param base_id    Document treated as the baseline.
-     * @param target_id  Document treated as the changed version.
-     *
-     * @return ERR_DOC_DIFF_NOT_FOUND  if either document does not exist.
-     * @return ERR_DOC_INVALID_ARGUMENT if either id is empty.
+     * @brief Diff.
+     * @param[in] collection Input parameter.
+     * @param[in] base_id Identifier of the base.
+     * @param[in] target_id Identifier of the target.
+     * @return Return value.
      */
     virtual Result<DocumentDiff> diff(const CollectionId& collection,
                                       const DocumentId&   base_id,
                                       const DocumentId&   target_id) const = 0;
 
-    /**
-     * @brief Perform a three-way merge.
-     *
-     * Changes applied to @p base to reach @p ours and @p theirs are merged.
-     * Non-conflicting changes are combined; conflicting changes (both branches
-     * modified the same field with different values) are listed in
-     * MergeResult::conflicts.
-     *
-     * @param strategy  How to handle conflicts (default: FAIL).
-     *
-     * @return ERR_DOC_DIFF_NOT_FOUND    if any of the three IDs do not exist.
-     * @return ERR_DOC_MERGE_CONFLICT    if strategy == FAIL and conflicts exist.
-     * @return ERR_DOC_INVALID_ARGUMENT  if any id is empty.
-     */
     virtual Result<MergeResult> merge(
         const CollectionId& collection,
         const DocumentId&   base_id,
@@ -170,14 +127,13 @@ public:
 // InMemoryDocumentDiffMerge
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief Reference implementation of IDocumentDiffMerge backed by an
- *        IDocumentStore.
- *
- * Thread-safe.  The store reference must outlive this object.
- */
 class InMemoryDocumentDiffMerge final : public IDocumentDiffMerge {
 public:
+    /**
+     * @brief In Memory Document Diff Merge.
+     * @param[in,out] store Input/output parameter.
+     * @return Return value.
+     */
     explicit InMemoryDocumentDiffMerge(IDocumentStore& store)
         : store_(store) {}
 
@@ -254,7 +210,12 @@ public:
     }
 
 private:
-    // ── diff helpers ──────────────────────────────────────────────────────
+    /**
+     * @brief ── diff helpers ──────────────────────────────────────────────────────
+     * @param[in] base Input parameter.
+     * @param[in] target Input parameter.
+     * @return Return value.
+     */
 
     static DocumentDiff computeDiff(const nlohmann::json& base,
                                      const nlohmann::json& target)
@@ -281,7 +242,14 @@ private:
         return d;
     }
 
-    // ── merge helpers ─────────────────────────────────────────────────────
+    /**
+     * @brief ── merge helpers ─────────────────────────────────────────────────────
+     * @param[in] base Input parameter.
+     * @param[in] ours Input parameter.
+     * @param[in] theirs Input parameter.
+     * @param[in] strategy Input parameter.
+     * @return Return value.
+     */
 
     static Result<MergeResult> computeMerge(const nlohmann::json& base,
                                              const nlohmann::json& ours,

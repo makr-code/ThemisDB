@@ -32,6 +32,12 @@ using themis::query::VariableExpr;
 
 namespace themis {
 
+/**
+ * @brief Translate.
+ * @param[in] ast Input parameter.
+ * @return Return value.
+ * @details Calls: TranslationResult::Error(), reserve(), size(), countCTEReferences(), shouldMaterializeCTE(), push_back(), std::move(), attachCTEs().
+ */
 AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<Query>& ast) {
     if (!ast) {
         return TranslationResult::Error("Null AST provided");
@@ -885,6 +891,11 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                         }
                     }
 
+                    /**
+                     * @brief Ss.
+                     * @param[in] numericOnly Input parameter.
+                     * @return Return value.
+                     */
                     std::stringstream ss(numericOnly);
                     double minx, miny, maxx, maxy;
                     if (!(ss >> minx >> miny >> maxx >> maxy)) {
@@ -1163,6 +1174,11 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                             }
                         }
 
+                        /**
+                         * @brief Ss.
+                         * @param[in] numericOnly Input parameter.
+                         * @return Return value.
+                         */
                         std::stringstream ss(numericOnly);
                         double minx, miny, maxx, maxy;
                         if (!(ss >> minx >> miny >> maxx >> maxy)) {
@@ -1234,6 +1250,15 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
     return finalizeResult(TranslationResult::Success(std::move(query)));
 }
 
+/**
+ * @brief Extract Predicates.
+ * @param[in] expr Input parameter.
+ * @param[in,out] eqPredicates Input/output parameter.
+ * @param[in,out] rangePredicates Input/output parameter.
+ * @param[in,out] error Input/output parameter.
+ * @return True on success.
+ * @details Calls: getType(), std::transform(), begin(), end(), extractColumnName(), literalToString(), push_back().
+ */
 bool AQLTranslator::extractPredicates(
     const std::shared_ptr<Expression>& expr,
     std::vector<PredicateEq>& eqPredicates,
@@ -1367,6 +1392,12 @@ bool AQLTranslator::extractPredicates(
     return false;
 }
 
+/**
+ * @brief Extract Column Name.
+ * @param[in] expr Input parameter.
+ * @return Return value.
+ * @details Calls: getType().
+ */
 std::string AQLTranslator::extractColumnName(const std::shared_ptr<Expression>& expr) {
     if (expr->getType() == ASTNodeType::FieldAccess) {
         auto fieldAccess = std::static_pointer_cast<FieldAccessExpr>(expr);
@@ -1387,6 +1418,12 @@ std::string AQLTranslator::extractColumnName(const std::shared_ptr<Expression>& 
     return "";
 }
 
+/**
+ * @brief Literal To String.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: std::visit(), constexpr(), std::to_string().
+ */
 std::string AQLTranslator::literalToString(const LiteralValue& value) {
     return std::visit([](auto&& arg) -> std::string {
         using T = std::decay_t<decltype(arg)>;
@@ -1407,6 +1444,13 @@ std::string AQLTranslator::literalToString(const LiteralValue& value) {
     }, value);
 }
 
+/**
+ * @brief Extract Order By.
+ * @param[in] sort Input parameter.
+ * @param[in] limit Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), extractColumnName().
+ */
 std::optional<OrderBy> AQLTranslator::extractOrderBy(
     const std::shared_ptr<SortNode>& sort,
     const std::shared_ptr<LimitNode>& limit
@@ -1435,6 +1479,12 @@ std::optional<OrderBy> AQLTranslator::extractOrderBy(
     return orderBy;
 }
 
+/**
+ * @brief Contains Or.
+ * @param[in] expr Input parameter.
+ * @return True on success.
+ * @details Calls: getType().
+ */
 bool AQLTranslator::containsOr(const std::shared_ptr<Expression>& expr) {
     if (!expr) {
       return false;
@@ -1452,6 +1502,14 @@ bool AQLTranslator::containsOr(const std::shared_ptr<Expression>& expr) {
     return false;
 }
 
+/**
+ * @brief Convert To DNF.
+ * @param[in] expr Input parameter.
+ * @param[in] table Input parameter.
+ * @param[in,out] error Input/output parameter.
+ * @return Return value.
+ * @details Calls: getType(), empty(), insert(), end(), begin(), reserve(), size(), has_value().
+ */
 std::vector<ConjunctiveQuery> AQLTranslator::convertToDNF(
     const std::shared_ptr<Expression>& expr,
     const std::string& table,
@@ -1707,6 +1765,13 @@ std::vector<ConjunctiveQuery> AQLTranslator::convertToDNF(
     return {};
 }
 
+/**
+ * @brief Count CTEReferences.
+ * @param[in] ast Input parameter.
+ * @param[in] cte_name Input parameter.
+ * @return Return value.
+ * @details Calls: getType(), countCTEReferencesInExpr().
+ */
 size_t AQLTranslator::countCTEReferences(
     const std::shared_ptr<Query>& ast,
     const std::string& cte_name
@@ -1742,6 +1807,13 @@ size_t AQLTranslator::countCTEReferences(
     return count;
 }
 
+/**
+ * @brief Count CTEReferences In Expr.
+ * @param[in] expr Input parameter.
+ * @param[in] cte_name Input parameter.
+ * @return Return value.
+ * @details Calls: getType(), countCTEReferences().
+ */
 size_t AQLTranslator::countCTEReferencesInExpr(
     const std::shared_ptr<Expression>& expr,
     const std::string& cte_name
@@ -1788,6 +1860,12 @@ size_t AQLTranslator::countCTEReferencesInExpr(
     return count;
 }
 
+/**
+ * @brief Attach CTEs.
+ * @param[in,out] result Input/output parameter.
+ * @param[in] ctes Input parameter.
+ * @details Calls: empty(), std::move().
+ */
 void AQLTranslator::attachCTEs(
     TranslationResult& result,
     std::vector<TranslationResult::CTEExecution> ctes

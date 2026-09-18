@@ -17,10 +17,6 @@
 
 namespace chimera {
 
-/**
- * @struct RetryPolicy
- * @brief Configuration for retry behavior with exponential backoff.
- */
 struct RetryPolicy {
     uint32_t max_retries = 3;
     uint32_t initial_backoff_ms = 100;
@@ -33,16 +29,18 @@ struct RetryPolicy {
     bool retry_on_internal_error = true;
 };
 
-/**
- * @class RetryExecutor
- * @brief Executes operations with exponential backoff retry logic.
- */
 class RetryExecutor {
 public:
     RetryExecutor() = default;
     ~RetryExecutor() = default;
 
     template<typename Func>
+    /**
+     * @brief Execute with retry.
+     * @param[in] fn Input parameter.
+     * @param[in] policy Input parameter.
+     * @return Return value.
+     */
     auto execute_with_retry(Func&& fn, const RetryPolicy& policy)
         -> typename std::invoke_result<Func>::type
     {
@@ -65,17 +63,37 @@ public:
         return ResultType::err(ErrorCode::INTERNAL_ERROR, "Retry failed");
     }
 
+    /**
+     * @brief Calculate backoff.
+     * @param[in] attempt Input parameter.
+     * @param[in] policy Input parameter.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     static std::chrono::milliseconds calculate_backoff(
         uint32_t attempt,
         const RetryPolicy& policy
     ) noexcept;
 
+    /**
+     * @brief Should retry.
+     * @param[in] result Input parameter.
+     * @param[in] policy Input parameter.
+     * @return True when the operation succeeds.
+     * @note Exception safety: noexcept.
+     */
     static bool should_retry(
         const Result<bool>& result,
         const RetryPolicy& policy
     ) noexcept;
 
 private:
+    /**
+     * @brief Get jitter.
+     * @param[in] factor Input parameter.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     static double get_jitter(double factor) noexcept;
 };
 

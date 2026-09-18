@@ -30,11 +30,18 @@ public:
     /**
      * Check if running in production mode
      * @return true if production mode is active
+     * @brief Is Production Mode.
+     * @details Calls: std::getenv(), mode(), environment().
      */
     static bool isProductionMode() {
         // Check environment variable
         const char* env_mode = std::getenv("THEMIS_PRODUCTION_MODE");
         if (env_mode) {
+            /**
+             * @brief Mode.
+             * @param[in] env_mode Input parameter.
+             * @return Return value.
+             */
             std::string mode(env_mode);
             return mode == "true" || mode == "1" || mode == "production";
         }
@@ -42,6 +49,11 @@ public:
         // Check another common env var
         const char* env = std::getenv("THEMIS_ENVIRONMENT");
         if (env) {
+            /**
+             * @brief Environment.
+             * @param[in] env Input parameter.
+             * @return Return value.
+             */
             std::string environment(env);
             return environment == "production" || environment == "prod";
         }
@@ -51,10 +63,11 @@ public:
     }
     
     /**
-     * Check if stub HSM override flag is present
-     * @param argc: Command-line argument count
-     * @param argv: Command-line arguments
-     * @return true if --allow-stub-hsm flag is present
+     * @brief Has Allow Stub Flag.
+     * @param[in] argc Input parameter.
+     * @param[in,out] argv Input/output parameter.
+     * @return True on success.
+     * @details Calls: std::string().
      */
     static bool hasAllowStubFlag(int argc, char* argv[]) {
         for (int i = 1; i < argc; ++i) {
@@ -66,15 +79,12 @@ public:
     }
     
     /**
-     * Validate HSM configuration for production
-     * 
-     * Enforces that stub HSM provider is not used in production mode
-     * unless explicitly overridden with --allow-stub-hsm flag.
-     * 
-     * @param hsm: HSM provider instance
-     * @param argc: Command-line argument count
-     * @param argv: Command-line arguments
-     * @return true if configuration is safe, false if should exit
+     * @brief Validate Production Safety.
+     * @param[in] hsm Input parameter.
+     * @param[in] argc Input parameter.
+     * @param[in,out] argv Input/output parameter.
+     * @return True on success.
+     * @details Calls: isProductionMode(), isStubProvider(), hasAllowStubFlag(), THEMIS_WARN(), THEMIS_CRITICAL().
      */
     static bool validateProductionSafety(const HSMProvider& hsm, int argc, char* argv[]) {
         // Not production mode - allow everything
@@ -140,6 +150,8 @@ public:
      * Get warning message for periodic security checks
      * @param hsm: HSM provider instance
      * @return Warning message or empty string if no warning needed
+     * @brief Get Periodic Warning.
+     * @details Calls: isProductionMode(), isStubProvider().
      */
     static std::string getPeriodicWarning(const HSMProvider& hsm) {
         if (!isProductionMode()) {

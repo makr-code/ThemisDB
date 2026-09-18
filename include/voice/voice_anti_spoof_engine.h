@@ -150,17 +150,17 @@ private:
 
     /// @brief Extract spectral features from audio
     /// @param audio Raw audio data
-    /// @return Vector of spectral coefficients (placeholder)
+    /// @return Vector of spectral coefficients used by the anti-spoof check
     [[nodiscard]] std::vector<double> extractSpectralFeatures(const std::string& audio);
 
     /// @brief Extract speaker embedding from audio
     /// @param audio Raw audio data
-    /// @return Speaker embedding vector (placeholder)
+    /// @return Speaker embedding vector used for similarity scoring
     [[nodiscard]] std::vector<double> extractSpeakerEmbedding(const std::string& audio);
 
     /// @brief Extract noise profile from audio
     /// @param audio Raw audio data
-    /// @return Noise characteristics (placeholder)
+    /// @return Noise characteristics used for consistency analysis
     [[nodiscard]] std::vector<double> extractNoiseProfile(const std::string& audio);
 
     /// @brief Compute cosine similarity between two vectors

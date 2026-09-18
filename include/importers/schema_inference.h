@@ -22,9 +22,6 @@ namespace importers {
 
 using json = nlohmann::json;
 
-/**
- * @brief Column statistics collected from a data source.
- */
 struct ColumnStatistics {
     std::string column_name;
     std::string table_name;
@@ -36,18 +33,12 @@ struct ColumnStatistics {
     double max_value{0.0};
 };
 
-/**
- * @brief Sample data row used for semantic type detection.
- */
 struct SampleData {
     std::string table_name;
     std::string column_name;
     std::vector<std::string> values;
 };
 
-/**
- * @brief Simple table schema description used by inference engine.
- */
 struct InferenceTableSchema {
     std::string name;
     std::string schema_ns;
@@ -57,9 +48,6 @@ struct InferenceTableSchema {
     std::vector<std::pair<std::string, std::string>> foreign_keys; ///< (local_col, ref_table.ref_col)
 };
 
-/**
- * @brief Configuration for SchemaInferenceEngine.
- */
 struct SchemaInferenceConfig {
     double relationship_confidence_threshold{0.75};
     double semantic_type_confidence_threshold{0.70};  ///< Min agreement % for semantic type
@@ -68,9 +56,6 @@ struct SchemaInferenceConfig {
     bool enable_cycle_detection{true};  ///< Detect circular FK references
 };
 
-/**
- * @brief Schema structural validation error details.
- */
 struct SchemaStructureError {
     enum class ViolationType {
         NULL_TABLE_NAME,           ///< Table has empty/null name
@@ -87,16 +72,6 @@ struct SchemaStructureError {
     std::string error_message;
 };
 
-/**
- * @brief Engine for ML-assisted schema inference.
- *
- * Implements three algorithms:
- *   1. Column Correlation Analysis – discovers implicit FK relationships
- *      (Reference: Quercini et al., 2018)
- *   2. Semantic Type Detection – recognises domain-specific column types
- *   3. Cardinality Estimation – Harmonic Mean estimator for relationship cardinality
- *      (Reference: Li et al., 2016)
- */
 class SchemaInferenceEngine {
 public:
     using Config = SchemaInferenceConfig;
@@ -111,15 +86,6 @@ public:
         json recommendations;
     };
 
-    /**
-     * @brief Discover implicit FK relationships using column name and
-     *        value-set overlap heuristics.
-     *
-     * For each pair of columns sharing the same name suffix (e.g. "user_id")
-     * across different tables, the algorithm computes a Jaccard similarity
-     * on sampled value sets and emits a relationship when similarity exceeds
-     * the configured threshold (default 0.75).
-     */
     std::vector<InferredSchema> inferImplicitRelationships(
         const std::vector<InferenceTableSchema>& schemas,
         const std::map<std::string, ColumnStatistics>& stats
@@ -141,18 +107,16 @@ public:
         UNKNOWN
     };
 
-    /**
-     * @brief Detect domain-specific semantic types by pattern matching on
-     *        sampled column values.
-     *
-     * Returns a map of "table.column" → SemanticType.
-     */
     std::map<std::string, SemanticType> detectSemanticTypes(
         const std::vector<InferenceTableSchema>& schemas,
         const std::vector<SampleData>& samples
     );
 
-    /** @brief Convert SemanticType enum to a human-readable string. */
+    /**
+     * @brief Semantic Type To String.
+     * @param[in] t Input parameter.
+     * @return Return value.
+     */
     static std::string semanticTypeToString(SemanticType t);
 
     // -----------------------------------------------------------------
@@ -165,12 +129,6 @@ public:
         std::vector<double> confidence_interval; ///< 95 % CI [lower, upper]
     };
 
-    /**
-     * @brief Estimate relationship cardinalities using the Harmonic Mean
-     *        Estimator on distinct-count statistics.
-     *
-     * Reference: "Distinct Count Estimation for Streams" (Li et al., 2016).
-     */
     std::vector<CardinalityEstimate> estimateCardinalities(
         const std::vector<InferenceTableSchema>& schemas,
         const std::map<std::string, ColumnStatistics>& stats
@@ -186,70 +144,32 @@ public:
     // I2: Input validation helpers (Phase 4 hardening)
     // -----------------------------------------------------------------
 
-    /// Maximum allowed length for a table or column identifier.
     static constexpr size_t kMaxIdentifierLength = 128;
 
-    /// Maximum number of tables accepted by inferImplicitRelationships()
-    /// and estimateCardinalities().  Inputs exceeding this are rejected
-    /// to prevent quadratic O(n²) worst-case CPU/memory blow-up.
     static constexpr size_t kMaxTableCount = 5000;
 
-    /// Maximum number of columns per table accepted by validation.
     static constexpr size_t kMaxColumnCount = 1600;
 
-    /// Maximum number of table pairs to compare for relationship inference.
-    /// Used to bound O(n²) complexity in relationship discovery.
-    /// PHASE-2-HARDENING
     static constexpr size_t kMaxTablePairsComparison = 10000;
 
-    /// Maximum number of column pairs per table to compare.
-    /// Used to bound O(n²) complexity in cardinality estimation.
-    /// PHASE-2-HARDENING
     static constexpr size_t kMaxColumnPairsPerTable = 2500;
 
     /**
-     * @brief Validate a SQL identifier (table or column name) for safe use
-     *        in dynamically-constructed query strings.
-     *
-     * Accepts identifiers consisting solely of ASCII letters, digits, and
-     * underscores, between 1 and kMaxIdentifierLength characters. All SQL
-     * metacharacters (quotes, semicolons, dashes, dots, spaces, etc.) cause
-     * the function to return false.
-     *
-     * @param identifier  The string to validate.
-     * @return true if the identifier is safe for SQL use; false otherwise.
+     * @brief Is Valid Identifier.
+     * @param[in] identifier Input parameter.
+     * @return True when the operation succeeds.
      */
     static bool isValidIdentifier(const std::string& identifier);
 
     /**
-     * @brief Validate the structural integrity of a schema set.
-     *
-     * Checks for:
-     *   - Null or empty table names
-     *   - Null or empty column names
-     *   - Duplicate column names within a table
-     *   - Invalid type strings (non-alphanumeric or oversized)
-     *   - Oversized identifiers
-     *
-     * @param schemas  Vector of schemas to validate.
-     * @return List of structural violations (empty if all valid).
-     * PHASE-2-HARDENING
+     * @brief Validate Schema Structure.
+     * @param[in] schemas Input parameter.
+     * @return Return value.
      */
     static std::vector<SchemaStructureError> validateSchemaStructure(
         const std::vector<InferenceTableSchema>& schemas
     );
 
-    /**
-     * @brief Detect circular foreign key references (cycles) in implicit relationships.
-     *
-     * A cycle occurs when relationship A → B and B → A exist, which would cause
-     * infinite recursion in schema analysis. This method identifies such cycles
-     * and returns a map of cycles detected.
-     *
-     * @param inferred_schemas  Inferred schemas from inferImplicitRelationships().
-     * @return Map of relationship_id → list of cycle-forming relationship IDs.
-     * PHASE-2-HARDENING
-     */
     static std::map<std::string, std::vector<std::string>> detectRelationshipCycles(
         const std::vector<InferredSchema>& inferred_schemas
     );
@@ -257,9 +177,26 @@ public:
 private:
     Config config_;
 
+    /**
+     * @brief Column Name Similar.
+     * @param[in] a Input parameter.
+     * @param[in] b Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool columnNameSimilar(const std::string& a, const std::string& b) const;
+    /**
+     * @brief Jaccard Similarity.
+     * @param[in] a Input parameter.
+     * @param[in] b Input parameter.
+     * @return Return value.
+     */
     double jaccardSimilarity(const std::vector<std::string>& a,
                              const std::vector<std::string>& b) const;
+    /**
+     * @brief Detect Single Column.
+     * @param[in] values Input parameter.
+     * @return Return value.
+     */
     SemanticType detectSingleColumn(const std::vector<std::string>& values) const;
 };
 

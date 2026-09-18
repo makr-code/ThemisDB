@@ -96,6 +96,7 @@ struct PromWriteRequest {
         *              invalid/truncated protobuf wire start for the first
         *              timeseries field.
      * @return      Decoded request or an error string.
+     * @brief Decode.
      */
     static Result<PromWriteRequest> decode(const uint8_t* data, size_t size);
 
@@ -108,6 +109,7 @@ struct PromWriteRequest {
      * @param data  Pointer to the beginning of the snappy-compressed bytes.
      * @param size  Number of bytes.
      * @return      Decoded request or an error string.
+     * @brief Decode Snappy.
      */
     static Result<PromWriteRequest> decodeSnappy(const uint8_t* data, size_t size);
 };

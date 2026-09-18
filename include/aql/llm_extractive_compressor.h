@@ -20,31 +20,8 @@
 namespace themis {
 namespace aql {
 
-/**
- * @brief Extractive summarization compressor using LLM-based turn selection.
- *
- * Implements IHistoryCompressor by:
- * 1. Using LLM to rank conversation turns by importance
- * 2. Selecting top-K most important turns
- * 3. Concatenating selected turns while respecting token budget
- * 4. Validating semantic similarity via embedding distance
- * 5. Storing episode in LLMInteractionStore
- *
- * **Performance Characteristics:**
- * - Time: O(turn_count) LLM calls + O(selected_count) token counting
- * - VRAM: Embeddings for original + compressed history
- * - Typical compression ratio: 3-5x for 10-50 turn conversations
- *
- * **Activation:**
- * - Triggered by AQLConversationContext on token budget overflow
- * - Configurable via AQLConversationContext::Config::enable_episodic_compaction
- * - Default minimum similarity: 0.85 (P2-GATE-03)
- */
 class LLMExtractiveCompressor final : public IHistoryCompressor {
 public:
-    /**
-     * @brief Configuration for extractive compressor.
-     */
     struct Config {
         // Prompt template for turn importance ranking
         std::string importance_ranking_prompt_template =
@@ -66,13 +43,6 @@ public:
         int32_t ranking_timeout_ms = 5000;
     };
 
-    /**
-     * @brief Construct an extractive compressor.
-     *
-     * @param handler LLM handler for generating importance rankings and similarity embeddings
-     * @param store Optional LLMInteractionStore for persisting episodes
-     * @param config Runtime configuration (uses defaults if not provided)
-     */
     explicit LLMExtractiveCompressor(
         LLMAQLHandler& handler,
         LLMInteractionStore* store = nullptr,
@@ -98,58 +68,31 @@ private:
     int64_t failed_compressions_ = 0;
     double total_compression_ratio_ = 0.0;
 
-    /**
-     * @brief Rank turns by importance using LLM.
-     *
-     * Calls LLM with importance_ranking_prompt to get relative ranking of turns.
-     *
-     * @param history Original conversation history
-     * @return Vector of turn indices ranked by importance (descending)
-     *         Empty vector if ranking failed
-     */
     std::vector<int32_t> rankTurnsByImportance(
         const std::vector<std::pair<std::string, std::string>>& history);
 
-    /**
-     * @brief Select top K turns while respecting token budget.
-     *
-     * @param ranked_indices Turn indices in importance order
-     * @param history Original conversation history
-     * @param max_tokens Maximum token budget
-     * @return Indices of selected turns, always including system message
-     */
     std::vector<int32_t> selectTopTurns(
         const std::vector<int32_t>& ranked_indices,
         const std::vector<std::pair<std::string, std::string>>& history,
         int32_t max_tokens);
 
-    /**
-     * @brief Compute semantic similarity between original and compressed history.
-     *
-     * Uses embedding distance or LLM-based similarity scoring.
-     *
-     * @param original Original history
-     * @param compressed Compressed history
-     * @return Similarity score (0.0-1.0), or -1.0 if validation disabled/failed
-     */
     float computeSimilarity(
         const std::vector<std::pair<std::string, std::string>>& original,
         const std::vector<std::pair<std::string, std::string>>& compressed);
 
     /**
-     * @brief Store episode in LLMInteractionStore if available.
+     * @brief Store Episode.
+     * @param[in] result Input parameter.
      */
     void storeEpisode(const CompressionResult& result);
 
-    /**
-     * @brief Format turns for LLM prompt.
-     */
     std::string formatTurnsForPrompt(
         const std::vector<std::pair<std::string, std::string>>& history,
         const std::vector<int32_t>& selected_indices);
 
     /**
-     * @brief Generate a UUID v4 for episode identification.
+     * @brief Generate UUID.
+     * @return Return value.
      */
     std::string generateUUID();
 };

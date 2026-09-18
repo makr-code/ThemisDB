@@ -66,9 +66,6 @@ class Aggregator;
 // Enums & Constants
 // ============================================================================
 
-/**
- * Event types for CDC and system events
- */
 enum class EventType : uint16_t {
     // Database Events (CDC)
     DOCUMENT_INSERT = 0x0100,
@@ -123,9 +120,6 @@ enum class EventType : uint16_t {
     CUSTOM = 0xFF00
 };
 
-/**
- * Window types for event aggregation
- */
 enum class WindowType {
     TUMBLING,       // Fixed, non-overlapping windows
     SLIDING,        // Overlapping windows
@@ -135,9 +129,6 @@ enum class WindowType {
     GLOBAL          // No windowing (all events)
 };
 
-/**
- * Pattern types for event matching
- */
 enum class PatternType {
     SEQUENCE,       // Events in order: A → B → C
     CONJUNCTION,    // Events together: A AND B
@@ -149,9 +140,6 @@ enum class PatternType {
     OPTIONAL        // Zero or one: A?
 };
 
-/**
- * Aggregation functions
- */
 enum class AggregationType {
     COUNT,
     SUM,
@@ -168,9 +156,6 @@ enum class AggregationType {
     TOPN            // Top N values
 };
 
-/**
- * Action types when pattern matches
- */
 enum class ActionType {
     ALERT,          // Add to alert queue
     LOG,            // Log message
@@ -182,9 +167,6 @@ enum class ActionType {
     CUSTOM          // Custom handler
 };
 
-/**
- * Event priority
- */
 enum class EventPriority : uint8_t {
     CRITICAL = 0,
     HIGH = 1,
@@ -202,9 +184,6 @@ constexpr uint32_t DEFAULT_CHECKPOINT_INTERVAL_MS = 10000;
 // Event Structures
 // ============================================================================
 
-/**
- * Field value (variant type)
- */
 using CepFieldValue = std::variant<
     std::monostate,         // null
     bool,
@@ -216,9 +195,6 @@ using CepFieldValue = std::variant<
     std::map<std::string, std::string>
 >;
 
-/**
- * Event payload
- */
 struct Event {
     std::string event_id;
     EventType type = EventType::CUSTOM;
@@ -259,17 +235,29 @@ struct Event {
         return std::nullopt;
     }
     
+    /**
+     * @brief Set Field.
+     * @param[in] name Input parameter.
+     * @param[in] value Input parameter.
+     * @details Calls: std::move().
+     */
     void setField(const std::string& name, CepFieldValue value) {
         fields[name] = std::move(value);
     }
     
+    /**
+     * @brief Serialize.
+     * @return Return value.
+     */
     std::vector<uint8_t> serialize() const;
+    /**
+     * @brief Deserialize.
+     * @param[in] data Input parameter.
+     * @return Return value.
+     */
     static std::optional<Event> deserialize(const std::vector<uint8_t>& data);
 };
 
-/**
- * Pattern match result
- */
 struct PatternMatch {
     std::string pattern_id;
     std::string rule_id;
@@ -279,9 +267,6 @@ struct PatternMatch {
     double confidence = 1.0;
 };
 
-/**
- * Aggregation result
- */
 struct AggregationResult {
     std::string aggregation_id;
     AggregationType type;
@@ -292,9 +277,6 @@ struct AggregationResult {
     std::map<std::string, CepFieldValue> group_by_values;
 };
 
-/**
- * Alert from rule match
- */
 struct Alert {
     std::string alert_id;
     std::string rule_id;
@@ -311,9 +293,6 @@ struct Alert {
 // Configuration
 // ============================================================================
 
-/**
- * Window configuration
- */
 struct WindowConfig {
     WindowType type = WindowType::TUMBLING;
     std::chrono::milliseconds size{60000};      // Window size
@@ -323,14 +302,9 @@ struct WindowConfig {
     bool emit_on_close = true;                   // Emit results when window closes
     bool emit_on_event = false;                  // Emit on every event
     std::chrono::milliseconds allowed_lateness{0}; // Late event tolerance
-    /// How often the timer thread wakes to emit GLOBAL window snapshots and
-    /// close expired SESSION windows.  Smaller values reduce emission latency.
     std::chrono::milliseconds global_window_emit_interval_ms{500};
 };
 
-/**
- * Pattern configuration
- */
 struct PatternConfig {
     std::string pattern_id;
     PatternType type = PatternType::SEQUENCE;
@@ -343,9 +317,6 @@ struct PatternConfig {
     std::vector<std::string> group_by;          // Group matching by fields
 };
 
-/**
- * Action configuration
- */
 struct ActionConfig {
     ActionType type = ActionType::ALERT;
     std::string target;                         // URL, collection name, etc.
@@ -356,9 +327,6 @@ struct ActionConfig {
     bool async = true;
 };
 
-/**
- * Rule configuration (EPL-like)
- */
 struct RuleConfig {
     std::string rule_id;
     std::string rule_name;
@@ -390,9 +358,6 @@ struct RuleConfig {
     std::chrono::system_clock::time_point updated_at;
 };
 
-/**
- * Stream configuration
- */
 struct StreamConfig {
     std::string stream_id;
     std::string stream_name;
@@ -404,9 +369,6 @@ struct StreamConfig {
     std::chrono::milliseconds retention{3600000}; // 1 hour default
 };
 
-/**
- * CEP Engine configuration
- */
 struct CEPConfig {
     bool enabled = true;
     
@@ -436,54 +398,63 @@ struct CEPConfig {
 // Event Stream
 // ============================================================================
 
-/**
- * Partitioned ring buffer for events
- */
 class EventStream {
 public:
+    /**
+     * @brief Event Stream.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit EventStream(const StreamConfig& config);
     ~EventStream();
     
-    /**
-     * Push event to stream
-     */
     enum class PushResult {
         SUCCESS,
         BACKPRESSURE,       // Buffer nearly full
         DROPPED,            // Event dropped due to full buffer
         ERROR
     };
+    /**
+     * @brief Push.
+     * @param[in] event Input parameter.
+     * @return Return value.
+     */
     PushResult push(Event event);
     
     /**
-     * Pull event from stream
+     * @brief Pull.
+     * @param[in] partition_id Identifier of the partition.
+     * @return Return value.
      */
     std::optional<Event> pull(uint32_t partition_id);
     
     /**
-     * Peek at next event without consuming
+     * @brief Peek.
+     * @param[in] partition_id Identifier of the partition.
+     * @return Return value.
      */
     std::optional<Event> peek(uint32_t partition_id) const;
     
-    /**
-     * Get stream ID
-     */
     const std::string& getStreamId() const { return config_.stream_id; }
     
     /**
-     * Get buffer fill level (0.0 - 1.0)
+     * @brief Get Fill Level.
+     * @param[in] partition_id Identifier of the partition.
+     * @return Return value.
      */
     float getFillLevel(uint32_t partition_id) const;
+    /**
+     * @brief Get Overall Fill Level.
+     * @return Return value.
+     */
     float getOverallFillLevel() const;
     
     /**
-     * Check if under backpressure
+     * @brief Is Under Backpressure.
+     * @return True when the operation succeeds.
      */
     bool isUnderBackpressure() const;
     
-    /**
-     * Get statistics
-     */
     struct Stats {
         uint64_t events_pushed = 0;
         uint64_t events_pulled = 0;
@@ -492,13 +463,23 @@ public:
         size_t current_size = 0;
         float fill_level = 0.0f;
     };
+    /**
+     * @brief Get Stats.
+     * @return Return value.
+     */
     Stats getStats() const;
     
-    /**
-     * Subscribe to events
-     */
     using EventCallback = std::function<void(const Event&)>;
+    /**
+     * @brief Subscribe.
+     * @param[in] callback Input parameter.
+     * @return Return value.
+     */
     uint64_t subscribe(EventCallback callback);
+    /**
+     * @brief Unsubscribe.
+     * @param[in] subscription_id Identifier of the subscription.
+     */
     void unsubscribe(uint64_t subscription_id);
 
 private:
@@ -523,7 +504,16 @@ private:
     std::atomic<uint64_t> next_subscription_id_{0};
     mutable std::shared_mutex subscribers_mutex_;
     
+    /**
+     * @brief Get Partition Id.
+     * @param[in] event Input parameter.
+     * @return Return value.
+     */
     uint32_t getPartitionId(const Event& event) const;
+    /**
+     * @brief Notify Subscribers.
+     * @param[in] event Input parameter.
+     */
     void notifySubscribers(const Event& event);
 };
 
@@ -531,54 +521,47 @@ private:
 // Pattern Matcher
 // ============================================================================
 
-/**
- * Pattern matching engine using NFA
- */
 class PatternMatcher {
 public:
+    /**
+     * @brief Pattern Matcher.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit PatternMatcher(const PatternConfig& config);
     ~PatternMatcher();
     
     /**
-     * Process event and check for matches
+     * @brief Process Event.
+     * @param[in] event Input parameter.
+     * @return Return value.
      */
     std::vector<PatternMatch> processEvent(const Event& event);
     
-    /**
-     * Get pattern ID
-     */
     const std::string& getPatternId() const { return config_.pattern_id; }
     
-    /**
-     * Get match count
-     */
     uint64_t getMatchCount() const { return match_count_.load(); }
     
     /**
-     * Reset state
+     * @brief Reset the modification detection flag.
      */
     void reset();
     
     /**
-     * Get pending partial matches
+     * @brief Get Pending Match Count.
+     * @return Return value.
      */
     size_t getPendingMatchCount() const;
 
     /**
-     * Serialize in-progress NFA partial match state to a multi-line string.
-     * Used by CEPEngine::createCheckpoint() to persist stateful pattern matching
-     * across restarts.
-     *
-     * Format (one partial match per "pm_match=" line, followed by pm_ev= lines):
-     *   pm_match=<group_key_hex>|<current_state>|<age_ms>
-     *   pm_ev=<event_hex>
-     *   ...
+     * @brief Serialize State.
+     * @return Return value.
      */
     std::string serializeState() const;
 
     /**
-     * Restore in-progress NFA partial match state from the string produced by
-     * serializeState().  Clears existing partial matches before restoring.
+     * @brief Restore State.
+     * @param[in] data Input parameter.
      */
     void restoreState(const std::string& data);
 
@@ -605,9 +588,26 @@ private:
     std::map<std::string, std::vector<PartialMatch>> partial_matches_;
     mutable std::mutex state_mutex_;
     
+    /**
+     * @brief Build NFA.
+     */
     void buildNFA();
+    /**
+     * @brief Matches Event Type.
+     * @param[in] event Input parameter.
+     * @param[in] expected Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool matchesEventType(const Event& event, const std::string& expected) const;
+    /**
+     * @brief Evaluate Condition.
+     * @param[in] event Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool evaluateCondition(const Event& event) const;
+    /**
+     * @brief Prune Expired Matches.
+     */
     void pruneExpiredMatches();
 };
 
@@ -615,59 +615,65 @@ private:
 // Window Manager
 // ============================================================================
 
-/**
- * Manages time and count-based windows
- */
 class WindowManager {
 public:
+    /**
+     * @brief Window Manager.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit WindowManager(const WindowConfig& config);
     ~WindowManager();
     
     /**
-     * Add event to window
+     * @brief Add Event.
+     * @param[in] event Input parameter.
      */
     void addEvent(const Event& event);
     
     /**
-     * Get events in current window
+     * @brief Get Window Events.
+     * @return Return value.
      */
     std::vector<Event> getWindowEvents() const;
     
     /**
-     * Get events for a specific time range
+     * @brief Get Events.
+     * @param[in] start Input parameter.
+     * @param[in] end Input parameter.
+     * @return Return value.
      */
     std::vector<Event> getEvents(
         std::chrono::system_clock::time_point start,
         std::chrono::system_clock::time_point end) const;
     
-    /**
-     * Trigger window evaluation
-     */
     using WindowCallback = std::function<void(const std::vector<Event>&, 
                                                std::chrono::system_clock::time_point start,
                                                std::chrono::system_clock::time_point end)>;
+    /**
+     * @brief Set Window Callback.
+     * @param[in] callback Input parameter.
+     */
     void setWindowCallback(WindowCallback callback);
     
     /**
-     * Advance watermark (for out-of-order events)
+     * @brief Advance Watermark.
+     * @param[in] watermark Input parameter.
      */
     void advanceWatermark(std::chrono::system_clock::time_point watermark);
     
-    /**
-     * Get window statistics
-     */
     struct Stats {
         uint64_t windows_created = 0;
         uint64_t windows_closed = 0;
         uint64_t events_in_window = 0;
         uint64_t late_events = 0;
     };
+    /**
+     * @brief Get Stats.
+     * @return Return value.
+     */
     Stats getStats() const;
 
-    /**
-     * Carries a snapshot of window data for deferred callback dispatch.
-     * Events are moved in to avoid copies when closing windows.
-     */
     struct WindowCallbackBatch {
         std::vector<Event> events;
         std::chrono::system_clock::time_point start;
@@ -705,13 +711,35 @@ private:
     std::condition_variable timer_cv_;
     std::mutex timer_mutex_;
     
+    /**
+     * @brief Timer Loop.
+     */
     void timerLoop();
-    // Marks window closed and returns a batch for deferred dispatch (lock must
-    // be held by caller; callback is NOT invoked here).
+    /**
+     * @brief Marks window closed and returns a batch for deferred dispatch (lock must be held by caller; callback is NOT invoked here).
+     * @param[in,out] window Input/output parameter.
+     * @return Return value.
+     */
     std::optional<WindowCallbackBatch> closeWindow(Window& window);
+    /**
+     * @brief Handle Tumbling Window.
+     * @param[in] event Input parameter.
+     */
     void handleTumblingWindow(const Event& event);
+    /**
+     * @brief Handle Sliding Window.
+     * @param[in] event Input parameter.
+     */
     void handleSlidingWindow(const Event& event);
+    /**
+     * @brief Handle Session Window.
+     * @param[in] event Input parameter.
+     */
     void handleSessionWindow(const Event& event);
+    /**
+     * @brief Handle Count Window.
+     * @param[in] event Input parameter.
+     */
     void handleCountWindow(const Event& event);
 };
 
@@ -719,16 +747,16 @@ private:
 // Aggregator
 // ============================================================================
 
-/**
- * Computes aggregations over event windows
- */
 class Aggregator {
 public:
     Aggregator();
     ~Aggregator();
     
     /**
-     * Add aggregation
+     * @brief Add Aggregation.
+     * @param[in] name Input parameter.
+     * @param[in] type Input parameter.
+     * @param[in] field Input parameter.
      */
     void addAggregation(
         const std::string& name,
@@ -736,27 +764,28 @@ public:
         const std::string& field);
     
     /**
-     * Process event
+     * @brief Process Event.
+     * @param[in] event Input parameter.
      */
     void processEvent(const Event& event);
     
-    /**
-     * Get results
-     */
     std::map<std::string, AggregationResult> getResults() const;
     
     /**
-     * Get result for specific aggregation
+     * @brief Get Result.
+     * @param[in] name Input parameter.
+     * @return Return value.
      */
     std::optional<AggregationResult> getResult(const std::string& name) const;
     
     /**
-     * Reset all aggregations
+     * @brief Reset the modification detection flag.
      */
     void reset();
     
     /**
-     * Set group by fields
+     * @brief Set Group By.
+     * @param[in] fields Input parameter.
      */
     void setGroupBy(const std::vector<std::string>& fields);
 
@@ -786,8 +815,23 @@ private:
     
     mutable std::mutex mutex_;
     
+    /**
+     * @brief Get Group Key.
+     * @param[in] event Input parameter.
+     * @return Return value.
+     */
     std::string getGroupKey(const Event& event) const;
+    /**
+     * @brief Update Aggregation.
+     * @param[in,out] state Input/output parameter.
+     * @param[in] event Input parameter.
+     */
     void updateAggregation(AggregationState& state, const Event& event);
+    /**
+     * @brief Compute Result.
+     * @param[in] state Input parameter.
+     * @return Return value.
+     */
     CepFieldValue computeResult(const AggregationState& state) const;
 };
 
@@ -795,67 +839,64 @@ private:
 // Rule Engine
 // ============================================================================
 
-/**
- * EPL-like rule engine
- */
 class RuleEngine {
 public:
+    /**
+     * @brief Rule Engine.
+     * @param[in,out] engine Input/output parameter.
+     * @return Return value.
+     */
     explicit RuleEngine(CEPEngine* engine);
     ~RuleEngine();
     
     /**
-     * Add rule
+     * @brief Add Rule.
+     * @param[in] config Input parameter.
+     * @return True when the operation succeeds.
      */
     bool addRule(const RuleConfig& config);
     
     /**
-     * Remove rule
+     * @brief Remove Rule.
+     * @param[in] rule_id Identifier of the rule.
+     * @return True when the operation succeeds.
      */
     bool removeRule(const std::string& rule_id);
     
     /**
-     * Enable/disable rule
+     * @brief Set Rule Enabled.
+     * @param[in] rule_id Identifier of the rule.
+     * @param[in] enabled Input parameter.
      */
     void setRuleEnabled(const std::string& rule_id, bool enabled);
     
     /**
-     * Get rule
+     * @brief Get Rule.
+     * @param[in] rule_id Identifier of the rule.
+     * @return Return value.
      */
     std::optional<RuleConfig> getRule(const std::string& rule_id) const;
     
     /**
-     * Get all rules
+     * @brief Get Rules.
+     * @return Return value.
      */
     std::vector<RuleConfig> getRules() const;
     
     /**
-     * Process event against all rules
+     * @brief Process Event.
+     * @param[in] event Input parameter.
+     * @return Return value.
      */
     std::vector<Alert> processEvent(const Event& event);
     
     /**
-     * Parse EPL string to rule config.
-     *
-     * Supported syntax:
-     *   [CREATE RULE <name> AS | NAME <name>]
-     *   SELECT [<agg_fn>(<field>) [AS <alias>], ...] FROM <stream>
-     *   [WHERE <filter>]
-     *   [PATTERN (SEQUENCE|SEQ|AND|OR|NOT) (<types>) [WITHIN <n>(ms|s|MINUTES|HOURS)]]
-     *   [WINDOW (TUMBLING|SLIDING|SESSION|HOPPING|COUNT)(<n> UNIT[, <n> UNIT])]
-     *   [GROUP BY <field>[, ...]]
-     *   [HAVING <condition>]
-     *   [ACTION (alert|webhook|db_write|log|slack|kafka|email)(<params>)
-     *    | ON MATCH ALERT [severity=<s>] [message=<m>]]
-     *
-     * Aggregation functions: COUNT, SUM, AVG, MIN, MAX, FIRST, LAST,
-     *   STDDEV, VARIANCE, PERCENTILE, DISTINCT_COUNT, COLLECT, TOPN
-     * Time units: ms, s/second(s), minute(s), hour(s), day(s)
+     * @brief Parse EPL.
+     * @param[in] epl Input parameter.
+     * @return Return value.
      */
     static std::optional<RuleConfig> parseEPL(const std::string& epl);
     
-    /**
-     * Get rule statistics
-     */
     struct RuleStats {
         std::string rule_id = {};
         uint64_t events_processed = 0;
@@ -863,18 +904,22 @@ public:
         uint64_t actions_triggered = 0;
         std::chrono::milliseconds avg_processing_time{0};
     };
+    /**
+     * @brief Get Rule Stats.
+     * @param[in] rule_id Identifier of the rule.
+     * @return Return value.
+     */
     RuleStats getRuleStats(const std::string& rule_id) const;
 
     /**
-     * Serialize all pattern matcher states for use in a checkpoint.
-     * Returns a multi-line string with pm_rule= / pm_rule_end blocks.
+     * @brief Serialize Matcher States.
+     * @return Return value.
      */
     std::string serializeMatcherStates() const;
 
     /**
-     * Restore pattern matcher states from the string produced by
-     * serializeMatcherStates().  Only matchers for rules that currently exist
-     * in the engine are restored; unknown rule IDs are silently skipped.
+     * @brief Restore Matcher States.
+     * @param[in] data Input parameter.
      */
     void restoreMatcherStates(const std::string& data);
 
@@ -892,10 +937,27 @@ private:
     std::map<std::string, RuleState> rules_;
     mutable std::shared_mutex rules_mutex_;
     
+    /**
+     * @brief Evaluate Filter.
+     * @param[in] event Input parameter.
+     * @param[in] filter Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool evaluateFilter(const Event& event, const std::string& filter) const;
     bool evaluateHaving(const std::map<std::string, AggregationResult>& results,
                        const std::string& having) const;
+    /**
+     * @brief Execute Actions.
+     * @param[in] config Input parameter.
+     * @param[in] match Input parameter.
+     */
     void executeActions(const RuleConfig& config, const PatternMatch& match);
+    /**
+     * @brief Execute Action.
+     * @param[in] action Input parameter.
+     * @param[in] match Input parameter.
+     * @param[in] rule Input parameter.
+     */
     void executeAction(const ActionConfig& action, const PatternMatch& match,
                       const RuleConfig& rule);
 };
@@ -904,123 +966,135 @@ private:
 // CEP Engine
 // ============================================================================
 
-/**
- * Main CEP engine - singleton
- */
 class CEPEngine {
 public:
+    /**
+     * @brief Get Instance.
+     * @return Return value.
+     */
     static CEPEngine& getInstance();
     
     /**
-     * Initialize engine
+     * @brief Initialize.
+     * @param[in] config Input parameter.
      */
     void initialize(const CEPConfig& config);
     
     /**
-     * Shutdown engine
+     * @brief Shutdown.
      */
     void shutdown();
     
-    /**
-     * Check if initialized
-     */
     bool isInitialized() const { return initialized_.load(); }
     
-    // ========== Stream Management ==========
-    
     /**
-     * Create event stream
+     * @brief ========== Stream Management ==========
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
+    
     std::shared_ptr<EventStream> createStream(const StreamConfig& config);
     
     /**
-     * Get stream by ID
+     * @brief Get Stream.
+     * @param[in] stream_id Identifier of the stream.
+     * @return Return value.
      */
     std::shared_ptr<EventStream> getStream(const std::string& stream_id) const;
     
     /**
-     * Get all streams
+     * @brief Get Streams.
+     * @return Return value.
      */
     std::vector<std::shared_ptr<EventStream>> getStreams() const;
     
     /**
-     * Remove stream
+     * @brief Remove Stream.
+     * @param[in] stream_id Identifier of the stream.
+     * @return True when the operation succeeds.
      */
     bool removeStream(const std::string& stream_id);
     
-    // ========== Event Processing ==========
-    
     /**
-     * Submit event for processing
+     * @brief ========== Event Processing ==========
+     * @param[in] event Input parameter.
+     * @return True when the operation succeeds.
      */
+    
     bool submitEvent(Event event);
     
     /**
-     * Submit event to specific stream
+     * @brief Submit Event.
+     * @param[in] stream_id Identifier of the stream.
+     * @param[in] event Input parameter.
+     * @return True when the operation succeeds.
      */
     bool submitEvent(const std::string& stream_id, Event event);
     
-    /**
-     * Create event from CDC change
-     */
     static Event createCDCEvent(
         EventType type,
         const std::string& collection,
         const std::string& document_id,
         const std::map<std::string, CepFieldValue>& fields);
     
-    // ========== Rule Management ==========
-    
     /**
-     * Add rule
+     * @brief ========== Rule Management ==========
+     * @param[in] config Input parameter.
+     * @return True when the operation succeeds.
      */
+    
     bool addRule(const RuleConfig& config);
     
     /**
-     * Add rule from EPL string
+     * @brief Add Rule From EPL.
+     * @param[in] epl Input parameter.
+     * @return True when the operation succeeds.
      */
     bool addRuleFromEPL(const std::string& epl);
     
     /**
-     * Remove rule
+     * @brief Remove Rule.
+     * @param[in] rule_id Identifier of the rule.
+     * @return True when the operation succeeds.
      */
     bool removeRule(const std::string& rule_id);
     
     /**
-     * Get rule
+     * @brief Get Rule.
+     * @param[in] rule_id Identifier of the rule.
+     * @return Return value.
      */
     std::optional<RuleConfig> getRule(const std::string& rule_id) const;
     
     /**
-     * Load rules from YAML file
+     * @brief Load Rules From File.
+     * @param[in] path Input parameter.
+     * @return True when the operation succeeds.
      */
     bool loadRulesFromFile(const std::string& path);
     
     // ========== Alert Management ==========
     
-    /**
-     * Get alerts
-     */
     std::vector<Alert> getAlerts(
         size_t limit = 100,
         bool unacknowledged_only = false) const;
     
     /**
-     * Acknowledge alert
+     * @brief Acknowledge Alert.
+     * @param[in] alert_id Identifier of the alert.
+     * @return True when the operation succeeds.
      */
     bool acknowledgeAlert(const std::string& alert_id);
     
-    /**
-     * Set alert callback
-     */
     using AlertCallback = std::function<void(const Alert&)>;
+    /**
+     * @brief Set Alert Callback.
+     * @param[in] callback Input parameter.
+     */
     void setAlertCallback(AlertCallback callback);
     
     // ========== Statistics & Metrics ==========
     
-    /**
-     * Get engine statistics
-     */
     struct Stats {
         uint64_t events_received = 0;
         uint64_t events_processed = 0;
@@ -1035,64 +1109,35 @@ public:
         std::chrono::milliseconds avg_latency{0};
         float throughput_per_second = 0.0f;
     };
+    /**
+     * @brief Get Stats.
+     * @return Return value.
+     */
     Stats getStats() const;
     
     /**
-     * Export Prometheus metrics
+     * @brief To Prometheus Format.
+     * @return Return value.
      */
     std::string toPrometheusFormat() const;
     
-    // ========== Checkpointing ==========
-    
     /**
-     * Create a checkpoint of the current engine state.
-     *
-     * Writes a text file to the configured checkpoint_path directory containing:
-     *   - Basic counters (events_received, events_processed, alerts_generated)
-     *   - Rule enabled/disabled states
-     *   - In-progress NFA partial match states for all registered pattern matchers
-     *
-     * The checkpoint can be used with restoreFromCheckpoint() to resume stateful
-     * pattern sequences across restarts.
-     *
-     * @return true on success, false if checkpointing is disabled or an I/O error
-     *         occurs.
+     * @brief ========== Checkpointing ==========
+     * @return True when the operation succeeds.
      */
+    
     bool createCheckpoint();
     
     /**
-     * Restore engine state from a previously created checkpoint.
-     *
-     * Reads the checkpoint file written by createCheckpoint() and restores:
-     *   1. The enabled/disabled state of each rule.
-     *   2. The in-progress NFA partial match state for each pattern matcher,
-     *      allowing stateful sequences (e.g. SEQUENCE A→B) that were partially
-     *      matched before the checkpoint to continue after restart.
-     *
-     * Rules / matchers that exist in the checkpoint but are no longer registered
-     * in the engine are silently skipped.
-     *
-     * Checkpoint file format:
-     *   events_received=<N>
-     *   events_processed=<N>
-     *   alerts_generated=<N>
-     *   rule=<rule_id>:<rule_name>:<1|0>          (1 = enabled, 0 = disabled)
-     *   pm_rule=<rule_id>                          (start of matcher state block)
-     *   pm_match=<group_key_hex>|<nfa_state>|<age_ms>
-     *   pm_ev=<hex-encoded-serialized-event>       (one line per matched event)
-     *   ...additional pm_match/pm_ev lines...
-     *   pm_rule_end                                (end of matcher state block)
-     *
-     * @param checkpoint_id  Name of the checkpoint (stem of the .txt file
-     *                       inside the configured checkpoint_path directory).
-     *                       Use listCheckpoints() to enumerate available IDs.
-     * @return true on success, false if the checkpoint file does not exist or
-     *         cannot be opened.
+     * @brief Restore From Checkpoint.
+     * @param[in] checkpoint_id Identifier of the checkpoint.
+     * @return True when the operation succeeds.
      */
     bool restoreFromCheckpoint(const std::string& checkpoint_id);
     
     /**
-     * List checkpoints
+     * @brief List Checkpoints.
+     * @return Return value.
      */
     std::vector<std::string> listCheckpoints() const;
 
@@ -1137,11 +1182,25 @@ private:
     // The ring buffer is re-created if initialize() is called again.
     std::unique_ptr<themis::analytics::detail::EventRingBuffer<
         std::pair<std::string, Event>>> event_queue_;
-    // size_approx() is used for backpressure fill-ratio checks and getStats().
+    /**
+     * @brief size_approx() is used for backpressure fill-ratio checks and getStats().
+     */
     
     void workerLoop();
+    /**
+     * @brief Metrics Loop.
+     */
     void metricsLoop();
+    /**
+     * @brief Process Event.
+     * @param[in] stream_id Identifier of the stream.
+     * @param[in] event Input parameter.
+     */
     void processEvent(const std::string& stream_id, const Event& event);
+    /**
+     * @brief Add Alert.
+     * @param[in] alert Input parameter.
+     */
     void addAlert(Alert alert);
 };
 
@@ -1150,7 +1209,10 @@ private:
 // ============================================================================
 
 /**
- * Convert EventType to string
+ * @brief Event Type To String.
+ * @param[in] type Input parameter.
+ * @return Pointer to the result.
+ * @details Implements eventTypeToString without additional internal calls.
  */
 inline const char* eventTypeToString(EventType type) {
     switch (type) {
@@ -1173,7 +1235,10 @@ inline const char* eventTypeToString(EventType type) {
 }
 
 /**
- * Convert WindowType to string
+ * @brief Window Type To String.
+ * @param[in] type Input parameter.
+ * @return Pointer to the result.
+ * @details Implements windowTypeToString without additional internal calls.
  */
 inline const char* windowTypeToString(WindowType type) {
     switch (type) {
@@ -1188,7 +1253,10 @@ inline const char* windowTypeToString(WindowType type) {
 }
 
 /**
- * Convert AggregationType to string
+ * @brief Aggregation Type To String.
+ * @param[in] type Input parameter.
+ * @return Pointer to the result.
+ * @details Implements aggregationTypeToString without additional internal calls.
  */
 inline const char* aggregationTypeToString(AggregationType type) {
     switch (type) {

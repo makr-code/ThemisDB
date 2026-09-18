@@ -39,20 +39,9 @@ namespace graph {
 // GraphConnectionPool
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief Generic bounded resource pool modelling a connection pool.
- *
- * Resources are created by a user-supplied factory function.  A bounded
- * number of resources are kept alive and recycled.  Callers acquire a
- * ScopedResource RAII handle; the resource is automatically returned on
- * handle destruction.
- *
- * @tparam T Resource type.
- */
 template <typename T>
 class GraphConnectionPool {
 public:
-    /// RAII handle returned by acquire().
     class ScopedResource {
     public:
         ScopedResource() = default;
@@ -77,14 +66,21 @@ public:
 
         ~ScopedResource() { release(); }
 
-        /// Access the underlying resource (must be valid).
+        /**
+         * @brief Get.
+         * @return Return value.
+         * @details Implements get without additional internal calls.
+         */
         T& get() { return *res_; }
         const T& get() const { return *res_; }
 
-        /// Return true if this handle holds a valid resource.
         explicit operator bool() const { return res_ != nullptr; }
 
     private:
+        /**
+         * @brief Release.
+         * @details Calls: returnResource(), std::move().
+         */
         void release() {
             if (res_ && pool_) {
                 pool_->returnResource(std::move(res_));
@@ -96,18 +92,16 @@ public:
         GraphConnectionPool<T>* pool_ = nullptr;
     };
 
-    /**
-     * @brief Construct a connection pool.
-     *
-     * @param pool_size Maximum concurrent resources.
-     * @param factory   Factory that creates a new resource instance.
-     */
     explicit GraphConnectionPool(size_t pool_size,
                                   std::function<std::shared_ptr<T>()> factory)
         : pool_size_(pool_size), factory_(std::move(factory)) {
         if (pool_size_ == 0)
             throw std::invalid_argument("GraphConnectionPool: pool_size must be > 0");
-        // Pre-warm the pool.
+        /**
+         * @brief Pre-warm the pool.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         for (size_t i = 0; i < pool_size_; ++i) {
             free_.push(factory_());
@@ -115,9 +109,9 @@ public:
     }
 
     /**
-     * @brief Acquire a resource, blocking until one becomes available.
-     *
-     * @return RAII handle owning the acquired resource.
+     * @brief Acquire.
+     * @return Return value.
+     * @details Calls: lock(), wait(), empty(), std::move(), front(), pop(), ScopedResource().
      */
     ScopedResource acquire() {
         std::unique_lock<std::mutex> lock(mutex_);
@@ -129,10 +123,9 @@ public:
     }
 
     /**
-     * @brief Try to acquire a resource without blocking.
-     *
-     * @return RAII handle on success, or an empty handle if the pool is
-     *         exhausted.
+     * @brief Try Acquire.
+     * @return Return value.
+     * @details Calls: lock(), empty(), std::move(), front(), pop(), ScopedResource().
      */
     std::optional<ScopedResource> tryAcquire() {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -145,30 +138,28 @@ public:
         return ScopedResource(std::move(res), this);
     }
 
-    /**
-     * @brief Return the pool capacity (maximum concurrent resources).
-     * @return Pool capacity.
-     */
     size_t capacity() const { return pool_size_; }
 
-    /**
-     * @brief Return the number of resources currently available.
-     * @return Available count.
-     */
     size_t available() const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return free_.size();
     }
 
-    /**
-     * @brief Return the total number of successful acquisitions.
-     * @return Acquisition count.
-     */
     uint64_t acquiredCount() const {
         return acquired_count_.load(std::memory_order_relaxed);
     }
 
 private:
+    /**
+     * @brief Return Resource.
+     * @param[in] res Input parameter.
+     * @details Calls: lock(), push(), std::move(), notify_one().
+     */
     void returnResource(std::shared_ptr<T> res) {
         {
             std::lock_guard<std::mutex> lock(mutex_);
@@ -189,18 +180,14 @@ private:
 // GraphThreadPool
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief Fixed-size thread pool for graph traversal tasks.
- *
- * Worker threads consume tasks from a shared queue.  The pool is shut down
- * gracefully on destruction (all queued tasks complete before threads exit).
- */
 class GraphThreadPool {
 public:
     /**
-     * @brief Construct a thread pool with the given number of worker threads.
-     *
-     * @param num_threads Number of worker threads (must be > 0).
+     * @brief Graph Thread Pool.
+     * @param[in] num_threads Input parameter.
+     * @return Return value.
+     * @throws std::invalid_argument if an error occurs.
+     * @details Calls: reserve(), emplace_back(), workerLoop().
      */
     explicit GraphThreadPool(size_t num_threads) {
         if (num_threads == 0)
@@ -211,26 +198,23 @@ public:
         }
     }
 
-    /// Shut down: drain the queue, join all threads.
     ~GraphThreadPool() { shutdown(); }
 
     // Non-copyable, non-movable (threads hold a raw this pointer).
     GraphThreadPool(const GraphThreadPool&)            = delete;
     GraphThreadPool& operator=(const GraphThreadPool&) = delete;
 
-    /**
-     * @brief Submit a callable for asynchronous execution.
-     *
-     * @tparam F Callable type returning R.
-     * @param  f Task to execute.
-     * @return std::future<R> that will hold the result.
-     */
     template <typename F>
     auto submit(F&& f) -> std::future<decltype(f())> {
         using R = decltype(f());
         auto task    = std::make_shared<std::packaged_task<R()>>(std::forward<F>(f));
         auto future  = task->get_future();
         {
+            /**
+             * @brief Lock.
+             * @param[in] mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(mutex_);
             if (stopped_) {
               throw std::runtime_error("GraphThreadPool: pool is stopped");
@@ -242,33 +226,19 @@ public:
         return future;
     }
 
-    /**
-     * @brief Return the number of worker threads.
-     * @return Thread count.
-     */
     size_t threadCount() const { return workers_.size(); }
 
-    /**
-     * @brief Return the total number of tasks submitted.
-     * @return Submitted task count.
-     */
     uint64_t queuedCount() const {
         return queued_count_.load(std::memory_order_relaxed);
     }
 
-    /**
-     * @brief Return the total number of tasks completed.
-     * @return Completed task count.
-     */
     uint64_t completedCount() const {
         return completed_count_.load(std::memory_order_relaxed);
     }
 
     /**
-     * @brief Gracefully shut down the pool.
-     *
-     * Signals all workers to stop after their current task and waits for
-     * them to join.  Safe to call multiple times.
+     * @brief Shutdown.
+     * @details Calls: lock(), notify_all(), joinable(), join().
      */
     void shutdown() {
         {
@@ -286,16 +256,21 @@ public:
         }
     }
 
-    /**
-     * @brief Return true if the pool has been shut down.
-     * @return Stopped state.
-     */
     bool isStopped() const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return stopped_;
     }
 
 private:
+    /**
+     * @brief Worker Loop.
+     * @details Calls: void(), lock(), wait(), empty(), std::move(), front(), pop(), task().
+     */
     void workerLoop() {
         while (true) {
             std::function<void()> task;
@@ -326,19 +301,10 @@ private:
 // GraphBufferPool
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief Fixed-size byte buffer pool for graph traversal scratch space.
- *
- * Maintains a pool of pre-allocated @p buffer_size byte vectors.  Callers
- * acquire a buffer via @ref acquire(), use it, and return it via the RAII
- * @ref ScopedBuffer handle.  Reduces allocation pressure during high-frequency
- * traversal operations.
- */
 class GraphBufferPool {
 public:
     using Buffer = std::vector<uint8_t>;
 
-    /// RAII buffer handle.
     class ScopedBuffer {
     public:
         ScopedBuffer() = default;
@@ -363,21 +329,21 @@ public:
         ~ScopedBuffer() { release(); }
 
         /**
-         * @brief Access the underlying buffer.
-         * @return Reference to the byte vector.
+         * @brief Get.
+         * @return Return value.
+         * @details Implements get without additional internal calls.
          */
         Buffer& get() { return buf_; }
 
-        /**
-         * @brief Return buffer capacity in bytes.
-         * @return Buffer size.
-         */
         size_t capacity() const { return buf_.capacity(); }
 
-        /// Return true if this handle holds a valid buffer.
         explicit operator bool() const { return pool_ != nullptr; }
 
     private:
+        /**
+         * @brief Release.
+         * @details Calls: returnBuffer(), std::move().
+         */
         void release() {
             if (pool_) {
                 pool_->returnBuffer(std::move(buf_));
@@ -388,16 +354,15 @@ public:
         GraphBufferPool* pool_ = nullptr;
     };
 
-    /**
-     * @brief Construct a buffer pool.
-     *
-     * @param num_buffers  Number of pre-allocated buffers.
-     * @param buffer_size  Size in bytes of each buffer.
-     */
     GraphBufferPool(size_t num_buffers, size_t buffer_size)
         : buffer_size_(buffer_size) {
         if (num_buffers == 0 || buffer_size == 0)
             throw std::invalid_argument("GraphBufferPool: invalid dimensions");
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         for (size_t i = 0; i < num_buffers; ++i) {
             Buffer buf(buffer_size, 0);
@@ -407,8 +372,9 @@ public:
     }
 
     /**
-     * @brief Acquire a buffer, blocking until one is available.
-     * @return RAII buffer handle.
+     * @brief Acquire.
+     * @return Return value.
+     * @details Calls: lock(), wait(), empty(), std::move(), front(), pop(), ScopedBuffer().
      */
     ScopedBuffer acquire() {
         std::unique_lock<std::mutex> lock(mutex_);
@@ -420,8 +386,9 @@ public:
     }
 
     /**
-     * @brief Try to acquire a buffer without blocking.
-     * @return RAII buffer handle, or empty if pool is exhausted.
+     * @brief Try Acquire.
+     * @return Return value.
+     * @details Calls: lock(), empty(), std::move(), front(), pop(), ScopedBuffer().
      */
     std::optional<ScopedBuffer> tryAcquire() {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -434,30 +401,28 @@ public:
         return ScopedBuffer(std::move(buf), this);
     }
 
-    /**
-     * @brief Return the configured buffer size in bytes.
-     * @return Buffer size.
-     */
     size_t bufferSize() const { return buffer_size_; }
 
-    /**
-     * @brief Return the number of currently available (free) buffers.
-     * @return Available count.
-     */
     size_t available() const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return free_.size();
     }
 
-    /**
-     * @brief Return the total number of successful buffer acquisitions.
-     * @return Acquisition count.
-     */
     uint64_t acquiredCount() const {
         return acquired_count_.load(std::memory_order_relaxed);
     }
 
 private:
+    /**
+     * @brief Return Buffer.
+     * @param[in] buf Input parameter.
+     * @details Calls: assign(), lock(), push(), std::move(), notify_one().
+     */
     void returnBuffer(Buffer buf) {
         // Restore the buffer to its canonical pool size in case the caller
         // resized or moved-from it via ScopedBuffer::get().  assign() sets

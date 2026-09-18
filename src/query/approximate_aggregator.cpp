@@ -27,7 +27,12 @@ namespace query {
 
 namespace {
 
-// 64-bit FNV-1a hash with MurmurHash3 finalizer for good avalanche properties.
+/**
+ * @brief 64-bit FNV-1a hash with MurmurHash3 finalizer for good avalanche properties.
+ * @param[in] v Input parameter.
+ * @return Return value.
+ * @details Calls: is_string(), dump().
+ */
 uint64_t hashValue(const nlohmann::json& v) {
     const std::string s = v.is_string() ? v.get<std::string>() : v.dump();
     uint64_t h = 14695981039346656037;
@@ -44,7 +49,12 @@ uint64_t hashValue(const nlohmann::json& v) {
     return h;
 }
 
-// Count leading zeros of a 64-bit integer plus 1.
+/**
+ * @brief Count leading zeros of a 64-bit integer plus 1.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Implements rho without additional internal calls.
+ */
 uint8_t rho(uint64_t value) {
     if (value == 0) {
       return 65;
@@ -64,6 +74,11 @@ ApproximateCountDistinct::ApproximateCountDistinct(int precision)
     num_registers_(static_cast<int>(std::size_t{1} << precision_)),
       registers_(static_cast<size_t>(num_registers_), 0) {}
 
+/**
+ * @brief Add.
+ * @param[in] value Input parameter.
+ * @details Calls: hashValue(), rho().
+ */
 void ApproximateCountDistinct::add(const nlohmann::json& value) {
     const uint64_t h = hashValue(value);
     // Use the top `precision_` bits as the register index.
@@ -76,6 +91,12 @@ void ApproximateCountDistinct::add(const nlohmann::json& value) {
     }
 }
 
+/**
+ * @brief Merge.
+ * @param[in] other Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Implements merge without additional internal calls.
+ */
 void ApproximateCountDistinct::merge(const IApproximateAggregator& other) {
     const auto* o = dynamic_cast<const ApproximateCountDistinct*>(&other);
     if (!o || o->precision_ != precision_) {
@@ -119,6 +140,10 @@ double ApproximateCountDistinct::errorRate() const {
     return 1.04 / std::sqrt(static_cast<double>(num_registers_));
 }
 
+/**
+ * @brief Reset.
+ * @details Calls: std::fill(), begin(), end().
+ */
 void ApproximateCountDistinct::reset() {
     std::fill(registers_.begin(), registers_.end(), uint8_t{0});
 }
@@ -131,6 +156,11 @@ ApproximatePercentile::ApproximatePercentile(double quantile, int compression)
     : quantile_(std::clamp(quantile, 0.0, 1.0)),
       compression_(std::max(compression, 10)) {}
 
+/**
+ * @brief Add.
+ * @param[in] value Input parameter.
+ * @details Calls: is_number(), push_back(), size(), compress().
+ */
 void ApproximatePercentile::add(const nlohmann::json& value) {
     if (!value.is_number()) {
       return;
@@ -145,6 +175,10 @@ void ApproximatePercentile::add(const nlohmann::json& value) {
     }
 }
 
+/**
+ * @brief Compress.
+ * @details Calls: empty(), std::stable_sort(), begin(), end(), push_back(), back(), std::move().
+ */
 void ApproximatePercentile::compress() {
     if (centroids_.empty()) {
       return;
@@ -184,6 +218,12 @@ void ApproximatePercentile::compress() {
     centroids_ = std::move(merged);
 }
 
+/**
+ * @brief Merge.
+ * @param[in] other Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: push_back(), compress().
+ */
 void ApproximatePercentile::merge(const IApproximateAggregator& other) {
     const auto* o = dynamic_cast<const ApproximatePercentile*>(&other);
     if (!o) {
@@ -231,6 +271,10 @@ double ApproximatePercentile::errorRate() const {
     return 2.0 / static_cast<double>(compression_);
 }
 
+/**
+ * @brief Reset.
+ * @details Calls: clear().
+ */
 void ApproximatePercentile::reset() {
     centroids_.clear();
     total_weight_ = 0.0;
@@ -246,6 +290,11 @@ SamplingAggregator::SamplingAggregator(AggregationType type, size_t sample_size)
     rng_state_ = 0x123456789abcdefULL;
 }
 
+/**
+ * @brief Next Rng.
+ * @return Return value.
+ * @details Implements nextRng without additional internal calls.
+ */
 uint64_t SamplingAggregator::nextRng() {
     // xorshift64
     rng_state_ ^= rng_state_ << 13;
@@ -254,6 +303,11 @@ uint64_t SamplingAggregator::nextRng() {
     return rng_state_;
 }
 
+/**
+ * @brief Add.
+ * @param[in] value Input parameter.
+ * @details Calls: is_number(), size(), push_back(), nextRng().
+ */
 void SamplingAggregator::add(const nlohmann::json& value) {
     if (!value.is_number()) {
       return;
@@ -272,6 +326,12 @@ void SamplingAggregator::add(const nlohmann::json& value) {
     }
 }
 
+/**
+ * @brief Merge.
+ * @param[in] other Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: add().
+ */
 void SamplingAggregator::merge(const IApproximateAggregator& other) {
     const auto* o = dynamic_cast<const SamplingAggregator*>(&other);
     if (!o || o->type_ != type_) {
@@ -321,6 +381,10 @@ double SamplingAggregator::errorRate() const {
         std::min(reservoir_.size(), total_seen_)));
 }
 
+/**
+ * @brief Reset.
+ * @details Calls: clear().
+ */
 void SamplingAggregator::reset() {
     reservoir_.clear();
     total_seen_ = 0;

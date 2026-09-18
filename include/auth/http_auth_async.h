@@ -22,15 +22,18 @@
 namespace themis {
 namespace auth {
 
-/**
- * @brief HTTP response structure for authentication operations
- */
 struct HTTPAuthResponse {
     int status_code{0};
     std::string body = {};
     bool success{false};
     std::string error_message;
     
+    /**
+     * @brief Success.
+     * @param[in] code Input parameter.
+     * @param[in] body_content Input parameter.
+     * @return Return value.
+     */
     static HTTPAuthResponse Success(int code, const std::string& body_content)
     {
         HTTPAuthResponse r;
@@ -40,6 +43,11 @@ struct HTTPAuthResponse {
         return r;
     }
     
+    /**
+     * @brief Failed.
+     * @param[in] error Input parameter.
+     * @return Return value.
+     */
     static HTTPAuthResponse Failed(const std::string& error)
     {
         HTTPAuthResponse r;
@@ -49,39 +57,18 @@ struct HTTPAuthResponse {
     }
 };
 
-/**
- * @brief Configuration for async HTTP authentication
- */
 struct HTTPAuthConfig {
-    /// HTTP request timeout (seconds)
     int request_timeout_seconds{30};
     
-    /// Maximum number of retries for transient failures
     int max_retries{3};
     
-    /// Retry backoff delay (milliseconds)
     int retry_backoff_ms{100};
     
-    /// Enable HTTP/2 support if available
     bool enable_http2{true};
     
-    /// Certificate validation (disable only for testing)
     bool verify_ssl_certs{true};
 };
 
-/**
- * @brief Async HTTP authentication interface
- *
- * Wraps synchronous HTTP calls (OAuth token endpoints, OIDC discovery, SAML metadata)
- * in non-blocking operations using the AuthWorkerThreadPool.
- *
- * Performance target (auth roadmap v1.2.0):
- *   - OAuth token requests never block the caller's thread
- *   - OIDC discovery fetches run in background, cached results available immediately
- *   - P99 latency visible to callers ≤ 100 ms even when HTTP backend takes 500 ms
- *
- * Thread-safety: All public methods are safe to call concurrently.
- */
 class AsyncHTTPAuth {
 public:
     explicit AsyncHTTPAuth(const HTTPAuthConfig& config = HTTPAuthConfig());
@@ -93,38 +80,10 @@ public:
     AsyncHTTPAuth(AsyncHTTPAuth&&) = delete;
     AsyncHTTPAuth& operator=(AsyncHTTPAuth&&) = delete;
     
-    /**
-     * @brief Perform an async HTTP GET request
-     *
-     * Dispatches the request to a worker thread. The caller receives a
-     * std::future<HTTPAuthResponse> immediately and is never blocked by
-     * network latency.
-     *
-     * @param url          Target URL (must be absolute)
-     * @param headers      Optional HTTP headers to send
-     * @return std::future<HTTPAuthResponse> — becomes ready when response arrives
-     * @throws AuthException on invalid input (malformed URL)
-     * @throws std::runtime_error if the thread pool is not running
-     */
     std::future<HTTPAuthResponse> getAsync(
         const std::string& url,
         const std::vector<std::pair<std::string, std::string>>& headers = {});
     
-    /**
-     * @brief Perform an async HTTP POST request
-     *
-     * Dispatches the POST request to a worker thread with the given body
-     * and content-type. The caller receives a std::future<HTTPAuthResponse>
-     * immediately and is never blocked.
-     *
-     * @param url          Target URL (must be absolute)
-     * @param body         Request body (JSON, form-encoded, etc.)
-     * @param content_type MIME type of the body (e.g., "application/json")
-     * @param headers      Optional additional HTTP headers
-     * @return std::future<HTTPAuthResponse> — becomes ready when response arrives
-     * @throws AuthException on invalid input
-     * @throws std::runtime_error if the thread pool is not running
-     */
     std::future<HTTPAuthResponse> postAsync(
         const std::string& url,
         const std::string& body,
@@ -132,24 +91,17 @@ public:
         const std::vector<std::pair<std::string, std::string>>& headers = {});
     
     /**
-     * @brief Check if HTTP connection is available (non-blocking)
-     *
-     * Performs a lightweight connectivity check by sending a HEAD request
-     * to a given URL. Useful for validating auth provider availability
-     * without blocking the caller's thread.
-     *
-     * @param url Target URL to check
-     * @return std::future<bool> — true if reachable, false otherwise
+     * @brief Check Connectivity Async.
+     * @param[in] url Input parameter.
+     * @return Return value.
      */
     std::future<bool> checkConnectivityAsync(const std::string& url);
     
-    /**
-     * @brief Return the configuration (after construction)
-     */
     const HTTPAuthConfig& config() const { return config_; }
     
     /**
-     * @brief Return the number of active worker threads
+     * @brief Thread Count.
+     * @return Return value.
      */
     size_t threadCount() const;
     
@@ -159,18 +111,10 @@ private:
     // Worker thread pool for dispatching HTTP operations
     std::unique_ptr<AuthWorkerThreadPool> worker_pool_;
     
-    /**
-     * @brief Perform the actual HTTP GET (called by worker thread)
-     *
-     * Performs retries on transient failures and respects the timeout.
-     */
     HTTPAuthResponse performGet(
         const std::string& url,
         const std::vector<std::pair<std::string, std::string>>& headers);
     
-    /**
-     * @brief Perform the actual HTTP POST (called by worker thread)
-     */
     HTTPAuthResponse performPost(
         const std::string& url,
         const std::string& body,
@@ -178,14 +122,15 @@ private:
         const std::vector<std::pair<std::string, std::string>>& headers);
     
     /**
-     * @brief Perform the actual connectivity check (called by worker thread)
+     * @brief Perform Connectivity Check.
+     * @param[in] url Input parameter.
+     * @return True when the operation succeeds.
      */
     bool performConnectivityCheck(const std::string& url);
     
     /**
-     * @brief Validate URL format (must be absolute HTTP/HTTPS)
-     *
-     * @throws AuthException if URL is invalid
+     * @brief Validate URL.
+     * @param[in] url Input parameter.
      */
     static void validateURL(const std::string& url);
 };

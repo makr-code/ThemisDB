@@ -84,6 +84,11 @@ const SpatialHint* SpatialPlan::getHint(SpatialHintType type) const {
     return nullptr;
 }
 
+/**
+ * @brief Add Hint.
+ * @param[in] hint Input parameter.
+ * @details Calls: isValid(), push_back().
+ */
 void SpatialPlan::addHint(const SpatialHint& hint) {
     if (hint.isValid()) {
         hints.push_back(hint);
@@ -104,9 +109,12 @@ double SpatialPlan::getCostAdjustmentFactor() const {
     return factor;
 }
 
-// =============================================================================
-// SpatialHintParser
-// =============================================================================
+/**
+ * @brief ============================================================================= SpatialHintParser =============================================================================
+ * @param[in] hintString Input parameter.
+ * @return Return value.
+ * @details Calls: ws_regex(), std::regex_replace(), hint_regex(), std::regex_search(), THEMIS_WARN(), str(), erase(), find_first_not_of().
+ */
 
 SpatialHint SpatialHintParser::parseHint(const std::string& hintString) {
     SpatialHint hint;
@@ -234,6 +242,12 @@ std::string SpatialHintParser::getHintWarning(
     return "";  // No warning
 }
 
+/**
+ * @brief Parse Hints From Query.
+ * @param[in] queryText Input parameter.
+ * @return Return value.
+ * @details Calls: hint_pattern(), iter(), begin(), end(), str(), parseHint(), isValid(), push_back().
+ */
 std::vector<SpatialHint> SpatialHintParser::parseHintsFromQuery(
     const std::string& queryText) {
     

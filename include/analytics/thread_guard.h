@@ -18,43 +18,20 @@
 namespace themisdb {
 namespace analytics {
 
-/**
- * RAII wrapper for std::thread lifecycle management.
- * 
- * Ensures the thread is joined on destruction, preventing:
- * - Thread resource leaks
- * - Detached thread issues
- * - Undefined behavior from outliving thread objects
- * 
- * Usage:
- * @code
- *   {
- *       ThreadGuard guard([](){ std::cout << "Running in thread\n"; });
- *       // Thread is running...
- *   }  // Thread is automatically joined here
- * @endcode
- */
 class ThreadGuard {
 private:
     std::thread thread_;
 
 public:
-    /**
-     * Construct with a callable that will run in the thread.
-     * @tparam Func Callable type
-     * @param func The function/lambda to run in the thread
-     */
     template<typename Func>
+    /**
+     * @brief Thread Guard.
+     * @param[in] func Input parameter.
+     * @return Return value.
+     */
     explicit ThreadGuard(Func&& func)
         : thread_(std::forward<Func>(func)) {}
 
-    /**
-     * Construct with a member function and object.
-     * @tparam T The class type
-     * @tparam Func The member function type
-     * @param func Pointer to member function
-     * @param obj Pointer to object
-     */
     template<typename T, typename Func>
     ThreadGuard(Func T::* func, T* obj)
         : thread_(func, obj) {}
@@ -77,23 +54,17 @@ public:
         return *this;
     }
 
-    /**
-     * Check if the thread is joinable.
-     */
     bool joinable() const noexcept {
         return thread_.joinable();
     }
 
-    /**
-     * Get the thread ID.
-     */
     std::thread::id get_id() const noexcept {
         return thread_.get_id();
     }
 
     /**
-     * Wait for the thread to finish.
-     * Can be called multiple times safely (second call is no-op).
+     * @brief Join.
+     * @details Calls: joinable().
      */
     void join() {
         if (thread_.joinable()) {
@@ -101,18 +72,10 @@ public:
         }
     }
 
-    /**
-     * Destructor: ensures thread is joined.
-     * RAII: Cleanup guaranteed on scope exit, even if exception thrown.
-     */
     ~ThreadGuard() {
         join();
     }
 
-    /**
-     * Get access to underlying thread (for advanced use cases).
-     * WARNING: Do not call .detach() on the returned thread!
-     */
     std::thread& native_handle() noexcept {
         return thread_;
     }

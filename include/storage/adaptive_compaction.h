@@ -203,7 +203,12 @@ public:
     /** Construct with default configuration. */
     AdaptiveCompactionScheduler();
 
-    /** Construct with custom configuration. */
+    /**
+     * @brief Construct with custom configuration.
+     *
+     * @param config Scheduler tuning parameters used to derive compaction
+     *        thresholds and sampling cadence.
+     */
     explicit AdaptiveCompactionScheduler(const Config& config);
 
     ~AdaptiveCompactionScheduler();
@@ -237,6 +242,7 @@ public:
     /**
      * @brief Return true when the current EMA I/O rates are below the
      *        configured low-load thresholds.
+     * @return True on success.
      */
     bool isLowLoadPeriod() const;
 
@@ -259,6 +265,8 @@ public:
     /**
      * @brief Compute a CompactionManager::Config adjusted for the current
      *        workload without applying it.
+        * @return The adapted configuration that would be applied for the current
+        *         workload state.
      */
     AdaptedConfig getAdaptedConfig() const;
 
@@ -270,6 +278,7 @@ public:
      *
      * @note This restarts the background GC thread inside mgr if it was
      *       already running, so the new interval takes effect immediately.
+     * @param[in,out] mgr Input/output parameter.
      */
     void applyAdaptedConfig(CompactionManager& mgr);
 
@@ -298,9 +307,13 @@ public:
     Stats stats() const;
 
 private:
+    /** Background sampling loop that updates the EMA and sliding window. */
     void samplingLoop();
+    /** Capture one sampling interval and update the rolling counters. */
     void collectSample();
+    /** Update an exponential moving average in place. */
     void updateEMA(double new_value, double& ema) noexcept;
+    /** Compute the configuration implied by the current workload state. */
     AdaptedConfig computeAdaptedConfig() const;
 
     Config config_;

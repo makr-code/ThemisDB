@@ -38,9 +38,6 @@ namespace analytics {
 // Value type
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Scalar value type used in aggregation operations.
- */
 using AggValue = std::variant<
     std::monostate,  ///< NULL
     int64_t,
@@ -52,9 +49,6 @@ using AggValue = std::variant<
 // AggregateFunction
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Supported aggregate functions.
- */
 enum class AggregateFunction {
     kSum,   ///< Numeric sum (NULL inputs skipped)
     kCount, ///< Row count (including NULLs unless kCountNonNull is used)
@@ -70,9 +64,6 @@ enum class AggregateFunction {
 // AggregateSpec
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Describes one aggregate column in a GROUP BY query.
- */
 struct AggregateSpec {
     std::string       source_column; ///< Input column name.
     std::string       output_column; ///< Output column name in result.
@@ -83,47 +74,23 @@ struct AggregateSpec {
 // GroupKey
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Composite group-by key.  Serialised to a string for map lookup.
- */
 using GroupKey = std::string;
 
 // ---------------------------------------------------------------------------
 // AggregationRow / AggregationResult
 // ---------------------------------------------------------------------------
 
-/**
- * @brief One input row: column name → scalar value.
- */
 using AggregationRow = std::unordered_map<std::string, AggValue>;
 
-/**
- * @brief One output group row.
- */
 using AggregationOutputRow = std::unordered_map<std::string, AggValue>;
 
-/**
- * @brief The full aggregation output: one row per distinct group.
- */
 struct AggregationResult {
     std::vector<std::string>         group_columns; ///< GROUP BY column names.
     std::vector<std::string>         agg_columns;   ///< Aggregated column names.
     std::vector<AggregationOutputRow> rows;          ///< Result rows.
 
-    /**
-     * @brief Bounds-checked row accessor.
-     * @param idx Zero-based row index.
-     * @return Const reference to the row.
-     * @throws std::out_of_range if `idx >= rows.size()`.
-     */
     [[nodiscard]] const AggregationOutputRow& at(std::size_t idx) const;
 
-    /**
-     * @brief Paginate result rows.
-     * @param offset First row (validated with `AdvanceSafe`).
-     * @param limit  Row count cap.
-     * @return Sub-vector of rows.
-     */
     [[nodiscard]] std::vector<AggregationOutputRow> page(
         std::size_t offset, std::size_t limit) const;
 };
@@ -132,34 +99,8 @@ struct AggregationResult {
 // Aggregator
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Stateful GROUP BY aggregation engine.
- *
- * Processes rows in a single pass (call `feed()` once per input row) and
- * materialises the final result with `finalise()`.
- *
- * **Type A safety:** new groups are accumulated in a secondary map and merged
- * after each batch, so no iterator into the active group map is held across
- * a potential rehash or insertion.
- *
- * **Type C safety:** all user-supplied page offsets are validated with
- * `AdvanceSafe::advance()` inside `AggregationResult::page()`.
- *
- * **Usage:**
- * ```cpp
- * Aggregator agg({"country"}, {{"revenue", "total_revenue", AggregateFunction::kSum}});
- * for (const auto& row : input_rows) { agg.feed(row); }
- * AggregationResult result = agg.finalise();
- * ```
- */
 class Aggregator {
 public:
-    /**
-     * @brief Construct aggregator.
-     * @param group_by_columns  Ordered list of columns to group by.
-     * @param agg_specs         Aggregation specifications.
-     * @throws std::invalid_argument if lists are empty or contain duplicates.
-     */
     Aggregator(std::vector<std::string>       group_by_columns,
                std::vector<AggregateSpec>     agg_specs);
 
@@ -171,28 +112,13 @@ public:
     Aggregator& operator=(Aggregator&&)      noexcept = default;
 
     /**
-     * @brief Feed one input row into the aggregator.
-     * @param row Input row mapping column names to values.
-     *
-     * NULL values in group-by columns are treated as a distinct group key
-     * (represented as the empty string in the composite key).
+     * @brief Feed.
+     * @param[in] row Input parameter.
      */
     void feed(const AggregationRow& row);
 
-    /**
-     * @brief Finalise aggregation and return the result set.
-     *
-     * After `finalise()` returns the aggregator state is consumed; calling
-     * `feed()` again results in undefined behaviour.
-     *
-     * @return Completed aggregation result.
-     */
     [[nodiscard]] AggregationResult finalise();
 
-    /**
-     * @brief Current number of distinct groups seen so far.
-     * @return Group count.
-     */
     [[nodiscard]] std::size_t group_count() const noexcept;
 
 private:
@@ -217,14 +143,28 @@ private:
     std::vector<AggregateSpec> agg_specs_;
     std::unordered_map<GroupKey, GroupState> groups_;
 
-    /// Serialise group-by column values to a stable string key.
+    /**
+     * @brief Make key.
+     * @param[in] row Input parameter.
+     * @return Return value.
+     */
     GroupKey make_key(const AggregationRow& row) const;
 
-    /// Apply one value to an accumulator.
+    /**
+     * @brief Accumulate.
+     * @param[in,out] acc Input/output parameter.
+     * @param[in] fn Input parameter.
+     * @param[in] val Input parameter.
+     */
     static void accumulate(AccState& acc, AggregateFunction fn,
                            const AggValue& val);
 
-    /// Extract final value from accumulator.
+    /**
+     * @brief Extract.
+     * @param[in] acc Input parameter.
+     * @param[in] fn Input parameter.
+     * @return Return value.
+     */
     static AggValue extract(const AccState& acc, AggregateFunction fn);
 };
 

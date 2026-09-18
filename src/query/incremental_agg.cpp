@@ -55,6 +55,11 @@ void IncrementalAgg::remove([[maybe_unused]] double value) {
     }
 }
 
+/**
+ * @brief Rescan.
+ * @param[in] values Input parameter.
+ * @details Calls: max(), lowest().
+ */
 void IncrementalAgg::rescan(const std::vector<double>& values) {
     if (op_ == AggOp::MIN || op_ == AggOp::MAX) {
         min_ = std::numeric_limits<double>::max();

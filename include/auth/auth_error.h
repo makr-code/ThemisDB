@@ -20,12 +20,6 @@
 namespace themis {
 namespace auth {
 
-/**
- * @brief Authentication error codes (range: 9300-9399)
- * 
- * These error codes are registered in the global ErrorRegistry
- * for consistent error handling across the system.
- */
 enum class AuthErrorCode {
     // General auth errors (9300-9309)
     AUTH_GENERAL_FAILURE = 9300,
@@ -124,75 +118,38 @@ enum class AuthErrorCode {
     SAML_DECRYPTION_FAILED = 9411,
 
     // Provider / federation availability errors (9420-9429)
-    /// Provider backend is unreachable or returned an unexpected transient error.
-    /// Decision is fail-closed: deny until the provider is confirmed healthy.
     PROVIDER_DEGRADED = 9420,
-    /// Provider configuration declares a capability that the runtime environment
-    /// cannot satisfy (e.g., TLS required but not configured).
     PROVIDER_CAPABILITY_MISMATCH = 9421,
-    /// A federation realm is registered but its OIDC discovery endpoint is
-    /// currently unreachable or returns an invalid document.
     FEDERATION_REALM_UNAVAILABLE = 9422,
-    /// The token carries an issuer claim that does not match any registered realm.
     FEDERATION_UNKNOWN_REALM = 9423,
 
     // Revocation backend errors (9430-9439)
-    /// The local or distributed revocation backend is unreachable.
-    /// isRevoked() returns true (deny) when this error fires.
     REVOCATION_BACKEND_UNAVAILABLE = 9430,
-    /// A revocation entry is structurally invalid (e.g., JTI too long, bad expiry).
     REVOCATION_ENTRY_INVALID = 9431,
-    /// Distributed cluster sync failed; local state may be stale.
     REVOCATION_CLUSTER_SYNC_FAILED = 9432,
 
     // Policy / authorization edge errors (9440-9449)
-    /// The policy engine reached an undefined edge case (no applicable rule found
-    /// and no explicit default).  Treated as fail-closed (DENY).
     POLICY_EDGE_UNDEFINED = 9440,
-    /// A policy requires a claim that is absent from the validated principal.
     POLICY_MISSING_REQUIRED_CLAIM = 9441,
 
     // Async provider / timeout errors (9450-9459)
-    /// An async provider call exceeded its configured timeout.
-    /// The outstanding future holds this error; callers MUST treat it as DENY.
     ASYNC_PROVIDER_TIMEOUT = 9450,
-    /// The async worker thread pool is exhausted; the request cannot be dispatched.
     ASYNC_POOL_EXHAUSTED = 9451,
-    /// An async provider future propagated an unexpected exception.
     ASYNC_PROVIDER_EXCEPTION = 9452
 };
 
 /**
- * @brief Convert AuthErrorCode to ErrorRegistry ErrorCode
+ * @brief To Error Code.
+ * @param[in] code Input parameter.
+ * @return Return value.
+ * @details Implements toErrorCode without additional internal calls.
  */
 inline errors::ErrorCode toErrorCode(AuthErrorCode code) {
     return static_cast<errors::ErrorCode>(static_cast<int>(code));
 }
 
-/**
- * @brief Authentication error with request tracking and sensitive data masking
- * 
- * This class provides a structured error response for authentication failures
- * that masks sensitive information (principals, file paths, internal state)
- * while logging full details server-side for debugging.
- * 
- * Features:
- * - Request ID for tracing across distributed systems
- * - Timestamp for audit trail
- * - Masked public message (safe for clients)
- * - Full internal message (logged server-side only)
- * - Error code for programmatic handling
- * - Optional retry-after for rate limiting
- */
 class AuthError {
 public:
-    /**
-     * @brief Create an authentication error
-     * @param code Error code
-     * @param public_message Safe message for clients (sensitive data masked)
-     * @param internal_message Full message for server logs (may contain sensitive data)
-     * @param request_id Optional request ID for tracing
-     */
     AuthError(
         AuthErrorCode code,
         std::string public_message,
@@ -200,77 +157,55 @@ public:
         std::string request_id = ""
     );
     
-    /**
-     * @brief Get error code
-     */
     AuthErrorCode code() const { return code_; }
     
-    /**
-     * @brief Get public message (safe for clients, sensitive data masked)
-     */
     const std::string& publicMessage() const { return public_message_; }
     
-    /**
-     * @brief Get internal message (full details, for server logs only)
-     */
     const std::string& internalMessage() const { return internal_message_; }
     
-    /**
-     * @brief Get request ID
-     */
     const std::string& requestId() const { return request_id_; }
     
-    /**
-     * @brief Get timestamp
-     */
     std::chrono::system_clock::time_point timestamp() const { return timestamp_; }
     
     /**
-     * @brief Set retry-after duration (for rate limiting)
+     * @brief Set Retry After.
+     * @param[in] duration Input parameter.
+     * @details Implements setRetryAfter without additional internal calls.
      */
     void setRetryAfter(std::chrono::seconds duration) {
         retry_after_ = duration;
     }
     
-    /**
-     * @brief Get retry-after duration
-     */
     std::optional<std::chrono::seconds> retryAfter() const {
         return retry_after_;
     }
     
     /**
-     * @brief Convert to JSON (public version for API responses)
+     * @brief To Public JSON.
+     * @return Return value.
      */
     nlohmann::json toPublicJSON() const;
     
     /**
-     * @brief Convert to JSON (internal version for logging)
+     * @brief To Internal JSON.
+     * @return Return value.
      */
     nlohmann::json toInternalJSON() const;
     
     /**
-     * @brief Log this error to server logs with full details
+     * @brief Log Error.
      */
     void logError() const;
     
-    /**
-     * @brief Create error from exception
-     */
     static AuthError fromException(
         const std::exception& e,
         const std::string& request_id = ""
     );
     
     /**
-     * @brief Mask sensitive data in a string
-     * 
-     * Masks:
-     * - Email addresses (preserves domain)
-     * - Kerberos principals
-     * - File paths (preserves filename)
-     * - IP addresses (preserves first octet)
-     * - UUIDs and tokens (shows first/last 4 chars)
+     * @brief Mask Sensitive Data.
+     * @param[in] input Input parameter.
+     * @return Return value.
      */
     static std::string maskSensitiveData(const std::string& input);
 
@@ -282,21 +217,50 @@ private:
     std::chrono::system_clock::time_point timestamp_;
     std::optional<std::chrono::seconds> retry_after_;
     
+    /**
+     * @brief Generate Request Id.
+     * @return Return value.
+     */
     static std::string generateRequestId();
+    /**
+     * @brief Mask Email.
+     * @param[in] email Input parameter.
+     * @return Return value.
+     */
     static std::string maskEmail(const std::string& email);
+    /**
+     * @brief Mask Principal.
+     * @param[in] principal Input parameter.
+     * @return Return value.
+     */
     static std::string maskPrincipal(const std::string& principal);
+    /**
+     * @brief Mask File Path.
+     * @param[in] path Input parameter.
+     * @return Return value.
+     */
     static std::string maskFilePath(const std::string& path);
+    /**
+     * @brief Mask IPAddress.
+     * @param[in] ip Input parameter.
+     * @return Return value.
+     */
     static std::string maskIPAddress(const std::string& ip);
+    /**
+     * @brief Mask Token.
+     * @param[in] token Input parameter.
+     * @return Return value.
+     */
     static std::string maskToken(const std::string& token);
 };
 
-/**
- * @brief Exception class for authentication errors
- * 
- * Can be thrown and caught to propagate structured auth errors
- */
 class AuthException : public std::runtime_error {
 public:
+    /**
+     * @brief Auth Exception.
+     * @param[in] error Input parameter.
+     * @return Return value.
+     */
     explicit AuthException(const AuthError& error)
         : std::runtime_error(error.publicMessage())
         , error_(error)
@@ -309,16 +273,10 @@ private:
 };
 
 /**
- * @brief Register all authentication error codes in the global ErrorRegistry
- * 
- * This should be called during system initialization to ensure all
- * auth error codes are properly registered with metadata.
+ * @brief Register Auth Errors.
  */
 void registerAuthErrors();
 
-/**
- * @brief Helper macros for throwing auth errors
- */
 #define THROW_AUTH_ERROR(code, public_msg, internal_msg) \
     throw themis::auth::AuthException( \
         themis::auth::AuthError( \

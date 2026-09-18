@@ -34,9 +34,6 @@ class ContentManager;
 class IngestionPlugin;
 struct IngestionSource;
 
-/**
- * @brief Ingestion job status
- */
 enum class IngestionJobStatus {
     QUEUED,      // Waiting in queue
     PROCESSING,  // Currently being processed
@@ -45,9 +42,6 @@ enum class IngestionJobStatus {
     CANCELLED    // Cancelled by user
 };
 
-/**
- * @brief Ingestion job type
- */
 enum class IngestionJobType {
     SINGLE_FILE,        // Single file upload
     STREAM_FILE,        // Stream-based ingestion for large files
@@ -60,9 +54,6 @@ enum class IngestionJobType {
     REST_API            // Generic REST API
 };
 
-/**
- * @brief Ingestion job metadata
- */
 struct IngestionJob {
     std::string job_id;
     IngestionJobType type;
@@ -94,9 +85,6 @@ struct IngestionJob {
     std::shared_ptr<std::promise<std::string>> completion_promise;
 };
 
-/**
- * @brief Configuration for async ingestion worker
- */
 struct AsyncIngestionConfig {
     size_t worker_thread_count = 2;       // Number of parallel workers
     size_t max_queue_size = 1000;         // Absolute queue capacity (hard limit)
@@ -108,21 +96,6 @@ struct AsyncIngestionConfig {
     int retry_attempts = 3;              // Max retries on transient failures
 };
 
-/**
- * @brief Asynchronous Ingestion Worker (Plugin)
- * 
- * Background worker pool for processing ingestion jobs.
- * Designed for development, testing, and showcase purposes.
- * 
- * Features:
- * - Multi-threaded processing
- * - Job queue with priority
- * - Progress tracking
- * - Cancellation support
- * - Completion callbacks
- * 
- * Thread-Safety: Fully thread-safe
- */
 class AsyncIngestionWorker {
 public:
     explicit AsyncIngestionWorker(
@@ -133,32 +106,14 @@ public:
     ~AsyncIngestionWorker() noexcept;
     
     /**
-     * @brief Start the worker threads
+     * @brief Start.
      */
     void start();
     
-    /**
-     * @brief Stop the worker threads (graceful shutdown)
-     * 
-     * @param wait_for_completion If true, waits for all jobs to finish
-     */
     void stop(bool wait_for_completion = true);
     
-    /**
-     * @brief Check if worker is running
-     */
     bool isRunning() const { return running_.load(); }
     
-    /**
-     * @brief Submit a single file for ingestion
-     * 
-     * @param blob Binary file data
-     * @param filename Original filename
-     * @param mime_type Optional MIME type
-     * @param user_context User context for auth/encryption
-     * @param config Optional job configuration
-     * @return Job ID for tracking
-     */
     std::string submitFile(
         const std::string& blob,
         const std::string& filename,
@@ -167,25 +122,6 @@ public:
         const json& config = json::object()
     );
 
-    /**
-     * @brief Submit a stream for chunked ingestion (large-file support)
-     *
-     * Reads content from the stream in configurable chunks
-     * (see ContentManager::ingestStream for config keys).
-     * The stream must remain valid until the job completes when
-     * wait_for_completion = true; for async jobs the caller is
-     * responsible for the stream lifetime.
-     *
-     * Blocks the calling thread when the queue depth reaches
-     * config_.max_queue_depth until a worker dequeues a job.
-     *
-     * @param stream       Input stream positioned at the start of the content
-     * @param filename     Original filename (for MIME detection and metadata)
-     * @param mime_type    Optional MIME type override
-     * @param user_context User context for auth/encryption
-     * @param config       Optional job configuration (chunk_size_bytes, etc.)
-     * @return Job ID for tracking
-     */
     std::string submitStream(
         std::istream& stream,
         const std::string& filename,
@@ -194,23 +130,6 @@ public:
         const json& config = json::object()
     );
 
-    /**
-     * @brief Submit a stream for async ingestion with back-pressure
-     *
-     * Blocks the calling thread when the queue depth reaches
-     * config_.max_queue_depth until a worker dequeues a job.
-     * Returns a future that resolves to the primary ContentId
-     * (std::string) once the ingestion job completes.
-     *
-     * The stream must remain valid until the returned future is ready.
-     *
-     * @param stream       Input stream positioned at the start of the content
-     * @param filename     Original filename (for MIME detection and metadata)
-     * @param mime_type    Optional MIME type override
-     * @param user_context User context for auth/encryption
-     * @param config       Optional job configuration (chunk_size_bytes, etc.)
-     * @return std::future<std::string> resolving to the primary ContentId
-     */
     std::future<std::string> ingestStream(
         std::istream& stream,
         const std::string& filename,
@@ -219,15 +138,6 @@ public:
         const json& config = json::object()
     );
 
-    /**
-     * @brief Submit an archive for extraction and ingestion
-     * 
-     * @param blob Archive binary data
-     * @param filename Archive filename
-     * @param user_context User context
-     * @param config Archive configuration (strategy, password, etc.)
-     * @return Job ID for tracking
-     */
     std::string submitArchive(
         const std::string& blob,
         const std::string& filename,
@@ -235,14 +145,6 @@ public:
         const json& config = json::object()
     );
     
-    /**
-     * @brief Submit multiple files for batch ingestion
-     * 
-     * @param files Vector of {filename, blob} pairs
-     * @param user_context User context
-     * @param config Batch configuration
-     * @return Job ID for tracking
-     */
     std::string submitBatch(
         const std::vector<std::pair<std::string, std::string>>& files,
         const std::string& user_context = "",
@@ -250,64 +152,36 @@ public:
     );
     
     /**
-     * @brief Get job status
-     * 
-     * @param job_id Job identifier
-     * @return Job details if found
+     * @brief Get Job Status.
+     * @param[in] job_id Identifier of the job.
+     * @return Return value.
      */
     std::optional<IngestionJob> getJobStatus(const std::string& job_id);
     
     /**
-     * @brief Cancel a queued or running job
-     * 
-     * @param job_id Job identifier
-     * @return True if job was cancelled
+     * @brief Cancel Job.
+     * @param[in] job_id Identifier of the job.
+     * @return True when the operation succeeds.
      */
     bool cancelJob(const std::string& job_id);
     
-    /**
-     * @brief Get all jobs (optionally filtered by status)
-     * 
-     * @param status Optional status filter
-     * @return Vector of jobs
-     */
     std::vector<IngestionJob> getAllJobs(
         std::optional<IngestionJobStatus> status = std::nullopt
     );
     
     /**
-     * @brief Get queue statistics
-     * 
-     * @return JSON with queue stats
+     * @brief Return access control statistics.
+     * @return Access control statistics.
      */
     json getStatistics();
     
-    /**
-     * @brief Clear completed jobs from history
-     * 
-     * @param older_than_ms Clear jobs older than this (milliseconds)
-     */
     void clearCompletedJobs(int64_t older_than_ms = 0);
     
-    /**
-     * @brief Register completion callback for a job
-     * 
-     * @param job_id Job identifier
-     * @param callback Function to call when job completes
-     */
     void setCompletionCallback(
         const std::string& job_id,
         std::function<void(const IngestionJob&)> callback
     );
     
-    /**
-     * @brief Register a custom handler for a specific job type
-     * 
-     * Allows external code to handle specific job types with custom logic.
-     * 
-     * @param job_type The type of job to register handler for
-     * @param handler Callback function to process jobs of this type
-     */
     void registerJobHandler(
         IngestionJobType job_type,
         std::function<void(IngestionJob&)> handler
@@ -318,52 +192,30 @@ public:
     // ========================================================================
     
     /**
-     * @brief Register an ingestion plugin
-     * 
-     * Plugins extend the worker with new data sources.
-     * 
-     * Example:
-     * ```cpp
-     * auto hf_plugin = std::make_shared<HuggingFacePlugin>(...);
-     * worker.registerPlugin(hf_plugin);
-     * ```
-     * 
-     * @param plugin Plugin to register
+     * @brief Register Plugin.
+     * @param[in] plugin Input parameter.
      */
     void registerPlugin(std::shared_ptr<IngestionPlugin> plugin);
     
     /**
-     * @brief Unregister a plugin
-     * 
-     * @param plugin_name Name of plugin to remove
+     * @brief Unregister Plugin.
+     * @param[in] plugin_name Name of the plugin.
      */
     void unregisterPlugin(const std::string& plugin_name);
     
     /**
-     * @brief List registered plugins
-     * 
-     * @return Vector of plugin names
+     * @brief List Plugins.
+     * @return Return value.
      */
     std::vector<std::string> listPlugins() const;
     
     /**
-     * @brief Get plugin by name
-     * 
-     * @param name Plugin name
-     * @return Plugin pointer or nullptr if not found
+     * @brief Get Plugin.
+     * @param[in] name Input parameter.
+     * @return Return value.
      */
     std::shared_ptr<IngestionPlugin> getPlugin(const std::string& name) const;
     
-    /**
-     * @brief Submit a multi-source job
-     * 
-     * Creates a job that will be processed by the registered plugin.
-     * 
-     * @param source Source configuration
-     * @param additional_config Optional additional configuration
-     * @param user_context Optional user context for audit attribution
-     * @return Job ID for tracking
-     */
     std::string submitSourceJob(
         const IngestionSource& source,
         const json& additional_config = json::object(),
@@ -371,19 +223,8 @@ public:
     );
     
     /**
-     * @brief Load sources from configuration file
-     * 
-     * YAML format:
-     * ```yaml
-     * sources:
-     *   - source_id: hf_legal
-     *     plugin_name: huggingface
-     *     type: HUGGINGFACE
-     *     location: lexlms/ger_legal_data
-     *     priority: 5
-     * ```
-     * 
-     * @param config_path Path to YAML config file
+     * @brief Load Sources From Config.
+     * @param[in] config_path Path to the retention policy configuration file.
      */
     void loadSourcesFromConfig(const std::string& config_path);
 
@@ -427,24 +268,74 @@ private:
     mutable std::mutex plugins_mutex_;
     
     // Worker thread function
+    /**
+     * @brief Worker Loop.
+     * @param[in] worker_id Identifier of the worker.
+     */
     void workerLoop(int worker_id);
     
     // Job processing
+    /**
+     * @brief Process Job.
+     * @param[in,out] job Input/output parameter.
+     */
     void processJob(IngestionJob& job);
+    /**
+     * @brief Process Single File.
+     * @param[in,out] job Input/output parameter.
+     */
     void processSingleFile(IngestionJob& job);
+    /**
+     * @brief Process Stream File.
+     * @param[in,out] job Input/output parameter.
+     */
     void processStreamFile(IngestionJob& job);  // Stream-based large file ingestion
+    /**
+     * @brief Process Archive.
+     * @param[in,out] job Input/output parameter.
+     */
     void processArchive(IngestionJob& job);
+    /**
+     * @brief Process Batch Files.
+     * @param[in,out] job Input/output parameter.
+     */
     void processBatchFiles(IngestionJob& job);
+    /**
+     * @brief Process Plugin Job.
+     * @param[in,out] job Input/output parameter.
+     */
     void processPluginJob(IngestionJob& job);  // NEW: Plugin-based processing
     
     // Helpers
+    /**
+     * @brief Generate Job Id.
+     * @return Return value.
+     */
     std::string generateJobId();
+    /**
+     * @brief Update Job Status.
+     * @param[in] job_id Identifier of the job.
+     * @param[in] status Input parameter.
+     */
     void updateJobStatus(const std::string& job_id, IngestionJobStatus status);
+    /**
+     * @brief Update Job Progress.
+     * @param[in] job_id Identifier of the job.
+     * @param[in] processed Input parameter.
+     * @param[in] total Input parameter.
+     */
     void updateJobProgress(const std::string& job_id, int processed, int total);
+    /**
+     * @brief Get Current Time Ms.
+     * @return Return value.
+     */
     int64_t getCurrentTimeMs();
     
     // Auto-cleanup thread
     std::thread cleanup_thread_;
+    /**
+     * @brief Cleanup Loop.
+     */
     void cleanupLoop();
 };
 

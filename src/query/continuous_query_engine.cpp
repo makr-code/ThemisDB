@@ -37,7 +37,17 @@ namespace query {
 
 ResultQueue::ResultQueue(size_t capacity) : capacity_(capacity) {}
 
+/**
+ * @brief Push.
+ * @param[in] item Input parameter.
+ * @details Calls: lock(), size(), pop_front(), push_back(), std::move(), notify_one().
+ */
 void ResultQueue::push(CQResult item) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     if (queue_.size() >= capacity_) {
         // Drop oldest to prevent unbounded growth
@@ -47,7 +57,18 @@ void ResultQueue::push(CQResult item) {
     cv_.notify_one();
 }
 
+/**
+ * @brief Pop.
+ * @param[in] timeout Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), wait_for(), empty(), load(), std::move(), front(), pop_front().
+ */
 std::optional<CQResult> ResultQueue::pop(std::chrono::milliseconds timeout) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::mutex> lock(mutex_);
     if (!cv_.wait_for(lock, timeout, [this] {
             return !queue_.empty() || cancelled_.load(std::memory_order_acquire);
@@ -68,6 +89,11 @@ void ResultQueue::cancel() noexcept {
 }
 
 size_t ResultQueue::depth() const noexcept {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return queue_.size();
 }
@@ -87,6 +113,12 @@ bool CQResultStreamImpl::hasMore() const noexcept {
     return !queue_->isCancelled();
 }
 
+/**
+ * @brief Next.
+ * @param[in] timeout Input parameter.
+ * @return Return value.
+ * @details Calls: pop().
+ */
 std::optional<CQResult> CQResultStreamImpl::next(
     std::chrono::milliseconds timeout) {
     return queue_->pop(timeout);
@@ -112,7 +144,11 @@ ContinuousQueryEngineImpl::ContinuousQueryEngineImpl(
 
 ContinuousQueryEngineImpl::~ContinuousQueryEngineImpl() {
     stopLoop();
-    // Cancel all subscriber queues
+    /**
+     * @brief Cancel all subscriber queues
+     * @param[in] registry_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(registry_mutex_);
     for (auto& [name, entry] : registry_) {
         for (auto& q : entry.subscribers) {
@@ -121,11 +157,20 @@ ContinuousQueryEngineImpl::~ContinuousQueryEngineImpl() {
     }
 }
 
+/**
+ * @brief Start Loop.
+ * @details Calls: store(), std::thread(), load(), lock(), wait_for(), tickOnce().
+ */
 void ContinuousQueryEngineImpl::startLoop() {
     running_.store(true, std::memory_order_release);
     loop_thread_ = std::thread([this] {
         while (running_.load(std::memory_order_acquire)) {
             {
+                /**
+                 * @brief Lock.
+                 * @param[in] loop_mutex_ Input parameter.
+                 * @return Return value.
+                 */
                 std::unique_lock<std::mutex> lock(loop_mutex_);
                 loop_cv_.wait_for(lock, tick_interval_);
             }
@@ -136,6 +181,10 @@ void ContinuousQueryEngineImpl::startLoop() {
     });
 }
 
+/**
+ * @brief Stop Loop.
+ * @details Calls: store(), notify_all(), joinable(), std::move(), watcher(), join(), lk(), notify_one().
+ */
 void ContinuousQueryEngineImpl::stopLoop() {
     // [WAVE3B-FIX: blocking_no_timeout — continuous_query_engine.cpp:143]
     //
@@ -164,12 +213,22 @@ void ContinuousQueryEngineImpl::stopLoop() {
         if (loop.joinable()) {
             loop.join();
         }
+        /**
+         * @brief Lk.
+         * @param[in] join_mutex Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(join_mutex);
         joined = true;
         join_cv.notify_one();
     });
 
     {
+        /**
+         * @brief Lk.
+         * @param[in] join_mutex Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(join_mutex);
         constexpr auto kStopDeadline = std::chrono::seconds(5);
         if (!join_cv.wait_for(lk, kStopDeadline, [&joined] { return joined; })) {
@@ -202,6 +261,11 @@ ContinuousQueryEngineImpl::registerQuery(ContinuousQuerySpec spec) {
         return tl::unexpected(plan_result.error());
     }
 
+    /**
+     * @brief Lock.
+     * @param[in] registry_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(registry_mutex_);
     if (registry_.size() >= kMaxRegisteredQueries) {
         return Err<ContinuousQueryHandle>(
@@ -234,7 +298,18 @@ ContinuousQueryEngineImpl::registerQuery(ContinuousQuerySpec spec) {
     return name;
 }
 
+/**
+ * @brief Drop Query.
+ * @param[in] name Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), ErrVoid(), cancel(), erase(), OkVoid().
+ */
 Result<void> ContinuousQueryEngineImpl::dropQuery(const std::string& name) {
+    /**
+     * @brief Lock.
+     * @param[in] registry_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(registry_mutex_);
     auto it = registry_.find(name);
     if (it == registry_.end()) {
@@ -252,6 +327,11 @@ Result<void> ContinuousQueryEngineImpl::dropQuery(const std::string& name) {
 Result<ContinuousQueryEngine::ResultStreamPtr>
 ContinuousQueryEngineImpl::subscribe(const std::string& name,
                                       ResultMode /*mode*/) {
+    /**
+     * @brief Lock.
+     * @param[in] registry_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(registry_mutex_);
     auto it = registry_.find(name);
     if (it == registry_.end()) {
@@ -266,6 +346,11 @@ ContinuousQueryEngineImpl::subscribe(const std::string& name,
 
 std::vector<ContinuousQueryInfo>
 ContinuousQueryEngineImpl::listQueries() const {
+    /**
+     * @brief Lock.
+     * @param[in] registry_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(registry_mutex_);
     std::vector<ContinuousQueryInfo> result = {};
 
@@ -283,9 +368,21 @@ ContinuousQueryEngineImpl::listQueries() const {
     return result;
 }
 
+/**
+ * @brief Inject Tuple.
+ * @param[in] collection Input parameter.
+ * @param[in] tuple Input parameter.
+ * @param[in] event_ts Input parameter.
+ * @details Calls: lock(), size(), pop_front(), push_back().
+ */
 void ContinuousQueryEngineImpl::injectTuple(const std::string& collection,
                                              const std::string& tuple,
                                              int64_t            event_ts) {
+    /**
+     * @brief Lock.
+     * @param[in] inject_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(inject_mutex_);
     if (inject_queue_.size() >= kMaxInjectQueueDepth) {
         // Drop oldest entry to prevent unbounded memory growth
@@ -294,15 +391,26 @@ void ContinuousQueryEngineImpl::injectTuple(const std::string& collection,
     inject_queue_.push_back({collection, tuple, event_ts});
 }
 
-// ──────────────────────────────────────────────────────────────────────────────
-// ContinuousQueryEngineImpl — evaluation tick
-// ──────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ────────────────────────────────────────────────────────────────────────────── ContinuousQueryEngineImpl — evaluation tick ──────────────────────────────────────────────────────────────────────────────
+ * @details Calls: inj_lock(), empty(), reg_lock(), observe(), insert(), std::move(), push(), clear().
+ */
 
 void ContinuousQueryEngineImpl::tickOnce() {
     // Drain the injection queue into the relevant synopsis stores
     {
+        /**
+         * @brief Inj lock.
+         * @param[in] inject_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> inj_lock(inject_mutex_);
         if (!inject_queue_.empty()) {
+            /**
+             * @brief Reg lock.
+             * @param[in] registry_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> reg_lock(registry_mutex_);
             for (auto& incoming : inject_queue_) {
                 for (auto& [name, entry] : registry_) {
@@ -330,6 +438,11 @@ void ContinuousQueryEngineImpl::tickOnce() {
 
     // Run the evaluation plan for each registered query
     {
+        /**
+         * @brief Lock.
+         * @param[in] registry_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(registry_mutex_);
         for (auto& [name, entry] : registry_) {
             // Build a transient ContinuousQueryState by temporarily
@@ -379,9 +492,12 @@ void ContinuousQueryEngineImpl::tickOnce() {
     }
 }
 
-// ──────────────────────────────────────────────────────────────────────────────
-// Factory function
-// ──────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ────────────────────────────────────────────────────────────────────────────── Factory function ──────────────────────────────────────────────────────────────────────────────
+ * @param[in] tick_interval Input parameter.
+ * @return Return value.
+ * @details Implements makeContinuousQueryEngine without additional internal calls.
+ */
 
 std::unique_ptr<ContinuousQueryEngine> makeContinuousQueryEngine(
     std::chrono::milliseconds tick_interval) {

@@ -30,7 +30,11 @@ namespace observability {
 
 namespace {
 
-// Generate unique hint IDs using random hex
+/**
+ * @brief Generate unique hint IDs using random hex
+ * @return Return value.
+ * @details Calls: uuid_generate(), uuid_unparse(), std::string(), gen(), rd(), dis(), str().
+ */
 std::string generateHintId() {
 #ifdef HAS_UUID_H
     uuid_t uuid;
@@ -46,31 +50,60 @@ std::string generateHintId() {
     
     std::stringstream ss = {};
     for (int i = 0; i < 8; ++i) {
+        /**
+         * @brief Dis.
+         * @param[in] gen Input parameter.
+         * @return Return value.
+         */
         ss << std::hex << dis(gen);
     }
     ss << "-";
     for (int i = 0; i < 4; ++i) {
+        /**
+         * @brief Dis.
+         * @param[in] gen Input parameter.
+         * @return Return value.
+         */
         ss << std::hex << dis(gen);
     }
     ss << "-4"; // UUID version 4
     for (int i = 0; i < 3; ++i) {
+        /**
+         * @brief Dis.
+         * @param[in] gen Input parameter.
+         * @return Return value.
+         */
         ss << std::hex << dis(gen);
     }
     ss << "-";
     ss << std::hex << (8 + dis(gen) % 4);  // variant
     for (int i = 0; i < 3; ++i) {
+        /**
+         * @brief Dis.
+         * @param[in] gen Input parameter.
+         * @return Return value.
+         */
         ss << std::hex << dis(gen);
     }
     ss << "-";
     for (int i = 0; i < 12; ++i) {
+        /**
+         * @brief Dis.
+         * @param[in] gen Input parameter.
+         * @return Return value.
+         */
         ss << std::hex << dis(gen);
     }
     return ss.str();
 #endif
 }
 
-// Check if a metric value is valid (not NaN, not infinite, within reasonable bounds)
-// Returns true if valid, false if malformed
+/**
+ * @brief Check if a metric value is valid (not NaN, not infinite, within reasonable bounds) Returns true if valid, false if malformed
+ * @param[in] value Input parameter.
+ * @return True on success.
+ * @details Calls: std::isfinite().
+ */
 inline bool isValidMetricValue(double value) {
     return std::isfinite(value) && value >= 0.0;
 }
@@ -360,9 +393,16 @@ public:
     }
 
 private:
-    /// Clean up expired weak_ptr references to released listeners.
-    /// This prevents the listeners_ vector from growing unboundedly.
+    /**
+     * @brief Clean up expired weak_ptr references to released listeners.
+     * @details This prevents the listeners_ vector from growing unboundedly. Calls: lock(), erase(), std::remove_if(), begin(), end(), expired().
+     */
     void cleanupExpiredListeners() {
+        /**
+         * @brief Lock.
+         * @param[in] listeners_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lock(listeners_mutex_);
         listeners_.erase(
             std::remove_if(listeners_.begin(), listeners_.end(),
@@ -385,6 +425,11 @@ public:
             cleanupExpiredListeners();
         }
 
+        /**
+         * @brief Lock.
+         * @param[in] listeners_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lock(listeners_mutex_);
         listeners_.push_back(listener);
         return true;
@@ -395,6 +440,11 @@ public:
             return false;
         }
 
+        /**
+         * @brief Lock.
+         * @param[in] listeners_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lock(listeners_mutex_);
         
         // Use custom comparison: lock weak_ptr and compare with incoming listener
@@ -422,6 +472,11 @@ public:
             return false;
         }
 
+        /**
+         * @brief Lock.
+         * @param[in] patterns_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lock(patterns_mutex_);
         std::string name = pattern->patternName();
 
@@ -434,6 +489,11 @@ public:
     }
 
     bool unregisterPattern(const std::string& pattern_name) override {
+        /**
+         * @brief Lock.
+         * @param[in] patterns_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lock(patterns_mutex_);
         auto it = patterns_.find(pattern_name);
         if (it != patterns_.end()) {
@@ -452,13 +512,22 @@ public:
             return result;
         }
 
-        // Run all registered patterns
+        /**
+         * @brief Run all registered patterns
+         * @param[in] patterns_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> patterns_lock(patterns_mutex_);
         for (const auto& [pattern_name, pattern] : patterns_) {
             auto hint = pattern->match(metrics);
             if (hint) {
                 // Check for deduplication
                 {
+                    /**
+                     * @brief Hints lock.
+                     * @param[in] hints_mutex_ Input parameter.
+                     * @return Return value.
+                     */
                     std::shared_lock<std::shared_mutex> hints_lock(hints_mutex_);
                     bool is_duplicate = false;
 
@@ -484,6 +553,11 @@ public:
                 if (!result.empty() && result.back() == hint) {
                     // Hint was not deduplicated, add it and notify listeners
                     {
+                        /**
+                         * @brief Hints lock.
+                         * @param[in] hints_mutex_ Input parameter.
+                         * @return Return value.
+                         */
                         std::unique_lock<std::shared_mutex> hints_lock(hints_mutex_);
                         active_hints_.push_back(hint);
 
@@ -493,7 +567,11 @@ public:
                         }
                     }
 
-                    // Notify listeners
+                    /**
+                     * @brief Notify listeners
+                     * @param[in] listeners_mutex_ Input parameter.
+                     * @return Return value.
+                     */
                     std::shared_lock<std::shared_mutex> listeners_lock(listeners_mutex_);
                     for (const auto& listener : listeners_) {
                         auto listener_shared = listener.lock();
@@ -509,11 +587,21 @@ public:
     }
 
     std::vector<std::shared_ptr<RemediationHint>> getActiveHints() override {
+        /**
+         * @brief Lock.
+         * @param[in] hints_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(hints_mutex_);
         return active_hints_;
     }
 
     std::shared_ptr<RemediationHint> getHintById(const std::string& hint_id) override {
+        /**
+         * @brief Lock.
+         * @param[in] hints_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(hints_mutex_);
         for (const auto& hint : active_hints_) {
             if (hint->hintId() == hint_id) {
@@ -524,6 +612,11 @@ public:
     }
 
     bool resolveHint(const std::string& hint_id) override {
+        /**
+         * @brief Lock.
+         * @param[in] hints_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lock(hints_mutex_);
         auto it = std::find_if(active_hints_.begin(), active_hints_.end(),
                               [&](const std::shared_ptr<RemediationHint>& h) {
@@ -533,7 +626,11 @@ public:
         if (it != active_hints_.end()) {
             active_hints_.erase(it);
 
-            // Notify listeners
+            /**
+             * @brief Notify listeners
+             * @param[in] listeners_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::shared_lock<std::shared_mutex> listeners_lock(listeners_mutex_);
             for (const auto& listener : listeners_) {
                 auto listener_shared = listener.lock();
@@ -551,6 +648,11 @@ public:
     std::vector<std::shared_ptr<RemediationHint>> getHintsByCategory(
         ProblemCategory category) override {
 
+        /**
+         * @brief Lock.
+         * @param[in] hints_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(hints_mutex_);
         std::vector<std::shared_ptr<RemediationHint>> result;
 
@@ -566,6 +668,11 @@ public:
     std::vector<std::shared_ptr<RemediationHint>> getHintsBySeverity(
         RemediationSeverity severity) override {
 
+        /**
+         * @brief Lock.
+         * @param[in] hints_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(hints_mutex_);
         std::vector<std::shared_ptr<RemediationHint>> result;
 
@@ -579,32 +686,67 @@ public:
     }
 
     void setHintGenerationEnabled(bool enabled) override {
+        /**
+         * @brief Lock.
+         * @param[in] config_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lock(config_mutex_);
         hint_generation_enabled_ = enabled;
     }
 
     bool isHintGenerationEnabled() override {
+        /**
+         * @brief Lock.
+         * @param[in] config_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(config_mutex_);
         return hint_generation_enabled_;
     }
 
     void setDeduplicationWindow(std::chrono::seconds window) override {
+        /**
+         * @brief Lock.
+         * @param[in] config_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lock(config_mutex_);
         deduplication_window_ = window;
     }
 
     std::chrono::seconds getDeduplicationWindow() override {
+        /**
+         * @brief Lock.
+         * @param[in] config_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(config_mutex_);
         return deduplication_window_;
     }
 
     void clearAllHints() override {
+        /**
+         * @brief Lock.
+         * @param[in] hints_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lock(hints_mutex_);
         active_hints_.clear();
     }
 
     std::map<std::string, double> getStatistics() override {
+        /**
+         * @brief Hints lock.
+         * @param[in] hints_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> hints_lock(hints_mutex_);
+        /**
+         * @brief Patterns lock.
+         * @param[in] patterns_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> patterns_lock(patterns_mutex_);
 
         std::map<std::string, double> stats;
@@ -653,9 +795,11 @@ private:
     std::uint64_t hint_notification_count_;
 };
 
-// ============================================================================
-// Factory function
-// ============================================================================
+/**
+ * @brief ============================================================================ Factory function ============================================================================
+ * @return Return value.
+ * @details Implements createOperatorRemediationEngine without additional internal calls.
+ */
 
 std::unique_ptr<OperatorRemediationEngine> createOperatorRemediationEngine() {
     return std::make_unique<OperatorRemediationEngineImpl>();

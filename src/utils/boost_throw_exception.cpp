@@ -17,10 +17,23 @@
 
 namespace boost {
 
+/**
+ * @brief Throw exception.
+ * @param[in] e Input parameter.
+ * @throws e if an error occurs.
+ * @details Implements throw_exception without additional internal calls.
+ */
 void throw_exception(std::exception const& e) {
     throw e;
 }
 
+/**
+ * @brief Throw exception.
+ * @param[in] e Input parameter.
+ * @param[in] param Input parameter.
+ * @throws e if an error occurs.
+ * @details Implements throw_exception without additional internal calls.
+ */
 void throw_exception(std::exception const& e, boost::source_location const&) {
     throw e;
 }

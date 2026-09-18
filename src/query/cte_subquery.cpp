@@ -281,6 +281,10 @@ bool CTEEvaluator::hasCTE(const std::string& cteName) const {
     return cteResults_.find(cteName) != cteResults_.end();
 }
 
+/**
+ * @brief Clear.
+ * @details Implements clear without additional internal calls.
+ */
 void CTEEvaluator::clear() {
     cteResults_.clear();
 }
@@ -303,7 +307,12 @@ namespace {
         return parentContext;
     }
     
-    // Helper: Convert entity to JSON
+    /**
+     * @brief Helper: Convert entity to JSON
+     * @param[in] entity Input parameter.
+     * @return Return value.
+     * @details Calls: toJson(), nlohmann::json::parse(), getPrimaryKey().
+     */
     nlohmann::json entityToJSON(const BaseEntity& entity) {
         // Use BaseEntity's toJson() method to get all fields
         std::string json_str = entity.toJson();
@@ -313,8 +322,13 @@ namespace {
         return j;
     }
 
-    // Helper: Recursively check if an expression references any of the given variable names.
-    // This is used to detect correlated subqueries that reference outer-scope variables.
+    /**
+     * @brief Helper: Recursively check if an expression references any of the given variable names.
+     * @param[in] expr Input parameter.
+     * @param[in] vars Input parameter.
+     * @return True on success.
+     * @details This is used to detect correlated subqueries that reference outer-scope variables. Calls: getType(), count().
+     */
     bool expressionReferencesVariables(
         const std::shared_ptr<query::Expression>& expr,
         const std::unordered_set<std::string>& vars
@@ -371,8 +385,13 @@ namespace {
         }
     }
 
-    // Helper: Detect whether a subquery AST references any of the outer variable names.
-    // Inspects filter conditions and the RETURN expression.
+    /**
+     * @brief Helper: Detect whether a subquery AST references any of the outer variable names.
+     * @param[in] subquery Input parameter.
+     * @param[in] outerVarNames Input parameter.
+     * @return True on success.
+     * @details Inspects filter conditions and the RETURN expression. Calls: empty(), expressionReferencesVariables().
+     */
     bool isCorrelatedSubquery(
         const std::shared_ptr<query::Query>& subquery,
         const std::unordered_set<std::string>& outerVarNames
@@ -802,6 +821,12 @@ Result<bool> SubqueryEvaluator::evaluateExistsSubquery(
     }
 }
 
+/**
+ * @brief Bind Outer Variables.
+ * @param[in] query Input parameter.
+ * @param[in] outerRow Input parameter.
+ * @details Calls: empty(), is_object(), THEMIS_DEBUG(), size().
+ */
 void SubqueryEvaluator::bindOuterVariables(
     const std::shared_ptr<query::Query>& query,
     const nlohmann::json& outerRow

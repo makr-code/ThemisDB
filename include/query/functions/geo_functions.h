@@ -99,15 +99,35 @@ struct MBR {
     }
 };
 
+/**
+ * @brief Deg2rad.
+ * @param[in] deg Input parameter.
+ * @return Return value.
+ * @details Implements deg2rad without additional internal calls.
+ */
 inline double deg2rad(double deg) {
     return deg * M_PI / 180.0;
 }
 
+/**
+ * @brief Rad2deg.
+ * @param[in] rad Input parameter.
+ * @return Return value.
+ * @details Implements rad2deg without additional internal calls.
+ */
 inline double rad2deg(double rad) {
     return rad * 180.0 / M_PI;
 }
 
-// Haversine distance in meters
+/**
+ * @brief Haversine distance in meters
+ * @param[in] lon1 Input parameter.
+ * @param[in] lat1 Input parameter.
+ * @param[in] lon2 Input parameter.
+ * @param[in] lat2 Input parameter.
+ * @return Return value.
+ * @details Calls: deg2rad(), std::sin(), std::cos(), std::atan2(), std::sqrt().
+ */
 inline double haversineDistance(double lon1, double lat1, double lon2, double lat2) {
     double dLat = deg2rad(lat2 - lat1);
     double dLon = deg2rad(lon2 - lon1);
@@ -118,14 +138,32 @@ inline double haversineDistance(double lon1, double lat1, double lon2, double la
     return EARTH_RADIUS_M * c;
 }
 
-// Euclidean distance (2D)
+/**
+ * @brief Euclidean distance (2D)
+ * @param[in] x1 Input parameter.
+ * @param[in] y1 Input parameter.
+ * @param[in] x2 Input parameter.
+ * @param[in] y2 Input parameter.
+ * @return Return value.
+ * @details Calls: std::sqrt().
+ */
 inline double euclideanDistance(double x1, double y1, double x2, double y2) {
     double dx = x2 - x1;
     double dy = y2 - y1;
     return std::sqrt(dx * dx + dy * dy);
 }
 
-// Euclidean distance (3D)
+/**
+ * @brief Euclidean distance (3D)
+ * @param[in] x1 Input parameter.
+ * @param[in] y1 Input parameter.
+ * @param[in] z1 Input parameter.
+ * @param[in] x2 Input parameter.
+ * @param[in] y2 Input parameter.
+ * @param[in] z2 Input parameter.
+ * @return Return value.
+ * @details Calls: std::sqrt().
+ */
 inline double euclideanDistance3D(double x1, double y1, double z1, double x2, double y2, double z2) {
     double dx = x2 - x1;
     double dy = y2 - y1;
@@ -148,7 +186,13 @@ inline std::tuple<double, double, double> extractPoint(const nlohmann::json& geo
     return {x, y, z};
 }
 
-// Extract MBR from any geometry
+/**
+ * @brief Extract MBR from any geometry
+ * @param[in] geojson Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: is_object(), contains(), max(), lowest(), std::min(), std::max(), extractPoint(), updateBounds().
+ */
 inline MBR extractMBR(const nlohmann::json& geojson) {
     if (!geojson.is_object() || !geojson.contains("type")) {
         throw std::runtime_error("Invalid geometry");
@@ -193,7 +237,13 @@ inline MBR extractMBR(const nlohmann::json& geojson) {
     return {minx, miny, maxx, maxy};
 }
 
-// Check if coordinates look like WGS84 degrees
+/**
+ * @brief Check if coordinates look like WGS84 degrees
+ * @param[in] lon Input parameter.
+ * @param[in] lat Input parameter.
+ * @return True on success.
+ * @details Implements looksLikeDegrees without additional internal calls.
+ */
 inline bool looksLikeDegrees(double lon, double lat) {
     return lon >= -180.0 && lon <= 180.0 && lat >= -90.0 && lat <= 90.0;
 }
@@ -354,6 +404,11 @@ public:
             }
             
             std::string coords = wkt.substr(start + 1, end - start - 1);
+            /**
+             * @brief Iss.
+             * @param[in] coords Input parameter.
+             * @return Return value.
+             */
             std::istringstream iss(coords);
             double x, y, z;
             
@@ -381,10 +436,20 @@ public:
             std::string coordsStr = wkt.substr(start + 1, end - start - 1);
             nlohmann::json coordinates = nlohmann::json::array();
             
+            /**
+             * @brief Iss.
+             * @param[in] coordsStr Input parameter.
+             * @return Return value.
+             */
             std::istringstream iss(coordsStr);
             std::string pointStr = {};
             while (std::getline(iss, pointStr, ',')) {
                 pointStr = trim(pointStr);
+                /**
+                 * @brief Pss.
+                 * @param[in] pointStr Input parameter.
+                 * @return Return value.
+                 */
                 std::istringstream pss(pointStr);
                 double x, y;
                 if (pss >> x >> y) {
@@ -408,10 +473,20 @@ public:
             std::string ringStr = wkt.substr(start + 2, end - start - 2);
             nlohmann::json ring = nlohmann::json::array();
             
+            /**
+             * @brief Iss.
+             * @param[in] ringStr Input parameter.
+             * @return Return value.
+             */
             std::istringstream iss(ringStr);
             std::string pointStr = {};
             while (std::getline(iss, pointStr, ',')) {
                 pointStr = trim(pointStr);
+                /**
+                 * @brief Pss.
+                 * @param[in] pointStr Input parameter.
+                 * @return Return value.
+                 */
                 std::istringstream pss(pointStr);
                 double x, y;
                 if (pss >> x >> y) {
@@ -1312,6 +1387,8 @@ public:
 
 /**
  * @brief Register all Geo functions with the registry
+ * @param[in,out] registry Input/output parameter.
+ * @details Calls: registerFunction(), registerAlias().
  */
 inline void registerGeoFunctions(FunctionRegistry& registry) {
     // Construction

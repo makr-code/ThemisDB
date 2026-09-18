@@ -23,7 +23,6 @@
 namespace themis {
 namespace governance {
 
-/// Parameter definition for a template
 struct TemplateParameter {
     std::string name;                                  // Parameter name
     std::string type;                                  // "string", "int", "bool", "list"
@@ -32,11 +31,19 @@ struct TemplateParameter {
     bool required = true;                              // Whether parameter is required
     std::vector<std::string> allowed_values;           // Allowed values (optional constraint)
 
+    /**
+     * @brief To Json.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
+    /**
+     * @brief From Json.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static TemplateParameter fromJson(const nlohmann::json& j);
 };
 
-/// Policy template for creating rules from patterns
 class PolicyTemplate {
 public:
     std::string id;                                    // Unique template identifier
@@ -53,34 +60,59 @@ public:
         const std::string& category
     );
 
-    /// Add a parameter to the template
+    /**
+     * @brief Add Parameter.
+     * @param[in] param Input parameter.
+     */
     void addParameter(const TemplateParameter& param);
 
-    /// Validate provided parameter values
+    /**
+     * @brief Validate Parameters.
+     * @param[in] params Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool validateParameters(const nlohmann::json& params) const;
 
-    /// Instantiate a PolicyRule from this template
+    /**
+     * @brief Instantiate.
+     * @param[in] params Input parameter.
+     * @param[in] rule_id Identifier of the rule.
+     * @return Return value.
+     */
     PolicyRule instantiate(
         const nlohmann::json& params,
         const std::string& rule_id
     ) const;
 
-    /// Preview what rule would be generated (without creating it)
+    /**
+     * @brief Preview.
+     * @param[in] params Input parameter.
+     * @param[in] rule_id Identifier of the rule.
+     * @return Return value.
+     */
     PolicyRule preview(
         const nlohmann::json& params,
         const std::string& rule_id
     ) const;
 
+    /**
+     * @brief To Json.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
 
 protected:
-    /// Override this in subclasses to define template-specific instantiation logic
+    /**
+     * @brief Instantiate Impl.
+     * @param[in] params Input parameter.
+     * @param[in] rule_id Identifier of the rule.
+     * @return Return value.
+     */
     virtual PolicyRule instantiateImpl(
         const nlohmann::json& params,
         const std::string& rule_id
     ) const = 0;
 
-    /// Helper: Get parameter value with default fallback
     template<typename T>
     T getParam(const nlohmann::json& params, const std::string& name, const T& default_val) const {
         if (params.contains(name)) {
@@ -97,7 +129,6 @@ protected:
     }
 };
 
-/// Template: Least Privilege - Minimize permissions
 class LeastPrivilegeTemplate : public PolicyTemplate {
 public:
     LeastPrivilegeTemplate();
@@ -109,7 +140,6 @@ protected:
     ) const override;
 };
 
-/// Template: Data Lifecycle - Retention and archival
 class DataLifecycleTemplate : public PolicyTemplate {
 public:
     DataLifecycleTemplate();
@@ -121,7 +151,6 @@ protected:
     ) const override;
 };
 
-/// Template: Compliance - Audit and encryption requirements
 class ComplianceTemplate : public PolicyTemplate {
 public:
     ComplianceTemplate();
@@ -133,7 +162,6 @@ protected:
     ) const override;
 };
 
-/// Template: Separation of Duties - Enforce role separation
 class SeparationOfDutiesTemplate : public PolicyTemplate {
 public:
     SeparationOfDutiesTemplate();
@@ -145,7 +173,6 @@ protected:
     ) const override;
 };
 
-/// Template: Time-based Access - Temporal access control
 class TimeBasedAccessTemplate : public PolicyTemplate {
 public:
     TimeBasedAccessTemplate();
@@ -157,10 +184,6 @@ protected:
     ) const override;
 };
 
-/// Template: SOC 2 Compliance - Trust Services Criteria enforcement
-/// Instantiates a rule that enforces all mandatory SOC 2 controls:
-/// field-level encryption, audit access, change auditing, and signature
-/// requirement for the specified resource.
 class Soc2ComplianceTemplate : public PolicyTemplate {
 public:
     Soc2ComplianceTemplate();
@@ -172,46 +195,76 @@ protected:
     ) const override;
 };
 
-/// Manager for policy templates
 class PolicyTemplateManager {
 public:
     PolicyTemplateManager();
 
-    /// Register a template
+    /**
+     * @brief Register Template.
+     * @param[in] tmpl Input parameter.
+     */
     void registerTemplate(std::shared_ptr<PolicyTemplate> tmpl);
 
-    /// Get a template by ID
+    /**
+     * @brief Get Template.
+     * @param[in] template_id Identifier of the template.
+     * @return Return value.
+     */
     std::optional<std::shared_ptr<PolicyTemplate>> getTemplate(const std::string& template_id) const;
 
-    /// List all available templates
+    /**
+     * @brief List Templates.
+     * @return Return value.
+     */
     std::vector<std::shared_ptr<PolicyTemplate>> listTemplates() const;
 
-    /// List templates by category
+    /**
+     * @brief List Templates By Category.
+     * @param[in] category Input parameter.
+     * @return Return value.
+     */
     std::vector<std::shared_ptr<PolicyTemplate>> listTemplatesByCategory(
         const std::string& category
     ) const;
 
-    /// Instantiate a rule from a template
+    /**
+     * @brief Instantiate Template.
+     * @param[in] template_id Identifier of the template.
+     * @param[in] params Input parameter.
+     * @param[in] rule_id Identifier of the rule.
+     * @return Return value.
+     */
     PolicyRule instantiateTemplate(
         const std::string& template_id,
         const nlohmann::json& params,
         const std::string& rule_id
     ) const;
 
-    /// Preview template instantiation
+    /**
+     * @brief Preview Template.
+     * @param[in] template_id Identifier of the template.
+     * @param[in] params Input parameter.
+     * @param[in] rule_id Identifier of the rule.
+     * @return Return value.
+     */
     PolicyRule previewTemplate(
         const std::string& template_id,
         const nlohmann::json& params,
         const std::string& rule_id
     ) const;
 
-    /// Export all templates as JSON
+    /**
+     * @brief Export Templates.
+     * @return Return value.
+     */
     nlohmann::json exportTemplates() const;
 
 private:
     std::unordered_map<std::string, std::shared_ptr<PolicyTemplate>> templates_;
 
-    /// Helper: Register built-in templates
+    /**
+     * @brief Register Built In Templates.
+     */
     void registerBuiltInTemplates();
 };
 

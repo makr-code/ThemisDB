@@ -26,24 +26,9 @@
 namespace themis {
 namespace cache {
 
-/**
- * @brief Least Recently Used (LRU) cache with move semantics
- * 
- * Template-based cache implementation featuring:
- * - O(1) insert, retrieve, delete
- * - LRU eviction when capacity exceeded
- * - Move constructor/assignment for container transfer
- * - Moved-from state tracking
- * 
- * @tparam Key Key type (must be hashable and comparable)
- * @tparam Value Value type (must support move semantics)
- */
 template <typename Key, typename Value>
 class LRUCache {
 public:
-    /**
-     * @brief Cache entry with metadata
-     */
     struct Entry {
         Key key;                   ///< Cache key
         Value value;               ///< Cached value
@@ -51,53 +36,17 @@ public:
         int64_t timestamp_us = 0;  ///< Last access time in microseconds
     };
 
-    /**
-     * @brief Cache hit/miss callback
-     */
     using HitCallback = std::function<void(const Key&, const Value&)>;
     using MissCallback = std::function<void(const Key&)>;
     using EvictionCallback = std::function<void(const Key&, const Value&)>;
 
-    /**
-     * @brief Create LRU cache with capacity
-     * 
-     * @param max_entries Maximum number of entries to store
-     * @param max_bytes Optional maximum total size in bytes (0 = no limit)
-     * @throws std::invalid_argument If max_entries is 0
-     */
     explicit LRUCache(size_t max_entries, size_t max_bytes = 0);
 
-    /**
-     * @brief Destructor - releases all entries
-     */
     ~LRUCache() noexcept = default;
 
     // Move semantics
-    /**
-     * @brief Move constructor
-     * 
-     * @param other Cache to move from
-     * 
-     * Transfers all entries, configuration, and callbacks to this cache.
-     * `other` becomes moved-from state (safe for destruction/reassignment).
-     * 
-     * @post other.is_moved_from() == true
-     */
     LRUCache(LRUCache&& other) noexcept;
 
-    /**
-     * @brief Move assignment operator
-     * 
-     * @param other Cache to move from
-     * @return Reference to this cache
-     * 
-     * Release-and-acquire:
-     * - Clears current cache contents
-     * - Acquires all entries from `other`
-     * - `other` becomes moved-from state
-     * 
-     * @post other.is_moved_from() == true
-     */
     LRUCache& operator=(LRUCache&& other) noexcept;
 
     // No copy
@@ -106,184 +55,126 @@ public:
 
     // --- Cache operations ---
 
-    /**
-     * @brief Insert or update cache entry
-     * 
-     * @param key Cache key
-     * @param value Value to cache (moved if LRUCache owns Value)
-     * @return true if value inserted, false if eviction occurred
-     * @throws std::logic_error If called on moved-from cache
-     * 
-     * If cache is full, least-recently-used entry is evicted.
-     * Insertion updates LRU tracking.
-     * 
-     * @pre !is_moved_from()
-     */
     template<typename V>
+    /**
+     * @brief Insert.
+     * @param[in] key Input parameter.
+     * @param[in] value Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool insert(const Key& key, V&& value);
 
     /**
-     * @brief Retrieve cached value
-     * 
-     * @param key Cache key
-     * @return Cached value if found, std::nullopt otherwise
-     * @throws std::logic_error If called on moved-from cache
-     * 
-     * Updates access tracking (moves entry to MRU position).
-     * 
-     * @pre !is_moved_from()
+     * @brief Get.
+     * @param[in] key Input parameter.
+     * @return Return value.
      */
     std::optional<Value> get(const Key& key);
 
     /**
-     * @brief Retrieve without updating LRU order (peek)
-     * 
-     * @param key Cache key
-     * @return Cached value if found, std::nullopt otherwise
-     * @throws std::logic_error If called on moved-from cache
-     * 
-     * Does NOT update access tracking.
+     * @brief Peek.
+     * @param[in] key Input parameter.
+     * @return Return value.
      */
     std::optional<const Value> peek(const Key& key) const;
 
     /**
-     * @brief Remove specific entry
-     * 
-     * @param key Cache key
-     * @return true if entry was found and removed, false otherwise
-     * @throws std::logic_error If called on moved-from cache
+     * @brief Erase.
+     * @param[in] key Input parameter.
+     * @return True when the operation succeeds.
      */
     bool erase(const Key& key);
 
     /**
-     * @brief Check if key exists in cache
-     * 
-     * @param key Cache key
-     * @return true if entry exists (does not update LRU)
-     * @throws std::logic_error If called on moved-from cache
+     * @brief Contains.
+     * @param[in] key Input parameter.
+     * @return True when the operation succeeds.
      */
     bool contains(const Key& key) const;
 
     /**
-     * @brief Clear all entries
-     * 
-     * @throws std::logic_error If called on moved-from cache
+     * @brief Clear.
      */
     void clear();
 
     /**
-     * @brief Evict least-recently-used entry
-     * 
-     * @return true if entry was evicted, false if cache empty
-     * @throws std::logic_error If called on moved-from cache
+     * @brief Evict lru.
+     * @return True when the operation succeeds.
      */
     bool evict_lru();
 
-    // --- Callbacks ---
-
     /**
-     * @brief Register hit callback (called on cache hit)
-     * 
-     * @param callback Function to invoke on cache hit
+     * @brief --- Callbacks ---
+     * @param[in] callback Input parameter.
+     * @details Implements on_hit without additional internal calls.
      */
+
     void on_hit(HitCallback callback) { hit_callback_ = callback; }
 
     /**
-     * @brief Register miss callback (called on cache miss)
-     * 
-     * @param callback Function to invoke on cache miss
+     * @brief On miss.
+     * @param[in] callback Input parameter.
+     * @details Implements on_miss without additional internal calls.
      */
     void on_miss(MissCallback callback) { miss_callback_ = callback; }
 
     /**
-     * @brief Register eviction callback (called on entry eviction)
-     * 
-     * @param callback Function to invoke on eviction
+     * @brief On eviction.
+     * @param[in] callback Input parameter.
+     * @details Implements on_eviction without additional internal calls.
      */
     void on_eviction(EvictionCallback callback) { eviction_callback_ = callback; }
 
-    // --- Statistics ---
-
     /**
-     * @brief Get cache size (number of entries)
-     * 
-     * @return Number of cached entries
+     * @brief --- Statistics ---
+     * @return Return value.
+     * @note Exception safety: noexcept.
      */
+
     size_t size() const noexcept;
 
     /**
-     * @brief Get cache capacity (maximum entries)
-     * 
-     * @return Maximum number of entries
+     * @brief Capacity.
+     * @return Return value.
+     * @note Exception safety: noexcept.
      */
     size_t capacity() const noexcept;
 
-    /**
-     * @brief Get number of cache hits
-     * 
-     * @return Total hit count
-     */
     uint64_t hits() const noexcept { return stats_.hits; }
 
-    /**
-     * @brief Get number of cache misses
-     * 
-     * @return Total miss count
-     */
     uint64_t misses() const noexcept { return stats_.misses; }
 
     /**
-     * @brief Get cache hit rate
-     * 
-     * @return Hit rate as [0.0, 1.0]
+     * @brief Hit rate.
+     * @return Return value.
+     * @note Exception safety: noexcept.
      */
     double hit_rate() const noexcept;
 
-    /**
-     * @brief Get total evictions
-     * 
-     * @return Eviction count
-     */
     uint64_t evictions() const noexcept { return stats_.evictions; }
 
     /**
-     * @brief Get access statistics for key
-     * 
-     * @param key Cache key
-     * @return Entry metadata if exists, std::nullopt otherwise
+     * @brief Get stats.
+     * @param[in] key Input parameter.
+     * @return Return value.
      */
     std::optional<Entry> get_stats(const Key& key) const;
 
     // --- State ---
 
-    /**
-     * @brief Check if cache is in moved-from state
-     * 
-     * @return true if all resources have been moved out
-     */
     bool is_moved_from() const noexcept { return is_moved_from_; }
 
-    /**
-     * @brief Check if cache is valid (not moved-from)
-     * 
-     * @return true if cache is operational
-     */
     bool is_valid() const noexcept { return !is_moved_from_; }
 
 private:
-    /**
-     * @brief Internal statistics
-     */
     struct Stats {
         uint64_t hits = 0;
         uint64_t misses = 0;
         uint64_t evictions = 0;
     };
 
-    /// LRU list (front = MRU, back = LRU)
     std::list<Key> lru_list_;
 
-    /// Map from key to list iterator and cached value
     std::unordered_map<Key, std::pair<typename std::list<Key>::iterator, Value>> map_;
 
     size_t max_entries_;
@@ -297,10 +188,18 @@ private:
 
     bool is_moved_from_ = false;
 
-    /// Move item to MRU position (front of LRU list)
+    /**
+     * @brief Mark accessed.
+     * @param[in] key Input parameter.
+     */
     void mark_accessed(const Key& key);
 
-    /// Check if adding value would exceed size limits
+    /**
+     * @brief Would exceed limits.
+     * @param[in] value_size Input parameter.
+     * @return True when the operation succeeds.
+     * @note Exception safety: noexcept.
+     */
     bool would_exceed_limits(size_t value_size) const noexcept;
 };
 

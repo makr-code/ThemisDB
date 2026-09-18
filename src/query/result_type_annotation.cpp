@@ -18,9 +18,12 @@
 namespace themis {
 namespace query {
 
-// ---------------------------------------------------------------------------
-// resultFieldTypeName
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- resultFieldTypeName ---------------------------------------------------------------------------
+ * @param[in] t Input parameter.
+ * @return Return value.
+ * @details Implements resultFieldTypeName without additional internal calls.
+ */
 
 std::string resultFieldTypeName(ResultFieldType t) {
     switch (t) {
@@ -73,9 +76,12 @@ nlohmann::json QueryResultSchema::toJson() const {
     return nlohmann::json{{"query_type", query_type}, {"fields", arr}};
 }
 
-// ---------------------------------------------------------------------------
-// inferFieldType
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- inferFieldType ---------------------------------------------------------------------------
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: is_null(), is_boolean(), is_string(), is_object(), is_number(), is_number_integer(), std::isfinite(), std::floor().
+ */
 
 ResultFieldType inferFieldType(const nlohmann::json& value) {
     if (value.is_null()) {
@@ -137,6 +143,11 @@ namespace {
  *   - anything beats UNKNOWN
  *   - anything beats NULL_TYPE (marks nullable)
  *   - different non-null types → UNKNOWN (mixed type)
+ * @brief Promote Type.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ * @details Implements promoteType without additional internal calls.
  */
 ResultFieldType promoteType(ResultFieldType a, ResultFieldType b) {
     if (a == b) {
@@ -169,6 +180,11 @@ ResultFieldType promoteType(ResultFieldType a, ResultFieldType b) {
 /**
  * Infer element type for array fields by scanning the first non-null row that
  * has the field as an array with at least one element.
+ * @brief Infer Element Type.
+ * @param[in] rows Input parameter.
+ * @param[in] field Input parameter.
+ * @return Return value.
+ * @details Calls: is_object(), find(), end(), is_array(), empty(), inferFieldType().
  */
 ResultFieldType inferElementType(const nlohmann::json& rows, const std::string& field) {
     for (const auto& row : rows) {
@@ -186,9 +202,13 @@ ResultFieldType inferElementType(const nlohmann::json& rows, const std::string& 
 
 } // anonymous namespace
 
-// ---------------------------------------------------------------------------
-// inferResultSchema
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- inferResultSchema ---------------------------------------------------------------------------
+ * @param[in] rows Input parameter.
+ * @param[in] query_type Input parameter.
+ * @return Return value.
+ * @details Calls: is_array(), empty(), is_object(), begin(), end(), key(), find(), insert().
+ */
 
 QueryResultSchema inferResultSchema(const nlohmann::json& rows,
                                     const std::string&    query_type) {

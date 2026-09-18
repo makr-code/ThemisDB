@@ -19,42 +19,23 @@
 namespace themis {
 namespace acceleration {
 
-/**
- * Rich error context with diagnostic information
- * 
- * Provides structured error information including:
- * - Error code (categorized)
- * - Backend name
- * - Detailed message
- * - Troubleshooting hint
- * - Optional system information
- * - Timestamp
- */
 struct ErrorContext {
-    /// Structured error code
     AccelerationErrorCode code;
     
-    /// Backend name (e.g., "CUDA", "HIP", "OpenCL")
     std::string backendName;
     
-    /// Detailed error message
     std::string message;
     
-    /// Actionable troubleshooting hint
     std::string troubleshootingHint;
     
-    /// Optional system information (driver version, device name, etc.)
     std::optional<std::string> systemInfo;
     
-    /// Timestamp when error occurred (for debugging/logging)
     std::chrono::system_clock::time_point timestamp;
     
-    /// Default constructor
     ErrorContext()
         : code(AccelerationErrorCode::UnknownError)
         , timestamp(std::chrono::system_clock::now()) {}
     
-    /// Constructor with basic information
     ErrorContext(AccelerationErrorCode errorCode,
                  std::string backend,
                  std::string msg)
@@ -63,7 +44,6 @@ struct ErrorContext {
         , message(std::move(msg))
         , timestamp(std::chrono::system_clock::now()) {}
     
-    /// Constructor with troubleshooting hint
     ErrorContext(AccelerationErrorCode errorCode,
                  std::string backend,
                  std::string msg,
@@ -74,7 +54,6 @@ struct ErrorContext {
         , troubleshootingHint(std::move(hint))
         , timestamp(std::chrono::system_clock::now()) {}
     
-    /// Full constructor
     ErrorContext(AccelerationErrorCode errorCode,
                  std::string backend,
                  std::string msg,
@@ -87,9 +66,6 @@ struct ErrorContext {
         , systemInfo(std::move(sysInfo))
         , timestamp(std::chrono::system_clock::now()) {}
     
-    /**
-     * Format error for display/logging
-     */
     std::string format() const {
         std::string result = {};
         result += "[" + backendName + "] ";
@@ -111,16 +87,10 @@ struct ErrorContext {
         return result;
     }
     
-    /**
-     * Check if this represents a success state
-     */
     bool isSuccess() const {
         return code == AccelerationErrorCode::Success;
     }
     
-    /**
-     * Get error category as string
-     */
     std::string getCategory() const {
         if (code == AccelerationErrorCode::Success) {
           return "Success";
@@ -147,11 +117,14 @@ struct ErrorContext {
     }
 };
 
-/**
- * Helper function to create error context with common troubleshooting hints
- */
 namespace ErrorContextHelpers {
 
+    /**
+     * @brief Create No Devices Error.
+     * @param[in] backendName Input parameter.
+     * @return Return value.
+     * @details Calls: ErrorContext().
+     */
     inline ErrorContext createNoDevicesError(const std::string& backendName) {
         return ErrorContext(
             AccelerationErrorCode::NoDevicesFound,
@@ -161,6 +134,12 @@ namespace ErrorContextHelpers {
         );
     }
     
+    /**
+     * @brief Create Driver Error.
+     * @param[in] backendName Input parameter.
+     * @return Return value.
+     * @details Calls: ErrorContext().
+     */
     inline ErrorContext createDriverError(const std::string& backendName) {
         return ErrorContext(
             AccelerationErrorCode::DriverNotInstalled,
@@ -170,6 +149,13 @@ namespace ErrorContextHelpers {
         );
     }
     
+    /**
+     * @brief Create Context Error.
+     * @param[in] backendName Input parameter.
+     * @param[in] details Input parameter.
+     * @return Return value.
+     * @details Calls: ErrorContext().
+     */
     inline ErrorContext createContextError(const std::string& backendName, const std::string& details) {
         return ErrorContext(
             AccelerationErrorCode::ContextCreationFailed,
@@ -179,6 +165,13 @@ namespace ErrorContextHelpers {
         );
     }
     
+    /**
+     * @brief Create Queue Error.
+     * @param[in] backendName Input parameter.
+     * @param[in] details Input parameter.
+     * @return Return value.
+     * @details Calls: ErrorContext().
+     */
     inline ErrorContext createQueueError(const std::string& backendName, const std::string& details) {
         return ErrorContext(
             AccelerationErrorCode::QueueCreationFailed,
@@ -188,6 +181,13 @@ namespace ErrorContextHelpers {
         );
     }
     
+    /**
+     * @brief Create Memory Error.
+     * @param[in] backendName Input parameter.
+     * @param[in] requestedBytes Input parameter.
+     * @return Return value.
+     * @details Calls: ErrorContext(), std::to_string().
+     */
     inline ErrorContext createMemoryError(const std::string& backendName, size_t requestedBytes) {
         return ErrorContext(
             AccelerationErrorCode::OutOfDeviceMemory,
@@ -197,6 +197,14 @@ namespace ErrorContextHelpers {
         );
     }
     
+    /**
+     * @brief Create Kernel Compilation Error.
+     * @param[in] backendName Input parameter.
+     * @param[in] kernelName Input parameter.
+     * @param[in] buildLog Input parameter.
+     * @return Return value.
+     * @details Calls: empty(), ErrorContext().
+     */
     inline ErrorContext createKernelCompilationError(const std::string& backendName, 
                                                       const std::string& kernelName,
                                                       const std::string& buildLog) {
@@ -213,6 +221,14 @@ namespace ErrorContextHelpers {
         );
     }
     
+    /**
+     * @brief Create Kernel Launch Error.
+     * @param[in] backendName Input parameter.
+     * @param[in] kernelName Input parameter.
+     * @param[in] details Input parameter.
+     * @return Return value.
+     * @details Calls: ErrorContext().
+     */
     inline ErrorContext createKernelLaunchError(const std::string& backendName,
                                                  const std::string& kernelName,
                                                  const std::string& details) {
@@ -224,6 +240,14 @@ namespace ErrorContextHelpers {
         );
     }
 
+    /**
+     * @brief Create Validation Error.
+     * @param[in] backendName Input parameter.
+     * @param[in] code Input parameter.
+     * @param[in] details Input parameter.
+     * @return Return value.
+     * @details Calls: ErrorContext().
+     */
     inline ErrorContext createValidationError(const std::string& backendName,
                                               AccelerationErrorCode code,
                                               const std::string& details) {

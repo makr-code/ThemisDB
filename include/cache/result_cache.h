@@ -19,9 +19,12 @@
 namespace themis { namespace cache {
 
 // Query-Result-Cache (AQL) – speichert seitenweise Ergebnisse unter Plan-Hash
-/** @brief Query-Result-Cache (AQL) – speichert seitenweise Ergebnisse unter Plan-Hash. */
 class ResultCache {
 public:
+    /**
+     * @brief Result Cache.
+     * @return Return value.
+     */
     virtual ~ResultCache() = default;
 
     // Key-Komponenten
@@ -39,7 +42,16 @@ public:
     };
 
     [[nodiscard]] virtual std::optional<Entry> Get(const Key& k) const = 0;
+    /**
+     * @brief Put.
+     * @param[in] k Input parameter.
+     * @param[in] e Input parameter.
+     */
     virtual void Put(const Key& k, const Entry& e) = 0;
+    /**
+     * @brief Invalidate Plan.
+     * @param[in] plan_hash Input parameter.
+     */
     virtual void InvalidatePlan(const std::string& plan_hash) = 0;
 };
 

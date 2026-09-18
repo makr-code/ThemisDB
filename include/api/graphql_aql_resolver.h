@@ -87,7 +87,6 @@ namespace themis {
 namespace query {
 class QueryEngine;
 struct QueryResourceLimits;
-/** @brief Expected. */
 template <typename T, typename E> class expected;
 struct QueryError;
 }
@@ -108,27 +107,39 @@ struct SelectionSet;
 // Complexity Estimation
 // ============================================================================
 
-/// Maximum allowed GraphQL complexity score before a query is rejected.
 constexpr uint32_t kGraphQLMaxComplexity = 1000;
 
-/// Build error message for complexity violations.
+/**
+ * @brief Make Complexity Error Message.
+ * @param[in] actual Input parameter.
+ * @param[in] budget Input parameter.
+ * @return Return value.
+ */
 std::string makeComplexityErrorMessage(uint32_t actual, uint32_t budget);
 
-/**
- * @brief Translates a parsed GraphQL document into a complexity score.
- * 
- * The score determines AQL resource limits (max_rows, timeout_ms).
- */
 class GraphQLComplexityEstimator {
 public:
-    /// Compute complexity score for a GraphQL Document.
+    /**
+     * @brief Estimate.
+     * @param[in] doc Input parameter.
+     * @return Return value.
+     */
     static uint32_t estimate(const std::shared_ptr<Document>& doc);
 
-    /// Derive QueryResourceLimits from a complexity score.
-    /// @throws std::runtime_error if complexity > kGraphQLMaxComplexity
+    /**
+     * @brief Limits For.
+     * @param[in] complexity Input parameter.
+     * @return Return value.
+     */
     static ::themis::query::QueryResourceLimits limitsFor(uint32_t complexity);
 
 private:
+    /**
+     * @brief Score Selection Set.
+     * @param[in] set Input parameter.
+     * @param[in] depth Input parameter.
+     * @return Return value.
+     */
     static uint32_t scoreSelectionSet(const std::shared_ptr<SelectionSet>& set,
                                      uint32_t depth);
 };
@@ -137,40 +148,55 @@ private:
 // Conversion helpers (forward declarations)
 // ============================================================================
 
-/// Convert nlohmann::json to graphql::Value tree.
+/**
+ * @brief Json To Gql Value.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ */
 std::shared_ptr<Value> jsonToGqlValue(const nlohmann::json& j);
 
-/// Convert graphql::Value tree to nlohmann::json.
+/**
+ * @brief Gql Value To Json.
+ * @param[in] v Input parameter.
+ * @return Return value.
+ */
 nlohmann::json gqlValueToJson(const std::shared_ptr<Value>& v);
 
 // ============================================================================
 // Resolver Factory
 // ============================================================================
 
-/**
- * @brief Factory producing ExecutionContext::Resolver callbacks.
- * 
- * Wires AQL query engine into GraphQL execution context.
- * Resource limits are derived from GraphQL document complexity.
- */
 class GraphQLAqlResolverFactory {
 public:
     explicit GraphQLAqlResolverFactory(::themis::QueryEngine* engine = nullptr)
         : engine_(engine) {}
 
-    /// Resolver for `query { aql(query: String!, variables: JSON): JSON }`.
+    /**
+     * @brief Make Aql Query Resolver.
+     * @param[in] doc Input parameter.
+     * @return Return value.
+     */
     ExecutionContext::Resolver makeAqlQueryResolver(const Document& doc) const;
 
-    /// Resolver for `mutation { aqlMutation(query: String!, variables: JSON): JSON }`.
+    /**
+     * @brief Make Aql Mutation Resolver.
+     * @param[in] doc Input parameter.
+     * @return Return value.
+     */
     ExecutionContext::Resolver makeAqlMutationResolver(const Document& doc) const;
 
-    /// Resolver for `query { apiVersion: String! }`.
+    /**
+     * @brief Make Api Version Resolver.
+     * @return Return value.
+     */
     static ExecutionContext::Resolver makeApiVersionResolver();
 
-    /// Resolver for `query { schemaVersion: String! }`.
+    /**
+     * @brief Make Schema Version Resolver.
+     * @return Return value.
+     */
     static ExecutionContext::Resolver makeSchemaVersionResolver();
 
-    /// Convenience: inject all resolvers at once.
     static void injectResolvers(ExecutionContext& ctx,
                                 const Document& doc,
                                 ::themis::QueryEngine* eng);
@@ -178,6 +204,12 @@ public:
 private:
     ::themis::QueryEngine* engine_;
 
+    /**
+     * @brief Extract String Arg.
+     * @param[in] field Input parameter.
+     * @param[in] argName Input parameter.
+     * @return Return value.
+     */
     std::string extractStringArg(const Field& field,
                                 const std::string& argName) const;
 

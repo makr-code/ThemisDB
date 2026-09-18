@@ -21,6 +21,13 @@
 namespace themis {
 namespace {
 
+/**
+ * @brief Saturating Multiply.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ * @details Calls: max().
+ */
 size_t saturatingMultiply(size_t a, size_t b) {
     if (a == 0 || b == 0) {
         return 0;
@@ -444,6 +451,12 @@ void OptimizerCostModel::calibrateCosts(
     }
 }
 
+/**
+ * @brief Update Constant.
+ * @param[in] name Input parameter.
+ * @param[in] value Input parameter.
+ * @details Calls: std::isfinite(), std::max().
+ */
 void OptimizerCostModel::updateConstant(const std::string& name, double value) {
     if (!std::isfinite(value)) {
         return;
@@ -604,6 +617,11 @@ int64_t StatisticsManager::getCurrentTimestamp() const {
     return std::chrono::duration_cast<std::chrono::seconds>(duration).count();
 }
 
+/**
+ * @brief Collect Table Statistics.
+ * @param[in] tableName Input parameter.
+ * @details Calls: getCurrentTimestamp().
+ */
 void StatisticsManager::collectTableStatistics(const std::string& tableName) {
     if (table_scan_provider_) {
         // Provider injected: call it to get live statistics from the storage engine.
@@ -636,6 +654,12 @@ void StatisticsManager::collectTableStatistics(const std::string& tableName) {
     tableStats_[tableName] = stats;
 }
 
+/**
+ * @brief Collect Column Statistics.
+ * @param[in] tableName Input parameter.
+ * @param[in] columnName Input parameter.
+ * @details Implements collectColumnStatistics without additional internal calls.
+ */
 void StatisticsManager::collectColumnStatistics(
     const std::string& tableName,
     const std::string& columnName) {
@@ -664,6 +688,11 @@ void StatisticsManager::collectColumnStatistics(
     columnStats_[tableName][columnName] = stats;
 }
 
+/**
+ * @brief Collect Index Statistics.
+ * @param[in] indexName Input parameter.
+ * @details Implements collectIndexStatistics without additional internal calls.
+ */
 void StatisticsManager::collectIndexStatistics(const std::string& indexName) {
     if (index_scan_provider_) {
         // Provider injected: call it to get live index statistics.
@@ -689,6 +718,10 @@ void StatisticsManager::collectIndexStatistics(const std::string& indexName) {
     indexStats_[indexName] = stats;
 }
 
+/**
+ * @brief Refresh All Statistics.
+ * @details Calls: getCurrentTimestamp().
+ */
 void StatisticsManager::refreshAllStatistics() {
     // F-023: Improvement over the old implementation that called
     // collectTableStatistics() (which zeros out all counts).  Now:
@@ -709,6 +742,10 @@ void StatisticsManager::refreshAllStatistics() {
     }
 }
 
+/**
+ * @brief Refresh Stale Statistics.
+ * @details Calls: getCurrentTimestamp(), areStatisticsStale().
+ */
 void StatisticsManager::refreshStaleStatistics() {
     constexpr int64_t kStaleThresholdSeconds = 3600;  // 1 hour
     int64_t now = getCurrentTimestamp();
@@ -771,6 +808,11 @@ OptimizerCostModel::IndexStatistics StatisticsManager::getIndexStatistics(
     return stats;
 }
 
+/**
+ * @brief Invalidate Statistics.
+ * @param[in] tableName Input parameter.
+ * @details Calls: find(), end().
+ */
 void StatisticsManager::invalidateStatistics(const std::string& tableName) {
     auto it = tableStats_.find(tableName);
     if (it != tableStats_.end()) {
@@ -795,6 +837,12 @@ bool StatisticsManager::areStatisticsStale(
     return age > threshold;
 }
 
+/**
+ * @brief Update Table Statistics.
+ * @param[in] tableName Input parameter.
+ * @param[in] stats Input parameter.
+ * @details Implements updateTableStatistics without additional internal calls.
+ */
 void StatisticsManager::updateTableStatistics(
     const std::string& tableName,
     const OptimizerCostModel::TableStatistics& stats) {

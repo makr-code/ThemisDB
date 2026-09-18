@@ -52,11 +52,22 @@ struct TensorTrainingJobResult {
     std::string error_message;
 };
 
-/** @brief I tensor training worker component. */
 class ITensorTrainingWorker {
 public:
+    /**
+     * @brief ITensor Training Worker.
+     * @return Return value.
+     */
     virtual ~ITensorTrainingWorker() = default;
 
+    /**
+     * @brief Process Shard.
+     * @param[in] job_id Identifier of the job.
+     * @param[in] node_id Identifier of the node.
+     * @param[in] shard Input parameter.
+     * @param[in,out] error_message Input/output parameter.
+     * @return Return value.
+     */
     virtual std::optional<std::vector<float>> processShard(
         const std::string& job_id,
         const std::string& node_id,
@@ -64,11 +75,13 @@ public:
         std::string& error_message) = 0;
 };
 
-/**
- * @brief Multi-node coordinator for distributed tensor decomposition/training jobs.
- */
 class TensorTrainingCoordinator {
 public:
+    /**
+     * @brief Register Worker.
+     * @param[in] node_id Identifier of the node.
+     * @param[in] worker Input parameter.
+     */
     void registerWorker(const std::string& node_id, std::shared_ptr<ITensorTrainingWorker> worker);
 
     [[nodiscard]] bool submitJob(const TensorTrainingJobSpec& spec);
@@ -78,11 +91,30 @@ public:
     [[nodiscard]] std::optional<TensorTrainingJobResult> result(const std::string& job_id) const;
 
 private:
+    /**
+     * @brief Run Shard With Retry.
+     * @param[in] spec Input parameter.
+     * @param[in] shard Input parameter.
+     * @param[in,out] result Input/output parameter.
+     * @return Return value.
+     */
     std::optional<std::vector<float>> runShardWithRetry(const TensorTrainingJobSpec& spec,
                                                         const TensorShardWorkItem& shard,
                                                         TensorTrainingJobResult& result);
 
+    /**
+     * @brief Aggregate Shard Results.
+     * @param[in] shard_results Input parameter.
+     * @return Return value.
+     */
     static std::vector<float> aggregateShardResults(const std::vector<std::vector<float>>& shard_results);
+    /**
+     * @brief Has Converged.
+     * @param[in] prev Input parameter.
+     * @param[in] next Input parameter.
+     * @param[in] epsilon Input parameter.
+     * @return True when the operation succeeds.
+     */
     static bool hasConverged(const std::vector<float>& prev,
                              const std::vector<float>& next,
                              double epsilon);

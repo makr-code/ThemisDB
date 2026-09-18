@@ -81,13 +81,11 @@ class AutoML;
 // Enumerations
 // ============================================================================
 
-/** ML task type. */
 enum class AutoMLTask {
     CLASSIFICATION, ///< Predict a discrete class label
     REGRESSION      ///< Predict a continuous value
 };
 
-/** Candidate model algorithm. */
 enum class ModelAlgorithm {
     LOGISTIC_REGRESSION, ///< L2-regularised logistic regression (classification)
     LINEAR_REGRESSION,   ///< OLS / ridge regression (regression)
@@ -98,7 +96,6 @@ enum class ModelAlgorithm {
     ENSEMBLE             ///< AutoML-generated soft-voting ensemble
 };
 
-/** Primary evaluation metric. */
 enum class AutoMLMetric {
     // Classification
     ACCURACY,   ///< Fraction of correctly classified samples
@@ -117,9 +114,6 @@ enum class AutoMLMetric {
 // Configuration
 // ============================================================================
 
-/**
- * Configuration for an AutoML training run.
- */
 struct AutoMLConfig {
     std::string  target;                        ///< Name of the target field in DataPoint
     AutoMLTask   task          = AutoMLTask::CLASSIFICATION;
@@ -131,7 +125,6 @@ struct AutoMLConfig {
     bool         ensemble          = true;      ///< Generate a voting/averaging ensemble
     int          ensemble_top_k    = 3;         ///< Top-k models used in ensemble
     int          random_seed       = 42;
-    /// Subset of algorithms to consider (empty = all suitable algorithms)
     std::vector<ModelAlgorithm> algorithms;
 };
 
@@ -139,7 +132,6 @@ struct AutoMLConfig {
 // Evaluation metrics
 // ============================================================================
 
-/** Metrics computed after training / evaluation. */
 struct EvalMetrics {
     double accuracy   = 0.0;
     double f1         = 0.0;
@@ -151,7 +143,12 @@ struct EvalMetrics {
     double mae        = 0.0;
     double mape       = 0.0;
 
-    /** Return the value of the requested primary metric. */
+    /**
+     * @brief Primary.
+     * @param[in] m Input parameter.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     double primary(AutoMLMetric m) const noexcept;
 };
 
@@ -159,17 +156,12 @@ struct EvalMetrics {
 // Model explanation
 // ============================================================================
 
-/**
- * SHAP-approximated explanation for a single data-point prediction.
- */
 struct ModelExplanation {
     std::string id;                                              ///< DataPoint id
     double      predicted_value = 0.0;                           ///< Raw model output
     std::string predicted_label;                                 ///< Class label (classification)
     double      confidence      = 0.0;                           ///< Confidence / probability
-    /// Feature contributions sorted descending by absolute value.
     std::vector<std::pair<std::string, double>> feature_contributions;
-    /// Comma-separated top feature names (convenience accessor).
     std::string top_features;
     std::string description;
 };
@@ -178,7 +170,6 @@ struct ModelExplanation {
 // Trained model metadata
 // ============================================================================
 
-/** Information about one candidate model produced during the search. */
 struct CandidateModelInfo {
     ModelAlgorithm algorithm    = ModelAlgorithm::DECISION_TREE;
     std::string    name;            ///< human-readable name
@@ -192,24 +183,6 @@ struct CandidateModelInfo {
 // AutoMLModel  (trained, predict-ready model)
 // ============================================================================
 
-/**
- * A trained AutoML model.
- *
- * Returned by AutoML::trainClassifier / trainRegressor.  Thread-safe after
- * construction; predict / explain may be called concurrently.
- *
- * @code
- *   AutoML automl;
- *   auto model = automl.trainClassifier(data, {
- *       .target  = "label",
- *       .metric  = AutoMLMetric::F1,
- *       .max_time_minutes = 10
- *   });
- *
- *   auto preds = model.predict(test_data);
- *   auto exps  = model.explain(test_data);
- * @endcode
- */
 class AutoMLModel {
 public:
     // ---- Construction (only AutoML creates these) ----
@@ -221,73 +194,89 @@ public:
     AutoMLModel(AutoMLModel&&)                 noexcept;
     AutoMLModel& operator=(AutoMLModel&&)      noexcept;
 
-    // ---- Inference ----
-
     /**
-     * Predict class labels or regression values for a batch of DataPoints.
-     * Returns one string per input point:
-     *   – Classification: the class label.
-     *   – Regression:     std::to_string(value).
+     * @brief ---- Inference ----
+     * @param[in] data Input parameter.
+     * @return Return value.
      */
+
     std::vector<std::string> predict(const std::vector<DataPoint>& data) const;
 
     /**
-     * Predict a single DataPoint.
+     * @brief Predict One.
+     * @param[in] point Input parameter.
+     * @return Return value.
      */
     std::string predictOne(const DataPoint& point) const;
 
-    /**
-     * Return class probabilities for a batch (classification only).
-     * Outer vector: one entry per data point.
-     * Inner map: class label → probability in [0,1].
-     */
     std::vector<std::map<std::string, double>>
     predictProba(const std::vector<DataPoint>& data) const;
 
-    // ---- Explanation ----
-
     /**
-     * Compute per-sample SHAP-approximated feature contributions.
+     * @brief ---- Explanation ----
+     * @param[in] data Input parameter.
+     * @return Return value.
      */
+
     std::vector<ModelExplanation> explain(const std::vector<DataPoint>& data) const;
 
     /**
-     * Explain a single data point.
+     * @brief Explain One.
+     * @param[in] point Input parameter.
+     * @return Return value.
      */
     ModelExplanation explainOne(const DataPoint& point) const;
 
-    // ---- Metadata ----
+    /**
+     * @brief ---- Metadata ----
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
 
     AutoMLTask     task()      const noexcept;
+    /**
+     * @brief Algorithm.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     ModelAlgorithm algorithm() const noexcept;
+    /**
+     * @brief Name.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     std::string    name()      const noexcept;
+    /**
+     * @brief Metrics.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     EvalMetrics    metrics()   const noexcept;
 
-    /** List of candidate models evaluated during search (sorted by cv_score desc). */
+    /**
+     * @brief Candidate Models.
+     * @return Return value.
+     */
     std::vector<CandidateModelInfo> candidateModels() const;
 
-    /** Feature importance (sum of |SHAP| over training set, normalised to [0,1]). */
     std::map<std::string, double> featureImportance() const;
 
-    // ---- Serialisation ----
+    /**
+     * @brief ---- Serialisation ----
+     * @return Return value.
+     */
     std::string   serialize()   const;
+    /**
+     * @brief Deserialize.
+     * @param[in] data Input parameter.
+     * @return Return value.
+     */
     static AutoMLModel deserialize(const std::string& data);
 
     /**
-     * Export the trained model to an ONNX-compatible text representation.
-     *
-     * Serialises the model weights, algorithm type, and feature schema into a
-     * JSON-ONNX text file at @p path.  The output is loadable by
-     * `MLServingClient` when the `THEMIS_HAS_ONNX_RUNTIME` flag is set; on
-     * platforms without ONNX Runtime the file can be used for offline tooling.
-     *
-     * Supported algorithms (all others return Status::UNSUPPORTED_OPERATION):
-     *   LinearRegression, LogisticRegression, DecisionTree, RandomForest,
-     *   GradientBoosting, KNN (all exported as ONNX-JSON text format v0.1).
-     *
-     * @param path  Absolute or relative file-system path for the output file.
-     * @return      Empty string on success; error message on failure.
-     * @throws      std::invalid_argument if the model is not fitted.
+     * @brief Export ONNX.
+     * @param[in] path Input parameter.
+     * @return Return value.
      */
     std::string exportONNX(const std::string& path) const;
 
@@ -302,13 +291,6 @@ private:
 // AutoML  (training façade)
 // ============================================================================
 
-/**
- * Automated Machine Learning engine.
- *
- * Runs a time-bounded random hyperparameter search, evaluates candidates via
- * k-fold cross-validation, optionally builds an ensemble of the top-k models,
- * and returns a ready-to-use AutoMLModel.
- */
 class AutoML {
 public:
     AutoML();
@@ -319,15 +301,6 @@ public:
 
     // ---- Classification ----
 
-    /**
-     * Train a classification model.
-     *
-     * @param data     Training DataPoints; each must contain the target field
-     *                 as a string (class label) or int64/double (class index).
-     * @param config   AutoML configuration.
-     * @param progress Optional callback invoked after each trial:
-     *                 (trial_index, total_trials, best_score_so_far).
-     */
     AutoMLModel trainClassifier(
         const std::vector<DataPoint>& data,
         const AutoMLConfig& config,
@@ -335,12 +308,6 @@ public:
 
     // ---- Regression ----
 
-    /**
-     * Train a regression model.
-     *
-     * @param data   Training DataPoints; target field must be numeric.
-     * @param config AutoML configuration.
-     */
     AutoMLModel trainRegressor(
         const std::vector<DataPoint>& data,
         const AutoMLConfig& config,
@@ -348,10 +315,6 @@ public:
 
     // ---- Cross-validation helper ----
 
-    /**
-     * Evaluate a single algorithm with given hyperparameters via k-fold CV.
-     * Returns cross-validated EvalMetrics.
-     */
     EvalMetrics crossValidate(
         const std::vector<DataPoint>& data,
         const AutoMLConfig& config,
@@ -360,60 +323,11 @@ public:
 
     // ---- Helper functions (Phase 2B) ----
 
-    /**
-     * @brief Validate training feature matrix structure and quality.
-     * 
-     * Checks:
-     * - Non-empty data (n_samples > 0)
-     * - Consistent dimensions (all rows have same n_features)
-     * - No NaN or Inf values
-     * - At least 2 samples for meaningful training
-     * - For classification: at least 2 distinct classes
-     * 
-     * @param features Training feature matrix (n_samples × n_features)
-     * @param target Target vector (n_samples,)
-     * @param task Classification or regression task
-     * @return std::pair<bool, std::string> (valid, error_message)
-     * 
-     * @code
-     *   std::vector<std::vector<double>> X = {{ 1.0, 2.0 }, { 3.0, 4.0 }};
-     *   std::vector<double> y = { 0.0, 1.0 };
-     *   auto [valid, msg] = automl.validateTrainingData(X, y, AutoMLTask::CLASSIFICATION);
-     * @endcode
-     */
     std::pair<bool, std::string> validateTrainingData(
         const std::vector<std::vector<double>>& features,
         const std::vector<double>& target,
         AutoMLTask task = AutoMLTask::CLASSIFICATION) const noexcept;
 
-    /**
-     * @brief Select the best metalearner (model algorithm) for the given feature set.
-     * 
-     * Evaluates multiple candidate algorithms on the training data and returns
-     * the one with the best cross-validation score. Considers algorithm complexity,
-     * feature dimensionality, and sample count.
-     * 
-     * @param features Training feature matrix (n_samples × n_features)
-     * @param target Target vector with ground truth labels/values
-     * @param candidates List of ModelAlgorithm choices to evaluate
-     * @param task Classification or regression task
-     * @return Best ModelAlgorithm enum; ModelAlgorithm::DECISION_TREE if no candidates
-     * @throws std::invalid_argument if features or target is empty
-     * 
-     * Algorithm:
-     * - If candidates empty: returns DECISION_TREE (default)
-     * - Scores each candidate via quick cross-validation
-     * - Returns algorithm with highest score
-     * 
-     * @code
-     *   std::vector<ModelAlgorithm> options = {
-     *       ModelAlgorithm::LOGISTIC_REGRESSION,
-     *       ModelAlgorithm::DECISION_TREE,
-     *       ModelAlgorithm::RANDOM_FOREST
-     *   };
-     *   auto best = automl.selectMetalearner(X_train, y_train, options);
-     * @endcode
-     */
     ModelAlgorithm selectMetalearner(
         const std::vector<std::vector<double>>& features,
         const std::vector<double>& target,
@@ -421,33 +335,10 @@ public:
         AutoMLTask task = AutoMLTask::CLASSIFICATION) const;
 
     /**
-     * @brief Select the best ensemble aggregation method.
-     * 
-     * Given a set of trained models with their evaluation metrics, determines
-     * the optimal ensemble strategy based on model diversity and performance.
-     * 
-     * Strategies:
-     * - VOTING (soft): Average class probabilities (classification)
-     * - STACKING: Meta-learner on model predictions
-     * - BLENDING: Weighted average of predictions
-     * - ENSEMBLE (default): Soft voting with equal weights
-     * 
-     * @param candidate_metrics Vector of EvalMetrics from candidate models
-     * @param options Available EnsembleMethod choices
-     * @return Selected EnsembleMethod enum
-     * 
-     * Algorithm:
-     * - If single model: return ENSEMBLE (no ensemble benefit)
-     * - Analyze correlation/diversity of models
-     * - Return method with best expected performance
-     * 
-     * @code
-     *   std::vector<EvalMetrics> metrics = { model1.metrics(), model2.metrics() };
-     *   auto method = automl.selectEnsembleMethod(metrics, {
-     *       EnsembleMethod::VOTING,
-     *       EnsembleMethod::STACKING
-     *   });
-     * @endcode
+     * @brief Select Ensemble Method.
+     * @param[in] candidate_metrics Input parameter.
+     * @return Return value.
+     * @note Exception safety: noexcept.
      */
     ModelAlgorithm selectEnsembleMethod(
         const std::vector<EvalMetrics>& candidate_metrics) const noexcept;
@@ -461,7 +352,6 @@ private:
 // Free helpers
 // ============================================================================
 
-/** Convert AutoMLTask to a human-readable string. */
 inline const char* automlTaskName(AutoMLTask t) noexcept {
     switch (t) {
         case AutoMLTask::CLASSIFICATION: return "CLASSIFICATION";
@@ -470,7 +360,6 @@ inline const char* automlTaskName(AutoMLTask t) noexcept {
     }
 }
 
-/** Convert ModelAlgorithm to a human-readable string. */
 inline const char* modelAlgorithmName(ModelAlgorithm a) noexcept {
     switch (a) {
         case ModelAlgorithm::LOGISTIC_REGRESSION: return "LOGISTIC_REGRESSION";
@@ -484,7 +373,6 @@ inline const char* modelAlgorithmName(ModelAlgorithm a) noexcept {
     }
 }
 
-/** Convert AutoMLMetric to a human-readable string. */
 inline const char* automlMetricName(AutoMLMetric m) noexcept {
     switch (m) {
         case AutoMLMetric::ACCURACY:   return "ACCURACY";

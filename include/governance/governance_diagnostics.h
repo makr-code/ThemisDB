@@ -20,13 +20,6 @@
 
 namespace themis::governance {
 
-/**
- * @brief Governance diagnostic codes (7300-7399 range reserved).
- *
- * Used to classify specific error conditions that may occur during
- * policy evaluation, lifecycle state management, compliance checks,
- * OPA integration, and lineage backpressure management.
- */
 enum class GovDiagnosticCode : int32_t {
     kConflictDetected         = 7300,  // Policy rules conflict
     kFallbackActivated        = 7301,  // Fallback default applied (e.g., OPA unavailable)
@@ -45,46 +38,26 @@ enum class GovDiagnosticCode : int32_t {
     kLineageEventSequence     = 7364,  // Event sequence violation
 };
 
-/**
- * @brief Diagnostic record for a single governance event.
- *
- * Captures comprehensive context about an error, fallback, or anomaly
- * detected during governance operations. Includes remediation guidance
- * for operational teams.
- */
 struct THEMIS_SECURITY_API GovernanceDiagnostic {
-    /// Error classification code (see GovDiagnosticCode).
     GovDiagnosticCode code = GovDiagnosticCode::kConflictDetected;
     
-    /// Component emitting the diagnostic (e.g., "policy_engine", "opa_adapter").
     std::string component;
     
-    /// Human-readable description of the issue.
     std::string description;
     
-    /// Suggested remediation steps for operators.
     std::vector<std::string> remediation_steps;
     
-    /// Unix timestamp (milliseconds) when diagnostic was recorded.
     int64_t timestamp_ms = 0;
     
-    /// Additional context (component-specific key-value pairs).
     std::unordered_map<std::string, std::string> context;
     
     /**
-     * @brief Serialize diagnostic to JSON.
-     * @return JSON object with all fields.
+     * @brief To Json.
+     * @return Return value.
      */
     nlohmann::json toJson() const;
 };
 
-/**
- * @brief Aggregator for governance diagnostics across all components.
- *
- * Thread-safe collector that records and retrieves diagnostics
- * by component, code, or time range. Supports export for monitoring
- * and alerting systems.
- */
 class THEMIS_SECURITY_API DiagnosticAggregator {
 public:
     DiagnosticAggregator() = default;
@@ -96,66 +69,52 @@ public:
     DiagnosticAggregator& operator=(DiagnosticAggregator&&) = delete;
     
     /**
-     * @brief Record a diagnostic event.
-     * 
-     * Records timestamp automatically if not already set.
-     * Thread-safe; multiple callers can record concurrently.
-     * 
-     * @param diag Diagnostic to record.
+     * @brief Record Diagnostic.
+     * @param[in] diag Input parameter.
      */
     void recordDiagnostic(const GovernanceDiagnostic& diag);
     
     /**
-     * @brief Retrieve diagnostics emitted by a specific component.
-     * 
-     * @param component Component name (e.g., "policy_engine").
-     * @return Vector of diagnostics for that component (may be empty).
+     * @brief Get Diagnostics For Component.
+     * @param[in] component Input parameter.
+     * @return Return value.
      */
     std::vector<GovernanceDiagnostic> getDiagnosticsForComponent(
         const std::string& component) const;
     
     /**
-     * @brief Retrieve diagnostics with a specific code.
-     * 
-     * @param code Diagnostic code to filter by.
-     * @return Vector of diagnostics with that code.
+     * @brief Get Diagnostics For Code.
+     * @param[in] code Input parameter.
+     * @return Return value.
      */
     std::vector<GovernanceDiagnostic> getDiagnosticsForCode(
         GovDiagnosticCode code) const;
     
     /**
-     * @brief Retrieve diagnostics within a time range.
-     * 
-     * @param start_ms Lower bound (inclusive), Unix milliseconds. 0 = no lower bound.
-     * @param end_ms Upper bound (inclusive), Unix milliseconds. 0 = no upper bound.
-     * @return Vector of matching diagnostics (ordered by timestamp).
+     * @brief Get Diagnostics In Time Range.
+     * @param[in] start_ms Input parameter.
+     * @param[in] end_ms Input parameter.
+     * @return Return value.
      */
     std::vector<GovernanceDiagnostic> getDiagnosticsInTimeRange(
         int64_t start_ms, int64_t end_ms) const;
     
-    /**
-     * @brief Get the most recent diagnostic for each component.
-     * 
-     * @return Map from component name to its latest diagnostic (or empty if none recorded).
-     */
     std::unordered_map<std::string, GovernanceDiagnostic> getLatestPerComponent() const;
     
     /**
-     * @brief Export all diagnostics as JSON.
-     * 
-     * @return JSON array of diagnostic objects.
+     * @brief Export As Json.
+     * @return Return value.
      */
     nlohmann::json exportAsJson() const;
     
     /**
-     * @brief Clear all recorded diagnostics.
+     * @brief Clear.
      */
     void clear();
     
     /**
-     * @brief Get total count of recorded diagnostics.
-     * 
-     * @return Number of diagnostics in the aggregator.
+     * @brief Get Total Count.
+     * @return Return value.
      */
     size_t getTotalCount() const;
 
@@ -165,27 +124,13 @@ private:
 };
 
 /**
- * @brief Get the process-global governance diagnostic aggregator.
- *
- * Enables cross-component diagnostic emission when a component does not
- * maintain its own local DiagnosticAggregator instance.
- *
- * @return Singleton DiagnosticAggregator instance.
+ * @brief Get Global Diagnostic Aggregator.
+ * @return Return value.
  */
 THEMIS_SECURITY_API DiagnosticAggregator& getGlobalDiagnosticAggregator();
 
-/**
- * @brief Conflict diagnostic helper for Phase 3B hardening.
- *
- * Detects, records, and reports policy conflicts with structured
- * diagnostics integration. Provides conflict resolution metadata
- * for policy engine and compliance reporter.
- */
 class THEMIS_SECURITY_API ConflictDiagnosticHelper {
 public:
-    /**
-     * @brief Conflict resolution strategies.
-     */
     enum class ResolutionStrategy {
         EXPLICIT_DENY    = 0,  // Conflict blocks both policies (strictest)
         EXPLICIT_ALLOW   = 1,  // Conflict allows both policies (permissive)
@@ -194,143 +139,85 @@ public:
         WHITELIST        = 4,  // Explicit whitelist overrides conflict
     };
     
-    /**
-     * @brief Conflict detection result.
-     */
     struct ConflictDetectionResult {
-        /// true if conflicts detected
         bool has_conflicts = false;
         
-        /// Conflicting rule IDs (pair format: [rule_a, rule_b])
         std::vector<std::pair<std::string, std::string>> conflicting_pairs;
         
-        /// Conflict descriptions (human-readable)
         std::vector<std::string> descriptions;
         
-        /// Recommended resolution strategy
         ResolutionStrategy recommended_strategy = ResolutionStrategy::EXPLICIT_DENY;
         
-        /// Diagnostic code for aggregator
         int32_t diagnostic_code = 7300;  // kConflictDetected
     };
     
-    /**
-     * @brief Create conflict diagnostic helper.
-     * 
-     * @param strategy Default resolution strategy
-     * @param aggregator Optional external aggregator (uses global if null)
-     */
     explicit ConflictDiagnosticHelper(
         ResolutionStrategy strategy = ResolutionStrategy::EXPLICIT_DENY,
         DiagnosticAggregator* aggregator = nullptr
     );
     
     /**
-     * @brief Detect conflicts between policy rules.
-     * 
-     * Identifies conflicting resource/action/effect combinations
-     * and produces diagnostic output.
-     * 
-     * @param policies List of active policies to check
-     * @return Detection result with conflict details
+     * @brief Detect Conflict.
+     * @param[in] policy_ids Input parameter.
+     * @return Return value.
      */
     ConflictDetectionResult detectConflict(
         const std::vector<std::string>& policy_ids
     );
     
-    /**
-     * @brief Record conflict event with diagnostics.
-     * 
-     * Creates a GovernanceDiagnostic and emits to aggregator.
-     * 
-     * @param result Detection result to record
-     * @param additional_context Optional key-value context
-     */
     void recordConflict(
         const ConflictDetectionResult& result,
         const std::unordered_map<std::string, std::string>& additional_context = {}
     );
     
-    /**
-     * @brief Get all recorded conflict diagnostics.
-     * 
-     * @return Vector of conflict-related diagnostics
-     */
     [[nodiscard]] std::vector<GovernanceDiagnostic> getConflictDiagnostics() const;
     
     /**
-     * @brief Clear all recorded conflict diagnostics.
+     * @brief Clear Conflict History.
      */
     void clearConflictHistory();
     
-    /**
-     * @brief Get current resolution strategy.
-     * 
-     * @return Current ResolutionStrategy
-     */
     [[nodiscard]] ResolutionStrategy getCurrentStrategy() const;
     
     /**
-     * @brief Set resolution strategy.
-     * 
-     * @param strategy New strategy to apply
+     * @brief Set Resolution Strategy.
+     * @param[in] strategy Input parameter.
      */
     void setResolutionStrategy(ResolutionStrategy strategy);
 
-    // Safety check methods (Phase 3B Extended)
-    
     /**
-     * @brief Check for conflicting classifications.
-     * @param classifications List of classifications assigned
-     * @return true if conflicting classifications detected
+     * @brief Safety check methods (Phase 3B Extended)
+     * @param[in] classifications Input parameter.
+     * @return True when the operation succeeds.
      */
+    
     bool hasConflictingClassifications(
         const std::vector<std::string>& classifications
     ) const;
     
-    /**
-     * @brief Validate CCPA compliance path.
-     * @param context Request context with CCPA indicators
-     * @return true if CCPA opt-out properly respected
-     */
     bool validateCCPACompliancePath(
         const std::unordered_map<std::string, std::string>& context
     ) const;
     
     /**
-     * @brief Detect privilege escalation attempts.
-     * @param user_tier User's access tier
-     * @param required_tier Tier required for operation
-     * @return true if escalation attempt detected
+     * @brief Detect Privilege Escalation.
+     * @param[in] user_tier Input parameter.
+     * @param[in] required_tier Input parameter.
+     * @return True when the operation succeeds.
      */
     bool detectPrivilegeEscalation(
         const std::string& user_tier,
         const std::string& required_tier
     ) const;
     
-    /**
-     * @brief Detect temporal policy violations.
-     * @param policy Policy object (serialized as context map)
-     * @return Vector of temporal issues (empty if none)
-     */
     std::vector<struct TemporalIssue> detectTemporalViolations(
         const std::unordered_map<std::string, std::string>& policy
     ) const;
     
-    /**
-     * @brief Validate masking rule consistency.
-     * @param mask_rules Masking rules to validate
-     * @return Vector of violations (empty if valid)
-     */
     std::vector<struct MaskingRuleViolation> validateMaskingRuleConsistency(
         const std::vector<std::unordered_map<std::string, std::string>>& mask_rules
     ) const;
     
-    /**
-     * @brief Validate whitelist policy.
-     * @param whitelist_policy Whitelist policy context
-     * @return true if whitelist is valid (non-empty)
-     */
     bool validateWhitelistPolicy(
         const std::unordered_map<std::string, std::string>& whitelist_policy
     ) const;
@@ -399,22 +286,8 @@ struct AccessRequest {
     std::unordered_map<std::string, std::string> context;  // Additional context
 };
 
-/**
- * @brief High-level access safety validator orchestrator.
- *
- * Composes multiple safety checks in fail-closed order to validate
- * complete access paths. Returns structured result with all violations
- * and remediation steps.
- *
- * Thread-safe. Intended for pre-evaluation checks before policy engine.
- */
 class THEMIS_SECURITY_API SafeAccessValidator {
 public:
-    /**
-     * @brief Create validator with optional external aggregator.
-     * 
-     * @param aggregator Optional external DiagnosticAggregator
-     */
     explicit SafeAccessValidator(DiagnosticAggregator* aggregator = nullptr);
     ~SafeAccessValidator();
     
@@ -425,37 +298,26 @@ public:
     SafeAccessValidator& operator=(SafeAccessValidator&&) = delete;
     
     /**
-     * @brief Validate an access request comprehensively.
-     *
-     * Runs all 8 safety checks in fail-closed order:
-     * 1. Classification conflicts (S1)
-     * 2. CCPA compliance (S2)
-     * 3. Privilege escalation (S3)
-     * 4. Temporal violations (S4)
-     * 5. Cross-border conflicts (S5)
-     * 6. Masking rule consistency (S6)
-     * 7. Whitelist exhaustion (S7)
-     * 8. Cascading denial detection (S8)
-     *
-     * @param request AccessRequest to validate
-     * @return SafeAccessResult with detailed findings
+     * @brief Validate Access Request.
+     * @param[in] request Input parameter.
+     * @return Return value.
      */
     SafeAccessResult validateAccessRequest(const AccessRequest& request);
     
     /**
-     * @brief Get all recorded safety diagnostics.
-     * @return Vector of SafetyViolations recorded
+     * @brief Get All Violations.
+     * @return Return value.
      */
     std::vector<SafetyViolation> getAllViolations() const;
     
     /**
-     * @brief Clear violation history.
+     * @brief Clear Violation History.
      */
     void clearViolationHistory();
     
     /**
-     * @brief Get total count of violations recorded.
-     * @return Number of violations
+     * @brief Get Violation Count.
+     * @return Return value.
      */
     size_t getViolationCount() const;
 
@@ -466,14 +328,53 @@ private:
     std::vector<SafetyViolation> violation_history_;
     std::shared_ptr<ConflictDiagnosticHelper> conflict_helper_;
     
-    // Helper methods for each scenario check
+    /**
+     * @brief Helper methods for each scenario check
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     SafetyViolation checkConflictingClassifications(const AccessRequest& req);
+    /**
+     * @brief Check CCPACompliance.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     SafetyViolation checkCCPACompliance(const AccessRequest& req);
+    /**
+     * @brief Check Privilege Escalation.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     SafetyViolation checkPrivilegeEscalation(const AccessRequest& req);
+    /**
+     * @brief Check Temporal Violations.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     SafetyViolation checkTemporalViolations(const AccessRequest& req);
+    /**
+     * @brief Check Cross Border Conflicts.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     SafetyViolation checkCrossBorderConflicts(const AccessRequest& req);
+    /**
+     * @brief Check Masking Rule Consistency.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     SafetyViolation checkMaskingRuleConsistency(const AccessRequest& req);
+    /**
+     * @brief Check Whitelist Exhaustion.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     SafetyViolation checkWhitelistExhaustion(const AccessRequest& req);
+    /**
+     * @brief Check Cascading Denials.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     SafetyViolation checkCascadingDenials(const AccessRequest& req);
 };
 

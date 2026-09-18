@@ -43,24 +43,8 @@ namespace themis {
 namespace themis {
 namespace security {
 
-/**
- * @brief Comprehensive Access Control Framework for ThemisDB
- * 
- * This class serves as the central security coordinator, integrating:
- * - Authentication (password hashing, JWT, OAuth, MFA)
- * - Authorization (RBAC, ABAC, fine-grained permissions)
- * - Audit Logging (comprehensive security event tracking)
- * - Threat Detection (rate limiting, anomaly detection, SQL injection prevention)
- * - Session Management
- * 
- * Compliance: SOC 2, GDPR, HIPAA, PCI-DSS
- * Security: Defense-in-depth, principle of least privilege
- */
 class AccessControl {
 public:
-    /**
-     * @brief Configuration for the access control system
-     */
     struct Config {
         // RBAC Configuration
         RBACConfig rbac_config;
@@ -134,9 +118,6 @@ public:
         } abac_config;
     };
     
-    /**
-     * @brief User credentials for authentication
-     */
     struct Credentials {
         std::string user_id;
         std::string password;
@@ -144,9 +125,6 @@ public:
         std::optional<std::string> oauth_token;
     };
     
-    /**
-     * @brief Authentication result
-     */
     struct AuthenticationResult {
         bool authenticated = false;
         std::string user_id;
@@ -155,6 +133,14 @@ public:
         bool requires_mfa = false;
         std::string error_message;
         
+        /**
+         * @brief Success.
+         * @param[in] user_id Identifier of the user.
+         * @param[in] session_token Input parameter.
+         * @param[in] roles Input parameter.
+         * @return Return value.
+         * @details Implements Success without additional internal calls.
+         */
         static AuthenticationResult Success(
             const std::string& user_id,
             const std::string& session_token,
@@ -163,18 +149,27 @@ public:
             return {true, user_id, session_token, roles, false, ""};
         }
         
+        /**
+         * @brief Requires MFA.
+         * @param[in] user_id Identifier of the user.
+         * @return Return value.
+         * @details Implements RequiresMFA without additional internal calls.
+         */
         static AuthenticationResult RequiresMFA(const std::string& user_id) {
             return {false, user_id, "", {}, true, "Multi-factor authentication required"};
         }
         
+        /**
+         * @brief Failed.
+         * @param[in] error Input parameter.
+         * @return Return value.
+         * @details Implements Failed without additional internal calls.
+         */
         static AuthenticationResult Failed(const std::string& error) {
             return {false, "", "", {}, false, error};
         }
     };
     
-    /**
-     * @brief Session information
-     */
     struct Session {
         std::string session_id;
         std::string user_id;
@@ -185,9 +180,6 @@ public:
         std::unordered_map<std::string, std::string> attributes;
     };
     
-    /**
-     * @brief Authorization context for fine-grained access control
-     */
     struct AuthorizationContext {
         std::string user_id;
         std::vector<std::string> roles;
@@ -200,13 +192,12 @@ public:
     };
     
     /**
-     * @brief Constructor
+     * @brief Construct the access control subsystem.
+     * @param[in] config Access control configuration.
+     * @return Access control subsystem instance.
      */
     explicit AccessControl(const Config& config);
     
-    /**
-     * @brief Destructor
-     */
     ~AccessControl();
     
     // ========================================================================
@@ -214,24 +205,12 @@ public:
     // ========================================================================
     
     /**
-     * @brief Authenticate user with credentials
-     * @param credentials User credentials (password, MFA token, OAuth token)
-     * @return Authentication result with session token if successful
+     * @brief Authenticate.
+     * @param[in] credentials User credentials to authenticate.
+     * @return Authentication result.
      */
     AuthenticationResult authenticate(const Credentials& credentials);
     
-    /**
-     * @brief Register new user with password
-     * 
-     * User registration is delegated to plugins (Apache Arrow, WebDAV).
-     * If no plugin is specified, uses the default available plugin.
-     * 
-     * @param user_id User identifier
-     * @param password User password
-     * @param plugin_name Optional plugin name ("arrow", "webdav", or empty for default)
-     * @param attributes Optional user attributes for plugin
-     * @return Result indicating success or error
-     */
     Result<void> registerUser(
         const std::string& user_id,
         const std::string& password,
@@ -240,11 +219,11 @@ public:
     );
     
     /**
-     * @brief Change user password
-     * @param user_id User identifier
-     * @param old_password Current password
-     * @param new_password New password
-     * @return Result indicating success or error
+     * @brief Change a user's password.
+     * @param[in] user_id User identifier.
+     * @param[in] old_password Current password.
+     * @param[in] new_password Replacement password.
+     * @return Result indicating whether the password changed.
      */
     Result<void> changePassword(
         const std::string& user_id,
@@ -260,24 +239,24 @@ public:
     // ========================================================================
     
     /**
-     * @brief Enroll user in MFA
-     * @param user_id User identifier
-     * @return MFA secret and QR code URI for setup
+     * @brief Enroll multi-factor authentication for a user.
+     * @param[in] user_id User identifier.
+     * @return Enrollment result as JSON.
      */
     Result<nlohmann::json> enrollMFA(const std::string& user_id);
     
     /**
-     * @brief Verify MFA token
-     * @param user_id User identifier
-     * @param token MFA token (TOTP code)
-     * @return true if token is valid
+     * @brief Verify a multi-factor authentication token.
+     * @param[in] user_id User identifier.
+     * @param[in] token MFA token to verify.
+     * @return True when the token is valid.
      */
     bool verifyMFA(const std::string& user_id, const std::string& token);
     
     /**
-     * @brief Disable MFA for user
-     * @param user_id User identifier
-     * @return Result indicating success or error
+     * @brief Disable multi-factor authentication for a user.
+     * @param[in] user_id User identifier.
+     * @return Result indicating whether MFA was disabled.
      */
     Result<void> disableMFA(const std::string& user_id);
     
@@ -286,18 +265,18 @@ public:
     // ========================================================================
     
     /**
-     * @brief Check if user has permission to perform action on resource
-     * @param context Authorization context
-     * @return true if authorized
+     * @brief Authorize an access control context.
+     * @param[in] context Authorization context to evaluate.
+     * @return True when the context is authorized.
      */
     bool authorize(const AuthorizationContext& context);
     
     /**
-     * @brief Check permission using session token
-     * @param session_token Session token
-     * @param resource Resource identifier
-     * @param action Action identifier
-     * @return true if authorized
+     * @brief Check whether a role grants permission for an action.
+     * @param[in] session_token Input parameter.
+     * @param[in] resource Protected resource identifier.
+     * @param[in] action Requested action.
+     * @return True when the permission is granted.
      */
     bool checkPermission(
         const std::string& session_token,
@@ -306,9 +285,9 @@ public:
     );
     
     /**
-     * @brief Get user permissions
-     * @param user_id User identifier
-     * @return List of permissions
+     * @brief Get the permissions assigned to a user.
+     * @param[in] user_id User identifier.
+     * @return Permissions assigned to the user.
      */
     std::vector<Permission> getUserPermissions(const std::string& user_id) const;
     
@@ -317,25 +296,25 @@ public:
     // ========================================================================
     
     /**
-     * @brief Assign role to user
-     * @param user_id User identifier
-     * @param role Role name
-     * @return Result indicating success or error
+     * @brief Assign a role to a user.
+     * @param[in] user_id User identifier.
+     * @param[in] role Role to assign.
+     * @return Result indicating whether the role was assigned.
      */
     Result<void> assignRole(const std::string& user_id, const std::string& role);
     
     /**
-     * @brief Revoke role from user
-     * @param user_id User identifier
-     * @param role Role name
-     * @return Result indicating success or error
+     * @brief Revoke a role from a user.
+     * @param[in] user_id User identifier.
+     * @param[in] role Role to revoke.
+     * @return Result indicating whether the role was revoked.
      */
     Result<void> revokeRole(const std::string& user_id, const std::string& role);
     
     /**
-     * @brief Get user roles
-     * @param user_id User identifier
-     * @return List of role names
+     * @brief Get the roles assigned to a user.
+     * @param[in] user_id User identifier.
+     * @return Roles assigned to the user.
      */
     std::vector<std::string> getUserRoles(const std::string& user_id) const;
     
@@ -343,13 +322,6 @@ public:
     // Session Management
     // ========================================================================
     
-    /**
-     * @brief Create new session for user
-     * @param user_id User identifier
-     * @param roles User roles
-     * @param mfa_verified Whether MFA was verified
-     * @return Session token
-     */
     std::string createSession(
         const std::string& user_id,
         const std::vector<std::string>& roles,
@@ -357,21 +329,21 @@ public:
     );
     
     /**
-     * @brief Validate session token
-     * @param session_token Session token
-     * @return Session if valid, nullopt otherwise
+     * @brief Validate a session token.
+     * @param[in] session_token Session token to validate.
+     * @return Validated session on success.
      */
     std::optional<Session> validateSession(const std::string& session_token);
     
     /**
-     * @brief Invalidate session
-     * @param session_token Session token
+     * @brief Invalidate a session token.
+     * @param[in] session_token Session token to invalidate.
      */
     void invalidateSession(const std::string& session_token);
     
     /**
-     * @brief Invalidate all sessions for user
-     * @param user_id User identifier
+     * @brief Invalidate all sessions for a user.
+     * @param[in] user_id User identifier.
      */
     void invalidateUserSessions(const std::string& user_id);
     
@@ -380,39 +352,39 @@ public:
     // ========================================================================
     
     /**
-     * @brief Check if request should be rate limited
-     * @param user_id User identifier
-     * @param resource Resource being accessed
-     * @return true if rate limit exceeded
+     * @brief Check whether a user is rate limited.
+     * @param[in] user_id User identifier.
+     * @param[in] resource Resource being accessed.
+     * @return True when the user is rate limited.
      */
     bool isRateLimited(const std::string& user_id, const std::string& resource);
     
     /**
-     * @brief Detect SQL injection attempt in query
-     * @param query SQL query
-     * @return true if injection detected
+     * @brief Detect SQL injection patterns in a query.
+     * @param[in] query Query string to inspect.
+     * @return True when an injection pattern is detected.
      */
     bool detectSQLInjection(const std::string& query) const;
     
     /**
-     * @brief Detect suspicious query patterns
-     * @param query SQL query
-     * @param user_id User identifier
-     * @return true if suspicious
+     * @brief Detect suspicious query patterns.
+     * @param[in] query Query string to inspect.
+     * @param[in] user_id User identifier.
+     * @return True when the query is suspicious.
      */
     bool detectSuspiciousQuery(const std::string& query, const std::string& user_id);
     
     /**
-     * @brief Record failed login attempt
-     * @param user_id User identifier
-     * @param ip_address IP address
+     * @brief Record a failed login attempt.
+     * @param[in] user_id User identifier.
+     * @param[in] ip_address Source IP address.
      */
     void recordFailedLogin(const std::string& user_id, const std::string& ip_address);
     
     /**
-     * @brief Check if user is locked out due to failed attempts
-     * @param user_id User identifier
-     * @return true if locked out
+     * @brief Check whether a user is locked out.
+     * @param[in] user_id User identifier.
+     * @return True when the user is locked out.
      */
     bool isLockedOut(const std::string& user_id) const;
     
@@ -420,13 +392,6 @@ public:
     // Audit Logging
     // ========================================================================
     
-    /**
-     * @brief Log security event
-     * @param event_type Type of security event
-     * @param user_id User identifier
-     * @param resource Resource accessed
-     * @param details Additional details
-     */
     void logSecurityEvent(
         utils::SecurityEventType event_type,
         const std::string& user_id,
@@ -434,13 +399,6 @@ public:
         const nlohmann::json& details = {}
     );
     
-    /**
-     * @brief Get audit logs for user
-     * @param user_id User identifier
-     * @param since Optional start time
-     * @param until Optional end time
-     * @return Audit logs as JSON array
-     */
     nlohmann::json getAuditLogs(
         const std::string& user_id,
         std::optional<std::chrono::system_clock::time_point> since = std::nullopt,
@@ -452,40 +410,39 @@ public:
     // ========================================================================
     
     /**
-     * @brief Update configuration
-     * @param config New configuration
+     * @brief Update the access control configuration.
+     * @param[in] config New access control configuration.
      */
     void updateConfig(const Config& config);
     
-    /**
-     * @brief Get current configuration
-     * @return Current configuration
-     */
     const Config& getConfig() const { return config_; }
     
     /**
-     * @brief Get security statistics
-     * @return Statistics as JSON
+     * @brief Return access control statistics.
+     * @return Access control statistics.
      */
     nlohmann::json getStatistics() const;
     
     /**
-     * @brief Get RBAC system
-     * @return RBAC instance
+     * @brief Return the RBAC subsystem.
+     * @return RBAC subsystem reference.
+     * @details Implements getRBAC without additional internal calls.
      */
     RBAC& getRBAC() { return *rbac_; }
     const RBAC& getRBAC() const { return *rbac_; }
     
     /**
-     * @brief Get user role store
-     * @return UserRoleStore instance
+     * @brief Return the user role store.
+     * @return Role store reference.
+     * @details Implements getUserRoleStore without additional internal calls.
      */
     UserRoleStore& getUserRoleStore() { return *user_role_store_; }
     const UserRoleStore& getUserRoleStore() const { return *user_role_store_; }
     
     /**
-     * @brief Get user registration plugin manager
-     * @return UserRegistrationPluginManager instance
+     * @brief Return the user registration plugin manager.
+     * @return Plugin manager reference.
+     * @details Implements getUserRegistrationPluginManager without additional internal calls.
      */
     UserRegistrationPluginManager& getUserRegistrationPluginManager() { 
         return *user_registration_plugin_manager_; 
@@ -499,27 +456,23 @@ public:
     // ========================================================================
 
     /**
-     * @brief Get the ABAC policy engine
-     * @return PolicyEngine instance
-     * @note PolicyEngine is internally thread-safe via its own mutex.
-     *       Do not modify the engine concurrently with ongoing authorization calls
-     *       unless relying solely on PolicyEngine's own synchronization.
+     * @brief Return the ABAC policy engine.
+     * @return ABAC policy engine reference.
+     * @details Implements getABACEngine without additional internal calls.
      */
     PolicyEngine& getABACEngine() { return policy_engine_; }
     const PolicyEngine& getABACEngine() const { return policy_engine_; }
 
     /**
-     * @brief Add an ABAC policy at runtime
-     * @param policy PolicyEngine policy to add
-     * @note Thread-safe: PolicyEngine serialises all policy mutations internally.
+     * @brief Add an ABAC policy.
+     * @param[in] policy ABAC policy to add.
      */
     void addABACPolicy(const PolicyEngine::Policy& policy);
 
     /**
-     * @brief Remove an ABAC policy by id
-     * @param policy_id Policy identifier
-     * @return true if the policy was removed
-     * @note Thread-safe: PolicyEngine serialises all policy mutations internally.
+     * @brief Remove an ABAC policy.
+     * @param[in] policy_id Identifier of the ABAC policy to remove.
+     * @return True when the policy was removed.
      */
     bool removeABACPolicy(const std::string& policy_id);
 
@@ -573,19 +526,58 @@ private:
         std::atomic<uint64_t> suspicious_queries{0};
     } stats_;
     
-    // Helper methods
+    /**
+     * @brief Check whether a session is expired.
+     * @param[in] session Session to check.
+     * @return True when the session is expired.
+     */
     bool isSessionExpired(const Session& session) const;
+    /**
+     * @brief Remove expired sessions from the cache.
+     */
     void cleanupExpiredSessions();
+    /**
+     * @brief Generate a new session token.
+     * @return Generated session token.
+     */
     std::string generateSessionToken() const;
+    /**
+     * @brief Update rate limit state for a user.
+     * @param[in] user_id User identifier.
+     */
     void updateRateLimit(const std::string& user_id);
+    /**
+     * @brief Check whether a user exceeds the current rate limit.
+     * @param[in] user_id User identifier.
+     * @return True when the user remains within the configured limit.
+     */
     bool checkRateLimit(const std::string& user_id);
 
-    // Mutex-free variants for internal use when mutex_ is already held by the caller.
+    /**
+     * @brief Get roles for a user while holding the lock.
+     * @param[in] user_id User identifier.
+     * @return Roles assigned to the user.
+     */
     std::vector<std::string> getUserRolesLocked(const std::string& user_id) const;
+    /**
+     * @brief Create a session while holding the lock.
+     * @param[in] user_id User identifier.
+     * @param[in] roles Roles to attach to the session.
+     * @param[in] mfa_verified True if MFA was verified for the session.
+     * @return Session token.
+     */
     std::string createSessionLocked(const std::string& user_id,
                                     const std::vector<std::string>& roles,
                                     bool mfa_verified);
+    /**
+     * @brief Invalidate a session while holding the lock.
+     * @param[in] session_token Session token to invalidate.
+     */
     void invalidateSessionLocked(const std::string& session_token);
+    /**
+     * @brief Invalidate all user sessions while holding the lock.
+     * @param[in] user_id User identifier.
+     */
     void invalidateUserSessionsLocked(const std::string& user_id);
 };
 

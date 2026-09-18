@@ -25,32 +25,8 @@ namespace utils { class AuditLogger; }
 class PolicyEngine;
 namespace auth {
 
-/**
- * @brief Principal Validator with whitelist/blacklist and regex rules
- * 
- * Security Feature: Validates principal names (Kerberos, JWT subject, etc.)
- * against configurable rules to prevent unauthorized access.
- * 
- * Features:
- * - Whitelist: explicitly allowed principals (exact match or regex)
- * - Blacklist: explicitly denied principals (takes precedence)
- * - Regex validation rules for principal format
- * - Role mapping with priority rules
- * - Audit logging for all validation decisions
- * 
- * Use cases:
- * - Restrict access to specific realms/domains
- * - Block known compromised principals
- * - Enforce principal naming conventions
- * - Map principals to roles based on patterns
- * 
- * P1 (High Priority) security hardening feature.
- */
 class PrincipalValidator {
 public:
-    /**
-     * @brief Validation rule types
-     */
     enum class RuleType {
         WHITELIST,      // Explicitly allow
         BLACKLIST,      // Explicitly deny
@@ -58,9 +34,6 @@ public:
         REGEX_DENY      // Must not match regex
     };
     
-    /**
-     * @brief Validation rule
-     */
     struct Rule {
         RuleType type;
         std::string pattern;        // Exact match or regex pattern
@@ -72,9 +45,6 @@ public:
         mutable std::optional<std::regex> compiled_regex;
     };
     
-    /**
-     * @brief Principal mapping rule (principal pattern -> role)
-     */
     struct MappingRule {
         std::string principal_pattern;  // Exact match or regex
         bool is_regex = false;
@@ -84,25 +54,14 @@ public:
         mutable std::optional<std::regex> compiled_regex;
     };
     
-    /**
-     * @brief Runtime context for ABAC evaluation (all fields optional)
-     *
-     * When provided to validate() and an ABAC engine is attached, these
-     * attributes are evaluated alongside the RBAC whitelist/blacklist rules.
-     * Fields left empty are ignored by the policy engine.
-     */
     struct ValidationContext {
         std::optional<std::string> ip_address;   ///< Client IP address
         std::optional<std::string> user_agent;   ///< HTTP User-Agent header
         std::optional<std::string> action;       ///< Action being performed (default: "authenticate")
         std::optional<std::string> resource;     ///< Resource being accessed
-        /// Custom key-value attributes forwarded to the policy engine
         std::unordered_map<std::string, std::string> attributes;
     };
 
-    /**
-     * @brief Validation result
-     */
     struct ValidationResult {
         bool allowed = false;
         std::string principal;
@@ -128,76 +87,55 @@ public:
         // Principal-to-role mapping rules
         std::vector<MappingRule> mapping_rules;
 
+        /**
+         * @brief Defaults.
+         * @return Return value.
+         * @details Implements defaults without additional internal calls.
+         */
         static Config defaults() { return {}; }
     };
     
     explicit PrincipalValidator(const Config& config = Config::defaults());
 
     /**
-     * @brief Attach an AuditLogger to receive PERMISSION_DENIED / LOGIN_SUCCESS events.
-     * Pass nullptr to detach.  The validator does NOT take ownership.
+     * @brief Set Audit Logger.
+     * @param[in,out] logger Input/output parameter.
+     * @details Implements setAuditLogger without additional internal calls.
      */
     void setAuditLogger(utils::AuditLogger* logger) { audit_logger_ = logger; }
 
     /**
-     * @brief Attach a PolicyEngine for ABAC evaluation (additive to RBAC rules).
-     *
-     * When set, validate() evaluates ABAC policies after the RBAC check passes.
-     * A RBAC deny always wins; ABAC is only evaluated when RBAC allows.
-     * Pass nullptr to detach.  The validator does NOT take ownership.
+     * @brief Set Abac Engine.
+     * @param[in,out] engine Input/output parameter.
+     * @details Implements setAbacEngine without additional internal calls.
      */
     void setAbacEngine(PolicyEngine* engine) { abac_engine_ = engine; }
 
-    /**
-     * @brief Get the attached ABAC policy engine (may be nullptr).
-     */
     const PolicyEngine* getAbacEngine() const { return abac_engine_; }
     
-    /**
-     * @brief Validate a principal name
-     * 
-     * Checks against whitelist/blacklist and validation rules.
-     * Maps to roles if validation succeeds.
-     * If an ABAC engine is attached and ctx is provided, ABAC policies are
-     * evaluated after the RBAC check (additive, non-breaking).
-     * Logs audit trail of decision.
-     * 
-     * @param principal Principal name to validate (e.g., "alice@REALM.COM")
-     * @param ctx       Optional runtime context for ABAC evaluation
-     * @return ValidationResult with allow/deny decision and roles
-     */
     ValidationResult validate(const std::string& principal,
                               const ValidationContext& ctx = {});
     
     /**
-     * @brief Add a validation rule
-     * 
-     * @param rule Rule to add
+     * @brief Add Rule.
+     * @param[in] rule Input parameter.
      */
     void addRule(const Rule& rule);
     
     /**
-     * @brief Add a mapping rule
-     * 
-     * @param rule Mapping rule to add
+     * @brief Add Mapping Rule.
+     * @param[in] rule Input parameter.
      */
     void addMappingRule(const MappingRule& rule);
     
     /**
-     * @brief Remove all rules of a specific type
-     * 
-     * @param type Rule type to remove
+     * @brief Clear Rules.
+     * @param[in] type Input parameter.
      */
     void clearRules(RuleType type);
     
-    /**
-     * @brief Get current configuration
-     */
     const Config& getConfig() const { return config_; }
     
-    /**
-     * @brief Get validation statistics
-     */
     struct Statistics {
         uint64_t total_validations = 0;
         uint64_t allowed = 0;
@@ -208,6 +146,10 @@ public:
         uint64_t default_deny = 0;
     };
     
+    /**
+     * @brief Return access control statistics.
+     * @return Access control statistics.
+     */
     Statistics getStatistics() const;
 
 private:
@@ -216,61 +158,75 @@ private:
     utils::AuditLogger* audit_logger_{nullptr};  ///< Non-owning, optional.
     PolicyEngine*       abac_engine_{nullptr};   ///< Non-owning, optional ABAC engine.
     
-    // Check if principal matches a rule
+    /**
+     * @brief Check if principal matches a rule
+     * @param[in] principal Input parameter.
+     * @param[in] rule Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool matchesRule(const std::string& principal, const Rule& rule) const;
     
-    // Check if principal matches a mapping rule
+    /**
+     * @brief Check if principal matches a mapping rule
+     * @param[in] principal Input parameter.
+     * @param[in] rule Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool matchesMappingRule(const std::string& principal, const MappingRule& rule) const;
     
-    // Apply mapping rules to get roles
+    /**
+     * @brief Apply mapping rules to get roles
+     * @param[in] principal Input parameter.
+     * @return Return value.
+     */
     std::vector<std::string> applyMappingRules(const std::string& principal) const;
     
     // Log audit trail
+    /**
+     * @brief Log Audit.
+     * @param[in] result Input parameter.
+     */
     void logAudit(const ValidationResult& result) const;
     
-    // Compile regex for a rule
+    /**
+     * @brief Compile regex for a rule
+     * @param[in] rule Input parameter.
+     */
     void compileRegex(const Rule& rule) const;
+    /**
+     * @brief Compile Regex.
+     * @param[in] rule Input parameter.
+     */
     void compileRegex(const MappingRule& rule) const;
 };
 
-/**
- * @brief Pre-configured principal validators for common scenarios
- */
 class PrincipalValidatorPresets {
 public:
     /**
-     * @brief Create validator that only allows specific realm
-     * 
-     * @param realm Kerberos realm (e.g., "EXAMPLE.COM")
-     * @return Configured validator
+     * @brief Realm Restricted.
+     * @param[in] realm Input parameter.
+     * @return Return value.
      */
     static PrincipalValidator realmRestricted(const std::string& realm);
     
     /**
-     * @brief Create validator that blocks specific principals
-     * 
-     * @param blocked_principals List of principals to block
-     * @return Configured validator
+     * @brief With Blacklist.
+     * @param[in] blocked_principals Input parameter.
+     * @return Return value.
      */
     static PrincipalValidator withBlacklist(const std::vector<std::string>& blocked_principals);
     
     /**
-     * @brief Create validator that only allows specific principals
-     * 
-     * @param allowed_principals List of allowed principals
-     * @return Configured validator
+     * @brief With Whitelist.
+     * @param[in] allowed_principals Input parameter.
+     * @return Return value.
      */
     static PrincipalValidator withWhitelist(const std::vector<std::string>& allowed_principals);
     
     /**
-     * @brief Create validator with standard enterprise rules
-     * 
-     * - Requires realm suffix
-     * - Blocks service accounts from interactive login
-     * - Enforces naming conventions
-     * 
-     * @param realm Primary realm
-     * @return Configured validator
+     * @brief Enterprise Standard.
+     * @param[in] realm Input parameter.
+     * @return Return value.
      */
     static PrincipalValidator enterpriseStandard(const std::string& realm);
 };

@@ -47,6 +47,13 @@ PIIStreamScanner::PIIStreamScanner(std::shared_ptr<IPIIDetectionEngine> engine,
     }
 }
 
+/**
+ * @brief Scan chunk.
+ * @param[in] chunk Input parameter.
+ * @param[in] is_last Input parameter.
+ * @return Return value.
+ * @details Calls: append(), data(), size(), substr(), detectInText(), themis::utils::makeErrorContext(), std::to_string(), what().
+ */
 std::vector<PIIFinding> PIIStreamScanner::scan_chunk(std::string_view chunk, bool is_last) {
     // Append incoming chunk to the lookahead buffer.
     lookahead_buf_.append(chunk.data(),chunk.size());
@@ -118,6 +125,10 @@ std::vector<PIIFinding> PIIStreamScanner::scan_chunk(std::string_view chunk, boo
     return result;
 }
 
+/**
+ * @brief Reset.
+ * @details Calls: clear().
+ */
 void PIIStreamScanner::reset() {
     lookahead_buf_.clear();
     global_offset_ = 0;
@@ -172,6 +183,13 @@ PIIStreamPseudonymizer::PIIStreamPseudonymizer(
     }
 }
 
+/**
+ * @brief Process chunk.
+ * @param[in] chunk Input parameter.
+ * @param[in] is_last Input parameter.
+ * @return Return value.
+ * @details Calls: bytes_processed(), scan_chunk(), getCurrentLEK(), reserve(), size(), substr(), std::min(), append().
+ */
 std::string PIIStreamPseudonymizer::process_chunk(std::string_view chunk, bool is_last) {
     // Obtain findings with absolute document offsets.
     // We need the scanner's internal offset BEFORE this call so we can compute
@@ -224,6 +242,10 @@ std::string PIIStreamPseudonymizer::process_chunk(std::string_view chunk, bool i
     return result;
 }
 
+/**
+ * @brief Reset.
+ * @details Implements reset without additional internal calls.
+ */
 void PIIStreamPseudonymizer::reset() {
     scanner_.reset();
 }

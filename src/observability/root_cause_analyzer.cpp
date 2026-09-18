@@ -178,8 +178,13 @@ std::string RootCauseReport::toReport() const {
 
 namespace {
 
-/// Compute the Pearson correlation coefficient between two equal-length vectors.
-/// Returns 0.0 if variance is zero on either side.
+/**
+ * @brief Compute the Pearson correlation coefficient between two equal-length vectors.
+ * @param[in] x Input parameter.
+ * @param[in] y Input parameter.
+ * @return Return value.
+ * @details Returns 0.0 if variance is zero on either side. Calls: size(), empty(), std::accumulate(), begin(), end(), std::sqrt().
+ */
 double pearsonCorrelation(const std::vector<double>& x,
                           const std::vector<double>& y) {
     if (x.size() != y.size() || x.empty()) {
@@ -227,8 +232,13 @@ void alignVectors(std::vector<double>& a, std::vector<double>& b) {
     }
 }
 
-/// Compute the delta (percentage change) between before and after values.
-/// Returns 0.0 when before == 0.
+/**
+ * @brief Compute the delta (percentage change) between before and after values.
+ * @param[in] before Input parameter.
+ * @param[in] after Input parameter.
+ * @return Return value.
+ * @details Returns 0.0 when before == 0. Calls: std::abs().
+ */
 double deltaPercent(double before, double after) {
     if (before == 0.0) {
         return 0.0;
@@ -341,10 +351,20 @@ RootCauseAnalyzer::RootCauseAnalyzer(const RootCauseAnalyzerConfig& config)
 
 RootCauseAnalyzer::~RootCauseAnalyzer() = default;
 
+/**
+ * @brief Add Time Series.
+ * @param[in] series Input parameter.
+ * @details Implements addTimeSeries without additional internal calls.
+ */
 void RootCauseAnalyzer::addTimeSeries(const TimeSeries& series) {
     impl_->series_registry[series.name] = series;
 }
 
+/**
+ * @brief Remove Time Series.
+ * @param[in] name Input parameter.
+ * @details Calls: erase().
+ */
 void RootCauseAnalyzer::removeTimeSeries(const std::string& name) {
     impl_->series_registry.erase(name);
 }
@@ -353,10 +373,23 @@ RootCauseAnalyzerConfig RootCauseAnalyzer::getConfig() const {
     return impl_->config;
 }
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @details Implements setConfig without additional internal calls.
+ */
 void RootCauseAnalyzer::setConfig(const RootCauseAnalyzerConfig& config) {
     impl_->config = config;
 }
 
+/**
+ * @brief Analyze Issue.
+ * @param[in] issue Input parameter.
+ * @param[in] before Input parameter.
+ * @param[in] after Input parameter.
+ * @return Return value.
+ * @details Calls: deltaPercent(), find(), end(), std::abs(), push_back(), str(), std::sort(), begin().
+ */
 RootCauseReport RootCauseAnalyzer::analyzeIssue(const PerformanceIssue& issue,
                                                  const SystemSnapshot& before,
                                                  const SystemSnapshot& after) {
@@ -436,6 +469,12 @@ RootCauseReport RootCauseAnalyzer::analyzeIssue(const PerformanceIssue& issue,
     return report;
 }
 
+/**
+ * @brief Find Correlations.
+ * @param[in] metric_name Input parameter.
+ * @return Return value.
+ * @details Calls: find(), end(), extractValues(), alignVectors(), size(), pearsonCorrelation(), std::abs(), std::string().
+ */
 std::vector<CorrelatedMetric> RootCauseAnalyzer::findCorrelations(
         const std::string& metric_name) {
     auto target_it = impl_->series_registry.find(metric_name);
@@ -487,6 +526,12 @@ std::vector<CorrelatedMetric> RootCauseAnalyzer::findCorrelations(
     return results;
 }
 
+/**
+ * @brief Build Causal Graph.
+ * @param[in] metrics Input parameter.
+ * @return Return value.
+ * @details Calls: push_back(), size(), extractValues(), alignVectors(), pearsonCorrelation(), a_lag(), begin(), end().
+ */
 CausalGraph RootCauseAnalyzer::buildCausalGraph(
         const std::vector<TimeSeries>& metrics) {
     CausalGraph graph;

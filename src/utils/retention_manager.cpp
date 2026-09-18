@@ -36,6 +36,12 @@ RetentionManager::RetentionManager(const std::string& config_path)
     spdlog::info("RetentionManager: Initialized with {} policy/policies",policies_.size());
 }
 
+/**
+ * @brief Register a retention policy.
+ * @param[in] policy Retention policy definition to store.
+ * @return True when the policy was accepted and stored.
+ * @details Calls: empty(), count(), find(), end(), spdlog::info().
+ */
 bool RetentionManager::registerPolicy(const RetentionPolicy& policy) {
     if (policy.name.empty()) {
         last_error_ = "Policy name cannot be empty";
@@ -60,6 +66,12 @@ bool RetentionManager::registerPolicy(const RetentionPolicy& policy) {
     return true;
 }
 
+/**
+ * @brief Remove a retention policy by name.
+ * @param[in] policy_name Name of the retention policy to remove.
+ * @return True when the policy existed and was removed.
+ * @details Calls: find(), end(), erase(), spdlog::info().
+ */
 bool RetentionManager::removePolicy(const std::string& policy_name) {
     auto it = policies_.find(policy_name);
     if (it == policies_.end()) {
@@ -294,6 +306,12 @@ RetentionManager::RetentionStats RetentionManager::getPolicyStats(const std::str
     return it->second;
 }
 
+/**
+ * @brief Load retention policies from a configuration file.
+ * @param[in] config_path Path to the retention policy configuration file.
+ * @return True when the operation succeeds.
+ * @details Calls: YAML::LoadFile(), std::chrono::seconds(), nlohmann::json::object(), registerPolicy(), spdlog::info(), size(), std::string(), what().
+ */
 bool RetentionManager::loadPolicies(const std::string& config_path) {
 #if !THEMIS_UTILS_HAS_YAML_CPP
     last_error_ = "yaml-cpp not available; retention policy loading is disabled";
@@ -356,6 +374,11 @@ bool RetentionManager::loadPolicies(const std::string& config_path) {
 #endif
 }
 
+/**
+ * @brief Log Action.
+ * @param[in] action Input parameter.
+ * @details Calls: push_back(), size(), erase(), begin(), spdlog::info(), spdlog::warn().
+ */
 void RetentionManager::logAction(const RetentionAction& action) {
     // Add to history (keep last 10000 actions)
     action_history_.push_back(action);
@@ -400,9 +423,8 @@ void RetentionManager::startBackgroundJob(
                                ep = std::move(entity_provider),
                                ah = std::move(archive_handler),
                                ph = std::move(purge_handler)]() {
-        while (true) {
-            // Wait for the interval or until stopped
-            std::unique_lock<std::mutex> lk(bg_mutex_);
+                while (true) {
+                        std::unique_lock<std::mutex> lk(bg_mutex_);
             bool stopped = bg_cv_.wait_for(lk, interval, [this]{ return bg_stop_; });
             if (stopped) {
               break;
@@ -428,6 +450,10 @@ void RetentionManager::startBackgroundJob(
     });
 }
 
+/**
+ * @brief Stop the background retention job.
+ * @details Calls: notify_all(), joinable(), join(), store().
+ */
 void RetentionManager::stopBackgroundJob() {
     {
         std::lock_guard<std::mutex> lk(bg_mutex_);

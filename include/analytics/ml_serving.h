@@ -75,20 +75,16 @@ class MLServingClient;
 // Tensor representation
 // ============================================================================
 
-/**
- * A named, shaped float32 tensor exchanged with an ML backend.
- *
- * All numeric data is stored as float32 to match the most common ML
- * framework convention.  Callers that need higher precision should cast
- * externally.
- */
 struct MLTensor {
     std::string            name;   ///< Tensor name (must match model input/output name)
     std::vector<int64_t>   shape;  ///< Dimensions, e.g. {batch_size, num_features}
     std::vector<float>     data;   ///< Row-major float32 values
 
-    /** @brief Total number of elements (product of shape dimensions).
-     *  @return Number of elements. */
+    /**
+     * @brief Num Elements.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     std::size_t numElements() const noexcept;
 };
 
@@ -96,16 +92,12 @@ struct MLTensor {
 // Request / Response
 // ============================================================================
 
-/**
- * Inference request sent to an MLServingBackend.
- */
 struct MLServingRequest {
     std::string              model_name;    ///< Model identifier
     std::string              model_version; ///< Version tag ("" = latest)
     std::vector<MLTensor>    inputs;        ///< Named input tensors
 };
 
-/** Status codes returned by MLServingResponse. */
 enum class MLServingStatus {
     OK,             ///< Inference completed successfully
     UNAVAILABLE,    ///< Backend or model not available
@@ -115,24 +107,16 @@ enum class MLServingStatus {
     POLICY_REJECTED,///< Request rejected because the BoundedExecutionPolicy concurrency limit was exceeded
 };
 
-/**
- * Inference response from an MLServingBackend.
- */
 struct MLServingResponse {
     MLServingStatus       status       = MLServingStatus::OK;
     std::string           error_message;
     std::vector<MLTensor> outputs;      ///< Named output tensors
     double                latency_ms   = 0.0; ///< End-to-end call latency
-    /// Stable per-request identifier for correlation with logs and runbooks.
     std::string           operation_id;
-    /// Correlation identifier propagated across serving diagnostics.
     std::string           correlation_id;
-    /// Canonical failure classification (`none`, `timeout`, `dependency_unavailable`, ...).
     std::string           failure_class = "none";
-    /// Operator-facing remediation hints for degraded or fail-closed outcomes.
     std::vector<std::string> operator_hints;
 
-    /** Returns true when status == OK. */
     bool ok() const noexcept { return status == MLServingStatus::OK; }
 };
 
@@ -140,20 +124,18 @@ struct MLServingResponse {
 // Backend interface
 // ============================================================================
 
-/**
- * Abstract interface implemented by each ML inference backend.
- */
 class IMLServingBackend {
 public:
+    /**
+     * @brief IMLServing Backend.
+     * @return Return value.
+     */
     virtual ~IMLServingBackend() = default;
 
-    /** Human-readable name of this backend (e.g. "ONNX Runtime 1.17.0"). */
     [[nodiscard]] virtual std::string backendName() const = 0;
 
-    /** Returns true if the backend is usable (libraries found, server reachable, etc.). */
     [[nodiscard]] virtual bool isAvailable() const = 0;
 
-    /** Run synchronous inference. */
     [[nodiscard]] virtual MLServingResponse infer(const MLServingRequest& req) = 0;
 };
 
@@ -161,9 +143,6 @@ public:
 // ONNX Runtime backend
 // ============================================================================
 
-/**
- * Configuration for ONNXServingBackend.
- */
 struct ONNXBackendConfig {
     std::string model_directory = "./models"; ///< Directory searched for *.onnx files
     bool        enable_cpu      = true;       ///< Use CPU execution provider
@@ -173,19 +152,6 @@ struct ONNXBackendConfig {
     std::size_t memory_limit_mb  = 0;         ///< 0 = unlimited
 };
 
-/**
- * ONNXServingBackend – loads and runs ONNX models via ONNX Runtime.
- *
- * When THEMIS_HAS_ONNX is defined the backend uses the real
- * onnxruntime C++ API.  When it is absent the backend reports
- * isAvailable() == false and every infer() call returns UNAVAILABLE.
- *
- * Models are loaded lazily on the first call to infer() with a new
- * model_name.  The model file is resolved as:
- *   `\<model_directory\>/\<model_name\>.onnx`
- *
- * Thread-safety: multiple threads may call infer() concurrently.
- */
 class ONNXServingBackend : public IMLServingBackend {
 public:
     explicit ONNXServingBackend(const ONNXBackendConfig& config = {});
@@ -204,9 +170,6 @@ private:
 // TensorFlow Serving backend
 // ============================================================================
 
-/**
- * Configuration for TFServingBackend.
- */
 struct TFServingConfig {
     std::string base_url                 = "https://localhost:8501"; ///< TF Serving REST API base URL
     int         timeout_ms               = 5000;                     ///< HTTP request timeout
@@ -215,21 +178,6 @@ struct TFServingConfig {
     std::string api_key;                                              ///< Optional bearer token / API key
 };
 
-/**
- * TFServingBackend – calls a TensorFlow Serving instance over its REST API.
- *
- * Endpoint: POST `\<base_url\>/v1/models/\<model_name\>[:predict]`
- *   (optionally `/versions/\<version\>` when model_version is set)
- *
- * Requires THEMIS_HAS_TF_SERVING=1 (and THEMIS_HAS_CURL=1 transitively).
- * When either flag is absent the backend reports isAvailable() == false.
- *
- * The REST payload follows the TF Serving JSON API:
- *   @code { "inputs": { "\<name\>": [[...]] } } @endcode
- *
- * Thread-safety: each infer() creates an independent libcurl easy handle so
- * concurrent calls are safe.
- */
 class TFServingBackend : public IMLServingBackend {
 public:
     explicit TFServingBackend(const TFServingConfig& config = {});
@@ -248,136 +196,65 @@ private:
 // Unified client
 // ============================================================================
 
-/** Which backend the MLServingClient should use. */
 enum class MLBackendType {
     AUTO,         ///< Prefer ONNX Runtime; fall back to TF Serving
     ONNX_RUNTIME, ///< Force ONNX Runtime backend
     TF_SERVING    ///< Force TF Serving backend
 };
 
-/**
- * Configuration for MLServingClient.
- */
 struct MLServingConfig {
     MLBackendType     backend      = MLBackendType::AUTO;
     ONNXBackendConfig onnx_config;
     TFServingConfig   tf_config;
 
-    /// Default execution policy applied automatically to every infer() call
-    /// when the caller does not supply an explicit BoundedExecutionPolicy.
-    /// When unconstrained (all fields zero, the default), the policy
-    /// enforcement layer is bypassed entirely to avoid overhead.
-    /// Set any non-zero field to activate per-client concurrency or
-    /// latency enforcement without modifying individual call sites.
     ::themis::analytics::BoundedExecutionPolicy default_policy;
 };
 
-/**
- * MLServingClient – high-level, thread-safe interface to ML inference.
- *
- * Usage example:
- * @code
- *   using namespace themisdb::analytics;
- *
- *   MLServingClient client(MLServingConfig{
- *       .backend    = MLBackendType::ONNX_RUNTIME,
- *       .onnx_config = { .model_directory = "/opt/models" }
- *   });
- *
- *   if (!client.isBackendAvailable(MLBackendType::ONNX_RUNTIME)) {
- *       // handle graceful degradation
- *   }
- *
- *   MLServingRequest req;
- *   req.model_name = "churn_classifier";
- *   req.inputs.push_back({ "input", {1, 4}, {0.5f, 1.2f, -0.3f, 0.9f} });
- *
- *   auto resp = client.infer(req);
- *   if (resp.ok()) {
- *       // resp.outputs[0].data contains probabilities
- *   }
- * @endcode
- *
- * DataPoint integration:
- * @code
- *   DataPoint dp;
- *   dp.set("feature_a", 1.5);
- *   dp.set("feature_b", -0.3);
- *
- *   auto resp = client.inferFromDataPoint("churn_classifier", dp);
- * @endcode
- */
 class MLServingClient {
 public:
     explicit MLServingClient(const MLServingConfig& config = {});
     ~MLServingClient();
 
-    // ─── Backend introspection ───────────────────────────────────────────────
+    /**
+     * @brief ─── Backend introspection ───────────────────────────────────────────────
+     * @param[in] type Input parameter.
+     * @return True when the operation succeeds.
+     */
 
-    /** Returns true if the specified backend type is compiled in and available. */
     bool isBackendAvailable(MLBackendType type) const;
 
-    /** @brief Returns the name of the active backend.
-     *  @return Human-readable name of the active backend. */
+    /**
+     * @brief Active Backend Name.
+     * @return Return value.
+     */
     std::string activeBackendName() const;
 
-    // ─── Inference ──────────────────────────────────────────────────────────
+    /**
+     * @brief ─── Inference ──────────────────────────────────────────────────────────
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
 
-    /** @brief Run inference using the active backend.
-     *  @param req  Inference request containing model name and input tensors.
-     *  @return Inference response with output tensors or an error status. */
     MLServingResponse infer(const MLServingRequest& req);
 
     /**
-     * @brief Run inference with bounded execution enforcement.
-     *
-     * Enforces the resource limits declared by @p policy before dispatching
-     * to the underlying backend.  Specifically:
-     *
-     *   - **Concurrency**: if `policy.max_concurrent_requests > 0` and the
-     *     number of in-flight `infer()` calls on this client instance already
-     *     equals that limit, the call returns `POLICY_REJECTED` immediately.
-     *   - **Timeout**: if `policy.max_latency_ms > 0` and the backend call
-     *     has not returned within that many milliseconds the call returns
-     *     `TIMEOUT`.  The backend call itself may continue in a detached
-     *     thread; callers must not re-use the client for further calls until
-     *     the previous call has fully returned.
-     *
-     * When `!policy.isConstrained()` this overload is equivalent to the
-     * unconstrained `infer(req)`.
-     *
-     * @param req     Inference request.
-     * @param policy  Resource limits to enforce.
-     * @return MLServingResponse; status is `POLICY_REJECTED` or `TIMEOUT` on
-     *         policy violation, otherwise same as the unconstrained overload.
+     * @brief Infer.
+     * @param[in] req Input parameter.
+     * @param[in] policy Input parameter.
+     * @return Return value.
      */
     MLServingResponse infer(const MLServingRequest&                      req,
                             const ::themis::analytics::BoundedExecutionPolicy& policy);
 
-    /**
-     * Convenience overload: converts the numeric fields of @p point into a
-     * single flat float32 input tensor named "input" and calls infer().
-     *
-     * Fields are sorted alphabetically (consistent with AutoML feature
-     * engineering conventions in this module).  Non-numeric fields are
-     * silently ignored.
-     *
-     * @param model_name  Model to query.
-     * @param point       DataPoint whose numeric fields form the input vector.
-     * @param input_name  Name of the input tensor (default: "input").
-     * @return MLServingResponse with status and output tensors.
-     */
     MLServingResponse inferFromDataPoint(const std::string& model_name,
                                          const DataPoint&   point,
                                          const std::string& input_name = "input");
 
     // ─── Factory ─────────────────────────────────────────────────────────────
 
-    /** Create an ONNX Runtime backend with the given config. */
     static std::unique_ptr<IMLServingBackend>
     makeONNXBackend(const ONNXBackendConfig& config = {});
 
-    /** Create a TF Serving backend with the given config. */
     static std::unique_ptr<IMLServingBackend>
     makeTFServingBackend(const TFServingConfig& config = {});
 
@@ -390,10 +267,18 @@ private:
 // Helper utilities
 // ============================================================================
 
-/** Returns a human-readable string for the given status code. */
+/**
+ * @brief Ml Serving Status Name.
+ * @param[in] status Input parameter.
+ * @return Return value.
+ */
 std::string mlServingStatusName(MLServingStatus status);
 
-/** Returns a human-readable string for the given backend type. */
+/**
+ * @brief Ml Backend Type Name.
+ * @param[in] type Input parameter.
+ * @return Return value.
+ */
 std::string mlBackendTypeName(MLBackendType type);
 
 } // namespace analytics

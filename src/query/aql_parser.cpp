@@ -22,9 +22,12 @@
 namespace themis {
 namespace query {
 
-// ============================================================================
-// ParserScopeContext Implementation (Phase 2 Agent 1)
-// ============================================================================
+/**
+ * @brief ============================================================================ ParserScopeContext Implementation (Phase 2 Agent 1) ============================================================================
+ * @param[in] collection_name Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: empty(), find(), substr(), fmt::format(), std::move(), insert().
+ */
 
 void ParserScopeContext::registerCollection(const std::string& collection_name) {
     if (collection_name.empty()) {
@@ -92,11 +95,19 @@ Result<bool> ParserScopeContext::validateCollectionAccess(
     return Ok(true);
 }
 
+/**
+ * @brief Push Scope.
+ * @details Calls: push_back().
+ */
 void ParserScopeContext::pushScope() {
     scope_stack_.push_back(registered_collections_);
     scope_prefix_stack_.push_back(current_scope_prefix_);
 }
 
+/**
+ * @brief Pop Scope.
+ * @details Calls: empty(), std::move(), back(), pop_back().
+ */
 void ParserScopeContext::popScope() {
     if (!scope_stack_.empty()) {
         registered_collections_ = std::move(scope_stack_.back());
@@ -112,6 +123,10 @@ const std::set<std::string>& ParserScopeContext::getRegisteredCollections() cons
     return registered_collections_;
 }
 
+/**
+ * @brief Clear.
+ * @details Implements clear without additional internal calls.
+ */
 void ParserScopeContext::clear() {
     registered_collections_.clear();
     scope_stack_.clear();
@@ -229,9 +244,19 @@ struct Token {
 /** @brief Query function that converts a value to kenizer. */
 class Tokenizer {
 public:
+    /**
+     * @brief Tokenizer.
+     * @param[in] input Input parameter.
+     * @return Return value.
+     */
     explicit Tokenizer(const std::string& input)
         : input_(input), pos_(0), line_(1), column_(1) {}
     
+    /**
+     * @brief Tokenize.
+     * @return Return value.
+     * @details Calls: size(), skipWhitespace(), nextToken(), push_back(), emplace_back().
+     */
     std::vector<Token> tokenize() {
         std::vector<Token> tokens;
         
@@ -269,6 +294,11 @@ private:
         return p < input_.size() ? input_[p] : '\0';
     }
     
+    /**
+     * @brief Advance.
+     * @return Return value.
+     * @details Calls: size().
+     */
     char advance() {
         if (pos_ >= input_.size()) {
           return '\0';
@@ -283,12 +313,21 @@ private:
         return ch;
     }
     
+    /**
+     * @brief Skip Whitespace.
+     * @details Calls: size(), std::isspace(), peek(), advance().
+     */
     void skipWhitespace() {
         while (pos_ < input_.size() && std::isspace(peek())) {
             advance();
         }
     }
     
+    /**
+     * @brief Next Token.
+     * @return Return value.
+     * @details Calls: peek(), readString(), std::isdigit(), readNumber(), std::isalpha(), readIdentifierOrKeyword(), readOperatorOrPunctuation().
+     */
     Token nextToken() {
         size_t start_line = line_;
         size_t start_column = column_;
@@ -313,6 +352,13 @@ private:
         return readOperatorOrPunctuation(start_line, start_column);
     }
     
+    /**
+     * @brief Read String.
+     * @param[in] line Input parameter.
+     * @param[in] col Input parameter.
+     * @return Return value.
+     * @details Calls: peek(), Token(), std::string(), advance(), reserve().
+     */
     Token readString(size_t line, size_t col) {
         char quote = peek();
         // Support both double and single quotes
@@ -349,6 +395,13 @@ private:
         return Token(TokenType::STRING, value, line, col);
     }
     
+    /**
+     * @brief Read Number.
+     * @param[in] line Input parameter.
+     * @param[in] col Input parameter.
+     * @return Return value.
+     * @details Calls: reserve(), peek(), advance(), std::isdigit(), Token().
+     */
     Token readNumber(size_t line, size_t col) {
         std::string value = {};
         value.reserve(32);  // Pre-allocate for typical number sizes
@@ -374,6 +427,13 @@ private:
         return Token(is_float ? TokenType::FLOAT : TokenType::INTEGER, value, line, col);
     }
     
+    /**
+     * @brief Read Identifier Or Keyword.
+     * @param[in] line Input parameter.
+     * @param[in] col Input parameter.
+     * @return Return value.
+     * @details Calls: reserve(), std::isalnum(), peek(), advance(), std::transform(), begin(), end(), Token().
+     */
     Token readIdentifierOrKeyword(size_t line, size_t col) {
         std::string value = {};
         value.reserve(64);  // Pre-allocate for typical identifier sizes
@@ -551,6 +611,13 @@ private:
         return Token(TokenType::IDENTIFIER, value, line, col);
     }
     
+    /**
+     * @brief Read Operator Or Punctuation.
+     * @param[in] line Input parameter.
+     * @param[in] col Input parameter.
+     * @return Return value.
+     * @details Calls: peek(), advance(), Token(), std::string().
+     */
     Token readOperatorOrPunctuation(size_t line, size_t col) {
         char ch = peek();
         
@@ -609,9 +676,19 @@ private:
 /** @brief Parser. */
 class Parser {
 public:
+    /**
+     * @brief Parser.
+     * @param[in] tokens Input parameter.
+     * @return Return value.
+     */
     explicit Parser(std::vector<Token> tokens)
         : tokens_(std::move(tokens)), pos_(0) {}
     
+    /**
+     * @brief Parse.
+     * @return Return value.
+     * @details Calls: fmt::format(), parseQuery(), Ok(), current(), what().
+     */
     Result<std::shared_ptr<Query>> parse() {
         try {
             // Check for invalid tokens first
@@ -637,6 +714,11 @@ public:
         }
     }
 
+    /**
+     * @brief Parse Standalone Expression.
+     * @return Return value.
+     * @details Calls: fmt::format(), parseExpression(), match(), current(), Ok(), what().
+     */
     Result<std::shared_ptr<Expression>> parseStandaloneExpression() {
         try {
             for (const auto& token : tokens_) {
@@ -699,6 +781,10 @@ private:
         return p < tokens_.size() ? tokens_[p] : tokens_.back();
     }
     
+    /**
+     * @brief Advance.
+     * @details Calls: size().
+     */
     void advance() {
         if (tokens_.size() > pos_) {
           pos_++;
@@ -709,8 +795,20 @@ private:
         return current().type == type;
     }
     
+    /**
+     * @brief Expect.
+     * @param[in] type Input parameter.
+     * @param[in] msg Input parameter.
+     * @throws std::runtime_error if an error occurs.
+     * @details Calls: match(), advance().
+     */
     void expect(TokenType type, const std::string& msg) {
         if (!match(type)) {
+            /**
+             * @brief Runtime error.
+             * @param[in] msg Input parameter.
+             * @return Return value.
+             */
             throw std::runtime_error(msg);
         }
         advance();
@@ -823,6 +921,7 @@ private:
      * @throws std::runtime_error on syntax errors.
      *
      * @since Phase 6 FTS (Target: Q3 2026)
+     * @details Calls: expect(), match(), advance(), current(), std::stoul(), THEMIS_WARN(), std::stod(), push_back().
      */
     std::shared_ptr<SearchClauseNode> parseSearchClause() {
         expect(TokenType::SEARCH, "Expected SEARCH keyword");
@@ -1023,6 +1122,12 @@ private:
         return node;
     }
 
+    /**
+     * @brief Parse For Clause.
+     * @return Return value.
+     * @throws std::runtime_error if an error occurs.
+     * @details Calls: expect(), match(), current(), advance(), registerCollection(), std::stoi(), peek(), std::to_string().
+     */
     ForNode parseForClause() {
         expect(TokenType::FOR, "Expected FOR");
         
@@ -1177,6 +1282,12 @@ private:
         throw std::runtime_error("Expected collection name or traversal after IN");
     }
 
+    /**
+     * @brief Parse Let Clause.
+     * @return Return value.
+     * @throws std::runtime_error if an error occurs.
+     * @details Calls: expect(), match(), current(), advance(), parseExpression().
+     */
     LetNode parseLetClause() {
         expect(TokenType::LET, "Expected LET");
         if (!match(TokenType::IDENTIFIER)) {
@@ -1190,6 +1301,11 @@ private:
         return node;
     }
     
+    /**
+     * @brief Parse Filter Clause.
+     * @return Return value.
+     * @details Calls: expect(), parseExpression().
+     */
     std::shared_ptr<FilterNode> parseFilterClause() {
         expect(TokenType::FILTER, "Expected FILTER");
         
@@ -1197,6 +1313,11 @@ private:
         return std::make_shared<FilterNode>(condition);
     }
     
+    /**
+     * @brief Parse Sort Clause.
+     * @return Return value.
+     * @details Calls: expect(), empty(), parseExpression(), match(), advance(), push_back(), std::move().
+     */
     std::shared_ptr<SortNode> parseSortClause() {
         expect(TokenType::SORT, "Expected SORT");
         
@@ -1226,6 +1347,12 @@ private:
         return std::make_shared<SortNode>(std::move(specs));
     }
     
+    /**
+     * @brief Parse Limit Clause.
+     * @return Return value.
+     * @throws std::runtime_error if an error occurs.
+     * @details Calls: expect(), match(), std::stoll(), current(), THEMIS_WARN(), advance().
+     */
     std::shared_ptr<LimitNode> parseLimitClause() {
         expect(TokenType::LIMIT, "Expected LIMIT");
         
@@ -1258,6 +1385,11 @@ private:
         return std::make_shared<LimitNode>(0, first); // count only
     }
     
+    /**
+     * @brief Parse Return Clause.
+     * @return Return value.
+     * @details Calls: expect(), parseExpression().
+     */
     std::shared_ptr<ReturnNode> parseReturnClause() {
         expect(TokenType::RETURN, "Expected RETURN");
         
@@ -1265,7 +1397,12 @@ private:
         return std::make_shared<ReturnNode>(expr);
     }
 
-    // Phase 3: Parse WITH clause
+    /**
+     * @brief Phase 3: Parse WITH clause
+     * @return Return value.
+     * @throws std::runtime_error if an error occurs.
+     * @details Calls: expect(), empty(), match(), current(), advance(), parseQuery(), push_back(), std::move().
+     */
     std::shared_ptr<WithNode> parseWithClause() {
         expect(TokenType::WITH, "Expected WITH");
         
@@ -1304,6 +1441,12 @@ private:
         return withNode;
     }
 
+    /**
+     * @brief Parse Collect Clause.
+     * @return Return value.
+     * @throws std::runtime_error if an error occurs.
+     * @details Calls: expect(), match(), current(), advance(), parseExpression(), emplace_back(), push_back(), std::move().
+     */
     std::shared_ptr<CollectNode> parseCollectClause() {
         expect(TokenType::COLLECT, "Expected COLLECT");
         auto node = std::make_shared<CollectNode>();
@@ -1358,6 +1501,12 @@ private:
         return node;
     }
     
+    /**
+     * @brief Parse Expression.
+     * @return Return value.
+     * @throws std::runtime_error if an error occurs.
+     * @details Calls: fmt::format(), DepthGuard(), parseLogicalOr().
+     */
     std::shared_ptr<Expression> parseExpression() {
         // PA-1 fix: guard against unbounded recursion from crafted deeply-nested queries.
         if (depth_ >= kMaxExprDepth) {
@@ -1371,6 +1520,11 @@ private:
         return parseLogicalOr();
     }
     
+    /**
+     * @brief Parse Logical Or.
+     * @return Return value.
+     * @details Calls: parseLogicalAnd(), match(), advance().
+     */
     std::shared_ptr<Expression> parseLogicalOr() {
         auto left = parseLogicalAnd();
         
@@ -1384,6 +1538,11 @@ private:
         return left;
     }
     
+    /**
+     * @brief Parse Logical And.
+     * @return Return value.
+     * @details Calls: parseComparison(), match(), advance().
+     */
     std::shared_ptr<Expression> parseLogicalAnd() {
         auto left = parseComparison();
         
@@ -1396,6 +1555,11 @@ private:
         return left;
     }
     
+    /**
+     * @brief Parse Comparison.
+     * @return Return value.
+     * @details Calls: parseAdditive(), get(), match(), current(), advance().
+     */
     std::shared_ptr<Expression> parseComparison() {
         auto left = parseAdditive();
         
@@ -1451,6 +1615,11 @@ private:
         return left;
     }
     
+    /**
+     * @brief Parse Additive.
+     * @return Return value.
+     * @details Calls: parseMultiplicative(), match(), advance().
+     */
     std::shared_ptr<Expression> parseAdditive() {
         auto left = parseMultiplicative();
         
@@ -1464,6 +1633,11 @@ private:
         return left;
     }
     
+    /**
+     * @brief Parse Multiplicative.
+     * @return Return value.
+     * @details Calls: parseUnary(), match(), advance().
+     */
     std::shared_ptr<Expression> parseMultiplicative() {
         auto left = parseUnary();
         
@@ -1484,6 +1658,11 @@ private:
         return left;
     }
     
+    /**
+     * @brief Parse Unary.
+     * @return Return value.
+     * @details Calls: match(), advance(), parsePostfix().
+     */
     std::shared_ptr<Expression> parseUnary() {
         if (match(TokenType::NOT)) {
             advance();
@@ -1499,6 +1678,12 @@ private:
         return parsePostfix();
     }
     
+    /**
+     * @brief Parse Postfix.
+     * @return Return value.
+     * @throws std::runtime_error if an error occurs.
+     * @details Calls: parsePrimary(), match(), advance(), current().
+     */
     std::shared_ptr<Expression> parsePostfix() {
         auto expr = parsePrimary();
         
@@ -1516,6 +1701,12 @@ private:
         return expr;
     }
     
+    /**
+     * @brief Parse Primary.
+     * @return Return value.
+     * @throws std::runtime_error if an error occurs.
+     * @details Calls: match(), advance(), parseQuery(), expect(), parseExpression(), current(), emplace_back(), std::move().
+     */
     std::shared_ptr<Expression> parsePrimary() {
         // Phase 3.2: Subquery in expression context
         // Pattern: (FOR ... RETURN expr)
@@ -1729,12 +1920,11 @@ private:
     // Mutation Parsing (EPIC-004 Phase 1) — public entry point
     // ========================================================================
 public:
-    /// @brief Entry point for DML statement parsing.
-    ///
-    /// Dispatches to the appropriate parseXxxStatement() method based on the
-    /// leading keyword (INSERT | UPDATE | DELETE | REMOVE | REPLACE | UPSERT).
-    ///
-    /// @return Parsed MutationNode or a parse error.
+    /**
+     * @brief @brief Entry point for DML statement parsing.
+     * @return Return value.
+     * @details Dispatches to the appropriate parseXxxStatement() method based on the leading keyword (INSERT | UPDATE | DELETE | REMOVE | REPLACE | UPSERT). @return Parsed MutationNode or a parse error. Calls: fmt::format(), match(), parseInsertStatement(), parseUpdateStatement(), parseDeleteStatement(), parseRemoveStatement(), parseReplaceStatement(), parseUpsertStatement().
+     */
     Result<std::shared_ptr<MutationNode>> parseMutation() {
         try {
             // Reject invalid tokens early.
@@ -1795,10 +1985,13 @@ private:
     // Helpers for mutation parsing
     // -----------------------------------------------------------------------
 
-    /// @brief Consume the current token if it is an IDENTIFIER, INSERT, UPDATE,
-    ///        DELETE, REMOVE, REPLACE, UPSERT, SET, FROM, WHERE, INTO, VALUES,
-    ///        or any keyword that may also be used as a bare collection/field
-    ///        name in a mutation context.  Returns the token value.
+    /**
+     * @brief @brief Consume the current token if it is an IDENTIFIER, INSERT, UPDATE, DELETE, REMOVE, REPLACE, UPSERT, SET, FROM, WHERE, INTO, VALUES, or any keyword that may also be used as a bare collection/field name in a mutation context.
+     * @param[in] context Input parameter.
+     * @return Return value.
+     * @throws std::runtime_error if an error occurs.
+     * @details Returns the token value. Calls: current(), advance(), registerCollection(), fmt::format().
+     */
     std::string expectCollectionName(const std::string& context) {
         const TokenType t = current().type;
         // Allow any token type that could serve as a bare identifier in practice.
@@ -1824,8 +2017,12 @@ private:
                         context, current().value));
     }
 
-    /// @brief Parse optional `RETURN NEW` or `RETURN OLD` clause.
-    ///        Sets *return_new / *return_old to true when detected.
+    /**
+     * @brief @brief Parse optional `RETURN NEW` or `RETURN OLD` clause.
+     * @param[in,out] return_new Input/output parameter.
+     * @param[in,out] return_old Input/output parameter.
+     * @details Sets *return_new / *return_old to true when detected. Calls: match(), advance(), current(), std::transform(), begin(), end().
+     */
     void parseReturnClause(bool& return_new, bool& return_old) {
         if (!match(TokenType::RETURN)) {
           return;
@@ -1851,10 +2048,12 @@ private:
     // parseInsertStatement
     // -----------------------------------------------------------------------
 
-    /// @brief Parse INSERT statement in two surface forms.
-    ///
-    ///   AQL-native: `INSERT doc_expr INTO collection [RETURN NEW]`
-    ///   SQL-style:  `INSERT INTO collection VALUES {doc1}[, {doc2}...] [RETURN NEW]`
+    /**
+     * @brief @brief Parse INSERT statement in two surface forms.
+     * @return Return value.
+     * @throws std::runtime_error if an error occurs.
+     * @details AQL-native: `INSERT doc_expr INTO collection [RETURN NEW]` SQL-style: `INSERT INTO collection VALUES {doc1}[, {doc2}...] [RETURN NEW]` Calls: expect(), match(), advance(), expectCollectionName(), empty(), push_back(), parseExpression(), parseReturnClause().
+     */
     std::shared_ptr<MutationNode> parseInsertStatement() {
         expect(TokenType::INSERT, "Expected INSERT");
         auto node = std::make_shared<InsertNode>();
@@ -1893,10 +2092,12 @@ private:
     // parseUpdateStatement
     // -----------------------------------------------------------------------
 
-    /// @brief Parse UPDATE statement in two surface forms.
-    ///
-    ///   SQL-style:  `UPDATE collection SET k=v [, ...] [WHERE cond] [LIMIT n] [RETURN NEW|OLD]`
-    ///   AQL-native: `UPDATE search_expr WITH update_expr IN collection [RETURN NEW|OLD]`
+    /**
+     * @brief @brief Parse UPDATE statement in two surface forms.
+     * @return Return value.
+     * @throws std::runtime_error if an error occurs.
+     * @details SQL-style: `UPDATE collection SET k=v [, ...] [WHERE cond] [LIMIT n] [RETURN NEW|OLD]` AQL-native: `UPDATE search_expr WITH update_expr IN collection [RETURN NEW|OLD]` Calls: expect(), current(), peek(), expectCollectionName(), empty(), match(), advance(), parseExpression().
+     */
     std::shared_ptr<MutationNode> parseUpdateStatement() {
         expect(TokenType::UPDATE, "Expected UPDATE");
         auto node = std::make_shared<UpdateNode>();
@@ -1972,9 +2173,12 @@ private:
     // parseDeleteStatement
     // -----------------------------------------------------------------------
 
-    /// @brief Parse DELETE (SQL-style alias for REMOVE).
-    ///
-    ///   `DELETE FROM collection [WHERE cond] [LIMIT n] [RETURN OLD]`
+    /**
+     * @brief @brief Parse DELETE (SQL-style alias for REMOVE).
+     * @return Return value.
+     * @throws std::runtime_error if an error occurs.
+     * @details `DELETE FROM collection [WHERE cond] [LIMIT n] [RETURN OLD]` Calls: expect(), expectCollectionName(), match(), advance(), parseExpression(), std::stoll(), current(), parseReturnClause().
+     */
     std::shared_ptr<MutationNode> parseDeleteStatement() {
         expect(TokenType::DELETE, "Expected DELETE");
         auto node = std::make_shared<RemoveNode>();
@@ -2007,9 +2211,11 @@ private:
     // parseRemoveStatement
     // -----------------------------------------------------------------------
 
-    /// @brief Parse AQL-native REMOVE statement.
-    ///
-    ///   `REMOVE doc_expr IN collection [RETURN OLD]`
+    /**
+     * @brief @brief Parse AQL-native REMOVE statement.
+     * @return Return value.
+     * @details `REMOVE doc_expr IN collection [RETURN OLD]` Calls: expect(), MembershipInGuard(), flag(), parseExpression(), expectCollectionName(), parseReturnClause().
+     */
     std::shared_ptr<MutationNode> parseRemoveStatement() {
         expect(TokenType::REMOVE, "Expected REMOVE");
         auto node = std::make_shared<RemoveNode>();
@@ -2033,9 +2239,11 @@ private:
     // parseReplaceStatement
     // -----------------------------------------------------------------------
 
-    /// @brief Parse REPLACE statement.
-    ///
-    ///   `REPLACE search_expr WITH replacement IN collection [RETURN NEW|OLD]`
+    /**
+     * @brief @brief Parse REPLACE statement.
+     * @return Return value.
+     * @details `REPLACE search_expr WITH replacement IN collection [RETURN NEW|OLD]` Calls: expect(), parseExpression(), expectCollectionName(), parseReturnClause().
+     */
     std::shared_ptr<MutationNode> parseReplaceStatement() {
         expect(TokenType::REPLACE, "Expected REPLACE");
         auto node = std::make_shared<ReplaceNode>();
@@ -2054,9 +2262,11 @@ private:
     // parseUpsertStatement
     // -----------------------------------------------------------------------
 
-    /// @brief Parse UPSERT statement.
-    ///
-    ///   `UPSERT search_expr INSERT insert_doc UPDATE update_doc IN collection [RETURN NEW|OLD]`
+    /**
+     * @brief @brief Parse UPSERT statement.
+     * @return Return value.
+     * @details `UPSERT search_expr INSERT insert_doc UPDATE update_doc IN collection [RETURN NEW|OLD]` Calls: expect(), parseExpression(), expectCollectionName(), parseReturnClause().
+     */
     std::shared_ptr<MutationNode> parseUpsertStatement() {
         expect(TokenType::UPSERT, "Expected UPSERT");
         auto node = std::make_shared<UpsertNode>();
@@ -2074,13 +2284,20 @@ private:
     }
 };
 
-// ============================================================================
-// Parser Implementation
-// ============================================================================
+/**
+ * @brief ============================================================================ Parser Implementation ============================================================================
+ * @param[in] query_string Input parameter.
+ * @return Return value.
+ * @details Calls: tokenizer(), tokenize(), parser(), std::move(), fmt::format(), what().
+ */
 
 Result<std::shared_ptr<Query>> AQLParser::parse(const std::string& query_string) {
     try {
-        // Tokenize
+        /**
+         * @brief Tokenize
+         * @param[in] query_string Input parameter.
+         * @return Return value.
+         */
         Tokenizer tokenizer(query_string);
         auto tokens = tokenizer.tokenize();
         
@@ -2096,7 +2313,19 @@ Result<std::shared_ptr<Query>> AQLParser::parse(const std::string& query_string)
     }
 }
 
+/**
+ * @brief Parse Expression.
+ * @param[in] expr_str Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: tokenizer(), tokenize(), parser(), std::move(), parseStandaloneExpression(), error(), message().
+ */
 std::shared_ptr<Expression> AQLParser::parseExpression(const std::string& expr_str) {
+    /**
+     * @brief Tokenizer.
+     * @param[in] expr_str Input parameter.
+     * @return Return value.
+     */
     Tokenizer tokenizer(expr_str);
     auto tokens = tokenizer.tokenize();
 
@@ -2109,10 +2338,23 @@ std::shared_ptr<Expression> AQLParser::parseExpression(const std::string& expr_s
     return *result;
 }
 
+/**
+ * @brief Parse Primary Expression.
+ * @param[in] expr_str Input parameter.
+ * @return Return value.
+ * @details Calls: parseExpression().
+ */
 std::shared_ptr<Expression> AQLParser::parsePrimaryExpression(const std::string& expr_str) {
     return parseExpression(expr_str);
 }
 
+/**
+ * @brief String To Operator.
+ * @param[in] op_str Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Implements stringToOperator without additional internal calls.
+ */
 BinaryOperator AQLParser::stringToOperator(const std::string& op_str) {
     if (op_str == "==") {
       return BinaryOperator::Eq;
@@ -2162,6 +2404,12 @@ BinaryOperator AQLParser::stringToOperator(const std::string& op_str) {
     throw std::runtime_error("Unknown operator: " + op_str);
 }
 
+/**
+ * @brief Parse Membership.
+ * @param[in] left Input parameter.
+ * @return Return value.
+ * @details Calls: std::move().
+ */
 std::shared_ptr<Expression> AQLParser::parseMembership(std::shared_ptr<Expression> left) {
     auto nullExpr = std::make_shared<LiteralExpr>(nullptr);
     return std::make_shared<BinaryOpExpr>(BinaryOperator::In, std::move(left), std::move(nullExpr));
@@ -2170,13 +2418,20 @@ std::shared_ptr<Expression> AQLParser::parseMembership(std::shared_ptr<Expressio
 // JSON Serialization moved to src/query/aql_parser_json.cpp to reduce
 // compile-time pressure on this translation unit.
 
-// ============================================================================
-// Multi-Statement Transaction Block Parsing
-// ============================================================================
+/**
+ * @brief ============================================================================ Multi-Statement Transaction Block Parsing ============================================================================
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: tokenizer(), tokenize(), empty(), size(), isMutationStart(), isSeparator(), isTerminator(), isStatementStart().
+ */
 
 Result<AqlTransactionBlock> AQLParser::parseTransactionBlock(const std::string& input) {
     try {
-        // Tokenize the full input
+        /**
+         * @brief Tokenize the full input
+         * @param[in] input Input parameter.
+         * @return Return value.
+         */
         Tokenizer tokenizer(input);
         auto tokens = tokenizer.tokenize();
 
@@ -2369,6 +2624,9 @@ Result<AqlTransactionBlock> AQLParser::parseTransactionBlock(const std::string& 
  * have a fixed keyword structure and only require the RETURN body to be
  * preserved verbatim.  We therefore split until we hit "RETURN", then
  * capture everything that follows as the AQL body.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: size(), std::isspace(), push_back(), std::string(), substr(), std::transform(), begin(), end().
  */
 static std::vector<std::string> tokeniseDdl(const std::string& input) {
     std::vector<std::string> tokens;
@@ -2411,6 +2669,12 @@ static std::vector<std::string> tokeniseDdl(const std::string& input) {
     return tokens;
 }
 
+/**
+ * @brief Parse DDL.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: find_first_not_of(), make_err(), find_last_not_of(), substr(), std::transform(), begin(), end(), std::toupper().
+ */
 Result<ContinuousQueryDDL> AQLParser::parseDDL(const std::string& input) {
     // ── helpers ──────────────────────────────────────────────────────────────
     auto make_err = [](const std::string& msg) -> Result<ContinuousQueryDDL> {
@@ -2647,8 +2911,14 @@ Result<ContinuousQueryDDL> AQLParser::parseDDL(const std::string& input) {
  *
  * @param input  Raw AQL mutation string (case-insensitive keywords).
  * @return       Ok(MutationNode) on success, Err on parse failure.
+ * @details Calls: tokenizer(), tokenize(), p(), std::move().
  */
 Result<std::shared_ptr<MutationNode>> AQLParser::parseMutation(const std::string& input) {
+    /**
+     * @brief Tokenizer.
+     * @param[in] input Input parameter.
+     * @return Return value.
+     */
     Tokenizer tokenizer(input);
     auto tokens = tokenizer.tokenize();
     Parser p(std::move(tokens));
@@ -2671,11 +2941,12 @@ struct SchemaDdlToken {
     size_t      start{0}; ///< Character offset in the source string.
 };
 
-/// @brief Tokenise a Schema DDL string into SchemaDdlToken entries.
-///
-/// Splits on whitespace and treats `(`, `)`, `,` as single-character tokens.
-/// Curly braces `{` and `}` are intentionally NOT split so that OPTIONS blocks
-/// are left intact for JSON extraction via substring search.
+/**
+ * @brief @brief Tokenise a Schema DDL string into SchemaDdlToken entries.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Splits on whitespace and treats `(`, `)`, `,` as single-character tokens. Curly braces `{` and `}` are intentionally NOT split so that OPTIONS blocks are left intact for JSON extraction via substring search. Calls: size(), std::isspace(), std::string(), push_back(), std::move(), substr(), std::transform(), begin().
+ */
 static std::vector<SchemaDdlToken> tokeniseSchemaDdl(const std::string& input) {
     std::vector<SchemaDdlToken> tokens;
     size_t i = 0;
@@ -2722,10 +2993,13 @@ static std::vector<SchemaDdlToken> tokeniseSchemaDdl(const std::string& input) {
     return tokens;
 }
 
-/// @brief Extract a JSON object block `{ … }` from @p source starting at or after @p from_pos.
-///
-/// Balances curly braces to locate the end of the JSON block.  Returns an empty
-/// string if no complete `{…}` block is found.
+/**
+ * @brief @brief Extract a JSON object block `{ … }` from @p source starting at or after @p from_pos.
+ * @param[in] source Input parameter.
+ * @param[in] from_pos Input parameter.
+ * @return Return value.
+ * @details Balances curly braces to locate the end of the JSON block. Returns an empty string if no complete `{…}` block is found. Calls: find(), size(), substr().
+ */
 static std::string extractJsonBlock(const std::string& source, size_t from_pos) {
     size_t brace_open = source.find('{', from_pos);
     if (brace_open == std::string::npos) return {};
@@ -2749,6 +3023,9 @@ static std::string extractJsonBlock(const std::string& source, size_t from_pos) 
  * Implements the seven DDL forms listed in the AQL DDL Phase 2 specification.
  * Keyword matching is case-insensitive; identifier names preserve the casing
  * supplied by the caller.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: find_first_not_of(), make_err(), find_last_not_of(), substr(), std::transform(), begin(), end(), std::toupper().
  */
 Result<SchemaDDL> AQLParser::parseSchemaDDL(const std::string& input) {
     // ── error helper ──────────────────────────────────────────────────────────

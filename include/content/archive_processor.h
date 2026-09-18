@@ -23,27 +23,18 @@ namespace content {
 
 using json = nlohmann::json;
 
-/**
- * @brief Archive handling strategy
- */
 enum class ArchiveStrategy {
     EXTRACT_AND_INGEST,  // Extract all files and ingest individually (default)
     METADATA_ONLY,       // Store only archive metadata without extraction
     REJECT               // Reject archive uploads
 };
 
-/**
- * @brief Encrypted archive handling policy
- */
 enum class EncryptedArchivePolicy {
     REJECT,           // Reject encrypted archives (default)
     METADATA_ONLY,    // Store encrypted archive as blob with metadata
     REQUIRE_PASSWORD  // Accept password parameter for extraction
 };
 
-/**
- * @brief Archive format detection
- */
 enum class ArchiveFormat {
     ZIP,
     TAR,
@@ -54,9 +45,6 @@ enum class ArchiveFormat {
     UNKNOWN
 };
 
-/**
- * @brief Archive member information
- */
 struct ArchiveMember {
     std::string path;                       // Path within archive
     uint64_t uncompressed_size = 0;         ///< Uncompressed size in bytes (CON-019)
@@ -65,9 +53,6 @@ struct ArchiveMember {
     bool is_encrypted = false;              ///< True if this member is encrypted (CON-019)
 };
 
-/**
- * @brief Archive metadata
- */
 struct ArchiveMetadata {
     ArchiveFormat format;
     bool is_encrypted = false;              ///< CON-019
@@ -80,9 +65,6 @@ struct ArchiveMetadata {
     std::string comment;  // Archive comment if any
 };
 
-/**
- * @brief Archive extraction result (internal use)
- */
 struct ArchiveExtractionResult {
     bool success = false;  ///< CON-019
     std::string error_message;
@@ -90,18 +72,12 @@ struct ArchiveExtractionResult {
     std::string temp_directory;  // Temporary directory used for extraction
 };
 
-/**
- * @brief Archive Processor Result (for process() method)
- */
 struct ArchiveProcessorResult {
     bool success = false;  ///< CON-019
     std::string error_message;
     json metadata;
 };
 
-/**
- * @brief Archive Processor Configuration
- */
 struct ArchiveProcessorConfig {
     ArchiveStrategy strategy = ArchiveStrategy::EXTRACT_AND_INGEST;
     EncryptedArchivePolicy encrypted_policy = EncryptedArchivePolicy::REJECT;
@@ -121,22 +97,6 @@ struct ArchiveProcessorConfig {
     bool verbose = false;
 };
 
-/**
- * @brief Archive Content Processor
- * 
- * Handles compressed archive formats (.zip, .tar, .tar.gz, etc.)
- * Supports extraction and ingestion of archive contents with configurable strategies.
- * 
- * Implements IContentProcessor interface while maintaining archive-specific functionality.
- * 
- * Security Features:
- * - Zip bomb detection (compression ratio check)
- * - Path traversal prevention (sanitizes file paths)
- * - Encrypted archive handling
- * - Size limit enforcement
- * 
- * Thread-Safety: Not thread-safe. Use separate instances per thread.
- */
 class ArchiveProcessor : public IContentProcessor {
 public:
     explicit ArchiveProcessor(ArchiveProcessorConfig config = ArchiveProcessorConfig{});
@@ -162,20 +122,30 @@ public:
         return {ContentCategory::ARCHIVE};
     }
     
-    // Archive-specific interface (used by ContentManager)
+    /**
+     * @brief Archive-specific interface (used by ContentManager)
+     * @param[in] blob Input parameter.
+     * @param[in] mime_type Input parameter.
+     * @param[in] filename Input parameter.
+     * @return Return value.
+     */
     ArchiveProcessorResult process(
         const std::string& blob,
         const std::string& mime_type,
         const std::string& filename
     );
     
+    /**
+     * @brief Can Handle.
+     * @param[in] mime_type Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool canHandle(const std::string& mime_type) const;
 
     /**
-     * @brief Check if archive processing is available
-     * 
-     * Returns true if libzip is available and the processor can function.
-     * For plugin architecture - allows runtime detection of capability.
+     * @brief Is Available.
+     * @return True when the operation succeeds.
+     * @details Implements isAvailable without additional internal calls.
      */
     static bool isAvailable() {
         #ifdef THEMIS_ENABLE_ARCHIVES
@@ -186,25 +156,18 @@ public:
     }
 
     /**
-     * @brief Detect archive format from blob
-     * 
-     * Detection strategy:
-     * 1. If blob is empty, returns ArchiveFormat::UNKNOWN (fail-closed validation)
-     * 2. Checks magic bytes for ZIP, GZIP, 7-Zip, and TAR formats
-     * 3. Falls back to filename extension detection for non-empty blobs
-     * 4. Returns ArchiveFormat::UNKNOWN if no format is detected
-     * 
-     * @param blob Archive binary data (may be empty)
-     * @param filename Original filename for extension-based fallback detection
-     * @return Detected archive format or UNKNOWN if detection fails
-     * 
-     * @note Empty blobs always return UNKNOWN regardless of filename to prevent
-     *       false positives and ensure security validation passes.
+     * @brief Detect Format.
+     * @param[in] blob Input parameter.
+     * @param[in] filename Input parameter.
+     * @return Return value.
      */
     static ArchiveFormat detectFormat(const std::string& blob, const std::string& filename);
     
     /**
-     * @brief Extract archive metadata without full extraction
+     * @brief Extract Metadata.
+     * @param[in] blob Input parameter.
+     * @param[in] format Input parameter.
+     * @return Return value.
      */
     static std::optional<ArchiveMetadata> extractMetadata(
         const std::string& blob,
@@ -212,18 +175,13 @@ public:
     );
 
     /**
-     * @brief Check if archive is encrypted
+     * @brief Is Encrypted.
+     * @param[in] blob Input parameter.
+     * @param[in] format Input parameter.
+     * @return True when the operation succeeds.
      */
     static bool isEncrypted(const std::string& blob, ArchiveFormat format);
 
-    /**
-     * @brief Extract archive to temporary directory
-     * 
-     * @param blob Archive binary data
-     * @param format Archive format
-     * @param password Optional password for encrypted archives
-     * @return ArchiveExtractionResult with extracted file paths or error
-     */
     ArchiveExtractionResult extractToTemp(
         const std::string& blob,
         ArchiveFormat format,
@@ -231,38 +189,39 @@ public:
     );
 
     /**
-     * @brief Validate archive against security limits
+     * @brief Validate Archive.
+     * @param[in] metadata Input parameter.
+     * @param[in,out] error_message Input/output parameter.
+     * @return True when the operation succeeds.
      */
     bool validateArchive(const ArchiveMetadata& metadata, std::string& error_message) const;
 
     /**
-     * @brief Sanitize file path to prevent path traversal attacks
-     * 
-     * Removes ".." components and ensures path is relative
+     * @brief Sanitize Path.
+     * @param[in] path Input parameter.
+     * @return Return value.
      */
     static std::string sanitizePath(const std::string& path);
 
     /**
-     * @brief Clean up temporary extraction directory
+     * @brief Cleanup Temp Directory.
+     * @param[in] temp_dir Input parameter.
      */
     static void cleanupTempDirectory(const std::string& temp_dir);
 
-    /**
-     * @brief Get configuration
-     */
     const ArchiveProcessorConfig& getConfig() const { return config_; }
 
     /**
-     * @brief Update configuration
+     * @brief Set Config.
+     * @param[in] config Input parameter.
+     * @details Calls: std::move().
      */
     void setConfig(ArchiveProcessorConfig config) { config_ = std::move(config); }
 
     /**
-     * @brief Configure the security manager used for zip-bomb checks
-     * 
-     * By default a ContentSecurityManager with zip-bomb checks enabled (ratio 100×,
-     * max 1,000 files) is used automatically. Call this to supply a pre-configured
-     * manager, e.g. to adjust thresholds or share metrics with another component.
+     * @brief Set Security Config.
+     * @param[in] security_config Input parameter.
+     * @details Calls: setConfig().
      */
     void setSecurityConfig(const ContentSecurityConfig& security_config) {
         security_manager_.setConfig(security_config);
@@ -272,12 +231,33 @@ private:
     ArchiveProcessorConfig config_;
     ContentSecurityManager security_manager_;
     
-    // Format-specific extraction methods
+    /**
+     * @brief Format-specific extraction methods
+     * @param[in] blob Input parameter.
+     * @param[in] password Input parameter.
+     * @return Return value.
+     */
     ArchiveExtractionResult extractZip(const std::string& blob, const std::string& password);
+    /**
+     * @brief Extract Tar.
+     * @param[in] blob Input parameter.
+     * @param[in] format Input parameter.
+     * @return Return value.
+     */
     ArchiveExtractionResult extractTar(const std::string& blob, ArchiveFormat format);
     
     // Helper methods
+    /**
+     * @brief Generate Temp Directory.
+     * @return Return value.
+     */
     std::string generateTempDirectory() const;
+    /**
+     * @brief Check Compression Ratio.
+     * @param[in] compressed Input parameter.
+     * @param[in] uncompressed Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool checkCompressionRatio(uint64_t compressed, uint64_t uncompressed) const;
 };
 

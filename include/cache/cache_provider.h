@@ -23,15 +23,34 @@ struct CacheValue {
     uint64_t ts_ms{0};     // insert timestamp (ms)
 };
 
-/** @brief Provider component cache. */
 class CacheProvider {
 public:
+    /**
+     * @brief Cache Provider.
+     * @return Return value.
+     */
     virtual ~CacheProvider() = default;
     [[nodiscard]] virtual bool Get(std::string_view key, CacheValue& out) = 0;
+    /**
+     * @brief Put.
+     * @param[in] key Input parameter.
+     * @param[in] v Input parameter.
+     * @param[in] ttl_ms Input parameter.
+     */
     virtual void Put(std::string_view key, const CacheValue& v, uint64_t ttl_ms) = 0;
+    /**
+     * @brief Invalidate.
+     * @param[in] key Input parameter.
+     */
     virtual void Invalidate(std::string_view key) = 0;
 };
 
+/**
+ * @brief Make Entity Key.
+ * @param[in] urn Input parameter.
+ * @return Return value.
+ * @details Implements makeEntityKey without additional internal calls.
+ */
 inline std::string makeEntityKey(const std::string& urn) { return urn; }
 
 }} // namespace themis::cache

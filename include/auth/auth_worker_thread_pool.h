@@ -28,36 +28,11 @@
 namespace themis {
 namespace auth {
 
-/**
- * @brief Thread pool for dispatching blocking authentication tasks (LDAP, HTTP)
- *        off the calling thread, eliminating head-of-line blocking.
- *
- * Maintains between kMinThreads and kMaxThreads worker threads.  Tasks
- * submitted via submit() run on a worker thread; the caller receives a
- * std::future<T> immediately and is never blocked.
- *
- * New worker threads are spawned on demand (up to kMaxThreads) when all
- * current workers are busy.
- *
- * Thread-safety: submit() and shutdown() are safe to call concurrently.
- * Construction and destruction must not be concurrent with any other method.
- *
- * Performance targets (auth roadmap v1.2.0):
- *   - LDAP bind latency P99 ≤ 50 ms visible to callers even when backend
- *     latency is 200 ms (no head-of-line blocking)
- *   - JWT JWKS refresh never blocks the validation hot path for more than 1 ms
- */
 class AuthWorkerThreadPool {
 public:
     static constexpr size_t kMinThreads = 4;
     static constexpr size_t kMaxThreads = 32;
 
-    /**
-     * @brief Construct and start worker threads.
-     *
-     * @param min_threads  Threads to start immediately (clamped to [1, max_threads]).
-     * @param max_threads  Upper bound on thread count (clamped to [1, kMaxThreads]).
-     */
     explicit AuthWorkerThreadPool(size_t min_threads = kMinThreads,
                                   size_t max_threads = kMaxThreads)
         : max_threads_(std::min(std::max(max_threads, size_t{1}), kMaxThreads)),
@@ -77,24 +52,10 @@ public:
     AuthWorkerThreadPool(AuthWorkerThreadPool&&)                   = delete;
     AuthWorkerThreadPool& operator=(AuthWorkerThreadPool&&)        = delete;
 
-    /**
-     * @brief Signal stop, drain all pending tasks, and join every worker thread.
-     */
     ~AuthWorkerThreadPool() noexcept {
         shutdown();
     }
 
-    /**
-     * @brief Submit a callable to the pool.
-     *
-     * Returns a std::future<ReturnType> that becomes ready once the callable
-     * finishes.  If the callable throws, the exception is propagated through
-     * the future.
-     *
-     * @tparam Func  Callable type
-     * @tparam Args  Argument types forwarded to Func
-     * @throws std::runtime_error if the pool has already been shut down
-     */
     template <typename Func, typename... Args>
     auto submit(Func&& f, Args&&... args)
         -> std::future<std::invoke_result_t<Func, Args...>>
@@ -117,6 +78,11 @@ public:
         std::future<ReturnType> fut = task->get_future();
 
         {
+            /**
+             * @brief Lock.
+             * @param[in] queue_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(queue_mutex_);
             if (stop_) {
                 throw std::runtime_error(
@@ -129,15 +95,13 @@ public:
         return fut;
     }
 
-    /**
-     * @brief Gracefully stop the pool.
-     *
-     * Sets the stop flag, wakes all workers, and joins every thread.  Pending
-     * tasks that have not yet started will still be executed before each worker
-     * exits.  Safe to call multiple times.
-     */
     void shutdown() noexcept {
         {
+            /**
+             * @brief Lock.
+             * @param[in] queue_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(queue_mutex_);
             if (stop_) {
               return;
@@ -153,8 +117,12 @@ public:
         workers_.clear();
     }
 
-    /// Return the current number of live worker threads.
     size_t threadCount() const noexcept {
+        /**
+         * @brief Lock.
+         * @param[in] queue_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(queue_mutex_);
         return workers_.size();
     }
@@ -168,7 +136,10 @@ private:
     mutable std::mutex              queue_mutex_;
     std::condition_variable         cv_ = {};
 
-    // Spawn one new worker thread. Must be called with queue_mutex_ held.
+    /**
+     * @brief Spawn one new worker thread.
+     * @details Must be called with queue_mutex_ held. Calls: emplace_back(), void(), lock(), wait(), empty(), std::move(), front(), pop().
+     */
     void spawnWorker() {
         workers_.emplace_back([this] {
             for (;;) {
@@ -189,8 +160,10 @@ private:
         });
     }
 
-    // Grow the pool by one thread if every current worker is busy and we
-    // haven't hit max_threads_.  Must be called with queue_mutex_ held.
+    /**
+     * @brief Grow the pool by one thread if every current worker is busy and we haven't hit max_threads_.
+     * @details Must be called with queue_mutex_ held. Calls: size(), spawnWorker().
+     */
     void tryGrow() {
         if (idle_count_ == 0 && workers_.size() < max_threads_) {
             spawnWorker();

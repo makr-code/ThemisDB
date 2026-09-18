@@ -34,6 +34,13 @@
 
 namespace {
 
+/**
+ * @brief Is Boolean Literal.
+ * @param[in] value Input parameter.
+ * @param[in,out] parsed Input/output parameter.
+ * @return True on success.
+ * @details Calls: reserve(), size(), push_back(), std::tolower().
+ */
 bool isBooleanLiteral(const std::string& value, bool& parsed) {
     std::string normalized = {};
     normalized.reserve(value.size());
@@ -54,6 +61,13 @@ bool isBooleanLiteral(const std::string& value, bool& parsed) {
     return false;
 }
 
+/**
+ * @brief Try Parse Int.
+ * @param[in] value Input parameter.
+ * @param[in,out] parsed Input/output parameter.
+ * @return True on success.
+ * @details Calls: data(), size(), std::from_chars().
+ */
 bool tryParseInt(const std::string& value, int& parsed) {
     const char* begin = value.data();
     const char* end = begin + value.size();
@@ -61,6 +75,13 @@ bool tryParseInt(const std::string& value, int& parsed) {
     return ec == std::errc{} && ptr == end;
 }
 
+/**
+ * @brief Try Parse Double.
+ * @param[in] value Input parameter.
+ * @param[in,out] parsed Input/output parameter.
+ * @return True on success.
+ * @details Calls: std::strtod(), c_str(), size().
+ */
 bool tryParseDouble(const std::string& value, double& parsed) {
     char* end_ptr = nullptr;
     const double parsed_value = std::strtod(value.c_str(), &end_ptr);
@@ -92,7 +113,18 @@ PIIDetector::PIIDetector(std::string config_path,
     spdlog::info("PIIDetector: Initialized with {} engine(s)",engines_.size());
 }
 
+/**
+ * @brief Reload.
+ * @param[in] config_path Input parameter.
+ * @return True on success.
+ * @details Calls: lock(), empty(), std::move(), clear(), loadFromYaml(), spdlog::error(), logErrorWithContext(), makeErrorContext().
+ */
 bool PIIDetector::reload(const std::string& config_path) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::scoped_lock lock(mutex_);
     
     std::string path = config_path.empty() ? config_path_ : config_path;
@@ -122,22 +154,47 @@ bool PIIDetector::reload(const std::string& config_path) {
     return true;
 }
 
+/**
+ * @brief Set PKIClient.
+ * @param[in] pki_client Input parameter.
+ * @details Calls: lock().
+ */
 void PIIDetector::setPKIClient(std::shared_ptr<VCCPKIClient> pki_client) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::scoped_lock lock(mutex_);
     pki_client_ = pki_client;
 }
 
 bool PIIDetector::isPKIVerificationEnabled() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::scoped_lock lock(mutex_);
     return pki_client_ != nullptr;
 }
 
 std::string PIIDetector::getLastError() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::scoped_lock lock(mutex_);
     return last_error_;
 }
 
 std::vector<PIIFinding> PIIDetector::detectInText(const std::string& text) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::scoped_lock lock(mutex_);
     
     std::vector<PIIFinding> all_findings;
@@ -176,6 +233,11 @@ std::unordered_map<std::string, std::vector<PIIFinding>> PIIDetector::detectInJs
 }
 
 PIIType PIIDetector::classifyFieldName(const std::string& field_name) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::scoped_lock lock(mutex_);
     
     // Query all engines, return first non-UNKNOWN result
@@ -194,6 +256,11 @@ PIIType PIIDetector::classifyFieldName(const std::string& field_name) const {
 }
 
 std::string PIIDetector::getRedactionRecommendation(PIIType type) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::scoped_lock lock(mutex_);
     
     // Query first enabled engine
@@ -217,6 +284,11 @@ std::string PIIDetector::maskValue(PIIType type, const std::string& value) const
 }
 
 std::vector<std::string> PIIDetector::getEnabledEngines() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::scoped_lock lock(mutex_);
     
     std::vector<std::string> enabled = {};
@@ -231,6 +303,11 @@ std::vector<std::string> PIIDetector::getEnabledEngines() const {
 }
 
 nlohmann::json PIIDetector::getEngineMetadata() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::scoped_lock lock(mutex_);
 
     nlohmann::json metadata = {
@@ -255,6 +332,12 @@ nlohmann::json PIIDetector::getEngineMetadata() const {
     return metadata;
 }
 
+/**
+ * @brief Load From Yaml.
+ * @param[in] path Input parameter.
+ * @return True on success.
+ * @details Calls: themis::config::ConfigPathResolver::tryResolve(), std::filesystem::exists(), std::filesystem::path(), is_absolute(), std::filesystem::current_path(), parent_path(), string(), YAML::LoadFile().
+ */
 bool PIIDetector::loadFromYaml(const std::string& path) {
 #if !THEMIS_UTILS_HAS_YAML_CPP
     last_error_ = "yaml-cpp not available; YAML PII configuration loading is disabled";
@@ -381,6 +464,10 @@ bool PIIDetector::loadFromYaml(const std::string& path) {
 #endif
 }
 
+/**
+ * @brief Initialize Default Engine.
+ * @details Calls: clear(), PIIDetectionEngineFactory::createUnsigned(), spdlog::error(), error(), message(), logErrorWithContext(), makeErrorContext(), fmt::format().
+ */
 void PIIDetector::initializeDefaultEngine() {
     engines_.clear();
 
@@ -431,6 +518,12 @@ void PIIDetector::initializeDefaultEngine() {
     spdlog::info("PIIDetector: Initialized with {} embedded unsigned engine(s)",engines_.size());
 }
 
+/**
+ * @brief Verify And Load Engine.
+ * @param[in] engine_config Input parameter.
+ * @return True on success.
+ * @details Calls: value(), empty(), spdlog::warn(), spdlog::info(), themis::utils::PIIDetectionEngineFactory::createSigned(), spdlog::error(), error(), message().
+ */
 bool PIIDetector::verifyAndLoadEngine(const nlohmann::json& engine_config) {
     std::string engine_type = {};
     
@@ -575,6 +668,12 @@ void PIIDetector::scanJsonRecursive(
     }
 }
 
+/**
+ * @brief Deduplicate Findings.
+ * @param[in] findings Input parameter.
+ * @return Return value.
+ * @details Calls: size(), std::ranges::sort(), push_back(), front(), back(), at().
+ */
 std::vector<PIIFinding> PIIDetector::deduplicateFindings(
     std::vector<PIIFinding> findings) {
     

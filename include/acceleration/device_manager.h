@@ -22,65 +22,57 @@
 namespace themis {
 namespace acceleration {
 
-/**
- * @brief Acceleration-layer runtime device capability manager.
- *
- * Wraps themis::gpu::DeviceDiscovery to provide the acceleration module with
- * a device-capability view that includes BackendType mapping and precision
- * support flags.  Probe results are cached for @c kCacheTTL (60 seconds) and
- * refreshed on explicit refresh() or when the TTL expires.
- *
- * Design notes
- * ------------
- * - Singleton; created on first access via instance().
- * - All public methods are thread-safe.
- * - Real CUDA/ROCm probing is delegated to themis::gpu::DeviceDiscovery, which
- *   guards hardware calls behind THEMIS_ENABLE_CUDA / THEMIS_ENABLE_HIP.
- * - When no real GPU runtime is present, a CPU_FALLBACK sentinel is returned
- *   so callers always receive a non-empty device list.
- */
 class DeviceManager {
 public:
     using EnumerateFn = std::function<std::vector<DeviceCapabilityInfo>()>;
 
-    /// Singleton accessor.
+    /**
+     * @brief Instance.
+     * @return Return value.
+     */
     static DeviceManager& instance();
 
-    /// Enumerate all available compute devices.
-    /// Returns cached results if the cache is valid and within kCacheTTL.
+    /**
+     * @brief Probe Devices.
+     * @return Return value.
+     */
     std::vector<DeviceCapabilityInfo> probeDevices();
 
-    /// Force a fresh hardware probe, ignoring the cache.
-    /// Equivalent to invalidating the cache and calling probeDevices().
+    /**
+     * @brief Refresh.
+     * @return Return value.
+     */
     std::vector<DeviceCapabilityInfo> refresh();
 
-    /// Return the best available device (highest free VRAM among healthy
-    /// GPU devices, or CPU fallback when no real GPU is present).
+    /**
+     * @brief Get Best Device.
+     * @return Return value.
+     */
     DeviceCapabilityInfo getBestDevice();
 
-    /// True when at least one healthy real (non-CPU) device is present.
+    /**
+     * @brief Has GPU.
+     * @return True when the operation succeeds.
+     */
     bool hasGPU();
 
-    /// BackendType of the best available device.
+    /**
+     * @brief Best Backend Type.
+     * @return Return value.
+     */
     BackendType bestBackendType();
 
-    /// Emit a structured log line (to std::cout) listing all probed devices
-    /// and the selected best device.  Intended for startup observability.
+    /**
+     * @brief Log Device Info.
+     */
     void logDeviceInfo();
 
     /**
-     * @brief Register a custom device-enumeration callback.
-     *
-     * When set, @ref probeDevices() and @ref refresh() use this callback instead
-     * of the default GPU discovery bridge. This is intended for focused tests
-     * and CPU-only builds that need deterministic capability snapshots.
-     *
-     * @param fn Callback returning the full device snapshot. Pass an empty
-     *           function to restore default runtime discovery.
+     * @brief Set Enumerate Fn.
+     * @param[in] fn Input parameter.
      */
     static void setEnumerateFn(EnumerateFn fn);
 
-    /// Cache time-to-live: probe results are considered fresh for 60 seconds.
     static constexpr std::chrono::seconds kCacheTTL{60};
 
 private:

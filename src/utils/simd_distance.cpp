@@ -46,6 +46,14 @@ namespace simd {
 // This distance is optimal for hiding memory latency in streaming operations
 [[maybe_unused]] constexpr std::size_t PREFETCH_DISTANCE = 64;
 
+/**
+ * @brief Scalar l2 sq.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @param[in] dim Input parameter.
+ * @return Return value.
+ * @details Implements scalar_l2_sq without additional internal calls.
+ */
 static inline float scalar_l2_sq(const float* a, const float* b, std::size_t dim) {
     float acc = 0.0f;
     for (std::size_t i = 0; i < dim; ++i) {
@@ -56,6 +64,14 @@ static inline float scalar_l2_sq(const float* a, const float* b, std::size_t dim
 }
 
 #if defined(__AVX512F__)
+/**
+ * @brief Avx512 l2 sq.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @param[in] dim Input parameter.
+ * @return Return value.
+ * @details Calls: _mm512_setzero_ps(), _mm_prefetch(), _mm512_sub_ps(), _mm512_loadu_ps(), _mm512_fmadd_ps(), _mm512_add_ps(), _mm512_reduce_add_ps(), scalar_l2_sq().
+ */
 static inline float avx512_l2_sq(const float* a, const float* b, std::size_t dim) {
     std::size_t i = 0;
     // Use 4 accumulators to maximize pipeline utilization across 4 fused multiply-add units
@@ -95,6 +111,14 @@ static inline float avx512_l2_sq(const float* a, const float* b, std::size_t dim
     return res;
 }
 
+/**
+ * @brief Avx512 inner product.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @param[in] dim Input parameter.
+ * @return Return value.
+ * @details Calls: _mm512_setzero_ps(), _mm_prefetch(), _mm512_fmadd_ps(), _mm512_loadu_ps(), _mm512_add_ps(), _mm512_reduce_add_ps().
+ */
 static inline float avx512_inner_product(const float* a, const float* b, std::size_t dim) {
     std::size_t i = 0;
     __m512 acc0 = _mm512_setzero_ps();
@@ -124,6 +148,13 @@ static inline float avx512_inner_product(const float* a, const float* b, std::si
     return res;
 }
 
+/**
+ * @brief Avx512 norm sq.
+ * @param[in] a Input parameter.
+ * @param[in] dim Input parameter.
+ * @return Return value.
+ * @details Calls: _mm512_setzero_ps(), _mm512_loadu_ps(), _mm512_fmadd_ps(), _mm512_add_ps(), _mm512_reduce_add_ps().
+ */
 static inline float avx512_norm_sq(const float* a, std::size_t dim) {
     std::size_t i = 0;
     __m512 acc0 = _mm512_setzero_ps();
@@ -148,6 +179,14 @@ static inline float avx512_norm_sq(const float* a, std::size_t dim) {
     return res;
 }
 #elif defined(__AVX2__)
+/**
+ * @brief Avx2 inner product.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @param[in] dim Input parameter.
+ * @return Return value.
+ * @details Calls: _mm256_setzero_ps(), _mm256_fmadd_ps(), _mm256_loadu_ps(), _mm256_add_ps(), alignas(), _mm256_store_ps().
+ */
 static inline float avx2_inner_product(const float* a, const float* b, std::size_t dim) {
     std::size_t i = 0;
     __m256 acc0 = _mm256_setzero_ps();
@@ -171,6 +210,13 @@ static inline float avx2_inner_product(const float* a, const float* b, std::size
     return res;
 }
 
+/**
+ * @brief Avx2 norm sq.
+ * @param[in] a Input parameter.
+ * @param[in] dim Input parameter.
+ * @return Return value.
+ * @details Calls: _mm256_setzero_ps(), _mm256_loadu_ps(), _mm256_fmadd_ps(), _mm256_add_ps(), alignas(), _mm256_store_ps().
+ */
 static inline float avx2_norm_sq(const float* a, std::size_t dim) {
     std::size_t i = 0;
     __m256 acc0 = _mm256_setzero_ps();
@@ -196,6 +242,14 @@ static inline float avx2_norm_sq(const float* a, std::size_t dim) {
     return res;
 }
 
+/**
+ * @brief Avx2 l2 sq.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @param[in] dim Input parameter.
+ * @return Return value.
+ * @details Calls: _mm256_setzero_ps(), _mm_prefetch(), _mm256_loadu_ps(), _mm256_sub_ps(), _mm256_fmadd_ps(), _mm256_add_ps(), alignas(), _mm256_store_ps().
+ */
 static inline float avx2_l2_sq(const float* a, const float* b, std::size_t dim) {
     std::size_t i = 0;
     __m256 acc0 = _mm256_setzero_ps();
@@ -234,6 +288,14 @@ static inline float avx2_l2_sq(const float* a, const float* b, std::size_t dim) 
     return res;
 }
 #elif defined(__ARM_NEON) || defined(__aarch64__)
+/**
+ * @brief Neon l2 sq.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @param[in] dim Input parameter.
+ * @return Return value.
+ * @details Calls: vdupq_n_f32(), defined(), __builtin_prefetch(), vld1q_f32(), vsubq_f32(), vfmaq_f32(), vmlaq_f32(), vaddq_f32().
+ */
 static inline float neon_l2_sq(const float* a, const float* b, std::size_t dim) {
     std::size_t i = 0;
     float32x4_t acc0 = vdupq_n_f32(0.0f);
@@ -295,6 +357,14 @@ static inline float neon_l2_sq(const float* a, const float* b, std::size_t dim) 
     return res;
 }
 
+/**
+ * @brief Neon inner product.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @param[in] dim Input parameter.
+ * @return Return value.
+ * @details Calls: vdupq_n_f32(), vld1q_f32(), defined(), vfmaq_f32(), vmlaq_f32(), vaddq_f32(), vadd_f32(), vget_low_f32().
+ */
 static inline float neon_inner_product(const float* a, const float* b, std::size_t dim) {
     std::size_t i = 0;
     float32x4_t acc0 = vdupq_n_f32(0.0f);
@@ -324,6 +394,13 @@ static inline float neon_inner_product(const float* a, const float* b, std::size
     return res;
 }
 
+/**
+ * @brief Neon norm sq.
+ * @param[in] a Input parameter.
+ * @param[in] dim Input parameter.
+ * @return Return value.
+ * @details Calls: vdupq_n_f32(), vld1q_f32(), defined(), vfmaq_f32(), vmlaq_f32(), vaddq_f32(), vadd_f32(), vget_low_f32().
+ */
 static inline float neon_norm_sq(const float* a, std::size_t dim) {
     std::size_t i = 0;
     float32x4_t acc0 = vdupq_n_f32(0.0f);
@@ -358,6 +435,14 @@ static inline float neon_norm_sq(const float* a, std::size_t dim) {
 #define THEMIS_MAYBE_UNUSED_FN [[maybe_unused]]
 #endif
 
+/**
+ * @brief Scalar inner product.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @param[in] dim Input parameter.
+ * @return Return value.
+ * @details Implements scalar_inner_product without additional internal calls.
+ */
 THEMIS_MAYBE_UNUSED_FN static inline float scalar_inner_product(const float* a, const float* b, std::size_t dim) {
     float acc = 0.0f;
     for (std::size_t i = 0; i < dim; ++i) {
@@ -366,6 +451,13 @@ THEMIS_MAYBE_UNUSED_FN static inline float scalar_inner_product(const float* a, 
     return acc;
 }
 
+/**
+ * @brief Scalar norm sq.
+ * @param[in] a Input parameter.
+ * @param[in] dim Input parameter.
+ * @return Return value.
+ * @details Implements scalar_norm_sq without additional internal calls.
+ */
 THEMIS_MAYBE_UNUSED_FN static inline float scalar_norm_sq(const float* a, std::size_t dim) {
     float acc = 0.0f;
     for (std::size_t i = 0; i < dim; ++i) {
@@ -376,6 +468,14 @@ THEMIS_MAYBE_UNUSED_FN static inline float scalar_norm_sq(const float* a, std::s
 
 #undef THEMIS_MAYBE_UNUSED_FN
 
+/**
+ * @brief L2 distance sq.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @param[in] dim Input parameter.
+ * @return Return value.
+ * @details Calls: defined(), avx512_l2_sq(), avx2_l2_sq(), neon_l2_sq(), scalar_l2_sq().
+ */
 float l2_distance_sq(const float* a, const float* b, std::size_t dim) {
 #if defined(__AVX512F__)
     return avx512_l2_sq(a, b, dim);
@@ -388,12 +488,28 @@ float l2_distance_sq(const float* a, const float* b, std::size_t dim) {
 #endif
 }
 
+/**
+ * @brief L2 distance.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @param[in] dim Input parameter.
+ * @return Return value.
+ * @details Calls: l2_distance_sq(), std::sqrt().
+ */
 float l2_distance(const float* a, const float* b, std::size_t dim) {
     float d2 = l2_distance_sq(a, b, dim);
     return std::sqrt(d2);
 }
 
-// Batch compute L2 squared distances - optimized with explicit prefetching
+/**
+ * @brief Batch compute L2 squared distances - optimized with explicit prefetching
+ * @param[in] query Input parameter.
+ * @param[in] database Input parameter.
+ * @param[in] n Input parameter.
+ * @param[in] dim Input parameter.
+ * @param[in,out] distances Input/output parameter.
+ * @details Calls: defined(), std::min(), std::size_t(), _mm_prefetch(), __builtin_prefetch(), l2_distance_sq().
+ */
 void batch_l2_distance_sq(const float* query, const float* database, 
                           std::size_t n, std::size_t dim, float* distances) {
     // Process multiple database vectors with explicit prefetching
@@ -421,6 +537,14 @@ void batch_l2_distance_sq(const float* query, const float* database,
     }
 }
 
+/**
+ * @brief Inner product.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @param[in] dim Input parameter.
+ * @return Return value.
+ * @details Calls: defined(), avx512_inner_product(), avx2_inner_product(), neon_inner_product(), scalar_inner_product().
+ */
 float inner_product(const float* a, const float* b, std::size_t dim) {
 #if defined(__AVX512F__)
     return avx512_inner_product(a, b, dim);
@@ -433,6 +557,14 @@ float inner_product(const float* a, const float* b, std::size_t dim) {
 #endif
 }
 
+/**
+ * @brief Cosine distance.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @param[in] dim Input parameter.
+ * @return Return value.
+ * @details Calls: defined(), avx512_inner_product(), avx512_norm_sq(), avx2_inner_product(), avx2_norm_sq(), neon_inner_product(), neon_norm_sq(), scalar_inner_product().
+ */
 float cosine_distance(const float* a, const float* b, std::size_t dim) {
 #if defined(__AVX512F__)
     float dot   = avx512_inner_product(a, b, dim);
@@ -464,9 +596,15 @@ float cosine_distance(const float* a, const float* b, std::size_t dim) {
     return 1.0f - cosine_sim;
 }
 
-// batch_cosine_similarity: compute cosine_similarity(query, db[i]) for all i.
-// Implemented as 1.0f - cosine_distance per element; future SIMD optimisation
-// can fuse the norm computation across the batch.
+/**
+ * @brief batch_cosine_similarity: compute cosine_similarity(query, db[i]) for all i.
+ * @param[in] query Input parameter.
+ * @param[in] database Input parameter.
+ * @param[in] n Input parameter.
+ * @param[in] dim Input parameter.
+ * @param[in,out] results Input/output parameter.
+ * @details Implemented as 1.0f - cosine_distance per element; future SIMD optimisation can fuse the norm computation across the batch. Calls: cosine_distance().
+ */
 void batch_cosine_similarity(const float* query, const float* database,
                               std::size_t n, std::size_t dim, float* results) {
     for (std::size_t i = 0; i < n; ++i) {

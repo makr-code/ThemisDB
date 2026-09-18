@@ -21,25 +21,11 @@ namespace importers {
 
 using json = nlohmann::json;
 
-/**
- * @brief Federated import coordination with differential privacy.
- *
- * Enables schema learning and statistics aggregation across multiple
- * PostgreSQL instances without centralising raw data.
- *
- * References:
- *   - Kairouz et al. (2021) "Federated Learning: Challenges, Methods,
- *     and Future Directions" (JMLR)
- *   - McMahan et al. (2018) "Learning Differentially Private Recurrent
- *     Language Models"
- *   - Dwork et al. – ε-δ Differential Privacy foundations
- */
 class FederatedImportCoordinator {
 public:
     // ------------------------------------------------------------------
     // Federated aggregator
     // ------------------------------------------------------------------
-    /** @brief Federated aggregator. */
     class FederatedAggregator {
     public:
         struct ParticipantUpdate {
@@ -49,17 +35,6 @@ public:
             json encrypted_gradient;     ///< DP-SGD gradient (opaque blob)
         };
 
-        /**
-         * @brief Aggregate updates from all participants using FedAvg or
-         *        another algorithm.
-         *
-         * Only statistical summaries and schema contributions are exchanged;
-         * raw row data never leaves the participant.
-         *
-         * @param updates               Per-participant contributions.
-         * @param aggregation_algorithm "FedAvg" (default) | "FedProx" | "median"
-         * @return Aggregated global model as JSON.
-         */
         json aggregateUpdates(
             const std::vector<ParticipantUpdate>& updates,
             const std::string& aggregation_algorithm = "FedAvg"
@@ -69,20 +44,8 @@ public:
     // ------------------------------------------------------------------
     // Differential privacy
     // ------------------------------------------------------------------
-    /** @brief Differential privacy. */
     class DifferentialPrivacyManager {
     public:
-        /**
-         * @brief Add calibrated Gaussian noise to statistics to achieve
-         *        (epsilon, delta)-differential privacy.
-         *
-         * Noise standard deviation = sensitivity * sqrt(2*ln(1.25/delta)) / epsilon.
-         *
-         * @param statistics  JSON object with numeric fields.
-         * @param epsilon     Privacy budget (smaller → stronger privacy).
-         * @param delta       Failure probability (≤ 1e-5 recommended).
-         * @return Statistics with added noise.
-         */
         json addDifferentialPrivacy(
             const json& statistics,
             double epsilon = 0.1,
@@ -90,14 +53,17 @@ public:
         );
 
         /**
-         * @brief Check whether the accumulated privacy spend is within budget.
-         * @param epsilon_total  Total epsilon consumed so far.
-         * @param delta          Delta parameter.
-         * @return true if within acceptable privacy budget.
+         * @brief Verify Privacy Budget.
+         * @param[in] epsilon_total Input parameter.
+         * @param[in] delta Input parameter.
+         * @return True when the operation succeeds.
          */
         bool verifyPrivacyBudget(double epsilon_total, double delta);
 
-        /** @brief Track privacy spend. */
+        /**
+         * @brief Spend Budget.
+         * @param[in] epsilon_used Input parameter.
+         */
         void spendBudget(double epsilon_used);
 
         double totalEpsilonSpent() const { return epsilon_spent_; }
@@ -109,15 +75,14 @@ public:
     // ------------------------------------------------------------------
     // Secure aggregation primitive (Wave C C2 optional HE-style stub)
     // ------------------------------------------------------------------
-    /** @brief Secure aggregation primitive (Wave C C2 optional HE-style stub). */
     class SecureAggregationManager {
     public:
         /**
-         * @brief Apply deterministic per-participant mask to a gradient vector.
-         *
-         * The mask is derived from (participant_id, round_id) and can be
-         * subtracted after summation to recover the original aggregate.
-         * This models secure aggregation flow without introducing full HE.
+         * @brief Mask Gradient.
+         * @param[in] gradient Input parameter.
+         * @param[in] participant_id Identifier of the participant.
+         * @param[in] round_id Identifier of the round.
+         * @return Return value.
          */
         std::vector<double> maskGradient(
             const std::vector<double>& gradient,
@@ -126,7 +91,11 @@ public:
         ) const;
 
         /**
-         * @brief Remove aggregate mask from summed masked gradients.
+         * @brief Unmask Aggregated Gradient.
+         * @param[in] masked_sum Input parameter.
+         * @param[in] participant_ids Input parameter.
+         * @param[in] round_id Identifier of the round.
+         * @return Return value.
          */
         std::vector<double> unmaskAggregatedGradient(
             const std::vector<double>& masked_sum,
@@ -138,7 +107,6 @@ public:
     // ------------------------------------------------------------------
     // Federated training coordinator (synchronized SGD rounds)
     // ------------------------------------------------------------------
-    /** @brief Federated training coordinator (synchronized SGD rounds). */
     class FederatedTrainingCoordinator {
     public:
         struct ParticipantGradient {
@@ -155,14 +123,6 @@ public:
             bool secure_aggregation_used{false};
         };
 
-        /**
-         * @brief Aggregate one synchronized SGD round.
-         *
-         * Supported algorithms:
-         *   - "FedAvg" (sample-count-weighted mean)
-         *   - "median" (element-wise median)
-         *   - "trimmed_mean" (element-wise trimmed mean)
-         */
         RoundAggregationResult aggregateRound(
             const std::vector<ParticipantGradient>& updates,
             const std::string& aggregation_algorithm = "FedAvg",

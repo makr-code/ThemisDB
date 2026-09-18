@@ -59,18 +59,11 @@ namespace cdc {
 
 // ── Wire-format constants ─────────────────────────────────────────────────────
 
-/// Four-byte magic that identifies a CDC compressed batch stream frame.
 inline constexpr uint8_t kCdcBatchMagic[4] = {0x43, 0x44, 0x43, 0x5A}; // "CDCZ"
 inline constexpr uint8_t kCdcBatchVersion   = 0x01;
 
 // ── Algorithm identifiers ─────────────────────────────────────────────────────
 
-/**
- * @brief Compression algorithm selector.
- *
- * Only ZSTD is supported in the current version; NONE is used for batches
- * that fall below Config::min_compression_size_bytes.
- */
 enum class StreamCompressionAlgorithm : uint8_t {
     NONE = 0x00, ///< Uncompressed (raw JSON bytes)
     ZSTD = 0x01, ///< Zstandard (default)
@@ -78,14 +71,6 @@ enum class StreamCompressionAlgorithm : uint8_t {
 
 // ── CompressedBatch ───────────────────────────────────────────────────────────
 
-/**
- * @brief An opaque, self-describing batch of compressed CDC events.
- *
- * Produced by ChangeStreamCompressor::compress() and consumed by
- * ChangeStreamCompressor::decompress().  The batch can be serialised to a
- * contiguous byte buffer via serialize() and reconstructed from it via
- * deserialize().
- */
 struct CompressedBatch {
     uint8_t                    version       = kCdcBatchVersion;
     StreamCompressionAlgorithm algorithm     = StreamCompressionAlgorithm::ZSTD;
@@ -93,13 +78,6 @@ struct CompressedBatch {
     uint32_t                   event_count   = 0; ///< Number of events in the batch
     std::vector<uint8_t>       payload;           ///< Compressed (or raw) event bytes
 
-    /**
-     * @brief Serialise to a self-contained wire-format byte buffer.
-     *
-     * Layout: [magic 4B][version 1B][algo 1B][original_size 4B LE][event_count 4B LE][payload N B]
-     *
-     * @return Serialised bytes suitable for network transmission or storage.
-     */
     std::vector<uint8_t> serialize() const {
         constexpr size_t kHeaderSize = 4 + 1 + 1 + 4 + 4; // 14 bytes
         std::vector<uint8_t> out = {};
@@ -128,10 +106,10 @@ struct CompressedBatch {
     }
 
     /**
-     * @brief Reconstruct a CompressedBatch from its wire-format representation.
-     *
-     * @param bytes  Wire-format bytes as produced by serialize().
-     * @return Reconstructed batch, or std::nullopt if @p bytes is malformed.
+     * @brief Deserialize.
+     * @param[in] bytes Input parameter.
+     * @return Return value.
+     * @details Calls: size(), assign(), begin(), end().
      */
     static std::optional<CompressedBatch> deserialize(const std::vector<uint8_t>& bytes) {
         constexpr size_t kHeaderSize = 4 + 1 + 1 + 4 + 4; // 14 bytes
@@ -163,41 +141,10 @@ struct CompressedBatch {
 
 // ── ChangeStreamCompressor ────────────────────────────────────────────────────
 
-/**
- * @brief Compressor for high-volume CDC change event streams.
- *
- * Accepts a batch of ChangeEvent records, serialises them as a JSON array,
- * and compresses the result with Zstandard for efficient transport over SSE
- * or WebSocket connections.  Batches below Config::min_compression_size_bytes
- * are transmitted uncompressed to avoid overhead on small payloads.
- *
- * Thread safety: compress() and decompress() are thread-safe; all stat
- * updates use atomic operations.
- *
- * @code
- * ChangeStreamCompressor compressor;
- *
- * // Sender side
- * auto events = changefeed.listEvents(opts);
- * auto batch  = compressor.compress(events);
- * auto wire   = batch.serialize();
- * // ... send wire bytes over WebSocket / SSE ...
- *
- * // Receiver side
- * auto maybe_batch = CompressedBatch::deserialize(wire);
- * if (maybe_batch) {
- *     auto recovered = compressor.decompress(*maybe_batch);
- *     // ... process recovered events ...
- * }
- * @endcode
- */
 class ChangeStreamCompressor {
 public:
     // ── Configuration ────────────────────────────────────────────────────────
 
-    /**
-     * @brief Compression configuration.
-     */
     struct Config {
         StreamCompressionAlgorithm algorithm = StreamCompressionAlgorithm::ZSTD;
         int    level                         = 3;    ///< Zstd compression level (1–22)
@@ -206,9 +153,6 @@ public:
 
     // ── Statistics ────────────────────────────────────────────────────────────
 
-    /**
-     * @brief Cumulative compression statistics.
-     */
     struct Stats {
         uint64_t batches_compressed  = 0; ///< Total compress() calls
         uint64_t batches_skipped     = 0; ///< Batches stored uncompressed (below threshold)
@@ -218,7 +162,6 @@ public:
         uint64_t batches_decompressed = 0;///< Total decompress() calls
         uint64_t decompress_errors   = 0; ///< Failed decompress() calls
 
-        /// Average compression ratio (bytes_in / bytes_out); 1.0 when no data yet.
         double compression_ratio() const noexcept {
             return (bytes_out > 0) ? static_cast<double>(bytes_in) / static_cast<double>(bytes_out)
                                    : 1.0;
@@ -233,19 +176,13 @@ public:
     ChangeStreamCompressor(const ChangeStreamCompressor&) = delete;
     ChangeStreamCompressor& operator=(const ChangeStreamCompressor&) = delete;
 
-    // ── Compression ───────────────────────────────────────────────────────────
-
     /**
-     * @brief Compress a batch of change events into a CompressedBatch.
-     *
-     * Serialises @p events as a JSON array, then compresses the result using
-     * the configured algorithm.  If the raw JSON is smaller than
-     * Config::min_compression_size_bytes the batch is stored uncompressed
-     * (algorithm = NONE) to avoid unnecessary CPU overhead.
-     *
-     * @param events  Change events to pack.  May be empty.
-     * @return        A CompressedBatch ready for serialisation and transport.
+     * @brief ── Compression ───────────────────────────────────────────────────────────
+     * @param[in] events Input parameter.
+     * @return Return value.
+     * @details Calls: lk(), nlohmann::json::array(), push_back(), toJson(), dump(), size(), fetch_add(), utils::zstd_compress().
      */
+
     CompressedBatch compress(const std::vector<Changefeed::ChangeEvent>& events) {
         // Snapshot config under the lock to avoid races with setConfig().
         const Config cfg = [&] {
@@ -290,15 +227,14 @@ public:
         return batch;
     }
 
-    // ── Decompression ─────────────────────────────────────────────────────────
-
     /**
-     * @brief Decompress a CompressedBatch back to a vector of ChangeEvent records.
-     *
-     * @param batch  Previously produced CompressedBatch.
-     * @return       Reconstructed events in the original order.
-     * @throws std::runtime_error on decompression or JSON parse failure.
+     * @brief ── Decompression ─────────────────────────────────────────────────────────
+     * @param[in] batch Input parameter.
+     * @return Return value.
+     * @throws std::runtime_error if an error occurs.
+     * @details Calls: fetch_add(), utils::zstd_decompress(), empty(), assign(), begin(), end(), reserve(), nlohmann::json::parse().
      */
+
     std::vector<Changefeed::ChangeEvent> decompress(const CompressedBatch& batch) {
         stats_batches_decompressed_.fetch_add(1, std::memory_order_relaxed);
 
@@ -339,9 +275,6 @@ public:
 
     // ── Statistics ────────────────────────────────────────────────────────────
 
-    /**
-     * @brief Return a snapshot of cumulative compression statistics.
-     */
     Stats getStats() const noexcept {
         Stats s;
         s.batches_compressed   = stats_batches_compressed_.load(std::memory_order_relaxed);
@@ -354,9 +287,6 @@ public:
         return s;
     }
 
-    /**
-     * @brief Reset all statistics to zero.
-     */
     void resetStats() noexcept {
         stats_batches_compressed_.store(0, std::memory_order_relaxed);
         stats_batches_skipped_.store(0, std::memory_order_relaxed);
@@ -369,18 +299,20 @@ public:
 
     // ── Configuration ─────────────────────────────────────────────────────────
 
-    /**
-     * @brief Return the current configuration (snapshot).
-     */
     Config getConfig() const {
+        /**
+         * @brief Lock.
+         * @param[in] config_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(config_mutex_);
         return config_;
     }
 
     /**
-     * @brief Update the configuration.
-     *
-     * Takes effect on the next compress() or decompress() call.
+     * @brief Set Config.
+     * @param[in] config Input parameter.
+     * @details Calls: lock().
      */
     void setConfig(const Config& config) {
         std::lock_guard<std::mutex> lock(config_mutex_);
@@ -410,6 +342,11 @@ private:
 // default argument inside the class body.
 namespace themis {
 namespace cdc {
+/**
+ * @brief Change Stream Compressor.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ */
 inline ChangeStreamCompressor::ChangeStreamCompressor(Config config)
     : config_(std::move(config)) {}
 } // namespace cdc

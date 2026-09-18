@@ -299,9 +299,8 @@ bool RAIDPaxosConsensus::triggerDataReconstruction() {
     spdlog::info("RAIDPaxosConsensus: Triggering data reconstruction for {} failed shards",
                 failed_shards.size());
     
-    // For now, just log - actual reconstruction would be handled by
-    // the RAID layer or external system
-    // This is a placeholder for integration with RAID simulator
+    // The consensus layer only logs this event; reconstruction is delegated
+    // to the RAID layer or an external recovery system.
     
     return true;
 }

@@ -76,6 +76,11 @@ public:
     }
 
     void setAttribute(const std::string& key, const std::string& value) override {
+        /**
+         * @brief Lk.
+         * @param[in] attr_mu_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(attr_mu_);
         attributes_[key] = value;
     }
@@ -116,6 +121,10 @@ public:
     const std::string& parentSpanId() const { return parent_span_id_; }
 
 private:
+    /**
+     * @brief End Span.
+     * @details Calls: exchange(), std::chrono::system_clock::now(), lk(), lock(), snapshot(), dataAsString(), push_back(), std::move().
+     */
     void endSpan() {
         if (ended_.exchange(true)) return;  // idempotent
 
@@ -127,6 +136,11 @@ private:
         if (ring_buf_ && ring_mu_ && max_retained_ > 0) {
             SpanRecord rec;
             {
+                /**
+                 * @brief Lk.
+                 * @param[in] attr_mu_ Input parameter.
+                 * @return Return value.
+                 */
                 std::lock_guard<std::mutex> lk(attr_mu_);
                 rec.attributes = attributes_;
             }
@@ -205,6 +219,11 @@ public:
 /** @brief ObservabilityTracer::Impl. */
 class ObservabilityTracer::Impl {
 public:
+    /**
+     * @brief Impl.
+     * @param[in] cfg Input parameter.
+     * @return Return value.
+     */
     explicit Impl(const ObservabilityTracerConfig& cfg)
         : config_(cfg)
         , initialized_(false)
@@ -223,6 +242,14 @@ public:
     std::string               last_trace_id_ = {};
     std::string               last_span_id_ = {};
 
+    /**
+     * @brief Make Span.
+     * @param[in] name Input parameter.
+     * @param[in] trace_id Input parameter.
+     * @param[in] parent_span_id Input parameter.
+     * @return Return value.
+     * @details Calls: shouldSample(), generateSpanId(), lk(), publishMetrics().
+     */
     std::unique_ptr<ISpan> makeSpan(const std::string& name,
                                     const std::string& trace_id,
                                     const std::string& parent_span_id) {
@@ -235,6 +262,11 @@ public:
 
         // Cache most-recently-started span context for injectContext()
         {
+            /**
+             * @brief Lk.
+             * @param[in] ctx_mu_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lk(ctx_mu_);
             last_trace_id_ = trace_id;
             last_span_id_  = span_id;
@@ -323,12 +355,23 @@ void ObservabilityTracer::injectContext(std::map<std::string, std::string>& head
     }
 }
 
+/**
+ * @brief Initialize.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @return True on success.
+ * @details Implements initialize without additional internal calls.
+ */
 bool ObservabilityTracer::initialize(const std::string& /*serviceName*/,
                                       const std::string& /*endpoint*/) {
     impl_->initialized_ = true;
     return true;
 }
 
+/**
+ * @brief Shutdown.
+ * @details Calls: publishMetrics().
+ */
 void ObservabilityTracer::shutdown() {
     impl_->initialized_ = false;
     impl_->publishMetrics();
@@ -359,6 +402,10 @@ std::vector<SpanRecord> ObservabilityTracer::completedSpans() const {
     return {impl_->ring_buf_.begin(), impl_->ring_buf_.end()};
 }
 
+/**
+ * @brief Clear Completed Spans.
+ * @details Calls: lk(), clear().
+ */
 void ObservabilityTracer::clearCompletedSpans() {
     std::lock_guard<std::mutex> lk(impl_->ring_mu_);
     impl_->ring_buf_.clear();

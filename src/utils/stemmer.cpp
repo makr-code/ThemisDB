@@ -16,12 +16,23 @@
 namespace themis {
 namespace utils {
 
+/**
+ * @brief Stem.
+ * @param[in] token Input parameter.
+ * @param[in] lang Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::string(), word(), std::transform(), begin(), end(), std::tolower(), length().
+ */
 std::string Stemmer::stem(std::string_view token, Language lang) {
     if (lang == Language::NONE || token.empty()) {
         return std::string(token);
     }
     
-    // Convert to string for manipulation
+    /**
+     * @brief Convert to string for manipulation
+     * @param[in] token Input parameter.
+     * @return Return value.
+     */
     std::string word(token);
     
     // Ensure lowercase (should already be, but safety check)
@@ -43,6 +54,12 @@ std::string Stemmer::stem(std::string_view token, Language lang) {
     }
 }
 
+/**
+ * @brief Parse Language.
+ * @param[in] langCode Input parameter.
+ * @return Return value.
+ * @details Implements parseLanguage without additional internal calls.
+ */
 Stemmer::Language Stemmer::parseLanguage(std::string_view langCode) {
     if (langCode == "en" || langCode == "EN") {
       return Language::EN;
@@ -56,6 +73,12 @@ Stemmer::Language Stemmer::parseLanguage(std::string_view langCode) {
     return Language::NONE; // Default fallback
 }
 
+/**
+ * @brief Language To String.
+ * @param[in] lang Input parameter.
+ * @return Return value.
+ * @details Implements languageToString without additional internal calls.
+ */
 std::string Stemmer::languageToString(Language lang) {
     switch (lang) {
         case Language::EN: return "en";
@@ -65,7 +88,12 @@ std::string Stemmer::languageToString(Language lang) {
     }
 }
 
-// English Porter Stemmer (simplified - Step 1a, 1b, 1c only)
+/**
+ * @brief English Porter Stemmer (simplified - Step 1a, 1b, 1c only)
+ * @param[in] word Input parameter.
+ * @return Return value.
+ * @details Calls: length(), ends_with(), substr(), hasVowel(), endsWithDoubleConsonant(), replaceEnding().
+ */
 std::string Stemmer::stemEnglish(std::string word) {
     if (word.length() <= 2) {
       return word;
@@ -131,7 +159,12 @@ std::string Stemmer::stemEnglish(std::string word) {
     return word;
 }
 
-// German Stemmer (simplified - removes common suffixes)
+/**
+ * @brief German Stemmer (simplified - removes common suffixes)
+ * @param[in] word Input parameter.
+ * @return Return value.
+ * @details Calls: length(), ends_with(), substr().
+ */
 std::string Stemmer::stemGerman(std::string word) {
     if (word.length() <= 3) {
       return word;
@@ -171,6 +204,12 @@ std::string Stemmer::stemGerman(std::string word) {
     return word;
 }
 
+/**
+ * @brief Ends With Double Consonant.
+ * @param[in] word Input parameter.
+ * @return True on success.
+ * @details Calls: length().
+ */
 bool Stemmer::endsWithDoubleConsonant(const std::string& word) {
     if (word.length() < 2) {
       return false;
@@ -181,6 +220,12 @@ bool Stemmer::endsWithDoubleConsonant(const std::string& word) {
            last != 'a' && last != 'e' && last != 'i' && last != 'o' && last != 'u';
 }
 
+/**
+ * @brief Has Vowel.
+ * @param[in] word Input parameter.
+ * @return True on success.
+ * @details Implements hasVowel without additional internal calls.
+ */
 bool Stemmer::hasVowel(const std::string& word) {
     for (char c : word) {
         if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' || c == 'y') {
@@ -190,6 +235,14 @@ bool Stemmer::hasVowel(const std::string& word) {
     return false;
 }
 
+/**
+ * @brief Replace Ending.
+ * @param[in] word Input parameter.
+ * @param[in] from Input parameter.
+ * @param[in] to Input parameter.
+ * @return Return value.
+ * @details Calls: length(), ends_with(), substr(), hasVowel(), std::string().
+ */
 std::string Stemmer::replaceEnding(std::string word, std::string_view from, std::string_view to) {
     if (word.length() > from.length() && word.ends_with(from)) {
         std::string stem = word.substr(0, word.length() - from.length());

@@ -35,36 +35,15 @@ namespace graph {
 // GraphMultiTierCache
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief Three-tier LRU cache implementing Hot / Warm / Cold storage layers.
- *
- * On lookup:
- *  - Hot hit   → promote to MRU in Hot tier.
- *  - Warm hit  → promote to Hot tier (if space permits).
- *  - Cold hit  → promote to Warm tier.
- *
- * On insert, all new entries enter the Cold tier.  When a tier reaches
- * capacity the LRU entry is demoted to the next-colder tier (or evicted if
- * already in Cold).
- *
- * @tparam K Key type (must be hashable and equality-comparable).
- * @tparam V Value type (must be copyable and movable).
- */
 template <typename K, typename V>
 class GraphMultiTierCache {
 public:
-    /**
-     * @brief Per-tier size limits and overall metrics.
-     */
     struct Config {
         size_t hot_capacity  = 64;   ///< Maximum Hot-tier entries
         size_t warm_capacity = 256;  ///< Maximum Warm-tier entries
         size_t cold_capacity = 1024; ///< Maximum Cold-tier entries
     };
 
-    /**
-     * @brief Cumulative access counters.
-     */
     struct Metrics {
         uint64_t hot_hits   = 0; ///< Hits served from Hot tier
         uint64_t warm_hits  = 0; ///< Hits served from Warm tier
@@ -73,36 +52,22 @@ public:
         uint64_t evictions  = 0; ///< Entries evicted from Cold tier
         uint64_t inserts    = 0; ///< Total entries inserted
 
-        /**
-         * @brief Overall hit ratio across all tiers.
-         * @return Hit ratio in [0.0, 1.0].
-         */
         double hitRatio() const {
             const uint64_t hits  = hot_hits + warm_hits + cold_hits;
             const uint64_t total = hits + misses;
             return total > 0 ? static_cast<double>(hits) / static_cast<double>(total) : 0.0;
         }
 
-        /**
-         * @brief Total lookups (hits + misses).
-         * @return Lookup count.
-         */
         uint64_t totalLookups() const { return hot_hits + warm_hits + cold_hits + misses; }
     };
 
-    /**
-     * @brief Construct a multi-tier cache with the given configuration.
-     * @param cfg Per-tier capacity limits.
-     */
     explicit GraphMultiTierCache(Config cfg = Config{}) : cfg_(cfg) {}
 
     /**
-     * @brief Look up a value by key.
-     *
-     * Promotes the entry to a warmer tier on hit.
-     *
-     * @param key Cache key.
-     * @return Cached value, or std::nullopt on miss.
+     * @brief Get.
+     * @param[in] key Input parameter.
+     * @return Return value.
+     * @details Calls: lock(), find(), end(), promote(), evictFromTier(), insertToTier().
      */
     std::optional<V> get(const K& key) {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -136,12 +101,10 @@ public:
     }
 
     /**
-     * @brief Insert a key-value pair (always enters Cold tier).
-     *
-     * If the key already exists in any tier it is removed first.
-     *
-     * @param key   Cache key.
-     * @param value Value to store.
+     * @brief Put.
+     * @param[in] key Input parameter.
+     * @param[in] value Input parameter.
+     * @details Calls: lock(), removeFromAll(), insertToTier(), std::move().
      */
     void put(const K& key, V value) {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -151,16 +114,20 @@ public:
     }
 
     /**
-     * @brief Remove a key from whichever tier it resides in.
-     * @param key Cache key.
-     * @return true if the key was found and removed.
+     * @brief Remove.
+     * @param[in] key Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: lock(), removeFromAll().
      */
     bool remove(const K& key) {
         std::lock_guard<std::mutex> lock(mutex_);
         return removeFromAll(key);
     }
 
-    /// Clear all three tiers.
+    /**
+     * @brief Clear.
+     * @details Calls: lock().
+     */
     void clear() {
         std::lock_guard<std::mutex> lock(mutex_);
         hot_.map.clear();  hot_.lru.clear();
@@ -168,57 +135,60 @@ public:
         cold_.map.clear(); cold_.lru.clear();
     }
 
-    /**
-     * @brief Return the total number of live entries across all tiers.
-     * @return Entry count.
-     */
     size_t size() const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return hot_.map.size() + warm_.map.size() + cold_.map.size();
     }
 
-    /**
-     * @brief Return the number of entries in the Hot tier.
-     * @return Hot-tier entry count.
-     */
     size_t hotSize() const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return hot_.map.size();
     }
 
-    /**
-     * @brief Return the number of entries in the Warm tier.
-     * @return Warm-tier entry count.
-     */
     size_t warmSize() const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return warm_.map.size();
     }
 
-    /**
-     * @brief Return the number of entries in the Cold tier.
-     * @return Cold-tier entry count.
-     */
     size_t coldSize() const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return cold_.map.size();
     }
 
-    /**
-     * @brief Return a snapshot of current access metrics.
-     * @return Metrics snapshot.
-     */
     Metrics metrics() const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return metrics_;
     }
 
     /**
-     * @brief Update tier capacities at runtime.
-     *
-     * Existing entries that now exceed the new capacity are evicted (LRU).
-     *
-     * @param cfg New configuration.
+     * @brief Reconfigure.
+     * @param[in] cfg Input parameter.
+     * @details Calls: lock(), trimTier().
      */
     void reconfigure(Config cfg) {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -254,8 +224,15 @@ private:
         tier.map.erase(it);
     }
 
-    // Insert into a tier, demoting the LRU entry to `demote_to` if at
-    // capacity.  If `demote_to` is nullptr the evicted entry is discarded.
+    /**
+     * @brief Insert into a tier, demoting the LRU entry to `demote_to` if at capacity.
+     * @param[in,out] tier Input/output parameter.
+     * @param[in] capacity Input parameter.
+     * @param[in] key Input parameter.
+     * @param[in] value Input parameter.
+     * @param[in,out] demote_to Input/output parameter.
+     * @details If `demote_to` is nullptr the evicted entry is discarded. Calls: size(), back(), std::move(), at(), push_front(), emplace(), begin(), erase().
+     */
     void insertToTier(Tier& tier, size_t capacity, const K& key, V value,
                       Tier* demote_to) {
         if (capacity > 0 && tier.map.size() >= capacity) {
@@ -278,7 +255,12 @@ private:
         tier.map.emplace(key, Entry{std::move(value), tier.lru.begin()});
     }
 
-    // Remove key from all tiers. Returns true if found anywhere.
+    /**
+     * @brief Remove key from all tiers.
+     * @param[in] key Input parameter.
+     * @return True when the operation succeeds.
+     * @details Returns true if found anywhere. Calls: find(), end(), erase().
+     */
     bool removeFromAll(const K& key) {
         for (Tier* t : {&hot_, &warm_, &cold_}) {
             auto it = t->map.find(key);
@@ -291,7 +273,12 @@ private:
         return false;
     }
 
-    // Trim a tier to at most `capacity` entries by evicting LRU entries.
+    /**
+     * @brief Trim a tier to at most `capacity` entries by evicting LRU entries.
+     * @param[in,out] tier Input/output parameter.
+     * @param[in] capacity Input parameter.
+     * @details Calls: size(), back(), erase(), pop_back().
+     */
     void trimTier(Tier& tier, size_t capacity) {
         if (capacity == 0) {
           return;
@@ -316,37 +303,16 @@ private:
 // GraphTraversalResultCache
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief Typed multi-tier cache for graph traversal results.
- *
- * Stores lists of vertex IDs keyed by a query descriptor string.
- * Provides convenience methods for building canonical cache keys.
- */
 class GraphTraversalResultCache {
 public:
     using ResultType = std::vector<std::string>;
 
-    /**
-     * @brief Construct with the given per-tier capacity limits.
-     *
-     * @param hot_cap  Hot-tier capacity (default 64).
-     * @param warm_cap Warm-tier capacity (default 256).
-     * @param cold_cap Cold-tier capacity (default 1024).
-     */
     explicit GraphTraversalResultCache(size_t hot_cap  = 64,
                                        size_t warm_cap = 256,
                                        size_t cold_cap = 1024)
         : cache_(GraphMultiTierCache<std::string, ResultType>::Config{
               hot_cap, warm_cap, cold_cap}) {}
 
-    /**
-     * @brief Build a canonical BFS cache key.
-     *
-     * @param start_vertex  BFS starting vertex.
-     * @param max_depth     Maximum traversal depth.
-     * @param edge_type     Optional edge type filter ("" = any).
-     * @return Canonical string key.
-     */
     static std::string bfsKey(const std::string& start_vertex,
                                int                max_depth,
                                const std::string& edge_type = "") {
@@ -355,11 +321,11 @@ public:
     }
 
     /**
-     * @brief Build a canonical shortest-path cache key.
-     *
-     * @param from Source vertex.
-     * @param to   Target vertex.
-     * @return Canonical string key.
+     * @brief Shortest Path Key.
+     * @param[in] from Input parameter.
+     * @param[in] to Input parameter.
+     * @return Return value.
+     * @details Implements shortestPathKey without additional internal calls.
      */
     static std::string shortestPathKey(const std::string& from,
                                         const std::string& to) {
@@ -367,45 +333,41 @@ public:
     }
 
     /**
-     * @brief Store a traversal result.
-     *
-     * @param key    Cache key (use bfsKey / shortestPathKey helpers).
-     * @param result List of vertex IDs from the traversal.
+     * @brief Put.
+     * @param[in] key Input parameter.
+     * @param[in] result Input parameter.
+     * @details Calls: std::move().
      */
     void put(const std::string& key, ResultType result) {
         cache_.put(key, std::move(result));
     }
 
     /**
-     * @brief Look up a cached traversal result.
-     *
-     * @param key Cache key.
-     * @return Result if cached, std::nullopt otherwise.
+     * @brief Get.
+     * @param[in] key Input parameter.
+     * @return Return value.
+     * @details Implements get without additional internal calls.
      */
     std::optional<ResultType> get(const std::string& key) {
         return cache_.get(key);
     }
 
     /**
-     * @brief Invalidate a specific cache entry.
-     * @param key Cache key to remove.
-     * @return true if the entry was present and removed.
+     * @brief Invalidate.
+     * @param[in] key Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: remove().
      */
     bool invalidate(const std::string& key) { return cache_.remove(key); }
 
-    /// Clear the entire cache.
+    /**
+     * @brief Clear.
+     * @details Implements clear without additional internal calls.
+     */
     void clear() { cache_.clear(); }
 
-    /**
-     * @brief Return the total number of cached entries.
-     * @return Entry count.
-     */
     size_t size() const { return cache_.size(); }
 
-    /**
-     * @brief Return current access metrics.
-     * @return Metrics snapshot.
-     */
     auto metrics() const { return cache_.metrics(); }
 
 private:

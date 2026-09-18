@@ -33,6 +33,13 @@ bool hasType(const nlohmann::json& node, std::string_view type) {
 
 /// Recursively count nodes matching a predicate.
 template <typename Pred>
+/**
+ * @brief Count Nodes.
+ * @param[in] node Input parameter.
+ * @param[in] pred Input parameter.
+ * @return Return value.
+ * @details Calls: pred(), is_object(), items(), is_array().
+ */
 size_t countNodes(const nlohmann::json& node, Pred pred) {
     size_t count = pred(node) ? 1 : 0;
     if (node.is_object()) {
@@ -49,6 +56,14 @@ size_t countNodes(const nlohmann::json& node, Pred pred) {
 
 /// Recursively transform all nodes matching a predicate.
 template <typename Pred, typename Xform>
+/**
+ * @brief Transform Nodes.
+ * @param[in,out] node Input/output parameter.
+ * @param[in] pred Input parameter.
+ * @param[in] transform Input parameter.
+ * @return Return value.
+ * @details Calls: pred(), transform(), is_object(), items(), is_array().
+ */
 size_t transformNodes(nlohmann::json& node, Pred pred, Xform transform) {
     size_t changes = 0;
     if (pred(node)) {
@@ -74,6 +89,12 @@ struct OrChain {
     std::vector<nlohmann::json> values;
 };
 
+/**
+ * @brief Collect Or Chain.
+ * @param[in] node Input parameter.
+ * @return Return value.
+ * @details Calls: hasType(), contains(), at(), empty(), push_back(), processEq(), reserve(), size().
+ */
 std::optional<OrChain> collectOrChain(const nlohmann::json& node) {
     if (!hasType(node, "or")) {
         return std::nullopt;
@@ -516,12 +537,21 @@ size_t CommonSubexpressionRule::apply(nlohmann::json& plan,
 QueryRewritePipeline::QueryRewritePipeline(size_t max_iterations)
     : max_iterations_(max_iterations) {}
 
+/**
+ * @brief Add Rule.
+ * @param[in] rule Input parameter.
+ * @details Calls: push_back(), std::move().
+ */
 void QueryRewritePipeline::addRule(std::shared_ptr<IQueryRewriteRule> rule) {
     if (rule) {
       rules_.push_back(std::move(rule));
     }
 }
 
+/**
+ * @brief Clear Rules.
+ * @details Calls: clear().
+ */
 void QueryRewritePipeline::clearRules() {
     rules_.clear();
 }
@@ -551,6 +581,11 @@ RewriteStats QueryRewritePipeline::run(nlohmann::json& plan,
     return stats;
 }
 
+/**
+ * @brief Create Default.
+ * @return Return value.
+ * @details Calls: addRule().
+ */
 QueryRewritePipeline QueryRewritePipeline::createDefault() {
     QueryRewritePipeline pipeline;
     pipeline.addRule(std::make_shared<PredicatePushdownRule>());

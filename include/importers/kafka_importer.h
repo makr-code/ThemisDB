@@ -21,76 +21,6 @@
 namespace themis {
 namespace importers {
 
-/**
- * @brief Kafka Consumer Importer for real-time streaming ingestion.
- *
- * Consumes messages from a Kafka topic and imports them as ThemisDB entities.
- * Implemented using the librdkafka C API; when `THEMIS_ENABLE_KAFKA` is not
- * defined at compile time the importer still compiles but `importData()` always
- * returns immediately with an `UNKNOWN` error describing the missing build flag.
- *
- * ### Source path format
- *
- * | Format                                | Description                        |
- * |---------------------------------------|------------------------------------|
- * | `kafka://broker:9092/topic`           | Single broker, single topic        |
- * | `kafka://b1:9092,b2:9092/topic`       | Multiple brokers, single topic     |
- *
- * The importer URL is parsed so that everything between `kafka://` and the
- * last `/` is treated as the broker list, and everything after the last `/`
- * is the topic name.  A plain topic name (no `kafka://` prefix) may also be
- * supplied when the broker list is configured via `initialize()`.
- *
- * ### Configuration JSON (passed to initialize())
- *
- * @code{.json}
- * {
- *   "brokers":              "localhost:9092",
- *   "consumer_group":       "themis-import",
- *   "message_format":       "json",
- *   "text_field":           "text",
- *   "poll_timeout_ms":      1000,
- *   "max_messages":         0,
- *   "session_timeout_ms":   10000,
- *   "security_protocol":    "plaintext",
- *   "sasl_mechanism":       "",
- *   "sasl_username":        "",
- *   "sasl_password":        "",
- *   "ssl_ca_location":      "",
- *   "auto_offset_reset":    "earliest"
- * }
- * @endcode
- *
- * ### Message formats
- *
- * | `message_format` | Behaviour                                                       |
- * |------------------|-----------------------------------------------------------------|
- * | `json`  (default)| Payload is JSON; the entity IS the parsed JSON object           |
- * | `avro`           | Confluent wire format; magic byte + 4-byte schema ID stripped;  |
- * |                  | remaining bytes treated as a JSON string in the `content` field |
- * | `plaintext`      | Raw bytes wrapped as `{"content": "<payload>"}`                 |
- *
- * ### Security
- * - Credentials (`sasl_username`, `sasl_password`) are never written to log
- *   messages, error strings, or checkpoint files.
- * - The sanitised connection identifier used in observability output is
- *   `kafka://<broker-list>/<topic>` (no credentials).
- *
- * ### Example (fluent build + streaming callback)
- * @code
- * KafkaImporter imp;
- * imp.initialize(R"({"consumer_group":"my-group","max_messages":1000})");
- *
- * ImportOptions opts;
- * opts.streaming_row_callback = [](const std::string& table,
- *                                   const nlohmann::json& entity) -> bool {
- *     store(entity);
- *     return true;  // continue
- * };
- *
- * auto stats = imp.importData("kafka://broker:9092/events", opts);
- * @endcode
- */
 class KafkaImporter : public IImporter {
 public:
     KafkaImporter();
@@ -106,118 +36,48 @@ public:
 
     const char* getName() const override { return "Kafka Importer"; }
 
-    /// Returns {"kafka", "kafka-json", "kafka-avro", "kafka-plaintext"}.
     std::vector<std::string> getSupportedTypes() const override;
 
-    /**
-     * @brief Initialize with a JSON configuration string.
-     *
-     * Accepted keys are listed in the class documentation.  All keys are
-     * optional; sensible defaults are applied for missing entries.
-     *
-     * @param config  JSON object string.  An empty string or `"{}"` uses defaults.
-     * @return true on success (always true unless JSON parse fails).
-     */
     bool initialize(const std::string& config) override;
 
-    /**
-     * @brief Validate the source URL and check broker connectivity.
-     *
-     * Checks that @p source_path is a valid `kafka://brokers/topic` URL and,
-     * when `THEMIS_ENABLE_KAFKA` is defined, performs a lightweight metadata
-     * request to verify the broker is reachable.
-     *
-     * @param source_path  Kafka URL (see class documentation for formats).
-     * @param errors       Appended with human-readable error descriptions.
-     * @return true if the source is valid and reachable.
-     */
     bool validateSource(const std::string& source_path,
                         std::vector<std::string>& errors) override;
 
-    /**
-     * @brief Consume messages from a Kafka topic and import them as entities.
-     *
-     * Polls the Kafka consumer until `max_messages` is reached or no new
-     * messages arrive within `poll_timeout_ms`.  Each message payload is
-     * converted to a JSON entity according to `message_format` and delivered
-     * via `options.streaming_row_callback` (if set), then counted in the
-     * returned `ImportStats`.
-     *
-     * In dry-run mode (`options.dry_run == true`) messages are consumed and
-     * parsed but the streaming callback is NOT invoked and
-     * `stats.imported_records` is left at zero; `stats.total_records` still
-     * reflects the number of messages consumed.
-     *
-     * @param source_path        `kafka://brokers/topic` URL.
-     * @param options            Import options.
-     * @param progress_callback  Optional stage/current/total progress report.
-     * @return Accumulated import statistics.
-     */
     ImportStats importData(
         const std::string& source_path,
         const ImportOptions& options,
         ProgressCallback progress_callback = nullptr
     ) override;
 
-    /**
-     * @brief Launch importData() on a background thread.
-     *
-     * Returns immediately with a shared handle; poll `handle->getStatus()` or
-     * `handle->future.get()` for the final `ImportStats`.
-     */
     std::shared_ptr<ImportHandle> importDataAsync(
         const std::string& source_path,
         const ImportOptions& options
     ) override;
 
-    /// Set the cancelled_ flag; the running import loop will exit on the next
-    /// poll iteration.
     void cancel() override;
 
-    /**
-     * @brief Return an empty schema (Kafka topics have no fixed schema).
-     *
-     * Returns `{"type": "kafka", "topic": "<topic>", "schema": null}`.
-     */
     json getSourceSchema(const std::string& source_path) override;
 
     // -------------------------------------------------------------------------
     // Testing hook
     // -------------------------------------------------------------------------
 
-    /**
-     * @brief Function type for injecting mock Kafka messages in unit tests.
-     *
-     * Each invocation should return a batch of raw message payloads.  Return
-     * an empty vector to signal end-of-stream.
-     */
     using KafkaMessageFn = std::function<std::vector<std::string>()>;
 
     /**
-     * @brief Inject a mock message-fetch function (unit-testing only).
-     *
-     * When set, every librdkafka poll is replaced by a call to @p fn.  Pass
-     * an empty `KafkaMessageFn{}` to restore the real consumer.
+     * @brief Set Message Fetch For Testing.
+     * @param[in] fn Input parameter.
      */
     void setMessageFetchForTesting(KafkaMessageFn fn);
 
-    // -------------------------------------------------------------------------
-    // URL parsing helper (public for testability)
-    // -------------------------------------------------------------------------
-
     /**
-     * @brief Parse a Kafka URL into broker list and topic name.
-     *
-     * Accepts:
-     *   - `kafka://broker:9092/topic`
-     *   - `kafka://b1:9092,b2:9092/topic`
-     *   - `topic`  (bare topic; brokers must be set via initialize())
-     *
-     * @param url      Input URL.
-     * @param brokers  Output: comma-separated broker list.
-     * @param topic    Output: topic name.
-     * @return true if parsing succeeded (non-empty topic extracted).
+     * @brief ------------------------------------------------------------------------- URL parsing helper (public for testability) -------------------------------------------------------------------------
+     * @param[in] url Input parameter.
+     * @param[in,out] brokers Input/output parameter.
+     * @param[in,out] topic Input/output parameter.
+     * @return True when the operation succeeds.
      */
+
     static bool parseKafkaUrl(const std::string& url,
                                std::string& brokers,
                                std::string& topic);
@@ -252,21 +112,33 @@ private:
     // -------------------------------------------------------------------------
 
     /**
-     * @brief Convert a raw message payload to a JSON entity.
-     *
-     * @param payload  Raw message bytes.
-     * @return JSON object (or null if payload is empty).
+     * @brief Extract Entity.
+     * @param[in] payload Input parameter.
+     * @return Return value.
      */
     json extractEntity(const std::string& payload) const;
 
-    /** Run the consume loop against the mock message function. */
+    /**
+     * @brief Consume From Mock.
+     * @param[in] topic Input parameter.
+     * @param[in] options Input parameter.
+     * @param[in,out] stats Input/output parameter.
+     * @param[in,out] progress_cb Input/output parameter.
+     */
     void consumeFromMock(const std::string& topic,
                          const ImportOptions& options,
                          ImportStats& stats,
                          ProgressCallback& progress_cb);
 
 #ifdef THEMIS_ENABLE_KAFKA
-    /** Run the consume loop against a live Kafka broker via librdkafka. */
+    /**
+     * @brief Consume From Kafka.
+     * @param[in] brokers Input parameter.
+     * @param[in] topic Input parameter.
+     * @param[in] options Input parameter.
+     * @param[in,out] stats Input/output parameter.
+     * @param[in,out] progress_cb Input/output parameter.
+     */
     void consumeFromKafka(const std::string& brokers,
                           const std::string& topic,
                           const ImportOptions& options,
@@ -290,6 +162,13 @@ private:
                   const std::map<std::string, std::string>& attributes,
                   double duration_seconds) const;
 
+    /**
+     * @brief Report Progress.
+     * @param[in,out] callback Input/output parameter.
+     * @param[in] stage Input parameter.
+     * @param[in] current Input parameter.
+     * @param[in] total Input parameter.
+     */
     void reportProgress(ProgressCallback& callback,
                         const std::string& stage,
                         size_t current,
@@ -300,11 +179,6 @@ private:
 // Plugin wrapper
 // ============================================================================
 
-/**
- * @brief Kafka Importer Plugin
- *
- * Wraps KafkaImporter as a ThemisDB plugin for runtime discovery and loading.
- */
 class KafkaImporterPlugin : public plugins::IThemisPlugin {
 public:
     KafkaImporterPlugin();

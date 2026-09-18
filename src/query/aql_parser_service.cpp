@@ -47,6 +47,12 @@ AQLParserServiceImpl::AQLParserServiceImpl(
 
 AQLParserServiceImpl::~AQLParserServiceImpl() = default;
 
+/**
+ * @brief Parse.
+ * @param[in] aql_query Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::string(), what(), spdlog::debug().
+ */
 ParseResult AQLParserServiceImpl::parse(const std::string& aql_query) {
     ParseResult result = {};
     
@@ -121,14 +127,24 @@ bool AQLParserServiceImpl::supportsFeature(const std::string& feature) const {
     return false;
 }
 
-// ============================================================================
-// AQLParserServiceFactory Implementation
-// ============================================================================
+/**
+ * @brief ============================================================================ AQLParserServiceFactory Implementation ============================================================================
+ * @return Return value.
+ * @details Implements create without additional internal calls.
+ */
 
 std::shared_ptr<AQLParserService> AQLParserServiceFactory::create() {
     return std::make_shared<AQLParserServiceImpl>();
 }
 
+/**
+ * @brief Create With Features.
+ * @param[in] enable_mutations Input parameter.
+ * @param[in] enable_ddl Input parameter.
+ * @param[in] enable_geospatial Input parameter.
+ * @return Return value.
+ * @details Implements createWithFeatures without additional internal calls.
+ */
 std::shared_ptr<AQLParserService> AQLParserServiceFactory::createWithFeatures(
     bool enable_mutations,
     bool enable_ddl,

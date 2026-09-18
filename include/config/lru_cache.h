@@ -21,39 +21,23 @@
 namespace themis {
 namespace config {
 
-/**
- * Thread-safe LRU cache with TTL (Time-To-Live) support.
- * 
- * This cache stores resolved config paths to avoid repeated filesystem lookups.
- * Each entry has a TTL and the cache has a maximum size limit (LRU eviction).
- * 
- * Thread-safety: All operations are protected by a mutex.
- */
 template<typename Key, typename Value>
 class LRUCacheWithTTL {
 public:
     using TimePoint = std::chrono::steady_clock::time_point;
     
-    /**
-     * Create a cache with specified capacity and default TTL.
-     * 
-     * @param capacity Maximum number of entries (default: 1000)
-     * @param default_ttl_seconds Default TTL in seconds (default: 300 = 5 minutes)
-     */
     explicit LRUCacheWithTTL(size_t capacity = 1000, 
                              int default_ttl_seconds = 300)
         : capacity_(capacity),
           default_ttl_(std::chrono::seconds(default_ttl_seconds)) {}
     
-    /**
-     * Insert or update a cache entry.
-     * 
-     * @param key The cache key
-     * @param value The value to cache
-     * @param ttl_seconds Optional TTL in seconds (uses default if not specified)
-     */
     void put(const Key& key, const Value& value, 
              std::optional<int> ttl_seconds = std::nullopt) {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         auto now = std::chrono::steady_clock::now();
@@ -81,10 +65,10 @@ public:
     }
     
     /**
-     * Retrieve a value from the cache.
-     * 
-     * @param key The cache key
-     * @return The cached value if found and not expired, std::nullopt otherwise
+     * @brief Get.
+     * @param[in] key Input parameter.
+     * @return Return value.
+     * @details Calls: lock(), find(), end(), std::chrono::steady_clock::now(), erase(), splice(), begin().
      */
     std::optional<Value> get(const Key& key) {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -114,10 +98,10 @@ public:
     }
     
     /**
-     * Remove a specific entry from the cache.
-     * 
-     * @param key The cache key to remove
-     * @return true if the entry was found and removed
+     * @brief Invalidate.
+     * @param[in] key Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: lock(), find(), end(), erase().
      */
     bool invalidate(const Key& key) {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -133,7 +117,8 @@ public:
     }
     
     /**
-     * Clear all entries from the cache.
+     * @brief Clear.
+     * @details Calls: lock().
      */
     void clear() {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -141,25 +126,26 @@ public:
         map_.clear();
     }
     
-    /**
-     * Get current cache size.
-     */
     size_t size() const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return map_.size();
     }
     
-    /**
-     * Check if cache is empty.
-     */
     bool empty() const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return map_.empty();
     }
     
-    /**
-     * Get cache statistics.
-     */
     struct Stats {
         uint64_t hits = 0;
         uint64_t misses;
@@ -171,6 +157,11 @@ public:
     };
     
     Stats stats() const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         uint64_t total = hits_ + misses_;
         double hit_rate = total > 0 ? static_cast<double>(hits_) / total : 0.0;
@@ -187,13 +178,8 @@ public:
     }
     
     /**
-     * Remove all expired entries.
-     * This is automatically done during get() operations, but can be called
-     * explicitly for maintenance.
-     * 
-     * Note: This iterates from the back of the LRU list (least recently used).
-     * Due to varying custom TTLs, expired entries may be scattered throughout
-     * the list, so this may not catch all expired entries in a single pass.
+     * @brief Remove Expired.
+     * @details Calls: lock(), std::chrono::steady_clock::now(), rbegin(), rend(), erase(), std::next(), base().
      */
     void removeExpired() {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -227,6 +213,10 @@ private:
         typename std::list<ListEntry>::iterator list_it;
     };
     
+    /**
+     * @brief Evict LRU.
+     * @details Calls: empty(), back(), erase(), pop_back().
+     */
     void evictLRU() {
         if (list_.empty()) {
             return;

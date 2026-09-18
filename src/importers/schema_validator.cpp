@@ -442,10 +442,8 @@ SchemaValidationReport validateSchemaWithReport(
         }
     }
     
-    // Note: Circular FK detection would require additional context (foreign key definitions)
-    // which are not part of DetectedSchema. This is a placeholder for the logic.
-    // In a real implementation, this would require a more complex schema structure
-    // that includes foreign key definitions.
+    // Circular foreign-key detection is deferred because DetectedSchema does not
+    // currently carry the foreign-key definition graph needed for that check.
     
     auto end_time = std::chrono::high_resolution_clock::now();
     report.validation_time_ms = std::chrono::duration_cast<std::chrono::milliseconds>(

@@ -20,30 +20,6 @@
 
 namespace themis {
 
-/**
- * @brief Advanced FAISS Vector Index with IVF+PQ for production-scale search
- * 
- * v1.2.0 Feature: IVF (Inverted File) + PQ (Product Quantization)
- * 
- * Memory Reduction: 10-100x vs Flat index
- * Search Speed: 2-10x faster on large datasets (> 1M vectors)
- * 
- * Use Cases:
- * - Large-scale RAG (> 10M documents)
- * - Multi-tenant vector search
- * - Memory-constrained deployments
- * - Workload-optimized configurations (OLTP, Analytics, RAG)
- * 
- * Sources:
- * - Based on: FAISS (Facebook AI Similarity Search)
- * - Library: https://github.com/facebookresearch/faiss
- * - Paper: Johnson, J., Douze, M., & Jégou, H. (2019). 
- *          "Billion-scale similarity search with GPUs." IEEE Transactions on Big Data.
- * - License: MIT
- * - ThemisDB Integration: Transactional wrapper with ACID guarantees,
- *   multi-backend GPU support, and RocksDB persistence layer
- * - Workload Optimization: PERFORMANCE_TIPS.md
- */
 class AdvancedVectorIndex {
 public:
     enum class WorkloadType {
@@ -94,7 +70,10 @@ public:
     };
     
     /**
-     * @brief Create advanced vector index
+     * @brief Advanced Vector Index.
+     * @param[in] dimension Input parameter.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     explicit AdvancedVectorIndex(size_t dimension, const Config& config);
     ~AdvancedVectorIndex() noexcept;
@@ -106,35 +85,47 @@ public:
     AdvancedVectorIndex& operator=(AdvancedVectorIndex&&) noexcept = default;
     
     /**
-     * @brief Train index on sample data
-     * 
-     * Required for IVF-based indexes before adding vectors
+     * @brief Train.
+     * @param[in] vectors Input parameter.
+     * @param[in] count Input parameter.
+     * @return True when the operation succeeds.
      */
     bool train(const float* vectors, size_t count);
     
     /**
-     * @brief Add vectors to index
+     * @brief Add.
+     * @param[in] vectors Input parameter.
+     * @param[in] count Input parameter.
+     * @return True when the operation succeeds.
      */
     bool add(const float* vectors, size_t count);
     
     /**
-     * @brief Add vectors with IDs
+     * @brief Add With Ids.
+     * @param[in] vectors Input parameter.
+     * @param[in] ids Input parameter.
+     * @param[in] count Input parameter.
+     * @return True when the operation succeeds.
      */
     bool addWithIds(const float* vectors, const int64_t* ids, size_t count);
     
     /**
-     * @brief Search for k nearest neighbors
+     * @brief Search.
+     * @param[in] query Input parameter.
+     * @param[in] k Input parameter.
+     * @return Return value.
      */
     SearchResult search(const float* query, size_t k);
     
     /**
-     * @brief Batch search for multiple queries
+     * @brief Search Batch.
+     * @param[in] queries Input parameter.
+     * @param[in] num_queries Input parameter.
+     * @param[in] k Input parameter.
+     * @return Return value.
      */
     std::vector<SearchResult> searchBatch(const float* queries, size_t num_queries, size_t k);
     
-    /**
-     * @brief Get index statistics
-     */
     struct Stats {
         size_t total_vectors = 0;
         size_t index_size_bytes = 0;
@@ -144,14 +135,12 @@ public:
         bool is_gpu = false;
     };
     
+    /**
+     * @brief Get Stats.
+     * @return Return value.
+     */
     Stats getStats() const;
 
-    /**
-     * Injectable bridge callbacks used only when FAISS is unavailable.
-     *
-     * Any callback may be left empty; the corresponding operation then keeps
-     * the original fail-closed behavior (false or empty result).
-     */
     struct StubCallbacks {
         std::function<bool(size_t dimension, const Config& config)> initialize;
         std::function<bool(const float* vectors, size_t count)> train;
@@ -164,34 +153,38 @@ public:
         std::function<bool(const std::string& path)> load;
     };
 
-    /// Register non-FAISS bridge callbacks for this process.
-    /// Thread-safe; pass a default-constructed StubCallbacks to clear all hooks.
+    /**
+     * @brief Set Stub Callbacks.
+     * @param[in] callbacks Input parameter.
+     * @details Calls: lk(), stubCallbacksMutex(), stubCallbacksStorage(), std::move().
+     */
     static void setStubCallbacks(StubCallbacks callbacks) {
         std::lock_guard<std::mutex> lk(stubCallbacksMutex());
         stubCallbacksStorage() = std::move(callbacks);
     }
     
     /**
-     * @brief Save index to disk
+     * @brief Save.
+     * @param[in] path Input parameter.
+     * @return True when the operation succeeds.
      */
     bool save(const std::string& path);
     
     /**
-     * @brief Load index from disk
+     * @brief Load.
+     * @param[in] path Input parameter.
+     * @return True when the operation succeeds.
      */
     bool load(const std::string& path);
     
-    /**
-     * @brief Get configuration
-     */
     const Config& getConfig() const { return config_; }
     
     /**
-     * @brief Get workload-optimized configuration
-     * @param dataset_size Expected dataset size
-     * @param dimension Vector dimensionality
-     * @param workload Workload type
-     * @return Optimized configuration for workload
+     * @brief Get Workload Optimized Config.
+     * @param[in] dataset_size Input parameter.
+     * @param[in] dimension Input parameter.
+     * @param[in] workload Input parameter.
+     * @return Return value.
      */
     static Config getWorkloadOptimizedConfig(
         size_t dataset_size,
@@ -199,10 +192,20 @@ public:
         WorkloadType workload);
 
 private:
+    /**
+     * @brief Stub Callbacks Mutex.
+     * @return Return value.
+     * @details Implements stubCallbacksMutex without additional internal calls.
+     */
     static std::mutex& stubCallbacksMutex() {
         static std::mutex m;
         return m;
     }
+    /**
+     * @brief Stub Callbacks Storage.
+     * @return Return value.
+     * @details Implements stubCallbacksStorage without additional internal calls.
+     */
     static StubCallbacks& stubCallbacksStorage() {
         static StubCallbacks callbacks;
         return callbacks;
@@ -213,7 +216,8 @@ private:
     bool is_trained_ = false;
     
     /**
-     * @brief Initialize FAISS index based on config
+     * @brief Initialize Index.
+     * @return True when the operation succeeds.
      */
     bool initializeIndex();
 };

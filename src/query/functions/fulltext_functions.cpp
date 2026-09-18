@@ -30,7 +30,12 @@ using json = nlohmann::json;
 
 namespace {
 
-// Tokenize text into words (simple whitespace/punctuation tokenizer)
+/**
+ * @brief Tokenize text into words (simple whitespace/punctuation tokenizer)
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: std::isalnum(), std::tolower(), empty(), push_back(), clear().
+ */
 std::vector<std::string> tokenize(const std::string& text) {
     std::vector<std::string> tokens;
     std::string current = {};
@@ -50,7 +55,13 @@ std::vector<std::string> tokenize(const std::string& text) {
     return tokens;
 }
 
-// Generate n-grams from a string
+/**
+ * @brief Generate n-grams from a string
+ * @param[in] s Input parameter.
+ * @param[in] n Input parameter.
+ * @return Return value.
+ * @details Calls: length(), push_back(), substr().
+ */
 std::vector<std::string> generateNgrams(const std::string& s, int n) {
     std::vector<std::string> ngrams = {};
 
@@ -64,7 +75,12 @@ std::vector<std::string> generateNgrams(const std::string& s, int n) {
     return ngrams;
 }
 
-// Soundex encoding
+/**
+ * @brief Soundex encoding
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::toupper(), getCode(), length().
+ */
 std::string soundex(const std::string& s) {
     if (s.empty()) {
       return "";
@@ -239,9 +255,15 @@ std::unordered_set<std::string> queryTermSet(const json& queryArg) {
     return terms;
 }
 
-/// Apply open/close tag wrapping around every occurrence of any term in
-/// @p text.  The function walks character by character to preserve original
-/// capitalisation and whitespace while performing case-insensitive matching.
+/**
+ * @brief Apply open/close tag wrapping around every occurrence of any term in @p text.
+ * @param[in] text Input parameter.
+ * @param[in] terms Input parameter.
+ * @param[in] openTag Input parameter.
+ * @param[in] closeTag Input parameter.
+ * @return Return value.
+ * @details The function walks character by character to preserve original capitalisation and whitespace while performing case-insensitive matching. Calls: empty(), lower(), size(), std::transform(), begin(), end(), std::tolower(), reserve().
+ */
 std::string applyHighlight(const std::string& text,
                            const std::unordered_set<std::string>& terms,
                            const std::string& openTag,
@@ -283,9 +305,14 @@ std::string applyHighlight(const std::string& text,
     return result;
 }
 
-/// Find the byte offset of the window of @p windowSize characters that
-/// contains the greatest number of term occurrences.  Returns 0 if no term
-/// is found or the text fits within the window.
+/**
+ * @brief Find the byte offset of the window of @p windowSize characters that contains the greatest number of term occurrences.
+ * @param[in] lower Input parameter.
+ * @param[in] terms Input parameter.
+ * @param[in] windowSize Input parameter.
+ * @return Return value.
+ * @details Returns 0 if no term is found or the text fits within the window. Calls: size(), std::isalnum(), count(), substr(), push_back(), empty().
+ */
 size_t bestSnippetOffset(const std::string& lower,
                          const std::unordered_set<std::string>& terms,
                          size_t windowSize) {
@@ -914,9 +941,11 @@ public:
     }
 };
 
-// ============================================================================
-// Registration
-// ============================================================================
+/**
+ * @brief ============================================================================ Registration ============================================================================
+ * @param[in,out] registry Input/output parameter.
+ * @details Calls: registerFunction().
+ */
 
 void registerFulltextFunctions(FunctionRegistry& registry) {
     registry.registerFunction(std::make_unique<FulltextFunction>());

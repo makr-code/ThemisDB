@@ -70,6 +70,7 @@ public:
      * Lazily initialised on first call. The detector is created with the
      * default config path ("config/pii_patterns.yaml"); if the file is
      * absent the regex engine embedded defaults are used.
+     * @return Return value.
      */
     static PIIRedactionPolicy& get();
 
@@ -154,11 +155,13 @@ public:
      * Strict mode forces full-replace ("****") for every PII type regardless
      * of the per-pattern "partial" configuration.
      * Enabled by setting THEMIS_PII_STRICT=1 before process start.
+     * @return True on success.
      */
     bool isStrictMode() const;
 
     /**
      * @brief Override strict mode programmatically (e.g., for tests).
+     * @param[in] strict Input parameter.
      */
     void setStrictMode(bool strict);
 
@@ -170,6 +173,8 @@ private:
      *
      * Internal helper shared by redactForLog(), redactAttributes(), and
      * redactLabels().
+     * @param[in] text Input parameter.
+     * @return Return value.
      */
     std::string applyRedaction(const std::string& text) const;
 

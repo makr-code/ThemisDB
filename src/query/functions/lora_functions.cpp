@@ -38,7 +38,17 @@ namespace {
     std::mutex g_orchestrator_mutex = {};
 }
 
+/**
+ * @brief Get Lo RAOrchestrator.
+ * @return Return value.
+ * @details Calls: lock(), themis::llm::createLoRAOrchestrator().
+ */
 std::shared_ptr<themis::llm::lora::ILoRAOrchestrator> getLoRAOrchestrator() {
+    /**
+     * @brief Lock.
+     * @param[in] g_orchestrator_mutex Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(g_orchestrator_mutex);
     auto orchestrator = themis::llm::createLoRAOrchestrator();
     return orchestrator;
@@ -50,7 +60,12 @@ std::shared_ptr<themis::llm::lora::ILoRAOrchestrator> getLoRAOrchestrator() {
 
 namespace {
 
-// Convert ISO 8601 timestamp to string
+/**
+ * @brief Convert ISO 8601 timestamp to string
+ * @param[in] tp Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::to_time_t(), std::put_time(), std::gmtime(), str().
+ */
 std::string timePointToString(const std::chrono::system_clock::time_point& tp) {
     auto time_t = std::chrono::system_clock::to_time_t(tp);
     std::ostringstream oss = {};
@@ -58,7 +73,12 @@ std::string timePointToString(const std::chrono::system_clock::time_point& tp) {
     return oss.str();
 }
 
-// Parse training configuration from JSON
+/**
+ * @brief Parse training configuration from JSON
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: contains().
+ */
 LoRAHyperparameters parseTrainingConfig(const json& config) {
     LoRAHyperparameters params = {};
     
@@ -84,7 +104,12 @@ LoRAHyperparameters parseTrainingConfig(const json& config) {
     return params;
 }
 
-// Parse training dataset from JSON
+/**
+ * @brief Parse training dataset from JSON
+ * @param[in] dataset Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), is_array(), value(), push_back().
+ */
 TrainingData parseDataset(const json& dataset) {
     TrainingData data = {};
     
@@ -396,6 +421,11 @@ nlohmann::json LoraSimilarFunction::execute(
             if (!src_desc.empty() && !cand_desc.empty()) {
                 auto words = [](const std::string& s) {
                     std::unordered_set<std::string> ws;
+                    /**
+                     * @brief Iss.
+                     * @param[in] s Input parameter.
+                     * @return Return value.
+                     */
                     std::istringstream iss(s);
                     std::string w = {};
                     while (iss >> w) {
@@ -483,8 +513,8 @@ nlohmann::json LoraPathFunction::execute(
         int max_depth = args.size() > 2 ? args[2].get<int>() : 5;
         (void)max_depth;
         
-        // Build adaptation path
-        // This is a placeholder - would integrate with actual graph traversal
+        // Build a simple adaptation path locally until graph traversal is wired
+        // in for real model-to-model routing.
         json path = json::array();
         
         // Start node
@@ -1050,9 +1080,11 @@ nlohmann::json LoraVerifyChainFunction::execute(
     }
 }
 
-// ============================================================================
-// Registration
-// ============================================================================
+/**
+ * @brief ============================================================================ Registration ============================================================================
+ * @param[in,out] registry Input/output parameter.
+ * @details Calls: registerFunction().
+ */
 
 void registerLoRAFunctions(FunctionRegistry& registry) {
     registry.registerFunction(std::make_unique<LoraTrainFunction>());

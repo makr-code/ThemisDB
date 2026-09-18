@@ -48,16 +48,37 @@ std::string NERDetectionEngine::getName() const { return "ner"; }
 std::string NERDetectionEngine::getVersion() const { return signature_.version; }
 
 bool NERDetectionEngine::isEnabled() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return enabled_;
 }
 
 PluginSignature NERDetectionEngine::getSignature() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return signature_;
 }
 
+/**
+ * @brief Initialize.
+ * @param[in] config Input parameter.
+ * @return True on success.
+ * @details Calls: lock(), clear(), value(), contains(), loadFromConfig(), rebuildFieldHints(), empty(), spdlog::warn().
+ */
 bool NERDetectionEngine::initialize(const nlohmann::json& config) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     last_error_.clear();
 
@@ -107,7 +128,18 @@ bool NERDetectionEngine::initialize(const nlohmann::json& config) {
     }
 }
 
+/**
+ * @brief Reload.
+ * @param[in] config Input parameter.
+ * @return True on success.
+ * @details Calls: lock(), clear(), loadFromConfig(), std::string(), spdlog::error(), logErrorWithContext(), makeErrorContext(), rebuildFieldHints().
+ */
 bool NERDetectionEngine::reload(const nlohmann::json& config) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     // Save current state for rollback
@@ -156,6 +188,11 @@ bool NERDetectionEngine::reload(const nlohmann::json& config) {
 }
 
 std::vector<PIIFinding> NERDetectionEngine::detectInText(const std::string& text) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     if (!enabled_ || text.empty()) {
@@ -214,6 +251,11 @@ std::vector<PIIFinding> NERDetectionEngine::detectInText(const std::string& text
 }
 
 PIIType NERDetectionEngine::classifyFieldName(const std::string& field_name) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     std::string lower = toLower(field_name);
@@ -234,6 +276,11 @@ PIIType NERDetectionEngine::classifyFieldName(const std::string& field_name) con
 }
 
 std::string NERDetectionEngine::getRedactionRecommendation(PIIType type) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = redaction_modes_.find(type);
@@ -244,11 +291,21 @@ std::string NERDetectionEngine::getRedactionRecommendation(PIIType type) const {
 }
 
 std::string NERDetectionEngine::getLastError() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return last_error_;
 }
 
 nlohmann::json NERDetectionEngine::getMetadata() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     nlohmann::json meta;
@@ -264,9 +321,10 @@ nlohmann::json NERDetectionEngine::getMetadata() const {
     return meta;
 }
 
-// ============================================================================
-// Internal helpers
-// ============================================================================
+/**
+ * @brief ============================================================================ Internal helpers ============================================================================
+ * @details Implements loadDefaults without additional internal calls.
+ */
 
 void NERDetectionEngine::loadDefaults() {
     honorifics_ = {
@@ -293,6 +351,12 @@ void NERDetectionEngine::loadDefaults() {
     redaction_modes_[PIIType::LOCATION]      = "partial";
 }
 
+/**
+ * @brief Load From Config.
+ * @param[in] config Input parameter.
+ * @return True on success.
+ * @details Calls: contains(), value(), is_array(), clear(), size(), spdlog::error(), insert(), toLower().
+ */
 bool NERDetectionEngine::loadFromConfig(const nlohmann::json& config) {
     if (config.contains("settings")) {
         auto& s = config["settings"];
@@ -360,6 +424,10 @@ bool NERDetectionEngine::loadFromConfig(const nlohmann::json& config) {
     return true;
 }
 
+/**
+ * @brief Rebuild Field Hints.
+ * @details Calls: clear().
+ */
 void NERDetectionEngine::rebuildFieldHints() {
     field_name_hints_.clear();
 
@@ -386,9 +454,12 @@ void NERDetectionEngine::rebuildFieldHints() {
     }
 }
 
-// ============================================================================
-// Tokeniser
-// ============================================================================
+/**
+ * @brief ============================================================================ Tokeniser ============================================================================
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: size(), std::isspace(), substr(), push_back(), std::move().
+ */
 
 std::vector<NERDetectionEngine::Token> NERDetectionEngine::tokenise(const std::string& text) {
     std::vector<Token> tokens;
@@ -572,9 +643,12 @@ void NERDetectionEngine::detectLocations(
     }
 }
 
-// ============================================================================
-// Static helpers
-// ============================================================================
+/**
+ * @brief ============================================================================ Static helpers ============================================================================
+ * @param[in] word Input parameter.
+ * @return True on success.
+ * @details Calls: empty(), std::isalpha(), std::isupper().
+ */
 
 bool NERDetectionEngine::isCapitalized(const std::string& word) {
     if (word.empty()) {
@@ -589,6 +663,12 @@ bool NERDetectionEngine::isCapitalized(const std::string& word) {
     return false;
 }
 
+/**
+ * @brief To Lower.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: std::transform(), begin(), end(), std::tolower().
+ */
 std::string NERDetectionEngine::toLower(const std::string& s) {
     std::string out = s;
     std::transform(out.begin(), out.end(), out.begin(),
@@ -596,6 +676,17 @@ std::string NERDetectionEngine::toLower(const std::string& s) {
     return out;
 }
 
+/**
+ * @brief Make Span.
+ * @param[in] tokens Input parameter.
+ * @param[in] first Input parameter.
+ * @param[in] last Input parameter.
+ * @param[in] type Input parameter.
+ * @param[in] confidence Input parameter.
+ * @param[in] pattern_name Input parameter.
+ * @return Return value.
+ * @details Calls: size(), std::move().
+ */
 PIIFinding NERDetectionEngine::makeSpan(
     const std::vector<Token>& tokens,
     size_t first,
@@ -628,9 +719,11 @@ PIIFinding NERDetectionEngine::makeSpan(
     return f;
 }
 
-// ============================================================================
-// Factory function (registered in pii_detection_engine.cpp)
-// ============================================================================
+/**
+ * @brief ============================================================================ Factory function (registered in pii_detection_engine.
+ * @return Return value.
+ * @details cpp) ============================================================================ Implements createNEREngine without additional internal calls.
+ */
 
 std::unique_ptr<IPIIDetectionEngine> createNEREngine() {
     return std::make_unique<NERDetectionEngine>();

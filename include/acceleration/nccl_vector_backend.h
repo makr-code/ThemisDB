@@ -34,34 +34,8 @@ typedef void* cudaStream_t;
 namespace themis {
 namespace acceleration {
 
-/**
- * NCCL Vector Backend for Multi-GPU Communication
- * 
- * Provides collective operations and peer-to-peer transfers for multi-GPU
- * vector indexing using NVIDIA NCCL (NVIDIA Collective Communications Library).
- * 
- * When THEMIS_ENABLE_NCCL is not defined, provides stub implementations
- * that always return false, allowing CPU-only builds to compile and link.
- * 
- * Features (when NCCL is enabled):
- * - AllReduce for distributed distance computations
- * - Broadcast for index synchronization
- * - P2P transfers for direct GPU-to-GPU communication
- * - Multi-GPU top-k result merging
- * 
- * Sources:
- * - Library: NCCL (NVIDIA Collective Communications Library)
- * - Repository: https://github.com/NVIDIA/nccl
- * - License: BSD 3-Clause
- * - Documentation: https://docs.nvidia.com/deeplearning/nccl/
- * 
- * @version v2.5+
- */
 class NCCLVectorBackend {
 public:
-    /**
-     * Configuration for NCCL backend
-     */
     struct Config {
         int worldSize = 1;          // Total number of GPUs
         int rank = 0;               // Current GPU rank (0 to worldSize-1)
@@ -71,9 +45,6 @@ public:
         size_t bufferSizeMB = 256;  // Communication buffer size
     };
 
-    /**
-     * Collective operation types
-     */
     enum class CollectiveOp {
         ALL_REDUCE,     // Reduce and broadcast result to all GPUs
         BROADCAST,      // Broadcast from one GPU to all
@@ -82,9 +53,6 @@ public:
         REDUCE          // Reduce to single GPU
     };
 
-    /**
-     * Reduction operations
-     */
     enum class ReductionOp {
         SUM,
         MIN,
@@ -97,127 +65,93 @@ public:
     ~NCCLVectorBackend();
 
     // Initialization
+    /**
+     * @brief Initialize.
+     * @param[in] config Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool initialize(const Config& config);
+    /**
+     * @brief Shutdown.
+     */
     void shutdown();
+    /**
+     * @brief Is Initialized.
+     * @return True when the operation succeeds.
+     */
     bool isInitialized() const;
 
     // Device management
+    /**
+     * @brief Get Rank.
+     * @return Return value.
+     */
     int getRank() const;
+    /**
+     * @brief Get World Size.
+     * @return Return value.
+     */
     int getWorldSize() const;
+    /**
+     * @brief Get Device Ids.
+     * @return Return value.
+     */
     std::vector<int> getDeviceIds() const;
+    /**
+     * @brief Is P2 PEnabled.
+     * @return True when the operation succeeds.
+     */
     bool isP2PEnabled() const;
 
     // Collective operations
-    /**
-     * AllReduce: Reduce values across all GPUs and broadcast result
-     * @param sendBuf Input buffer on this GPU
-     * @param recvBuf Output buffer on this GPU
-     * @param count Number of elements
-     * @param op Reduction operation
-     * @param stream CUDA stream for async operation
-     */
     bool allReduce(const float* sendBuf, float* recvBuf, size_t count,
                    ReductionOp op, cudaStream_t stream = nullptr);
 
-    /**
-     * Broadcast: Send data from root GPU to all GPUs
-     * @param buffer Buffer to broadcast (input on root, output on others)
-     * @param count Number of elements
-     * @param root Rank of the root GPU
-     * @param stream CUDA stream for async operation
-     */
     bool broadcast(float* buffer, size_t count, int root,
                    cudaStream_t stream = nullptr);
 
-    /**
-     * AllGather: Gather data from all GPUs
-     * @param sendBuf Input buffer on this GPU
-     * @param recvBuf Output buffer for all GPU data
-     * @param sendCount Number of elements per GPU
-     * @param stream CUDA stream for async operation
-     */
     bool allGather(const float* sendBuf, float* recvBuf, size_t sendCount,
                    cudaStream_t stream = nullptr);
 
-    /**
-     * Reduce: Reduce values from all GPUs to root
-     * @param sendBuf Input buffer on this GPU
-     * @param recvBuf Output buffer (only valid on root)
-     * @param count Number of elements
-     * @param op Reduction operation
-     * @param root Rank of the root GPU
-     * @param stream CUDA stream for async operation
-     */
     bool reduce(const float* sendBuf, float* recvBuf, size_t count,
                 ReductionOp op, int root, cudaStream_t stream = nullptr);
 
-    /**
-     * ReduceScatter: Reduce and scatter results across GPUs
-     * @param sendBuf Input buffer on this GPU
-     * @param recvBuf Output buffer on this GPU
-     * @param recvCount Number of elements per GPU
-     * @param op Reduction operation
-     * @param stream CUDA stream for async operation
-     */
     bool reduceScatter(const float* sendBuf, float* recvBuf, size_t recvCount,
                        ReductionOp op, cudaStream_t stream = nullptr);
 
     // Peer-to-peer operations
-    /**
-     * P2P Send: Send data to another GPU
-     * @param buffer Data to send
-     * @param count Number of elements
-     * @param peerRank Destination GPU rank
-     * @param stream CUDA stream for async operation
-     */
     bool p2pSend(const float* buffer, size_t count, int peerRank,
                  cudaStream_t stream = nullptr);
 
-    /**
-     * P2P Receive: Receive data from another GPU
-     * @param buffer Buffer to receive data
-     * @param count Number of elements
-     * @param peerRank Source GPU rank
-     * @param stream CUDA stream for async operation
-     */
     bool p2pRecv(float* buffer, size_t count, int peerRank,
                  cudaStream_t stream = nullptr);
 
     /**
-     * Enable P2P access between two GPUs
+     * @brief Enable P2 PAccess.
+     * @param[in] deviceId1 Input parameter.
+     * @param[in] deviceId2 Input parameter.
+     * @return True when the operation succeeds.
      */
     bool enableP2PAccess(int deviceId1, int deviceId2);
 
     /**
-     * Check if P2P is available between two GPUs
+     * @brief Can Access Peer.
+     * @param[in] deviceId1 Input parameter.
+     * @param[in] deviceId2 Input parameter.
+     * @return True when the operation succeeds.
      */
     bool canAccessPeer(int deviceId1, int deviceId2);
 
     // Synchronization
-    /**
-     * Synchronize all GPUs (barrier)
-     */
     bool synchronize(cudaStream_t stream = nullptr);
 
     /**
-     * Wait for all pending operations to complete
+     * @brief Wait All.
+     * @return True when the operation succeeds.
      */
     bool waitAll();
 
     // Multi-GPU vector operations
-    /**
-     * Distributed top-k merge across GPUs.
-     * Each GPU has local top-k results, merged into a global top-k set.
-     * 
-     * @param localIndices Local result indices.
-     * @param localDistances Local result distances.
-     * @param localK Number of local results.
-     * @param globalIndices Output buffer for global result indices (only valid on root).
-     * @param globalDistances Output buffer for global result distances (only valid on root).
-     * @param k Final number of results to return.
-     * @param root Rank where final results are gathered.
-     * @param stream CUDA stream for async operation.
-     */
     bool mergeTopK(const uint32_t* localIndices, const float* localDistances,
                    size_t localK, uint32_t* globalIndices, float* globalDistances,
                    size_t k, int root, cudaStream_t stream = nullptr);
@@ -234,13 +168,37 @@ public:
         int numNVLinks = 0;
     };
 
+    /**
+     * @brief Return access control statistics.
+     * @return Access control statistics.
+     */
     Statistics getStatistics() const;
+    /**
+     * @brief Reset Statistics.
+     */
     void resetStatistics();
 
     // Capability detection
+    /**
+     * @brief Is NCCLAvailable.
+     * @return True when the operation succeeds.
+     */
     static bool isNCCLAvailable();
+    /**
+     * @brief Get NCCLVersion.
+     * @return Return value.
+     */
     static int getNCCLVersion();
+    /**
+     * @brief Get NCCLVersion String.
+     * @return Return value.
+     */
     static std::string getNCCLVersionString();
+    /**
+     * @brief Check NVLink Support.
+     * @param[in] deviceIds Input parameter.
+     * @return True when the operation succeeds.
+     */
     static bool checkNVLinkSupport(const std::vector<int>& deviceIds);
 
 #ifndef THEMIS_ENABLE_NCCL
@@ -250,8 +208,10 @@ public:
     using AllReduceFn = std::function<bool(
         const float* send, float* recv, size_t count, ReductionOp op, void* stream)>;
 
-    /// Inject an allReduce implementation for the non-NCCL stub path.
-    /// Pass empty fn to restore fail-closed stub default.
+    /**
+     * @brief Set All Reduce Fn.
+     * @param[in] fn Input parameter.
+     */
     static void setAllReduceFn(AllReduceFn fn);
 #endif // !THEMIS_ENABLE_NCCL
 

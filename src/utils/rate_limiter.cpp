@@ -32,6 +32,10 @@ RateLimiter::RateLimiter(double rate_per_second, double burst_size)
     }
 }
 
+/**
+ * @brief Refill locked.
+ * @details Calls: Clock::now(), count(), std::min().
+ */
 void RateLimiter::refill_locked() {
     auto now = Clock::now();
     double elapsed = std::chrono::duration<double>(now - last_refill_).count();
@@ -47,10 +51,21 @@ std::chrono::duration<double> RateLimiter::wait_for_locked(double tokens) const 
     return std::chrono::duration<double>(deficit / rate_);
 }
 
+/**
+ * @brief Try acquire.
+ * @param[in] tokens Input parameter.
+ * @return True on success.
+ * @details Calls: lk(), refill_locked(), themis::utils::makeErrorContext(), std::to_string(), themis::utils::logErrorWithContext().
+ */
 bool RateLimiter::try_acquire(double tokens) {
     if (tokens <= 0.0) {
       return true;
     }
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     refill_locked();
     if (tokens_ >= tokens) {
@@ -71,10 +86,22 @@ bool RateLimiter::try_acquire(double tokens) {
     return false;
 }
 
+/**
+ * @brief Acquire with timeout.
+ * @param[in] tokens Input parameter.
+ * @param[in] timeout Input parameter.
+ * @return True on success.
+ * @details Calls: lk(), std::chrono::steady_clock::now(), refill_locked(), wait_for_locked(), std::min(), wait_for().
+ */
 bool RateLimiter::acquire_with_timeout(double tokens, std::chrono::milliseconds timeout) {
     if (tokens <= 0.0) {
       return true;
     }
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::mutex> lk(mutex_);
     const auto deadline = std::chrono::steady_clock::now() + timeout;
     while (true) {
@@ -96,7 +123,16 @@ bool RateLimiter::acquire_with_timeout(double tokens, std::chrono::milliseconds 
     }
 }
 
+/**
+ * @brief Reset.
+ * @details Calls: lk(), Clock::now(), notify_all().
+ */
 void RateLimiter::reset() {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     tokens_ = burst_;
     last_refill_ = Clock::now();
@@ -104,15 +140,31 @@ void RateLimiter::reset() {
 }
 
 double RateLimiter::available() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     double elapsed = std::chrono::duration<double>(Clock::now() - last_refill_).count();
     return std::min(burst_, tokens_ + elapsed * rate_);
 }
 
+/**
+ * @brief Set rate.
+ * @param[in] rate_per_second Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: lk(), refill_locked().
+ */
 void RateLimiter::set_rate(double rate_per_second) {
     if (rate_per_second <= 0.0) {
       throw std::invalid_argument("RateLimiter: rate must be positive");
     }
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     refill_locked(); // absorb tokens at old rate before switching
     rate_ = rate_per_second;
@@ -122,6 +174,11 @@ bool RateLimiter::try_acquire_for(double tokens, std::chrono::milliseconds timeo
     if (tokens <= 0.0) {
       return true;
     }
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::mutex> lk(mutex_);
     const auto deadline = std::chrono::steady_clock::now() + timeout;
     while (true) {

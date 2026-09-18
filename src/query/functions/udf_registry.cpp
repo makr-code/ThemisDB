@@ -23,9 +23,11 @@ namespace themis {
 namespace query {
 namespace functions {
 
-// ============================================================================
-// Utilities
-// ============================================================================
+/**
+ * @brief ============================================================================ Utilities ============================================================================
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), std::chrono::system_clock::to_time_t(), gmtime_s(), gmtime_r(), std::put_time(), str().
+ */
 
 static std::string utcNow() {
     auto now = std::chrono::system_clock::now();
@@ -41,9 +43,13 @@ static std::string utcNow() {
     return oss.str();
 }
 
-// ============================================================================
-// UdfDefinition
-// ============================================================================
+/**
+ * @brief ============================================================================ UdfDefinition ============================================================================
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Implements parseArgType without additional internal calls.
+ */
 
 ArgType UdfDefinition::parseArgType(const std::string& s) {
     if (s == "ANY") {
@@ -82,6 +88,12 @@ ArgType UdfDefinition::parseArgType(const std::string& s) {
     throw std::runtime_error("Unknown argument type: " + s);
 }
 
+/**
+ * @brief Arg Type To String.
+ * @param[in] t Input parameter.
+ * @return Return value.
+ * @details Implements argTypeToString without additional internal calls.
+ */
 std::string UdfDefinition::argTypeToString(ArgType t) {
     switch (t) {
         case ArgType::ANY:      return "ANY";
@@ -121,6 +133,13 @@ nlohmann::json UdfDefinition::toJson() const {
     };
 }
 
+/**
+ * @brief Validate Body.
+ * @param[in] expr Input parameter.
+ * @param[in] depth Input parameter.
+ * @return Return value.
+ * @details Calls: is_object(), contains(), is_string(), is_number_integer(), is_array(), empty().
+ */
 std::string UdfDefinition::validateBody(const nlohmann::json& expr, int depth) {
     constexpr int kMaxValidateDepth = 64;
     if (depth > kMaxValidateDepth) {
@@ -408,9 +427,12 @@ nlohmann::json UdfFunction::evalExpr(
     throw std::runtime_error(def_.name + ": unknown expression type '" + type + "'");
 }
 
-// ============================================================================
-// UdfRegistry
-// ============================================================================
+/**
+ * @brief ============================================================================ UdfRegistry ============================================================================
+ * @param[in] def Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: empty(), UdfDefinition::validateBody(), FunctionRegistry::instance(), lock(), hasFunction(), find(), end(), utcNow().
+ */
 
 void UdfRegistry::registerUdf(UdfDefinition def) {
     // Basic name validation: non-empty, no spaces
@@ -431,6 +453,11 @@ void UdfRegistry::registerUdf(UdfDefinition def) {
 
     auto& freg = FunctionRegistry::instance();
 
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     // If a name already exists in FunctionRegistry but is NOT a known UDF,
@@ -451,7 +478,18 @@ void UdfRegistry::registerUdf(UdfDefinition def) {
     udfs_[def.name] = std::move(def);
 }
 
+/**
+ * @brief Unregister Udf.
+ * @param[in] name Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: lock(), find(), end(), FunctionRegistry::instance(), unregisterFunction(), erase().
+ */
 void UdfRegistry::unregisterUdf(const std::string& name) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = udfs_.find(name);
@@ -464,6 +502,11 @@ void UdfRegistry::unregisterUdf(const std::string& name) {
 }
 
 UdfDefinition UdfRegistry::getUdf(const std::string& name) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = udfs_.find(name);
     if (it == udfs_.end()) {
@@ -473,11 +516,21 @@ UdfDefinition UdfRegistry::getUdf(const std::string& name) const {
 }
 
 bool UdfRegistry::hasUdf(const std::string& name) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return udfs_.find(name) != udfs_.end();
 }
 
 std::vector<UdfDefinition> UdfRegistry::listUdfs() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<UdfDefinition> result = {};
 

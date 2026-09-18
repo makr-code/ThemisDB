@@ -22,38 +22,6 @@
 namespace themis {
 namespace security {
 
-/**
- * HSM (Hardware Security Module) Provider Interface
- * 
- * Provides secure cryptographic operations using hardware-backed keys.
- * Supports PKCS#11 interface for HSM device communication.
- * 
- * Features:
- * - Hardware-backed key storage
- * - Secure signing operations (never exposes private key)
- * - Certificate management
- * - PIN/password protection
- * - Multi-slot support
- * 
- * Supported HSMs:
- * - Thales/SafeNet Luna HSM
- * - Utimaco CryptoServer
- * - AWS CloudHSM
- * - SoftHSM2 (software emulation for testing)
- * 
- * Example Usage:
- * ```cpp
- * HSMConfig config;
- * config.library_path = "/usr/lib/softhsm/libsofthsm2.so";
- * config.slot_id = 0;
- * config.pin = "1234";
- * 
- * auto hsm = std::make_unique<HSMProvider>(config);
- * if (hsm->initialize()) {
- *     auto signature = hsm->sign(data, "my-key-label");
- * }
- * ```
- */
 
 struct HSMConfig {
     // PKCS#11 library path (e.g., /usr/lib/softhsm/libsofthsm2.so)
@@ -112,14 +80,13 @@ struct HSMKeyInfo {
     uint32_t key_size = 0;          // Key size in bits
 };
 
-/**
- * HSM Provider Implementation
- * 
- * Wraps PKCS#11 API for HSM operations.
- * Handles session management, login, and cryptographic operations.
- */
 class HSMProvider {
 public:
+    /**
+     * @brief HSMProvider.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit HSMProvider(HSMConfig config);
     ~HSMProvider();
 
@@ -132,41 +99,22 @@ public:
     HSMProvider& operator=(HSMProvider&&) noexcept;
 
     /**
-     * Initialize HSM connection and authenticate
-     * @return true on success, false otherwise
+     * @brief Initialize.
+     * @return True when the operation succeeds.
      */
     bool initialize();
 
     /**
-     * Finalize HSM session and cleanup
+     * @brief Finalize.
      */
     void finalize();
 
-    /**
-     * Sign data using HSM-backed private key
-     * @param data: Data to sign (will be hashed internally)
-     * @param key_label: Key label in HSM (optional, uses config default if empty)
-     * @return Signature result with base64-encoded signature
-     */
     HSMSignatureResult sign(const std::vector<uint8_t>& data, 
                             const std::string& key_label = "");
 
-    /**
-     * Sign a pre-computed hash using HSM-backed private key
-     * @param hash: Pre-computed hash (e.g., SHA-256)
-     * @param key_label: Key label in HSM
-     * @return Signature result
-     */
     HSMSignatureResult signHash(const std::vector<uint8_t>& hash,
                                 const std::string& key_label = "");
 
-    /**
-     * Verify signature using HSM-backed public key
-     * @param data: Original data
-     * @param signature_b64: Base64-encoded signature
-     * @param key_label: Key label in HSM
-     * @return true if signature is valid, false otherwise
-     */
     bool verify(const std::vector<uint8_t>& data,
                 const std::string& signature_b64,
                 const std::string& key_label = "");
@@ -185,61 +133,66 @@ public:
         std::function<std::vector<uint8_t>(const std::vector<uint8_t>& encrypted,
                                            const std::string& key_label)>;
 
-    /// Register a signing bridge for stub builds without a real HSM.
-    /// Thread-safe; pass an empty function to restore the built-in stub path.
+    /**
+     * @brief Set Sign Hash Fn.
+     * @param[in] fn Input parameter.
+     * @details Calls: lk(), signHashFnMutex(), signHashFnStorage(), std::move().
+     */
     static void setSignHashFn(SignHashFn fn) {
         std::lock_guard<std::mutex> lk(signHashFnMutex());
         signHashFnStorage() = std::move(fn);
     }
-    /// Register a verification bridge for stub builds without a real HSM.
-    /// Thread-safe; pass an empty function to restore the built-in stub path.
+    /**
+     * @brief Set Verify Fn.
+     * @param[in] fn Input parameter.
+     * @details Calls: lk(), verifyFnMutex(), verifyFnStorage(), std::move().
+     */
     static void setVerifyFn(VerifyFn fn) {
         std::lock_guard<std::mutex> lk(verifyFnMutex());
         verifyFnStorage() = std::move(fn);
     }
-    /// Register a wrap/encrypt bridge for stub builds without a real HSM.
-    /// Thread-safe; pass an empty function to restore the built-in stub path.
+    /**
+     * @brief Set Encrypt Data Fn.
+     * @param[in] fn Input parameter.
+     * @details Calls: lk(), encryptDataFnMutex(), encryptDataFnStorage(), std::move().
+     */
     static void setEncryptDataFn(EncryptDataFn fn) {
         std::lock_guard<std::mutex> lk(encryptDataFnMutex());
         encryptDataFnStorage() = std::move(fn);
     }
-    /// Register an unwrap/decrypt bridge for stub builds without a real HSM.
-    /// Thread-safe; pass an empty function to restore the built-in stub path.
+    /**
+     * @brief Set Decrypt Data Fn.
+     * @param[in] fn Input parameter.
+     * @details Calls: lk(), decryptDataFnMutex(), decryptDataFnStorage(), std::move().
+     */
     static void setDecryptDataFn(DecryptDataFn fn) {
         std::lock_guard<std::mutex> lk(decryptDataFnMutex());
         decryptDataFnStorage() = std::move(fn);
     }
 
     /**
-     * List available keys in HSM
-     * @return Vector of key information
+     * @brief List Keys.
+     * @return Return value.
      */
     std::vector<HSMKeyInfo> listKeys();
 
-    /**
-     * Generate new RSA key pair in HSM
-     * @param label: Key label
-     * @param key_size: Key size in bits (2048, 3072, 4096)
-     * @param extractable: Whether key can be extracted (should be false)
-     * @return true on success, false otherwise
-     */
     bool generateKeyPair(const std::string& label, 
                          uint32_t key_size = 2048,
                          bool extractable = false);
 
     /**
-     * Import certificate for existing key
-     * @param key_label: Associated key label
-     * @param cert_pem: Certificate in PEM format
-     * @return true on success, false otherwise
+     * @brief Import Certificate.
+     * @param[in] key_label Input parameter.
+     * @param[in] cert_pem Input parameter.
+     * @return True when the operation succeeds.
      */
     bool importCertificate(const std::string& key_label,
                            const std::string& cert_pem);
 
     /**
-     * Get certificate for key
-     * @param key_label: Key label
-     * @return Certificate in PEM format, or empty optional if not found
+     * @brief Get Certificate.
+     * @param[in] key_label Input parameter.
+     * @return Return value.
      */
     std::optional<std::string> getCertificate(const std::string& key_label);
 
@@ -253,137 +206,203 @@ public:
     using GetCertificateFn =
         std::function<std::optional<std::string>(const std::string& key_label)>;
 
-    /// Register callback used by generateKeyPair() in stub builds.
-    /// Pass empty fn to restore default stub behavior.
+    /**
+     * @brief Set Generate Key Pair Fn.
+     * @param[in] fn Input parameter.
+     * @details Calls: lk(), generateKeyPairFnMutex(), generateKeyPairFnStorage(), std::move().
+     */
     static void setGenerateKeyPairFn(GenerateKeyPairFn fn) {
         std::lock_guard<std::mutex> lk(generateKeyPairFnMutex());
         generateKeyPairFnStorage() = std::move(fn);
     }
-    /// Register callback used by importCertificate() in stub builds.
-    /// Pass empty fn to restore default stub behavior.
+    /**
+     * @brief Set Import Certificate Fn.
+     * @param[in] fn Input parameter.
+     * @details Calls: lk(), importCertificateFnMutex(), importCertificateFnStorage(), std::move().
+     */
     static void setImportCertificateFn(ImportCertificateFn fn) {
         std::lock_guard<std::mutex> lk(importCertificateFnMutex());
         importCertificateFnStorage() = std::move(fn);
     }
-    /// Register callback used by getCertificate() in stub builds.
-    /// Pass empty fn to restore default stub behavior.
+    /**
+     * @brief Set Get Certificate Fn.
+     * @param[in] fn Input parameter.
+     * @details Calls: lk(), getCertificateFnMutex(), getCertificateFnStorage(), std::move().
+     */
     static void setGetCertificateFn(GetCertificateFn fn) {
         std::lock_guard<std::mutex> lk(getCertificateFnMutex());
         getCertificateFnStorage() = std::move(fn);
     }
 
-    /**
-     * Encrypt data using HSM-backed public key (RSA-PKCS#1 v1.5 or OAEP)
-     * Intended for DEK wrapping in the key management hierarchy.
-     * @param data: Plaintext to encrypt (max ~245 bytes for RSA-2048)
-     * @param key_label: Key label in HSM (optional, uses config default if empty)
-     * @return Encrypted bytes, empty on failure (check getLastError())
-     */
     std::vector<uint8_t> encryptData(const std::vector<uint8_t>& data,
                                      const std::string& key_label = "");
 
-    /**
-     * Decrypt data using HSM-backed private key (RSA-PKCS#1 v1.5 or OAEP)
-     * Intended for DEK unwrapping in the key management hierarchy.
-     * @param encrypted: Ciphertext produced by encryptData()
-     * @param key_label: Key label in HSM (optional, uses config default if empty)
-     * @return Decrypted plaintext bytes, empty on failure (check getLastError())
-     */
     std::vector<uint8_t> decryptData(const std::vector<uint8_t>& encrypted,
                                      const std::string& key_label = "");
 
     /**
-     * Check if HSM is initialized and ready
+     * @brief Is Ready.
+     * @return True when the operation succeeds.
      */
     bool isReady() const;
 
     /**
-     * Get HSM token information
-     * @return Token label, serial number, firmware version
+     * @brief Get Token Info.
+     * @return Return value.
      */
     std::string getTokenInfo() const;
 
     /**
-     * Get last error message
+     * @brief Get Last Error.
+     * @return Return value.
      */
     std::string getLastError() const;
 
     /**
-     * Get performance statistics
-     * @return Performance metrics (sign/verify counts, timings, pool stats)
+     * @brief Get Stats.
+     * @return Return value.
      */
     HSMPerformanceStats getStats() const;
 
     /**
-     * Reset performance statistics
+     * @brief Reset Stats.
      */
     void resetStats();
 
     /**
-     * Check if using stub provider (insecure development mode)
-     * @return true if stub provider is active, false if real HSM
+     * @brief Is Stub Provider.
+     * @return True when the operation succeeds.
      */
     bool isStubProvider() const;
 
     /**
-     * Perform periodic security check and log warnings if stub is active
-     * Should be called periodically (e.g., every 5 minutes) from server
+     * @brief Periodic Security Check.
      */
     void periodicSecurityCheck();
 
 private:
+    /**
+     * @brief Sign Hash Fn Mutex.
+     * @return Return value.
+     * @details Implements signHashFnMutex without additional internal calls.
+     */
     static std::mutex& signHashFnMutex() {
         static std::mutex m;
         return m;
     }
+    /**
+     * @brief Sign Hash Fn Storage.
+     * @return Return value.
+     * @details Implements signHashFnStorage without additional internal calls.
+     */
     static SignHashFn& signHashFnStorage() {
         static SignHashFn fn;
         return fn;
     }
+    /**
+     * @brief Verify Fn Mutex.
+     * @return Return value.
+     * @details Implements verifyFnMutex without additional internal calls.
+     */
     static std::mutex& verifyFnMutex() {
         static std::mutex m;
         return m;
     }
+    /**
+     * @brief Verify Fn Storage.
+     * @return Return value.
+     * @details Implements verifyFnStorage without additional internal calls.
+     */
     static VerifyFn& verifyFnStorage() {
         static VerifyFn fn;
         return fn;
     }
+    /**
+     * @brief Encrypt Data Fn Mutex.
+     * @return Return value.
+     * @details Implements encryptDataFnMutex without additional internal calls.
+     */
     static std::mutex& encryptDataFnMutex() {
         static std::mutex m;
         return m;
     }
+    /**
+     * @brief Encrypt Data Fn Storage.
+     * @return Return value.
+     * @details Implements encryptDataFnStorage without additional internal calls.
+     */
     static EncryptDataFn& encryptDataFnStorage() {
         static EncryptDataFn fn;
         return fn;
     }
+    /**
+     * @brief Decrypt Data Fn Mutex.
+     * @return Return value.
+     * @details Implements decryptDataFnMutex without additional internal calls.
+     */
     static std::mutex& decryptDataFnMutex() {
         static std::mutex m;
         return m;
     }
+    /**
+     * @brief Decrypt Data Fn Storage.
+     * @return Return value.
+     * @details Implements decryptDataFnStorage without additional internal calls.
+     */
     static DecryptDataFn& decryptDataFnStorage() {
         static DecryptDataFn fn;
         return fn;
     }
+    /**
+     * @brief Generate Key Pair Fn Mutex.
+     * @return Return value.
+     * @details Implements generateKeyPairFnMutex without additional internal calls.
+     */
     static std::mutex& generateKeyPairFnMutex() {
         static std::mutex m;
         return m;
     }
+    /**
+     * @brief Generate Key Pair Fn Storage.
+     * @return Return value.
+     * @details Implements generateKeyPairFnStorage without additional internal calls.
+     */
     static GenerateKeyPairFn& generateKeyPairFnStorage() {
         static GenerateKeyPairFn fn;
         return fn;
     }
+    /**
+     * @brief Import Certificate Fn Mutex.
+     * @return Return value.
+     * @details Implements importCertificateFnMutex without additional internal calls.
+     */
     static std::mutex& importCertificateFnMutex() {
         static std::mutex m;
         return m;
     }
+    /**
+     * @brief Import Certificate Fn Storage.
+     * @return Return value.
+     * @details Implements importCertificateFnStorage without additional internal calls.
+     */
     static ImportCertificateFn& importCertificateFnStorage() {
         static ImportCertificateFn fn;
         return fn;
     }
+    /**
+     * @brief Get Certificate Fn Mutex.
+     * @return Return value.
+     * @details Implements getCertificateFnMutex without additional internal calls.
+     */
     static std::mutex& getCertificateFnMutex() {
         static std::mutex m;
         return m;
     }
+    /**
+     * @brief Get Certificate Fn Storage.
+     * @return Return value.
+     * @details Implements getCertificateFnStorage without additional internal calls.
+     */
     static GetCertificateFn& getCertificateFnStorage() {
         static GetCertificateFn fn;
         return fn;
@@ -397,41 +416,62 @@ private:
 
     // PKCS#11 helper discovery functions (only active when THEMIS_ENABLE_HSM_REAL)
     struct SessionEntry; // forward
+    /**
+     * @brief Discover Keys Session.
+     * @param[in,out] s Input/output parameter.
+     */
     void discoverKeysSession(SessionEntry& s);
+    /**
+     * @brief Discover Certificate Session.
+     * @param[in,out] s Input/output parameter.
+     */
     void discoverCertificateSession(SessionEntry& s);
-    // Pool-Hilfen (nur real)
+    /**
+     * @brief Acquire Session.
+     * @return Pointer to the result.
+     */
     SessionEntry* acquireSession();
+    /**
+     * @brief Release Session.
+     * @param[in,out] s Input/output parameter.
+     */
     void releaseSession(SessionEntry* s);
 };
 
-/**
- * HSM-Backed PKI Client
- * 
- * High-level wrapper that combines HSM operations with PKI workflows.
- * Compatible with existing VCCPKIClient interface.
- */
 class HSMPKIClient {
 public:
+    /**
+     * @brief HSMPKIClient.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit HSMPKIClient(HSMConfig config);
     ~HSMPKIClient();
 
     /**
-     * Sign data with HSM and return PKI-compatible result
+     * @brief Sign.
+     * @param[in] data Input parameter.
+     * @return Return value.
      */
     HSMSignatureResult sign(const std::vector<uint8_t>& data);
 
     /**
-     * Verify signature
+     * @brief Verify identity and enforce network policies for a request.
+     * @param[in] data Input parameter.
+     * @param[in] signature_b64 Input parameter.
+     * @return Verification result.
      */
     bool verify(const std::vector<uint8_t>& data, const std::string& signature_b64);
 
     /**
-     * Get certificate serial number
+     * @brief Get Cert Serial.
+     * @return Return value.
      */
     std::optional<std::string> getCertSerial();
 
     /**
-     * Check if HSM is ready
+     * @brief Is Ready.
+     * @return True when the operation succeeds.
      */
     bool isReady() const;
 

@@ -59,70 +59,42 @@ namespace cdc {
 
 // ── Configuration ─────────────────────────────────────────────────────────────
 
-/**
- * @brief Kafka producer configuration for the CDC bridge.
- *
- * Credentials (sasl_username / sasl_password) must be loaded from
- * config/security/ paths via ConfigPathResolver::resolve(); they are never
- * logged even at DEBUG level.
- */
 struct KafkaProducerConfig {
-    /// Comma-separated list of initial broker addresses ("host:port,...").
     std::string brokers{"localhost:9092"};
 
-    /// Prefix prepended to collection names to form topic names.
-    /// Example: prefix "themis.cdc." + collection "orders" → "themis.cdc.orders".
     std::string topic_prefix{"themis.cdc."};
 
-    /// When non-empty, all events are published to this single topic instead of
-    /// per-collection topics.  The ChangeEvent::key is still used as message key.
     std::string single_topic{};
 
-    /// librdkafka acks setting ("all" for strongest durability guarantees).
     std::string acks{"all"};
 
-    /// Enable idempotent producer (requires acks=all; provides exactly-once on LAN).
     bool enable_idempotence{true};
 
-    /// Delivery report poll interval in milliseconds.
     uint32_t poll_interval_ms{500};
 
-    /// Maximum linger time before a batch is flushed (milliseconds).
     int linger_ms{5};
 
-    /// Maximum in-flight requests per connection (must be 1 when idempotence=true).
     int max_in_flight{5};
 
-    /// SASL mechanism ("PLAIN", "SCRAM-SHA-256", "SCRAM-SHA-512", or empty for none).
     std::string sasl_mechanism{};
 
-    /// SASL username (load from config/security/; never log).
     std::string sasl_username{};
 
-    /// SASL password (load from config/security/; never log).
     std::string sasl_password{};
 
-    /// Security protocol ("plaintext", "ssl", "sasl_plaintext", "sasl_ssl").
     std::string security_protocol{"plaintext"};
 
-    /// Path to CA certificate for TLS (empty = use system CA bundle).
     std::string ssl_ca_location{};
 
-    /// Flush timeout when stopping the producer (milliseconds).
     uint32_t flush_timeout_ms{10000};
 
-    /// When true, events are serialized as Debezium-compatible envelopes
-    /// instead of the native ThemisDB JSON format.  Set this when publishing
-    /// to topics consumed by Kafka Connect transforms or Debezium Server sinks.
     bool use_debezium_format{false};
 
-    /// Debezium formatter configuration (used only when use_debezium_format is true).
     DebeziumFormatter::Config debezium_config{};
 };
 
 // ── Statistics ────────────────────────────────────────────────────────────────
 
-/// Snapshot of KafkaCDCProducer counters.
 struct KafkaProducerStats {
     uint64_t delivered_total{0};    ///< cdc_kafka_delivered_total
     uint64_t error_total{0};        ///< cdc_kafka_error_total
@@ -134,31 +106,8 @@ struct KafkaProducerStats {
 
 #ifdef THEMIS_ENABLE_KAFKA
 
-/**
- * @brief Kafka-compatible CDC producer: polls the ThemisDB changefeed and
- *        publishes change events to Apache Kafka.
- *
- * Typical lifecycle:
- * @code
- *   KafkaProducerConfig cfg;
- *   cfg.brokers = "kafka-broker:9092";
- *   KafkaCDCProducer producer(&changefeed, cfg, &metrics);
- *   producer.start();
- *   // ... ThemisDB running ...
- *   producer.stop();
- * @endcode
- *
- * Thread-safety: start()/stop() must not be called concurrently.  getStats()
- * is safe to call from any thread.
- */
 class KafkaCDCProducer : public ICDCTransport {
 public:
-    /**
-     * @brief Construct the producer.
-     * @param changefeed    Changefeed to poll (not owned; must outlive producer).
-     * @param config        Producer configuration.
-     * @param metrics       Optional shared metrics sink (not owned; may be null).
-     */
     explicit KafkaCDCProducer(Changefeed* changefeed,
                                KafkaProducerConfig config = {},
                                CDCMetrics* metrics = nullptr);
@@ -171,46 +120,33 @@ public:
 
     // ── Lifecycle ──────────────────────────────────────────────────────────
 
-    /**
-     * @brief Create the librdkafka producer and start the background polling
-     *        thread.  No-op if already started.
-     * @return true on success, false if librdkafka initialisation failed.
-     */
     bool start() override;
 
-    /**
-     * @brief Flush pending messages, stop the background thread, and destroy
-     *        the librdkafka producer.  No-op if already stopped.
-     */
     void stop() override;
 
     // ── Manual publish ─────────────────────────────────────────────────────
 
-    /**
-     * @brief Publish a single ChangeEvent to Kafka immediately.
-     *
-     * Uses the topic selected by topicForEvent().  Non-blocking: delivery
-     * confirmation is handled asynchronously via the delivery-report callback.
-     *
-     * @param event  Event to publish.
-     * @return true if the message was enqueued, false on error.
-     */
     bool publish(const Changefeed::ChangeEvent& event) override;
 
-    // ── Observability ──────────────────────────────────────────────────────
-
     /**
-     * @brief Return a snapshot of producer statistics.
+     * @brief ── Observability ──────────────────────────────────────────────────────
+     * @return Return value.
      */
+
     KafkaProducerStats getStats() const;
 
 private:
-    // ── Internal helpers ───────────────────────────────────────────────────
+    /**
+     * @brief ── Internal helpers ───────────────────────────────────────────────────
+     * @param[in] event Input parameter.
+     * @return Return value.
+     */
 
-    /// Returns the Kafka topic name for a given ChangeEvent.
     std::string topicForEvent(const Changefeed::ChangeEvent& event) const;
 
-    /// Background polling thread: fetches new events and calls publish().
+    /**
+     * @brief Polling Thread.
+     */
     void pollingThread();
 
     // ── Delivery report callback (friend class) ────────────────────────────
@@ -232,14 +168,12 @@ private:
     std::unique_ptr<DeliveryReportCb>   dr_cb_;
     std::unique_ptr<RdKafka::Producer>  producer_;
 
-    /// Cache of RdKafka::Topic handles, keyed by topic name.
     mutable std::mutex topic_mutex_;
     std::unordered_map<std::string, std::unique_ptr<RdKafka::Topic>> topic_cache_;
 
     std::atomic<bool>  running_{false};
     std::thread        thread_;
 
-    /// Sequence watermark: the producer polls events after this sequence.
     std::atomic<uint64_t> last_sequence_{0};
 
     // Prometheus counters (mirrored in CDCMetrics when metrics_ != null)
@@ -247,25 +181,16 @@ private:
     std::atomic<uint64_t> error_total_{0};
     std::atomic<uint64_t> poll_cycles_{0};
 
-    /// Get or create a cached RdKafka::Topic handle.
+    /**
+     * @brief Get Or Create Topic.
+     * @param[in] topic_name Name of the topic.
+     * @return Pointer to the result.
+     */
     RdKafka::Topic* getOrCreateTopic(const std::string& topic_name);
 };
 
 #else // !THEMIS_ENABLE_KAFKA ── no-op stub ────────────────────────────────────
 
-/**
- * @brief No-op stub compiled when THEMIS_ENABLE_KAFKA is not defined.
- *
- * All methods are inline no-ops so the rest of the codebase can reference
- * KafkaCDCProducer without introducing a Kafka dependency.
- *
- * STUB/SIMULATION NOTE:
- * Purpose: Preserve compile-time API compatibility without linking librdkafka.
- * Activation: Compiled when THEMIS_ENABLE_KAFKA is not defined.
- * Production Delta: start()/publish() delegate to injected fns when set;
- *   otherwise return false and no CDC events are emitted to Kafka.
- * Removal Plan: Keep as optional-build fallback; remove only if Kafka becomes a mandatory runtime dependency.
- */
 class KafkaCDCProducer : public ICDCTransport {
 public:
     explicit KafkaCDCProducer(Changefeed* /*changefeed*/,
@@ -297,35 +222,53 @@ public:
     // -----------------------------------------------------------------------
     // Injectable bridge (STUB #98)
     // -----------------------------------------------------------------------
-    /// Callback type for start(): return true when the Kafka producer has
-    /// started successfully.
     using StartFn   = std::function<bool()>;
-    /// Callback type for publish(): return true when the event was accepted
-    /// by the Kafka producer.
     using PublishFn = std::function<bool(const Changefeed::ChangeEvent&)>;
 
-    /// Register a start callback used by `start()` in non-Kafka builds.
-    /// Pass an empty `std::function` to revert to the always-false fallback.
-    /// Thread-safe.
+    /**
+     * @brief Set Start Fn.
+     * @param[in] fn Input parameter.
+     * @details Calls: lk(), s_start_fn_mutex_(), s_start_fn_(), std::move().
+     */
     static void setStartFn(StartFn fn) {
         std::lock_guard<std::mutex> lk(s_start_fn_mutex_());
         s_start_fn_() = std::move(fn);
     }
 
-    /// Register a publish callback used by `publish()` in non-Kafka builds.
-    /// Pass an empty `std::function` to revert to the always-false fallback.
-    /// Thread-safe.
+    /**
+     * @brief Set Publish Fn.
+     * @param[in] fn Input parameter.
+     * @details Calls: lk(), s_publish_fn_mutex_(), s_publish_fn_(), std::move().
+     */
     static void setPublishFn(PublishFn fn) {
         std::lock_guard<std::mutex> lk(s_publish_fn_mutex_());
         s_publish_fn_() = std::move(fn);
     }
 
 private:
-    // Static storage via function-local statics so they are lazily initialised
-    // and avoid static-initialisation-order issues.
+    /**
+     * @brief Static storage via function-local statics so they are lazily initialised and avoid static-initialisation-order issues.
+     * @return Return value.
+     * @details Implements s_start_fn_mutex_ without additional internal calls.
+     */
     static std::mutex&   s_start_fn_mutex_()   { static std::mutex m; return m; }
+    /**
+     * @brief S start fn.
+     * @return Return value.
+     * @details Implements s_start_fn_ without additional internal calls.
+     */
     static StartFn&      s_start_fn_()          { static StartFn f; return f; }
+    /**
+     * @brief S publish fn mutex.
+     * @return Return value.
+     * @details Implements s_publish_fn_mutex_ without additional internal calls.
+     */
     static std::mutex&   s_publish_fn_mutex_()  { static std::mutex m; return m; }
+    /**
+     * @brief S publish fn.
+     * @return Return value.
+     * @details Implements s_publish_fn_ without additional internal calls.
+     */
     static PublishFn&    s_publish_fn_()         { static PublishFn f; return f; }
 };
 

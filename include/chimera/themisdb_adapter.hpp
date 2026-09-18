@@ -32,23 +32,8 @@ class GraphIndexManager;
 
 namespace chimera {
 
-/**
- * @class ThemisDBResultStream
- * @brief In-memory simulation implementation of IResultStream for ThemisDB
- *
- * @details
- * Stores a pre-fetched RelationalTable snapshot and serves rows via the
- * IResultStream cursor API.  In simulation mode (no live server) all rows
- * are available immediately; in production mode the back-end would replace
- * the snapshot with a real server-side cursor.
- */
 class ThemisDBResultStream final : public IResultStream {
 public:
-    /**
-     * @brief Construct a result stream from a pre-fetched table snapshot.
-     * @param table   All rows to be served by this stream.
-     * @param config  Stream configuration (batch size / timeout hints).
-     */
     explicit ThemisDBResultStream(
         RelationalTable  table,
         StreamConfig     config = {}
@@ -69,26 +54,8 @@ private:
     bool            closed_   = false;
 };
 
-/**
- * @class ThemisDBPreparedStatement
- * @brief In-memory simulation implementation of IPreparedStatement for ThemisDB
- *
- * @details
- * Stores the original query text and a named/positional parameter map.
- * When execute() is called the parameters are applied to the query by
- * substituting @name tokens and then delegated to the adapter's
- * execute_query() method.  In production mode a real query-plan cache
- * would replace the textual substitution with a plan-cache lookup.
- */
 class ThemisDBPreparedStatement final : public IPreparedStatement {
 public:
-    /**
-     * @brief Construct a prepared statement for the given query.
-     *
-     * @param id      Unique server-side statement ID (UUID).
-     * @param query   Query text to prepare.
-     * @param adapter Owning adapter; used to execute the statement.
-     */
     ThemisDBPreparedStatement(
         std::string             id,
         std::string             query,
@@ -122,56 +89,27 @@ private:
     size_t             exec_count_   = 0;
     std::chrono::microseconds total_exec_time_{0};
 
-    /// Substitute @name tokens in the query with their bound Scalar values.
+    /**
+     * @brief Apply named params.
+     * @return Return value.
+     */
     std::string apply_named_params() const;
 
-    /// Build a positional params vector from the positional_params_ map.
+    /**
+     * @brief Build positional params.
+     * @return Return value.
+     */
     std::vector<Scalar> build_positional_params() const;
 };
 
-/**
- * @class ThemisDBAdapter
- * @brief ThemisDB implementation of the CHIMERA adapter interface
- *
- * @details This adapter provides integration between ThemisDB and the
- *          CHIMERA Benchmark Suite. It implements all required interfaces
- *          and marks unsupported features with NOT_IMPLEMENTED.
- *
- *          When constructed with the default constructor the adapter operates
- *          in in-process simulation mode: all data is kept in lightweight
- *          in-memory collections so that the full CHIMERA API surface can be
- *          exercised without a live ThemisDB server.
- *
- *          When constructed with engine pointers the adapter delegates every
- *          operation to the supplied ThemisDB back-end components, enabling
- *          true production-grade integration.
- */
 class ThemisDBAdapter : public IDatabaseAdapter,
                         public IAsyncDatabaseAdapter,
                         public IStreamingAdapter,
                         public IPreparedStatementAdapter {
 public:
-    /**
-     * @brief Default constructor — in-process simulation mode.
-     *
-     * All CHIMERA operations are served from lightweight in-memory
-     * collections.  No live ThemisDB server is required.
-     */
     ThemisDBAdapter() = default;
     ~ThemisDBAdapter() override = default;
 
-    /**
-     * @brief Engine-injection constructor — wired production mode.
-     *
-     * Accepts optional pointers to ThemisDB's native engine components.
-     * When an engine pointer is non-null the corresponding operations are
-     * delegated to the real back-end; otherwise the in-memory fallback is
-     * used for that subsystem.
-     *
-     * @param query_engine   Optional ThemisDB QueryEngine for AQL execution.
-     * @param vector_index   Optional VectorIndexManager for kNN search.
-     * @param graph_index    Optional GraphIndexManager for graph traversal.
-     */
     explicit ThemisDBAdapter(
         themis::QueryEngine*       query_engine,
         themis::VectorIndexManager* vector_index  = nullptr,
@@ -346,18 +284,6 @@ public:
 
     Result<std::vector<std::string>> list_prepared() override;
 
-    /**
-     * @brief Inject a connection-pool provider.
-     *
-     * When a non-null `acquire_fn` is set, `has_capability(CONNECTION_POOLING)`
-     * returns true and `get_capabilities()` includes `Capability::CONNECTION_POOLING`.
-     *
-     * The `acquire_fn` is a zero-argument callable returning a connection
-     * handle as a `void*` (adapter-specific; unused internally but recorded
-     * as evidence that a pool is present).  Pass `nullptr` to disable pooling.
-     *
-     * Thread safety: call before the first `connect()` invocation.
-     */
     void setConnectionPool(std::function<void*()> acquire_fn);
 
 private:
@@ -396,9 +322,11 @@ private:
     // Document: collection_name -> (doc_id -> Document)
     std::map<std::string, std::map<std::string, Document>> doc_store_;
 
-    // ── Private helpers ──────────────────────────────────────────────────────
+    /**
+     * @brief ── Private helpers ──────────────────────────────────────────────────────
+     * @return Return value.
+     */
 
-    /// Generate a new unique ID (UUID v4).
     static std::string generate_id();
     // Transaction tracking state
     struct TxnEntry {
@@ -415,7 +343,17 @@ private:
     size_t next_txn_id_ = 0;
 
     // Credential security helpers
+    /**
+     * @brief Is valid connection string.
+     * @param[in] connection_string Input parameter.
+     * @return True when the operation succeeds.
+     */
     static bool is_valid_connection_string(const std::string& connection_string);
+    /**
+     * @brief Mask credentials.
+     * @param[in] connection_string Input parameter.
+     * @return Return value.
+     */
     static std::string mask_credentials(const std::string& connection_string);
 
     // ── Async cancellation tracking ──────────────────────────────────────────

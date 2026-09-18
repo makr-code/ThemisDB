@@ -20,7 +20,6 @@
 namespace themis {
 namespace content {
 
-/// Policy rule for a specific MIME type
 struct MimePolicy {
     std::string mime_type;
     uint64_t max_size = 0;  ///< Maximum file size in bytes (0 = unlimited)
@@ -28,7 +27,6 @@ struct MimePolicy {
     std::string reason;     ///< Reason for denial (for blacklist entries)
 };
 
-/// Category-based policy rule
 struct CategoryPolicy {
     std::string category;
     bool action;  ///< true = allow, false = deny
@@ -36,7 +34,6 @@ struct CategoryPolicy {
     std::string reason;
 };
 
-/// Content upload validation policy
 struct ContentPolicy {
     uint64_t default_max_size = 104857600;  ///< 100 MB default
     bool default_action = true;   ///< true = allow, false = deny
@@ -45,43 +42,50 @@ struct ContentPolicy {
     std::vector<MimePolicy> denied;
     std::map<std::string, CategoryPolicy> category_rules;
 
-    /// Local model identifier used to activate the embedding generation pipeline
-    /// for ingested text content.  An empty string disables embedding generation.
-    /// Matches FUTURE_ENHANCEMENTS.md: "activated when ContentPolicy::embeddingModel is set".
     std::string embedding_model;
 
-    /// Enable near-duplicate detection for this collection.
-    /// When true, `ContentManager::ingestRawBlob()` computes a perceptual hash
-    /// (pHash for images, MinHash for text) and rejects near-duplicates before
-    /// committing to storage.  Default: false (opt-in per collection).
     bool enable_deduplication = false;
 
-    /// Enable automatic OCR extraction for image content in this collection.
-    /// When true, MimeDetector::shouldTriggerOcr() returns true for image/png,
-    /// image/jpeg, and image/tiff MIME types, routing them through OcrProcessor.
-    /// Default: false (opt-in per collection).
     bool ocr_enabled = false;
 
-    /// Returns true when automatic OCR is enabled for this policy.
     bool ocrEnabled() const { return ocr_enabled; }
 
-    /// Check if a MIME type is explicitly allowed
+    /**
+     * @brief Is Allowed.
+     * @param[in] mime_type Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool isAllowed(const std::string& mime_type) const;
     
-    /// Check if a MIME type is explicitly denied
+    /**
+     * @brief Is Denied.
+     * @param[in] mime_type Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool isDenied(const std::string& mime_type) const;
     
-    /// Get max size for a specific MIME type (returns 0 if unlimited)
+    /**
+     * @brief Get Max Size.
+     * @param[in] mime_type Input parameter.
+     * @return Return value.
+     */
     uint64_t getMaxSize(const std::string& mime_type) const;
     
-    /// Get max size for a category
+    /**
+     * @brief Get Category Max Size.
+     * @param[in] category Input parameter.
+     * @return Return value.
+     */
     uint64_t getCategoryMaxSize(const std::string& category) const;
     
-    /// Get denial reason (empty if allowed)
+    /**
+     * @brief Get Denial Reason.
+     * @param[in] mime_type Input parameter.
+     * @return Return value.
+     */
     std::string getDenialReason(const std::string& mime_type) const;
 };
 
-/// Validation result for file upload
 struct ValidationResult {
     bool allowed = false;
     std::string mime_type;

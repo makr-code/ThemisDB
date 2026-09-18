@@ -48,6 +48,13 @@ CTECache::~CTECache() {
     }
 }
 
+/**
+ * @brief Store.
+ * @param[in] name Input parameter.
+ * @param[in] results Input parameter.
+ * @return True on success.
+ * @details Calls: empty(), THEMIS_WARN(), contains(), remove(), estimateSize(), makeRoom(), THEMIS_DEBUG(), spillToDisk().
+ */
 bool CTECache::store(const std::string& name, std::vector<nlohmann::json> results) {
     if (name.empty()) {
         THEMIS_WARN("CTECache::store rejected empty CTE name");
@@ -104,6 +111,12 @@ bool CTECache::store(const std::string& name, std::vector<nlohmann::json> result
     return true;
 }
 
+/**
+ * @brief Get.
+ * @param[in] name Input parameter.
+ * @return Return value.
+ * @details Calls: find(), end(), loadFromDisk().
+ */
 std::optional<std::vector<nlohmann::json>> CTECache::get(const std::string& name) {
     auto it = entries_.find(name);
     if (it == entries_.end()) {
@@ -126,6 +139,11 @@ bool CTECache::contains(const std::string& name) const {
     return entries_.find(name) != entries_.end();
 }
 
+/**
+ * @brief Remove.
+ * @param[in] name Input parameter.
+ * @details Calls: find(), end(), empty(), THEMIS_WARN(), what(), erase().
+ */
 void CTECache::remove(const std::string& name) {
     auto it = entries_.find(name);
     if (it == entries_.end()) {
@@ -149,6 +167,10 @@ void CTECache::remove(const std::string& name) {
     entries_.erase(it);
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: empty(), std::filesystem::remove().
+ */
 void CTECache::clear() {
     for (const auto& [name, entry] : entries_) {
         if (entry.is_spilled && !entry.spill_file_path.empty()) {
@@ -212,12 +234,25 @@ size_t CTECache::estimateSize(const std::vector<nlohmann::json>& data) const {
     return total_estimate;
 }
 
+/**
+ * @brief Spill To Disk.
+ * @param[in] name Input parameter.
+ * @param[in] data Input parameter.
+ * @return True on success.
+ * @details Calls: ensureSpillDirectory(), getSpillFilePath(), file(), is_open(), THEMIS_ERROR(), size(), write(), dump().
+ */
 bool CTECache::spillToDisk(const std::string& name, const std::vector<nlohmann::json>& data) {
     ensureSpillDirectory();
     
     std::string spill_path = getSpillFilePath(name);
     
     try {
+        /**
+         * @brief File.
+         * @param[in] spill_path Input parameter.
+         * @param[in] binary Input parameter.
+         * @return Return value.
+         */
         std::ofstream file(spill_path, std::ios::binary);
         if (!file.is_open()) {
             THEMIS_ERROR("Failed to open spill file: {}", spill_path);
@@ -252,6 +287,12 @@ bool CTECache::spillToDisk(const std::string& name, const std::vector<nlohmann::
     }
 }
 
+/**
+ * @brief Load From Disk.
+ * @param[in] name Input parameter.
+ * @return Return value.
+ * @details Calls: find(), end(), file(), is_open(), THEMIS_ERROR(), read(), reserve(), serialized().
+ */
 std::optional<std::vector<nlohmann::json>> CTECache::loadFromDisk(const std::string& name) {
     auto it = entries_.find(name);
     if (it == entries_.end() || !it->second.is_spilled) {
@@ -261,6 +302,12 @@ std::optional<std::vector<nlohmann::json>> CTECache::loadFromDisk(const std::str
     std::string spill_path = it->second.spill_file_path;
     
     try {
+        /**
+         * @brief File.
+         * @param[in] spill_path Input parameter.
+         * @param[in] binary Input parameter.
+         * @return Return value.
+         */
         std::ifstream file(spill_path, std::ios::binary);
         if (!file.is_open()) {
             THEMIS_ERROR("Failed to open spill file: {}", spill_path);
@@ -298,6 +345,12 @@ std::optional<std::vector<nlohmann::json>> CTECache::loadFromDisk(const std::str
     }
 }
 
+/**
+ * @brief Make Room.
+ * @param[in] required_bytes Input parameter.
+ * @return True on success.
+ * @details Calls: empty(), find(), end(), THEMIS_DEBUG(), spillToDisk(), getSpillFilePath(), clear(), shrink_to_fit().
+ */
 bool CTECache::makeRoom(size_t required_bytes) {
     // Find largest in-memory CTE to spill
     std::string largest_cte = {};
@@ -352,6 +405,10 @@ std::string CTECache::getSpillFilePath(const std::string& name) const {
     return config_.spill_directory + "/cte_" + safe_name + ".bin";
 }
 
+/**
+ * @brief Ensure Spill Directory.
+ * @details Calls: std::filesystem::exists(), std::filesystem::create_directories(), THEMIS_WARN(), what().
+ */
 void CTECache::ensureSpillDirectory() {
     try {
         if (!std::filesystem::exists(config_.spill_directory)) {

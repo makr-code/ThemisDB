@@ -712,6 +712,7 @@ public:
      *
      * When set, restoreCollections() calls this function before falling back
      * to full checkpoint restore.
+     * @param[in] fn Input parameter.
      */
     void setCfSstIngestFn(CfSstIngestFn fn);
 
@@ -738,8 +739,27 @@ private:
     std::atomic<bool> scheduler_running_{false};
     std::thread scheduler_thread_;
 
+    /**
+     * @brief Drive the scheduled-backup worker until shutdown.
+     *
+     * Polls the in-memory schedule registry, evaluates cron triggers, and
+     * dispatches due backup jobs while the scheduler is running.
+     */
     void runScheduledBackupLoop();
+    /**
+     * @brief Evaluate all registered schedules and launch due backups.
+     *
+     * The method is called from the scheduler loop after each wake-up and
+     * from direct maintenance paths that need to force a scan.
+     */
     void processScheduledBackups();
+    /**
+     * @brief Return true when a scheduled backup is due at @p current_time.
+     *
+     * @param entry Registered schedule entry to evaluate.
+     * @param current_time Wall-clock time used for the cron match.
+     * @return true if the entry should trigger now.
+     */
     bool shouldRunScheduledBackup(const ScheduledBackupEntry& entry,
                                   const std::tm& current_time) const;
 
@@ -749,6 +769,7 @@ private:
     
     /**
      * @brief Return the current wall-clock timestamp formatted as `YYYYMMDD_HHMMSS`.
+        * @return Timestamp string suitable for directory and manifest names.
      */
     std::string getTimestamp() const;
     

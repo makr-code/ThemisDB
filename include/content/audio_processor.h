@@ -19,16 +19,6 @@
 namespace themis {
 namespace content {
 
-/**
- * @brief Audio Processor Plugin
- * 
- * Uses FFmpeg/libav for audio processing.
- * Extracts:
- * - Audio metadata (duration, codec, bitrate, sample rate, channels)
- * - ID3/Vorbis tags (artist, album, title, etc.)
- * - Waveform data for visualization
- * - Optional speech-to-text transcription
- */
 class AudioProcessor : public IContentProcessorPlugin {
 public:
     AudioProcessor();
@@ -73,9 +63,29 @@ private:
     bool initialized_ = false;
     
     // Internal methods
+    /**
+     * @brief Extract Metadata.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     MediaExtractionData extractMetadata(const std::vector<uint8_t>& blob);
+    /**
+     * @brief Extract Tags.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     json extractTags(const std::vector<uint8_t>& blob);
+    /**
+     * @brief Extract Waveform.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     std::vector<float> extractWaveform(const std::vector<uint8_t>& blob);
+    /**
+     * @brief Transcribe.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     std::string transcribe(const std::vector<uint8_t>& blob);
 
     // STT processor for audio transcription

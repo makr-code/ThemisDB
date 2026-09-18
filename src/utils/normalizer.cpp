@@ -14,11 +14,25 @@
 namespace themis {
 namespace utils {
 
-// Helper: check two-byte sequence equals a given pair
+/**
+ * @brief Helper: check two-byte sequence equals a given pair
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @param[in] x Input parameter.
+ * @param[in] y Input parameter.
+ * @return True on success.
+ * @details Implements is2 without additional internal calls.
+ */
 static inline bool is2(unsigned char a, unsigned char b, unsigned char x, unsigned char y) {
     return a == x && b == y;
 }
 
+/**
+ * @brief Normalize Umlauts.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), data(), is2(), push_back().
+ */
 std::string Normalizer::normalizeUmlauts(std::string_view text) {
     std::string out = {};
     out.reserve(text.size());

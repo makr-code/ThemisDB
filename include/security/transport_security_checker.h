@@ -31,11 +31,18 @@ public:
     /**
      * Check if running in production mode
      * @return true if production mode is active
+     * @brief Is Production Mode.
+     * @details Calls: std::getenv(), mode(), std::transform(), begin(), end(), environment().
      */
     static bool isProductionMode() {
         // Check environment variable (case-insensitive)
         const char* env_mode = std::getenv("THEMIS_PRODUCTION_MODE");
         if (env_mode) {
+            /**
+             * @brief Mode.
+             * @param[in] env_mode Input parameter.
+             * @return Return value.
+             */
             std::string mode(env_mode);
             // Convert to lowercase for case-insensitive comparison
             std::transform(mode.begin(), mode.end(), mode.begin(), ::tolower);
@@ -45,6 +52,11 @@ public:
         // Check another common env var (case-insensitive)
         const char* env = std::getenv("THEMIS_ENVIRONMENT");
         if (env) {
+            /**
+             * @brief Environment.
+             * @param[in] env Input parameter.
+             * @return Return value.
+             */
             std::string environment(env);
             // Convert to lowercase for case-insensitive comparison
             std::transform(environment.begin(), environment.end(), environment.begin(), ::tolower);
@@ -60,6 +72,8 @@ public:
      * @param argc: Command-line argument count
      * @param argv: Command-line arguments
      * @return true if --allow-insecure-wire-protocol flag is present
+     * @brief Has Allow Insecure Flag.
+     * @details Calls: std::string().
      */
     static bool hasAllowInsecureFlag(int argc, const char* const argv[]) {
         for (int i = 1; i < argc; ++i) {
@@ -81,6 +95,8 @@ public:
      * @param argc: Command-line argument count
      * @param argv: Command-line arguments
      * @return true if configuration is safe, false if should exit
+     * @brief Validate Production Safety.
+     * @details Calls: isProductionMode(), THEMIS_WARN(), THEMIS_INFO(), hasAllowInsecureFlag(), THEMIS_CRITICAL().
      */
     static bool validateProductionSafety(bool enable_tls, const std::string& protocol_name, int argc, const char* const argv[]) {
         // Not production mode - allow insecure transport for development
@@ -169,6 +185,8 @@ public:
      * @param enable_tls: Whether TLS is enabled
      * @param protocol_name: Name of the protocol
      * @return Warning message or empty string if no warning needed
+     * @brief Get Periodic Warning.
+     * @details Calls: isProductionMode().
      */
     static std::string getPeriodicWarning(bool enable_tls, const std::string& protocol_name) {
         if (!isProductionMode()) {

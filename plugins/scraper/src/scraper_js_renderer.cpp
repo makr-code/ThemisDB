@@ -106,6 +106,12 @@ std::string SubprocessJSRenderer::buildCommand(const JsRenderRequest &req) const
     return cmd.str();
 }
 
+/**
+ * @brief Render.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: isAvailable(), std::chrono::steady_clock::now(), defined(), ss(), push_back(), std::to_string(), empty(), reserve().
+ */
 JsRenderResult SubprocessJSRenderer::render(const JsRenderRequest &req) {
     JsRenderResult result = {};
 
@@ -122,6 +128,11 @@ JsRenderResult SubprocessJSRenderer::render(const JsRenderRequest &req) {
     // Split renderer_cmd_ on spaces to get the executable + its fixed args.
     std::vector<std::string> tokens;
     {
+        /**
+         * @brief Ss.
+         * @param[in] renderer_cmd_ Input parameter.
+         * @return Return value.
+         */
         std::istringstream ss(renderer_cmd_);
         std::string tok = {};
         while (ss >> tok)

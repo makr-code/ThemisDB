@@ -28,6 +28,12 @@ namespace query {
 namespace functions {
 
 namespace {
+/**
+ * @brief Clamp Round Precision.
+ * @param[in] rawPrecision Input parameter.
+ * @return Return value.
+ * @details Calls: std::clamp().
+ */
 inline int clampRoundPrecision(int64_t rawPrecision) {
     constexpr int64_t kMinPrecision = -308;
     constexpr int64_t kMaxPrecision = 308;
@@ -617,6 +623,12 @@ public:
         
         static std::random_device rd;
         static std::mt19937 gen(rd());
+        /**
+         * @brief Dis.
+         * @param[in] min Input parameter.
+         * @param[in] max Input parameter.
+         * @return Return value.
+         */
         std::uniform_int_distribution<int64_t> dis(min, max);
         return dis(gen);
     }
@@ -783,9 +795,11 @@ public:
     }
 };
 
-// ============================================================================
-// Register Math Functions
-// ============================================================================
+/**
+ * @brief ============================================================================ Register Math Functions ============================================================================
+ * @param[in,out] reg Input/output parameter.
+ * @details Calls: registerFunction().
+ */
 
 inline void registerMathFunctions(FunctionRegistry& reg) {
     reg.registerFunction(std::make_unique<AbsFunction>());

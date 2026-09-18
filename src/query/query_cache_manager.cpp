@@ -117,6 +117,13 @@ QueryCacheManager::~QueryCacheManager() {
     }
 }
 
+/**
+ * @brief Get.
+ * @param[in] query Input parameter.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), has_value(), value(), generateFingerprint(), count(), updateHitStats(), THEMIS_DEBUG(), reportStatsIfNeeded().
+ */
 std::optional<nlohmann::json> QueryCacheManager::get(
     const std::string& query,
     const nlohmann::json& params
@@ -162,6 +169,16 @@ std::optional<nlohmann::json> QueryCacheManager::get(
     return result;
 }
 
+/**
+ * @brief Put.
+ * @param[in] query Input parameter.
+ * @param[in] params Input parameter.
+ * @param[in] result Input parameter.
+ * @param[in] characteristics Input parameter.
+ * @param[in] dependencies Input parameter.
+ * @return True on success.
+ * @details Calls: generateFingerprint(), recordQuery(), shouldCache(), THEMIS_DEBUG(), substr(), calculateTTL(), putInBasicCache(), putInAdaptiveCache().
+ */
 bool QueryCacheManager::put(
     const std::string& query,
     const nlohmann::json& params,
@@ -201,6 +218,11 @@ bool QueryCacheManager::put(
     }
     
     if (success) {
+        /**
+         * @brief Lock.
+         * @param[in] stats_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(stats_mutex_);
         stats_.cache_stores++;
         
@@ -233,6 +255,12 @@ bool QueryCacheManager::put(
     return success;
 }
 
+/**
+ * @brief Invalidate By Dependency.
+ * @param[in] dependency Input parameter.
+ * @return Return value.
+ * @details Calls: has_value(), lock(), THEMIS_INFO().
+ */
 size_t QueryCacheManager::invalidateByDependency(const std::string& dependency) {
     if (!config_.enable_caching) {
         return 0;
@@ -250,6 +278,11 @@ size_t QueryCacheManager::invalidateByDependency(const std::string& dependency) 
     // This could be added as an enhancement
     
     if (count > 0) {
+        /**
+         * @brief Lock.
+         * @param[in] stats_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(stats_mutex_);
         stats_.cache_invalidations += count;
         
@@ -259,6 +292,13 @@ size_t QueryCacheManager::invalidateByDependency(const std::string& dependency) 
     return count;
 }
 
+/**
+ * @brief Invalidate.
+ * @param[in] query Input parameter.
+ * @param[in] params Input parameter.
+ * @return True on success.
+ * @details Calls: has_value(), generateFingerprint(), lock().
+ */
 bool QueryCacheManager::invalidate(
     const std::string& query,
     const nlohmann::json& params
@@ -279,6 +319,11 @@ bool QueryCacheManager::invalidate(
     }
     
     if (removed) {
+        /**
+         * @brief Lock.
+         * @param[in] stats_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(stats_mutex_);
         stats_.cache_invalidations++;
     }
@@ -286,6 +331,10 @@ bool QueryCacheManager::invalidate(
     return removed;
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: reset(), lock(), CacheStatistics(), THEMIS_INFO().
+ */
 void QueryCacheManager::clear() {
     if (!config_.enable_caching) {
         return;
@@ -301,6 +350,11 @@ void QueryCacheManager::clear() {
         workload_strategy_->reset();
     }
     
+    /**
+     * @brief Lock.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(stats_mutex_);
     size_t max_mem = stats_.max_memory_bytes;  // Preserve max memory before reset
     stats_ = CacheStatistics();
@@ -346,6 +400,11 @@ void QueryCacheManager::warmCache(const std::map<std::string, nlohmann::json>& q
 }
 
 QueryCacheManager::CacheStatistics QueryCacheManager::getStatistics() const {
+    /**
+     * @brief Lock.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(stats_mutex_);
     auto stats = stats_;
     
@@ -396,6 +455,11 @@ nlohmann::json QueryCacheManager::getMonitoringInfo() const {
     return info;
 }
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @details Calls: THEMIS_INFO().
+ */
 void QueryCacheManager::setConfig(const Config& config) {
     config_ = config;
     THEMIS_INFO("QueryCacheManager configuration updated");
@@ -435,7 +499,18 @@ std::string QueryCacheManager::generateFingerprint(
     return ss.str();
 }
 
+/**
+ * @brief Update Hit Stats.
+ * @param[in] hit Input parameter.
+ * @param[in] lookup_time_us Input parameter.
+ * @details Calls: lock().
+ */
 void QueryCacheManager::updateHitStats(bool hit, int64_t lookup_time_us) {
+    /**
+     * @brief Lock.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(stats_mutex_);
     
     stats_.total_requests++;
@@ -465,6 +540,10 @@ void QueryCacheManager::updateHitStats(bool hit, int64_t lookup_time_us) {
     }
 }
 
+/**
+ * @brief Update Memory Stats.
+ * @details Calls: getStats(), getDetailedInfo(), contains().
+ */
 void QueryCacheManager::updateMemoryStats() {
     // Update memory statistics from underlying cache
     if (basic_cache_) {
@@ -486,6 +565,10 @@ void QueryCacheManager::updateMemoryStats() {
     }
 }
 
+/**
+ * @brief Report Stats If Needed.
+ * @details Calls: std::chrono::system_clock::now(), getStatistics(), THEMIS_INFO(), hitRate(), memoryUtilization().
+ */
 void QueryCacheManager::reportStatsIfNeeded() {
     if (!config_.enable_detailed_stats) {
         return;
@@ -519,6 +602,17 @@ void QueryCacheManager::reportStatsIfNeeded() {
     }
 }
 
+/**
+ * @brief Put In Basic Cache.
+ * @param[in] fingerprint Input parameter.
+ * @param[in] query Input parameter.
+ * @param[in] params Input parameter.
+ * @param[in] result Input parameter.
+ * @param[in] dependencies Input parameter.
+ * @param[in] ttl Input parameter.
+ * @return True on success.
+ * @details Calls: put(), has_value().
+ */
 bool QueryCacheManager::putInBasicCache(
     const std::string& fingerprint,
     const std::string& query,
@@ -531,6 +625,15 @@ bool QueryCacheManager::putInBasicCache(
     return put_result.has_value();
 }
 
+/**
+ * @brief Put In Adaptive Cache.
+ * @param[in] fingerprint Input parameter.
+ * @param[in] params Input parameter.
+ * @param[in] result Input parameter.
+ * @param[in] ttl Input parameter.
+ * @return True on success.
+ * @details Calls: put().
+ */
 bool QueryCacheManager::putInAdaptiveCache(
     const std::string& fingerprint,
     const nlohmann::json& params,

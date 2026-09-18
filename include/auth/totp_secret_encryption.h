@@ -22,29 +22,6 @@
 namespace themis {
 namespace auth {
 
-/**
- * @brief TOTP Secret Encryption - protects secrets at rest
- * 
- * Security Feature: Encrypts TOTP secrets using AES-256-GCM before storage.
- * Prevents secret disclosure if database is compromised.
- * 
- * Key Management:
- * - Uses master key for encryption (should be from KMS/HSM in production)
- * - Key derivation with PBKDF2 (100k iterations) or Argon2
- * - Unique salt per secret
- * - Authentication tag for integrity
- * 
- * Features:
- * - AES-256-GCM authenticated encryption
- * - Unique IV per encryption
- * - Base64 encoding for storage
- * - Secret rotation support
- * - Key versioning (for key rotation)
- * 
- * Format: version|salt|iv|ciphertext|tag (all base64 encoded)
- * 
- * P1 (High Priority) security hardening feature.
- */
 class TOTPSecretEncryption {
 public:
     struct Config {
@@ -71,9 +48,6 @@ public:
         int key_version = 1;
     };
     
-    /**
-     * @brief Encrypted secret container
-     */
     struct EncryptedSecret {
         int version = 0;                    // Key version used for encryption
         std::vector<uint8_t> salt;      // Unique salt for key derivation
@@ -81,13 +55,26 @@ public:
         std::vector<uint8_t> ciphertext;// Encrypted secret
         std::vector<uint8_t> tag;       // Authentication tag
         
-        // Serialize to string for storage
+        /**
+         * @brief Serialize to string for storage
+         * @return Return value.
+         */
         std::string serialize() const;
         
         // Deserialize from string
+        /**
+         * @brief Deserialize.
+         * @param[in] data Input parameter.
+         * @return Return value.
+         */
         static EncryptedSecret deserialize(const std::string& data);
     };
     
+    /**
+     * @brief TOTPSecret Encryption.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit TOTPSecretEncryption(const Config& config);
     ~TOTPSecretEncryption();
     
@@ -98,69 +85,51 @@ public:
     TOTPSecretEncryption& operator=(TOTPSecretEncryption&&) noexcept;
     
     /**
-     * @brief Encrypt a TOTP secret
-     * 
-     * @param plaintext_secret The secret to encrypt (typically 20 bytes base32 encoded)
-     * @return EncryptedSecret Encrypted secret with metadata
-     * @throws std::runtime_error on encryption failure
+     * @brief Encrypt.
+     * @param[in] plaintext_secret Input parameter.
+     * @return Return value.
      */
     EncryptedSecret encrypt(const std::string& plaintext_secret);
     
     /**
-     * @brief Decrypt a TOTP secret
-     * 
-     * @param encrypted The encrypted secret
-     * @return std::string Decrypted plaintext secret
-     * @throws std::runtime_error on decryption/authentication failure
+     * @brief Decrypt.
+     * @param[in] encrypted Input parameter.
+     * @return Return value.
      */
     std::string decrypt(const EncryptedSecret& encrypted);
     
     /**
-     * @brief Encrypt and serialize to string
-     * 
-     * Convenience method for direct storage.
-     * 
-     * @param plaintext_secret The secret to encrypt
-     * @return std::string Serialized encrypted secret
+     * @brief Encrypt And Serialize.
+     * @param[in] plaintext_secret Input parameter.
+     * @return Return value.
      */
     std::string encryptAndSerialize(const std::string& plaintext_secret);
     
     /**
-     * @brief Deserialize and decrypt from string
-     * 
-     * Convenience method for direct retrieval.
-     * 
-     * @param serialized Serialized encrypted secret
-     * @return std::string Decrypted plaintext secret
+     * @brief Deserialize And Decrypt.
+     * @param[in] serialized Input parameter.
+     * @return Return value.
      */
     std::string deserializeAndDecrypt(const std::string& serialized);
     
     /**
-     * @brief Rotate encryption key
-     * 
-     * Updates master key and key version. Old secrets can still be decrypted
-     * with old key if provided via rotation support.
-     * 
-     * @param new_master_key New master key (32 bytes), stored securely
-     * @param new_version New key version number
+     * @brief Rotate Key.
+     * @param[in] new_master_key Input parameter.
+     * @param[in] new_version Input parameter.
      */
     void rotateKey(const SecureBuffer<uint8_t>& new_master_key, int new_version);
     
     /**
-     * @brief Check if secret needs re-encryption (old key version)
-     * 
-     * @param encrypted The encrypted secret to check
-     * @return true if secret should be re-encrypted with current key
+     * @brief Needs Reencryption.
+     * @param[in] encrypted Input parameter.
+     * @return True when the operation succeeds.
      */
     bool needsReencryption(const EncryptedSecret& encrypted) const;
     
     /**
-     * @brief Re-encrypt a secret with current key
-     * 
-     * Used during key rotation to migrate secrets to new key.
-     * 
-     * @param old_encrypted Secret encrypted with old key
-     * @return EncryptedSecret Secret re-encrypted with current key
+     * @brief Reencrypt.
+     * @param[in] old_encrypted Input parameter.
+     * @return Return value.
      */
     EncryptedSecret reencrypt(const EncryptedSecret& old_encrypted);
 
@@ -168,24 +137,23 @@ private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
     
-    // Derive encryption key from master key and salt.
-    // Returns a SecureBuffer so the derived key is zeroed when it goes out of scope.
+    /**
+     * @brief Derive encryption key from master key and salt.
+     * @param[in] salt Input parameter.
+     * @return Return value.
+     * @details Returns a SecureBuffer so the derived key is zeroed when it goes out of scope.
+     */
     SecureBuffer<uint8_t> deriveKey(const std::vector<uint8_t>& salt);
     
     // Generate random bytes
+    /**
+     * @brief Generate Random Bytes.
+     * @param[in] size Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> generateRandomBytes(size_t size);
 };
 
-/**
- * @brief TOTP Secret Rotation Manager
- * 
- * Manages the lifecycle of TOTP secrets including rotation and migration.
- * 
- * Rotation Strategy:
- * - Grace period: both old and new secrets work during migration
- * - Gradual rollout: users re-enroll over time
- * - Automatic cleanup: old secrets deleted after grace period
- */
 class TOTPSecretRotationManager {
 public:
     struct RotationConfig {
@@ -204,17 +172,19 @@ public:
     };
     
     TOTPSecretRotationManager();
+    /**
+     * @brief TOTPSecret Rotation Manager.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit TOTPSecretRotationManager(const RotationConfig& config);
     
     /**
-     * @brief Rotate a user's TOTP secret
-     * 
-     * Creates new secret while keeping old one active during grace period.
-     * 
-     * @param user_id User identifier
-     * @param old_secret Current secret
-     * @param new_secret New secret to rotate to
-     * @return SecretVersion New secret version info
+     * @brief Rotate Secret.
+     * @param[in] user_id Identifier of the user.
+     * @param[in] old_secret Input parameter.
+     * @param[in] new_secret Input parameter.
+     * @return Return value.
      */
     SecretVersion rotateSecret(
         const std::string& user_id,
@@ -223,27 +193,22 @@ public:
     );
     
     /**
-     * @brief Get all active secrets for a user (during grace period)
-     * 
-     * @param user_id User identifier
-     * @return std::vector<SecretVersion> All active secrets
+     * @brief Get Active Secrets.
+     * @param[in] user_id Identifier of the user.
+     * @return Return value.
      */
     std::vector<SecretVersion> getActiveSecrets(const std::string& user_id);
     
     /**
-     * @brief Check if a secret is still valid (within grace period)
-     * 
-     * @param secret_version Secret version to check
-     * @return true if secret is still valid
+     * @brief Is Secret Valid.
+     * @param[in] secret_version Input parameter.
+     * @return True when the operation succeeds.
      */
     bool isSecretValid(const SecretVersion& secret_version) const;
     
     /**
-     * @brief Clean up expired secrets
-     * 
-     * Removes secrets that are past their grace period.
-     * 
-     * @return size_t Number of secrets cleaned up
+     * @brief Cleanup Expired Secrets.
+     * @return Return value.
      */
     size_t cleanupExpiredSecrets();
 

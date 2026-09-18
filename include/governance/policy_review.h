@@ -23,7 +23,6 @@
 namespace themis {
 namespace governance {
 
-/// PolicyReview represents a policy review request
 struct PolicyReview {
     std::string review_id;                         // Unique review identifier
     std::string rule_id;                           // Rule being reviewed
@@ -36,11 +35,19 @@ struct PolicyReview {
     std::string review_notes;                      // Reviewer's notes
     std::string rejection_reason;                  // Reason if rejected
     
+    /**
+     * @brief To Json.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
+    /**
+     * @brief From Json.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static PolicyReview fromJson(const nlohmann::json& j);
 };
 
-/// ReviewScheduler manages scheduled policy reviews
 class ReviewScheduler {
 public:
     struct ReviewSchedule {
@@ -50,35 +57,62 @@ public:
         int64_t next_review_date = 0;              // Next scheduled review
         bool auto_review_enabled = true;           // Whether automatic scheduling is enabled
         
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
+        /**
+         * @brief From Json.
+         * @param[in] j Input parameter.
+         * @return Return value.
+         */
         static ReviewSchedule fromJson(const nlohmann::json& j);
     };
     
-    /// Set review schedule for a rule
+    /**
+     * @brief Set Schedule.
+     * @param[in] rule_id Identifier of the rule.
+     * @param[in] review_period_days Input parameter.
+     */
     void setSchedule(const std::string& rule_id, int review_period_days);
     
-    /// Get review schedule for a rule
+    /**
+     * @brief Get Schedule.
+     * @param[in] rule_id Identifier of the rule.
+     * @return Return value.
+     */
     std::optional<ReviewSchedule> getSchedule(const std::string& rule_id) const;
     
-    /// Remove review schedule for a rule
+    /**
+     * @brief Remove Schedule.
+     * @param[in] rule_id Identifier of the rule.
+     */
     void removeSchedule(const std::string& rule_id);
     
-    /// Get all review schedules
+    /**
+     * @brief Get All Schedules.
+     * @return Return value.
+     */
     std::vector<ReviewSchedule> getAllSchedules() const;
     
-    /// Get rules due for review
     std::vector<std::string> getRulesDueForReview(int64_t current_time = 0) const;
     
-    /// Get overdue reviews
     std::vector<std::string> getOverdueReviews(int64_t current_time = 0) const;
     
-    /// Mark rule as reviewed
     void markAsReviewed(const std::string& rule_id, int64_t review_time = 0);
     
-    /// Export schedules as JSON
+    /**
+     * @brief Export Schedules.
+     * @return Return value.
+     */
     nlohmann::json exportSchedules() const;
     
-    /// Import schedules from JSON
+    /**
+     * @brief Import Schedules.
+     * @param[in] j Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool importSchedules(const nlohmann::json& j);
     
 private:
@@ -86,10 +120,8 @@ private:
     std::unordered_map<std::string, ReviewSchedule> schedules_;
 };
 
-/// ReviewWorkflow manages the review approval process
 class ReviewWorkflow {
 public:
-    /// Create a review request
     std::string createReview(
         const std::string& rule_id,
         const std::string& reviewer,
@@ -97,50 +129,96 @@ public:
         int days_to_complete = 7
     );
     
-    /// Get a review by ID
+    /**
+     * @brief Get Review.
+     * @param[in] review_id Identifier of the review.
+     * @return Return value.
+     */
     std::optional<PolicyReview> getReview(const std::string& review_id) const;
     
-    /// List all reviews
+    /**
+     * @brief List Reviews.
+     * @return Return value.
+     */
     std::vector<PolicyReview> listReviews() const;
     
-    /// List reviews by status
+    /**
+     * @brief List Reviews By Status.
+     * @param[in] status Input parameter.
+     * @return Return value.
+     */
     std::vector<PolicyReview> listReviewsByStatus(const std::string& status) const;
     
-    /// List reviews by reviewer
+    /**
+     * @brief List Reviews By Reviewer.
+     * @param[in] reviewer Input parameter.
+     * @return Return value.
+     */
     std::vector<PolicyReview> listReviewsByReviewer(const std::string& reviewer) const;
     
-    /// List pending reviews
+    /**
+     * @brief List Pending Reviews.
+     * @return Return value.
+     */
     std::vector<PolicyReview> listPendingReviews() const;
     
-    /// Approve a review
+    /**
+     * @brief Approve Review.
+     * @param[in] review_id Identifier of the review.
+     * @param[in] notes Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool approveReview(const std::string& review_id, const std::string& notes);
     
-    /// Reject a review
+    /**
+     * @brief Reject Review.
+     * @param[in] review_id Identifier of the review.
+     * @param[in] reason Input parameter.
+     * @param[in] notes Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool rejectReview(const std::string& review_id, const std::string& reason, const std::string& notes);
     
-    /// Get review history for a rule
+    /**
+     * @brief Get Review History.
+     * @param[in] rule_id Identifier of the rule.
+     * @return Return value.
+     */
     std::vector<PolicyReview> getReviewHistory(const std::string& rule_id) const;
     
-    /// Get overdue reviews
     std::vector<PolicyReview> getOverdueReviews(int64_t current_time = 0) const;
     
-    /// Cancel a review
+    /**
+     * @brief Cancel Review.
+     * @param[in] review_id Identifier of the review.
+     * @return True when the operation succeeds.
+     */
     bool cancelReview(const std::string& review_id);
     
-    /// Export reviews as JSON
+    /**
+     * @brief Export Reviews.
+     * @return Return value.
+     */
     nlohmann::json exportReviews() const;
     
-    /// Import reviews from JSON
+    /**
+     * @brief Import Reviews.
+     * @param[in] j Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool importReviews(const nlohmann::json& j);
     
 private:
     mutable std::mutex mutex_;
     std::unordered_map<std::string, PolicyReview> reviews_;
     
+    /**
+     * @brief Generate Review Id.
+     * @return Return value.
+     */
     std::string generateReviewId() const;
 };
 
-/// PolicyExpiration manages automatic rule expiration
 class PolicyExpiration {
 public:
     struct ExpirationConfig {
@@ -150,7 +228,16 @@ public:
         bool auto_disable_enabled = true;          // Whether to auto-disable on expiration
         std::vector<int> warning_days = {30, 14, 7}; // Days before expiration to warn
         
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
+        /**
+         * @brief From Json.
+         * @param[in] j Input parameter.
+         * @return Return value.
+         */
         static ExpirationConfig fromJson(const nlohmann::json& j);
     };
     
@@ -160,37 +247,58 @@ public:
         int days_until_expiration;
         std::string severity;                      // info, warning, critical
         
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
     };
     
-    /// Set expiration for a rule
     void setExpiration(const std::string& rule_id, int64_t expiration_date, int grace_period_days = 7);
     
-    /// Get expiration config for a rule
+    /**
+     * @brief Get Expiration.
+     * @param[in] rule_id Identifier of the rule.
+     * @return Return value.
+     */
     std::optional<ExpirationConfig> getExpiration(const std::string& rule_id) const;
     
-    /// Remove expiration for a rule
+    /**
+     * @brief Remove Expiration.
+     * @param[in] rule_id Identifier of the rule.
+     */
     void removeExpiration(const std::string& rule_id);
     
-    /// Get all expiration configs
+    /**
+     * @brief Get All Expirations.
+     * @return Return value.
+     */
     std::vector<ExpirationConfig> getAllExpirations() const;
     
-    /// Get expired rules
     std::vector<std::string> getExpiredRules(int64_t current_time = 0) const;
     
-    /// Get rules expiring soon
     std::vector<ExpirationWarning> getRulesExpiringSoon(int64_t current_time = 0) const;
     
-    /// Process expirations (disable expired rules)
     std::vector<std::string> processExpirations(PolicyManager& policy_mgr, int64_t current_time = 0);
     
-    /// Extend expiration for a rule
+    /**
+     * @brief Extend Expiration.
+     * @param[in] rule_id Identifier of the rule.
+     * @param[in] additional_days Input parameter.
+     */
     void extendExpiration(const std::string& rule_id, int additional_days);
     
-    /// Export expirations as JSON
+    /**
+     * @brief Export Expirations.
+     * @return Return value.
+     */
     nlohmann::json exportExpirations() const;
     
-    /// Import expirations from JSON
+    /**
+     * @brief Import Expirations.
+     * @param[in] j Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool importExpirations(const nlohmann::json& j);
     
 private:
@@ -198,7 +306,6 @@ private:
     std::unordered_map<std::string, ExpirationConfig> expirations_;
 };
 
-/// NotificationManager handles notifications for reviews and expirations
 class NotificationManager {
 public:
     struct Notification {
@@ -211,6 +318,10 @@ public:
         bool sent = false;
         int64_t sent_at = 0;
         
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
     };
     
@@ -226,29 +337,72 @@ public:
         std::string webhook_url;
         std::string webhook_secret;
         
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
+        /**
+         * @brief From Json.
+         * @param[in] j Input parameter.
+         * @return Return value.
+         */
         static NotificationConfig fromJson(const nlohmann::json& j);
     };
     
-    /// Configure notification settings
+    /**
+     * @brief Configure.
+     * @param[in] config Input parameter.
+     */
     void configure(const NotificationConfig& config);
     
-    /// Get current configuration
+    /**
+     * @brief Get Config.
+     * @return Return value.
+     */
     NotificationConfig getConfig() const;
     
-    /// Send notification for upcoming review
+    /**
+     * @brief Notify Review Due.
+     * @param[in] recipient Input parameter.
+     * @param[in] review Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool notifyReviewDue(const std::string& recipient, const PolicyReview& review);
     
-    /// Send notification for overdue review
+    /**
+     * @brief Notify Review Overdue.
+     * @param[in] recipient Input parameter.
+     * @param[in] review Input parameter.
+     * @param[in] days_overdue Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool notifyReviewOverdue(const std::string& recipient, const PolicyReview& review, int days_overdue);
     
-    /// Send notification for expiration warning
+    /**
+     * @brief Notify Expiration Warning.
+     * @param[in] recipient Input parameter.
+     * @param[in] warning Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool notifyExpirationWarning(const std::string& recipient, const PolicyExpiration::ExpirationWarning& warning);
     
-    /// Send notification for rule expired
+    /**
+     * @brief Notify Rule Expired.
+     * @param[in] recipient Input parameter.
+     * @param[in] rule_id Identifier of the rule.
+     * @return True when the operation succeeds.
+     */
     bool notifyRuleExpired(const std::string& recipient, const std::string& rule_id);
     
-    /// Create a notification (queued for sending)
+    /**
+     * @brief Create Notification.
+     * @param[in] type Input parameter.
+     * @param[in] recipient Input parameter.
+     * @param[in] subject Input parameter.
+     * @param[in] message Input parameter.
+     * @return Return value.
+     */
     std::string createNotification(
         const std::string& type,
         const std::string& recipient,
@@ -256,13 +410,18 @@ public:
         const std::string& message
     );
     
-    /// Get pending notifications
+    /**
+     * @brief Get Pending Notifications.
+     * @return Return value.
+     */
     std::vector<Notification> getPendingNotifications() const;
     
-    /// Mark notification as sent
+    /**
+     * @brief Mark As Sent.
+     * @param[in] notification_id Identifier of the notification.
+     */
     void markAsSent(const std::string& notification_id);
     
-    /// Get notification history
     std::vector<Notification> getNotificationHistory(int64_t since = 0) const;
     
 private:
@@ -270,8 +429,22 @@ private:
     NotificationConfig config_;
     std::unordered_map<std::string, Notification> notifications_;
     
+    /**
+     * @brief Generate Notification Id.
+     * @return Return value.
+     */
     std::string generateNotificationId() const;
+    /**
+     * @brief Send Email.
+     * @param[in] notification Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool sendEmail(const Notification& notification);
+    /**
+     * @brief Send Webhook.
+     * @param[in] notification Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool sendWebhook(const Notification& notification);
 };
 

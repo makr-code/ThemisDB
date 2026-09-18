@@ -20,10 +20,6 @@
 namespace themis {
 namespace content {
 
-/// Content Version Manager
-/// Provides simple versioning for content objects
-/// Stores version history with timestamps, metadata, content snapshots, and
-/// delta diffs for efficient storage of incremental changes.
 class VersionManager {
 public:
     struct Version {
@@ -37,8 +33,6 @@ public:
         std::string delta;         // Delta (diff) from previous version; empty for v1
     };
 
-    /// Create new version for content (metadata-only, caller supplies hash)
-    /// Returns version number
     int createVersion(
         const std::string& content_id,
         const std::string& content_hash,
@@ -47,10 +41,6 @@ public:
         const std::string& comment = ""
     );
 
-    /// Create new version with actual content.
-    /// Computes SHA-256 hash, stores the full snapshot, and records a
-    /// line-level delta against the immediately preceding version.
-    /// Returns version number.
     int createVersionWithContent(
         const std::string& content_id,
         const std::string& content,
@@ -58,38 +48,68 @@ public:
         const std::string& comment = ""
     );
 
-    /// Retrieve the stored content for a specific version.
-    /// Returns std::nullopt when the version does not exist or was created
-    /// via createVersion() (metadata-only path).
+    /**
+     * @brief Get Content.
+     * @param[in] content_id Identifier of the content.
+     * @param[in] version_number Input parameter.
+     * @return Return value.
+     */
     std::optional<std::string> getContent(
         const std::string& content_id,
         int version_number
     ) const;
 
-    /// Get version history for content
+    /**
+     * @brief Get Version History.
+     * @param[in] content_id Identifier of the content.
+     * @return Return value.
+     */
     std::vector<Version> getVersionHistory(const std::string& content_id) const;
 
-    /// Get specific version info
+    /**
+     * @brief Get Version.
+     * @param[in] content_id Identifier of the content.
+     * @param[in] version_number Input parameter.
+     * @return Return value.
+     */
     std::optional<Version> getVersion(const std::string& content_id, int version_number) const;
 
-    /// Get latest version number
+    /**
+     * @brief Get Latest Version.
+     * @param[in] content_id Identifier of the content.
+     * @return Return value.
+     */
     int getLatestVersion(const std::string& content_id) const;
 
-    /// Check if content has versions
+    /**
+     * @brief Has Versions.
+     * @param[in] content_id Identifier of the content.
+     * @return True when the operation succeeds.
+     */
     bool hasVersions(const std::string& content_id) const;
 
-    /// Delete a specific version.  Returns true if the version existed and
-    /// was removed, false otherwise.
+    /**
+     * @brief Delete Version.
+     * @param[in] content_id Identifier of the content.
+     * @param[in] version_number Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool deleteVersion(const std::string& content_id, int version_number);
 
-    // --- Static helpers (exposed for testability) ---
+    /**
+     * @brief --- Static helpers (exposed for testability) ---
+     * @param[in] data Input parameter.
+     * @return Return value.
+     */
 
-    /// Compute SHA-256 hex digest of the given data.
     static std::string computeHash(const std::string& data);
 
-    /// Compute a simple line-level delta between old_content and new_content.
-    /// The returned string encodes added/removed lines in a unified-diff-like
-    /// format and can be stored as the Version::delta field.
+    /**
+     * @brief Compute Delta.
+     * @param[in] old_content Input parameter.
+     * @param[in] new_content Input parameter.
+     * @return Return value.
+     */
     static std::string computeDelta(const std::string& old_content,
                                     const std::string& new_content);
 

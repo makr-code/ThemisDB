@@ -23,37 +23,6 @@ namespace themis {
 class VectorIndexManager;
 struct EmbeddingCacheImpl;  // Forward declaration for pimpl
 
-/**
- * @brief Embedding Cache for Semantic Similarity Caching
- * 
- * v1.2.0 Feature: Cost reduction through embedding reuse
- * v1.3.0 Update: Real vector index integration with HNSW
- * v1.5.0+ Optimization: Cache-aligned storage for 1536D vectors
- * 
- * Benefits:
- * - 70-90% cost reduction (avoid redundant OpenAI API calls)
- * - 100-1000x faster (cache hit vs API call)
- * - Fuzzy matching via vector similarity
- * - Optimized memory layout for SIMD distance calculations
- * 
- * Use Cases:
- * - LLM prompt caching
- * - Embedding API cost reduction
- * - Semantic query deduplication
- * 
- * Implementation:
- * - HNSW vector index for fast ANN search
- * - In-memory storage with configurable TTL
- * - Automatic eviction (LRU) when max_entries reached
- * - Cosine similarity threshold for cache hits
- * - 32-byte aligned vectors for AVX2/AVX-512 SIMD operations
- * 
- * Thread-Safety:
- * - Thread-safe for all operations
- * - Internal mutex protects cache map and vector index
- * - Vector index cleanup synchronized with cache eviction
- * - Safe concurrent query() and store() operations
- */
 class EmbeddingCache {
 public:
     struct Config {
@@ -85,6 +54,11 @@ public:
         double cost_savings_usd = 0.0; // Estimated cost savings
     };
     
+    /**
+     * @brief Embedding Cache.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit EmbeddingCache(const Config& config);
     ~EmbeddingCache();
     
@@ -94,48 +68,26 @@ public:
     EmbeddingCache& operator=(EmbeddingCache&&) noexcept = default;
     
     /**
-     * @brief Query cache with fuzzy matching
-     * 
-     * Uses HNSW ANN search if enabled, otherwise brute-force cosine similarity.
-     * Returns cache hit if similarity >= threshold and entry not expired.
-     * 
-     * @param query_embedding Query embedding vector
-     * @return Cached entry if similarity > threshold
+     * @brief Query.
+     * @param[in] query_embedding Input parameter.
+     * @return Return value.
      */
     std::optional<CacheEntry> query(const std::vector<float>& query_embedding) const;
     
-    /**
-     * @brief Store embedding in cache with optimal alignment
-     * 
-     * Evicts oldest entry (LRU) if cache is full.
-     * Adds to HNSW index if enabled.
-     * The embedding will be stored internally in aligned memory for efficient SIMD operations.
-     * 
-     * @param query_text Original query text
-     * @param embedding Embedding vector (will be copied to aligned storage internally)
-     * @param metadata Optional JSON metadata
-     */
     bool store(const std::string& query_text, 
                const std::vector<float>& embedding,
                const std::string& metadata = "");
     
-    /**
-     * @brief Get cache statistics
-     */
     CacheStats getStats() const { return stats_; }
     
     /**
-     * @brief Clear expired entries
-     * 
-     * Scans all entries and removes those past TTL.
-     * Updates vector index accordingly.
+     * @brief Clear Expired.
+     * @return Return value.
      */
     uint64_t clearExpired();
     
     /**
-     * @brief Clear entire cache
-     * 
-     * Removes all entries and reinitializes vector index.
+     * @brief Clear.
      */
     void clear();
 
@@ -145,12 +97,15 @@ private:
     mutable std::unique_ptr<EmbeddingCacheImpl> impl_;  // pimpl for vector index + entries
     
     /**
-     * @brief Check if entry is expired
+     * @brief Is Expired.
+     * @param[in] entry Input parameter.
+     * @return True when the operation succeeds.
      */
     bool isExpired(const CacheEntry& entry) const;
     
     /**
-     * @brief Get current timestamp in milliseconds
+     * @brief Get Current Timestamp Ms.
+     * @return Return value.
      */
     int64_t getCurrentTimestampMs() const;
 };

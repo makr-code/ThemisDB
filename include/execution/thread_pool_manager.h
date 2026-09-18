@@ -39,9 +39,6 @@ namespace themis::resource {
 // WorkItem
 // ============================================================================
 
-/**
- * @brief A single unit of work submitted to @ref WorkStealingThreadPool.
- */
 struct WorkItem {
     using Fn = std::function<void()>;
 
@@ -56,39 +53,15 @@ struct WorkItem {
 // WorkStealingThreadPool
 // ============================================================================
 
-/**
- * @brief Bounded central-queue thread pool.
- *
- * ### Dispatch design
- * All submitted work items are placed into a single shared dispatch queue.
- * Each thread pops work from that central queue.  Per-thread @c ThreadQueue
- * deques are pre-allocated but not currently used for dispatch; they are
- * retained for a future work-stealing upgrade path.
- *
- * ### Backpressure
- * If the total pending item count exceeds @p Config::max_queue_depth,
- * @ref submit() blocks until capacity is available or the supplied
- * @p timeout elapses.
- *
- * ### Thread safety
- * All public methods are thread-safe.
- */
 class WorkStealingThreadPool {
 public:
-    /**
-     * @brief Pool configuration.
-     */
     struct Config {
         std::size_t min_threads       = 1;    ///< Minimum worker threads.
         std::size_t max_threads       = 0;    ///< 0 = 4 × hardware_concurrency.
         std::size_t max_queue_depth   = 1000; ///< Backpressure trigger.
-        /// Milliseconds a thread waits for work before checking idle policy.
         long        idle_timeout_ms   = 1000;
     };
 
-    /**
-     * @brief Runtime statistics.
-     */
     struct Statistics {
         std::size_t active_threads  = 0;
         std::size_t queued_items    = 0;
@@ -98,14 +71,12 @@ public:
         double   p99_latency_us     = 0.0;
     };
 
-    /**
-     * @brief Constructs the pool with default configuration.
-     */
     WorkStealingThreadPool();
 
     /**
-     * @brief Constructs the pool and starts @p cfg.min_threads workers.
-     * @param cfg  Pool configuration.
+     * @brief Work Stealing Thread Pool.
+     * @param[in] cfg Input parameter.
+     * @return Return value.
      */
     explicit WorkStealingThreadPool(const Config& cfg);
 
@@ -115,57 +86,22 @@ public:
     WorkStealingThreadPool(const WorkStealingThreadPool&)            = delete;
     WorkStealingThreadPool& operator=(const WorkStealingThreadPool&) = delete;
 
-    /**
-     * @brief Submits a work item to the pool.
-     *
-     * Blocks if the pool is at backpressure capacity until @p timeout elapses
-     * or capacity becomes available.
-     *
-     * @param item     Work to execute.
-     * @param timeout  Maximum time to wait for capacity.
-     * @return @c true if the item was accepted; @c false on timeout or shutdown.
-     */
     bool submit(WorkItem item,
                 std::chrono::milliseconds timeout = std::chrono::seconds(5));
 
-    /**
-     * @brief Convenience overload: submit a raw callable.
-     *
-     * @param fn       Callable.
-     * @param name     Optional diagnostic name.
-     * @param timeout  Maximum time to wait.
-     * @return @c true if accepted.
-     */
     bool submit(std::function<void()> fn, std::string name = {},
                 std::chrono::milliseconds timeout = std::chrono::seconds(5));
 
-    /**
-     * @brief Waits for all currently queued work to complete.
-     *
-     * @param timeout  Maximum wait duration.
-     * @return @c true if all work drained within @p timeout.
-     */
     bool waitAll(std::chrono::milliseconds timeout = std::chrono::seconds(30));
 
-    /// @brief Returns current statistics.
     [[nodiscard]] Statistics statistics() const noexcept;
 
-    /**
-     * @brief Initiates graceful shutdown.
-     *
-     * No new work is accepted.  In-flight items complete before threads exit.
-     * Blocks until all threads have joined.
-     *
-     * @param drain_timeout  Maximum time to wait for in-flight work to drain.
-     */
     void shutdown(std::chrono::milliseconds drain_timeout = std::chrono::seconds(30));
 
-    /// @brief Returns true once shutdown has been requested.
     [[nodiscard]] bool is_shutdown() const noexcept {
         return shutdown_.load(std::memory_order_acquire);
     }
 
-    /// @brief Current number of worker threads.
     [[nodiscard]] std::size_t thread_count() const noexcept;
 
 private:
@@ -177,7 +113,12 @@ private:
         mutable std::mutex    lock;
         std::atomic<bool>     active{false};
 
-        // Try to steal one item from the back.
+        /**
+         * @brief Try to steal one item from the back.
+         * @param[in,out] out Input/output parameter.
+         * @return True when the operation succeeds.
+         * @details Calls: lk(), empty(), std::move(), back(), pop_back().
+         */
         bool trySteal(WorkItem& out) {
             std::lock_guard<std::mutex> lk(lock);
             if (items.empty()) {
@@ -189,7 +130,17 @@ private:
         }
     };
 
+    /**
+     * @brief Worker Loop.
+     * @param[in] thread_idx Input parameter.
+     */
     void workerLoop(std::size_t thread_idx);
+    /**
+     * @brief Try Get Work.
+     * @param[in] own_idx Input parameter.
+     * @param[in,out] out Input/output parameter.
+     * @return True when the operation succeeds.
+     */
     bool tryGetWork(std::size_t own_idx, WorkItem& out);
 
     Config  cfg_;

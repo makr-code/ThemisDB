@@ -18,57 +18,6 @@
 
 namespace themis {
 
-/**
- * @brief User entity with encrypted PII fields
- * 
- * Demonstrates column-level encryption for personally identifiable information.
- * 
- * Encrypted Fields:
- * - email: Email address (searchable via deterministic encryption in future)
- * - phone: Phone number
- * - ssn: Social Security Number (high sensitivity)
- * - address: Full address string
- * 
- * Plain Fields:
- * - id: User identifier (UUID)
- * - username: Public username (not PII)
- * - created_at: Account creation timestamp
- * - status: Account status (active, suspended, deleted)
- * 
- * Example Usage:
- * @code
- * // Setup encryption
- * auto provider = std::make_shared<VaultKeyProvider>(...);
- * auto encryption = std::make_shared<FieldEncryption>(provider);
- * EncryptedField<std::string>::setFieldEncryption(encryption);
- * 
- * // Create user with encrypted data
- * User user;
- * user.id = "user-123";
- * user.username = "alice_smith";
- * user.email.encrypt("alice@example.com", "user_pii");
- * user.phone.encrypt("+1-555-0123", "user_pii");
- * user.ssn.encrypt("123-45-6789", "user_sensitive");
- * user.address.encrypt("123 Main St, NYC, NY 10001", "user_pii");
- * 
- * // Serialize to JSON (encrypted fields are base64-encoded)
- * json j = user.toJson();
- * db->put("user:user-123", j.dump());
- * 
- * // Deserialize and decrypt
- * User loaded = User::fromJson(j);
- * std::string email = loaded.email.decrypt();  // "alice@example.com"
- * @endcode
- * 
- * Key Management:
- * - user_pii: General PII (email, phone, address) - 1 year rotation
- * - user_sensitive: High-sensitivity data (SSN) - 6 month rotation
- * 
- * Compliance:
- * - GDPR: Right to be forgotten (delete user record)
- * - HIPAA: Encrypted PHI at rest
- * - PCI DSS: No credit card data stored (use tokenization instead)
- */
 struct User {
     // Plain fields
     std::string id;                    // User UUID
@@ -84,12 +33,6 @@ struct User {
     
     User() : created_at(0), status("active") {}
     
-    /**
-     * @brief Serialize to JSON
-     * 
-     * Encrypted fields are serialized as base64 strings with format:
-     * "key_id:version:iv:ciphertext:tag"
-     */
     nlohmann::json toJson() const {
         nlohmann::json j;
         j["id"] = id;
@@ -115,10 +58,10 @@ struct User {
     }
     
     /**
-     * @brief Deserialize from JSON
-     * 
-     * Loads encrypted fields as-is (encrypted state).
-     * Call decrypt() on individual fields to access plain values.
+     * @brief From Json.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     * @details Calls: value(), contains(), fromBase64().
      */
     static User fromJson(const nlohmann::json& j) {
         User user;
@@ -145,31 +88,6 @@ struct User {
     }
 };
 
-/**
- * @brief Customer entity with financial data encryption
- * 
- * Demonstrates encryption for financial/healthcare applications.
- * 
- * Encrypted Fields:
- * - credit_score: Credit rating (sensitive financial info)
- * - annual_income: Income data (financial PII)
- * - medical_record_id: Healthcare record identifier (HIPAA)
- * 
- * Plain Fields:
- * - customer_id: Business identifier
- * - account_type: "personal", "business", "premium"
- * - risk_tier: Computed risk category (not PII)
- * 
- * Key Rotation Example:
- * @code
- * // Rotate key
- * uint32_t new_version = provider->rotateKey("customer_financial");
- * 
- * // Re-encrypt existing data
- * auto old_data = customer.annual_income.decrypt();
- * customer.annual_income.encrypt(old_data, "customer_financial");
- * @endcode
- */
 struct Customer {
     // Plain fields
     std::string customer_id;
@@ -204,6 +122,12 @@ struct Customer {
         return j;
     }
     
+    /**
+     * @brief From Json.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     * @details Calls: value(), contains(), fromBase64().
+     */
     static Customer fromJson(const nlohmann::json& j) {
         Customer customer;
         customer.customer_id = j.value("customer_id", "");
@@ -225,12 +149,6 @@ struct Customer {
     }
 };
 
-/**
- * @brief Enhanced DocumentMeta with encryption
- * 
- * Extends document metadata with encrypted content preview.
- * Useful for confidential documents where even metadata is sensitive.
- */
 struct SecureDocument {
     std::string id = {};
     std::string title;
@@ -262,6 +180,12 @@ struct SecureDocument {
         return j;
     }
     
+    /**
+     * @brief From Json.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     * @details Calls: value(), contains(), fromBase64().
+     */
     static SecureDocument fromJson(const nlohmann::json& j) {
         SecureDocument doc;
         doc.id = j.value("id", "");

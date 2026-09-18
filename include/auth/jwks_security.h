@@ -20,31 +20,6 @@
 namespace themis {
 namespace auth {
 
-/**
- * @brief JWKS Transport Security Configuration
- * 
- * Security Feature: Enhances JWKS fetching with certificate pinning and mTLS.
- * Prevents MITM attacks and ensures trusted JWKS sources.
- * 
- * Features:
- * - Certificate pinning (pin public key or certificate)
- * - mTLS (mutual TLS) support for client authentication
- * - TLS version enforcement (minimum TLS 1.2)
- * - Hostname verification
- * - Certificate validation options
- * 
- * Certificate Pinning Methods:
- * - Public Key Pinning: pin SPKI hash (RFC 7469)
- * - Certificate Pinning: pin entire certificate
- * - CA Certificate Pinning: pin CA cert for verification
- * 
- * mTLS Support:
- * - Client certificate for authentication
- * - Private key for signing
- * - CA bundle for server verification
- * 
- * P1 (High Priority) security hardening feature.
- */
 class JWKSSecurityConfig {
 public:
     enum class PinningMode {
@@ -87,53 +62,34 @@ public:
         int read_timeout_ms = 5000;
     };
     
+    /**
+     * @brief JWKSSecurity Config.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit JWKSSecurityConfig(const Config& config);
     
-    /**
-     * @brief Get the configuration
-     */
     const Config& getConfig() const { return config_; }
     
     /**
-     * @brief Validate configuration
-     * 
-     * Checks that paths exist, certificates are valid, etc.
-     * 
-     * @throws std::runtime_error if configuration is invalid
+     * @brief Validate.
      */
     void validate() const;
     
     /**
-     * @brief Create a config with public key pinning
-     * 
-     * Recommended approach: pins SPKI (Subject Public Key Info) hash.
-     * More flexible than cert pinning (survives cert rotation).
-     * 
-     * @param spki_hashes SHA256 hashes of SPKI (base64 encoded)
-     * @return Config Configuration with pinning enabled
+     * @brief With Public Key Pinning.
+     * @param[in] spki_hashes Input parameter.
+     * @return Return value.
      */
     static Config withPublicKeyPinning(const std::vector<std::string>& spki_hashes);
     
     /**
-     * @brief Create a config with certificate pinning
-     * 
-     * Pins entire certificate. Must update pins when cert rotates.
-     * 
-     * @param cert_path Path to certificate file
-     * @return Config Configuration with cert pinning
+     * @brief With Certificate Pinning.
+     * @param[in] cert_path Path to the cert.
+     * @return Return value.
      */
     static Config withCertificatePinning(const std::string& cert_path);
     
-    /**
-     * @brief Create a config with mTLS
-     * 
-     * Enables mutual TLS authentication.
-     * 
-     * @param client_cert_path Path to client certificate
-     * @param client_key_path Path to client private key
-     * @param key_password Password for private key (optional)
-     * @return Config Configuration with mTLS
-     */
     static Config withMTLS(
         const std::string& client_cert_path,
         const std::string& client_key_path,
@@ -141,11 +97,8 @@ public:
     );
     
     /**
-     * @brief Create a secure default config
-     * 
-     * Enforces TLS 1.2+, hostname verification, cert validation.
-     * 
-     * @return Config Secure defaults
+     * @brief Secure Defaults.
+     * @return Return value.
      */
     static Config secureDefaults();
 
@@ -153,20 +106,13 @@ private:
     Config config_;
 };
 
-/**
- * @brief JWKS Secure Fetcher
- * 
- * Fetches JWKS with enhanced transport security (pinning, mTLS).
- * 
- * Usage:
- * ```cpp
- * auto config = JWKSSecurityConfig::withPublicKeyPinning({"hash1", "hash2"});
- * JWKSSecureFetcher fetcher(config);
- * std::string jwks = fetcher.fetch("https://provider.com/.well-known/jwks.json");
- * ```
- */
 class JWKSSecureFetcher {
 public:
+    /**
+     * @brief JWKSSecure Fetcher.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit JWKSSecureFetcher(const JWKSSecurityConfig::Config& config);
     ~JWKSSecureFetcher();
     
@@ -177,29 +123,19 @@ public:
     JWKSSecureFetcher& operator=(JWKSSecureFetcher&&) noexcept;
     
     /**
-     * @brief Fetch JWKS from URL with security enhancements
-     * 
-     * Applies certificate pinning, mTLS, and TLS validation.
-     * 
-     * @param url JWKS endpoint URL (must be https://)
-     * @return std::string JWKS JSON response
-     * @throws std::runtime_error on fetch failure or security violation
+     * @brief Fetch.
+     * @param[in] url Input parameter.
+     * @return Return value.
      */
     std::string fetch(const std::string& url);
     
     /**
-     * @brief Verify certificate pinning
-     * 
-     * Called during TLS handshake to verify pinned certificate/key.
-     * 
-     * @param cert_chain Certificate chain from server
-     * @return true if pin matches
+     * @brief Verify Pinning.
+     * @param[in] cert_chain Input parameter.
+     * @return True when the operation succeeds.
      */
     bool verifyPinning(const std::vector<std::string>& cert_chain);
     
-    /**
-     * @brief Get last fetch statistics
-     */
     struct FetchStats {
         std::string url;
         int status_code;
@@ -210,57 +146,52 @@ public:
         bool mtls_used;
     };
     
+    /**
+     * @brief Get Last Fetch Stats.
+     * @return Return value.
+     */
     FetchStats getLastFetchStats() const;
 
 private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
     
-    // Compute SPKI hash from certificate
+    /**
+     * @brief Compute SPKI hash from certificate
+     * @param[in] cert_data Input parameter.
+     * @return Return value.
+     */
     std::string computeSPKIHash(const std::string& cert_data);
     
-    // Setup TLS context with config
+    /**
+     * @brief Setup TLS context with config
+     */
     void setupTLSContext();
 };
 
-/**
- * @brief Certificate Utilities
- * 
- * Helper functions for certificate operations.
- */
 class CertificateUtils {
 public:
     /**
-     * @brief Compute SPKI (Subject Public Key Info) hash
-     * 
-     * Used for public key pinning (RFC 7469).
-     * 
-     * @param cert_path Path to certificate file
-     * @return std::string Base64-encoded SHA256 hash of SPKI
+     * @brief Compute SPKIHash From File.
+     * @param[in] cert_path Path to the cert.
+     * @return Return value.
      */
     static std::string computeSPKIHashFromFile(const std::string& cert_path);
     
     /**
-     * @brief Compute SPKI hash from PEM certificate string
-     * 
-     * @param cert_pem PEM-encoded certificate
-     * @return std::string Base64-encoded SHA256 hash of SPKI
+     * @brief Compute SPKIHash From PEM.
+     * @param[in] cert_pem Input parameter.
+     * @return Return value.
      */
     static std::string computeSPKIHashFromPEM(const std::string& cert_pem);
     
     /**
-     * @brief Verify certificate is valid
-     * 
-     * Checks expiration, signature, etc.
-     * 
-     * @param cert_path Path to certificate file
-     * @return true if certificate is valid
+     * @brief Verify Certificate.
+     * @param[in] cert_path Path to the cert.
+     * @return True when the operation succeeds.
      */
     static bool verifyCertificate(const std::string& cert_path);
     
-    /**
-     * @brief Get certificate info
-     */
     struct CertInfo {
         std::string subject;
         std::string issuer;
@@ -272,6 +203,11 @@ public:
         std::string signature_algorithm;
     };
     
+    /**
+     * @brief Get Certificate Info.
+     * @param[in] cert_path Path to the cert.
+     * @return Return value.
+     */
     static CertInfo getCertificateInfo(const std::string& cert_path);
 };
 

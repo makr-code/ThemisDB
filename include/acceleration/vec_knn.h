@@ -33,19 +33,26 @@ class VectorIndexManager;
 namespace themis {
 namespace acceleration {
 
-// ============================================================================
-// SIMD-accelerated pairwise distance kernel (PERF-D3)
-// Compile-time dispatch: AVX-512 → AVX2 → NEON → scalar
-// ============================================================================
+/**
+ * @brief ============================================================================ SIMD-accelerated pairwise distance kernel (PERF-D3) Compile-time dispatch: AVX-512 → AVX2 → NEON → scalar ============================================================================
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @param[in] dim Input parameter.
+ * @return Return value.
+ * @note Exception safety: noexcept.
+ */
 
-/// Compute squared L2 distance between two float vectors using the best
-/// available SIMD instruction set.  Returns sum((a[i]-b[i])^2) without
-/// the final sqrt – sufficient for ranking.
 float simd_l2_sq(const float* a, const float* b, std::size_t dim) noexcept;
 
-/// Batch version: compute squared L2 distance from one query to n database
-/// vectors stored contiguously (n*dim floats).  Results written to out[n].
-/// Uses unrolled AVX2/AVX-512 loops for maximum throughput.
+/**
+ * @brief Simd batch l2 sq.
+ * @param[in] query Input parameter.
+ * @param[in] database Input parameter.
+ * @param[in] n Input parameter.
+ * @param[in] dim Input parameter.
+ * @param[in,out] out Input/output parameter.
+ * @note Exception safety: noexcept.
+ */
 void simd_batch_l2_sq(const float* query,
                       const float* database,
                       std::size_t n,
@@ -56,9 +63,6 @@ void simd_batch_l2_sq(const float* query,
 // DistanceCache – memoisation for repeated batch pairs (PERF-D3)
 // ============================================================================
 
-/// Thread-safe LRU-like distance cache.  Key = (pk_a, pk_b) pair, value =
-/// pre-computed squared-L2 distance.  Avoids recomputing distances for vectors
-/// that appear in overlapping batches.
 class DistanceCache {
 public:
     explicit DistanceCache(std::size_t max_entries = 65536);
@@ -70,22 +74,40 @@ public:
     DistanceCache(DistanceCache&&) noexcept;
     DistanceCache& operator=(DistanceCache&&) noexcept;
 
-    /// Look up cached distance.  Returns true and sets out if found.
+    /**
+     * @brief Get.
+     * @param[in] pk_a Input parameter.
+     * @param[in] pk_b Input parameter.
+     * @param[in,out] out Input/output parameter.
+     * @return True when the operation succeeds.
+     */
     bool get(const std::string& pk_a, const std::string& pk_b, float& out) const;
 
-    /// Store a distance.  Thread-safe.  Evicts oldest entries when full.
+    /**
+     * @brief Put.
+     * @param[in] pk_a Input parameter.
+     * @param[in] pk_b Input parameter.
+     * @param[in] value Input parameter.
+     */
     void put(const std::string& pk_a, const std::string& pk_b, float value);
 
-    /// Invalidate all cached entries for a given primary key.
+    /**
+     * @brief Invalidate.
+     * @param[in] pk Input parameter.
+     */
     void invalidate(const std::string& pk);
 
-    /// Remove all entries.
+    /**
+     * @brief Clear.
+     */
     void clear();
 
-    /// Current number of cached entries.
+    /**
+     * @brief Size.
+     * @return Return value.
+     */
     std::size_t size() const;
 
-    /// Cache hit/miss statistics.
     std::size_t hits()   const { return hits_.load(std::memory_order_relaxed); }
     std::size_t misses() const { return misses_.load(std::memory_order_relaxed); }
 
@@ -95,6 +117,12 @@ private:
         float       value;
     };
 
+    /**
+     * @brief Make Key.
+     * @param[in] a Input parameter.
+     * @param[in] b Input parameter.
+     * @return Return value.
+     */
     static std::string makeKey(const std::string& a, const std::string& b);
 
     std::size_t               max_entries_;
@@ -109,26 +137,18 @@ private:
 // VecKnnInsertPipeline – parallel batch insertion (PERF-D3)
 // ============================================================================
 
-/// Configuration for the parallel insert pipeline.
 struct VecKnnPipelineConfig {
-    /// Number of entities processed in a single parallel sub-batch.
-    /// Tuned for cache line efficiency; default 32.
     std::size_t batch_size    = 32;
 
-    /// Number of worker threads.  0 = std::thread::hardware_concurrency().
     std::size_t num_threads   = 0;
 
-    /// Enable distance memoisation across overlapping batches.
     bool        enable_cache  = true;
 
-    /// Maximum cached distance pairs.
     std::size_t cache_entries = 65536;
 
-    /// Vector field name in BaseEntity.
     std::string vector_field  = "embedding";
 };
 
-/// Result of a batch insert operation.
 struct VecKnnInsertResult {
     bool        ok            = true;
     std::string message;
@@ -136,44 +156,35 @@ struct VecKnnInsertResult {
     std::size_t failed        = 0;  ///< entities that could not be inserted
 };
 
-/// Parallel batch insertion pipeline for VectorIndexManager (PERF-D3).
-///
-/// Uses a thread pool to submit sub-batches concurrently.  Each worker uses
-/// SIMD-accelerated distance computation via simd_batch_l2_sq().  A shared
-/// DistanceCache avoids duplicate distance computation for overlapping batches.
-///
-/// Thread-safety: multiple callers can call insertBatch() concurrently; the
-/// underlying VectorIndexManager::addBatch() is serialised via a mutex.
 class VecKnnInsertPipeline {
 public:
-  /// Bridge callback for batch insertion into a vector index.
-  ///
-  /// Return value follows `VecKnnInsertResult` semantics:
-  /// `ok=true` and `inserted>0` for successful writes, `ok=false` with
-  /// `failed>0` and message on failure.
   using AddBatchBridgeFn = std::function<VecKnnInsertResult(
     VectorIndexManager&,
     const std::vector<BaseEntity>&,
     std::string_view)>;
 
-  /// Bridge callback for vector extraction from an entity field.
-  ///
-  /// Expected to return an empty optional when the field is missing or not
-  /// vector-compatible.
   using ExtractVectorBridgeFn = std::function<std::optional<std::vector<float>>(
     const BaseEntity&,
     std::string_view)>;
 
-  /// Installs a process-wide add-batch bridge for link profiles where
-  /// VectorIndexManager write symbols are provided by another module.
+  /**
+   * @brief Set Add Batch Bridge Fn.
+   * @param[in] fn Input parameter.
+   */
   static void setAddBatchBridgeFn(AddBatchBridgeFn fn);
-  /// Clears the add-batch bridge and restores fail-closed behavior.
+  /**
+   * @brief Clear Add Batch Bridge Fn.
+   */
   static void clearAddBatchBridgeFn();
 
-  /// Installs a process-wide vector-extraction bridge for link profiles
-  /// where BaseEntity conversion helpers are provided by another module.
+  /**
+   * @brief Set Extract Vector Bridge Fn.
+   * @param[in] fn Input parameter.
+   */
   static void setExtractVectorBridgeFn(ExtractVectorBridgeFn fn);
-  /// Clears the vector-extraction bridge and restores fail-closed behavior.
+  /**
+   * @brief Clear Extract Vector Bridge Fn.
+   */
   static void clearExtractVectorBridgeFn();
 
     explicit VecKnnInsertPipeline(VecKnnPipelineConfig config = {});
@@ -183,31 +194,50 @@ public:
     VecKnnInsertPipeline(const VecKnnInsertPipeline&) = delete;
     VecKnnInsertPipeline& operator=(const VecKnnInsertPipeline&) = delete;
 
-    /// Insert entities into index in parallel batches.
     VecKnnInsertResult insertBatch(VectorIndexManager&                  index,
                                    const std::vector<BaseEntity>&       entities,
                                    std::string_view                     vectorField = "");
 
-    /// Compute pairwise squared-L2 distances for a flat vector array.
-    /// Useful for pre-warming the cache or standalone distance queries.
-    /// query_vectors: numQueries * dim floats; db_vectors: numDB * dim floats.
+    /**
+     * @brief Compute Distances.
+     * @param[in] query_vectors Input parameter.
+     * @param[in] numQueries Input parameter.
+     * @param[in] db_vectors Input parameter.
+     * @param[in] numDB Input parameter.
+     * @param[in] dim Input parameter.
+     * @return Return value.
+     */
     std::vector<float> computeDistances(const float* query_vectors,
                                         std::size_t  numQueries,
                                         const float* db_vectors,
                                         std::size_t  numDB,
                                         std::size_t  dim) const;
 
-    /// Access the internal distance cache (for inspection or pre-warming).
+    /**
+     * @brief Cache.
+     * @return Return value.
+     * @details Implements cache without additional internal calls.
+     */
     DistanceCache& cache() { return *cache_; }
     const DistanceCache& cache() const { return *cache_; }
 
-    /// Runtime configuration.
     const VecKnnPipelineConfig& config() const { return config_; }
+    /**
+     * @brief Set Batch Size.
+     * @param[in] sz Input parameter.
+     */
     void setBatchSize(std::size_t sz);
+    /**
+     * @brief Set Thread Count.
+     * @param[in] n Input parameter.
+     */
     void setThreadCount(std::size_t n);
+    /**
+     * @brief Enable Distance Cache.
+     * @param[in] enable Input parameter.
+     */
     void enableDistanceCache(bool enable);
 
-    /// Accumulated statistics across all insertBatch() calls.
     std::size_t totalInserted() const { return total_inserted_.load(); }
     std::size_t totalFailed()   const { return total_failed_.load(); }
 
@@ -217,7 +247,6 @@ private:
     std::atomic<std::size_t>      total_inserted_{0};
     std::atomic<std::size_t>      total_failed_{0};
 
-    /// Serialise concurrent writes to the shared VectorIndexManager.
     mutable std::mutex            index_mtx_;
 };
 

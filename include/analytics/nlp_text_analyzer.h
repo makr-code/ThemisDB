@@ -24,9 +24,6 @@
 namespace themis {
 namespace analytics {
 
-/**
- * @brief Token information from text analysis
- */
 struct Token {
     std::string text;           ///< The token text
     size_t position;            ///< Position in original text
@@ -37,9 +34,6 @@ struct Token {
     Token(std::string t, size_t pos) : text(std::move(t)), position(pos) {}
 };
 
-/**
- * @brief Named entity extracted from text
- */
 struct NamedEntity {
     std::string text;           ///< Entity text
     std::string type;           ///< Entity type (PERSON, ORG, LOC, etc.)
@@ -52,9 +46,6 @@ struct NamedEntity {
         , start_pos(0), end_pos(0) {}
 };
 
-/**
- * @brief Keyword with relevance score
- */
 struct Keyword {
     std::string text;           ///< Keyword text
     double score;               ///< TF-IDF or relevance score
@@ -69,9 +60,6 @@ struct Keyword {
     }
 };
 
-/**
- * @brief Sentiment analysis result
- */
 struct SentimentResult {
     enum class Polarity {
         NEGATIVE,
@@ -86,9 +74,6 @@ struct SentimentResult {
     SentimentResult() : polarity(Polarity::NEUTRAL), score(0.0), confidence(0.5) {}
 };
 
-/**
- * @brief Text complexity metrics
- */
 struct ComplexityMetrics {
     size_t word_count = 0;          ///< Total words
     size_t sentence_count;      ///< Total sentences
@@ -103,12 +88,6 @@ struct ComplexityMetrics {
                        , lexical_diversity(0.0), complex_words(0) {}
 };
 
-/**
- * @brief Legal modality detected in text
- * 
- * Represents modal verbs with legal/normative semantics, particularly
- * for German administrative law (Verwaltungsrecht).
- */
 struct LegalModality {
     std::string verb;                   ///< Modal verb (e.g., "muss", "soll", "kann")
     std::string category;               ///< Category: "obligation", "permission", "prohibition"
@@ -124,23 +103,8 @@ struct LegalModality {
         , deontic_logic(std::move(d)), interpretation(std::move(i)), position(pos) {}
 };
 
-/**
- * @brief Lightweight NLP text analyzer for query optimization
- * 
- * Provides basic NLP capabilities without heavy dependencies or
- * compute requirements. Designed for:
- * - AQL query analysis and optimization
- * - Execution plan cost estimation
- * - Text-based query pattern recognition
- * - Semantic query hints generation
- * 
- * @note This class is thread-safe for read operations after initialization.
- */
 class NlpTextAnalyzer {
 public:
-    /**
-     * @brief Supported languages for analysis
-     */
     enum class Language {
         UNKNOWN,
         GERMAN,     // de
@@ -151,9 +115,6 @@ public:
         DUTCH,      // nl
     };
 
-    /**
-     * @brief Configuration options for NLP analyzer
-     */
     struct Config {
         bool enable_stemming = true;        ///< Enable word stemming
         bool enable_stopwords = true;       ///< Remove stopwords
@@ -169,161 +130,113 @@ public:
     };
 
     /**
-     * @brief Construct NLP analyzer with configuration
+     * @brief Nlp Text Analyzer.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     explicit NlpTextAnalyzer(const Config& config);
     
-    /// @brief Default constructor using default Config
     NlpTextAnalyzer() : NlpTextAnalyzer(Config()) {}
     
     ~NlpTextAnalyzer() = default;
 
-    // ========== Core Analysis Functions ==========
-
     /**
-     * @brief Detect language of text
-     * @param text Input text
-     * @return Detected language
+     * @brief ========== Core Analysis Functions ==========
+     * @param[in] text Input parameter.
+     * @return Return value.
      */
+
     Language detectLanguage(std::string_view text) const;
 
     /**
-     * @brief Tokenize text into words/tokens
-     * @param text Input text
-     * @return Vector of tokens
+     * @brief Tokenize.
+     * @param[in] text Input parameter.
+     * @return Return value.
      */
     std::vector<Token> tokenize(std::string_view text) const;
 
-    /**
-     * @brief Extract keywords using TF-IDF approach
-     * @param text Input text
-     * @param max_keywords Maximum number of keywords (0 = use config)
-     * @return Sorted keywords by relevance
-     */
     std::vector<Keyword> extractKeywords(std::string_view text, size_t max_keywords = 0) const;
 
     /**
-     * @brief Extract named entities (person, organization, location)
-     * @param text Input text
-     * @return Vector of named entities
+     * @brief Extract Entities.
+     * @param[in] text Input parameter.
+     * @return Return value.
      */
     std::vector<NamedEntity> extractEntities(std::string_view text) const;
 
     /**
-     * @brief Analyze sentiment of text
-     * @param text Input text
-     * @return Sentiment analysis result
+     * @brief Analyze Sentiment.
+     * @param[in] text Input parameter.
+     * @return Return value.
      */
     SentimentResult analyzeSentiment(std::string_view text) const;
 
     /**
-     * @brief Calculate text complexity metrics
-     * @param text Input text
-     * @return Complexity metrics
+     * @brief Analyze Complexity.
+     * @param[in] text Input parameter.
+     * @return Return value.
      */
     ComplexityMetrics analyzeComplexity(std::string_view text) const;
 
-    /**
-     * @brief Extract legal modalities from text (e.g., German modal verbs)
-     * @param text Input text (legal/administrative document)
-     * @param language_code Language code (e.g., "de" for German)
-     * @param config_path Optional path to YAML config (default: german_modal_verbs.yaml)
-     * @return Vector of detected legal modalities with deontic semantics
-     * 
-     * Analyzes text for modal verbs with legal significance, particularly
-     * for German administrative law (Verwaltungsrecht):
-     * - "muss" (must) = Binding obligation (O(φ))
-     * - "soll" (shall) = Default rule (O_default(φ))
-     * - "kann" (may) = Discretionary permission (P(φ))
-     */
     std::vector<LegalModality> extractLegalModalities(
         std::string_view text,
         const std::string& language_code = "de",
         const std::string& config_path = "") const;
 
-    // ========== AQL Query Optimization Support ==========
-
     /**
-     * @brief Estimate query complexity based on text analysis
-     * @param query_text AQL query text
-     * @return Complexity score [0.0, 1.0], higher = more complex
+     * @brief ========== AQL Query Optimization Support ==========
+     * @param[in] query_text Input parameter.
+     * @return Return value.
      */
+
     double estimateQueryComplexity(std::string_view query_text) const;
 
-    /**
-     * @brief Extract semantic hints for query optimization
-     * @param query_text AQL query text
-     * @return Map of hint_type -> hint_value
-     */
     std::map<std::string, std::string> extractQueryHints(std::string_view query_text) const;
 
     /**
-     * @brief Suggest index usage based on query text patterns
-     * @param query_text AQL query text
-     * @return Vector of suggested index types
+     * @brief Suggest Indexes.
+     * @param[in] query_text Input parameter.
+     * @return Return value.
      */
     std::vector<std::string> suggestIndexes(std::string_view query_text) const;
 
     /**
-     * @brief Normalize query text for comparison
-     * @param query_text Input query
-     * @return Normalized form
+     * @brief Normalize Query.
+     * @param[in] query_text Input parameter.
+     * @return Return value.
      */
     std::string normalizeQuery(std::string_view query_text) const;
 
     // ========== Utility Functions ==========
 
-    /**
-     * @brief Check if word is a stop word
-     */
     bool isStopWord(std::string_view word, Language lang = Language::ENGLISH) const;
 
-    /**
-     * @brief Stem a word to its base form
-     */
     std::string stemWord(std::string_view word, Language lang = Language::ENGLISH) const;
 
-    /**
-     * @brief Lemmatize a word to its canonical dictionary form (full morphological lemmatization)
-     *
-     * Applies language-specific morphological rules and irregular-form lookup tables to
-     * return the base (dictionary) form of a word for the given language.  Unlike
-     * stemWord(), the result is always a valid word in the target language.
-     *
-     * Supported languages: ENGLISH, GERMAN, FRENCH, SPANISH, ITALIAN, DUTCH.
-     * Falls back to lowercased input for UNKNOWN.
-     *
-     * @param word   Input word (case-insensitive)
-     * @param lang   Target language (default: ENGLISH)
-     * @return       Canonical lemma of the word
-     */
     std::string lemmatizeWord(std::string_view word, Language lang = Language::ENGLISH) const;
 
     /**
-     * @brief Calculate similarity between two texts
-     * @param text1 First text
-     * @param text2 Second text
-     * @return Similarity score [0.0, 1.0]
+     * @brief Calculate Similarity.
+     * @param[in] text1 Input parameter.
+     * @param[in] text2 Input parameter.
+     * @return Return value.
      */
     double calculateSimilarity(std::string_view text1, std::string_view text2) const;
 
-    /**
-     * @brief Get statistics about analyzer state
-     */
     std::map<std::string, size_t> getStatistics() const;
 
     /**
-     * @brief Load stop words from YAML file for a specific language
-     * @param yaml_path Path to YAML file
-     * @param lang Language code
-     * @return true if loaded successfully
+     * @brief Load Stop Words From Yaml.
+     * @param[in] yaml_path Path to the yaml.
+     * @param[in] lang Input parameter.
+     * @return True when the operation succeeds.
      */
     bool loadStopWordsFromYaml(const std::string& yaml_path, Language lang);
 
     /**
-     * @brief Load all stop word files from directory
-     * @param directory Directory containing YAML files
-     * @return Number of languages loaded
+     * @brief Load Stop Words From Directory.
+     * @param[in] directory Input parameter.
+     * @return Return value.
      */
     size_t loadStopWordsFromDirectory(const std::string& directory);
 
@@ -361,42 +274,122 @@ private:
     mutable size_t analysis_count_ = 0;
     mutable size_t token_count_ = 0;
 
-    // ========== Private Helper Methods ==========
+    /**
+     * @brief ========== Private Helper Methods ==========
+     */
     
     void initializeStopWords();
+    /**
+     * @brief Initialize Sentiment Lexicon.
+     */
     void initializeSentimentLexicon();
+    /**
+     * @brief Initialize Entity Patterns.
+     */
     void initializeEntityPatterns();
     
+    /**
+     * @brief Split Sentences.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     std::vector<std::string> splitSentences(std::string_view text) const;
+    /**
+     * @brief To Lower Case.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     std::string toLowerCase(std::string_view text) const;
+    /**
+     * @brief Remove Punctuation.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     std::string removePunctuation(std::string_view text) const;
     
     double calculateTfIdf(const std::string& term,
                          const std::map<std::string, size_t>& term_freqs,
                          size_t total_terms) const;
     
+    /**
+     * @brief Is Capitalized.
+     * @param[in] word Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool isCapitalized(std::string_view word) const;
+    /**
+     * @brief Is All Caps.
+     * @param[in] word Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool isAllCaps(std::string_view word) const;
+    /**
+     * @brief Count Syllables.
+     * @param[in] word Input parameter.
+     * @return Return value.
+     */
     size_t countSyllables(std::string_view word) const;
     
     // Query-specific helpers
+    /**
+     * @brief Contains Aggregation.
+     * @param[in] query Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool containsAggregation(std::string_view query) const;
+    /**
+     * @brief Contains Join.
+     * @param[in] query Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool containsJoin(std::string_view query) const;
+    /**
+     * @brief Contains Subquery.
+     * @param[in] query Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool containsSubquery(std::string_view query) const;
+    /**
+     * @brief Extract Table Names.
+     * @param[in] query Input parameter.
+     * @return Return value.
+     */
     std::vector<std::string> extractTableNames(std::string_view query) const;
     
     // Morphological lemmatization helpers
+    /**
+     * @brief Initialize Lemmatization Data.
+     */
     void initializeLemmatizationData();
+    /**
+     * @brief Apply Morphological Rules.
+     * @param[in] lower Input parameter.
+     * @param[in] lang Input parameter.
+     * @return Return value.
+     */
     std::string applyMorphologicalRules(const std::string& lower,
                                         Language lang) const;
 
     // Legal modality helpers
+    /**
+     * @brief Load Legal Modality Config.
+     * @param[in] config_path Path to the retention policy configuration file.
+     * @return True when the operation succeeds.
+     */
     bool loadLegalModalityConfig(const std::string& config_path) const;
+    /**
+     * @brief Get Default Legal Config Path.
+     * @param[in] language_code Input parameter.
+     * @return Return value.
+     */
     std::string getDefaultLegalConfigPath(const std::string& language_code) const;
 };
 
 /**
- * @brief Helper function to convert language enum to string
+ * @brief Language To String.
+ * @param[in] lang Input parameter.
+ * @return Return value.
+ * @details Implements languageToString without additional internal calls.
  */
 inline std::string_view languageToString(NlpTextAnalyzer::Language lang) {
     switch (lang) {

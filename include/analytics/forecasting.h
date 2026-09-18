@@ -62,12 +62,6 @@ class ForecastModel;
 // TimeSeriesPoint – a single observation
 // ============================================================================
 
-/**
- * One observation in a time series.
- *
- * @c timestamp_ms Wall-clock timestamp in milliseconds since epoch.
- * @c value        Observed value (numeric).
- */
 struct TimeSeriesPoint {
     int64_t timestamp_ms = 0;
     double  value        = 0.0;
@@ -81,23 +75,28 @@ struct TimeSeriesPoint {
 // TimeSeries – ordered collection of observations
 // ============================================================================
 
-/**
- * Ordered time-series container.
- *
- * Points are stored sorted by @c timestamp_ms.  Duplicate timestamps are
- * allowed and retained as separate observations.
- */
 class TimeSeries {
 public:
     TimeSeries() = default;
 
-    /// Construct from a pre-built vector (will be sorted).
+    /**
+     * @brief Time Series.
+     * @param[in] points Input parameter.
+     * @return Return value.
+     */
     explicit TimeSeries(std::vector<TimeSeriesPoint> points);
 
-    // ---- Mutation ----
+    /**
+     * @brief ---- Mutation ----
+     * @param[in] timestamp_ms Input parameter.
+     * @param[in] value Input parameter.
+     */
 
-    /// Append a point (keeps the series sorted).
     void push(int64_t timestamp_ms, double value);
+    /**
+     * @brief Push.
+     * @param[in] point Input parameter.
+     */
     void push(const TimeSeriesPoint& point);
 
     // ---- Accessors ----
@@ -106,23 +105,48 @@ public:
     size_t size() const noexcept { return points_.size(); }
     bool   empty() const noexcept { return points_.empty(); }
 
-    /// Return only the numeric values in time order.
+    /**
+     * @brief Values.
+     * @return Return value.
+     */
     std::vector<double> values() const;
 
-    /// Return only the timestamps in time order.
+    /**
+     * @brief Timestamps.
+     * @return Return value.
+     */
     std::vector<int64_t> timestamps() const;
 
-    /// Slice by timestamp range [from_ms, to_ms).
+    /**
+     * @brief Slice.
+     * @param[in] from_ms Input parameter.
+     * @param[in] to_ms Input parameter.
+     * @return Return value.
+     */
     TimeSeries slice(int64_t from_ms, int64_t to_ms) const;
 
-    /// Split into train / test at a given fraction (0 < ratio < 1).
     std::pair<TimeSeries, TimeSeries> trainTestSplit(double train_ratio = 0.8) const;
 
-    // ---- Statistics ----
+    /**
+     * @brief ---- Statistics ----
+     * @return Return value.
+     */
 
     double mean()   const;
+    /**
+     * @brief Stddev.
+     * @return Return value.
+     */
     double stddev() const;
+    /**
+     * @brief Min.
+     * @return Return value.
+     */
     double min()    const;
+    /**
+     * @brief Max.
+     * @return Return value.
+     */
     double max()    const;
 
 private:
@@ -147,9 +171,6 @@ enum class ForecastMethod {
 // ForecastConfig – training / prediction options
 // ============================================================================
 
-/**
- * Configuration for model training and forecasting.
- */
 struct ForecastConfig {
     // ---- Exponential Smoothing / Holt-Winters ----
     double alpha            = 0.3;   ///< level smoothing factor (0 < α < 1)
@@ -170,13 +191,9 @@ struct ForecastConfig {
     int    sarima_m         = 0;     ///< seasonal period (0 = autodetect / disabled)
 
     // ---- Prophet-style trend + seasonality ----
-    /// Scale for the piecewise linear changepoint prior (larger → more flexible).
     double prophet_changepoint_prior_scale = 0.05;
-    /// Number of Fourier terms for weekly seasonality.
     int    prophet_fourier_order_weekly    = 3;
-    /// Number of Fourier terms for yearly seasonality.
     int    prophet_fourier_order_yearly    = 10;
-    /// Proportion of history to use for potential changepoints.
     double prophet_changepoint_range       = 0.8;
 
     // ---- Confidence intervals ----
@@ -184,8 +201,6 @@ struct ForecastConfig {
     double confidence_level  = 0.95; ///< e.g., 0.95 → 95% CI
 
     // ---- Ensemble ----
-    /// Weights for [LINEAR_REGRESSION, EXP_SMOOTHING, HOLT_WINTERS, ARIMA].
-    /// If empty, equal weights are used.
     std::vector<double> ensemble_weights;
 
     // ---- Optimisation ----
@@ -230,29 +245,6 @@ struct DecompositionResult {
 // ForecastModel – main class
 // ============================================================================
 
-/**
- * Time-series forecasting model.
- *
- * Usage:
- * @code
- *   #include "analytics/forecasting.h"
- *
- *   TimeSeries ts;
- *   for (auto& p : my_data) ts.push(p.ts_ms, p.revenue);
- *
- *   ForecastModel model(ForecastMethod::HOLT_WINTERS);
- *   ForecastConfig cfg;
- *   cfg.seasonality = 12;   // monthly data → yearly season
- *   model.fit(ts, cfg);
- *
- *   auto forecast = model.predict(30);
- *   for (const auto& fp : forecast)
- *       std::cout << fp.timestamp_ms << ": " << fp.value << "\n";
- *
- *   auto metrics = model.evaluate(test_ts);
- *   std::cout << "RMSE: " << metrics.rmse << "\n";
- * @endcode
- */
 class ForecastModel {
 public:
     // ---- Construction ----
@@ -267,103 +259,72 @@ public:
     ForecastModel(ForecastModel&&)                 noexcept;
     ForecastModel& operator=(ForecastModel&&)      noexcept;
 
-    // ---- Training ----
-
     /**
-     * Fit the model to the given time series.
-     *
-     * @param ts     Training data (must have at least 2 points).
-     * @throws std::invalid_argument if ts has fewer than 2 points.
+     * @brief ---- Training ----
+     * @param[in] ts Input parameter.
      */
+
     void fit(const TimeSeries& ts);
     /**
-     * Fit the model to the given time series.
-     *
-     * @param ts     Training data (must have at least 2 points).
-     * @param config Optional overrides; if not supplied the model's own
-     *               config (set at construction) is used.
-     * @throws std::invalid_argument if ts has fewer than 2 points.
+     * @brief Fit.
+     * @param[in] ts Input parameter.
+     * @param[in] config Input parameter.
      */
     void fit(const TimeSeries& ts, const ForecastConfig& config);
 
+    /**
+     * @brief Is Fitted.
+     * @return True when the operation succeeds.
+     * @note Exception safety: noexcept.
+     */
     bool isFitted() const noexcept;
 
-    // ---- Prediction ----
-
     /**
-     * Forecast @p steps steps ahead.
-     *
-     * The timestamps of the returned points are evenly spaced using the
-     * median inter-observation interval of the training series.
-     *
-     * @param steps  Number of future points to forecast.
-     * @returns      Vector of ForecastPoint (size == steps).
-     * @throws std::runtime_error if the model has not been fitted.
+     * @brief ---- Prediction ----
+     * @param[in] steps Input parameter.
+     * @return Return value.
      */
+
     std::vector<ForecastPoint> predict(int steps) const;
 
     /**
-     * Batch-predict @p steps steps ahead for each series in @p batch.
-     *
-     * The model is fitted to each series in @p batch independently and
-     * predictions are returned in the same order.  The model's own fitted
-     * state is unchanged after this call.
-     *
-     * Each element of the returned outer vector corresponds to one input
-     * series; the inner vector has exactly @p steps ForecastPoint entries.
-     *
-     * This avoids the per-call model-state copy overhead of calling
-     * predict() on N independently constructed models.
-     *
-     * @param batch  One or more time series to forecast.
-     * @param steps  Number of future points per series (must be ≥ 1).
-     * @returns      Vector of size batch.size(), each element of size steps.
-     * @throws std::invalid_argument if @p steps < 1 or any series has < 2 points.
+     * @brief Predict Batch.
+     * @param[in] batch Input parameter.
+     * @param[in] steps Input parameter.
+     * @return Return value.
      */
     std::vector<std::vector<ForecastPoint>> predictBatch(
         const std::vector<TimeSeries>& batch, int steps) const;
 
     /**
-     * Incrementally absorb one new observation into the fitted model state.
-     *
-     * Updates only the ETS level/trend/seasonal components (O(1)); does not
-     * re-run full fit().  For ARIMA the last AR window is shifted and the new
-     * point appended; for LINEAR_REGRESSION the new point is appended to
-     * update the OLS parameters.
-     *
-     * Calling update() on a model that has not been fitted is a no-op.
-     *
-     * @param new_value  The new observation value (timestamp is implicitly
-     *                   one median-interval step after the last training point).
+     * @brief Update.
+     * @param[in] new_value Input parameter.
      */
     void update(double new_value);
 
-    // ---- Evaluation ----
-
     /**
-     * Evaluate the model against a held-out test set.
-     *
-     * The model predicts len(test_ts) steps ahead starting at the last
-     * training observation and computes MAE, RMSE, and MAPE.
+     * @brief ---- Evaluation ----
+     * @param[in] test_ts Input parameter.
+     * @return Return value.
      */
+
     ForecastMetrics evaluate(const TimeSeries& test_ts) const;
 
     // ---- Seasonal decomposition ----
 
-    /**
-     * Decompose the training series into trend, seasonal, and residual
-     * components.  Requires isFitted() == true.
-     *
-     * @param multiplicative  If true, use multiplicative model; otherwise
-     *                        additive.
-     */
     DecompositionResult decompose(bool multiplicative = false) const;
 
-    // ---- Serialisation ----
+    /**
+     * @brief ---- Serialisation ----
+     * @return Return value.
+     */
 
-    /// Serialise the fitted model state to a string (JSON-like text).
     std::string serialize() const;
-    /// Restore a model from a previously serialised string.
+    /**
+     * @brief Deserialize.
+     * @param[in] data Input parameter.
+     * @return Return value.
+     */
     static ForecastModel deserialize(const std::string& data);
 
     // ---- Diagnostics ----
@@ -378,8 +339,22 @@ public:
         bool           fitted           = false;
     };
 
+    /**
+     * @brief Info.
+     * @return Return value.
+     */
     ModelInfo        info()   const;
+    /**
+     * @brief Method.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     ForecastMethod   method() const noexcept;
+    /**
+     * @brief Config.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     const ForecastConfig& config() const noexcept;
 
 private:
@@ -398,7 +373,6 @@ private:
 // Free helpers
 // ============================================================================
 
-/// Convert a ForecastMethod to a human-readable string.
 inline const char* forecastMethodName(ForecastMethod m) noexcept {
     switch (m) {
         case ForecastMethod::LINEAR_REGRESSION: return "LINEAR_REGRESSION";
@@ -412,7 +386,12 @@ inline const char* forecastMethodName(ForecastMethod m) noexcept {
     }
 }
 
-/// Compute forecast accuracy metrics from parallel actual / predicted vectors.
+/**
+ * @brief Compute Metrics.
+ * @param[in] actual Input parameter.
+ * @param[in] predicted Input parameter.
+ * @return Return value.
+ */
 ForecastMetrics computeMetrics(const std::vector<double>& actual,
                                const std::vector<double>& predicted);
 
@@ -420,82 +399,14 @@ ForecastMetrics computeMetrics(const std::vector<double>& actual,
 // Helper functions (Phase 2B)
 // ============================================================================
 
-/**
- * @brief Detect seasonal period using autocorrelation or FFT.
- * 
- * Analyzes the time series to determine if there is a periodic pattern
- * and returns the detected seasonal period (in number of steps).
- * 
- * Algorithm:
- * - Computes autocorrelation at various lags
- * - Returns lag with highest autocorrelation > 0.5
- * - Returns 0 if no strong seasonality detected
- * 
- * @param timeseries Vector of time-series values
- * @param max_lag Maximum lag to check (default: 1000)
- * @return Detected seasonal period in steps; 0 if no seasonality
- * @throws std::invalid_argument if timeseries.size() < 2
- * 
- * @code
- *   std::vector<double> ts = { 1.0, 2.0, 3.0, 1.0, 2.0, 3.0, 1.0, 2.0, 3.0 };
- *   int period = seasonalityDuration(ts);  // Returns 3
- * @endcode
- */
 int seasonalityDuration(
     const std::vector<double>& timeseries,
     int max_lag = 1000);
 
-/**
- * @brief Validate test data structure and quality.
- * 
- * Checks:
- * - Non-empty
- * - Consistent dimensions with expected input
- * - No NaN or Inf values
- * - Timestamps in chronological order (if provided)
- * 
- * @param test_features Test feature matrix (n_samples × n_features)
- * @param expected_n_features Expected number of features per sample
- * @return Pair of (is_valid, error_message)
- * 
- * @code
- *   std::vector<std::vector<double>> X_test = {{ 1.0, 2.0 }, { 3.0, 4.0 }};
- *   auto [valid, msg] = validateTestData(X_test, 2);
- *   if (!valid) {
- *       std::cerr << "Validation error: " << msg << std::endl;
- *   }
- * @endcode
- */
 std::pair<bool, std::string> validateTestData(
     const std::vector<std::vector<double>>& test_features,
     size_t expected_n_features);
 
-/**
- * @brief Apply exponential smoothing (Holt-Winters) to a time series.
- * 
- * Updates the provided ForecastModel with smoothed coefficients and fitted state.
- * Supports:
- * - Simple exponential smoothing (alpha only)
- * - Double exponential / Holt's method (alpha, beta)
- * - Triple exponential / Holt-Winters (alpha, beta, gamma for seasonality)
- * 
- * @param model Target ForecastModel to update with fitted coefficients
- * @param timeseries Input time-series data
- * @param alpha Level smoothing coefficient ∈ (0,1)
- * @param beta Trend smoothing coefficient ∈ (0,1); set to 0 for simple ES
- * @param gamma Seasonal smoothing coefficient ∈ (0,1); set to 0 for non-seasonal
- * @return Pair of (success, error_message) — first element true on success
- * @throws std::invalid_argument if timeseries.size() < 2 or params out of range
- * 
- * @code
- *   ForecastModel model;
- *   std::vector<double> ts = { 100, 110, 120, 130 };
- *   auto [success, msg] = exponentialSmoothing(model, ts, 0.3, 0.1, 0.0);
- *   if (success) {
- *       auto forecast = model.predict(2);  // Forecast 2 steps ahead
- *   }
- * @endcode
- */
 std::pair<bool, std::string> exponentialSmoothing(
     ForecastModel& model,
     const std::vector<double>& timeseries,

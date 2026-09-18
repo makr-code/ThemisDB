@@ -46,37 +46,52 @@ namespace index {
 // IAnnIndex – common interface for ANN backends used by VectorIndexManager
 // ---------------------------------------------------------------------------
 
-/// Result of a single nearest-neighbor query.
 struct AnnSearchResult {
     int64_t id;       ///< User-visible vector ID (label)
     float   distance; ///< Distance from query (smaller = closer)
 };
 
-/// Uniform interface implemented by every ANN backend.
 class IAnnIndex {
 public:
+    /**
+     * @brief IAnn Index.
+     * @return Return value.
+     */
     virtual ~IAnnIndex() = default;
 
-    /// Train/build the index from a flat array of @p count vectors of @p dim floats.
-    /// The corresponding int64_t labels are in @p ids (may be nullptr → use 0-based).
-    /// Returns false on failure.
+    /**
+     * @brief Build.
+     * @param[in] vectors Input parameter.
+     * @param[in] ids Input parameter.
+     * @param[in] count Input parameter.
+     * @param[in] dim Input parameter.
+     * @return True when the operation succeeds.
+     */
     virtual bool build(const float* vectors, const int64_t* ids,
                        size_t count, size_t dim) = 0;
 
-    /// Add a single vector with @p id to the index.
     [[nodiscard]] virtual bool add(int64_t id, const float* vector, size_t dim) = 0;
 
-    /// Return the @p k nearest neighbours of @p query.
+    /**
+     * @brief Search.
+     * @param[in] query Input parameter.
+     * @param[in] dim Input parameter.
+     * @param[in] k Input parameter.
+     * @return Return value.
+     */
     virtual std::vector<AnnSearchResult> search(const float* query, size_t dim,
                                                  int k) const = 0;
 
-    /// Persist the index to @p path directory.  Returns false if not supported.
     virtual bool save(const std::string& /*path*/) const { return false; }
 
-    /// Load index from @p path directory.  Returns false if not supported.
+    /**
+     * @brief Load.
+     * @param[in] param Input parameter.
+     * @return True when the operation succeeds.
+     * @details Implements load without additional internal calls.
+     */
     virtual bool load(const std::string& /*path*/) { return false; }
 
-    /// Number of vectors currently in the index.
     [[nodiscard]] virtual size_t size() const = 0;
 };
 
@@ -99,7 +114,6 @@ public:
 // ThemisDB build system.
 // ---------------------------------------------------------------------------
 
-/// ScaNN configuration
 struct ScaNNConfig {
     // Partitioning
     size_t num_leaves            = 1000;  ///< Target number of Voronoi cells
@@ -118,7 +132,6 @@ struct ScaNNConfig {
     enum class Metric { L2 } metric = Metric::L2;
 };
 
-/// ScaNN index (self-contained, no external dependencies)
 class ScaNN final : public IAnnIndex {
 public:
     explicit ScaNN(ScaNNConfig cfg = {});
@@ -148,9 +161,30 @@ private:
         // centroids[s][c][d]  s=subspace, c=centroid, d=sub_dim
         std::vector<std::vector<std::vector<float>>> centroids;
 
+        /**
+         * @brief Train.
+         * @param[in] data Input parameter.
+         * @param[in] n Input parameter.
+         * @param[in] d Input parameter.
+         * @param[in] nss Input parameter.
+         * @param[in] bits Input parameter.
+         * @param[in] iters Input parameter.
+         */
         void train(const float* data, size_t n, size_t d,
                    size_t nss, size_t bits, size_t iters);
+        /**
+         * @brief Encode.
+         * @param[in] vec Input parameter.
+         * @param[in] d Input parameter.
+         * @return Return value.
+         */
         std::vector<uint8_t> encode(const float* vec, size_t d) const;
+        /**
+         * @brief Decode distance.
+         * @param[in] query Input parameter.
+         * @param[in] code Input parameter.
+         * @return Return value.
+         */
         float decode_distance(const float* query, const std::vector<uint8_t>& code) const;
     };
 
@@ -161,8 +195,24 @@ private:
         std::vector<std::vector<uint8_t>> codes; // PQ-compressed (optional)
     };
 
-    // ---- helpers ----
+    /**
+     * @brief ---- helpers ----
+     * @param[in] a Input parameter.
+     * @param[in] b Input parameter.
+     * @param[in] d Input parameter.
+     * @return Return value.
+     */
     static float l2sq(const float* a, const float* b, size_t d);
+    /**
+     * @brief Kmeans.
+     * @param[in] data Input parameter.
+     * @param[in] n Input parameter.
+     * @param[in] d Input parameter.
+     * @param[in] k Input parameter.
+     * @param[in] iters Input parameter.
+     * @param[in,out] centroids Input/output parameter.
+     * @param[in,out] assignments Input/output parameter.
+     */
     static void  kmeans(const float* data, size_t n, size_t d,
                         size_t k, size_t iters,
                         std::vector<std::vector<float>>& centroids,
@@ -188,11 +238,8 @@ private:
 
 #ifdef THEMIS_ENABLE_DISKANN
 
-/// Adapter that exposes DiskANNIndex (SSD-resident, billion-scale) as IAnnIndex.
 class DiskAnnAdapter final : public IAnnIndex {
 public:
-    /// @param index_path  Path to the DiskANN graph file on disk.
-    /// @param cache_mb    RAM cache budget in MiB (default 1 GiB).
     explicit DiskAnnAdapter(const std::string& index_path, size_t cache_mb = 1024)
         : index_path_(index_path), cache_mb_(cache_mb) {}
 
@@ -236,7 +283,6 @@ public:
         return out;
     }
 
-    /// Flush graph file and persist the offset metadata sidecar (<path>.meta).
     bool save(const std::string& path) const override {
         if (!impl_) {
           return false;
@@ -245,13 +291,17 @@ public:
         return impl_->save(path);
     }
 
-    /// Reload the offset metadata from a previously saved sidecar file.
-    /// The caller is responsible for ensuring the graph file exists at index_path_.
     bool load(const std::string& path) override {
         // Peek the dimension stored in the metadata sidecar so we create the
         // DiskANNIndex with the correct dimension even when build() was never called.
         const std::string meta_path = path + ".meta";
         if (dim_ == 0) {
+            /**
+             * @brief Peek.
+             * @param[in] meta_path Path to the meta.
+             * @param[in] binary Input parameter.
+             * @return Return value.
+             */
             std::ifstream peek(meta_path, std::ios::binary);
             if (peek) {
                 size_t stored_dim = 0;

@@ -6,6 +6,14 @@
 namespace themis::query::fts {
 namespace {
 
+/**
+ * @brief Accumulate Score.
+ * @param[in] node Input parameter.
+ * @param[in] stats Input parameter.
+ * @param[in] scorer Input parameter.
+ * @return Return value.
+ * @details Calls: value_or(), std::max(), BM25Scorer::computeIDF(), computeTFComponent().
+ */
 float accumulateScore(const SearchNode& node,
                       const IndexStatistics& stats,
                       const BM25Scorer& scorer) {
@@ -49,6 +57,13 @@ float BM25Scorer::compute(uint64_t /*doc_id*/,
   return std::max(0.0f, accumulateScore(query, index_stats, *this));
 }
 
+/**
+ * @brief Compute IDF.
+ * @param[in] doc_freq Input parameter.
+ * @param[in] total_docs Input parameter.
+ * @return Return value.
+ * @details Calls: std::max(), std::log1pf().
+ */
 float BM25Scorer::computeIDF(uint32_t doc_freq, uint32_t total_docs) {
   if (doc_freq == 0 || total_docs == 0 || doc_freq > total_docs) {
     return 0.0f;

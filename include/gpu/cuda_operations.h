@@ -33,29 +33,10 @@
 namespace themis {
 namespace gpu {
 
-/**
- * @brief CUDA stream wrapper with RAII semantics
- * 
- * Manages CUDA stream lifecycle and prevents use-after-move
- * through explicit state tracking.
- */
 class CudaStream {
 public:
-    /**
-     * @brief Create CUDA stream on specified device
-     * 
-     * @param device_id GPU device ID
-     * @param priority Stream priority (higher = higher priority)
-     * @throws std::runtime_error If stream creation fails
-     * @throws std::invalid_argument If device_id is invalid
-     */
     CudaStream(int device_id, int priority = 0);
 
-    /**
-     * @brief Destructor - destroys CUDA stream
-     * 
-     * Safe on moved-from streams (no double-destroy).
-     */
     ~CudaStream() noexcept;
 
     // Move semantics
@@ -67,42 +48,34 @@ public:
     CudaStream& operator=(const CudaStream&) = delete;
 
     /**
-     * @brief Get CUDA stream handle
-     * 
-     * @return Stream handle, or nullptr if moved-from
-     * @throws std::logic_error If called on moved-from stream
+     * @brief Get handle.
+     * @return Pointer to the result.
      */
     void* get_handle() const;
 
     /**
-     * @brief Synchronize on this stream (wait for completion)
-     * 
-     * @throws std::runtime_error If synchronization fails
-     * @throws std::logic_error If called on moved-from stream
+     * @brief Synchronize.
      */
     void synchronize() const;
 
     /**
-     * @brief Check if stream has completed all work
-     * 
-     * @return true if all queued work is done, false otherwise
-     * @throws std::runtime_error If query fails
-     * 
-     * Safe on moved-from streams (returns true).
+     * @brief Is ready.
+     * @return True when the operation succeeds.
+     * @note Exception safety: noexcept.
      */
     bool is_ready() const noexcept;
 
     /**
-     * @brief Check if this stream is valid and not moved-from
-     * 
-     * @return true if stream is alive
+     * @brief Is valid.
+     * @return True when the operation succeeds.
+     * @note Exception safety: noexcept.
      */
     bool is_valid() const noexcept;
 
     /**
-     * @brief Check if this stream is in moved-from state
-     * 
-     * @return true if resources were transferred to another object
+     * @brief Is moved from.
+     * @return True when the operation succeeds.
+     * @note Exception safety: noexcept.
      */
     bool is_moved_from() const noexcept;
 
@@ -112,17 +85,8 @@ private:
     bool is_moved_from_;
 };
 
-/**
- * @brief CUDA operation with asynchronous completion tracking
- * 
- * Represents a device-side operation (kernel launch, memory copy, etc.)
- * with move semantics and use-after-move detection.
- */
 class CudaOperation {
 public:
-    /**
-     * @brief Operation status enumeration
-     */
     enum class Status {
         PENDING,       ///< Operation queued but not started
         RUNNING,       ///< Operation currently executing
@@ -131,20 +95,8 @@ public:
         MOVED_FROM,    ///< Moved-from state (operation transferred to another object)
     };
 
-    /**
-     * @brief Create CUDA operation on stream
-     * 
-     * @param stream CUDA stream to queue operation on
-     * @param name Operation name (for logging/debugging)
-     * @throws std::invalid_argument If stream is invalid
-     */
     CudaOperation(const CudaStream& stream, const std::string& name);
 
-    /**
-     * @brief Destructor - ensures operation completion
-     * 
-     * Safe on moved-from operations (no-op).
-     */
     ~CudaOperation() noexcept;
 
     // Move semantics
@@ -155,74 +107,60 @@ public:
     CudaOperation(const CudaOperation&) = delete;
     CudaOperation& operator=(const CudaOperation&) = delete;
 
-    // --- Operation lifecycle ---
-
     /**
-     * @brief Record event marker in stream
-     * 
-     * @throws std::runtime_error If event recording fails
-     * @throws std::logic_error If called on moved-from operation
+     * @brief --- Operation lifecycle ---
      */
+
     void record_event();
 
-    /**
-     * @brief Wait for operation to complete
-     * 
-     * @param timeout Duration to wait (0 = indefinite)
-     * @return true if completed, false if timeout
-     * @throws std::runtime_error If synchronization fails
-     * @throws std::logic_error If called on moved-from operation
-     */
     bool wait(std::chrono::milliseconds timeout = std::chrono::milliseconds(0));
 
     /**
-     * @brief Check current operation status
-     * 
-     * @return Current Status
+     * @brief Get status.
+     * @return Return value.
+     * @note Exception safety: noexcept.
      */
     Status get_status() const noexcept;
 
     /**
-     * @brief Mark operation as completed (called internally by CUDA callbacks)
-     * 
-     * @internal Used by CUDA stream callbacks.
+     * @brief Mark completed.
+     * @note Exception safety: noexcept.
      */
     void mark_completed() noexcept;
 
     /**
-     * @brief Mark operation as failed
-     * 
-     * @param error_msg Human-readable error message
+     * @brief Mark failed.
+     * @param[in] error_msg Input parameter.
+     * @note Exception safety: noexcept.
      */
     void mark_failed(const std::string& error_msg) noexcept;
 
-    // --- Queries ---
-
     /**
-     * @brief Get operation name
-     * 
-     * @return Name, or empty string if moved-from
+     * @brief --- Queries ---
+     * @return Return value.
+     * @note Exception safety: noexcept.
      */
+
     const std::string& get_name() const noexcept;
 
     /**
-     * @brief Get error message if operation failed
-     * 
-     * @return Error message, or empty string if no error
+     * @brief Get error.
+     * @return Return value.
+     * @note Exception safety: noexcept.
      */
     const std::string& get_error() const noexcept;
 
     /**
-     * @brief Get device ID where operation runs
-     * 
-     * @return Device ID, or -1 if moved-from
+     * @brief Get device id.
+     * @return Return value.
+     * @note Exception safety: noexcept.
      */
     int get_device_id() const noexcept;
 
     /**
-     * @brief Check if operation is in moved-from state
-     * 
-     * @return true if resources were transferred to another object
+     * @brief Is moved from.
+     * @return True when the operation succeeds.
+     * @note Exception safety: noexcept.
      */
     bool is_moved_from() const noexcept;
 
@@ -235,24 +173,15 @@ private:
     bool is_moved_from_;
 };
 
-/**
- * @brief Batch of CUDA operations with collective management
- * 
- * Allows submitting multiple operations and waiting for all to complete.
- * Move semantics enable efficient transfer of operation batches.
- */
 class CudaOperationBatch {
 public:
     /**
-     * @brief Create empty operation batch
-     * 
-     * @param stream CUDA stream for batch operations
+     * @brief Cuda Operation Batch.
+     * @param[in] stream Input parameter.
+     * @return Return value.
      */
     explicit CudaOperationBatch(const CudaStream& stream);
 
-    /**
-     * @brief Destructor - waits for batch completion
-     */
     ~CudaOperationBatch() noexcept;
 
     // Move semantics
@@ -264,55 +193,45 @@ public:
     CudaOperationBatch& operator=(const CudaOperationBatch&) = delete;
 
     /**
-     * @brief Add operation to batch
-     * 
-     * @param op Operation to add (moved into batch)
-     * @throws std::logic_error If called on moved-from batch
+     * @brief Add operation.
+     * @param[in] op Input parameter.
      */
     void add_operation(CudaOperation&& op);
 
-    /**
-     * @brief Wait for all operations in batch to complete
-     * 
-     * @param timeout Duration to wait (0 = indefinite)
-     * @return true if all completed, false if timeout
-     * @throws std::runtime_error If synchronization fails
-     * @throws std::logic_error If called on moved-from batch
-     */
     bool wait_all(std::chrono::milliseconds timeout = std::chrono::milliseconds(0));
 
     /**
-     * @brief Get number of operations in batch
-     * 
-     * @return Count, or 0 if moved-from
+     * @brief Size.
+     * @return Return value.
+     * @note Exception safety: noexcept.
      */
     size_t size() const noexcept;
 
     /**
-     * @brief Check if all operations completed
-     * 
-     * @return true if all done (or batch empty)
+     * @brief All completed.
+     * @return True when the operation succeeds.
+     * @note Exception safety: noexcept.
      */
     bool all_completed() const noexcept;
 
     /**
-     * @brief Get count of failed operations
-     * 
-     * @return Number of operations with errors
+     * @brief Failed count.
+     * @return Return value.
+     * @note Exception safety: noexcept.
      */
     size_t failed_count() const noexcept;
 
     /**
-     * @brief Check if batch is valid (not moved-from)
-     * 
-     * @return true if batch can accept operations
+     * @brief Is valid.
+     * @return True when the operation succeeds.
+     * @note Exception safety: noexcept.
      */
     bool is_valid() const noexcept;
 
     /**
-     * @brief Check if batch is in moved-from state
-     * 
-     * @return true if resources were transferred to another object
+     * @brief Is moved from.
+     * @return True when the operation succeeds.
+     * @note Exception safety: noexcept.
      */
     bool is_moved_from() const noexcept;
 

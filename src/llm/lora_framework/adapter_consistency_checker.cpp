@@ -63,8 +63,8 @@ public:
             return "";
         }
         
-        // For simplicity, use checksum as signature (in production, use real crypto)
-        // This is a placeholder - real implementation would use Ed25519/ECDSA
+        // Signature generation currently reuses the checksum path as a
+        // deterministic fallback until real cryptographic signing is wired in.
         return calculateChecksum(data);
     }
     

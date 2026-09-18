@@ -271,7 +271,8 @@ private:
      * @param[out] O Output tensor
      * @return Status code
      *
-     * @note Placeholder (Phase 2.2): calls CPU fallback currently
+    * @note Uses the CPU fallback until the Vulkan local-attention kernel is
+    *       available in the build.
      */
     Status computeLocalAttention(
         const Tensor& Q,

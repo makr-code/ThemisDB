@@ -43,9 +43,6 @@ namespace cdc {
 
 // ── SchemaFormat ──────────────────────────────────────────────────────────────
 
-/**
- * @brief Wire-format / encoding of a collection schema.
- */
 enum class SchemaFormat {
     JSON,     ///< JSON Schema (draft-07 or later)
     AVRO,     ///< Apache Avro schema definition (JSON encoding)
@@ -54,9 +51,6 @@ enum class SchemaFormat {
 
 // ── SchemaCompatibility ───────────────────────────────────────────────────────
 
-/**
- * @brief Avro/Confluent schema compatibility mode.
- */
 enum class SchemaCompatibility {
     NONE,      ///< No compatibility check
     BACKWARD,  ///< New schema can read data written with the old schema
@@ -66,9 +60,6 @@ enum class SchemaCompatibility {
 
 // ── MigrationStrategy ────────────────────────────────────────────────────────
 
-/**
- * @brief Strategy for handling in-flight events during schema evolution.
- */
 enum class MigrationStrategy {
     Pause,         ///< Pause the stream until migration is complete
     DropOldFormat, ///< Discard events that do not conform to the new schema
@@ -77,9 +68,6 @@ enum class MigrationStrategy {
 
 // ── SchemaConflict ────────────────────────────────────────────────────────────
 
-/**
- * @brief Describes why two schema versions are incompatible.
- */
 struct SchemaConflict {
     std::string field;         ///< Affected field name (empty = whole-schema conflict)
     std::string old_type;      ///< Type in the old schema
@@ -89,13 +77,6 @@ struct SchemaConflict {
 
 // ── SchemaEvolutionDescriptor ─────────────────────────────────────────────────
 
-/**
- * @brief Carries all information about a schema change event.
- *
- * Passed to ISchemaEvolutionCallback::onCompatible() /
- * ISchemaEvolutionCallback::onIncompatible() by the CDC schema evolution
- * machinery.
- */
 struct SchemaEvolutionDescriptor {
     std::string           collection;     ///< Affected collection name
     int                   old_version{0}; ///< Previous schema version number
@@ -111,35 +92,24 @@ struct SchemaEvolutionDescriptor {
 
 // ── ISchemaEvolutionCallback ──────────────────────────────────────────────────
 
-/**
- * @brief Callback interface for schema evolution events.
- *
- * Registered with ICDCEventSchema::onSchemaEvolution().  The CDC layer
- * invokes the appropriate method when it detects a schema change.
- *
- * Thread-safety: implementations must be thread-safe.
- */
 class ISchemaEvolutionCallback {
 public:
+    /**
+     * @brief ISchema Evolution Callback.
+     * @return Return value.
+     */
     virtual ~ISchemaEvolutionCallback() = default;
 
     /**
-     * @brief Called when the new schema is compatible with the old one.
-     *
-     * The stream continues without interruption.
-     *
-     * @param descriptor  Describes the schema change.
+     * @brief On Compatible.
+     * @param[in] descriptor Input parameter.
      */
     virtual void onCompatible(const SchemaEvolutionDescriptor& descriptor) = 0;
 
     /**
-     * @brief Called when the new schema is incompatible with the old one.
-     *
-     * The CDC layer will have already paused the stream (if configured).
-     * The implementation must return before the stream can be resumed.
-     *
-     * @param descriptor  Describes the schema change and the conflicts.
-     * @param conflict    The first (or most critical) conflict detected.
+     * @brief On Incompatible.
+     * @param[in] descriptor Input parameter.
+     * @param[in] conflict Input parameter.
      */
     virtual void onIncompatible(const SchemaEvolutionDescriptor& descriptor,
                                 const SchemaConflict& conflict) = 0;
@@ -147,85 +117,38 @@ public:
 
 // ── ICDCEventSchema ───────────────────────────────────────────────────────────
 
-/**
- * @brief Abstract interface for schema-aware CDC event streams.
- *
- * Consumers register a schema and a schema-evolution callback for each
- * collection they subscribe to.  The CDC layer validates every ChangeEvent
- * against the registered schema and routes invalid events to the error
- * callback instead of the main onEvents path.
- *
- * Thread-safety: all methods must be thread-safe in every implementation.
- *
- * Design constraints:
- *  - Schema is immutable after registration for a given collection/version.
- *  - onSchemaEvolution() may be called from any thread that detects a schema
- *    change; the implementation must not block the caller indefinitely.
- */
 class ICDCEventSchema {
 public:
+    /**
+     * @brief ICDCEvent Schema.
+     * @return Return value.
+     */
     virtual ~ICDCEventSchema() = default;
 
-    /**
-     * @brief Register a schema for a collection.
-     *
-     * @param collection  The collection to register the schema for.
-     * @param schema_def  Serialised schema definition (JSON Schema / Avro / Proto).
-     * @param format      Encoding format of schema_def.
-     * @param version     Schema version (monotonically increasing).
-     * @return true if the schema was registered; false if a schema for this
-     *         collection at this version already exists.
-     */
     [[nodiscard]] virtual bool registerSchema(const std::string& collection,
                                 const std::string& schema_def,
                                 SchemaFormat       format,
                                 int                version) = 0;
 
-    /**
-     * @brief Look up the registered schema for a collection.
-     *
-     * @param collection  Collection name.
-     * @param version     Schema version (-1 = latest).
-     * @return The schema definition string, or empty if not found.
-     */
     [[nodiscard]] virtual std::string getSchema(const std::string& collection,
                                   int                version = -1) const = 0;
 
-    /**
-     * @brief Current schema version for a collection (-1 if none registered).
-     */
     [[nodiscard]] virtual int currentVersion(const std::string& collection) const = 0;
 
     /**
-     * @brief Register (or replace) the schema evolution callback for a collection.
-     *
-     * @param collection  Collection name.
-     * @param callback    Non-null callback; ownership is shared.
+     * @brief On Schema Evolution.
+     * @param[in] collection Input parameter.
+     * @param[in] callback Input parameter.
      */
     virtual void onSchemaEvolution(
         const std::string&                          collection,
         std::shared_ptr<ISchemaEvolutionCallback>   callback) = 0;
 
-    /**
-     * @brief Simulate a schema evolution event (primarily for testing).
-     *
-     * Triggers the registered callback for @p collection with the provided
-     * descriptor.
-     *
-     * @return true if a callback was registered and invoked; false otherwise.
-     */
     [[nodiscard]] virtual bool triggerEvolution(const SchemaEvolutionDescriptor& descriptor) = 0;
 };
 
 // ── InMemoryCDCEventSchema ────────────────────────────────────────────────────
 
-/**
- * @brief Thread-safe in-memory implementation of ICDCEventSchema.
- *
- * Suitable for unit tests and standalone use.  Stores schemas in a nested
- * map (collection → version → definition) and callbacks in a flat map
- * (collection → callback).
- */
 class InMemoryCDCEventSchema : public ICDCEventSchema {
 public:
     // ── ICDCEventSchema ──────────────────────────────────────────────────────
@@ -235,6 +158,11 @@ public:
                         SchemaFormat       format,
                         int                version) override
     {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         auto& versions = schemas_[collection];
         if (versions.count(version)) return false; // already registered
@@ -248,6 +176,11 @@ public:
     std::string getSchema(const std::string& collection,
                           int                version = -1) const override
     {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         auto it = schemas_.find(collection);
         if (it == schemas_.end()) return {};
@@ -264,6 +197,11 @@ public:
     }
 
     int currentVersion(const std::string& collection) const override {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         auto it = latest_version_.find(collection);
         return it != latest_version_.end() ? it->second : -1;
@@ -273,6 +211,11 @@ public:
         const std::string&                          collection,
         std::shared_ptr<ISchemaEvolutionCallback>   callback) override
     {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         callbacks_[collection] = std::move(callback);
     }
@@ -280,6 +223,11 @@ public:
     bool triggerEvolution(const SchemaEvolutionDescriptor& descriptor) override {
         std::shared_ptr<ISchemaEvolutionCallback> cb;
         {
+            /**
+             * @brief Lk.
+             * @param[in] mutex_ Input parameter.
+             * @return Return value.
+             */
             std::unique_lock<std::mutex> lk(mutex_);
             auto it = callbacks_.find(descriptor.collection);
             if (it == callbacks_.end() || !it->second) {

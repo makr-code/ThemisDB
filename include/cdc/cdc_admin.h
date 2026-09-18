@@ -28,9 +28,6 @@ class ICDCTransport;
 // Forward declarations
 class TenantBufferManager;
 
-/**
- * Result of a purge operation
- */
 struct PurgeResult {
     uint64_t events_deleted = 0;
     uint64_t elapsed_time_ms = 0;
@@ -43,9 +40,6 @@ struct PurgeResult {
     }
 };
 
-/**
- * Health status of CDC components
- */
 struct HealthStatus {
     bool is_healthy = true;
     std::string message;
@@ -78,9 +72,6 @@ struct HealthStatus {
     }
 };
 
-/**
- * Comprehensive diagnostics information
- */
 struct DiagnosticsInfo {
     Changefeed::Watermarks watermarks;
     CDCMetrics metrics;
@@ -114,9 +105,6 @@ struct DiagnosticsInfo {
     }
 };
 
-/**
- * Status information for the current retention/compaction state
- */
 struct RetentionStatus {
     // --- Current log status ---
     uint64_t total_events = 0;              ///< Current number of change events
@@ -156,14 +144,8 @@ struct RetentionStatus {
     }
 };
 
-/**
- * Result of a compaction operation
- */
 using CompactionResult = Changefeed::CompactionResult;
 
-/**
- * Result of a GDPR change-log redaction pass
- */
 struct GDPRRedactionResult {
     size_t   events_scanned = 0;       ///< Total events examined
     size_t   events_redacted = 0;      ///< Events whose value was scrubbed
@@ -186,97 +168,67 @@ struct GDPRRedactionResult {
     }
 };
 
-/**
- * CDC Admin API for operational tasks
- * 
- * Provides administrative operations for CDC:
- * - Purge: Delete events by range, timestamp, or tenant
- * - Replay: Get events from a specific sequence
- * - Compact: Remove superseded entries to reclaim log space
- * - Health Check: Check system health status
- * - Diagnostics: Export complete diagnostics info
- */
 class CDCAdmin {
 public:
     /**
-     * Create admin interface for a changefeed
+     * @brief CDCAdmin.
+     * @param[in,out] changefeed Input/output parameter.
+     * @return Return value.
      */
     explicit CDCAdmin(Changefeed* changefeed);
     
     /**
-     * Create admin interface for tenant buffer manager
+     * @brief CDCAdmin.
+     * @param[in,out] tenant_manager Input/output parameter.
+     * @return Return value.
      */
     explicit CDCAdmin(TenantBufferManager* tenant_manager);
     
     ~CDCAdmin() = default;
 
-    /**
-     * @brief Wire a RocksDB storage backend for GDPR redaction audit logging.
-     *
-     * When set, every call to redactByKeyPrefix() writes a structured audit
-     * record to the @c cdc_redactions column family of @p storage.  The audit
-     * record contains:
-     *   @code{"key_prefix":..., "redacted_count":..., "timestamp_ms":..., "operator":...}@endcode
-     *
-     * @param storage  RocksDBWrapper instance (not owned; must outlive CDCAdmin).
-     *                 Pass @c nullptr to disable audit logging.
-     */
     void setAuditStorage(RocksDBWrapper* storage) noexcept { audit_storage_ = storage; }
 
-    /**
-     * @brief Wire a CDC transport for Kafka tombstone propagation.
-     *
-     * When set, every call to redactByKeyPrefix() publishes a tombstone
-     * (EVENT_DELETE ChangeEvent with null value) for each affected key via
-     * @p transport.  This propagates GDPR erasure to downstream Kafka consumers.
-     *
-     * @param transport  CDC transport (not owned; must outlive CDCAdmin).
-     *                   Pass @c nullptr to disable tombstone propagation.
-     */
     void setTransport(ICDCTransport* transport) noexcept { transport_ = transport; }
     
     // Purge operations
     
     /**
-     * Purge all events from the changefeed
-     * WARNING: This deletes all data!
+     * @brief Purge All.
+     * @return Return value.
      */
     PurgeResult purgeAll();
     
     /**
-     * Purge events in a sequence range (inclusive)
-     * @param start_sequence First sequence to delete (inclusive)
-     * @param end_sequence Last sequence to delete (inclusive)
+     * @brief Purge By Sequence Range.
+     * @param[in] start_sequence Input parameter.
+     * @param[in] end_sequence Input parameter.
+     * @return Return value.
      */
     PurgeResult purgeBySequenceRange(uint64_t start_sequence, uint64_t end_sequence);
     
     /**
-     * Purge events older than a timestamp
-     * @param before_timestamp_ms Delete events with timestamp < this value
+     * @brief Purge By Timestamp.
+     * @param[in] before_timestamp_ms Input parameter.
+     * @return Return value.
      */
     PurgeResult purgeByTimestamp(uint64_t before_timestamp_ms);
 
     /**
-     * Purge events older than a timestamp (alias for purgeByTimestamp)
-     * @param before_timestamp_ms Delete events with timestamp < this value
+     * @brief Purge Older Than.
+     * @param[in] before_timestamp_ms Input parameter.
+     * @return Return value.
      */
     PurgeResult purgeOlderThan(int64_t before_timestamp_ms);
     
     /**
-     * Purge all events for a specific tenant
-     * Only works with TenantBufferManager
+     * @brief Purge Tenant.
+     * @param[in] tenant_id Identifier of the tenant.
+     * @return Return value.
      */
     PurgeResult purgeTenant(const std::string& tenant_id);
     
     // Replay operations
     
-    /**
-     * Replay events starting from a specific sequence
-     * @param from_sequence Start from this sequence (inclusive)
-     * @param limit Maximum number of events to return (0 = no limit)
-     * @param event_types Optional set of event types to filter (empty = all types)
-     * @return Vector of change events
-     */
     std::vector<Changefeed::ChangeEvent> replayFromSequence(
         uint64_t from_sequence,
         uint64_t limit = 0,
@@ -285,35 +237,13 @@ public:
     // Compaction
 
     /**
-     * Compact the change log by removing superseded entries per key.
-     *
-     * Keeps only the latest event per document key, removing older events that
-     * have been superseded by a newer one.  DELETE tombstones are always kept.
-     *
-     * @return CompactionResult with counts of scanned/deleted/retained events
+     * @brief Compact Log.
+     * @return Return value.
      */
     CompactionResult compactLog();
 
     // GDPR / data-subject operations
 
-    /**
-     * @brief Redact PII from all change log entries matching a key prefix.
-     *
-     * Implements the GDPR "right to erasure" for the change log: all stored
-     * events whose @p key starts with @p key_prefix have their @p value,
-     * @p before_snapshot, and @p after_snapshot fields replaced with
-     * @c "[REDACTED]" and @c redacted = true.  Audit-critical fields
-     * (@p sequence, @p type, @p key, @p timestamp_ms) are preserved.
-     *
-     * The operation and its outcome are recorded at INFO level in the
-     * structured application log (tenant, key_prefix, counts, operator).
-     *
-     * @param tenant_id    Tenant scope (informational; used in the audit log).
-     * @param key_prefix   Non-empty key prefix identifying the data subject.
-     * @param operator_id  Identity of the requesting operator (audit record).
-     * @return GDPRRedactionResult with scan, redaction counts and timing.
-     * @throws CDCException if @p key_prefix is empty or no changefeed is set.
-     */
     GDPRRedactionResult redactByKeyPrefix(const std::string& tenant_id,
                                           const std::string& key_prefix,
                                           const std::string& operator_id = "");
@@ -321,22 +251,22 @@ public:
     // Retention status
 
     /**
-     * Get current retention/compaction status information
-     * @return RetentionStatus describing current log state
+     * @brief Get Retention Status.
+     * @return Return value.
      */
     RetentionStatus getRetentionStatus();
     
     // Health & diagnostics
     
     /**
-     * Perform health check on CDC components
-     * @return Health status with component details
+     * @brief Health Check.
+     * @return Return value.
      */
     HealthStatus healthCheck();
     
     /**
-     * Get comprehensive diagnostics information
-     * @return Complete diagnostics including metrics, watermarks, health
+     * @brief Get Diagnostics.
+     * @return Return value.
      */
     DiagnosticsInfo getDiagnostics();
     
@@ -345,13 +275,22 @@ private:
     TenantBufferManager* tenant_manager_;
     std::chrono::system_clock::time_point creation_time_;
 
-    /// Optional RocksDB backend for writing GDPR redaction audit log entries.
     RocksDBWrapper* audit_storage_ = nullptr;
-    /// Optional CDC transport for publishing Kafka tombstones after redaction.
     ICDCTransport* transport_ = nullptr;
     
     // Helper methods
+    /**
+     * @brief Count Events In Range.
+     * @param[in] start Input parameter.
+     * @param[in] end Input parameter.
+     * @return Return value.
+     */
     uint64_t countEventsInRange(uint64_t start, uint64_t end);
+    /**
+     * @brief Validate Sequence Range.
+     * @param[in] start Input parameter.
+     * @param[in] end Input parameter.
+     */
     void validateSequenceRange(uint64_t start, uint64_t end);
 };
 

@@ -20,25 +20,14 @@ namespace themis {
 namespace plugins {
 namespace ethics {
 
-/**
- * @brief LLM tier for cascade routing.
- */
 enum class CascadeModelTier { SMALL, MEDIUM, LARGE };
 
-/**
- * @brief Token budget for a model tier.
- */
 struct ModelTokenBudget {
     size_t max_tokens{4096};
     size_t max_output_tokens{512};
     size_t context_k{4};  ///< Context window in K tokens
 };
 
-/**
- * @brief Configuration for the LLM cascade router.
- *
- * Mirrors the discourse_config.yaml llm_cascade section (§12.2.1).
- */
 struct CascadeRoutingConfig {
     std::map<std::string, CascadeModelTier> round_to_tier;
     std::map<CascadeModelTier, std::string> tier_to_model;
@@ -46,7 +35,11 @@ struct CascadeRoutingConfig {
     std::string                             fallback_policy{"escalate"};
     bool                                    enabled{true};
 
-    /// Returns a default config matching the discourse_config.yaml example.
+    /**
+     * @brief Default Config.
+     * @return Return value.
+     * @details Implements defaultConfig without additional internal calls.
+     */
     static CascadeRoutingConfig defaultConfig() {
         CascadeRoutingConfig cfg;
         cfg.round_to_tier = {
@@ -70,9 +63,6 @@ struct CascadeRoutingConfig {
     }
 };
 
-/**
- * @brief Routing result from ILlmCascadeRouter::routeForRound().
- */
 struct CascadeRoutingDecision {
     std::string       model_id;       ///< Model alias (e.g. "llama-3-8b-instruct")
     CascadeModelTier  tier;
@@ -80,49 +70,42 @@ struct CascadeRoutingDecision {
     bool              was_escalated{false}; ///< true if fallback escalation occurred
 };
 
-/**
- * @brief Interface for LLM cascade routing per discourse round.
- *
- * Implements §12.2.1 (Language Model Cascades, Dohan et al. 2022).
- * Routes each discourse round to the minimum-necessary model tier,
- * reducing overall cost by ~60 % while preserving R4 SYNTHESIS quality.
- */
 class ILlmCascadeRouter {
 public:
+    /**
+     * @brief ILlm Cascade Router.
+     * @return Return value.
+     */
     virtual ~ILlmCascadeRouter() = default;
 
     /**
-     * @brief Determine the model to use for a given round role.
-     *
-     * @param round_role             "PRO"|"REBUTTAL"|"SURREBUTTAL"|"SYNTHESIS"|"META_VERDICT"
-     * @param estimated_prompt_tokens Estimated input token count from ContextWindowBudgetManager.
-     * @return CascadeRoutingDecision with model and budget.
+     * @brief Route For Round.
+     * @param[in] round_role Input parameter.
+     * @param[in] estimated_prompt_tokens Input parameter.
+     * @return Return value.
      */
     virtual CascadeRoutingDecision routeForRound(
         const std::string& round_role,
         size_t             estimated_prompt_tokens) const = 0;
 
     /**
-     * @brief Get the token budget for a given round role.
+     * @brief Budget For Round.
+     * @param[in] round_role Input parameter.
+     * @return Return value.
      */
     virtual ModelTokenBudget budgetForRound(
         const std::string& round_role) const = 0;
 
     /**
-     * @brief Get the assigned tier for a round role (for logging/observability).
+     * @brief Tier For Round.
+     * @param[in] round_role Input parameter.
+     * @return Return value.
+     * @note Exception safety: noexcept.
      */
     virtual CascadeModelTier tierForRound(
         const std::string& round_role) const noexcept = 0;
 };
 
-/**
- * @brief Concrete LLM cascade router.
- *
- * All routing is deterministic (round_role → tier → model). No LLM calls
- * are made here; this is a pure routing/configuration component.
- *
- * Thread-safe: all state is read-only after construction.
- */
 class LlmCascadeRouter : public ILlmCascadeRouter {
 public:
     explicit LlmCascadeRouter(CascadeRoutingConfig config = CascadeRoutingConfig::defaultConfig());
@@ -137,51 +120,24 @@ public:
     CascadeModelTier tierForRound(
         const std::string& round_role) const noexcept override;
 
-    /// Access the routing config (for testing/observability).
     const CascadeRoutingConfig& config() const noexcept { return config_; }
 
-    /**
-     * @brief LLM backend invoke function type.
-     *
-     * When set via setLlmInvokeFn(), the invoke() method will call the real
-     * LLM backend with the resolved model_id instead of only returning the
-     * routing decision.
-     *
-     * @param model_id   Model alias from the routing decision (e.g. "llama-3-8b-instruct").
-     * @param prompt     Full user + system prompt for this round.
-     * @param max_tokens Maximum tokens to generate.
-     * @return           Generated text from the model.
-     */
     using LlmInvokeFn = std::function<std::string(
         const std::string& model_id,
         const std::string& prompt,
         size_t             max_tokens)>;
 
     /**
-     * @brief Inject the LLM backend provider.
-     *
-     * After injection, the invoke() method resolves the route for a given
-     * round and immediately calls the model via the provided function.
-     * Without an injected provider, invoke() returns an empty string and
-     * callers must resolve the model_id themselves from the routing decision.
-     *
-     * Thread safety: call before any concurrent invoke(); the function object
-     * is stored under a plain copy (not atomic) and must be set once at
-     * startup before concurrent use.
+     * @brief Set Llm Invoke Fn.
+     * @param[in] fn Input parameter.
      */
     void setLlmInvokeFn(LlmInvokeFn fn);
 
     /**
-     * @brief Route and optionally invoke the LLM for a discourse round.
-     *
-     * If a provider function was set via setLlmInvokeFn(), this method routes
-     * the round, then calls the model and returns its generated text.
-     * If no provider is set, an empty string is returned (callers should use
-     * routeForRound() directly and dispatch to the model themselves).
-     *
-     * @param round_role  Discourse round role ("PRO", "REBUTTAL", etc.).
-     * @param prompt      Full prompt to send to the selected model.
-     * @return            Generated model output, or empty string when no provider set.
+     * @brief Invoke.
+     * @param[in] round_role Input parameter.
+     * @param[in] prompt Input parameter.
+     * @return Return value.
      */
     std::string invoke(const std::string& round_role, const std::string& prompt) const;
 
@@ -189,7 +145,19 @@ private:
     CascadeRoutingConfig config_;
     LlmInvokeFn          llm_invoke_fn_;
 
+    /**
+     * @brief Resolve Tier.
+     * @param[in] round_role Input parameter.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     CascadeModelTier resolveTier(const std::string& round_role) const noexcept;
+    /**
+     * @brief Budget For Tier.
+     * @param[in] tier Input parameter.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     ModelTokenBudget budgetForTier(CascadeModelTier tier) const noexcept;
 };
 

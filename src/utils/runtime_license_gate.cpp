@@ -23,21 +23,31 @@
 namespace themis {
 namespace license {
 
-// ============================================================================
-// Singleton
-// ============================================================================
+/**
+ * @brief ============================================================================ Singleton ============================================================================
+ * @return Return value.
+ * @details Implements instance without additional internal calls.
+ */
 
 RuntimeLicenseGate& RuntimeLicenseGate::instance() {
     static RuntimeLicenseGate gate;
     return gate;
 }
 
-// ============================================================================
-// Lifecycle
-// ============================================================================
+/**
+ * @brief ============================================================================ Lifecycle ============================================================================
+ * @param[in] activation Input parameter.
+ * @param[in] license Input parameter.
+ * @details Calls: lock(), has_value().
+ */
 
 void RuntimeLicenseGate::initialize(const LicenseActivationResult& activation,
                                      const std::optional<LicenseData>& license) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     activation_   = activation;
     license_      = license.has_value() ? license
@@ -45,6 +55,12 @@ void RuntimeLicenseGate::initialize(const LicenseActivationResult& activation,
     initialized_  = true;
 }
 
+/**
+ * @brief Update.
+ * @param[in] activation Input parameter.
+ * @param[in] license Input parameter.
+ * @details Calls: initialize().
+ */
 void RuntimeLicenseGate::update(const LicenseActivationResult& activation,
                                  const std::optional<LicenseData>& license) {
     initialize(activation, license);
@@ -56,9 +72,12 @@ void RuntimeLicenseGate::update(const LicenseActivationResult& activation,
 
 namespace {
 
-/// Returns true if `feature_name` is a known Enterprise/Hyperscaler-only gate.
-/// Community-only or universal features are NOT in this list and are always
-/// allowed.
+/**
+ * @brief Returns true if `feature_name` is a known Enterprise/Hyperscaler-only gate.
+ * @param[in] feature_name Input parameter.
+ * @return True on success.
+ * @details Community-only or universal features are NOT in this list and are always allowed. Implements isEnterpriseFeature without additional internal calls.
+ */
 bool isEnterpriseFeature(std::string_view feature_name) {
     return feature_name == "enterprise_plugins"
         || feature_name == "multi_master"
@@ -67,8 +86,12 @@ bool isEnterpriseFeature(std::string_view feature_name) {
         || feature_name == "hsm";
 }
 
-/// Returns true if the activation status string represents a usable (allowed)
-/// state for feature access.
+/**
+ * @brief Returns true if the activation status string represents a usable (allowed) state for feature access.
+ * @param[in] status Input parameter.
+ * @return True on success.
+ * @details Implements isStatusAllowed without additional internal calls.
+ */
 bool isStatusAllowed(std::string_view status) {
     // "active" and "grace" are allowed; everything else is blocked.
     return status == "active" || status == "grace";
@@ -108,7 +131,11 @@ bool RuntimeLicenseGate::isFeatureAllowed(std::string_view feature_name,
         return false;
     }
 
-    // Step 3: Runtime license check — acquire the lock once for all member access.
+    /**
+     * @brief Step 3: Runtime license check — acquire the lock once for all member access.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     if (!initialized_) {
@@ -131,21 +158,41 @@ bool RuntimeLicenseGate::isFeatureAllowed(std::string_view feature_name,
 // ============================================================================
 
 bool RuntimeLicenseGate::isInitialized() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return initialized_;
 }
 
 std::string RuntimeLicenseGate::licenseStatus() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return activation_.status;
 }
 
 int RuntimeLicenseGate::graceDaysRemaining() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return activation_.grace_days_remaining;
 }
 
 std::optional<LicenseData> RuntimeLicenseGate::currentLicense() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return license_;
 }
@@ -239,7 +286,11 @@ GateResult RuntimeLicenseGate::checkFeature(std::string_view feature_name) const
         return result;
     }
 
-    // Step 3: Runtime license state.
+    /**
+     * @brief Step 3: Runtime license state.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     if (!initialized_) {

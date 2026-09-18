@@ -21,81 +21,8 @@ namespace themis {
 namespace core {
 namespace concerns {
 
-/**
- * @brief W3C Trace Context propagator for distributed context propagation.
- *
- * Implements the W3C Trace Context Level 1 specification for propagating
- * trace context across service boundaries using the `traceparent` and
- * `tracestate` HTTP headers (https://www.w3.org/TR/trace-context/).
- *
- * This class bridges the W3C HTTP-header representation of distributed trace
- * context to/from the `IContext`/`ContextPropagation` key-value store so that
- * all downstream code (logging, metrics, nested calls) can access the trace
- * identifiers without being aware of HTTP headers.
- *
- * ### Typical usage at an HTTP request entry point
- * @code
- *   // Inbound request handler
- *   auto ctx = W3CTraceContextPropagator::extract(request.headers);
- *   ContextScope scope(ctx);
- *
- *   // ctx->get(context_keys::kTraceId) → "4bf92f3577b34da6a3ce929d0e0e4736"
- *   // ctx->get(context_keys::kSpanId)  → "00f067aa0ba902b7"
- *
- *   // Outbound request to downstream service
- *   std::map<std::string, std::string> out_headers;
- *   W3CTraceContextPropagator::inject(*ctx, out_headers);
- *   // out_headers["traceparent"] == "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01"
- * @endcode
- *
- * ### traceparent format (W3C Trace Context Level 1)
- * @code
- *   version-traceid-parentid-traceflags
- *   00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01
- * @endcode
- * Fields:
- *  - version   : 2 hex chars (currently "00")
- *  - trace-id  : 32 hex chars (128-bit); all-zeros is invalid
- *  - parent-id : 16 hex chars (64-bit);  all-zeros is invalid
- *  - flags     : 2 hex chars  (bit 0 = sampled)
- *
- * ### Context keys populated by extract()
- * | context_keys constant | Value                                      |
- * |-----------------------|--------------------------------------------|
- * | kTraceId              | 32-char hex trace-id from traceparent      |
- * | kSpanId               | 16-char hex parent-id from traceparent     |
- *
- * ### Thread safety
- * All methods are stateless and thread-safe (no shared mutable state).
- */
 class W3CTraceContextPropagator {
 public:
-    /**
-     * @brief Extract W3C TraceContext from inbound HTTP headers into an
-     *        `IContext`.
-     *
-     * Reads the `traceparent` header (case-insensitive) from @p headers.
-     * When the header is present and valid:
-     *  - `kTraceId` is set to the 32-char hex trace-id.
-     *  - `kSpanId`  is set to the 16-char hex parent-id.
-     *
-     * When `tracestate` is present, it is stored in the raw entry
-     * `"w3c.tracestate"` for passthrough to downstream services.
-     *
-     * If the `traceparent` header is absent or invalid per the W3C spec
-     * (wrong length, all-zeros trace-id, all-zeros parent-id), a new empty
-     * root context is returned so callers always receive a non-null
-     * `IContextPtr`.
-     *
-     * W3C Baggage extraction is intentionally delegated to
-     * `themis::Baggage::extract()` (called separately when a tracer adapter
-     * is used) to keep concerns separated.
-     *
-     * @param headers  Incoming HTTP headers (case-insensitive key lookup).
-     * @param parent   Optional parent context; when non-null the returned
-     *                 context is a child that inherits all parent attributes.
-     * @return A non-null `IContextPtr` populated with trace identifiers.
-     */
     static IContextPtr extract(
             const std::map<std::string, std::string>& headers,
             IContextPtr parent = nullptr) {
@@ -119,24 +46,6 @@ public:
         return ctx;
     }
 
-    /**
-     * @brief Inject W3C TraceContext from an `IContext` into outgoing HTTP
-     *        headers.
-     *
-     * Reads `kTraceId` and `kSpanId` from @p ctx and writes a well-formed
-     * `traceparent` header (sampling flag set to 01 = sampled) into
-     * @p headers.
-     *
-     * If `kTraceId` or `kSpanId` are absent, or if either value is not a
-     * valid 32-/16-char hex string respectively, no `traceparent` header is
-     * written (headers are left unchanged).
-     *
-     * If `w3c.tracestate` is present in @p ctx it is forwarded as the
-     * `tracestate` header.
-     *
-     * @param ctx     Source context.
-     * @param headers Outgoing HTTP headers map to populate.
-     */
     static void inject(
             const IContext& ctx,
             std::map<std::string, std::string>& headers) {
@@ -159,7 +68,6 @@ private:
     // Helpers
     // -------------------------------------------------------------------------
 
-    /// Case-insensitive header lookup.
     static std::string headerValueCI(
             const std::map<std::string, std::string>& headers,
             std::string_view name) {
@@ -183,8 +91,13 @@ private:
         return {};
     }
 
-    /// Return true iff @p s consists of exactly @p expected_len hex
-    /// characters and is not all zeros.
+    /**
+     * @brief Is Valid Hex.
+     * @param[in] s Input parameter.
+     * @param[in] expected_len Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: size(), std::isxdigit().
+     */
     static bool isValidHex(const std::string& s, std::size_t expected_len) {
         if (s.size() != expected_len) {
           return false;
@@ -202,21 +115,12 @@ private:
     }
 
     /**
-     * @brief Parse a W3C `traceparent` header value.
-     *
-     * Valid format: `<version>-<32-hex>-<16-hex>-<2-hex>`
-     * Length must be at least 55 characters.
-     * Version byte "ff" is explicitly invalid per the W3C spec.
-     * All-zeros trace-id and all-zeros parent-id are explicitly invalid.
-     *
-     * Forward compatibility: future versions (01-fe) must be accepted and
-     * parsed as long as the header contains at least 55 characters in the
-     * expected field positions.  Callers should ignore any trailing data.
-     *
-     * @param value      Raw header value.
-     * @param trace_id   Output: 32-char hex trace-id on success.
-     * @param parent_id  Output: 16-char hex parent-id on success.
-     * @return true if the header is valid and the outputs are set.
+     * @brief Parse Traceparent.
+     * @param[in] value Input parameter.
+     * @param[in,out] trace_id Identifier of the trace.
+     * @param[in,out] parent_id Identifier of the parent.
+     * @return True when the operation succeeds.
+     * @details Calls: size(), fromHexDigit(), substr(), isValidHex(), std::move().
      */
     static bool parseTraceparent(
             const std::string& value,
@@ -255,7 +159,13 @@ private:
         return true;
     }
 
-    /// Convert a single hex character to its 4-bit value; returns false on non-hex input.
+    /**
+     * @brief From Hex Digit.
+     * @param[in] c Input parameter.
+     * @param[in,out] out Input/output parameter.
+     * @return True when the operation succeeds.
+     * @details Implements fromHexDigit without additional internal calls.
+     */
     static bool fromHexDigit(char c, uint8_t& out) {
         if (c >= '0' && c <= '9') { out = static_cast<uint8_t>(c - '0');      return true; }
         if (c >= 'a' && c <= 'f') { out = static_cast<uint8_t>(c - 'a' + 10); return true; }

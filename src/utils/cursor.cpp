@@ -27,6 +27,12 @@ static const char base64_chars[] =
     "abcdefghijklmnopqrstuvwxyz"
     "0123456789+/";
 
+/**
+ * @brief Base64 Encode.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: push_back(), size().
+ */
 std::string Cursor::base64Encode(const std::string& input) {
     std::string output = {};
     int val = 0;
@@ -52,6 +58,12 @@ std::string Cursor::base64Encode(const std::string& input) {
     return output;
 }
 
+/**
+ * @brief Base64 Decode.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), T(), push_back(), char().
+ */
 std::optional<std::string> Cursor::base64Decode(const std::string& input) {
     if (input.empty()) {
         return std::nullopt;
@@ -82,12 +94,25 @@ std::optional<std::string> Cursor::base64Decode(const std::string& input) {
     return output;
 }
 
+/**
+ * @brief Get Current Timestamp.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count().
+ */
 int64_t Cursor::getCurrentTimestamp() {
     auto now = std::chrono::system_clock::now();
     auto duration = now.time_since_epoch();
     return std::chrono::duration_cast<std::chrono::seconds>(duration).count();
 }
 
+/**
+ * @brief Encode.
+ * @param[in] last_pk Input parameter.
+ * @param[in] collection Input parameter.
+ * @param[in] order_value Input parameter.
+ * @return Return value.
+ * @details Calls: getCurrentTimestamp(), has_value(), dump(), base64Encode().
+ */
 std::string Cursor::encode(
     const std::string& last_pk, 
     const std::string& collection,
@@ -108,6 +133,12 @@ std::string Cursor::encode(
     return base64Encode(json_str);
 }
 
+/**
+ * @brief Decode Detailed.
+ * @param[in] cursor_token Input parameter.
+ * @return Return value.
+ * @details Calls: base64Decode(), has_value(), nlohmann::json::parse(), contains(), is_null().
+ */
 std::optional<CursorInfo> Cursor::decodeDetailed(const std::string& cursor_token) {
     auto decoded = base64Decode(cursor_token);
     if (!decoded.has_value()) {
@@ -154,6 +185,13 @@ std::optional<std::pair<std::string, std::string>> Cursor::decode(const std::str
     return std::make_pair(info->pk, info->collection);
 }
 
+/**
+ * @brief Is Valid.
+ * @param[in] cursor_token Input parameter.
+ * @param[in] ttl_seconds Input parameter.
+ * @return True on success.
+ * @details Calls: decodeDetailed(), has_value(), getCurrentTimestamp().
+ */
 bool Cursor::isValid(const std::string& cursor_token, int64_t ttl_seconds) {
     auto info = decodeDetailed(cursor_token);
     if (!info.has_value()) {
@@ -172,6 +210,13 @@ bool Cursor::isValid(const std::string& cursor_token, int64_t ttl_seconds) {
     return age <= ttl_seconds;
 }
 
+/**
+ * @brief Normalize Page Size.
+ * @param[in] requested_size Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Implements normalizePageSize without additional internal calls.
+ */
 size_t Cursor::normalizePageSize(size_t requested_size, const PaginationConfig& config) {
     if (requested_size < config.min_page_size) {
         return config.min_page_size;

@@ -38,9 +38,12 @@ namespace utils {
 LogMetrics Logger::metrics_{};
 
 namespace {
-/// Minimal JSON-string escape for embedding a value inside "…".
-/// Only escapes characters that would break JSON: backslash and double-quote.
-/// Control characters (< 0x20) are replaced with their \uXXXX representation.
+/**
+ * @brief Minimal JSON-string escape for embedding a value inside "…".
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Only escapes characters that would break JSON: backslash and double-quote. Control characters (< 0x20) are replaced with their \uXXXX representation. Calls: reserve(), size(), std::snprintf().
+ */
 std::string jsonEscapeTraceId(const std::string& s) {
     std::string out = {};
     out.reserve(s.size() + 4);
@@ -61,9 +64,12 @@ std::string jsonEscapeTraceId(const std::string& s) {
 }
 } // anonymous namespace
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Private helper
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── Private helper ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] level Input parameter.
+ * @return Return value.
+ * @details Implements toSpdlogLevel without additional internal calls.
+ */
 
 spdlog::level::level_enum Logger::toSpdlogLevel(Level level) {
     switch (level) {
@@ -77,13 +83,21 @@ spdlog::level::level_enum Logger::toSpdlogLevel(Level level) {
     }
 }
 
+/**
+ * @brief Metrics Storage.
+ * @return Return value.
+ * @details Implements metricsStorage without additional internal calls.
+ */
 LogMetrics& Logger::metricsStorage() {
     return metrics_;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Standard init
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── Standard init ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] log_file Input parameter.
+ * @param[in] level Input parameter.
+ * @details Calls: begin(), end(), set_level(), toSpdlogLevel(), set_pattern(), spdlog::set_default_logger(), info(), themis::utils::makeErrorContext().
+ */
 
 void Logger::init(const std::string& log_file, Level level) {
     try {
@@ -117,9 +131,12 @@ void Logger::init(const std::string& log_file, Level level) {
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// JSON-structured init
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── JSON-structured init ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] log_file Input parameter.
+ * @param[in] level Input parameter.
+ * @details Calls: begin(), end(), set_level(), toSpdlogLevel(), set_pattern(), spdlog::set_default_logger(), info(), themis::utils::makeErrorContext().
+ */
 
 void Logger::initJson(const std::string& log_file, Level level) {
     try {
@@ -155,9 +172,14 @@ void Logger::initJson(const std::string& log_file, Level level) {
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Rotating-file init
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── Rotating-file init ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] log_file Input parameter.
+ * @param[in] max_file_size Input parameter.
+ * @param[in] max_files Input parameter.
+ * @param[in] level Input parameter.
+ * @details Calls: begin(), end(), set_level(), toSpdlogLevel(), set_pattern(), spdlog::set_default_logger(), info(), themis::utils::makeErrorContext().
+ */
 
 void Logger::initRotating(const std::string& log_file,
                            std::size_t max_file_size,
@@ -196,9 +218,10 @@ void Logger::initRotating(const std::string& log_file,
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Shutdown
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── Shutdown ─────────────────────────────────────────────────────────────────────────────
+ * @details Calls: flush(), reset().
+ */
 
 void Logger::shutdown() {
     if (logger_) {
@@ -209,9 +232,11 @@ void Logger::shutdown() {
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Accessors
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── Accessors ─────────────────────────────────────────────────────────────────────────────
+ * @return Return value.
+ * @details Calls: init().
+ */
 
 std::shared_ptr<spdlog::logger> Logger::get() {
     if (!logger_) {
@@ -220,11 +245,21 @@ std::shared_ptr<spdlog::logger> Logger::get() {
     return logger_;
 }
 
+/**
+ * @brief Set Level.
+ * @param[in] level Input parameter.
+ * @details Calls: init(), set_level(), toSpdlogLevel().
+ */
 void Logger::setLevel(Level level) {
     if (!logger_) { init(); }
     logger_->set_level(toSpdlogLevel(level));
 }
 
+/**
+ * @brief Get Level.
+ * @return Return value.
+ * @details Calls: init(), level().
+ */
 Logger::Level Logger::getLevel() {
     if (!logger_) { init(); }
     switch (logger_->level()) {
@@ -238,12 +273,27 @@ Logger::Level Logger::getLevel() {
     }
 }
 
+/**
+ * @brief Set Pattern.
+ * @param[in] pattern Input parameter.
+ * @details Calls: init(), set_pattern().
+ */
 void Logger::setPattern(const std::string& pattern) {
     if (!logger_) { init(); }
     logger_->set_pattern(pattern);
 }
 
+/**
+ * @brief Set Trace Context.
+ * @param[in] trace_id Input parameter.
+ * @details Calls: lk(), empty(), set_pattern(), jsonEscapeTraceId().
+ */
 void Logger::setTraceContext(const std::string& trace_id) {
+    /**
+     * @brief Lk.
+     * @param[in] trace_context_mu_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(trace_context_mu_);
     trace_context_ = trace_id;
     if (!logger_) { return; }
@@ -268,26 +318,45 @@ void Logger::setTraceContext(const std::string& trace_id) {
     }
 }
 
+/**
+ * @brief Get Trace Context.
+ * @return Return value.
+ * @details Calls: lk().
+ */
 std::string Logger::getTraceContext() {
+    /**
+     * @brief Lk.
+     * @param[in] trace_context_mu_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(trace_context_mu_);
     return trace_context_;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Performance metrics
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── Performance metrics ─────────────────────────────────────────────────────────────────────────────
+ * @return Return value.
+ * @details Calls: metricsStorage().
+ */
 
 const LogMetrics& Logger::getMetrics() {
     return metricsStorage();
 }
 
+/**
+ * @brief Reset Metrics.
+ * @details Calls: metricsStorage(), reset().
+ */
 void Logger::resetMetrics() {
     metricsStorage().reset();
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Level helpers
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── Level helpers ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] lvl Input parameter.
+ * @return Return value.
+ * @details Calls: tolower().
+ */
 
 Logger::Level Logger::levelFromString(const std::string& lvl) {
     std::string s = lvl;
@@ -315,6 +384,12 @@ Logger::Level Logger::levelFromString(const std::string& lvl) {
     return Level::INFO;
 }
 
+/**
+ * @brief Level To String.
+ * @param[in] lvl Input parameter.
+ * @return Pointer to the result.
+ * @details Implements levelToString without additional internal calls.
+ */
 const char* Logger::levelToString(Level lvl) {
     switch (lvl) {
         case Level::TRACE:    return "trace";

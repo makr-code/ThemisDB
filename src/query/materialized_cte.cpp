@@ -38,7 +38,12 @@ namespace query {
 
 namespace {
 
-/** Convert a single nlohmann::json value to analytics::FieldValue. */
+/**
+ * @brief Json to field value.
+ * @param[in] v Input parameter.
+ * @return Return value.
+ * @details Calls: is_null(), is_boolean(), is_number_integer(), is_number_float(), is_string(), dump().
+ */
 themisdb::analytics::FieldValue jsonToFieldValue(const nlohmann::json& v) {
     if (v.is_null())    return themisdb::analytics::FieldValue{nullptr};
     if (v.is_boolean()) return themisdb::analytics::FieldValue{v.get<bool>()};
@@ -55,7 +60,12 @@ themisdb::analytics::FieldValue jsonToFieldValue(const nlohmann::json& v) {
     return themisdb::analytics::FieldValue{v.dump()};
 }
 
-/** Convert analytics::FieldValue back to nlohmann::json. */
+/**
+ * @brief Field value to json.
+ * @param[in] fv Input parameter.
+ * @return Return value.
+ * @details Implements fieldValueToJson without additional internal calls.
+ */
 nlohmann::json fieldValueToJson(const themisdb::analytics::FieldValue& fv) {
     if (std::holds_alternative<std::nullptr_t>(fv)) {
       return nullptr;
@@ -215,14 +225,23 @@ MaterializedCTEView::MaterializedCTEView(const MaterializedCTEDef& def)
 
 MaterializedCTEView::~MaterializedCTEView() = default;
 
-// ============================================================================
-// MaterializedCTEView — mutation
-// ============================================================================
+/**
+ * @brief ============================================================================ MaterializedCTEView — mutation ============================================================================
+ * @param[in] change Input parameter.
+ * @return True on success.
+ * @details Calls: toChangeRecord().
+ */
 
 bool MaterializedCTEView::applyChange(const CTEDataChange& change) {
     return view_->applyChange(toChangeRecord(change));
 }
 
+/**
+ * @brief Apply Changes.
+ * @param[in] changes Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), push_back(), toChangeRecord().
+ */
 int MaterializedCTEView::applyChanges(const std::vector<CTEDataChange>& changes) {
     std::vector<themisdb::analytics::ChangeRecord> recs = {};
 
@@ -253,6 +272,10 @@ bool MaterializedCTEView::isStale()      const { return view_->isStale(); }
 int64_t MaterializedCTEView::groupCount() const { return view_->groupCount(); }
 uint64_t MaterializedCTEView::changeCount() const { return view_->changeCount(); }
 
+/**
+ * @brief Clear.
+ * @details Implements clear without additional internal calls.
+ */
 void MaterializedCTEView::clear() { view_->clear(); }
 
 // ============================================================================
@@ -262,9 +285,12 @@ void MaterializedCTEView::clear() { view_->clear(); }
 MaterializedCTERegistry::MaterializedCTERegistry()  = default;
 MaterializedCTERegistry::~MaterializedCTERegistry() = default;
 
-// ============================================================================
-// MaterializedCTERegistry — management
-// ============================================================================
+/**
+ * @brief ============================================================================ MaterializedCTERegistry — management ============================================================================
+ * @param[in] def Input parameter.
+ * @return True on success.
+ * @details Calls: empty(), spdlog::warn(), lk(), count(), spdlog::debug().
+ */
 
 bool MaterializedCTERegistry::registerCTE(const MaterializedCTEDef& def) {
     if (def.name.empty()) {
@@ -275,6 +301,11 @@ bool MaterializedCTERegistry::registerCTE(const MaterializedCTEDef& def) {
         spdlog::warn("MaterializedCTERegistry: CTE '{}' source_collection must not be empty", def.name);
         return false;
     }
+    /**
+     * @brief Lk.
+     * @param[in] registry_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock lk(registry_mutex_);
     if (views_.count(def.name)) {
         spdlog::warn("MaterializedCTERegistry: CTE '{}' already registered", def.name);
@@ -285,7 +316,18 @@ bool MaterializedCTERegistry::registerCTE(const MaterializedCTEDef& def) {
     return true;
 }
 
+/**
+ * @brief Unregister CTE.
+ * @param[in] name Input parameter.
+ * @return True on success.
+ * @details Calls: lk(), count(), erase(), spdlog::debug().
+ */
 bool MaterializedCTERegistry::unregisterCTE(const std::string& name) {
+    /**
+     * @brief Lk.
+     * @param[in] registry_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock lk(registry_mutex_);
     if (!views_.count(name)) {
       return false;
@@ -296,11 +338,21 @@ bool MaterializedCTERegistry::unregisterCTE(const std::string& name) {
 }
 
 bool MaterializedCTERegistry::hasCTE(const std::string& name) const {
+    /**
+     * @brief Lk.
+     * @param[in] registry_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lk(registry_mutex_);
     return views_.count(name) > 0;
 }
 
 std::vector<std::string> MaterializedCTERegistry::listCTEs() const {
+    /**
+     * @brief Lk.
+     * @param[in] registry_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lk(registry_mutex_);
     std::vector<std::string> names = {};
 
@@ -313,16 +365,28 @@ std::vector<std::string> MaterializedCTERegistry::listCTEs() const {
 
 std::shared_ptr<MaterializedCTEView>
 MaterializedCTERegistry::getView(const std::string& name) const {
+    /**
+     * @brief Lk.
+     * @param[in] registry_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lk(registry_mutex_);
     auto it = views_.find(name);
     return (it != views_.end()) ? it->second : nullptr;
 }
 
-// ============================================================================
-// MaterializedCTERegistry — change dispatch
-// ============================================================================
+/**
+ * @brief ============================================================================ MaterializedCTERegistry — change dispatch ============================================================================
+ * @param[in] change Input parameter.
+ * @details Calls: lk().
+ */
 
 void MaterializedCTERegistry::applyChange(const CTEDataChange& change) {
+    /**
+     * @brief Lk.
+     * @param[in] registry_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lk(registry_mutex_);
     uint64_t applied = 0;
     for (const auto& [name, view] : views_) {
@@ -333,9 +397,18 @@ void MaterializedCTERegistry::applyChange(const CTEDataChange& change) {
     total_changes_ += applied;
 }
 
+/**
+ * @brief Apply Changes.
+ * @param[in] changes Input parameter.
+ */
 void MaterializedCTERegistry::applyChanges(
     const std::vector<CTEDataChange>& changes)
 {
+    /**
+     * @brief Lk.
+     * @param[in] registry_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lk(registry_mutex_);
     uint64_t applied = 0;
     for (const auto& [name, view] : views_) {
@@ -353,6 +426,11 @@ MaterializedCTEResult MaterializedCTERegistry::query(
     int64_t limit,
     int64_t offset) const
 {
+    /**
+     * @brief Lk.
+     * @param[in] registry_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lk(registry_mutex_);
     auto it = views_.find(cte_name);
     if (it == views_.end()) {

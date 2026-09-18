@@ -24,51 +24,24 @@
 
 namespace themis {
 
-/// GNN Embedding Manager
-/// 
-/// Generates and manages graph neural network embeddings for nodes and edges.
-/// Integrates with PropertyGraphManager for graph structure and VectorIndexManager for storage.
-///
-/// Features:
-/// - Node embeddings (based on node features + graph structure)
-/// - Edge embeddings (based on edge features + connected nodes)
-/// - Graph-level embeddings (aggregated from node/edge embeddings)
-/// - Batch processing for efficient embedding generation
-/// - Incremental updates when graph changes
-/// - Multiple embedding models/versions support
-///
-/// Architecture:
-/// - Graph structure: PropertyGraphManager provides nodes, edges, labels, types
-/// - Feature extraction: BaseEntity fields → feature vectors
-/// - Model inference: External GNN model (Python bridge or native C++)
-/// - Storage: VectorIndexManager for embedding similarity search
-/// - Metadata: Tracks model version, generation timestamp, source entity
-///
-/// Example:
-/// ```cpp
-/// GNNEmbeddingManager gnn(db, pgm, vim);
-/// 
-/// // Generate node embeddings for all Person nodes in social graph
-/// auto st = gnn.generateNodeEmbeddings("social", "Person", "gcn_v1");
-/// // Stores embeddings in vector index: node_emb:social:Person:*
-/// 
-/// // Query similar nodes
-/// auto [st2, similar] = gnn.findSimilarNodes("alice", "social", 10);
-/// // Result: Top 10 nodes with most similar embeddings
-/// 
-/// // Generate edge embeddings
-/// auto st3 = gnn.generateEdgeEmbeddings("social", "FOLLOWS", "gat_v1");
-/// 
-/// // Incremental update (when graph changes)
-/// auto st4 = gnn.updateNodeEmbedding("bob", "social", "gcn_v1");
-/// ```
 
 class GNNEmbeddingManager {
 public:
     struct Status {
         bool ok = true;
         std::string message;
+        /**
+         * @brief OK.
+         * @return Return value.
+         * @details Implements OK without additional internal calls.
+         */
         static Status OK() { return {}; }
+        /**
+         * @brief Error.
+         * @param[in] msg Input parameter.
+         * @return Return value.
+         * @details Calls: std::move().
+         */
         static Status Error(std::string msg) { return Status{false, std::move(msg)}; }
     };
 
@@ -88,10 +61,13 @@ public:
         std::string graph_id;
     };
 
-    /// Constructor
-    /// @param db RocksDB wrapper
-    /// @param pgm Property graph manager (for graph structure)
-    /// @param vim Vector index manager (for embedding storage)
+    /**
+     * @brief GNNEmbedding Manager.
+     * @param[in,out] db Input/output parameter.
+     * @param[in,out] pgm Input/output parameter.
+     * @param[in,out] vim Input/output parameter.
+     * @return Return value.
+     */
     explicit GNNEmbeddingManager(
         RocksDBWrapper& db,
         PropertyGraphManager& pgm,
@@ -100,12 +76,6 @@ public:
 
     // ===== Node Embedding Generation =====
 
-    /// Generate embeddings for all nodes with specific label in graph
-    /// @param graph_id Target graph
-    /// @param label Node label (e.g., "Person")
-    /// @param model_name Model identifier (e.g., "gcn_v1")
-    /// @param feature_fields Fields to use as node features (default: all fields)
-    /// @return Status
     Status generateNodeEmbeddings(
         std::string_view graph_id,
         std::string_view label,
@@ -113,12 +83,6 @@ public:
         const std::vector<std::string>& feature_fields = {}
     );
 
-    /// Generate embedding for single node (incremental update)
-    /// @param node_pk Node primary key
-    /// @param graph_id Target graph
-    /// @param model_name Model identifier
-    /// @param feature_fields Fields to use as features
-    /// @return Status
     Status updateNodeEmbedding(
         std::string_view node_pk,
         std::string_view graph_id,
@@ -128,12 +92,6 @@ public:
 
     // ===== Edge Embedding Generation =====
 
-    /// Generate embeddings for all edges with specific type in graph
-    /// @param graph_id Target graph
-    /// @param edge_type Edge type (e.g., "FOLLOWS")
-    /// @param model_name Model identifier
-    /// @param feature_fields Fields to use as edge features
-    /// @return Status
     Status generateEdgeEmbeddings(
         std::string_view graph_id,
         std::string_view edge_type,
@@ -141,12 +99,6 @@ public:
         const std::vector<std::string>& feature_fields = {}
     );
 
-    /// Generate embedding for single edge (incremental update)
-    /// @param edge_id Edge identifier
-    /// @param graph_id Target graph
-    /// @param model_name Model identifier
-    /// @param feature_fields Fields to use as features
-    /// @return Status
     Status updateEdgeEmbedding(
         std::string_view edge_id,
         std::string_view graph_id,
@@ -156,11 +108,6 @@ public:
 
     // ===== Graph-Level Embeddings =====
 
-    /// Generate graph-level embedding (aggregated from node/edge embeddings)
-    /// @param graph_id Target graph
-    /// @param model_name Model identifier
-    /// @param aggregation_method "mean", "sum", "max", "attention"
-    /// @return Pair of Status and embedding vector
     std::pair<Status, std::vector<float>> generateGraphEmbedding(
         std::string_view graph_id,
         std::string_view model_name,
@@ -169,22 +116,12 @@ public:
 
     // ===== Embedding Retrieval =====
 
-    /// Get embedding for specific node
-    /// @param node_pk Node primary key
-    /// @param graph_id Target graph
-    /// @param model_name Model identifier
-    /// @return Pair of Status and EmbeddingInfo
     std::pair<Status, EmbeddingInfo> getNodeEmbedding(
         std::string_view node_pk,
         std::string_view graph_id,
         std::string_view model_name
     ) const;
 
-    /// Get embedding for specific edge
-    /// @param edge_id Edge identifier
-    /// @param graph_id Target graph
-    /// @param model_name Model identifier
-    /// @return Pair of Status and EmbeddingInfo
     std::pair<Status, EmbeddingInfo> getEdgeEmbedding(
         std::string_view edge_id,
         std::string_view graph_id,
@@ -193,12 +130,6 @@ public:
 
     // ===== Similarity Search =====
 
-    /// Find similar nodes based on embedding similarity
-    /// @param node_pk Query node
-    /// @param graph_id Target graph
-    /// @param k Number of results
-    /// @param model_name Model identifier
-    /// @return Pair of Status and similarity results
     std::pair<Status, std::vector<SimilarityResult>> findSimilarNodes(
         std::string_view node_pk,
         std::string_view graph_id,
@@ -206,12 +137,6 @@ public:
         std::string_view model_name
     ) const;
 
-    /// Find similar edges based on embedding similarity
-    /// @param edge_id Query edge
-    /// @param graph_id Target graph
-    /// @param k Number of results
-    /// @param model_name Model identifier
-    /// @return Pair of Status and similarity results
     std::pair<Status, std::vector<SimilarityResult>> findSimilarEdges(
         std::string_view edge_id,
         std::string_view graph_id,
@@ -221,7 +146,6 @@ public:
 
     // ===== Model Management =====
 
-    /// Aggregation strategy for neighbor features
     enum class AggregationStrategy {
         MEAN_POOLING,      // Average neighbor features (default)
         MAX_POOLING,       // Max pooling across neighbors
@@ -229,12 +153,6 @@ public:
         ATTENTION          // Weighted aggregation (simplified)
     };
 
-    /// Register GNN model for embedding generation
-    /// @param model_name Model identifier
-    /// @param model_type "gcn", "graphsage", "gat", "gin", "custom"
-    /// @param embedding_dim Output embedding dimension
-    /// @param config Model-specific configuration (JSON string)
-    /// @return Status
     Status registerModel(
         std::string_view model_name,
         std::string_view model_type,
@@ -242,11 +160,8 @@ public:
         std::string_view config = "{}"
     );
 
-    /// List all registered models
-    /// @return Pair of Status and model names
     std::pair<Status, std::vector<std::string>> listModels() const;
 
-    /// Get model info
     struct ModelInfo {
         std::string name = {};
         std::string type;
@@ -257,10 +172,12 @@ public:
     };
     std::pair<Status, ModelInfo> getModelInfo(std::string_view model_name) const;
 
-    /// Set aggregation strategy for a model
-    /// @param model_name Model identifier
-    /// @param strategy Aggregation strategy
-    /// @return Status
+    /**
+     * @brief Set Aggregation Strategy.
+     * @param[in] model_name Name of the model.
+     * @param[in] strategy Input parameter.
+     * @return Return value.
+     */
     Status setAggregationStrategy(
         std::string_view model_name,
         AggregationStrategy strategy
@@ -268,12 +185,6 @@ public:
 
     // ===== Batch Operations =====
 
-    /// Generate node embeddings in batches (more efficient)
-    /// @param node_pks List of node primary keys
-    /// @param graph_id Target graph
-    /// @param model_name Model identifier
-    /// @param batch_size Batch size for processing
-    /// @return Status
     Status generateNodeEmbeddingsBatch(
         const std::vector<std::string>& node_pks,
         std::string_view graph_id,
@@ -281,12 +192,6 @@ public:
         size_t batch_size = 32
     );
 
-    /// Generate edge embeddings in batches
-    /// @param edge_ids List of edge identifiers
-    /// @param graph_id Target graph
-    /// @param model_name Model identifier
-    /// @param batch_size Batch size for processing
-    /// @return Status
     Status generateEdgeEmbeddingsBatch(
         const std::vector<std::string>& edge_ids,
         std::string_view graph_id,
@@ -313,13 +218,25 @@ private:
     // Model registry
     std::unordered_map<std::string, ModelInfo> models_;
 
-    // Helper: Extract feature vector from entity fields
+    /**
+     * @brief Helper: Extract feature vector from entity fields
+     * @param[in] entity Input parameter.
+     * @param[in] feature_fields Input parameter.
+     * @return Return value.
+     */
     std::vector<float> extractFeatures_(
         const BaseEntity& entity,
         const std::vector<std::string>& feature_fields
     ) const;
 
-    // Helper: Build embedding key
+    /**
+     * @brief Helper: Build embedding key
+     * @param[in] entity_type Input parameter.
+     * @param[in] graph_id Identifier of the graph.
+     * @param[in] entity_id Identifier of the entity.
+     * @param[in] model_name Name of the model.
+     * @return Return value.
+     */
     std::string makeEmbeddingKey_(
         std::string_view entity_type,  // "node" or "edge"
         std::string_view graph_id,
@@ -334,6 +251,11 @@ private:
         std::string entity_id;
         std::string model_name;
     };
+    /**
+     * @brief Parse Embedding Key.
+     * @param[in] key Input parameter.
+     * @return Return value.
+     */
     std::optional<EmbeddingKeyParts> parseEmbeddingKey_(std::string_view key) const;
 
     // Helper: Compute embedding using registered model

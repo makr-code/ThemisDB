@@ -21,9 +21,6 @@ namespace themis {
 namespace plugins {
 namespace ethics {
 
-/**
- * @brief Compact position summary for a single school (for R4 SYNTHESIS).
- */
 struct SchoolPositionSummary {
     std::string school_id;
     std::string verdict;                        ///< "PROHIBIT"|"PERMIT"|"CONDITIONAL"|"ABSTAIN"
@@ -31,61 +28,53 @@ struct SchoolPositionSummary {
     std::vector<std::string> core_thesis_ids;  ///< ≤ 3 thesis_ids
 };
 
-/**
- * @brief Error thrown when a SchoolPositionSummary fails schema validation.
- */
 struct SchemaValidationError : public std::runtime_error {
+    /**
+     * @brief Schema Validation Error.
+     * @param[in] msg Input parameter.
+     * @return Return value.
+     */
     explicit SchemaValidationError(const std::string& msg)
         : std::runtime_error("SchemaValidationError: " + msg) {}
 };
 
-/**
- * @brief Builds compact positions matrices for R4 SYNTHESIS context injection.
- *
- * Implements §12.2.5 (Du et al. [R6] Agent State Summary). Replaces ~3 600
- * tokens of full argument text with ~250 tokens of structured matrix data,
- * providing a further 93 % token reduction on the R4 prior-context side.
- *
- * All methods are const and thread-safe.
- */
 class SynthesisMatrixBuilder {
 public:
     SynthesisMatrixBuilder() = default;
 
-    /**
-     * @brief Build the positions matrix text for injection into R4 SYNTHESIS.
-     *
-     * @param positions    School position summaries (one per school).
-     * @param convergences Convergence markers from ConvergenceMarkerEngine.
-     * @param max_tokens   Hard token cap (default 300). Exceeding: WARN + truncate thesis_ids.
-     * @return Formatted matrix string ≤ max_tokens.
-     */
     std::string buildMatrix(
         const std::vector<SchoolPositionSummary>& positions,
         const std::vector<ConvergenceMarker>&     convergences = {},
         int                                       max_tokens = 300) const;
 
     /**
-     * @brief Extract a SchoolPositionSummary from a DiscourseRoundOutput.
-     *
-     * Reads verdict, confidence, core_thesis_ids, and position_abstract.
-     *
-     * @param round_output The round output to extract from.
-     * @return SchoolPositionSummary.
+     * @brief Extract Summary.
+     * @param[in] round_output Input parameter.
+     * @return Return value.
      */
     SchoolPositionSummary extractSummary(
         const DiscourseRoundOutput& round_output) const;
 
     /**
-     * @brief Validate a SchoolPositionSummary — throws SchemaValidationError on violation.
-     *
-     * Validates: verdict is one of allowed values; confidence in [0,1];
-     * core_thesis_ids not empty; school_id not empty.
+     * @brief Validate Summary.
+     * @param[in] summary Input parameter.
      */
     void validateSummary(const SchoolPositionSummary& summary) const;
 
 private:
+    /**
+     * @brief Count Tokens.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     static int countTokens(const std::string& text) noexcept;
+    /**
+     * @brief Is Valid Verdict.
+     * @param[in] verdict Input parameter.
+     * @return True when the operation succeeds.
+     * @note Exception safety: noexcept.
+     */
     static bool isValidVerdict(const std::string& verdict) noexcept;
 };
 

@@ -20,9 +20,13 @@
 namespace themis {
 namespace utils {
 
-// ============================================================================
-// URL Parsing
-// ============================================================================
+/**
+ * @brief ============================================================================ URL Parsing ============================================================================
+ * @param[in] url Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: url_regex(), std::regex_match(), str().
+ */
 
 URLComponents parseURL(const std::string& url) {
     URLComponents components;
@@ -193,6 +197,12 @@ std::future<HTTPResponse> HTTPClientPool::get(const std::string& url,
     return future;
 }
 
+/**
+ * @brief Acquire Connection.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: getStripeIndex(), lock(), std::chrono::steady_clock::now(), empty(), front(), isStale(), pop_front(), fetch_add().
+ */
 std::shared_ptr<HTTPClient> HTTPClientPool::acquireConnection() {
     // Use striped locking to reduce contention
     size_t stripe_idx = getStripeIndex();
@@ -266,6 +276,11 @@ std::shared_ptr<HTTPClient> HTTPClientPool::acquireConnection() {
     }
 }
 
+/**
+ * @brief Release Connection.
+ * @param[in] client Input parameter.
+ * @details Calls: lock(), std::chrono::steady_clock::now(), notify_one().
+ */
 void HTTPClientPool::releaseConnection(std::shared_ptr<HTTPClient> client) {
     // Find the connection in any stripe and mark as not in use
     for (auto& stripe : stripes_) {
@@ -281,6 +296,12 @@ void HTTPClientPool::releaseConnection(std::shared_ptr<HTTPClient> client) {
     }
 }
 
+/**
+ * @brief Create Client.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Implements createClient without additional internal calls.
+ */
 std::shared_ptr<HTTPClient> HTTPClientPool::createClient() {
 #ifdef HAVE_BOOST_BEAST
     return std::make_shared<BeastHTTPClient>(config_, io_context_);
@@ -314,6 +335,10 @@ HTTPClientPool::Stats HTTPClientPool::getStats() const {
     return stats;
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lock(), store().
+ */
 void HTTPClientPool::clear() {
     for (auto& stripe : stripes_) {
         std::lock_guard<std::mutex> lock(stripe->mutex);
@@ -322,6 +347,10 @@ void HTTPClientPool::clear() {
     total_connections_.store(0);
 }
 
+/**
+ * @brief Prune Stale Connections.
+ * @details Calls: lock(), begin(), end(), isStale(), erase().
+ */
 void HTTPClientPool::pruneStaleConnections() {
     for (auto& stripe : stripes_) {
         std::lock_guard<std::mutex> lock(stripe->mutex);
@@ -343,6 +372,11 @@ size_t HTTPClientPool::getStripeIndex() const {
     return round_robin_.fetch_add(1, std::memory_order_relaxed) % stripes_.size();
 }
 
+/**
+ * @brief Warmup.
+ * @param[in] num_connections Input parameter.
+ * @details Calls: load(), std::min(), size(), lock(), fetch_add(), fetch_sub(), createClient(), std::chrono::steady_clock::now().
+ */
 void HTTPClientPool::warmup(size_t num_connections) {
     if (shutdown_.load()) {
         return;

@@ -26,50 +26,18 @@
 namespace themis {
 namespace cache {
 
-/**
- * @brief Cache hit rate SLO (Service Level Objective) monitor.
- *
- * Evaluates the overall cache hit rate against configured thresholds and fires
- * alerts via an Alertmanager when the SLO is violated. Resolves open alerts
- * automatically when the hit rate recovers above the configured thresholds.
- *
- * ## Usage
- * @code
- * CacheHitRateSloMonitor::Config cfg;
- * cfg.critical_threshold = 0.40;   // fire CRITICAL alert below 40% hit rate
- * cfg.warning_threshold  = 0.60;   // fire WARNING alert below 60% hit rate
- * cfg.min_requests       = 100;    // do not evaluate with fewer requests
- *
- * auto alertmanager = std::make_shared<themis::observability::DefaultAlertmanager>();
- * CacheHitRateSloMonitor monitor(cfg, alertmanager);
- *
- * // Call evaluate() periodically (e.g. from a metrics scrape or background thread).
- * monitor.evaluate(cache.getEnhancedMetrics());
- *
- * // Inspect SLO status at any time.
- * auto status = monitor.getStatus();
- * @endcode
- *
- * Thread-safety: all public methods are thread-safe.
- */
 class CacheHitRateSloMonitor {
 public:
     // -----------------------------------------------------------------------
     // Types
     // -----------------------------------------------------------------------
 
-    /**
-     * @brief Alert severity levels for SLO violations.
-     */
     enum class ViolationLevel {
         NONE,       ///< Hit rate is within SLO
         WARNING,    ///< Hit rate is below warning threshold
         CRITICAL    ///< Hit rate is below critical threshold
     };
 
-    /**
-     * @brief Cache tier identifier for per-tier latency tracking.
-     */
     enum class Tier : std::size_t {
         L1 = 0, ///< In-process LRU tier
         L2 = 1, ///< Secondary (e.g. off-heap or Redis) tier
@@ -77,49 +45,21 @@ public:
         COUNT   ///< Sentinel – number of tiers
     };
 
-    /**
-     * @brief Configuration for the SLO monitor.
-     */
     struct Config {
-        /// Minimum cache hit rate before a WARNING alert fires (default: 0.60 = 60%).
         double warning_threshold = 0.60;
 
-        /// Minimum cache hit rate before a CRITICAL alert fires (default: 0.40 = 40%).
         double critical_threshold = 0.40;
 
-        /// Minimum number of requests (hits + misses) required before evaluating the
-        /// SLO. Prevents false alerts during low-traffic periods (default: 100).
         uint64_t min_requests = 100;
 
-        /// Minimum seconds between repeated alerts of the same level to reduce noise
-        /// (default: 300 = 5 minutes).
         int alert_cooldown_seconds = 300;
 
-        /// Human-readable name of this cache instance, used in alert labels.
         std::string cache_name = "adaptive_query_cache";
 
-        /// p99 latency (ms) above which a WARNING latency alert fires.  Set to 0 to
-        /// disable latency alerting (default: 0 = disabled).
         double p99_warn_ms = 0.0;
 
-        /// p99 latency (ms) above which a CRITICAL latency alert fires.  Must be
-        /// greater than `p99_warn_ms` when both are non-zero (default: 0 = disabled).
         double p99_critical_ms = 0.0;
 
-        /**
-         * @brief Validate configuration parameters.
-         *
-         * Checks:
-         * - `critical_threshold` < `warning_threshold` (critical is stricter)
-         * - Both thresholds are in the range [0.0, 1.0]
-         * - `alert_cooldown_seconds` >= 0
-         * - `p99_critical_ms` < `p99_warn_ms` when both are non-zero
-         *   (critical must be a tighter bound than warning)
-         *
-         * @param error_msg  If non-null and validation fails, filled with a
-         *                   human-readable description of the error.
-         * @return true if configuration is valid, false otherwise.
-         */
         bool validate(std::string* error_msg = nullptr) const {
             if (critical_threshold >= warning_threshold) {
                 if (error_msg) {
@@ -176,9 +116,6 @@ public:
         }
     };
 
-    /**
-     * @brief Current SLO evaluation result.
-     */
     struct EvaluationResult {
         double hit_rate        = 0.0;           ///< Computed hit rate [0, 1]
         uint64_t total_requests = 0;            ///< Total requests evaluated
@@ -201,12 +138,6 @@ public:
     // Construction
     // -----------------------------------------------------------------------
 
-    /**
-     * @brief Construct a monitor with the given config and optional alertmanager.
-     *
-     * If @p alertmanager is nullptr, SLO violations are only logged; no alerts
-     * are dispatched.
-     */
     explicit CacheHitRateSloMonitor(
         std::shared_ptr<observability::Alertmanager> alertmanager = nullptr);
     CacheHitRateSloMonitor(
@@ -226,26 +157,16 @@ public:
     // -----------------------------------------------------------------------
 
     /**
-     * @brief Evaluate the current cache metrics against the configured SLO.
-     *
-     * Fires or resolves alerts via the alertmanager as appropriate.  Safe to
-     * call from any thread; protected internally by a mutex.
-     *
-     * @param metrics  Current snapshot of CacheMetrics (e.g. from
-     *                 AdaptiveQueryCache::getEnhancedMetrics()).
-     * @return Evaluation result describing the current SLO state.
+     * @brief Evaluate.
+     * @param[in] metrics Input parameter.
+     * @return Return value.
      */
     EvaluationResult evaluate(const CacheMetrics& metrics);
 
     /**
-     * @brief Record a single cache-get latency sample for a specific tier.
-     *
-     * Call this on every cache `get()` to accumulate the rolling latency
-     * histogram used for p50/p95/p99 computation and latency SLO alerting.
-     * Thread-safe; backed by per-bucket atomic counters (no global lock).
-     *
-     * @param tier        The cache tier that serviced the request.
-     * @param latency_ms  Observed latency in milliseconds (must be >= 0).
+     * @brief Record Latency.
+     * @param[in] tier Input parameter.
+     * @param[in] latency_ms Input parameter.
      */
     void recordLatency(Tier tier, double latency_ms);
 
@@ -254,73 +175,56 @@ public:
     // -----------------------------------------------------------------------
 
     /**
-     * @brief Return the most recent evaluation result without re-evaluating.
+     * @brief Get Last Result.
+     * @return Return value.
      */
     EvaluationResult getLastResult() const;
 
     /**
-     * @brief Return the current violation level without re-evaluating.
+     * @brief Get Current Violation Level.
+     * @return Return value.
      */
     ViolationLevel getCurrentViolationLevel() const;
 
     /**
-     * @brief Check whether any SLO violation is currently active (FIRING).
+     * @brief Is Slo Violated.
+     * @return True when the operation succeeds.
      */
     bool isSloViolated() const;
 
     /**
-     * @brief Export current SLO status as JSON.
-     *
-     * Example output:
-     * @code
-     * {
-     *   "hit_rate": 0.45,
-     *   "total_requests": 5000,
-     *   "violation_level": "WARNING",
-     *   "thresholds": { "warning": 0.60, "critical": 0.40 },
-     *   "alerts": [ { "id": "cache_hit_rate_warning", "status": "FIRING" } ],
-     *   "latency": {
-     *     "p50_ms": 0.8, "p95_ms": 4.2, "p99_ms": 12.1,
-     *     "violation_level": "NONE",
-     *     "l1": { "p50_ms": 0.3, "p95_ms": 1.2, "p99_ms": 3.0 },
-     *     "l2": { "p50_ms": 1.5, "p95_ms": 6.0, "p99_ms": 14.0 },
-     *     "l3": { "p50_ms": 5.0, "p95_ms": 22.0, "p99_ms": 55.0 }
-     *   }
-     * }
-     * @endcode
+     * @brief Get Status.
+     * @return Return value.
      */
     nlohmann::json getStatus() const;
 
     /**
-     * @brief Return IDs of all currently active (FIRING) SLO alerts.
+     * @brief Get Active Alert Ids.
+     * @return Return value.
      */
     std::vector<std::string> getActiveAlertIds() const;
 
     /**
-     * @brief Record a per-tenant eviction rate sample and log a breach if threshold exceeded.
-     *
-     * Emits `[CACHE:TenantQuotaBreach]` structured log when @p eviction_rate exceeds
-     * @p threshold.  Safe to call from any thread.
-     *
-     * @param tenant_id     The tenant namespace being monitored.
-     * @param eviction_rate Observed eviction rate [0.0, 1.0] or absolute rate (ops/s).
-     * @param threshold     Operator-configured per-tenant eviction rate threshold.
-     * @return true if a breach was logged, false if no breach.
+     * @brief Record Tenant Eviction Rate.
+     * @param[in] tenant_id Identifier of the tenant.
+     * @param[in] eviction_rate Input parameter.
+     * @param[in] threshold Input parameter.
+     * @return True when the operation succeeds.
      */
     bool recordTenantEvictionRate(const std::string& tenant_id,
                                    double eviction_rate,
                                    double threshold);
 
     /**
-     * @brief Update the alertmanager (may be nullptr to disable alert dispatch).
+     * @brief Set Alertmanager.
+     * @param[in] alertmanager Input parameter.
      */
     void setAlertmanager(std::shared_ptr<observability::Alertmanager> alertmanager);
 
     /**
-     * @brief Return a human-readable string for a ViolationLevel.
-     *
-     * @param level Violation level to convert.
-     * @return String representation of the violation level.
+     * @brief Violation Level To String.
+     * @param[in] level Input parameter.
+     * @return Return value.
      */
     static std::string violationLevelToString(ViolationLevel level);
 
@@ -329,14 +233,6 @@ private:
     // Rolling latency histogram (lock-free per-bucket atomics)
     // -----------------------------------------------------------------------
 
-    /**
-     * @brief Simple fixed-bucket latency histogram for p50/p95/p99 computation.
-     *
-     * Buckets cover the range 0 – 500+ ms in logarithmic steps.  All counters
-     * are atomics so `record()` is lock-free and safe to call concurrently from
-     * multiple cache-get paths.  `percentileMs()` reads are eventually consistent
-     * (relaxed memory order) and do not need the monitor mutex.
-     */
     struct LatencyHistogram {
         // Bucket upper bounds (exclusive) in milliseconds.
         // Values >= last bound go into the overflow (last) bucket.
@@ -379,7 +275,6 @@ private:
             buckets[idx].fetch_add(1, std::memory_order_relaxed);
         }
 
-        /// Returns the p-th percentile latency in milliseconds (0.0 when empty).
         double percentileMs(double p) const noexcept {
             uint64_t total = count.load(std::memory_order_relaxed);
             if (total == 0) {
@@ -430,17 +325,73 @@ private:
     std::chrono::steady_clock::time_point last_latency_critical_alert_time_;
 
     // Helpers
+    /**
+     * @brief Fire Alert.
+     * @param[in] level Input parameter.
+     * @param[in] hit_rate Input parameter.
+     * @param[in] total_requests Input parameter.
+     * @param[in,out] result Input/output parameter.
+     */
     void fireAlert(ViolationLevel level, double hit_rate, uint64_t total_requests, EvaluationResult& result);
+    /**
+     * @brief Resolve Active Alerts.
+     * @param[in,out] result Input/output parameter.
+     */
     void resolveActiveAlerts(EvaluationResult& result);
+    /**
+     * @brief Build Alert.
+     * @param[in] level Input parameter.
+     * @param[in] hit_rate Input parameter.
+     * @param[in] total_requests Input parameter.
+     * @return Return value.
+     */
     observability::Alert buildAlert(ViolationLevel level, double hit_rate, uint64_t total_requests) const;
+    /**
+     * @brief Is Cooldown Expired.
+     * @param[in] level Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool isCooldownExpired(ViolationLevel level) const;
+    /**
+     * @brief Make Alert Id.
+     * @param[in] cache_name Name of the cache.
+     * @param[in] level Input parameter.
+     * @return Return value.
+     */
     static std::string makeAlertId(const std::string& cache_name, ViolationLevel level);
 
     // Latency alert helpers
+    /**
+     * @brief Fire Latency Alert.
+     * @param[in] level Input parameter.
+     * @param[in] p99_ms Input parameter.
+     * @param[in,out] result Input/output parameter.
+     */
     void fireLatencyAlert(ViolationLevel level, double p99_ms, EvaluationResult& result);
+    /**
+     * @brief Resolve Latency Alerts.
+     * @param[in,out] result Input/output parameter.
+     */
     void resolveLatencyAlerts(EvaluationResult& result);
+    /**
+     * @brief Build Latency Alert.
+     * @param[in] level Input parameter.
+     * @param[in] p99_ms Input parameter.
+     * @return Return value.
+     */
     observability::Alert buildLatencyAlert(ViolationLevel level, double p99_ms) const;
+    /**
+     * @brief Is Latency Cooldown Expired.
+     * @param[in] level Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool isLatencyCooldownExpired(ViolationLevel level) const;
+    /**
+     * @brief Make Latency Alert Id.
+     * @param[in] cache_name Name of the cache.
+     * @param[in] level Input parameter.
+     * @return Return value.
+     */
     static std::string makeLatencyAlertId(const std::string& cache_name, ViolationLevel level);
 };
 

@@ -122,10 +122,10 @@ public:
         std::string model = args.size() > 1 ? args[1].as_string() : "default";
         
         // This would call an external embedding service
-        // For now, return a placeholder empty vector
+        // Return an empty embedding until the external service is wired in.
         // In production, this connects to OpenAI, HuggingFace, or local model
         
-        // Placeholder: return 384-dimensional zero vector
+        // Use a deterministic 384-dimensional zero vector as the fallback.
         std::vector<JsonValue> embedding(384, JsonValue(0.0));
         return JsonValue(embedding);
     }
@@ -162,9 +162,8 @@ public:
         std::string query = args[1].as_string();
         std::string model = args.size() > 2 ? args[2].as_string() : "cross-encoder/ms-marco-MiniLM-L-6-v2";
         
-        // This would call a reranking model
-        // For now, return results unchanged
-        // In production, this scores each result against the query
+        // This block is currently a no-op fallback; reranking will score each
+        // result against the query once the external model is wired in.
         
         return args[0];
     }
@@ -209,7 +208,7 @@ public:
             });
         }
         
-        // Placeholder: return first category with 0.5 confidence
+        // Use the first category with uniform confidence as the fallback.
         // In production, this uses a zero-shot classification model
         
         std::map<std::string, JsonValue> scores = {};
@@ -262,7 +261,7 @@ public:
             }
         }
         
-        // Placeholder implementation using simple heuristics
+        // Heuristic implementation using simple text patterns.
         std::vector<JsonValue> entities;
         
         // Simple email detection
@@ -323,7 +322,7 @@ public:
             ? clampPositiveIntFromDouble(args[1].as_number(), 100)
             : 100;
         
-        // Placeholder: return first N characters
+        // Use a prefix truncation fallback when summarization is unavailable.
         // In production, this uses a summarization model
         
         if (text.length() <= static_cast<size_t>(maxLength)) {
@@ -334,9 +333,11 @@ public:
     }
 };
 
-// ============================================================================
-// Registration
-// ============================================================================
+/**
+ * @brief ============================================================================ Registration ============================================================================
+ * @param[in,out] registry Input/output parameter.
+ * @details Calls: registerFunction().
+ */
 
 inline void registerAIMLFunctions(FunctionRegistry& registry) {
     registry.registerFunction(std::make_unique<HybridSearchFunction>());

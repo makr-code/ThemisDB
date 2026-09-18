@@ -44,6 +44,7 @@ struct ColumnHistogram {
      * @param predicateType One of "=", "<", ">", "<=", ">=", "BETWEEN"
      * @param value The predicate value(s)
      * @return Selectivity between 0.0 and 1.0
+     * @param[in] values Input parameter.
      */
     double estimateSelectivity(const std::string& predicateType,
                               const std::vector<double>& values) const;
@@ -97,11 +98,13 @@ struct EstimateValidation {
     
     /**
      * @brief Compute mean absolute percentage error (MAPE)
+     * @return Return value.
      */
     double computeMAPE() const;
     
     /**
      * @brief Compute 95th percentile error
+     * @return Return value.
      */
     double computeP95Error() const;
     
@@ -128,6 +131,10 @@ class CostModelEnhancements {
 public:
     /**
      * @brief Estimate selectivity using histogram if available, else default
+     * @param[in] histogram Input parameter.
+     * @param[in] predicateType Input parameter.
+     * @param[in] values Input parameter.
+     * @return Return value.
      */
     static double estimateSelectivityWithHistogram(
         const ColumnHistogram& histogram,
@@ -171,6 +178,7 @@ public:
     
     /**
      * @brief Get estimate validation metrics
+     * @return Return value.
      */
     static const EstimateValidation& getEstimateMetrics();
     

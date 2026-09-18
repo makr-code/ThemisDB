@@ -18,26 +18,6 @@
 
 namespace themis {
 
-/**
- * @brief Binary Quantization for Maximum Vector Compression
- * 
- * v1.5.0 - FAISS-optimized Binary Quantizer with Fallback
- * 
- * Binary quantization compresses float32 vectors to binary (1 bit per dimension),
- * achieving 32x compression ratio. Uses sign of (value - mean) for binarization.
- * 
- * FAISS Integration: When THEMIS_HAS_FAISS is defined and prefer_faiss is true,
- * uses compiler intrinsics (same as FAISS uses internally) for optimized Hamming
- * distance computation with SIMD instructions.
- * 
- * Sources:
- * - Algorithm: Locality Sensitive Hashing (LSH) / Binary Quantization
- * - Implementation: Custom ThemisDB with optional FAISS-style optimizations
- * - Library: https://github.com/facebookresearch/faiss
- * - For production use: Consider FAISS IndexBinaryFlat directly or AdvancedVectorIndex
- * 
- * Part of ThemisDB v1.5.0 - FAISS Integration (#1079)
- */
 class BinaryQuantizer {
 public:
     struct Config {
@@ -57,104 +37,97 @@ public:
     struct Status {
         bool ok = true;
         std::string message;
+        /**
+         * @brief OK.
+         * @return Return value.
+         * @details Implements OK without additional internal calls.
+         */
         static Status OK() { return {}; }
+        /**
+         * @brief Error.
+         * @param[in] msg Input parameter.
+         * @return Return value.
+         * @details Calls: std::move().
+         */
         static Status Error(std::string msg) { return Status{false, std::move(msg)}; }
     };
 
     /**
-     * @brief Construct a new Binary Quantizer.
-     * @param dimension Vector dimension.
+     * @brief Binary Quantizer.
+     * @param[in] dimension Input parameter.
+     * @return Return value.
      */
     explicit BinaryQuantizer(int dimension);
     /**
-     * @brief Construct a new Binary Quantizer.
-     * @param dimension Vector dimension.
-     * @param config Configuration parameters.
+     * @brief Binary Quantizer.
+     * @param[in] dimension Input parameter.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     explicit BinaryQuantizer(int dimension, const Config& config);
     
     ~BinaryQuantizer();
 
     /**
-     * @brief Train quantizer to learn centering and scaling parameters
-     * @param training_vectors Training data
-     * @return Status indicating success or failure
+     * @brief Train.
+     * @param[in] training_vectors Input parameter.
+     * @return Return value.
      */
     Status train(const std::vector<std::vector<float>>& training_vectors);
 
     /**
-     * @brief Encode vector to binary representation
-     * @param vector Input vector (dimension floats)
-     * @return Binary codes (dimension/8 bytes, packed)
+     * @brief Encode.
+     * @param[in] vector Input parameter.
+     * @return Return value.
      */
     std::vector<uint8_t> encode(const std::vector<float>& vector) const;
 
     /**
-     * @brief Decode binary codes back to approximate vector
-     * @param codes Binary codes
-     * @return Reconstructed vector
+     * @brief Decode.
+     * @param[in] codes Input parameter.
+     * @return Return value.
      */
     std::vector<float> decode(const std::vector<uint8_t>& codes) const;
 
     /**
-     * @brief Compute Hamming distance between two binary codes
-     * @param codes_a First binary codes
-     * @param codes_b Second binary codes
-     * @return Hamming distance (number of differing bits)
+     * @brief Hamming Distance.
+     * @param[in] codes_a Input parameter.
+     * @param[in] codes_b Input parameter.
+     * @return Return value.
      */
     float hammingDistance(const std::vector<uint8_t>& codes_a,
                          const std::vector<uint8_t>& codes_b) const;
 
     /**
-     * @brief Compute asymmetric distance: full-precision query vs binary database vector
-     * @param query Query vector (full precision)
-     * @param codes Binary codes
-     * @return Approximate distance
+     * @brief Asymmetric Distance.
+     * @param[in] query Input parameter.
+     * @param[in] codes Input parameter.
+     * @return Return value.
      */
     float asymmetricDistance(const std::vector<float>& query,
                             const std::vector<uint8_t>& codes) const;
 
-    /**
-     * @brief Check if the quantizer has been trained.
-     * @return True if trained, false otherwise.
-     */
     bool isTrained() const { return trained_; }
 
-    /**
-     * @brief Get the compression ratio achieved by this quantizer.
-     * @return Compression ratio (32.0 for binary quantization: float32 -> 1 bit).
-     */
     float getCompressionRatio() const { return 32.0f; }  // float32 -> 1 bit = 32x
 
     /**
-     * @brief Get total memory usage of the quantizer.
-     * @return Memory usage in bytes.
+     * @brief Get Memory Usage.
+     * @return Return value.
      */
     size_t getMemoryUsage() const;
 
-    /**
-     * @brief Get the dimensionality of vectors handled by this quantizer.
-     * @return Vector dimension.
-     */
     int getDimension() const { return dimension_; }
 
-    /**
-     * @brief Get the learned scale factor used during quantization.
-     * @return Scale factor.
-     */
     float getScale() const { return scale_; }  // Get learned scale factor
     
-    /**
-     * @brief Get encoded size in bytes.
-     * @return Number of bytes needed to store one encoded vector.
-     */
     size_t getEncodedSize() const {
         return (dimension_ + 7) / 8;  // Ceiling division for bit packing
     }
     
     /**
-     * @brief Check which backend is being used.
-     * @return Backend name: "faiss" or "custom".
+     * @brief Get Backend.
+     * @return Pointer to the result.
      */
     const char* getBackend() const;
 
@@ -166,7 +139,17 @@ private:
     std::vector<float> mean_values_;
 
     // Helper methods
+    /**
+     * @brief Compute Norm.
+     * @param[in] vector Input parameter.
+     * @return Return value.
+     */
     float computeNorm(const std::vector<float>& vector) const;
+    /**
+     * @brief Popcount.
+     * @param[in] byte Input parameter.
+     * @return Return value.
+     */
     int popcount(uint8_t byte) const;
     
     // Backend tracking

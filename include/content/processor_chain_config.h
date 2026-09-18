@@ -24,12 +24,6 @@ namespace content {
 
 using json = nlohmann::json;
 
-/**
- * @brief Configuration for a single processing stage in the ingestion pipeline.
- *
- * Each stage can be independently enabled or disabled and optionally configured
- * with retry logic and graceful degradation (continue_on_error).
- */
 struct StageConfig {
     bool enabled = true;            ///< Whether the stage is active. Defaults to true.
     int max_retries = 0;            ///< Maximum retry attempts on failure (0 = no retry).
@@ -37,23 +31,6 @@ struct StageConfig {
     bool continue_on_error = false; ///< If true, skip this stage on failure instead of aborting ingestion.
 };
 
-/**
- * @brief Per-content-type pipeline configuration specifying which stages to run.
- *
- * Controls the five main stages of the content ingestion pipeline:
- *  - extraction:    Text / metadata extraction (e.g. HTML boilerplate removal,
- *                   Markdown front-matter parsing, EXIF data, etc.)
- *  - chunking:      Splitting extracted text into index-ready chunks.
- *  - embedding:     Vector embedding generation (requires EmbeddingPipeline).
- *  - deduplication: Near-duplicate detection via pHash / MinHash
- *                   (requires DeduplicationChecker).
- *  - storage:       Final persistence via importContent(); retried independently.
- *
- * All stages default to enabled with no retries, preserving backward-compatible
- * behaviour.  Set `max_retries > 0` on a stage to enable retry on transient
- * failures.  Set `continue_on_error = true` (extraction) to continue with
- * degraded ingestion (no text chunks) when extraction fails.
- */
 struct ContentTypePipelineConfig {
     StageConfig extraction;    ///< Text / metadata extraction stage.
     StageConfig chunking;      ///< Content chunking stage.
@@ -62,57 +39,14 @@ struct ContentTypePipelineConfig {
     StageConfig storage;       ///< Storage (importContent) retry stage.
 };
 
-/**
- * @brief Configurable processor chain for the content ingestion pipeline.
- *
- * Allows fine-grained control over which processing stages run per content
- * type.  Look-up priority (highest to lowest):
- *  1. Per-MIME-type override   (`mime_type_configs`)
- *  2. Per-category override    (`category_configs`)
- *  3. Global default           (`default_config`)
- *
- * All stages are enabled by default so that existing behaviour is preserved
- * when no explicit configuration is set.
- *
- * Example – disable embedding for all image content:
- * @code
- *   ProcessorChainConfig cfg;
- *   ContentTypePipelineConfig img_cfg;
- *   img_cfg.embedding.enabled = false;
- *   cfg.category_configs[ContentCategory::IMAGE] = img_cfg;
- *   content_manager.setProcessorChainConfig(cfg);
- * @endcode
- *
- * Example – disable deduplication for a specific MIME type:
- * @code
- *   ProcessorChainConfig cfg;
- *   ContentTypePipelineConfig pdf_cfg;
- *   pdf_cfg.deduplication.enabled = false;
- *   cfg.mime_type_configs["application/pdf"] = pdf_cfg;
- *   content_manager.setProcessorChainConfig(cfg);
- * @endcode
- */
 class ProcessorChainConfig {
 public:
-    /// Global default applied to all content types not matched by a more
-    /// specific override.  All stages are enabled by default.
     ContentTypePipelineConfig default_config;
 
-    /// Per-MIME-type overrides (highest priority).
     std::unordered_map<std::string, ContentTypePipelineConfig> mime_type_configs;
 
-    /// Per-category overrides (lower priority than MIME-type overrides).
     std::unordered_map<ContentCategory, ContentTypePipelineConfig> category_configs;
 
-    /**
-     * @brief Return the effective pipeline config for the given MIME type and category.
-     *
-     * Priority: mime_type_configs > category_configs > default_config.
-     *
-     * @param mime_type  Detected MIME type (e.g. "text/html").
-     * @param category   Detected content category enum value.
-     * @return           Effective ContentTypePipelineConfig.
-     */
     ContentTypePipelineConfig getEffectiveConfig(
         const std::string& mime_type,
         ContentCategory category
@@ -134,30 +68,10 @@ public:
     }
 
     /**
-     * @brief Deserialize from JSON.
-     *
-     * Each stage can be specified as a boolean (backward compatible) or as an
-     * object with the full retry configuration:
-     * @code
-     * {
-     *   "default": {
-     *     "extraction": { "enabled": true, "max_retries": 2, "retry_delay_ms": 200, "continue_on_error": true },
-     *     "chunking": true,
-     *     "embedding": true,
-     *     "deduplication": { "enabled": true, "max_retries": 1 },
-     *     "storage": { "enabled": true, "max_retries": 3, "retry_delay_ms": 500 }
-     *   },
-     *   "mime_types": {
-     *     "application/pdf": { "embedding": false }
-     *   },
-     *   "categories": {
-     *     "IMAGE": { "deduplication": false }
-     *   }
-     * }
-     * @endcode
-     *
-     * Boolean stage values retain backward compatibility (only `enabled` is set).
-     * Omitted keys retain the default values.
+     * @brief From Json.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     * @details Calls: is_boolean(), is_object(), contains(), is_number_integer(), load_stage(), load_stage_cfg(), begin(), end().
      */
     static ProcessorChainConfig fromJson(const json& j) {
         ProcessorChainConfig cfg;
@@ -226,12 +140,6 @@ public:
         return cfg;
     }
 
-    /**
-     * @brief Serialize to JSON.
-     *
-     * Stages with non-default retry fields are serialized as objects; stages
-     * with only `enabled` modified are serialized as booleans (backward compat).
-     */
     json toJson() const {
         // Serialize a single StageConfig: boolean when retry fields are at defaults,
         // full object otherwise (preserves backward compatibility with old consumers).
@@ -280,7 +188,6 @@ public:
     }
 
 private:
-    /// Shared map from category name string → ContentCategory enum (for deserialization).
     static const std::unordered_map<std::string, ContentCategory>& categoryNames() {
         static const std::unordered_map<std::string, ContentCategory> m = {
             {"TEXT",       ContentCategory::TEXT},
@@ -297,7 +204,6 @@ private:
         return m;
     }
 
-    /// Shared map from ContentCategory enum → name string (for serialization).
     static const std::unordered_map<ContentCategory, std::string>& categoryNameStrings() {
         static const std::unordered_map<ContentCategory, std::string> m = {
             {ContentCategory::TEXT,       "TEXT"},

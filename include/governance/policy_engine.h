@@ -78,15 +78,11 @@ struct PolicyDecision {
     bool ccpa_opted_out = false;
 };
 
-/// Request passed to simulateDecision() for dry-run policy preview.
 struct SimulationRequest {
     std::unordered_map<std::string, std::string> headers;
     std::string route;
 };
 
-/// Result returned by simulateDecision().
-/// Contains the computed PolicyDecision plus dry-run metadata.
-/// No audit entry is written when this result is produced.
 struct SimulationResult {
     PolicyDecision decision;      // The computed access decision
     std::string matched_profile;  // Classification profile used ("" = heuristic fallback)
@@ -94,51 +90,29 @@ struct SimulationResult {
     bool dry_run = true;          // Always true; confirms no audit entry was written
 };
 
-/// Result returned by PolicyEngine::checkQueryPermission().
-/// Bundles the standard PolicyDecision together with the FieldMaskingPolicy
-/// that the query executor must apply before serialising the result.
 struct QueryPermissionResult {
-    /// Standard policy decision (classification, redaction level, flags, etc.)
     PolicyDecision decision;
 
-    /// Data masking rules to apply to each result document.
-    /// The query executor calls DataMasker::maskFields(doc, masking_policy)
-    /// on every document before returning it to the client.
     FieldMaskingPolicy masking_policy;
 };
 
-/// Result returned by PolicyEngine::checkInferencePermission().
-/// Communicates whether a caller may submit an LLM inference request and,
-/// on denial, why the request was rejected so that the HTTP layer can return
-/// a properly structured error response (HTTP 401 or 403).
 struct InferencePermissionResult {
-    /// Whether the inference request is permitted.
     bool allowed = false;
 
-    /// When @c allowed is false, the HTTP status code to return to the client.
-    /// 401 = missing or invalid API key; 403 = valid identity, but denied by
-    /// policy (e.g. data-classification restriction, rate-limit exceeded).
     int http_status = 401;
 
-    /// Human-readable denial reason forwarded in the OpenAI-style error body.
     std::string denial_reason;
 
-    /// Standard policy decision so callers can inspect classification flags.
     PolicyDecision decision;
 };
 
-/// @brief Policy engine for data governance, classification, and field-level masking.
 class PolicyEngine {
   public:
-    /**
-     * @brief Pluggable policy evaluator interface for external engines (e.g. OPA).
-     *
-     * Implement this interface and pass it to setOpaEvaluator() to route
-     * governance decisions through an external policy agent.
-     * evaluate() returns std::nullopt when the external evaluator is
-     * unavailable so PolicyEngine can fall back to native evaluation.
-     */
     struct IPolicyEvaluator {
+        /**
+         * @brief IPolicy Evaluator.
+         * @return Return value.
+         */
         virtual ~IPolicyEvaluator() = default;
         virtual std::optional<PolicyDecision> evaluate(
             const std::unordered_map<std::string, std::string>& headers,
@@ -147,71 +121,59 @@ class PolicyEngine {
 
     PolicyEngine() = default;
 
-    // Load policies from YAML file (returns false on error)
+    /**
+     * @brief Load policies from YAML file (returns false on error)
+     * @param[in] yaml_path Path to the yaml.
+     * @return True when the operation succeeds.
+     */
     bool loadFromYAML(const std::string &yaml_path);
 
-    /**
-     * @brief Reload policies if the source YAML file has changed on disk.
-     *
-     * Checks the modification time of the file last passed to loadFromYAML().
-     * If the file has been modified, the new policy set is loaded atomically.
-     * If the path is empty or the file has not changed, this is a fast no-op.
-     *
-     * @param err  Optional: populated with a human-readable error message on
-     *             failure (file read error, parse error, etc.).
-     * @return true  if policies are up-to-date (either reloaded or unchanged),
-     *         false on error.
-     */
     bool reloadIfChanged(std::string *err = nullptr);
 
-    /// @return The file path last passed to loadFromYAML(), or empty string if
-    ///         no file has been loaded yet.
+    /**
+     * @brief Get Loaded File Path.
+     * @return Return value.
+     */
     std::string getLoadedFilePath() const;
 
-    // Set audit logger for automatic logging of policy evaluations
+    /**
+     * @brief Set audit logger for automatic logging of policy evaluations
+     * @param[in] logger Input parameter.
+     */
     void setAuditLogger(std::shared_ptr<themis::utils::AuditLogger> logger);
 
     /**
-     * @brief Attach an external policy evaluator (e.g. OPA) for governance decisions.
-     *
-     * When set, evaluate() calls evaluator->evaluate() first.  If the
-     * evaluator returns std::nullopt (OPA unreachable / timeout), native
-     * PolicyEngine evaluation is used as a fallback and a
-     * governance_opa_fallback_total Prometheus counter is incremented.
-     *
-     * Pass nullptr to detach.  The PolicyEngine does NOT take ownership; the
-     * caller must ensure the evaluator outlives the engine.
+     * @brief Set Opa Evaluator.
+     * @param[in,out] evaluator Input/output parameter.
      */
     void setOpaEvaluator(IPolicyEvaluator* evaluator);
 
-    // ---- CCPA/CPRA opt-out registry ----------------------------------------
+    /**
+     * @brief ---- CCPA/CPRA opt-out registry ----------------------------------------
+     * @param[in] opt_out_registry Input parameter.
+     */
 
-    /// Register a set of data subject IDs that have opted out of data sale.
-    /// PolicyEngine::evaluate() will set PolicyDecision::ccpa_opted_out=true
-    /// and PolicyDecision::export_allowed=false for any request whose
-    /// "X-User-Id" header matches a subject in this registry.
-    /// Thread-safe; atomically replaces the previous registry.
     void setCcpaOptOutSubjects(std::shared_ptr<std::unordered_set<std::string>> opt_out_registry);
 
-    /// Return true if the given subject ID is registered as opted-out.
+    /**
+     * @brief Is Ccpa Opted Out.
+     * @param[in] subject_id Identifier of the subject.
+     * @return True when the operation succeeds.
+     */
     bool isCcpaOptedOut(const std::string &subject_id) const;
 
-    // ---- AI/ML Model Governance --------------------------------------------
+    /**
+     * @brief ---- AI/ML Model Governance --------------------------------------------
+     * @param[in] policy Input parameter.
+     */
 
-    /// Attach a ModelGovernancePolicy used by checkExportPermission().
-    /// Thread-safe; atomically replaces the previous instance.
     void setModelGovernancePolicy(std::shared_ptr<ModelGovernancePolicy> policy);
 
-    /// Evaluate whether a training-data export is permitted.
-    ///
-    /// Delegates to the configured ModelGovernancePolicy (if set).  When no
-    /// ModelGovernancePolicy has been attached, the method applies the built-in
-    /// classification fallback: "geheim" and "streng-geheim" datasets are
-    /// always denied; all other classifications are permitted.
-    ///
-    /// Must be called before any training-purpose export begins.
-    /// @return ModelGovernanceDecision with is_permitted and, on denial,
-    ///         denial_reason; on approval, lineage_event_id is populated.
+    /**
+     * @brief Check Export Permission.
+     * @param[in] request Input parameter.
+     * @return Return value.
+     */
     ModelGovernanceDecision checkExportPermission(const ModelTrainingExportRequest &request) const;
 
     // Evaluate headers for a given route key (e.g., "/vector/search" or handler name)
@@ -219,83 +181,50 @@ class PolicyEngine {
     PolicyDecision evaluate(const std::unordered_map<std::string, std::string> &headers,
                             const std::string &route) const;
 
-    /**
-     * @brief Evaluate query permissions and return the applicable masking policy.
-     *
-     * Combines the standard policy evaluation (classification, redaction, CCPA,
-     * etc.) with the data masking rules configured for the current context.
-     * The caller must apply the returned `FieldMaskingPolicy` to every result
-     * document via `DataMasker::maskFields()` before serialising the response.
-     *
-     * Writes an audit entry when mode is "enforce" (identical to evaluate()).
-     *
-     * @param headers  Request headers (same set accepted by evaluate()).
-     * @param route    API route key (e.g. "/vector/search").
-     * @return QueryPermissionResult containing the PolicyDecision and the
-     *         FieldMaskingPolicy to apply to query results.
-     */
     QueryPermissionResult checkQueryPermission(const std::unordered_map<std::string, std::string> &headers,
                                                const std::string &route) const;
 
-    /**
-     * @brief Validate that the caller is authorised to submit an LLM inference
-     *        request to the @c /v1/chat/completions endpoint.
-     *
-     * Extracts the caller identity from the @c Authorization header
-     * (`Bearer <api-key>`), evaluates the standard governance policy for the
-     * @c /v1/chat/completions route, and returns an @c InferencePermissionResult
-     * that the HTTP layer can act on:
-     *   - @c allowed=true  → proceed with inference
-     *   - @c allowed=false → return HTTP @c http_status with the @c denial_reason
-     *
-     * The method never throws; governance errors are reflected in the result's
-     * @c denial_reason field so the caller can propagate a structured OpenAI-style
-     * error body.
-     *
-     * @param headers  HTTP request headers.  The @c Authorization header must
-     *                 contain a `Bearer <api-key>` value for the identity to be
-     *                 extracted; missing or malformed tokens result in HTTP 401.
-     * @return @c InferencePermissionResult with the access decision and,
-     *         on denial, an HTTP status code and a human-readable reason.
-     */
     InferencePermissionResult checkInferencePermission(
         const std::unordered_map<std::string, std::string>& headers) const;
 
-    /// @return A snapshot of the currently loaded FieldMaskingPolicy.
+    /**
+     * @brief Get Masking Policy.
+     * @return Return value.
+     */
     FieldMaskingPolicy getMaskingPolicy() const;
 
-    /// Evaluate policies in dry-run (simulation) mode without writing an audit entry.
-    ///
-    /// Performs the same classification lookup, profile resolution, and header-override
-    /// steps as evaluate(), but intentionally suppresses audit logging so that the
-    /// caller can preview the access decision without any side effects on the audit
-    /// trail.  This satisfies the "deterministic and side-effect-free" requirement for
-    /// policy_validator.cpp dry-run usage described in FUTURE_ENHANCEMENTS.md.
-    ///
-    /// @param request  The simulation request (headers + route).
-    /// @return SimulationResult containing the decision and which rule/profile was matched.
+    /**
+     * @brief Simulate Decision.
+     * @param[in] request Input parameter.
+     * @return Return value.
+     */
     SimulationResult simulateDecision(const SimulationRequest &request) const;
 
     /**
-     * @brief Validate access request for safety before policy evaluation.
-     *
-     * Returns SafeAccessResult. If !result.is_safe, the policy evaluation
-     * should be skipped and access denied.
-     *
-     * @param request AccessRequest to validate
-     * @return SafeAccessResult with detailed findings
+     * @brief Validate Access Safety.
+     * @param[in] request Input parameter.
+     * @return Return value.
      */
     SafeAccessResult validateAccessSafety(const AccessRequest& request);
 
     /**
-     * @brief Get mutable reference to the safety validator.
-     * @return SafeAccessValidator instance
+     * @brief Get Safe Access Validator.
+     * @return Return value.
      */
     SafeAccessValidator& getSafeAccessValidator();
 
-    // Get classification profile by name
+    /**
+     * @brief Get classification profile by name
+     * @param[in] level Input parameter.
+     * @return Return value.
+     */
     std::optional<ClassificationProfile> getClassificationProfile(const std::string &level) const;
 
+    /**
+     * @brief Is Strict Class.
+     * @param[in] cls Input parameter.
+     * @return True when the operation succeeds.
+     */
     static bool isStrictClass(const std::string &cls);
 
   private:
@@ -324,6 +253,11 @@ class PolicyEngine {
     // Safety validator for Phase 3B Extended (fail-closed access checks)
     std::unique_ptr<SafeAccessValidator> safety_validator_;
 
+    /**
+     * @brief Normalize.
+     * @param[in] s Input parameter.
+     * @return Return value.
+     */
     static std::string normalize(const std::string &s);
 };
 

@@ -57,9 +57,6 @@ namespace importers {
 
 // ── XOEVStandard ─────────────────────────────────────────────────────────────
 
-/**
- * @brief Identifies the XÖV sub-standard used by a record or document.
- */
 enum class XOEVStandard {
     XPERSONENSTAND,     ///< Personenstandswesen — §§ 55a PStG
     XMELD,              ///< Meldewesen — BMG / BAMF
@@ -75,9 +72,6 @@ enum class XOEVStandard {
 
 // ── XOEVVersion ──────────────────────────────────────────────────────────────
 
-/**
- * @brief Schema version of an XÖV document.
- */
 struct XOEVVersion {
     int major{1};
     int minor{0};
@@ -105,14 +99,6 @@ struct XOEVVersion {
 
 // ── XOEVRecord ───────────────────────────────────────────────────────────────
 
-/**
- * @brief In-memory representation of a single XÖV data record.
- *
- * Agnostic of the underlying XÖV sub-standard; fields are stored as
- * a flat string map so that calling code does not need to know the
- * precise XML schema.  The standard and version fields identify which
- * XÖV profile was used to produce the record.
- */
 struct XOEVRecord {
     std::string id;                         ///< Internal record identifier
     XOEVStandard standard{XOEVStandard::OTHER}; ///< XÖV sub-standard
@@ -128,9 +114,6 @@ struct XOEVRecord {
 
 // ── XOEVImportError ───────────────────────────────────────────────────────────
 
-/**
- * @brief Describes a single error encountered during XÖV import.
- */
 struct XOEVImportError {
     std::size_t record_index{0};    ///< 0-based index of the failing record
     std::string field;              ///< Affected XML path / field name
@@ -140,9 +123,6 @@ struct XOEVImportError {
 
 // ── XOEVImportResult ─────────────────────────────────────────────────────────
 
-/**
- * @brief Aggregated outcome of an XÖV import operation.
- */
 struct XOEVImportResult {
     bool success{false};
     std::size_t records_parsed{0};
@@ -156,9 +136,6 @@ struct XOEVImportResult {
 
 // ── XOEVExportResult ──────────────────────────────────────────────────────────
 
-/**
- * @brief Aggregated outcome of an XÖV export operation.
- */
 struct XOEVExportResult {
     bool success{false};
     std::size_t records_exported{0};
@@ -168,42 +145,41 @@ struct XOEVExportResult {
 
 // ── IXOEVImporter ─────────────────────────────────────────────────────────────
 
-/**
- * @brief Abstract interface for XÖV data model import and export.
- *
- * Implementations MUST be thread-safe.
- */
 class IXOEVImporter {
 public:
+    /**
+     * @brief IXOEVImporter.
+     * @return Return value.
+     */
     virtual ~IXOEVImporter() = default;
 
     /**
-     * @brief Parse and import records from an XÖV XML string.
-     *
-     * @param xml_content  Raw UTF-8 encoded XÖV XML document.
-     * @param standard     Expected XÖV sub-standard (used for schema selection).
-     * @return             Import result with all parsed records and any errors.
+     * @brief Import From XML.
+     * @param[in] xml_content Input parameter.
+     * @param[in] standard Input parameter.
+     * @return Return value.
      */
     virtual XOEVImportResult importFromXML(std::string_view xml_content,
                                            XOEVStandard standard) = 0;
 
     /**
-     * @brief Export a collection of records to an XÖV XML string.
-     *
-     * @param records   Records to serialise.
-     * @param standard  XÖV sub-standard to use for the XML envelope.
-     * @param version   Target schema version.
-     * @return          Export result containing the serialised XML or an error.
+     * @brief Export To XML.
+     * @param[in] records Input parameter.
+     * @param[in] standard Input parameter.
+     * @param[in] version Input parameter.
+     * @return Return value.
      */
     virtual XOEVExportResult exportToXML(const std::vector<XOEVRecord>& records,
                                          XOEVStandard standard,
                                          const XOEVVersion& version) = 0;
 
     /**
-     * @brief Validate an XÖV XML string against the declared schema version.
-     *
-     * @return true  if the document is schema-valid; false otherwise.
-     *         Validation errors are written to @p errors_out.
+     * @brief Validate.
+     * @param[in] xml_content Input parameter.
+     * @param[in] standard Input parameter.
+     * @param[in] version Input parameter.
+     * @param[in,out] errors_out Input/output parameter.
+     * @return True when the operation succeeds.
      */
     virtual bool validate(std::string_view xml_content,
                           XOEVStandard standard,
@@ -211,27 +187,19 @@ public:
                           std::vector<XOEVImportError>& errors_out) = 0;
 
     /**
-     * @brief Return all records currently held in the importer's store.
+     * @brief Stored Records.
+     * @return Return value.
      */
     virtual std::vector<XOEVRecord> storedRecords() const = 0;
 
     /**
-     * @brief Remove all stored records.
+     * @brief Clear Records.
      */
     virtual void clearRecords() = 0;
 };
 
 // ── InMemoryXOEVImporter ──────────────────────────────────────────────────────
 
-/**
- * @brief Thread-safe in-memory implementation of IXOEVImporter.
- *
- * Parses the XÖV XML document with a minimal hand-written scanner
- * (no external XML library dependency at header-only level) that
- * extracts top-level field elements into XOEVRecord::fields.
- * Production deployments SHOULD provide a libxml2- or pugixml-backed
- * implementation for full XPath/XSD validation support.
- */
 class InMemoryXOEVImporter : public IXOEVImporter {
 public:
     // ── IXOEVImporter ────────────────────────────────────────────────────────
@@ -244,7 +212,11 @@ public:
             return result;
         }
 
-        // Minimal extraction: find <record> … </record> elements.
+        /**
+         * @brief Minimal extraction: find <record> … </record> elements.
+         * @param[in] xml_content Input parameter.
+         * @return Return value.
+         */
         const std::string xml(xml_content);
         std::size_t pos = 0;
 
@@ -278,6 +250,11 @@ public:
 
         // Persist to internal store.
         {
+            /**
+             * @brief Lk.
+             * @param[in] mutex_ Input parameter.
+             * @return Return value.
+             */
             std::unique_lock<std::mutex> lk(mutex_);
             for (const auto& r : result.records) {
                 store_[r.id] = r;
@@ -333,6 +310,11 @@ public:
             errors_out.push_back({0, "", "Empty document", true});
             return false;
         }
+        /**
+         * @brief Xml.
+         * @param[in] xml_content Input parameter.
+         * @return Return value.
+         */
         const std::string xml(xml_content);
         // Basic well-formedness: every opening tag must have a closing tag.
         std::size_t open  = std::count(xml.begin(), xml.end(), '<');
@@ -345,6 +327,11 @@ public:
     }
 
     std::vector<XOEVRecord> storedRecords() const override {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         std::vector<XOEVRecord> result = {};
 
@@ -356,6 +343,11 @@ public:
     }
 
     void clearRecords() override {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         store_.clear();
     }
@@ -363,7 +355,6 @@ public:
 private:
     // ── Helpers ───────────────────────────────────────────────────────────────
 
-    /// Extract child elements from a <record> … </record> snippet.
     static void extractFields_(const std::string& fragment,
                                 std::map<std::string, std::string>& out) {
         std::size_t pos = 0;
@@ -396,7 +387,12 @@ private:
         }
     }
 
-    /// Escape the five XML predefined characters.
+    /**
+     * @brief Escape XML.
+     * @param[in] s Input parameter.
+     * @return Return value.
+     * @details Calls: reserve(), size().
+     */
     static std::string escapeXML_(const std::string& s) {
         std::string out = {};
         out.reserve(s.size());

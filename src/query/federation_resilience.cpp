@@ -26,6 +26,10 @@ CircuitBreaker::CircuitBreaker(
     spdlog::debug("CircuitBreaker created for shard: {}", shard_id_);
 }
 
+/**
+ * @brief Record Success.
+ * @details Calls: spdlog::info().
+ */
 void CircuitBreaker::recordSuccess() {
     if (state_ == State::HALF_OPEN) {
         state_ = State::CLOSED;
@@ -38,6 +42,11 @@ void CircuitBreaker::recordSuccess() {
     }
 }
 
+/**
+ * @brief Record Failure.
+ * @param[in] failure_reason Input parameter.
+ * @details Calls: std::chrono::steady_clock::now(), spdlog::debug(), spdlog::warn().
+ */
 void CircuitBreaker::recordFailure(const std::string& failure_reason) {
     last_failure_reason_ = failure_reason;
     last_failure_time_ = std::chrono::steady_clock::now();
@@ -136,6 +145,10 @@ std::string CircuitBreaker::getStatistics() const {
     return stats;
 }
 
+/**
+ * @brief Reset.
+ * @details Calls: spdlog::info().
+ */
 void CircuitBreaker::reset() {
     state_ = State::CLOSED;
     failure_count_ = 0;
@@ -154,6 +167,11 @@ DegradedModeExecutor::DegradedModeExecutor(Strategy strategy)
                   static_cast<int>(strategy_));
 }
 
+/**
+ * @brief Set Strategy.
+ * @param[in] strategy Input parameter.
+ * @details Calls: spdlog::debug().
+ */
 void DegradedModeExecutor::setStrategy(Strategy strategy) {
     strategy_ = strategy;
     spdlog::debug("DegradedModeExecutor strategy changed to: {}",
@@ -202,6 +220,11 @@ double DegradedModeExecutor::getMinimumCoverage() const {
     return minimum_coverage_pct_;
 }
 
+/**
+ * @brief Set Minimum Coverage.
+ * @param[in] coverage_pct Input parameter.
+ * @details Calls: spdlog::warn().
+ */
 void DegradedModeExecutor::setMinimumCoverage(double coverage_pct) {
     if (coverage_pct < 0.0 || coverage_pct > 100.0) {
         spdlog::warn("Invalid coverage percentage: {}; ignoring", coverage_pct);
@@ -249,6 +272,10 @@ RecoveryTimeTracker::RecoveryTimeTracker(
                   shard_id_, recovery_sla_ms_);
 }
 
+/**
+ * @brief Mark Degraded.
+ * @details Calls: std::chrono::steady_clock::now(), spdlog::info().
+ */
 void RecoveryTimeTracker::markDegraded() {
     if (!is_degraded_) {
         is_degraded_ = true;
@@ -257,6 +284,10 @@ void RecoveryTimeTracker::markDegraded() {
     }
 }
 
+/**
+ * @brief Mark Recovered.
+ * @details Calls: std::chrono::steady_clock::now(), count(), spdlog::info().
+ */
 void RecoveryTimeTracker::markRecovered() {
     if (is_degraded_) {
         auto now = std::chrono::steady_clock::now();
@@ -331,6 +362,13 @@ FederationResilienceCoordinator::FederationResilienceCoordinator(
     spdlog::debug("FederationResilienceCoordinator created");
 }
 
+/**
+ * @brief Get Or Create Circuit Breaker.
+ * @param[in] shard_id Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: find(), end(), emplace(), CircuitBreaker(), at().
+ */
 CircuitBreaker& FederationResilienceCoordinator::getOrCreateCircuitBreaker(
     const std::string& shard_id,
     const CircuitBreaker::Config& config) {
@@ -370,10 +408,21 @@ size_t FederationResilienceCoordinator::getDegradedShardCount() const {
     return count;
 }
 
+/**
+ * @brief Get Degraded Mode Executor.
+ * @return Return value.
+ * @details Implements getDegradedModeExecutor without additional internal calls.
+ */
 DegradedModeExecutor& FederationResilienceCoordinator::getDegradedModeExecutor() {
     return degraded_executor_;
 }
 
+/**
+ * @brief Register Shard For Recovery Tracking.
+ * @param[in] shard_id Input parameter.
+ * @param[in] recovery_sla_ms Input parameter.
+ * @details Calls: find(), end(), emplace(), RecoveryTimeTracker().
+ */
 void FederationResilienceCoordinator::registerShardForRecoveryTracking(
     const std::string& shard_id,
     uint64_t recovery_sla_ms) {

@@ -25,13 +25,6 @@ namespace cache {
 // ARCCache<K, V>
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief ARC (Adaptive Replacement Cache) with self-tuning recency/frequency
- *        balance and ghost-list scan resistance.
- *
- * @tparam K Key type.  Must be hashable and equality-comparable.
- * @tparam V Value type.  Must be move-constructible.
- */
 template <typename K, typename V>
 class ARCCache {
 public:
@@ -46,20 +39,18 @@ public:
         uint64_t b2_hits{0};       ///< Ghost hits in B2 (frequency side)
         uint64_t pin_skips{0};     ///< Evictions skipped because page was pinned
 
-        /** Fraction of lookups that were cache hits (0.0 – 1.0). */
         double hit_rate() const {
             uint64_t total = hits + misses;
             return total == 0 ? 0.0 : static_cast<double>(hits) / total;
         }
     };
 
-    // ── Construction / destruction ───────────────────────────────────────────
-
     /**
-     * @brief Construct an ARCCache.
-     * @param capacity  Maximum number of pages held in T1+T2.
-     *                  Must be ≥ 1.
+     * @brief ── Construction / destruction ───────────────────────────────────────────
+     * @param[in] capacity Input parameter.
+     * @return Return value.
      */
+
     explicit ARCCache(size_t capacity)
         : capacity_(capacity > 0 ? capacity : 1), p_(0) {}
 
@@ -70,17 +61,13 @@ public:
     ARCCache(ARCCache&&) = delete;
     ARCCache& operator=(ARCCache&&) = delete;
 
-    // ── Core operations ──────────────────────────────────────────────────────
-
     /**
-     * @brief Look up a key.
-     *
-     * Cache hit  → moves the page to the MRU end of T2 (frequency queue)
-     *              and returns the value.
-     * Cache miss → returns nullopt.
-     *
-     * @return Const reference inside an optional, or nullopt.
+     * @brief ── Core operations ──────────────────────────────────────────────────────
+     * @param[in] key Input parameter.
+     * @return Return value.
+     * @details Calls: lock(), find(), end(), push_front(), begin(), erase(), front(), splice().
      */
+
     std::optional<V> get(const K& key) {
         std::lock_guard<std::mutex> lock(mutex_);
 
@@ -111,15 +98,10 @@ public:
     }
 
     /**
-     * @brief Insert or update a key-value pair.
-     *
-     * If the key is already in T1 or T2, its value is updated in place.
-     * If the key is in B1 (ghost), the ARC adaptation rule increases `p`
-     * and the page is inserted into T2.
-     * If the key is in B2 (ghost), `p` decreases and the page goes into T2.
-     * Otherwise the page is inserted into T1.
-     *
-     * Eviction is triggered automatically to respect the capacity limit.
+     * @brief Put.
+     * @param[in] key Input parameter.
+     * @param[in] value Input parameter.
+     * @details Calls: lock(), find(), end(), std::move(), push_front(), begin(), erase(), splice().
      */
     void put(const K& key, V value) {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -199,8 +181,10 @@ public:
     }
 
     /**
-     * @brief Remove a key from the cache (and from ghost lists).
-     * @return true if the key was found and removed from T1 or T2.
+     * @brief Remove.
+     * @param[in] key Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: lock(), find(), end(), erase().
      */
     bool remove(const K& key) {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -220,7 +204,10 @@ public:
         return false;
     }
 
-    /** @brief Remove all entries and reset statistics. */
+    /**
+     * @brief Clear.
+     * @details Calls: lock().
+     */
     void clear() {
         std::lock_guard<std::mutex> lock(mutex_);
         t1_list_.clear(); t1_map_.clear();
@@ -234,65 +221,75 @@ public:
 
     // ── Accessors ────────────────────────────────────────────────────────────
 
-    /** @brief Number of live pages (T1 + T2). */
     size_t size() const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return t1_list_.size() + t2_list_.size();
     }
 
-    /** @brief Maximum number of live pages. */
     size_t capacity() const { return capacity_; }
 
-    /** @brief Current target size of T1 (adapts automatically). */
     size_t targetT1() const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return p_;
     }
 
-    /** @brief Return a snapshot of current statistics. */
     Stats stats() const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return stats_;
     }
 
-    /** @brief Return true if the key is in T1 or T2. */
     bool contains(const K& key) const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return t1_map_.count(key) || t2_map_.count(key);
     }
 
-    // ── Hot-page pinning ─────────────────────────────────────────────────────
-
     /**
-     * @brief Pin a page so it cannot be evicted.
-     *
-     * Pinned pages are skipped during eviction even when the cache is full.
-     * A page that is not currently in the cache may be pinned in advance;
-     * when it is subsequently inserted it will not be evicted until unpinned.
-     *
-     * @param key Key to pin.
+     * @brief ── Hot-page pinning ─────────────────────────────────────────────────────
+     * @param[in] key Input parameter.
+     * @details Calls: lock(), insert().
      */
+
     void pin(const K& key) {
         std::lock_guard<std::mutex> lock(mutex_);
         pinned_.insert(key);
     }
 
     /**
-     * @brief Unpin a page so it becomes eligible for eviction again.
-     *
-     * @param key Key to unpin.
+     * @brief Unpin.
+     * @param[in] key Input parameter.
+     * @details Calls: lock(), erase().
      */
     void unpin(const K& key) {
         std::lock_guard<std::mutex> lock(mutex_);
         pinned_.erase(key);
     }
 
-    /**
-     * @brief Return true if @p key is currently pinned.
-     *
-     * @note A pinned page may or may not be present in the cache.
-     */
     bool isPinned(const K& key) const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return pinned_.count(key) != 0;
     }
@@ -311,15 +308,11 @@ private:
     // Ghost lists only need key membership – use an unordered_set equivalent.
     using GhostSet = std::unordered_map<K, bool>;
 
-    // ── Eviction ─────────────────────────────────────────────────────────────
-
     /**
-     * @brief Evict one page from T1 or T2 according to the ARC policy.
-     *
-     * If |T1| > p (or T2 is empty), evict LRU from T1 → move key to B1.
-     * Otherwise evict LRU from T2 → move key to B2.
-     * Pinned pages are skipped (stat: pin_skips incremented once per blocked attempt).
+     * @brief ── Eviction ─────────────────────────────────────────────────────────────
+     * @details Calls: empty(), size(), rbegin(), rend(), count(), erase(), std::next(), base().
      */
+
     void evict() {
         // Try T1 first (respecting ARC policy), skip pinned pages
         if (!t1_list_.empty() &&

@@ -61,7 +61,6 @@ struct DisasterRecoveryConfig {
     bool enforce_epoch_fencing{true};
     bool allow_dry_run_without_managers{true};
 
-    /// Consensus timeout for each recovery step (configurable; default 30s).
     std::chrono::milliseconds consensus_timeout_ms{30000};
 };
 
@@ -93,47 +92,53 @@ struct DisasterRecoveryResult {
     std::vector<DisasterRecoveryStepResult> step_results;
 };
 
-/** @brief Disaster recovery manager component. */
 class DisasterRecoveryManager {
 public:
     using StepHook = std::function<bool(const DisasterRecoveryPlan&, std::string&)>;
 
+    /**
+     * @brief Disaster Recovery Manager.
+     * @param[in] config Input parameter.
+     * @param[in] replication_mgr Input parameter.
+     * @param[in] fencing_mgr Input parameter.
+     * @return Return value.
+     */
     explicit DisasterRecoveryManager(
         DisasterRecoveryConfig config,
         std::shared_ptr<themisdb::replication::ReplicationManager> replication_mgr,
         std::shared_ptr<sharding::EpochFencingManager> fencing_mgr);
 
-    /// @brief Executes a disaster recovery plan end-to-end.
-    ///        Idempotent: repeated calls with the same plan_id return the cached result
-    ///        without re-executing (FO-IMPL-007).
-    ///        Fail-closed: if epoch fencing is enforced and fencing_mgr_ is absent or
-    ///        returns an invalid epoch, the plan transitions to FAILED.
-    ///        Rejects concurrent executions (returns "concurrent execution rejected" error).
-    /// @param plan  The disaster recovery plan to execute. plan_id must be non-empty.
-    /// @returns DisasterRecoveryResult with success flag, final state, fenced_epoch, and error.
-    /// @throws Nothing — all exceptions are caught internally and surface as failed results.
-    /// @thread_safety Thread-safe; concurrent callers block on execution_mutex_.
+    /**
+     * @brief Execute Plan.
+     * @param[in] plan Input parameter.
+     * @return Return value.
+     */
     DisasterRecoveryResult executePlan(const DisasterRecoveryPlan& plan);
 
-    /// @brief Validates a disaster recovery plan without executing it.
-    /// @param plan   The plan to validate.
-    /// @param[out] error  Human-readable description of any validation failure.
-    /// @returns true if the plan is valid; false otherwise.
-    /// @thread_safety Thread-safe (read-only).
+    /**
+     * @brief Validate Plan.
+     * @param[in] plan Input parameter.
+     * @param[in,out] error Input/output parameter.
+     * @return True when the operation succeeds.
+     */
     bool validatePlan(const DisasterRecoveryPlan& plan, std::string& error) const;
 
-    /// @brief Registers a step hook to intercept or override a specific DR step.
-    ///        If the hook returns false, the step is treated as failed.
-    /// @param step  The step to intercept.
-    /// @param hook  Callable: `bool(const DisasterRecoveryPlan&, std::string& detail)`.
-    /// @thread_safety Must not be called concurrently with executePlan.
+    /**
+     * @brief Set Step Hook.
+     * @param[in] step Input parameter.
+     * @param[in] hook Input parameter.
+     */
     void setStepHook(DisasterRecoveryStep step, StepHook hook);
-    /// @brief Removes all registered step hooks.
-    /// @thread_safety Must not be called concurrently with executePlan.
+    /**
+     * @brief Clear Step Hooks.
+     */
     void clearStepHooks();
 
-    /// @brief Returns the current execution state of this manager.
-    /// @thread_safety Thread-safe (atomic read).
+    /**
+     * @brief Get State.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     DisasterRecoveryState getState() const noexcept;
 
     struct Statistics {
@@ -144,12 +149,17 @@ public:
         std::chrono::milliseconds average_duration{0};
     };
 
-    /// @brief Returns a snapshot of accumulated execution statistics.
-    /// @thread_safety Thread-safe (mutex-protected).
+    /**
+     * @brief Return access control statistics.
+     * @return Access control statistics.
+     */
     Statistics getStatistics() const;
 
 #ifdef THEMIS_TEST_BUILD
-    /// @brief Clears the idempotency cache (test support only).
+    /**
+     * @brief Clear Idempotency Cache.
+     * @details Calls: lock(), clear().
+     */
     void clearIdempotencyCache() {
         std::lock_guard<std::mutex> lock(idempotency_mutex_);
         completed_plans_.clear();
@@ -164,14 +174,16 @@ private:
         }
     };
 
-    /// @brief Runs a single DR step, using a registered hook if present.
-    /// @param step   The step to run.
-    /// @param state  The DisasterRecoveryState associated with this step.
-    /// @param plan   The plan being executed.
-    /// @param[out] result  Updated with step outcome.
-    /// @param[out] error   Human-readable failure detail on false return.
-    /// @param[out] fenced_epoch  Updated by EPOCH_FENCING step on success.
-    /// @returns true if the step succeeded.
+    /**
+     * @brief Run Step.
+     * @param[in] step Input parameter.
+     * @param[in] state Input parameter.
+     * @param[in] plan Input parameter.
+     * @param[in,out] result Input/output parameter.
+     * @param[in,out] error Input/output parameter.
+     * @param[in,out] fenced_epoch Input/output parameter.
+     * @return True when the operation succeeds.
+     */
     bool runStep(DisasterRecoveryStep step,
                  DisasterRecoveryState state,
                  const DisasterRecoveryPlan& plan,
@@ -179,21 +191,67 @@ private:
                  std::string& error,
                  uint64_t& fenced_epoch);
 
+    /**
+     * @brief Run Prechecks.
+     * @param[in] plan Input parameter.
+     * @param[in,out] detail Input/output parameter.
+     * @return True when the operation succeeds.
+     */
     bool runPrechecks(const DisasterRecoveryPlan& plan, std::string& detail);
+    /**
+     * @brief Validate Snapshot.
+     * @param[in] plan Input parameter.
+     * @param[in,out] detail Input/output parameter.
+     * @return True when the operation succeeds.
+     */
     bool validateSnapshot(const DisasterRecoveryPlan& plan, std::string& detail);
-    /// @brief Applies epoch fencing via EpochFencingManager.
-    ///        Fail-closed: returns false if fencing_mgr_ is absent and enforce_epoch_fencing=true.
-    /// @param plan  The active DR plan.
-    /// @param[out] detail  Failure description on false return.
-    /// @param[out] fenced_epoch  Set to the epoch returned by the fencing manager on success.
-    /// @returns true if fencing succeeded or fencing is disabled.
+    /**
+     * @brief Apply Epoch Fencing.
+     * @param[in] plan Input parameter.
+     * @param[in,out] detail Input/output parameter.
+     * @param[in,out] fenced_epoch Input/output parameter.
+     * @return True when the operation succeeds.
+     */
     bool applyEpochFencing(const DisasterRecoveryPlan& plan, std::string& detail, uint64_t& fenced_epoch);
+    /**
+     * @brief Run Restore.
+     * @param[in] plan Input parameter.
+     * @param[in,out] detail Input/output parameter.
+     * @return True when the operation succeeds.
+     */
     bool runRestore(const DisasterRecoveryPlan& plan, std::string& detail);
+    /**
+     * @brief Wait For Catchup.
+     * @param[in] plan Input parameter.
+     * @param[in,out] detail Input/output parameter.
+     * @return True when the operation succeeds.
+     */
     bool waitForCatchup(const DisasterRecoveryPlan& plan, std::string& detail);
+    /**
+     * @brief Shift Traffic.
+     * @param[in] plan Input parameter.
+     * @param[in,out] detail Input/output parameter.
+     * @return True when the operation succeeds.
+     */
     bool shiftTraffic(const DisasterRecoveryPlan& plan, std::string& detail);
+    /**
+     * @brief Verify Recovered State.
+     * @param[in] plan Input parameter.
+     * @param[in,out] detail Input/output parameter.
+     * @return True when the operation succeeds.
+     */
     bool verifyRecoveredState(const DisasterRecoveryPlan& plan, std::string& detail);
 
+    /**
+     * @brief Transition State.
+     * @param[in] next Input parameter.
+     * @note Exception safety: noexcept.
+     */
     void transitionState(DisasterRecoveryState next) noexcept;
+    /**
+     * @brief Update Statistics.
+     * @param[in] result Input parameter.
+     */
     void updateStatistics(const DisasterRecoveryResult& result);
 
     DisasterRecoveryConfig config_;
@@ -208,9 +266,7 @@ private:
     // Guards against concurrent invocations of executePlan.
     mutable std::mutex execution_mutex_;
 
-    /// @brief Guards idempotency map access.
     mutable std::mutex idempotency_mutex_;
-    /// @brief Maps plan_id → cached result for idempotent execution (FO-IMPL-007).
     std::unordered_map<std::string, DisasterRecoveryResult> completed_plans_;
 
     mutable std::mutex stats_mutex_;

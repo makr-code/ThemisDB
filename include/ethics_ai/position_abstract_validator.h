@@ -20,12 +20,16 @@ namespace themis {
 namespace plugins {
 namespace ethics {
 
-/**
- * @brief Error thrown when a DiscourseRoundOutput fails schema validation.
- */
 struct PositionAbstractSchemaError : public std::runtime_error {
     std::string school_id = {};
     int round_number{0};
+    /**
+     * @brief Position Abstract Schema Error.
+     * @param[in] school Input parameter.
+     * @param[in] round Input parameter.
+     * @param[in] reason Input parameter.
+     * @return Return value.
+     */
     explicit PositionAbstractSchemaError(
         const std::string& school, int round, const std::string& reason)
         : std::runtime_error(
@@ -36,9 +40,6 @@ struct PositionAbstractSchemaError : public std::runtime_error {
     {}
 };
 
-/**
- * @brief Configuration for position-abstract schema enforcement.
- */
 struct PositionAbstractConfig {
     bool require_verdict{true};            ///< verdict must be one of the 4 allowed values
     bool require_position_abstract{true};  ///< position_abstract must be non-empty
@@ -47,55 +48,29 @@ struct PositionAbstractConfig {
     int  max_core_thesis_ids{3};           ///< Maximum number of core_thesis_ids
 };
 
-/**
- * @brief Validates and enforces the Position-Abstract-Schema on DiscourseRoundOutput.
- *
- * Implements §12.2.3 (Khattab et al. DSPy TypedPredictor equivalent).
- * After each discourse round, the output must conform to the schema before
- * being stored or passed to subsequent rounds.
- *
- * All methods are const and thread-safe (no mutable state).
- */
 class PositionAbstractValidator {
 public:
     explicit PositionAbstractValidator(
         PositionAbstractConfig config = PositionAbstractConfig{});
 
-    /**
-     * @brief Validate a DiscourseRoundOutput against the position-abstract schema.
-     *
-     * Sets `output.schema_valid = true` on success.
-     *
-     * @param output  The round output to validate (non-const: sets schema_valid).
-     * @throws PositionAbstractSchemaError if validation fails and strict=true.
-     * @return true if valid, false if invalid (when strict=false).
-     */
     bool validate(DiscourseRoundOutput& output, bool strict = true) const;
 
     /**
-     * @brief Validate a batch of outputs; throws on first failure.
-     *
-     * @param outputs Vector of outputs from one discourse round (all schools).
-     * @throws PositionAbstractSchemaError on first invalid output.
+     * @brief Validate Batch.
+     * @param[in,out] outputs Input/output parameter.
      */
     void validateBatch(std::vector<DiscourseRoundOutput>& outputs) const;
 
     /**
-     * @brief Auto-repair a DiscourseRoundOutput: fill missing fields with defaults.
-     *
-     * Applied when an LLM fails to produce a valid position_abstract or verdict.
-     * Does NOT override existing valid fields. Logs a WARN for each repaired field.
-     *
-     * @param output The output to repair in-place.
-     * @return true if repair was applied, false if output was already valid.
+     * @brief Auto Repair.
+     * @param[in,out] output Input/output parameter.
+     * @return True when the operation succeeds.
      */
     bool autoRepair(DiscourseRoundOutput& output) const;
 
     /**
-     * @brief Generate the schema injection instruction for the LLM system prompt.
-     *
-     * Returns a ≤ 150-token instruction that tells the LLM to produce
-     * a position_abstract matching the configured schema.
+     * @brief Build Schema Instruction.
+     * @return Return value.
      */
     std::string buildSchemaInstruction() const;
 
@@ -104,9 +79,31 @@ public:
 private:
     PositionAbstractConfig config_;
 
+    /**
+     * @brief Is Valid Verdict.
+     * @param[in] v Input parameter.
+     * @return True when the operation succeeds.
+     * @note Exception safety: noexcept.
+     */
     static bool        isValidVerdict(const std::string& v) noexcept;
+    /**
+     * @brief Count Tokens.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     static int         countTokens(const std::string& text) noexcept;
+    /**
+     * @brief Extract Verdict From Content.
+     * @param[in] content Input parameter.
+     * @return Return value.
+     */
     static std::string extractVerdictFromContent(const std::string& content);
+    /**
+     * @brief Build Default Abstract.
+     * @param[in] output Input parameter.
+     * @return Return value.
+     */
     static std::string buildDefaultAbstract(const DiscourseRoundOutput& output);
 };
 

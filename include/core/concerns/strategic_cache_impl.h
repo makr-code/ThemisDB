@@ -23,30 +23,8 @@ namespace themis {
 namespace core {
 namespace concerns {
 
-/**
- * @brief Strategic in-memory cache with pluggable eviction strategies.
- *
- * Implements ICache with support for swappable eviction strategies (LRU, LFU, TTL, TwoTier).
- * Thread-safe implementation with comprehensive metrics tracking.
- *
- * This cache stores values in-process and delegates victim selection to the
- * active strategy. Metric counters are cumulative and intentionally not reset
- * by clear().
- *
- * Example usage:
- *   auto cache = std::make_unique<StrategicCacheImpl>(
- *       1000,  // max size
- *       std::make_unique<LRUEvictionStrategy>()
- *   );
- */
 class StrategicCacheImpl : public ICache {
 public:
-    /**
-     * @brief Construct with custom eviction strategy.
-        * @param maxSize Maximum number of entries.
-        * @param strategy Eviction strategy (takes ownership). When null, LRU is used.
-        * @param defaultTTL Default TTL in milliseconds (0 = no expiry).
-     */
     explicit StrategicCacheImpl(
         size_t maxSize = 1000,
         std::unique_ptr<IEvictionStrategy> strategy = nullptr,
@@ -60,6 +38,11 @@ public:
 
     std::optional<CacheEntry> get(std::string_view key) const override {
         auto start = std::chrono::steady_clock::now();
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         auto it = cache_.find(std::string(key));
@@ -93,8 +76,18 @@ public:
 
     bool put(std::string_view key, const CacheEntry& entry, uint64_t ttl_ms = 0) override {
         auto start = std::chrono::steady_clock::now();
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         
+        /**
+         * @brief Key str.
+         * @param[in] key Input parameter.
+         * @return Return value.
+         */
         std::string key_str(key);
         
         // Check if key already exists
@@ -127,6 +120,11 @@ public:
     }
 
     void invalidate(std::string_view key) override {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         auto it = cache_.find(std::string(key));
@@ -138,6 +136,11 @@ public:
     }
 
     void clear() override {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         cache_.clear();
         strategy_->clear();
@@ -146,6 +149,11 @@ public:
     }
 
     void invalidatePattern(std::string_view pattern) override {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         try {
@@ -166,6 +174,11 @@ public:
     }
 
     size_t size() const override {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return cache_.size();
     }
@@ -184,6 +197,11 @@ public:
     }
 
     void setMaxSize(size_t maxSize) override {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         maxSize_ = maxSize;
         metrics_.max_size = maxSize;
@@ -207,12 +225,9 @@ public:
     }
     
     /**
-     * @brief Replace eviction strategy at runtime.
-     *
-     * Existing cache entries are kept, and strategy metadata is rebuilt from
-     * the current key set. Passing nullptr is invalid.
-     *
-     * @param strategy New strategy (takes ownership), must not be nullptr.
+     * @brief Set Eviction Strategy.
+     * @param[in] strategy Input parameter.
+     * @details Calls: lock(), clear(), std::move(), onInsert().
      */
     void setEvictionStrategy(std::unique_ptr<IEvictionStrategy> strategy) {
         std::lock_guard<std::mutex> lock(mutex_);

@@ -21,7 +21,6 @@
 namespace themis {
 namespace governance {
 
-/// Review request for a policy rule
 struct ReviewRequest {
     std::string review_id;
     std::string rule_id;
@@ -33,11 +32,19 @@ struct ReviewRequest {
     std::int64_t reviewed_at = 0;
     std::string comments;
     
+    /**
+     * @brief To Json.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
+    /**
+     * @brief From Json.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static ReviewRequest fromJson(const nlohmann::json& j);
 };
 
-/// Review schedule configuration for a rule
 struct ReviewSchedule {
     std::string rule_id;
     int review_period_days = 90;  // Default: 90 days
@@ -45,77 +52,97 @@ struct ReviewSchedule {
     std::int64_t next_review_date = 0;
     bool auto_schedule = true;
     
+    /**
+     * @brief To Json.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
+    /**
+     * @brief From Json.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static ReviewSchedule fromJson(const nlohmann::json& j);
 };
 
-/// Policy review scheduler
 class ReviewScheduler {
 public:
     ReviewScheduler(std::shared_ptr<PolicyManager> policy_manager);
     
-    /// Configure review schedule for a rule
-    /// @param rule_id Rule identifier
-    /// @param period_days Review period in days
+    /**
+     * @brief Configure Review Schedule.
+     * @param[in] rule_id Identifier of the rule.
+     * @param[in] period_days Input parameter.
+     */
     void configureReviewSchedule(const std::string& rule_id, int period_days);
     
-    /// Create a review request for a rule
-    /// @param rule_id Rule to review
-    /// @param requester User requesting review
-    /// @param due_days Days until review is due
-    /// @return Review request ID
     std::string createReviewRequest(
         const std::string& rule_id,
         const std::string& requester,
         int due_days = 7
     );
     
-    /// Approve a review
-    /// @param review_id Review request ID
-    /// @param reviewer User approving the review
-    /// @param comments Review comments
     void approveReview(
         const std::string& review_id,
         const std::string& reviewer,
         const std::string& comments = ""
     );
     
-    /// Reject a review
-    /// @param review_id Review request ID
-    /// @param reviewer User rejecting the review
-    /// @param comments Rejection reason
+    /**
+     * @brief Reject Review.
+     * @param[in] review_id Identifier of the review.
+     * @param[in] reviewer Input parameter.
+     * @param[in] comments Input parameter.
+     */
     void rejectReview(
         const std::string& review_id,
         const std::string& reviewer,
         const std::string& comments
     );
     
-    /// Get pending reviews
-    /// @return List of pending review requests
+    /**
+     * @brief Get Pending Reviews.
+     * @return Return value.
+     */
     std::vector<ReviewRequest> getPendingReviews() const;
     
-    /// Get overdue reviews
-    /// @return List of overdue review requests
+    /**
+     * @brief Get Overdue Reviews.
+     * @return Return value.
+     */
     std::vector<ReviewRequest> getOverdueReviews() const;
     
-    /// Get review history for a rule
-    /// @param rule_id Rule identifier
-    /// @return List of review requests for the rule
+    /**
+     * @brief Get Review History.
+     * @param[in] rule_id Identifier of the rule.
+     * @return Return value.
+     */
     std::vector<ReviewRequest> getReviewHistory(const std::string& rule_id) const;
     
-    /// Check for rules needing review
-    /// @return List of rule IDs that need review
+    /**
+     * @brief Check Reviews Due.
+     * @return Return value.
+     */
     std::vector<std::string> checkReviewsDue() const;
     
-    /// Get expiration info for a rule
-    /// @param rule_id Rule identifier
-    /// @return JSON with expiration details
+    /**
+     * @brief Get Expiration Info.
+     * @param[in] rule_id Identifier of the rule.
+     * @return Return value.
+     */
     nlohmann::json getExpirationInfo(const std::string& rule_id) const;
     
-    /// Export review data
+    /**
+     * @brief Export Reviews.
+     * @return Return value.
+     */
     nlohmann::json exportReviews() const;
     
-    /// Import review data
+    /**
+     * @brief Import Reviews.
+     * @param[in] j Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool importReviews(const nlohmann::json& j);
     
 private:
@@ -123,10 +150,17 @@ private:
     std::unordered_map<std::string, ReviewSchedule> schedules_;
     std::unordered_map<std::string, ReviewRequest> reviews_;
     
-    /// Helper: Generate unique review ID
+    /**
+     * @brief Generate Review Id.
+     * @return Return value.
+     */
     std::string generateReviewId() const;
     
-    /// Helper: Calculate next review date
+    /**
+     * @brief Calculate Next Review Date.
+     * @param[in] rule_id Identifier of the rule.
+     * @return Return value.
+     */
     std::int64_t calculateNextReviewDate(const std::string& rule_id) const;
 };
 

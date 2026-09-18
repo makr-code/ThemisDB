@@ -21,41 +21,8 @@
 namespace themis {
 namespace config {
 
-/**
- * ConfigFileWatcher watches a directory tree for changes to `.yaml` and
- * `.json` files and invokes a user-supplied callback after a 200 ms debounce
- * settling window.
- *
- * Platform support:
- *   - Linux  : inotify (recursive watch via inotify_add_watch per sub-dir)
- *   - macOS  : kqueue  (kevent-based file-descriptor watch)
- *   - Windows: ReadDirectoryChangesW
- *
- * Usage:
- * @code
- *   ConfigFileWatcher watcher("/etc/myapp/config",
- *       []() { ConfigPathResolver::clearCache(); },
- *       std::chrono::milliseconds(200));
- *   watcher.start();
- *   // ... later ...
- *   watcher.stop();
- * @endcode
- *
- * Thread-safety:
- *   start() and stop() are thread-safe and idempotent. The callback is
- *   invoked from the watcher's internal background thread; callers must
- *   ensure the callback is itself thread-safe.
- */
 class ConfigFileWatcher {
 public:
-    /**
-     * Construct a file watcher.
-     *
-     * @param watch_path   Directory to watch (recursively).
-     * @param callback     Invoked after the debounce window expires.
-     * @param debounce     Settling window before the callback fires.
-     *                     Defaults to 200 ms.
-     */
     explicit ConfigFileWatcher(
         std::string watch_path,
         std::function<void()> callback,
@@ -70,54 +37,48 @@ public:
     ConfigFileWatcher& operator=(ConfigFileWatcher&&) = delete;
 
     /**
-     * Start the background watcher thread.
-     * Idempotent: calling start() on an already-running watcher is a no-op.
-     *
-     * @return true if the watcher was started successfully; false if the
-     *         platform does not support file watching or the watch_path is
-     *         not accessible.
+     * @brief Start.
+     * @return True when the operation succeeds.
      */
     bool start();
 
     /**
-     * Stop the background watcher thread and release OS resources.
-     * Blocks until the thread has exited. Idempotent.
+     * @brief Stop.
      */
     void stop();
 
-    /**
-     * @return true if the watcher thread is currently running.
-     */
     bool isRunning() const { return running_.load(std::memory_order_acquire); }
 
-    /**
-     * Return the path being watched.
-     */
     const std::string& watchPath() const { return watch_path_; }
 
-    /**
-     * Return the configured debounce interval.
-     */
     std::chrono::milliseconds debounceInterval() const { return debounce_; }
 
 private:
-    // ── Entry point for the watcher thread ──────────────────────────────
+    /**
+     * @brief ── Entry point for the watcher thread ──────────────────────────────
+     */
     void watchLoop();
 
     // ── Platform-specific watch loops ───────────────────────────────────
 #if defined(__linux__)
+    /**
+     * @brief Watch Loop Inotify.
+     */
     void watchLoopInotify();
 #elif defined(__APPLE__)
+    /**
+     * @brief Watch Loop Kqueue.
+     */
     void watchLoopKqueue();
 #elif defined(_WIN32)
+    /**
+     * @brief Watch Loop Read Dir Changes.
+     */
     void watchLoopReadDirChanges();
 #endif
 
-    // ── Debounce helper ─────────────────────────────────────────────────
     /**
-     * Called from the watch loop whenever a relevant FS event arrives.
-     * Resets the debounce timer; the callback fires after `debounce_` ms of
-     * inactivity.
+     * @brief ── Debounce helper ─────────────────────────────────────────────────
      */
     void scheduleCallback();
 

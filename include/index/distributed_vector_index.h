@@ -43,17 +43,12 @@
 namespace themis {
 namespace index {
 
-/// Partitioning strategy for distributing vectors across shards.
 enum class ShardingStrategy {
     HASH,            ///< shard = hash(pk) % num_shards
     RANGE,           ///< Hash-based bucket assignment (alias for HASH).
-                     ///  Proper lexicographic range partitioning requires
-                     ///  pre-defined boundary keys and is out-of-scope for
-                     ///  this initial implementation.
     CONSISTENT_HASH  ///< consistent-hashing ring for minimal rehashing
 };
 
-/// Configuration for DistributedVectorIndex.
 struct DistributedVectorIndexConfig {
     size_t           num_shards         = 4;    ///< Number of shards to create
     ShardingStrategy strategy           = ShardingStrategy::CONSISTENT_HASH;
@@ -61,13 +56,11 @@ struct DistributedVectorIndexConfig {
     size_t           replication_factor = 1;    ///< Future: replicate vectors across N shards
 };
 
-/// Per-shard statistics returned by getShardStats().
 struct DistributedShardStats {
     size_t shard_index = 0;   ///< Zero-based shard index
     size_t vector_count = 0;  ///< Number of vectors in this shard
 };
 
-/// Aggregated statistics over all shards.
 struct DistributedVectorIndexStats {
     size_t total_vectors    = 0;
     size_t num_shards       = 0;
@@ -76,20 +69,10 @@ struct DistributedVectorIndexStats {
     double load_imbalance   = 0.0; ///< (max - min) / mean; 0 = perfectly balanced
 };
 
-/// Distributed vector index that partitions an embedding space across multiple
-/// independent IAnnIndex shards using scatter-gather KNN queries.
-///
-/// Thread-safety: individual methods are protected by a single mutex.  For
-/// high-throughput workloads, consider using a striped lock or lock-free
-/// strategies (out of scope for this initial implementation).
 class DistributedVectorIndex {
 public:
-    /// Construct with an explicit config; shards are created automatically
-    /// using new ScaNN(ScaNNConfig{}) instances.
     explicit DistributedVectorIndex(const DistributedVectorIndexConfig& config = {});
 
-    /// Construct with pre-built shard indexes.  The caller transfers ownership.
-    /// @param shards  Exactly config.num_shards IAnnIndex instances.
     DistributedVectorIndex(const DistributedVectorIndexConfig& config,
                            std::vector<std::unique_ptr<IAnnIndex>> shards);
 
@@ -105,62 +88,68 @@ public:
     // Mutation
     // -------------------------------------------------------------------------
 
-    /// Insert or update a vector identified by @p primary_key.
-    /// If the key already exists on a shard, the old entry is replaced.
-    /// @param primary_key  Unique string key for this vector.
-    /// @param vector       Pointer to @p dim floats.
-    /// @param dim          Dimensionality of the vector.
-    /// @return true on success.
     [[nodiscard]] bool insert(const std::string& primary_key, const float* vector, size_t dim);
 
-    /// Convenience overload accepting std::vector<float>.
     [[nodiscard]] bool insert(const std::string& primary_key, const std::vector<float>& vector);
 
-    /// Remove the vector identified by @p primary_key from its shard.
-    /// No-op (returns false) when the key is unknown.
     [[nodiscard]] bool remove(const std::string& primary_key);
 
     // -------------------------------------------------------------------------
     // Query – scatter-gather KNN
     // -------------------------------------------------------------------------
 
-    /// Search for the @p k nearest neighbours of @p query across ALL shards.
-    ///
-    /// Implementation:
-    ///   1. Scatter: query every shard for up to @p k candidates.
-    ///   2. Gather:  collect all partial results.
-    ///   3. Merge:   globally sort by distance and return top @p k.
-    ///
-    /// @param query  Pointer to @p dim floats.
-    /// @param dim    Dimensionality of the query vector.
-    /// @param k      Number of nearest neighbours to return.
-    /// @return Sorted (closest first) list of AnnSearchResult; may be shorter
-    ///         than @p k when fewer vectors are indexed.
+    /**
+     * @brief Search.
+     * @param[in] query Input parameter.
+     * @param[in] dim Input parameter.
+     * @param[in] k Input parameter.
+     * @return Return value.
+     */
     std::vector<AnnSearchResult> search(const float* query, size_t dim, int k) const;
 
-    /// Convenience overload accepting std::vector<float>.
+    /**
+     * @brief Search.
+     * @param[in] query Input parameter.
+     * @param[in] k Input parameter.
+     * @return Return value.
+     */
     std::vector<AnnSearchResult> search(const std::vector<float>& query, int k) const;
 
     // -------------------------------------------------------------------------
     // Introspection
     // -------------------------------------------------------------------------
 
-    /// Total number of vectors across all shards.
+    /**
+     * @brief Size.
+     * @return Return value.
+     */
     size_t size() const;
 
-    /// Number of shards.
+    /**
+     * @brief Num Shards.
+     * @return Return value.
+     */
     size_t numShards() const;
 
-    /// Per-shard statistics.
+    /**
+     * @brief Get Shard Stats.
+     * @return Return value.
+     */
     std::vector<DistributedShardStats> getShardStats() const;
 
-    /// Aggregated statistics.
+    /**
+     * @brief Get Stats.
+     * @return Return value.
+     */
     DistributedVectorIndexStats getStats() const;
 
-    /// Resolve which shard index owns @p primary_key (deterministic).
+    /**
+     * @brief Shard For.
+     * @param[in] primary_key Input parameter.
+     * @return Return value.
+     */
     size_t shardFor(const std::string& primary_key) const;
 
-    /// Current configuration.
     const DistributedVectorIndexConfig& config() const noexcept { return config_; }
 
 private:
@@ -192,9 +181,29 @@ private:
     // Consistent-hash ring state (used when strategy == CONSISTENT_HASH)
     std::map<uint64_t, size_t> ring_; ///< token → shard_index
 
+    /**
+     * @brief Build Ring.
+     */
     void buildRing_();
+    /**
+     * @brief Hash Key.
+     * @param[in] key Input parameter.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     uint64_t hashKey_(const std::string& key) const noexcept;
+    /**
+     * @brief Shard For.
+     * @param[in] key Input parameter.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     size_t shardFor_(const std::string& key) const noexcept;
+    /**
+     * @brief Parse Global Id From Key.
+     * @param[in] key Input parameter.
+     * @return Return value.
+     */
     static std::optional<int64_t> parseGlobalIdFromKey_(const std::string& key);
 };
 

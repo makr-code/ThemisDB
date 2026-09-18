@@ -35,18 +35,11 @@
 namespace themis::analytics::detail {
 
 /**
- * Compute the p-th percentile (p in [0, 100]) of a collection of doubles
- * using linear interpolation.
- *
- * The input range is NOT modified.  A local scratch copy is made so the sort
- * stays inside this function.  For small windows (≤ 256 elements) the copy is
- * typically on the stack thanks to small-buffer-optimization in most
- * std::vector implementations; for larger windows a single heap allocation is
- * incurred — far cheaper than the per-call-site copies that existed before.
- *
- * @param vals  Values to compute the percentile over (read-only, any order).
- * @param p     Percentile in [0, 100].  Values outside the range are clamped.
- * @return      The interpolated p-th percentile, or 0.0 if @p vals is empty.
+ * @brief Compute Percentile.
+ * @param[in] vals Input parameter.
+ * @param[in] p Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), scratch(), begin(), end(), std::sort(), front(), back(), size().
  */
 inline double computePercentile(const std::vector<double>& vals, double p) {
     if (vals.empty()) {
@@ -72,8 +65,11 @@ inline double computePercentile(const std::vector<double>& vals, double p) {
 }
 
 /**
- * Overload accepting a span for callers that already have a contiguous range
- * (e.g. a raw array, std::array, or a sub-range of a vector).
+ * @brief Compute Percentile.
+ * @param[in] vals Input parameter.
+ * @param[in] p Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), scratch(), begin(), end(), std::sort(), front(), back(), size().
  */
 inline double computePercentile(std::span<const double> vals, double p) {
     if (vals.empty()) {

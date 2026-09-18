@@ -22,41 +22,6 @@
 namespace themis {
 namespace aql {
 
-/**
- * @brief Thread-safe streaming interface for LLM-generated tokens.
- *
- * AQLTokenStream bridges a token producer (e.g. an LLM inference thread) and
- * a consumer (e.g. a rendering loop or SSE writer).  The producer pushes tokens
- * via push() and signals end-of-stream via close().  The consumer either
- * iterates via the range-based for-loop interface or calls nextToken() directly.
- *
- * Cancellation is cooperative: the consumer calls cancel() and the producer
- * should check isCancelled() between tokens to abort early.
- *
- * Thread-safety:
- *   - push() and close() may be called from any thread (typically the inference
- *     thread).
- *   - nextToken(), begin(), end(), and cancel() may be called from any thread
- *     (typically the consumer thread).
- *   - Only one consumer thread is supported at a time.
- *
- * Usage example (consumer):
- * @code
- *   auto stream = std::make_shared<AQLTokenStream>();
- *   // ... producer fills the stream in another thread ...
- *   for (const auto& token : *stream) {
- *       std::cout << token;
- *   }
- * @endcode
- *
- * Usage example (producer):
- * @code
- *   stream->push("Hello");
- *   stream->push(", world");
- *   if (stream->isCancelled()) { return; }  // cooperative check
- *   stream->close();                         // signal end-of-stream
- * @endcode
- */
 class AQLTokenStream {
 public:
     AQLTokenStream() = default;
@@ -77,12 +42,9 @@ public:
     // -------------------------------------------------------------------------
 
     /**
-     * @brief Push a token onto the stream.
-     *
-     * Notifies one waiting consumer.  If the stream has already been closed or
-     * cancelled this call is a no-op (the token is silently discarded).
-     *
-     * @param token  Token string to enqueue.
+     * @brief Push.
+     * @param[in] token Input parameter.
+     * @details Calls: lock(), notify_one().
      */
     void push(const std::string& token) {
         {
@@ -96,11 +58,8 @@ public:
     }
 
     /**
-     * @brief Signal end-of-stream.
-     *
-     * After close() returns the consumer will drain any remaining queued tokens
-     * and then see an empty optional from nextToken(), indicating completion.
-     * Calling close() more than once is safe (idempotent).
+     * @brief Close.
+     * @details Calls: lock(), notify_all().
      */
     void close() {
         {
@@ -115,10 +74,9 @@ public:
     // -------------------------------------------------------------------------
 
     /**
-     * @brief Retrieve the next token, blocking until one is available.
-     *
-     * @return The next token, or std::nullopt when the stream is exhausted
-     *         (closed with no more queued tokens) or cancelled.
+     * @brief Next Token.
+     * @return Return value.
+     * @details Calls: lock(), wait(), empty(), front(), pop().
      */
     std::optional<std::string> nextToken() {
         std::unique_lock<std::mutex> lock(mutex_);
@@ -134,11 +92,8 @@ public:
     }
 
     /**
-     * @brief Request cooperative cancellation.
-     *
-     * Unblocks any waiting consumer (nextToken() returns nullopt) and sets the
-     * cancelled flag so producers can detect and abort early via isCancelled().
-     * Calling cancel() more than once is safe (idempotent).
+     * @brief Cancel.
+     * @details Calls: lock(), notify_all().
      */
     void cancel() {
         {
@@ -148,19 +103,16 @@ public:
         cv_.notify_all();
     }
 
-    /**
-     * @brief Check whether cancellation has been requested.
-     *
-     * Producers should call this periodically to cooperate with cancellation.
-     */
     bool isCancelled() const {
         return cancelled_.load(std::memory_order_acquire);
     }
 
-    /**
-     * @brief Check whether the stream has been closed by the producer.
-     */
     bool isClosed() const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return closed_;
     }
@@ -169,18 +121,16 @@ public:
     // Range-based for-loop support
     // -------------------------------------------------------------------------
 
-    /**
-     * @brief Input iterator over AQLTokenStream tokens.
-     *
-     * Satisfies the minimum requirements for a range-based for-loop.
-     * Advancing the iterator blocks until the next token is available.
-     */
     class Iterator {
     public:
+        /**
+         * @brief Iterator.
+         * @param[in,out] stream Input/output parameter.
+         * @return Return value.
+         */
         explicit Iterator(AQLTokenStream* stream)
             : stream_(stream), current_(stream ? stream->nextToken() : std::nullopt) {}
 
-        /// Sentinel iterator constructor (end-of-stream marker).
         Iterator() : stream_(nullptr) {}
 
         const std::string& operator*() const { return *current_; }
@@ -203,10 +153,18 @@ public:
         std::optional<std::string> current_;
     };
 
-    /// Return an iterator pointing at the first (possibly blocking) token.
+    /**
+     * @brief Begin.
+     * @return Return value.
+     * @details Calls: Iterator().
+     */
     Iterator begin() { return Iterator(this); }
 
-    /// Return the sentinel end iterator.
+    /**
+     * @brief End.
+     * @return Return value.
+     * @details Calls: Iterator().
+     */
     Iterator end()   { return Iterator();     }
 
 private:

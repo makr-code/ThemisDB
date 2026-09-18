@@ -482,11 +482,20 @@ public:
         const std::vector<uint8_t>& signature,
         const std::vector<uint8_t>& public_key)>;
 
-    /// Inject a real liboqs or test backend. Pass empty fn to restore simulation.
+    /**
+     * @brief Set Generate Key Pair Fn.
+     * @param[in] fn Input parameter.
+     */
     static void setGenerateKeyPairFn(GenerateKeyPairFn fn);
-    /// Inject a real liboqs sign implementation. Pass empty fn to restore simulation.
+    /**
+     * @brief Set Sign Fn.
+     * @param[in] fn Input parameter.
+     */
     static void setSignFn(SignFn fn);
-    /// Inject a real liboqs verify implementation. Pass empty fn to restore simulation.
+    /**
+     * @brief Set Verify Fn.
+     * @param[in] fn Input parameter.
+     */
     static void setVerifyFn(VerifyFn fn);
 
     Variant getVariant() const noexcept { return variant_; }

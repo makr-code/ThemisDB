@@ -6,6 +6,12 @@
 namespace themis {
 namespace search {
 
+/**
+ * @brief Create Llm Reranker.
+ * @param[in] cfg Input parameter.
+ * @return Return value.
+ * @details Implements createLlmReranker without additional internal calls.
+ */
 std::unique_ptr<ILlmReranker> createLlmReranker(const ILlmReranker::Config& cfg) {
     return nullptr;
 }

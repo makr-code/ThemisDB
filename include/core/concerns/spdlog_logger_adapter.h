@@ -25,15 +25,6 @@ namespace themis {
 namespace core {
 namespace concerns {
 
-/**
- * @brief Spdlog adapter implementation of ILogger.
- * 
- * Wraps the existing spdlog-based logger to implement the ILogger interface.
- * When json_mode_ is enabled, logStructured() / logWithContext() emit
- * single-line JSON objects with PII redaction applied to field values.
- * In plain-text mode the adapter preserves the fields as key=value pairs so
- * callers still get structured correlation data without requiring JSON sinks.
- */
 class SpdlogLoggerAdapter : public ILogger {
 public:
     explicit SpdlogLoggerAdapter(std::shared_ptr<spdlog::logger> logger = nullptr,
@@ -43,11 +34,41 @@ public:
 
     void log(Level level, const std::string& message) override {
         switch (level) {
+            /**
+             * @brief Trace.
+             * @param[in] message Input parameter.
+             * @return Return value.
+             */
             case Level::TRACE: trace(message); break;
+            /**
+             * @brief Debug.
+             * @param[in] message Input parameter.
+             * @return Return value.
+             */
             case Level::DEBUG: debug(message); break;
+            /**
+             * @brief Info.
+             * @param[in] message Input parameter.
+             * @return Return value.
+             */
             case Level::INFO: info(message); break;
+            /**
+             * @brief Warn.
+             * @param[in] message Input parameter.
+             * @return Return value.
+             */
             case Level::WARN: warn(message); break;
+            /**
+             * @brief Error.
+             * @param[in] message Input parameter.
+             * @return Return value.
+             */
             case Level::ERROR: error(message); break;
+            /**
+             * @brief Critical.
+             * @param[in] message Input parameter.
+             * @return Return value.
+             */
             case Level::CRITICAL: critical(message); break;
         }
     }
@@ -88,14 +109,6 @@ public:
         }
     }
 
-    /**
-     * @brief Emit a structured log line.
-     *
-     * In JSON mode the adapter builds a single-line JSON object with
-     * timestamp, level, message, and each field serialized as a property.
-     * In plain-text mode the adapter emits the message followed by key=value
-     * pairs, still applying redaction to sensitive fields.
-     */
     void logStructured(Level level,
                        const std::string& message,
                        const Fields& fields = {}) override {
@@ -117,17 +130,6 @@ public:
         }
     }
 
-    /**
-     * @brief Emit a structured log line with trace/span/request context.
-     *
-     * In JSON mode the three correlation IDs are emitted as explicit fields
-     * immediately after "message", guaranteeing they appear even when
-     * @p fields does not contain them.
-     *
-     * In plain-text mode a `[trace=…][span=…][req=…]` prefix is prepended to
-     * the message so operators can `grep` for a trace-id without a log query
-     * language.
-     */
     void logWithContext(Level level,
                         const std::string& message,
                         const TraceContext& ctx,
@@ -221,20 +223,24 @@ public:
     }
 
     /**
-     * @brief Enable or disable JSON-mode at runtime.
-     * @param enabled When true, structured logs are emitted as JSON objects.
+     * @brief Set Json Mode.
+     * @param[in] enabled Input parameter.
+     * @details Implements setJsonMode without additional internal calls.
      */
     void setJsonMode(bool enabled) { json_mode_ = enabled; }
 
-    /**
-     * @brief Return whether JSON-mode is currently enabled.
-     */
     bool jsonMode() const { return json_mode_; }
 
 private:
     std::shared_ptr<spdlog::logger> logger_;
     bool json_mode_;
 
+    /**
+     * @brief To Spdlog Level.
+     * @param[in] level Input parameter.
+     * @return Return value.
+     * @details Implements toSpdlogLevel without additional internal calls.
+     */
     static spdlog::level::level_enum toSpdlogLevel(Level level) {
         switch (level) {
             case Level::TRACE: return spdlog::level::trace;
@@ -248,7 +254,10 @@ private:
     }
 
     /**
-     * @brief JSON-escape a string value.
+     * @brief Json Escape.
+     * @param[in] s Input parameter.
+     * @return Return value.
+     * @details Calls: reserve(), size(), std::snprintf().
      */
     static std::string jsonEscape(const std::string& s) {
         std::string out = {};
@@ -274,10 +283,11 @@ private:
     }
 
     /**
-     * @brief Redact PII-sensitive field values.
-     *
-     * Fields whose key contains "password", "secret", "token", "email",
-     * "phone", or "ssn" (case-insensitive) are replaced with "[REDACTED]".
+     * @brief Redact.
+     * @param[in] key Input parameter.
+     * @param[in] value Input parameter.
+     * @return Return value.
+     * @details Calls: pii_re(), std::regex_search().
      */
     static std::string redact(const std::string& key, const std::string& value) {
         static const std::regex pii_re(
@@ -289,9 +299,6 @@ private:
         return value;
     }
 
-    /**
-     * @brief Build a single-line JSON log object.
-     */
     std::string buildJsonLine(Level level,
                               const std::string& message,
                               const Fields& fields) const {

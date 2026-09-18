@@ -45,7 +45,8 @@ public:
      * The lock is held for the duration of the function execution.
      * 
      * @param func Function to execute with const reference to value
-     * @return Return value of func
+        * @return Whatever @p func returns when called with a const reference to
+        *         the protected value.
      */
     template<typename Func>
     auto with_lock(Func&& func) const -> decltype(func(std::declval<const T&>())) {
@@ -60,7 +61,8 @@ public:
      * The lock is held for the duration of the function execution.
      * 
      * @param func Function to execute with mutable reference to value
-     * @return Return value of func
+        * @return Whatever @p func returns when called with a mutable reference to
+        *         the protected value.
      */
     template<typename Func>
     auto with_lock(Func&& func) -> decltype(func(std::declval<T&>())) {
@@ -101,7 +103,8 @@ public:
      * Multiple threads can hold shared locks simultaneously for reading.
      * 
      * @param func Function to execute with const reference to value
-     * @return Return value of func
+        * @return Whatever @p func returns when called with a const reference to
+        *         the protected value.
      */
     template<typename Func>
     auto with_shared_lock(Func&& func) const -> decltype(func(std::declval<const T&>())) {
@@ -116,7 +119,8 @@ public:
      * Only one thread can hold a unique lock, and no shared locks are allowed.
      * 
      * @param func Function to execute with mutable reference to value
-     * @return Return value of func
+        * @return Whatever @p func returns when called with a mutable reference to
+        *         the protected value.
      */
     template<typename Func>
     auto with_unique_lock(Func&& func) -> decltype(func(std::declval<T&>())) {

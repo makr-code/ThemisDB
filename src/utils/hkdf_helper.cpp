@@ -56,12 +56,27 @@
 namespace themis {
 namespace utils {
 
+/**
+ * @brief Derive.
+ * @param[in] ikm Input parameter.
+ * @param[in] salt Input parameter.
+ * @param[in] info Input parameter.
+ * @param[in] output_length Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: output(), EVP_KDF_fetch(), themis::utils::makeErrorContext(), std::to_string(), themis::utils::logErrorWithContext(), EVP_KDF_CTX_new(), EVP_KDF_free(), OSSL_PARAM_construct_utf8_string().
+ */
 std::vector<uint8_t> HKDFHelper::derive(
     const std::vector<uint8_t>& ikm,
     const std::vector<uint8_t>& salt,
     const std::string& info,
     size_t output_length) {
     
+    /**
+     * @brief Output.
+     * @param[in] output_length Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> output(output_length);
     
 #if OPENSSL_VERSION_NUMBER >= 0x30000000L
@@ -174,6 +189,14 @@ std::vector<uint8_t> HKDFHelper::derive(
     return output;
 }
 
+/**
+ * @brief Derive From String.
+ * @param[in] ikm_str Input parameter.
+ * @param[in] info Input parameter.
+ * @param[in] output_length Input parameter.
+ * @return Return value.
+ * @details Calls: ikm(), begin(), end(), derive().
+ */
 std::vector<uint8_t> HKDFHelper::deriveFromString(
     const std::string& ikm_str,
     const std::string& info,

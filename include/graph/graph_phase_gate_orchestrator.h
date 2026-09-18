@@ -51,9 +51,6 @@ namespace graph {
 // GateStatus
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Outcome of evaluating a phase gate.
- */
 enum class GateStatus {
     PASS,         ///< All criteria met; phase may advance.
     FAIL,         ///< One or more criteria not met; see `gaps()`.
@@ -65,18 +62,9 @@ enum class GateStatus {
 // GateCriterion
 // ---------------------------------------------------------------------------
 
-/**
- * @brief A single named metric gate criterion.
- *
- * The gate passes for this criterion when
- * `attached_metric_value >= threshold`.
- */
 struct GateCriterion {
-    /// Metric key that must be present and satisfy `threshold`.
     std::string metric_key;
-    /// Minimum acceptable value (inclusive lower bound).
     float threshold = 0.0f;
-    /// Human-readable description for gap reports.
     std::string description;
 };
 
@@ -84,23 +72,11 @@ struct GateCriterion {
 // PhaseGapReport
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Gap report for a single pipeline phase.
- *
- * A gap report is returned for phases whose gate has not passed.  It
- * enumerates both missing/below-threshold metrics and unresolved prerequisite
- * phase blockers.
- */
 struct PhaseGapReport {
-    /// Name of the phase this report applies to.
     std::string phase_name;
-    /// Current gate status at the time of the report.
     GateStatus status = GateStatus::PENDING;
-    /// Criteria that are not yet satisfied (metric absent or below threshold).
     std::vector<std::string> unsatisfied_criteria;
-    /// Prerequisite phases that have not passed their own gate.
     std::vector<std::string> blocked_by_phases;
-    /// Human-readable summary line.
     std::string summary;
 };
 
@@ -108,32 +84,6 @@ struct PhaseGapReport {
 // GraphPhaseGateOrchestrator
 // ---------------------------------------------------------------------------
 
-/**
- * @brief ML pipeline phase gate orchestrator built on a directed acyclic graph.
- *
- * Typical usage:
- * @code
- * GraphPhaseGateOrchestrator orch;
- *
- * // Register phases (DAG edges = prerequisites)
- * orch.registerPhase("data_validation", {});
- * orch.registerPhase("model_training",  {"data_validation"});
- * orch.registerPhase("evaluation",      {"model_training"});
- *
- * // Define gate criteria
- * orch.setGateCriteria("data_validation", {{"completeness", 0.95f, "≥ 95 % rows present"}});
- * orch.setGateCriteria("model_training",  {{"accuracy",     0.80f, "≥ 80 % training accuracy"}});
- * orch.setGateCriteria("evaluation",      {{"f1_score",     0.75f, "≥ 0.75 F1 on held-out set"}});
- *
- * // Attach observed metrics
- * orch.attachMetric("data_validation", "completeness", 0.98f);
- * orch.attachMetric("model_training",  "accuracy",     0.82f);
- * orch.attachMetric("evaluation",      "f1_score",     0.77f);
- *
- * // Evaluate
- * assert(orch.gateStatus("evaluation") == GateStatus::PASS);
- * @endcode
- */
 class GraphPhaseGateOrchestrator {
 public:
     GraphPhaseGateOrchestrator()  = default;
@@ -152,29 +102,19 @@ public:
     // -----------------------------------------------------------------------
 
     /**
-     * @brief Register a pipeline phase with its direct prerequisites.
-     *
-     * @param phase_name   Unique name for the phase.  Must be non-empty.
-     * @param prerequisites Names of phases that must PASS before this one can
-     *                      advance.  May be empty for root phases.
-     * @return `true` on success; `false` if `phase_name` is empty, already
-     *         registered, self-referential, or depends on an unknown
-     *         prerequisite.
-     *
-     * @note Prerequisites must have been registered previously (forward
-     *       references are not supported), which keeps the public registration
-     *       path acyclic.
+     * @brief Register Phase.
+     * @param[in] phase_name Name of the phase.
+     * @param[in] prerequisites Input parameter.
+     * @return True when the operation succeeds.
      */
     bool registerPhase(const std::string&              phase_name,
                        const std::vector<std::string>& prerequisites);
 
     /**
-     * @brief Replace the gate criteria for an already-registered phase.
-     *
-     * @param phase_name Phase to configure.
-     * @param criteria   One or more metric gate criteria (may be empty for an
-     *                   unconditional pass once prerequisites are met).
-     * @return `false` if `phase_name` is not registered.
+     * @brief Set Gate Criteria.
+     * @param[in] phase_name Name of the phase.
+     * @param[in] criteria Input parameter.
+     * @return True when the operation succeeds.
      */
     bool setGateCriteria(const std::string&             phase_name,
                          const std::vector<GateCriterion>& criteria);
@@ -184,24 +124,23 @@ public:
     // -----------------------------------------------------------------------
 
     /**
-     * @brief Attach (or update) a named metric value for a phase.
-     *
-     * @param phase_name  Target phase.
-     * @param metric_key  Metric identifier (must match a registered criterion
-     *                    key to influence gate evaluation).
-     * @param value       Observed metric value.
-     * @return `false` if `phase_name` is not registered.
+     * @brief Attach Metric.
+     * @param[in] phase_name Name of the phase.
+     * @param[in] metric_key Input parameter.
+     * @param[in] value Input parameter.
+     * @return True when the operation succeeds.
      */
     bool attachMetric(const std::string& phase_name,
                       const std::string& metric_key,
                       float              value);
 
-    /**
-     * @brief Retrieve the current value of a metric, if present.
-     *
-     * @return `std::nullopt` if the phase or metric is not found.
-     */
     [[nodiscard]]
+    /**
+     * @brief Get Metric.
+     * @param[in] phase_name Name of the phase.
+     * @param[in] metric_key Input parameter.
+     * @return Return value.
+     */
     std::optional<float> getMetric(const std::string& phase_name,
                                    const std::string& metric_key) const;
 
@@ -209,94 +148,82 @@ public:
     // Gate evaluation
     // -----------------------------------------------------------------------
 
-    /**
-     * @brief Evaluate the gate for the given phase.
-     *
-     * Evaluation is recursive: prerequisite gates are evaluated first.
-     *
-     * @param phase_name Phase to evaluate.
-     * @return `GateStatus::PENDING` if the phase is not registered.
-     */
     [[nodiscard]]
+    /**
+     * @brief Gate Status.
+     * @param[in] phase_name Name of the phase.
+     * @return Return value.
+     */
     GateStatus gateStatus(const std::string& phase_name) const;
 
-    /**
-     * @brief Produce a gap report for a phase whose gate has not PASSED.
-     *
-     * @param phase_name Phase to diagnose.
-     * @return A `PhaseGapReport` with `status == PASS` and empty lists when
-     *         all criteria are met; `status == PENDING` when the phase is
-     *         not registered.
-     */
     [[nodiscard]]
+    /**
+     * @brief Gaps.
+     * @param[in] phase_name Name of the phase.
+     * @return Return value.
+     */
     PhaseGapReport gaps(const std::string& phase_name) const;
 
-    /**
-     * @brief Collect gap reports for every phase that has not yet PASSED.
-     *
-     * @return Vector of gap reports (may be empty if all phases have PASSED).
-     */
     [[nodiscard]]
+    /**
+     * @brief All Gaps.
+     * @return Return value.
+     */
     std::vector<PhaseGapReport> allGaps() const;
 
     // -----------------------------------------------------------------------
     // Graph introspection
     // -----------------------------------------------------------------------
 
-    /**
-     * @brief Return all registered phase names.
-     */
     [[nodiscard]]
+    /**
+     * @brief Phase Names.
+     * @return Return value.
+     */
     std::vector<std::string> phaseNames() const;
 
-    /**
-     * @brief Return the number of registered phases.
-     */
     [[nodiscard]]
+    /**
+     * @brief Phase Count.
+     * @return Return value.
+     */
     std::size_t phaseCount() const;
 
-    /**
-     * @brief Check whether a phase name is registered.
-     */
     [[nodiscard]]
+    /**
+     * @brief Has Phase.
+     * @param[in] phase_name Name of the phase.
+     * @return True when the operation succeeds.
+     */
     bool hasPhase(const std::string& phase_name) const;
 
-    /**
-     * @brief Return the direct prerequisites of a registered phase.
-     *
-     * @return Empty vector if the phase is not found or has no prerequisites.
-     */
     [[nodiscard]]
+    /**
+     * @brief Prerequisites.
+     * @param[in] phase_name Name of the phase.
+     * @return Return value.
+     */
     std::vector<std::string> prerequisites(const std::string& phase_name) const;
 
-    /**
-     * @brief Return a topological ordering of all registered phases.
-     *
-     * Phases with no prerequisites appear first.  The order is stable
-     * (deterministic for a given registration sequence).
-     *
-     * @return A valid phase order for every normal registration path. Returns
-     *         an empty vector only if the internal DAG invariant has been
-     *         violated unexpectedly (for example by a future mutation path
-     *         bypassing `registerPhase()`). Callers should treat an empty
-     *         result as a fatal diagnostic condition rather than a recoverable
-     *         scheduling outcome.
-     */
     [[nodiscard]]
+    /**
+     * @brief Topological Order.
+     * @return Return value.
+     */
     std::vector<std::string> topologicalOrder() const;
 
-    /**
-     * @brief Return the count of phases whose gate currently has status PASS.
-     */
     [[nodiscard]]
+    /**
+     * @brief Passed Phase Count.
+     * @return Return value.
+     */
     std::size_t passedPhaseCount() const;
 
-    /**
-     * @brief Return the fraction of phases that have passed (0.0 – 1.0).
-     *
-     * Returns 0.0 when no phases are registered.
-     */
     [[nodiscard]]
+    /**
+     * @brief Completion Ratio.
+     * @return Return value.
+     */
     float completionRatio() const;
 
 private:
@@ -310,26 +237,39 @@ private:
         std::unordered_map<std::string, float> metrics;
     };
 
-    // -----------------------------------------------------------------------
-    // Helpers (called under the mutex)
-    // -----------------------------------------------------------------------
+    /**
+     * @brief ----------------------------------------------------------------------- Helpers (called under the mutex) -----------------------------------------------------------------------
+     * @param[in] start Input parameter.
+     * @param[in,out] visited Input/output parameter.
+     * @param[in,out] rec_stack Input/output parameter.
+     * @return True when the operation succeeds.
+     */
 
-    /// @brief DFS cycle check starting from `start`, treating `visited` as
-    ///        the already-visited set.  Returns `true` if a cycle is found.
     bool hasCycleDFS(const std::string&              start,
                      std::unordered_set<std::string>& visited,
                      std::unordered_set<std::string>& rec_stack) const;
 
-    /// @brief Internal gate evaluation (no locking — caller holds at minimum
-    ///        a shared lock).
+    /**
+     * @brief Evaluate Gate.
+     * @param[in] phase_name Name of the phase.
+     * @param[in,out] visiting Input/output parameter.
+     * @return Return value.
+     */
     GateStatus evaluateGate(const std::string&              phase_name,
                             std::unordered_set<std::string>& visiting) const;
 
-    /// @brief Internal gap computation (no locking).
+    /**
+     * @brief Compute Gaps.
+     * @param[in] phase_name Name of the phase.
+     * @return Return value.
+     */
     PhaseGapReport computeGaps(const std::string& phase_name) const;
 
-    /// @brief Transfer phase state from another instance while the caller holds
-    ///        the required exclusive lock(s). Leaves `other` valid and empty.
+    /**
+     * @brief Transfer From.
+     * @param[in,out] other Input/output parameter.
+     * @note Exception safety: noexcept.
+     */
     void transferFrom(GraphPhaseGateOrchestrator& other) noexcept;
 
     // -----------------------------------------------------------------------

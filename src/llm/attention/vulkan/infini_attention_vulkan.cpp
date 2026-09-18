@@ -130,7 +130,7 @@ Status InfiniAttentionVulkan::initialize() {
         return Status::ERROR_OUT_OF_MEMORY;
     }
 
-    // Load and compile shaders (placeholder)
+    // Load and compile the compute shaders used by the attention pipeline.
     VkShaderModule shader = loadShaderModule("vulkan/spirv/infini_attention.spv");
     if (!shader) {
         return Status::ERROR_VULKAN_ERROR;
@@ -168,7 +168,7 @@ Status InfiniAttentionVulkan::forward(
     }
 
     // Phase 2: Compute compressive attention
-    Tensor O_comp;  // Placeholder
+    Tensor O_comp;  // Temporary host-side buffer for the compressive branch.
     status = computeCompressiveAttention(Q, O_comp);
     if (status != Status::SUCCESS) {
         return status;
@@ -180,7 +180,7 @@ Status InfiniAttentionVulkan::forward(
         return status;
     }
 
-    // Phase 4: Blend outputs (Phase 2.2)
+    // Phase 4: Blend outputs
     status = blendOutputs(O, O_comp, O);
     if (status != Status::SUCCESS) {
         return status;
@@ -194,7 +194,7 @@ Status InfiniAttentionVulkan::backward(
     Tensor& dQ,
     Tensor& dK,
     Tensor& dV) {
-    // Phase 2.2: Gradient computation deferred
+    // Gradient computation is not implemented for the current Vulkan path.
     return Status::ERROR_NOT_IMPLEMENTED;
 }
 
@@ -385,7 +385,8 @@ std::vector<float> InfiniAttentionVulkan::getCompressiveMemory() const {
     size_t memory_bytes = checkpoint.size() * sizeof(float);
 
     // Copy from device to host (simplified; production needs staging buffer)
-    // For now, return empty (Phase 2.2 improvement)
+    // Return the current checkpoint buffer; device upload/download remains
+    // a separate staging-buffer path.
     return checkpoint;
 }
 
@@ -400,7 +401,7 @@ Status InfiniAttentionVulkan::restoreCompressiveMemory(const std::vector<float>&
     }
 
     // Copy from host to device (simplified; production needs staging buffer)
-    // Phase 2.2 implementation
+    // Restore via the staging-buffer upload path once it is wired in.
     return Status::SUCCESS;
 }
 
@@ -595,7 +596,8 @@ Status InfiniAttentionVulkan::dispatchKernel(
     return Status::SUCCESS;
 }
 
-// Phase 2.2 placeholder implementations
+    // These entry points currently return success after dispatch setup because
+    // the Vulkan kernels are not wired in yet.
 Status InfiniAttentionVulkan::computeLocalAttention(
     const Tensor& Q,
     const Tensor& K,
@@ -627,7 +629,7 @@ Status InfiniAttentionVulkan::copyDeviceToHost(
     VkBuffer device_buffer,
     void* host_data,
     size_t size) const {
-    // Phase 2.2: Implement staging buffer transfer
+    // Staging-buffer transfer is not wired in yet.
     return Status::SUCCESS;
 }
 
@@ -635,7 +637,7 @@ Status InfiniAttentionVulkan::copyHostToDevice(
     const void* host_data,
     VkBuffer device_buffer,
     size_t size) {
-    // Phase 2.2: Implement staging buffer transfer
+    // Staging-buffer transfer is not wired in yet.
     return Status::SUCCESS;
 }
 

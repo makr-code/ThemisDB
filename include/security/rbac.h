@@ -34,7 +34,12 @@ struct Permission {
         return resource == other.resource && action == other.action;
     }
     
-    // Wildcard matching: resource="*" matches all, action="*" matches all
+    /**
+     * @brief Wildcard matching: resource="*" matches all, action="*" matches all
+     * @param[in] res Input parameter.
+     * @param[in] act Input parameter.
+     * @return True on success.
+     */
     bool matches(const std::string& res, const std::string& act) const;
     
     std::string toString() const { return resource + ":" + action; }
@@ -47,7 +52,16 @@ struct Role {
     std::vector<Permission> permissions;  // List of permissions
     std::vector<std::string> inherits;    // Role inheritance (e.g., admin inherits operator)
     
+    /**
+     * @brief To Json.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
+    /**
+     * @brief From Json.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static Role fromJson(const nlohmann::json& j);
 };
 
@@ -64,6 +78,11 @@ struct RBACConfig {
 /// Role-Based Access Control System
 class RBAC {
 public:
+    /**
+     * @brief RBAC.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit RBAC(const RBACConfig& config);
     
     /// Load roles from configuration file (YAML or JSON)
@@ -84,11 +103,14 @@ public:
     /// List all role names
     std::vector<std::string> listRoles() const;
     
-    /// Check if user with given roles has permission to perform action on resource
-    /// @param user_roles List of roles assigned to user
-    /// @param resource Resource identifier (e.g., "data", "keys", "config")
-    /// @param action Action identifier (e.g., "read", "write", "delete")
-    /// @return true if permission granted
+    /**
+     * @brief Check if user with given roles has permission to perform action on resource @param user_roles List of roles assigned to user @param resource Resource identifier (e.
+     * @param[in] user_roles Input parameter.
+     * @param[in] resource Input parameter.
+     * @param[in] action Input parameter.
+     * @return True on success.
+     * @details g., "data", "keys", "config") @param action Action identifier (e.g., "read", "write", "delete") @return true if permission granted
+     */
     bool checkPermission(
         const std::vector<std::string>& user_roles,
         const std::string& resource,
@@ -134,7 +156,16 @@ struct User {
     std::vector<std::string> roles;       // e.g., ["operator", "analyst"]
     std::unordered_map<std::string, std::string> attributes; // Custom attributes
     
+    /**
+     * @brief To Json.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
+    /**
+     * @brief From Json.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static User fromJson(const nlohmann::json& j);
 };
 

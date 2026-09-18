@@ -43,12 +43,6 @@ namespace access_model {
 // § 1  Tier Identity & Classification
 // ============================================================================
 
-/**
- * @brief Unique identifier for a tier in the access hierarchy.
- *
- * Used by coordinator to route promotion/demotion decisions and metrics
- * collection uniformly across cache and storage tiers.
- */
 enum class TierLevel {
     L1_WORKING,      ///< Cache: Working memory (register-like, <1µs latency)
     L2_EPISODIC,     ///< Cache: Episodic/result-set memory (1-10µs)
@@ -59,16 +53,16 @@ enum class TierLevel {
     UNKNOWN,         ///< Sentinel value: tier not yet determined or invalid
 };
 
-/**
- * @brief Tier classification: memory-based vs. persistent.
- */
 enum class TierClassification {
     CACHE,     ///< In-memory tier (L1/L2/L3)
     STORAGE,   ///< Persistent tier (hot/warm/cold)
 };
 
 /**
- * @brief Get tier classification from level.
+ * @brief Classify Tier.
+ * @param[in] level Input parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_UNREACHABLE().
  */
 constexpr TierClassification classifyTier(TierLevel level) {
     switch (level) {
@@ -86,7 +80,10 @@ constexpr TierClassification classifyTier(TierLevel level) {
 }
 
 /**
- * @brief String representation of tier level.
+ * @brief Tier Level Name.
+ * @param[in] level Input parameter.
+ * @return Return value.
+ * @details Implements tierLevelName without additional internal calls.
  */
 constexpr std::string_view tierLevelName(TierLevel level) {
     switch (level) {
@@ -112,104 +109,65 @@ constexpr std::string_view tierLevelName(TierLevel level) {
 // § 2  Data Transfer Options & Results
 // ============================================================================
 
-/**
- * @brief Options for get/put/promote/demote operations on a tier.
- */
 struct TierAccessOptions {
-    /// Correlation ID for tracing (generated if empty)
     std::string correlation_id;
 
-    /// Target tier hint (for routing promotion/demotion)
     std::optional<TierLevel> target_tier;
 
-    /// Maximum wait time for async operations (0 = async fire-and-forget)
     std::chrono::milliseconds max_wait_ms{0};
 
-    /// User-provided context (opaque, passed to callbacks)
     void* context = nullptr;
 
-    /// Callback on operation completion (for async operations)
     std::function<void(bool success, const std::string& error)> on_complete;
 };
 
-/**
- * @brief Result of a get operation from a tier.
- */
 struct TierGetResult {
-    /// Operation succeeded
     bool success = false;
 
-    /// Error message (if success=false)
     std::string error_message;
 
-    /// Data retrieved (owned by caller after return)
     std::string value = {};
 
-    /// Current tier where data resides
     TierLevel current_tier;
 
-    /// Size of retrieved value in bytes
     std::size_t size_bytes = 0;
 
-    /// Latency in microseconds for this operation
     std::chrono::microseconds latency_us;
 
-    /// Access count for this key
     uint64_t access_count = 0;
 
-    /// Age of data in this tier (seconds since write)
     std::chrono::seconds age_secs;
 };
 
-/**
- * @brief Result of a put operation on a tier.
- */
 struct TierPutResult {
-    /// Operation succeeded
     bool success = false;
 
-    /// Error message (if success=false)
     std::string error_message;
 
-    /// Tier where data was placed (may differ from request if tier was full)
     TierLevel placed_in_tier;
 
-    /// Size stored in bytes
     std::size_t size_bytes = 0;
 
-    /// Latency in microseconds
     std::chrono::microseconds latency_us;
 
-    /// Correlation ID for tracing
     std::string correlation_id;
 };
 
-/**
- * @brief Result of a promotion operation (from lower to higher tier).
- */
 struct TierPromotionResult {
-    /// Operation succeeded
     bool success = false;
 
-    /// Error message (if success=false)
     std::string error_message;
 
-    /// Data that was promoted (if success=true)
     std::string promoted_value;
 
-    /// Source tier (where data was promoted from)
     TierLevel from_tier;
 
-    /// Destination tier (where data was promoted to)
     TierLevel to_tier;
 
-    /// Total latency for promotion (end-to-end, in ms)
     std::chrono::milliseconds total_latency_ms;
 
-    /// Per-hop latencies in ms (if multi-hop promotion)
     std::vector<std::chrono::milliseconds> hop_latencies_ms;
 
-    /// Correlation ID for tracing
     std::string correlation_id;
 };
 
@@ -217,161 +175,116 @@ struct TierPromotionResult {
 // § 3  AccessTier Interface (Abstract)
 // ============================================================================
 
-/**
- * @brief Abstract interface for a single tier in the access hierarchy.
- *
- * Both cache and storage tiers implement this interface, enabling the
- * `AccessCoordinator` to manage promotion/demotion uniformly.
- *
- * **Invariants:**
- * - All operations are thread-safe
- * - get() returns data if key exists; empty result if key not found (not an error)
- * - put() always succeeds unless capacity exceeded or I/O error occurs
- * - Errors are explicit (no silent failures)
- */
 class AccessTier {
 public:
+    /**
+     * @brief Access Tier.
+     * @return Return value.
+     */
     virtual ~AccessTier() = default;
 
-    /// ────────────────────────────────────────────────────────────────────
-    /// Core Operations
-    /// ────────────────────────────────────────────────────────────────────
 
     /**
-     * @brief Get data from this tier by key.
-     *
-     * @param key Data key
-     * @param options Access options (correlation ID, timeout, callback)
-     * @return Get result (includes success, error, value, latency)
-     *
-     * **Thread Safety:** Yes
-     * **Blocking:** Depends on implementation (cache: <1µs, storage: 1-500ms)
-     * **Async:** If options.max_wait_ms == 0, returns immediately with pending status
+     * @brief Get.
+     * @param[in] key Input parameter.
+     * @param[in] options Input parameter.
+     * @return Return value.
      */
     virtual TierGetResult get(std::string_view key, const TierAccessOptions& options) = 0;
 
     /**
-     * @brief Put data into this tier by key.
-     *
-     * @param key Data key
-     * @param value Data value (caller retains ownership; copied by tier)
-     * @param options Access options
-     * @return Put result (includes success, tier placement, latency)
-     *
-     * **Thread Safety:** Yes
-     * **Blocking:** Implementation-dependent
-     * **Capacity:** Returns error if tier is full and no eviction candidate found
+     * @brief Put.
+     * @param[in] key Input parameter.
+     * @param[in] value Input parameter.
+     * @param[in] options Input parameter.
+     * @return Return value.
      */
     virtual TierPutResult put(std::string_view key, std::string_view value,
                              const TierAccessOptions& options) = 0;
 
     /**
-     * @brief Invalidate (remove) data from this tier by key.
-     *
-     * @param key Data key to remove
-     * @return True if key existed and was removed; false if key not found
-     *
-     * **Thread Safety:** Yes
-     * **Blocking:** Implementation-dependent
+     * @brief Invalidate.
+     * @param[in] key Input parameter.
+     * @return True when the operation succeeds.
      */
     virtual bool invalidate(std::string_view key) = 0;
 
-    /// ────────────────────────────────────────────────────────────────────
-    /// Tier Information
-    /// ────────────────────────────────────────────────────────────────────
 
     /**
-     * @brief Get the tier level this instance represents.
+     * @brief Get Tier Level.
+     * @return Return value.
      */
     virtual TierLevel getTierLevel() const = 0;
 
     /**
-     * @brief Get human-readable tier name.
+     * @brief Get Tier Name.
+     * @return Return value.
      */
     virtual std::string getTierName() const = 0;
 
     /**
-     * @brief Check if a key exists in this tier.
+     * @brief Has Key.
+     * @param[in] key Input parameter.
+     * @return True when the operation succeeds.
      */
     virtual bool hasKey(std::string_view key) const = 0;
 
     /**
-     * @brief Get current size in bytes of all data in this tier.
+     * @brief Get Current Size Bytes.
+     * @return Return value.
      */
     virtual std::size_t getCurrentSizeBytes() const = 0;
 
     /**
-     * @brief Get maximum capacity in bytes for this tier.
-     *
-     * Return 0 or kMaxTierCapacity for unlimited capacity.
+     * @brief Get Max Capacity Bytes.
+     * @return Return value.
      */
     virtual std::size_t getMaxCapacityBytes() const = 0;
 
     /**
-     * @brief Get number of entries in this tier.
+     * @brief Get Entry Count.
+     * @return Return value.
      */
     virtual std::size_t getEntryCount() const = 0;
 
-    /// ────────────────────────────────────────────────────────────────────
-    /// Tier Metrics & Statistics
-    /// ────────────────────────────────────────────────────────────────────
 
     /**
-     * @brief Get hit rate for this tier (0.0 to 1.0).
-     *
-     * @return Hit rate, or -1.0 if metrics not available
+     * @brief Get Hit Rate.
+     * @return Return value.
      */
     virtual double getHitRate() const = 0;
 
     /**
-     * @brief Get average latency for get operations in microseconds.
+     * @brief Get Average Get Latency.
+     * @return Return value.
      */
     virtual std::chrono::microseconds getAverageGetLatency() const = 0;
 
     /**
-     * @brief Get average latency for put operations in microseconds.
+     * @brief Get Average Put Latency.
+     * @return Return value.
      */
     virtual std::chrono::microseconds getAveragePutLatency() const = 0;
 
     /**
-     * @brief Get access count for a specific key.
-     *
-     * @return Access count, or 0 if key not found or not tracked
+     * @brief Get Access Count.
+     * @param[in] key Input parameter.
+     * @return Return value.
      */
     virtual uint64_t getAccessCount(std::string_view key) const = 0;
 
     /**
-     * @brief Get age of a key in this tier (time since write).
-     *
-     * @return Age in seconds, or -1 if key not found or not tracked
+     * @brief Get Key Age.
+     * @param[in] key Input parameter.
+     * @return Return value.
      */
     virtual std::chrono::seconds getKeyAge(std::string_view key) const = 0;
 
-    /// ────────────────────────────────────────────────────────────────────
-    /// Promotion/Demotion Support (Optional)
-    /// ────────────────────────────────────────────────────────────────────
 
-    /**
-     * @brief Check if this tier supports promotion from lower tiers.
-     *
-     * Cache tiers typically return true; storage tiers may return false.
-     */
     virtual bool supportsPromotion() const { return false; }
 
-    /**
-     * @brief Check if this tier supports demotion to lower tiers.
-     *
-     * Storage tiers typically return true; cache tiers may return false.
-     */
     virtual bool supportsDemotion() const { return false; }
 
-    /**
-     * @brief Estimate time to promote data from a lower tier to this tier.
-     *
-     * @param from_tier Source tier
-     * @param data_size_bytes Size of data to promote
-     * @return Estimated latency, or -1 ms if not promotable
-     */
     virtual std::chrono::milliseconds estimatePromotionLatency(
         TierLevel from_tier, std::size_t data_size_bytes) const {
         (void)from_tier;
@@ -379,26 +292,21 @@ public:
         return std::chrono::milliseconds(-1);
     }
 
-    /// ────────────────────────────────────────────────────────────────────
-    /// Tier Lifecycle
-    /// ────────────────────────────────────────────────────────────────────
 
     /**
-     * @brief Initialize this tier (create storage, start workers, etc.).
-     *
-     * @return True if initialization succeeded
+     * @brief Initialize.
+     * @return True when the operation succeeds.
      */
     virtual bool initialize() = 0;
 
     /**
-     * @brief Shutdown this tier gracefully.
-     *
-     * Flushes pending data, stops workers, closes resources.
+     * @brief Shutdown.
      */
     virtual void shutdown() = 0;
 
     /**
-     * @brief Check if this tier is currently healthy (operational).
+     * @brief Is Healthy.
+     * @return True when the operation succeeds.
      */
     virtual bool isHealthy() const = 0;
 };
@@ -407,35 +315,25 @@ public:
 // § 4  Specialized Tier Interfaces
 // ============================================================================
 
-/**
- * @brief Interface for cache-tier-specific behavior.
- *
- * Cache tiers may implement specialized eviction, warmup, and prefetch logic.
- */
 class CacheTier : public virtual AccessTier {
 public:
     /**
-     * @brief Called when this tier is about to evict a key due to capacity.
-     *
-     * Implementations should notify the `AccessCoordinator` to consider
-     * promoting data to a higher-tier storage level.
+     * @brief Notify Eviction.
+     * @param[in] key Input parameter.
+     * @param[in] size_bytes Input parameter.
+     * @param[in] access_count Input parameter.
      */
     virtual void notifyEviction(std::string_view key, std::size_t size_bytes,
                                uint64_t access_count) = 0;
 };
 
-/**
- * @brief Interface for storage-tier-specific behavior.
- *
- * Storage tiers implement durable persistence, tiering, and redundancy logic.
- */
 class StorageTier : public virtual AccessTier {
 public:
     /**
-     * @brief Called when this tier detects hot access patterns.
-     *
-     * Implementations should notify the `AccessCoordinator` to consider
-     * promoting data to a higher-tier cache level.
+     * @brief Notify Hot Access.
+     * @param[in] key Input parameter.
+     * @param[in] access_count Input parameter.
+     * @param[in] access_window Input parameter.
      */
     virtual void notifyHotAccess(std::string_view key, uint64_t access_count,
                                 std::chrono::seconds access_window) = 0;
@@ -445,10 +343,8 @@ public:
 // § 5  Constants
 // ============================================================================
 
-/// Constant representing unlimited tier capacity
 inline constexpr std::size_t kMaxTierCapacity = std::numeric_limits<std::size_t>::max();
 
-/// Constant representing no tier (invalid)
 inline constexpr TierLevel kNoTier = static_cast<TierLevel>(-1);
 
 }  // namespace access_model

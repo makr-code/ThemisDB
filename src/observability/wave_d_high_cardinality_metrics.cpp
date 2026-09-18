@@ -13,9 +13,13 @@
 namespace themis {
 namespace observability {
 
-// ============================================================================
-// ShardLatencyHistogram
-// ============================================================================
+/**
+ * @brief ============================================================================ ShardLatencyHistogram ============================================================================
+ * @param[in] shard_id Input parameter.
+ * @param[in] operation_type Input parameter.
+ * @param[in] latency_ms Input parameter.
+ * @details Calls: empty(), lock(), size(), find(), end(), push_back().
+ */
 
 void ShardLatencyHistogram::recordLatency(
     const std::string& shard_id,
@@ -26,6 +30,11 @@ void ShardLatencyHistogram::recordLatency(
         return;  // Silently ignore invalid inputs
     }
 
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock lock(mutex_);
 
     // Enforce max 1024 unique shards
@@ -41,6 +50,11 @@ ShardLatencyHistogram::LatencyQuantiles ShardLatencyHistogram::getQuantiles(
     const std::string& shard_id,
     const std::string& operation_type) const {
 
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(mutex_);
 
     auto shard_it = shard_latencies_.find(shard_id);
@@ -80,24 +94,46 @@ ShardLatencyHistogram::LatencyQuantiles ShardLatencyHistogram::getQuantiles(
 }
 
 size_t ShardLatencyHistogram::getCardinality() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(mutex_);
     return shard_latencies_.size();
 }
 
+/**
+ * @brief Reset.
+ * @details Calls: lock(), clear().
+ */
 void ShardLatencyHistogram::reset() {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock lock(mutex_);
     shard_latencies_.clear();
 }
 
-// ============================================================================
-// ReplicaLagTracker
-// ============================================================================
+/**
+ * @brief ============================================================================ ReplicaLagTracker ============================================================================
+ * @param[in] replica_id Input parameter.
+ * @param[in] lag_ms Input parameter.
+ * @details Calls: empty(), lock(), size(), find(), end(), push_back().
+ */
 
 void ReplicaLagTracker::recordLag(const std::string& replica_id, double lag_ms) {
     if (replica_id.empty() || lag_ms < 0) {
         return;  // Silently ignore invalid inputs
     }
 
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock lock(mutex_);
 
     // Enforce max 32 replicas
@@ -112,6 +148,11 @@ void ReplicaLagTracker::recordLag(const std::string& replica_id, double lag_ms) 
 ReplicaLagTracker::LagQuantiles ReplicaLagTracker::getQuantiles(
     const std::string& replica_id) const {
 
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(mutex_);
 
     auto it = replica_lags_.find(replica_id);
@@ -135,6 +176,11 @@ ReplicaLagTracker::LagQuantiles ReplicaLagTracker::getQuantiles(
 }
 
 double ReplicaLagTracker::getMaxLag() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(mutex_);
 
     double max_lag = 0.0;
@@ -147,24 +193,46 @@ double ReplicaLagTracker::getMaxLag() const {
 }
 
 size_t ReplicaLagTracker::getCardinality() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(mutex_);
     return replica_lags_.size();
 }
 
+/**
+ * @brief Reset.
+ * @details Calls: lock(), clear().
+ */
 void ReplicaLagTracker::reset() {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock lock(mutex_);
     replica_lags_.clear();
 }
 
-// ============================================================================
-// RetryCounter
-// ============================================================================
+/**
+ * @brief ============================================================================ RetryCounter ============================================================================
+ * @param[in] reason Input parameter.
+ * @param[in] count Input parameter.
+ * @details Calls: empty(), lock(), size(), find(), end().
+ */
 
 void RetryCounter::recordRetry(const std::string& reason, int64_t count) {
     if (reason.empty() || count <= 0) {
         return;  // Silently ignore invalid inputs
     }
 
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock lock(mutex_);
 
     // Enforce max 10 unique failure reasons
@@ -177,6 +245,11 @@ void RetryCounter::recordRetry(const std::string& reason, int64_t count) {
 }
 
 int64_t RetryCounter::getRetryCount(const std::string& reason) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(mutex_);
 
     auto it = retry_counts_.find(reason);
@@ -187,11 +260,21 @@ int64_t RetryCounter::getRetryCount(const std::string& reason) const {
 }
 
 std::map<std::string, int64_t> RetryCounter::getAllRetries() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(mutex_);
     return retry_counts_;
 }
 
 int64_t RetryCounter::getTotalRetries() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(mutex_);
 
     int64_t total = 0;
@@ -201,14 +284,25 @@ int64_t RetryCounter::getTotalRetries() const {
     return total;
 }
 
+/**
+ * @brief Reset.
+ * @details Calls: lock(), clear().
+ */
 void RetryCounter::reset() {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock lock(mutex_);
     retry_counts_.clear();
 }
 
-// ============================================================================
-// HighCardinalityMetricsManager
-// ============================================================================
+/**
+ * @brief ============================================================================ HighCardinalityMetricsManager ============================================================================
+ * @return Return value.
+ * @details Implements getInstance without additional internal calls.
+ */
 
 HighCardinalityMetricsManager& HighCardinalityMetricsManager::getInstance() {
     static HighCardinalityMetricsManager instance;
@@ -236,6 +330,10 @@ bool HighCardinalityMetricsManager::isCardinalitySafe() const {
     return getTotalCardinality() < kTotalCardinalityLimit;
 }
 
+/**
+ * @brief Reset.
+ * @details Implements reset without additional internal calls.
+ */
 void HighCardinalityMetricsManager::reset() {
     shard_latencies_.reset();
     replica_lag_.reset();

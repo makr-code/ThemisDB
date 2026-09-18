@@ -22,21 +22,8 @@ namespace importers {
 
 using json = nlohmann::json;
 
-/**
- * @brief Immutable audit trail for all MDM operations.
- *
- * Records are appended in chronological order.  Each event carries a
- * SHA-256 chain hash over the preceding event so that the integrity of
- * the trail can be verified independently.
- *
- * Thread-safety: recordEvent() / getAuditFor() / verifyAuditChain() are
- * protected by an internal mutex and safe to call from multiple threads.
- */
 class MDMAuditTrail {
 public:
-    /**
-     * @brief Type of MDM operation captured in an audit event.
-     */
     enum class Operation {
         MATCH_FOUND,
         LINK_CREATED,
@@ -48,9 +35,6 @@ public:
         REVIEW_COMPLETED
     };
 
-    /**
-     * @brief A single immutable audit event.
-     */
     struct AuditEvent {
         std::string  event_id;             ///< UUID
         Operation    operation;
@@ -63,33 +47,23 @@ public:
         std::string  initiated_by;         ///< "importer_v2.2" or user identifier
         std::string  status;               ///< "pending" | "completed" | "failed"
 
-        /// SHA-256 hex digest over: previous_hash + event_id + timestamp + source_id + target_id
         std::string  chain_hash;
 
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         json toJson() const;
     };
 
     MDMAuditTrail() = default;
 
     /**
-     * @brief Append a new audit event to the trail.
-     *
-     * Automatically computes and attaches the chain hash before insertion.
-     *
-     * @param event  Event to record.  The @c chain_hash field is filled in
-     *               by this method; any caller-supplied value is overwritten.
+     * @brief Record Event.
+     * @param[in] event Input parameter.
      */
     void recordEvent(AuditEvent event);
 
-    /**
-     * @brief Retrieve all audit events for a specific entity.
-     *
-     * @param entity_id         Entity whose events to return.
-     * @param collection_name   Collection scope (empty = all collections).
-     * @param operation_filter  Optional filter; only events with this operation
-     *                          are included.
-     * @return                  Events sorted by insertion order (oldest first).
-     */
     std::vector<AuditEvent> getAuditFor(
         const std::string&              entity_id,
         const std::string&              collection_name,
@@ -97,23 +71,17 @@ public:
     ) const;
 
     /**
-     * @brief Verify the integrity of the entire audit chain.
-     *
-     * Recomputes each chain hash in sequence and compares it against the
-     * stored value.
-     *
-     * @return true if all chain hashes are correct, false if any has been
-     *         tampered with or is missing.
+     * @brief Verify Audit Chain.
+     * @return True when the operation succeeds.
      */
     bool verifyAuditChain() const;
 
     /**
-     * @brief Export a structured audit report for compliance purposes.
-     *
-     * @param collection_name  Collection to report on (empty = all).
-     * @param start_date       ISO 8601 / RFC 3339 lower bound (inclusive).
-     * @param end_date         ISO 8601 / RFC 3339 upper bound (inclusive).
-     * @return                 JSON object with summary statistics and event list.
+     * @brief Export Audit Report.
+     * @param[in] collection_name Name of the collection.
+     * @param[in] start_date Input parameter.
+     * @param[in] end_date Input parameter.
+     * @return Return value.
      */
     json exportAuditReport(
         const std::string& collection_name,
@@ -122,17 +90,20 @@ public:
     ) const;
 
     /**
-     * @brief Return the total number of events recorded.
+     * @brief Event Count.
+     * @return Return value.
      */
     size_t eventCount() const;
 
     /**
-     * @brief Clear all stored events (used in testing).
+     * @brief Clear.
      */
     void clear();
 
     /**
-     * @brief Convert an Operation enum value to its string name.
+     * @brief Operation Name.
+     * @param[in] op Input parameter.
+     * @return Return value.
      */
     static std::string operationName(Operation op);
 
@@ -140,11 +111,25 @@ private:
     mutable std::mutex   mutex_;
     std::vector<AuditEvent> events_;
 
+    /**
+     * @brief Compute Chain Hash.
+     * @param[in] previous_hash Input parameter.
+     * @param[in] event Input parameter.
+     * @return Return value.
+     */
     static std::string computeChainHash(
         const std::string& previous_hash,
         const AuditEvent&  event
     );
+    /**
+     * @brief Generate UUID.
+     * @return Return value.
+     */
     static std::string generateUUID();
+    /**
+     * @brief Now Rfc3339.
+     * @return Return value.
+     */
     static std::string nowRfc3339();
 };
 

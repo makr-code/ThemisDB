@@ -31,22 +31,6 @@ namespace acceleration {
 
 #ifdef THEMIS_ENABLE_OPENCL
 
-/**
- * OpenCL Vector Backend for broad hardware compatibility.
- *
- * Provides GPU-accelerated vector operations using the OpenCL 1.2+ API.
- * Compatible with any OpenCL-capable device: NVIDIA, AMD, Intel, ARM, Qualcomm.
- *
- * Features:
- * - L2 (squared) and Cosine distance computation on GPU
- * - Batch KNN search with parallel distance computation
- * - RAII-managed OpenCL resources (automatic cleanup)
- * - Structured error reporting via ErrorContext
- *
- * Hardware Requirements:
- * - Any device with an OpenCL 1.2+ ICD installed
- * - Prefers GPU; falls back to CPU OpenCL device when no GPU is found
- */
 class OpenCLVectorBackend : public IVectorBackend {
 public:
     OpenCLVectorBackend() = default;
@@ -95,7 +79,6 @@ private:
 #else // THEMIS_ENABLE_OPENCL not defined
 
 // Stub implementation when OpenCL is not available
-/** @brief Stub implementation when OpenCL is not available. */
 class OpenCLVectorBackend : public IVectorBackend {
 public:
     BackendType type() const noexcept override;
@@ -131,8 +114,10 @@ public:
         const float* query, size_t query_count, size_t dim,
         const float* db, size_t db_count, bool use_l2)>;
 
-    /// Inject a computeDistances implementation for the non-OpenCL stub path.
-    /// Pass empty fn to restore fail-closed stub default (returns {}).
+    /**
+     * @brief Set Compute Distances Fn.
+     * @param[in] fn Input parameter.
+     */
     static void setComputeDistancesFn(ComputeDistancesFn fn);
 };
 
@@ -140,6 +125,10 @@ public:
 
 // Factory function — creates an OpenCLVectorBackend instance.
 // Returns a stub (isAvailable() == false) when OpenCL is not compiled in.
+/**
+ * @brief Create Open CLBackend.
+ * @return Return value.
+ */
 std::unique_ptr<IVectorBackend> createOpenCLBackend();
 
 } // namespace acceleration

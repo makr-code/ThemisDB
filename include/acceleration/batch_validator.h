@@ -24,31 +24,7 @@
 namespace themis {
 namespace acceleration {
 
-/// @brief Shared strict input-validation helpers for acceleration backends.
-///
-/// Provides static validation functions for common batch operation invariants.
-/// Each validate_* function checks one invariant and, on failure, calls
-/// setError() on the owning backend via the provided error sink callback,
-/// then returns false. On success it returns true without touching the sink.
-///
-/// ## Usage Pattern
-/// @code
-///   using BV = BatchValidator;
-///   auto sink = [this](ErrorContext e){ setError(std::move(e)); };
-///
-///   if (!BV::validateVectorBatch(backendName, queries, numQueries, dim,
-///                                vectors, numVectors, sink)) return {};
-///   if (!BV::validateK(backendName, k, sink)) return {};
-/// @endcode
-///
-/// ## Error Handling
-/// All validation failures are communicated through the ErrorSink callback.
-/// Backends implement setError() to store and log errors for later retrieval
-/// via getLastError().
 struct BatchValidator {
-    /// @brief Error sink callback type.
-    /// Called when a validation check fails. Receives an ErrorContext describing
-    /// the validation error. The backend stores this error for later retrieval.
     using ErrorSink = std::function<void(ErrorContext)>;
     static constexpr double kMinLatitude  = -90.0;
     static constexpr double kMaxLatitude  = 90.0;
@@ -58,26 +34,18 @@ struct BatchValidator {
     static constexpr uint32_t kBfsMaxDepth = 3;
     static constexpr size_t kBfsMaxNodesPerHop = 10'000;
 
-    // -----------------------------------------------------------------------
-    // Vector batch: computeDistances / batchKnnSearch
-    // -----------------------------------------------------------------------
+    /**
+     * @brief ----------------------------------------------------------------------- Vector batch: computeDistances / batchKnnSearch -----------------------------------------------------------------------
+     * @param[in] backendName Input parameter.
+     * @param[in] queries Input parameter.
+     * @param[in] numQueries Input parameter.
+     * @param[in] dim Input parameter.
+     * @param[in] vectors Input parameter.
+     * @param[in] numVectors Input parameter.
+     * @param[in] onError Input parameter.
+     * @return True when the operation succeeds.
+     */
 
-    /// @brief Validate pointer and dimension arguments for a distance or KNN batch.
-    ///
-    /// Checks that all pointers are non-null and all counts are positive.
-    /// This is the common validation for distance computation and KNN search.
-    ///
-    /// @param backendName   Name of the backend (for error messages)
-    /// @param queries       Query matrix pointer (must be non-null)
-    /// @param numQueries    Number of queries (must be > 0)
-    /// @param dim           Vector dimensionality (must be > 0)
-    /// @param vectors       Database vector matrix pointer (must be non-null)
-    /// @param numVectors    Number of database vectors (must be > 0)
-    /// @param onError       Callback to invoke on validation failure
-    /// @return true if all invariants hold; false (+ error set) otherwise
-    ///
-    /// @note On failure, onError() is called exactly once with an
-    /// AccelerationErrorCode::InvalidInputShape error.
     static bool validateVectorBatch(
         const char*   backendName,
         const float*  queries,
@@ -104,18 +72,13 @@ struct BatchValidator {
         return true;
     }
 
-    /// @brief Additional check for k in batchKnnSearch.
-    ///
-    /// Validates that k (top-k count) is positive. Should be called after
-    /// validateVectorBatch() for KNN operations.
-    ///
-    /// @param backendName   Name of the backend (for error messages)
-    /// @param k             Number of top neighbors to retrieve (must be > 0)
-    /// @param onError       Callback to invoke on validation failure
-    /// @return true if k > 0; false (+ error set) otherwise
-    ///
-    /// @note On failure, onError() is called exactly once with an
-    /// AccelerationErrorCode::InvalidInputShape error.
+    /**
+     * @brief Validate K.
+     * @param[in] backendName Input parameter.
+     * @param[in] k Input parameter.
+     * @param[in] onError Input parameter.
+     * @return True when the operation succeeds.
+     */
     static bool validateK(
         const char*      backendName,
         size_t           k,
@@ -131,23 +94,18 @@ struct BatchValidator {
         return true;
     }
 
-    // -----------------------------------------------------------------------
-    // Geo batch: batchDistances / batchPointInPolygon
-    // -----------------------------------------------------------------------
+    /**
+     * @brief ----------------------------------------------------------------------- Geo batch: batchDistances / batchPointInPolygon -----------------------------------------------------------------------
+     * @param[in] backendName Input parameter.
+     * @param[in] lats1 Input parameter.
+     * @param[in] lons1 Input parameter.
+     * @param[in] lats2 Input parameter.
+     * @param[in] lons2 Input parameter.
+     * @param[in] count Input parameter.
+     * @param[in] onError Input parameter.
+     * @return True when the operation succeeds.
+     */
 
-    /// @brief Validate pointer and count arguments for a geo distance batch.
-    ///
-    /// Checks that all coordinate pointers are non-null and count is positive.
-    /// Used before geospatial distance computation.
-    ///
-    /// @param backendName   Name of the backend (for error messages)
-    /// @param lats1        First set of latitudes pointer (must be non-null)
-    /// @param lons1        First set of longitudes pointer (must be non-null)
-    /// @param lats2        Second set of latitudes pointer (must be non-null)
-    /// @param lons2        Second set of longitudes pointer (must be non-null)
-    /// @param count        Number of point pairs (must be > 0)
-    /// @param onError      Callback to invoke on validation failure
-    /// @return true if all invariants hold; false (+ error set) otherwise
     static bool validateGeoBatch(
         const char*    backendName,
         const double*  lats1,
@@ -189,23 +147,17 @@ struct BatchValidator {
         return true;
     }
 
-    /// @brief Validate pointer and count arguments for a point-in-polygon batch.
-    ///
-    /// Checks pointers are non-null, counts are positive, and polygon has
-    /// at least 3 vertices (forms a valid triangle).
-    ///
-    /// @param backendName         Name of the backend (for error messages)
-    /// @param pointLats           Test point latitudes pointer (must be non-null)
-    /// @param pointLons           Test point longitudes pointer (must be non-null)
-    /// @param numPoints           Number of test points (must be > 0)
-    /// @param polygonCoords       Polygon vertex coordinates pointer (must be non-null)
-    /// @param numPolygonVertices  Number of polygon vertices (must be >= 3)
-    /// @param onError             Callback to invoke on validation failure
-    /// @return true if all invariants hold; false (+ error set) otherwise
-    ///
-    /// @note The polygon must have at least 3 vertices to form a valid polygon.
-    /// For edge cases (numPolygonVertices == 3), the polygon is a degenerate
-    /// triangle but still valid for containment testing.
+    /**
+     * @brief Validate Point In Polygon Batch.
+     * @param[in] backendName Input parameter.
+     * @param[in] pointLats Input parameter.
+     * @param[in] pointLons Input parameter.
+     * @param[in] numPoints Input parameter.
+     * @param[in] polygonCoords Input parameter.
+     * @param[in] numPolygonVertices Input parameter.
+     * @param[in] onError Input parameter.
+     * @return True when the operation succeeds.
+     */
     static bool validatePointInPolygonBatch(
         const char*    backendName,
         const double*  pointLats,
@@ -272,7 +224,14 @@ struct BatchValidator {
         return true;
     }
 
-    /// @brief Validate geodesic distance output range [0, 20039.5] km.
+    /**
+     * @brief Validate Geo Distance Results.
+     * @param[in] backendName Input parameter.
+     * @param[in] distancesKm Input parameter.
+     * @param[in] count Input parameter.
+     * @param[in] onError Input parameter.
+     * @return True when the operation succeeds.
+     */
     static bool validateGeoDistanceResults(
         const char* backendName,
         const float* distancesKm,
@@ -300,21 +259,17 @@ struct BatchValidator {
         return true;
     }
 
-    // -----------------------------------------------------------------------
-    // Graph batch: batchBFS / batchShortestPath
-    // -----------------------------------------------------------------------
+    /**
+     * @brief ----------------------------------------------------------------------- Graph batch: batchBFS / batchShortestPath -----------------------------------------------------------------------
+     * @param[in] backendName Input parameter.
+     * @param[in] adjacency Input parameter.
+     * @param[in] numVertices Input parameter.
+     * @param[in] startVertices Input parameter.
+     * @param[in] numStarts Input parameter.
+     * @param[in] onError Input parameter.
+     * @return True when the operation succeeds.
+     */
 
-    /// @brief Validate pointer and count arguments for a graph BFS batch.
-    ///
-    /// Checks adjacency and start vertex pointers are non-null and counts are positive.
-    ///
-    /// @param backendName     Name of the backend (for error messages)
-    /// @param adjacency       Graph adjacency matrix pointer (must be non-null)
-    /// @param numVertices     Total number of vertices (must be > 0)
-    /// @param startVertices   Starting vertex indices pointer (must be non-null)
-    /// @param numStarts       Number of starting vertices (must be > 0)
-    /// @param onError         Callback to invoke on validation failure
-    /// @return true if all invariants hold; false (+ error set) otherwise
     static bool validateGraphBFSBatch(
         const char*      backendName,
         const uint32_t*  adjacency,
@@ -340,7 +295,13 @@ struct BatchValidator {
         return true;
     }
 
-    /// @brief Validate BFS hop-depth execution constraint.
+    /**
+     * @brief Validate Graph BFSHop Limit.
+     * @param[in] backendName Input parameter.
+     * @param[in] maxDepth Input parameter.
+     * @param[in] onError Input parameter.
+     * @return True when the operation succeeds.
+     */
     static bool validateGraphBFSHopLimit(
         const char* backendName,
         uint32_t maxDepth,
@@ -356,25 +317,22 @@ struct BatchValidator {
         return true;
     }
 
-    /// @brief Returns true when BFS workload should use CPU fallback for bounded execution.
     static bool shouldUseCpuFallbackForGraphBFS(size_t numVertices, uint32_t maxDepth) noexcept {
         return numVertices > kBfsMaxNodesPerHop || maxDepth > kBfsMaxDepth;
     }
 
-    /// @brief Validate pointer and count arguments for a shortest-path batch.
-    ///
-    /// Checks all pointers are non-null and counts are positive. Used before
-    /// Dijkstra or similar shortest-path computations.
-    ///
-    /// @param backendName     Name of the backend (for error messages)
-    /// @param adjacency       Graph adjacency matrix pointer (must be non-null)
-    /// @param weights         Edge weights matrix pointer (must be non-null)
-    /// @param numVertices     Total number of vertices (must be > 0)
-    /// @param startVertices   Source vertex indices pointer (must be non-null)
-    /// @param endVertices     Destination vertex indices pointer (must be non-null)
-    /// @param numPairs        Number of (source, destination) pairs (must be > 0)
-    /// @param onError         Callback to invoke on validation failure
-    /// @return true if all invariants hold; false (+ error set) otherwise
+    /**
+     * @brief Validate Shortest Path Batch.
+     * @param[in] backendName Input parameter.
+     * @param[in] adjacency Input parameter.
+     * @param[in] weights Input parameter.
+     * @param[in] numVertices Input parameter.
+     * @param[in] startVertices Input parameter.
+     * @param[in] endVertices Input parameter.
+     * @param[in] numPairs Input parameter.
+     * @param[in] onError Input parameter.
+     * @return True when the operation succeeds.
+     */
     static bool validateShortestPathBatch(
         const char*      backendName,
         const uint32_t*  adjacency,
@@ -404,11 +362,6 @@ struct BatchValidator {
         return true;
     }
 
-    /// @brief Returns true if shortest-path weights require CPU fallback for safe execution.
-    ///
-    /// Fallback is required when any active edge has a non-finite or negative
-    /// weight, or when the maximum possible path sum can overflow finite
-    /// sentinel arithmetic in GPU path reconstruction.
     static bool shouldUseCpuFallbackForShortestPath(
         const uint32_t* adjacency,
         const float* weights,

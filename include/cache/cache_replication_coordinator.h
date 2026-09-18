@@ -29,15 +29,6 @@
 namespace themis {
 namespace cache {
 
-/**
- * @brief Message exchanged between cache nodes for replication and invalidation.
- *
- * Two message types exist:
- * - ENTRY_PUT   – a new entry was stored on the originating node; peers may
- *                 pre-populate their own L1/L2 from this message.
- * - INVALIDATE  – a key or pattern was invalidated on the originating node;
- *                 peers must evict matching L1/L2 entries.
- */
 struct ReplicationMessage {
     enum class Type {
         ENTRY_PUT,   ///< Replicate a new cache entry to peers
@@ -51,44 +42,27 @@ struct ReplicationMessage {
     nlohmann::json result;  ///< Serialised result value (PUT only; empty for INVALIDATE)
 };
 
-/**
- * @brief Abstract coordinator interface for cache replication across nodes.
- *
- * Implementations publish local cache mutations to remote peers and deliver
- * remote mutations to a registered AdaptiveQueryCache instance via callbacks.
- *
- * Graceful degradation:
- *   Any exception thrown by publish methods is caught by the caller
- *   (AdaptiveQueryCache) and demoted to a warning log; the local cache
- *   operation always completes regardless of coordinator state.
- */
 class ICacheCoordinator {
 public:
+    /**
+     * @brief ICache Coordinator.
+     * @return Return value.
+     */
     virtual ~ICacheCoordinator() = default;
 
-    // -----------------------------------------------------------------
-    // Publisher side (called by the local AdaptiveQueryCache)
-    // -----------------------------------------------------------------
-
     /**
-     * @brief Publish a new cache entry so peers can pre-populate their caches.
-     *
-     * @param key         Cache key (fingerprint).
-     * @param result      Serialised query result.
-     * @param ttl_seconds Remaining TTL for the entry.
-     * @param tenant_id   Tenant identifier; empty string = no tenant.
+     * @brief ----------------------------------------------------------------- Publisher side (called by the local AdaptiveQueryCache) -----------------------------------------------------------------
+     * @param[in] key Input parameter.
+     * @param[in] result Input parameter.
+     * @param[in] ttl_seconds Input parameter.
+     * @param[in] tenant_id Identifier of the tenant.
      */
+
     virtual void publishEntry(const std::string& key,
                               const nlohmann::json& result,
                               int ttl_seconds,
                               const std::string& tenant_id) = 0;
 
-    /**
-     * @brief Publish an invalidation event so peers evict matching entries.
-     *
-     * @param pattern   Key or regex pattern that was invalidated locally.
-     * @param tenant_id Tenant identifier; empty = global invalidation.
-     */
     virtual void publishInvalidation(const std::string& pattern,
                                      const std::string& tenant_id = "") = 0;
 
@@ -96,25 +70,19 @@ public:
     // Subscriber side (registered once by AdaptiveQueryCache)
     // -----------------------------------------------------------------
 
-    /** Callback invoked when a peer publishes a new entry. */
     using EntryCallback = std::function<void(const ReplicationMessage&)>;
 
-    /** Callback invoked when a peer publishes an invalidation. */
     using InvalidationCallback = std::function<void(const ReplicationMessage&)>;
 
     /**
-     * @brief Register a callback for incoming replicated entries.
-     *
-     * Only one callback is supported per coordinator instance; subsequent
-     * calls overwrite the previous registration.
+     * @brief Subscribe Entries.
+     * @param[in] callback Input parameter.
      */
     virtual void subscribeEntries(EntryCallback callback) = 0;
 
     /**
-     * @brief Register a callback for incoming invalidation messages.
-     *
-     * Only one callback is supported per coordinator instance; subsequent
-     * calls overwrite the previous registration.
+     * @brief Subscribe Invalidations.
+     * @param[in] callback Input parameter.
      */
     virtual void subscribeInvalidations(InvalidationCallback callback) = 0;
 
@@ -122,13 +90,22 @@ public:
     // Health / diagnostics
     // -----------------------------------------------------------------
 
-    /** @return true if the coordinator channel is operational. */
+    /**
+     * @brief Is Connected.
+     * @return True when the operation succeeds.
+     */
     virtual bool isConnected() const = 0;
 
-    /** @return Coordinator name / transport description for logging. */
+    /**
+     * @brief Name.
+     * @return Return value.
+     */
     virtual std::string name() const = 0;
 
-    /** @return JSON snapshot of coordinator metrics (messages sent/received). */
+    /**
+     * @brief Get Stats.
+     * @return Return value.
+     */
     virtual nlohmann::json getStats() const = 0;
 };
 
@@ -136,52 +113,33 @@ public:
 // InProcessCacheCoordinator
 // ============================================================================
 
-/**
- * @brief In-process coordinator for single-binary multi-cache-instance
- *        deployments and unit tests.
- *
- * Multiple AdaptiveQueryCache instances share one coordinator bus.  Any
- * message published on one instance is delivered synchronously to all other
- * instances registered on the same bus.
- *
- * Thread-safety: all methods are protected by an internal mutex.
- *
- * Production note: for true multi-node deployments replace this with a
- * network-backed implementation (e.g. Redis pub/sub via hiredis, or a
- * ThemisDB native cluster bus).  The ICacheCoordinator interface remains
- * stable across implementations.
- */
 class InProcessCacheCoordinator final : public ICacheCoordinator {
 public:
-    /**
-     * @brief Shared message bus that links multiple coordinator instances.
-     *
-     * All coordinators created with the same Bus share the same set of
-     * subscribers; a message published on any one coordinator is delivered
-     * to all *other* coordinators on the same bus.
-     */
     struct Bus {
         std::mutex                              mutex = {};
         std::vector<InProcessCacheCoordinator*> peers;
 
+        /**
+         * @brief Add Peer.
+         * @param[in,out] peer Input/output parameter.
+         * @details Calls: lk(), push_back().
+         */
         void addPeer(InProcessCacheCoordinator* peer) {
             std::lock_guard<std::mutex> lk(mutex);
             peers.push_back(peer);
         }
 
+        /**
+         * @brief Remove Peer.
+         * @param[in,out] peer Input/output parameter.
+         * @details Calls: lk(), erase(), std::remove(), begin(), end().
+         */
         void removePeer(InProcessCacheCoordinator* peer) {
             std::lock_guard<std::mutex> lk(mutex);
             peers.erase(std::remove(peers.begin(), peers.end(), peer), peers.end());
         }
     };
 
-    /**
-     * @brief Construct a coordinator and join a shared bus.
-     *
-     * @param bus  Shared bus instance.  If nullptr a standalone coordinator
-     *             is created (messages are only delivered to the same
-     *             instance – useful for integration tests of a single cache).
-     */
     explicit InProcessCacheCoordinator(std::shared_ptr<Bus> bus = nullptr);
     ~InProcessCacheCoordinator() override;
 
@@ -202,10 +160,8 @@ public:
     nlohmann::json getStats()  const override;
 
     /**
-     * @brief Deliver a message directly to this coordinator instance.
-     *
-     * Called by sibling coordinators on the same bus; not intended for
-     * external callers.
+     * @brief Deliver.
+     * @param[in] msg Input parameter.
      */
     void deliver(const ReplicationMessage& msg);
 
@@ -224,37 +180,33 @@ private:
 // IRemoteCachePeer – cross-node invalidation interface
 // ============================================================================
 
-/**
- * @brief Abstract interface for a remote cache peer reachable over the network.
- *
- * Implementations (e.g. GrpcRemoteCachePeer) contact a specific remote node
- * and deliver cache invalidation messages.  Each method is expected to be
- * callable from a background fanout thread and must be thread-safe.
- */
 class IRemoteCachePeer {
 public:
+    /**
+     * @brief IRemote Cache Peer.
+     * @return Return value.
+     */
     virtual ~IRemoteCachePeer() = default;
 
-    /**
-     * @brief Invalidate one key (or a glob/regex pattern) on the remote peer.
-     *
-     * @param key       Cache key or pattern to invalidate.
-     * @param tenant_id Optional tenant scope; empty = global.
-     */
     virtual void invalidate(const std::string& key,
                             const std::string& tenant_id = "") = 0;
 
     /**
-     * @brief Invalidate all keys belonging to a specific tenant on the peer.
-     *
-     * @param tenant_id Tenant identifier; must not be empty.
+     * @brief Invalidate Tenant.
+     * @param[in] tenant_id Identifier of the tenant.
      */
     virtual void invalidateTenant(const std::string& tenant_id) = 0;
 
-    /** @return Human-readable address/identifier of this peer (for logging). */
+    /**
+     * @brief Address.
+     * @return Return value.
+     */
     virtual std::string address() const = 0;
 
-    /** @return true when the peer connection is believed to be healthy. */
+    /**
+     * @brief Is Healthy.
+     * @return True when the operation succeeds.
+     */
     virtual bool isHealthy() const = 0;
 };
 
@@ -262,22 +214,17 @@ public:
 // IClusterView – cluster membership abstraction
 // ============================================================================
 
-/**
- * @brief Provides a snapshot of cluster peer addresses.
- *
- * An implementation may source peer addresses from a Raft log, a gossip
- * membership table, or a static configuration file.  The returned addresses
- * are used by CacheReplicationCoordinator to build its remote-peer list.
- */
 class IClusterView {
 public:
+    /**
+     * @brief ICluster View.
+     * @return Return value.
+     */
     virtual ~IClusterView() = default;
 
     /**
-     * @brief Return addresses of all known cache-capable peers in the cluster.
-     *
-     * Addresses are in "host:port" format compatible with the gRPC channel API.
-     * The local node's own address should NOT be included.
+     * @brief Get Peer Addresses.
+     * @return Return value.
      */
     virtual std::vector<std::string> getPeerAddresses() const = 0;
 };
@@ -286,55 +233,15 @@ public:
 // CacheReplicationCoordinator
 // ============================================================================
 
-/**
- * @brief Network-capable replication coordinator for clustered deployments.
- *
- * Wraps an InProcessCacheCoordinator for local (intra-process) fanout and
- * adds network fanout to remote peers obtained from a ClusterView.
- *
- * Fanout strategy (fire-and-forget):
- * - Invalidations are enqueued into a bounded retry queue
- *   (max kRetryQueueCapacity entries); if the queue is full the entry is
- *   dropped with a warning log.
- * - A background worker thread drains the queue and calls invalidate() /
- *   invalidateTenant() on each remote peer; failed calls are retried up to
- *   kMaxRetryAttempts times before being dropped.
- * - publishEntry() (triggered by put()) is NOT blocked on remote peer
- *   acknowledgment – only local in-process fanout is synchronous.
- *
- * Thread-safety: all public methods are thread-safe.
- */
 class CacheReplicationCoordinator final : public ICacheCoordinator {
 public:
-    /// Maximum entries in the bounded async fanout queue.
     static constexpr std::size_t kRetryQueueCapacity = 1024;
 
-    /// Maximum delivery attempts per message before dropping.
     static constexpr int kMaxRetryAttempts = 3;
 
-    /**
-     * @brief Factory function type for constructing IRemoteCachePeer instances.
-     *
-     * Injected to allow test doubles to be substituted without requiring a
-     * live gRPC server.  The factory receives a peer address ("host:port")
-     * and returns an owning pointer to the peer implementation.
-     */
     using PeerFactory =
         std::function<std::unique_ptr<IRemoteCachePeer>(const std::string& addr)>;
 
-    /**
-     * @brief Construct a coordinator backed by a ClusterView.
-     *
-     * @param cluster_view  Provides peer addresses; must outlive this object.
-     *                      May be nullptr (no remote peers; behaves like
-     *                      InProcessCacheCoordinator).
-     * @param bus           Optional intra-process bus forwarded to the inner
-     *                      InProcessCacheCoordinator.
-     * @param peer_factory  Factory for creating IRemoteCachePeer instances.
-     *                      May be nullptr (remote fanout is disabled; useful
-     *                      for single-node deployments and unit tests that do
-     *                      not need gRPC).
-     */
     explicit CacheReplicationCoordinator(
         IClusterView*                                    cluster_view,
         std::shared_ptr<InProcessCacheCoordinator::Bus>  bus          = nullptr,
@@ -359,11 +266,7 @@ public:
     nlohmann::json getStats()    const override;
 
     /**
-     * @brief Refresh the remote peer list from the injected ClusterView.
-     *
-     * Called automatically during construction; may also be invoked explicitly
-     * when cluster membership changes (e.g. after a Raft leader election).
-     * Thread-safe: can be called concurrently with publish methods.
+     * @brief Refresh Peers.
      */
     void refreshPeers();
 
@@ -375,11 +278,8 @@ private:
         std::string key;
         std::string tenant_id;
         int         attempts = 0;
-        /// Non-empty on retries: only these specific peers need to be contacted.
-        /// Empty means fanout to all current remote peers.
         std::vector<std::shared_ptr<IRemoteCachePeer>> target_peers;
 
-        /// Return a copy of this item configured as a retry targeting @p peers.
         FanoutItem asRetry(std::vector<std::shared_ptr<IRemoteCachePeer>> peers) const {
             FanoutItem r = *this;
             r.attempts++;
@@ -388,7 +288,14 @@ private:
         }
     };
 
+    /**
+     * @brief Fanout Worker.
+     */
     void fanoutWorker();
+    /**
+     * @brief Enqueue Fanout.
+     * @param[in] item Input parameter.
+     */
     void enqueueFanout(FanoutItem item);
 
     // ── Members ───────────────────────────────────────────────────────────────
@@ -396,7 +303,6 @@ private:
     IClusterView*          cluster_view_;
     PeerFactory            peer_factory_;
 
-    /// Intra-process delegate (handles local Bus fanout and all subscriptions).
     InProcessCacheCoordinator local_;
 
     mutable std::mutex                                   peers_mutex_;

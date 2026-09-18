@@ -24,11 +24,6 @@ namespace content {
 
 using json = nlohmann::json;
 
-/**
- * @brief Extraction Result
- * 
- * Result of extracting structured data from content.
- */
 struct ExtractionResult {
     bool ok = false;
     std::string text;              // Extracted plain text (for TEXT types)
@@ -66,66 +61,32 @@ struct ExtractionResult {
     std::optional<CADData> cad_data;
 };
 
-/**
- * @brief Content Processor Interface
- * 
- * Abstract base class for content-type-specific processors.
- * Each processor handles extraction, chunking, and embedding for a category.
- */
 class IContentProcessor {
 public:
+    /**
+     * @brief IContent Processor.
+     * @return Return value.
+     */
     virtual ~IContentProcessor() = default;
     
-    /**
-     * @brief Extract structured data from blob
-     * 
-     * @param blob Binary content
-     * @param content_type Content type info
-     * @return Extracted data (text, metadata, embeddings)
-     */
     [[nodiscard]] virtual ExtractionResult extract(
         const std::string& blob,
         const ContentType& content_type
     ) = 0;
     
-    /**
-     * @brief Chunk content for RAG/search
-     * 
-     * @param extraction_result Previously extracted data
-     * @param chunk_size Target chunk size (tokens or other unit)
-     * @param overlap Overlap between chunks
-     * @return Vector of chunks with metadata
-     */
     [[nodiscard]] virtual std::vector<json> chunk(
         const ExtractionResult& extraction_result,
         int chunk_size,
         int overlap
     ) = 0;
     
-    /**
-     * @brief Generate embedding for a chunk
-     * 
-     * @param chunk_data Chunk data (text or other representation)
-     * @return Embedding vector
-     */
     [[nodiscard]] virtual std::vector<float> generateEmbedding(const std::string& chunk_data) = 0;
     
-    /**
-     * @brief Get processor name
-     */
     [[nodiscard]] virtual std::string getName() const = 0;
     
-    /**
-     * @brief Get supported categories
-     */
     [[nodiscard]] virtual std::vector<ContentCategory> getSupportedCategories() const = 0;
 };
 
-/**
- * @brief Text Content Processor
- * 
- * Handles text documents, code, JSON, XML, Markdown, etc.
- */
 class TextProcessor : public IContentProcessor {
 public:
     ExtractionResult extract(const std::string& blob, const ContentType& content_type) override;
@@ -136,59 +97,42 @@ public:
         return {ContentCategory::TEXT};
     }
 
-    /**
-     * @brief Callback type for a real embedding backend.
-     *
-     * Receives the chunk text and returns the embedding vector (e.g.
-     * all-mpnet-base-v2 / ONNXClipPlugin / Sentence-BERT).  The returned
-     * vector must be L2-normalised and non-empty.
-     */
     using EmbeddingFn = std::function<std::vector<float>(const std::string&)>;
 
     /**
-     * @brief Inject a real semantic embedding backend.
-     *
-     * When set, `generateEmbedding()` delegates to @p fn instead of the
-     * built-in hash-projection fallback.  Pass `nullptr` to revert to the
-     * hash-projection path.
-     *
-     * Roadmap ref: src/content/ROADMAP.md §Phase 5; src/content/FUTURE_ENHANCEMENTS.md
+     * @brief Set Embedding Backend.
+     * @param[in] fn Input parameter.
      */
     void setEmbeddingBackend(EmbeddingFn fn);
 
-    /**
-     * @brief Compute a MinHash signature for near-duplicate text detection.
-     *
-     * Uses `num_hashes` independent hash functions over 3-word shingles
-     * (trigrams) of the input text.  The resulting signature can be used with
-     * band-LSH (16 bands × 8 rows) to find documents whose estimated Jaccard
-     * similarity exceeds 0.85.
-     *
-     * @param text       Input text (UTF-8).
-     * @param num_hashes Number of MinHash permutations (default: 128).
-     * @return Vector of `num_hashes` uint32_t values; all UINT32_MAX if text
-     *         is empty.
-     */
     static std::vector<uint32_t> computeMinHash(
         const std::string& text,
         size_t num_hashes = 128
     );
 
 private:
+    /**
+     * @brief Normalize Text.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     std::string normalizeText(const std::string& text);
+    /**
+     * @brief Count Tokens.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     int countTokens(const std::string& text); // Simple whitespace-based tokenizer
+    /**
+     * @brief Split Into Sentences.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     std::vector<std::string> splitIntoSentences(const std::string& text);
 
-    /// Injected real embedding backend (null → hash-projection fallback).
     EmbeddingFn embedding_fn_;
 };
 
-/**
- * @brief Image Content Processor
- * 
- * Handles photos, diagrams, screenshots.
- * Extracts EXIF metadata, generates image embeddings (e.g., CLIP).
- */
 #ifndef THEMIS_CONTENT_PLUGIN_IMAGE_PROCESSOR_DEFINED
 class LegacyImageProcessor : public IContentProcessor {
 public:
@@ -201,17 +145,16 @@ public:
     }
 
 private:
+    /**
+     * @brief Extract EXIF.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     json extractEXIF(const std::string& blob);
     std::pair<int, int> getImageDimensions(const std::string& blob);
 };
 #endif
 
-/**
- * @brief Geo Content Processor
- * 
- * Handles GeoJSON, GPX, Shapefiles, GeoTIFF.
- * Extracts coordinates, creates spatial indices.
- */
 class LegacyGeoProcessor : public IContentProcessor {
 public:
     ExtractionResult extract(const std::string& blob, const ContentType& content_type) override;
@@ -223,16 +166,20 @@ public:
     }
 
 private:
+    /**
+     * @brief Parse Geo JSON.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     ExtractionResult::GeoData parseGeoJSON(const std::string& blob);
+    /**
+     * @brief Parse GPX.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     ExtractionResult::GeoData parseGPX(const std::string& blob);
 };
 
-/**
- * @brief CAD Content Processor
- * 
- * Handles STEP, IGES, STL, DXF.
- * Extracts geometry, assemblies, bill of materials.
- */
 class LegacyCADProcessor : public IContentProcessor {
 public:
     ExtractionResult extract(const std::string& blob, const ContentType& content_type) override;
@@ -244,16 +191,20 @@ public:
     }
 
 private:
+    /**
+     * @brief Parse STEP.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     json parseSTEP(const std::string& blob);
+    /**
+     * @brief Extract Assembly Hierarchy.
+     * @param[in] step_data Input parameter.
+     * @return Return value.
+     */
     json extractAssemblyHierarchy(const json& step_data);
 };
 
-/**
- * @brief Audio Content Processor
- * 
- * Handles MP3, WAV, FLAC.
- * Extracts ID3 tags, transcribes speech (optional), generates audio embeddings.
- */
 class LegacyAudioProcessor : public IContentProcessor {
 public:
     ExtractionResult extract(const std::string& blob, const ContentType& content_type) override;
@@ -265,16 +216,20 @@ public:
     }
 
 private:
+    /**
+     * @brief Extract ID3 Tags.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     json extractID3Tags(const std::string& blob);
+    /**
+     * @brief Get Duration Seconds.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     int getDurationSeconds(const std::string& blob);
 };
 
-/**
- * @brief Structured Data Processor
- * 
- * Handles CSV, Parquet, Arrow tables.
- * Creates row-level chunks, column embeddings.
- */
 class StructuredProcessor : public IContentProcessor {
 public:
     ExtractionResult extract(const std::string& blob, const ContentType& content_type) override;
@@ -286,16 +241,20 @@ public:
     }
 
 private:
+    /**
+     * @brief Parse CSV.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     std::vector<std::vector<std::string>> parseCSV(const std::string& blob);
+    /**
+     * @brief Extract Schema.
+     * @param[in] rows Input parameter.
+     * @return Return value.
+     */
     json extractSchema(const std::vector<std::vector<std::string>>& rows);
 };
 
-/**
- * @brief Generic Binary Processor (Fallback)
- * 
- * Handles unknown binary types.
- * Stores blob, extracts minimal metadata (size, hash).
- */
 class BinaryProcessor : public IContentProcessor {
 public:
     ExtractionResult extract(const std::string& blob, const ContentType& content_type) override;
@@ -307,6 +266,11 @@ public:
     }
 
 private:
+    /**
+     * @brief Compute Hash.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     std::string computeHash(const std::string& blob);
 };
 

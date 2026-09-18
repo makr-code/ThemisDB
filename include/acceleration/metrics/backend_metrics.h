@@ -18,53 +18,55 @@ namespace themis {
 namespace acceleration {
 namespace metrics {
 
-/**
- * @brief Standard metrics collection for acceleration backends (CUDA, HIP, OpenCL, Metal, etc.)
- * 
- * Provides a consistent set of metrics for all acceleration backends covering:
- * - Initialization success/failure and duration
- * - Operation metrics (L2 distance, cosine similarity) with duration and vector counts
- * - Resource metrics (device memory, queue depth)
- * - Error tracking (total errors, kernel failures, memory allocation failures)
- * - Device metrics (count, active device index)
- * 
- * All metrics are automatically registered with the central MetricsCollector singleton
- * and can be exported in Prometheus or JSON format.
- */
 class BackendMetrics {
 public:
-    /// @brief Constructor initializing metrics for a specific backend
-    /// @param backend_name Name of the backend (e.g., "cuda", "hip", "opencl", "metal")
+    /**
+     * @brief Backend Metrics.
+     * @param[in] backend_name Name of the backend.
+     * @return Return value.
+     */
     explicit BackendMetrics(const std::string& backend_name) 
         : backend_name_(backend_name) {
         registerMetrics();
     }
     
-    /// @brief Record successful backend initialization
+    /**
+     * @brief Record Init Success.
+     * @details Calls: increment().
+     */
     void recordInitSuccess() {
         if (init_success_) {
           init_success_->increment();
         }
     }
     
-    /// @brief Record failed backend initialization
+    /**
+     * @brief Record Init Failure.
+     * @details Calls: increment().
+     */
     void recordInitFailure() {
         if (init_failures_) {
           init_failures_->increment();
         }
     }
     
-    /// @brief Record backend initialization duration
-    /// @param seconds Time taken for initialization in seconds (floating-point)
+    /**
+     * @brief Record Init Duration.
+     * @param[in] seconds Input parameter.
+     * @details Calls: observe().
+     */
     void recordInitDuration(double seconds) {
         if (init_duration_) {
           init_duration_->observe(seconds);
         }
     }
     
-    /// @brief Record L2 distance operation completion
-    /// @param duration_seconds Time taken for the operation in seconds
-    /// @param vector_count Number of vectors processed in this operation
+    /**
+     * @brief Record L2 Distance Operation.
+     * @param[in] duration_seconds Input parameter.
+     * @param[in] vector_count Input parameter.
+     * @details Calls: observe(), increment().
+     */
     void recordL2DistanceOperation(double duration_seconds, size_t vector_count) {
         if (l2_distance_duration_) {
           l2_distance_duration_->observe(duration_seconds);
@@ -77,9 +79,12 @@ public:
         }
     }
     
-    /// @brief Record cosine similarity operation completion
-    /// @param duration_seconds Time taken for the operation in seconds
-    /// @param vector_count Number of vectors processed in this operation
+    /**
+     * @brief Record Cosine Operation.
+     * @param[in] duration_seconds Input parameter.
+     * @param[in] vector_count Input parameter.
+     * @details Calls: observe(), increment().
+     */
     void recordCosineOperation(double duration_seconds, size_t vector_count) {
         if (cosine_duration_) {
           cosine_duration_->observe(duration_seconds);
@@ -92,70 +97,87 @@ public:
         }
     }
     
-    /// @brief Update current device memory usage
-    /// @param bytes Number of bytes currently in use on device
+    /**
+     * @brief Set Device Memory Used.
+     * @param[in] bytes Input parameter.
+     * @details Calls: set().
+     */
     void setDeviceMemoryUsed(double bytes) {
         if (device_memory_used_) {
           device_memory_used_->set(bytes);
         }
     }
     
-    /// @brief Update available device memory
-    /// @param bytes Number of bytes available on device
+    /**
+     * @brief Set Device Memory Available.
+     * @param[in] bytes Input parameter.
+     * @details Calls: set().
+     */
     void setDeviceMemoryAvailable(double bytes) {
         if (device_memory_available_) {
           device_memory_available_->set(bytes);
         }
     }
     
-    /// @brief Update command queue depth
-    /// @param depth Current number of queued operations
+    /**
+     * @brief Set Queue Depth.
+     * @param[in] depth Input parameter.
+     * @details Calls: set().
+     */
     void setQueueDepth(double depth) {
         if (queue_depth_) {
           queue_depth_->set(depth);
         }
     }
     
-    /// @brief Record an error event
-    /// @param error_code Error category or code (for optional categorization)
     void recordError([[maybe_unused]] const std::string& error_code) {
         if (errors_total_) {
           errors_total_->increment();
         }
     }
     
-    /// @brief Record a kernel launch failure
+    /**
+     * @brief Record Kernel Launch Failure.
+     * @details Calls: increment().
+     */
     void recordKernelLaunchFailure() {
         if (kernel_launch_failures_) {
           kernel_launch_failures_->increment();
         }
     }
     
-    /// @brief Record a memory allocation failure
+    /**
+     * @brief Record Memory Allocation Failure.
+     * @details Calls: increment().
+     */
     void recordMemoryAllocationFailure() {
         if (memory_alloc_failures_) {
           memory_alloc_failures_->increment();
         }
     }
     
-    /// @brief Update the count of available devices
-    /// @param count Number of available acceleration devices
+    /**
+     * @brief Set Device Count.
+     * @param[in] count Input parameter.
+     * @details Calls: set().
+     */
     void setDeviceCount(int count) {
         if (device_count_) {
           device_count_->set(count);
         }
     }
     
-    /// @brief Update the index of the currently active device
-    /// @param index Index (0-based) of the active device
+    /**
+     * @brief Set Active Device Index.
+     * @param[in] index Input parameter.
+     * @details Calls: set().
+     */
     void setActiveDeviceIndex(int index) {
         if (active_device_) {
           active_device_->set(index);
         }
     }
     
-    /// @brief Get total operations per second (L2 + cosine operations)
-    /// @return Combined operation count (not normalized by time; raw counter value)
     double getOperationsPerSecond() const {
         if (!l2_distance_ops_ || !cosine_ops_) {
           return 0.0;
@@ -164,8 +186,6 @@ public:
                static_cast<double>(cosine_ops_->value());
     }
     
-    /// @brief Get total vectors processed per second (L2 + cosine)
-    /// @return Combined vector count (not normalized by time; raw counter value)
     double getVectorsPerSecond() const {
         if (!l2_distance_vectors_ || !cosine_vectors_) {
           return 0.0;
@@ -175,7 +195,10 @@ public:
     }
     
 private:
-    /// @brief Register all metrics with the central MetricsCollector
+    /**
+     * @brief Register Metrics.
+     * @details Calls: MetricsCollector::instance(), registerCounter(), registerHistogram(), registerGauge().
+     */
     void registerMetrics() {
         auto& collector = MetricsCollector::instance();
         std::string prefix = "themis_acceleration_" + backend_name_ + "_";

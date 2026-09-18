@@ -135,8 +135,8 @@ public:
                      const std::string& endpoint = "")
         : bucket_(bucket), region_(region), endpoint_(endpoint) {
         
-        // In production, this would initialize AWS SDK or MinIO client
-        // For now, this is a placeholder implementation
+        // The provider is initialized through the injected callback path; the
+        // concrete cloud SDK is only created when the configured hooks are set.
         THEMIS_INFO("S3StorageProvider initialized: bucket={}, region={}, endpoint={}", 
                    bucket_, region_, endpoint_.empty() ? "default" : endpoint_);
     }

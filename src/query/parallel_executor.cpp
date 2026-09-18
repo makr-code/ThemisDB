@@ -53,12 +53,21 @@ namespace tbb {
 class task_group {
 public:
     template <typename F>
+    /**
+     * @brief Run.
+     * @param[in] f Input parameter.
+     * @details Calls: emplace_back().
+     */
     void run(F&& f) {
         if (!cancelled_) {
             tasks_.emplace_back(std::forward<F>(f));
         }
     }
 
+    /**
+     * @brief Wait.
+     * @details Calls: task(), clear().
+     */
     void wait() {
         for (auto& task : tasks_) {
             if (task) {
@@ -79,9 +88,20 @@ private:
 
 class task_arena {
 public:
+    /**
+     * @brief Task arena.
+     * @param[in] int Input parameter.
+     * @return Return value.
+     * @details Implements task_arena without additional internal calls.
+     */
     explicit task_arena(int) {}
 
     template <typename F>
+    /**
+     * @brief Execute.
+     * @param[in] f Input parameter.
+     * @details Implements execute without additional internal calls.
+     */
     void execute(F&& f) {
         std::forward<F>(f)();
     }
@@ -182,7 +202,13 @@ size_t ParallelExecutor::resolveThreads(size_t requested) const noexcept {
     return std::max<size_t>(1, std::min(t, config_.max_threads));
 }
 
-// static
+/**
+ * @brief static
+ * @param[in] e Input parameter.
+ * @param[in] group_by Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), getFieldAsString(), value_or(), std::to_string(), size().
+ */
 std::string ParallelExecutor::groupKey(
     const BaseEntity&             e,
     const std::vector<std::string>& group_by) {
@@ -204,7 +230,12 @@ std::string ParallelExecutor::groupKey(
     return key;
 }
 
-// static
+/**
+ * @brief static
+ * @param[in,out] dst Input/output parameter.
+ * @param[in] src Input parameter.
+ * @details Calls: std::min(), std::max().
+ */
 void ParallelExecutor::mergePartial(PartialMap& dst, const PartialMap& src) {
     for (const auto& [k, s] : src) {
         auto& d  = dst[k];
@@ -215,7 +246,13 @@ void ParallelExecutor::mergePartial(PartialMap& dst, const PartialMap& src) {
     }
 }
 
-// static
+/**
+ * @brief static
+ * @param[in] p Input parameter.
+ * @param[in] fn Input parameter.
+ * @return Return value.
+ * @details Implements finalise without additional internal calls.
+ */
 double ParallelExecutor::finalise(const PartialAgg& p, AggregateFunction fn) {
     switch (fn) {
         case AggregateFunction::Count: return p.count;
@@ -234,7 +271,13 @@ double ParallelExecutor::finalise(const PartialAgg& p, AggregateFunction fn) {
 // Sequential helpers
 // ============================================================================
 
-// static
+/**
+ * @brief static
+ * @param[in] input Input parameter.
+ * @param[in] filter Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), filter(), push_back().
+ */
 ParallelExecutor::Table ParallelExecutor::sequentialScan(
     const Table& input, const FilterFn& filter) {
     Table out;
@@ -247,7 +290,14 @@ ParallelExecutor::Table ParallelExecutor::sequentialScan(
     return out;
 }
 
-// static
+/**
+ * @brief static
+ * @param[in] left Input parameter.
+ * @param[in] right Input parameter.
+ * @param[in] spec Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), getFieldAsString(), emplace(), std::move(), equal_range(), THEMIS_WARN(), push_back().
+ */
 std::vector<ParallelExecutor::JoinTuple> ParallelExecutor::sequentialHashJoin(
     const Table& left, const Table& right, const JoinSpec& spec) {
     // Build phase: index right side by join key.
@@ -284,7 +334,13 @@ std::vector<ParallelExecutor::JoinTuple> ParallelExecutor::sequentialHashJoin(
     return out;
 }
 
-// static
+/**
+ * @brief static
+ * @param[in] input Input parameter.
+ * @param[in] spec Input parameter.
+ * @return Return value.
+ * @details Calls: groupKey(), getFieldAsDouble(), std::min(), std::max(), reserve(), size(), finalise().
+ */
 ParallelExecutor::AggregateResult ParallelExecutor::sequentialAggregate(
     const Table& input, const AggregateSpec& spec) {
     PartialMap partial;
@@ -340,6 +396,11 @@ Result<ParallelExecutor::Table> ParallelExecutor::parallelScan(
 
     const size_t morsel  = config_.morsel_size;
     const size_t nmors   = (n + morsel - 1) / morsel;
+    /**
+     * @brief Buckets.
+     * @param[in] nmors Input parameter.
+     * @return Return value.
+     */
     std::vector<Table> buckets(nmors);
 
     tbb::task_arena arena(static_cast<int>(threads));
@@ -415,6 +476,11 @@ Result<std::vector<ParallelExecutor::JoinTuple>> ParallelExecutor::parallelHashJ
     auto partitionRowsByHash = [&](const Table& rows, std::string_view key_field)
         -> std::vector<Table>
     {
+        /**
+         * @brief Parts.
+         * @param[in] P Input parameter.
+         * @return Return value.
+         */
         std::vector<Table> parts(P);
         if (rows.empty()) {
           return parts;
@@ -469,7 +535,11 @@ Result<std::vector<ParallelExecutor::JoinTuple>> ParallelExecutor::parallelHashJ
         right_parts = partitionRowsByHash(right, spec.right_key);
     });
 
-    // ── Parallel join ─────────────────────────────────────────────────────
+    /**
+     * @brief ── Parallel join ─────────────────────────────────────────────────────
+     * @param[in] P Input parameter.
+     * @return Return value.
+     */
     std::vector<std::vector<JoinTuple>> part_results(P);
 
     arena.execute([&]() {
@@ -520,6 +590,11 @@ Result<ParallelExecutor::AggregateResult> ParallelExecutor::parallelAggregate(
     // Phase 1: compute per-morsel partial aggregates.
     const size_t morsel = config_.morsel_size;
     const size_t nmors  = (n + morsel - 1) / morsel;
+    /**
+     * @brief Partials.
+     * @param[in] nmors Input parameter.
+     * @return Return value.
+     */
     std::vector<PartialMap> partials(nmors);
 
     tbb::task_arena arena(static_cast<int>(threads));

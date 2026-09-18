@@ -54,6 +54,12 @@ HttpScraperApiClient::HttpScraperApiClient(HttpFetchFn fetch_fn) : fetch_fn_(std
 // ============================================================================
 
 namespace {
+/**
+ * @brief Url Encode Component.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: std::isalnum(), std::setw(), std::setfill(), str().
+ */
 std::string urlEncodeComponent(const std::string &s) {
     std::ostringstream out = {};
     for (unsigned char c : s) {
@@ -66,6 +72,15 @@ std::string urlEncodeComponent(const std::string &s) {
     return out.str();
 }
 
+/**
+ * @brief Apply Template.
+ * @param[in] tmpl Input parameter.
+ * @param[in] query Input parameter.
+ * @param[in] page Input parameter.
+ * @param[in] cursor Input parameter.
+ * @return Return value.
+ * @details Calls: find(), replace(), size(), std::to_string().
+ */
 std::string applyTemplate(const std::string &tmpl, const std::string &query, int page, const std::string &cursor) {
     std::string out = tmpl;
     auto replace    = [&](const std::string &key, const std::string &val) {
@@ -223,9 +238,13 @@ std::string HttpScraperApiClient::buildBody(const ApiEndpointConfig &cfg, const 
     return out;
 }
 
-// ============================================================================
-// Main fetch loop
-// ============================================================================
+/**
+ * @brief ============================================================================ Main fetch loop ============================================================================
+ * @param[in] cfg Input parameter.
+ * @param[in] query Input parameter.
+ * @return Return value.
+ * @details Calls: buildGetUrl(), buildBody(), fetch_fn_(), empty(), parseResultsArray(), insert(), end(), begin().
+ */
 
 std::vector<ApiResult> HttpScraperApiClient::fetchAll(const ApiEndpointConfig &cfg, const std::string &query) {
     std::vector<ApiResult> all;
@@ -326,6 +345,15 @@ std::vector<ApiResult> HttpScraperApiClient::fetchAll(const ApiEndpointConfig &c
 namespace {
 struct CurlWriteBuffer {
     std::string data = {};
+    /**
+     * @brief Write.
+     * @param[in,out] ptr Input/output parameter.
+     * @param[in] size Input parameter.
+     * @param[in] nmemb Input parameter.
+     * @param[in,out] userdata Input/output parameter.
+     * @return Return value.
+     * @details Calls: append().
+     */
     static std::size_t write(char *ptr, std::size_t size, std::size_t nmemb, void *userdata) {
         auto *buf = static_cast<CurlWriteBuffer *>(userdata);
         buf->data.append(ptr, size * nmemb);

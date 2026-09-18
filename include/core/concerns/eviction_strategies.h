@@ -22,12 +22,6 @@ namespace themis {
 namespace core {
 namespace concerns {
 
-/**
- * @brief LRU (Least Recently Used) eviction strategy.
- *
- * Evicts the least recently accessed entry.
- * Maintains a list with most recently used at front.
- */
 class LRUEvictionStrategy : public IEvictionStrategy {
 public:
     void onAccess(std::string_view key) override {
@@ -39,6 +33,11 @@ public:
     }
 
     void onInsert(std::string_view key, [[maybe_unused]] uint64_t timestamp_ms) override {
+        /**
+         * @brief Key str.
+         * @param[in] key Input parameter.
+         * @return Return value.
+         */
         std::string key_str(key);
         auto it = position_map_.find(key_str);
 
@@ -85,13 +84,6 @@ private:
     std::unordered_map<std::string, std::list<std::string>::iterator> position_map_;
 };
 
-/**
- * @brief LFU (Least Frequently Used) eviction strategy.
- *
- * Evicts the least frequently accessed entry.
- * Tracks access frequency for each key.
- * Ties are broken by oldest recorded access timestamp.
- */
 class LFUEvictionStrategy : public IEvictionStrategy {
 public:
     void onAccess(std::string_view key) override {
@@ -103,6 +95,11 @@ public:
     }
 
     void onInsert(std::string_view key, uint64_t timestamp_ms) override {
+        /**
+         * @brief Key str.
+         * @param[in] key Input parameter.
+         * @return Return value.
+         */
         std::string key_str(key);
         auto it = frequency_map_.find(key_str);
         
@@ -163,12 +160,6 @@ private:
     }
 };
 
-/**
- * @brief TTL (Time To Live) eviction strategy.
- *
- * Evicts entries that have exceeded their TTL.
- * Also evicts oldest entry when no expired entries exist.
- */
 class TTLEvictionStrategy : public IEvictionStrategy {
 public:
     explicit TTLEvictionStrategy(uint64_t default_ttl_ms = 3600000)  // 1 hour default
@@ -223,6 +214,11 @@ public:
         return "TTL";
     }
 
+    /**
+     * @brief Set Default TTL.
+     * @param[in] ttl_ms Input parameter.
+     * @details Implements setDefaultTTL without additional internal calls.
+     */
     void setDefaultTTL(uint64_t ttl_ms) {
         default_ttl_ms_ = ttl_ms;
     }
@@ -238,13 +234,6 @@ private:
     }
 };
 
-/**
- * @brief TwoTier eviction strategy.
- *
- * Combines two strategies: a fast L1 (e.g., LRU) and slower L2 (e.g., LFU).
- * Insertions are routed to L1 until full, then directly to L2.
- * Eviction prefers L2 first, then falls back to L1.
- */
 class TwoTierEvictionStrategy : public IEvictionStrategy {
 public:
     TwoTierEvictionStrategy(
@@ -304,31 +293,17 @@ private:
     size_t l1_capacity_;
 };
 
-/**
- * @brief ARC (Adaptive Replacement Cache) eviction strategy.
- *
- * Implements the ARC algorithm (Megiddo & Modha, FAST '03) as a pure
- * victim-selector that can be plugged into any key/value cache tier.
- *
- * Maintains four lists:
- *   T1  Recently-seen keys currently tracked (recency queue).
- *   T2  Frequently-seen keys currently tracked (frequency queue).
- *   B1  Ghost keys evicted from T1 (no data, adaptation signal only).
- *   B2  Ghost keys evicted from T2 (no data, adaptation signal only).
- *
- * The partition target `p` self-tunes: B1 hit → p increases (favour recency);
- * B2 hit → p decreases (favour frequency).
- *
- * This implementation uses unordered ghost sets (`B1`, `B2`) rather than
- * ordered ghost queues, so ghost-entry trimming does not preserve strict ARC
- * ordering guarantees but retains the core adaptation signal.
- */
 class ARCEvictionStrategy : public IEvictionStrategy {
 public:
     explicit ARCEvictionStrategy(size_t capacity = 128)
         : capacity_(capacity > 0 ? capacity : 128), p_(0) {}
 
     void onAccess(std::string_view key) override {
+        /**
+         * @brief K.
+         * @param[in] key Input parameter.
+         * @return Return value.
+         */
         std::string k(key);
         // T1 hit → promote to T2
         auto it1 = t1_map_.find(k);
@@ -347,6 +322,11 @@ public:
     }
 
     void onInsert(std::string_view key, uint64_t /*timestamp_ms*/) override {
+        /**
+         * @brief K.
+         * @param[in] key Input parameter.
+         * @return Return value.
+         */
         std::string k(key);
         // Already live — treat as access
         if (t1_map_.count(k) || t2_map_.count(k)) {
@@ -382,6 +362,11 @@ public:
     }
 
     void onRemove(std::string_view key) override {
+        /**
+         * @brief K.
+         * @param[in] key Input parameter.
+         * @return Return value.
+         */
         std::string k(key);
         // Evicted from T1 → moves to B1 ghost
         auto it1 = t1_map_.find(k);

@@ -94,6 +94,7 @@ class DoxygenHeadersValidation : public ::testing::Test {
         std::regex version_regex(R"(@version\s+(\S+))");
         std::regex maturity_regex(R"(@note Maturity:\s*(.+?)(?=\n|@))");
         std::regex score_regex(R"(@note Score:\s*(\d+)/100)");
+        std::regex gap_regex(R"(Gap Summary(?:\*\*)?:\s*(.+?)(?=\n|@))");
         std::regex status_regex(R"(@note Status:\s*(.+?)(?=\n|@))");
         
         std::smatch match = {};

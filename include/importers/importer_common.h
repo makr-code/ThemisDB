@@ -22,18 +22,13 @@
 namespace themis::importers {
 
 /**
- * @brief Read next line from stream with optional hard cap on bytes per line.
- *
- * Reads the next newline-terminated line from @p file with a hard per-line
- * byte cap of @p max_bytes (0 = unlimited). When the cap is exceeded the
- * remaining bytes of the current line are discarded and @p truncated is set
- * to true. Returns false only when EOF is reached before any bytes are read.
- *
- * @param file       Input stream to read from
- * @param line       Output buffer for the line (cleared at entry)
- * @param max_bytes  Maximum bytes per line (0 = unlimited)
- * @param truncated  Output flag: set to true if line was truncated
- * @return false only at EOF with no bytes read
+ * @brief Stream Read Line.
+ * @param[in,out] file Input/output parameter.
+ * @param[in,out] line Input/output parameter.
+ * @param[in] max_bytes Input parameter.
+ * @param[in,out] truncated Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: clear(), std::getline(), get().
  */
 inline bool streamReadLine(std::istream& file,
                            std::string& line,
@@ -73,10 +68,10 @@ inline bool streamReadLine(std::istream& file,
 }
 
 /**
- * @brief Convert a string to lower-case (ASCII only).
- *
- * @param s Input string
- * @return Lower-case copy of input
+ * @brief To Lower.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: std::tolower().
  */
 inline std::string toLower(const std::string& s) {
     std::string result = s;

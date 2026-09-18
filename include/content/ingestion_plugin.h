@@ -25,73 +25,37 @@ using json = nlohmann::json;
 struct IngestionJob;
 enum class IngestionJobType;
 
-/**
- * @brief Ingestion plugin interface
- * 
- * Plugins implement this interface to add new data sources
- * to AsyncIngestionWorker.
- * 
- * Example plugin: HuggingFaceIngestionPlugin
- * 
- * Thread-Safety: Plugin implementations must be thread-safe.
- */
 class IngestionPlugin {
 public:
+    /**
+     * @brief Ingestion Plugin.
+     * @return Return value.
+     */
     virtual ~IngestionPlugin() = default;
     
-    /**
-     * @brief Plugin name (unique identifier)
-     */
     [[nodiscard]] virtual std::string name() const = 0;
     
-    /**
-     * @brief Plugin version
-     */
     [[nodiscard]] virtual std::string version() const = 0;
     
-    /**
-     * @brief Job types this plugin can handle
-     */
     [[nodiscard]] virtual std::vector<IngestionJobType> supportedTypes() const = 0;
     
     /**
-     * @brief Process an ingestion job
-     * 
-     * Plugin should:
-     * 1. Fetch data from source
-     * 2. Update job.progress
-     * 3. Store content via ContentManager
-     * 4. Update job.content_ids
-     * 5. Set job.status to COMPLETED or FAILED
-     * 
-     * @param job Job to process (will be modified in-place)
+     * @brief Process Job.
+     * @param[in,out] job Input/output parameter.
      */
     virtual void processJob(IngestionJob& job) = 0;
     
-    /**
-     * @brief Estimate job size (for progress tracking)
-     * 
-     * @return Estimated number of items to process, or 0 if unknown
-     */
     [[nodiscard]] virtual size_t estimateJobSize(const IngestionJob& job) = 0;
     
-    /**
-     * @brief Get plugin configuration
-     */
     [[nodiscard]] virtual json getConfig() const = 0;
     
     /**
-     * @brief Set plugin configuration
+     * @brief Set Config.
+     * @param[in] config Input parameter.
      */
     virtual void setConfig(const json& config) = 0;
 };
 
-/**
- * @brief Data source configuration
- * 
- * Describes an external data source that can be ingested
- * via a registered plugin.
- */
 struct IngestionSource {
     std::string source_id;          ///< Unique identifier
     std::string plugin_name;        ///< Which plugin handles this
@@ -103,12 +67,15 @@ struct IngestionSource {
     bool incremental = true;        ///< Only fetch new data
     
     /**
-     * @brief Serialize to JSON
+     * @brief To Json.
+     * @return Return value.
      */
     json toJson() const;
     
     /**
-     * @brief Deserialize from JSON
+     * @brief From Json.
+     * @param[in] j Input parameter.
+     * @return Return value.
      */
     static IngestionSource fromJson(const json& j);
 };

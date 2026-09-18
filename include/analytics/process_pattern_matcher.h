@@ -24,56 +24,11 @@
 
 namespace themis {
 
-/**
- * @brief Process Pattern Matcher - Find Similar Processes
- * 
- * This component enables similarity-based process discovery:
- * - Compare process instances with ideal models
- * - Find processes matching specific patterns
- * - Support graph, vector, and behavioral similarity
- * 
- * ## Use Cases
- * 
- * ### 1. Find Processes Similar to Ideal Model
- * ```cpp
- * ProcessPatternMatcher matcher(db);
- * 
- * Pattern ideal = {
- *     .activities = {"Antrag", "Prüfung", "Genehmigung"},
- *     .edges = {{"Antrag", "Prüfung"}, {"Prüfung", "Genehmigung"}}
- * };
- * 
- * auto results = matcher.findSimilar(ideal, 0.7, SimilarityMethod::HYBRID, 10);
- * ```
- * 
- * ### 2. Compare Process with Ideal
- * ```cpp
- * auto comparison = matcher.compareWithIdeal("V-2024-0001", ideal_model);
- * std::cout << "Fitness: " << comparison.fitness << std::endl;
- * std::cout << "Deviations: " << comparison.deviations.size() << std::endl;
- * ```
- * 
- * ## Similarity Methods
- * 
- * - **GRAPH**: Structure-based (nodes, edges, paths)
- * - **VECTOR**: Semantic similarity using embeddings
- * - **BEHAVIORAL**: Execution behavior and ordering
- * - **HYBRID**: Weighted combination of all methods
- * 
- * ## Integration
- * 
- * - Uses existing VectorIndex for semantic search
- * - Uses GraphIndex for structural analysis
- * - Extends ProcessMining with pattern matching
- */
 
 // ============================================================================
 // Enumerations & Types
 // ============================================================================
 
-/**
- * @brief Similarity computation methods
- */
 enum class SimilarityMethod {
     GRAPH,          ///< Graph-based similarity (structure)
     VECTOR,         ///< Vector-based similarity (semantics)
@@ -81,14 +36,6 @@ enum class SimilarityMethod {
     HYBRID          ///< Weighted combination of all methods
 };
 
-/**
- * @brief Process pattern definition
- * 
- * A pattern can be specified at various levels:
- * - Activities only: just the sequence of activity names
- * - Structure: activities + edges defining the control flow
- * - Embedding: pre-computed vector representation
- */
 struct ProcessPattern {
     std::string id;                                         ///< Pattern identifier
     std::string name;                                       ///< Human-readable name
@@ -111,9 +58,6 @@ struct ProcessPattern {
     double semantic_tolerance = 0.1;    ///< Allow 10% semantic differences
 };
 
-/**
- * @brief Result of similarity search
- */
 struct SimilarityResult {
     std::string case_id;                    ///< Process instance ID
     std::string process_name;               ///< Process name (if available)
@@ -142,9 +86,6 @@ struct SimilarityResult {
     int64_t computation_time_us;            ///< Time taken to compute similarity
 };
 
-/**
- * @brief Configuration for pattern matching
- */
 struct PatternMatchConfig {
     SimilarityMethod method = SimilarityMethod::HYBRID;
     
@@ -175,25 +116,27 @@ class RocksDBWrapper;
 class VectorIndex;
 class GraphIndex;
 
-/**
- * @brief Main class for process pattern matching
- */
 class ProcessPatternMatcher {
 public:
     struct Status {
         bool is_ok = true;
         std::string message;
+        /**
+         * @brief OK.
+         * @return Return value.
+         * @details Implements OK without additional internal calls.
+         */
         static Status OK() { return {}; }
+        /**
+         * @brief Error.
+         * @param[in] msg Input parameter.
+         * @return Return value.
+         * @details Calls: std::move().
+         */
         static Status Error(std::string msg) { return Status{false, std::move(msg)}; }
         bool ok() const { return is_ok; }
     };
     
-    /**
-     * @brief Constructor
-     * @param db Database reference
-     * @param vector_index Optional vector index for semantic search
-     * @param graph_index Optional graph index for structural queries
-     */
     explicit ProcessPatternMatcher(
         RocksDBWrapper& db,
         VectorIndex* vector_index = nullptr,
@@ -202,51 +145,16 @@ public:
     
     // ===== Pattern Matching =====
     
-    /**
-     * @brief Find processes similar to a given pattern
-     * 
-     * @param pattern The ideal pattern to match against
-     * @param config Configuration for matching
-     * @return Vector of similar processes ranked by similarity
-     * 
-     * @code
-     * ProcessPattern ideal = {
-     *     .activities = {"Antrag", "Prüfung", "Genehmigung"},
-     *     .edges = {{"Antrag", "Prüfung"}, {"Prüfung", "Genehmigung"}}
-     * };
-     * 
-     * PatternMatchConfig config;
-     * config.method = SimilarityMethod::HYBRID;
-     * config.min_similarity = 0.7;
-     * 
-     * auto results = matcher.findSimilar(ideal, config);
-     * @endcode
-     */
     std::pair<Status, std::vector<SimilarityResult>> findSimilar(
         const ProcessPattern& pattern,
         const PatternMatchConfig& config
     );
     
-    /**
-     * @brief Compare a specific process instance with ideal model
-     * 
-     * @param case_id Process instance to compare
-     * @param ideal_pattern Expected/ideal process pattern
-     * @return Detailed comparison including deviations
-     */
     std::pair<Status, ProcessMining::ConformanceResult> compareWithIdeal(
         const std::string& case_id,
         const ProcessPattern& ideal_pattern
     );
     
-    /**
-     * @brief Check if a process matches a specific pattern
-     * 
-     * @param case_id Process instance to check
-     * @param pattern Pattern to match
-     * @param threshold Minimum similarity threshold (0-1)
-     * @return True if similarity >= threshold
-     */
     std::pair<Status, bool> hasPattern(
         const std::string& case_id,
         const ProcessPattern& pattern,
@@ -254,7 +162,11 @@ public:
     );
 
     /**
-     * @brief Match an activity sequence in an event log.
+     * @brief Match Activity Pattern.
+     * @param[in] log Input parameter.
+     * @param[in] pattern Input parameter.
+     * @param[in,out] out_matching_trace_indices Input/output parameter.
+     * @return Return value.
      */
     Status matchActivityPattern(
         const EventLog& log,
@@ -264,14 +176,6 @@ public:
     
     // ===== Batch Operations =====
     
-    /**
-     * @brief Find patterns across multiple process instances
-     * 
-     * @param case_ids List of process instances to analyze
-     * @param pattern Pattern to search for
-     * @param config Matching configuration
-     * @return Similarity results for each case
-     */
     std::pair<Status, std::map<std::string, SimilarityResult>> findPatternsInBatch(
         const std::vector<std::string>& case_ids,
         const ProcessPattern& pattern,
@@ -280,40 +184,12 @@ public:
     
     // ===== Pattern Library =====
     
-    /**
-     * @brief Load administrative process models from config
-     * 
-     * Loads predefined patterns from:
-     * - config/process_models/administrative_process_models.yaml
-     * 
-     * Models include:
-     * - Bauantragsverfahren (Building Permits)
-     * - Beschaffungsprozesse (Procurement)
-     * - Personalverwaltung (HR)
-     * - Haushaltsplanung (Budget Planning)
-     * 
-     * @return Map of model_id -> ProcessPattern
-     */
     std::pair<Status, std::map<std::string, ProcessPattern>> loadAdministrativeModels();
     
-    /**
-     * @brief Get a specific administrative model by ID
-     * 
-     * @param model_id Model identifier (e.g., "bauantrag_standard")
-     * @return ProcessPattern or error if not found
-     */
     std::pair<Status, ProcessPattern> getAdministrativeModel(const std::string& model_id);
     
     // ===== Statistics & Analysis =====
     
-    /**
-     * @brief Get statistics about pattern usage
-     * 
-     * @return Statistics including:
-     * - Number of cached patterns
-     * - Most frequent patterns
-     * - Average similarity scores
-     */
     struct PatternStatistics {
         int total_patterns_cached = 0;
         int total_comparisons_performed = 0;
@@ -324,7 +200,7 @@ public:
     std::pair<Status, PatternStatistics> getStatistics() const;
     
     /**
-     * @brief Clear pattern cache
+     * @brief Clear Cache.
      */
     void clearCache();
 
@@ -341,17 +217,14 @@ private:
     // Statistics
     mutable PatternStatistics statistics_;
     
-    // ===== Similarity Computation Methods =====
-    
     /**
-     * @brief Compute graph-based structural similarity
-     * 
-     * Uses:
-     * - Node overlap (Jaccard similarity)
-     * - Edge overlap (Jaccard similarity)
-     * - Path-based similarity (LCS)
-     * - Graph edit distance (approximation)
+     * @brief ===== Similarity Computation Methods =====
+     * @param[in] pattern Input parameter.
+     * @param[in] log Input parameter.
+     * @param[in] case_id Identifier of the case.
+     * @return Return value.
      */
+    
     double computeGraphSimilarity(
         const ProcessPattern& pattern,
         const EventLog& log,
@@ -359,12 +232,11 @@ private:
     ) const;
     
     /**
-     * @brief Compute vector-based semantic similarity
-     * 
-     * Uses:
-     * - Activity embeddings
-     * - Trace2Vec (aggregated activity embeddings)
-     * - Cosine similarity
+     * @brief Compute Vector Similarity.
+     * @param[in] pattern Input parameter.
+     * @param[in] log Input parameter.
+     * @param[in] case_id Identifier of the case.
+     * @return Return value.
      */
     double computeVectorSimilarity(
         const ProcessPattern& pattern,
@@ -373,12 +245,11 @@ private:
     ) const;
     
     /**
-     * @brief Compute behavioral similarity
-     * 
-     * Uses:
-     * - Sequence patterns (longest common subsequence)
-     * - Weak order relations
-     * - Execution frequencies
+     * @brief Compute Behavioral Similarity.
+     * @param[in] pattern Input parameter.
+     * @param[in] log Input parameter.
+     * @param[in] case_id Identifier of the case.
+     * @return Return value.
      */
     double computeBehavioralSimilarity(
         const ProcessPattern& pattern,
@@ -387,7 +258,12 @@ private:
     ) const;
     
     /**
-     * @brief Compute hybrid similarity (weighted combination)
+     * @brief Compute Hybrid Similarity.
+     * @param[in] pattern Input parameter.
+     * @param[in] log Input parameter.
+     * @param[in] case_id Identifier of the case.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     double computeHybridSimilarity(
         const ProcessPattern& pattern,
@@ -398,14 +274,8 @@ private:
     
     // ===== Helper Functions =====
     
-    /**
-     * @brief Extract process trace for a case
-     */
     std::pair<Status, ProcessTrace> getTrace(const std::string& case_id) const;
     
-    /**
-     * @brief Compute Jaccard similarity between two sets
-     */
     template<typename T>
     double jaccardSimilarity(const std::set<T>& a, const std::set<T>& b) const {
         if (a.empty() && b.empty()) {
@@ -425,7 +295,10 @@ private:
     }
     
     /**
-     * @brief Compute longest common subsequence length
+     * @brief Longest Common Subsequence.
+     * @param[in] a Input parameter.
+     * @param[in] b Input parameter.
+     * @return Return value.
      */
     int longestCommonSubsequence(
         const std::vector<std::string>& a,
@@ -433,12 +306,17 @@ private:
     ) const;
     
     /**
-     * @brief Embed activity sequence using VectorIndex
+     * @brief Embed Activities.
+     * @param[in] activities Input parameter.
+     * @return Return value.
      */
     std::vector<float> embedActivities(const std::vector<std::string>& activities) const;
     
     /**
-     * @brief Compute cosine similarity between two vectors
+     * @brief Cosine Similarity.
+     * @param[in] a Input parameter.
+     * @param[in] b Input parameter.
+     * @return Return value.
      */
     double cosineSimilarity(const std::vector<float>& a, const std::vector<float>& b) const;
 };

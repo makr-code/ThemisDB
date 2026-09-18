@@ -32,16 +32,6 @@ namespace auth {
 
 namespace detail {
 
-/**
- * @brief Lock a memory region against swapping to disk (best-effort; never throws).
- *
- * Linux/macOS: mlock(2)
- * Windows:     VirtualLock() – may require the process to hold the
- *              "Lock pages in memory" user right (SeLockMemoryPrivilege),
- *              configurable via Local Security Policy:
- *              Computer Configuration → Windows Settings → Security Settings →
- *              Local Policies → User Rights Assignment → Lock pages in memory.
- */
 inline void secure_mlock(void* ptr, std::size_t len) noexcept {
     if (!ptr || len == 0) {
       return;
@@ -53,7 +43,6 @@ inline void secure_mlock(void* ptr, std::size_t len) noexcept {
 #endif
 }
 
-/// Unlock a previously locked memory region.
 inline void secure_munlock(void* ptr, std::size_t len) noexcept {
     if (!ptr || len == 0) {
       return;
@@ -65,12 +54,6 @@ inline void secure_munlock(void* ptr, std::size_t len) noexcept {
 #endif
 }
 
-/**
- * @brief Zero, unlock, and free a typed array.
- *
- * Uses OPENSSL_cleanse() which is guaranteed not to be optimised away
- * by the compiler (unlike memset which can be elided on dead stores).
- */
 template<typename T>
 void secure_release(T* ptr, std::size_t count) noexcept {
     if (!ptr || count == 0) {
@@ -88,31 +71,28 @@ void secure_release(T* ptr, std::size_t count) noexcept {
 // SecureString
 // ============================================================================
 
-/**
- * @brief Secure string for sensitive data (passwords, passphrases, key material).
- *
- * Security guarantees:
- *   - Pages are locked with mlock(2) / VirtualLock to prevent OS paging to disk.
- *   - Memory is zeroed with OPENSSL_cleanse() before deallocation, preventing
- *     sensitive data from appearing in core dumps or being re-read from freed
- *     heap pages by a subsequent allocation.
- *   - No implicit conversion to std::string prevents accidental serialisation
- *     or logging of secrets.
- *   - No stream operator (operator<<) prevents secrets appearing in log output.
- *
- * Copyable: each copy receives its own independently locked allocation so that
- * every copy is individually zeroed on destruction (defence-in-depth).
- */
 class SecureString {
 public:
     SecureString() noexcept = default;
 
+    /**
+     * @brief Secure String.
+     * @param[in] s Input parameter.
+     * @return Return value.
+     * @details Calls: assign(), std::strlen().
+     */
     explicit SecureString(const char* s) {
         if (s) {
           assign(s, std::strlen(s));
         }
     }
 
+    /**
+     * @brief Secure String.
+     * @param[in] s Input parameter.
+     * @return Return value.
+     * @details Calls: assign(), data(), size().
+     */
     explicit SecureString(const std::string& s) {
         assign(s.data(), s.size());
     }
@@ -200,6 +180,12 @@ private:
     char*       data_ = nullptr;
     std::size_t size_ = 0;
 
+    /**
+     * @brief Assign.
+     * @param[in] src Input parameter.
+     * @param[in] len Input parameter.
+     * @details Calls: std::memcpy(), detail::secure_mlock().
+     */
     void assign(const char* src, std::size_t len) {
         if (len == 0) {
           return;
@@ -230,21 +216,11 @@ inline bool operator!=(const std::string& lhs, const SecureString& rhs) noexcept
 // SecureBuffer<T>
 // ============================================================================
 
-/**
- * @brief Secure buffer for binary key material (e.g. AES-256 master keys).
- *
- * Provides the same security guarantees as SecureString but for typed
- * byte arrays.  Allows implicit construction from std::vector<T> so that
- * call-sites that currently pass vectors do not need to be changed.
- *
- * @tparam T Element type – typically uint8_t.
- */
 template<typename T>
 class SecureBuffer {
 public:
     SecureBuffer() noexcept = default;
 
-    /// Construct \p n elements initialised to \p val (mirrors std::vector(n, val)).
     SecureBuffer(std::size_t n, T val = T{}) {
         if (n == 0) {
           return;
@@ -255,7 +231,6 @@ public:
         detail::secure_mlock(data_, n * sizeof(T));
     }
 
-    /// Implicit construction from std::vector<T> – makes a locked copy.
     // NOLINTNEXTLINE(google-explicit-constructor)
     SecureBuffer(const std::vector<T>& v) {
         assign(v.data(), v.size());
@@ -325,6 +300,12 @@ private:
     T*          data_ = nullptr;
     std::size_t size_ = 0;
 
+    /**
+     * @brief Assign.
+     * @param[in] src Input parameter.
+     * @param[in] n Input parameter.
+     * @details Calls: std::memcpy(), detail::secure_mlock().
+     */
     void assign(const T* src, std::size_t n) {
         if (n == 0) {
           return;

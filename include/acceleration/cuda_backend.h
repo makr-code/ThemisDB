@@ -40,7 +40,6 @@ namespace acceleration {
 // it grows beyond kMaxEntries to bound device-memory usage.
 // ============================================================================
 
-/// Identifies a fixed-shape KNN workload for graph cache lookup.
 struct QueryShape {
     int numQueries = 0;
     int numVectors = 0;
@@ -54,7 +53,6 @@ struct QueryShape {
     }
 };
 
-/// FNV-1a–inspired hash for QueryShape.
 struct QueryShapeHash {
     std::size_t operator()(const QueryShape& s) const noexcept {
         std::size_t h = 14695981039346656037ULL;
@@ -71,8 +69,6 @@ struct QueryShapeHash {
     }
 };
 
-/// Holds a captured CUDA graph and its pre-allocated device memory buffers for
-/// one specific query shape.  Non-copyable; move-constructible.
 struct CUDAGraphEntry {
     cudaGraph_t     graph = nullptr;
     cudaGraphExec_t exec  = nullptr;
@@ -99,26 +95,37 @@ struct CUDAGraphEntry {
     CUDAGraphEntry& operator=(CUDAGraphEntry&&) noexcept;
 };
 
-/// Thread-safety: external mutex required — caller must hold the lock.
 class CUDAGraphCache {
 public:
-    /// Maximum number of cached graphs before LRU eviction.
     static constexpr size_t kMaxEntries = 32;
 
-    /// Returns a pointer to the entry matching @p shape, or nullptr.
+    /**
+     * @brief Get.
+     * @param[in] shape Input parameter.
+     * @return Pointer to the result.
+     * @note Exception safety: noexcept.
+     */
     CUDAGraphEntry* get(const QueryShape& shape) noexcept;
 
-    /// Inserts (or replaces) an entry for @p shape.
-    /// Returns a reference to the stored entry.
+    /**
+     * @brief Put.
+     * @param[in] shape Input parameter.
+     * @param[in] entry Input parameter.
+     * @return Return value.
+     */
     CUDAGraphEntry& put(const QueryShape& shape, CUDAGraphEntry entry);
 
-    /// Number of currently cached graphs.
     size_t size() const noexcept { return entries_.size(); }
 
-    /// Destroy all cached graphs and free device memory.
+    /**
+     * @brief Clear.
+     */
     void clear();
 
 private:
+    /**
+     * @brief Evict LRU.
+     */
     void evictLRU();
 
     std::unordered_map<QueryShape, CUDAGraphEntry, QueryShapeHash> entries_;
@@ -135,7 +142,6 @@ private:
 // each cudaGraphLaunch.
 // ============================================================================
 
-/// Identifies a fixed-shape BFS workload for graph cache lookup.
 struct GraphBFSShape {
     int numVertices = 0;
     int numStarts   = 0;
@@ -148,7 +154,6 @@ struct GraphBFSShape {
     }
 };
 
-/// FNV-1a–inspired hash for GraphBFSShape.
 struct GraphBFSShapeHash {
     std::size_t operator()(const GraphBFSShape& s) const noexcept {
         std::size_t h = 14695981039346656037ULL;
@@ -160,7 +165,6 @@ struct GraphBFSShapeHash {
     }
 };
 
-/// Captured CUDA graph entry for one fixed-shape BFS workload.  Non-copyable.
 struct CUDAGraphBFSEntry {
     cudaGraph_t     graph = nullptr;
     cudaGraphExec_t exec  = nullptr;
@@ -187,17 +191,34 @@ struct CUDAGraphBFSEntry {
     CUDAGraphBFSEntry& operator=(CUDAGraphBFSEntry&&) noexcept;
 };
 
-/// LRU cache of captured BFS graphs.  Thread-safety: external mutex required.
 class CUDAGraphBFSCache {
 public:
     static constexpr size_t kMaxEntries = 16;
 
+    /**
+     * @brief Get.
+     * @param[in] shape Input parameter.
+     * @return Pointer to the result.
+     * @note Exception safety: noexcept.
+     */
     CUDAGraphBFSEntry* get(const GraphBFSShape& shape) noexcept;
+    /**
+     * @brief Put.
+     * @param[in] shape Input parameter.
+     * @param[in] entry Input parameter.
+     * @return Return value.
+     */
     CUDAGraphBFSEntry& put(const GraphBFSShape& shape, CUDAGraphBFSEntry entry);
     size_t size() const noexcept { return entries_.size(); }
+    /**
+     * @brief Clear.
+     */
     void clear();
 
 private:
+    /**
+     * @brief Evict LRU.
+     */
     void evictLRU();
     std::unordered_map<GraphBFSShape, CUDAGraphBFSEntry, GraphBFSShapeHash> entries_;
     uint64_t clock_ = 0;
@@ -210,7 +231,6 @@ private:
 // kernels, keyed on (numVertices, numPairs).
 // ============================================================================
 
-/// Identifies a fixed-shape Bellman-Ford SP workload for graph cache lookup.
 struct GraphSPShape {
     int numVertices = 0;
     int numPairs    = 0;
@@ -220,7 +240,6 @@ struct GraphSPShape {
     }
 };
 
-/// FNV-1a–inspired hash for GraphSPShape.
 struct GraphSPShapeHash {
     std::size_t operator()(const GraphSPShape& s) const noexcept {
         std::size_t h = 14695981039346656037ULL;
@@ -231,7 +250,6 @@ struct GraphSPShapeHash {
     }
 };
 
-/// Captured CUDA graph entry for one fixed-shape SP workload.  Non-copyable.
 struct CUDAGraphSPEntry {
     cudaGraph_t     graph = nullptr;
     cudaGraphExec_t exec  = nullptr;
@@ -254,17 +272,34 @@ struct CUDAGraphSPEntry {
     CUDAGraphSPEntry& operator=(CUDAGraphSPEntry&&) noexcept;
 };
 
-/// LRU cache of captured Bellman-Ford graphs.  Thread-safety: external mutex required.
 class CUDAGraphSPCache {
 public:
     static constexpr size_t kMaxEntries = 16;
 
+    /**
+     * @brief Get.
+     * @param[in] shape Input parameter.
+     * @return Pointer to the result.
+     * @note Exception safety: noexcept.
+     */
     CUDAGraphSPEntry* get(const GraphSPShape& shape) noexcept;
+    /**
+     * @brief Put.
+     * @param[in] shape Input parameter.
+     * @param[in] entry Input parameter.
+     * @return Return value.
+     */
     CUDAGraphSPEntry& put(const GraphSPShape& shape, CUDAGraphSPEntry entry);
     size_t size() const noexcept { return entries_.size(); }
+    /**
+     * @brief Clear.
+     */
     void clear();
 
 private:
+    /**
+     * @brief Evict LRU.
+     */
     void evictLRU();
     std::unordered_map<GraphSPShape, CUDAGraphSPEntry, GraphSPShapeHash> entries_;
     uint64_t clock_ = 0;
@@ -274,7 +309,6 @@ private:
 
 // CUDA backend for GPU acceleration (NVIDIA)
 // Uses RAII wrappers for automatic resource management and exception safety
-/** @brief Uses RAII wrappers for automatic resource management and exception safety. */
 class CUDAVectorBackend : public IVectorBackend {
 public:
     CUDAVectorBackend() = default;
@@ -312,24 +346,15 @@ public:
     // Frozen kernel dispatch — wires CUDA launchers to the interface contract
     ANNKernelDispatch populateANNDispatch() const override;
 
-    // -------------------------------------------------------------------------
-    // HNSW Graph-based ANN index management
-    //
-    // buildHnswAnnIndex() uploads a pre-built multi-layer HNSW graph and the
-    // associated flat vector store to the GPU (or falls back to CPU if no CUDA
-    // device is available).  Once built, subsequent calls to batchKnnSearch()
-    // and annBatchSearch() use the HNSW traversal path instead of the brute-
-    // force flat-search kernel.
-    //
-    // Parameters:
-    //   layers     — Multi-layer HNSW graph in CSR format (index 0 = bottom).
-    //   vectors    — Row-major flat float array [numVectors × dim].
-    //   numVectors — Number of vectors indexed.
-    //   dim        — Vector dimensionality.
-    //
-    // Returns true on success; false if the engine could not upload the data
-    // (the backend remains usable in brute-force fallback mode).
-    // -------------------------------------------------------------------------
+    /**
+     * @brief ------------------------------------------------------------------------- HNSW Graph-based ANN index management buildHnswAnnIndex() uploads a pre-built multi-layer HNSW graph and the associated flat vector store to the GPU (or falls back to CPU if no CUDA device is available).
+     * @param[in] layers Input parameter.
+     * @param[in] vectors Input parameter.
+     * @param[in] numVectors Input parameter.
+     * @param[in] dim Input parameter.
+     * @return True when the operation succeeds.
+     * @details Once built, subsequent calls to batchKnnSearch() and annBatchSearch() use the HNSW traversal path instead of the brute- force flat-search kernel. Parameters: layers — Multi-layer HNSW graph in CSR format (index 0 = bottom). vectors — Row-major flat float array [numVectors × dim]. numVectors — Number of vectors indexed. dim — Vector dimensionality. Returns true on success; false if the engine could not upload the data (the backend remains usable in brute-force fallback mode). -------------------------------------------------------------------------
+     */
     bool buildHnswAnnIndex(const std::vector<HnswLayerGraph>& layers,
                            const float* vectors,
                            size_t numVectors,
@@ -355,28 +380,20 @@ public:
         size_t k,
         uint32_t ef = 0);
 
-    /** True when buildHnswAnnIndex() has been called successfully. */
+    /**
+     * @brief Is Hnsw Index Built.
+     * @return True when the operation succeeds.
+     * @note Exception safety: noexcept.
+     */
     bool isHnswIndexBuilt() const noexcept;
 
-    // -------------------------------------------------------------------------
-    // Visited bitset pool tuning
-    //
-    // setMaxBatchSize() controls the size of the persistent visited bitset
-    // pool allocated in the HNSW engine during buildHnswAnnIndex().  The pool
-    // is sized as maxBatchSize × ceil(numNodes / 8) bytes and lives for the
-    // lifetime of the index.  Calling setMaxBatchSize() before
-    // buildHnswAnnIndex() is the recommended usage pattern; calling it after
-    // the index has been built has no effect until the next buildHnswAnnIndex().
-    //
-    // Default: 512 queries.
-    //
-    // Pool allocation must not exceed BackendCapabilities::maxMemoryBytes.
-    // If the computed pool size would exceed that limit, the effective
-    // maxBatchSize is clamped automatically during buildHnswAnnIndex().
-    // -------------------------------------------------------------------------
+    /**
+     * @brief ------------------------------------------------------------------------- Visited bitset pool tuning setMaxBatchSize() controls the size of the persistent visited bitset pool allocated in the HNSW engine during buildHnswAnnIndex().
+     * @param[in] n Input parameter.
+     * @details The pool is sized as maxBatchSize × ceil(numNodes / 8) bytes and lives for the lifetime of the index. Calling setMaxBatchSize() before buildHnswAnnIndex() is the recommended usage pattern; calling it after the index has been built has no effect until the next buildHnswAnnIndex(). Default: 512 queries. Pool allocation must not exceed BackendCapabilities::maxMemoryBytes. If the computed pool size would exceed that limit, the effective maxBatchSize is clamped automatically during buildHnswAnnIndex(). -------------------------------------------------------------------------
+     */
     void setMaxBatchSize(size_t n);
 
-    /** Return the current maxBatchSize setting (default: 512). */
     size_t maxBatchSize() const noexcept { return maxBatchSize_; }
 
     // -------------------------------------------------------------------------
@@ -401,7 +418,6 @@ public:
     );
 
 #ifdef THEMIS_ENABLE_CUDA
-    /// Direct access to the graph cache — exposed for testing.
     CUDAGraphCache& graphCache() noexcept { return graphCache_; }
     const CUDAGraphCache& graphCache() const noexcept { return graphCache_; }
 #endif
@@ -426,7 +442,6 @@ private:
 #endif
 };
 
-/** @brief Cuda graph backend implementation. */
 class CUDAGraphBackend : public IGraphBackend {
 public:
     CUDAGraphBackend() = default;
@@ -470,7 +485,6 @@ private:
 #endif
 };
 
-/** @brief Cuda geo backend implementation. */
 class CUDAGeoBackend : public IGeoBackend {
 public:
     CUDAGeoBackend() = default;
@@ -518,7 +532,6 @@ private:
 // Uses cuBLAS cublasHgemm (FP16) and cublasGemmEx (BF16) which automatically
 // engage Tensor Core units on SM 7.0+ (FP16) and SM 8.0+ (BF16) hardware.
 // Falls back to returning an error when CUDA is not available.
-/** @brief Falls back to returning an error when CUDA is not available. */
 class CUDAMatrixBackend : public IMatrixBackend {
 public:
     CUDAMatrixBackend() = default;

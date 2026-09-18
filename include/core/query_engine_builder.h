@@ -42,39 +42,38 @@
 
 namespace themis {
 
-/// @brief Builder for constructing QueryEngine instances with dependency injection
-///
-/// This class implements the Builder pattern to simplify QueryEngine construction
-/// with various dependency configurations. It validates that required dependencies
-/// are provided before creating the QueryEngine.
 class QueryEngineBuilder {
 public:
-    /// @brief Default constructor - creates empty builder
     QueryEngineBuilder() = default;
     
-    /// @brief Set storage engine dependency
-    /// @param storage Storage engine instance (can be nullptr for late binding).
-    /// @return Reference to this builder for method chaining
+    /**
+     * @brief With Storage.
+     * @param[in] storage Input parameter.
+     * @return Return value.
+     * @details Implements withStorage without additional internal calls.
+     */
     QueryEngineBuilder& withStorage(IStorageEnginePtr storage) {
         storage_ = storage;
         return *this;
     }
     
-    /// @brief Set index manager dependency
-    /// @param index_manager Index manager instance (required).
-    /// @return Reference to this builder for method chaining
+    /**
+     * @brief With Index Manager.
+     * @param[in] index_manager Input parameter.
+     * @return Return value.
+     * @details Implements withIndexManager without additional internal calls.
+     */
     QueryEngineBuilder& withIndexManager(IIndexManagerPtr index_manager) {
         index_manager_ = index_manager;
         return *this;
     }
     
-    /// @brief Build the QueryEngine with configured dependencies.
-    ///
-    /// index_manager must be configured before calling build(). storage may be
-    /// nullptr when late binding is intended.
-    ///
-    /// @throws std::runtime_error if required dependencies are not set
-    /// @return Shared pointer to constructed QueryEngine
+    /**
+     * @brief Build.
+     * @return Return value.
+     * @throws std::runtime_error if an error occurs.
+     * @details Implements build without additional internal calls.
+     */
     std::shared_ptr<query::QueryEngine> build() {
         if (!index_manager_) {
             throw std::runtime_error("QueryEngineBuilder: IndexManager is required");
@@ -84,12 +83,11 @@ public:
         return std::make_shared<query::QueryEngine>(storage_, index_manager_);
     }
     
-    /// @brief Create a standard builder instance.
-    ///
-    /// Currently returns an empty builder equivalent to QueryEngineBuilder().
-    /// Callers must still configure index manager explicitly before build().
-    ///
-    /// @return Empty builder to be configured with dependencies
+    /**
+     * @brief Standard.
+     * @return Return value.
+     * @details Implements standard without additional internal calls.
+     */
     static QueryEngineBuilder standard() {
         QueryEngineBuilder builder = {};
         return builder;

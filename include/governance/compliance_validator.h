@@ -34,35 +34,56 @@ namespace governance {
 // Compliance Validator Interface
 // ============================================================================
 
-/**
- * @brief Base interface for framework-specific validators
- * 
- * Each compliance framework has a validator that implements
- * requirement checking and control verification.
- */
 class IComplianceValidator {
 public:
+    /**
+     * @brief ICompliance Validator.
+     * @return Return value.
+     */
     virtual ~IComplianceValidator() = default;
     
-    /// Get the framework this validator handles
+    /**
+     * @brief Get Framework.
+     * @return Return value.
+     */
     virtual ComplianceFramework getFramework() const = 0;
     
-    /// Validate a single requirement
+    /**
+     * @brief Validate Requirement.
+     * @param[in] req Input parameter.
+     * @param[in] ctx Input parameter.
+     * @return Return value.
+     */
     virtual ComplianceStatus validateRequirement(
         const ComplianceRequirement& req,
         const ComplianceContext& ctx) = 0;
     
-    /// Validate a single control
+    /**
+     * @brief Validate Control.
+     * @param[in] ctl Input parameter.
+     * @param[in] ctx Input parameter.
+     * @return Return value.
+     */
     virtual ComplianceStatus validateControl(
         const ComplianceControl& ctl,
         const ComplianceContext& ctx) = 0;
     
-    /// Collect evidence for a control
+    /**
+     * @brief Collect Evidence.
+     * @param[in] ctl Input parameter.
+     * @param[in] ctx Input parameter.
+     * @return Return value.
+     */
     virtual std::vector<ComplianceEvidence> collectEvidence(
         const ComplianceControl& ctl,
         const ComplianceContext& ctx) = 0;
     
-    /// Check if system policies satisfy requirement
+    /**
+     * @brief Check Policy Satisfaction.
+     * @param[in] req Input parameter.
+     * @param[in] ctx Input parameter.
+     * @return True when the operation succeeds.
+     */
     virtual bool checkPolicySatisfaction(
         const ComplianceRequirement& req,
         const ComplianceContext& ctx) = 0;
@@ -72,9 +93,6 @@ public:
 // Framework-Specific Validators
 // ============================================================================
 
-/**
- * @brief ISO 27001 compliance validator
- */
 class Iso27001Validator : public IComplianceValidator {
 public:
     ComplianceFramework getFramework() const override;
@@ -96,16 +114,38 @@ public:
         const ComplianceContext& ctx) override;
 
 private:
+    /**
+     * @brief Validate Encryption.
+     * @param[in] ctx Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool validateEncryption(const ComplianceContext& ctx);
+    /**
+     * @brief Validate Access Control.
+     * @param[in] ctx Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool validateAccessControl(const ComplianceContext& ctx);
+    /**
+     * @brief Validate Audit Logging.
+     * @param[in] ctx Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool validateAuditLogging(const ComplianceContext& ctx);
+    /**
+     * @brief Validate Incident Response.
+     * @param[in] ctx Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool validateIncidentResponse(const ComplianceContext& ctx);
+    /**
+     * @brief Validate Backup Recovery.
+     * @param[in] ctx Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool validateBackupRecovery(const ComplianceContext& ctx);
 };
 
-/**
- * @brief SOC 2 compliance validator
- */
 class Soc2Validator : public IComplianceValidator {
 public:
     ComplianceFramework getFramework() const override;
@@ -127,16 +167,38 @@ public:
         const ComplianceContext& ctx) override;
 
 private:
+    /**
+     * @brief Validate Security Monitoring.
+     * @param[in] ctx Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool validateSecurityMonitoring(const ComplianceContext& ctx);
+    /**
+     * @brief Validate Change Management.
+     * @param[in] ctx Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool validateChangeManagement(const ComplianceContext& ctx);
+    /**
+     * @brief Validate Data Security.
+     * @param[in] ctx Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool validateDataSecurity(const ComplianceContext& ctx);
+    /**
+     * @brief Validate Availability.
+     * @param[in] ctx Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool validateAvailability(const ComplianceContext& ctx);
+    /**
+     * @brief Validate Confidentiality.
+     * @param[in] ctx Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool validateConfidentiality(const ComplianceContext& ctx);
 };
 
-/**
- * @brief GDPR compliance validator
- */
 class GdprValidator : public IComplianceValidator {
 public:
     ComplianceFramework getFramework() const override;
@@ -158,16 +220,38 @@ public:
         const ComplianceContext& ctx) override;
 
 private:
+    /**
+     * @brief Validate Consent Management.
+     * @param[in] ctx Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool validateConsentManagement(const ComplianceContext& ctx);
+    /**
+     * @brief Validate Data Minimization.
+     * @param[in] ctx Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool validateDataMinimization(const ComplianceContext& ctx);
+    /**
+     * @brief Validate Subject Rights.
+     * @param[in] ctx Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool validateSubjectRights(const ComplianceContext& ctx);
+    /**
+     * @brief Validate Data Retention.
+     * @param[in] ctx Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool validateDataRetention(const ComplianceContext& ctx);
+    /**
+     * @brief Validate Dpia.
+     * @param[in] ctx Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool validateDpia(const ComplianceContext& ctx);
 };
 
-/**
- * @brief CCPA compliance validator
- */
 class CcpaValidator : public IComplianceValidator {
 public:
     ComplianceFramework getFramework() const override;
@@ -189,15 +273,32 @@ public:
         const ComplianceContext& ctx) override;
 
 private:
+    /**
+     * @brief Validate Consumer Rights.
+     * @param[in] ctx Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool validateConsumerRights(const ComplianceContext& ctx);
+    /**
+     * @brief Validate Data Sale Opt.
+     * @param[in] ctx Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool validateDataSaleOpt(const ComplianceContext& ctx);
+    /**
+     * @brief Validate Privacy Policy.
+     * @param[in] ctx Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool validatePrivacyPolicy(const ComplianceContext& ctx);
+    /**
+     * @brief Validate Data Security.
+     * @param[in] ctx Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool validateDataSecurity(const ComplianceContext& ctx);
 };
 
-/**
- * @brief HIPAA compliance validator
- */
 class HipaaValidator : public IComplianceValidator {
 public:
     ComplianceFramework getFramework() const override;
@@ -219,15 +320,32 @@ public:
         const ComplianceContext& ctx) override;
 
 private:
+    /**
+     * @brief Validate Phi Encryption.
+     * @param[in] ctx Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool validatePhiEncryption(const ComplianceContext& ctx);
+    /**
+     * @brief Validate Access Control.
+     * @param[in] ctx Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool validateAccessControl(const ComplianceContext& ctx);
+    /**
+     * @brief Validate Audit Controls.
+     * @param[in] ctx Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool validateAuditControls(const ComplianceContext& ctx);
+    /**
+     * @brief Validate Integrity Controls.
+     * @param[in] ctx Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool validateIntegrityControls(const ComplianceContext& ctx);
 };
 
-/**
- * @brief PCI-DSS compliance validator
- */
 class PciDssValidator : public IComplianceValidator {
 public:
     ComplianceFramework getFramework() const override;
@@ -249,15 +367,32 @@ public:
         const ComplianceContext& ctx) override;
 
 private:
+    /**
+     * @brief Validate Card Data Encryption.
+     * @param[in] ctx Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool validateCardDataEncryption(const ComplianceContext& ctx);
+    /**
+     * @brief Validate Access Control.
+     * @param[in] ctx Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool validateAccessControl(const ComplianceContext& ctx);
+    /**
+     * @brief Validate Vulnerability Management.
+     * @param[in] ctx Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool validateVulnerabilityManagement(const ComplianceContext& ctx);
+    /**
+     * @brief Validate Monitoring.
+     * @param[in] ctx Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool validateMonitoring(const ComplianceContext& ctx);
 };
 
-/**
- * @brief EU AI Act compliance validator
- */
 class EuAiActValidator : public IComplianceValidator {
 public:
     ComplianceFramework getFramework() const override;
@@ -279,9 +414,29 @@ public:
         const ComplianceContext& ctx) override;
 
 private:
+    /**
+     * @brief Validate Risk Management.
+     * @param[in] ctx Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool validateRiskManagement(const ComplianceContext& ctx);
+    /**
+     * @brief Validate Transparency.
+     * @param[in] ctx Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool validateTransparency(const ComplianceContext& ctx);
+    /**
+     * @brief Validate Monitoring.
+     * @param[in] ctx Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool validateMonitoring(const ComplianceContext& ctx);
+    /**
+     * @brief Validate Human Oversight.
+     * @param[in] ctx Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool validateHumanOversight(const ComplianceContext& ctx);
 };
 
@@ -289,37 +444,57 @@ private:
 // Main Compliance Validation Engine
 // ============================================================================
 
-/**
- * @brief Orchestrates compliance validation across frameworks
- * 
- * Manages validators, coordinates multi-framework validation,
- * aggregates results, and generates compliance reports.
- */
 class ComplianceValidationEngine {
 public:
     ComplianceValidationEngine();
     ~ComplianceValidationEngine() = default;
     
-    /// Register a validator for a framework
+    /**
+     * @brief Register Validator.
+     * @param[in] validator Input parameter.
+     */
     void registerValidator(std::unique_ptr<IComplianceValidator> validator);
     
-    /// Validate single requirement
+    /**
+     * @brief Validate Requirement.
+     * @param[in] req Input parameter.
+     * @param[in] ctx Input parameter.
+     * @return Return value.
+     */
     ComplianceStatus validateRequirement(
         const ComplianceRequirement& req,
         const ComplianceContext& ctx);
     
-    /// Validate single control
+    /**
+     * @brief Validate Control.
+     * @param[in] ctl Input parameter.
+     * @param[in] ctx Input parameter.
+     * @return Return value.
+     */
     ComplianceStatus validateControl(
         const ComplianceControl& ctl,
         const ComplianceContext& ctx);
     
-    /// Perform comprehensive validation for framework
+    /**
+     * @brief Validate Framework.
+     * @param[in] fw Input parameter.
+     * @param[in] registry Input parameter.
+     * @param[in] ctx Input parameter.
+     * @return Return value.
+     */
     ComplianceStatusReport validateFramework(
         ComplianceFramework fw,
         const ComplianceFrameworkRegistry& registry,
         const ComplianceContext& ctx);
 
-    /// Validate all enabled frameworks using a shared registry pointer
+    /**
+     * @brief Validate All.
+     * @param[in] frameworks Input parameter.
+     * @param[in] registry Input parameter.
+     * @param[in] ctx Input parameter.
+     * @return Return value.
+     * @details Implements validateAll without additional internal calls.
+     */
     ComplianceValidationResult validateAll(
         const std::vector<ComplianceFramework>& frameworks,
         const std::shared_ptr<const ComplianceFrameworkRegistry>& registry,
@@ -327,17 +502,31 @@ public:
         return validateAll(frameworks, *registry, ctx);
     }
     
-    /// Validate all enabled frameworks
+    /**
+     * @brief Validate All.
+     * @param[in] frameworks Input parameter.
+     * @param[in] registry Input parameter.
+     * @param[in] ctx Input parameter.
+     * @return Return value.
+     */
     ComplianceValidationResult validateAll(
         const std::vector<ComplianceFramework>& frameworks,
         const ComplianceFrameworkRegistry& registry,
         const ComplianceContext& ctx);
     
-    /// Detect compliance violations
+    /**
+     * @brief Detect Violations.
+     * @param[in] result Input parameter.
+     * @return Return value.
+     */
     std::vector<ComplianceViolation> detectViolations(
         const ComplianceValidationResult& result);
     
-    /// Generate remediation guidance for violation
+    /**
+     * @brief Generate Remediation Guidance.
+     * @param[in] violation Input parameter.
+     * @return Return value.
+     */
     std::string generateRemediationGuidance(
         const ComplianceViolation& violation);
 
@@ -345,7 +534,11 @@ private:
     std::unordered_map<int, std::unique_ptr<IComplianceValidator>> validators_;
     mutable std::mutex mu_;
     
-    /// Get validator for framework
+    /**
+     * @brief Get Validator.
+     * @param[in] fw Input parameter.
+     * @return Pointer to the result.
+     */
     IComplianceValidator* getValidator(ComplianceFramework fw);
 };
 

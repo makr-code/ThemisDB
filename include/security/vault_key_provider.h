@@ -20,66 +20,8 @@
 
 namespace themis {
 
-/**
- * @brief HashiCorp Vault integration for production key management
- * 
- * Features:
- * - Vault KV v2 secrets engine support
- * - Token authentication (extensible to AppRole/AWS/etc)
- * - Automatic key caching with TTL
- * - Thread-safe operations
- * - Automatic token refresh (if provided)
- * 
- * Vault Setup:
- * 1. Enable KV v2 secrets engine:
- *    vault secrets enable -version=2 -path=themis kv
- * 
- * 2. Store encryption key:
- *    vault kv put themis/keys/user_pii \
- *      key=$(openssl rand -base64 32) \
- *      algorithm="AES-256-GCM" \
- *      version=1
- * 
- * 3. Create policy:
- *    path "themis/data/keys/{name}" {
- *      capabilities = ["read", "list"]
- *    }
- *    path "themis/metadata/keys/{name}" {
- *      capabilities = ["read", "list"]
- *    }
- * 
- * Example Usage:
- * @code
- * auto provider = std::make_shared<VaultKeyProvider>(
- *     "https://vault.example.com:8200",
- *     "s.abc123...",
- *     "themis"  // KV mount path
- * );
- * 
- * // Retrieve key (cached automatically)
- * auto key = provider->getKey("user_pii");
- * 
- * // Rotate key (creates new version in Vault)
- * provider->rotateKey("user_pii");
- * @endcode
- * 
- * Performance:
- * - Cache TTL: 1 hour (configurable)
- * - Cache capacity: 1000 keys
- * - Cold fetch: ~50-100ms (network latency)
- * - Cached fetch: <0.1ms
- * 
- * Error Handling:
- * - Network errors: KeyOperationException with retry hint
- * - 403 Forbidden: KeyOperationException (auth issue)
- * - 404 Not Found: KeyNotFoundException
- * - 5xx errors: KeyOperationException with transient flag
- */
 class VaultKeyProvider : public SigningProvider {
 public:
-    /**
-     * @brief Configuration for Vault connection
-     */
     struct Config {
         std::string vault_addr;      // Production: "https://vault.example.com:8200"; loopback-only dev HTTP is allowed.
         std::string vault_token;     // Authentication token
@@ -109,20 +51,12 @@ public:
     };
     
     /**
-     * @brief Construct VaultKeyProvider with configuration
-     * 
-     * @param config Vault connection configuration
-     * @throws KeyOperationException if libcurl initialization fails
+     * @brief Vault Key Provider.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     explicit VaultKeyProvider(const Config& config);
     
-    /**
-     * @brief Convenience constructor with default settings
-     * 
-     * @param vault_addr Vault address (production: HTTPS required; loopback-only HTTP allowed for local dev/test)
-     * @param vault_token Authentication token
-     * @param kv_mount_path KV mount path (default: "themis")
-     */
     VaultKeyProvider(
         const std::string& vault_addr,
         const std::string& vault_token,
@@ -148,24 +82,20 @@ public:
     SigningResult sign(const std::string& key_id, const std::vector<uint8_t>& data) override;
     
     /**
-     * @brief Clear all cached keys
-     * 
-     * Forces next getKey() to fetch from Vault.
-     * Useful for testing or after token refresh.
+     * @brief Clear Cache.
      */
     void clearCache();
     
-    /**
-     * @brief Get cache statistics
-     * 
-     * @return {hit_rate, total_requests, cache_hits, cache_size}
-     */
     struct CacheStats {
         double hit_rate = 0;
         size_t total_requests;
         size_t cache_hits;
         size_t cache_size;
     };
+    /**
+     * @brief Get Cache Stats.
+     * @return Return value.
+     */
     CacheStats getCacheStats() const;
     
 private:
@@ -173,22 +103,66 @@ private:
     std::unique_ptr<Impl> impl_;
     
 protected:
-    // HTTP helpers - made virtual/protected so tests can override http behaviour
+    /**
+     * @brief Http Get.
+     * @param[in] path Input parameter.
+     * @return Return value.
+     */
     virtual std::string httpGet(const std::string& path);
+    /**
+     * @brief Http Post.
+     * @param[in] path Input parameter.
+     * @param[in] body Input parameter.
+     * @return Return value.
+     */
     virtual std::string httpPost(const std::string& path, const std::string& body);
+    /**
+     * @brief Http List.
+     * @param[in] path Input parameter.
+     * @return Return value.
+     */
     virtual std::string httpList(const std::string& path);
     
     // Vault API wrappers
     std::string readSecret(const std::string& key_id, uint32_t version = 0);
+    /**
+     * @brief Read Secret Metadata.
+     * @param[in] key_id Identifier of the key.
+     * @return Return value.
+     */
     std::string readSecretMetadata(const std::string& key_id);
+    /**
+     * @brief Write Secret.
+     * @param[in] key_id Identifier of the key.
+     * @param[in] key_b64 Input parameter.
+     * @param[in] version Input parameter.
+     */
     void writeSecret(const std::string& key_id, const std::string& key_b64, uint32_t version);
+    /**
+     * @brief List Secrets.
+     * @return Return value.
+     */
     std::vector<std::string> listSecrets();
     
-    // Key parsing
+    /**
+     * @brief Parse Key From Vault Response.
+     * @param[in] json_response Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> parseKeyFromVaultResponse(const std::string& json_response);
+    /**
+     * @brief Parse Metadata From Vault Response.
+     * @param[in] json_response Input parameter.
+     * @return Return value.
+     */
     KeyMetadata parseMetadataFromVaultResponse(const std::string& json_response);
     
-    // Cache key generation
+    /**
+     * @brief Make Cache Key.
+     * @param[in] key_id Identifier of the key.
+     * @param[in] version Input parameter.
+     * @return Return value.
+     */
     std::string makeCacheKey(const std::string& key_id, uint32_t version) const;
 
 public:

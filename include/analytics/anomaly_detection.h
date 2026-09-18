@@ -93,20 +93,39 @@ enum class AnomalyMethod {
 // DataPoint
 // ============================================================================
 
-/**
- * A labelled feature vector fed into the anomaly detector.
- * Numeric fields (int64 / double) are used for detection; string fields are
- * treated as metadata and preserved in results / explanations.
- */
 struct DataPoint {
     std::string id = {};
     int64_t     timestamp_ms = 0;
     std::map<std::string, PointValue> fields;
 
     // Convenience helpers
+    /**
+     * @brief Set.
+     * @param[in] name Input parameter.
+     * @param[in] v Input parameter.
+     * @details Implements set without additional internal calls.
+     */
     void set(const std::string& name, double v)      { fields[name] = v; }
+    /**
+     * @brief Set.
+     * @param[in] name Input parameter.
+     * @param[in] v Input parameter.
+     * @details Implements set without additional internal calls.
+     */
     void set(const std::string& name, int64_t v)     { fields[name] = v; }
+    /**
+     * @brief Set.
+     * @param[in] name Input parameter.
+     * @param[in] v Input parameter.
+     * @details Implements set without additional internal calls.
+     */
     void set(const std::string& name, const std::string& v) { fields[name] = v; }
+    /**
+     * @brief Set.
+     * @param[in] name Input parameter.
+     * @param[in] v Input parameter.
+     * @details Implements set without additional internal calls.
+     */
     void set(const std::string& name, bool v)        { fields[name] = v; }
 
     template<typename T>
@@ -121,10 +140,16 @@ struct DataPoint {
         return std::nullopt;
     }
 
-    /// Extract all numeric features in a deterministic (sorted-key) order.
+    /**
+     * @brief Numeric Features.
+     * @return Return value.
+     */
     std::vector<double> numericFeatures() const;
 
-    /// Return the sorted names of numeric features.
+    /**
+     * @brief Numeric Field Names.
+     * @return Return value.
+     */
     std::vector<std::string> numericFieldNames() const;
 };
 
@@ -132,9 +157,6 @@ struct DataPoint {
 // AnomalyResult
 // ============================================================================
 
-/**
- * Result for a single data point.
- */
 struct AnomalyResult {
     std::string   id;
     double        score      = 0.0;   ///< 0.0 = definitely normal; 1.0 = definite anomaly
@@ -148,9 +170,6 @@ struct AnomalyResult {
 // AnomalyExplanation
 // ============================================================================
 
-/**
- * Per-feature contribution breakdown for one anomalous data point.
- */
 struct AnomalyExplanation {
     std::string id;
     double      score = 0.0;
@@ -170,9 +189,7 @@ struct DetectorConfig {
     int           max_samples    = 256;   ///< Isolation Forest subsampling
     int           k_neighbors    = 5;     ///< LOF neighbourhood size
     bool          adaptive       = false; ///< update model online via update()
-    /// Methods used when method == ENSEMBLE (default: all except ENSEMBLE itself)
     std::vector<AnomalyMethod> ensemble_methods;
-    /// Weights for ensemble methods (same order as ensemble_methods; uniform if empty)
     std::vector<double>        ensemble_weights;
 };
 
@@ -180,25 +197,15 @@ struct DetectorConfig {
 // AnomalyDetector
 // ============================================================================
 
-/**
- * Offline-train + online-predict anomaly detector.
- *
- * Usage:
- * @code
- *   AnomalyDetector det(AnomalyMethod::ISOLATION_FOREST);
- *   det.train(normal_points);
- *
- *   auto result = det.predict(new_point);
- *   if (result.is_anomaly) {
- *       auto exp = det.explain(new_point);
- *       // exp.feature_contributions gives per-feature breakdown
- *   }
- * @endcode
- */
 class AnomalyDetector {
 public:
     // ---- Construction ----
     explicit AnomalyDetector(AnomalyMethod method = AnomalyMethod::Z_SCORE);
+    /**
+     * @brief Anomaly Detector.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit AnomalyDetector(const DetectorConfig& config);
     ~AnomalyDetector();
 
@@ -208,30 +215,55 @@ public:
     AnomalyDetector(AnomalyDetector&&)                 noexcept;
     AnomalyDetector& operator=(AnomalyDetector&&)      noexcept;
 
-    // ---- Training ----
     /**
-     * Train on a set of representative (ideally normal) data points.
-     * Must be called before predict/explain.
+     * @brief ---- Training ----
+     * @param[in] data Input parameter.
      */
     void train(const std::vector<DataPoint>& data);
+    /**
+     * @brief Is Trained.
+     * @return True when the operation succeeds.
+     * @note Exception safety: noexcept.
+     */
     bool isTrained() const noexcept;
 
-    // ---- Inference ----
+    /**
+     * @brief ---- Inference ----
+     * @param[in] point Input parameter.
+     * @return Return value.
+     */
     AnomalyResult             predict(const DataPoint& point) const;
+    /**
+     * @brief Predict Batch.
+     * @param[in] data Input parameter.
+     * @return Return value.
+     */
     std::vector<AnomalyResult> predictBatch(const std::vector<DataPoint>& data) const;
 
-    // ---- Explanation ----
+    /**
+     * @brief ---- Explanation ----
+     * @param[in] point Input parameter.
+     * @return Return value.
+     */
     AnomalyExplanation explain(const DataPoint& point) const;
 
-    // ---- Adaptive learning (only when config.adaptive == true) ----
     /**
-     * Incorporate a new observation into the model (sliding-window statistics).
-     * For Isolation Forest / LOF this rebuilds a partial model efficiently.
+     * @brief ---- Adaptive learning (only when config.
+     * @param[in] point Input parameter.
+     * @details adaptive == true) ----
      */
     void update(const DataPoint& point);
 
-    // ---- Serialisation ----
+    /**
+     * @brief ---- Serialisation ----
+     * @return Return value.
+     */
     std::string serialize() const;
+    /**
+     * @brief Deserialize.
+     * @param[in] data Input parameter.
+     * @return Return value.
+     */
     static AnomalyDetector deserialize(const std::string& data);
 
     // ---- Diagnostics ----
@@ -247,8 +279,17 @@ public:
         AnomalyMethod       method           = AnomalyMethod::Z_SCORE;
         bool                trained          = false;
     };
+    /**
+     * @brief Get Stats.
+     * @return Return value.
+     */
     ModelStats getStats() const;
 
+    /**
+     * @brief Config.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     const DetectorConfig& config() const noexcept;
 
 private:
@@ -260,28 +301,6 @@ private:
 // StreamingAnomalyDetector
 // ============================================================================
 
-/**
- * Stateful, thread-safe wrapper for real-time stream anomaly detection.
- *
- * Maintains a sliding window of the most recent `window_size` data points.
- * When the window is full the model is (re-)trained automatically.
- *
- * Usage:
- * @code
- *   StreamingAnomalyDetector sad({
- *       .method          = AnomalyMethod::IQR,
- *       .window_size     = 500,
- *       .auto_train      = true,
- *       .auto_train_after = 100,
- *   });
- *
- *   while (auto point = stream.next()) {
- *       auto result = sad.process(*point);
- *       if (result && result->is_anomaly)
- *           alert(*result);
- *   }
- * @endcode
- */
 class StreamingAnomalyDetector {
 public:
     struct Config {
@@ -294,28 +313,31 @@ public:
     };
 
     StreamingAnomalyDetector();
+    /**
+     * @brief Streaming Anomaly Detector.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit StreamingAnomalyDetector(const Config& config);
 
-    /**
-     * Destructor: sets the stopping flag to prevent new async retrains from
-     * launching, then waits for any in-flight background retrain to finish
-     * before members (`mu_`, `detector_`, etc.) are destroyed.
-     */
     ~StreamingAnomalyDetector();
 
     /**
-     * Process a new data point.
-     * Returns an AnomalyResult only when the detector is already trained.
-     * Returns nullopt while warming up.
-     * Lock-hold is bounded to ≤ 50 µs (window copy only); training runs
-     * asynchronously on a background thread.
+     * @brief Process.
+     * @param[in] point Input parameter.
+     * @return Return value.
      */
     std::optional<AnomalyResult> process(const DataPoint& point);
 
-    /** Retrieve all anomalies detected since construction (or last clear). */
+    /**
+     * @brief Get Anomalies.
+     * @return Return value.
+     */
     std::vector<AnomalyResult> getAnomalies() const;
 
-    /** Clear stored anomaly history. */
+    /**
+     * @brief Clear Anomalies.
+     */
     void clearAnomalies();
 
     struct WindowStats {
@@ -324,15 +346,25 @@ public:
         double anomaly_rate;
         bool   trained;
     };
+    /**
+     * @brief Get Window Stats.
+     * @return Return value.
+     */
     WindowStats getWindowStats() const;
 
-    /** Direct access to the underlying detector (read-only). */
     const AnomalyDetector& detector() const noexcept { return detector_; }
 
 private:
-    /** Copy the current window under a brief shared lock and return it. */
+    /**
+     * @brief Snapshot Window.
+     * @return Return value.
+     */
     std::vector<DataPoint> snapshotWindow() const;
-    /** Build a DetectorConfig from config_ (used when creating a fresh retrain detector). */
+    /**
+     * @brief Make Detector Config.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     DetectorConfig makeDetectorConfig() const noexcept;
 
     Config                           config_;
@@ -351,9 +383,6 @@ private:
 // Free helpers
 // ============================================================================
 
-/**
- * Convert an anomaly method enum to a human-readable string.
- */
 inline const char* anomalyMethodName(AnomalyMethod m) noexcept {
     switch (m) {
         case AnomalyMethod::Z_SCORE:          return "Z_SCORE";

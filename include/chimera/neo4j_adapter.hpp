@@ -17,36 +17,10 @@
 
 namespace chimera {
 
-/**
- * @class Neo4jAdapter
- * @brief Neo4j graph database adapter for CHIMERA Suite
- * 
- * @details
- * Provides integration between Neo4j (graph database) and CHIMERA.
- * Primary focus: Graph traversal, shortest path, and Cypher queries.
- * 
- * Features:
- * - Real Neo4j driver integration (official Bolt protocol)
- * - Node and edge creation with properties
- * - Shortest path and graph traversal
- * - Cypher query execution
- * - Support for labels and relationships
- * 
- * Limitations (by design):
- * - Relational operations not supported; use ThemisDB/MongoDB
- * - Vector operations not supported; use Qdrant
- * - Document operations limited to node properties
- * 
- * Thread-safety: Driver is thread-safe for concurrent sessions.
- */
 class Neo4jAdapter : public IDatabaseAdapter {
 public:
-    /**
-     * @brief Construct Neo4j adapter with default settings.
-     */
     Neo4jAdapter();
 
-    /// @brief Destructor; closes Neo4j connection.
     ~Neo4jAdapter() override;
 
     // ────────────────────────────────────────────────────────────────────────
@@ -213,11 +187,29 @@ private:
     // Private helpers
     // ────────────────────────────────────────────────────────────────────────
 
+    /**
+     * @brief Generate id.
+     * @return Return value.
+     */
     static std::string generate_id();
+    /**
+     * @brief Is valid connection string.
+     * @param[in] cs Input parameter.
+     * @return True when the operation succeeds.
+     */
     static bool is_valid_connection_string(const std::string& cs);
+    /**
+     * @brief Mask credentials.
+     * @param[in] cs Input parameter.
+     * @return Return value.
+     */
     static std::string mask_credentials(const std::string& cs);
 
-    /// Convert Cypher parameter types.
+    /**
+     * @brief Scalar to cypher literal.
+     * @param[in] scalar Input parameter.
+     * @return Return value.
+     */
     static std::string scalar_to_cypher_literal(const Scalar& scalar);
 };
 

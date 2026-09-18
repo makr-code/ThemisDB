@@ -25,7 +25,6 @@
 namespace themis {
 namespace governance {
 
-/// PolicyValidator performs automated validation of policy rules
 class PolicyValidator {
 public:
     struct ConflictResult {
@@ -36,6 +35,10 @@ public:
         std::string severity;                      // low, medium, high, critical
         std::string recommendation;
         
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
     };
     
@@ -48,6 +51,10 @@ public:
         bool is_unused = false;                    // True if never used
         double effectiveness_score = 0.0;          // 0-100 score
         
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
     };
     
@@ -60,6 +67,10 @@ public:
         std::string recommendation;
         bool passed = true;
         
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
     };
     
@@ -73,81 +84,112 @@ public:
         std::vector<std::string> recommendations;
         int64_t generated_at = 0;
         
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
     };
     
-    /// Detect conflicts between rules
+    /**
+     * @brief Detect Conflicts.
+     * @param[in] policy_mgr Input parameter.
+     * @return Return value.
+     */
     std::vector<ConflictResult> detectConflicts(const PolicyManager& policy_mgr) const;
     
-    /// Check for contradictory rules (same resource/action but different effects)
+    /**
+     * @brief Detect Contradictory Rules.
+     * @param[in] policy_mgr Input parameter.
+     * @return Return value.
+     */
     std::vector<ConflictResult> detectContradictoryRules(const PolicyManager& policy_mgr) const;
     
-    /// Check for overlapping permissions
+    /**
+     * @brief Detect Overlapping Permissions.
+     * @param[in] policy_mgr Input parameter.
+     * @return Return value.
+     */
     std::vector<ConflictResult> detectOverlappingPermissions(const PolicyManager& policy_mgr) const;
     
-    /// Check for circular dependencies
+    /**
+     * @brief Detect Circular Dependencies.
+     * @param[in] policy_mgr Input parameter.
+     * @return Return value.
+     */
     std::vector<ConflictResult> detectCircularDependencies(const PolicyManager& policy_mgr) const;
 
-    /// Detect conflicts between CCPA and HIPAA rules.
-    /// HIPAA mandates disclosure/audit requirements that can conflict with
-    /// CCPA right-to-delete and opt-out-of-sale obligations.
-    /// Integrates the CcpaRuleSet::detectHipaaConflicts() evaluator.
-    /// @return List of ConflictResult entries, one per detected cross-framework conflict.
+    /**
+     * @brief Detect Ccpa Hipaa Conflicts.
+     * @param[in] policy_mgr Input parameter.
+     * @return Return value.
+     */
     std::vector<ConflictResult> detectCcpaHipaaConflicts(const PolicyManager& policy_mgr) const;
 
-    /// Detect conflicts between PCI-DSS and GDPR requirements for a policy rule set.
-    ///
-    /// PCI-DSS Req 10.7 mandates 12-month audit-log retention while GDPR Art. 5(1)(e)
-    /// (storage limitation) pushes for minimal retention.  Additionally, PCI-DSS Req 4
-    /// forbids unencrypted export while GDPR Art. 32 requires appropriate technical
-    /// measures — rules with allow_export=true and require_encryption=false violate both
-    /// simultaneously.  Integrates the PciDssRuleSet::detectGdprConflicts() evaluator.
-    ///
-    /// @return List of ConflictResult entries, one per detected cross-framework conflict.
+    /**
+     * @brief Detect Pci Dss Gdpr Conflicts.
+     * @param[in] policy_mgr Input parameter.
+     * @return Return value.
+     */
     std::vector<ConflictResult> detectPciDssGdprConflicts(const PolicyManager& policy_mgr) const;
     
-    /// Calculate effectiveness metrics for all rules
     std::unordered_map<std::string, EffectivenessMetrics> calculateEffectiveness(
         const PolicyManager& policy_mgr,
         const std::unordered_map<std::string, int>& hit_counts = {}
     ) const;
     
-    /// Identify unused rules
     std::vector<std::string> identifyUnusedRules(
         const PolicyManager& policy_mgr,
         const std::unordered_map<std::string, int>& hit_counts = {},
         int min_days_unused = 30
     ) const;
     
-    /// Perform security best practices checks
+    /**
+     * @brief Perform Security Checks.
+     * @param[in] policy_mgr Input parameter.
+     * @return Return value.
+     */
     std::vector<SecurityCheckResult> performSecurityChecks(const PolicyManager& policy_mgr) const;
     
-    /// Check for overly permissive rules
+    /**
+     * @brief Check Overly Permissive.
+     * @param[in] policy_mgr Input parameter.
+     * @return Return value.
+     */
     std::vector<SecurityCheckResult> checkOverlyPermissive(const PolicyManager& policy_mgr) const;
     
-    /// Validate encryption requirements
+    /**
+     * @brief Check Encryption Requirements.
+     * @param[in] policy_mgr Input parameter.
+     * @return Return value.
+     */
     std::vector<SecurityCheckResult> checkEncryptionRequirements(const PolicyManager& policy_mgr) const;
     
-    /// Verify audit logging is enabled
+    /**
+     * @brief Check Audit Logging.
+     * @param[in] policy_mgr Input parameter.
+     * @return Return value.
+     */
     std::vector<SecurityCheckResult> checkAuditLogging(const PolicyManager& policy_mgr) const;
     
-    /// Check retention period compliance
     std::vector<SecurityCheckResult> checkRetentionCompliance(
         const PolicyManager& policy_mgr,
         int min_retention_days = 90
     ) const;
     
-    /// Generate comprehensive validation report
     ValidationReport generateValidationReport(
         const PolicyManager& policy_mgr,
         const std::unordered_map<std::string, int>& hit_counts = {}
     ) const;
     
-    /// Validate a single rule against best practices
+    /**
+     * @brief Validate Single Rule.
+     * @param[in] rule Input parameter.
+     * @return Return value.
+     */
     std::vector<SecurityCheckResult> validateSingleRule(const PolicyRule& rule) const;
 };
 
-/// PolicyMetricsCollector tracks policy usage and performance
 class PolicyMetricsCollector {
 public:
     struct RuleMetrics {
@@ -159,6 +201,10 @@ public:
         int64_t last_evaluation_time = 0;          // Last evaluation timestamp
         double match_rate = 0.0;                   // Percentage of evaluations that matched
         
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
     };
     
@@ -169,34 +215,60 @@ public:
         std::string impact_description;
         std::string optimization_suggestion;
         
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
     };
     
-    /// Record a rule evaluation
+    /**
+     * @brief Record Evaluation.
+     * @param[in] rule_id Identifier of the rule.
+     * @param[in] matched Input parameter.
+     * @param[in] evaluation_time_us Input parameter.
+     */
     void recordEvaluation(const std::string& rule_id, bool matched, int64_t evaluation_time_us);
     
-    /// Get metrics for a specific rule
+    /**
+     * @brief Get Rule Metrics.
+     * @param[in] rule_id Identifier of the rule.
+     * @return Return value.
+     */
     std::optional<RuleMetrics> getRuleMetrics(const std::string& rule_id) const;
     
-    /// Get metrics for all rules
     std::unordered_map<std::string, RuleMetrics> getAllMetrics() const;
     
-    /// Analyze performance impact
+    /**
+     * @brief Analyze Performance Impact.
+     * @return Return value.
+     */
     std::vector<PerformanceImpact> analyzePerformanceImpact() const;
     
-    /// Get rules with slow performance
     std::vector<std::string> getSlowRules(int64_t threshold_us = 1000) const;
     
-    /// Export metrics as JSON
+    /**
+     * @brief Export Metrics.
+     * @return Return value.
+     */
     nlohmann::json exportMetrics() const;
     
-    /// Import metrics from JSON
+    /**
+     * @brief Import Metrics.
+     * @param[in] j Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool importMetrics(const nlohmann::json& j);
     
-    /// Reset all metrics
+    /**
+     * @brief Reset Metrics.
+     */
     void resetMetrics();
     
-    /// Reset metrics for a specific rule
+    /**
+     * @brief Reset Rule Metrics.
+     * @param[in] rule_id Identifier of the rule.
+     */
     void resetRuleMetrics(const std::string& rule_id);
     
 private:
@@ -204,7 +276,6 @@ private:
     std::unordered_map<std::string, RuleMetrics> metrics_;
 };
 
-/// PolicyOptimizer provides optimization recommendations
 class PolicyOptimizer {
 public:
     struct OptimizationRecommendation {
@@ -216,6 +287,10 @@ public:
         std::string expected_benefit;
         int priority = 0;                          // 1-10
         
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
     };
     
@@ -226,35 +301,43 @@ public:
         std::string summary;
         int64_t generated_at = 0;
         
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
     };
     
-    /// Generate optimization recommendations
     std::vector<OptimizationRecommendation> generateRecommendations(
         const PolicyManager& policy_mgr,
         const PolicyValidator::ValidationReport& validation_report,
         const std::unordered_map<std::string, PolicyMetricsCollector::RuleMetrics>& metrics
     ) const;
     
-    /// Recommend rules to merge (similar rules)
+    /**
+     * @brief Recommend Merges.
+     * @param[in] policy_mgr Input parameter.
+     * @return Return value.
+     */
     std::vector<OptimizationRecommendation> recommendMerges(const PolicyManager& policy_mgr) const;
     
-    /// Recommend rules to simplify (overly complex)
+    /**
+     * @brief Recommend Simplifications.
+     * @param[in] policy_mgr Input parameter.
+     * @return Return value.
+     */
     std::vector<OptimizationRecommendation> recommendSimplifications(const PolicyManager& policy_mgr) const;
     
-    /// Recommend rule reordering for performance
     std::vector<OptimizationRecommendation> recommendReordering(
         const PolicyManager& policy_mgr,
         const std::unordered_map<std::string, PolicyMetricsCollector::RuleMetrics>& metrics
     ) const;
     
-    /// Recommend rules to remove (unused/redundant)
     std::vector<OptimizationRecommendation> recommendRemovals(
         const PolicyManager& policy_mgr,
         const std::unordered_map<std::string, int>& hit_counts
     ) const;
     
-    /// Generate comprehensive optimization report
     OptimizationReport generateOptimizationReport(
         const PolicyManager& policy_mgr,
         const PolicyValidator::ValidationReport& validation_report,

@@ -41,16 +41,12 @@ namespace document {
 // SchemaVersion
 // ─────────────────────────────────────────────────────────────────────────────
 
-/// @brief Monotonically increasing schema version number (1-based).
 using SchemaVersion = std::uint32_t;
 
 // ─────────────────────────────────────────────────────────────────────────────
 // SchemaFieldType
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief JSON-level type for a schema field descriptor.
- */
 enum class SchemaFieldType {
     STRING,
     NUMBER,
@@ -64,9 +60,6 @@ enum class SchemaFieldType {
 // SchemaFieldDescriptor
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief Definition of a single field within a schema version.
- */
 struct SchemaFieldDescriptor {
     std::string       name;          ///< JSON key name
     SchemaFieldType   type{SchemaFieldType::ANY}; ///< Expected JSON type
@@ -78,11 +71,6 @@ struct SchemaFieldDescriptor {
 // SchemaDescriptor
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief Composable plain-data descriptor for a complete schema version.
- *
- * Immutable after being passed to IDocumentSchemaEvolution::registerVersion().
- */
 struct SchemaDescriptor {
     std::vector<SchemaFieldDescriptor> fields; ///< Field definitions
 };
@@ -91,9 +79,6 @@ struct SchemaDescriptor {
 // FieldViolationKind
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief Classification of a schema validation failure.
- */
 enum class FieldViolationKind {
     MISSING_REQUIRED_FIELD,  ///< Required field absent from document
     TYPE_MISMATCH,           ///< Field present but has wrong JSON type
@@ -103,9 +88,6 @@ enum class FieldViolationKind {
 // FieldViolation
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief A single field-level schema violation found during validation.
- */
 struct FieldViolation {
     std::string        field_name;    ///< Offending JSON key
     FieldViolationKind kind;          ///< Nature of the violation
@@ -116,12 +98,6 @@ struct FieldViolation {
 // ValidationReport
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief Result of IDocumentSchemaEvolution::validate().
- *
- * A report with an empty @c violations list indicates the document is fully
- * schema-compliant.
- */
 struct ValidationReport {
     DocumentId                 document_id;  ///< Document that was validated
     SchemaVersion              version;      ///< Schema version used
@@ -134,55 +110,27 @@ struct ValidationReport {
 // IDocumentSchemaEvolution
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief Schema-version registry and validation interface.
- *
- * ### Immutability contract
- * - Once seal() is called, no further versions may be registered; any attempt
- *   returns ERR_DOC_SCHEMA_SEALED.
- * - Registered schema versions are themselves immutable; field definitions
- *   cannot be modified post-registration.
- *
- * ### Error codes
- *   - ERR_DOC_SCHEMA_SEALED           — registerVersion() after seal()
- *   - ERR_DOC_SCHEMA_VERSION_EXISTS   — duplicate version number
- *   - ERR_DOC_SCHEMA_VERSION_NOT_FOUND — validate() with unknown version
- *   - ERR_DOC_NOT_FOUND               — validate() document id not in store
- */
 class IDocumentSchemaEvolution {
 public:
+    /**
+     * @brief IDocument Schema Evolution.
+     * @return Return value.
+     */
     virtual ~IDocumentSchemaEvolution() = default;
 
-    /**
-     * @brief Register a new schema version.
-     *
-     * @return ERR_DOC_SCHEMA_SEALED         if already sealed.
-     * @return ERR_DOC_SCHEMA_VERSION_EXISTS if @p version is already registered.
-     */
     [[nodiscard]] virtual Result<void> registerVersion(SchemaVersion           version,
                                          const SchemaDescriptor& descriptor) = 0;
 
     /**
-     * @brief Seal the registry; no further versions may be registered after
-     *        this call.  Idempotent.
+     * @brief Seal.
+     * @note Exception safety: noexcept.
      */
     virtual void seal() noexcept = 0;
 
-    /**
-     * @brief Return true iff the registry has been sealed.
-     */
     [[nodiscard]] virtual bool isSealed() const noexcept = 0;
 
-    /**
-     * @brief List all registered version numbers in ascending order.
-     */
     [[nodiscard]] virtual std::vector<SchemaVersion> registeredVersions() const = 0;
 
-    /**
-     * @brief Validate @p document_body against @p version.
-     *
-     * @return ERR_DOC_SCHEMA_VERSION_NOT_FOUND if @p version is unknown.
-     */
     [[nodiscard]] virtual Result<ValidationReport> validate(
         const DocumentId&     document_id,
         const nlohmann::json& document_body,
@@ -193,14 +141,16 @@ public:
 // InMemoryDocumentSchemaEvolution
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief Thread-safe in-memory implementation of IDocumentSchemaEvolution.
- */
 class InMemoryDocumentSchemaEvolution final : public IDocumentSchemaEvolution {
 public:
     Result<void> registerVersion(SchemaVersion           version,
                                  const SchemaDescriptor& descriptor) override
     {
+        /**
+         * @brief Lk.
+         * @param[in] mu_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mu_);
         if (sealed_) {
             return tl::unexpected(Error(
@@ -217,16 +167,31 @@ public:
     }
 
     void seal() noexcept override {
+        /**
+         * @brief Lk.
+         * @param[in] mu_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mu_);
         sealed_ = true;
     }
 
     bool isSealed() const noexcept override {
+        /**
+         * @brief Lk.
+         * @param[in] mu_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mu_);
         return sealed_;
     }
 
     std::vector<SchemaVersion> registeredVersions() const override {
+        /**
+         * @brief Lk.
+         * @param[in] mu_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mu_);
         std::vector<SchemaVersion> vs = {};
 
@@ -242,6 +207,11 @@ public:
         const nlohmann::json& document_body,
         SchemaVersion         version) const override
     {
+        /**
+         * @brief Lk.
+         * @param[in] mu_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mu_);
         auto it = schemas_.find(version);
         if (it == schemas_.end()) {
@@ -280,6 +250,13 @@ public:
     }
 
 private:
+    /**
+     * @brief Check Type.
+     * @param[in] val Input parameter.
+     * @param[in] expected Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: is_string(), is_number(), is_boolean(), is_object(), is_array().
+     */
     static bool checkType(const nlohmann::json& val, SchemaFieldType expected) {
         switch (expected) {
             case SchemaFieldType::STRING:  return val.is_string();

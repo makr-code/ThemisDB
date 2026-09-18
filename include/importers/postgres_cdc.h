@@ -23,9 +23,6 @@ namespace importers {
 
 using json = nlohmann::json;
 
-/**
- * @brief CDC configuration options.
- */
 struct CDCOptions {
     bool full_sync_first{true};          ///< Perform an initial snapshot?
     bool include_truncate{true};         ///< Stream TRUNCATE events?
@@ -35,16 +32,6 @@ struct CDCOptions {
     std::string publication_name{"themisdb_publication"};
 };
 
-/**
- * @brief Change Data Capture via PostgreSQL Logical Decoding.
- *
- * Uses the pgoutput replication protocol (standard since PostgreSQL 10) to
- * stream DML changes as push-based events rather than polling.
- *
- * References:
- *   - Lin et al. (2020) "LogicalLog: A High-Performance Logical Data Replication Engine"
- *   - PostgreSQL Logical Replication Protocol documentation
- */
 class PostgreSQLCDC {
 public:
     // ------------------------------------------------------------------
@@ -65,41 +52,30 @@ public:
     // ------------------------------------------------------------------
     // Logical Decoder
     // ------------------------------------------------------------------
-    /** @brief Logical Decoder. */
     class LogicalDecoder {
     public:
+        /**
+         * @brief Logical Decoder.
+         * @param[in] connection_string Input parameter.
+         * @return Return value.
+         */
         explicit LogicalDecoder(const std::string& connection_string);
         ~LogicalDecoder();
 
-        /**
-         * @brief Create a logical replication publication for the given tables.
-         * @param publication_name  Name of the PostgreSQL publication.
-         * @param tables            Table names to include (empty = all tables).
-         * @return true on success.
-         */
         bool createPublication(
             const std::string& publication_name,
             const std::vector<std::string>& tables = {}
         );
 
-        /**
-         * @brief Create or reuse a replication slot.
-         * @param slot_name   Slot name (must be unique per server).
-         * @param temporary   If true the slot is dropped when the connection closes.
-         * @return true on success.
-         */
         bool createReplicationSlot(
             const std::string& slot_name,
             bool temporary = false
         );
 
         /**
-         * @brief Start streaming changes.  Calls on_change for each event.
-         *
-         * This method blocks until cancel() is called or a fatal error occurs.
-         *
-         * @param slot_name  Replication slot to consume from.
-         * @param on_change  Callback invoked for every decoded event.
+         * @brief Subscribe To Changes.
+         * @param[in] slot_name Name of the slot.
+         * @param[in] on_change Input parameter.
          */
         void subscribeToChanges(
             const std::string& slot_name,
@@ -107,12 +83,14 @@ public:
         );
 
         /**
-         * @brief Acknowledge all changes up to (and including) lsn.
-         * Advances the replication slot's confirmed_flush_lsn.
+         * @brief Confirm LSN.
+         * @param[in] lsn Input parameter.
          */
         void confirmLSN(uint64_t lsn);
 
-        /** @brief Stop the subscribeToChanges loop. */
+        /**
+         * @brief Cancel.
+         */
         void cancel();
 
     private:
@@ -125,11 +103,6 @@ public:
     // High-level factory
     // ------------------------------------------------------------------
 
-    /**
-     * @brief Create a LogicalDecoder connected to the given PostgreSQL instance.
-     * @param connection_string  libpq-style connection string.
-     * @param opts               CDC configuration.
-     */
     static std::unique_ptr<LogicalDecoder> createDecoder(
         const std::string& connection_string,
         const CDCOptions& opts = CDCOptions{}

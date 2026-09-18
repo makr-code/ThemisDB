@@ -21,12 +21,6 @@ namespace content {
 // ContentCategory — a single taxonomy label with confidence score
 // ---------------------------------------------------------------------------
 
-/**
- * @brief A single classification label assigned to a piece of content.
- *
- * `confidence` is a probability in [0.0, 1.0].  `taxonomy` identifies the
- * classification scheme used (e.g., "IAB-QAG", "NAICS-2022", "custom").
- */
 struct ContentCategory {
     std::string category_id;
     std::string label;           ///< Human-readable label (e.g., "Finance/Banking").
@@ -38,9 +32,6 @@ struct ContentCategory {
 // ContentClassificationRequest — input descriptor for a classify() call
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Request descriptor for a single content classification.
- */
 struct ContentClassificationRequest {
     std::string content_id;
     std::string text;                              ///< Plain text to classify.
@@ -53,13 +44,6 @@ struct ContentClassificationRequest {
 // ContentClassificationResult — output from a classify() call
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Result of classifying a single content item.
- *
- * `is_sensitive` is set when any returned category carries a sensitivity flag
- * (e.g., medical, legal, adult) or when `confidence` exceeds a classifier-
- * specific threshold.
- */
 struct ContentClassificationResult {
     std::string content_id;
     std::vector<ContentCategory> categories;
@@ -72,46 +56,36 @@ struct ContentClassificationResult {
 // IContentClassifier — automated content classification interface
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Pure-virtual interface for content category classification.
- *
- * Implementations wrap ML inference engines (e.g., FastText, transformer
- * classifiers, cloud NLP APIs).
- *
- * ### Thread safety
- * All methods must be safe to call concurrently from multiple threads.
- *
- * ### Batch semantics
- * `classifyBatch()` may process requests in parallel; result order matches
- * input order.
- */
 class IContentClassifier {
 public:
+    /**
+     * @brief IContent Classifier.
+     * @return Return value.
+     */
     virtual ~IContentClassifier() = default;
 
     /**
-     * @brief Classify a single content item.
+     * @brief Classify the semantic intent of a query.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     virtual ContentClassificationResult classify(
         const ContentClassificationRequest& req
     ) = 0;
 
     /**
-     * @brief Classify multiple content items.
-     *
-     * Result vector has the same size and order as @p requests.
+     * @brief Classify Batch.
+     * @param[in] requests Input parameter.
+     * @return Return value.
      */
     virtual std::vector<ContentClassificationResult> classifyBatch(
         const std::vector<ContentClassificationRequest>& requests
     ) = 0;
 
-    /// Return the taxonomy identifiers supported by this classifier.
     [[nodiscard]] virtual std::vector<std::string> supportedTaxonomies() const = 0;
 
-    /// Return the ISO 639-1 language codes supported by this classifier.
     [[nodiscard]] virtual std::vector<std::string> supportedLanguages() const = 0;
 
-    /// Return `false` if the underlying model or service is unavailable.
     [[nodiscard]] virtual bool isAvailable() const = 0;
 };
 

@@ -17,14 +17,6 @@
 
 namespace themis::importers {
 
-/**
- * @brief Built-in Wikipedia importer plugin for full import, delta refresh, validation, and export.
- *
- * Public lifecycle methods (`init`, `shutdown`) initialize the pipeline.
- * `runFullImport` and `runIncrementalUpdate` update the canonical relational
- * core, while `rebuildProjection`, `validateDatabase`, and `exportPortable`
- * expose the multi-model transformation and portable-artifact workflow.
- */
 class WikipediaIngestionPlugin final : public ImporterPluginBase {
 public:
     explicit WikipediaIngestionPlugin(WikipediaIngestionConfig config = {});
@@ -66,7 +58,13 @@ public:
     [[nodiscard]] const WikipediaIngestionPipeline& pipeline() const;
     [[nodiscard]] WikipediaIngestionPipeline& pipeline();
 
+    /**
+     * @brief Register Plugin.
+     */
     static void registerPlugin();
+    /**
+     * @brief Unregister Plugin.
+     */
     static void unregisterPlugin();
 
 private:

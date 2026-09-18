@@ -45,13 +45,6 @@ namespace acceleration {
 // =============================================================================
 inline constexpr uint32_t BACKEND_CONTRACT_VERSION = 100; // v1.0
 
-/// @brief Enumeration of supported compute backend types.
-/// 
-/// @details Represents the various hardware accelerators and compute backends
-/// available for acceleration operations. Each backend type may support a
-/// different subset of operations (vector, graph, geo, matrix) and precision
-/// modes. CPU is always available as a fallback; GPU backends may not be present
-/// depending on system configuration.
 enum class BackendType {
     CPU,            ///< CPU-only fallback (always available)
     CUDA,           ///< NVIDIA CUDA (requires NVIDIA GPU + CUDA toolkit)
@@ -78,16 +71,6 @@ enum class BackendType {
     AUTO            ///< Auto-detect and select best available backend
 };
 
-/// @brief Floating-point and quantization precision modes.
-///
-/// @details Bitmask flags representing supported numeric precision types.
-/// Values are stable and may be combined with bitwise OR to create feature sets.
-/// Combine flags with operator| to create composite PrecisionMode values
-/// representing multiple supported precisions.
-///
-/// @note FP32 is always required as a fallback for all compute backends.
-/// @note Quantization modes (INT4, INT8, FP4, W4A8, W8A8) are primarily used by
-/// AI inference backends (NPU, ONNX Runtime).
 #if defined(__clang__)
 #define THEMIS_FLAG_ENUM __attribute__((flag_enum))
 #else
@@ -110,33 +93,18 @@ enum class THEMIS_FLAG_ENUM PrecisionMode : uint32_t {
 
 #undef THEMIS_FLAG_ENUM
 
-/// @brief Combine two PrecisionMode flags with bitwise OR.
-/// @param a First precision mode
-/// @param b Second precision mode
-/// @return Combined precision mode with both flags set
 inline constexpr PrecisionMode operator|(PrecisionMode a, PrecisionMode b) noexcept {
     return static_cast<PrecisionMode>(static_cast<uint32_t>(a) | static_cast<uint32_t>(b));
 }
 
-/// @brief Test if precision modes have enabled precision flag.
-/// @param modes Precision mode bitmask to test
-/// @param flag The specific precision flag to check for
-/// @return true if @p flag is set in @p modes, false otherwise
 inline constexpr bool hasPrecision(PrecisionMode modes, PrecisionMode flag) noexcept {
     return (static_cast<uint32_t>(modes) & static_cast<uint32_t>(flag)) != 0;
 }
 
-/// Returns the bitmask bit position for a DistanceMetric value.
-/// Bit i is set when DistanceMetric(i) is supported.
 inline constexpr uint32_t metricBit(DistanceMetric m) noexcept {
     return 1u << static_cast<uint32_t>(m);
 }
 
-/// @brief PCI vendor IDs for common GPU vendors
-///
-/// Used by Vulkan and other backends for device selection and capability
-/// reporting. These standard PCI vendor ID constants enable backend implementations
-/// to identify GPU manufacturers from device enumeration results.
 namespace vendor_id {
     static constexpr uint32_t NVIDIA   = 0x10DE;  ///< NVIDIA Corporation
     static constexpr uint32_t AMD      = 0x1002;  ///< Advanced Micro Devices (AMD)
@@ -146,13 +114,6 @@ namespace vendor_id {
     static constexpr uint32_t IMGTEC   = 0x1010;  ///< Imagination Technologies
 } // namespace vendor_id
 
-/**
- * @brief Per-device capability snapshot produced by DeviceManager::probeDevices().
- *
- * Fields are translated from themis::gpu::DeviceInfo and augmented with
- * acceleration-specific precision support flags derived from the device's
- * compute capability.  CPU-fallback sentinels use index == -1.
- */
 struct DeviceCapabilityInfo {
     int         index             = -1;      ///< Driver device index (-1 for CPU fallback)
     std::string name;                        ///< Human-readable device name
@@ -174,24 +135,9 @@ struct DeviceCapabilityInfo {
     bool        supports_int4     = false;   ///< 4-bit inference (GPTQ/AWQ/NF4)
     bool        supports_w4a8     = false;   ///< W4A8 mixed-precision (Qualcomm AI Engine, etc.)
     std::string onnx_ep;                     ///< Preferred ONNX Runtime execution provider name
-                                             ///<  ("CUDAExecutionProvider", "CoreMLExecutionProvider",
-                                             ///<   "QNNExecutionProvider", "OpenVINOExecutionProvider",
-                                             ///<   "CPUExecutionProvider" …)
 };
 
-/// @brief Capability contract for a compute backend.
-///
-/// Describes the operations and precision modes supported by a backend.
-/// Backends report these capabilities during initialization; callers use them
-/// for capability-driven backend selection and feature negotiation.
-/// 
-/// @details Fields are grouped by category: operation support, precision matrix,
-/// metric matrix, and device information. All boolean fields default to false,
-/// indicating unsupported features. Backends must set flags truthfully to avoid
-/// runtime failures from unsupported operations.
 struct BackendCapabilities {
-    /// @name Operation Support
-    /// @{
     bool supportsVectorOps = false;           ///< Backend supports vector similarity (ANN) operations
     bool supportsGraphOps = false;            ///< Backend supports graph traversal (BFS, shortest-path)
     bool supportsGeoOps = false;              ///< Backend supports geospatial operations (distance, containment)
@@ -199,88 +145,40 @@ struct BackendCapabilities {
     bool supportsBatchProcessing = false;     ///< Backend can process multiple independent queries in parallel
     bool supportsAsync = false;               ///< Backend supports asynchronous (non-blocking) execution
     bool supportsAiInference = false;         ///< Backend supports dedicated AI inference (NPU/ONNX Runtime)
-    /// @}
 
-    /// @name Precision and Metric Support
-    /// @{
-    /// @brief Precision feature matrix: OR of PrecisionMode flags.
-    /// Must include at least PrecisionMode::FP32 for vector/geo backends.
-    /// Bitwise OR of all supported precisions (combine with operator|).
     PrecisionMode supportedPrecisions = PrecisionMode::NONE;
 
-    /// @brief Distance-metric feature matrix: bitmask using metricBit(DistanceMetric).
-    /// Set bit i if the backend supports DistanceMetric(i) in its ANN dispatch.
-    /// For example: metricBit(L2) | metricBit(COSINE) for L2 and cosine support.
     uint32_t supportedMetrics = 0;
-    /// @}
 
-    /// @name Device Information
-    /// @{
     size_t maxMemoryBytes = 0;                ///< Available VRAM/host memory in bytes
     int computeUnits = 0;                     ///< Number of compute units/SMs (0 for CPU)
     std::string deviceName;                   ///< Human-readable device name (e.g. "RTX 4090")
-    /// @brief Vendor name for GPU/hardware identification
-    /// Empty string means unknown or CPU backend.
-    /// Examples: "NVIDIA", "AMD", "Intel", "ARM"
     std::string vendorName;
-    /// @}
 
-    /// @name AI / NPU-specific
-    /// @{
     uint32_t    npuTops           = 0;        ///< Reported peak throughput in TOPS (0 = unknown or CPU)
     std::string preferredOnnxEP;              ///< ONNX Runtime execution provider (empty = CPU fallback)
-    /// @}
 };
 
-/// @brief Backend health status information and diagnostic data.
-///
-/// Returned by IComputeBackend::getHealthStatus() to provide comprehensive
-/// health, readiness, and liveness information about a backend.
-///
-/// @details Health states form a hierarchy:
-/// - healthy:   Backend is fully operational (ready=true, alive=true)
-/// - degraded:  Backend is partially available (ready=false, alive=true)
-/// - unhealthy: Backend is non-operational (ready=false, alive=false)
 struct BackendHealthStatus {
-    /// @brief Overall health status string: "healthy", "degraded", or "unhealthy"
     std::string status;
 
-    /// @brief True when the backend has been successfully initialized and is ready
-    /// to accept work (combines liveness probe + readiness probe)
     bool healthy  = false;
     
-    /// @brief Backend compute pipelines are loaded and ready to execute kernels
     bool ready    = false;
     
-    /// @brief Backend process/driver is reachable and responding
     bool alive    = false;
 
-    /// @brief Human-readable description of the current state (e.g. "healthy")
     std::string message;
 
-    /// @brief List of actionable issue descriptions (empty when healthy)
-    /// Contains diagnostic info to help resolve problems (e.g. "CUDA compute capability too low")
     std::vector<std::string> issues;
 
-    /// @brief Device/driver information (populated when alive)
-    /// @{
     std::string deviceName;           ///< GPU/device model name (e.g. "RTX 4090")
     std::string driverInfo;           ///< Driver version or runtime info
-    /// @}
 
-    /// @brief Memory snapshot (0 when unavailable)
-    /// @{
     size_t memoryUsedBytes      = 0;  ///< Memory currently in use (bytes)
     size_t memoryAvailableBytes = 0;  ///< Available free memory (bytes)
-    /// @}
 
-    /// @name Builder Helpers
-    /// @brief Static factory methods for creating pre-configured health status objects
-    /// @{
     
-    /// @brief Create a "healthy" status indicating full operational capability.
-    /// @param device Optional device name to include in the status
-    /// @return BackendHealthStatus with healthy=true, ready=true, alive=true
     static BackendHealthStatus makeHealthy(const std::string& device = "") {
         BackendHealthStatus s;
         s.status  = "healthy";
@@ -290,9 +188,12 @@ struct BackendHealthStatus {
         return s;
     }
 
-    /// @brief Create a "degraded" status indicating partial operational capability.
-    /// @param issue Description of the degradation issue
-    /// @return BackendHealthStatus with healthy=false, ready=false, alive=true
+    /**
+     * @brief Make Degraded.
+     * @param[in] issue Input parameter.
+     * @return Return value.
+     * @details Calls: push_back().
+     */
     static BackendHealthStatus makeDegraded(const std::string& issue) {
         BackendHealthStatus s;
         s.status  = "degraded";
@@ -304,9 +205,12 @@ struct BackendHealthStatus {
         return s;
     }
 
-    /// @brief Create an "unhealthy" status indicating complete non-operability.
-    /// @param issue Description of the failure
-    /// @return BackendHealthStatus with healthy=false, ready=false, alive=false
+    /**
+     * @brief Make Unhealthy.
+     * @param[in] issue Input parameter.
+     * @return Return value.
+     * @details Calls: push_back().
+     */
     static BackendHealthStatus makeUnhealthy(const std::string& issue) {
         BackendHealthStatus s;
         s.status  = "unhealthy";
@@ -315,22 +219,9 @@ struct BackendHealthStatus {
         s.issues.push_back(issue);
         return s;
     }
-    /// @}
 };
 
-/// @brief Result returned by IComputeBackend::submitSimilarityKernel().
-///
-/// Contains the top-k nearest neighbor results for a batch of queries.
-/// Results are guaranteed to match the CPU baseline within FP tolerance.
-///
-/// @details FP tolerance guarantee: results produced by hardware-accelerated
-/// paths must agree with the CPU baseline within <= 1e-6 relative error
-/// for FP32 inputs. This ensures deterministic and reproducible results
-/// across different backend implementations.
 struct SimilarityKernelResult {
-    /// @brief Per-query top-k results as (corpus_id, distance) pairs.
-    /// Outer index = query index; inner index = rank (0 = closest).
-    /// Results are sorted ascending by distance (lower distance = better match).
     std::vector<std::vector<std::pair<uint32_t, float>>> results;
 
     DistanceMetric metric_used    = DistanceMetric::L2;  ///< Distance metric used for computation
@@ -339,11 +230,6 @@ struct SimilarityKernelResult {
     double         speedup_vs_cpu = 1.0;                 ///< Speedup ratio: CPU time / GPU time
 };
 
-/// @brief Input descriptor for a batched similarity kernel invocation.
-///
-/// Specifies the query and vector data layouts and counts for a single
-/// kernel dispatch call. All pointers are host pointers; GPU backends are
-/// responsible for host-to-device transfers.
 struct BatchDescriptor {
     const float* queries     = nullptr;  ///< Query matrix [numQueries × dim] (row-major)
     size_t       num_queries = 0;        ///< Number of query vectors
@@ -353,14 +239,6 @@ struct BatchDescriptor {
     size_t       k           = 1;        ///< Number of nearest neighbors to retrieve
 };
 
-/// @brief Plain-data runtime configuration for a compute kernel dispatch.
-///
-/// Contains execution parameters that are backend-independent and can be
-/// used by any GPU backend. Backend implementations translate these generic
-/// parameters into device-specific launch parameters (e.g. CUDA dim3 blockDim).
-///
-/// @details This struct must not contain any CUDA/Vulkan/HIP types so that
-/// it can be included in any translation unit without requiring GPU SDK headers.
 struct KernelConfig {
     uint32_t       block_size = 256;         ///< Thread block/work group size
     uint32_t       grid_size  = 0;           ///< Number of blocks/work groups (0 = auto-calculate)
@@ -370,76 +248,38 @@ struct KernelConfig {
     bool           async_exec = false;       ///< True for asynchronous execution (non-blocking)
 };
 
-/// @brief Base interface for all compute backends.
-///
-/// Defines the common contract that all backend implementations must satisfy,
-/// including initialization, health reporting, and error handling. This is the
-/// parent class for all specialized backend interfaces (IVectorBackend, IGraphBackend,
-/// IGeoBackend, IMatrixBackend).
-///
-/// @details Implementations must be thread-safe unless explicitly documented
-/// otherwise. All virtual methods are non-const unless the operation is read-only.
 class IComputeBackend {
 public:
+    /**
+     * @brief ICompute Backend.
+     * @return Return value.
+     */
     virtual ~IComputeBackend() = default;
     
-    /// @name Identification
-    /// @{
     
-    /// @brief Get the human-readable name of this backend.
-    /// @return Null-terminated string (e.g., "CUDA Backend", "Vulkan Backend")
     [[nodiscard]] virtual const char* name() const noexcept = 0;
     
-    /// @brief Get the backend type enumeration.
-    /// @return BackendType enum value identifying this backend
     [[nodiscard]] virtual BackendType type() const noexcept = 0;
     
-    /// @brief Check if this backend is available on the current system.
-    /// @return true if the backend can be used (hardware/drivers present)
     [[nodiscard]] virtual bool isAvailable() const noexcept = 0;
-    /// @}
     
-    /// @name Capabilities and Configuration
-    /// @{
     
-    /// @brief Query the capabilities of this backend.
-    /// @return BackendCapabilities describing supported operations and precision modes
     [[nodiscard]] virtual BackendCapabilities getCapabilities() const = 0;
-    /// @}
     
-    /// @name Lifecycle
-    /// @{
     
-    /// @brief Initialize the backend and prepare it for work.
-    /// @return true on successful initialization, false on failure
-    /// @details Must be called before any kernel operations. Safe to call
-    /// multiple times; subsequent calls are idempotent.
     [[nodiscard]] virtual bool initialize() = 0;
     
-    /// @brief Shut down the backend and release all resources.
-    /// @details All pending operations must complete before shutdown.
-    /// Safe to call multiple times.
+    /**
+     * @brief Shutdown.
+     */
     virtual void shutdown() = 0;
-    /// @}
     
-    /// @name Error Handling
-    /// @{
     
-    /// @brief Get the last error that occurred in this backend.
-    /// @return ErrorContext containing error code, message, and diagnostics
     virtual ErrorContext getLastError() const {
         return lastError_;
     }
-    /// @}
 
-    /// @name Health and Status
-    /// @{
     
-    /// @brief Get the current health and readiness status of this backend.
-    /// @return BackendHealthStatus describing current state and diagnostic info
-    /// @details Default implementation derives status from isAvailable() and
-    /// getLastError(). Subclasses may override for more detailed diagnostics.
-    /// Returns "healthy", "degraded", or "unhealthy" status.
     virtual BackendHealthStatus getHealthStatus() const {
         if (!isAvailable()) {
             return BackendHealthStatus::makeUnhealthy(
@@ -453,32 +293,8 @@ public:
         return BackendHealthStatus::makeHealthy(
             getCapabilities().deviceName);
     }
-    /// @}
 
-    /// @name Kernel Submission (Default CPU Fallback)
-    /// @{
     
-    /// @brief Submit a similarity search kernel for asynchronous execution.
-    ///
-    /// Dispatches a batched vector similarity search to the fastest available
-    /// execution path. The default implementation runs the search synchronously
-    /// on the CPU and returns an already-fulfilled ComputeFuture so that callers
-    /// can use a uniform async API regardless of backend type.
-    /// 
-    /// GPU backends (CUDA, Vulkan, HIP, …) should override this method to
-    /// dispatch to their respective device kernels.
-    ///
-    /// @param batch   Input descriptor: query/corpus pointers, sizes, and k
-    /// @param config  Kernel execution configuration: metric, precision, block size
-    /// @param token   Optional cancellation token (default-constructed = no cancel)
-    /// @return ComputeFuture<SimilarityKernelResult> that becomes ready once the
-    ///         kernel completes. The default implementation returns an immediately-ready
-    ///         future with CPU-computed results.
-    ///
-    /// @note FP tolerance guarantee: hardware paths must agree with the CPU baseline
-    /// within ≤ 1e-6 relative error for FP32 inputs.
-    ///
-    /// @throws None (noexcept). Errors are returned via the future.
     virtual ComputeFuture<SimilarityKernelResult>
     submitSimilarityKernel(const BatchDescriptor& batch,
                            [[maybe_unused]] const KernelConfig&    config,
@@ -533,19 +349,22 @@ public:
         return ComputeFuture<SimilarityKernelResult>::make_ready(
             std::move(result));
     }
-    /// @}
     
 protected:
-    /// @name Error Management (Protected Helpers)
-    /// @{
     
-    /// @brief Helper for backends to set error context.
-    /// Stores error state for retrieval via getLastError().
+    /**
+     * @brief Set Error.
+     * @param[in] error Input parameter.
+     * @details Calls: std::move().
+     */
     void setError(ErrorContext error) {
         lastError_ = std::move(error);
     }
     
-    /// @brief Helper to clear error state (on success).
+    /**
+     * @brief Clear Error.
+     * @details Calls: ErrorContext(), name().
+     */
     void clearError() {
         lastError_ = ErrorContext(
             AccelerationErrorCode::Success,
@@ -553,83 +372,35 @@ protected:
             ""
         );
     }
-    /// @}
     
 protected:
     ErrorContext lastError_;  ///< Last error context (stored for programmatic access)
 };
 
-/// @brief Per-query result with deterministic ordering and partial-failure status.
-///
-/// Contains nearest neighbors for a single query with optional failure information.
-/// Success and failure cases are distinguished via the status field.
-///
-/// @details On success, neighbors are sorted ascending by distance (lower distance
-/// = closer match). When distances are equal, results are sorted by vector index
-/// for deterministic ordering. On failure, neighbors is empty and status/errorMessage
-/// describe the failure reason.
 struct KnnQueryResult {
-    /// @brief Nearest neighbors as (corpus_id, distance) pairs, sorted by distance.
-    /// Empty on failure; populated with up to k entries on success.
     std::vector<std::pair<uint32_t, float>> neighbors;
     
-    /// @brief Error status for this query. Success (default) or failure code.
     AccelerationErrorCode status   = AccelerationErrorCode::Success;
     
-    /// @brief Human-readable error message (empty on success).
-    /// Examples: "NaN in query vector", "Inf in corpus vector", "dimension mismatch"
     std::string           errorMessage;
 };
 
-/// @brief Batch KNN result supporting partial failures.
-///
-/// Contains results for a batch of queries where some queries may have failed
-/// validation while others succeeded. This structure allows callers to process
-/// results incrementally without blocking on failed queries.
-///
-/// @details Queries that fail validation (e.g., NaN/Inf values) receive a
-/// non-Success status in queryResults[i].status while other queries that
-/// succeed return their neighbors normally. The successCount and failureCount
-/// fields summarize the batch result without requiring clients to scan all results.
 struct PartialBatchResult {
-    /// @brief Per-query results including success/failure status.
-    /// Index i corresponds to query i from the original batch.
     std::vector<KnnQueryResult> queryResults;
     
-    /// @brief Number of queries that succeeded (status == Success)
     size_t successCount = 0;
     
-    /// @brief Number of queries that failed validation (status != Success)
     size_t failureCount = 0;
 };
 
-/// @brief Vector operations backend interface.
-///
-/// Specializes IComputeBackend to provide ANN (approximate nearest neighbor)
-/// similarity search and distance computation operations. Backends that support
-/// vector operations implement this interface and register themselves with
-/// BackendRegistry.
-///
-/// @details All methods process batches of queries against a fixed corpus.
-/// Results are deterministic: when two candidates share the same distance,
-/// the one with the lower vector index is placed first.
 class IVectorBackend : public IComputeBackend {
 public:
+    /**
+     * @brief IVector Backend.
+     * @return Return value.
+     */
     virtual ~IVectorBackend() = default;
     
-    /// @brief Compute pairwise distances between all queries and vectors.
-    ///
-    /// Computes the full [numQueries × numVectors] distance matrix using the
-    /// specified distance metric.
-    ///
-    /// @param queries      Query matrix [numQueries × dim] (row-major)
-    /// @param numQueries   Number of queries
-    /// @param dim          Vector dimensionality
-    /// @param vectors      Database vectors [numVectors × dim] (row-major)
-    /// @param numVectors   Database size
-    /// @param useL2        If true, use L2 distance; if false, use cosine distance
-    /// @return Distance matrix [numQueries × numVectors] linearized (row-major)
-    /// @throws std::runtime_error on invalid input or device errors
     [[nodiscard]] virtual std::vector<float> computeDistances(
         const float* queries,
         size_t numQueries,
@@ -639,24 +410,6 @@ public:
         bool useL2 = true
     ) = 0;
     
-    /// @brief Batch KNN search: find top-k nearest neighbors for each query.
-    ///
-    /// Computes the top-k nearest neighbors for each query against the corpus.
-    /// Results are sorted ascending by distance (best matches first).
-    ///
-    /// @param queries      Query matrix [numQueries × dim] (row-major)
-    /// @param numQueries   Number of queries
-    /// @param dim          Vector dimensionality
-    /// @param vectors      Database vectors [numVectors × dim] (row-major)
-    /// @param numVectors   Database size
-    /// @param k            Number of nearest neighbors to retrieve
-    /// @param useL2        If true, use L2 distance; if false, use cosine distance
-    /// @return Outer vector: one entry per query. Inner vector: up to k
-    ///         (corpus_id, distance) pairs sorted by distance.
-    /// @throws std::runtime_error on invalid input or device errors
-    /// @pre k <= numVectors (enforced by caller)
-    /// @note Tie-breaking: when distances are equal, results are sorted by
-    ///       vector index for deterministic ordering.
     [[nodiscard]] virtual std::vector<std::vector<std::pair<uint32_t, float>>> batchKnnSearch(
         const float* queries,
         size_t numQueries,
@@ -667,24 +420,6 @@ public:
         bool useL2 = true
     ) = 0;
 
-    /// @brief Batch KNN search with per-query partial-failure handling.
-    ///
-    /// Computes KNN for each query, but handles invalid queries gracefully.
-    /// Each query is validated before execution; queries whose input vectors
-    /// contain NaN or Inf values receive AccelerationErrorCode::InputRangeViolation
-    /// and an empty neighbors list, while remaining valid queries are processed
-    /// normally. This default implementation delegates to batchKnnSearch for valid
-    /// queries; backends may override for tighter integration.
-    ///
-    /// @param queries      Query matrix [numQueries × dim] (row-major)
-    /// @param numQueries   Number of queries
-    /// @param dim          Vector dimensionality
-    /// @param vectors      Database vectors [numVectors × dim] (row-major)
-    /// @param numVectors   Database size
-    /// @param k            Number of nearest neighbors to retrieve
-    /// @param useL2        If true, use L2 distance; if false, use cosine distance
-    /// @return PartialBatchResult with per-query status and results
-    /// @note Invalid queries are skipped without aborting the entire batch
     virtual PartialBatchResult batchKnnSearchSafe(
         const float* queries,
         size_t numQueries,
@@ -695,43 +430,17 @@ public:
         bool useL2 = true
     );
 
-    /// @brief Populate the frozen kernel dispatch table for this backend.
-    ///
-    /// Backends override this to expose their kernel function pointers for
-    /// direct invocation. Null entries in the returned table indicate unsupported
-    /// operations; callers should use ANNKernelFallbackDispatcher for fallback
-    /// and retry semantics.
-    ///
-    /// @return ANNKernelDispatch with function pointers (may contain nullptr entries)
-    /// @note This is called once during backend registration; results are cached
     virtual ANNKernelDispatch populateANNDispatch() const { return {}; }
 };
 
-/// @brief Graph operations backend interface.
-///
-/// Specializes IComputeBackend to provide graph traversal and shortest-path
-/// algorithms. Backends that support graph operations implement this interface.
-///
-/// @details Graphs are represented in adjacency format. For BFS and shortest-path,
-/// results are per-query vectors of vertex indices describing the traversal path
-/// or search results.
 class IGraphBackend : public IComputeBackend {
 public:
+    /**
+     * @brief IGraph Backend.
+     * @return Return value.
+     */
     virtual ~IGraphBackend() = default;
     
-    /// @brief Batch breadth-first search (BFS) traversal.
-    ///
-    /// Performs BFS from a set of start vertices, exploring up to maxDepth levels.
-    ///
-    /// @param adjacency     Graph adjacency matrix (compressed sparse format or dense)
-    /// @param numVertices   Total number of vertices in the graph
-    /// @param startVertices Starting vertex indices [numStarts]
-    /// @param numStarts     Number of starting vertices
-    /// @param maxDepth      Maximum traversal depth
-    /// @return Outer vector: one per starting vertex. Inner vector: vertices visited
-    ///         in BFS order up to maxDepth levels.
-    /// @throws std::runtime_error on invalid graph or device errors
-    /// @throws std::invalid_argument if startVertices contains out-of-range indices
     [[nodiscard]] virtual std::vector<std::vector<uint32_t>> batchBFS(
         const uint32_t* adjacency,
         size_t numVertices,
@@ -740,21 +449,6 @@ public:
         uint32_t maxDepth
     ) = 0;
     
-    /// @brief Batch shortest-path computation (Dijkstra or similar).
-    ///
-    /// Computes shortest paths between specified source/destination pairs using
-    /// the provided edge weights.
-    ///
-    /// @param adjacency     Graph adjacency matrix
-    /// @param weights       Edge weights [numVertices × numVertices] or sparse format
-    /// @param numVertices   Total number of vertices
-    /// @param startVertices Source vertices [numPairs]
-    /// @param endVertices   Destination vertices [numPairs]
-    /// @param numPairs      Number of (source, destination) pairs
-    /// @return Outer vector: one per pair. Inner vector: vertex indices describing
-    ///         the shortest path from startVertices[i] to endVertices[i].
-    /// @throws std::runtime_error on invalid graph or device errors
-    /// @throws std::invalid_argument if vertex indices are out-of-range
     [[nodiscard]] virtual std::vector<std::vector<uint32_t>> batchShortestPath(
         const uint32_t* adjacency,
         const float* weights,
@@ -765,34 +459,14 @@ public:
     ) = 0;
 };
 
-/// @brief Geospatial operations backend interface.
-///
-/// Specializes IComputeBackend to provide geospatial distance and containment
-/// queries. Backends that support geospatial operations implement this interface.
-///
-/// @details All coordinates are in WGS84 (latitude/longitude) format.
-/// Distances are returned in kilometers. Containment uses ray-casting algorithm.
 class IGeoBackend : public IComputeBackend {
 public:
+    /**
+     * @brief IGeo Backend.
+     * @return Return value.
+     */
     virtual ~IGeoBackend() = default;
     
-    /// @brief Batch geospatial distance calculations.
-    ///
-    /// Computes geodesic distances between corresponding latitude/longitude pairs
-    /// using Haversine or Vincenty formula.
-    ///
-    /// @param latitudes1   First set of latitudes (degrees, WGS84) [count]
-    /// @param longitudes1  First set of longitudes (degrees, WGS84) [count]
-    /// @param latitudes2   Second set of latitudes (degrees, WGS84) [count]
-    /// @param longitudes2  Second set of longitudes (degrees, WGS84) [count]
-    /// @param count        Number of point pairs to compute
-    /// @param useHaversine If true, use Haversine (faster, <0.5% error);
-    ///                     if false, use Vincenty (slower, higher precision)
-    /// @return Distance vector [count] with distances in kilometers
-    /// @throws std::runtime_error on invalid coordinates or device errors
-    /// @throws std::invalid_argument if count == 0
-    /// @note Coordinates outside [-90, 90] for latitude or [-180, 180] for
-    ///       longitude are invalid; behavior is undefined for out-of-range input
     [[nodiscard]] virtual std::vector<float> batchDistances(
         const double* latitudes1,
         const double* longitudes1,
@@ -802,23 +476,6 @@ public:
         bool useHaversine = true
     ) = 0;
     
-    /// @brief Batch point-in-polygon containment tests.
-    ///
-    /// Tests whether each point is inside the given polygon using ray-casting.
-    /// The polygon is specified as interleaved vertex coordinates [lat0, lon0, lat1, lon1, …].
-    ///
-    /// @param pointLats           Test point latitudes (degrees, WGS84) [numPoints]
-    /// @param pointLons           Test point longitudes (degrees, WGS84) [numPoints]
-    /// @param numPoints           Number of test points
-    /// @param polygonCoords       Interleaved polygon vertex coordinates [numPolygonVertices × 2]
-    ///                            Format: [lat0, lon0, lat1, lon1, ..., latN, lonN]
-    /// @param numPolygonVertices  Number of polygon vertices (must be >= 3)
-    /// @return Boolean vector [numPoints]; true if point is inside polygon, false otherwise
-    /// @throws std::runtime_error on invalid polygon or device errors
-    /// @throws std::invalid_argument if numPolygonVertices < 3 or numPoints == 0
-    /// @pre The polygon forms a valid closed loop (implicit edge from last to first vertex)
-    /// @note Points on the polygon boundary may return either true or false
-    ///       (implementation-dependent); callers should not rely on boundary behavior
     [[nodiscard]] virtual std::vector<bool> batchPointInPolygon(
         const double* pointLats,
         const double* pointLons,
@@ -827,76 +484,22 @@ public:
         size_t numPolygonVertices
     ) = 0;
 
-    /// @brief Populate the frozen kernel dispatch table for this backend.
-    ///
-    /// Backends override this to expose their kernel function pointers for
-    /// direct invocation. Null entries in the returned table indicate unsupported
-    /// operations; callers should use GeoKernelFallbackDispatcher for fallback
-    /// and retry semantics.
-    ///
-    /// @return GeoKernelDispatch with function pointers (may contain nullptr entries)
-    /// @note This is called once during backend registration; results are cached
     virtual GeoKernelDispatch populateGeoDispatch() const { return {}; }
 };
 
-/// @brief Matrix backend for FP16 / BF16 matrix multiply with Tensor Core acceleration.
-///
-/// Specializes IComputeBackend to provide efficient batched matrix multiplication
-/// (GEMM) using Tensor Cores or equivalent acceleration. Backends that do not support
-/// Tensor Cores (e.g. CPU) implement the FP32 path and declare MatrixPrecision::FP32
-/// as their supported precision.
-///
-/// @details Backends must ensure FP tolerance within 1e-5 relative error for FP16
-/// operations and 1e-7 for BF16 operations when compared to FP32 CPU reference.
 class IMatrixBackend : public IComputeBackend {
 public:
+    /**
+     * @brief IMatrix Backend.
+     * @return Return value.
+     */
     virtual ~IMatrixBackend() = default;
 
-    /// @brief Compute C = alpha * A × B + beta * C (GEMM operation).
-    ///
-    /// Performs a batched general matrix-multiply (GEMM) operation, computing
-    /// the result matrix C from input matrices A and B with optional scaling.
-    ///
-    /// @param params       Combined parameters: matrices (A, B, C), dimensions (M, K, N),
-    ///                     scaling factors (alpha, beta), and precision mode.
-    ///                     A is [M × K], B is [K × N], C is [M × N] (all row-major).
-    ///                     Inputs/outputs are host pointers for CPU backends and
-    ///                     device pointers for GPU backends.
-    /// @param opaque_stream Backend-specific stream handle (cudaStream_t for CUDA,
-    ///                      VkCommandBuffer for Vulkan, ignored for CPU; pass nullptr)
-    /// @return 0 on success, non-zero error code on failure
-    ///
-    /// @details The @p precision field selects the arithmetic type; implementations
-    /// are free to fall back to a wider type if unsupported (e.g. FP32 instead of FP16).
-    /// The operation is: C := alpha * (A @ B) + beta * C
-    /// When beta=0 (default), existing C values are discarded.
-    /// When alpha=1 (default), no scaling is applied to the product.
-    ///
-    /// @note FP tolerance guarantee: results must agree with FP32 CPU baseline
-    ///       within 1e-5 relative error for FP16 and 1e-7 for BF16.
     [[nodiscard]] virtual int matmul(const MatrixKernelParams& params, void* opaque_stream = nullptr) = 0;
 
-    /// @brief Populate the frozen kernel dispatch table for this backend.
-    ///
-    /// Backends override this to expose their kernel function pointers.
-    /// A null entry indicates the backend does not support matrix operations.
-    ///
-    /// @return MatrixKernelDispatch with function pointers (may contain nullptr)
-    /// @note This is called once during backend registration; results are cached
     virtual MatrixKernelDispatch populateMatrixDispatch() const { return {}; }
 };
 
-/// @brief Per-type backend aggregation stored in BackendRegistry::typeIndex_.
-///
-/// Contains typed interface pointers for a single backend. One instance exists
-/// per distinct BackendType in the registry. Typed interface pointer fields are
-/// set once by registerBackend() via dynamic_cast and are then used in the hot
-/// query path without further dynamic_cast overhead.
-///
-/// @details This structure enables efficient type-specific backend lookup by
-/// caching interface pointers at registration time. If a backend does not
-/// implement a specific interface (e.g., no vector operations), the corresponding
-/// pointer is nullptr.
 struct RegisteredBackend {
     IComputeBackend* base      = nullptr;  ///< First registered backend of this type
     IVectorBackend*  vectorPtr = nullptr;  ///< IVectorBackend interface (nullptr if unsupported)
@@ -909,12 +512,6 @@ struct RegisteredBackend {
 // KernelRegistry — dispatch table management for compute kernels
 // =============================================================================
 
-/**
- * @brief Per-backend kernel coverage tracking for validation.
- *
- * Used by KernelRegistry::validate() to report the completeness of kernel
- * implementations for a given BackendType.
- */
 struct KernelCoverage {
     BackendType backend;              ///< Backend type being tracked
     bool hasANN = false;              ///< Has ANN (vector) kernels registered
@@ -926,16 +523,9 @@ struct KernelCoverage {
     std::vector<std::string> missingSlots;  ///< Missing or incomplete kernel implementations
 };
 
-/**
- * @brief Validation report for kernel registry completeness.
- *
- * Used by KernelRegistry::validate() to report per-backend kernel coverage
- * and missing implementations.
- */
 struct ValidationReport {
     std::vector<KernelCoverage> entries;
 
-    /// @brief Check if all registered backends have complete kernel coverage.
     [[nodiscard]] bool allComplete() const noexcept {
         if (entries.empty()) {
           return true;
@@ -954,94 +544,78 @@ struct ValidationReport {
         return true;
     }
 
-    /// @brief Generate human-readable summary of kernel coverage.
+    /**
+     * @brief Summary.
+     * @return Return value.
+     */
     std::string summary() const;
 };
 
-/**
- * @brief Registry for per-backend kernel dispatch tables.
- *
- * Manages the ANNKernelDispatch, GeoKernelDispatch, and MatrixKernelDispatch
- * tables for each registered backend. Provides fallback resolution and
- * validation reporting.
- *
- * Thread safety: Lookups (getANNDispatch, getGeoDispatch, getMatrixDispatch,
- * lookupANNWithFallback, lookupGeoWithFallback, validate, registeredBackends)
- * are read-only and safe to call concurrently. Registration methods
- * (registerANNDispatch, registerGeoDispatch, registerMatrixDispatch) require
- * exclusive access (typically called during backend initialization).
- */
 class KernelRegistry {
 public:
     KernelRegistry() = default;
     ~KernelRegistry() = default;
 
-    /// @brief Register ANN kernel dispatch table for a backend.
+    /**
+     * @brief Register ANNDispatch.
+     * @param[in] type Input parameter.
+     * @param[in] dispatch Input parameter.
+     * @details Implements registerANNDispatch without additional internal calls.
+     */
     void registerANNDispatch(BackendType type, const ANNKernelDispatch& dispatch) {
         annDispatch_[type] = dispatch;
     }
 
-    /// @brief Register geo kernel dispatch table for a backend.
+    /**
+     * @brief Register Geo Dispatch.
+     * @param[in] type Input parameter.
+     * @param[in] dispatch Input parameter.
+     * @details Implements registerGeoDispatch without additional internal calls.
+     */
     void registerGeoDispatch(BackendType type, const GeoKernelDispatch& dispatch) {
         geoDispatch_[type] = dispatch;
     }
 
-    /// @brief Register matrix kernel dispatch table for a backend.
+    /**
+     * @brief Register Matrix Dispatch.
+     * @param[in] type Input parameter.
+     * @param[in] dispatch Input parameter.
+     * @details Implements registerMatrixDispatch without additional internal calls.
+     */
     void registerMatrixDispatch(BackendType type, const MatrixKernelDispatch& dispatch) {
         matrixDispatch_[type] = dispatch;
     }
 
-    /// @brief Get ANN kernel dispatch table for a backend.
     [[nodiscard]] ANNKernelDispatch getANNDispatch(BackendType type) const noexcept {
         auto it = annDispatch_.find(type);
         return (it != annDispatch_.end()) ? it->second : ANNKernelDispatch{};
     }
 
-    /// @brief Get geo kernel dispatch table for a backend.
     [[nodiscard]] GeoKernelDispatch getGeoDispatch(BackendType type) const noexcept {
         auto it = geoDispatch_.find(type);
         return (it != geoDispatch_.end()) ? it->second : GeoKernelDispatch{};
     }
 
-    /// @brief Get matrix kernel dispatch table for a backend.
     [[nodiscard]] MatrixKernelDispatch getMatrixDispatch(BackendType type) const noexcept {
         auto it = matrixDispatch_.find(type);
         return (it != matrixDispatch_.end()) ? it->second : MatrixKernelDispatch{};
     }
 
-    /// @brief Look up ANN kernels with CPU fallback.
-    /// 
-    /// Returns the primary backend's ANN dispatch. For any nullptr function
-    /// pointers, falls back to the CPU backend's corresponding function.
     [[nodiscard]] ANNKernelDispatch lookupANNWithFallback(BackendType primary) const noexcept;
 
-    /// @brief Look up geo kernels with CPU fallback.
-    /// 
-    /// Returns the primary backend's geo dispatch. For any nullptr function
-    /// pointers, falls back to the CPU backend's corresponding function.
     [[nodiscard]] GeoKernelDispatch lookupGeoWithFallback(BackendType primary) const noexcept;
 
-    /// @brief Get all registered backend types.
     [[nodiscard]] std::vector<BackendType> registeredBackends() const;
 
-    /// @brief Validate kernel registry completeness.
-    /// 
-    /// Checks all registered backends for complete ANN, geo, and matrix kernel
-    /// implementations. Returns a report with per-backend coverage details.
     [[nodiscard]] ValidationReport validate() const;
 
-    /**
-     * @brief Check whether an ANN dispatch table has been registered for @p type.
-     */
     [[nodiscard]] bool hasANNDispatch(BackendType type) const noexcept {
         return annDispatch_.find(type) != annDispatch_.end();
     }
 
     /**
-     * @brief Clear all registered dispatch tables.
-     *
-     * Restores the registry to an empty state. Used by unit tests to reset
-     * global or local registries between cases.
+     * @brief Clear.
+     * @details Implements clear without additional internal calls.
      */
     void clear() {
         annDispatch_.clear();
@@ -1059,53 +633,85 @@ private:
 class PluginLoader;
 
 // Backend registry for managing different acceleration backends
-/** @brief Backend registry for managing different acceleration backends. */
 class BackendRegistry {
 public:
+    /**
+     * @brief Instance.
+     * @return Return value.
+     */
     static BackendRegistry& instance();
     
-    // Register a backend (manual registration)
+    /**
+     * @brief Register a backend (manual registration)
+     * @param[in] backend Input parameter.
+     */
     void registerBackend(std::unique_ptr<IComputeBackend> backend);
     
-    // Load plugins from directory (DLL/SO files)
-    // Returns number of plugins loaded
+    /**
+     * @brief Load plugins from directory (DLL/SO files) Returns number of plugins loaded
+     * @param[in] pluginDirectory Input parameter.
+     * @return Return value.
+     */
     size_t loadPlugins(const std::string& pluginDirectory);
     
-    // Load a specific plugin
+    /**
+     * @brief Load a specific plugin
+     * @param[in] pluginPath Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool loadPlugin(const std::string& pluginPath);
     
-    // Get backend by type
+    /**
+     * @brief Get backend by type
+     * @param[in] type Input parameter.
+     * @return Pointer to the result.
+     */
     IComputeBackend* getBackend(BackendType type) const;
     
-    // Get best available backend for a capability
+    /**
+     * @brief Get best available backend for a capability
+     * @return Pointer to the result.
+     */
     IVectorBackend* getBestVectorBackend() const;
+    /**
+     * @brief Get Best Graph Backend.
+     * @return Pointer to the result.
+     */
     IGraphBackend* getBestGraphBackend() const;
+    /**
+     * @brief Get Best Geo Backend.
+     * @return Pointer to the result.
+     */
     IGeoBackend* getBestGeoBackend() const;
+    /**
+     * @brief Get Best Matrix Backend.
+     * @return Pointer to the result.
+     */
     IMatrixBackend* getBestMatrixBackend() const;
     
-    // Auto-detect and initialize all available backends
+    /**
+     * @brief Auto-detect and initialize all available backends
+     */
     void autoDetect();
     
-    // List all available backends
+    /**
+     * @brief List all available backends
+     * @return Return value.
+     */
     std::vector<BackendType> getAvailableBackends() const;
 
-    // Returns the ordered fallback chain used when selecting the best backend.
-    // The first element has the highest priority; BackendType::CPU is always last.
-    // All getBestXBackend() methods traverse this chain in order.
+    /**
+     * @brief Returns the ordered fallback chain used when selecting the best backend.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     * @details The first element has the highest priority; BackendType::CPU is always last. All getBestXBackend() methods traverse this chain in order.
+     */
     static const std::vector<BackendType>& getFallbackOrder() noexcept;
 
     // ---------------------------------------------------------------------------
     // Capability-driven selection
     // ---------------------------------------------------------------------------
 
-/// @brief Capability requirements for capability-driven backend selection.
-///
-/// Specifies minimum capability thresholds for backend selection. Zero / NONE / false
-/// fields are "don't-care" — they impose no constraint. Backends that satisfy all
-/// requirements are considered viable candidates.
-///
-/// @details This structure is used with BackendRegistry::selectBackendFor() and
-/// related methods to find a backend that meets specific operational requirements.
 struct CapabilityRequirements {
     bool needsVectorOps = false;      ///< Must support vector (ANN) operations
     bool needsGraphOps  = false;      ///< Must support graph traversal (BFS, Dijkstra)
@@ -1114,16 +720,11 @@ struct CapabilityRequirements {
     bool needsBatch     = false;      ///< Must support batch processing
     bool needsAsync     = false;      ///< Must support asynchronous execution
 
-    /// @brief All listed PrecisionMode flags must be present in backend's supportedPrecisions.
-    /// Combine flags with operator| (e.g., PrecisionMode::FP32 | PrecisionMode::FP16).
     PrecisionMode requiredPrecisions = PrecisionMode::NONE;
 
-    /// @brief All listed DistanceMetric bits (via metricBit()) must be present
-    /// in backend's supportedMetrics. Use metricBit(METRIC) to construct bitmask.
     uint32_t requiredMetrics = 0;
 };
 
-    /// Returns true if @p caps satisfies every field in @p reqs.
     static inline bool satisfies(const BackendCapabilities& caps,
                                   const CapabilityRequirements& reqs) noexcept {
         if (reqs.needsVectorOps && !caps.supportsVectorOps) {
@@ -1155,95 +756,116 @@ struct CapabilityRequirements {
         return true;
     }
 
-    /// Returns the highest-priority available backend (per getFallbackOrder())
-    /// whose capabilities satisfy @p reqs, or nullptr if none do.
+    /**
+     * @brief Select Backend For.
+     * @param[in] reqs Input parameter.
+     * @return Pointer to the result.
+     */
     IComputeBackend* selectBackendFor(const CapabilityRequirements& reqs) const;
 
-    /// Like selectBackendFor() but restricted to IVectorBackend instances.
+    /**
+     * @brief Select Vector Backend For.
+     * @param[in] reqs Input parameter.
+     * @return Pointer to the result.
+     */
     IVectorBackend* selectVectorBackendFor(const CapabilityRequirements& reqs) const;
 
-    /// Like selectBackendFor() but restricted to IGraphBackend instances.
+    /**
+     * @brief Select Graph Backend For.
+     * @param[in] reqs Input parameter.
+     * @return Pointer to the result.
+     */
     IGraphBackend* selectGraphBackendFor(const CapabilityRequirements& reqs) const;
 
-    /// Like selectBackendFor() but restricted to IGeoBackend instances.
+    /**
+     * @brief Select Geo Backend For.
+     * @param[in] reqs Input parameter.
+     * @return Pointer to the result.
+     */
     IGeoBackend* selectGeoBackendFor(const CapabilityRequirements& reqs) const;
 
-    /// Like selectBackendFor() but restricted to IMatrixBackend instances.
+    /**
+     * @brief Select Matrix Backend For.
+     * @param[in] reqs Input parameter.
+     * @return Pointer to the result.
+     */
     IMatrixBackend* selectMatrixBackendFor(const CapabilityRequirements& reqs) const;
 
     // ---------------------------------------------------------------------------
     // Runtime startup initialization
     // ---------------------------------------------------------------------------
 
-    /// Perform capability-driven backend selection at runtime startup.
-    ///
-    /// Calls autoDetect() to discover all available backends, then runs
-    /// selectVectorBackendFor(), selectGraphBackendFor(), and
-    /// selectGeoBackendFor() with the provided requirements (defaulting to
-    /// FP32 vector+ANN metrics when no requirements are specified).  The
-    /// selected backends are cached and returned by the getSelected*Backend()
-    /// accessors below.
-    ///
-    /// Safe to call multiple times; subsequent calls re-run detection and
-    /// overwrite the cached selections.
-    ///
-    /// @param vectorReqs  Capability requirements for the vector backend.
-    ///                    Defaults to { needsVectorOps=true, FP32, L2|COSINE|IP }.
-    /// @param graphReqs   Capability requirements for the graph backend.
-    ///                    Defaults to { needsGraphOps=true }.
-    /// @param geoReqs     Capability requirements for the geo backend.
-    ///                    Defaults to { needsGeoOps=true, FP32 }.
     void initializeRuntime(
         const CapabilityRequirements& vectorReqs = defaultVectorRequirements(),
         const CapabilityRequirements& graphReqs  = defaultGraphRequirements(),
         const CapabilityRequirements& geoReqs    = defaultGeoRequirements());
 
-    /// Returns the vector backend selected by the last initializeRuntime() call,
-    /// or nullptr if initializeRuntime() has not been called yet.
+    /**
+     * @brief Get Selected Vector Backend.
+     * @return Pointer to the result.
+     * @note Exception safety: noexcept.
+     */
     IVectorBackend* getSelectedVectorBackend() const noexcept;
 
-    /// Returns the graph backend selected by the last initializeRuntime() call,
-    /// or nullptr if initializeRuntime() has not been called yet.
+    /**
+     * @brief Get Selected Graph Backend.
+     * @return Pointer to the result.
+     * @note Exception safety: noexcept.
+     */
     IGraphBackend* getSelectedGraphBackend() const noexcept;
 
-    /// Returns the geo backend selected by the last initializeRuntime() call,
-    /// or nullptr if initializeRuntime() has not been called yet.
+    /**
+     * @brief Get Selected Geo Backend.
+     * @return Pointer to the result.
+     * @note Exception safety: noexcept.
+     */
     IGeoBackend* getSelectedGeoBackend() const noexcept;
 
-    /// Returns true if initializeRuntime() has been called at least once.
+    /**
+     * @brief Is Runtime Initialized.
+     * @return True when the operation succeeds.
+     * @note Exception safety: noexcept.
+     */
     bool isRuntimeInitialized() const noexcept;
 
-    // Default capability requirements used by initializeRuntime() when the
-    // caller does not supply explicit requirements.
+    /**
+     * @brief Default capability requirements used by initializeRuntime() when the caller does not supply explicit requirements.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     static CapabilityRequirements defaultVectorRequirements() noexcept;
+    /**
+     * @brief Default Graph Requirements.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     static CapabilityRequirements defaultGraphRequirements() noexcept;
+    /**
+     * @brief Default Geo Requirements.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     static CapabilityRequirements defaultGeoRequirements() noexcept;
 
-    /// Return the list of compute devices probed at the last initializeRuntime()
-    /// call.  Each entry contains the device name, BackendType, VRAM, compute
-    /// capability, and derived precision support flags.  Returns an empty vector
-    /// if initializeRuntime() has not been called yet.
-    ///
-    /// The returned snapshot is immutable; call initializeRuntime() again to
-    /// refresh the device list.
+    /**
+     * @brief Device Info.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     std::vector<DeviceCapabilityInfo> deviceInfo() const noexcept;
 
     // ---------------------------------------------------------------------------
     // Kernel registry access
     // ---------------------------------------------------------------------------
 
-    /// @brief Validate kernel registry completeness.
-    /// 
-    /// Returns a report of all registered backends and their kernel coverage.
-    /// Thread-safe (acquires shared lock).
     [[nodiscard]] ValidationReport validateKernels() const;
 
-    /// @brief Get const reference to the kernel registry.
-    /// 
-    /// Thread-safe (acquires shared lock).
     [[nodiscard]] const KernelRegistry& getKernelRegistry() const noexcept;
 
     // Shutdown all backends
+    /**
+     * @brief Shutdown All.
+     */
     void shutdownAll();
     
 private:
@@ -1280,18 +902,6 @@ private:
 // DeviceCapabilityFlags — strongly-typed bitmask for per-device features
 // =============================================================================
 
-/**
- * @brief Strongly-typed bitmask of hardware capability flags.
- *
- * Each flag corresponds to a discrete hardware feature that may or may not be
- * present on a given GPU.  Combine flags with bitwise OR; test with
- * `hasCapability()`.
- *
- * ## Validity
- * The known-valid mask is `DeviceCapabilityFlags::KNOWN_VALID_MASK`.  Bitmasks
- * that have bits set outside of this mask are rejected by
- * `IDeviceCapabilityQuery::queryCapabilities()` (returns `NONE` on error).
- */
 enum class DeviceCapabilityFlags : uint32_t {
     NONE                 = 0,
     FLOAT32              = 1u << 0,  ///< IEEE 754 single-precision (always present on FP-capable devices)
@@ -1307,8 +917,6 @@ enum class DeviceCapabilityFlags : uint32_t {
     COOPERATIVE_GROUPS   = 1u << 10, ///< CUDA cooperative group launches
     GRAPH_CAPTURE        = 1u << 11, ///< CUDA/HIP graph capture and replay
 
-    /// Mask of all valid capability bits.  Queries that return flags with bits
-    /// outside this mask are considered an error (forward-compat guard).
     KNOWN_VALID_MASK     = (1u << 12) - 1u,
 };
 
@@ -1334,18 +942,7 @@ inline constexpr bool hasCapability(DeviceCapabilityFlags flags,
 // DeviceSet — small-vector of up to 8 device indices (stack allocated)
 // =============================================================================
 
-/**
- * @brief Compact set of GPU device indices (max 8 devices).
- *
- * Stack-allocated to avoid heap allocation in the hot path of
- * `IMultiGPUSelector::selectDevices()`.  Construction time for an 8-device
- * selection is O(1) with no allocator involvement.
- *
- * Thread safety: individual `DeviceSet` instances are not thread-safe; callers
- * must synchronise access.
- */
 struct DeviceSet {
-    /// Maximum number of GPU devices that can be held in a single set.
     static constexpr size_t kMaxDevices = 8;
 
     uint32_t devices[kMaxDevices] = {};  ///< Device indices (in priority order)
@@ -1364,10 +961,6 @@ struct DeviceSet {
 
     // ── Mutation ──────────────────────────────────────────────────────────
 
-    /**
-     * @brief Append a device index if capacity allows.
-     * @return true on success; false when the set is already full.
-     */
     bool push(uint32_t device) noexcept {
         if (count >= kMaxDevices) {
           return false;
@@ -1381,22 +974,12 @@ struct DeviceSet {
 // WorkloadDescriptor — hints for IMultiGPUSelector::selectDevices()
 // =============================================================================
 
-/**
- * @brief Latency class for a compute workload.
- *
- * Used by `IMultiGPUSelector` to bias device selection toward low-latency
- * (interactive) or high-throughput (batch) scheduling strategies.
- */
 enum class LatencyClass : uint8_t {
     INTERACTIVE = 0,  ///< Latency-critical (< 1 ms); minimise queue depth
     BATCH       = 1,  ///< Throughput-oriented; minutes; GPU saturation preferred
     BACKGROUND  = 2,  ///< Non-interactive; accept long queue wait times
 };
 
-/**
- * @brief Descriptor used by `IMultiGPUSelector::selectDevices()` to
- *        communicate the resource characteristics of an upcoming workload.
- */
 struct WorkloadDescriptor {
     size_t       byte_size     = 0;                     ///< Total input data size in bytes
     uint64_t     flop_estimate = 0;                     ///< Estimated FLOPs (0 = unknown)
@@ -1408,40 +991,18 @@ struct WorkloadDescriptor {
 // BatchDescriptor — input/output shape for kernel dispatch
 // =============================================================================
 
-/**
- * @brief Shape and pointer descriptor for a batched similarity kernel call.
- *
- * All pointers are host pointers for CPU backends; GPU backends are
- * responsible for any required host-to-device transfers.
- */
 // BatchDescriptor is defined before IComputeBackend.
 
 // =============================================================================
 // KernelConfig — plain-data runtime parameters for a compute kernel
 // =============================================================================
 
-/**
- * @brief Plain-data runtime configuration for a compute kernel dispatch.
- *
- * This struct must not contain any CUDA/Vulkan/HIP types so that it can be
- * included in any translation unit without GPU SDK headers.
- *
- * Backend implementations translate this struct into the corresponding
- * device-specific launch parameters (e.g. `dim3 blockDim` for CUDA).
- */
 // KernelConfig is defined before IComputeBackend.
 
 // =============================================================================
 // KernelDescriptor — combined batch + config + optional named kernel
 // =============================================================================
 
-/**
- * @brief Full descriptor for a kernel submission to IAsyncComputeDispatch.
- *
- * Combines the data-shape information (`BatchDescriptor`) with the execution
- * configuration (`KernelConfig`) and an optional named kernel identifier that
- * can be looked up via `IKernelRegistry`.
- */
 struct KernelDescriptor {
     BatchDescriptor batch;            ///< Input / output shapes and host pointers
     KernelConfig    config;           ///< Execution parameters
@@ -1471,36 +1032,16 @@ struct KernelDescriptor {
 // IDeviceCapabilityQuery — query hardware feature flags without a GPU context
 // =============================================================================
 
-/**
- * @brief Interface for querying device capability flags.
- *
- * All methods must be callable **before** CUDA/Vulkan context creation so
- * that device selection can happen at startup without side effects.
- *
- * Implementations must be thread-safe: any method may be called concurrently
- * from multiple threads without external locking.
- */
 class IDeviceCapabilityQuery {
 public:
+    /**
+     * @brief IDevice Capability Query.
+     * @return Return value.
+     */
     virtual ~IDeviceCapabilityQuery() = default;
 
-    /**
-     * @brief Query capability flags for a specific device.
-     *
-     * @param device_index  Driver device index (0-based).
-     * @return Detected `DeviceCapabilityFlags`.  Returns `NONE` when the
-     *         device index is invalid, the driver is not loaded, or the
-     *         returned flags contain bits outside `KNOWN_VALID_MASK`.
-     */
     [[nodiscard]] virtual DeviceCapabilityFlags queryCapabilities(int device_index) const noexcept = 0;
 
-    /**
-     * @brief Query capabilities for all enumerated devices.
-     *
-     * @return One `DeviceCapabilityFlags` entry per device in driver
-     *         enumeration order.  An empty vector is returned when no GPU
-     *         driver is present.
-     */
     [[nodiscard]] virtual std::vector<DeviceCapabilityFlags> queryAll() const = 0;
 };
 
@@ -1508,48 +1049,16 @@ public:
 // IMultiGPUSelector — thread-safe workload-to-device mapping
 // =============================================================================
 
-/**
- * @brief Interface for selecting the best set of GPU devices for a workload.
- *
- * ## Thread safety
- * `selectDevices()` is guaranteed to be safe to call concurrently from N
- * threads without external locking.  Implementations must document any
- * internal synchronisation used.
- *
- * ## Typical usage
- * @code
- *   auto& selector = registry.getMultiGPUSelector();
- *   WorkloadDescriptor wl;
- *   wl.byte_size     = num_vectors * dim * sizeof(float);
- *   wl.flop_estimate = num_vectors * dim * 2; // multiply-add per element
- *   wl.latency_class = LatencyClass::INTERACTIVE;
- *   wl.precision     = PrecisionMode::FP32;
- *
- *   DeviceSet devices = selector.selectDevices(wl);
- *   // devices[0] is the highest-priority recommended GPU.
- * @endcode
- */
 class IMultiGPUSelector {
 public:
+    /**
+     * @brief IMulti GPUSelector.
+     * @return Return value.
+     */
     virtual ~IMultiGPUSelector() = default;
 
-    /**
-     * @brief Select the best set of GPU devices for the given workload.
-     *
-     * Thread-safe: safe to call concurrently from N threads.
-     *
-     * @param workload  Descriptor with size, FLOP estimate, and latency class.
-     * @return Set of selected device indices in priority order (highest
-     *         priority first).  Returns an empty `DeviceSet` when no suitable
-     *         GPU device is available.
-     */
     [[nodiscard]] virtual DeviceSet selectDevices(const WorkloadDescriptor& workload) const = 0;
 
-    /**
-     * @brief Returns the number of GPU devices visible to this selector.
-     *
-     * Thread-safe.
-     */
     [[nodiscard]] virtual uint32_t deviceCount() const noexcept = 0;
 };
 
@@ -1557,55 +1066,20 @@ public:
 // IKernelRegistry — named compute kernel lookup table
 // =============================================================================
 
-/**
- * @brief Registry for named compute kernel function pointers.
- *
- * Allows `IAsyncComputeDispatch` to resolve named kernels at dispatch time
- * without hard-coding symbol names.  Intended for use by plugin backends that
- * expose custom kernel implementations at runtime.
- *
- * Kernel names are arbitrary strings; by convention they use the format
- * `"<backend>/<operation>"` (e.g. `"cuda/l2_distance"`, `"vulkan/topk"`).
- *
- * ## Thread safety
- * Implementations must document their thread-safety guarantees.  The default
- * expectation is that `resolveKernel()` and `hasKernel()` are safe to call
- * concurrently, while `registerKernel()` and `deregisterKernel()` require
- * exclusive access.
- */
 class IKernelRegistry {
 public:
+    /**
+     * @brief IKernel Registry.
+     * @return Return value.
+     */
     virtual ~IKernelRegistry() = default;
 
-    /**
-     * @brief Register a named kernel function pointer.
-     *
-     * @param name    Kernel identifier string (e.g. `"cuda/cosine_distance"`).
-     * @param fn_ptr  Opaque function pointer to the kernel launcher.
-     * @return true on success; false if @p name is already registered.
-     */
     [[nodiscard]] virtual bool registerKernel(std::string name, void* fn_ptr) = 0;
 
-    /**
-     * @brief Resolve a named kernel to its function pointer.
-     *
-     * @param name  Kernel identifier string.
-     * @return Function pointer cast to `void*`, or `nullptr` if not registered.
-     */
     [[nodiscard]] virtual void* resolveKernel(const std::string& name) const = 0;
 
-    /**
-     * @brief Returns true if a kernel with @p name is registered.
-     *
-     * Thread-safe (read-only lookup).
-     */
     [[nodiscard]] virtual bool hasKernel(const std::string& name) const noexcept = 0;
 
-    /**
-     * @brief Remove a kernel from the registry.
-     *
-     * @return true if the kernel was present and removed; false otherwise.
-     */
     [[nodiscard]] virtual bool deregisterKernel(const std::string& name) noexcept = 0;
 };
 
@@ -1613,39 +1087,14 @@ public:
 // IAsyncComputeDispatch — non-blocking kernel submission
 // =============================================================================
 
-/**
- * @brief Interface for non-blocking kernel submission and result collection.
- *
- * Callers submit a `KernelDescriptor` (containing the input data shape and
- * execution parameters) and immediately receive a `ComputeFuture<T>`.  The
- * kernel executes asynchronously; `ComputeFuture::get()` blocks until it
- * completes.
- *
- * ## Cancellation
- * The caller may request early termination via `CancellationToken::cancel()`.
- * The implementation is responsible for observing the token and aborting
- * (best-effort) before full completion.  After cancellation, `get()` may
- * still return a valid result if the kernel finished before the token was
- * observed.
- *
- * ## Performance target
- * The `submit()` call overhead on the calling thread must be ≤ 2 µs
- * (measured on x86-64, GCC -O2) regardless of queue depth.
- */
 class IAsyncComputeDispatch {
 public:
+    /**
+     * @brief IAsync Compute Dispatch.
+     * @return Return value.
+     */
     virtual ~IAsyncComputeDispatch() = default;
 
-    /**
-     * @brief Submit a similarity kernel for asynchronous execution.
-     *
-     * @param descriptor  Combined batch shape + kernel config + optional
-     *                    named kernel identifier.
-     * @param token       Cancellation token (default-constructed = no
-     *                    cancellation support).
-     * @return A `ComputeFuture<SimilarityKernelResult>` that will carry the
-     *         result once the kernel completes.
-     */
     [[nodiscard]] virtual ComputeFuture<SimilarityKernelResult>
     submit(const KernelDescriptor& descriptor,
            CancellationToken        token = {}) = 0;

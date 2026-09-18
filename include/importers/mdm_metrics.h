@@ -20,9 +20,6 @@ namespace importers {
 
 using json = nlohmann::json;
 
-/**
- * @brief Snapshot of MDM metrics collected during a single workflow run.
- */
 struct MDMMetricSnapshot {
     // Matching
     size_t deterministic_matches      = 0;
@@ -48,48 +45,22 @@ struct MDMMetricSnapshot {
     double linking_time_seconds       = 0.0;
     double resolution_time_seconds    = 0.0;
 
+    /**
+     * @brief To Json.
+     * @return Return value.
+     */
     json toJson() const;
 };
 
-/**
- * @brief Observability layer for MDM workflow runs.
- *
- * Converts MDMMetricSnapshot values into Prometheus-style gauge / counter
- * payloads and exposes a dashboard-friendly JSON summary.
- *
- * Metrics are emitted via the optional MetricsCallback stored in
- * @c ImportOptions.  If no callback is set, emitMetrics() is a no-op.
- *
- * Thread-safety: all public methods are stateless and safe to call
- * from multiple threads.
- */
 class MDMMetrics {
 public:
     MDMMetrics() = default;
 
     /**
-     * @brief Emit all metrics from a snapshot via the provided callback.
-     *
-     * Each metric is emitted as:
-     *   metric name → labels map → value
-     *
-     * Standard metric names:
-     *   "themisdb_mdm_deterministic_matches_total"
-     *   "themisdb_mdm_semantic_matches_total"
-     *   "themisdb_mdm_avg_semantic_confidence"
-     *   "themisdb_mdm_links_created_total"
-     *   "themisdb_mdm_links_with_conflicts_total"
-     *   "themisdb_mdm_conflicts_auto_resolved_total"
-     *   "themisdb_mdm_conflicts_review_total"
-     *   "themisdb_mdm_duplicates_found_total"
-     *   "themisdb_mdm_duplicates_merged_total"
-     *   "themisdb_mdm_matching_duration_seconds"
-     *   "themisdb_mdm_linking_duration_seconds"
-     *   "themisdb_mdm_resolution_duration_seconds"
-     *
-     * @param snapshot         Metric values to emit.
-     * @param collection_name  Label value for all emitted metrics.
-     * @param callback         Destination callback (may be nullptr → no-op).
+     * @brief Emit Metrics.
+     * @param[in] snapshot Input parameter.
+     * @param[in] collection_name Name of the collection.
+     * @param[in] callback Input parameter.
      */
     static void emitMetrics(
         const MDMMetricSnapshot& snapshot,
@@ -98,11 +69,10 @@ public:
     );
 
     /**
-     * @brief Build a dashboard-friendly JSON summary from a snapshot.
-     *
-     * @param snapshot         Metric values.
-     * @param collection_name  Collection label.
-     * @return                 JSON object ready for serialisation.
+     * @brief Get Dashboard Metrics.
+     * @param[in] snapshot Input parameter.
+     * @param[in] collection_name Name of the collection.
+     * @return Return value.
      */
     static json getDashboardMetrics(
         const MDMMetricSnapshot& snapshot,

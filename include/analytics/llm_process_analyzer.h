@@ -20,31 +20,12 @@
 namespace themis {
 
 /**
- * @brief Sanitize (mask) an LLM API key for safe logging and display.
- *
- * Replaces the middle portion of the key with asterisks so that the raw
- * credential never appears in log output or error messages.  At most 4
- * characters at the start and 4 at the end are shown; keys shorter than
- * 9 characters are fully masked.
- *
- * Example: "sk-abcdefghij1234567890xyz" → "sk-a***...***0xyz"
- *
- * @param api_key  The raw API key string (may be empty).
- * @return         A masked representation safe for logging.
+ * @brief Sanitize Api Key.
+ * @param[in] api_key Input parameter.
+ * @return Return value.
  */
 std::string sanitizeApiKey(const std::string& api_key);
 
-/**
- * @brief LLM Integration Layer for Process Mining
- * 
- * Provides unified interface for LLM-assisted process analysis:
- * - Process conformance checking
- * - Next activity prediction
- * - Compliance verification (5R Rule, Vier-Augen-Prinzip, etc.)
- * - Fraud detection
- * - Sentiment analysis
- * - Process optimization recommendations
- */
 
 enum class TaskType {
     ANALYZE_PROCESS,      // General process analysis & conformance
@@ -84,13 +65,6 @@ struct LLMConfig {
     int max_tokens = 2000;
     double temperature = 0.3;  // Lower = more deterministic
 
-    /// Optional path to an operator-configurable injection-prefix file.
-    /// Each non-empty, non-comment line (lines beginning with '#' are skipped)
-    /// is interpreted as a lower-case prompt-injection prefix that
-    /// sanitizeUserContent() will redact from any user-supplied data before
-    /// it is embedded in an LLM prompt.
-    /// When empty (the default) or when the file cannot be opened, the
-    /// built-in 13-pattern prefix list is used as the fallback.
     std::string injection_prefix_config_path;
 };
 
@@ -190,31 +164,24 @@ struct LLMResponse {
     bool from_cache = false;
 };
 
-/** @brief Llm process analyzer component. */
 class LLMProcessAnalyzer {
 public:
+    /**
+     * @brief LLMProcess Analyzer.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit LLMProcessAnalyzer(const LLMConfig& config);
     ~LLMProcessAnalyzer();
     
-    /**
-     * @brief Analyze process with LLM
-     * 
-     * Main entry point for LLM-assisted analysis.
-     * 
-     * @param request The analysis request
-     * @return Status and LLMResponse with analysis results
-     */
     std::pair<bool, LLMResponse> analyze(const LLMRequest& request);
     
     /**
-     * @brief Generate prompt for specific task
-     * 
-     * Creates task-specific prompts with proper formatting.
-     * 
-     * @param task_type Type of analysis task
-     * @param data Input data (trace, model, etc.)
-     * @param domain Domain context
-     * @return Formatted prompt string
+     * @brief Generate Prompt.
+     * @param[in] task_type Input parameter.
+     * @param[in] data Input parameter.
+     * @param[in] domain Input parameter.
+     * @return Return value.
      */
     std::string generatePrompt(
         TaskType task_type,
@@ -223,22 +190,16 @@ public:
     ) const;
     
     /**
-     * @brief Validate LLM response against schema
-     * 
-     * Ensures response conforms to expected structure.
-     * 
-     * @param response Raw LLM response
-     * @param task_type Expected task type
-     * @return true if valid, false otherwise
+     * @brief Validate Response.
+     * @param[in] response Input parameter.
+     * @param[in] task_type Input parameter.
+     * @return True when the operation succeeds.
      */
     bool validateResponse(
         const nlohmann::json& response,
         TaskType task_type
     ) const;
     
-    /**
-     * @brief Get cache statistics
-     */
     struct CacheStats {
         size_t hits = 0;
         size_t misses = 0;
@@ -247,10 +208,14 @@ public:
             return (hits + misses) > 0 ? static_cast<double>(hits) / (hits + misses) : 0.0;
         }
     };
+    /**
+     * @brief Get Cache Stats.
+     * @return Return value.
+     */
     CacheStats getCacheStats() const;
     
     /**
-     * @brief Clear response cache
+     * @brief Clear Cache.
      */
     void clearCache();
     
@@ -261,6 +226,11 @@ private:
     // Internal helpers
     std::string callLLM(const std::string& prompt, const std::map<std::string, std::string>& params);
     nlohmann::json parseResponse(const std::string& raw_response, [[maybe_unused]] TaskType task_type);
+    /**
+     * @brief Get Cache Key.
+     * @param[in] request Input parameter.
+     * @return Return value.
+     */
     std::string getCacheKey(const LLMRequest& request) const;
 };
 

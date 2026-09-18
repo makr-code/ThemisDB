@@ -41,9 +41,12 @@ using namespace detail;  // bring generateTraceId, generateSpanId, etc. into sco
 
 namespace {
 
-/// Map an exporter name string to ExporterType.
-/// Logs an unknown-exporter warning via MetricsCollector counter and falls
-/// back to OTLP so the tracer remains functional on misconfiguration.
+/**
+ * @brief Map an exporter name string to ExporterType.
+ * @param[in] name Input parameter.
+ * @return Return value.
+ * @details Logs an unknown-exporter warning via MetricsCollector counter and falls back to OTLP so the tracer remains functional on misconfiguration. Calls: std::transform(), begin(), end(), std::tolower(), MetricsCollector::getInstance(), addCounter().
+ */
 ExporterType exporterFromString(const std::string& name) {
     std::string lower = name;
     std::transform(lower.begin(), lower.end(), lower.begin(),
@@ -121,6 +124,11 @@ public:
 
     void setAttribute(const std::string& key,
                       const std::string& value) override {
+        /**
+         * @brief Lk.
+         * @param[in] attr_mu_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(attr_mu_);
         attributes_[key] = value;
     }
@@ -159,6 +167,10 @@ public:
     const std::string& parentSpanId() const noexcept { return parent_span_id_; }
 
 private:
+    /**
+     * @brief End Span.
+     * @details Calls: exchange(), std::chrono::system_clock::now(), lk(), export_cb_(), push_back(), std::move(), size(), pop_front().
+     */
     void endSpan() {
         if (ended_.exchange(true)) return; // idempotent
 
@@ -169,6 +181,11 @@ private:
 
         SpanRecord rec;
         {
+            /**
+             * @brief Lk.
+             * @param[in] attr_mu_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lk(attr_mu_);
             rec.attributes = attributes_;
         }
@@ -245,6 +262,11 @@ public:
 /** @brief OpenTelemetryTracer::Impl. */
 class OpenTelemetryTracer::Impl {
 public:
+    /**
+     * @brief Impl.
+     * @param[in] cfg Input parameter.
+     * @return Return value.
+     */
     explicit Impl(const OTelConfig& cfg)
         : config_(cfg)
         , initialized_(true)
@@ -311,9 +333,11 @@ public:
     std::string        last_trace_id_ = {};
     std::string        last_span_id_ = {};
 
-    /// Build the export callback that dispatches a completed SpanRecord to
-    /// all configured backends.  Uses std::weak_ptr so the callback is safe
-    /// if invoked after the Impl (and OtlpExporter) has been destroyed.
+    /**
+     * @brief Build the export callback that dispatches a completed SpanRecord to all configured backends.
+     * @return Return value.
+     * @details Uses std::weak_ptr so the callback is safe if invoked after the Impl (and OtlpExporter) has been destroyed. Calls: empty(), lock(), time_since_epoch(), count(), enqueue(), std::move().
+     */
     OtelSpan::ExportCallback makeExportCallback() {
         if (!otlp_exporter_ && delegate_tracers_.empty()) {
             return nullptr; // nothing to forward
@@ -355,6 +379,13 @@ public:
         };
     }
 
+    /**
+     * @brief Make Span.
+     * @param[in] name Input parameter.
+     * @param[in] trace_id Input parameter.
+     * @param[in] parent_span_id Input parameter.
+     * @return Return value.
+     */
     std::unique_ptr<core::concerns::ITracer::ISpan> makeSpan(
         const std::string& name,
         const std::string& trace_id,
@@ -369,6 +400,11 @@ public:
 
         // Cache last context for injectContext()
         {
+            /**
+             * @brief Lk.
+             * @param[in] ctx_mu_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lk(ctx_mu_);
             last_trace_id_ = trace_id;
             last_span_id_  = span_id;
@@ -466,7 +502,12 @@ void OpenTelemetryTracer::injectContext(
     themis::Baggage::inject(headers);
 }
 
-// -- ITracer lifecycle -------------------------------------------------------
+/**
+ * @brief -- ITracer lifecycle -------------------------------------------------------
+ * @param[in] serviceName Input parameter.
+ * @param[in] endpoint Input parameter.
+ * @return True on success.
+ */
 
 bool OpenTelemetryTracer::initialize(const std::string& serviceName,
                                      const std::string& endpoint)
@@ -477,6 +518,9 @@ bool OpenTelemetryTracer::initialize(const std::string& serviceName,
     return true;
 }
 
+/**
+ * @brief Shutdown.
+ */
 void OpenTelemetryTracer::shutdown()
 {
     impl_->initialized_ = false;
@@ -544,6 +588,11 @@ void OpenTelemetryTracer::injectContext(
     themis::Baggage::inject(headers);
 }
 
+/**
+ * @brief Record Exception.
+ * @param[in,out] span Input/output parameter.
+ * @param[in] ex Input parameter.
+ */
 void OpenTelemetryTracer::recordException(ISpan& span,
                                           const std::exception& ex)
 {
@@ -555,6 +604,11 @@ void OpenTelemetryTracer::recordException(ISpan& span,
     span.recordError(ex.what());
 }
 
+/**
+ * @brief Record Metrics.
+ * @param[in,out] span Input/output parameter.
+ * @param[in] metrics Input parameter.
+ */
 void OpenTelemetryTracer::recordMetrics(ISpan& span,
                                         const SpanMetrics& metrics)
 {
@@ -583,7 +637,11 @@ void OpenTelemetryTracer::recordMetrics(ISpan& span,
     }
 }
 
-// -- Baggage -----------------------------------------------------------------
+/**
+ * @brief -- Baggage -----------------------------------------------------------------
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ */
 
 void OpenTelemetryTracer::setBaggageItem(const std::string& key,
                                          const std::string& value)
@@ -591,16 +649,28 @@ void OpenTelemetryTracer::setBaggageItem(const std::string& key,
     themis::Baggage::set(key, value);
 }
 
+/**
+ * @brief Get Baggage Item.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ */
 std::string OpenTelemetryTracer::getBaggageItem(const std::string& key)
 {
     return themis::Baggage::get(key);
 }
 
+/**
+ * @brief Remove Baggage Item.
+ * @param[in] key Input parameter.
+ */
 void OpenTelemetryTracer::removeBaggageItem(const std::string& key)
 {
     themis::Baggage::remove(key);
 }
 
+/**
+ * @brief Clear Baggage.
+ */
 void OpenTelemetryTracer::clearBaggage()
 {
     themis::Baggage::clear();
@@ -629,6 +699,9 @@ std::vector<SpanRecord> OpenTelemetryTracer::completedSpans() const
     return {impl_->ring_buf_.begin(), impl_->ring_buf_.end()};
 }
 
+/**
+ * @brief Clear Completed Spans.
+ */
 void OpenTelemetryTracer::clearCompletedSpans()
 {
     std::lock_guard<std::mutex> lk(impl_->ring_mu_);

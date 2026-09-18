@@ -30,12 +30,22 @@ namespace memory {
 constexpr int PEAK_UPDATE_MAX_RETRIES = 10;  // Max retries for atomic peak memory update
 constexpr size_t STACK_ALLOC_RESERVE_RATIO = 256;  // Reserve 1/256th of capacity for tracking
 
-// Helper function to check if a number is a power of 2
+/**
+ * @brief Helper function to check if a number is a power of 2
+ * @param[in] n Input parameter.
+ * @return True on success.
+ * @details Implements isPowerOfTwo without additional internal calls.
+ */
 static inline bool isPowerOfTwo(size_t n) {
     return n > 0 && (n & (n - 1)) == 0;
 }
 
-// Helper function to get next power of 2
+/**
+ * @brief Helper function to get next power of 2
+ * @param[in] n Input parameter.
+ * @return Return value.
+ * @details Implements nextPowerOfTwo without additional internal calls.
+ */
 static inline size_t nextPowerOfTwo(size_t n) {
     if (n == 0) {
       return 1;
@@ -50,7 +60,13 @@ static inline size_t nextPowerOfTwo(size_t n) {
     return n + 1;
 }
 
-// Helper function to align size to alignment boundary
+/**
+ * @brief Helper function to align size to alignment boundary
+ * @param[in] size Input parameter.
+ * @param[in] alignment Input parameter.
+ * @return Return value.
+ * @details Implements alignSize without additional internal calls.
+ */
 static inline size_t alignSize(size_t size, size_t alignment) {
     return (size + alignment - 1) & ~(alignment - 1);
 }
@@ -119,6 +135,12 @@ struct BuddyAllocator::Impl {
     
     ~Impl() noexcept = default;
     
+    /**
+     * @brief Get Order.
+     * @param[in] size Input parameter.
+     * @return Return value.
+     * @details Implements getOrder without additional internal calls.
+     */
     size_t getOrder(size_t size) {
         size_t order = 0;
         size_t block_size = min_block_size;
@@ -129,6 +151,12 @@ struct BuddyAllocator::Impl {
         return order;
     }
     
+    /**
+     * @brief Allocate Block.
+     * @param[in] order Input parameter.
+     * @return Pointer to the result.
+     * @details Calls: find(), end().
+     */
     void* allocateBlock(size_t order) {
         // Find a free block at this order or higher
         for (size_t i = order; i <= max_order; ++i) {
@@ -168,6 +196,11 @@ struct BuddyAllocator::Impl {
         return nullptr;
     }
     
+    /**
+     * @brief Deallocate Block.
+     * @param[in,out] ptr Input/output parameter.
+     * @details Calls: find(), end(), getOrder(), std::min(), erase(), std::max().
+     */
     void deallocateBlock(void* ptr) {
         uintptr_t addr = reinterpret_cast<uintptr_t>(ptr);
         auto it = blocks.find(addr);
@@ -231,6 +264,13 @@ BuddyAllocator::BuddyAllocator(size_t total_size, size_t min_block_size)
 
 BuddyAllocator::~BuddyAllocator() noexcept = default;
 
+/**
+ * @brief Allocate.
+ * @param[in] size Input parameter.
+ * @param[in] hint Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), alignSize(), getOrder(), allocateBlock(), fetch_add(), getCurrentUsage(), load(), compare_exchange_weak().
+ */
 Result<void*> BuddyAllocator::allocate(size_t size, AllocationHint hint) {
     if (size == 0) {
         return Err<void*>(errors::ErrorCode::ERR_MEMORY_INVALID_SIZE, 
@@ -273,6 +313,12 @@ Result<void*> BuddyAllocator::allocate(size_t size, AllocationHint hint) {
     return ptr;
 }
 
+/**
+ * @brief Deallocate.
+ * @param[in,out] ptr Input/output parameter.
+ * @return Return value.
+ * @details Calls: OkVoid(), lock(), find(), end(), ErrVoid(), deallocateBlock(), fetch_add().
+ */
 Result<void> BuddyAllocator::deallocate(void* ptr) {
     if (ptr == nullptr) {
         return OkVoid();
@@ -296,6 +342,11 @@ Result<void> BuddyAllocator::deallocate(void* ptr) {
     return OkVoid();
 }
 
+/**
+ * @brief Reset.
+ * @return Return value.
+ * @details Calls: lock(), clear(), std::fill(), begin(), end(), get(), OkVoid().
+ */
 Result<void> BuddyAllocator::reset() {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     
@@ -377,6 +428,11 @@ struct SlabAllocator::Slab {
     
     ~Slab() noexcept = default;
     
+    /**
+     * @brief Allocate.
+     * @return Pointer to the result.
+     * @details Calls: get().
+     */
     void* allocate() {
         if (free_count == 0) {
             return nullptr;
@@ -393,6 +449,12 @@ struct SlabAllocator::Slab {
         return nullptr;
     }
     
+    /**
+     * @brief Deallocate.
+     * @param[in,out] ptr Input/output parameter.
+     * @return True on success.
+     * @details Calls: get().
+     */
     bool deallocate(void* ptr) {
         uintptr_t addr = reinterpret_cast<uintptr_t>(ptr);
         uintptr_t base = reinterpret_cast<uintptr_t>(memory.get());
@@ -441,6 +503,11 @@ struct SlabAllocator::Impl {
     
     ~Impl() noexcept = default;
     
+    /**
+     * @brief Allocate.
+     * @return Pointer to the result.
+     * @details Calls: get(), std::move().
+     */
     void* allocate() {
         // Try existing slabs first
         Slab* slab = head_slab.get();
@@ -466,6 +533,12 @@ struct SlabAllocator::Impl {
         return allocation;
     }
     
+    /**
+     * @brief Deallocate.
+     * @param[in,out] ptr Input/output parameter.
+     * @return True on success.
+     * @details Calls: get(), contains().
+     */
     bool deallocate(void* ptr) {
         Slab* slab = head_slab.get();
         while (slab != nullptr) {
@@ -485,6 +558,13 @@ SlabAllocator::SlabAllocator(size_t object_size, size_t objects_per_slab,
 
 SlabAllocator::~SlabAllocator() noexcept = default;
 
+/**
+ * @brief Allocate.
+ * @param[in] size Input parameter.
+ * @param[in] AllocationHint Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), fetch_add(), getCurrentUsage(), load(), compare_exchange_weak().
+ */
 Result<void*> SlabAllocator::allocate(size_t size, AllocationHint /*hint*/) {
     if (size == 0) {
         return Err<void*>(errors::ErrorCode::ERR_MEMORY_INVALID_SIZE,
@@ -520,6 +600,12 @@ Result<void*> SlabAllocator::allocate(size_t size, AllocationHint /*hint*/) {
     return ptr;
 }
 
+/**
+ * @brief Deallocate.
+ * @param[in,out] ptr Input/output parameter.
+ * @return Return value.
+ * @details Calls: OkVoid(), lock(), ErrVoid(), fetch_add().
+ */
 Result<void> SlabAllocator::deallocate(void* ptr) {
     if (ptr == nullptr) {
         return OkVoid();
@@ -538,6 +624,11 @@ Result<void> SlabAllocator::deallocate(void* ptr) {
     return OkVoid();
 }
 
+/**
+ * @brief Reset.
+ * @return Return value.
+ * @details Calls: lock(), OkVoid().
+ */
 Result<void> SlabAllocator::reset() {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     
@@ -607,6 +698,13 @@ StackAllocator::StackAllocator(size_t capacity)
 
 StackAllocator::~StackAllocator() = default;
 
+/**
+ * @brief Allocate.
+ * @param[in] size Input parameter.
+ * @param[in] AllocationHint Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), alignSize(), fetch_add(), push_back(), getCurrentUsage(), load(), compare_exchange_weak().
+ */
 Result<void*> StackAllocator::allocate(size_t size, AllocationHint /*hint*/) {
     if (size == 0) {
         return Err<void*>(errors::ErrorCode::ERR_MEMORY_INVALID_SIZE,
@@ -645,6 +743,12 @@ Result<void*> StackAllocator::allocate(size_t size, AllocationHint /*hint*/) {
     return ptr;
 }
 
+/**
+ * @brief Deallocate.
+ * @param[in,out] ptr Input/output parameter.
+ * @return Return value.
+ * @details Calls: OkVoid(), lock(), empty(), ErrVoid(), back(), pop_back(), fetch_add().
+ */
 Result<void> StackAllocator::deallocate(void* ptr) {
     if (ptr == nullptr) {
         return OkVoid();
@@ -679,6 +783,11 @@ Result<void> StackAllocator::deallocate(void* ptr) {
     return OkVoid();
 }
 
+/**
+ * @brief Reset.
+ * @return Return value.
+ * @details Calls: lock(), clear(), OkVoid().
+ */
 Result<void> StackAllocator::reset() {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     
@@ -704,6 +813,12 @@ size_t StackAllocator::savePosition() const {
     return impl_->offset;
 }
 
+/**
+ * @brief Restore Position.
+ * @param[in] position Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), ErrVoid(), empty(), back(), pop_back(), fetch_add(), OkVoid().
+ */
 Result<void> StackAllocator::restorePosition(size_t position) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     
@@ -760,6 +875,13 @@ struct PoolAllocator::Impl {
         stack = std::make_unique<StackAllocator>(config.stack_capacity);
     }
     
+    /**
+     * @brief Select Allocator.
+     * @param[in] size Input parameter.
+     * @param[in] hint Input parameter.
+     * @return Pointer to the result.
+     * @details Calls: get(), find(), end().
+     */
     IAllocator* selectAllocator(size_t size, AllocationHint hint) {
         // Use stack for short-lived allocations
         if (hint == AllocationHint::SHORT_LIVED) {
@@ -794,6 +916,13 @@ PoolAllocator::PoolAllocator(const Config& config)
 
 PoolAllocator::~PoolAllocator() = default;
 
+/**
+ * @brief Allocate.
+ * @param[in] size Input parameter.
+ * @param[in] hint Input parameter.
+ * @return Return value.
+ * @details Calls: selectAllocator(), lock().
+ */
 Result<void*> PoolAllocator::allocate(size_t size, AllocationHint hint) {
     IAllocator* allocator = impl_->selectAllocator(size, hint);
     auto result = allocator->allocate(size, hint);
@@ -807,6 +936,12 @@ Result<void*> PoolAllocator::allocate(size_t size, AllocationHint hint) {
     return result;
 }
 
+/**
+ * @brief Deallocate.
+ * @param[in,out] ptr Input/output parameter.
+ * @return Return value.
+ * @details Calls: OkVoid(), lock(), find(), end(), ErrVoid(), erase().
+ */
 Result<void> PoolAllocator::deallocate(void* ptr) {
     if (ptr == nullptr) {
         return OkVoid();
@@ -875,6 +1010,11 @@ const AllocationStats& PoolAllocator::getStackStats() const {
     return impl_->stack->getStats();
 }
 
+/**
+ * @brief Reset.
+ * @return Return value.
+ * @details Calls: lock(), clear(), OkVoid().
+ */
 Result<void> PoolAllocator::reset() {
     auto buddy_result = impl_->buddy->reset();
     if (!buddy_result) {

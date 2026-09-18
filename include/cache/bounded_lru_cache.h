@@ -27,93 +27,45 @@
 namespace themis {
 namespace cache {
 
-/**
- * @brief Bounded LRU Cache with TTL support
- * 
- * Thread-safe LRU cache with:
- * - Configurable maximum size
- * - LRU eviction when capacity is reached
- * - TTL-based expiration
- * - Hit/miss statistics for monitoring
- */
 class BoundedLRUCache : public ICacheBackend<std::string, nlohmann::json> {
 public:
-    /**
-     * @brief Configuration for the cache
-     */
     struct Config {
         size_t max_entries = 100'000;           // Maximum entries in cache
         std::chrono::seconds ttl{3600};         // Time-to-live (1 hour default)
         bool enable_statistics = true;          // Track hits/misses
 
-        /// @brief C4: AI/LLM safety — maximum serialised entry size in bytes.
-        ///        Entries whose JSON dump exceeds this limit are rejected.
-        ///        Default: 64 MiB.
         size_t   max_entry_size_bytes = 67108864U; // 64 MiB
 
-        /// @brief C4: AI/LLM safety — maximum per-entry TTL in seconds.
-        ///        Entries with ttl_seconds > this value are rejected.
-        ///        Default: 86 400 s (24 hours).
         uint32_t max_ttl_seconds      = 86400U;    // 24 hours
     };
     
     /**
-     * @brief Constructor
-     * @param config Cache configuration
+     * @brief Bounded LRUCache.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     explicit BoundedLRUCache(const Config& config);
     
-    /**
-     * @brief Destructor
-     */
     ~BoundedLRUCache();
     
-    /**
-     * @brief Get value with TTL check
-     * @param key Key to retrieve
-     * @return Value if present and not expired, nullopt otherwise
-     */
     std::optional<nlohmann::json> get(const std::string& key) override;
     
-    /**
-     * @brief Put value with optional per-entry TTL
-     * @param key        Cache key
-     * @param value      Value to store
-     * @param ttl_seconds Per-entry TTL in seconds; 0 = use Config::ttl
-     */
     void put(const std::string& key, nlohmann::json value, uint32_t ttl_seconds = 0) override;
     
-    /**
-     * @brief Remove entry from cache
-     * @param key Key to remove
-     * @return true if entry was found and removed
-     */
     bool remove(const std::string& key) override;
 
-    /**
-     * @brief Check whether @p key is present (and not expired) without touching LRU order.
-     */
     bool contains(const std::string& key) const override;
 
-    /**
-     * @brief Clear all entries
-     */
     void clear() override;
 
-    /**
-     * @brief Return the number of entries currently in the cache.
-     */
     std::size_t size() const override;
 
     /**
-     * @brief Evict LRU entry if at capacity
-     * @return true if an entry was evicted
+     * @brief Evict LRUIf Needed.
+     * @return True when the operation succeeds.
      */
     bool evictLRUIfNeeded();
 
-    /**
-     * @brief Cache statistics
-     */
     struct Statistics {
         size_t current_size = 0;
         size_t hits = {};
@@ -129,24 +81,18 @@ public:
     };
     
     /**
-     * @brief Get cache statistics
-     * @return Current statistics
+     * @brief Return access control statistics.
+     * @return Access control statistics.
      */
     Statistics getStatistics() const;
     
 private:
-    /**
-     * @brief Cache entry with metadata
-     */
     struct CacheEntry {
         nlohmann::json value;
         std::chrono::steady_clock::time_point expiry;
         std::chrono::steady_clock::time_point last_access;
     };
     
-    /**
-     * @brief Node in the LRU doubly-linked list
-     */
     struct Node {
         std::string key;
         CacheEntry entry;
@@ -155,27 +101,32 @@ private:
     };
     
     /**
-     * @brief Move node to front (most recently used)
+     * @brief Move To Front.
+     * @param[in] node Input parameter.
      */
     void moveToFront(std::shared_ptr<Node> node);
     
     /**
-     * @brief Remove node from list
+     * @brief Remove Node.
+     * @param[in] node Input parameter.
      */
     void removeNode(std::shared_ptr<Node> node);
     
     /**
-     * @brief Add node to front
+     * @brief Add To Front.
+     * @param[in] node Input parameter.
      */
     void addToFront(std::shared_ptr<Node> node);
     
     /**
-     * @brief Remove LRU node (tail)
+     * @brief Remove LRU.
      */
     void removeLRU();
     
     /**
-     * @brief Check if entry is expired
+     * @brief Is Expired.
+     * @param[in] entry Input parameter.
+     * @return True when the operation succeeds.
      */
     bool isExpired(const CacheEntry& entry) const;
     

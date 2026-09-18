@@ -25,9 +25,12 @@ namespace query {
 // Maximum recursion depth for plan tree rendering (guards against deep/cyclic trees).
 static constexpr int kMaxPlanDepth = 128;
 
-// ============================================================================
-// Helpers
-// ============================================================================
+/**
+ * @brief ============================================================================ Helpers ============================================================================
+ * @param[in] type Input parameter.
+ * @return Return value.
+ * @details Implements planNodeTypeName without additional internal calls.
+ */
 
 std::string QueryPlanVisualizer::planNodeTypeName(PlanNodeType type) {
     switch (type) {
@@ -51,9 +54,13 @@ std::string QueryPlanVisualizer::planNodeTypeName(PlanNodeType type) {
     }
 }
 
-// ============================================================================
-// Plan construction
-// ============================================================================
+/**
+ * @brief ============================================================================ Plan construction ============================================================================
+ * @param[in] query Input parameter.
+ * @param[in] plan Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), front(), size(), back(), std::min(), std::max(), push_back(), get().
+ */
 
 QueryPlanNode QueryPlanVisualizer::buildPlan(const ConjunctiveQuery& query,
                                               const QueryOptimizer::Plan& plan) {
@@ -136,9 +143,14 @@ QueryPlanNode QueryPlanVisualizer::buildPlan(const ConjunctiveQuery& query,
     return return_node;
 }
 
-// ============================================================================
-// Text rendering (EXPLAIN style)
-// ============================================================================
+/**
+ * @brief ============================================================================ Text rendering (EXPLAIN style) ============================================================================
+ * @param[in] node Input parameter.
+ * @param[in] analyze Input parameter.
+ * @param[in,out] out Input/output parameter.
+ * @param[in] depth Input parameter.
+ * @details Calls: std::string(), planNodeTypeName(), empty(), std::setprecision(), has_value(), str().
+ */
 
 void QueryPlanVisualizer::toTextImpl(const QueryPlanNode& node, bool analyze,
                                       std::string& out, int depth) {
@@ -192,6 +204,13 @@ void QueryPlanVisualizer::toTextImpl(const QueryPlanNode& node, bool analyze,
     }
 }
 
+/**
+ * @brief To Text.
+ * @param[in] root Input parameter.
+ * @param[in] analyze Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), std::string(), toTextImpl(), std::setprecision(), str().
+ */
 std::string QueryPlanVisualizer::toText(const QueryPlanNode& root, bool analyze) {
     std::string out = {};
     out.reserve(4096);  // Pre-allocate for typical query plan output (5-20KB)
@@ -209,14 +228,26 @@ std::string QueryPlanVisualizer::toText(const QueryPlanNode& root, bool analyze)
     return out;
 }
 
-// ============================================================================
-// JSON rendering
-// ============================================================================
+/**
+ * @brief ============================================================================ JSON rendering ============================================================================
+ * @param[in] node Input parameter.
+ * @param[in] analyze Input parameter.
+ * @return Return value.
+ * @details Implements toJSONImpl without additional internal calls.
+ */
 
 nlohmann::json QueryPlanVisualizer::toJSONImpl(const QueryPlanNode& node, bool analyze) {
     return toJSONImpl(node, analyze, 0);
 }
 
+/**
+ * @brief To JSONImpl.
+ * @param[in] node Input parameter.
+ * @param[in] analyze Input parameter.
+ * @param[in] depth Input parameter.
+ * @return Return value.
+ * @details Calls: planNodeTypeName(), has_value(), empty(), nlohmann::json::array(), push_back().
+ */
 nlohmann::json QueryPlanVisualizer::toJSONImpl(const QueryPlanNode& node, bool analyze, int depth) {
     if (depth > kMaxPlanDepth) {
         nlohmann::json j;
@@ -252,6 +283,13 @@ nlohmann::json QueryPlanVisualizer::toJSONImpl(const QueryPlanNode& node, bool a
     return j;
 }
 
+/**
+ * @brief To JSON.
+ * @param[in] root Input parameter.
+ * @param[in] analyze Input parameter.
+ * @return Return value.
+ * @details Calls: toJSONImpl().
+ */
 nlohmann::json QueryPlanVisualizer::toJSON(const QueryPlanNode& root, bool analyze) {
     nlohmann::json j;
     j["mode"] = analyze ? "EXPLAIN ANALYZE" : "EXPLAIN";
@@ -263,10 +301,12 @@ nlohmann::json QueryPlanVisualizer::toJSON(const QueryPlanNode& root, bool analy
 // DOT rendering (Graphviz)
 // ============================================================================
 
-// Escape characters that would produce invalid or misleading DOT quoted strings:
-//   " and \ need escaping per DOT syntax.
-//   \n, \r, \t are invalid bare bytes inside a quoted string; replace with
-//   their DOT escape sequences (\\n etc.) which Graphviz renders as printable.
+/**
+ * @brief Escape characters that would produce invalid or misleading DOT quoted strings: " and \ need escaping per DOT syntax.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details \n, \r, \t are invalid bare bytes inside a quoted string; replace with their DOT escape sequences (\\n etc.) which Graphviz renders as printable. Calls: reserve(), size().
+ */
 static std::string dotEscape(const std::string& s) {
     std::string result = {};
     result.reserve(s.size());
@@ -283,11 +323,28 @@ static std::string dotEscape(const std::string& s) {
     return result;
 }
 
+/**
+ * @brief To DOTImpl.
+ * @param[in] node Input parameter.
+ * @param[in,out] id_counter Input/output parameter.
+ * @param[in,out] nodes_out Input/output parameter.
+ * @param[in,out] edges_out Input/output parameter.
+ * @details Implements toDOTImpl without additional internal calls.
+ */
 void QueryPlanVisualizer::toDOTImpl(const QueryPlanNode& node, int& id_counter,
                                      std::string& nodes_out, std::string& edges_out) {
     toDOTImpl(node, id_counter, nodes_out, edges_out, 0);
 }
 
+/**
+ * @brief To DOTImpl.
+ * @param[in] node Input parameter.
+ * @param[in,out] id_counter Input/output parameter.
+ * @param[in,out] nodes_out Input/output parameter.
+ * @param[in,out] edges_out Input/output parameter.
+ * @param[in] depth Input parameter.
+ * @details Calls: std::to_string(), planNodeTypeName(), empty(), dotEscape(), has_value(), str().
+ */
 void QueryPlanVisualizer::toDOTImpl(const QueryPlanNode& node, int& id_counter,
                                      std::string& nodes_out, std::string& edges_out, int depth) {
     if (depth > kMaxPlanDepth) {
@@ -330,6 +387,12 @@ void QueryPlanVisualizer::toDOTImpl(const QueryPlanNode& node, int& id_counter,
     }
 }
 
+/**
+ * @brief To DOT.
+ * @param[in] root Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), toDOTImpl().
+ */
 std::string QueryPlanVisualizer::toDOT(const QueryPlanNode& root) {
     std::string nodes_out = {};
     std::string edges_out = {};

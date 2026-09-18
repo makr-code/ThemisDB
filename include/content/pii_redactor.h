@@ -22,11 +22,6 @@ namespace content {
 // PIIType — enumeration of detectable PII entity types
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Recognized PII entity types.
- *
- * CUSTOM covers user-defined patterns registered via `train()`.
- */
 enum class PIIType {
     EMAIL,
     PHONE,
@@ -48,12 +43,6 @@ enum class PIIType {
 // PIIMatch — a detected PII span in the source text
 // ---------------------------------------------------------------------------
 
-/**
- * @brief A single PII entity detected in the source text.
- *
- * `start_offset` and `end_offset` are byte offsets (not character offsets)
- * into the original UTF-8 string passed to `detect()` or `redact()`.
- */
 struct PIIMatch {
     PIIType     type;
     size_t      start_offset = 0;
@@ -66,9 +55,6 @@ struct PIIMatch {
 // RedactionMode — strategy for replacing detected PII
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Strategy used to replace detected PII in the output text.
- */
 enum class RedactionMode {
     MASK,      ///< Replace with asterisks (e.g., "*****").
     REPLACE,   ///< Replace with a typed placeholder (e.g., "[EMAIL]").
@@ -81,13 +67,6 @@ enum class RedactionMode {
 // PIIRedactionConfig — configuration for a redact() call
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Configuration that governs a single redact() invocation.
- *
- * An empty `types_to_redact` means "redact all detected PII types".
- * `preserve_format` is only relevant for REPLACE mode and emits a
- * format-aware placeholder such as "[PHONE: xxx-xxx-xxxx]".
- */
 struct PIIRedactionConfig {
     RedactionMode            mode             = RedactionMode::REPLACE;
     std::vector<PIIType>     types_to_redact; ///< Empty = all types.
@@ -99,9 +78,6 @@ struct PIIRedactionConfig {
 // PIIRedactionResult — output from a redact() call
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Result of a redact() invocation.
- */
 struct PIIRedactionResult {
     std::string          redacted_text;
     std::vector<PIIMatch> detected;
@@ -112,47 +88,23 @@ struct PIIRedactionResult {
 // IPIIRedactor — PII detection and redaction interface
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Pure-virtual interface for content-level PII detection and redaction.
- *
- * Implementations wrap NER models (spaCy, Presidio, AWS Comprehend, custom regex).
- *
- * ### Thread safety
- * `redact()` and `detect()` must be safe to call concurrently.
- * `train()` may hold an exclusive lock while loading the model.
- */
 class IPIIRedactor {
 public:
+    /**
+     * @brief IPIIRedactor.
+     * @return Return value.
+     */
     virtual ~IPIIRedactor() = default;
 
-    /**
-     * @brief Detect and redact PII in @p text.
-     *
-     * @param text    Input text (UTF-8).
-     * @param config  Redaction configuration; defaults are applied if omitted.
-     * @return PIIRedactionResult with the redacted text and all detected matches.
-     */
     [[nodiscard]] virtual PIIRedactionResult redact(
         const std::string&      text,
         const PIIRedactionConfig& config = {}
     ) = 0;
 
-    /**
-     * @brief Detect PII in @p text without modifying it.
-     *
-     * Useful for pre-flight inspection before deciding whether to store content.
-     */
     [[nodiscard]] virtual std::vector<PIIMatch> detect(const std::string& text) = 0;
 
-    /**
-     * @brief Load or fine-tune a custom NER model for CUSTOM entity detection.
-     *
-     * @param custom_model_path  Path to the model artefact.
-     * @return `true` if the model loaded successfully.
-     */
     [[nodiscard]] virtual bool train(const std::string& custom_model_path) = 0;
 
-    /// Return the PIIType values this redactor can detect.
     [[nodiscard]] virtual std::vector<PIIType> supportedTypes() const = 0;
 };
 

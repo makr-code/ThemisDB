@@ -19,7 +19,6 @@ namespace graph {
 // GraphPlanNodeType
 // ---------------------------------------------------------------------------
 
-/// @brief Node types that can appear in a graph query execution plan.
 enum class GraphPlanNodeType {
     VERTEX_SCAN,
     EDGE_SCAN,
@@ -40,13 +39,6 @@ enum class GraphPlanNodeType {
 // GraphPlanNode
 // ---------------------------------------------------------------------------
 
-/**
- * @brief A single node in a graph query execution plan tree.
- *
- * `actual_ms` and `actual_rows` are populated only when the plan was obtained
- * via `explainAnalyze()`.  For plain `explain()`, `actual_ms` is -1.0 and
- * `actual_rows` is 0.
- */
 struct GraphPlanNode {
     std::string node_id;
     GraphPlanNodeType type;
@@ -63,12 +55,6 @@ struct GraphPlanNode {
 // GraphExplainPlan
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Complete EXPLAIN plan for a graph query.
- *
- * `is_analyzed` is true when the plan was obtained via `explainAnalyze()` and
- * all `GraphPlanNode::actual_ms` fields are populated with real timings.
- */
 struct GraphExplainPlan {
     std::string query;
     std::string plan_id;
@@ -78,10 +64,16 @@ struct GraphExplainPlan {
     double total_actual_ms      = -1.0;
     bool is_analyzed            = false;
 
-    /// @brief Serialize the plan to Graphviz DOT format.
+    /**
+     * @brief To Dot.
+     * @return Return value.
+     */
     std::string toDot() const;
 
-    /// @brief Serialize the plan to JSON.
+    /**
+     * @brief To Json.
+     * @return Return value.
+     */
     std::string toJson() const;
 };
 
@@ -89,27 +81,18 @@ struct GraphExplainPlan {
 // IGraphExplainProvider
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Interface for obtaining EXPLAIN plans from the graph query engine.
- */
 class IGraphExplainProvider {
 public:
+    /**
+     * @brief IGraph Explain Provider.
+     * @return Return value.
+     */
     virtual ~IGraphExplainProvider() = default;
 
-    /**
-     * @brief Return the estimated execution plan without running the query.
-     * @param query   AQL or graph query string.
-     * @param params  Optional bind parameters.
-     */
     virtual GraphExplainPlan explain(
         const std::string& query,
         const std::map<std::string, std::string>& params = {}) = 0;
 
-    /**
-     * @brief Execute the query and return the plan with actual timings.
-     * @param query   AQL or graph query string.
-     * @param params  Optional bind parameters.
-     */
     virtual GraphExplainPlan explainAnalyze(
         const std::string& query,
         const std::map<std::string, std::string>& params = {}) = 0;

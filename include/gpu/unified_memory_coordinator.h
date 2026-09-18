@@ -58,28 +58,21 @@
 namespace themis {
 namespace gpu {
 
-/**
- * @class UnifiedMemoryBuffer
- * @brief Thread-safe unified memory buffer with CPU/GPU ownership tracking
- *
- * Manages CUDA unified memory allocation with atomic ownership state to ensure
- * exclusive access from either CPU or GPU at any given time.
- */
 class UnifiedMemoryBuffer {
 public:
-    /// @brief Owner state of buffer
     enum class Owner {
         UNOWNED = 0,  ///< Not currently owned
         CPU = 1,      ///< CPU has exclusive access
         GPU = 2       ///< GPU has exclusive access
     };
 
-    /// @brief Allocate unified memory buffer
-    /// @param size Number of bytes to allocate
-    /// @throws std::runtime_error if allocation fails
+    /**
+     * @brief Unified Memory Buffer.
+     * @param[in] size Input parameter.
+     * @return Return value.
+     */
     explicit UnifiedMemoryBuffer(size_t size);
 
-    /// @brief Destructor — frees unified memory
     ~UnifiedMemoryBuffer() noexcept;
 
     // Delete copy operations
@@ -90,48 +83,69 @@ public:
     UnifiedMemoryBuffer(UnifiedMemoryBuffer&&) noexcept = default;
     UnifiedMemoryBuffer& operator=(UnifiedMemoryBuffer&&) noexcept = default;
 
-    /// @brief Acquire buffer for CPU access (exclusive)
-    /// @return true if acquisition succeeded; false if ownership conflict
-    /// @throws std::runtime_error if synchronization fails
-    /// @note Blocks until any GPU access completes (via cudaDeviceSynchronize)
+    /**
+     * @brief Acquire For CPU.
+     * @return True when the operation succeeds.
+     */
     bool acquireForCPU();
 
-    /// @brief Acquire buffer for GPU access (exclusive)
-    /// @return true if acquisition succeeded; false if ownership conflict
-    /// @note GPU immediately assumes ownership (coherence handled by CUDA)
+    /**
+     * @brief Acquire For GPU.
+     * @return True when the operation succeeds.
+     */
     bool acquireForGPU();
 
-    /// @brief Release buffer ownership
-    /// @return true if released; false if not owned
-    /// @note Safe to call even if not owned (no-op)
+    /**
+     * @brief Release Ownership.
+     * @return True when the operation succeeds.
+     */
     bool releaseOwnership();
 
-    /// @brief Get current owner
-    /// @return Current owner (CPU, GPU, or UNOWNED)
+    /**
+     * @brief Get Current Owner.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     Owner getCurrentOwner() const noexcept;
 
-    /// @brief Get buffer pointer
-    /// @return Raw pointer to unified memory
+    /**
+     * @brief Get.
+     * @return Pointer to the result.
+     * @note Exception safety: noexcept.
+     */
     void* get() noexcept;
 
-    /// @brief Get const buffer pointer
-    /// @return Const pointer to unified memory
+    /**
+     * @brief Get.
+     * @return Pointer to the result.
+     * @note Exception safety: noexcept.
+     */
     const void* get() const noexcept;
 
-    /// @brief Get buffer size
-    /// @return Size in bytes
+    /**
+     * @brief Size.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     size_t size() const noexcept;
 
-    /// @brief Check if buffer is valid
-    /// @return true if allocated and valid
+    /**
+     * @brief Is Valid.
+     * @return True when the operation succeeds.
+     * @note Exception safety: noexcept.
+     */
     bool isValid() const noexcept;
 
-    /// @brief Explicit synchronization point
-    /// @throws std::runtime_error if cudaDeviceSynchronize fails
+    /**
+     * @brief Synchronize.
+     */
     void synchronize();
 
-    /// @brief Check for ownership conflict
-    /// @return true if last operation would have conflicted
+    /**
+     * @brief Had Conflict.
+     * @return True when the operation succeeds.
+     * @note Exception safety: noexcept.
+     */
     bool hadConflict() const noexcept;
 
 private:
@@ -140,7 +154,17 @@ private:
     std::atomic<Owner> owner_;
     std::atomic<bool> conflict_;  // Track if conflict occurred
 
+    /**
+     * @brief Allocate Unified Memory.
+     * @param[in] size Input parameter.
+     * @return Pointer to the result.
+     */
     void* allocateUnifiedMemory(size_t size);
+    /**
+     * @brief Free Unified Memory.
+     * @param[in,out] ptr Input/output parameter.
+     * @note Exception safety: noexcept.
+     */
     void freeUnifiedMemory(void* ptr) noexcept;
 };
 

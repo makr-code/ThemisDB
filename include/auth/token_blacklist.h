@@ -34,38 +34,26 @@ namespace auth {
 //   RocksDBTokenBlacklist – RocksDB-backed for single-node persistence
 // ============================================================================
 
-/**
- * @brief Abstract interface for JTI-based JWT token blacklist backends.
- *
- * All public methods must be thread-safe in every implementation.
- */
 class ITokenBlacklist {
 public:
+    /**
+     * @brief IToken Blacklist.
+     * @return Return value.
+     */
     virtual ~ITokenBlacklist() = default;
 
     /**
-     * @brief Add a JTI to the blacklist with its expiry time.
-     *
-     * @param jti    JWT ID claim of the token to revoke.
-     * @param expiry Time at which the token naturally expires; implementations
-     *               may use this to bound storage and auto-purge stale entries.
+     * @brief Add.
+     * @param[in] jti Input parameter.
+     * @param[in] expiry Input parameter.
      */
     virtual void add(const std::string& jti,
                      std::chrono::system_clock::time_point expiry) = 0;
 
-    /**
-     * @brief Check whether a JTI is currently on the blacklist.
-     *
-     * @param jti JWT ID claim to check.
-     * @return true if the token has been revoked and has not yet expired.
-     */
     [[nodiscard]] virtual bool isRevoked(const std::string& jti) const = 0;
 
     /**
-     * @brief Remove all entries whose token expiry is in the past.
-     *
-     * Safe to call at any time; implementations may be no-ops when the
-     * backend handles expiry automatically (e.g. Redis TTL).
+     * @brief Purge Expired.
      */
     virtual void purgeExpired() = 0;
 };
@@ -74,45 +62,15 @@ public:
 // TokenBlacklist — in-memory implementation of ITokenBlacklist
 // ============================================================================
 
-/**
- * @brief JTI-based JWT token blacklist for token revocation
- *
- * Stores the JTI (JWT ID) of revoked tokens together with their
- * expiry timestamps.  Expired entries are pruned automatically so
- * memory consumption stays bounded even under sustained revocation load.
- *
- * A Bloom filter pre-check on the hot path (isRevoked returning false for
- * non-revoked tokens) avoids the hash-map lookup in the common case, keeping
- * latency well within the ≤ 1 µs target for a warm filter.
- *
- * Usage:
- *   TokenBlacklist bl;
- *   // Revoke a token at logout or key-compromise:
- *   bl.revoke(claims.jti, claims.expiration);
- *
- *   // On every incoming request, after signature verification:
- *   if (bl.isRevoked(claims.jti)) { reject(); }
- *
- * Thread-safety: all public methods are thread-safe.
- *
- * Distributed deployments should back this with a shared cache (Redis)
- * and synchronise revocations across nodes.  This implementation provides
- * the single-node in-memory baseline; use RedisTokenBlacklist or
- * RocksDBTokenBlacklist for persistence and distribution.
- */
 class TokenBlacklist : public ITokenBlacklist {
 public:
-    /**
-     * @brief Runtime configuration for in-memory revocation storage.
-     */
     struct Config {
-        /// How often expired entries are pruned automatically (seconds).
         uint32_t cleanup_interval_seconds = 300;
-        /// Hard cap on number of stored JTIs (prevents unbounded growth).
         size_t max_entries = 1'000'000;
         /**
-         * @brief Return the default TokenBlacklist configuration.
-         * @return Default cleanup interval and entry-cap settings.
+         * @brief Defaults.
+         * @return Return value.
+         * @details Implements defaults without additional internal calls.
          */
         static Config defaults() { return {}; }
     };
@@ -127,35 +85,22 @@ public:
     TokenBlacklist& operator=(TokenBlacklist&&) noexcept = delete;
 
     /**
-     * @brief Attach an AuditLogger to receive TOKEN_REVOKED events.
-     * Pass nullptr to detach.  The blacklist does NOT take ownership.
+     * @brief Set Audit Logger.
+     * @param[in,out] logger Input/output parameter.
+     * @details Implements setAuditLogger without additional internal calls.
      */
     void setAuditLogger(utils::AuditLogger* logger) { audit_logger_ = logger; }
 
-    /**
-     * @brief Callback type invoked immediately after a JTI is added to the
-     *        blacklist.  Enables real-time push-style invalidation: callers
-     *        can react to a revocation event without polling isRevoked().
-     *
-     * The callback is invoked outside the internal mutex so that it is safe to
-     * call any TokenBlacklist method from within the callback body.
-     *
-     * Signature: void(const std::string& jti)
-     */
     using RevocationCallback = std::function<void(const std::string& jti)>;
 
     /**
-     * @brief Register a callback to be invoked synchronously when a JTI is
-     *        revoked via revoke().  Only one callback can be registered at a
-     *        time; a subsequent call replaces the previous one.
-     *
-     * @param cb  Callable to invoke on revocation.  Pass an empty function or
-     *            call clearOnRevokeCallback() to detach.
+     * @brief Set On Revoke Callback.
+     * @param[in] cb Input parameter.
      */
     void setOnRevokeCallback(RevocationCallback cb);
 
     /**
-     * @brief Remove a previously registered revocation callback.
+     * @brief Clear On Revoke Callback.
      */
     void clearOnRevokeCallback();
 
@@ -163,30 +108,11 @@ public:
     // ITokenBlacklist interface
     // -----------------------------------------------------------------------
 
-    /**
-     * @brief Add a JTI to the blacklist (ITokenBlacklist interface).
-     *
-     * Equivalent to revoke(jti, expiry).
-     */
     void add(const std::string& jti,
              std::chrono::system_clock::time_point expiry) override;
 
-    /**
-     * @brief Check whether a JTI is currently on the blacklist.
-     *
-     * Uses a Bloom filter pre-check: if the filter returns false the token is
-     * definitively not revoked (≤ 1 µs for non-revoked tokens on a warm filter).
-     *
-     * @param jti JWT ID claim to check.
-     * @return true if the token has been revoked (and has not yet expired).
-     */
     bool isRevoked(const std::string& jti) const override;
 
-    /**
-     * @brief Remove all entries whose token expiry is in the past.
-     *
-     * Alias for pruneExpired() — satisfies the ITokenBlacklist interface.
-     */
     void purgeExpired() override;
 
     // -----------------------------------------------------------------------
@@ -194,41 +120,33 @@ public:
     // -----------------------------------------------------------------------
 
     /**
-     * @brief Revoke a token by its JTI (backward-compatible alias for add()).
-     *
-     * @param jti        JWT ID claim of the token to revoke.
-     * @param expires_at Token expiry; entries are pruned after this time so the
-     *                   blacklist does not grow without bound.
+     * @brief Revoke.
+     * @param[in] jti Input parameter.
+     * @param[in] expires_at Input parameter.
      */
     void revoke(const std::string& jti,
                 std::chrono::system_clock::time_point expires_at);
 
     /**
-     * @brief Remove a JTI from the blacklist (e.g. on admin un-revoke).
-     *
-     * @param jti JWT ID to remove.
-     * @return true if the entry existed and was removed.
+     * @brief Unrevoke.
+     * @param[in] jti Input parameter.
+     * @return True when the operation succeeds.
      */
     bool unrevoke(const std::string& jti);
 
     /**
-     * @brief Remove all entries whose token expiry is in the past.
-     *
-     * Called automatically inside revoke() / isRevoked() based on
-     * cleanup_interval_seconds, but can also be invoked manually.
-     * The Bloom filter is rebuilt from the surviving entries after pruning.
+     * @brief Prune Expired.
      */
     void pruneExpired();
 
     /**
-     * @brief Remove all entries (testing / maintenance).
+     * @brief Clear.
      */
     void clear();
 
     /**
-     * @brief Current number of blacklisted JTIs (including not-yet-pruned
-     *        expired ones).
-     * @return Number of entries currently stored in the blacklist map.
+     * @brief Size.
+     * @return Return value.
      */
     size_t size() const;
 
@@ -241,6 +159,10 @@ public:
         uint64_t bloom_negatives     = 0;  ///< isRevoked() short-circuited by Bloom filter
     };
 
+    /**
+     * @brief Return access control statistics.
+     * @return Access control statistics.
+     */
     Statistics getStatistics() const;
 
 private:
@@ -262,6 +184,11 @@ private:
         static constexpr size_t kBitsPerEntry = 10;  ///< ~1 % false-positive rate
         static constexpr size_t kNumHashes    = 7;   ///< optimal for 10 bits/entry
 
+        /**
+         * @brief Bloom Filter.
+         * @param[in] capacity Input parameter.
+         * @return Return value.
+         */
         explicit BloomFilter(size_t capacity)
             : bit_count_(std::max<size_t>(64, capacity * kBitsPerEntry))
             , bits_((bit_count_ + 7) / 8, 0)
@@ -316,8 +243,14 @@ private:
     utils::AuditLogger* audit_logger_{nullptr};  ///< Non-owning; may be nullptr.
     RevocationCallback on_revoke_callback_;      ///< Invoked outside mutex on revoke.
 
+    /**
+     * @brief Needs Cleanup.
+     * @return True when the operation succeeds.
+     */
     bool needsCleanup() const;
-    /// Prune expired entries and rebuild the Bloom filter (lock must be held).
+    /**
+     * @brief Prune Expired Locked.
+     */
     void pruneExpiredLocked();
 };
 

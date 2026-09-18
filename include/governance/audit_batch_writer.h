@@ -43,10 +43,6 @@ namespace governance {
 // Crash Recovery and Idempotency Support
 // ============================================================================
 
-/**
- * @struct AuditBatchCheckpoint
- * @brief Crash-recovery checkpoint for audit batch writes
- */
 struct AuditBatchCheckpoint {
     std::string checkpoint_id;                 // Unique checkpoint identifier
     int64_t batch_sequence_number = 0;        // Sequence of batch being flushed
@@ -58,21 +54,35 @@ struct AuditBatchCheckpoint {
     std::string state;                         // "pending", "flushed", "verified", "failed"
     std::string error_message;                 // Error info if state == "failed"
     
+    /**
+     * @brief To Json.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
+    /**
+     * @brief From Json.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static AuditBatchCheckpoint fromJson(const nlohmann::json& j);
 };
 
-/**
- * @struct IdempotencyToken
- * @brief Token for ensuring idempotent audit entry submissions
- */
 struct IdempotencyToken {
     std::string token;                         // Unique token (client-provided or generated)
     std::string entry_id;                      // ID of entry for this token
     int64_t submitted_at_ms = 0;              // When token was first submitted
     std::string state;                         // "pending", "committed", "failed"
     
+    /**
+     * @brief To Json.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
+    /**
+     * @brief From Json.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static IdempotencyToken fromJson(const nlohmann::json& j);
 };
 
@@ -80,45 +90,8 @@ struct IdempotencyToken {
 // High-Volume Audit Batch Writer
 // ============================================================================
 
-/**
- * @class AuditBatchWriter
- * @brief Concurrent, buffered writer for high-volume audit entries
- * 
- * Features:
- * - Lock-free entry submission queue
- * - Automatic batching with periodic flush
- * - Crash-recovery checkpoint support
- * - Idempotency token tracking
- * - Backpressure handling
- * - Metrics and performance tracking
- * 
- * Typical usage:
- * ```
- * auto writer = AuditBatchWriter(
- *     integrity_manager,
- *     AuditBatchWriter::Config{
- *         .buffer_size = 10000,
- *         .batch_size = 1000,
- *         .flush_interval_ms = 100
- *     }
- * );
- * writer.start();
- * 
- * ImmutableAuditEntry entry = ...;
- * Status status = writer.submitEntry(entry);
- * 
- * // Optional: idempotent submission
- * Status status = writer.submitEntryIdempotent(entry, "token-123");
- * 
- * writer.shutdown();
- * ```
- */
 class AuditBatchWriter {
 public:
-    /**
-     * @struct Config
-     * @brief Configuration for batch writer
-     */
     struct Config {
         // Buffer and batching settings
         size_t buffer_size = 10000;            // Max entries in buffer
@@ -139,10 +112,6 @@ public:
         int64_t backpressure_wait_ms = 100;    // Wait time before backpressure
     };
     
-    /**
-     * @struct WriteResult
-     * @brief Result of batch write operation
-     */
     struct WriteResult {
         bool success = false;
         int64_t entries_written = 0;
@@ -151,11 +120,6 @@ public:
         nlohmann::json metrics;                // Additional timing info
     };
     
-    /**
-     * @brief Create batch writer
-     * @param manager AuditIntegrityManager to write batches to
-     * @param config Configuration options
-     */
     AuditBatchWriter(
         std::shared_ptr<AuditIntegrityManager> manager,
         const Config& config = Config{}
@@ -164,31 +128,29 @@ public:
     ~AuditBatchWriter();
     
     /**
-     * @brief Start the writer's background flush thread
-     * @return Status
+     * @brief Start.
+     * @return Return value.
      */
     std::string start();
     
     /**
-     * @brief Gracefully shutdown the writer
-     * Flushes remaining entries and stops background thread
-     * @return Status
+     * @brief Shutdown.
+     * @return Return value.
      */
     std::string shutdown();
     
     /**
-     * @brief Submit an audit entry for batching
-     * @param entry Entry to submit
-     * @return Status ("OK", "BUFFER_FULL", error message)
+     * @brief Submit Entry.
+     * @param[in] entry Input parameter.
+     * @return Return value.
      */
     std::string submitEntry(const ImmutableAuditEntry& entry);
     
     /**
-     * @brief Submit an entry with idempotency token
-     * Guarantees: if same token submitted twice, only one entry is written
-     * @param entry Entry to submit
-     * @param idempotency_token Unique token for this submission
-     * @return Status ("OK", "DUPLICATE", "BUFFER_FULL", error)
+     * @brief Submit Entry Idempotent.
+     * @param[in] entry Input parameter.
+     * @param[in] idempotency_token Input parameter.
+     * @return Return value.
      */
     std::string submitEntryIdempotent(
         const ImmutableAuditEntry& entry,
@@ -196,65 +158,58 @@ public:
     );
     
     /**
-     * @brief Manually flush pending entries
-     * @return WriteResult with statistics
+     * @brief Flush.
+     * @return Return value.
      */
     WriteResult flush();
     
     /**
-     * @brief Force flush immediately (blocking)
-     * @return WriteResult
+     * @brief Force Flush.
+     * @return Return value.
      */
     WriteResult forceFlush();
     
     /**
-     * @brief Get current buffer statistics
-     * @return JSON with buffer size, pending count, etc.
+     * @brief Get Buffer Stats.
+     * @return Return value.
      */
     nlohmann::json getBufferStats() const;
     
     /**
-     * @brief Get performance metrics
-     * @return JSON with latency, throughput, error rates
+     * @brief Get Metrics.
+     * @return Return value.
      */
     nlohmann::json getMetrics() const;
     
     /**
-     * @brief Get crash recovery checkpoints
-     * @return Vector of recent checkpoints
+     * @brief Get Checkpoints.
+     * @return Return value.
      */
     std::vector<AuditBatchCheckpoint> getCheckpoints() const;
     
     /**
-     * @brief Verify integrity of a checkpoint
-     * @param checkpoint Checkpoint to verify
-     * @return true if checkpoint is valid
+     * @brief Verify Checkpoint.
+     * @param[in] checkpoint Input parameter.
+     * @return True when the operation succeeds.
      */
     bool verifyCheckpoint(const AuditBatchCheckpoint& checkpoint) const;
     
     /**
-     * @brief Recover from a checkpoint
-     * Resubmit entries from checkpoint that weren't fully flushed
-     * @param checkpoint Checkpoint to recover from
-     * @return WriteResult
+     * @brief Recover From Checkpoint.
+     * @param[in] checkpoint Input parameter.
+     * @return Return value.
      */
     WriteResult recoverFromCheckpoint(const AuditBatchCheckpoint& checkpoint);
     
     /**
-     * @brief Check idempotency token status
-     * @param token Token to check
-     * @return Optional IdempotencyToken if exists
+     * @brief Get Token Status.
+     * @param[in] token Input parameter.
+     * @return Return value.
      */
     std::optional<IdempotencyToken> getTokenStatus(const std::string& token) const;
     
-    /**
-     * @brief Get configuration
-     */
     const Config& getConfig() const { return config_; }
     
-    /**
-     * @brief Check if writer is running
-     */
     bool isRunning() const { return running_.load(); }
 
 private:
@@ -292,19 +247,44 @@ private:
     };
     mutable std::mutex metrics_mutex_;
     Metrics metrics_;
-    /// Rolling window of the last 1 000 submission latency samples (µs).
-    /// Used to compute p95 / p99 in recordMetrics().  Protected by metrics_mutex_.
     std::vector<double> latency_samples_us_;
     
     // Internal methods
+    /**
+     * @brief Flush Thread.
+     */
     void flushThread();
+    /**
+     * @brief Flush Batch.
+     * @param[in] batch Input parameter.
+     * @return Return value.
+     */
     WriteResult flushBatch(const std::vector<ImmutableAuditEntry>& batch);
+    /**
+     * @brief Compute Batch Hash.
+     * @param[in] batch Input parameter.
+     * @return Return value.
+     */
     std::string computeBatchHash(const std::vector<ImmutableAuditEntry>& batch) const;
+    /**
+     * @brief Create Checkpoint.
+     * @param[in] batch Input parameter.
+     * @param[in] state Input parameter.
+     * @return Return value.
+     */
     AuditBatchCheckpoint createCheckpoint(
         const std::vector<ImmutableAuditEntry>& batch,
         const std::string& state
     );
+    /**
+     * @brief Persist Checkpoint.
+     * @param[in] checkpoint Input parameter.
+     */
     void persistCheckpoint(const AuditBatchCheckpoint& checkpoint);
+    /**
+     * @brief Record Metrics.
+     * @param[in] submission_latency_us Input parameter.
+     */
     void recordMetrics(int64_t submission_latency_us);
 };
 

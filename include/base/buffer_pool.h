@@ -34,12 +34,6 @@
 
 namespace themis::resource {
 
-/**
- * @brief Size classes supported by the slab allocator.
- *
- * Requests are rounded up to the nearest class; requests > kMaxSlabSize
- * are delegated to the system allocator (malloc/free).
- */
 enum class SlabClass : std::size_t {
     B128  =   128,
     B256  =   256,
@@ -49,36 +43,18 @@ enum class SlabClass : std::size_t {
     KB4   =  4096,
 };
 
-/**
- * @brief Handle returned by @ref BufferPool::acquire().
- *
- * RAII-safe: the destructor calls @ref BufferPool::release() automatically
- * when @p auto_release is @c true (the default).
- */
 class BufferHandle {
 public:
-    /// @brief Constructs a null / invalid handle.
     BufferHandle() = default;
 
-    /**
-     * @brief Constructs a handle owning the given raw buffer.
-     *
-     * @param data    Raw pointer to the allocated region.
-     * @param size    Usable byte count of the region.
-     * @param slab    Slab class this buffer was drawn from (kNone if OS-alloc).
-     * @param pool    Back-pointer to the owning pool, used by destructor.
-     * @param auto_release  If true the destructor releases the buffer.
-     */
     explicit BufferHandle(void* data, std::size_t size, SlabClass slab,
                           class BufferPool* pool, bool auto_release = true) noexcept
         : data_(data), size_(size), slab_(slab), pool_(pool),
           auto_release_(auto_release) {}
 
-    /// Non-copyable.
     BufferHandle(const BufferHandle&) = delete;
     BufferHandle& operator=(const BufferHandle&) = delete;
 
-    /// Move-constructible.
     BufferHandle(BufferHandle&& o) noexcept
         : data_(o.data_), size_(o.size_), slab_(o.slab_),
           pool_(o.pool_), auto_release_(o.auto_release_) {
@@ -86,7 +62,6 @@ public:
         o.pool_ = nullptr;
     }
 
-    /// Move-assignable.
     BufferHandle& operator=(BufferHandle&& o) noexcept {
         if (this != &o) {
             release();
@@ -103,21 +78,19 @@ public:
 
     ~BufferHandle();  // defined after BufferPool
 
-    /// @brief Raw pointer to the buffer region.
     [[nodiscard]] void*       data()  noexcept { return data_; }
-    /// @brief Raw pointer (const overload).
     [[nodiscard]] const void* data()  const noexcept { return data_; }
-    /// @brief Usable size of the buffer in bytes.
     [[nodiscard]] std::size_t size()  const noexcept { return size_; }
-    /// @brief Whether the handle currently owns a valid buffer.
     [[nodiscard]] bool        valid() const noexcept { return data_ != nullptr; }
 
-    /// @brief Byte-span pointer (convenience).
     [[nodiscard]] uint8_t*       bytes() noexcept {
         return static_cast<uint8_t*>(data_);
     }
 
-    /// @brief Explicitly release the buffer back to the pool.
+    /**
+     * @brief Release.
+     * @note Exception safety: noexcept.
+     */
     void release() noexcept;
 
 private:
@@ -130,99 +103,54 @@ private:
 
 // ----------------------------------------------------------------------------
 
-/**
- * @brief Thread-safe slab-based buffer pool allocator.
- *
- * ### Usage
- * @code
- * BufferPool pool;
- * auto buf = pool.acquire(300);          // draws from B512 slab
- * std::memcpy(buf.data(), src, 300);
- * // buf released automatically on scope exit
- * @endcode
- *
- * ### Thread safety
- * All public methods are thread-safe.  Each slab class has its own
- * @c std::mutex protecting the free list, so different classes can be
- * accessed concurrently.
- *
- * ### Failure handling
- * @ref acquire() returns an invalid handle if the pool has been
- * @ref shutdown() or if system memory is exhausted.
- *
- * @see BufferHandle, SlabClass
- */
 class BufferPool {
 public:
-    /// @brief Statistics snapshot.
     struct Statistics {
         std::size_t total_allocations  = 0; ///< Total acquire() calls (all classes + OS).
         std::size_t slab_hits          = 0; ///< Allocations served from slab free-list.
         std::size_t slab_misses        = 0; ///< OS-level allocations (new slab block or fallback).
         std::size_t os_fallbacks       = 0; ///< Requests too large for any slab.
         std::size_t current_live       = 0; ///< Handles currently outstanding.
-        /// Per-class slab allocation counters (indices match kSlabSizes).
         std::array<std::size_t, 6> per_class_allocs = {};
     };
 
-    /**
-     * @brief Configuration for the buffer pool.
-     */
     struct Config {
-        /// Initial free-list depth per slab class.
         std::size_t initial_per_class = 32;
-        /// Maximum free-list depth per class (prevents unbounded memory use).
         std::size_t max_per_class     = 256;
     };
 
-    /**
-     * @brief Constructs the pool with default configuration.
-     */
     BufferPool();
 
     /**
-     * @brief Constructs the pool with custom configuration.
-     * @param config  Pool configuration.
+     * @brief Buffer Pool.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     explicit BufferPool(const Config& config);
 
-    /// Non-copyable, non-movable (owns raw memory).
     BufferPool(const BufferPool&)            = delete;
     BufferPool& operator=(const BufferPool&) = delete;
 
-    /// @brief Destructor — releases all slab memory.
     ~BufferPool();
 
-    /**
-     * @brief Acquires a buffer of at least @p bytes bytes.
-     *
-     * The returned handle owns the buffer and will release it on
-     * destruction (auto-release is enabled by default).
-     *
-     * @param  bytes   Minimum usable size required.
-     * @return Valid @ref BufferHandle on success; invalid handle on failure
-     *         (pool shut down or OOM).
-     */
     [[nodiscard]] BufferHandle acquire(std::size_t bytes) noexcept;
 
     /**
-     * @brief Releases a buffer back to the appropriate slab.
-     *
-     * Called automatically by @ref BufferHandle::~BufferHandle().
-     * Safe to call with a null pointer (no-op).
-     *
-     * @param data  Pointer returned by a prior @ref acquire().
-     * @param slab  Slab class the buffer was drawn from.
+     * @brief Release.
+     * @param[in,out] data Input/output parameter.
+     * @param[in] slab Input parameter.
+     * @note Exception safety: noexcept.
      */
     void release(void* data, SlabClass slab) noexcept;
 
-    /// @brief Returns a point-in-time statistics snapshot.
     [[nodiscard]] Statistics statistics() const noexcept;
 
-    /// @brief Signals the pool to stop accepting new acquisitions.
+    /**
+     * @brief Shutdown.
+     * @note Exception safety: noexcept.
+     */
     void shutdown() noexcept;
 
-    /// @brief Returns true once @ref shutdown() has been called.
     [[nodiscard]] bool is_shutdown() const noexcept {
         return shutdown_.load(std::memory_order_acquire);
     }
@@ -231,12 +159,10 @@ public:
     // Class-level constants (public so tests can use them)
     // -----------------------------------------------------------------------
 
-    /// Supported slab sizes in bytes.
     static constexpr std::array<std::size_t, 6> kSlabSizes = {
         128, 256, 512, 1024, 2048, 4096
     };
 
-    /// Requests larger than this byte count fall back to the system allocator.
     static constexpr std::size_t kMaxSlabSize = 4096;
 
 private:
@@ -254,6 +180,11 @@ private:
     [[nodiscard]] static std::size_t slabIndex(std::size_t bytes) noexcept;
     [[nodiscard]] static SlabClass indexToClass(std::size_t idx) noexcept;
 
+    /**
+     * @brief Preallocate Slab.
+     * @param[in,out] s Input/output parameter.
+     * @param[in] count Input parameter.
+     */
     void preallocateSlab(Slab& s, std::size_t count);
 
     mutable std::array<Slab, 6>     slabs_;

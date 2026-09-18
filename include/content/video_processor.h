@@ -26,16 +26,6 @@ struct SwsContext;
 namespace themis {
 namespace content {
 
-/**
- * @brief Video Processor Plugin
- * 
- * Uses FFmpeg/libav for video processing.
- * Extracts:
- * - Video/audio metadata (duration, resolution, codecs, bitrate)
- * - Keyframe thumbnails
- * - Scene detection
- * - Subtitle extraction (if embedded)
- */
 class VideoProcessor : public IContentProcessorPlugin {
 public:
     VideoProcessor();
@@ -43,13 +33,6 @@ public:
     
     // IContentProcessorPlugin interface
     PluginInfo getInfo() const override;
-    /**
-     * @brief Initialize the processor from plugin configuration.
-     * @param config Thumbnail, keyframe, subtitle, and scene-detection settings.
-     * @return `true` when configuration is accepted and the processor is ready; `false`
-     *         when required thumbnail dimensions are non-positive or would overflow the
-     *         internal RGB thumbnail buffer sizing.
-     */
     bool initialize(const PluginConfig& config) override;
     void shutdown() override;
     bool canProcess(const std::string& mime_type) const override;
@@ -87,17 +70,61 @@ private:
     bool initialized_ = false;
     
     // Internal methods
+    /**
+     * @brief Extract Metadata.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     MediaExtractionData extractMetadata(const std::vector<uint8_t>& blob);
+    /**
+     * @brief Generate Thumbnail.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> generateThumbnail(const std::vector<uint8_t>& blob);
+    /**
+     * @brief Extract Subtitles.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     std::string extractSubtitles(const std::vector<uint8_t>& blob);
+    /**
+     * @brief Detect Scenes.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     std::vector<int64_t> detectScenes(const std::vector<uint8_t>& blob);
+    /**
+     * @brief Extract Keyframes.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     std::vector<int64_t> extractKeyframes(const std::vector<uint8_t>& blob);
     
 #ifdef THEMIS_HAS_FFMPEG
-    // FFmpeg-specific helper methods
+    /**
+     * @brief FFmpeg-specific helper methods
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     MediaExtractionData extractMetadataFFmpeg(const std::vector<uint8_t>& blob);
+    /**
+     * @brief Generate Thumbnail FFmpeg.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> generateThumbnailFFmpeg(const std::vector<uint8_t>& blob);
+    /**
+     * @brief Extract Keyframes FFmpeg.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     std::vector<int64_t> extractKeyframesFFmpeg(const std::vector<uint8_t>& blob);
+    /**
+     * @brief Detect Scenes FFmpeg.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     std::vector<int64_t> detectScenesFFmpeg(const std::vector<uint8_t>& blob);
 #endif
 };

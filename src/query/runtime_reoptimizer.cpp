@@ -17,9 +17,12 @@
 
 namespace themis {
 
-// ---------------------------------------------------------------------------
-// FNV-1a 64-bit hash (public domain)
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- FNV-1a 64-bit hash (public domain) ---------------------------------------------------------------------------
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: themis::hash::fnv1a64_hex().
+ */
 static std::string fnv1a_hex(const std::string& text) {
     return themis::hash::fnv1a64_hex(text);
 }
@@ -63,6 +66,11 @@ RuntimeReoptimizer::ExecutionGuard::~ExecutionGuard() {
     }
 }
 
+/**
+ * @brief Finish.
+ * @param[in] actual_rows Input parameter.
+ * @details Calls: std::chrono::steady_clock::now(), count(), recordExecution().
+ */
 void RuntimeReoptimizer::ExecutionGuard::finish(size_t actual_rows) {
     if (finished_ || !owner_) {
         return;
@@ -86,6 +94,12 @@ RuntimeReoptimizer::RuntimeReoptimizer()
     : stats_(std::make_shared<AdaptiveQueryStats>()),
       selector_(std::make_shared<AdaptivePlanSelector>()) {}
 
+/**
+ * @brief Compute Query Hash.
+ * @param[in] aql_text Input parameter.
+ * @return Return value.
+ * @details Calls: fnv1a_hex().
+ */
 std::string RuntimeReoptimizer::computeQueryHash(const std::string& aql_text) {
     return fnv1a_hex(aql_text);
 }
@@ -123,6 +137,14 @@ bool RuntimeReoptimizer::shouldReoptimize(const std::string& query_hash,
                                        threshold);
 }
 
+/**
+ * @brief Record Execution.
+ * @param[in] query_hash Input parameter.
+ * @param[in] estimated_rows Input parameter.
+ * @param[in] actual_rows Input parameter.
+ * @param[in] execution_time_ms Input parameter.
+ * @details Calls: std::chrono::system_clock::now(), spdlog::debug().
+ */
 void RuntimeReoptimizer::recordExecution(const std::string& query_hash,
                                           size_t estimated_rows,
                                           size_t actual_rows,
@@ -157,10 +179,20 @@ bool RuntimeReoptimizer::hasMisestimation(const std::string& query_hash,
     return stats_->hasCardinalityMisestimation(query_hash, threshold);
 }
 
+/**
+ * @brief Prune Old Stats.
+ * @param[in] retention Input parameter.
+ * @details Implements pruneOldStats without additional internal calls.
+ */
 void RuntimeReoptimizer::pruneOldStats(std::chrono::hours retention) {
     stats_->pruneOldStats(retention);
 }
 
+/**
+ * @brief Enable.
+ * @param[in] enabled Input parameter.
+ * @details Calls: spdlog::info().
+ */
 void RuntimeReoptimizer::enable(bool enabled) {
     enabled_ = enabled;
     spdlog::info("RuntimeReoptimizer: re-optimization {}",

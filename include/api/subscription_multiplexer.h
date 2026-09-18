@@ -54,13 +54,6 @@ namespace api {
 // resume point and AQL-style filter expression
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Filter descriptor for a single topic subscription.
- *
- * A connection may hold multiple SubscriptionFilters simultaneously.
- * `filter_expr` is evaluated server-side before delivery so that only
- * matching events are forwarded to the subscriber.
- */
 struct SubscriptionFilter {
     std::string topic;            ///< Topic/channel to subscribe to (non-empty).
     std::string filter_expr;      ///< Optional AQL-style filter expression.
@@ -71,12 +64,6 @@ struct SubscriptionFilter {
 // SubscriptionEvent — a single event delivered to subscribers of a topic
 // ---------------------------------------------------------------------------
 
-/**
- * @brief A single event published to a topic.
- *
- * `event_id` is monotonically increasing per topic and is used by
- * resumable subscriptions to request missed events on reconnect.
- */
 struct SubscriptionEvent {
     int64_t     event_id       = 0;
     std::string topic;
@@ -88,69 +75,54 @@ struct SubscriptionEvent {
 // ISubscriptionMultiplexer — multi-subscription fan-out interface
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Pure-virtual interface for multi-subscription fan-out.
- *
- * Manages the mapping from connection IDs to sets of topic filters and
- * delivers published events to all matching subscribers.
- *
- * ### Thread safety
- * All methods must be safe to call concurrently from multiple threads.
- *
- * ### Contract
- * - `subscribe()` replaces any existing filters for the given connection
- *   on the listed topics; it does not clear topics not mentioned.
- * - `unsubscribe()` with an empty `topics` vector removes the connection
- *   entirely (all topic subscriptions are dropped).
- * - `publish()` returns the number of connections the event was delivered to.
- */
 class ISubscriptionMultiplexer {
 public:
+    /**
+     * @brief ISubscription Multiplexer.
+     * @return Return value.
+     */
     virtual ~ISubscriptionMultiplexer() = default;
 
     /**
-     * @brief Subscribe a connection to a set of topics.
-     *
-     * @param connection_id  Opaque client connection identifier (non-empty).
-     * @param filters        One or more topic filters to apply.
-     * @return `true` on success; `false` if the connection_id or any
-     *         filter is invalid.
+     * @brief Subscribe.
+     * @param[in] connection_id Identifier of the connection.
+     * @param[in] filters Input parameter.
+     * @return True when the operation succeeds.
      */
     virtual bool subscribe(
         const std::string& connection_id,
         const std::vector<SubscriptionFilter>& filters
     ) = 0;
 
-    /**
-     * @brief Unsubscribe a connection from specific topics.
-     *
-     * @param connection_id  Connection to modify.
-     * @param topics         Topics to remove; if empty, removes the
-     *                       connection from all topics.
-     * @return `true` if the connection existed and was modified.
-     */
     virtual bool unsubscribe(
         const std::string& connection_id,
         const std::vector<std::string>& topics = {}
     ) = 0;
 
     /**
-     * @brief Publish an event to all subscribers of the event's topic.
-     *
-     * Filter expressions are evaluated before delivery; only connections
-     * whose filter matches the payload are counted and notified.
-     *
-     * @return Number of connections the event was delivered to.
+     * @brief Publish.
+     * @param[in] event Input parameter.
+     * @return Return value.
      */
     virtual size_t publish(const SubscriptionEvent& event) = 0;
 
-    /// Return the number of active subscribers for @p topic.
+    /**
+     * @brief Subscriber Count.
+     * @param[in] topic Input parameter.
+     * @return Return value.
+     */
     virtual size_t subscriberCount(const std::string& topic) const = 0;
 
-    /// Return all topics that have at least one active subscriber.
+    /**
+     * @brief Active Topics.
+     * @return Return value.
+     */
     virtual std::vector<std::string> activeTopics() const = 0;
 
-    /// Return the total number of tracked connections.
+    /**
+     * @brief Connection Count.
+     * @return Return value.
+     */
     virtual size_t connectionCount() const = 0;
 };
 

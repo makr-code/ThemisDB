@@ -242,9 +242,13 @@ JoinResult AdaptiveJoinExecutor::executeJoin(const JoinSpec& spec,
     return result;
 }
 
-// ============================================================================
-// mergeRows — helper
-// ============================================================================
+/**
+ * @brief ============================================================================ mergeRows — helper ============================================================================
+ * @param[in] left_row Input parameter.
+ * @param[in] right_row Input parameter.
+ * @return Return value.
+ * @details Implements mergeRows without additional internal calls.
+ */
 
 RowValue AdaptiveJoinExecutor::mergeRows(const RowValue& left_row,
                                           const RowValue& right_row) {
@@ -523,7 +527,11 @@ JoinResult AdaptiveJoinExecutor::executeGraceHashJoin(const JoinSpec& spec,
     const size_t left_per_partition  = (left.rowCount()  + NUM_PARTITIONS - 1) / NUM_PARTITIONS;
     const size_t right_per_partition = (right.rowCount() + NUM_PARTITIONS - 1) / NUM_PARTITIONS;
 
-    // Partition left side.
+    /**
+     * @brief Partition left side.
+     * @param[in] NUM_PARTITIONS Input parameter.
+     * @return Return value.
+     */
     std::vector<std::vector<const RowValue*>> left_parts(NUM_PARTITIONS);
     for (auto& part : left_parts) {
       part.reserve(left_per_partition);
@@ -537,7 +545,11 @@ JoinResult AdaptiveJoinExecutor::executeGraceHashJoin(const JoinSpec& spec,
         left_parts[p].push_back(&row);
     }
 
-    // Partition right side.
+    /**
+     * @brief Partition right side.
+     * @param[in] NUM_PARTITIONS Input parameter.
+     * @return Return value.
+     */
     std::vector<std::vector<const RowValue*>> right_parts(NUM_PARTITIONS);
     for (auto& part : right_parts) {
       part.reserve(right_per_partition);

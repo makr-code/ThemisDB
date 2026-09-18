@@ -22,9 +22,6 @@ namespace content {
 
 class ContentMetrics;  // forward declaration
 
-/**
- * @brief Office Document Type
- */
 enum class OfficeDocumentType {
     UNKNOWN,
     DOCX,      // Word 2007+
@@ -39,9 +36,6 @@ enum class OfficeDocumentType {
     RTF        // Rich Text Format
 };
 
-/**
- * @brief Word Document Structure
- */
 struct WordDocumentInfo {
     std::string text = {};
     std::vector<std::string> paragraphs;
@@ -52,9 +46,6 @@ struct WordDocumentInfo {
     int page_count = 0;       ///< CON-021
 };
 
-/**
- * @brief Excel Workbook Structure
- */
 struct ExcelWorkbookInfo {
     struct Sheet {
         std::string name;
@@ -67,9 +58,6 @@ struct ExcelWorkbookInfo {
     std::vector<std::string> defined_names;
 };
 
-/**
- * @brief PowerPoint Presentation Structure
- */
 struct PowerPointInfo {
     struct Slide {
         int slide_number = 0;  ///< 1-based slide index (CON-021)
@@ -81,9 +69,6 @@ struct PowerPointInfo {
     int slide_count = 0;
 };
 
-/**
- * @brief Office Document Metadata
- */
 struct OfficeMetadata {
     std::string title;
     std::string author;
@@ -99,22 +84,8 @@ struct OfficeMetadata {
     int edit_time_minutes = 0;     ///< Total editing time in minutes (CON-021)
 };
 
-/**
- * @brief Office Content Processor
- * 
- * Handles Office document extraction:
- * - DOCX: Paragraphs, headings, comments, track changes
- * - XLSX: Sheets, cells, formulas, charts (metadata only)
- * - PPTX: Slides, speaker notes, transitions (metadata only)
- * - ODF: Basic text and metadata extraction
- * 
- * VCC-URN Compliant: Uses content-addressable storage for embedded media.
- */
 class OfficeProcessor : public IContentProcessor {
 public:
-    /**
-     * @brief Configuration for Office processing
-     */
     struct Config {
         bool extract_text = true;
         bool extract_metadata = true;
@@ -136,47 +107,25 @@ public:
     };
 
     OfficeProcessor();
+    /**
+     * @brief Office Processor.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit OfficeProcessor(Config config);
     ~OfficeProcessor() override = default;
 
-    /**
-     * @brief Extract text and metadata from Office document
-     * 
-     * @param blob Raw document bytes (ZIP-based OOXML or ODF)
-     * @param content_type Content type info
-      * @return ExtractionResult with text and metadata.
-      *         Returns ok=false for empty payloads and for payloads above
-      *         the internal safety size limit.
-     */
     ExtractionResult extract(
         const std::string& blob,
         const ContentType& content_type
     ) override;
 
-    /**
-     * @brief Chunk Office document into sections
-     * 
-     * - DOCX: Chunks by paragraph/heading
-     * - XLSX: Chunks by sheet or row range
-     * - PPTX: Chunks by slide
-     * 
-     * @param extraction_result Extracted document data
-     * @param chunk_size Target chunk size in tokens
-     * @param overlap Overlap between chunks
-     * @return Vector of chunks with section metadata
-     */
     std::vector<json> chunk(
         const ExtractionResult& extraction_result,
         int chunk_size,
         int overlap
     ) override;
 
-    /**
-     * @brief Generate embedding for Office chunk
-     * 
-     * @param chunk_data Chunk text
-     * @return Embedding vector
-     */
     std::vector<float> generateEmbedding(const std::string& chunk_data) override;
 
     std::string getName() const override { return "OfficeProcessor"; }
@@ -186,15 +135,15 @@ public:
     }
 
     /**
-     * @brief Check if Office processing is available
+     * @brief Is Available.
+     * @return True when the operation succeeds.
      */
     static bool isAvailable();
 
     /**
-     * @brief Detect Office document type from bytes
-     * 
-     * @param blob Document bytes
-     * @return Detected document type
+     * @brief Detect Document Type.
+     * @param[in] blob Input parameter.
+     * @return Return value.
      */
     static OfficeDocumentType detectDocumentType(const std::string& blob);
 
@@ -202,41 +151,106 @@ private:
     Config config_;
 
     // Type-specific extractors
+    /**
+     * @brief Extract DOCX.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     ExtractionResult extractDOCX(const std::string& blob);
+    /**
+     * @brief Extract XLSX.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     ExtractionResult extractXLSX(const std::string& blob);
+    /**
+     * @brief Extract PPTX.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     ExtractionResult extractPPTX(const std::string& blob);
+    /**
+     * @brief Extract ODF.
+     * @param[in] blob Input parameter.
+     * @param[in] type Input parameter.
+     * @return Return value.
+     */
     ExtractionResult extractODF(const std::string& blob, OfficeDocumentType type);
 
-    // LibreOffice headless fallback for legacy OLE formats (DOC/XLS/PPT)
-    // Spawns soffice --headless via posix_spawn with a configurable timeout.
+    /**
+     * @brief LibreOffice headless fallback for legacy OLE formats (DOC/XLS/PPT) Spawns soffice --headless via posix_spawn with a configurable timeout.
+     * @param[in] blob Input parameter.
+     * @param[in] doc_type Input parameter.
+     * @return Return value.
+     */
     ExtractionResult extractLegacyViaLibreOffice(const std::string& blob, OfficeDocumentType doc_type);
 
     // OOXML helpers
+    /**
+     * @brief Read Zip Entry.
+     * @param[in] zip_blob Input parameter.
+     * @param[in] entry_path Path to the entry.
+     * @return Return value.
+     */
     std::string readZipEntry(const std::string& zip_blob, const std::string& entry_path);
+    /**
+     * @brief Extract OOXMLMetadata.
+     * @param[in] zip_blob Input parameter.
+     * @return Return value.
+     */
     OfficeMetadata extractOOXMLMetadata(const std::string& zip_blob);
+    /**
+     * @brief List Zip Entries.
+     * @param[in] zip_blob Input parameter.
+     * @return Return value.
+     */
     std::vector<std::string> listZipEntries(const std::string& zip_blob);
 
     // XML text extraction
+    /**
+     * @brief Extract Text From XML.
+     * @param[in] xml_content Input parameter.
+     * @return Return value.
+     */
     std::string extractTextFromXML(const std::string& xml_content);
+    /**
+     * @brief Extract Paragraphs From XML.
+     * @param[in] xml_content Input parameter.
+     * @return Return value.
+     */
     std::vector<std::string> extractParagraphsFromXML(const std::string& xml_content);
 
     // Token counting
+    /**
+     * @brief Count Tokens.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     int countTokens(const std::string& text);
 
-    // Validate ZIP/OOXML structure
+    /**
+     * @brief Validate ZIP/OOXML structure
+     * @param[in] blob Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool isValidOOXML(const std::string& blob);
+    /**
+     * @brief Is Valid ODF.
+     * @param[in] blob Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool isValidODF(const std::string& blob);
 };
 
 /**
- * @brief Factory function for Office Processor.
- * @return Unique pointer to OfficeProcessor.
+ * @brief Create Office Processor.
+ * @return Return value.
  */
 std::unique_ptr<IContentProcessor> createOfficeProcessor();
 /**
- * @brief Factory function for Office Processor.
- * @param config Optional configuration.
- * @return Unique pointer to OfficeProcessor.
+ * @brief Create Office Processor.
+ * @param[in] config Input parameter.
+ * @return Return value.
  */
 std::unique_ptr<IContentProcessor> createOfficeProcessor(
     OfficeProcessor::Config config

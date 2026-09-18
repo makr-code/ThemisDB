@@ -9,17 +9,7 @@ namespace themis::importers {
 
 using json = nlohmann::json;
 
-/**
- * @brief Embedding hook configuration used by the vector projection.
- */
 
-/**
- * @file wikipedia_config.hpp
- * @brief Configuration types for the Wikipedia import plugin.
- *
- * Declares WikipediaConfig and related options controlling parser behaviour,
- * batch sizes, language filtering, and category inclusion rules.
- */
 struct WikipediaEmbeddingHookConfig {
     bool enabled = false;
     std::string provider = {};
@@ -29,6 +19,12 @@ struct WikipediaEmbeddingHookConfig {
         return json{{"enabled", enabled}, {"provider", provider}, {"model", model}};
     }
 
+    /**
+     * @brief From Json.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     * @details Calls: value().
+     */
     static WikipediaEmbeddingHookConfig fromJson(const json& j) {
         WikipediaEmbeddingHookConfig config;
         config.enabled = j.value("enabled", false);
@@ -38,9 +34,6 @@ struct WikipediaEmbeddingHookConfig {
     }
 };
 
-/**
- * @brief Export configuration for the portable wikipedia.db artifact.
- */
 struct WikipediaPortableExportConfig {
     std::string database_path = "wikipedia.db";
     std::string manifest_path = "manifest.json";
@@ -54,6 +47,12 @@ struct WikipediaPortableExportConfig {
         };
     }
 
+    /**
+     * @brief From Json.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     * @details Calls: value().
+     */
     static WikipediaPortableExportConfig fromJson(const json& j) {
         WikipediaPortableExportConfig config;
         config.database_path = j.value("database_path", std::string{"wikipedia.db"});
@@ -63,12 +62,6 @@ struct WikipediaPortableExportConfig {
     }
 };
 
-/**
- * @brief Runtime configuration for the Wikipedia ingestion MVP.
- *
- * Supports strict versus best-effort ingestion, checkpoint cadence, multi-model
- * projection toggles, and vendor-neutral external-tool compatibility hints.
- */
 struct WikipediaIngestionConfig {
     bool strict_mode = false;
     bool best_effort = true;
@@ -106,6 +99,12 @@ struct WikipediaIngestionConfig {
         };
     }
 
+    /**
+     * @brief From Json.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     * @details Calls: value(), contains(), is_object(), is_array().
+     */
     static WikipediaIngestionConfig fromJson(const json& j) {
         WikipediaIngestionConfig config;
         config.strict_mode = j.value("strict_mode", false);

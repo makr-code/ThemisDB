@@ -35,38 +35,11 @@
 namespace themis {
 namespace api {
 
-/**
- * @brief Stateless mapping utilities that translate `TransportFailureClass`
- *        values to canonical ThemisDB error codes, HTTP status codes, and
- *        human-readable error message prefixes.
- *
- * All functions are `static` and thread-safe by construction (no shared state).
- */
 class ApiErrorTaxonomy {
 public:
     // Not constructible — all members are static.
     ApiErrorTaxonomy() = delete;
 
-    /**
-     * @brief Map a transport failure class to a ThemisDB error code.
-     *
-     * Error code mapping:
-     * | TransportFailureClass      | ErrorCode                    |
-     * |----------------------------|------------------------------|
-     * | None                       | (not an error)               |
-     * | MalformedRequest           | ERR_API_INVALID_REQUEST      |
-     * | PayloadTooLarge            | ERR_API_INVALID_REQUEST      |
-     * | UnsupportedVersion         | ERR_API_INVALID_REQUEST      |
-     * | ContentTypeMissing         | ERR_API_INVALID_REQUEST      |
-     * | ContentTypeMismatch        | ERR_API_INVALID_REQUEST      |
-     * | Unauthorized               | ERR_API_UNAUTHORIZED         |
-     * | RateLimitExceeded          | ERR_API_RATE_LIMIT           |
-     * | CapabilityUnavailable      | ERR_API_INVALID_REQUEST      |
-     * | InternalError              | ERR_API_INTERNAL_ERROR       |
-     *
-     * @param fc  Transport failure class to map.
-     * @return Corresponding `themis::errors::ErrorCode`.
-     */
     [[nodiscard]] static themis::errors::ErrorCode toErrorCode(
         TransportFailureClass fc) noexcept {
         switch (fc) {
@@ -89,26 +62,6 @@ public:
         }
     }
 
-    /**
-     * @brief Map a transport failure class to an HTTP status code.
-     *
-     * Status code mapping:
-     * | TransportFailureClass      | HTTP Status |
-     * |----------------------------|-------------|
-     * | None                       | 200         |
-     * | MalformedRequest           | 400         |
-     * | PayloadTooLarge            | 413         |
-     * | UnsupportedVersion         | 400         |
-     * | ContentTypeMissing         | 415         |
-     * | ContentTypeMismatch        | 415         |
-     * | Unauthorized               | 401         |
-     * | RateLimitExceeded          | 429         |
-     * | CapabilityUnavailable      | 501         |
-     * | InternalError              | 500         |
-     *
-     * @param fc  Transport failure class to map.
-     * @return HTTP status code integer.
-     */
     [[nodiscard]] static constexpr int toHttpStatus(
         TransportFailureClass fc) noexcept {
         switch (fc) {
@@ -134,19 +87,13 @@ public:
         }
     }
 
-    /**
-     * @brief Produce a structured error message prefix for the given failure class.
-     *
-     * The format is `ERR_<DOMAIN>_<CATEGORY>: <human-readable description>`.
-     * Callers should append request-specific context (e.g., received payload
-     * size, unsupported version string) after the returned prefix.
-     *
-     * @param fc            Transport failure class.
-     * @param adapter_name  Adapter identifier used in the message (e.g., "http-rest").
-     * @return Structured error message prefix string.
-     */
     [[nodiscard]] static std::string toMessage(TransportFailureClass fc,
                                                std::string_view adapter_name) {
+        /**
+         * @brief Prefix.
+         * @param[in] adapter_name Name of the adapter.
+         * @return Return value.
+         */
         std::string prefix(adapter_name);
         prefix += ": ";
         switch (fc) {
@@ -174,16 +121,6 @@ public:
         }
     }
 
-    /**
-     * @brief Classify a `TransportFailureClass` as client-side or server-side.
-     *
-     * Client-side failures (4xx) are caused by invalid or unauthorized requests
-     * and should not trigger server-side alerting.  Server-side failures (5xx)
-     * indicate adapter or infrastructure problems.
-     *
-     * @param fc  Transport failure class.
-     * @return `true` if the failure is client-side (HTTP 4xx); `false` for 5xx.
-     */
     [[nodiscard]] static constexpr bool isClientError(
         TransportFailureClass fc) noexcept {
         const int status = toHttpStatus(fc);

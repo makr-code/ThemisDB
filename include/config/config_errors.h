@@ -18,9 +18,6 @@
 namespace themis {
 namespace config {
 
-/**
- * Base exception for all config-related errors.
- */
 class ConfigException : public std::exception {
 public:
     explicit ConfigException(const std::string& message) : message_(message) {}
@@ -30,9 +27,6 @@ protected:
     std::string message_;
 };
 
-/**
- * Thrown when a config file is not found in any expected location.
- */
 class ConfigNotFoundException : public ConfigException {
 public:
     ConfigNotFoundException(const std::string& path, 
@@ -48,6 +42,13 @@ private:
     std::string requested_path_ = {};
     std::vector<std::string> attempted_paths_;
     
+    /**
+     * @brief Build Message.
+     * @param[in] path Input parameter.
+     * @param[in] attempted Input parameter.
+     * @return Return value.
+     * @details Calls: empty().
+     */
     static std::string buildMessage(const std::string& path,
                                     const std::vector<std::string>& attempted) {
         std::string msg = "Config file not found: " + path;
@@ -61,11 +62,13 @@ private:
     }
 };
 
-/**
- * Thrown when a path mapping is not found in the mapping table.
- */
 class MappingNotFoundException : public ConfigException {
 public:
+    /**
+     * @brief Mapping Not Found Exception.
+     * @param[in] path Input parameter.
+     * @return Return value.
+     */
     explicit MappingNotFoundException(const std::string& path)
         : ConfigException("No mapping found for legacy path: " + path),
           legacy_path_(path) {}
@@ -76,9 +79,6 @@ private:
     std::string legacy_path_;
 };
 
-/**
- * Thrown when a path fails validation (e.g., path traversal attempt).
- */
 class InvalidPathException : public ConfigException {
 public:
     InvalidPathException(const std::string& path, const std::string& reason)
@@ -94,11 +94,13 @@ private:
     std::string reason_;
 };
 
-/**
- * Thrown when config file permissions are insufficient.
- */
 class ConfigPermissionException : public ConfigException {
 public:
+    /**
+     * @brief Config Permission Exception.
+     * @param[in] path Input parameter.
+     * @return Return value.
+     */
     explicit ConfigPermissionException(const std::string& path)
         : ConfigException("Permission denied accessing config: " + path),
           config_path_(path) {}
@@ -109,10 +111,6 @@ private:
     std::string config_path_;
 };
 
-/**
- * Thrown when a config or schema file cannot be read or parsed during
- * schema validation (ConfigSchemaValidator).
- */
 class SchemaValidationException : public ConfigException {
 public:
     SchemaValidationException(const std::string& file_path, const std::string& reason)

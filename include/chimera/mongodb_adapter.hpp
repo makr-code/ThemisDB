@@ -28,38 +28,12 @@ class collection;
 
 namespace chimera {
 
-/**
- * @class MongoDBAdapter
- * @brief MongoDB implementation of the CHIMERA adapter interface
- * 
- * @details
- * Provides integration between MongoDB and the CHIMERA Benchmark Suite.
- * Implements relational (documents as rows), document, and batch operations.
- * 
- * Features:
- * - Real MongoDB driver integration (mongocxx)
- * - Transaction support with ACID properties
- * - Batch operation optimization
- * - Retry policy with exponential backoff
- * - Connection pooling
- * 
- * Limitations (by design):
- * - Vector operations not directly supported; recommend Qdrant for KNN
- * - Graph operations limited to document-based relationships
- * 
- * Thread-safety: Connection pooling is thread-safe; each client thread
- * should acquire its own connection.
- */
 class MongoDBAdapter : public IDatabaseAdapter,
                        public ITransactionAdapter,
                        public IBatchAdapter {
 public:
-    /**
-     * @brief Construct MongoDB adapter with default settings.
-     */
     MongoDBAdapter();
 
-    /// @brief Destructor; closes connection pool.
     ~MongoDBAdapter() override;
 
     // ────────────────────────────────────────────────────────────────────────
@@ -295,17 +269,43 @@ private:
     // Private helpers
     // ────────────────────────────────────────────────────────────────────────
 
+    /**
+     * @brief Generate id.
+     * @return Return value.
+     */
     static std::string generate_id();
+    /**
+     * @brief Is valid connection string.
+     * @param[in] cs Input parameter.
+     * @return True when the operation succeeds.
+     */
     static bool is_valid_connection_string(const std::string& cs);
+    /**
+     * @brief Mask credentials.
+     * @param[in] cs Input parameter.
+     * @return Return value.
+     */
     static std::string mask_credentials(const std::string& cs);
 
-    /// Convert a Scalar to BSON value.
+    /**
+     * @brief Scalar to bson string.
+     * @param[in] scalar Input parameter.
+     * @return Return value.
+     */
     static std::string scalar_to_bson_string(const Scalar& scalar);
 
-    /// Convert a RelationalRow to MongoDB document.
+    /**
+     * @brief Row to bson document.
+     * @param[in] row Input parameter.
+     * @return Return value.
+     */
     static std::string row_to_bson_document(const RelationalRow& row);
 
-    /// Parse MongoDB query (AQL to MongoDB translation stub).
+    /**
+     * @brief Parse query to mongo.
+     * @param[in] aql_query Input parameter.
+     * @return Return value.
+     */
     Result<std::string> parse_query_to_mongo(
         const std::string& aql_query
     ) const;

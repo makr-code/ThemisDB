@@ -28,9 +28,12 @@ using storage::TensorTrainDecomposer;
 using storage::TensorTrainConfig;
 using storage::TTTrain;
 
-// ============================================================================
-// Helper: build a TTTrain from JSON {data:[...], shape:[...], eps:float}
-// ============================================================================
+/**
+ * @brief ============================================================================ Helper: build a TTTrain from JSON {data:[.
+ * @param[in] arr Input parameter.
+ * @return Return value.
+ * @details ..], shape:[...], eps:float} ============================================================================ Calls: reserve(), size(), push_back().
+ */
 
 static std::vector<float> jsonToFloats(const json& arr) {
     std::vector<float> out = {};
@@ -163,6 +166,13 @@ static std::vector<float> jsonToFloats(const json& arr) {
         "' could not be resolved to an object with 'data' and 'shape'");
 }
 
+/**
+ * @brief Build Train.
+ * @param[in] arg Input parameter.
+ * @param[in] ctx Input parameter.
+ * @return Return value.
+ * @details Calls: resolveTensorArg(), at(), jsonToFloats(), push_back(), value(), decompose(), std::move().
+ */
 static TTTrain buildTrain(const json& arg, const FunctionContext& ctx) {
     const auto tensor_arg = resolveTensorArg(arg, ctx);
     auto data_arr  = tensor_arg.at("data");
@@ -604,9 +614,11 @@ public:
     }
 };
 
-// ============================================================================
-// Registration
-// ============================================================================
+/**
+ * @brief ============================================================================ Registration ============================================================================
+ * @param[in,out] registry Input/output parameter.
+ * @details Calls: registerFunction().
+ */
 
 void registerTensorFunctions(FunctionRegistry& registry) {
     registry.registerFunction(std::make_unique<TensorSimilarityFunction>());

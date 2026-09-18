@@ -64,9 +64,6 @@ class StreamingWindowPipeline;
 // Value types
 // ============================================================================
 
-/**
- * A record value – can be null, bool, int64, double, or string.
- */
 using RecordValue = std::variant<
     std::monostate,   // null
     bool,
@@ -75,9 +72,6 @@ using RecordValue = std::variant<
     std::string
 >;
 
-/**
- * Aggregation function type.
- */
 enum class AggFunc {
     COUNT,
     SUM,
@@ -96,10 +90,6 @@ enum class AggFunc {
 // StreamRecord
 // ============================================================================
 
-/**
- * A single timestamped record fed into a streaming window.
- * Fields are key-value pairs; partition_key is used to scope SESSION windows.
- */
 struct StreamRecord {
     std::string record_id;
     std::chrono::system_clock::time_point event_time;   ///< event-time timestamp
@@ -120,6 +110,12 @@ struct StreamRecord {
         return std::nullopt;
     }
 
+    /**
+     * @brief Set.
+     * @param[in] field Input parameter.
+     * @param[in] value Input parameter.
+     * @details Calls: std::move().
+     */
     void set(const std::string& field, RecordValue value) {
         fields[field] = std::move(value);
     }
@@ -129,9 +125,6 @@ struct StreamRecord {
 // Aggregation spec & result
 // ============================================================================
 
-/**
- * Specifies one aggregation to compute in a window.
- */
 struct WindowAggregateSpec {
     std::string name;           ///< output name in WindowResult
     AggFunc     func = AggFunc::COUNT;
@@ -153,9 +146,6 @@ struct WindowAggregateSpec {
         ~WindowAggregateSpec() = default;
 };
 
-/**
- * A single aggregated value for one aggregation in one window.
- */
 struct AggregatedValue {
     std::string name;
     AggFunc     func;
@@ -163,9 +153,6 @@ struct AggregatedValue {
     uint64_t    count = 0;
 };
 
-/**
- * The result of a closed (or emitted) window.
- */
 struct WindowResult {
     std::string window_id;
     std::chrono::system_clock::time_point window_start;
@@ -176,7 +163,11 @@ struct WindowResult {
     bool        is_late_firing = false; ///< true when triggered by late data
     bool        is_early_firing = false;///< true when triggered before window close
 
-    /// Retrieve a specific aggregation result by name
+    /**
+     * @brief Get.
+     * @param[in] agg_name Name of the agg.
+     * @return Return value.
+     */
     std::optional<RecordValue> get(const std::string& agg_name) const;
 };
 
@@ -184,15 +175,9 @@ struct WindowResult {
 // Watermark configuration
 // ============================================================================
 
-/**
- * Controls how late events are handled.
- */
 struct WatermarkConfig {
-    /// Maximum allowed out-of-order delay; events older than watermark - tolerance are dropped.
     std::chrono::milliseconds max_out_of_orderness{0};
-    /// If no events arrive for this duration, advance watermark to processing time.
     std::chrono::milliseconds idle_timeout{60000};
-    /// If true, late events still trigger result updates.
     bool allow_late_data = false;
 };
 
@@ -204,20 +189,8 @@ struct TumblingWindowConfig {
     std::chrono::milliseconds size{60000};
     WatermarkConfig watermark;
     bool emit_empty_windows = false;
-    /// Maximum number of concurrently open windows. 0 = unlimited.
-    /// When the limit is reached on a new-window allocation, the oldest open
-    /// window is emitted and evicted to bound memory under sustained load.
     uint64_t max_open_windows = 0;
-    /// Maximum records accepted per open window. 0 = unlimited.
-    /// Records that arrive when a window is at capacity are dropped and counted
-    /// in WindowStats::records_dropped.
     uint64_t max_records_per_window = 0;
-    /// Maximum number of distinct non-empty partition_key values tracked per
-    /// open window. 0 = unlimited. When the limit is reached, records carrying
-    /// a new (previously unseen) partition_key for that window are rejected and
-    /// counted in WindowStats::partition_keys_rejected.
-    /// Bounds memory in high-cardinality key spaces (e.g. per-user analytics
-    /// with millions of distinct user IDs sharing the same time bucket).
     uint64_t max_distinct_partition_keys = 0;
 };
 
@@ -225,32 +198,16 @@ struct SlidingWindowConfig {
     std::chrono::milliseconds size{60000};
     std::chrono::milliseconds slide{10000};
     WatermarkConfig watermark;
-    /// Maximum number of concurrently open (non-closed) windows. 0 = unlimited.
-    /// When at limit, new window creation is skipped; the record is still added
-    /// to any existing open windows that cover its event_time.
     uint64_t max_open_windows = 0;
-    /// Maximum records accepted per open window. 0 = unlimited.
-    /// Records that arrive when a window is at capacity are skipped for that window.
     uint64_t max_records_per_window = 0;
-    /// Maximum number of distinct non-empty partition_key values accepted across
-    /// the lifetime of this SlidingWindow instance. 0 = unlimited.
-    /// Records carrying a new unseen partition_key when the limit is already
-    /// reached are rejected and counted in WindowStats::partition_keys_rejected.
     uint64_t max_distinct_partition_keys = 0;
 };
 
 struct SessionWindowConfig {
     std::chrono::milliseconds gap{30000};
     WatermarkConfig watermark;
-    /// How often the background expiry thread wakes to check for idle sessions.
-    /// Smaller values reduce session-close latency at the cost of more CPU wakeups.
     std::chrono::milliseconds session_expiry_check_interval_ms{200};
-    /// Maximum number of concurrently open sessions (partitions). 0 = unlimited.
-    /// When the limit is reached on new-session creation, the session with the
-    /// oldest last_event is emitted and evicted to bound memory.
     uint64_t max_open_sessions = 0;
-    /// Maximum records accepted per open session. 0 = unlimited.
-    /// Records that arrive when a session is at capacity are dropped.
     uint64_t max_records_per_session = 0;
 };
 
@@ -258,16 +215,8 @@ struct HoppingWindowConfig {
     std::chrono::milliseconds size{60000};
     std::chrono::milliseconds hop{10000};
     WatermarkConfig watermark;
-    /// Maximum number of concurrently open (non-closed) windows. 0 = unlimited.
-    /// When at limit, new window creation is skipped for that hop slot.
     uint64_t max_open_windows = 0;
-    /// Maximum records accepted per open window. 0 = unlimited.
-    /// Records that arrive when a window is at capacity are skipped for that window.
     uint64_t max_records_per_window = 0;
-    /// Maximum number of distinct non-empty partition_key values accepted across
-    /// the lifetime of this HoppingWindow instance. 0 = unlimited.
-    /// Records carrying a new unseen partition_key when the limit is already
-    /// reached are rejected and counted in WindowStats::partition_keys_rejected.
     uint64_t max_distinct_partition_keys = 0;
 };
 
@@ -282,21 +231,7 @@ struct WindowStats {
     uint64_t records_dropped  = 0;
     uint64_t late_records     = 0;
     uint64_t results_emitted  = 0;
-    /// Backpressure counter for runtime limit enforcement.
-    /// Incremented in two distinct situations:
-    ///   - TumblingWindow / SessionWindow: the oldest open window or session
-    ///     was **force-closed and evicted** to satisfy the max_open_windows /
-    ///     max_open_sessions hard limit.
-    ///   - SlidingWindow / HoppingWindow: creation of a new overlapping window
-    ///     was **skipped** because the number of currently open windows already
-    ///     reached max_open_windows (no eviction; the triggering record is
-    ///     still ingested into existing windows).
-    /// A non-zero value indicates the window is operating under backpressure.
     uint64_t windows_evicted  = 0;
-    /// Incremented when a record is rejected because its non-empty partition_key
-    /// was not yet seen and max_distinct_partition_keys was already reached.
-    /// Only populated by TumblingWindow, SlidingWindow, and HoppingWindow;
-    /// SessionWindow uses max_open_sessions for the equivalent cardinality cap.
     uint64_t partition_keys_rejected = 0;
 };
 
@@ -304,18 +239,15 @@ struct WindowStats {
 // TumblingWindow
 // ============================================================================
 
-/**
- * Fixed, non-overlapping time-based windows.
- *
- *  |── window 1 ──|── window 2 ──|── window 3 ──|
- *
- * Each record falls into exactly one window.
- * On close, the window emits a WindowResult and resets.
- */
 class TumblingWindow {
 public:
     using ResultCallback = std::function<void(WindowResult)>;
 
+    /**
+     * @brief Tumbling Window.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit TumblingWindow(const TumblingWindowConfig& config);
     ~TumblingWindow();
 
@@ -324,28 +256,33 @@ public:
     TumblingWindow& operator=(const TumblingWindow&) = delete;
 
     /**
-     * Register an aggregation to compute.
-     * Must be called before the first ingest().
+     * @brief Add Aggregation.
+     * @param[in] spec Input parameter.
      */
     void addAggregation(const WindowAggregateSpec& spec);
 
     /**
-     * Register a callback that is invoked when a window closes.
+     * @brief Set Result Callback.
+     * @param[in] cb Input parameter.
      */
     void setResultCallback(ResultCallback cb);
 
     /**
-     * Ingest a record. Thread-safe.
-     * Returns false if the record is older than the watermark and
-     * late data is not allowed.
+     * @brief Ingest.
+     * @param[in] record Input parameter.
+     * @return True when the operation succeeds.
      */
     bool ingest(const StreamRecord& record);
 
     /**
-     * Flush any open windows immediately (useful at shutdown).
+     * @brief Flush.
      */
     void flush();
 
+    /**
+     * @brief Get Stats.
+     * @return Return value.
+     */
     WindowStats getStats() const;
 
 private:
@@ -358,8 +295,6 @@ private:
         std::chrono::system_clock::time_point end;
         std::vector<StreamRecord> records;
         std::string partition_key = {};
-        /// Tracks distinct non-empty partition_key values seen in this window.
-        /// Used to enforce TumblingWindowConfig::max_distinct_partition_keys.
         std::unordered_set<std::string> seen_partition_keys;
     };
 
@@ -377,10 +312,7 @@ private:
     std::atomic<uint64_t> records_dropped_{0};
     std::atomic<uint64_t> late_records_{0};
     std::atomic<uint64_t> results_emitted_{0};
-    /// Incremented when a window is force-evicted due to max_open_windows limit.
     std::atomic<uint64_t> windows_evicted_{0};
-    /// Incremented when a record is dropped because its partition_key exceeds
-    /// max_distinct_partition_keys for the current window slot.
     std::atomic<uint64_t> partition_keys_rejected_{0};
     std::thread idle_thread_;
     std::atomic<bool> idle_running_{false};
@@ -388,53 +320,95 @@ private:
     std::mutex idle_mutex_;
     std::atomic<int64_t> last_event_us_{0};
 
+    /**
+     * @brief Slot Index.
+     * @param[in] tp Input parameter.
+     * @return Return value.
+     */
     int64_t slotIndex(const std::chrono::system_clock::time_point& tp) const;
+    /**
+     * @brief Slot Start.
+     * @param[in] idx Input parameter.
+     * @return Return value.
+     */
     std::chrono::system_clock::time_point slotStart(int64_t idx) const;
+    /**
+     * @brief Compute Result.
+     * @param[in] win Input parameter.
+     * @param[in] late Input parameter.
+     * @return Return value.
+     */
     WindowResult computeResult(const InternalWindow& win, bool late) const;
-    // Returns results to emit; caller fires the callback outside the mutex.
+    /**
+     * @brief Returns results to emit; caller fires the callback outside the mutex.
+     * @param[in] watermark_us Input parameter.
+     * @return Return value.
+     */
     std::vector<WindowResult> closeExpiredWindows(int64_t watermark_us);
+    /**
+     * @brief Update Watermark.
+     * @param[in] event_time Input parameter.
+     */
     void updateWatermark(const std::chrono::system_clock::time_point& event_time);
+    /**
+     * @brief Idle Timeout Loop.
+     */
     void idleTimeoutLoop();
 };
 
+/**
+ * @brief Create Tumbling Window.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ */
 std::unique_ptr<TumblingWindow> createTumblingWindow(const TumblingWindowConfig& config);
 
 // ============================================================================
 // SlidingWindow
 // ============================================================================
 
-/**
- * Overlapping windows: a record can appear in multiple windows.
- *
- *  |── W1 ──────────────|
- *       |── W2 ──────────────|
- *            |── W3 ──────────────|
- *
- * Window size  = config.size
- * Window slide = config.slide (how far to advance each new window start)
- *
- * Each arriving record is assigned to all currently open windows that
- * contain its event_time.
- */
 class SlidingWindow {
 public:
     using ResultCallback = std::function<void(WindowResult)>;
 
+    /**
+     * @brief Sliding Window.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit SlidingWindow(const SlidingWindowConfig& config);
     ~SlidingWindow();
 
     SlidingWindow(const SlidingWindow&) = delete;
     SlidingWindow& operator=(const SlidingWindow&) = delete;
 
+    /**
+     * @brief Add Aggregation.
+     * @param[in] spec Input parameter.
+     */
     void addAggregation(const WindowAggregateSpec& spec);
+    /**
+     * @brief Set Result Callback.
+     * @param[in] cb Input parameter.
+     */
     void setResultCallback(ResultCallback cb);
 
-    /** Ingest a record. Thread-safe. */
+    /**
+     * @brief Ingest.
+     * @param[in] record Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool ingest(const StreamRecord& record);
 
-    /** Flush all currently open windows. */
+    /**
+     * @brief Flush.
+     */
     void flush();
 
+    /**
+     * @brief Get Stats.
+     * @return Return value.
+     */
     WindowStats getStats() const;
 
 private:
@@ -461,16 +435,11 @@ private:
     std::atomic<uint64_t> records_dropped_{0};
     std::atomic<uint64_t> late_records_{0};
     std::atomic<uint64_t> results_emitted_{0};
-    /// Incremented when new window creation is skipped due to max_open_windows limit.
     std::atomic<uint64_t> windows_evicted_{0};
-    /// Incremented when a record is rejected because its partition_key was not yet
-    /// seen and max_distinct_partition_keys was already reached.
     std::atomic<uint64_t> partition_keys_rejected_{0};
 
     // O(1) duplicate-detection index keyed on window start (TODO #5)
     std::unordered_set<int64_t> window_start_set_;
-    /// Tracks distinct non-empty partition_key values seen across all ingest calls.
-    /// Protected by mutex_. Used to enforce SlidingWindowConfig::max_distinct_partition_keys.
     std::unordered_set<std::string> seen_partition_keys_;
 
     // Idle-timeout background thread (TODO #1)
@@ -480,51 +449,95 @@ private:
     std::mutex idle_mutex_;
     std::atomic<int64_t> last_event_us_{0};
 
+    /**
+     * @brief Compute Result.
+     * @param[in] win Input parameter.
+     * @param[in] late Input parameter.
+     * @return Return value.
+     */
     WindowResult computeResult(const InternalWindow& win, bool late) const;
+    /**
+     * @brief Ensure Windows Exist.
+     * @param[in] event_time Input parameter.
+     * @param[in] partition_key Input parameter.
+     */
     void ensureWindowsExist(const std::chrono::system_clock::time_point& event_time,
                             const std::string& partition_key);
-    // Returns results to emit; caller fires the callback outside the mutex.
+    /**
+     * @brief Returns results to emit; caller fires the callback outside the mutex.
+     * @param[in] watermark_us Input parameter.
+     * @return Return value.
+     */
     std::vector<WindowResult> closeExpiredWindows(int64_t watermark_us);
+    /**
+     * @brief Update Watermark.
+     * @param[in] event_time Input parameter.
+     */
     void updateWatermark(const std::chrono::system_clock::time_point& event_time);
+    /**
+     * @brief Idle Timeout Loop.
+     */
     void idleTimeoutLoop();
+    /**
+     * @brief Generate Id.
+     * @return Return value.
+     */
     static std::string generateId();
 };
 
+/**
+ * @brief Create Sliding Window.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ */
 std::unique_ptr<SlidingWindow> createSlidingWindow(const SlidingWindowConfig& config);
 
 // ============================================================================
 // SessionWindow
 // ============================================================================
 
-/**
- * Gap-based windows, one per partition key.
- * A session ends when no record for a partition arrives within the gap period.
- *
- * Session for user "alice":
- *   event → event → event → [gap] → NEW SESSION → event
- *
- * Sessions are keyed by partition_key so parallel sessions for different
- * partitions are independent.
- */
 class SessionWindow {
 public:
     using ResultCallback = std::function<void(WindowResult)>;
 
+    /**
+     * @brief Session Window.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit SessionWindow(const SessionWindowConfig& config);
     ~SessionWindow();
 
     SessionWindow(const SessionWindow&) = delete;
     SessionWindow& operator=(const SessionWindow&) = delete;
 
+    /**
+     * @brief Add Aggregation.
+     * @param[in] spec Input parameter.
+     */
     void addAggregation(const WindowAggregateSpec& spec);
+    /**
+     * @brief Set Result Callback.
+     * @param[in] cb Input parameter.
+     */
     void setResultCallback(ResultCallback cb);
 
-    /** Ingest a record. Thread-safe. Returns false on late/dropped record. */
+    /**
+     * @brief Ingest.
+     * @param[in] record Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool ingest(const StreamRecord& record);
 
-    /** Close all open sessions. */
+    /**
+     * @brief Flush.
+     */
     void flush();
 
+    /**
+     * @brief Get Stats.
+     * @return Return value.
+     */
     WindowStats getStats() const;
 
 private:
@@ -559,48 +572,73 @@ private:
     std::atomic<uint64_t> records_dropped_{0};
     std::atomic<uint64_t> late_records_{0};
     std::atomic<uint64_t> results_emitted_{0};
-    /// Incremented when a session is force-evicted due to max_open_sessions limit.
     std::atomic<uint64_t> windows_evicted_{0};
 
     WindowResult computeResult(const Session& s, bool late = false) const;
+    /**
+     * @brief Expiry Loop.
+     */
     void expiryLoop();
+    /**
+     * @brief Generate Id.
+     * @return Return value.
+     */
     static std::string generateId();
 };
 
+/**
+ * @brief Create Session Window.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ */
 std::unique_ptr<SessionWindow> createSessionWindow(const SessionWindowConfig& config);
 
 // ============================================================================
 // HoppingWindow
 // ============================================================================
 
-/**
- * Overlapping windows with an explicit hop (advance) interval.
- * Logically identical to SlidingWindow but with clearer naming convention:
- *   - size  = total duration of each window
- *   - hop   = how often a new window starts
- *
- * When hop == size → same as TumblingWindow.
- * When hop < size  → overlapping windows (each record in size/hop windows).
- */
 class HoppingWindow {
 public:
     using ResultCallback = std::function<void(WindowResult)>;
 
+    /**
+     * @brief Hopping Window.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit HoppingWindow(const HoppingWindowConfig& config);
     ~HoppingWindow();
 
     HoppingWindow(const HoppingWindow&) = delete;
     HoppingWindow& operator=(const HoppingWindow&) = delete;
 
+    /**
+     * @brief Add Aggregation.
+     * @param[in] spec Input parameter.
+     */
     void addAggregation(const WindowAggregateSpec& spec);
+    /**
+     * @brief Set Result Callback.
+     * @param[in] cb Input parameter.
+     */
     void setResultCallback(ResultCallback cb);
 
-    /** Ingest a record. Thread-safe. */
+    /**
+     * @brief Ingest.
+     * @param[in] record Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool ingest(const StreamRecord& record);
 
-    /** Flush all open windows. */
+    /**
+     * @brief Flush.
+     */
     void flush();
 
+    /**
+     * @brief Get Stats.
+     * @return Return value.
+     */
     WindowStats getStats() const;
 
 private:
@@ -626,53 +664,56 @@ private:
     std::atomic<uint64_t> records_dropped_{0};
     std::atomic<uint64_t> late_records_{0};
     std::atomic<uint64_t> results_emitted_{0};
-    /// Incremented when new window creation is skipped due to max_open_windows limit.
     std::atomic<uint64_t> windows_evicted_{0};
-    /// Incremented when a record is rejected because its partition_key was not yet
-    /// seen and max_distinct_partition_keys was already reached.
     std::atomic<uint64_t> partition_keys_rejected_{0};
 
     // O(1) duplicate-detection index keyed on window start (TODO #5)
     std::unordered_set<int64_t> window_start_set_;
-    /// Tracks distinct non-empty partition_key values seen across all ingest calls.
-    /// Protected by mutex_. Used to enforce HoppingWindowConfig::max_distinct_partition_keys.
     std::unordered_set<std::string> seen_partition_keys_;
 
+    /**
+     * @brief Compute Result.
+     * @param[in] win Input parameter.
+     * @param[in] late Input parameter.
+     * @return Return value.
+     */
     WindowResult computeResult(const InternalWindow& win, bool late) const;
+    /**
+     * @brief Ensure Windows Exist.
+     * @param[in] event_time Input parameter.
+     */
     void ensureWindowsExist(const std::chrono::system_clock::time_point& event_time);
-    // Returns results to emit; caller fires the callback outside the mutex.
+    /**
+     * @brief Returns results to emit; caller fires the callback outside the mutex.
+     * @param[in] watermark_us Input parameter.
+     * @return Return value.
+     */
     std::vector<WindowResult> closeExpiredWindows(int64_t watermark_us);
+    /**
+     * @brief Update Watermark.
+     * @param[in] event_time Input parameter.
+     */
     void updateWatermark(const std::chrono::system_clock::time_point& event_time);
+    /**
+     * @brief Generate Id.
+     * @return Return value.
+     */
     static std::string generateId();
 };
 
-/** @brief Factory function for HoppingWindow. */
+/**
+ * @brief Create Hopping Window.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ */
 std::unique_ptr<HoppingWindow> createHoppingWindow(const HoppingWindowConfig& config);
 
 // ============================================================================
 // StreamingWindowPipeline
 // ============================================================================
 
-/**
- * Fluent builder for streaming window pipelines.
- *
- * Example usage:
- * @code
- *   auto pipeline = StreamingWindowPipeline::tumbling(std::chrono::minutes(1))
- *       .aggregate({"total", AggFunc::SUM, "amount"})
- *       .aggregate({"count", AggFunc::COUNT, ""})
- *       .onResult([](const WindowResult& r) {
- *           // handle result
- *       })
- *       .build();
- *
- *   pipeline->ingest(record);
- *   pipeline->flush();
- * @endcode
- */
 class StreamingWindowPipeline {
 public:
-    /// Window type selector
     enum class Type { TUMBLING, SLIDING, SESSION, HOPPING };
 
     struct Config {
@@ -699,25 +740,38 @@ public:
                                             std::chrono::milliseconds hop,
                                             WatermarkConfig wm = {});
 
-    // ---- Builder methods ----
+    /**
+     * @brief ---- Builder methods ----
+     * @param[in] spec Input parameter.
+     * @return Return value.
+     */
 
     StreamingWindowPipeline& aggregate(const WindowAggregateSpec& spec);
     StreamingWindowPipeline& onResult(std::function<void(WindowResult)> callback);
 
     /**
-     * Finalize the pipeline; returns a shared_ptr to the window
-     * (one of Tumbling/Sliding/Session/Hopping) wrapped in a uniform interface.
+     * @brief Build.
+     * @return Return value.
      */
     std::shared_ptr<StreamingWindowPipeline> build();
 
-    // ---- Runtime interface (available after build()) ----
+    /**
+     * @brief ---- Runtime interface (available after build()) ----
+     * @param[in] record Input parameter.
+     * @return True when the operation succeeds.
+     */
 
-    /** Feed a record into the pipeline. */
     bool ingest(const StreamRecord& record);
 
-    /** Flush all pending windows and emit results. */
+    /**
+     * @brief Flush.
+     */
     void flush();
 
+    /**
+     * @brief Get Stats.
+     * @return Return value.
+     */
     WindowStats getStats() const;
 
 private:
@@ -738,9 +792,6 @@ private:
 // Utility helpers
 // ============================================================================
 
-/**
- * Helper to create a StreamRecord with a given event_time and field map.
- */
 StreamRecord makeRecord(
     const std::string& id,
     std::chrono::system_clock::time_point event_time,
@@ -748,7 +799,10 @@ StreamRecord makeRecord(
     std::initializer_list<std::pair<std::string, RecordValue>> fields = {});
 
 /**
- * Convert AggFunc to human-readable string.
+ * @brief Agg Func To String.
+ * @param[in] f Input parameter.
+ * @return Pointer to the result.
+ * @details Implements aggFuncToString without additional internal calls.
  */
 inline const char* aggFuncToString(AggFunc f) {
     switch (f) {

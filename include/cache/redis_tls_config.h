@@ -19,19 +19,6 @@ namespace cache {
 // RedisTLSConfig — configuration for TLS-enforced Redis connections
 // ---------------------------------------------------------------------------
 
-/**
- * @brief TLS configuration for Redis connections.
- *
- * When `require_tls` is true, any attempt to open a plaintext Redis
- * connection must be rejected by the connection manager.
- *
- * `min_tls_version` follows OpenSSL wire constants:
- *   TLS 1.2 = 0x0303, TLS 1.3 = 0x0304.
- *
- * `allowed_cipher_suites` is a colon-separated OpenSSL cipher string
- * (e.g. "TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256").
- * An empty string means "use OpenSSL defaults".
- */
 struct RedisTLSConfig {
     bool        require_tls           = true;    ///< Reject plaintext connections.
     std::string ca_cert_path;                    ///< CA certificate for server verification.
@@ -41,11 +28,6 @@ struct RedisTLSConfig {
     std::string allowed_cipher_suites;           ///< OpenSSL cipher string; empty = defaults.
     int         min_tls_version       = 0x0303;  ///< Minimum TLS version (TLS 1.2 default).
 
-    /**
-     * @brief Validate that the config is internally consistent.
-     *
-     * @return `true` if TLS is disabled OR a CA cert path has been provided.
-     */
     bool isValid() const {
         return !require_tls || !ca_cert_path.empty();
     }
@@ -55,37 +37,37 @@ struct RedisTLSConfig {
 // IRedisTLSEnforcer — applies TLS config to a Redis connection manager
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Interface for applying TLS enforcement to a Redis connection manager.
- *
- * Implementations wrap hiredis-tls, redis-plus-plus, or Boost.Redis and
- * expose the negotiated TLS session parameters for observability.
- *
- * ### Thread safety
- * `applyTLSConfig()` is not required to be thread-safe; call it during
- * initialisation before any concurrent Redis operations begin.
- * `isTLSActive()`, `getTLSVersion()`, and `getActiveCipherSuite()` must
- * be thread-safe.
- */
 class IRedisTLSEnforcer {
 public:
+    /**
+     * @brief IRedis TLSEnforcer.
+     * @return Return value.
+     */
     virtual ~IRedisTLSEnforcer() = default;
 
     /**
-     * @brief Apply a TLS configuration to the underlying connection manager.
-     *
-     * @return `true` on success; `false` if the configuration is invalid or
-     *         the TLS handshake with the Redis server failed.
+     * @brief Apply TLSConfig.
+     * @param[in] config Input parameter.
+     * @return True when the operation succeeds.
      */
     virtual bool applyTLSConfig(const RedisTLSConfig& config) = 0;
 
-    /// Return `true` if the current connection is TLS-protected.
+    /**
+     * @brief Is TLSActive.
+     * @return True when the operation succeeds.
+     */
     virtual bool isTLSActive() const = 0;
 
-    /// Return the negotiated TLS protocol version string (e.g., "TLSv1.3").
+    /**
+     * @brief Get TLSVersion.
+     * @return Return value.
+     */
     virtual std::string getTLSVersion() const = 0;
 
-    /// Return the negotiated cipher suite (e.g., "TLS_AES_256_GCM_SHA384").
+    /**
+     * @brief Get Active Cipher Suite.
+     * @return Return value.
+     */
     virtual std::string getActiveCipherSuite() const = 0;
 };
 

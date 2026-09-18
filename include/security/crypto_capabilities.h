@@ -24,9 +24,9 @@
 namespace themis {
 
 /**
- * @brief Check if CPU supports AES-NI hardware acceleration
- * 
- * @return true if AES-NI is available
+ * @brief Has AESNI.
+ * @return True when the operation succeeds.
+ * @details Calls: __cpuid().
  */
 bool hasAESNI() {
     unsigned int cpuInfo[4];
@@ -42,9 +42,9 @@ bool hasAESNI() {
 }
 
 /**
- * @brief Get information about OpenSSL hardware acceleration
- * 
- * @return String describing active acceleration
+ * @brief Get Encryption Capabilities.
+ * @return Return value.
+ * @details Calls: OpenSSL_version(), hasAESNI(), ENGINE_get_default_cipher(), ENGINE_get_name(), str().
  */
 std::string getEncryptionCapabilities() {
     std::ostringstream oss = {};
@@ -70,14 +70,9 @@ std::string getEncryptionCapabilities() {
 }
 
 /**
- * @brief Benchmark AES-256-GCM encryption throughput.
- *
- * Encrypts a 1 KiB buffer in a tight loop for approximately one second and
- * returns the measured throughput in operations per second.  Uses
- * OpenSSL EVP_CIPHER_CTX with a fixed test key and IV so that the result
- * is deterministic across calls on the same platform.
- *
- * @return Operations per second (encrypt of 1 KiB payload), or 0.0 on error.
+ * @brief Benchmark Encryption.
+ * @return Return value.
+ * @details Calls: EVP_CIPHER_CTX_new(), clock::now(), std::chrono::seconds(), EVP_EncryptInit_ex(), EVP_aes_256_gcm(), EVP_EncryptUpdate(), EVP_EncryptFinal_ex(), EVP_CIPHER_CTX_ctrl().
  */
 double benchmarkEncryption() {
     // 256-bit test key and 96-bit IV — fixed values, not used for real data.

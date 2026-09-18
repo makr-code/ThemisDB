@@ -74,9 +74,6 @@ namespace document {
 
 // ── XDOMEAVersion ─────────────────────────────────────────────────────────────
 
-/**
- * @brief XDOMEA schema version used to encode / decode a message.
- */
 enum class XDOMEAVersion {
     V2_1,   ///< XDOMEA 2.1.0 (legacy)
     V3_0,   ///< XDOMEA 3.0.0 (current)
@@ -84,9 +81,6 @@ enum class XDOMEAVersion {
 
 // ── XDOMEAObjectType ──────────────────────────────────────────────────────────
 
-/**
- * @brief Classification of the XDOMEA object type.
- */
 enum class XDOMEAObjectType {
     AKTE,           ///< Akte (dossier / folder)
     VORGANG,        ///< Vorgang (business process / sub-folder)
@@ -98,11 +92,6 @@ enum class XDOMEAObjectType {
 
 // ── XDOMEARetentionCategory ───────────────────────────────────────────────────
 
-/**
- * @brief Retention / archival decision for a XDOMEA object.
- *
- * Corresponds to the Bewertungsergebnis element in XDOMEA 3.0.
- */
 enum class XDOMEARetentionCategory {
     ARCHIVWUERDIG,      ///< Archivwürdig — to be permanently retained
     NICHT_ARCHIVWUERDIG,///< Nicht archivwürdig — to be destroyed after retention period
@@ -111,9 +100,6 @@ enum class XDOMEARetentionCategory {
 
 // ── XDOMEAMessageType ─────────────────────────────────────────────────────────
 
-/**
- * @brief XDOMEA message type (Nachrichtentyp) code.
- */
 enum class XDOMEAMessageType {
     ANBIETUNG,          ///< 0201 — Offer for archival
     BEWERTUNG,          ///< 0202 — Appraisal / retention decision
@@ -125,13 +111,6 @@ enum class XDOMEAMessageType {
 
 // ── XDOMEADocument ────────────────────────────────────────────────────────────
 
-/**
- * @brief In-memory representation of a single XDOMEA object.
- *
- * Models both Akten/Vorgänge (structural objects) and Dokumente/Dateien
- * (content-bearing objects) with a common structure.  The @p object_type
- * field distinguishes them.
- */
 struct XDOMEADocument {
     // ── Identity ──────────────────────────────────────────────────────────────
     std::string id;                     ///< Unique XDOMEA object identifier (UUID-style)
@@ -172,9 +151,6 @@ struct XDOMEADocument {
 
 // ── XDOMEAImportResult ────────────────────────────────────────────────────────
 
-/**
- * @brief Aggregated result of an XDOMEA import operation.
- */
 struct XDOMEAImportResult {
     bool success{false};
     XDOMEAVersion version{XDOMEAVersion::V3_0};
@@ -187,9 +163,6 @@ struct XDOMEAImportResult {
 
 // ── XDOMEAExportResult ────────────────────────────────────────────────────────
 
-/**
- * @brief Aggregated result of an XDOMEA export operation.
- */
 struct XDOMEAExportResult {
     bool success{false};
     std::size_t documents_exported{0};
@@ -199,32 +172,29 @@ struct XDOMEAExportResult {
 
 // ── IXDOMEAConnector ──────────────────────────────────────────────────────────
 
-/**
- * @brief Abstract interface for XDOMEA document management connectivity.
- *
- * Implementations MUST be thread-safe.
- */
 class IXDOMEAConnector {
 public:
+    /**
+     * @brief IXDOMEAConnector.
+     * @return Return value.
+     */
     virtual ~IXDOMEAConnector() = default;
 
     /**
-     * @brief Import documents from an XDOMEA XML string.
-     *
-     * @param xml_content  Raw UTF-8 encoded XDOMEA XML message.
-     * @param version      Expected XDOMEA schema version.
-     * @return             Import result with all parsed documents and errors.
+     * @brief Import From XML.
+     * @param[in] xml_content Input parameter.
+     * @param[in] version Input parameter.
+     * @return Return value.
      */
     virtual XDOMEAImportResult importFromXML(std::string_view xml_content,
                                              XDOMEAVersion version) = 0;
 
     /**
-     * @brief Export a collection of documents to an XDOMEA XML string.
-     *
-     * @param documents    Documents to serialise.
-     * @param version      Target XDOMEA schema version.
-     * @param message_type XDOMEA message type for the XML envelope.
-     * @return             Export result containing the serialised XML or an error.
+     * @brief Export To XML.
+     * @param[in] documents Input parameter.
+     * @param[in] version Input parameter.
+     * @param[in] message_type Input parameter.
+     * @return Return value.
      */
     virtual XDOMEAExportResult exportToXML(
         const std::vector<XDOMEADocument>& documents,
@@ -232,59 +202,42 @@ public:
         XDOMEAMessageType message_type) = 0;
 
     /**
-     * @brief Store a document in the connector's repository.
-     *
-     * @throws std::invalid_argument  if doc.id is empty.
-     * @throws std::runtime_error     if a document with the same ID is already
-     *                                stored.
+     * @brief Store Document.
+     * @param[in] doc Input parameter.
      */
     virtual void storeDocument(const XDOMEADocument& doc) = 0;
 
     /**
-     * @brief Retrieve a document by ID.
-     *
-     * @return The document, or std::nullopt if not found.
+     * @brief Get Document.
+     * @param[in] id Input parameter.
+     * @return Return value.
      */
     virtual std::optional<XDOMEADocument> getDocument(std::string_view id) const = 0;
 
-    /**
-     * @brief List documents of a specific object type.
-     */
     virtual std::vector<XDOMEADocument>
     listByType(XDOMEAObjectType type) const = 0;
 
-    /**
-     * @brief List documents with a given retention category.
-     */
     virtual std::vector<XDOMEADocument>
     listByRetention(XDOMEARetentionCategory retention) const = 0;
 
-    /**
-     * @brief List child documents of the given parent ID.
-     */
     virtual std::vector<XDOMEADocument>
     listChildren(std::string_view parent_id) const = 0;
 
     /**
-     * @brief Remove a document from the repository.  No-op if not found.
+     * @brief Remove Document.
+     * @param[in] id Input parameter.
      */
     virtual void removeDocument(std::string_view id) = 0;
 
     /**
-     * @brief Return the total number of stored documents.
+     * @brief Count.
+     * @return Return value.
      */
     virtual std::size_t count() const = 0;
 };
 
 // ── InMemoryXDOMEAConnector ───────────────────────────────────────────────────
 
-/**
- * @brief Thread-safe in-memory implementation of IXDOMEAConnector.
- *
- * Parses XDOMEA XML with a minimal scanner (no external XML library
- * dependency).  Production deployments SHOULD use a libxml2- or
- * pugixml-backed implementation with full XSD validation.
- */
 class InMemoryXDOMEAConnector : public IXDOMEAConnector {
 public:
     // ── IXDOMEAConnector ──────────────────────────────────────────────────────
@@ -299,6 +252,11 @@ public:
             return result;
         }
 
+        /**
+         * @brief Xml.
+         * @param[in] xml_content Input parameter.
+         * @return Return value.
+         */
         const std::string xml(xml_content);
         std::size_t pos = 0;
 
@@ -378,6 +336,11 @@ public:
 
         // Persist.
         {
+            /**
+             * @brief Lk.
+             * @param[in] mutex_ Input parameter.
+             * @return Return value.
+             */
             std::unique_lock<std::mutex> lk(mutex_);
             for (const auto& d : result.documents) {
               store_[d.id] = d;
@@ -426,6 +389,11 @@ public:
         if (doc.id.empty()) {
             throw std::invalid_argument("XDOMEADocument::id must not be empty");
         }
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         if (store_.count(doc.id)) {
             throw std::runtime_error("Document already stored: " + doc.id);
@@ -434,6 +402,11 @@ public:
     }
 
     std::optional<XDOMEADocument> getDocument(std::string_view id) const override {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         auto it = store_.find(std::string(id));
         if (it == store_.end()) {
@@ -443,6 +416,11 @@ public:
     }
 
     std::vector<XDOMEADocument> listByType(XDOMEAObjectType type) const override {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         std::vector<XDOMEADocument> result = {};
 
@@ -456,6 +434,11 @@ public:
 
     std::vector<XDOMEADocument>
     listByRetention(XDOMEARetentionCategory retention) const override {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         std::vector<XDOMEADocument> result = {};
 
@@ -469,8 +452,18 @@ public:
 
     std::vector<XDOMEADocument>
     listChildren(std::string_view parent_id) const override {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         std::vector<XDOMEADocument> result;
+        /**
+         * @brief Pid.
+         * @param[in] parent_id Identifier of the parent.
+         * @return Return value.
+         */
         const std::string pid(parent_id);
         for (const auto& [id, d] : store_) {
             if (d.parent_id && *d.parent_id == pid) {
@@ -481,17 +474,33 @@ public:
     }
 
     void removeDocument(std::string_view id) override {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         store_.erase(std::string(id));
     }
 
     std::size_t count() const override {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         return store_.size();
     }
 
 private:
-    // ── Helpers ───────────────────────────────────────────────────────────────
+    /**
+     * @brief ── Helpers ───────────────────────────────────────────────────────────────
+     * @param[in] fragment Input parameter.
+     * @param[in] tag Input parameter.
+     * @param[in,out] out Input/output parameter.
+     * @details Calls: find(), size(), substr().
+     */
 
     static void extractField_(const std::string& fragment,
                                const std::string& tag,
@@ -509,6 +518,12 @@ private:
         out = fragment.substr(s + open.size(), e - s - open.size());
     }
 
+    /**
+     * @brief Escape XML.
+     * @param[in] s Input parameter.
+     * @return Return value.
+     * @details Calls: reserve(), size().
+     */
     static std::string escapeXML_(const std::string& s) {
         std::string out = {};
         out.reserve(s.size());
@@ -525,6 +540,12 @@ private:
         return out;
     }
 
+    /**
+     * @brief Object Type Tag.
+     * @param[in] t Input parameter.
+     * @return Return value.
+     * @details Implements objectTypeTag_ without additional internal calls.
+     */
     static std::string objectTypeTag_(XDOMEAObjectType t) {
         switch (t) {
             case XDOMEAObjectType::AKTE:      return "akte";
@@ -537,6 +558,12 @@ private:
         }
     }
 
+    /**
+     * @brief Message Type Code.
+     * @param[in] t Input parameter.
+     * @return Return value.
+     * @details Implements messageTypeCode_ without additional internal calls.
+     */
     static std::string messageTypeCode_(XDOMEAMessageType t) {
         switch (t) {
             case XDOMEAMessageType::ANBIETUNG:      return "0201";

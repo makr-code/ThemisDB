@@ -57,6 +57,14 @@ SampledLogger::SampledLogger(std::shared_ptr<Logger> underlying, SampledLoggerCo
 
 SampledLogger::~SampledLogger() = default;
 
+/**
+ * @brief Should log.
+ * @param[in] level Input parameter.
+ * @param[in] file Input parameter.
+ * @param[in] line Input parameter.
+ * @return True on success.
+ * @details Calls: dist(), reserve(), std::to_string(), lk(), find(), end(), emplace(), try_consume().
+ */
 bool SampledLogger::should_log(Logger::Level level, const char* file, int line) {
     // Step 1: probabilistic sample-rate check per level.
     double rate = 1.0;
@@ -88,6 +96,11 @@ bool SampledLogger::should_log(Logger::Level level, const char* file, int line) 
     key += ':';
     key += std::to_string(static_cast<int>(level));
 
+    /**
+     * @brief Lk.
+     * @param[in] buckets_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(buckets_mutex_);
     auto it = buckets_.find(key);
     if (it == buckets_.end()) {
@@ -98,6 +111,13 @@ bool SampledLogger::should_log(Logger::Level level, const char* file, int line) 
     return it->second->try_consume(cfg_.burst_rate, cfg_.burst_size);
 }
 
+/**
+ * @brief Log.
+ * @param[in] level Input parameter.
+ * @param[in] msg Input parameter.
+ * @param[in] file Input parameter.
+ * @param[in] line Input parameter.
+ */
 void SampledLogger::log(Logger::Level level, const std::string& msg,
                         const char* file, int line)
 {
@@ -121,13 +141,32 @@ uint64_t SampledLogger::suppressed_total() const {
     return suppressed_.load(std::memory_order_relaxed);
 }
 
+/**
+ * @brief Reset stats.
+ * @details Calls: store(), lk(), clear().
+ */
 void SampledLogger::reset_stats() {
     suppressed_.store(0, std::memory_order_relaxed);
+    /**
+     * @brief Lk.
+     * @param[in] buckets_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(buckets_mutex_);
     buckets_.clear();
 }
 
+/**
+ * @brief Set config.
+ * @param[in] cfg Input parameter.
+ * @details Calls: lk(), std::move(), clear().
+ */
 void SampledLogger::set_config(SampledLoggerConfig cfg) {
+    /**
+     * @brief Lk.
+     * @param[in] buckets_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(buckets_mutex_);
     cfg_ = std::move(cfg);
     // Clear existing buckets so new rate takes effect immediately.

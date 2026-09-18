@@ -34,9 +34,6 @@ namespace document {
 // DocumentEventType
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief Discriminator for the phase of a document lifecycle event.
- */
 enum class DocumentEventType {
     BEFORE_CREATE,  ///< Fires before the document is written to the store
     AFTER_CREATE,   ///< Fires after Result<DocumentId> is returned to the caller
@@ -50,11 +47,6 @@ enum class DocumentEventType {
 // DocumentLifecycleEvent
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief Plain-data descriptor of a single document lifecycle event.
- *
- * Passed by const-ref to every IDocumentLifecycleHook callback.
- */
 struct DocumentLifecycleEvent {
     DocumentId        document_id;    ///< Document being acted upon
     CollectionId      collection_id;  ///< Owning collection
@@ -67,29 +59,49 @@ struct DocumentLifecycleEvent {
 // IDocumentLifecycleHook
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief Observer interface for document lifecycle side-effects.
- *
- * Register implementations with IDocumentManager::registerLifecycleHook().
- *
- * ### Contract
- * - All callbacks are @c noexcept.  If an implementation throws, the process
- *   terminates via @c std::terminate.
- * - Hook registration and unregistration are thread-safe.
- * - Hooks that are in-flight at the time unregisterLifecycleHook() is called
- *   complete before the unregister call returns.
- * - The @c afterDelete callback is guaranteed to fire even when the underlying
- *   storage operation fails.
- */
 class IDocumentLifecycleHook {
 public:
+    /**
+     * @brief IDocument Lifecycle Hook.
+     * @return Return value.
+     */
     virtual ~IDocumentLifecycleHook() = default;
 
+    /**
+     * @brief Before Create.
+     * @param[in] evt Input parameter.
+     * @note Exception safety: noexcept.
+     */
     virtual void beforeCreate(const DocumentLifecycleEvent& evt) noexcept = 0;
+    /**
+     * @brief After Create.
+     * @param[in] evt Input parameter.
+     * @note Exception safety: noexcept.
+     */
     virtual void afterCreate (const DocumentLifecycleEvent& evt) noexcept = 0;
+    /**
+     * @brief Before Update.
+     * @param[in] evt Input parameter.
+     * @note Exception safety: noexcept.
+     */
     virtual void beforeUpdate(const DocumentLifecycleEvent& evt) noexcept = 0;
+    /**
+     * @brief After Update.
+     * @param[in] evt Input parameter.
+     * @note Exception safety: noexcept.
+     */
     virtual void afterUpdate (const DocumentLifecycleEvent& evt) noexcept = 0;
+    /**
+     * @brief Before Delete.
+     * @param[in] evt Input parameter.
+     * @note Exception safety: noexcept.
+     */
     virtual void beforeDelete(const DocumentLifecycleEvent& evt) noexcept = 0;
+    /**
+     * @brief After Delete.
+     * @param[in] evt Input parameter.
+     * @note Exception safety: noexcept.
+     */
     virtual void afterDelete (const DocumentLifecycleEvent& evt) noexcept = 0;
 };
 

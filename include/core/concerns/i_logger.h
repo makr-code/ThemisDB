@@ -24,13 +24,6 @@ namespace themis {
 namespace core {
 namespace concerns {
 
-/**
- * @brief Trace/request context for structured log correlation.
- *
- * Carries a trace_id, span_id, and request_id that are injected into every
- * structured log event so individual log lines can be correlated with
- * distributed traces and originating HTTP requests.
- */
 struct TraceContext {
     std::string trace_id;    ///< OpenTelemetry trace id (hex string)
     std::string span_id;     ///< OpenTelemetry span id (hex string)
@@ -41,20 +34,6 @@ struct TraceContext {
     }
 };
 
-/**
- * @brief Abstract logger interface for dependency injection.
- * 
- * Provides a unified logging interface that can be implemented by various
- * logging backends (spdlog, console, no-op, etc.). Enables testing with
- * mock loggers and runtime switching of logging implementations.
- *
- * Structured logging extension:
- *   - logStructured() emits structured key/value metadata alongside the
- *     message. Backends that override it may serialize to JSON, while the
- *     default implementation preserves the fields in a flat text form.
- *   - logWithContext() additionally injects a TraceContext so every log line
- *     carries trace_id and request_id for end-to-end correlation.
- */
 class ILogger {
 public:
     using Fields = std::map<std::string, std::string>;
@@ -68,6 +47,10 @@ public:
         CRITICAL
     };
 
+    /**
+     * @brief ILogger.
+     * @return Return value.
+     */
     virtual ~ILogger() = default;
 
     // -----------------------------------------------------------------------
@@ -75,53 +58,48 @@ public:
     // -----------------------------------------------------------------------
 
     /**
-     * @brief Emit a log record at the specified severity level.
-     *
-     * This is the single dispatch point used by all severity-specific
-     * helpers.  Implementations must be thread-safe.
-     *
-     * @param level   Severity level for the message.
-     * @param message Human-readable log text.
+     * @brief Log.
+     * @param[in] level Input parameter.
+     * @param[in] message Input parameter.
      */
     virtual void log(Level level, const std::string& message) = 0;
 
-    /// @brief Log at TRACE level (most verbose, diagnostic detail).
-    /// @param message Human-readable log text.
+    /**
+     * @brief Trace.
+     * @param[in] message Input parameter.
+     */
     virtual void trace(const std::string& message) = 0;
 
-    /// @brief Log at DEBUG level (developer-facing diagnostic detail).
-    /// @param message Human-readable log text.
+    /**
+     * @brief Debug.
+     * @param[in] message Input parameter.
+     */
     virtual void debug(const std::string& message) = 0;
 
-    /// @brief Log at INFO level (normal operational events).
-    /// @param message Human-readable log text.
+    /**
+     * @brief Info.
+     * @param[in] message Input parameter.
+     */
     virtual void info(const std::string& message) = 0;
 
-    /// @brief Log at WARN level (unexpected but recoverable condition).
-    /// @param message Human-readable log text.
+    /**
+     * @brief Warn.
+     * @param[in] message Input parameter.
+     */
     virtual void warn(const std::string& message) = 0;
 
-    /// @brief Log at ERROR level (failure that requires attention).
-    /// @param message Human-readable log text.
+    /**
+     * @brief Error.
+     * @param[in] message Input parameter.
+     */
     virtual void error(const std::string& message) = 0;
 
-    /// @brief Log at CRITICAL level (severe failure, may require restart).
-    /// @param message Human-readable log text.
+    /**
+     * @brief Critical.
+     * @param[in] message Input parameter.
+     */
     virtual void critical(const std::string& message) = 0;
 
-    /**
-     * @brief Emit a structured (JSON) log line with arbitrary key/value fields.
-     *
-    * Implementations SHOULD preserve every entry in @p fields in a way that is
-    * machine-readable by the backend. JSON serialization is a common choice,
-    * but the interface does not require a specific wire format.
-    * PII-sensitive field values SHOULD be redacted by the implementation before
-    * they are written to the sink.
-    *
-    * The default implementation appends fields as key=value pairs to the
-    * message so that trace/span IDs injected via logWithContext() are not
-    * silently dropped by backends that only override log().
-     */
     virtual void logStructured(Level level,
                                const std::string& message,
                                const Fields& fields = {}) {
@@ -136,13 +114,6 @@ public:
         log(level, full_msg);
     }
 
-    /**
-     * @brief Emit a structured log line with trace/request-id context injected.
-     *
-    * Equivalent to logStructured() but also injects ctx.trace_id, ctx.span_id,
-    * and ctx.request_id into the emitted structured metadata so log lines can
-    * be correlated with distributed traces.
-     */
     virtual void logWithContext(Level level,
                                 const std::string& message,
                                 const TraceContext& ctx,
@@ -165,50 +136,24 @@ public:
     // -----------------------------------------------------------------------
 
     /**
-     * @brief Set the minimum severity level; records below this level are dropped.
-     * @param level New minimum level.
+     * @brief Set Level.
+     * @param[in] level Input parameter.
      */
     virtual void setLevel(Level level) = 0;
 
-    /**
-     * @brief Return the current minimum severity level.
-     * @return Active minimum level.
-     */
     [[nodiscard]] virtual Level getLevel() const = 0;
 
     /**
-     * @brief Set the spdlog-compatible format pattern for log lines.
-     *
-     * Has no effect on backends that do not support format patterns.
-     * @param pattern Format string, e.g. `"[%Y-%m-%d %H:%M:%S] [%^%l%$] %v"`.
+     * @brief Set Pattern.
+     * @param[in] pattern Input parameter.
      */
     virtual void setPattern(const std::string& pattern) = 0;
 
     // Lifecycle hooks
-    /**
-     * @brief Flush any buffered log records to the underlying sink.
-     *
-     * Must be called before process exit (or between test cases) to
-     * ensure no messages are lost.  Default is a no-op for backends
-     * that do not buffer.
-     */
     virtual void flush() noexcept {}
 
-    /**
-     * @brief Shut down the logger and release resources.
-     *
-    * After shutdown(), all logging calls are silently dropped or rejected by
-    * the implementation contract.
-     * Default is a no-op.
-     */
     virtual void shutdown() noexcept {}
 
-    /**
-     * @brief Probe whether the logging sink is reachable and healthy.
-     *
-     * @return ProbeResult with ok=true when the sink is accessible,
-     *         ok=false with a descriptive message otherwise.
-     */
     virtual ProbeResult isHealthy() const { return ProbeResult::healthy(); }
 
     // -----------------------------------------------------------------------
@@ -216,20 +161,16 @@ public:
     // -----------------------------------------------------------------------
 
     /**
-     * @brief Convert a case-insensitive string name to a Level enum value.
-     *
-     * Accepts "trace", "debug", "info", "warn", "error", "critical".
-     * Returns Level::INFO for unrecognised strings.
-     *
-     * @param level String representation of the level.
-     * @return Corresponding Level enum value.
+     * @brief Level From String.
+     * @param[in] level Input parameter.
+     * @return Return value.
      */
     static Level levelFromString(const std::string& level);
 
     /**
-     * @brief Convert a Level enum value to its string name.
-     * @param level Level to convert.
-     * @return Null-terminated string (e.g. "info"), lifetime is static.
+     * @brief Level To String.
+     * @param[in] level Input parameter.
+     * @return Pointer to the result.
      */
     static const char* levelToString(Level level);
 };

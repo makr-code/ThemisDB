@@ -302,11 +302,24 @@ class InputValidator {
       R"(\brun\b.+\bcommand)",
   };
 
-  // HTTP parameter allowlist
+  /**
+   * @brief HTTP parameter allowlist
+   * @param[in] c Input parameter.
+   * @return True on success.
+   */
   static bool IsAllowedHttpParameterCharacter(unsigned char c);
   
-  // Validation helper functions
+  /**
+   * @brief Validation helper functions
+   * @param[in] value Input parameter.
+   * @return True on success.
+   */
   static bool ValidateSQLKeywords(std::string_view value);
+  /**
+   * @brief Check Prompt For Injection.
+   * @param[in] prompt Input parameter.
+   * @return True on success.
+   */
   static bool CheckPromptForInjection(std::string_view prompt);
 };
 

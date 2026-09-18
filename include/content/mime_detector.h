@@ -26,70 +26,141 @@ namespace storage {
 }
 namespace content {
 
-/// MIME Type Detector - YAML-configurable
-/// Detects MIME types based on file extensions and magic numbers
-/// Configuration loaded from config/mime_types.yaml
 class MimeDetector {
 public:
-    /// Constructor with optional custom config path and signature manager
-    /// If config_path is empty, uses default config/mime_types.yaml
-    /// If sig_mgr is provided, file integrity will be verified before loading
     explicit MimeDetector(const std::string& config_path = "",
                          std::shared_ptr<storage::SecuritySignatureManager> sig_mgr = nullptr);
     
-    /// Reload configuration from YAML file
     bool reloadConfig(const std::string& config_path = "");
 
-    /// Detect MIME type from file extension
+    /**
+     * @brief From Extension.
+     * @param[in] filename Input parameter.
+     * @return Return value.
+     */
     std::string fromExtension(std::string_view filename) const;
 
-    /// Detect MIME type from file content (magic numbers)
+    /**
+     * @brief From Content.
+     * @param[in] data Input parameter.
+     * @return Return value.
+     */
     std::string fromContent(const std::vector<uint8_t>& data) const;
 
-    /// Detect MIME type using both extension and content
-    /// Returns best guess (content detection takes priority if available)
+    /**
+     * @brief Detect.
+     * @param[in] filename Input parameter.
+     * @param[in] data Input parameter.
+     * @return Return value.
+     */
     std::string detect(std::string_view filename, const std::vector<uint8_t>& data) const;
 
-    /// Category checks (using YAML categories configuration)
+    /**
+     * @brief Is Text.
+     * @param[in] mime_type Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool isText(std::string_view mime_type) const;
+    /**
+     * @brief Is Image.
+     * @param[in] mime_type Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool isImage(std::string_view mime_type) const;
+    /**
+     * @brief Is Video.
+     * @param[in] mime_type Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool isVideo(std::string_view mime_type) const;
+    /**
+     * @brief Is Audio.
+     * @param[in] mime_type Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool isAudio(std::string_view mime_type) const;
+    /**
+     * @brief Is Archive.
+     * @param[in] mime_type Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool isArchive(std::string_view mime_type) const;
+    /**
+     * @brief Is Document.
+     * @param[in] mime_type Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool isDocument(std::string_view mime_type) const;
+    /**
+     * @brief Is Geo.
+     * @param[in] mime_type Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool isGeo(std::string_view mime_type) const;
+    /**
+     * @brief Is Themis.
+     * @param[in] mime_type Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool isThemis(std::string_view mime_type) const;
+    /**
+     * @brief Is Executable.
+     * @param[in] mime_type Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool isExecutable(std::string_view mime_type) const;
+    /**
+     * @brief Is Database.
+     * @param[in] mime_type Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool isDatabase(std::string_view mime_type) const;
+    /**
+     * @brief Is Cad.
+     * @param[in] mime_type Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool isCad(std::string_view mime_type) const;
+    /**
+     * @brief Is Binary Data.
+     * @param[in] mime_type Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool isBinaryData(std::string_view mime_type) const;
     
-    /// Get all MIME types in a category
+    /**
+     * @brief Get Category.
+     * @param[in] category_name Name of the category.
+     * @return Return value.
+     */
     std::vector<std::string> getCategory(const std::string& category_name) const;
     
-    /// Returns true if config was verified against DB signature
     bool isConfigVerified() const { return config_verified_; }
     
-    /// Validate file upload against policy (whitelist/blacklist + size limits)
-    /// Returns ValidationResult with allowed flag and detailed reason if denied
+    /**
+     * @brief Validate Upload.
+     * @param[in] filename Input parameter.
+     * @param[in] file_size Input parameter.
+     * @return Return value.
+     */
     ValidationResult validateUpload(const std::string& filename, uint64_t file_size) const;
 
-    /// Returns true if OCR should be triggered for the given MIME type.
-    /// OCR is triggered when policy.ocrEnabled() is true and the MIME type is
-    /// one of: image/png, image/jpeg, image/tiff.
+    /**
+     * @brief Should Trigger Ocr.
+     * @param[in] mime_type Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool shouldTriggerOcr(std::string_view mime_type) const;
 
-    /// Thread-safe, stateless overload: returns true if OCR should be triggered
-    /// for the given MIME type when the supplied policy flag is true.
-    /// Does NOT read or write the internal ContentPolicy — safe to call from
-    /// concurrent threads without external synchronization.
-    /// Use this overload when the ocr_enabled flag comes from a per-request config
-    /// rather than from a pre-configured detector instance.
+    /**
+     * @brief Should Trigger Ocr.
+     * @param[in] mime_type Input parameter.
+     * @param[in] ocr_enabled Input parameter.
+     * @return True when the operation succeeds.
+     * @note Exception safety: noexcept.
+     */
     bool shouldTriggerOcr(std::string_view mime_type, bool ocr_enabled) const noexcept;
 
-    /// Enable or disable automatic OCR for image content in this detector's policy.
-    /// Setting this to true causes shouldTriggerOcr() to return true for
-    /// image/png, image/jpeg, and image/tiff.  Default: false.
     void enableOcr(bool enable = true);
 
 private:
@@ -118,14 +189,44 @@ private:
     std::shared_ptr<storage::SecuritySignatureManager> sig_mgr_;
     bool config_verified_ = false;
     
+    /**
+     * @brief Compute Deterministic Hash.
+     * @return Return value.
+     */
     std::string computeDeterministicHash() const;
     
     // Initialization from YAML
+    /**
+     * @brief Load Yaml Config.
+     * @param[in] config_path Path to the retention policy configuration file.
+     * @return True when the operation succeeds.
+     */
     bool loadYamlConfig(const std::string& config_path);
+    /**
+     * @brief Get Default Config Path.
+     * @return Return value.
+     */
     std::string getDefaultConfigPath() const;
+    /**
+     * @brief Matches Magic Signature.
+     * @param[in] content Input parameter.
+     * @param[in] sig Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool matchesMagicSignature(const std::vector<uint8_t>& content, 
                                const MagicSignature& sig) const;
+    /**
+     * @brief Extract Extension.
+     * @param[in] filename Input parameter.
+     * @return Return value.
+     */
     std::string extractExtension(std::string_view filename) const;
+    /**
+     * @brief Is In Category.
+     * @param[in] mime_type Input parameter.
+     * @param[in] category Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool isInCategory(std::string_view mime_type, const std::string& category) const;
 };
 

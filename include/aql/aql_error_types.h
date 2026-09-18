@@ -22,34 +22,8 @@
 namespace themis {
 namespace aql {
 
-/**
- * @brief Structured error context for comprehensive error diagnostics.
- *
- * Provides rich error information including operation type, component, timestamp,
- * and actionable diagnostic hints for production triage and debugging.
- *
- * Usage example:
- * @code
- *   AQLErrorContext ctx(AQLErrorType::ValidationError,
- *                       AQLErrorCategory::MalformedAQL,
- *                       "validateAQLWithParser",
- *                       "Schema field 'age' has undefined type annotation");
- *   ctx.addDiagnosticHint("Check schema metadata for collection 'users'");
- *   ctx.setOperationType("translate_nl_to_aql");
- *   ctx.setLineNumber(5);
- *   ctx.setTokenPosition(42);
- * @endcode
- */
 class AQLErrorContext {
 public:
-    /**
-     * @brief Create error context with comprehensive metadata.
-     *
-     * @param error_type Main error type (validation, translation, bridge, provider)
-     * @param category Specific error category (malformed AQL, injection, timeout, etc.)
-     * @param component Component that generated the error (e.g., "aql_validator", "llm_handler")
-     * @param message Human-readable error message
-     */
     AQLErrorContext(const std::string& error_type,
                     const std::string& category,
                     const std::string& component,
@@ -64,62 +38,74 @@ public:
         , retry_count_(0)
         , is_recoverable_(false) {}
 
-    /// @brief Get the main error type (validation, translation, bridge, provider)
     const std::string& getErrorType() const { return error_type_; }
 
-    /// @brief Get the specific error category (MalformedAQL, InjectionAttempt, etc.)
     const std::string& getCategory() const { return category_; }
 
-    /// @brief Get the component that generated the error
     const std::string& getComponent() const { return component_; }
 
-    /// @brief Get the error message
     const std::string& getMessage() const { return message_; }
 
-    /// @brief Get the timestamp when the error occurred
     std::time_t getTimestamp() const { return timestamp_; }
 
-    /// @brief Set the operation type (e.g., "translate_nl_to_aql", "validate_schema")
+    /**
+     * @brief Set Operation Type.
+     * @param[in] op_type Input parameter.
+     * @details Implements setOperationType without additional internal calls.
+     */
     void setOperationType(const std::string& op_type) { operation_type_ = op_type; }
 
-    /// @brief Get the operation type
     const std::string& getOperationType() const { return operation_type_; }
 
-    /// @brief Set the line number where the error occurred (for AST/parse errors)
+    /**
+     * @brief Set Line Number.
+     * @param[in] line Input parameter.
+     * @details Implements setLineNumber without additional internal calls.
+     */
     void setLineNumber(uint32_t line) { line_number_ = line; }
 
-    /// @brief Get the line number
     uint32_t getLineNumber() const { return line_number_; }
 
-    /// @brief Set the token/character position in the query string
+    /**
+     * @brief Set Token Position.
+     * @param[in] pos Input parameter.
+     * @details Implements setTokenPosition without additional internal calls.
+     */
     void setTokenPosition(uint32_t pos) { token_position_ = pos; }
 
-    /// @brief Get the token position
     uint32_t getTokenPosition() const { return token_position_; }
 
-    /// @brief Add a diagnostic hint for production triage (actionable advice for operators)
+    /**
+     * @brief Add Diagnostic Hint.
+     * @param[in] hint Input parameter.
+     * @details Calls: push_back().
+     */
     void addDiagnosticHint(const std::string& hint) {
         diagnostic_hints_.push_back(hint);
     }
 
-    /// @brief Get all diagnostic hints
     const std::vector<std::string>& getDiagnosticHints() const {
         return diagnostic_hints_;
     }
 
-    /// @brief Set the retry count (how many times recovery was attempted)
+    /**
+     * @brief Set Retry Count.
+     * @param[in] count Input parameter.
+     * @details Implements setRetryCount without additional internal calls.
+     */
     void setRetryCount(uint32_t count) { retry_count_ = count; }
 
-    /// @brief Get the retry count
     uint32_t getRetryCount() const { return retry_count_; }
 
-    /// @brief Mark whether this error is recoverable
+    /**
+     * @brief Set Recoverable.
+     * @param[in] recoverable Input parameter.
+     * @details Implements setRecoverable without additional internal calls.
+     */
     void setRecoverable(bool recoverable) { is_recoverable_ = recoverable; }
 
-    /// @brief Check if error is recoverable
     bool isRecoverable() const { return is_recoverable_; }
 
-    /// @brief Set schema-related context (field name, collection name, type mismatch info)
     void setSchemaContext(const std::string& field_name, const std::string& collection_name,
                           const std::string& type_info = "") {
         schema_field_ = field_name;
@@ -127,20 +113,12 @@ public:
         schema_type_info_ = type_info;
     }
 
-    /// @brief Get schema field name
     const std::string& getSchemaField() const { return schema_field_; }
 
-    /// @brief Get collection name
     const std::string& getSchemaCollection() const { return schema_collection_; }
 
-    /// @brief Get type information
     const std::string& getSchemaTypeInfo() const { return schema_type_info_; }
 
-    /**
-     * @brief Generate a formatted error report for logging/diagnostics.
-     *
-     * @return Structured error report with all context information
-     */
     std::string formatForLogging() const {
         std::ostringstream oss = {};
         oss << "[AQLError] Type=" << error_type_
@@ -210,11 +188,6 @@ private:
 // Error Category Definitions
 // ============================================================================
 
-/**
- * @brief Validation Error Categories
- *
- * Errors that occur during AQL query validation and schema checking.
- */
 namespace ValidationError {
     constexpr const char* MalformedAQL = "MalformedAQL";           ///< Invalid AQL syntax
     constexpr const char* InjectionAttempt = "InjectionAttempt";   ///< Detected prompt/SQL injection
@@ -225,11 +198,6 @@ namespace ValidationError {
     constexpr const char* MissingFieldMetadata = "MissingFieldMetadata";  ///< Field metadata incomplete
 }
 
-/**
- * @brief Translation Error Categories
- *
- * Errors that occur during NL-to-AQL translation process.
- */
 namespace TranslationError {
     constexpr const char* GenerationFailed = "GenerationFailed";       ///< LLM generation failed
     constexpr const char* RetryExhausted = "RetryExhausted";           ///< Retry attempts exhausted
@@ -239,11 +207,6 @@ namespace TranslationError {
     constexpr const char* InvalidResponse = "InvalidResponse";         ///< LLM response failed post-generation validation
 }
 
-/**
- * @brief Bridge/Helper Error Categories
- *
- * Errors from embedding bridge, highlighter, scorer, and helper components.
- */
 namespace BridgeError {
     constexpr const char* ExecutionFailed = "ExecutionFailed";         ///< Bridge execution failed
     constexpr const char* EmbeddingGenerationFailed = "EmbeddingGenerationFailed";  ///< Embedding generation failed
@@ -253,11 +216,6 @@ namespace BridgeError {
     constexpr const char* ContextBoundExceeded = "ContextBoundExceeded";  ///< Conversation context limit exceeded
 }
 
-/**
- * @brief Provider Error Categories
- *
- * Errors from LLM, RAG, embedding, and fine-tuning providers.
- */
 namespace ProviderError {
     constexpr const char* InferFailed = "InferFailed";                 ///< Inference provider error
     constexpr const char* RAGFailed = "RAGFailed";                     ///< RAG provider error
@@ -272,11 +230,6 @@ namespace ProviderError {
 // Error Recovery Strategies
 // ============================================================================
 
-/**
- * @brief Recovery action for different error types.
- *
- * Maps errors to appropriate recovery strategies and fail-closed/fail-open decisions.
- */
 enum class RecoveryStrategy {
     FAIL_CLOSED,           ///< Reject operation explicitly with diagnostic
     RETRY_WITH_BACKOFF,    ///< Retry with exponential backoff
@@ -287,11 +240,11 @@ enum class RecoveryStrategy {
 };
 
 /**
- * @brief Determine recovery strategy for a given error.
- *
- * @param error_type Error type (validation, translation, bridge, provider)
- * @param category Error category (MalformedAQL, timeout, etc.)
- * @return Recovery strategy to apply
+ * @brief Get Recovery Strategy.
+ * @param[in] error_type Input parameter.
+ * @param[in] category Input parameter.
+ * @return Return value.
+ * @details Implements getRecoveryStrategy without additional internal calls.
  */
 inline RecoveryStrategy getRecoveryStrategy(const std::string& error_type,
                                            const std::string& category) {

@@ -20,6 +20,7 @@ namespace {
 /**
  * @brief Generate a random 64-bit span ID as a 16-character hex string.
  * @return 16-character hex string.
+ * @details Calls: rng(), std::setfill(), std::setw(), str().
  */
 std::string generateSpanIdInternal() {
     static thread_local std::mt19937_64 rng(std::random_device{}());
@@ -68,11 +69,22 @@ DistributedTraceSpan::~DistributedTraceSpan() {
     flush();
 }
 
+/**
+ * @brief Add Baggage.
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @details Calls: empty(), lock(), size().
+ */
 void DistributedTraceSpan::addBaggage(const std::string& key, const std::string& value) {
     if (key.empty()) {
         return;  // Silently ignore empty keys
     }
 
+    /**
+     * @brief Lock.
+     * @param[in] baggage_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock lock(baggage_mutex_);
 
     // Enforce max 128 baggage items (drop oldest inherited if needed)
@@ -93,6 +105,11 @@ void DistributedTraceSpan::addEvent(
         return;  // Silently ignore empty event names
     }
 
+    /**
+     * @brief Lock.
+     * @param[in] events_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock lock(events_mutex_);
 
     // Enforce max 100 events per span
@@ -100,16 +117,32 @@ void DistributedTraceSpan::addEvent(
         return;  // Silently drop oldest event (not ideal, but bounded)
     }
 
+    /**
+     * @brief Event.
+     * @param[in] event_name Input parameter.
+     * @return Return value.
+     */
     SpanEvent event(event_name);
     event.attributes = attributes;
     events_.push_back(std::move(event));
 }
 
+/**
+ * @brief Set Attribute.
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @details Calls: empty(), lock(), size(), find(), end().
+ */
 void DistributedTraceSpan::setAttribute(const std::string& key, const std::string& value) {
     if (key.empty()) {
         return;  // Silently ignore empty keys
     }
 
+    /**
+     * @brief Lock.
+     * @param[in] attributes_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock lock(attributes_mutex_);
 
     // Enforce max 100 attributes per span
@@ -120,20 +153,42 @@ void DistributedTraceSpan::setAttribute(const std::string& key, const std::strin
     attributes_[key] = value;
 }
 
+/**
+ * @brief Set Status.
+ * @param[in] status Input parameter.
+ * @param[in] message Input parameter.
+ * @details Calls: store(), lock().
+ */
 void DistributedTraceSpan::setStatus(SpanStatus status, const std::string& message) {
     status_.store(status, std::memory_order_release);
 
     if (status == SpanStatus::Error) {
+        /**
+         * @brief Lock.
+         * @param[in] status_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock lock(status_mutex_);
         status_message_ = message;
     }
 }
 
 std::string DistributedTraceSpan::statusMessage() const {
+    /**
+     * @brief Lock.
+     * @param[in] status_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(status_mutex_);
     return status_message_;
 }
 
+/**
+ * @brief Child Context.
+ * @param[in] child_operation_name Input parameter.
+ * @return Return value.
+ * @details Calls: DistributedTraceContext::fromHttpHeaders(), lock(), withBaggage().
+ */
 std::shared_ptr<DistributedTraceContext> DistributedTraceSpan::childContext(
     const std::string& child_operation_name) {
 
@@ -153,6 +208,11 @@ std::shared_ptr<DistributedTraceContext> DistributedTraceSpan::childContext(
 
     // Inherit baggage from this span
     {
+        /**
+         * @brief Lock.
+         * @param[in] baggage_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock lock(baggage_mutex_);
         for (const auto& [key, value] : baggage_) {
             child_ctx = child_ctx->withBaggage(key, value);
@@ -166,11 +226,21 @@ std::shared_ptr<DistributedTraceContext> DistributedTraceSpan::childContext(
 }
 
 std::vector<SpanEvent> DistributedTraceSpan::events() const {
+    /**
+     * @brief Lock.
+     * @param[in] events_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(events_mutex_);
     return events_;
 }
 
 std::vector<std::pair<std::string, std::string>> DistributedTraceSpan::baggage() const {
+    /**
+     * @brief Lock.
+     * @param[in] baggage_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(baggage_mutex_);
     std::vector<std::pair<std::string, std::string>> result;
     for (const auto& [key, value] : baggage_) {
@@ -180,10 +250,19 @@ std::vector<std::pair<std::string, std::string>> DistributedTraceSpan::baggage()
 }
 
 std::map<std::string, std::string> DistributedTraceSpan::attributes() const {
+    /**
+     * @brief Lock.
+     * @param[in] attributes_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(attributes_mutex_);
     return attributes_;
 }
 
+/**
+ * @brief Flush.
+ * @details Calls: compare_exchange_strong(), flushInternal().
+ */
 void DistributedTraceSpan::flush() {
     // Atomically mark as flushed (only flush once)
     bool expected = false;
@@ -200,10 +279,19 @@ uint64_t DistributedTraceSpan::durationMicros() const {
     return std::chrono::duration_cast<std::chrono::microseconds>(duration).count();
 }
 
+/**
+ * @brief Generate Span Id.
+ * @return Return value.
+ * @details Calls: generateSpanIdInternal().
+ */
 std::string DistributedTraceSpan::generateSpanId() {
     return generateSpanIdInternal();
 }
 
+/**
+ * @brief Flush Internal.
+ * @details Implements flushInternal without additional internal calls.
+ */
 void DistributedTraceSpan::flushInternal() {
     // [I] ROADMAP: OpenTelemetry span export (Phase 2C).
     //     Tracked in src/observability/ROADMAP.md § "OTel Exporter Integration".

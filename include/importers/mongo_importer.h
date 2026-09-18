@@ -18,40 +18,6 @@
 namespace themis {
 namespace importers {
 
-/**
- * @brief MongoDB mongoexport Importer
- *
- * Imports document collections exported by `mongoexport`.
- * Supports:
- * - JSON-Lines (NDJSON) format: one document per line (default mongoexport output)
- * - JSON array format: a single top-level array of documents (--jsonArray flag)
- * - BSON extended JSON v2 type wrappers ($oid, $date, $numberDecimal, $numberLong,
- *   $numberInt, $numberDouble, $binary, $timestamp, $regex, $undefined, $minKey,
- *   $maxKey, $dbPointer, $code, $ref)
- * - Schema mapping to ThemisDB BaseEntity
- * - Type inference from JSON values
- * - Batch processing
- * - Async import via importDataAsync()
- * - Structured error reporting (ImportErrorCode)
- * - Observability: metrics and tracing callbacks
- * - Permission-check callback (ACL enforcement)
- * - include/exclude collection (table) filtering
- * - Dry-run mode
- *
- * The "collection name" is derived from the optional "collection" field in the
- * import configuration JSON, or from the base filename (without extension) of the
- * source file when no explicit name is provided.
- *
- * Example usage:
- * @code
- *   MongoDBImporter importer;
- *   importer.initialize(R"({"collection":"users"})");
- *
- *   ImportOptions opts;
- *   opts.batch_size = 500;
- *   ImportStats stats = importer.importData("/path/to/users.json", opts);
- * @endcode
- */
 class MongoDBImporter : public IImporter {
 public:
     MongoDBImporter();
@@ -78,8 +44,6 @@ public:
 private:
     std::atomic<bool> cancelled_{false};
 
-    /// Collection name set via initialize() config JSON ("collection" key).
-    /// When empty, the base filename of the source path is used.
     std::string configured_collection_;
 
     // -----------------------------------------------------------------------
@@ -87,9 +51,13 @@ private:
     // -----------------------------------------------------------------------
 
     /**
-     * @brief Import all documents from a JSON-Lines (NDJSON) file.
-     *
-     * Each non-empty line must be a single JSON object.
+     * @brief Parse Json Lines.
+     * @param[in] file_path Path to the file.
+     * @param[in] collection Input parameter.
+     * @param[in] options Input parameter.
+     * @param[in,out] stats Input/output parameter.
+     * @param[in,out] callback Input/output parameter.
+     * @return True when the operation succeeds.
      */
     bool parseJsonLines(const std::string& file_path,
                         const std::string& collection,
@@ -98,9 +66,13 @@ private:
                         ProgressCallback& callback);
 
     /**
-     * @brief Import all documents from a JSON array file.
-     *
-     * The file content must be a single JSON array whose elements are objects.
+     * @brief Parse Json Array.
+     * @param[in] file_path Path to the file.
+     * @param[in] collection Input parameter.
+     * @param[in] options Input parameter.
+     * @param[in,out] stats Input/output parameter.
+     * @param[in,out] callback Input/output parameter.
+     * @return True when the operation succeeds.
      */
     bool parseJsonArray(const std::string& file_path,
                         const std::string& collection,
@@ -109,13 +81,13 @@ private:
                         ProgressCallback& callback);
 
     /**
-     * @brief Import a single parsed JSON document.
-     *
-     * Applies BSON extended-JSON unwrapping, table filtering, dry-run guard,
-     * and metrics emission.  Updates stats in place.
-     *
-     * @return true if the document was accepted (imported or skipped by policy),
-     *         false on a hard parse/conversion error.
+     * @brief Import Document.
+     * @param[in] doc Input parameter.
+     * @param[in] collection Input parameter.
+     * @param[in] options Input parameter.
+     * @param[in,out] stats Input/output parameter.
+     * @param[in] doc_index Input parameter.
+     * @return True when the operation succeeds.
      */
     bool importDocument(const json& doc,
                         const std::string& collection,
@@ -123,29 +95,25 @@ private:
                         ImportStats& stats,
                         size_t doc_index);
 
-    // -----------------------------------------------------------------------
-    // Type mapping / BSON extended JSON helpers
-    // -----------------------------------------------------------------------
-
     /**
-     * @brief Map a JSON value's type to a ThemisDB logical type string.
-     *
-     * Handles BSON extended JSON v2 wrappers and plain JSON primitives.
+     * @brief ----------------------------------------------------------------------- Type mapping / BSON extended JSON helpers -----------------------------------------------------------------------
+     * @param[in] value Input parameter.
+     * @return Return value.
      */
+
     static std::string inferThemisType(const json& value);
 
     /**
-     * @brief Unwrap BSON extended JSON v2 type wrappers to scalar values.
-     *
-     * Converts objects like {"$oid":"..."}, {"$date":{"$numberLong":"..."}},
-     * {"$numberDecimal":"..."} into plain JSON scalars or strings.
-     *
-     * Non-BSON objects are returned unchanged.
+     * @brief Unwrap Bson Value.
+     * @param[in] value Input parameter.
+     * @return Return value.
      */
     static json unwrapBsonValue(const json& value);
 
     /**
-     * @brief Recursively unwrap all BSON extended JSON values in a document.
+     * @brief Unwrap Document.
+     * @param[in] doc Input parameter.
+     * @return Return value.
      */
     static json unwrapDocument(const json& doc);
 
@@ -154,12 +122,17 @@ private:
     // -----------------------------------------------------------------------
 
     /**
-     * @brief Derive a collection name from a file path (basename without extension).
+     * @brief Collection From Path.
+     * @param[in] path Input parameter.
+     * @return Return value.
      */
     static std::string collectionFromPath(const std::string& path);
 
     /**
-     * @brief Check whether a collection should be imported given the options.
+     * @brief Should Import Collection.
+     * @param[in] collection Input parameter.
+     * @param[in] options Input parameter.
+     * @return True when the operation succeeds.
      */
     static bool shouldImportCollection(const std::string& collection,
                                        const ImportOptions& options);
@@ -184,6 +157,13 @@ private:
                   const std::map<std::string, std::string>& attributes,
                   double duration_seconds) const;
 
+    /**
+     * @brief Report Progress.
+     * @param[in,out] callback Input/output parameter.
+     * @param[in] stage Input parameter.
+     * @param[in] current Input parameter.
+     * @param[in] total Input parameter.
+     */
     void reportProgress(ProgressCallback& callback,
                         const std::string& stage,
                         size_t current, size_t total);
@@ -193,11 +173,6 @@ private:
 // Plugin wrapper
 // ---------------------------------------------------------------------------
 
-/**
- * @brief MongoDB Importer Plugin
- *
- * Wraps MongoDBImporter as a ThemisDB plugin.
- */
 class MongoDBImporterPlugin : public plugins::IThemisPlugin {
 public:
     MongoDBImporterPlugin();

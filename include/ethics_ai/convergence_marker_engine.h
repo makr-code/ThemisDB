@@ -20,9 +20,6 @@ namespace themis {
 namespace plugins {
 namespace ethics {
 
-/**
- * @brief Convergence type between two school-thesis pairs.
- */
 enum class ConvergenceType {
     CO_PROHIBITIVE,         ///< Both schools prohibit the action
     CO_PERMISSIVE,          ///< Both schools permit the action
@@ -32,9 +29,6 @@ enum class ConvergenceType {
     UNKNOWN                 ///< Insufficient data
 };
 
-/**
- * @brief A convergence/divergence marker between two school positions.
- */
 struct ConvergenceMarker {
     std::string school_a_id;
     std::string thesis_a_id;
@@ -46,59 +40,33 @@ struct ConvergenceMarker {
     float       confidence{0.0f}; ///< [0.0–1.0]
 };
 
-/**
- * @brief Builds compact convergence preambles for R4 SYNTHESIS context.
- *
- * Implements §12.1.4: the 4×4 convergence matrix replaces ~3 600 tokens of
- * full argument text with ~200 tokens of structured convergence data,
- * equivalent to Structured State Representation (Du et al. [R6]).
- *
- * All methods are const and thread-safe.
- */
 class ConvergenceMarkerEngine {
 public:
     ConvergenceMarkerEngine() = default;
 
-    /**
-     * @brief Detect convergence markers from discourse round outputs.
-     *
-     * Infers convergence by comparing verdict fields across schools. Schools
-     * with the same verdict → CO_PROHIBITIVE or CO_PERMISSIVE.
-     * Mixed verdicts → PARTIAL_OVERLAP or IRREDUCIBLE_SPLIT based on
-     * cross-school tension weights.
-     *
-     * @param round_outputs  Latest round outputs for all participating schools.
-     * @param tensions       Known tensions between schools (for split detection).
-     * @return Vector of ConvergenceMarker (may be empty if data is insufficient).
-     */
     std::vector<ConvergenceMarker> detectConvergences(
         const std::vector<DiscourseRoundOutput>& round_outputs,
         const std::vector<SchoolTension>&        tensions = {}) const;
 
-    /**
-     * @brief Build a compact convergence preamble text for injection into R4.
-     *
-     * Format matches the example in §12.1.4:
-     *   [CONVERGENCE MATRIX — R4 SYNTHESIS]
-     *   school_a:thesis_a ↔ school_b:thesis_b: CO_PROHIBITIVE (do_not_push)
-     *   ...
-     *   [PERSISTENT SPLITS]
-     *   school_a:thesis_a ↔ school_b:thesis_b: IRREDUCIBLE (reason)
-     *
-     * @param markers     Convergence markers from detectConvergences().
-     * @param max_tokens  Hard token limit for the preamble (default 250).
-     * @return Formatted preamble string.
-     */
     std::string buildConvergencePreamble(
         const std::vector<ConvergenceMarker>& markers,
         int max_tokens = 250) const;
 
     /**
-     * @brief Convert ConvergenceType enum to human-readable label.
+     * @brief Convergence Type Label.
+     * @param[in] type Input parameter.
+     * @return Return value.
+     * @note Exception safety: noexcept.
      */
     static std::string convergenceTypeLabel(ConvergenceType type) noexcept;
 
 private:
+    /**
+     * @brief Count Tokens.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     static int countTokens(const std::string& text) noexcept;
 };
 

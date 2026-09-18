@@ -58,14 +58,22 @@ namespace otel_exporter = opentelemetry::exporter::otlp;
 
 namespace themis {
 
-// ─────────────────────────────────────────────────────────────────────────────
-// SamplingStrategy
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── SamplingStrategy ─────────────────────────────────────────────────────────────────────────────
+ * @return Return value.
+ * @details Implements adaptive without additional internal calls.
+ */
 
 SamplingStrategy SamplingStrategy::adaptive() {
     return adaptive(AdaptiveConfig{});
 }
 
+/**
+ * @brief Adaptive.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: s().
+ */
 SamplingStrategy SamplingStrategy::adaptive(AdaptiveConfig config) {
     SamplingStrategy s(Type::ADAPTIVE, config.min_rate);
     s.adaptive_config_ = config;
@@ -150,27 +158,58 @@ bool SamplingStrategy::shouldSample(bool parent_sampled) const {
 
 thread_local Baggage::BaggageMap Baggage::thread_baggage_;
 
+/**
+ * @brief Set.
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @details Implements set without additional internal calls.
+ */
 void Baggage::set(const std::string& key, const std::string& value) {
     thread_baggage_[key] = value;
 }
 
+/**
+ * @brief Get.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @details Calls: find(), end().
+ */
 std::string Baggage::get(const std::string& key) {
     auto it = thread_baggage_.find(key);
     return it != thread_baggage_.end() ? it->second : std::string{};
 }
 
+/**
+ * @brief Remove.
+ * @param[in] key Input parameter.
+ * @details Calls: erase().
+ */
 void Baggage::remove(const std::string& key) {
     thread_baggage_.erase(key);
 }
 
+/**
+ * @brief Clear.
+ * @details Implements clear without additional internal calls.
+ */
 void Baggage::clear() {
     thread_baggage_.clear();
 }
 
+/**
+ * @brief Get All.
+ * @return Return value.
+ * @details Implements getAll without additional internal calls.
+ */
 Baggage::BaggageMap Baggage::getAll() {
     return thread_baggage_;
 }
 
+/**
+ * @brief Serialize.
+ * @return Return value.
+ * @details Calls: empty().
+ */
 std::string Baggage::serialize() {
     std::string out = {};
     for (const auto& [k, v] : thread_baggage_) {
@@ -201,6 +240,11 @@ void Baggage::extract(const std::map<std::string, std::string>& headers) {
       return;
     }
 
+    /**
+     * @brief Ss.
+     * @param[in] value Input parameter.
+     * @return Return value.
+     */
     std::istringstream ss(value);
     std::string token = {};
     while (std::getline(ss, token, ',')) {
@@ -233,6 +277,13 @@ std::atomic<int64_t> Tracer::active_spans_{0};
 SamplingStrategy Tracer::sampling_strategy_{SamplingStrategy::alwaysOn()};
 std::mutex Tracer::sampling_mu_;
 
+/**
+ * @brief Initialize.
+ * @param[in] serviceName Input parameter.
+ * @param[in] endpoint Input parameter.
+ * @return True on success.
+ * @details Calls: defined(), THEMIS_WARN(), re(), std::regex_search(), str(), size(), std::stoi(), parse_host_port().
+ */
 bool Tracer::initialize(const std::string& serviceName, 
                         const std::string& endpoint) {
 #if defined(THEMIS_ENABLE_TRACING) && defined(THEMIS_HAS_OPENTELEMETRY)
@@ -262,6 +313,11 @@ bool Tracer::initialize(const std::string& serviceName,
             namespace net = boost::asio;
             using tcp = net::ip::tcp;
             net::io_context io;
+            /**
+             * @brief Resolver.
+             * @param[in] io Input parameter.
+             * @return Return value.
+             */
             tcp::resolver resolver(io);
             boost::system::error_code ec;
             auto results = resolver.resolve(host, std::to_string(port), ec);
@@ -279,6 +335,11 @@ bool Tracer::initialize(const std::string& serviceName,
                 initialized_ = true;
                 return false;
             }
+            /**
+             * @brief Socket.
+             * @param[in] io Input parameter.
+             * @return Return value.
+             */
             tcp::socket socket(io);
             // Enforce a 3-second connect timeout using async operations.
             // SO_SNDTIMEO does not reliably bound a blocking connect(); we
@@ -286,6 +347,11 @@ bool Tracer::initialize(const std::string& serviceName,
             // probe always completes within the deadline regardless of OS.
             boost::system::error_code connect_ec{
                 boost::asio::error::operation_aborted};
+            /**
+             * @brief Timeout.
+             * @param[in] io Input parameter.
+             * @return Return value.
+             */
             net::steady_timer timeout(io);
             timeout.expires_after(std::chrono::seconds(3));
             timeout.async_wait([&socket](const boost::system::error_code& te) {
@@ -372,6 +438,10 @@ bool Tracer::initialize(const std::string& serviceName,
 #endif
 }
 
+/**
+ * @brief Shutdown.
+ * @details Calls: defined(), otel::trace::Provider::GetTracerProvider(), get(), Shutdown(), THEMIS_INFO().
+ */
 void Tracer::shutdown() {
 #if defined(THEMIS_ENABLE_TRACING) && defined(THEMIS_HAS_OPENTELEMETRY)
     if (!initialized_) {
@@ -412,6 +482,11 @@ bool Tracer::flush(std::chrono::microseconds timeout) noexcept {
 }
 
 #if defined(THEMIS_ENABLE_TRACING) && defined(THEMIS_HAS_OPENTELEMETRY)
+/**
+ * @brief Get Tracer.
+ * @return Return value.
+ * @details Calls: THEMIS_WARN().
+ */
 otel::nostd::shared_ptr<otel::trace::Tracer> Tracer::getTracer() {
     if (!initialized_ || tracer_ == nullptr) {
         THEMIS_WARN("Tracer not initialized, call Tracer::initialize() first");
@@ -421,16 +496,41 @@ otel::nostd::shared_ptr<otel::trace::Tracer> Tracer::getTracer() {
 }
 #endif
 
+/**
+ * @brief Set Sampling Strategy.
+ * @param[in] strategy Input parameter.
+ * @details Calls: lk().
+ */
 void Tracer::setSamplingStrategy(const SamplingStrategy& strategy) {
+    /**
+     * @brief Lk.
+     * @param[in] sampling_mu_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(sampling_mu_);
     sampling_strategy_ = strategy;
 }
 
+/**
+ * @brief Get Sampling Strategy.
+ * @return Return value.
+ * @details Calls: lk().
+ */
 SamplingStrategy Tracer::getSamplingStrategy() {
+    /**
+     * @brief Lk.
+     * @param[in] sampling_mu_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(sampling_mu_);
     return sampling_strategy_;
 }
 
+/**
+ * @brief Get Current Trace Id.
+ * @return Return value.
+ * @details Calls: defined(), otel::context::RuntimeContext::GetCurrent(), GetValue(), GetContext(), IsValid(), trace_id(), ToLowerBase16(), std::string().
+ */
 std::string Tracer::getCurrentTraceId() {
 #if defined(THEMIS_ENABLE_TRACING) && defined(THEMIS_HAS_OPENTELEMETRY)
     auto ctx = otel::context::RuntimeContext::GetCurrent();
@@ -450,6 +550,11 @@ std::string Tracer::getCurrentTraceId() {
     return {};
 }
 
+/**
+ * @brief Get Current Span Id.
+ * @return Return value.
+ * @details Calls: defined(), otel::context::RuntimeContext::GetCurrent(), GetValue(), GetContext(), IsValid(), span_id(), ToLowerBase16(), std::string().
+ */
 std::string Tracer::getCurrentSpanId() {
 #if defined(THEMIS_ENABLE_TRACING) && defined(THEMIS_HAS_OPENTELEMETRY)
     auto ctx = otel::context::RuntimeContext::GetCurrent();
@@ -469,9 +574,20 @@ std::string Tracer::getCurrentSpanId() {
     return {};
 }
 
+/**
+ * @brief Start Span.
+ * @param[in] name Input parameter.
+ * @return Return value.
+ * @details Calls: defined(), lk(), shouldSample(), Span(), getTracer(), StartSpan(), empty(), Baggage::set().
+ */
 Tracer::Span Tracer::startSpan(const std::string& name) {
 #if defined(THEMIS_ENABLE_TRACING) && defined(THEMIS_HAS_OPENTELEMETRY)
     {
+        /**
+         * @brief Lk.
+         * @param[in] sampling_mu_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(sampling_mu_);
         if (!sampling_strategy_.shouldSample()) {
             return Span();
@@ -495,6 +611,13 @@ Tracer::Span Tracer::startSpan(const std::string& name) {
 #endif
 }
 
+/**
+ * @brief Start Child Span.
+ * @param[in] name Input parameter.
+ * @param[in] parent Input parameter.
+ * @return Return value.
+ * @details Calls: defined(), getTracer(), Span(), lk(), shouldSample(), StartSpan(), empty(), Baggage::set().
+ */
 Tracer::Span Tracer::startChildSpan(const std::string& name, 
                                     const Span& parent) {
 #if defined(THEMIS_ENABLE_TRACING) && defined(THEMIS_HAS_OPENTELEMETRY)
@@ -504,6 +627,11 @@ Tracer::Span Tracer::startChildSpan(const std::string& name,
     }
 
     {
+        /**
+         * @brief Lk.
+         * @param[in] sampling_mu_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(sampling_mu_);
         if (!sampling_strategy_.shouldSample(parent.valid_)) {
             return Span();
@@ -550,6 +678,15 @@ std::string headerValue(const std::map<std::string, std::string>& headers,
 }
 
 #if defined(THEMIS_ENABLE_TRACING) && defined(THEMIS_HAS_OPENTELEMETRY)
+/**
+ * @brief Parse Traceparent.
+ * @param[in] value Input parameter.
+ * @param[in,out] trace_id_out Input/output parameter.
+ * @param[in,out] parent_id_out Input/output parameter.
+ * @param[in,out] flags_out Input/output parameter.
+ * @return True on success.
+ * @details Calls: size(), fromHex(), hexByte(), otel::trace::TraceId(), data(), otel::trace::SpanId(), otel::trace::TraceFlags().
+ */
 bool parseTraceparent(const std::string& value,
                       otel::trace::TraceId& trace_id_out,
                       otel::trace::SpanId& parent_id_out,
@@ -647,6 +784,14 @@ Tracer::Span Tracer::startSpanFromHeaders(
         otel::trace::TraceFlags flags;
 
         if (parseTraceparent(traceparent, trace_id, parent_id, flags)) {
+            /**
+             * @brief Remote ctx.
+             * @param[in] trace_id Input parameter.
+             * @param[in] parent_id Input parameter.
+             * @param[in] flags Input parameter.
+             * @param[in] true Input parameter.
+             * @return Return value.
+             */
             otel::trace::SpanContext remote_ctx(trace_id, parent_id, flags, /*is_remote=*/true);
             otel::trace::StartSpanOptions opts;
             opts.parent = remote_ctx;
@@ -676,10 +821,20 @@ Tracer::Span Tracer::startSpanFromHeaders(
 #endif
 }
 
+/**
+ * @brief Get Total Spans.
+ * @return Return value.
+ * @details Calls: load().
+ */
 int64_t Tracer::getTotalSpans() {
     return total_spans_.load();
 }
 
+/**
+ * @brief Get Active Spans.
+ * @return Return value.
+ * @details Calls: load().
+ */
 int64_t Tracer::getActiveSpans() {
     return active_spans_.load();
 }
@@ -732,6 +887,12 @@ Tracer::Span& Tracer::Span::operator=(Span&& other) noexcept {
     return *this;
 }
 
+/**
+ * @brief Set Attribute.
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @details Calls: defined(), themis::security::PIIRedactionPolicy::get(), redactAttributeValue(), SetAttribute(), empty(), Baggage::set().
+ */
 void Tracer::Span::setAttribute(const std::string& key, 
                                  const std::string& value) {
 #if defined(THEMIS_ENABLE_TRACING) && defined(THEMIS_HAS_OPENTELEMETRY)
@@ -748,6 +909,12 @@ void Tracer::Span::setAttribute(const std::string& key,
 #endif
 }
 
+/**
+ * @brief Set Attribute.
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @details Calls: defined(), SetAttribute(), empty(), Baggage::set(), std::to_string().
+ */
 void Tracer::Span::setAttribute(const std::string& key, 
                                  int64_t value) {
 #if defined(THEMIS_ENABLE_TRACING) && defined(THEMIS_HAS_OPENTELEMETRY)
@@ -762,6 +929,12 @@ void Tracer::Span::setAttribute(const std::string& key,
 #endif
 }
 
+/**
+ * @brief Set Attribute.
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @details Calls: defined(), SetAttribute(), empty(), Baggage::set(), std::to_string().
+ */
 void Tracer::Span::setAttribute(const std::string& key, 
                                  double value) {
 #if defined(THEMIS_ENABLE_TRACING) && defined(THEMIS_HAS_OPENTELEMETRY)
@@ -776,6 +949,12 @@ void Tracer::Span::setAttribute(const std::string& key,
 #endif
 }
 
+/**
+ * @brief Set Attribute.
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @details Calls: defined(), SetAttribute(), empty(), Baggage::set().
+ */
 void Tracer::Span::setAttribute(const std::string& key, 
                                  bool value) {
 #if defined(THEMIS_ENABLE_TRACING) && defined(THEMIS_HAS_OPENTELEMETRY)
@@ -790,6 +969,11 @@ void Tracer::Span::setAttribute(const std::string& key,
 #endif
 }
 
+/**
+ * @brief Record Error.
+ * @param[in] errorMessage Input parameter.
+ * @details Calls: defined(), themis::security::PIIRedactionPolicy::get(), redactForLog(), AddEvent(), SetStatus(), empty(), Baggage::set().
+ */
 void Tracer::Span::recordError(const std::string& errorMessage) {
 #if defined(THEMIS_ENABLE_TRACING) && defined(THEMIS_HAS_OPENTELEMETRY)
     if (span_) {
@@ -806,6 +990,12 @@ void Tracer::Span::recordError(const std::string& errorMessage) {
 #endif
 }
 
+/**
+ * @brief Set Status.
+ * @param[in] ok Input parameter.
+ * @param[in] description Input parameter.
+ * @details Calls: defined(), SetStatus(), Baggage::set(), empty().
+ */
 void Tracer::Span::setStatus(bool ok, 
                              const std::string& description) {
 #if defined(THEMIS_ENABLE_TRACING) && defined(THEMIS_HAS_OPENTELEMETRY)
@@ -822,6 +1012,10 @@ void Tracer::Span::setStatus(bool ok,
 #endif
 }
 
+/**
+ * @brief End.
+ * @details Calls: defined(), End().
+ */
 void Tracer::Span::end() {
 #if defined(THEMIS_ENABLE_TRACING) && defined(THEMIS_HAS_OPENTELEMETRY)
     if (span_ && !ended_) {
@@ -869,30 +1063,70 @@ TracedSpan::~TracedSpan() {
     }
 }
 
+/**
+ * @brief Set Attribute.
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @details Implements setAttribute without additional internal calls.
+ */
 void TracedSpan::setAttribute(const std::string& key, const std::string& value) {
     span_.setAttribute(key, value);
 }
 
+/**
+ * @brief Set Attribute.
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @details Implements setAttribute without additional internal calls.
+ */
 void TracedSpan::setAttribute(const std::string& key, int64_t value) {
     span_.setAttribute(key, value);
 }
 
+/**
+ * @brief Set Attribute.
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @details Implements setAttribute without additional internal calls.
+ */
 void TracedSpan::setAttribute(const std::string& key, double value) {
     span_.setAttribute(key, value);
 }
 
+/**
+ * @brief Set Attribute.
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @details Implements setAttribute without additional internal calls.
+ */
 void TracedSpan::setAttribute(const std::string& key, bool value) {
     span_.setAttribute(key, value);
 }
 
+/**
+ * @brief Record Error.
+ * @param[in] errorMessage Input parameter.
+ * @details Implements recordError without additional internal calls.
+ */
 void TracedSpan::recordError(const std::string& errorMessage) {
     span_.recordError(errorMessage);
 }
 
+/**
+ * @brief Set Status.
+ * @param[in] ok Input parameter.
+ * @param[in] description Input parameter.
+ * @details Implements setStatus without additional internal calls.
+ */
 void TracedSpan::setStatus(bool ok, const std::string& description) {
     span_.setStatus(ok, description);
 }
 
+/**
+ * @brief Span.
+ * @return Return value.
+ * @details Implements span without additional internal calls.
+ */
 Tracer::Span& TracedSpan::span() {
     return span_;
 }

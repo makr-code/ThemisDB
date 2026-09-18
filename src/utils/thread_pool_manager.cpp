@@ -37,11 +37,20 @@ ThreadPool::~ThreadPool() {
     shutdown();
 }
 
+/**
+ * @brief Worker Loop.
+ * @details Calls: lock(), wait_for(), std::chrono::seconds(), empty(), top(), pop(), std::chrono::steady_clock::now(), execute().
+ */
 void ThreadPool::workerLoop() {
     while (running_) {
         std::shared_ptr<Task> task;
         
         {
+            /**
+             * @brief Lock.
+             * @param[in] mutex_ Input parameter.
+             * @return Return value.
+             */
             std::unique_lock<std::shared_mutex> lock(mutex_);
             
             // Wait for task
@@ -78,6 +87,11 @@ void ThreadPool::workerLoop() {
                 std::chrono::steady_clock::now() - exec_start
             ).count();
             {
+                /**
+                 * @brief Lk.
+                 * @param[in] mutex_ Input parameter.
+                 * @return Return value.
+                 */
                 std::unique_lock<std::shared_mutex> lk(mutex_);
                 latency_sum_ms_ += latency_ms;
                 ++latency_count_;
@@ -87,6 +101,13 @@ void ThreadPool::workerLoop() {
     }
 }
 
+/**
+ * @brief Submit.
+ * @param[in] task Input parameter.
+ * @param[in] timeout Input parameter.
+ * @return True on success.
+ * @details Calls: themis::utils::makeErrorContext(), themis::utils::logErrorWithContext(), lock(), wait_for(), size(), std::to_string(), getName(), push().
+ */
 bool ThreadPool::submit(std::shared_ptr<Task> task, std::chrono::milliseconds timeout) {
     if (!running_) {
         auto ctx = themis::utils::makeErrorContext(
@@ -99,6 +120,11 @@ bool ThreadPool::submit(std::shared_ptr<Task> task, std::chrono::milliseconds ti
         return false;
     }
     
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::shared_mutex> lock(mutex_);
     
     // Wait for space in queue with timeout
@@ -126,11 +152,22 @@ bool ThreadPool::submit(std::shared_ptr<Task> task, std::chrono::milliseconds ti
     return true;
 }
 
+/**
+ * @brief Wait All.
+ * @param[in] timeout Input parameter.
+ * @return True on success.
+ * @details Calls: std::chrono::steady_clock::now(), lock(), empty(), std::this_thread::sleep_for(), std::chrono::milliseconds().
+ */
 bool ThreadPool::waitAll(std::chrono::milliseconds timeout) {
     auto start = std::chrono::steady_clock::now();
     
     while (true) {
         {
+            /**
+             * @brief Lock.
+             * @param[in] mutex_ Input parameter.
+             * @return Return value.
+             */
             std::shared_lock<std::shared_mutex> lock(mutex_);
             if (task_queue_.empty() && active_threads_ == 0) {
                 return true;
@@ -147,6 +184,11 @@ bool ThreadPool::waitAll(std::chrono::milliseconds timeout) {
 }
 
 ThreadPool::Statistics ThreadPool::getStatistics() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
     
     Statistics stats;
@@ -163,6 +205,10 @@ ThreadPool::Statistics ThreadPool::getStatistics() const {
     return stats;
 }
 
+/**
+ * @brief Shutdown.
+ * @details Calls: exchange(), spdlog::info(), notify_all(), joinThreadWithin(), spdlog::warn(), clear().
+ */
 void ThreadPool::shutdown() {
     if (!running_.exchange(false)) {
         return;  // Already stopped
@@ -245,6 +291,14 @@ ThreadPoolManager::~ThreadPoolManager() {
     shutdown();
 }
 
+/**
+ * @brief Submit.
+ * @param[in] pool Input parameter.
+ * @param[in] task Input parameter.
+ * @param[in] timeout Input parameter.
+ * @return True on success.
+ * @details Calls: spdlog::error().
+ */
 bool ThreadPoolManager::submit(
     PoolType pool,
     std::shared_ptr<Task> task,
@@ -292,6 +346,10 @@ ThreadPoolManager::GlobalStatistics ThreadPoolManager::getStatistics() const {
     return stats;
 }
 
+/**
+ * @brief Shutdown.
+ * @details Calls: exchange(), spdlog::info(), joinable(), joinThreadWithin(), spdlog::warn().
+ */
 void ThreadPoolManager::shutdown() {
     if (!running_.exchange(false)) {
         return;  // Already stopped
@@ -319,6 +377,10 @@ void ThreadPoolManager::shutdown() {
     }
 }
 
+/**
+ * @brief Metrics Loop.
+ * @details Calls: std::this_thread::sleep_for(), getStatistics(), spdlog::debug().
+ */
 void ThreadPoolManager::metricsLoop() {
     while (running_) {
         std::this_thread::sleep_for(config_.metrics_interval);
@@ -350,7 +412,11 @@ void ThreadPoolManager::metricsLoop() {
     }
 }
 
-// Global singleton
+/**
+ * @brief Global singleton
+ * @return Return value.
+ * @details Implements getThreadPoolManager without additional internal calls.
+ */
 ThreadPoolManager& getThreadPoolManager() {
     static ThreadPoolManager instance;
     return instance;

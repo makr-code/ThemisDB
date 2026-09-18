@@ -55,16 +55,6 @@ namespace detail {
 #pragma warning(disable : 4324)
 #endif
 
-/**
- * @brief Bounded MPMC ring buffer.
- *
- * @tparam T  Type of element stored.  Must be DefaultConstructible and
- *             MoveAssignable (slots are value-initialised at construction,
- *             and push/pop transfer ownership via move-assignment).
- *
- * Capacity is rounded up to the nearest power of two internally if not
- * already a power of two.
- */
 template <typename T>
 class EventRingBuffer {
     static_assert(std::is_default_constructible_v<T>,
@@ -80,6 +70,12 @@ public:
     // and is correct for all x86/ARM targets we support.
     static constexpr size_t kCacheLineSize = 64;
 
+    /**
+     * @brief Event Ring Buffer.
+     * @param[in] capacity Input parameter.
+     * @return Return value.
+     * @details Calls: reset(), store().
+     */
     explicit EventRingBuffer(size_t capacity) {
         // Round capacity up to next power of two (minimum 2).
         size_t cap = 2;
@@ -104,12 +100,6 @@ public:
     EventRingBuffer(EventRingBuffer&&)                 = delete;
     EventRingBuffer& operator=(EventRingBuffer&&)      = delete;
 
-    /**
-     * @brief Try to push an element.
-     *
-     * @param item  Item to push (moved into the slot).
-     * @returns true on success, false if the queue is full.
-     */
     bool push(T item) noexcept(std::is_nothrow_move_assignable_v<T>) {
         size_t pos = head_.load(std::memory_order_relaxed);
         for (;;) {
@@ -136,12 +126,6 @@ public:
         }
     }
 
-    /**
-     * @brief Try to pop an element.
-     *
-     * @param item  Receives the popped element (moved out of the slot).
-     * @returns true on success, false if the queue is empty.
-     */
     bool pop(T& item) noexcept(std::is_nothrow_move_assignable_v<T>) {
         size_t pos = tail_.load(std::memory_order_relaxed);
         for (;;) {
@@ -168,11 +152,6 @@ public:
         }
     }
 
-    /**
-     * @brief Returns the approximate number of items in the queue.
-     *
-     * This is an estimate and may be stale by the time the caller reads it.
-     */
     size_t size_approx() const noexcept {
         size_t h = head_.load(std::memory_order_relaxed);
         size_t t = tail_.load(std::memory_order_relaxed);

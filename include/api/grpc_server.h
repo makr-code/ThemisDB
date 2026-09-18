@@ -76,12 +76,6 @@ class ThemisCoreServiceImpl;
 namespace themis {
 namespace api {
 
-/**
- * @brief Configuration for the gRPC API server.
- *
- * TLS settings mirror those of the Beast HTTP server so both transports
- * share the same certificate/key pair in production.
- */
 struct GrpcServerConfig {
     std::string host         = "0.0.0.0";
     uint16_t    port         = 50051;        ///< Standard gRPC port
@@ -91,35 +85,9 @@ struct GrpcServerConfig {
     std::string tls_ca_cert_path;            ///< CA cert for mTLS (optional)
     bool        require_client_cert = false; ///< Enable mutual TLS
 
-    /// Maximum inbound/outbound message size in bytes (default 100 MB)
     int max_message_size_bytes = 100 * 1024 * 1024;
 };
 
-/**
- * @brief gRPC API server for ThemisDB.
- *
- * Runs alongside the existing Beast HTTP/REST server and exposes the same
- * database operations over gRPC (HTTP/2 + Protocol Buffers).
- *
- * Design constraints (from FUTURE_ENHANCEMENTS.md):
- *  - Reuses the existing ThemisCoreServiceImpl; no business-logic duplication.
- *  - TLS credentials are configured from the same cert/key pair used by REST.
- *  - gRPC reflection is exposed in debug builds only to prevent schema
- *    leakage in production.
- *  - Does not affect existing REST endpoints.
- *
- * Lifecycle:
- * @code
- *   GrpcApiServer srv;
- *   GrpcServerConfig cfg;
- *   cfg.port = 50051;
- *   srv.initialize(cfg);
- *   srv.registerService(&my_core_service_impl);
- *   srv.start();
- *   // ... serve ...
- *   srv.stop();
- * @endcode
- */
 class GrpcApiServer {
 public:
     GrpcApiServer();
@@ -132,53 +100,45 @@ public:
     GrpcApiServer& operator=(GrpcApiServer&&)      noexcept = default;
 
     /**
-     * @brief Configure the server.  Must be called before start().
-     * @param config  Server configuration.
-     * @return true on success, false on invalid configuration.
-     * 
-     * @note Fail-closed guards (QW-42): Validates all configuration parameters:
-     *   - port: must be in range [1, 65535] (fail-closed: rejects 0 and > 65535)
-     *   - host: must be non-empty and <= 256 characters (prevents resource exhaustion)
-     *   - TLS: if enabled, cert_path and key_path must be non-empty
-     *   - max_message_size_bytes: must be in range (0, 1 GB], clamped to 100 MB default
-     * Returns false (fail-closed) if any guard fails; server remains uninitialized.
+     * @brief Initialize.
+     * @param[in] config Input parameter.
+     * @return True when the operation succeeds.
      */
     bool initialize(const GrpcServerConfig& config);
 
     /**
-     * @brief Register a gRPC service implementation.
-     *
-     * Must be called after initialize() and before start().
-     * @param service  Non-owning pointer to a grpc::Service implementation.
-     *                 The caller is responsible for the lifetime of the object.
+     * @brief Register Service.
+     * @param[in,out] service Input/output parameter.
      */
     void registerService(grpc::Service* service);
 
     /**
-     * @brief Start listening and serving requests.
-     *
-     * In NDEBUG builds the gRPC reflection service is NOT registered so that
-     * the proto schema is not exposed to unauthenticated callers.  In debug
-     * builds reflection is registered automatically to aid development.
-     *
-     * @return true if the server started successfully.
+     * @brief Start.
+     * @return True when the operation succeeds.
      */
     bool start();
 
     /**
-     * @brief Gracefully shut down the server.
-     *
-     * Blocks until all in-flight RPCs complete or the deadline expires.
+     * @brief Stop.
      */
     void stop();
 
-    /// @return true while the server is accepting connections.
+    /**
+     * @brief Is Running.
+     * @return True when the operation succeeds.
+     */
     bool isRunning() const;
 
-    /// @return The listening address ("host:port").
+    /**
+     * @brief Get Address.
+     * @return Return value.
+     */
     std::string getAddress() const;
 
-    /// @return The configured port number.
+    /**
+     * @brief Get Port.
+     * @return Return value.
+     */
     uint16_t getPort() const;
 
 private:
@@ -189,10 +149,17 @@ private:
     std::vector<grpc::Service*>       services_;
     mutable std::timed_mutex          mutex_;
 
-    /// Load the contents of a PEM file.  Throws std::runtime_error on failure.
+    /**
+     * @brief Load File.
+     * @param[in] path Input parameter.
+     * @return Return value.
+     */
     static std::string loadFile(const std::string& path);
 
-    /// Build TLS or insecure server credentials from config_.
+    /**
+     * @brief Build Credentials.
+     * @return Return value.
+     */
     std::shared_ptr<grpc::ServerCredentials> buildCredentials() const;
 };
 

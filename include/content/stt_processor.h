@@ -19,9 +19,6 @@
 namespace themis {
 namespace content {
 
-/**
- * @brief Transcription segment with timestamp
- */
 struct TranscriptionSegment {
     std::string text;
     int64_t start_ms;
@@ -31,9 +28,6 @@ struct TranscriptionSegment {
     json metadata;
 };
 
-/**
- * @brief Transcription result
- */
 struct TranscriptionResult {
     bool success = false;
     std::string error_message;
@@ -47,31 +41,9 @@ struct TranscriptionResult {
     int64_t audio_duration_ms = 0;
 };
 
-/**
- * @brief Injection type for a custom transcription backend.
- *
- * Signature: `TranscriptionResult fn(const std::vector<float>& pcm_data,
- *                                    const json& options)`
- *
- * When set via `setTranscribeFn()`, `transcribeInternal()` delegates to @p fn
- * instead of the built-in Whisper.cpp path.  Useful in non-Whisper builds or
- * for testing.  Returning an empty/default `TranscriptionResult` from @p fn
- * reverts to the built-in notice-string stub.
- */
 using STTTranscribeFn = std::function<
     TranscriptionResult(const std::vector<float>& pcm_data, const json& options)>;
 
-/**
- * @brief Speech-to-Text Processor using Whisper.cpp
- * 
- * Features:
- * - Multi-language transcription with automatic detection
- * - Timestamp generation for segments
- * - Speaker diarization support
- * - Real-time streaming transcription
- * - Meeting protocol generation
- * - Phone call transcription with metadata
- */
 class STTProcessor : public IContentProcessorPlugin {
 public:
     STTProcessor();
@@ -98,74 +70,30 @@ public:
     bool healthCheck() const override;
     json getStatistics() const override;
     
-    /**
-     * @brief Transcribe audio with detailed result
-     * 
-     * @param audio_blob Audio data in supported format
-     * @param options Transcription options (language, timestamps, etc.)
-     * @return Detailed transcription result
-     */
     TranscriptionResult transcribe(
         const std::vector<uint8_t>& audio_blob,
         const json& options = {}
     );
     
-    /**
-     * @brief Stream transcription in real-time
-     * 
-     * @param audio_stream Audio data stream
-     * @param callback Callback for each transcribed segment
-     * @return true if streaming successful
-     */
     bool streamTranscribe(
         const std::vector<uint8_t>& audio_stream,
         std::function<void(const TranscriptionSegment&)> callback
     );
 
-    /**
-     * @brief Assign speaker IDs to transcription segments via acoustic clustering.
-     *
-     * Extracts sub-band RMS + zero-crossing-rate feature vectors for each
-     * segment's audio window and clusters them with k-means (cosine distance,
-     * k-means++ seeding).  The number of speakers used is @p max_speakers when
-     * > 0, otherwise min(4, segment_count).
-     *
-     * This method is also called automatically by transcribe() when the
-     * "speaker_diarization" option is set to true.
-     *
-     * @param segments    Transcription segments with timestamp information.
-     * @param pcm_data    Full-audio PCM samples (float, 16 kHz mono).
-     * @param max_speakers Maximum number of speakers to cluster (0 = auto).
-     * @return Segments with speaker_id filled in (0-based cluster index).
-     *         Returns @p segments unchanged when fewer than 2 segments are
-     *         provided or @p pcm_data is empty.
-     */
     static std::vector<TranscriptionSegment> diarizeSegments(
         const std::vector<TranscriptionSegment>& segments,
         const std::vector<float>& pcm_data,
         int max_speakers = 0
     );
     
-    /**
-     * @brief Generate meeting protocol from audio
-     * 
-     * @param audio_blob Audio recording of meeting
-     * @param options Protocol options (format, include speakers, etc.)
-     * @return Structured meeting protocol
-     */
     json generateMeetingProtocol(
         const std::vector<uint8_t>& audio_blob,
         const json& options = {}
     );
 
     /**
-     * @brief Inject a custom transcription backend (non-Whisper builds).
-     *
-     * When @p fn is non-null, `transcribeInternal()` delegates to it instead of
-     * the built-in notice-string stub used when `THEMIS_ENABLE_WHISPER` is not
-     * defined.  Pass `nullptr` to revert to the stub path.
-     *
-     * Roadmap ref: src/content/FUTURE_ENHANCEMENTS.md §STTProcessor WhisperActivation.
+     * @brief Set Transcribe Fn.
+     * @param[in] fn Input parameter.
      */
     void setTranscribeFn(STTTranscribeFn fn);
 
@@ -197,27 +125,67 @@ private:
     STTTranscribeFn transcribe_fn_;
 
     // Internal methods
+    /**
+     * @brief Load Whisper Model.
+     * @return True when the operation succeeds.
+     */
     bool loadWhisperModel();
+    /**
+     * @brief Unload Whisper Model.
+     */
     void unloadWhisperModel();
     
+    /**
+     * @brief Convert To Wav16k Hz.
+     * @param[in] audio_blob Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> convertToWav16kHz(const std::vector<uint8_t>& audio_blob);
+    /**
+     * @brief Extract PCMData.
+     * @param[in] wav_data Input parameter.
+     * @return Return value.
+     */
     std::vector<float> extractPCMData(const std::vector<uint8_t>& wav_data);
     
+    /**
+     * @brief Transcribe Internal.
+     * @param[in] pcm_data Input parameter.
+     * @param[in] options Input parameter.
+     * @return Return value.
+     */
     TranscriptionResult transcribeInternal(
         const std::vector<float>& pcm_data,
         const json& options
     );
     
+    /**
+     * @brief Perform Speaker Diarization.
+     * @param[in] segments Input parameter.
+     * @param[in] pcm_data Input parameter.
+     * @return Return value.
+     */
     std::vector<TranscriptionSegment> performSpeakerDiarization(
         const std::vector<TranscriptionSegment>& segments,
         const std::vector<float>& pcm_data
     );
     
+    /**
+     * @brief Format As Protocol.
+     * @param[in] result Input parameter.
+     * @param[in] options Input parameter.
+     * @return Return value.
+     */
     json formatAsProtocol(
         const TranscriptionResult& result,
         const json& options
     );
     
+    /**
+     * @brief Format Timestamp.
+     * @param[in] ms Input parameter.
+     * @return Return value.
+     */
     std::string formatTimestamp(int64_t ms);
 };
 

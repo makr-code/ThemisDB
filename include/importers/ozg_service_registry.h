@@ -49,12 +49,6 @@ namespace importers {
 
 // ── OZGServiceStatus ──────────────────────────────────────────────────────────
 
-/**
- * @brief Digitisation maturity level of an OZG service.
- *
- * Mirrors the four-level OZG maturity model (Reifegrade) defined by the
- * IT-Planungsrat.
- */
 enum class OZGServiceStatus {
     NOT_STARTED,        ///< Service not yet digitised
     INFORMATION_ONLY,   ///< Reifegard 1 – information available online
@@ -65,9 +59,6 @@ enum class OZGServiceStatus {
 
 // ── OZGFederalLevel ───────────────────────────────────────────────────────────
 
-/**
- * @brief Jurisdiction level responsible for providing the OZG service.
- */
 enum class OZGFederalLevel {
     FEDERAL,    ///< Bundesbehörde (federal authority)
     STATE,      ///< Landesbehörde (state authority)
@@ -77,11 +68,6 @@ enum class OZGFederalLevel {
 
 // ── OZGFieldType ──────────────────────────────────────────────────────────────
 
-/**
- * @brief Semantic type of a data field in an OZG service schema.
- *
- * Derived from FIM data-field catalogue (Datenfeldkatalog).
- */
 enum class OZGFieldType {
     TEXT,           ///< Free-form text
     DATE,           ///< Calendar date (ISO 8601)
@@ -97,11 +83,6 @@ enum class OZGFieldType {
 
 // ── OZGDataField ─────────────────────────────────────────────────────────────
 
-/**
- * @brief A single data field in an OZG service schema.
- *
- * Corresponds to a FIM Datenfeld (data field) with OZG-specific metadata.
- */
 struct OZGDataField {
     std::string id;             ///< Unique field identifier (e.g. "F60000017")
     std::string name;           ///< Human-readable German label
@@ -114,13 +95,6 @@ struct OZGDataField {
 
 // ── OZGServiceEntry ───────────────────────────────────────────────────────────
 
-/**
- * @brief Describes a single OZG administrative service (Verwaltungsleistung).
- *
- * Derived from the FITKO OZG service catalogue.  Each entry uniquely
- * identifies a service, its legal foundation, the responsible authority
- * type, and the required data schema for a digital submission.
- */
 struct OZGServiceEntry {
     // ── Identity ──────────────────────────────────────────────────────────────
     std::string id;                     ///< OZG service ID (e.g. "99026004017000")
@@ -152,89 +126,69 @@ struct OZGServiceEntry {
 
 // ── IOZGServiceRegistry ───────────────────────────────────────────────────────
 
-/**
- * @brief Abstract interface for the OZG service schema registry.
- *
- * Implementations MUST be thread-safe.
- */
 class IOZGServiceRegistry {
 public:
+    /**
+     * @brief IOZGService Registry.
+     * @return Return value.
+     */
     virtual ~IOZGServiceRegistry() = default;
 
     /**
-     * @brief Register a new OZG service entry.
-     *
-     * @throws std::invalid_argument  if entry.id is empty.
-     * @throws std::runtime_error     if a service with the same ID is already
-     *                                registered.
+     * @brief Register Service.
+     * @param[in] entry Input parameter.
      */
     virtual void registerService(const OZGServiceEntry& entry) = 0;
 
     /**
-     * @brief Update an existing service entry (replace by ID).
-     *
-     * @throws std::invalid_argument  if entry.id is empty or the ID is not
-     *                                registered.
+     * @brief Update Service.
+     * @param[in] entry Input parameter.
      */
     virtual void updateService(const OZGServiceEntry& entry) = 0;
 
     /**
-     * @brief Remove a service entry by ID.  No-op if ID is not registered.
+     * @brief Remove Service.
+     * @param[in] id Input parameter.
      */
     virtual void removeService(std::string_view id) = 0;
 
     /**
-     * @brief Look up a service by its OZG service ID.
-     *
-     * @return The matching entry, or std::nullopt if not found.
+     * @brief Find By Id.
+     * @param[in] id Input parameter.
+     * @return Return value.
      */
     virtual std::optional<OZGServiceEntry> findById(std::string_view id) const = 0;
 
-    /**
-     * @brief Return all services whose status matches @p status.
-     */
     virtual std::vector<OZGServiceEntry>
     findByStatus(OZGServiceStatus status) const = 0;
 
-    /**
-     * @brief Return all services applicable to a given federal state.
-     *
-     * @param state_code  ISO 3166-2:DE code, e.g. "DE-BY".
-     */
     virtual std::vector<OZGServiceEntry>
     findByState(std::string_view state_code) const = 0;
 
-    /**
-     * @brief Return all services that carry the given compliance tag.
-     */
     virtual std::vector<OZGServiceEntry>
     findByComplianceTag(std::string_view tag) const = 0;
 
     /**
-     * @brief Return all registered services.
+     * @brief All.
+     * @return Return value.
      */
     virtual std::vector<OZGServiceEntry> all() const = 0;
 
     /**
-     * @brief Return the total number of registered services.
+     * @brief Size.
+     * @return Return value.
      */
     virtual std::size_t size() const = 0;
 
     /**
-     * @brief Return true if the registry contains no entries.
+     * @brief Empty.
+     * @return True when the operation succeeds.
      */
     virtual bool empty() const = 0;
 };
 
 // ── InMemoryOZGServiceRegistry ────────────────────────────────────────────────
 
-/**
- * @brief Thread-safe in-memory implementation of IOZGServiceRegistry.
- *
- * Stores entries in a std::map keyed by OZG service ID.  All operations
- * acquire the same mutex; read-heavy workloads should wrap this with a
- * read-copy-update strategy if hot-path latency becomes a concern.
- */
 class InMemoryOZGServiceRegistry : public IOZGServiceRegistry {
 public:
     // ── Mutation ──────────────────────────────────────────────────────────────
@@ -243,6 +197,11 @@ public:
         if (entry.id.empty()) {
             throw std::invalid_argument("OZGServiceEntry::id must not be empty");
         }
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         if (entries_.count(entry.id)) {
             throw std::runtime_error("OZG service already registered: " + entry.id);
@@ -254,6 +213,11 @@ public:
         if (entry.id.empty()) {
             throw std::invalid_argument("OZGServiceEntry::id must not be empty");
         }
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         if (!entries_.count(entry.id)) {
             throw std::invalid_argument("OZG service not registered: " + entry.id);
@@ -262,6 +226,11 @@ public:
     }
 
     void removeService(std::string_view id) override {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         entries_.erase(std::string(id));
     }
@@ -269,6 +238,11 @@ public:
     // ── Queries ───────────────────────────────────────────────────────────────
 
     std::optional<OZGServiceEntry> findById(std::string_view id) const override {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         auto it = entries_.find(std::string(id));
         if (it == entries_.end()) {
@@ -278,6 +252,11 @@ public:
     }
 
     std::vector<OZGServiceEntry> findByStatus(OZGServiceStatus status) const override {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         std::vector<OZGServiceEntry> result = {};
 
@@ -290,8 +269,18 @@ public:
     }
 
     std::vector<OZGServiceEntry> findByState(std::string_view state_code) const override {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         std::vector<OZGServiceEntry> result;
+        /**
+         * @brief Sc.
+         * @param[in] state_code Input parameter.
+         * @return Return value.
+         */
         const std::string sc(state_code);
         for (const auto& [id, e] : entries_) {
             for (const auto& s : e.applicable_states) {
@@ -302,8 +291,18 @@ public:
     }
 
     std::vector<OZGServiceEntry> findByComplianceTag(std::string_view tag) const override {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         std::vector<OZGServiceEntry> result;
+        /**
+         * @brief T.
+         * @param[in] tag Input parameter.
+         * @return Return value.
+         */
         const std::string t(tag);
         for (const auto& [id, e] : entries_) {
             for (const auto& ct : e.compliance_tags) {
@@ -314,6 +313,11 @@ public:
     }
 
     std::vector<OZGServiceEntry> all() const override {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         std::vector<OZGServiceEntry> result = {};
 
@@ -325,11 +329,21 @@ public:
     }
 
     std::size_t size() const override {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         return entries_.size();
     }
 
     bool empty() const override {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         return entries_.empty();
     }

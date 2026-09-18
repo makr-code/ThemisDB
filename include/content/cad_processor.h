@@ -17,18 +17,6 @@
 namespace themis {
 namespace content {
 
-/**
- * @brief CAD Processor Plugin
- * 
- * Uses OpenCASCADE/Open3D for CAD processing.
- * Extracts:
- * - Geometry properties (bounding box, volume, surface area)
- * - Part list / Bill of Materials
- * - Assembly structure
- * - Material assignments
- * - Tolerance/dimension info
- * - 2D/3D preview images
- */
 class CADProcessor : public IContentProcessorPlugin {
 public:
     CADProcessor();
@@ -74,14 +62,54 @@ private:
     bool initialized_ = false;
     
     // Internal methods
+    /**
+     * @brief Parse STEP.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     CADExtractionData parseSTEP(const std::vector<uint8_t>& blob);
+    /**
+     * @brief Parse IGES.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     CADExtractionData parseIGES(const std::vector<uint8_t>& blob);
+    /**
+     * @brief Parse DXF.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     CADExtractionData parseDXF(const std::vector<uint8_t>& blob);
+    /**
+     * @brief Parse STL.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     CADExtractionData parseSTL(const std::vector<uint8_t>& blob);
+    /**
+     * @brief Parse OBJ.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     CADExtractionData parseOBJ(const std::vector<uint8_t>& blob);
     
+    /**
+     * @brief Render3 DPreview.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> render3DPreview(const std::vector<uint8_t>& blob);
+    /**
+     * @brief Extract Assembly Tree.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     json extractAssemblyTree(const std::vector<uint8_t>& blob);
+    /**
+     * @brief Extract Bill Of Materials.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     json extractBillOfMaterials(const std::vector<uint8_t>& blob);
 };
 

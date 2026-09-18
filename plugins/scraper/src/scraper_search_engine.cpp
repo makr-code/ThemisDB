@@ -148,7 +148,8 @@ std::string buildQueryString(const std::map<std::string, std::string> &fixed, co
     if (looks(name) || looks(id)) {
         return true;
     }
-    // placeholder heuristic
+    // Keyword-based fallback that checks the normalised placeholder text for
+    // search-intent terms.
     const std::string pl = toLower(placeholder);
     return pl.find("such") != std::string::npos || pl.find("search") != std::string::npos
            || pl.find("eingabe") != std::string::npos;

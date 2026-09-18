@@ -34,9 +34,6 @@ namespace importers {
 
 using json = nlohmann::json;
 
-/**
- * @brief Import error severity levels
- */
 enum class ImportErrorSeverity {
     INFO,     ///< Informational (e.g., skipped duplicate)
     WARNING,  ///< Non-fatal issue (e.g., unknown type, using default)
@@ -44,18 +41,6 @@ enum class ImportErrorSeverity {
     CRITICAL  ///< Fatal failure that stops the import
 };
 
-/**
- * @brief Structured import error codes
- *
- * Ranges:
- *   0       – success
- *   100-199 – I/O and file errors
- *   200-299 – SQL parsing errors
- *   300-399 – Schema mapping errors
- *   400-499 – Data conversion errors
- *   500-599 – Validation / policy errors
- *   900-999 – Generic / unknown errors
- */
 enum class ImportErrorCode : uint32_t {
     // Success
     SUCCESS = 0,
@@ -106,9 +91,6 @@ enum class ImportErrorCode : uint32_t {
     UNKNOWN              = 900
 };
 
-/**
- * @brief Structured import error entry
- */
 struct ImportError {
     ImportErrorCode   code     = ImportErrorCode::UNKNOWN;
     ImportErrorSeverity severity = ImportErrorSeverity::ERROR;
@@ -129,12 +111,6 @@ struct ImportError {
 // PHASE-3-ERROR-HANDLING: Connector Capability Fallback Chain
 // ============================================================================
 
-/**
- * @brief Connector capability classification.
- *
- * PHASE-3-ERROR-HANDLING: Deterministic fallback chains per capability
- * All connectors support BASIC_IMPORT; optional capabilities have defined fallbacks.
- */
 enum class ConnectorCapability {
     BASIC_IMPORT,           ///< All connectors support basic row import
     CDC_SUPPORT,            ///< Change Data Capture (fallback: polling)
@@ -143,28 +119,13 @@ enum class ConnectorCapability {
     BATCH_OPTIMIZATION      ///< Bulk operations (fallback: single-row)
 };
 
-/**
- * @brief Result of a capability check for a specific connector.
- *
- * PHASE-3-ERROR-HANDLING: Capability availability and fallback path
- * Used to determine if a connector can support a feature, and if not,
- * what fallback path is available.
- *
- * Determinism: Same connector + capability always returns same result.
- */
 struct CapabilityCheckResult {
-    /// True if capability is natively supported, false if fallback needed
     bool supported = {};
 
-    /// Description of fallback path (e.g., "CDC → POLLING", "SCHEMA_INFERENCE → ALL_TEXT")
-    /// Empty string if capability is natively supported.
     std::string fallback_path;
 
-    /// Performance delta for fallback (1.0 = no change, 0.5 = 50% slower)
-    /// Only meaningful if not supported.
     float performance_delta;
 
-    /// Audit message for capability degradation
     std::string audit_message;
 
     json toJson() const {
@@ -177,23 +138,6 @@ struct CapabilityCheckResult {
     }
 };
 
-/**
- * @brief Conflict resolution strategy for import jobs.
- *
- * Controls what happens when the same conflict key (see
- * ImportOptions::conflict_key_columns) is encountered more than once during an
- * import session.
- *
- * | Strategy  | Behaviour on conflict                                         |
- * |-----------|---------------------------------------------------------------|
- * | OVERWRITE | Discard the previously seen entity; use the incoming one      |
- * | SKIP      | Keep the previously seen entity; discard the incoming one     |
- * | MERGE     | Merge fields from both entities; incoming fields win unless   |
- * |           | listed in ImportOptions::protected_fields                     |
- * | ERROR     | Treat the conflict as a fatal error; abort the batch          |
- *
- * Default is OVERWRITE for backward compatibility.
- */
 enum class ConflictStrategy {
     OVERWRITE,  ///< Replace existing entity with incoming (default)
     SKIP,       ///< Keep existing entity, discard incoming duplicate
@@ -205,62 +149,34 @@ enum class ConflictStrategy {
 // Entity Linking / MDM configuration (used by ImportOptions)
 // ============================================================================
 
-/**
- * @brief Per-collection semantic matching settings for the MDM pipeline.
- */
 struct CollectionMatchingConfig {
-    /// Field names to use for deterministic (exact-key) matching.
     std::vector<std::string> primary_key_fields;
 
-    /// Field names with unique constraints (secondary deterministic matching).
     std::vector<std::string> unique_fields;
 
-    /// Semantic matching algorithm per field: "jaro_winkler", "levenshtein",
-    /// "soundex", "email", "phone".
     std::map<std::string, std::string> field_algorithms;
 
-    /// Per-field weight for the semantic matching score (0.0–1.0).
     std::map<std::string, double> field_weights;
 
-    /// Minimum overall semantic confidence to accept a match (default: 0.85).
     double semantic_threshold = 0.85;
 };
 
-/**
- * @brief Configuration for the MDM entity-linking phase of an import.
- *
- * When @c enabled is true, the importer runs an MDM workflow after the
- * standard import phase to match, link, and deduplicate incoming entities
- * against existing ones in ThemisDB.
- *
- * The strategy and thresholds can be overridden per collection via
- * @c collection_configs.
- */
 struct EntityLinkingConfig {
-    /// When false the MDM workflow is completely bypassed (default).
     bool enabled = false;
 
-    /// Matching strategy: 0 = DETERMINISTIC_FIRST, 1 = SEMANTIC_FIRST,
-    /// 2 = WEIGHTED_ENSEMBLE.  Stored as int to avoid pulling in
-    /// entity_matcher.h from this header.
     int strategy = 0; // DETERMINISTIC_FIRST
 
     double deterministic_threshold = 1.0;
     double semantic_threshold      = 0.85;
 
-    /// Resolution policy: 0–5 maps to ResolutionPolicy enum values.
     int resolution_policy = 4; // RICHEST_MERGE
 
-    /// Automatically resolve conflicts without queuing for manual review.
     bool auto_resolve_conflicts = false;
 
-    /// Create reverse links (target → source) in addition to forward links.
     bool create_reverse_links = true;
 
-    /// Fields that are never overwritten during golden-record creation.
     std::vector<std::string> protected_fields;
 
-    /// Per-collection overrides for matching algorithm and thresholds.
     std::map<std::string, CollectionMatchingConfig> collection_configs;
 
     json toJson() const {
@@ -277,9 +193,6 @@ struct EntityLinkingConfig {
     }
 };
 
-/**
- * @brief Import Statistics
- */
 struct ImportStats {
     size_t total_records = 0;
     size_t imported_records = 0;
@@ -314,9 +227,6 @@ struct ImportStats {
     size_t golden_records     = 0;  ///< Golden records produced by the MDM phase
     size_t mdm_reviews_needed = 0;  ///< Entities queued for manual review
 
-    /// Optional sample of imported entities (used by MDM post-processing).
-    /// Populated by the importer when entity_linking.enabled is true and
-    /// the batch fits within the configured sample limit.
     json sample_entities = json::array();
 
     // Backwards-compatibility aliases (legacy test and plugin code may use
@@ -364,127 +274,22 @@ struct ImportStats {
     }
 };
 
-/**
- * @brief Progress Callback
- */
 using ProgressCallback = std::function<void(const std::string& stage, size_t current, size_t total)>;
 
-/**
- * @brief Streaming Row Callback for memory-efficient large-dataset imports.
- *
- * Invoked by the importer for each converted entity as it is produced from the
- * source file, enabling callers to process rows one-by-one without waiting for
- * the entire dataset to be read into memory.
- *
- * @param table_name  Name of the source table the entity belongs to.
- * @param entity      Converted row as a JSON object (field-name → value).
- *
- * @return `true`  to continue the import; `false` to abort immediately.
- *
- * Thread-safety: the callback is invoked from the same thread that calls
- * `importDataStreaming()`.  Implementations that share state with other
- * threads must provide their own synchronisation.
- *
- * Example – stream rows directly to a sink without buffering:
- * @code
- *   ImportOptions opts;
- *   auto stats = importer.importDataStreaming(path, opts,
- *       [&sink](const std::string& table, const json& row) -> bool {
- *           return sink.write(table, row);  // false on sink error → abort
- *       });
- * @endcode
- */
 using RowCallback = std::function<bool(const std::string& table_name, const json& entity)>;
 
-/**
- * @brief Distributed Tracing / OpenTelemetry Span Callback.
- *
- * Called by the importer at the start and end of every major operation
- * (table schema parse, COPY block, INSERT batch) so callers can record
- * OpenTelemetry spans, Jaeger spans, or any other distributed-tracing entry
- * without the importer having a hard dependency on a tracing library.
- *
- * @param operation       Short name for the span, e.g. "parse_table", "copy_block"
- * @param attributes      Key/value span attributes, e.g. {"table": "users", "rows": "150"}
- * @param duration_seconds Wall-clock duration of the operation in seconds (>= 0)
- *
- * Standard operation names emitted:
- *   "import_total"      – wraps the entire importData() call
- *   "parse_table"       – one CREATE TABLE statement parsed; attr: "table"
- *   "copy_block"        – one COPY … FROM stdin block processed; attrs: "table", "rows"
- *   "insert_batch"      – one INSERT INTO statement processed; attr: "table"
- *   "alter_column"      – one ALTER TABLE ADD COLUMN processed; attrs: "table", "column"
- *
- * Example wiring to OpenTelemetry:
- * @code
- *   auto tracer = opentelemetry::trace::Provider::GetTracerProvider()->GetTracer("themisdb");
- *   opts.tracing_callback = [&tracer](const std::string& op,
- *                                      const std::map<std::string,std::string>& attrs,
- *                                      double dur) {
- *       auto span = tracer->StartSpan(op);
- *       for (auto& [k, v] : attrs) span->SetAttribute(k, v);
- *       span->SetAttribute("duration_seconds", dur);
- *       span->End();
- *   };
- * @endcode
- */
 using SpanCallback = std::function<void(
     const std::string& operation,
     const std::map<std::string, std::string>& attributes,
     double duration_seconds
 )>;
 
-/**
- * @brief Metrics Callback for Prometheus / OpenTelemetry integration.
- *
- * Called by the importer at key points so callers can wire any metrics backend
- * without the importer having a hard dependency on a specific library.
- *
- * Standard metric names emitted:
- *   "themisdb_import_rows_total"     labels: table, status ("imported"|"failed"|"skipped")
- *   "themisdb_import_duration_seconds" labels: table
- *   "themisdb_import_errors_total"   labels: table, code (ImportErrorCode as uint32 string)
- *   "themisdb_import_tables_total"   labels: (none)
- *
- * Example wiring to PrometheusMetrics:
- * @code
- *   auto& prom = PrometheusMetrics::instance();
- *   opts.metrics_callback = [&](const std::string& metric,
- *                               const std::map<std::string,std::string>& labels,
- *                               double value) {
- *       prom.addToCounter(metric, static_cast<int64_t>(value), labels);
- *   };
- * @endcode
- */
 using MetricsCallback = std::function<void(
     const std::string& metric,
     const std::map<std::string, std::string>& labels,
     double value
 )>;
 
-/**
- * @brief Permission Check Callback for ACL / policy enforcement.
- *
- * Called by the importer at the start of every `importData()` /
- * `importDataAsync()` call so the caller can enforce its own access-control
- * policy without the importer having a hard dependency on any specific
- * security framework.
- *
- * Return `true` to allow the import; `false` to deny it.  On denial the
- * importer records a structured `PERMISSION_DENIED` (code 503) error and
- * returns an empty `ImportStats` immediately.
- *
- * @param resource  The resource being accessed, e.g. "import"
- * @param action    The action being performed, e.g. "write"
- *
- * Example wiring to RBAC:
- * @code
- *   opts.permission_check = [&rbac, user_id](const std::string& resource,
- *                                             const std::string& action) {
- *       return rbac.hasPermission(user_id, resource, action);
- *   };
- * @endcode
- */
 using PermissionCheckCallback = std::function<bool(
     const std::string& resource,
     const std::string& action
@@ -563,95 +368,44 @@ struct ImportOptions {
     // Conflict resolution
     // -------------------------------------------------------------------------
 
-    /// Strategy to apply when the same conflict key appears more than once
-    /// during an import session.  Default: OVERWRITE (backward compatible).
     ConflictStrategy conflict_strategy = ConflictStrategy::OVERWRITE;
 
-    /// Columns whose values form the conflict detection key.
-    /// If empty, no in-session conflict detection is performed.
-    /// Example: {"id"} or {"tenant_id", "user_id"}
     std::vector<std::string> conflict_key_columns;
 
-    /// Fields that the MERGE strategy must not overwrite with incoming values.
-    /// Ignored by SKIP, OVERWRITE, and ERROR strategies.
     std::vector<std::string> protected_fields;
 
-    /// Recursion depth for the MERGE strategy.
-    /// 1  = top-level fields only (default, nested objects replaced entirely).
-    /// -1 = deep recursive merge for all nested JSON objects.
-    /// N  = merge up to N levels deep.
     int merge_depth = 1;
 
     // -------------------------------------------------------------------------
     // Schema auto-detection and validation
     // -------------------------------------------------------------------------
 
-    /// When true, the importer samples the first schema_sample_rows data rows
-    /// to auto-detect column types, then validates every row against the
-    /// detected schema during import.  Type mismatches are recorded as
-    /// SCHEMA_VALIDATION_FAILED (code 504) WARNING-severity structured errors.
-    /// Rows with type mismatches are still imported; validation failures are
-    /// non-fatal by design and do not count as failed_records.
     bool validate_schema = false;
 
-    /// Number of data rows to sample for schema type inference.
-    /// Only used when validate_schema is true.  Defaults to 100.
-    /// Setting this to 0 effectively disables schema detection (no rows are
-    /// sampled → no schema is built → per-row validation is skipped).
     size_t schema_sample_rows = 100;
 
     // -------------------------------------------------------------------------
     // v2.0: Foreign Key Preservation
     // -------------------------------------------------------------------------
 
-    /// When true (default), the importer parses and preserves FOREIGN KEY
-    /// constraints from the dump.  Extracted FK metadata is:
-    ///   - stored in the per-table schema (getSourceSchema returns "foreign_keys")
-    ///   - counted in ImportStats::foreign_keys_preserved
-    ///   - embedded in entity JSON as "_foreign_keys" array when present
-    ///
-    /// Setting this to false restores v1.x behaviour (FKs silently skipped).
     bool preserve_foreign_keys = true;
     // Foreign Key / Relationship preservation (v2.0)
     // -------------------------------------------------------------------------
 
-    /// When true, Foreign Key constraints are extracted and preserved as
-    /// ThemisDB graph relationships during import.  Default: true.
     bool preserve_relationships = true;
 
-    /// When true, all FK references are validated before data import starts.
-    /// Missing target tables produce structured UNKNOWN_TABLE errors.  Default: false.
     bool validate_references = false;
 
-    /// How FK constraints are mapped to graph edges.
-    ///   "auto"   – detect cardinality automatically (default)
-    ///   "manual" – no automatic mapping; user configures via API
-    ///   "skip"   – do not create graph edges for FKs
     std::string relationship_mapping_mode = "auto";
     // Entity linking / Master Data Management (MDM)
     // -------------------------------------------------------------------------
 
-    /// When entity_linking.enabled is true, a post-import MDM workflow
-    /// matches, links, and deduplicates the imported entities against
-    /// existing ThemisDB records using the configured strategy.
     EntityLinkingConfig entity_linking;
 
     // -------------------------------------------------------------------------
     // I1: Connection / operation timeout enforcement (Phase 4 hardening)
     // -------------------------------------------------------------------------
 
-    /// Maximum milliseconds allowed for the entire importData() call.
-    /// When exceeded the import is aborted with a DEADLINE_EXCEEDED (110) error
-    /// and a structured audit event is emitted via THEMIS_WARN.
-    /// Set to 0 (default) to disable the timeout guard.
-    ///
-    /// Typical values:
-    ///   connection_timeout_ms = 5000   (file open / header validation)
-    ///   query_timeout_ms      = 30000  (full dump processing)
-    ///   fetch_timeout_ms      = 10000  (per result-set fetch window)
-    ///
-    /// All three share the single import_timeout_ms budget in file-based importers.
-    /// Live-connection importers may honour them individually.
     uint32_t import_timeout_ms = 0;   ///< 0 = disabled
 
     // Backwards-compatibility alias: older code/tests used `deadline_ms`.
@@ -699,9 +453,6 @@ struct ImportOptions {
 // Async import API
 // ============================================================================
 
-/**
- * @brief Async import status
- */
 enum class ImportStatus {
     PENDING,    ///< Job submitted, not yet started
     RUNNING,    ///< Import in progress
@@ -710,13 +461,6 @@ enum class ImportStatus {
     FAILED      ///< Fatal error stopped the import
 };
 
-/**
- * @brief Live handle for an in-progress or completed async import.
- *
- * Returned by `IImporter::importDataAsync()`.  All fields are thread-safe:
- * the importer worker thread writes to the atomic counters while the caller
- * or HTTP handler thread reads them.
- */
 struct ImportHandle {
     std::string id;           ///< Unique job ID (UUID-like string)
     std::string source_path;  ///< Source file path used for this job (v2.0)
@@ -757,10 +501,20 @@ struct ImportHandle {
     }
 
     std::string getStage() const {
+        /**
+         * @brief Lk.
+         * @param[in] stage_mutex Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(stage_mutex);
         return stage;
     }
 
+    /**
+     * @brief Set Stage.
+     * @param[in] s Input parameter.
+     * @details Calls: lk().
+     */
     void setStage(const std::string& s) {
         std::lock_guard<std::mutex> lk(stage_mutex);
         stage = s;
@@ -796,26 +550,35 @@ struct ImportHandle {
     }
 };
 
-/**
- * @brief Thread-safe registry of active and recently completed import jobs.
- *
- * Holds shared_ptr<ImportHandle> entries keyed by job ID.  Jobs are kept in
- * the registry after completion so status queries can retrieve final stats.
- */
 class ImportJobRegistry {
 public:
+    /**
+     * @brief Add.
+     * @param[in] handle Input parameter.
+     * @details Calls: lk(), std::move().
+     */
     void add(std::shared_ptr<ImportHandle> handle) {
         std::lock_guard<std::mutex> lk(mutex_);
         jobs_[handle->id] = std::move(handle);
     }
 
     std::shared_ptr<ImportHandle> get(const std::string& id) const {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mutex_);
         auto it = jobs_.find(id);
         return (it != jobs_.end()) ? it->second : nullptr;
     }
 
     std::vector<std::shared_ptr<ImportHandle>> all() const {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mutex_);
         std::vector<std::shared_ptr<ImportHandle>> out;
         out.reserve(jobs_.size());
@@ -861,6 +624,11 @@ public:
         return out;
     }
 
+    /**
+     * @brief Remove.
+     * @param[in] id Input parameter.
+     * @details Calls: lk(), erase().
+     */
     void remove(const std::string& id) {
         std::lock_guard<std::mutex> lk(mutex_);
         jobs_.erase(id);
@@ -871,48 +639,22 @@ private:
     std::map<std::string, std::shared_ptr<ImportHandle>> jobs_;
 };
 
-/**
- * @brief Base Importer Interface
- * 
- * All importers (PostgreSQL, MySQL, CSV, etc.) implement this interface.
- */
 class IImporter {
 public:
+    /**
+     * @brief IImporter.
+     * @return Return value.
+     */
     virtual ~IImporter() = default;
     
-    /**
-     * @brief Get importer name
-     */
     [[nodiscard]] virtual const char* getName() const = 0;
     
-    /**
-     * @brief Get supported source types
-     * @return List of supported types (e.g., "postgresql", "mysql", "csv")
-     */
     [[nodiscard]] virtual std::vector<std::string> getSupportedTypes() const = 0;
     
-    /**
-     * @brief Initialize importer with configuration
-     * @param config Configuration JSON
-     * @return true if initialized successfully
-     */
     [[nodiscard]] virtual bool initialize(const std::string& config) = 0;
     
-    /**
-     * @brief Validate source before import
-     * @param source_path Path to source (file, directory, connection string)
-     * @param errors Output: validation errors
-     * @return true if source is valid
-     */
     [[nodiscard]] virtual bool validateSource(const std::string& source_path, std::vector<std::string>& errors) = 0;
     
-    /**
-     * @brief Import data from source (synchronous)
-     * @param source_path Path to source
-     * @param options Import options
-     * @param progress_callback Optional progress callback
-     * @return Import statistics
-     */
     [[nodiscard]] virtual ImportStats importData(
         const std::string& source_path,
         const ImportOptions& options,
@@ -920,31 +662,12 @@ public:
     ) = 0;
 
     /**
-     * @brief Import data from source with per-row streaming callback.
-     *
-     * Reads the source file in a single pass, delivering each converted entity
-     * to @p row_callback immediately after it is produced.  No rows are held in
-     * memory between callback invocations, making this suitable for datasets
-     * that would otherwise exhaust available RAM.
-     *
-     * The callback signature is:
-     * @code
-     *   bool callback(const std::string& table_name, const json& entity);
-     * @endcode
-     * Return `true` to continue; `false` to abort the import early (the method
-     * will return with whatever @c ImportStats have been accumulated so far).
-     *
-     * All other @p options (filtering, type overrides, UTF-8 enforcement, etc.)
-     * are applied in the same way as `importData()`.
-     *
-     * The default implementation stores the callback in a copy of @p options
-     * and delegates to `importData()`.  Derived classes may override for
-     * connector-specific streaming optimisations.
-     *
-     * @param source_path  Path to source file / connection string.
-     * @param options      Import options (streaming_row_callback is overwritten).
-     * @param row_callback Callback invoked for every successfully converted row.
-     * @return             Accumulated import statistics.
+     * @brief Import Data Streaming.
+     * @param[in] source_path Path to the source.
+     * @param[in] options Input parameter.
+     * @param[in] row_callback Input parameter.
+     * @return Return value.
+     * @details Calls: std::move(), importData().
      */
     virtual ImportStats importDataStreaming(
         const std::string& source_path,
@@ -956,38 +679,16 @@ public:
         return importData(source_path, streaming_opts, nullptr);
     }
 
-    /**
-     * @brief Import data from source (asynchronous)
-     *
-     * Launches a background thread and returns an `ImportHandle` immediately.
-     * Callers can poll `handle->getStatus()` and read live progress from
-     * `handle->current_records`.  When `getStatus() == COMPLETED` the full
-     * `ImportStats` is available via `handle->future.get()`.
-     *
-     * **Lifetime requirement**: The `IImporter` instance must outlive all
-     * pending `ImportHandle` futures.  In practice, hold the importer via a
-     * `shared_ptr<IImporter>` whose lifetime is at least as long as the handle
-     * (e.g., store both in the same owning object or `ImportJobRegistry`).
-     *
-     * @param source_path Path to source
-     * @param options Import options
-     * @return Shared handle; call `cancel()` then inspect `future` when done.
-     */
     [[nodiscard]] virtual std::shared_ptr<ImportHandle> importDataAsync(
         const std::string& source_path,
         const ImportOptions& options
     ) = 0;
     
     /**
-     * @brief Cancel ongoing import
+     * @brief Cancel.
      */
     virtual void cancel() = 0;
     
-    /**
-     * @brief Get schema information from source
-     * @param source_path Path to source
-     * @return Schema as JSON
-     */
     [[nodiscard]] virtual json getSourceSchema(const std::string& source_path) = 0;
 };
 

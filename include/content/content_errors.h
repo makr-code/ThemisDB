@@ -20,13 +20,6 @@ namespace content {
 
 using json = nlohmann::json;
 
-/**
- * @brief Content operation error codes
- * 
- * Structured error taxonomy for content ingestion, processing,
- * and retrieval operations. Used for observability, debugging,
- * and client-friendly error responses.
- */
 enum class ContentErrorCode {
     // Success
     OK = 0,
@@ -80,12 +73,6 @@ enum class ContentErrorCode {
     CONTENT_DEPENDENCY_ERROR = 1902
 };
 
-/**
- * @brief Structured error result for content operations
- * 
- * Provides detailed error information with sanitized messages
- * for external exposure and internal debugging context.
- */
 struct ContentError {
     ContentErrorCode code = ContentErrorCode::OK;
     std::string message;           // Human-readable error message (sanitized for external use)
@@ -94,59 +81,59 @@ struct ContentError {
     std::string content_id;        // Content ID if applicable
     json metadata;                 // Additional context (sanitized)
     
-    /**
-     * @brief Check if error represents success
-     */
     bool isOk() const { return code == ContentErrorCode::OK; }
     
-    /**
-     * @brief Check if error represents a failure
-     */
     bool failed() const { return code != ContentErrorCode::OK; }
     
     /**
-     * @brief Check if error is retryable (transient)
+     * @brief Is Retryable.
+     * @return True when the operation succeeds.
      */
     bool isRetryable() const;
     
     /**
-     * @brief Check if error is client error (4xx-like)
+     * @brief Is Client Error.
+     * @return True when the operation succeeds.
      */
     bool isClientError() const;
     
     /**
-     * @brief Check if error is server error (5xx-like)
+     * @brief Is Server Error.
+     * @return True when the operation succeeds.
      */
     bool isServerError() const;
     
     /**
-     * @brief Get HTTP status code equivalent
+     * @brief Get Http Status.
+     * @return Return value.
      */
     int getHttpStatus() const;
     
     /**
-     * @brief Serialize to JSON (for API responses)
+     * @brief To Json.
+     * @return Return value.
      */
     json toJson() const;
     
     /**
-     * @brief Serialize to JSON with full details (for internal logging)
+     * @brief To Json Verbose.
+     * @return Return value.
      */
     json toJsonVerbose() const;
     
     /**
-     * @brief Create from JSON
+     * @brief From Json.
+     * @param[in] j Input parameter.
+     * @return Return value.
      */
     static ContentError fromJson(const json& j);
     
     /**
-     * @brief Create success result
+     * @brief Ok.
+     * @return Return value.
      */
     static ContentError ok();
     
-    /**
-     * @brief Create error with code and message
-     */
     static ContentError error(
         ContentErrorCode code,
         const std::string& message,
@@ -155,27 +142,37 @@ struct ContentError {
 };
 
 /**
- * @brief Convert error code to string
+ * @brief Error Code To String.
+ * @param[in] code Input parameter.
+ * @return Return value.
  */
 std::string errorCodeToString(ContentErrorCode code);
 
 /**
- * @brief Get error code category (validation, processing, security, etc.)
+ * @brief Error Code Category.
+ * @param[in] code Input parameter.
+ * @return Return value.
  */
 std::string errorCodeCategory(ContentErrorCode code);
 
 /**
- * @brief Get default message for error code
+ * @brief Get Default Error Message.
+ * @param[in] code Input parameter.
+ * @return Return value.
  */
 std::string getDefaultErrorMessage(ContentErrorCode code);
 
 /**
- * @brief Check if error code indicates a security issue
+ * @brief Is Security Error.
+ * @param[in] code Input parameter.
+ * @return True when the operation succeeds.
  */
 bool isSecurityError(ContentErrorCode code);
 
 /**
- * @brief Check if error code indicates validation failure
+ * @brief Is Validation Error.
+ * @param[in] code Input parameter.
+ * @return True when the operation succeeds.
  */
 bool isValidationError(ContentErrorCode code);
 

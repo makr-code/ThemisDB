@@ -23,26 +23,18 @@ namespace aql {
 // Embedding provider interface
 // ============================================================================
 
-/**
- * @brief Minimal interface for embedding a text string into a float vector.
- *
- * Implement this interface to enable semantic (cosine-similarity) few-shot
- * selection in @c AQLFewShotExampleLibrary.  Pass the implementation to
- * @c AQLFewShotExampleLibrary::setEmbeddingProvider() to activate semantic
- * ranking.
- *
- * The default (Jaccard word-overlap) ranking is used when no provider is set.
- */
 class IEmbeddingProvider {
 public:
+    /**
+     * @brief IEmbedding Provider.
+     * @return Return value.
+     */
     virtual ~IEmbeddingProvider() = default;
 
     /**
-     * @brief Compute a fixed-dimensional dense embedding for @p text.
-     *
-     * @param text  Input text to embed (may be empty).
-     * @return Normalised float vector. Length must be consistent across calls.
-     *         An empty vector signals that embedding is unavailable.
+     * @brief Embed.
+     * @param[in] text Input parameter.
+     * @return Return value.
      */
     virtual std::vector<float> embed(const std::string& text) = 0;
 };
@@ -51,9 +43,6 @@ public:
 // Domain enum
 // ============================================================================
 
-/**
- * @brief Query domain that a few-shot example belongs to.
- */
 enum class AQLExampleDomain {
     DOCUMENT,    ///< Document collection CRUD / filter / sort queries
     GRAPH,       ///< Graph traversal and path queries
@@ -68,9 +57,6 @@ enum class AQLExampleDomain {
 // Data types
 // ============================================================================
 
-/**
- * @brief A single natural-language → AQL example with metadata.
- */
 struct AQLFewShotExample {
     std::string       id;          ///< Unique identifier (e.g., "doc_filter_city")
     std::string       nl_query;    ///< Natural-language query
@@ -84,31 +70,8 @@ struct AQLFewShotExample {
 // Library
 // ============================================================================
 
-/**
- * @brief Static registry of curated NL-to-AQL few-shot examples.
- *
- * All built-in examples are registered at construction time.  Custom
- * examples can be added at runtime via registerExample().
- *
- * Typical usage:
- * @code
- * AQLFewShotExampleLibrary lib;
- *
- * // Get all graph examples
- * auto graph_exs = lib.findByDomain(AQLExampleDomain::GRAPH);
- *
- * // Get the 3 most relevant examples for a query
- * auto relevant = lib.findRelevant("show users in Paris", 3);
- *
- * // Format examples for LLM prompt injection
- * std::string prompt_section = lib.formatForPrompt(relevant);
- * @endcode
- */
 class AQLFewShotExampleLibrary {
 public:
-    /**
-     * @brief Construct the library and register all built-in examples.
-     */
     AQLFewShotExampleLibrary();
     ~AQLFewShotExampleLibrary() = default;
 
@@ -117,8 +80,8 @@ public:
     // =========================================================================
 
     /**
-     * @brief Register a custom example.
-     * @throws std::invalid_argument if the id is empty or already registered
+     * @brief Register Example.
+     * @param[in] example Input parameter.
      */
     void registerExample(const AQLFewShotExample& example);
 
@@ -127,23 +90,29 @@ public:
     // =========================================================================
 
     /**
-     * @brief Return all registered examples.
+     * @brief All.
+     * @return Return value.
      */
     const std::vector<AQLFewShotExample>& all() const;
 
     /**
-     * @brief Return examples belonging to @p domain.
+     * @brief Find By Domain.
+     * @param[in] domain Input parameter.
+     * @return Return value.
      */
     std::vector<AQLFewShotExample> findByDomain(AQLExampleDomain domain) const;
 
     /**
-     * @brief Find examples whose tags contain @p tag (case-insensitive).
+     * @brief Find By Tag.
+     * @param[in] tag Input parameter.
+     * @return Return value.
      */
     std::vector<AQLFewShotExample> findByTag(const std::string& tag) const;
 
     /**
-     * @brief Look up an example by its unique id.
-     * @return Pointer to the example, or nullptr if not found
+     * @brief Find By Id.
+     * @param[in] id Input parameter.
+     * @return Pointer to the result.
      */
     const AQLFewShotExample* findById(const std::string& id) const;
 
@@ -151,18 +120,6 @@ public:
     // Relevance-ranked retrieval
     // =========================================================================
 
-    /**
-     * @brief Return up to @p n examples most relevant to @p nl_query.
-     *
-     * Relevance is computed as Jaccard word-overlap similarity between
-     * @p nl_query and each example's nl_query field.  When @p domain is
-     * supplied, candidates are pre-filtered to that domain before ranking.
-     *
-     * @param nl_query  Input natural-language query
-     * @param n         Maximum number of examples to return (default: 3)
-     * @param domain    Optional domain filter
-     * @return Up to @p n examples sorted by descending relevance
-     */
     std::vector<AQLFewShotExample> findRelevant(
         const std::string& nl_query,
         std::size_t n = 3,
@@ -174,32 +131,14 @@ public:
     // =========================================================================
 
     /**
-     * @brief Format a list of examples into a prompt section.
-     *
-     * Each example is rendered as:
-     * @code
-     * Natural language: <nl_query>
-     * AQL: <aql_query>
-     * @endcode
-     * with a blank line between examples.
-     *
-     * @param examples  Examples to include
-     * @return Multi-line string ready to be appended to a system prompt
+     * @brief Format For Prompt.
+     * @param[in] examples Input parameter.
+     * @return Return value.
      */
     static std::string formatForPrompt(
         const std::vector<AQLFewShotExample>& examples
     );
 
-    /**
-     * @brief Convenience: find relevant examples and return them formatted.
-     *
-     * Equivalent to formatForPrompt(findRelevant(nl_query, n, domain)).
-     *
-     * @param nl_query  Input natural-language query
-     * @param n         Maximum number of examples (default: 3)
-     * @param domain    Optional domain filter
-     * @return Formatted few-shot prompt section (empty if no examples found)
-     */
     std::string buildPromptSection(
         const std::string& nl_query,
         std::size_t n = 3,
@@ -211,7 +150,8 @@ public:
     // =========================================================================
 
     /**
-     * @brief Return the total number of registered examples.
+     * @brief Size.
+     * @return Return value.
      */
     std::size_t size() const;
 
@@ -220,32 +160,13 @@ public:
     // =========================================================================
 
     /**
-     * @brief Attach an embedding provider for semantic (cosine-similarity) ranking.
-     *
-     * When a non-null provider is attached, @c findRelevant() uses cosine
-     * similarity between the input query embedding and cached example embeddings
-     * instead of Jaccard word-overlap.  Pass @c nullptr to revert to Jaccard.
-     *
-     * The caller retains ownership of @p provider; it must remain valid for the
-     * lifetime of this library object.
-     *
-     * @note Call @c rebuildEmbeddingIndex() after changing the provider if you
-     *       want the pre-computed cache to be refreshed immediately; otherwise
-     *       embeddings are computed lazily on the first call to @c findRelevant().
-     *
-     * @param provider  Embedding provider, or nullptr to disable semantic ranking.
+     * @brief Set Embedding Provider.
+     * @param[in,out] provider Input/output parameter.
      */
     void setEmbeddingProvider(IEmbeddingProvider* provider);
 
     /**
-     * @brief Pre-compute and cache embeddings for all currently registered examples.
-     *
-     * Calling this method is optional but useful to amortise the embedding cost
-     * before the first query arrives.  It is a no-op when no provider is set.
-     *
-     * @note Thread-safety: this method is NOT thread-safe with respect to
-     *       concurrent calls to @c findRelevant() or @c registerExample().
-     *       Complete all registrations before calling @c rebuildEmbeddingIndex().
+     * @brief Rebuild Embedding Index.
      */
     void rebuildEmbeddingIndex();
 
@@ -253,32 +174,50 @@ private:
     std::vector<AQLFewShotExample>          examples_;
     std::unordered_map<std::string, std::size_t> index_by_id_;
 
-    /// Optional semantic embedding provider (null → Jaccard ranking)
     IEmbeddingProvider* embedding_provider_ = nullptr;
 
-    /// Pre-computed embeddings: index matches examples_ ordering.
-    /// Empty entries indicate that the embedding has not been computed yet.
     mutable std::vector<std::vector<float>> embedding_cache_;
 
+    /**
+     * @brief Register Builtins.
+     */
     void registerBuiltins_();
 
-    /// Lexical (Jaccard word-overlap) relevance – always available.
+    /**
+     * @brief Compute Relevance.
+     * @param[in] query Input parameter.
+     * @param[in] example Input parameter.
+     * @return Return value.
+     */
     static double computeRelevance_(
         const std::string& query,
         const AQLFewShotExample& example
     );
 
-    /// Semantic (cosine-similarity) relevance – requires embedding_provider_.
-    /// Returns -1.0 if the provider is unavailable or embedding fails.
+    /**
+     * @brief Compute Relevance Semantic.
+     * @param[in] query_embedding Input parameter.
+     * @param[in] example_index Input parameter.
+     * @return Return value.
+     */
     double computeRelevanceSemantic_(
         const std::vector<float>& query_embedding,
         std::size_t example_index
     ) const;
 
-    /// Ensure embedding_cache_[idx] is populated; returns true on success.
+    /**
+     * @brief Ensure Embedding.
+     * @param[in] idx Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool ensureEmbedding_(std::size_t idx) const;
 
-    /// Compute cosine similarity between two equal-length vectors.
+    /**
+     * @brief Cosine Similarity.
+     * @param[in] a Input parameter.
+     * @param[in] b Input parameter.
+     * @return Return value.
+     */
     static double cosineSimilarity_(
         const std::vector<float>& a,
         const std::vector<float>& b

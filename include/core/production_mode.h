@@ -18,25 +18,12 @@
 namespace themis {
 namespace core {
 
-/**
- * @brief Production mode detection and enforcement utilities.
- *
- * The helpers centralize the fail-closed policy used by security-sensitive
- * builders and validators. Callers should not duplicate environment parsing
- * rules outside this class.
- */
 class ProductionMode {
 public:
     /**
-     * @brief Check if production mode is enabled
-     * 
-     * Production mode is enabled when:
-     * - THEMIS_PRODUCTION_MODE=1 (or true, yes, on)
-     * - OR THEMIS_ENVIRONMENT=production
-     * 
-    * Invalid or unset environment values are treated as development mode.
-    *
-    * @return true if production mode is enabled, false otherwise.
+     * @brief Is Enabled.
+     * @return True when the operation succeeds.
+     * @details Calls: std::getenv(), mode_str(), env_str().
      */
     static bool isEnabled() {
         const char* prod_mode = std::getenv("THEMIS_PRODUCTION_MODE");
@@ -65,15 +52,11 @@ public:
     }
     
     /**
-     * @brief Enforce production mode requirement
-     * 
-     * When production mode is active and @p condition is false, this function
-     * throws to prevent a permissive fallback path from reaching runtime.
-     *
-     * @param condition The security condition that must be met.
-     * @param error_message Error message if condition fails in production.
-     * @throws std::runtime_error if production mode is enabled and condition
-     *         is false.
+     * @brief Enforce.
+     * @param[in] condition Input parameter.
+     * @param[in] error_message Input parameter.
+     * @throws std::runtime_error if an error occurs.
+     * @details Calls: isEnabled().
      */
     static void enforce(bool condition, const std::string& error_message) {
         if (isEnabled() && !condition) {
@@ -82,9 +65,9 @@ public:
     }
     
     /**
-     * @brief Get the current mode name for logging
-     *
-     * @return "production" or "development".
+     * @brief Mode Name.
+     * @return Return value.
+     * @details Calls: isEnabled().
      */
     static std::string modeName() {
         return isEnabled() ? "production" : "development";

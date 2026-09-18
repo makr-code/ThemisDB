@@ -23,29 +23,6 @@
 namespace themis {
 namespace cache {
 
-/**
- * @brief Enhanced Query Result Cache with advanced metrics
- * 
- * Provides:
- * - Lock-free concurrent access via TBB concurrent_hash_map
- * - TTL-based expiration
- * - LRU eviction policy
- * - Detailed hit/miss metrics
- * - Cache warming support
- * - Query pattern analysis
- * 
- * Performance Gains:
- * - 50-90% latency reduction for repeated queries
- * - 2-5x throughput improvement for read-heavy workloads
- * - Reduced CPU and I/O load
- * 
- * Sources:
- * - Benchmark Analysis: benchmarks/BENCHMARK_ANALYSIS_20251210.md
- * - Quick Wins: docs/de/performance/OPTIMIZATION_QUICK_WINS.md
- * 
- * @tparam KeyType Type of cache key (must be hashable)
- * @tparam ValueType Type of cached value (must be copyable)
- */
 template<typename KeyType, typename ValueType>
 class EnhancedQueryCache {
 public:
@@ -57,46 +34,42 @@ public:
         size_t max_memory_mb = 512;                     ///< Max memory usage (MB)
     };
     
+    /**
+     * @brief Enhanced Query Cache.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit EnhancedQueryCache(const Config& config);
     ~EnhancedQueryCache() = default;
     
     /**
-     * @brief Get value from cache
-     * @param key Cache key
-     * @return Cached value if found and not expired
+     * @brief Get.
+     * @param[in] key Input parameter.
+     * @return Return value.
      */
     std::optional<ValueType> get(const KeyType& key);
     
-    /**
-     * @brief Put value into cache
-     * @param key Cache key
-     * @param value Value to cache
-     * @param ttl Time-to-live (optional, uses default if not specified)
-     */
     void put(const KeyType& key, const ValueType& value, 
              std::optional<std::chrono::seconds> ttl = std::nullopt);
     
     /**
-     * @brief Check if key exists in cache
-     * @param key Cache key
-     * @return true if key exists and not expired
+     * @brief Contains.
+     * @param[in] key Input parameter.
+     * @return True when the operation succeeds.
      */
     bool contains(const KeyType& key) const;
     
     /**
-     * @brief Remove entry from cache
-     * @param key Cache key
+     * @brief Remove.
+     * @param[in] key Input parameter.
      */
     void remove(const KeyType& key);
     
     /**
-     * @brief Clear all entries
+     * @brief Clear.
      */
     void clear();
     
-    /**
-     * @brief Get cache statistics
-     */
     struct Stats {
         size_t entries = 0;
         size_t hits = 0;
@@ -114,29 +87,29 @@ public:
         double avg_entry_age_seconds = 0.0;
     };
     
+    /**
+     * @brief Get Stats.
+     * @return Return value.
+     */
     Stats getStats() const;
     
     /**
-     * @brief Reset statistics
+     * @brief Reset Stats.
      */
     void resetStats();
     
     /**
-     * @brief Prune expired entries
-     * @return Number of entries removed
+     * @brief Prune Expired.
+     * @return Return value.
      */
     size_t pruneExpired();
     
-    /**
-     * @brief Warm cache with provided entries
-     * @param entries Entries to warm cache with
-     */
     void warm(const std::vector<std::pair<KeyType, ValueType>>& entries);
     
     /**
-     * @brief Get top N most accessed keys
-     * @param n Number of keys to return
-     * @return Vector of keys sorted by access count
+     * @brief Get Hot Keys.
+     * @param[in] n Input parameter.
+     * @return Return value.
      */
     std::vector<KeyType> getHotKeys(size_t n) const;
     
@@ -163,6 +136,10 @@ private:
             return std::chrono::steady_clock::now() >= expiry;
         }
         
+        /**
+         * @brief Touch.
+         * @details Calls: fetch_add(), store(), std::chrono::steady_clock::now(), time_since_epoch(), count().
+         */
         void touch() {
             access_count.fetch_add(1);
             last_access.store(std::chrono::steady_clock::now().time_since_epoch().count());
@@ -170,12 +147,14 @@ private:
     };
     
     /**
-     * @brief Check if cache is full and evict if needed
+     * @brief Evict If Needed.
      */
     void evictIfNeeded();
     
     /**
-     * @brief Estimate memory usage of entry
+     * @brief Estimate Entry Size.
+     * @param[in] value Input parameter.
+     * @return Return value.
      */
     size_t estimateEntrySize(const ValueType& value) const;
     

@@ -18,14 +18,6 @@
 namespace themis {
 namespace importers {
 
-/**
- * @brief SQL:2011 Temporal Database support for import pipelines.
- *
- * Detects temporal dimensions in existing PostgreSQL schemas and emits
- * point-in-time reconstruction queries.
- *
- * Standard: ISO/IEC 9075-2:2011 SQL:2011 (Part 2: Foundation)
- */
 class TemporalDatabaseSupport {
 public:
     enum class TemporalModel {
@@ -34,6 +26,11 @@ public:
         BI_TEMPORAL       ///< Both dimensions together
     };
 
+    /**
+     * @brief Temporal Model To String.
+     * @param[in] m Input parameter.
+     * @return Return value.
+     */
     static std::string temporalModelToString(TemporalModel m);
 
     struct TemporalSchema {
@@ -51,12 +48,9 @@ public:
     };
 
     /**
-     * @brief Detect temporal columns in a set of schemas.
-     *
-     * Matches common naming conventions:
-     *   valid_from, valid_to, effective_date, expiry_date,
-     *   created_at, updated_at, deleted_at,
-     *   sys_period_start, sys_period_end.
+     * @brief Detect Temporal Dimensions.
+     * @param[in] schemas Input parameter.
+     * @return Return value.
      */
     std::vector<TemporalSchema> detectTemporalDimensions(
         const std::vector<InferenceTableSchema>& schemas
@@ -65,19 +59,13 @@ public:
     // ------------------------------------------------------------------
     // Point-in-time query builder
     // ------------------------------------------------------------------
-    /** @brief Point-in-time query builder. */
     class TemporalQueryBuilder {
     public:
         /**
-         * @brief Generate SQL to reconstruct table state at a given instant.
-         *
-         * Example:
-         *   SELECT * FROM orders
-         *   WHERE valid_from <= '2023-01-15'
-         *     AND (valid_to IS NULL OR valid_to > '2023-01-15')
-         *
-         * @param temporal   Detected temporal schema for the table.
-         * @param timestamp  ISO 8601 timestamp string.
+         * @brief Build Point In Time Query.
+         * @param[in] temporal Input parameter.
+         * @param[in] timestamp Input parameter.
+         * @return Return value.
          */
         std::string buildPointInTimeQuery(
             const TemporalSchema& temporal,
@@ -85,7 +73,10 @@ public:
         );
 
         /**
-         * @brief Generate a SQL:2011 FOR SYSTEM_TIME AS OF query.
+         * @brief Build System Time Query.
+         * @param[in] temporal Input parameter.
+         * @param[in] timestamp Input parameter.
+         * @return Return value.
          */
         std::string buildSystemTimeQuery(
             const TemporalSchema& temporal,
@@ -94,7 +85,17 @@ public:
     };
 
 private:
+    /**
+     * @brief Is Valid Time Column.
+     * @param[in] col_name Name of the col.
+     * @return True when the operation succeeds.
+     */
     static bool isValidTimeColumn(const std::string& col_name);
+    /**
+     * @brief Is Transaction Time Column.
+     * @param[in] col_name Name of the col.
+     * @return True when the operation succeeds.
+     */
     static bool isTransactionTimeColumn(const std::string& col_name);
 };
 

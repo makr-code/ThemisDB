@@ -33,6 +33,11 @@ json ErrorMetadata::toJSON() const {
     };
 }
 
+/**
+ * @brief Get Instance.
+ * @return Return value.
+ * @details Implements getInstance without additional internal calls.
+ */
 ErrorRegistry& ErrorRegistry::getInstance() {
     static ErrorRegistry instance;
     return instance;
@@ -53,6 +58,10 @@ ErrorRegistry::ErrorRegistry() {
     }
 }
 
+/**
+ * @brief Register Default Errors.
+ * @details Calls: registerError().
+ */
 void ErrorRegistry::registerDefaultErrors() {
     // Storage Errors
     registerError({
@@ -2455,7 +2464,17 @@ void ErrorRegistry::registerDefaultErrors() {
     });
 }
 
+/**
+ * @brief Register Error.
+ * @param[in] metadata Input parameter.
+ * @details Calls: lock(), push_back().
+ */
 void ErrorRegistry::registerError(const ErrorMetadata& metadata) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::shared_mutex> lock(mutex_);
     int code_value = static_cast<int>(metadata.code);
     errors_[code_value] = metadata;
@@ -2463,6 +2482,11 @@ void ErrorRegistry::registerError(const ErrorMetadata& metadata) {
 }
 
 ErrorMetadata ErrorRegistry::getError(ErrorCode code) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
     int code_value = static_cast<int>(code);
     auto it = errors_.find(code_value);
@@ -2485,6 +2509,11 @@ ErrorMetadata ErrorRegistry::getError(ErrorCode code) const {
 
 std::vector<ErrorMetadata> ErrorRegistry::getErrorsByCategory(
     const std::string& category) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
     
     std::vector<ErrorMetadata> result;
@@ -2499,6 +2528,11 @@ std::vector<ErrorMetadata> ErrorRegistry::getErrorsByCategory(
 
 std::vector<ErrorMetadata> ErrorRegistry::searchErrors(
     const std::string& query) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
     
     std::vector<ErrorMetadata> result;
@@ -2517,6 +2551,11 @@ std::vector<ErrorMetadata> ErrorRegistry::searchErrors(
 }
 
 std::vector<std::string> ErrorRegistry::getAllCategories() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
     std::vector<std::string> categories = {};
 
@@ -2527,6 +2566,11 @@ std::vector<std::string> ErrorRegistry::getAllCategories() const {
 }
 
 json ErrorRegistry::toJSON() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
     json result = {
         {"total_errors",errors_.size()},

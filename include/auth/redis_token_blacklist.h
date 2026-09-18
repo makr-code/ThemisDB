@@ -26,46 +26,22 @@ struct redisContext;
 namespace themis {
 namespace auth {
 
-/**
- * @brief Redis-backed token blacklist for distributed deployments.
- *
- * Stores each revoked JTI as a Redis key with a TTL matching the token's
- * remaining lifetime:
- *   SET <prefix><jti> 1 EX <ttl_seconds> NX
- *
- * isRevoked() performs a single EXISTS command which is O(1) server-side.
- * purgeExpired() is a no-op because Redis handles expiry via TTL automatically.
- *
- * When built without hiredis (THEMIS_ENABLE_REDIS not defined), all methods
- * compile and link but log a warning; isRevoked() always returns false so the
- * system degrades gracefully without crashing.
- *
- * Thread-safety: all public methods are thread-safe.
- *
- * Performance target: isRevoked() ≤ 2 ms P99 on a local-network Redis.
- */
 class RedisTokenBlacklist final : public ITokenBlacklist {
 public:
     struct Config {
-        /// Redis server hostname or IP address.
         std::string host = "127.0.0.1";
-        /// Redis server port.
         int port = 6379;
-        /// Optional AUTH password (empty = no authentication).
         std::string auth;
-        /// Key prefix for all blacklist entries in Redis.
         std::string key_prefix = "themis:jbl:";
-        /// Connection timeout in milliseconds.
         int connect_timeout_ms = 200;
     };
 
-    /**
-     * @brief Construct and connect to a Redis instance.
-     *
-     * The connection is established eagerly; if it fails a warning is logged
-     * and the instance operates as a no-op stub until reconnected.
-     */
     RedisTokenBlacklist();
+    /**
+     * @brief Redis Token Blacklist.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit RedisTokenBlacklist(const Config& config);
     ~RedisTokenBlacklist() override;
 
@@ -76,37 +52,26 @@ public:
     // ITokenBlacklist interface
     // -----------------------------------------------------------------------
 
-    /**
-     * @brief Revoke a token in Redis: SET <key> 1 EX <ttl> NX
-     *
-     * If the token has already expired (expiry ≤ now) a TTL of
-     * Config::min_ttl_seconds is used to handle clock skew gracefully.
-     */
     void add(const std::string& jti,
              std::chrono::system_clock::time_point expiry) override;
 
-    /**
-     * @brief Check revocation via Redis EXISTS.
-     *
-     * @return true if the Redis key exists (not expired), false otherwise.
-     */
     bool isRevoked(const std::string& jti) const override;
 
-    /**
-     * @brief No-op: Redis TTL handles expiry automatically.
-     */
     void purgeExpired() override;
 
     // -----------------------------------------------------------------------
     // Connectivity
     // -----------------------------------------------------------------------
 
-    /** @return true if the Redis connection is currently alive. */
+    /**
+     * @brief Is Connected.
+     * @return True when the operation succeeds.
+     */
     bool isConnected() const;
 
     /**
-     * @brief Attempt to (re)connect to Redis.
-     * @return true on success.
+     * @brief Reconnect.
+     * @return True when the operation succeeds.
      */
     bool reconnect();
 
@@ -117,8 +82,20 @@ private:
     mutable std::mutex  mutex_;
     redisContext*       ctx_{nullptr};
 
+    /**
+     * @brief Connect.
+     * @return True when the operation succeeds.
+     */
     bool connect();
+    /**
+     * @brief Disconnect.
+     */
     void disconnect();
+    /**
+     * @brief Make Key.
+     * @param[in] jti Input parameter.
+     * @return Return value.
+     */
     std::string makeKey(const std::string& jti) const;
 #else
     // In-memory fallback: revocations are not shared across processes but

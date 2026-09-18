@@ -27,60 +27,58 @@ class IVectorIndex;
 namespace themis {
 namespace api {
 
-/**
- * @brief Fluent factory for building a fully-wired ThemisDBGrpcService.
- *
- * Usage:
- * @code
- *   auto svc = ThemisDBGrpcServiceFactory{}
- *                  .withDb(my_db)
- *                  .withTxnMgr(my_txn_mgr)
- *                  .withQueryEngine(my_aql_engine)
- *                  .withVectorIndex(my_vector_index)
- *                  .build();
- *   grpc_server.registerService(svc->service());
- * @endcode
- *
- * All components are optional.  When a component is not provided the
- * corresponding RPC stubs return grpc::StatusCode::UNIMPLEMENTED.
- *
- * This factory is the recommended way to assemble a ThemisDBGrpcService
- * because it makes the dependency set explicit and allows incremental wiring
- * as components become available.
- */
 class ThemisDBGrpcServiceFactory {
 public:
     ThemisDBGrpcServiceFactory() = default;
 
-    /// Set the storage backend.
+    /**
+     * @brief With Db.
+     * @param[in] db Input parameter.
+     * @return Return value.
+     * @details Calls: std::move().
+     */
     ThemisDBGrpcServiceFactory& withDb(
         std::shared_ptr<RocksDBWrapper> db) {
         db_ = std::move(db);
         return *this;
     }
 
-    /// Set the transaction manager.
+    /**
+     * @brief With Txn Mgr.
+     * @param[in] txn_mgr Input parameter.
+     * @return Return value.
+     * @details Calls: std::move().
+     */
     ThemisDBGrpcServiceFactory& withTxnMgr(
         std::shared_ptr<TransactionManager> txn_mgr) {
         txn_mgr_ = std::move(txn_mgr);
         return *this;
     }
 
-    /// Set the AQL engine (enables ExecuteAQL, StreamAQL, HybridSearch, FullTextSearch).
+    /**
+     * @brief With Query Engine.
+     * @param[in] engine Input parameter.
+     * @return Return value.
+     * @details Calls: std::move().
+     */
     ThemisDBGrpcServiceFactory& withQueryEngine(
         std::shared_ptr<themis::IQueryEngine> engine) {
         aql_engine_ = std::move(engine);
         return *this;
     }
 
-    /// Set the vector index (enables VectorSearch and FilteredVectorSearch).
+    /**
+     * @brief With Vector Index.
+     * @param[in] index Input parameter.
+     * @return Return value.
+     * @details Calls: std::move().
+     */
     ThemisDBGrpcServiceFactory& withVectorIndex(
         std::shared_ptr<themis::IVectorIndex> index) {
         vector_index_ = std::move(index);
         return *this;
     }
 
-    /// Build and return the configured ThemisDBGrpcService.
     std::unique_ptr<ThemisDBGrpcService> build() const {
         return std::make_unique<ThemisDBGrpcService>(
             db_,

@@ -28,35 +28,14 @@ namespace analytics {
 
 using json = nlohmann::json;
 
-/**
- * @brief DiffEngine computes structured differences between two points in time
- * 
- * Provides Git-like diff functionality for ThemisDB's MVCC system by analyzing
- * changefeed events between two sequence numbers, timestamps, or tags (future).
- * 
- * Features:
- * - Diff by sequence range
- * - Diff by timestamp range
- * - Filtering by table, key prefix, event type
- * - Pagination for large result sets
- * - Structured output with Add/Modify/Delete categorization
- * 
- * Performance target: <100ms for 10K changes, <1s for 100K changes
- */
 class DiffEngine {
 public:
-    /**
-     * @brief Type of change detected in diff
-     */
     enum class ChangeType {
         ADDED,      // Entity was created
         MODIFIED,   // Entity was updated
         DELETED     // Entity was removed
     };
 
-    /**
-     * @brief A single change in the diff result
-     */
     struct Change {
         ChangeType type;
         std::string key;                         // Affected key
@@ -66,25 +45,32 @@ public:
         int64_t timestamp_ms;                    // Timestamp of change
         json metadata;                           // Additional metadata
         
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         json toJson() const;
+        /**
+         * @brief From Json.
+         * @param[in] j Input parameter.
+         * @return Return value.
+         */
         static Change fromJson(const json& j);
     };
 
-    /**
-     * @brief Statistics about the diff result
-     */
     struct DiffStats {
         size_t added_count = 0;
         size_t modified_count = 0;
         size_t deleted_count = 0;
         size_t total_changes = 0;
         
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         json toJson() const;
     };
 
-    /**
-     * @brief Result of a diff computation
-     */
     struct DiffResult {
         std::vector<Change> added;
         std::vector<Change> modified;
@@ -96,13 +82,19 @@ public:
         std::optional<int64_t> from_timestamp_ms;
         std::optional<int64_t> to_timestamp_ms;
         
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         json toJson() const;
+        /**
+         * @brief From Json.
+         * @param[in] j Input parameter.
+         * @return Return value.
+         */
         static DiffResult fromJson(const json& j);
     };
 
-    /**
-     * @brief Options for diff computation
-     */
     struct DiffOptions {
         // Filtering
         std::optional<std::string> table_filter;      // Filter by table name
@@ -117,11 +109,6 @@ public:
         bool enable_caching = true;                   // Cache intermediate results
     };
 
-    /**
-     * @brief Construct DiffEngine
-     * @param changefeed Reference to Changefeed instance
-     * @param snapshot_manager Optional reference to SnapshotManager for tag-based diff
-     */
     explicit DiffEngine(Changefeed& changefeed, 
                        transaction::SnapshotManager* snapshot_manager = nullptr);
     
@@ -135,11 +122,11 @@ public:
     DiffEngine& operator=(DiffEngine&&) = delete;
 
     /**
-     * @brief Compute diff between two sequence numbers
-     * @param from_sequence Start sequence (exclusive)
-     * @param to_sequence End sequence (inclusive)
-     * @param options Diff options
-     * @return DiffResult containing all changes
+     * @brief Compute Diff.
+     * @param[in] from_sequence Input parameter.
+     * @param[in] to_sequence Input parameter.
+     * @param[in] options Input parameter.
+     * @return Return value.
      */
     DiffResult computeDiff(
         uint64_t from_sequence,
@@ -147,6 +134,13 @@ public:
         const DiffOptions& options
     );
     
+    /**
+     * @brief Compute Diff.
+     * @param[in] from_sequence Input parameter.
+     * @param[in] to_sequence Input parameter.
+     * @return Return value.
+     * @details Implements computeDiff without additional internal calls.
+     */
     DiffResult computeDiff(
         uint64_t from_sequence,
         uint64_t to_sequence
@@ -155,11 +149,11 @@ public:
     }
 
     /**
-     * @brief Compute diff between two timestamps
-     * @param from_timestamp Start timestamp in milliseconds (exclusive)
-     * @param to_timestamp End timestamp in milliseconds (inclusive)
-     * @param options Diff options
-     * @return DiffResult containing all changes
+     * @brief Compute Diff By Timestamp.
+     * @param[in] from_timestamp Input parameter.
+     * @param[in] to_timestamp Input parameter.
+     * @param[in] options Input parameter.
+     * @return Return value.
      */
     DiffResult computeDiffByTimestamp(
         int64_t from_timestamp,
@@ -167,6 +161,13 @@ public:
         const DiffOptions& options
     );
     
+    /**
+     * @brief Compute Diff By Timestamp.
+     * @param[in] from_timestamp Input parameter.
+     * @param[in] to_timestamp Input parameter.
+     * @return Return value.
+     * @details Implements computeDiffByTimestamp without additional internal calls.
+     */
     DiffResult computeDiffByTimestamp(
         int64_t from_timestamp,
         int64_t to_timestamp
@@ -175,14 +176,11 @@ public:
     }
 
     /**
-     * @brief Compute diff between two tags
-     * @param from_tag Source tag name
-     * @param to_tag Target tag name
-     * @param options Diff options
-     * @return DiffResult containing all changes
-     * 
-     * Note: Requires SnapshotManager to be provided in constructor.
-     * Tags must exist or an error will be thrown.
+     * @brief Compute Diff By Tag.
+     * @param[in] from_tag Input parameter.
+     * @param[in] to_tag Input parameter.
+     * @param[in] options Input parameter.
+     * @return Return value.
      */
     DiffResult computeDiffByTag(
         const std::string& from_tag,
@@ -190,6 +188,13 @@ public:
         const DiffOptions& options
     );
     
+    /**
+     * @brief Compute Diff By Tag.
+     * @param[in] from_tag Input parameter.
+     * @param[in] to_tag Input parameter.
+     * @return Return value.
+     * @details Implements computeDiffByTag without additional internal calls.
+     */
     DiffResult computeDiffByTag(
         const std::string& from_tag,
         const std::string& to_tag
@@ -198,21 +203,16 @@ public:
     }
 
     /**
-     * @brief Clear any cached diff results
+     * @brief Clear Cache.
      */
     void clearCache();
 
     /**
-     * @brief Get cache statistics
+     * @brief Get Cache Stats.
+     * @return Return value.
      */
     json getCacheStats() const;
 
-    /**
-     * @brief Testing hook: called once per unique range computation, just before
-     *        listEvents().  May throw to simulate a mid-computation failure.
-     *        Pass an empty function to disable the hook.
-     *        NOT thread-safe — must be set before concurrent callers start.
-     */
     void setComputeHookForTesting(std::function<void()> hook) {
         compute_hook_for_testing_ = std::move(hook);
     }
@@ -253,7 +253,11 @@ private:
     std::function<void()> compute_hook_for_testing_;
     
     /**
-     * @brief Process changefeed events and categorize them
+     * @brief Process Events.
+     * @param[in] events Input parameter.
+     * @param[in] options Input parameter.
+     * @param[in] from_sequence Input parameter.
+     * @return Return value.
      */
     DiffResult processEvents(
         const std::vector<Changefeed::ChangeEvent>& events,
@@ -262,47 +266,39 @@ private:
     );
     
     /**
-     * @brief Apply filters to events
+     * @brief Should Include Event.
+     * @param[in] event Input parameter.
+     * @param[in] options Input parameter.
+     * @return True when the operation succeeds.
      */
     bool shouldIncludeEvent(
         const Changefeed::ChangeEvent& event,
         const DiffOptions& options
     ) const;
     
-    /**
-     * @brief Convert ChangeEvent to Change with type determination
-     */
     Change categorizeChange(
         const Changefeed::ChangeEvent& event,
         const std::map<std::string, Changefeed::ChangeEvent>& key_history
     ) const;
     
-    /**
-     * @brief Build key history from events to detect modifications
-     */
     std::map<std::string, Changefeed::ChangeEvent> buildKeyHistory(
         const std::vector<Changefeed::ChangeEvent>& events
     ) const;
     
-    /**
-     * @brief Find sequence numbers for a timestamp range
-     */
     std::pair<uint64_t, uint64_t> findSequenceRange(
         int64_t from_timestamp,
         int64_t to_timestamp
     ) const;
     
     /**
-     * @brief Check if cached result is still valid
+     * @brief Is Cache Valid.
+     * @param[in] cached Input parameter.
+     * @return True when the operation succeeds.
      */
     bool isCacheValid(const CachedDiff& cached) const;
     
     /**
-     * @brief Evict oldest cache entries if cache is full
-     * @deprecated The eviction logic is now inlined in computeDiff() using the
-     *             copy-evict-then-lock pattern. This function is retained for
-     *             backward-compatibility but is NOT called from the hot path.
-     *             Must NOT be called while holding cache_mutex_.
+     * @brief Evict Old Cache Entries.
      */
     void evictOldCacheEntries();
 };

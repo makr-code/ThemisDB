@@ -70,12 +70,6 @@ namespace auth {
 
 // ── EIDAttributeType ─────────────────────────────────────────────────────────
 
-/**
- * @brief Identity attribute types readable from the eID chip (BSI TR-03127, §5).
- *
- * The relying party may request a subset of these attributes; the holder
- * must consent on the AusweisApp2 before they are disclosed.
- */
 enum class EIDAttributeType {
     DOCUMENT_TYPE,          ///< "ID" for Personalausweis, "AR" for Aufenthaltstitel
     ISSUING_STATE,          ///< ISO 3166-1 alpha-3 country code (e.g. "DEU")
@@ -100,9 +94,6 @@ enum class EIDAttributeType {
 
 // ── EIDAttribute ──────────────────────────────────────────────────────────────
 
-/**
- * @brief A single verified identity attribute returned by the eID chip.
- */
 struct EIDAttribute {
     EIDAttributeType type;      ///< Attribute type
     std::string value;          ///< Attribute value (string representation)
@@ -111,11 +102,6 @@ struct EIDAttribute {
 
 // ── EIDAssuranceLevel ─────────────────────────────────────────────────────────
 
-/**
- * @brief eIDAS Level of Assurance (LoA) of the authentication.
- *
- * Corresponds to eIDAS Regulation Article 8 and BSI TR-03107.
- */
 enum class EIDAssuranceLevel {
     LOW,            ///< eIDAS LoA "low"
     SUBSTANTIAL,    ///< eIDAS LoA "substantial"
@@ -124,13 +110,6 @@ enum class EIDAssuranceLevel {
 
 // ── EIDIdentity ───────────────────────────────────────────────────────────────
 
-/**
- * @brief Complete eID-verified identity record.
- *
- * Returned to the relying party after a successful EAC2 / SAML flow.
- * Only attributes explicitly requested in EIDAuthConfig::requested_attributes
- * and consented to by the holder will be populated.
- */
 struct EIDIdentity {
     std::string transaction_id;     ///< End-to-end correlation ID from eID-Server
     std::string eid_server_id;      ///< Identifier of the eID-Server instance
@@ -140,10 +119,6 @@ struct EIDIdentity {
 
     std::chrono::system_clock::time_point authenticated_at;
 
-    /**
-     * @brief Find a specific attribute by type.
-     * @return The attribute value, or std::nullopt if not present.
-     */
     std::optional<std::string> getAttribute(EIDAttributeType type) const {
         for (const auto& a : attributes) {
             if (a.type == type) {
@@ -153,9 +128,6 @@ struct EIDIdentity {
         return std::nullopt;
     }
 
-    /**
-     * @brief Convenience: return the holder's full name (GIVEN_NAMES + FAMILY_NAMES).
-     */
     std::string fullName() const {
         auto given  = getAttribute(EIDAttributeType::GIVEN_NAMES);
         auto family = getAttribute(EIDAttributeType::FAMILY_NAMES);
@@ -174,12 +146,6 @@ struct EIDIdentity {
 
 // ── EIDAuthConfig ─────────────────────────────────────────────────────────────
 
-/**
- * @brief Configuration for the eID authentication integration.
- *
- * The relying party must hold a valid eID-Server certificate issued by the
- * Bundesdruckerei / DMPS (Document Management and Personalisation System).
- */
 struct EIDAuthConfig {
     bool enabled{false};
 
@@ -206,9 +172,6 @@ struct EIDAuthConfig {
 
 // ── EIDAuthError ──────────────────────────────────────────────────────────────
 
-/**
- * @brief Structured error from an eID authentication attempt.
- */
 enum class EIDAuthErrorCode {
     NONE,
     INVALID_CONFIGURATION,      ///< Missing or invalid EIDAuthConfig field
@@ -225,9 +188,6 @@ enum class EIDAuthErrorCode {
 
 // ── EIDAuthResult ─────────────────────────────────────────────────────────────
 
-/**
- * @brief Result of an eID authentication attempt.
- */
 struct EIDAuthResult {
     class IdentityResult {
     public:
@@ -248,6 +208,11 @@ struct EIDAuthResult {
         bool has_value() const { return value_.has_value(); }
         explicit operator bool() const { return value_.has_value(); }
 
+        /**
+         * @brief Value.
+         * @return Return value.
+         * @details Implements value without additional internal calls.
+         */
         EIDIdentity& value() { return value_.value(); }
         const EIDIdentity& value() const { return value_.value(); }
 
@@ -289,6 +254,12 @@ struct EIDAuthResult {
         return identity.operator->();
     }
 
+    /**
+     * @brief Success.
+     * @param[in] id Input parameter.
+     * @return Return value.
+     * @details Calls: std::move().
+     */
     static EIDAuthResult Success(EIDIdentity id) {
         EIDAuthResult r;
         r.success  = true;
@@ -296,6 +267,13 @@ struct EIDAuthResult {
         return r;
     }
 
+    /**
+     * @brief Failure.
+     * @param[in] code Input parameter.
+     * @param[in] msg Input parameter.
+     * @return Return value.
+     * @details Calls: std::move().
+     */
     static EIDAuthResult Failure(EIDAuthErrorCode code, std::string msg) {
         EIDAuthResult r;
         r.success       = false;
@@ -327,105 +305,66 @@ struct EIDAuthSession {
 
 // ── IEIDAuthenticator ─────────────────────────────────────────────────────────
 
-/**
- * @brief Abstract interface for eID-based authentication.
- *
- * Implementations MUST be thread-safe.
- */
 class IEIDAuthenticator {
 public:
+    /**
+     * @brief IEIDAuthenticator.
+     * @return Return value.
+     */
     virtual ~IEIDAuthenticator() = default;
 
-    /**
-     * @brief Initialise the authenticator with the given configuration.
-     *
-     * Must be called before any authentication attempt.
-     * @return true on success; false if the configuration is invalid.
-     */
     [[nodiscard]] virtual bool initialize(const EIDAuthConfig& config) = 0;
 
-    /**
-     * @brief Return true if the authenticator has been successfully initialised.
-     */
     [[nodiscard]] virtual bool isInitialized() const = 0;
 
-    /**
-     * @brief Begin an eID authentication session.
-     *
-     * Generates a SAML AuthnRequest / PAOS request and returns the redirect
-     * URL to which the user should be sent.
-     *
-     * @param session_id  Caller-provided session identifier for correlation.
-     * @return            The redirect URL (non-empty) or an empty string on error.
-     */
     [[nodiscard]] virtual std::string beginAuthSession(std::string_view session_id) = 0;
 
-    /**
-     * @brief Complete an eID authentication session.
-     *
-     * Called by the SP callback handler with the SAML response received from
-     * the eID-Server after the holder completes authentication on AusweisApp2.
-     *
-     * @param session_id     Session identifier returned by beginAuthSession().
-     * @param saml_response  Base64-encoded SAML response from the eID-Server.
-     * @return               Authentication result with the verified identity or
-     *                       a structured error.
-     */
     [[nodiscard]] virtual EIDAuthResult completeAuthSession(std::string_view session_id,
                                               std::string_view saml_response) = 0;
 
     /**
-     * @brief Revoke / invalidate an active authentication session.
+     * @brief Revoke Session.
+     * @param[in] session_id Identifier of the session.
      */
     virtual void revokeSession(std::string_view session_id) = 0;
 
-    /**
-     * @brief Return all active session IDs.
-     */
     [[nodiscard]] virtual std::vector<std::string> activeSessions() const = 0;
 
-    /**
-     * @brief Return the current configuration (copy).
-     */
     [[nodiscard]] virtual EIDAuthConfig config() const = 0;
 };
 
 // ── InMemoryEIDAuthenticator ──────────────────────────────────────────────────
 
-/**
- * @brief In-memory simulation of IEIDAuthenticator for unit-testing.
- *
- * Does NOT perform real EAC2 / SAML processing.  Instead, it allows the
- * test to pre-configure expected identities via registerTestIdentity() and
- * returns them deterministically when completeAuthSession() is called.
- *
- * In a production deployment, this class MUST be replaced by a real
- * eID-Server client (e.g. AusweisApp-SDK wrapper, or a BSI-certified
- * eID-Server middleware library).
- */
 class InMemoryEIDAuthenticator : public IEIDAuthenticator {
 public:
-    // ── Test helper ───────────────────────────────────────────────────────────
-
     /**
-     * @brief Pre-configure a verified identity for a given session.
-     *
-     * When completeAuthSession() is called with @p session_id, the authenticator
-     * returns a successful result with this identity.
+     * @brief ── Test helper ───────────────────────────────────────────────────────────
+     * @param[in] session_id Identifier of the session.
+     * @param[in] identity Input parameter.
+     * @details Calls: lk(), std::string().
      */
+
     void registerTestIdentity(std::string_view session_id,
                                const EIDIdentity& identity) {
         std::unique_lock<std::mutex> lk(mutex_);
         test_identities_[std::string(session_id)] = identity;
     }
 
-    // Legacy helper name kept for compatibility with older tests.
+    /**
+     * @brief Legacy helper name kept for compatibility with older tests.
+     * @param[in] identity Input parameter.
+     * @details Calls: registerTestIdentity().
+     */
     void storeIdentity(const EIDIdentity& identity) {
         registerTestIdentity(identity.transaction_id, identity);
     }
 
     /**
-     * @brief Pre-configure a failure result for a given session.
+     * @brief Register Test Failure.
+     * @param[in] session_id Identifier of the session.
+     * @param[in] code Input parameter.
+     * @param[in] message Input parameter.
+     * @details Calls: lk(), std::string(), std::move().
      */
     void registerTestFailure(std::string_view session_id,
                              EIDAuthErrorCode code,
@@ -446,6 +385,11 @@ public:
         if (config.terminal_certificate.empty()) {
           return false;
         }
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         config_      = config;
         initialized_ = true;
@@ -453,21 +397,41 @@ public:
     }
 
     bool isInitialized() const override {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         return initialized_;
     }
 
     std::string beginAuthSession(std::string_view session_id) override {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         if (!initialized_) {
             return "";
         }
+        /**
+         * @brief Sid.
+         * @param[in] session_id Identifier of the session.
+         * @return Return value.
+         */
         const std::string sid(session_id);
         active_sessions_.insert(sid);
         return config_.eid_server_url + "?sessionId=" + sid;
     }
 
-    // Legacy overload used by older tests.
+    /**
+     * @brief Legacy overload used by older tests.
+     * @param[in] request Input parameter.
+     * @return Return value.
+     * @details Calls: empty().
+     */
     EIDAuthSession beginAuthSession(const EIDAuthRequest& request) {
         EIDAuthSession session;
         session.session_id = request.transaction_id;
@@ -480,11 +444,21 @@ public:
 
     EIDAuthResult completeAuthSession(std::string_view session_id,
                                       std::string_view saml_response) override {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         if (!initialized_) {
             return EIDAuthResult::Failure(EIDAuthErrorCode::INVALID_CONFIGURATION,
                                          "Authenticator not initialized");
         }
+        /**
+         * @brief Sid.
+         * @param[in] session_id Identifier of the session.
+         * @return Return value.
+         */
         const std::string sid(session_id);
         if (!active_sessions_.count(sid)) {
             return EIDAuthResult::Failure(EIDAuthErrorCode::SESSION_TIMEOUT,
@@ -518,16 +492,31 @@ public:
     }
 
     void revokeSession(std::string_view session_id) override {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         active_sessions_.erase(std::string(session_id));
     }
 
     std::vector<std::string> activeSessions() const override {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         return {active_sessions_.begin(), active_sessions_.end()};
     }
 
     EIDAuthConfig config() const override {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         return config_;
     }

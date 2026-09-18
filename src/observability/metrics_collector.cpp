@@ -23,6 +23,12 @@ namespace observability {
 
 namespace {
 
+/**
+ * @brief Sanitize Diagnostic Label Value.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: size(), substr().
+ */
 std::string sanitizeDiagnosticLabelValue(const std::string& value) {
     if (value.size() <= kMaxLabelValueBytes) {
         return value;
@@ -32,13 +38,23 @@ std::string sanitizeDiagnosticLabelValue(const std::string& value) {
 
 } // namespace
 
-// Singleton instance
+/**
+ * @brief Singleton instance
+ * @return Return value.
+ * @details Implements getInstance without additional internal calls.
+ */
 MetricsCollector& MetricsCollector::getInstance() {
     static MetricsCollector instance;
     return instance;
 }
 
-// ===== TSStore Metrics =====
+/**
+ * @brief ===== TSStore Metrics =====
+ * @param[in] metric Input parameter.
+ * @param[in] batch_size Input parameter.
+ * @param[in] latency_ms Input parameter.
+ * @details Calls: incrementCounter(), observeHistogram(), setGauge().
+ */
 
 void MetricsCollector::recordTSStoreWrite(const std::string& metric, size_t batch_size, double latency_ms) {
     incrementCounter("tsstore_writes_total", {{"metric", metric}});
@@ -47,24 +63,50 @@ void MetricsCollector::recordTSStoreWrite(const std::string& metric, size_t batc
     setGauge("tsstore_write_batch_size", static_cast<double>(batch_size), {{"metric", metric}});
 }
 
+/**
+ * @brief Record TSStore Query.
+ * @param[in] metric Input parameter.
+ * @param[in] result_count Input parameter.
+ * @param[in] latency_ms Input parameter.
+ * @details Calls: incrementCounter(), setGauge(), observeHistogram().
+ */
 void MetricsCollector::recordTSStoreQuery(const std::string& metric, size_t result_count, double latency_ms) {
     incrementCounter("tsstore_queries_total", {{"metric", metric}});
     setGauge("tsstore_query_result_count", static_cast<double>(result_count), {{"metric", metric}});
     observeHistogram("tsstore_query_latency_ms", latency_ms, {{"metric", metric}});
 }
 
+/**
+ * @brief Record TSStore Aggregate.
+ * @param[in] metric Input parameter.
+ * @param[in] point_count Input parameter.
+ * @param[in] latency_ms Input parameter.
+ * @details Calls: incrementCounter(), setGauge(), observeHistogram().
+ */
 void MetricsCollector::recordTSStoreAggregate(const std::string& metric, size_t point_count, double latency_ms) {
     incrementCounter("tsstore_aggregates_total", {{"metric", metric}});
     setGauge("tsstore_aggregate_point_count", static_cast<double>(point_count), {{"metric", metric}});
     observeHistogram("tsstore_aggregate_latency_ms", latency_ms, {{"metric", metric}});
 }
 
+/**
+ * @brief Record TSStore Compression.
+ * @param[in] compression_type Input parameter.
+ * @param[in] ratio Input parameter.
+ * @details Calls: incrementCounter(), observeHistogram().
+ */
 void MetricsCollector::recordTSStoreCompression(const std::string& compression_type, double ratio) {
     incrementCounter("tsstore_compression_operations", {{"type", compression_type}});
     observeHistogram("tsstore_compression_ratio", ratio, {{"type", compression_type}});
 }
 
-// ===== Query Engine Metrics =====
+/**
+ * @brief ===== Query Engine Metrics =====
+ * @param[in] query_type Input parameter.
+ * @param[in] latency_ms Input parameter.
+ * @param[in] result_count Input parameter.
+ * @details Calls: incrementCounter(), observeHistogram(), setGauge().
+ */
 
 void MetricsCollector::recordQuery(const std::string& query_type, double latency_ms, size_t result_count) {
     incrementCounter("queries_total", {{"type", query_type}});
@@ -72,87 +114,178 @@ void MetricsCollector::recordQuery(const std::string& query_type, double latency
     setGauge("query_result_count", static_cast<double>(result_count), {{"type", query_type}});
 }
 
+/**
+ * @brief Record Index Scan.
+ * @param[in] index_type Input parameter.
+ * @param[in] keys_scanned Input parameter.
+ * @details Calls: incrementCounter(), setGauge().
+ */
 void MetricsCollector::recordIndexScan(const std::string& index_type, size_t keys_scanned) {
     incrementCounter("index_scans_total", {{"type", index_type}});
     setGauge("index_keys_scanned", static_cast<double>(keys_scanned), {{"type", index_type}});
 }
 
+/**
+ * @brief Record Full Scan.
+ * @param[in] table Input parameter.
+ * @param[in] keys_scanned Input parameter.
+ * @details Calls: incrementCounter(), setGauge().
+ */
 void MetricsCollector::recordFullScan(const std::string& table, size_t keys_scanned) {
     incrementCounter("full_scans_total", {{"table", table}});
     setGauge("full_scan_keys", static_cast<double>(keys_scanned), {{"table", table}});
 }
 
-// ===== Cache Metrics =====
+/**
+ * @brief ===== Cache Metrics =====
+ * @param[in] cache_type Input parameter.
+ * @details Calls: incrementCounter().
+ */
 
 void MetricsCollector::recordCacheHit(const std::string& cache_type) {
     incrementCounter("cache_hits_total", {{"type", cache_type}});
 }
 
+/**
+ * @brief Record Cache Miss.
+ * @param[in] cache_type Input parameter.
+ * @details Calls: incrementCounter().
+ */
 void MetricsCollector::recordCacheMiss(const std::string& cache_type) {
     incrementCounter("cache_misses_total", {{"type", cache_type}});
 }
 
+/**
+ * @brief Record Cache Eviction.
+ * @param[in] cache_type Input parameter.
+ * @details Calls: incrementCounter().
+ */
 void MetricsCollector::recordCacheEviction(const std::string& cache_type) {
     incrementCounter("cache_evictions_total", {{"type", cache_type}});
 }
 
-// ===== Sharding Metrics =====
+/**
+ * @brief ===== Sharding Metrics =====
+ * @param[in] shard_id Input parameter.
+ * @param[in] operation Input parameter.
+ * @details Calls: incrementCounter().
+ */
 
 void MetricsCollector::recordShardRequest(const std::string& shard_id, const std::string& operation) {
     incrementCounter("shard_requests_total", {{"shard_id", shard_id}, {"operation", operation}});
 }
 
+/**
+ * @brief Record Shard Latency.
+ * @param[in] shard_id Input parameter.
+ * @param[in] latency_ms Input parameter.
+ * @details Calls: observeHistogram().
+ */
 void MetricsCollector::recordShardLatency(const std::string& shard_id, double latency_ms) {
     observeHistogram("shard_request_latency_ms", latency_ms, {{"shard_id", shard_id}});
 }
 
+/**
+ * @brief Record Rebalance Progress.
+ * @param[in] operation_id Input parameter.
+ * @param[in] records Input parameter.
+ * @param[in] percent Input parameter.
+ * @details Calls: setGauge().
+ */
 void MetricsCollector::recordRebalanceProgress(const std::string& operation_id, int64_t records, double percent) {
     setGauge("rebalance_records_migrated", static_cast<double>(records), {{"operation_id", operation_id}});
     setGauge("rebalance_progress_percent", percent, {{"operation_id", operation_id}});
 }
 
-// ===== Content Processing Metrics =====
+/**
+ * @brief ===== Content Processing Metrics =====
+ * @param[in] mime_type Input parameter.
+ * @param[in] size_bytes Input parameter.
+ * @details Calls: incrementCounter(), setGauge().
+ */
 
 void MetricsCollector::recordContentImport(const std::string& mime_type, size_t size_bytes) {
     incrementCounter("content_imports_total", {{"mime_type", mime_type}});
     setGauge("content_bytes_imported", static_cast<double>(size_bytes), {{"mime_type", mime_type}});
 }
 
+/**
+ * @brief Record Chunk Creation.
+ * @param[in] chunk_count Input parameter.
+ * @details Calls: setGauge().
+ */
 void MetricsCollector::recordChunkCreation(size_t chunk_count) {
     setGauge("chunks_created_total", static_cast<double>(chunk_count), {});
 }
 
+/**
+ * @brief Record Embedding Generation.
+ * @param[in] count Input parameter.
+ * @param[in] latency_ms Input parameter.
+ * @details Calls: setGauge(), observeHistogram().
+ */
 void MetricsCollector::recordEmbeddingGeneration(size_t count, double latency_ms) {
     setGauge("embeddings_generated_total", static_cast<double>(count), {});
     observeHistogram("embedding_generation_latency_ms", latency_ms, {});
 }
 
-// ===== Security Metrics =====
+/**
+ * @brief ===== Security Metrics =====
+ * @param[in] success Input parameter.
+ * @details Calls: incrementCounter().
+ */
 
 void MetricsCollector::recordAuthAttempt(bool success) {
     incrementCounter("auth_attempts_total", {{"result", success ? "success" : "failure"}});
 }
 
+/**
+ * @brief Record Policy Evaluation.
+ * @param[in] allowed Input parameter.
+ * @param[in] latency_ms Input parameter.
+ * @details Calls: incrementCounter(), observeHistogram().
+ */
 void MetricsCollector::recordPolicyEvaluation(bool allowed, double latency_ms) {
     incrementCounter("policy_evaluations_total", {{"result", allowed ? "allowed" : "denied"}});
     observeHistogram("policy_evaluation_latency_ms", latency_ms, {});
 }
 
+/**
+ * @brief Record Encryption Operation.
+ * @param[in] operation Input parameter.
+ * @param[in] latency_ms Input parameter.
+ * @details Calls: incrementCounter(), observeHistogram().
+ */
 void MetricsCollector::recordEncryptionOperation(const std::string& operation, double latency_ms) {
     incrementCounter("encryption_operations_total", {{"operation", operation}});
     observeHistogram("encryption_latency_ms", latency_ms, {{"operation", operation}});
 }
 
-// ===== System Metrics =====
+/**
+ * @brief ===== System Metrics =====
+ * @param[in] bytes Input parameter.
+ * @details Calls: setGauge().
+ */
 
 void MetricsCollector::recordMemoryUsage(size_t bytes) {
     setGauge("memory_usage_bytes", static_cast<double>(bytes), {});
 }
 
+/**
+ * @brief Record CPUUsage.
+ * @param[in] percent Input parameter.
+ * @details Calls: setGauge().
+ */
 void MetricsCollector::recordCPUUsage(double percent) {
     setGauge("cpu_usage_percent", percent, {});
 }
 
+/**
+ * @brief Record Disk IOps.
+ * @param[in] read_ops Input parameter.
+ * @param[in] write_ops Input parameter.
+ * @details Calls: incrementCounter(), setGauge().
+ */
 void MetricsCollector::recordDiskIOps(size_t read_ops, size_t write_ops) {
     incrementCounter("disk_read_ops_total", {});
     incrementCounter("disk_write_ops_total", {});
@@ -160,17 +293,32 @@ void MetricsCollector::recordDiskIOps(size_t read_ops, size_t write_ops) {
     setGauge("disk_write_ops_last", static_cast<double>(write_ops), {});
 }
 
-// ===== Tracing Metrics =====
+/**
+ * @brief ===== Tracing Metrics =====
+ * @param[in] span_name Input parameter.
+ * @param[in] duration_ms Input parameter.
+ * @details Calls: observeHistogram(), incrementCounter().
+ */
 
 void MetricsCollector::recordSpanDuration(const std::string& span_name, double duration_ms) {
     observeHistogram("trace_span_duration_ms", duration_ms, {{"span", span_name}});
     incrementCounter("trace_spans_total", {{"span", span_name}});
 }
 
+/**
+ * @brief Record Active Spans.
+ * @param[in] count Input parameter.
+ * @details Calls: setGauge().
+ */
 void MetricsCollector::recordActiveSpans(int64_t count) {
     setGauge("trace_active_spans", static_cast<double>(count), {});
 }
 
+/**
+ * @brief Record Total Spans.
+ * @param[in] count Input parameter.
+ * @details Calls: setGauge().
+ */
 void MetricsCollector::recordTotalSpans(int64_t count) {
     setGauge("trace_total_spans", static_cast<double>(count), {});
 }
@@ -178,6 +326,11 @@ void MetricsCollector::recordTotalSpans(int64_t count) {
 // ===== Prometheus Text Format Export =====
 
 std::string MetricsCollector::getPrometheusMetrics() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
     std::ostringstream oss = {};
     
@@ -241,7 +394,16 @@ std::string MetricsCollector::getPrometheusMetrics() const {
     return oss.str();
 }
 
+/**
+ * @brief Reset.
+ * @details Calls: lock(), clear(), store().
+ */
 void MetricsCollector::reset() {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::shared_mutex> lock(mutex_);
     counters_.clear();
     gauges_.clear();
@@ -251,14 +413,28 @@ void MetricsCollector::reset() {
     dropped_series_.store(0);
 }
 
-// ===== Cardinality control =====
+/**
+ * @brief ===== Cardinality control =====
+ * @param[in] limit Input parameter.
+ * @details Calls: lock().
+ */
 
 void MetricsCollector::setCardinalityLimit(size_t limit) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::shared_mutex> lock(mutex_);
     cardinality_limit_ = limit;
 }
 
 size_t MetricsCollector::getCardinalityLimit() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
     return cardinality_limit_;
 }
@@ -271,6 +447,13 @@ int64_t MetricsCollector::getDroppedSeriesCount() const {
     return dropped_series_.load();
 }
 
+/**
+ * @brief Check Cardinality.
+ * @param[in] name Input parameter.
+ * @param[in] key Input parameter.
+ * @return True on success.
+ * @details Calls: count(), makeKey().
+ */
 bool MetricsCollector::checkCardinality(const std::string& name, const std::string& key) {
     if (cardinality_limit_ == 0) {
       return true;
@@ -294,18 +477,33 @@ bool MetricsCollector::checkCardinality(const std::string& name, const std::stri
     return true;
 }
 
-// ===== Exporter health =====
+/**
+ * @brief ===== Exporter health =====
+ * @param[in] exporter_name Input parameter.
+ * @details Calls: incrementCounter(), setGauge().
+ */
 
 void MetricsCollector::recordExporterFailure(const std::string& exporter_name) {
     incrementCounter("exporter_failures_total", {{"exporter", exporter_name}});
     setGauge("exporter_health_status", 0.0, {{"exporter", exporter_name}});
 }
 
+/**
+ * @brief Record Exporter Recovery.
+ * @param[in] exporter_name Input parameter.
+ * @details Calls: incrementCounter(), setGauge().
+ */
 void MetricsCollector::recordExporterRecovery(const std::string& exporter_name) {
     incrementCounter("exporter_recoveries_total", {{"exporter", exporter_name}});
     setGauge("exporter_health_status", 1.0, {{"exporter", exporter_name}});
 }
 
+/**
+ * @brief Record Malformed Telemetry.
+ * @param[in] metric_name Input parameter.
+ * @param[in] reason Input parameter.
+ * @details Calls: sanitizeDiagnosticLabelValue(), incrementCounter().
+ */
 void MetricsCollector::recordMalformedTelemetry(const std::string& metric_name,
                                                 const std::string& reason) {
     const std::map<std::string, std::string> diagnostic_labels{
@@ -318,6 +516,11 @@ void MetricsCollector::recordMalformedTelemetry(const std::string& metric_name,
 
 MetricsCollector::ExporterIncidentStats MetricsCollector::getExporterIncidentStats(
         const std::string& exporter_name) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
     const auto loadCounter = [this](const std::string& name,
                                     const std::map<std::string, std::string>& labels) {
@@ -342,6 +545,11 @@ void MetricsCollector::addCounter(const std::string& name, int64_t delta,
         return;
     }
     std::string key = makeKey(name, labels);
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::shared_mutex> lock(mutex_);
     if (!checkCardinality(name, key)) {
       return;
@@ -357,6 +565,11 @@ void MetricsCollector::modifyGauge(const std::string& name, double delta,
         return;
     }
     std::string key = makeKey(name, labels);
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::shared_mutex> lock(mutex_);
     if (!checkCardinality(name, key)) {
       return;
@@ -374,6 +587,11 @@ void MetricsCollector::incrementCounter(const std::string& name, const std::map<
         return;
     }
     std::string key = makeKey(name, labels);
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::shared_mutex> lock(mutex_);
     if (!checkCardinality(name, key)) {
       return;
@@ -388,6 +606,11 @@ void MetricsCollector::setGauge(const std::string& name, double value, const std
         return;
     }
     std::string key = makeKey(name, labels);
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::shared_mutex> lock(mutex_);
     if (!checkCardinality(name, key)) {
       return;
@@ -401,6 +624,11 @@ void MetricsCollector::observeHistogram(const std::string& name, double value, c
         recordMalformedTelemetry(name, label_failure_reason);
         return;
     }
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::shared_mutex> lock(mutex_);
     std::string key = makeKey(name, labels);
     if (!checkCardinality(name, key)) {
@@ -422,6 +650,11 @@ void MetricsCollector::observeHistogramWithExemplar(const std::string& name, dou
         recordMalformedTelemetry(name, label_failure_reason);
         return;
     }
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::shared_mutex> lock(mutex_);
     std::string key = makeKey(name, labels);
     if (!checkCardinality(name, key)) {
@@ -474,6 +707,12 @@ std::string MetricsCollector::formatMetricLine(const std::string& name, const st
     return oss.str();
 }
 
+/**
+ * @brief Format Exemplar.
+ * @param[in] exemplar Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), time_since_epoch(), count(), std::setprecision(), str().
+ */
 std::string MetricsCollector::formatExemplar(const Exemplar& exemplar) {
     if (exemplar.trace_id.empty()) {
       return "";
@@ -520,7 +759,11 @@ bool MetricsCollector::areLabelsValid(const std::map<std::string, std::string>& 
     return true;
 }
 
-// ===== Histogram Implementation =====
+/**
+ * @brief ===== Histogram Implementation =====
+ * @param[in] value Input parameter.
+ * @details Calls: push_back(), size(), erase(), begin().
+ */
 
 void MetricsCollector::Histogram::observe(double value) {
     values.push_back(value);
@@ -532,6 +775,10 @@ void MetricsCollector::Histogram::observe(double value) {
     }
 }
 
+/**
+ * @brief Reset.
+ * @details Calls: clear(), std::chrono::steady_clock::now().
+ */
 void MetricsCollector::Histogram::reset() {
     values.clear();
     last_reset = std::chrono::steady_clock::now();

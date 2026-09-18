@@ -72,12 +72,7 @@ enum class ErrorCode {
     TRANSACTION_ABORTED = 11,
     CONSTRAINT_VIOLATION = 12,
     DEADLOCK = 13,
-    /// Adapter dispatch failed: query/command could not be forwarded to the
-    /// backend engine.  Non-retryable unless the underlying cause is transient.
     DISPATCH_FAILED = 14,
-    /// Capability mismatch: the adapter does not support a feature required by
-    /// the caller (e.g., vector search on a relational-only backend).
-    /// Non-retryable; the caller must reconfigure or select a different adapter.
     CAPABILITY_MISMATCH = 15
 };
 
@@ -95,7 +90,20 @@ struct Result {
     bool is_ok() const { return error_code == ErrorCode::SUCCESS; }
     bool is_err() const { return error_code != ErrorCode::SUCCESS; }
 
+    /**
+     * @brief Ok.
+     * @param[in] v Input parameter.
+     * @return Return value.
+     * @details Calls: std::move().
+     */
     static Result<T> ok(T v) { return Result<T>{std::optional<T>(std::move(v)), ErrorCode::SUCCESS, ""}; }
+    /**
+     * @brief Err.
+     * @param[in] c Input parameter.
+     * @param[in] m Input parameter.
+     * @return Return value.
+     * @details Calls: std::move().
+     */
     static Result<T> err(ErrorCode c, std::string m) { return Result<T>{std::nullopt, c, std::move(m)}; }
 };
 
@@ -130,115 +138,163 @@ struct QueryStatistics { double duration_ms = 0.0; };
 
 namespace chimera {
 
-/**
- * @struct StreamConfig
- * @brief Configuration hints for server-side cursor / streaming execution.
- */
 struct StreamConfig {
     size_t default_batch_size = 1000; ///< Rows fetched per network round-trip
     size_t prefetch           = 2;    ///< Number of batches to prefetch
     uint32_t timeout_ms       = 30000;///< Per-batch fetch timeout (milliseconds)
 };
 
-/**
- * @class IResultStream
- * @brief Cursor interface for streaming large result sets row-by-row.
- */
 class IResultStream {
 public:
+    /**
+     * @brief IResult Stream.
+     * @return Return value.
+     */
     virtual ~IResultStream() = default;
 
-    /// Returns true while there are more rows to fetch.
+    /**
+     * @brief Has more.
+     * @return True when the operation succeeds.
+     */
     virtual bool has_more() const = 0;
 
-    /// Fetch the next batch of rows (up to @p batch_size).
     virtual Result<std::vector<RelationalRow>> next_batch(
         size_t batch_size = 0
     ) = 0;
 
-    /// Zero-based index of the next row that will be returned.
+    /**
+     * @brief Position.
+     * @return Return value.
+     */
     virtual size_t position() const = 0;
 
-    /// Total number of rows if known, nullopt otherwise.
+    /**
+     * @brief Total size.
+     * @return Return value.
+     */
     virtual std::optional<size_t> total_size() const = 0;
 
-    /// Release server-side cursor resources.
+    /**
+     * @brief Close.
+     * @return Return value.
+     */
     virtual Result<bool> close() = 0;
 };
 
-/**
- * @class IStreamingAdapter
- * @brief Mixin that adds streaming query execution to an adapter.
- */
 class IStreamingAdapter {
 public:
+    /**
+     * @brief IStreaming Adapter.
+     * @return Return value.
+     */
     virtual ~IStreamingAdapter() = default;
 
-    /// Execute a query and return a streaming cursor.
     virtual Result<std::unique_ptr<IResultStream>> execute_query_stream(
         const std::string& query,
         const std::vector<Scalar>& params = {}
     ) = 0;
 
-    /// Update the stream configuration for subsequent stream queries.
+    /**
+     * @brief Set stream config.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     virtual Result<bool> set_stream_config(const StreamConfig& config) = 0;
 };
 
-/**
- * @class IPreparedStatement
- * @brief Handle for a server-side prepared (pre-parsed) statement.
- */
 class IPreparedStatement {
 public:
+    /**
+     * @brief IPrepared Statement.
+     * @return Return value.
+     */
     virtual ~IPreparedStatement() = default;
 
-    /// Opaque server-side statement identifier (UUID).
+    /**
+     * @brief Get id.
+     * @return Return value.
+     */
     virtual std::string get_id() const = 0;
 
-    /// Original query text passed to prepare().
+    /**
+     * @brief Get query.
+     * @return Return value.
+     */
     virtual std::string get_query() const = 0;
 
-    /// Bind a named parameter (e.g. @name tokens).
+    /**
+     * @brief Bind.
+     * @param[in] name Input parameter.
+     * @param[in] value Input parameter.
+     * @return Return value.
+     */
     virtual Result<bool> bind(const std::string& name, const Scalar& value) = 0;
 
-    /// Bind a positional parameter (1-based index).
+    /**
+     * @brief Bind.
+     * @param[in] position Input parameter.
+     * @param[in] value Input parameter.
+     * @return Return value.
+     */
     virtual Result<bool> bind(size_t position, const Scalar& value) = 0;
 
-    /// Bind all named parameters at once.
     virtual Result<bool> bind_all(
         const std::map<std::string, Scalar>& params
     ) = 0;
 
-    /// Execute with currently bound parameters and return the result table.
+    /**
+     * @brief Execute.
+     * @return Return value.
+     */
     virtual Result<RelationalTable> execute() = 0;
 
-    /// Asynchronous variant of execute().
+    /**
+     * @brief Execute async.
+     * @return Return value.
+     */
     virtual std::future<Result<RelationalTable>> execute_async() = 0;
 
-    /// Clear all bound parameters for re-use with different values.
+    /**
+     * @brief Reset the modification detection flag.
+     * @return None.
+     */
     virtual Result<bool> reset() = 0;
 
-    /// Accumulated execution statistics for this statement.
+    /**
+     * @brief Get statistics.
+     * @return Return value.
+     */
     virtual Result<QueryStatistics> get_statistics() const = 0;
 };
 
-/**
- * @class IPreparedStatementAdapter
- * @brief Mixin that adds prepared-statement support to an adapter.
- */
 class IPreparedStatementAdapter {
 public:
+    /**
+     * @brief IPrepared Statement Adapter.
+     * @return Return value.
+     */
     virtual ~IPreparedStatementAdapter() = default;
 
-    /// Parse and cache a query; return a statement handle.
+    /**
+     * @brief Prepare.
+     * @param[in] query Input parameter.
+     * @return Return value.
+     */
     virtual Result<std::unique_ptr<IPreparedStatement>> prepare(
         const std::string& query
     ) = 0;
 
-    /// Release a cached prepared statement by its ID.
+    /**
+     * @brief Unprepare.
+     * @param[in] statement_id Identifier of the statement.
+     * @return Return value.
+     */
     virtual Result<bool> unprepare(const std::string& statement_id) = 0;
 
-    /// List all currently prepared statement IDs.
+    /**
+     * @brief List prepared.
+     * @return Return value.
+     */
     virtual Result<std::vector<std::string>> list_prepared() = 0;
 };
 

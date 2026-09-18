@@ -20,16 +20,6 @@
 namespace themis {
 namespace importers {
 
-/**
- * @brief Self-tuning import optimizer.
- *
- * Determines optimal import order (topological sort), adaptive batch sizes,
- * and parallelisation candidates based on table statistics.
- *
- * References:
- *   - Pavlo et al. (2017) "Self-Driving Database Management Systems" (CMU 15-721)
- *   - Marcus et al. (2019) "Machine Learning for Query Optimization" (VLDB)
- */
 class AdaptiveImportOptimizer {
 public:
     // ------------------------------------------------------------------
@@ -42,13 +32,6 @@ public:
         json optimizer_notes;                             ///< Human-readable decision log
     };
 
-    /**
-     * @brief Build an optimised import plan using column statistics and
-     *        FK dependency analysis.
-     *
-     * The plan respects FK dependencies (parents before children) and sets
-     * larger batch sizes for tables with low cardinality variance.
-     */
     ImportPlan optimizeImportPlan(
         const std::vector<InferenceTableSchema>& schemas,
         const std::map<std::string, ColumnStatistics>& stats = {}
@@ -65,15 +48,11 @@ public:
     };
 
     /**
-     * @brief Adjust the active batch size for all tables based on current
-     *        runtime metrics.
-     *
-     * Reduces batch size when memory > 80 % or CPU > 90 %; increases
-     * batch size when both are below 50 %.
+     * @brief Adapt Batch Size.
+     * @param[in] metrics Input parameter.
      */
     void adaptBatchSize(const RuntimeMetrics& metrics);
 
-    /** @brief Return the current adaptive batch size multiplier [0.1, 4.0]. */
     double currentBatchMultiplier() const { return batch_multiplier_; }
 
     // ------------------------------------------------------------------
@@ -85,13 +64,8 @@ public:
         double estimated_io_ops{0.0};
     };
 
-    /** @brief Performance predictor. */
     class PerformancePredictor {
     public:
-        /**
-         * @brief Predict import performance for the given plan.
-         * Uses linear regression over row counts and column widths.
-         */
         PredictedMetrics predictPerformance(
             const ImportPlan& plan,
             const std::vector<InferenceTableSchema>& schemas,
@@ -102,6 +76,11 @@ public:
 private:
     double batch_multiplier_{1.0};
 
+    /**
+     * @brief Topological Sort.
+     * @param[in] schemas Input parameter.
+     * @return Return value.
+     */
     std::vector<std::string> topologicalSort(
         const std::vector<InferenceTableSchema>& schemas
     ) const;

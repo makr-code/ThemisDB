@@ -43,9 +43,6 @@
 namespace themis {
 namespace cdc {
 
-/**
- * @brief Per-tenant configuration and quotas
- */
 struct TenantConfig {
     std::string tenant_id;
     
@@ -63,9 +60,6 @@ struct TenantConfig {
     int priority = 0;                        // Higher priority = more resources
 };
 
-/**
- * @brief Per-tenant statistics
- */
 struct TenantStats {
     std::string tenant_id;
     
@@ -102,124 +96,108 @@ struct TenantStats {
     }
 };
 
-/**
- * @brief Manages per-tenant CDC buffers with isolation
- */
 class TenantBufferManager {
 public:
-    /**
-     * @brief Constructor
-     * @param changefeed Shared changefeed instance for all tenants
-     * @param default_config Default configuration for new tenants
-     */
     TenantBufferManager(Changefeed* changefeed, 
                        const ChangefeedBufferConfig& default_config = ChangefeedBufferConfig());
     
-    /**
-     * @brief Destructor - stops all tenant buffers and suppresses shutdown exceptions.
-     */
     ~TenantBufferManager() noexcept;
     
     /**
-     * @brief Start buffer management
+     * @brief Start.
      */
     void start();
     
     /**
-     * @brief Stop all tenant buffers
+     * @brief Stop.
      */
     void stop();
     
     /**
-     * @brief Record event for specific tenant
-     * @param tenant_id Tenant identifier
-     * @param event Event to record
-     * @return Recorded event with sequence
-     * @throws CDCException if tenant disabled or quota exceeded
+     * @brief Record Event.
+     * @param[in] tenant_id Identifier of the tenant.
+     * @param[in] event Input parameter.
+     * @return Return value.
      */
     Changefeed::ChangeEvent recordEvent(const std::string& tenant_id,
                                        Changefeed::ChangeEvent event);
     
     /**
-     * @brief Flush buffers for specific tenant
-     * @param tenant_id Tenant identifier
-     * @return Number of events flushed
+     * @brief Flush Tenant.
+     * @param[in] tenant_id Identifier of the tenant.
+     * @return Return value.
      */
     size_t flushTenant(const std::string& tenant_id);
     
     /**
-     * @brief Flush all tenant buffers
-     * @return Total events flushed across all tenants
+     * @brief Flush All.
+     * @return Return value.
      */
     size_t flushAll();
     
     /**
-     * @brief Configure specific tenant
-     * @param config Tenant configuration
+     * @brief Configure Tenant.
+     * @param[in] config Input parameter.
      */
     void configureTenant(const TenantConfig& config);
     
     /**
-     * @brief Get tenant configuration
-     * @param tenant_id Tenant identifier
-     * @return Tenant config if exists
+     * @brief Get Tenant Config.
+     * @param[in] tenant_id Identifier of the tenant.
+     * @return Return value.
      */
     std::optional<TenantConfig> getTenantConfig(const std::string& tenant_id) const;
     
     /**
-     * @brief Get tenant statistics
-     * @param tenant_id Tenant identifier
-     * @return Tenant stats if exists
+     * @brief Get Tenant Stats.
+     * @param[in] tenant_id Identifier of the tenant.
+     * @return Return value.
      */
     std::optional<TenantStats> getTenantStats(const std::string& tenant_id) const;
     
     /**
-     * @brief Get metrics for specific tenant
-     * @param tenant_id Tenant identifier
-     * @return Tenant metrics if exists
+     * @brief Get Tenant Metrics.
+     * @param[in] tenant_id Identifier of the tenant.
+     * @return Return value.
      */
     std::optional<std::reference_wrapper<const CDCMetrics>> getTenantMetrics(const std::string& tenant_id) const;
     
-    /**
-     * @brief Get aggregated metrics across all tenants
-        * @return Aggregated metrics snapshot
-     */
+        /**
+         * @brief Get Global Metrics.
+         * @return Return value.
+         */
         nlohmann::json getGlobalMetrics() const;
     
-    /**
-     * @brief Get all tenant statistics
-     * @return Map of tenant_id -> TenantStats
-     */
     std::map<std::string, TenantStats> getAllTenantStats() const;
     
     /**
-     * @brief Get list of active tenants
-     * @return Vector of tenant IDs
+     * @brief Get Active Tenants.
+     * @return Return value.
      */
     std::vector<std::string> getActiveTenants() const;
     
     /**
-     * @brief Check if tenant exists
-     * @param tenant_id Tenant identifier
-     * @return True if tenant has buffer
+     * @brief Has Tenant.
+     * @param[in] tenant_id Identifier of the tenant.
+     * @return True when the operation succeeds.
      */
     bool hasTenant(const std::string& tenant_id) const;
     
     /**
-     * @brief Disable tenant (stop accepting events)
-     * @param tenant_id Tenant identifier
+     * @brief Disable Tenant.
+     * @param[in] tenant_id Identifier of the tenant.
      */
     void disableTenant(const std::string& tenant_id);
     
     /**
-     * @brief Enable tenant (resume accepting events)
-     * @param tenant_id Tenant identifier
+     * @brief Enable Tenant.
+     * @param[in] tenant_id Identifier of the tenant.
      */
     void enableTenant(const std::string& tenant_id);
     
     /**
-     * @brief Remove tenant buffer (flush first)
-     * @param tenant_id Tenant identifier
+     * @brief Remove Tenant.
+     * @param[in] tenant_id Identifier of the tenant.
      */
     void removeTenant(const std::string& tenant_id);
 
@@ -244,8 +222,24 @@ private:
     std::atomic<bool> running_{false};
     
     // Helper methods
+    /**
+     * @brief Get Or Create Tenant Buffer.
+     * @param[in] tenant_id Identifier of the tenant.
+     * @return Return value.
+     */
     TenantBufferState& getOrCreateTenantBuffer(const std::string& tenant_id);
+    /**
+     * @brief Check Tenant Quota.
+     * @param[in] tenant_id Identifier of the tenant.
+     * @param[in,out] state Input/output parameter.
+     * @return True when the operation succeeds.
+     */
     bool checkTenantQuota(const std::string& tenant_id, TenantBufferState& state);
+    /**
+     * @brief Update Tenant Stats.
+     * @param[in] tenant_id Identifier of the tenant.
+     * @param[in,out] state Input/output parameter.
+     */
     void updateTenantStats(const std::string& tenant_id, TenantBufferState& state);
 };
 

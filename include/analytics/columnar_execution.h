@@ -55,35 +55,58 @@ namespace analytics {
 // Column value types
 // ============================================================================
 
-/** @brief Variant covering all column value types. */
 using ColumnValue = std::variant<std::nullptr_t, bool, int64_t, double, std::string>;
 
 // ============================================================================
 // SelectionVector
 // ============================================================================
 
-/**
- * @brief A vector of selected row indices for late materialization.
- *
- * Operators work with a SelectionVector to avoid physically copying rows
- * until necessary.  This technique is adopted from vectorized databases
- * (MonetDB, DuckDB) and amortises predicate evaluation cost.
- */
 class SelectionVector {
 public:
     SelectionVector() = default;
+    /**
+     * @brief Selection Vector.
+     * @param[in] capacity Input parameter.
+     * @return Return value.
+     */
     explicit SelectionVector(size_t capacity);
 
-    /** Reset to a dense "select all" over @p total_rows rows. */
+    /**
+     * @brief Reset the modification detection flag.
+     * @param[in] total_rows Input parameter.
+     */
     void reset(size_t total_rows);
 
+    /**
+     * @brief Push back.
+     * @param[in] idx Input parameter.
+     */
     void    push_back(uint32_t idx);
+    /**
+     * @brief Size.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     size_t  size() const noexcept;
+    /**
+     * @brief Empty.
+     * @return True when the operation succeeds.
+     * @note Exception safety: noexcept.
+     */
     bool    empty() const noexcept;
     uint32_t operator[](size_t pos) const;
+    /**
+     * @brief Indices.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     const std::vector<uint32_t>& indices() const noexcept;
 
-    /** Construct a dense "select all" selection for @p n rows. */
+    /**
+     * @brief All.
+     * @param[in] n Input parameter.
+     * @return Return value.
+     */
     static SelectionVector all(size_t n);
 
 private:
@@ -100,12 +123,6 @@ enum class ColumnType { Int64, Double, String, Bool, Null };
 // Column
 // ============================================================================
 
-/**
- * @brief A single typed column in columnar layout.
- *
- * Numeric data (Int64, Double) is stored in a contiguous std::vector that
- * allows compiler auto-vectorization.  A null bitmap tracks missing values.
- */
 class Column {
 public:
     Column() = default;
@@ -115,6 +132,11 @@ public:
     ColumnType         type() const noexcept { return type_; }
     size_t             size() const noexcept { return row_count_; }
 
+    /**
+     * @brief Is Null.
+     * @param[in] row Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool isNull(size_t row) const;
 
     // Typed data access (unchecked – caller must verify type())
@@ -123,15 +145,8 @@ public:
     const std::vector<std::string>& stringData() const noexcept { return string_data_; }
     const std::vector<bool>&        boolData()   const noexcept { return bool_data_;   }
 
-    /** Returns true when at least one null has been appended.
-     *  Use this in SIMD fast-path guards instead of nullBitmap().empty(),
-     *  since null_bitmap_ is always populated regardless of whether any
-     *  row is actually null. */
     bool                            hasNulls()   const noexcept { return has_nulls_; }
 
-    /** Null bitmap — one entry per row; true == null.
-     *  Always populated (never empty for a non-empty column).
-     *  Call hasNulls() first to check whether any null is present. */
     const std::vector<bool>&        nullBitmap() const noexcept { return null_bitmap_; }
 
     // Typed append
@@ -139,18 +154,41 @@ public:
     void appendDouble(double     value, bool is_null = false);
     void appendString(std::string value, bool is_null = false);
     void appendBool(bool         value, bool is_null = false);
+    /**
+     * @brief Append Null.
+     */
     void appendNull();
 
-    /** Generic value access – slower; use typed accessors in hot paths. */
+    /**
+     * @brief Get.
+     * @param[in] row Input parameter.
+     * @return Return value.
+     */
     ColumnValue get(size_t row) const;
 
+    /**
+     * @brief Reserve.
+     * @param[in] n Input parameter.
+     */
     void reserve(size_t n);
+    /**
+     * @brief Clear.
+     */
     void clear();
 
-    /** Return a new Column containing only the rows in @p sel. */
+    /**
+     * @brief Filter.
+     * @param[in] sel Input parameter.
+     * @return Return value.
+     */
     std::shared_ptr<Column> filter(const SelectionVector& sel) const;
 
-    /** Return a shallow copy of rows [offset, offset+length). */
+    /**
+     * @brief Slice.
+     * @param[in] offset Input parameter.
+     * @param[in] length Input parameter.
+     * @return Return value.
+     */
     std::shared_ptr<Column> slice(size_t offset, size_t length) const;
 
 private:
@@ -169,48 +207,88 @@ private:
 // ColumnBatch
 // ============================================================================
 
-/**
- * @brief A horizontal batch of columns (similar to Arrow RecordBatch).
- *
- * The default batch size is 1 024 tuples – a size that fits comfortably in
- * L1/L2 cache on modern CPUs.  Each operator in the pipeline receives and
- * emits a ColumnBatch.  Lazy evaluation is achieved via SelectionVector:
- * FilterOperator attaches a selection rather than copying rows.
- */
 class ColumnBatch {
 public:
-    /** Default batch size (tuples). Balances cache and overhead. */
     static constexpr size_t kDefaultBatchSize = 1024;
 
     ColumnBatch() = default;
+    /**
+     * @brief Column Batch.
+     * @param[in] row_count Input parameter.
+     * @return Return value.
+     */
     explicit ColumnBatch(size_t row_count);
 
     // Column management
+    /**
+     * @brief Add Column.
+     * @param[in] col Input parameter.
+     */
     void addColumn(std::shared_ptr<Column> col);
+    /**
+     * @brief Has Column.
+     * @param[in] name Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool hasColumn(const std::string& name) const;
+    /**
+     * @brief Get Column.
+     * @param[in] name Input parameter.
+     * @return Return value.
+     */
     std::shared_ptr<Column> getColumn(const std::string& name) const;
+    /**
+     * @brief Get Column At.
+     * @param[in] idx Input parameter.
+     * @return Return value.
+     */
     std::shared_ptr<Column> getColumnAt(size_t idx) const;
+    /**
+     * @brief Column Count.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     size_t columnCount() const noexcept;
+    /**
+     * @brief Columns.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     const std::vector<std::shared_ptr<Column>>& columns() const noexcept;
 
     // Row count
     size_t rowCount() const noexcept { return row_count_; }
 
-    // Lazy selection (produced by FilterOperator)
+    /**
+     * @brief Lazy selection (produced by FilterOperator)
+     * @param[in] sel Input parameter.
+     */
     void setSelection(const SelectionVector& sel);
     const SelectionVector& selection() const noexcept { return selection_; }
     bool   hasSelection() const noexcept { return has_selection_; }
+    /**
+     * @brief Selected Row Count.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     size_t selectedRowCount() const noexcept;
 
     /**
-     * @brief Materialize: apply the selection vector and return a new,
-     * dense batch without a selection vector.
+     * @brief Materialize.
+     * @return Return value.
      */
     ColumnBatch materialize() const;
 
-    /** Split into sub-batches of at most @p max_rows_per_batch rows. */
+    /**
+     * @brief Split.
+     * @param[in] max_rows_per_batch Input parameter.
+     * @return Return value.
+     */
     std::vector<ColumnBatch> split(size_t max_rows_per_batch) const;
 
+    /**
+     * @brief Clear.
+     */
     void clear();
 
 private:
@@ -225,12 +303,6 @@ private:
 // Predicate
 // ============================================================================
 
-/**
- * @brief A single comparison predicate for FilterOperator.
- *
- * Comparisons are evaluated in tight inner loops that the compiler can
- * auto-vectorize for numeric types.
- */
 struct Predicate {
     enum class Op { Eq, Ne, Lt, Le, Gt, Ge, IsNull, IsNotNull };
 
@@ -239,13 +311,59 @@ struct Predicate {
     ColumnValue  value;   // unused for IsNull / IsNotNull
 
     // Convenience factories
+    /**
+     * @brief Eq.
+     * @param[in] col Input parameter.
+     * @param[in] val Input parameter.
+     * @return Return value.
+     */
     static Predicate eq(std::string col, ColumnValue val);
+    /**
+     * @brief Ne.
+     * @param[in] col Input parameter.
+     * @param[in] val Input parameter.
+     * @return Return value.
+     */
     static Predicate ne(std::string col, ColumnValue val);
+    /**
+     * @brief Lt.
+     * @param[in] col Input parameter.
+     * @param[in] val Input parameter.
+     * @return Return value.
+     */
     static Predicate lt(std::string col, ColumnValue val);
+    /**
+     * @brief Le.
+     * @param[in] col Input parameter.
+     * @param[in] val Input parameter.
+     * @return Return value.
+     */
     static Predicate le(std::string col, ColumnValue val);
+    /**
+     * @brief Gt.
+     * @param[in] col Input parameter.
+     * @param[in] val Input parameter.
+     * @return Return value.
+     */
     static Predicate gt(std::string col, ColumnValue val);
+    /**
+     * @brief Ge.
+     * @param[in] col Input parameter.
+     * @param[in] val Input parameter.
+     * @return Return value.
+     */
     static Predicate ge(std::string col, ColumnValue val);
+    /**
+     * @brief Is Null.
+     * @param[in] col Input parameter.
+     * @return Return value.
+     */
     static Predicate isNull(std::string col);
+    /**
+     * @brief Is Not Null.
+     * @param[in] col Input parameter.
+     * @return Return value.
+     */
     static Predicate isNotNull(std::string col);
 };
 
@@ -253,9 +371,6 @@ struct Predicate {
 // AggregateSpec
 // ============================================================================
 
-/**
- * @brief Specification for one aggregation column produced by AggregateOperator.
- */
 struct AggregateSpec {
     enum class Function { Count, Sum, Avg, Min, Max, CountDistinct };
 
@@ -269,23 +384,31 @@ struct AggregateSpec {
 // FilterOperator
 // ============================================================================
 
-/**
- * @brief Vectorized filter operator with late materialization.
- *
- * Returns a ColumnBatch that shares the input columns and carries a
- * SelectionVector.  No row data is copied until ColumnBatch::materialize()
- * is called.  Multiple predicates are combined with AND.
- */
 class FilterOperator {
 public:
+    /**
+     * @brief Filter Operator.
+     * @param[in] predicates Input parameter.
+     * @return Return value.
+     */
     explicit FilterOperator(std::vector<Predicate> predicates);
 
-    /** Apply predicates; returns batch with a SelectionVector attached. */
+    /**
+     * @brief Execute.
+     * @param[in] input Input parameter.
+     * @return Return value.
+     */
     ColumnBatch execute(const ColumnBatch& input) const;
 
     size_t predicateCount() const noexcept { return predicates_.size(); }
 
 private:
+    /**
+     * @brief Eval Predicate.
+     * @param[in] batch Input parameter.
+     * @param[in] pred Input parameter.
+     * @return Return value.
+     */
     SelectionVector evalPredicate(const ColumnBatch& batch,
                                   const Predicate&   pred) const;
 
@@ -296,17 +419,20 @@ private:
 // ProjectOperator
 // ============================================================================
 
-/**
- * @brief Vectorized projection operator (zero-copy column sharing).
- *
- * Returns a new ColumnBatch containing only the requested columns.
- * Column objects are shared (not copied) so this is O(k) where k is the
- * number of projected columns.
- */
 class ProjectOperator {
 public:
+    /**
+     * @brief Project Operator.
+     * @param[in] column_names Input parameter.
+     * @return Return value.
+     */
     explicit ProjectOperator(std::vector<std::string> column_names);
 
+    /**
+     * @brief Execute.
+     * @param[in] input Input parameter.
+     * @return Return value.
+     */
     ColumnBatch execute(const ColumnBatch& input) const;
 
 private:
@@ -317,24 +443,37 @@ private:
 // AggregateOperator
 // ============================================================================
 
-/**
- * @brief Vectorized aggregation operator.
- *
- * Supports COUNT(*), SUM, AVG, MIN, MAX, COUNT_DISTINCT with optional
- * GROUP BY.  Without GROUP BY the whole batch collapses to a single row.
- * With GROUP BY a hash map is used for grouping; the result is one row
- * per distinct key combination.
- */
 class AggregateOperator {
 public:
+    /**
+     * @brief Aggregate Operator.
+     * @param[in] specs Input parameter.
+     * @return Return value.
+     */
     explicit AggregateOperator(std::vector<AggregateSpec> specs);
 
+    /**
+     * @brief Execute.
+     * @param[in] input Input parameter.
+     * @return Return value.
+     */
     ColumnBatch execute(const ColumnBatch& input) const;
 
     size_t specCount() const noexcept { return specs_.size(); }
 
 private:
+    /**
+     * @brief Aggregate All.
+     * @param[in] input Input parameter.
+     * @return Return value.
+     */
     ColumnBatch aggregateAll(const ColumnBatch& input) const;
+    /**
+     * @brief Aggregate Group By.
+     * @param[in] input Input parameter.
+     * @param[in] group_cols Input parameter.
+     * @return Return value.
+     */
     ColumnBatch aggregateGroupBy(const ColumnBatch& input,
                                   const std::vector<std::string>& group_cols) const;
 
@@ -351,12 +490,6 @@ private:
 // SortOperator
 // ============================================================================
 
-/**
- * @brief Materializing sort operator.
- *
- * Sorts the batch (after materializing any pending selection vector) by the
- * specified keys.  Produces a new dense ColumnBatch in sorted order.
- */
 class SortOperator {
 public:
     struct SortKey {
@@ -364,8 +497,18 @@ public:
         bool        ascending = true;
     };
 
+    /**
+     * @brief Sort Operator.
+     * @param[in] keys Input parameter.
+     * @return Return value.
+     */
     explicit SortOperator(std::vector<SortKey> keys);
 
+    /**
+     * @brief Execute.
+     * @param[in] input Input parameter.
+     * @return Return value.
+     */
     ColumnBatch execute(const ColumnBatch& input) const;
 
 private:
@@ -376,38 +519,40 @@ private:
 // VectorizedPipeline
 // ============================================================================
 
-/**
- * @brief A composable pipeline of vectorized operators.
- *
- * Stages are applied left-to-right.  FilterOperator produces lazy
- * SelectionVectors; they are materialized automatically when a non-lazy
- * stage (Aggregate, Sort) is reached.
- *
- * Example:
- * @code
- *   VectorizedPipeline pipeline;
- *   pipeline
- *       .addFilter({Predicate::gt("amount", 100.0)})
- *       .addProject({"region", "amount"})
- *       .addAggregate({{
- *           .result_name  = "total",
- *           .input_column = "amount",
- *           .function     = AggregateSpec::Function::Sum,
- *           .group_by     = {"region"}
- *       }});
- *
- *   ColumnBatch result = pipeline.execute(input_batch);
- * @endcode
- */
 class VectorizedPipeline {
 public:
     VectorizedPipeline() = default;
 
+    /**
+     * @brief Add Filter.
+     * @param[in] predicates Input parameter.
+     * @return Return value.
+     */
     VectorizedPipeline& addFilter(std::vector<Predicate> predicates);
+    /**
+     * @brief Add Project.
+     * @param[in] column_names Input parameter.
+     * @return Return value.
+     */
     VectorizedPipeline& addProject(std::vector<std::string> column_names);
+    /**
+     * @brief Add Aggregate.
+     * @param[in] specs Input parameter.
+     * @return Return value.
+     */
     VectorizedPipeline& addAggregate(std::vector<AggregateSpec> specs);
+    /**
+     * @brief Add Sort.
+     * @param[in] keys Input parameter.
+     * @return Return value.
+     */
     VectorizedPipeline& addSort(std::vector<SortOperator::SortKey> keys);
 
+    /**
+     * @brief Execute.
+     * @param[in] input Input parameter.
+     * @return Return value.
+     */
     ColumnBatch execute(const ColumnBatch& input) const;
 
     size_t stageCount() const noexcept { return stages_.size(); }
@@ -430,36 +575,6 @@ private:
 // ColumnarExecutionEngine
 // ============================================================================
 
-/**
- * @brief Entry-point for the columnar execution engine.
- *
- * Manages configuration and per-query execution statistics.  Delegates
- * actual work to the operator classes above.
- *
- * Performance targets (vs row-wise execution):
- *   - 5–10× faster aggregations over numeric columns
- *   - 3–5× faster filtering
- *   - Batch size 1 024 tuples balances cache reuse and call overhead
- *
- * Usage:
- * @code
- *   ColumnarExecutionEngine engine;
- *
- *   ColumnBatch batch(1000);
- *   // ... populate columns ...
- *
- *   auto result = engine.execute(
- *       batch,
- *       VectorizedPipeline{}
- *           .addFilter({Predicate::gt("price", 50.0)})
- *           .addAggregate({{
- *               .result_name  = "total",
- *               .input_column = "price",
- *               .function     = AggregateSpec::Function::Sum,
- *               .group_by     = {"category"}
- *           }}));
- * @endcode
- */
 class ColumnarExecutionEngine {
 public:
     struct Config {
@@ -469,23 +584,60 @@ public:
     };
 
     ColumnarExecutionEngine();
+    /**
+     * @brief Columnar Execution Engine.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit ColumnarExecutionEngine(const Config& config);
     ~ColumnarExecutionEngine() = default;
 
-    /** Execute a pipeline over a single ColumnBatch. */
+    /**
+     * @brief Execute.
+     * @param[in] input Input parameter.
+     * @param[in] pipeline Input parameter.
+     * @return Return value.
+     */
     ColumnBatch execute(const ColumnBatch& input, const VectorizedPipeline& pipeline);
 
-    /** Execute a pipeline over multiple batches and return all results. */
+    /**
+     * @brief Execute Batched.
+     * @param[in] batches Input parameter.
+     * @param[in] pipeline Input parameter.
+     * @return Return value.
+     */
     std::vector<ColumnBatch> executeBatched(const std::vector<ColumnBatch>& batches,
                                              const VectorizedPipeline& pipeline);
 
-    // Convenience single-operator shortcuts
+    /**
+     * @brief Convenience single-operator shortcuts
+     * @param[in] input Input parameter.
+     * @param[in] predicates Input parameter.
+     * @return Return value.
+     */
     ColumnBatch filter(const ColumnBatch& input, std::vector<Predicate> predicates);
+    /**
+     * @brief Aggregate.
+     * @param[in] input Input parameter.
+     * @param[in] specs Input parameter.
+     * @return Return value.
+     */
     ColumnBatch aggregate(const ColumnBatch& input, std::vector<AggregateSpec> specs);
+    /**
+     * @brief Project.
+     * @param[in] input Input parameter.
+     * @param[in] columns Input parameter.
+     * @return Return value.
+     */
     ColumnBatch project(const ColumnBatch& input, std::vector<std::string> columns);
+    /**
+     * @brief Sort.
+     * @param[in] input Input parameter.
+     * @param[in] keys Input parameter.
+     * @return Return value.
+     */
     ColumnBatch sort(const ColumnBatch& input, std::vector<SortOperator::SortKey> keys);
 
-    /** Statistics gathered over the lifetime of this engine (or since resetStats()). */
     struct ExecutionStats {
         size_t batches_processed = 0;
         size_t rows_in           = 0;
@@ -494,6 +646,10 @@ public:
     };
 
     const ExecutionStats& lastStats() const noexcept { return stats_; }
+    /**
+     * @brief Reset Stats.
+     * @note Exception safety: noexcept.
+     */
     void resetStats() noexcept;
 
     const Config& config() const noexcept { return config_; }

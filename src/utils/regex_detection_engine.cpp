@@ -43,16 +43,37 @@ std::string RegexDetectionEngine::getVersion() const {
 }
 
 bool RegexDetectionEngine::isEnabled() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return enabled_;
 }
 
 PluginSignature RegexDetectionEngine::getSignature() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return signature_;
 }
 
+/**
+ * @brief Initialize.
+ * @param[in] config Input parameter.
+ * @return True on success.
+ * @details Calls: lock(), clear(), value(), contains(), loadPatternsFromConfig(), spdlog::warn(), loadEmbeddedDefaults(), rebuildFieldHints().
+ */
 bool RegexDetectionEngine::initialize(const nlohmann::json& config) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     last_error_.clear();
@@ -103,7 +124,18 @@ bool RegexDetectionEngine::initialize(const nlohmann::json& config) {
     }
 }
 
+/**
+ * @brief Reload.
+ * @param[in] config Input parameter.
+ * @return True on success.
+ * @details Calls: lock(), clear(), loadPatternsFromConfig(), spdlog::error(), rebuildFieldHints(), spdlog::info(), size().
+ */
 bool RegexDetectionEngine::reload(const nlohmann::json& config) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     // Save old state
@@ -130,6 +162,11 @@ bool RegexDetectionEngine::reload(const nlohmann::json& config) {
 }
 
 std::vector<PIIFinding> RegexDetectionEngine::detectInText(const std::string& text) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (!enabled_) {
@@ -236,6 +273,11 @@ std::vector<PIIFinding> RegexDetectionEngine::detectInText(const std::string& te
 }
 
 PIIType RegexDetectionEngine::classifyFieldName(const std::string& field_name) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (!enable_field_hints_) {
@@ -262,6 +304,11 @@ PIIType RegexDetectionEngine::classifyFieldName(const std::string& field_name) c
 }
 
 std::string RegexDetectionEngine::getRedactionRecommendation(PIIType type) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = redaction_modes_.find(type);
@@ -273,11 +320,21 @@ std::string RegexDetectionEngine::getRedactionRecommendation(PIIType type) const
 }
 
 std::string RegexDetectionEngine::getLastError() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return last_error_;
 }
 
 nlohmann::json RegexDetectionEngine::getMetadata() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     nlohmann::json metadata;
@@ -295,6 +352,11 @@ nlohmann::json RegexDetectionEngine::getMetadata() const {
 }
 
 size_t RegexDetectionEngine::maxPatternLength() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     // Return the length of the longest regex_str across all enabled patterns.
     // PIIStreamScanner uses this as the sliding-window overlap so that patterns
@@ -310,6 +372,10 @@ size_t RegexDetectionEngine::maxPatternLength() const {
     return max_len > kDefaultLookaheadBytes ? max_len : kDefaultLookaheadBytes;
 }
 
+/**
+ * @brief Load Embedded Defaults.
+ * @details Calls: clear(), validateAndCompilePattern(), push_back(), spdlog::info(), size().
+ */
 void RegexDetectionEngine::loadEmbeddedDefaults() {
     patterns_.clear();
     redaction_modes_.clear();
@@ -429,6 +495,12 @@ void RegexDetectionEngine::loadEmbeddedDefaults() {
     spdlog::info("RegexDetectionEngine: Loaded {} embedded default patterns", patterns_.size());
 }
 
+/**
+ * @brief Load Patterns From Config.
+ * @param[in] config Input parameter.
+ * @return True on success.
+ * @details Calls: contains(), clear(), value(), is_array(), push_back(), parseRegexFlags(), spdlog::warn(), what().
+ */
 bool RegexDetectionEngine::loadPatternsFromConfig(const nlohmann::json& config) {
     if (!config.contains("patterns")) {
         last_error_ = "No 'patterns' section found in configuration";
@@ -501,6 +573,12 @@ bool RegexDetectionEngine::loadPatternsFromConfig(const nlohmann::json& config) 
     return true;
 }
 
+/**
+ * @brief Validate And Compile Pattern.
+ * @param[in,out] pattern Input/output parameter.
+ * @return True on success.
+ * @details Calls: std::regex(), spdlog::error(), what().
+ */
 bool RegexDetectionEngine::validateAndCompilePattern(RegexPattern& pattern) {
     try {
         pattern.compiled_regex = std::regex(pattern.regex_str, pattern.flags);
@@ -512,6 +590,10 @@ bool RegexDetectionEngine::validateAndCompilePattern(RegexPattern& pattern) {
     }
 }
 
+/**
+ * @brief Rebuild Field Hints.
+ * @details Calls: clear(), PIITypeUtils::fromString(), std::transform(), begin(), end().
+ */
 void RegexDetectionEngine::rebuildFieldHints() {
     field_name_hints_.clear();
     
@@ -768,7 +850,11 @@ bool RegexDetectionEngine::checkInputBounds(std::string_view text) const {
     return true;
 }
 
-// Factory function for createUnsigned
+/**
+ * @brief Factory function for createUnsigned
+ * @return Return value.
+ * @details Implements createRegexEngine without additional internal calls.
+ */
 std::unique_ptr<IPIIDetectionEngine> createRegexEngine() {
     return std::make_unique<RegexDetectionEngine>();
 }

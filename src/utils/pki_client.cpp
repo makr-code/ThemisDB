@@ -50,12 +50,20 @@
 namespace themis {
 namespace utils {
 
-// ============================================================================
-// Certificate Pinning: SHA256 Fingerprint Verification
-// ============================================================================
+/**
+ * @brief ============================================================================ Certificate Pinning: SHA256 Fingerprint Verification ============================================================================
+ * @param[in] data Input parameter.
+ * @return Return value.
+ */
 
 static std::string base64_encode(const std::vector<uint8_t>& data);
 
+/**
+ * @brief Parse hex fingerprint.
+ * @param[in] fingerprint Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), std::isxdigit(), push_back(), std::isspace(), iss(), substr(), fail().
+ */
 static std::optional<std::vector<uint8_t>> parse_hex_fingerprint(std::string_view fingerprint) {
     std::string normalized = {};
     normalized.reserve(fingerprint.size());
@@ -89,6 +97,12 @@ static std::optional<std::vector<uint8_t>> parse_hex_fingerprint(std::string_vie
     return out;
 }
 
+/**
+ * @brief Build pinned public key value.
+ * @param[in] cfg Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), rfind(), push_back(), parse_hex_fingerprint().
+ */
 static std::optional<std::string> build_pinned_public_key_value(const PKIConfig& cfg) {
     std::vector<std::string> pins = {};
 
@@ -122,7 +136,12 @@ static std::optional<std::string> build_pinned_public_key_value(const PKIConfig&
     return value;
 }
 
-// Simple base64 (encode/decode) to avoid extra deps
+/**
+ * @brief Simple base64 (encode/decode) to avoid extra deps
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), push_back().
+ */
 static std::string base64_encode(const std::vector<uint8_t>& data) {
     static const char b64_table[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
     std::string out = {};
@@ -152,6 +171,12 @@ static std::string base64_encode(const std::vector<uint8_t>& data) {
     return out;
 }
 
+/**
+ * @brief Base64 decode.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), push_back().
+ */
 static std::vector<uint8_t> base64_decode(const std::string& s) {
     static const int T[256] = {
         -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
@@ -195,11 +220,23 @@ static std::string random_hex_id(size_t bytes = 8) {
     std::uniform_int_distribution<uint64_t> dis;
     std::ostringstream oss = {};
     for (size_t i = 0; i < bytes / 8; ++i) {
+        /**
+         * @brief Dis.
+         * @param[in] gen Input parameter.
+         * @return Return value.
+         */
         oss << std::hex << dis(gen);
     }
     return oss.str();
 }
 
+/**
+ * @brief Nid for algorithm.
+ * @param[in] alg Input parameter.
+ * @param[in,out] expected_len Input/output parameter.
+ * @return Return value.
+ * @details Calls: find().
+ */
 static int nid_for_algorithm(const std::string& alg, size_t& expected_len) {
     if (alg.find("SHA256") != std::string::npos) { expected_len = 32; return NID_sha256; }
     if (alg.find("SHA384") != std::string::npos) { expected_len = 48; return NID_sha384; }
@@ -208,6 +245,15 @@ static int nid_for_algorithm(const std::string& alg, size_t& expected_len) {
     expected_len = 32; return NID_sha256;
 }
 
+/**
+ * @brief Password cb.
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] size Input parameter.
+ * @param[in] int Input parameter.
+ * @param[in,out] u Input/output parameter.
+ * @return Return value.
+ * @details Calls: size(), std::memcpy(), data().
+ */
 static int password_cb(char* buf, int size, int /*rwflag*/, void* u) {
     if (!buf || !u || size <= 0) {
       return 0;
@@ -222,6 +268,12 @@ static int password_cb(char* buf, int size, int /*rwflag*/, void* u) {
     return len;
 }
 
+/**
+ * @brief Load private key.
+ * @param[in] cfg Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), make_bio_file(), c_str(), fmt::format(), PEM_read_bio_PrivateKey(), get(), Ok().
+ */
 static Result<EVP_PKEY*> load_private_key(const PKIConfig& cfg) {
     if (cfg.key_path.empty()) {
         return Err<EVP_PKEY*>(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT, 
@@ -250,6 +302,12 @@ static Result<EVP_PKEY*> load_private_key(const PKIConfig& cfg) {
     return Ok(pkey);
 }
 
+/**
+ * @brief To hex serial.
+ * @param[in,out] s Input/output parameter.
+ * @return Return value.
+ * @details Calls: std::string(), BIGNUMPtr(), ASN1_INTEGER_to_BN(), BN_bn2hex(), get(), OPENSSL_free().
+ */
 static std::string to_hex_serial(ASN1_INTEGER* s) {
     if (!s) {
       return std::string();
@@ -266,6 +324,13 @@ static std::string to_hex_serial(ASN1_INTEGER* s) {
     return out;
 }
 
+/**
+ * @brief Load public key and serial.
+ * @param[in] cfg Input parameter.
+ * @param[in,out] serial_out Input/output parameter.
+ * @return Return value.
+ * @details Calls: clear(), empty(), make_bio_file(), c_str(), fmt::format(), X509Ptr(), PEM_read_bio_X509(), get().
+ */
 static Result<EVP_PKEY*> load_public_key_and_serial(const PKIConfig& cfg, std::string& serial_out) {
     serial_out.clear();
     
@@ -299,8 +364,12 @@ static Result<EVP_PKEY*> load_public_key_and_serial(const PKIConfig& cfg, std::s
     return Ok(pub);
 }
 
-// Generates a PKCS#10 CSR (PEM) using the private key in cfg and service_id as CN.
-// Uses the X509_REQ_* OpenSSL API.  Returns empty string on failure.
+/**
+ * @brief Generates a PKCS#10 CSR (PEM) using the private key in cfg and service_id as CN.
+ * @param[in] cfg Input parameter.
+ * @return Return value.
+ * @details Uses the X509_REQ_* OpenSSL API. Returns empty string on failure. Calls: load_private_key(), pkey(), req(), X509_REQ_new(), X509_REQ_set_version(), get(), X509_REQ_get_subject_name(), empty().
+ */
 static std::string generate_csr_pem(const PKIConfig& cfg) {
     auto pkey_result = load_private_key(cfg);
     if (!pkey_result) {
@@ -356,8 +425,13 @@ static std::string generate_csr_pem(const PKIConfig& cfg) {
     return std::string(bptr->data, bptr->length);
 }
 
-// Submits a PEM-encoded PKCS#10 CSR to {ca_url}/sign-csr and returns the
-// signed certificate PEM on success.  Returns empty string on failure.
+/**
+ * @brief Submits a PEM-encoded PKCS#10 CSR to {ca_url}/sign-csr and returns the signed certificate PEM on success.
+ * @param[in] cfg Input parameter.
+ * @param[in] csr_pem Input parameter.
+ * @return Return value.
+ * @details Returns empty string on failure. Calls: THEMIS_UTILS_HAS_CURL(), empty(), back(), pop_back(), dump(), curl_easy_init(), curl_slist_append(), curl_easy_setopt().
+ */
 static std::string request_cert_from_ca(const PKIConfig& cfg, const std::string& csr_pem) {
 #if !THEMIS_UTILS_HAS_CURL
     (void)cfg;
@@ -431,8 +505,12 @@ static std::string request_cert_from_ca(const PKIConfig& cfg, const std::string&
 #endif
 }
 
-// Extracts the serial number from a PEM-encoded certificate string.
-// Returns empty string on failure.
+/**
+ * @brief Extracts the serial number from a PEM-encoded certificate string.
+ * @param[in] cert_pem Input parameter.
+ * @return Return value.
+ * @details Returns empty string on failure. Calls: bio(), BIO_new_mem_buf(), data(), size(), cert(), PEM_read_bio_X509(), get(), to_hex_serial().
+ */
 static std::string serial_from_cert_pem(const std::string& cert_pem) {
     BIOPtr bio(BIO_new_mem_buf(cert_pem.data(), static_cast<int>(cert_pem.size())));
     if (!bio) return {};
@@ -441,8 +519,12 @@ static std::string serial_from_cert_pem(const std::string& cert_pem) {
     return to_hex_serial(X509_get_serialNumber(cert.get()));
 }
 
-// Verify the X.509 certificate chain for cert_path against the CA bundle at trust_store_path.
-// Returns true only when the chain is fully valid.
+/**
+ * @brief Verify the X.
+ * @param[in] cfg Input parameter.
+ * @return True on success.
+ * @details 509 certificate chain for cert_path against the CA bundle at trust_store_path. Returns true only when the chain is fully valid. Calls: empty(), make_bio_file(), c_str(), X509Ptr(), PEM_read_bio_X509(), get(), store(), X509_STORE_new().
+ */
 static bool verify_cert_chain(const PKIConfig& cfg) {
     if (cfg.cert_path.empty() || cfg.trust_store_path.empty()) {
         return false;
@@ -689,6 +771,11 @@ SignatureResult VCCPKIClient::signHash(const std::vector<uint8_t>& hash_bytes) c
         std::string cert_pem = {};
         std::string cert_serial = {};
         {
+            /**
+             * @brief Lock.
+             * @param[in] cert_cache_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(cert_cache_mutex_);
             if (cached_cert_pem_.empty()) {
                 std::string csr_pem = generate_csr_pem(cfg_);

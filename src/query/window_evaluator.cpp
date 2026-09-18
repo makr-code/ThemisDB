@@ -75,9 +75,15 @@ nlohmann::json WindowFunctionCall::toJSON() const {
     return j;
 }
 
-// ============================================================================
-// WindowEvaluator Implementation
-// ============================================================================
+/**
+ * @brief ============================================================================ WindowEvaluator Implementation ============================================================================
+ * @param[in] rows Input parameter.
+ * @param[in] windowSpec Input parameter.
+ * @param[in] windowFunc Input parameter.
+ * @param[in] forVariable Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), partitionRows(), results(), size(), sortPartition(), evaluateRowNumber(), evaluateRank(), evaluateDenseRank().
+ */
 
 std::vector<nlohmann::json> WindowEvaluator::evaluate(
     const std::vector<nlohmann::json>& rows,
@@ -139,9 +145,14 @@ std::vector<nlohmann::json> WindowEvaluator::evaluate(
     return results;
 }
 
-// ============================================================================
-// Partitionierung
-// ============================================================================
+/**
+ * @brief ============================================================================ Partitionierung ============================================================================
+ * @param[in] rows Input parameter.
+ * @param[in] partitionBy Input parameter.
+ * @param[in] forVariable Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), allIndices(), size(), makePartitionKey(), push_back(), reserve(), std::move().
+ */
 
 std::vector<std::vector<size_t>> WindowEvaluator::partitionRows(
     const std::vector<nlohmann::json>& rows,
@@ -176,6 +187,14 @@ std::vector<std::vector<size_t>> WindowEvaluator::partitionRows(
     return result;
 }
 
+/**
+ * @brief Make Partition Key.
+ * @param[in] row Input parameter.
+ * @param[in] partitionBy Input parameter.
+ * @param[in] forVariable Input parameter.
+ * @return Return value.
+ * @details Calls: size(), evaluateExpression(), dump(), str().
+ */
 std::string WindowEvaluator::makePartitionKey(
     const nlohmann::json& row,
     const std::vector<std::shared_ptr<Expression>>& partitionBy,
@@ -195,9 +214,15 @@ std::string WindowEvaluator::makePartitionKey(
     return oss.str();
 }
 
-// ============================================================================
-// Sortierung
-// ============================================================================
+/**
+ * @brief ============================================================================ Sortierung ============================================================================
+ * @param[in] rows Input parameter.
+ * @param[in] partition Input parameter.
+ * @param[in] orderBy Input parameter.
+ * @param[in] forVariable Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::sort(), begin(), end(), compareRows().
+ */
 
 std::vector<size_t> WindowEvaluator::sortPartition(
     const std::vector<nlohmann::json>& rows,
@@ -224,6 +249,15 @@ std::vector<size_t> WindowEvaluator::sortPartition(
     return sorted;
 }
 
+/**
+ * @brief Compare Rows.
+ * @param[in] row1 Input parameter.
+ * @param[in] row2 Input parameter.
+ * @param[in] orderBy Input parameter.
+ * @param[in] forVariable Input parameter.
+ * @return Return value.
+ * @details Calls: evaluateExpression(), is_null(), is_number(), is_string(), compare(), is_boolean(), dump().
+ */
 int WindowEvaluator::compareRows(
     const nlohmann::json& row1,
     const nlohmann::json& row2,
@@ -278,9 +312,12 @@ int WindowEvaluator::compareRows(
     return 0;  // Alle Felder sind gleich
 }
 
-// ============================================================================
-// Window Function Evaluations
-// ============================================================================
+/**
+ * @brief ============================================================================ Window Function Evaluations ============================================================================
+ * @param[in] partitionSize Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), push_back().
+ */
 
 std::vector<nlohmann::json> WindowEvaluator::evaluateRowNumber(size_t partitionSize) {
     std::vector<nlohmann::json> results;
@@ -293,6 +330,15 @@ std::vector<nlohmann::json> WindowEvaluator::evaluateRowNumber(size_t partitionS
     return results;
 }
 
+/**
+ * @brief Evaluate Rank.
+ * @param[in] rows Input parameter.
+ * @param[in] sortedIndices Input parameter.
+ * @param[in] orderBy Input parameter.
+ * @param[in] forVariable Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), empty(), compareRows(), push_back().
+ */
 std::vector<nlohmann::json> WindowEvaluator::evaluateRank(
     const std::vector<nlohmann::json>& rows,
     const std::vector<size_t>& sortedIndices,
@@ -332,6 +378,15 @@ std::vector<nlohmann::json> WindowEvaluator::evaluateRank(
     return results;
 }
 
+/**
+ * @brief Evaluate Dense Rank.
+ * @param[in] rows Input parameter.
+ * @param[in] sortedIndices Input parameter.
+ * @param[in] orderBy Input parameter.
+ * @param[in] forVariable Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), empty(), compareRows(), push_back().
+ */
 std::vector<nlohmann::json> WindowEvaluator::evaluateDenseRank(
     const std::vector<nlohmann::json>& rows,
     const std::vector<size_t>& sortedIndices,
@@ -368,6 +423,17 @@ std::vector<nlohmann::json> WindowEvaluator::evaluateDenseRank(
     return results;
 }
 
+/**
+ * @brief Evaluate Lag.
+ * @param[in] rows Input parameter.
+ * @param[in] sortedIndices Input parameter.
+ * @param[in] argument Input parameter.
+ * @param[in] offset Input parameter.
+ * @param[in] defaultValue Input parameter.
+ * @param[in] forVariable Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), evaluateExpression(), nlohmann::json(), push_back().
+ */
 std::vector<nlohmann::json> WindowEvaluator::evaluateLag(
     const std::vector<nlohmann::json>& rows,
     const std::vector<size_t>& sortedIndices,
@@ -410,6 +476,17 @@ std::vector<nlohmann::json> WindowEvaluator::evaluateLag(
     return results;
 }
 
+/**
+ * @brief Evaluate Lead.
+ * @param[in] rows Input parameter.
+ * @param[in] sortedIndices Input parameter.
+ * @param[in] argument Input parameter.
+ * @param[in] offset Input parameter.
+ * @param[in] defaultValue Input parameter.
+ * @param[in] forVariable Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), evaluateExpression(), nlohmann::json(), push_back().
+ */
 std::vector<nlohmann::json> WindowEvaluator::evaluateLead(
     const std::vector<nlohmann::json>& rows,
     const std::vector<size_t>& sortedIndices,
@@ -451,6 +528,15 @@ std::vector<nlohmann::json> WindowEvaluator::evaluateLead(
     return results;
 }
 
+/**
+ * @brief Evaluate First Value.
+ * @param[in] rows Input parameter.
+ * @param[in] sortedIndices Input parameter.
+ * @param[in] argument Input parameter.
+ * @param[in] forVariable Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), empty(), evaluateExpression(), push_back().
+ */
 std::vector<nlohmann::json> WindowEvaluator::evaluateFirstValue(
     const std::vector<nlohmann::json>& rows,
     const std::vector<size_t>& sortedIndices,
@@ -482,6 +568,16 @@ std::vector<nlohmann::json> WindowEvaluator::evaluateFirstValue(
     return results;
 }
 
+/**
+ * @brief Evaluate Last Value.
+ * @param[in] rows Input parameter.
+ * @param[in] sortedIndices Input parameter.
+ * @param[in] argument Input parameter.
+ * @param[in] frame Input parameter.
+ * @param[in] forVariable Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), empty(), back(), evaluateExpression(), push_back().
+ */
 std::vector<nlohmann::json> WindowEvaluator::evaluateLastValue(
     const std::vector<nlohmann::json>& rows,
     const std::vector<size_t>& sortedIndices,
@@ -538,9 +634,14 @@ std::vector<nlohmann::json> WindowEvaluator::evaluateLastValue(
     return results;
 }
 
-// ============================================================================
-// Expression Evaluation
-// ============================================================================
+/**
+ * @brief ============================================================================ Expression Evaluation ============================================================================
+ * @param[in] expr Input parameter.
+ * @param[in] row Input parameter.
+ * @param[in] forVariable Input parameter.
+ * @return Return value.
+ * @details Implements evaluateExpression without additional internal calls.
+ */
 
 nlohmann::json WindowEvaluator::evaluateExpression(
     const std::shared_ptr<Expression>& expr,

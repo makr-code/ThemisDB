@@ -58,38 +58,92 @@ namespace query {
 
 using namespace themisdb::analytics;
 
-// ============================================================================
-// VectorizedPredicate – factory methods
-// ============================================================================
+/**
+ * @brief ============================================================================ VectorizedPredicate – factory methods ============================================================================
+ * @param[in] field Input parameter.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: std::move().
+ */
 
 VectorizedPredicate VectorizedPredicate::eq(std::string field, nlohmann::json value) {
     return {std::move(field), Op::Eq, std::move(value)};
 }
+/**
+ * @brief Ne.
+ * @param[in] field Input parameter.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: std::move().
+ */
 VectorizedPredicate VectorizedPredicate::ne(std::string field, nlohmann::json value) {
     return {std::move(field), Op::Ne, std::move(value)};
 }
+/**
+ * @brief Lt.
+ * @param[in] field Input parameter.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: std::move().
+ */
 VectorizedPredicate VectorizedPredicate::lt(std::string field, nlohmann::json value) {
     return {std::move(field), Op::Lt, std::move(value)};
 }
+/**
+ * @brief Le.
+ * @param[in] field Input parameter.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: std::move().
+ */
 VectorizedPredicate VectorizedPredicate::le(std::string field, nlohmann::json value) {
     return {std::move(field), Op::Le, std::move(value)};
 }
+/**
+ * @brief Gt.
+ * @param[in] field Input parameter.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: std::move().
+ */
 VectorizedPredicate VectorizedPredicate::gt(std::string field, nlohmann::json value) {
     return {std::move(field), Op::Gt, std::move(value)};
 }
+/**
+ * @brief Ge.
+ * @param[in] field Input parameter.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: std::move().
+ */
 VectorizedPredicate VectorizedPredicate::ge(std::string field, nlohmann::json value) {
     return {std::move(field), Op::Ge, std::move(value)};
 }
+/**
+ * @brief Is Null.
+ * @param[in] field Input parameter.
+ * @return Return value.
+ * @details Calls: std::move().
+ */
 VectorizedPredicate VectorizedPredicate::isNull(std::string field) {
     return {std::move(field), Op::IsNull, nullptr};
 }
+/**
+ * @brief Is Not Null.
+ * @param[in] field Input parameter.
+ * @return Return value.
+ * @details Calls: std::move().
+ */
 VectorizedPredicate VectorizedPredicate::isNotNull(std::string field) {
     return {std::move(field), Op::IsNotNull, nullptr};
 }
 
-// ============================================================================
-// VectorizedQueryPlan
-// ============================================================================
+/**
+ * @brief ============================================================================ VectorizedQueryPlan ============================================================================
+ * @param[in] predicates Input parameter.
+ * @return Return value.
+ * @details Calls: std::move(), push_back().
+ */
 
 VectorizedQueryPlan& VectorizedQueryPlan::addFilter(
     std::vector<VectorizedPredicate> predicates) {
@@ -100,6 +154,12 @@ VectorizedQueryPlan& VectorizedQueryPlan::addFilter(
     return *this;
 }
 
+/**
+ * @brief Add Project.
+ * @param[in] fields Input parameter.
+ * @return Return value.
+ * @details Calls: std::move(), push_back().
+ */
 VectorizedQueryPlan& VectorizedQueryPlan::addProject(
     std::vector<std::string> fields) {
     Stage s;
@@ -109,6 +169,12 @@ VectorizedQueryPlan& VectorizedQueryPlan::addProject(
     return *this;
 }
 
+/**
+ * @brief Add Aggregate.
+ * @param[in] aggregations Input parameter.
+ * @return Return value.
+ * @details Calls: std::move(), push_back().
+ */
 VectorizedQueryPlan& VectorizedQueryPlan::addAggregate(
     std::vector<VectorizedAggregation> aggregations) {
     Stage s;
@@ -118,6 +184,12 @@ VectorizedQueryPlan& VectorizedQueryPlan::addAggregate(
     return *this;
 }
 
+/**
+ * @brief Add Sort.
+ * @param[in] keys Input parameter.
+ * @return Return value.
+ * @details Calls: std::move(), push_back().
+ */
 VectorizedQueryPlan& VectorizedQueryPlan::addSort(
     std::vector<VectorizedSortKey> keys) {
     Stage s;
@@ -145,9 +217,13 @@ void VectorizedExecutionEngine::resetStats() noexcept {
     stats_ = {};
 }
 
-// ============================================================================
-// VectorizedExecutionEngine – public execute / convenience methods
-// ============================================================================
+/**
+ * @brief ============================================================================ VectorizedExecutionEngine – public execute / convenience methods ============================================================================
+ * @param[in] rows Input parameter.
+ * @param[in] plan Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::chrono::steady_clock::now(), buildPipeline(), analytics_engine(), size(), reserve(), std::min(), jsonToColumnBatch().
+ */
 
 Result<std::vector<nlohmann::json>> VectorizedExecutionEngine::execute(
     const std::vector<nlohmann::json>& rows,
@@ -215,6 +291,13 @@ Result<std::vector<nlohmann::json>> VectorizedExecutionEngine::execute(
     return result;
 }
 
+/**
+ * @brief Filter.
+ * @param[in] rows Input parameter.
+ * @param[in] predicates Input parameter.
+ * @return Return value.
+ * @details Calls: addFilter(), std::move(), execute().
+ */
 Result<std::vector<nlohmann::json>> VectorizedExecutionEngine::filter(
     const std::vector<nlohmann::json>& rows,
     std::vector<VectorizedPredicate>   predicates) {
@@ -224,6 +307,13 @@ Result<std::vector<nlohmann::json>> VectorizedExecutionEngine::filter(
     return execute(rows, plan);
 }
 
+/**
+ * @brief Aggregate.
+ * @param[in] rows Input parameter.
+ * @param[in] aggregations Input parameter.
+ * @return Return value.
+ * @details Calls: addAggregate(), std::move(), execute().
+ */
 Result<std::vector<nlohmann::json>> VectorizedExecutionEngine::aggregate(
     const std::vector<nlohmann::json>&  rows,
     std::vector<VectorizedAggregation>  aggregations) {
@@ -233,6 +323,13 @@ Result<std::vector<nlohmann::json>> VectorizedExecutionEngine::aggregate(
     return execute(rows, plan);
 }
 
+/**
+ * @brief Project.
+ * @param[in] rows Input parameter.
+ * @param[in] fields Input parameter.
+ * @return Return value.
+ * @details Calls: addProject(), std::move(), execute().
+ */
 Result<std::vector<nlohmann::json>> VectorizedExecutionEngine::project(
     const std::vector<nlohmann::json>& rows,
     std::vector<std::string>           fields) {
@@ -242,6 +339,13 @@ Result<std::vector<nlohmann::json>> VectorizedExecutionEngine::project(
     return execute(rows, plan);
 }
 
+/**
+ * @brief Sort.
+ * @param[in] rows Input parameter.
+ * @param[in] keys Input parameter.
+ * @return Return value.
+ * @details Calls: addSort(), std::move(), execute().
+ */
 Result<std::vector<nlohmann::json>> VectorizedExecutionEngine::sort(
     const std::vector<nlohmann::json>& rows,
     std::vector<VectorizedSortKey>     keys) {
@@ -251,9 +355,14 @@ Result<std::vector<nlohmann::json>> VectorizedExecutionEngine::sort(
     return execute(rows, plan);
 }
 
-// ============================================================================
-// JSON ↔ ColumnBatch conversion
-// ============================================================================
+/**
+ * @brief ============================================================================ JSON ↔ ColumnBatch conversion ============================================================================
+ * @param[in] rows Input parameter.
+ * @param[in] offset Input parameter.
+ * @param[in] count Input parameter.
+ * @return Return value.
+ * @details Calls: is_object(), items(), emplace(), size(), push_back(), col_types(), contains(), is_null().
+ */
 
 ColumnBatch VectorizedExecutionEngine::jsonToColumnBatch(
     const std::vector<nlohmann::json>& rows,
@@ -361,7 +470,12 @@ ColumnBatch VectorizedExecutionEngine::jsonToColumnBatch(
         }
     }
 
-    // 4. Build ColumnBatch
+    /**
+     * @brief 4.
+     * @param[in] count Input parameter.
+     * @return Return value.
+     * @details Build ColumnBatch
+     */
     ColumnBatch batch(count);
     for (auto& col : columns) {
         batch.addColumn(std::move(col));
@@ -369,6 +483,12 @@ ColumnBatch VectorizedExecutionEngine::jsonToColumnBatch(
     return batch;
 }
 
+/**
+ * @brief Column Batch To Json.
+ * @param[in] batch Input parameter.
+ * @return Return value.
+ * @details Calls: hasSelection(), materialize(), rowCount(), columnCount(), reserve(), nlohmann::json::object(), getColumnAt(), name().
+ */
 std::vector<nlohmann::json> VectorizedExecutionEngine::columnBatchToJson(
     const ColumnBatch& batch) {
 
@@ -413,9 +533,12 @@ std::vector<nlohmann::json> VectorizedExecutionEngine::columnBatchToJson(
     return result;
 }
 
-// ============================================================================
-// Plan translation
-// ============================================================================
+/**
+ * @brief ============================================================================ Plan translation ============================================================================
+ * @param[in] val Input parameter.
+ * @return Return value.
+ * @details Calls: is_null(), is_boolean(), is_number_integer(), is_number_float(), is_string(), dump().
+ */
 
 ColumnValue VectorizedExecutionEngine::jsonToColumnValue(
     const nlohmann::json& val) {
@@ -438,6 +561,12 @@ ColumnValue VectorizedExecutionEngine::jsonToColumnValue(
     return val.dump();
 }
 
+/**
+ * @brief Translate Predicate.
+ * @param[in] vp Input parameter.
+ * @return Return value.
+ * @details Calls: Predicate::eq(), jsonToColumnValue(), Predicate::ne(), Predicate::lt(), Predicate::le(), Predicate::gt(), Predicate::ge(), Predicate::isNull().
+ */
 Predicate VectorizedExecutionEngine::translatePredicate(
     const VectorizedPredicate& vp) {
     using Op = VectorizedPredicate::Op;
@@ -454,6 +583,12 @@ Predicate VectorizedExecutionEngine::translatePredicate(
     }
 }
 
+/**
+ * @brief Build Pipeline.
+ * @param[in] plan Input parameter.
+ * @return Return value.
+ * @details Calls: stages(), reserve(), size(), push_back(), translatePredicate(), addFilter(), std::move(), addProject().
+ */
 VectorizedPipeline VectorizedExecutionEngine::buildPipeline(
     const VectorizedQueryPlan& plan) {
 

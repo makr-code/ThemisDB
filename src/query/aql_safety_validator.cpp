@@ -60,7 +60,12 @@ static constexpr MutationPattern kMutationPatterns[] = {
 // AqlSafetyValidator implementation
 // ---------------------------------------------------------------------------
 
-// static
+/**
+ * @brief static
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), push_back(), std::toupper().
+ */
 std::string AqlSafetyValidator::toUpper(const std::string& s) {
     std::string out = {};
     out.reserve(s.size());
@@ -70,7 +75,13 @@ std::string AqlSafetyValidator::toUpper(const std::string& s) {
     return out;
 }
 
-// static
+/**
+ * @brief static
+ * @param[in] haystack Input parameter.
+ * @param[in] needle Input parameter.
+ * @return Return value.
+ * @details Calls: find().
+ */
 std::size_t AqlSafetyValidator::findKeyword(const std::string& haystack,
                                              std::string_view   needle) {
     const auto pos = haystack.find(needle);
@@ -79,7 +90,11 @@ std::size_t AqlSafetyValidator::findKeyword(const std::string& haystack,
 
 std::optional<AqlSafetyValidator::Violation>
 AqlSafetyValidator::validateMutationSafety(std::string_view aql_query) const {
-    // Convert to std::string for operations that rely on std::string APIs
+    /**
+     * @brief Convert to std::string for operations that rely on std::string APIs
+     * @param[in] aql_query Input parameter.
+     * @return Return value.
+     */
     const std::string query_str(aql_query);
 
     // --- Embedded NUL character check ----------------------------------------
@@ -211,7 +226,11 @@ AqlSafetyValidator::validateMutationSafety(std::string_view aql_query) const {
 std::optional<AqlSafetyValidator::Violation>
 AqlSafetyValidator::validate(std::string_view aql_query) const {
     if (mode_ == ValidationMode::AllowMutations) {
-        // Allow DML in this mode, but keep injection safety guards active.
+        /**
+         * @brief Allow DML in this mode, but keep injection safety guards active.
+         * @param[in] aql_query Input parameter.
+         * @return Return value.
+         */
         const std::string query_str(aql_query);
 
         const auto nul_pos = query_str.find('\0');
@@ -248,6 +267,11 @@ AqlSafetyValidator::validate(std::string_view aql_query) const {
         return std::nullopt;
     }
 
+    /**
+     * @brief Query str.
+     * @param[in] aql_query Input parameter.
+     * @return Return value.
+     */
     const std::string query_str(aql_query);
 
     const std::string upper = toUpper(query_str);

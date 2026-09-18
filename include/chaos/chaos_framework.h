@@ -73,7 +73,6 @@ struct ActiveFault {
 // and integration tests where the SUT queries isFaultActive() before performing
 // cluster operations.
 
-/** @brief cluster operations. */
 class FaultInjector {
 public:
     using EventCallback = std::function<void(const FaultSpec&, bool /*injected*/)>;
@@ -81,38 +80,74 @@ public:
     explicit FaultInjector(std::string injector_id = "default");
     ~FaultInjector();
 
-    // Inject a fault. If the same node + type is already active, the existing
-    // entry is updated in-place (last-writer-wins) and true is returned.
+    /**
+     * @brief Inject a fault.
+     * @param[in] fault Input parameter.
+     * @return True when the operation succeeds.
+     * @details If the same node + type is already active, the existing entry is updated in-place (last-writer-wins) and true is returned.
+     */
     bool injectFault(const FaultSpec& fault);
 
-    // Clear the active fault on target_node_id (all types).
-    // Returns false if no fault was registered.
+    /**
+     * @brief Clear the active fault on target_node_id (all types).
+     * @param[in] target_node_id Identifier of the target node.
+     * @return True when the operation succeeds.
+     * @details Returns false if no fault was registered.
+     */
     bool recoverFault(const std::string& target_node_id);
 
-    // Clear the active fault for a specific type on target_node_id.
+    /**
+     * @brief Clear the active fault for a specific type on target_node_id.
+     * @param[in] target_node_id Identifier of the target node.
+     * @param[in] type Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool recoverFault(const std::string& target_node_id, FaultType type);
 
-    // Returns true when target_node_id currently has any active, non-expired fault.
+    /**
+     * @brief Returns true when target_node_id currently has any active, non-expired fault.
+     * @param[in] target_node_id Identifier of the target node.
+     * @return True when the operation succeeds.
+     */
     bool isFaultActive(const std::string& target_node_id) const;
 
-    // Returns true when target_node_id has an active fault of the given type.
+    /**
+     * @brief Returns true when target_node_id has an active fault of the given type.
+     * @param[in] target_node_id Identifier of the target node.
+     * @param[in] type Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool isFaultActive(const std::string& target_node_id, FaultType type) const;
 
-    // Snapshot of all faults (expires ones are pruned on access).
+    /**
+     * @brief Snapshot of all faults (expires ones are pruned on access).
+     * @return Return value.
+     */
     std::vector<ActiveFault> getActiveFaults();
 
-    // Total active (non-expired) fault count.
+    /**
+     * @brief Total active (non-expired) fault count.
+     * @return Return value.
+     */
     size_t activeFaultCount();
 
-    // Remove all active faults.
+    /**
+     * @brief Remove all active faults.
+     */
     void clearAllFaults();
 
-    // Register a callback invoked on every inject/recover event.
+    /**
+     * @brief Register a callback invoked on every inject/recover event.
+     * @param[in] cb Input parameter.
+     */
     void registerEventCallback(EventCallback cb);
 
     const std::string& id() const noexcept { return injector_id_; }
 
 private:
+    /**
+     * @brief Prune Expired.
+     */
     void pruneExpired();
 
     std::string   injector_id_;
@@ -123,7 +158,19 @@ private:
 
     std::vector<EventCallback> callbacks_;
 
+    /**
+     * @brief Make Key.
+     * @param[in] node_id Identifier of the node.
+     * @param[in] type Input parameter.
+     * @return Return value.
+     */
     static std::string makeKey(const std::string& node_id, FaultType type);
+    /**
+     * @brief Fault Type Name.
+     * @param[in] type Input parameter.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     static std::string faultTypeName(FaultType type) noexcept;
 };
 
@@ -136,10 +183,6 @@ struct ChaosScheduleEntry {
 
 // ─── Wake strategy ───────────────────────────────────────────────────────────
 
-/// Controls how the ChaosScheduler background thread wakes between ticks.
-/// FIXED_TICK: sleep a fixed tick_interval on every loop iteration (original behaviour).
-/// CONDVAR:    use a condition variable; wakes early when a new entry is scheduled
-///             or when stop() is called.  tick_interval serves as the maximum wait.
 enum class WakeStrategy {
     FIXED_TICK,  ///< Plain sleep_for(tick_interval) — simple, deterministic
     CONDVAR      ///< Condition-variable with tick_interval timeout — lower latency stop
@@ -147,11 +190,8 @@ enum class WakeStrategy {
 
 // ─── ChaosScheduler configuration ───────────────────────────────────────────
 
-/// Configuration for the ChaosScheduler background thread.
 struct ChaosSchedulerConfig {
-    /// Polling / maximum-wait interval for the background thread (default: 10 ms).
     std::chrono::milliseconds tick_interval{10};
-    /// Wake strategy: FIXED_TICK (original) or CONDVAR (lower latency stop/schedule).
     WakeStrategy wake_strategy{WakeStrategy::FIXED_TICK};
 };
 
@@ -160,36 +200,59 @@ struct ChaosSchedulerConfig {
 // Time-driven fault scheduler: fires scheduled faults in a background thread.
 // Designed to compose with FaultInjector for orchestrated chaos scenarios.
 
-/** @brief Designed to compose with FaultInjector for orchestrated chaos scenarios. */
 class ChaosScheduler {
 public:
-    /// Convenience alias so callers can write ChaosScheduler::Config.
     using Config = ChaosSchedulerConfig;
 
     explicit ChaosScheduler(std::shared_ptr<FaultInjector> injector,
                             Config cfg = Config{});
     ~ChaosScheduler();
 
-    // Schedule a future fault injection.
+    /**
+     * @brief Schedule a future fault injection.
+     * @param[in] entry Input parameter.
+     */
     void schedule(ChaosScheduleEntry entry);
 
-    // Schedule using a relative delay from "now".
+    /**
+     * @brief Schedule using a relative delay from "now".
+     * @param[in] delay Input parameter.
+     * @param[in] fault Input parameter.
+     */
     void scheduleIn(std::chrono::milliseconds delay, const FaultSpec& fault);
 
-    // Start the scheduler background thread.
+    /**
+     * @brief Start the scheduler background thread.
+     */
     void start();
 
-    // Stop the scheduler (drains pending entries, does not fire them).
+    /**
+     * @brief Stop the scheduler (drains pending entries, does not fire them).
+     */
     void stop();
 
+    /**
+     * @brief Is Running.
+     * @return True when the operation succeeds.
+     * @note Exception safety: noexcept.
+     */
     bool isRunning() const noexcept;
 
+    /**
+     * @brief Pending Count.
+     * @return Return value.
+     */
     size_t pendingCount() const;
 
-    // Clear all pending (unfired) schedule entries.
+    /**
+     * @brief Clear all pending (unfired) schedule entries.
+     */
     void clearPending();
 
 private:
+    /**
+     * @brief Run Loop.
+     */
     void runLoop();
 
     std::shared_ptr<FaultInjector>    injector_;

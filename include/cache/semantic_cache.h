@@ -25,34 +25,27 @@
 
 namespace themis {
 
-/**
- * @brief Semantic cache for LLM responses with TTL support
- * 
- * Provides exact-match caching based on hash(prompt+params).
- * Optionally supports similarity-based retrieval using embeddings.
- * 
- * Storage: RocksDB Column Family "semantic_cache"
- * Key: SHA256(prompt + params)
- * Value: JSON {response, metadata, timestamp, ttl_seconds}
- */
 class SemanticCache {
 public:
-    /**
-     * @brief Cache entry metadata
-     */
     struct CacheEntry {
         std::string response;
         nlohmann::json metadata;
         int64_t timestamp_ms;
         int ttl_seconds;
         
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
+        /**
+         * @brief From Json.
+         * @param[in] j Input parameter.
+         * @return Return value.
+         */
         static std::optional<CacheEntry> fromJson(const nlohmann::json& j);
     };
 
-    /**
-     * @brief Cache statistics
-     */
     struct Stats {
         uint64_t hit_count = 0;
         uint64_t miss_count = 0;
@@ -61,18 +54,13 @@ public:
         double hit_rate = 0.0;
         double avg_latency_ms = 0.0;
         
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
     };
 
-    /**
-     * @brief Construct a new Semantic Cache object
-     * 
-    * @param db RocksDB TransactionDB instance
-     * @param cf_handle Column family handle for semantic_cache
-     * @param default_ttl_seconds Default TTL for cache entries (0 = no expiry)
-     * @param bg_expiry_interval_s  Seconds between automatic background expiry sweeps.
-     *                              0 disables the background thread (call clearExpired() manually).
-     */
     SemanticCache(
     rocksdb::TransactionDB* db,
         rocksdb::ColumnFamilyHandle* cf_handle,
@@ -82,16 +70,6 @@ public:
 
     ~SemanticCache();
 
-    /**
-     * @brief Put a response into the cache
-     * 
-     * @param prompt The prompt text
-     * @param params Additional parameters (model, temperature, etc.)
-     * @param response The LLM response to cache
-     * @param metadata Optional metadata (model version, token count, etc.)
-     * @param ttl_seconds TTL in seconds (0 = use default, -1 = no expiry)
-     * @return true if successful
-     */
     bool put(
         const std::string& prompt,
         const nlohmann::json& params,
@@ -101,11 +79,10 @@ public:
     );
 
     /**
-     * @brief Query the cache for a matching response
-     * 
-     * @param prompt The prompt text
-     * @param params Additional parameters
-     * @return std::optional<CacheEntry> The cached entry if found and not expired
+     * @brief Query.
+     * @param[in] prompt Input parameter.
+     * @param[in] params Input parameter.
+     * @return Return value.
      */
     std::optional<CacheEntry> query(
         const std::string& prompt,
@@ -113,46 +90,42 @@ public:
     );
 
     /**
-     * @brief Get cache statistics
-     * 
-     * @return Stats Current cache metrics
+     * @brief Get Stats.
+     * @return Return value.
      */
     Stats getStats() const;
 
     /**
-     * @brief Clear all expired entries (manual compaction trigger)
-     * 
-     * @return Number of entries removed
+     * @brief Clear Expired.
+     * @return Return value.
      */
     uint64_t clearExpired();
 
     /**
-     * @brief Clear entire cache
-     * 
-     * @return true if successful
+     * @brief Clear.
+     * @return True when the operation succeeds.
      */
     bool clear();
 
 private:
     /**
-     * @brief Compute cache key from prompt and params
-     * 
-     * @param prompt The prompt text
-     * @param params Additional parameters
-     * @return std::string SHA256 hash as hex string
+     * @brief Compute Key.
+     * @param[in] prompt Input parameter.
+     * @param[in] params Input parameter.
+     * @return Return value.
      */
     std::string computeKey(const std::string& prompt, const nlohmann::json& params) const;
 
     /**
-     * @brief Check if an entry is expired
-     * 
-     * @param entry The cache entry
-     * @return true if expired
+     * @brief Is Expired.
+     * @param[in] entry Input parameter.
+     * @return True when the operation succeeds.
      */
     bool isExpired(const CacheEntry& entry) const;
 
     /**
-     * @brief Get current timestamp in milliseconds
+     * @brief Get Current Timestamp Ms.
+     * @return Return value.
      */
     int64_t getCurrentTimestampMs() const;
 

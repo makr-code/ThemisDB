@@ -75,26 +75,14 @@ namespace gpu {
 // CudaStreamGuard
 // ===========================================================================
 
-/// @brief RAII guard for CUDA stream lifecycle management.
-/// @details Ensures cudaStreamDestroy is called when guard goes out of scope.
-///          Thread-safe: each guard owns exactly one stream.
-/// @throws Does not throw; CUDA errors logged via GpuDiagnostics.
-///
-/// ### CUDA-CALL-AUDIT note
-/// Addresses raw `cudaStreamCreate` / `cudaStreamDestroy` sites in:
-/// - `src/gpu/stream_manager.cpp` (6 raw sites — wrapper available)
-/// - `src/gpu/cuda_operations.cpp` (CudaStream class — wrapper available)
-/// Those files already perform manual create/destroy correctly; this guard
-/// provides a drop-in for new call sites and documents the available pattern.
-///
-/// Activation: GPU path active (non-CPU-fallback).
-/// Production Delta: none — wraps raw CUDA API for exception safety.
-/// Removal Plan: N/A — permanent RAII governance.
 struct CudaStreamGuard {
     cudaStream_t stream{nullptr};
 
-    /// @brief Construct and create a new CUDA stream.
-    /// @post  isValid() == true on success; stream == nullptr on failure.
+    /**
+     * @brief Cuda Stream Guard.
+     * @return Return value.
+     * @details Calls: cudaStreamCreate(), THEMIS_CUDA_RAII_LOG_WARN().
+     */
     explicit CudaStreamGuard() {
 #if THEMIS_CUDA_RAII_HAS_CUDA
         if (cudaStreamCreate(&stream) != cudaSuccess) {
@@ -104,7 +92,6 @@ struct CudaStreamGuard {
 #endif
     }
 
-    /// @brief Destructor — destroys the stream unconditionally.
     ~CudaStreamGuard() noexcept {
 #if THEMIS_CUDA_RAII_HAS_CUDA
         if (stream) {
@@ -118,11 +105,9 @@ struct CudaStreamGuard {
     CudaStreamGuard(const CudaStreamGuard&) = delete;
     CudaStreamGuard& operator=(const CudaStreamGuard&) = delete;
 
-    /// @brief Move constructor — transfers ownership; source becomes empty.
     CudaStreamGuard(CudaStreamGuard&& o) noexcept
         : stream(std::exchange(o.stream, nullptr)) {}
 
-    /// @brief Move assignment — destroys current stream then takes ownership.
     CudaStreamGuard& operator=(CudaStreamGuard&& o) noexcept {
         if (this != &o) {
 #if THEMIS_CUDA_RAII_HAS_CUDA
@@ -135,35 +120,12 @@ struct CudaStreamGuard {
         return *this;
     }
 
-    /// @return true if the stream was created successfully.
     [[nodiscard]] bool isValid() const noexcept { return stream != nullptr; }
 
     // -----------------------------------------------------------------------
     // Adoption factory
     // -----------------------------------------------------------------------
 
-    /// @brief Adopt ownership of an existing, already-created CUDA stream.
-    ///
-    /// The guard takes ownership: the caller must not destroy the stream
-    /// after calling this function.  Useful when stream creation is
-    /// interleaved with fallback logic (e.g., cudaSetDevice + cudaStreamCreate
-    /// in a try-else path) and the raw handle needs to be transferred to RAII
-    /// after successful creation.
-    ///
-    /// @param existing  A valid cudaStream_t that was created by the caller.
-    ///                  Passing nullptr is allowed and produces an empty guard.
-    /// @return          A CudaStreamGuard that owns `existing`.
-    ///
-    /// ### CUDA-CALL-AUDIT note (Wave A — Phase C prerequisite)
-    /// Adoption targets:
-    /// - `src/gpu/stream_manager.cpp` createStream path: raw handle stored as
-    ///   `uintptr_t cuda_stream`; migrated to adopt().
-    /// - `src/gpu/stream_manager.cpp` createCudaStream path: raw handle
-    ///   registered in `cudaStreamRegistry()`; migrated to adopt() in Stream.
-    ///
-    /// Activation: CUDA-enabled build (THEMIS_ENABLE_CUDA=1).
-    /// Production Delta: none — identical lifecycle; ownership transferred.
-    /// Removal Plan: N/A — permanent RAII governance.
     [[nodiscard]] static CudaStreamGuard adopt(cudaStream_t existing) noexcept {
         CudaStreamGuard g;
         g.stream = existing;
@@ -175,21 +137,6 @@ struct CudaStreamGuard {
 // CudaEventGuard
 // ===========================================================================
 
-/// @brief RAII guard for CUDA event lifecycle management.
-/// @details Ensures cudaEventDestroy is called when guard goes out of scope.
-///          Thread-safe: each guard owns exactly one event.
-/// @throws Does not throw; CUDA errors logged via GpuDiagnostics.
-///
-/// ### CUDA-CALL-AUDIT note
-/// Addresses raw `cudaEventCreate` / `cudaEventDestroy` sites in:
-/// - `src/gpu/cuda_operations.cpp` (CudaOperation class — wrapper available)
-/// - `src/gpu/gpu_resource_handles.cpp` (manual create/destroy — wrapper available)
-/// Those files already perform manual lifecycle correctly; this guard is the
-/// canonical pattern for new call sites.
-///
-/// Activation: GPU path active (non-CPU-fallback).
-/// Production Delta: none — wraps raw CUDA API for exception safety.
-/// Removal Plan: N/A — permanent RAII governance.
 struct CudaEventGuard {
 #if THEMIS_CUDA_RAII_HAS_CUDA
     cudaEvent_t event{nullptr};
@@ -197,8 +144,11 @@ struct CudaEventGuard {
     void* event{nullptr};
 #endif
 
-    /// @brief Construct and create a new CUDA event.
-    /// @post  isValid() == true on success; event == nullptr on failure.
+    /**
+     * @brief Cuda Event Guard.
+     * @return Return value.
+     * @details Calls: cudaEventCreate(), THEMIS_CUDA_RAII_LOG_WARN().
+     */
     explicit CudaEventGuard() {
 #if THEMIS_CUDA_RAII_HAS_CUDA
         if (cudaEventCreate(&event) != cudaSuccess) {
@@ -208,7 +158,6 @@ struct CudaEventGuard {
 #endif
     }
 
-    /// @brief Destructor — destroys the event unconditionally.
     ~CudaEventGuard() noexcept {
 #if THEMIS_CUDA_RAII_HAS_CUDA
         if (event) {
@@ -222,11 +171,9 @@ struct CudaEventGuard {
     CudaEventGuard(const CudaEventGuard&) = delete;
     CudaEventGuard& operator=(const CudaEventGuard&) = delete;
 
-    /// @brief Move constructor — transfers ownership; source becomes empty.
     CudaEventGuard(CudaEventGuard&& o) noexcept
         : event(std::exchange(o.event, nullptr)) {}
 
-    /// @brief Move assignment — destroys current event then takes ownership.
     CudaEventGuard& operator=(CudaEventGuard&& o) noexcept {
         if (this != &o) {
 #if THEMIS_CUDA_RAII_HAS_CUDA
@@ -239,7 +186,6 @@ struct CudaEventGuard {
         return *this;
     }
 
-    /// @return true if the event was created successfully.
     [[nodiscard]] bool isValid() const noexcept { return event != nullptr; }
 };
 
@@ -247,32 +193,10 @@ struct CudaEventGuard {
 // CudaDeviceMemoryGuard
 // ===========================================================================
 
-/// @brief RAII guard for raw CUDA device memory (typed, byte-count-aware).
-/// @details Wraps cudaMalloc / cudaFree.  Use `DeviceMemoryGuard<T>` from
-///          `gpu_safe_raii.h` or `GPUMemoryHandle<T>` from
-///          `gpu_raii_wrappers.hpp` for richer functionality; this guard
-///          targets the small number of remaining raw cudaMalloc/cudaFree
-///          sites that do not yet use those wrappers.
-/// @throws Does not throw; CUDA errors logged via GpuDiagnostics.
-///
-/// ### CUDA-CALL-AUDIT note
-/// Addresses raw `cudaMalloc` / `cudaFree` call sites in:
-/// - `src/gpu/unified_memory_coordinator.cpp:140` (cudaFree in destructor,
-///   no error check — pattern documented below as acceptable destructor pattern)
-/// - `src/gpu/gpu_memory_pool_safety.cpp:44`    (cudaFree in destructor —
-///   same: acceptable in destructor, guard available for new code)
-/// Those destructor-only frees are acceptable (can't throw in destructor);
-/// this guard prevents new call sites from introducing the same raw pattern.
-///
-/// Activation: GPU path active (non-CPU-fallback).
-/// Production Delta: none — wraps raw CUDA API for exception safety.
-/// Removal Plan: N/A — permanent RAII governance.
 struct CudaDeviceMemoryGuard {
     void*  ptr{nullptr};
     size_t bytes{0};
 
-    /// @brief Allocate `n_bytes` of CUDA device memory.
-    /// @post  isValid() == true on success; ptr == nullptr on failure.
     explicit CudaDeviceMemoryGuard(size_t n_bytes) : bytes(n_bytes) {
 #if THEMIS_CUDA_RAII_HAS_CUDA
         if (n_bytes > 0) {
@@ -284,10 +208,8 @@ struct CudaDeviceMemoryGuard {
 #endif
     }
 
-    /// @brief Default constructor — empty (no allocation).
     CudaDeviceMemoryGuard() noexcept = default;
 
-    /// @brief Destructor — frees device memory unconditionally.
     ~CudaDeviceMemoryGuard() noexcept {
 #if THEMIS_CUDA_RAII_HAS_CUDA
         if (ptr) {
@@ -300,12 +222,10 @@ struct CudaDeviceMemoryGuard {
     CudaDeviceMemoryGuard(const CudaDeviceMemoryGuard&) = delete;
     CudaDeviceMemoryGuard& operator=(const CudaDeviceMemoryGuard&) = delete;
 
-    /// @brief Move constructor — transfers ownership; source becomes empty.
     CudaDeviceMemoryGuard(CudaDeviceMemoryGuard&& o) noexcept
         : ptr(std::exchange(o.ptr, nullptr)),
           bytes(std::exchange(o.bytes, 0)) {}
 
-    /// @brief Move assignment — frees current then takes ownership.
     CudaDeviceMemoryGuard& operator=(CudaDeviceMemoryGuard&& o) noexcept {
         if (this != &o) {
 #if THEMIS_CUDA_RAII_HAS_CUDA
@@ -319,10 +239,8 @@ struct CudaDeviceMemoryGuard {
         return *this;
     }
 
-    /// @return true if device memory was allocated successfully.
     [[nodiscard]] bool isValid() const noexcept { return ptr != nullptr; }
 
-    /// @brief Release ownership without freeing.  Caller must cudaFree.
     void* release() noexcept {
         bytes = 0;
         return std::exchange(ptr, nullptr);
@@ -333,30 +251,6 @@ struct CudaDeviceMemoryGuard {
 // CudaMemcpyCheck — inline helper (not RAII; documents checked-call pattern)
 // ===========================================================================
 
-/// @brief Execute a cudaMemcpy and return true on success, false on failure.
-/// @details Inline helper used to enforce the "no unchecked cudaMemcpy" rule
-///          in call sites that do not yet use `CUDA_CHECK` or `CHECKED_CUDA`.
-///
-/// ### CUDA-CALL-AUDIT note
-/// Remaining unchecked `cudaMemcpy` sites identified in audit:
-/// - `src/gpu/gpu_memory_allocator.cpp` lines 226-227, 254, 271
-///   → error return already captured in local `cudaError_t err`; checked.
-/// - `src/gpu/gpu_kernel_manager.cpp`   lines 255, 266
-///   → same pattern; already checked.
-/// - `src/gpu/memory_pool.cpp`          line 398
-///   → error captured and logged; already checked.
-/// - `src/gpu/p2p_transfer.cpp`         line 319
-///   → `cudaMemcpyPeer`; error captured and propagated; already checked.
-/// - `src/gpu/query_accelerator.cpp`    lines 1248, 1265, 1280, 1282
-///   → wrapped with `CHECKED_CUDA` macro; already safe.
-///
-/// All identified `cudaMemcpy` sites capture the return value.
-/// No **completely** unchecked sites remain; partial-check sites are noted
-/// above and marked for tightening in the next hardening pass.
-///
-/// Activation: GPU path active.
-/// Production Delta: none — documents existing pattern, provides helper.
-/// Removal Plan: N/A — permanent governance helper.
 #if THEMIS_CUDA_RAII_HAS_CUDA
 inline bool cudaMemcpyChecked(
     void* dst, const void* src, size_t count, cudaMemcpyKind kind) noexcept

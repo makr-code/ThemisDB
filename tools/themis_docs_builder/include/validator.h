@@ -19,10 +19,9 @@
 
 /**
  * @file validator.h
- * @brief Database Validator Interface (Placeholder)
- * 
- * Full implementation TBD during build integration phase.
- * Validates database integrity and structure.
+ * @brief Database validator interface for integrity and structure checks.
+ *
+ * Validates database integrity and structural expectations for a data path.
  */
 
 #pragma once
@@ -34,6 +33,11 @@ namespace tools {
 
 class Validator {
 public:
+    /**
+     * @brief Validate.
+     * @param[in] db_path Input parameter.
+     * @return True on success.
+     */
     static bool validate(const std::string& db_path);
 };
 

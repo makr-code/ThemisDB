@@ -28,26 +28,12 @@ namespace cache {
 // Forward declaration
 class CacheEvictionPolicy;
 
-/**
- * @brief Enum for cache tier level (L1, L2, L3).
- * 
- * Maps to storage tiers for promotion/demotion coordination.
- * L1 = hot cache (fast, small)
- * L2 = warm cache (compressed, medium)
- * L3 = cold cache (persistent, large)
- */
 enum class TierLevel : uint8_t {
     L1 = 2,  ///< Hot cache tier (in-memory, microsecond latency)
     L2 = 1,  ///< Warm cache tier (compressed, millisecond latency)
     L3 = 0   ///< Cold cache tier (persistent, multi-millisecond latency)
 };
 
-/**
- * @brief Reason why an eviction occurred.
- * 
- * Used to inform coordinator of the eviction context for better
- * promotion/demotion decisions.
- */
 enum class EvictionReason : uint8_t {
     Capacity,        ///< Cache tier reached capacity; LRU/LFU victim selected
     TTL_Expired,     ///< Entry TTL elapsed
@@ -58,14 +44,6 @@ enum class EvictionReason : uint8_t {
     Flush            ///< Entire cache or partition flushed
 };
 
-/**
- * @brief Event data emitted when cache evicts an entry.
- * 
- * Consumed by AccessCoordinator to decide whether to:
- * - Promote high-access entries to warm storage
- * - Demote low-access entries to cold storage
- * - Track promotion path history
- */
 struct CacheEvictionEvent {
     std::string key;                                    ///< Evicted cache key
     TierLevel from_tier = TierLevel::L1;               ///< Cache tier that evicted
@@ -76,122 +54,80 @@ struct CacheEvictionEvent {
     std::string correlation_id;                        ///< Trace correlation ID
 };
 
-/**
- * @brief Listener interface for cache eviction events.
- * 
- * Cache implementations register listeners at startup to emit eviction signals.
- * Listeners are called synchronously when eviction occurs.
- * 
- * **Implementation notes for listeners:**
- * - Keep implementations fast (< 1ms total)
- * - Do not block for I/O operations (queue async work instead)
- * - Do not throw exceptions (log errors and continue)
- * - Thread-safe: may be called from concurrent cache operations
- */
 class IEvictionListener {
 public:
+    /**
+     * @brief IEviction Listener.
+     * @return Return value.
+     */
     virtual ~IEvictionListener() = default;
 
     /**
-     * @brief Called when cache evicts an entry.
-     * 
-     * @param event Event data describing the eviction
-     * 
-     * **Callback Semantics:**
-     * - Called immediately after cache removes the entry
-     * - Runs on caller's thread (typically a cache worker or user thread)
-     * - Should complete quickly; async operations should be queued
-     * - Exceptions must not be thrown (log errors internally)
-     * 
-     * **Coordinator Usage (typical):**
-     * - High access_count → consider promoting to warm storage
-     * - Low access_count → may be demotion candidate
-     * - from_tier = L1/L2 → consider L3 fallback before evicting
-     * - reason = Capacity → high-pressure signal
+     * @brief On Cache Evicted.
+     * @param[in] event Input parameter.
      */
     virtual void onCacheEvicted(const CacheEvictionEvent& event) = 0;
 
     /**
-     * @brief Optional: called when capacity pressure is detected.
-     * 
-     * @param from_tier Tier experiencing pressure
-     * @param current_capacity_percent Current usage (0-100)
-     * @param recommended_eviction_count Suggested entries to evict
-     * 
-     * Allows coordinators to prepare promotion/demotion decisions
-     * before evictions occur. Default implementation is no-op.
+     * @brief On Capacity Pressure.
+     * @param[in] from_tier Input parameter.
+     * @param[in] current_capacity_percent Input parameter.
+     * @param[in] recommended_eviction_count Input parameter.
+     * @details Implements onCapacityPressure without additional internal calls.
      */
     virtual void onCapacityPressure(TierLevel from_tier,
                                     uint32_t current_capacity_percent,
                                     std::size_t recommended_eviction_count) {}
 };
 
-/**
- * @brief Manager for eviction listeners.
- * 
- * Cache implementations use this to:
- * 1. Register listeners at startup
- * 2. Emit eviction events to all listeners
- * 3. Unregister listeners at shutdown
- */
 class EvictionListenerManager {
 public:
+    /**
+     * @brief Eviction Listener Manager.
+     * @return Return value.
+     */
     virtual ~EvictionListenerManager() = default;
 
     /**
-     * @brief Register a listener to receive eviction events.
-     * 
-     * @param listener Listener callback
-     * @return Handle for later unregistration
-     * 
-     * Multiple listeners can be registered. Each receives all events.
+     * @brief Register Listener.
+     * @param[in] listener Input parameter.
+     * @return Return value.
      */
     virtual uint64_t registerListener(std::shared_ptr<IEvictionListener> listener) = 0;
 
     /**
-     * @brief Unregister a listener.
-     * 
-     * @param handle Handle returned by registerListener()
-     * 
-     * After unregistration, listener receives no more events.
+     * @brief Unregister Listener.
+     * @param[in] handle Input parameter.
      */
     virtual void unregisterListener(uint64_t handle) = 0;
 
     /**
-     * @brief Emit an eviction event to all registered listeners.
-     * 
-     * @param event Event data
-     * 
-     * Calls onCacheEvicted() on all registered listeners synchronously.
-     * If any listener throws, exception is logged and other listeners
-     * still receive the event.
+     * @brief Emit Eviction Event.
+     * @param[in] event Input parameter.
      */
     virtual void emitEvictionEvent(const CacheEvictionEvent& event) = 0;
 
     /**
-     * @brief Emit a capacity pressure event to all registered listeners.
-     * 
-     * @param from_tier Tier experiencing pressure
-     * @param current_capacity_percent Current usage (0-100)
-     * @param recommended_eviction_count Suggested entries to evict
+     * @brief Emit Capacity Pressure.
+     * @param[in] from_tier Input parameter.
+     * @param[in] current_capacity_percent Input parameter.
+     * @param[in] recommended_eviction_count Input parameter.
      */
     virtual void emitCapacityPressure(TierLevel from_tier,
                                       uint32_t current_capacity_percent,
                                       std::size_t recommended_eviction_count) = 0;
 
     /**
-     * @brief Get count of registered listeners.
+     * @brief Get Listener Count.
+     * @return Return value.
+     * @note Exception safety: noexcept.
      */
     virtual std::size_t getListenerCount() const noexcept = 0;
 };
 
 /**
- * @brief Create a new EvictionListenerManager instance.
- * 
- * @return Unique pointer to manager
- * 
- * Cache implementations should create one manager per cache instance
- * and use it to manage listener registration/emission.
+ * @brief Create Eviction Listener Manager.
+ * @return Return value.
  */
 std::unique_ptr<EvictionListenerManager> createEvictionListenerManager();
 

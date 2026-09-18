@@ -21,9 +21,14 @@
 namespace themis {
 namespace utils {
 
-// ---------------------------------------------------------------------------
-// Result<T>-based safe API
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Result<T>-based safe API ---------------------------------------------------------------------------
+ * @param[in] data Input parameter.
+ * @param[in] size Input parameter.
+ * @param[in] acceleration Input parameter.
+ * @return Return value.
+ * @details Calls: Ok(), THEMIS_WARN(), fmt::format(), LZ4_compressBound(), resize(), LZ4_compress_fast(), data(), std::string().
+ */
 
 Result<std::vector<uint8_t>> lz4_compress_safe(const uint8_t* data, size_t size, int acceleration) {
 #ifdef THEMIS_HAS_LZ4
@@ -99,6 +104,13 @@ Result<std::vector<uint8_t>> lz4_compress_safe(const uint8_t* data, size_t size,
 #endif
 }
 
+/**
+ * @brief Lz4 decompress safe.
+ * @param[in] compressed Input parameter.
+ * @param[in] original_size Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), Ok(), fmt::format(), size(), THEMIS_ERROR(), logErrorWithContext(), makeErrorContext(), resize().
+ */
 Result<std::vector<uint8_t>> lz4_decompress_safe(const std::vector<uint8_t>& compressed,
                                                   size_t original_size) {
 #ifdef THEMIS_HAS_LZ4
@@ -167,23 +179,38 @@ Result<std::vector<uint8_t>> lz4_decompress_safe(const std::vector<uint8_t>& com
 #endif
 }
 
-// ---------------------------------------------------------------------------
-// Legacy API
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Legacy API ---------------------------------------------------------------------------
+ * @param[in] data Input parameter.
+ * @param[in] size Input parameter.
+ * @param[in] acceleration Input parameter.
+ * @return Return value.
+ * @details Calls: lz4_compress_safe(), std::move().
+ */
 
 std::vector<uint8_t> lz4_compress(const uint8_t* data, size_t size, int acceleration) {
     auto result = lz4_compress_safe(data, size, acceleration);
     return result ? std::move(*result) : std::vector<uint8_t>{};
 }
 
+/**
+ * @brief Lz4 decompress.
+ * @param[in] compressed Input parameter.
+ * @param[in] original_size Input parameter.
+ * @return Return value.
+ * @details Calls: lz4_decompress_safe(), std::move().
+ */
 std::vector<uint8_t> lz4_decompress(const std::vector<uint8_t>& compressed, size_t original_size) {
     auto result = lz4_decompress_safe(compressed, original_size);
     return result ? std::move(*result) : std::vector<uint8_t>{};
 }
 
-// ---------------------------------------------------------------------------
-// Utility
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Utility ---------------------------------------------------------------------------
+ * @param[in] input_size Input parameter.
+ * @return Return value.
+ * @details Calls: LZ4_compressBound(), else().
+ */
 
 size_t lz4_compress_bound(size_t input_size) {
 #ifdef THEMIS_HAS_LZ4

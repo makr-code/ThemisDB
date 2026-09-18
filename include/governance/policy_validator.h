@@ -22,7 +22,6 @@
 namespace themis {
 namespace governance {
 
-/// Conflict detection result
 struct PolicyConflict {
     std::string conflict_type;                         // "contradictory", "overlapping", "circular"
     std::string severity;                              // "critical", "high", "medium", "low"
@@ -30,10 +29,13 @@ struct PolicyConflict {
     std::string description;
     std::vector<std::string> resolution_suggestions;
     
+    /**
+     * @brief To Json.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
 };
 
-/// Effectiveness metrics for a rule
 struct RuleEffectiveness {
     std::string rule_id;
     int hit_count = 0;                                 // How many times rule was applied
@@ -41,10 +43,13 @@ struct RuleEffectiveness {
     double performance_impact_ms = 0.0;                // Evaluation time
     std::string effectiveness_rating;                  // "high", "medium", "low", "unused"
     
+    /**
+     * @brief To Json.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
 };
 
-/// Security best practice violation
 struct SecurityViolation {
     std::string violation_type;                        // "overly_permissive", "weak_encryption", etc.
     std::string severity;                              // "critical", "high", "medium", "low"
@@ -52,10 +57,13 @@ struct SecurityViolation {
     std::string description;
     std::vector<std::string> recommendations;
     
+    /**
+     * @brief To Json.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
 };
 
-/// Validation report
 struct ValidationReport {
     std::string report_id;
     std::int64_t generated_at;
@@ -68,60 +76,72 @@ struct ValidationReport {
     int total_issues = 0;
     double validation_score = 0.0;  // 0-100
     
+    /**
+     * @brief To Json.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
 };
 
-/// Policy validator for conflict detection and optimization
 class PolicyValidator {
 public:
     PolicyValidator(std::shared_ptr<PolicyManager> policy_manager);
     
-    /// Detect contradictory rules
-    /// @return List of detected conflicts
+    /**
+     * @brief Detect Conflicts.
+     * @return Return value.
+     */
     std::vector<PolicyConflict> detectConflicts() const;
     
-    /// Detect overlapping permissions
-    /// @return List of overlapping rule pairs
+    /**
+     * @brief Detect Overlapping Permissions.
+     * @return Return value.
+     */
     std::vector<PolicyConflict> detectOverlappingPermissions() const;
     
-    /// Detect circular dependencies
-    /// @return List of circular dependency chains
+    /**
+     * @brief Detect Circular Dependencies.
+     * @return Return value.
+     */
     std::vector<PolicyConflict> detectCircularDependencies() const;
     
-    /// Calculate effectiveness metrics for all rules
-    /// @return Effectiveness metrics for each rule
+    /**
+     * @brief Calculate Effectiveness.
+     * @return Return value.
+     */
     std::vector<RuleEffectiveness> calculateEffectiveness() const;
     
-    /// Detect unused rules
-    /// @return List of rules that are never applied
+    /**
+     * @brief Detect Unused Rules.
+     * @return Return value.
+     */
     std::vector<std::string> detectUnusedRules() const;
     
-    /// Check security best practices
-    /// @return List of security violations
+    /**
+     * @brief Check Security Best Practices.
+     * @return Return value.
+     */
     std::vector<SecurityViolation> checkSecurityBestPractices() const;
     
-    /// Detect conflicts between CCPA/CPRA requirements and policy rules.
-    ///
-    /// Identifies policy rules whose retention or export settings may conflict
-    /// with CCPA data subject rights (e.g., a HIPAA-mandated long retention
-    /// rule that would prevent honoring a CCPA right-to-delete request).
-    /// Intended to be called at policy load time.
-    ///
-    /// @return List of security violations describing each detected conflict.
+    /**
+     * @brief Detect Ccpa Conflicts.
+     * @return Return value.
+     */
     std::vector<SecurityViolation> detectCcpaConflicts() const;
     
-    /// Validate current ruleset
-    /// @return Comprehensive validation report
+    /**
+     * @brief Validate Ruleset.
+     * @return Return value.
+     */
     ValidationReport validateRuleset() const;
     
-    /// Validate a single rule
-    /// @param rule Rule to validate
-    /// @return Validation issues for this rule
+    /**
+     * @brief Validate Single Rule.
+     * @param[in] rule Input parameter.
+     * @return Return value.
+     */
     std::vector<std::string> validateSingleRule(const PolicyRule& rule) const;
     
-    /// Record rule hit (for effectiveness tracking)
-    /// @param rule_id Rule that was applied
-    /// @param evaluation_time_ms Time taken to evaluate
     void recordRuleHit(const std::string& rule_id, double evaluation_time_ms = 0.0);
     
 private:
@@ -131,13 +151,26 @@ private:
     mutable std::unordered_map<std::string, int> rule_hits_;
     mutable std::unordered_map<std::string, double> rule_eval_times_;
     
-    /// Helper: Check if two rules contradict each other
+    /**
+     * @brief Are Contradictory.
+     * @param[in] rule1 Input parameter.
+     * @param[in] rule2 Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool areContradictory(const PolicyRule& rule1, const PolicyRule& rule2) const;
     
-    /// Helper: Check if rule follows security best practices
+    /**
+     * @brief Follows Security Best Practices.
+     * @param[in] rule Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool followsSecurityBestPractices(const PolicyRule& rule) const;
     
-    /// Helper: Calculate validation score
+    /**
+     * @brief Calculate Validation Score.
+     * @param[in] report Input parameter.
+     * @return Return value.
+     */
     double calculateValidationScore(const ValidationReport& report) const;
 };
 

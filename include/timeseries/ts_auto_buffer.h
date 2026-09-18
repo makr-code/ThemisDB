@@ -262,6 +262,7 @@ public:
     
     /**
      * @brief Get current buffer statistics
+     * @return Return value.
      */
     TSAutoBufferStats getStats() const;
     
@@ -272,6 +273,7 @@ public:
     
     /**
      * @brief Update configuration (takes effect on next flush)
+     * @param[in] config Input parameter.
      */
     void setConfig(const TSAutoBufferConfig& config);
     
@@ -288,6 +290,7 @@ public:
      *
      * @param wal_path  File path where the WAL snapshot is written
      * @return Number of points persisted (0 if buffer is empty)
+     * @brief Persist To WAL.
      */
     size_t persistToWAL(const std::string& wal_path);
 
@@ -298,6 +301,7 @@ public:
      *
      * @param wal_path  File path of the WAL snapshot to restore
      * @return Number of points restored (-1 on error)
+     * @brief Restore From WAL.
      */
     std::ptrdiff_t restoreFromWAL(const std::string& wal_path);
 
@@ -307,6 +311,7 @@ public:
      *
      * @param wal_path  File to remove
      * @return true if file was deleted (or did not exist)
+     * @brief Remove WAL.
      */
     static bool removeWAL(const std::string& wal_path);
 
@@ -317,6 +322,11 @@ private:
         std::chrono::steady_clock::time_point first_point_time;
         size_t memory_bytes = 0;
         
+        /**
+         * @brief Add.
+         * @param[in] point Input parameter.
+         * @details Calls: empty(), std::chrono::steady_clock::now(), push_back(), size(), dump().
+         */
         void add(const TSStore::DataPoint& point) {
             if (points.empty()) {
                 first_point_time = std::chrono::steady_clock::now();
@@ -330,6 +340,10 @@ private:
                            point.metadata.dump().size();
         }
         
+        /**
+         * @brief Clear.
+         * @details Implements clear without additional internal calls.
+         */
         void clear() {
             points.clear();
             memory_bytes = 0;
@@ -351,6 +365,15 @@ private:
         size_t batch_max{5000};          ///< Maximum batch size
         size_t current_batch_size{500};  ///< Current adaptive batch target
 
+        /**
+         * @brief Flush Controller.
+         * @param[in] alpha_ Input parameter.
+         * @param[in] slo_ms_ Input parameter.
+         * @param[in] batch_min_ Input parameter.
+         * @param[in] batch_max_ Input parameter.
+         * @param[in] initial_batch Input parameter.
+         * @return Return value.
+         */
         explicit FlushController(double alpha_, double slo_ms_,
                                  size_t batch_min_, size_t batch_max_,
                                  size_t initial_batch)
@@ -415,12 +438,35 @@ private:
     // Statistics
     TSAutoBufferStats stats_;
     
-    // Helper functions
+    /**
+     * @brief Helper functions
+     * @param[in] metric Input parameter.
+     * @param[in] entity Input parameter.
+     * @return Return value.
+     */
     std::string makeBufferKey(const std::string& metric, const std::string& entity) const;
+    /**
+     * @brief Flush Thread.
+     */
     void flushThread();
     size_t flushInternal(bool lock_held = false);
+    /**
+     * @brief Flush Buffer.
+     * @param[in] buffer_key Input parameter.
+     * @param[in,out] buffer Input/output parameter.
+     * @return Return value.
+     */
     size_t flushBuffer(const std::string& buffer_key, MetricBuffer& buffer);
+    /**
+     * @brief Should Flush Buffer.
+     * @param[in] buffer Input parameter.
+     * @return True on success.
+     */
     bool shouldFlushBuffer(const MetricBuffer& buffer) const;
+    /**
+     * @brief Should Flush Global.
+     * @return True on success.
+     */
     bool shouldFlushGlobal() const;
     /// Returns the effective per-metric flush size (adaptive or configured).
     size_t effectiveBatchSize() const;

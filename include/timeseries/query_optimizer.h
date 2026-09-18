@@ -88,7 +88,13 @@ public:
         std::string tag_value;         ///< Required value (e.g., "us-east")
         bool required = true;          ///< If true, only return points matching this filter
 
-        // Convenience factory
+        /**
+         * @brief Convenience factory
+         * @param[in] key Input parameter.
+         * @param[in] value Input parameter.
+         * @return Return value.
+         * @details Implements eq without additional internal calls.
+         */
         static PredicateFilter eq(const std::string& key, const std::string& value) {
             return {key, value, true};
         }
@@ -122,6 +128,11 @@ public:
         OptimizationHint::DecodeWidth decode_width = OptimizationHint::DecodeWidth::Auto;
     };
     
+    /**
+     * @brief TSQuery Optimizer.
+     * @param[in,out] store Input/output parameter.
+     * @return Return value.
+     */
     explicit TSQueryOptimizer(TSStore* store);
     
     /**
@@ -129,6 +140,13 @@ public:
      * 
      * Returns optimized query plan that may use pre-computed aggregates.
      * If no suitable aggregate found, returns plan for raw data query.
+     * @brief Optimize Aggregate Query.
+     * @param[in] metric Input parameter.
+     * @param[in] entity Input parameter.
+     * @param[in] from_timestamp_ms Input parameter.
+     * @param[in] to_timestamp_ms Input parameter.
+     * @param[in] hint Input parameter.
+     * @return Return value.
      */
     QueryPlan optimizeAggregateQuery(
         const std::string& metric,
@@ -138,7 +156,14 @@ public:
         const OptimizationHint& hint
     );
 
-    // Overload without hint (uses defaults)
+    /**
+     * @brief Overload without hint (uses defaults)
+     * @param[in] metric Input parameter.
+     * @param[in] entity Input parameter.
+     * @param[in] from_timestamp_ms Input parameter.
+     * @param[in] to_timestamp_ms Input parameter.
+     * @return Return value.
+     */
     QueryPlan optimizeAggregateQuery(
         const std::string& metric,
         const std::optional<std::string>& entity,
@@ -151,6 +176,10 @@ public:
      * 
      * Searches for aggregates with window sizes: 1m, 5m, 15m, 1h, 6h, 1d
      * Returns aggregate with largest window that fits the query time range.
+     * @brief Find Best Aggregate.
+     * @param[in] metric Input parameter.
+     * @param[in] time_range_ms Input parameter.
+     * @return Return value.
      */
     std::optional<std::string> findBestAggregate(
         const std::string& metric,
@@ -159,6 +188,10 @@ public:
     
     /**
      * Check if an aggregate exists for a metric with specific window.
+     * @brief Aggregate Exists.
+     * @param[in] metric Input parameter.
+     * @param[in] window Input parameter.
+     * @return True on success.
      */
     bool aggregateExists(
         const std::string& metric,
@@ -169,6 +202,9 @@ public:
      * Register available aggregates (for caching).
      * 
      * Optimizer will check these before querying TSStore.
+     * @brief Register Available Aggregate.
+     * @param[in] metric Input parameter.
+     * @param[in] window Input parameter.
      */
     void registerAvailableAggregate(
         const std::string& metric,
@@ -179,11 +215,14 @@ public:
 
     /**
      * Clear the internal query plan cache.
+     * @brief Clear Cache.
      */
     void clearCache();
 
     /**
      * Returns the number of plans currently in the cache.
+     * @brief Cache Size.
+     * @return Return value.
      */
     size_t cacheSize() const;
 
@@ -223,11 +262,16 @@ public:
      * Register an index hint for a metric.
      * When the optimizer builds a plan for this metric, it considers the
      * registered index to estimate the effective scan cost.
+     * @brief Register Index Hint.
+     * @param[in] hint Input parameter.
      */
     void registerIndexHint(IndexHint hint);
 
     /**
      * Retrieve the registered index hint for a metric (if any).
+     * @brief Get Index Hint.
+     * @param[in] metric Input parameter.
+     * @return Return value.
      */
     std::optional<IndexHint> getIndexHint(const std::string& metric) const;
 
@@ -239,6 +283,7 @@ public:
      *
      * The selector is NOT owned by the optimizer.  Pass nullptr to disable
      * tier-based routing.
+     * @param[in] selector Input parameter.
      */
     void setTierSelector(const TierSelector* selector);
 
@@ -252,6 +297,12 @@ public:
      *
      * @param requested_resolution_ms  The finest granularity the caller needs
      *                                 (0 = full resolution, skip tier routing).
+     * @param[in] metric Input parameter.
+     * @param[in] entity Input parameter.
+     * @param[in] from_timestamp_ms Input parameter.
+     * @param[in] to_timestamp_ms Input parameter.
+     * @param[in] hint Input parameter.
+     * @return Return value.
      */
     QueryPlan optimizeWithTiers(
         const std::string& metric,
@@ -280,14 +331,48 @@ private:
     // Optional downsampling tier selector (not owned)
     const TierSelector* tier_selector_{nullptr};
 
-    // Helpers
+    /**
+     * @brief Helpers
+     * @param[in] metric Input parameter.
+     * @param[in] entity Input parameter.
+     * @param[in] from_ms Input parameter.
+     * @param[in] to_ms Input parameter.
+     * @param[in] hint Input parameter.
+     * @return Return value.
+     */
     std::string buildCacheKey(const std::string& metric,
                                const std::optional<std::string>& entity,
                                int64_t from_ms, int64_t to_ms,
                                const OptimizationHint& hint) const;
+    /**
+     * @brief Estimate Raw Point Count.
+     * @param[in] time_range_ms Input parameter.
+     * @return Return value.
+     */
     size_t estimateRawPointCount(int64_t time_range_ms) const;
+    /**
+     * @brief Estimate Aggregate Point Count.
+     * @param[in] time_range_ms Input parameter.
+     * @param[in] window Input parameter.
+     * @return Return value.
+     */
     size_t estimateAggregatePointCount(int64_t time_range_ms, std::chrono::milliseconds window) const;
+    /**
+     * @brief Should Use Aggregate.
+     * @param[in] raw_points Input parameter.
+     * @param[in] agg_points Input parameter.
+     * @param[in] hint Input parameter.
+     * @return True on success.
+     */
     bool shouldUseAggregate(size_t raw_points, size_t agg_points, const OptimizationHint& hint) const;
+    /**
+     * @brief Build Explanation.
+     * @param[in] plan Input parameter.
+     * @param[in] used_agg Input parameter.
+     * @param[in] raw_points Input parameter.
+     * @param[in] agg_points Input parameter.
+     * @return Return value.
+     */
     std::string buildExplanation(const QueryPlan& plan, bool used_agg, size_t raw_points, size_t agg_points) const;
 };
 

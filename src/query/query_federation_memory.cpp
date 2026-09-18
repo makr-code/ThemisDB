@@ -111,11 +111,19 @@ void MemoryPolicy::recordPressureEvent(const MemoryPressureEvent& event) const {
         event.details);
 }
 
+/**
+ * @brief Get Pressure Events.
+ * @return Return value.
+ */
 std::vector<MemoryPolicy::MemoryPressureEvent> MemoryPolicy::getPressureEvents()
     const {
     return pressure_events_;
 }
 
+/**
+ * @brief Clear Events.
+ * @details Calls: clear().
+ */
 void MemoryPolicy::clearEvents() {
     pressure_events_.clear();
 }
@@ -152,6 +160,13 @@ ResultAccumulator::ResultAccumulator(const MemoryPolicy& policy)
     spdlog::debug("ResultAccumulator constructed");
 }
 
+/**
+ * @brief Add Result.
+ * @param[in] shard_id Input parameter.
+ * @param[in] result Input parameter.
+ * @return True on success.
+ * @details Calls: estimateJsonSize(), addResultWithSize().
+ */
 bool ResultAccumulator::addResult(
     const std::string& shard_id,
     const nlohmann::json& result) {
@@ -159,10 +174,24 @@ bool ResultAccumulator::addResult(
     return addResultWithSize(shard_id, result, size_bytes);
 }
 
+/**
+ * @brief Add Result With Size.
+ * @param[in] shard_id Input parameter.
+ * @param[in] result Input parameter.
+ * @param[in] size_bytes Input parameter.
+ * @return True on success.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: lock(), getMaxResultBytes(), spdlog::warn(), handleMemoryPressure(), getOverflowPolicy(), size(), dropOldestBatch(), std::chrono::steady_clock::now().
+ */
 bool ResultAccumulator::addResultWithSize(
     const std::string& shard_id,
     const nlohmann::json& result,
     uint64_t size_bytes) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     // Check if adding this result would exceed memory limit
@@ -232,6 +261,11 @@ bool ResultAccumulator::addResultWithSize(
 
 std::vector<nlohmann::json> ResultAccumulator::getResults(
     const std::string& shard_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     std::vector<nlohmann::json> results;
@@ -246,6 +280,11 @@ std::vector<nlohmann::json> ResultAccumulator::getResults(
 
 std::unordered_map<std::string, std::vector<nlohmann::json>>
 ResultAccumulator::getAllResults() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     std::unordered_map<std::string, std::vector<nlohmann::json>> all_results;
@@ -258,6 +297,11 @@ ResultAccumulator::getAllResults() const {
 }
 
 nlohmann::json ResultAccumulator::getMergedResults() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     nlohmann::json merged = nlohmann::json::array();
@@ -276,6 +320,11 @@ nlohmann::json ResultAccumulator::getMergedResults() const {
 }
 
 uint64_t ResultAccumulator::getCurrentMemoryBytes() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return current_memory_bytes_;
 }
@@ -293,12 +342,22 @@ bool ResultAccumulator::isUnderPressure() const {
 }
 
 size_t ResultAccumulator::getResultCount(const std::string& shard_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = shard_batches_.find(shard_id);
     return it != shard_batches_.end() ? it->second.size() : 0;
 }
 
 size_t ResultAccumulator::getTotalResultCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     size_t total = 0;
     for (const auto& [shard_id, batches] : shard_batches_) {
@@ -307,7 +366,16 @@ size_t ResultAccumulator::getTotalResultCount() const {
     return total;
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lock(), spdlog::debug().
+ */
 void ResultAccumulator::clear() {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     shard_batches_.clear();
     current_memory_bytes_ = 0;
@@ -315,6 +383,11 @@ void ResultAccumulator::clear() {
 }
 
 std::string ResultAccumulator::getStatistics() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     std::string stats = "ResultAccumulator Statistics:\n";
@@ -350,6 +423,11 @@ uint64_t ResultAccumulator::estimateJsonSize(const nlohmann::json& json) const {
     return json.dump().size();
 }
 
+/**
+ * @brief Handle Memory Pressure.
+ * @param[in] needed_bytes Input parameter.
+ * @details Calls: std::to_string(), getOverflowPolicy(), getMaxResultBytes(), getUtilizationPercent(), recordPressureEvent(), spdlog::info(), dropOldestBatch(), truncateResults().
+ */
 void ResultAccumulator::handleMemoryPressure(uint64_t needed_bytes) {
     std::string reason = "Adding batch of " + std::to_string(needed_bytes) +
                         " bytes would exceed limit";
@@ -381,6 +459,10 @@ void ResultAccumulator::handleMemoryPressure(uint64_t needed_bytes) {
     }
 }
 
+/**
+ * @brief Drop Oldest Batch.
+ * @details Calls: empty(), std::chrono::steady_clock::now(), front(), pop_front(), spdlog::debug().
+ */
 void ResultAccumulator::dropOldestBatch() {
     if (shard_batches_.empty()) {
         return;
@@ -414,6 +496,10 @@ void ResultAccumulator::dropOldestBatch() {
     }
 }
 
+/**
+ * @brief Truncate Results.
+ * @details Calls: size(), back(), pop_back(), spdlog::debug().
+ */
 void ResultAccumulator::truncateResults() {
     // Keep only the first batch from each shard
     uint64_t freed = 0;

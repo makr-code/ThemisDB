@@ -21,8 +21,6 @@
 namespace themis {
 namespace exporters {
 
-/// JSONL format for LLM fine-tuning (LoRA/QLoRA)
-/// Exports BaseEntity data as weighted training samples
 struct JSONLFormat {
     enum class Style {
         INSTRUCTION_TUNING,  // {"instruction": ..., "input": ..., "output": ...}
@@ -32,7 +30,6 @@ struct JSONLFormat {
     };
 };
 
-/// Configuration for JSONL LLM export
 struct JSONLLLMConfig {
     JSONLFormat::Style style = JSONLFormat::Style::INSTRUCTION_TUNING;
     
@@ -166,7 +163,6 @@ struct JSONLLLMConfig {
     FormatTemplateFieldMapping template_field_mapping;
 };
 
-/// JSONL exporter for LLM fine-tuning (LoRA/QLoRA)
 class JSONLLLMExporter : public IExporter {
 public:
     explicit JSONLLLMExporter(const JSONLLLMConfig& config = {});
@@ -183,42 +179,49 @@ public:
     std::string getName() const override { return "jsonl_llm_exporter"; }
     std::string getVersion() const override { return "1.0.0"; }
     
-    /// Set custom configuration
+    /**
+     * @brief Set Config.
+     * @param[in] config Input parameter.
+     * @details Calls: makeFormatTemplate().
+     */
     void setConfig(const JSONLLLMConfig& config) {
         config_ = config;
         format_template_ = makeFormatTemplate(config.format_template_type);
     }
     
-    /// Validate that all entities in \p sample satisfy the configured format
-    /// template's required fields.  Returns immediately with a valid result
-    /// when no template is active (format_template_type == NONE).
-    ///
-    /// Intended for use as a CI/preflight dry-run before a full export.
-    /// The returned TemplateValidationResult::missing_fields list is sorted
-    /// and deduplicated so automated comparisons are deterministic.
+    /**
+     * @brief Validate Template.
+     * @param[in] sample Input parameter.
+     * @return Return value.
+     */
     TemplateValidationResult validateTemplate(
         const std::vector<BaseEntity>& sample
     ) const;
 
-    /// Get current configuration
     const JSONLLLMConfig& getConfig() const { return config_; }
     
-    /// Validate sample against JSON schema (Outlines compatibility)
     bool validateAgainstSchema(const std::string& json_str, std::string* error = nullptr) const;
     
-    /// Get adapter metadata as JSON (for LoRAExchange compatibility)
+    /**
+     * @brief Get Adapter Metadata Json.
+     * @return Return value.
+     */
     std::string getAdapterMetadataJson() const;
     
-    /// Set adapter metadata from JSON
     bool setAdapterMetadataFromJson(const std::string& json_str, std::string* error = nullptr);
     
-    /// Get quality metrics report
+    /**
+     * @brief Get Quality Metrics Report.
+     * @return Return value.
+     */
     std::string getQualityMetricsReport() const;
     
-    /// Get exporter metrics (P0: basic metrics)
     std::shared_ptr<ExporterMetrics> getMetrics() const { return metrics_; }
     
-    /// Reset metrics
+    /**
+     * @brief Reset Metrics.
+     * @details Calls: reset().
+     */
     void resetMetrics() { if (metrics_) metrics_->reset(); }
     
 private:
@@ -227,25 +230,82 @@ private:
     std::unique_ptr<IFormatTemplate> format_template_;  // non-null when format_template_type != NONE
 
     // Export helpers
+    /**
+     * @brief Format Instruction Tuning.
+     * @param[in] entity Input parameter.
+     * @param[in,out] weight Input/output parameter.
+     * @param[in] options Input parameter.
+     * @return Return value.
+     */
     std::string formatInstructionTuning(const BaseEntity& entity, double& weight,
                                         const ExportOptions& options);
+    /**
+     * @brief Format Chat Completion.
+     * @param[in] entity Input parameter.
+     * @param[in,out] weight Input/output parameter.
+     * @param[in] options Input parameter.
+     * @return Return value.
+     */
     std::string formatChatCompletion(const BaseEntity& entity, double& weight,
                                      const ExportOptions& options);
+    /**
+     * @brief Format Text Completion.
+     * @param[in] entity Input parameter.
+     * @param[in,out] weight Input/output parameter.
+     * @param[in] options Input parameter.
+     * @return Return value.
+     */
     std::string formatTextCompletion(const BaseEntity& entity, double& weight,
                                      const ExportOptions& options);
+    /**
+     * @brief Format With Template.
+     * @param[in] entity Input parameter.
+     * @param[in,out] weight Input/output parameter.
+     * @param[in] options Input parameter.
+     * @return Return value.
+     */
     std::string formatWithTemplate(const BaseEntity& entity, double& weight,
                                    const ExportOptions& options);
 
+    /**
+     * @brief Calculate Weight.
+     * @param[in] entity Input parameter.
+     * @return Return value.
+     */
     double calculateWeight(const BaseEntity& entity);
+    /**
+     * @brief Passes Quality Filter.
+     * @param[in] entity Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool passesQualityFilter(const BaseEntity& entity);
+    /**
+     * @brief Extract Metadata.
+     * @param[in] entity Input parameter.
+     * @param[in] options Input parameter.
+     * @return Return value.
+     */
     std::string extractMetadata(const BaseEntity& entity, const ExportOptions& options);
 
-    /// Returns true if field_name is allowed given include/exclude lists.
+    /**
+     * @brief Is Field Allowed.
+     * @param[in] field_name Name of the field.
+     * @param[in] include_fields Input parameter.
+     * @param[in] exclude_fields Input parameter.
+     * @return True when the operation succeeds.
+     */
     static bool isFieldAllowed(const std::string& field_name,
                                 const std::vector<std::string>& include_fields,
                                 const std::vector<std::string>& exclude_fields);
     
     // Schema validation helpers
+    /**
+     * @brief Validate Json Schema.
+     * @param[in] json_str Input parameter.
+     * @param[in] schema Input parameter.
+     * @param[in,out] error Input/output parameter.
+     * @return True when the operation succeeds.
+     */
     bool validateJsonSchema(const std::string& json_str, const std::string& schema, std::string* error) const;
     
     // Quality metrics tracking
@@ -259,7 +319,6 @@ private:
     } runtime_metrics_;
 };
 
-/// Plugin wrapper for JSONL LLM Exporter
 #ifdef THEMIS_ENABLE_JSONL_PLUGIN
 using ::themis::plugins::IThemisPlugin;
 using ::themis::plugins::PluginCapabilities;

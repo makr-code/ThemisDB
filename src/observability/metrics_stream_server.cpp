@@ -27,18 +27,29 @@ namespace observability {
 MetricsStreamServer::MetricsStreamServer() = default;
 MetricsStreamServer::~MetricsStreamServer() = default;
 
-// ---------------------------------------------------------------------------
-// Configuration
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Configuration ---------------------------------------------------------------------------
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 
 void MetricsStreamServer::setDeliveryCallback(SendFn fn) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     send_fn_ = std::move(fn);
 }
 
-// ---------------------------------------------------------------------------
-// Lifecycle
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Lifecycle ---------------------------------------------------------------------------
+ * @param[in] bind_address Input parameter.
+ * @param[in] port Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: empty(), lock(), store().
+ */
 
 void MetricsStreamServer::start(const std::string& bind_address, uint16_t port) {
     if (bind_address.empty()) {
@@ -48,12 +59,21 @@ void MetricsStreamServer::start(const std::string& bind_address, uint16_t port) 
         throw std::runtime_error("MetricsStreamServer::start: port must not be 0");
     }
 
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     bind_address_ = bind_address;
     port_ = port;
     running_.store(true, std::memory_order_release);
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: store().
+ */
 void MetricsStreamServer::stop() {
     running_.store(false, std::memory_order_release);
 }
@@ -63,18 +83,31 @@ bool MetricsStreamServer::isRunning() const noexcept {
 }
 
 std::string MetricsStreamServer::bindAddress() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return bind_address_;
 }
 
 uint16_t MetricsStreamServer::port() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return port_;
 }
 
-// ---------------------------------------------------------------------------
-// Subscription management
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Subscription management ---------------------------------------------------------------------------
+ * @param[in] subscription Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: empty(), lock(), std::move().
+ */
 
 void MetricsStreamServer::subscribe(const StreamSubscription& subscription) {
     if (subscription.client_id.empty()) {
@@ -82,6 +115,11 @@ void MetricsStreamServer::subscribe(const StreamSubscription& subscription) {
             "MetricsStreamServer::subscribe: client_id must not be empty");
     }
 
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     SubscriptionState state;
     state.subscription = subscription;
@@ -90,24 +128,46 @@ void MetricsStreamServer::subscribe(const StreamSubscription& subscription) {
     subscriptions_[subscription.client_id] = std::move(state);
 }
 
+/**
+ * @brief Unsubscribe.
+ * @param[in] client_id Input parameter.
+ * @details Calls: lock(), erase().
+ */
 void MetricsStreamServer::unsubscribe(const std::string& client_id) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     subscriptions_.erase(client_id);
 }
 
 size_t MetricsStreamServer::subscriptionCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return subscriptions_.size();
 }
 
 bool MetricsStreamServer::hasSubscription(const std::string& client_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return subscriptions_.count(client_id) > 0;
 }
 
-// ---------------------------------------------------------------------------
-// Metric dispatch
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Metric dispatch ---------------------------------------------------------------------------
+ * @param[in] update Input parameter.
+ * @details Calls: fetch_add(), load(), formatWebSocketMessage(), std::chrono::steady_clock::now(), lock(), matchesMetricNames(), matchesFilters(), count().
+ */
 
 void MetricsStreamServer::pushMetrics(const MetricUpdate& update) {
     total_updates_pushed_.fetch_add(1, std::memory_order_relaxed);
@@ -127,6 +187,11 @@ void MetricsStreamServer::pushMetrics(const MetricUpdate& update) {
     std::vector<std::string> to_deliver;
     SendFn send_fn_copy;
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
 
         send_fn_copy = send_fn_;
@@ -175,9 +240,12 @@ void MetricsStreamServer::pushMetrics(const MetricUpdate& update) {
 // Serialisation helpers
 // ---------------------------------------------------------------------------
 
-// Escape a string for use as a JSON string value (handles \, ", and control
-// characters).  This avoids introducing a heavy JSON library dependency for
-// the small set of string fields we serialise here.
+/**
+ * @brief Escape a string for use as a JSON string value (handles \, ", and control characters).
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details This avoids introducing a heavy JSON library dependency for the small set of string fields we serialise here. Calls: reserve(), size(), std::snprintf().
+ */
 static std::string jsonEscapeString(const std::string& s) {
     std::string out = {};
     out.reserve(s.size() * 2 + 4);
@@ -223,7 +291,12 @@ std::string MetricsStreamServer::labelsToJson(
     return oss.str();
 }
 
-// static
+/**
+ * @brief static
+ * @param[in] update Input parameter.
+ * @return Return value.
+ * @details Calls: time_since_epoch(), count(), jsonEscapeString(), labelsToJson(), str().
+ */
 std::string MetricsStreamServer::formatWebSocketMessage(const MetricUpdate& update) {
     // Emit timestamp as milliseconds since Unix epoch.
     const int64_t ts_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -240,7 +313,12 @@ std::string MetricsStreamServer::formatWebSocketMessage(const MetricUpdate& upda
     return oss.str();
 }
 
-// static
+/**
+ * @brief static
+ * @param[in] update Input parameter.
+ * @return Return value.
+ * @details Calls: formatWebSocketMessage().
+ */
 std::string MetricsStreamServer::formatSseMessage(const MetricUpdate& update) {
     return "data: " + formatWebSocketMessage(update) + "\n\n";
 }
@@ -252,6 +330,11 @@ std::string MetricsStreamServer::formatSseMessage(const MetricUpdate& update) {
 MetricsStreamServer::Stats MetricsStreamServer::getStats() const {
     Stats s;
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         s.active_subscriptions = subscriptions_.size();
     }
@@ -262,6 +345,10 @@ MetricsStreamServer::Stats MetricsStreamServer::getStats() const {
     return s;
 }
 
+/**
+ * @brief Reset Stats.
+ * @details Calls: store().
+ */
 void MetricsStreamServer::resetStats() {
     total_updates_pushed_.store(0, std::memory_order_relaxed);
     total_deliveries_.store(0, std::memory_order_relaxed);

@@ -33,31 +33,31 @@ struct PolicyRuleVersion;
 class PolicyVersionHistory;
 class PolicyManager;
 
-/**
- * @brief Rollback safety check result
- */
 enum class RollbackSafetyLevel {
     SAFE              = 0,  ///< Rollback is safe with no conflicts
     WARNING           = 1,  ///< Rollback has minor concerns
     BLOCKED           = 2,  ///< Rollback is unsafe and cannot proceed
 };
 
-/**
- * @brief Policy dependency information
- */
 struct PolicyDependency {
     std::string dependent_rule_id;      ///< Rule depending on another
     std::string dependency_rule_id;     ///< Rule being depended on
     std::string dependency_type;        ///< "enforcement", "inheritance", "composition"
     std::string reason;                 ///< Description of dependency
     
+    /**
+     * @brief To Json.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
+    /**
+     * @brief From Json.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static PolicyDependency fromJson(const nlohmann::json& j);
 };
 
-/**
- * @brief Rollback safety check result
- */
 struct RollbackSafetyReport {
     std::string rule_id;                ///< Rule being rolled back
     std::string target_version;         ///< Target rollback version
@@ -70,13 +70,19 @@ struct RollbackSafetyReport {
     int estimated_duration_ms = 0;      ///< Estimated rollback duration
     bool is_reversible = true;          ///< Whether rollback can be reversed
     
+    /**
+     * @brief To Json.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
+    /**
+     * @brief From Json.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static RollbackSafetyReport fromJson(const nlohmann::json& j);
 };
 
-/**
- * @brief Rollback operation record
- */
 struct RollbackOperation {
     std::string operation_id;           ///< Unique rollback operation ID
     std::string rule_id;                ///< Primary rule being rolled back
@@ -90,35 +96,41 @@ struct RollbackOperation {
     std::string error_message;          ///< Error message if failed
     std::string reason;                 ///< Why rollback was performed
     
+    /**
+     * @brief To Json.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
+    /**
+     * @brief From Json.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static RollbackOperation fromJson(const nlohmann::json& j);
 };
 
-/**
- * @brief Manages policy changes with advanced rollback and dependency tracking
- * 
- * Provides:
- * - Atomic rollback with automatic versioning
- * - Multi-policy coordinated rollback
- * - Pre-rollback safety verification
- * - Dependency tracking and impact analysis
- * - Complete rollback audit trail
- * - Reversible rollback operations
- */
 class PolicyChangeManager {
 public:
     PolicyChangeManager();
     
+    /**
+     * @brief Policy Change Manager.
+     * @param[in] policy_manager Input parameter.
+     * @param[in] version_history Input parameter.
+     * @return Return value.
+     */
     explicit PolicyChangeManager(
         std::shared_ptr<PolicyManager> policy_manager,
         std::shared_ptr<PolicyVersionHistory> version_history
     );
     
-    /// Register a dependency between two policies
-    /// @param dependent_rule_id Rule that depends on another
-    /// @param dependency_rule_id Rule being depended on
-    /// @param dependency_type Type of dependency
-    /// @param reason Description of dependency
+    /**
+     * @brief Register Dependency.
+     * @param[in] dependent_rule_id Identifier of the dependent rule.
+     * @param[in] dependency_rule_id Identifier of the dependency rule.
+     * @param[in] dependency_type Input parameter.
+     * @param[in] reason Input parameter.
+     */
     void registerDependency(
         const std::string& dependent_rule_id,
         const std::string& dependency_rule_id,
@@ -126,40 +138,50 @@ public:
         const std::string& reason
     );
     
-    /// Get all dependencies for a rule
-    /// @param rule_id Rule identifier
-    /// @return Vector of dependencies (rules this rule depends on)
+    /**
+     * @brief Get Dependencies.
+     * @param[in] rule_id Identifier of the rule.
+     * @return Return value.
+     */
     std::vector<PolicyDependency> getDependencies(const std::string& rule_id) const;
     
-    /// Get all reverse dependencies for a rule
-    /// @param rule_id Rule identifier
-    /// @return Vector of rules that depend on this rule
+    /**
+     * @brief Get Reverse Dependencies.
+     * @param[in] rule_id Identifier of the rule.
+     * @return Return value.
+     */
     std::vector<PolicyDependency> getReverseDependencies(const std::string& rule_id) const;
     
-    /// Check rollback safety before performing operation
-    /// @param rule_id Rule to rollback
-    /// @param target_version Target version
-    /// @return Safety report with findings
+    /**
+     * @brief Check Rollback Safety.
+     * @param[in] rule_id Identifier of the rule.
+     * @param[in] target_version Input parameter.
+     * @return Return value.
+     */
     RollbackSafetyReport checkRollbackSafety(
         const std::string& rule_id,
         const std::string& target_version
     );
     
-    /// Preview rollback changes without applying
-    /// @param rule_id Rule to rollback
-    /// @param target_version Target version
-    /// @return Safety report
+    /**
+     * @brief Preview Rollback.
+     * @param[in] rule_id Identifier of the rule.
+     * @param[in] target_version Input parameter.
+     * @return Return value.
+     */
     RollbackSafetyReport previewRollback(
         const std::string& rule_id,
         const std::string& target_version
     );
     
-    /// Perform atomic rollback to specific version
-    /// @param rule_id Rule to rollback
-    /// @param target_version Target version to rollback to
-    /// @param operator_user User performing rollback
-    /// @param reason Reason for rollback
-    /// @return Operation record (success/failure)
+    /**
+     * @brief Perform Rollback.
+     * @param[in] rule_id Identifier of the rule.
+     * @param[in] target_version Input parameter.
+     * @param[in] operator_user Input parameter.
+     * @param[in] reason Input parameter.
+     * @return Return value.
+     */
     RollbackOperation performRollback(
         const std::string& rule_id,
         const std::string& target_version,
@@ -167,12 +189,14 @@ public:
         const std::string& reason
     );
     
-    /// Perform coordinated multi-policy rollback
-    /// @param rule_ids Multiple rules to rollback together
-    /// @param target_version Target version for all rules
-    /// @param operator_user User performing rollback
-    /// @param reason Reason for rollback
-    /// @return Operation record for coordinated rollback
+    /**
+     * @brief Perform Coordinated Rollback.
+     * @param[in] rule_ids Input parameter.
+     * @param[in] target_version Input parameter.
+     * @param[in] operator_user Input parameter.
+     * @param[in] reason Input parameter.
+     * @return Return value.
+     */
     RollbackOperation performCoordinatedRollback(
         const std::vector<std::string>& rule_ids,
         const std::string& target_version,
@@ -180,62 +204,82 @@ public:
         const std::string& reason
     );
     
-    /// Rollback to previous version
-    /// @param rule_id Rule to rollback
-    /// @param operator_user User performing rollback
-    /// @param reason Reason for rollback
-    /// @return Operation record
+    /**
+     * @brief Rollback To Previous.
+     * @param[in] rule_id Identifier of the rule.
+     * @param[in] operator_user Input parameter.
+     * @param[in] reason Input parameter.
+     * @return Return value.
+     */
     RollbackOperation rollbackToPrevious(
         const std::string& rule_id,
         const std::string& operator_user,
         const std::string& reason
     );
     
-    /// Reverse a rollback operation (undo the rollback)
-    /// @param operation_id Rollback operation to reverse
-    /// @param operator_user User authorizing reversal
-    /// @return New operation record for reversal
+    /**
+     * @brief Reverse Rollback.
+     * @param[in] operation_id Identifier of the operation.
+     * @param[in] operator_user Input parameter.
+     * @return Return value.
+     */
     std::optional<RollbackOperation> reverseRollback(
         const std::string& operation_id,
         const std::string& operator_user
     );
     
-    /// Get rollback operation history
-    /// @param rule_id Optional rule ID filter
-    /// @param start_time Optional start time filter
-    /// @param end_time Optional end time filter
-    /// @return Vector of rollback operations
     std::vector<RollbackOperation> getRollbackHistory(
         const std::optional<std::string>& rule_id = std::nullopt,
         const std::optional<int64_t>& start_time = std::nullopt,
         const std::optional<int64_t>& end_time = std::nullopt
     ) const;
     
-    /// Get a specific rollback operation
-    /// @param operation_id Operation identifier
-    /// @return Operation details if found
+    /**
+     * @brief Get Rollback Operation.
+     * @param[in] operation_id Identifier of the operation.
+     * @return Return value.
+     */
     std::optional<RollbackOperation> getRollbackOperation(
         const std::string& operation_id
     ) const;
     
-    /// Check if rollback is currently in progress
-    /// @param rule_id Rule identifier
-    /// @return True if rollback is in progress
+    /**
+     * @brief Is Rollback In Progress.
+     * @param[in] rule_id Identifier of the rule.
+     * @return True when the operation succeeds.
+     */
     bool isRollbackInProgress(const std::string& rule_id) const;
     
-    /// Export change management data as JSON
+    /**
+     * @brief Export Change Data.
+     * @return Return value.
+     */
     nlohmann::json exportChangeData() const;
     
-    /// Import change management data from JSON
+    /**
+     * @brief Import Change Data.
+     * @param[in] j Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool importChangeData(const nlohmann::json& j);
     
-    /// Save change data to file
+    /**
+     * @brief Save To File.
+     * @param[in] path Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool saveToFile(const std::string& path) const;
     
-    /// Load change data from file
+    /**
+     * @brief Load From File.
+     * @param[in] path Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool loadFromFile(const std::string& path);
     
-    /// Clear all change records (for testing/cleanup)
+    /**
+     * @brief Clear.
+     */
     void clear();
     
 private:
@@ -254,19 +298,41 @@ private:
     // In-progress rollbacks (rule_id -> operation_id)
     std::unordered_map<std::string, std::string> in_progress_rollbacks_;
     
-    /// Generate unique operation ID
+    /**
+     * @brief Generate Operation Id.
+     * @return Return value.
+     */
     std::string generateOperationId();
     
-    /// Check for circular dependencies
+    /**
+     * @brief Has Circular Dependency.
+     * @param[in] rule_id Identifier of the rule.
+     * @return True when the operation succeeds.
+     */
     bool hasCircularDependency(const std::string& rule_id) const;
     
-    /// Find all rules that would be affected by rollback
+    /**
+     * @brief Find Affected Rules.
+     * @param[in] rule_id Identifier of the rule.
+     * @return Return value.
+     */
     std::vector<std::string> findAffectedRules(const std::string& rule_id) const;
     
-    /// Verify rollback can be applied atomically
+    /**
+     * @brief Can Apply Atomically.
+     * @param[in] rule_id Identifier of the rule.
+     * @param[in] target_version Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool canApplyAtomically(const std::string& rule_id, const std::string& target_version);
     
-    /// Execute rollback operation
+    /**
+     * @brief Execute Rollback.
+     * @param[in] rule_id Identifier of the rule.
+     * @param[in] target_version Input parameter.
+     * @param[in,out] operation Input/output parameter.
+     * @return True when the operation succeeds.
+     */
     bool executeRollback(
         const std::string& rule_id,
         const std::string& target_version,

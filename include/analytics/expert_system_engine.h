@@ -73,7 +73,6 @@ struct ExpertSystemEngineConfig {
 // ──────────────────────────────────────────────────────────────────────────────
 // ExpertSystemEngine
 // ──────────────────────────────────────────────────────────────────────────────
-/** @brief ExpertSystemEngine. */
 class ExpertSystemEngine {
 public:
     using Config   = ExpertSystemEngineConfig;
@@ -85,85 +84,47 @@ public:
     ExpertSystemEngine(const ExpertSystemEngine&)            = delete;
     ExpertSystemEngine& operator=(const ExpertSystemEngine&) = delete;
 
-    // ── KnowledgeBase access ──────────────────────────────────────────────────
-
     /**
-     * Replace the underlying KnowledgeBase.
-     * Must not be called concurrently with any other method.
+     * @brief ── KnowledgeBase access ──────────────────────────────────────────────────
+     * @param[in] kb Input parameter.
      */
+
     void setKnowledgeBase(std::shared_ptr<KnowledgeBase> kb);
 
-    /**
-     * Direct access to the KnowledgeBase (for programmatic rule loading, etc.).
-     */
     [[nodiscard]] KnowledgeBase& knowledgeBase();
 
     // ── Working Memory ────────────────────────────────────────────────────────
 
-    /**
-     * Assert a fact into the working memory.
-     * @return Assigned fact id.
-     */
     [[nodiscard]] std::string assertFact(const std::string& subject,
                                           const std::string& predicate,
                                           const std::string& object);
 
     /**
-     * Retract a fact by id.
-     * @return true iff found.
+     * @brief Retract Fact.
+     * @param[in] fact_id Identifier of the fact.
+     * @return True when the operation succeeds.
      */
     bool retractFact(const std::string& fact_id);
 
     // ── Inference ─────────────────────────────────────────────────────────────
 
-    /**
-     * Forward chaining to fixpoint (Rete-like: repeat until no new facts).
-     *
-     * @param max_cycles Upper bound on iterations (prevents infinite loops).
-     * @return Total number of rule firings across all cycles.
-     */
     [[nodiscard]] int forwardChain(int max_cycles = 100);
 
-    /**
-     * Backward chaining: prove whether the given goal triple is satisfiable.
-     *
-     * Uses depth-limited search (DLS) up to Config::max_backward_chain_depth.
-     *
-     * @param goal  TriplePattern to prove (may contain variable elements).
-     * @return      GoalResult with success flag and proof trace.
-     */
     [[nodiscard]] GoalResult queryGoal(const TriplePattern& goal);
 
     // ── Explanation ───────────────────────────────────────────────────────────
 
-    /**
-     * Return a JSON proof trace for the given derived fact_id.
-     *
-     * Format: JSON array of ProofStep objects.
-     * Returns "[]" if the fact_id was not derived by forwardChain().
-     */
     [[nodiscard]] std::string explain(const std::string& fact_id) const;
 
     // ── ML Scorer ─────────────────────────────────────────────────────────────
 
-    /**
-     * Inject a ModelServingEngine as ML scorer.
-     * When set, rule firing is gated on the scorer's confidence prediction.
-     *
-     * @param scorer       Pointer to a live ModelServingEngine (not owned).
-     * @param model_name   Name of the registered model to call.
-     * @param model_version Version string.
-     */
     void setMLScorer(ModelServingEngine* scorer,
                      const std::string& model_name   = "expert_scorer",
                      const std::string& model_version = "v1");
 
     /**
-     * Inject a custom confidence function (for testing without a full
-     * ModelServingEngine).  Overrides any scorer set via setMLScorer().
-     *
-     * Signature: double(const HornClause&, const vector<Fact>& matched)
-     * Return value must be in [0.0, 1.0].
+     * @brief Set MLScorer Fn.
+     * @param[in] fn Input parameter.
      */
     void setMLScorerFn(ScorerFn fn);
 
@@ -175,33 +136,28 @@ public:
 private:
     using Bindings = std::unordered_map<std::string, std::string>;
 
-    /**
-     * Try to match all conditions of a rule against the current WM.
-     * @return Bindings (variable→literal) if all conditions match, nullopt otherwise.
-     */
     [[nodiscard]] std::optional<Bindings> matchConditions(
         const HornClause&          rule,
         const std::vector<Fact>&   all_facts) const;
 
-    /**
-     * Recursively match conditions starting at index cond_idx with existing bindings.
-     */
     [[nodiscard]] bool matchConditionsRec(
         const std::vector<TriplePattern>& conditions,
         std::size_t                        cond_idx,
         const std::vector<Fact>&           all_facts,
         Bindings&                          bindings) const;
 
-    /**
-     * Collect ALL possible complete binding sets for a rule's conditions against
-     * the current working memory. Each element of the returned vector represents
-     * one fully-grounded variable assignment.
-     */
     [[nodiscard]] std::vector<Bindings> matchAllConditions(
         const HornClause&        rule,
         const std::vector<Fact>& all_facts) const;
 
-    /** Recursive helper for matchAllConditions. */
+    /**
+     * @brief Match All Bindings Rec.
+     * @param[in] conditions Input parameter.
+     * @param[in] cond_idx Input parameter.
+     * @param[in] all_facts Input parameter.
+     * @param[in,out] current Input/output parameter.
+     * @param[in,out] results Input/output parameter.
+     */
     void matchAllBindingsRec(
         const std::vector<TriplePattern>& conditions,
         std::size_t                        cond_idx,
@@ -209,18 +165,13 @@ private:
         Bindings&                          current,
         std::vector<Bindings>&             results) const;
 
-    /** Apply bindings to a pattern element. */
     [[nodiscard]] static std::string applyBinding(const std::string& elem,
                                                    const Bindings&    b);
 
-    /** Check if the triple (s, p, o) already exists in WM. */
     [[nodiscard]] bool factExists(const std::string& s,
                                    const std::string& p,
                                    const std::string& o) const;
 
-    /** Return ML confidence for a rule + matched facts (1.0 if no scorer set).
-     *  Must NOT be called while mutex_ is held (scorer may call back into the
-     *  engine; see lock-under-callback fix in forwardChain). */
     [[nodiscard]] static double mlConfidenceNoLock(
         ModelServingEngine*       scorer,
         const ScorerFn&           scorer_fn,
@@ -229,14 +180,12 @@ private:
         const HornClause&         rule,
         const std::vector<Fact>&  matched);
 
-    /** Backward chaining DLS. Appends steps to trace. */
     [[nodiscard]] bool backwardChainDLS(
         const TriplePattern&    goal,
         std::vector<ProofStep>& trace,
         int                     depth,
         int                     max_depth) const;
 
-    /** Check whether a concrete triple (s,p,o) is already in WM (no variables). */
     [[nodiscard]] bool tripleInWM(const std::string& s,
                                    const std::string& p,
                                    const std::string& o) const;

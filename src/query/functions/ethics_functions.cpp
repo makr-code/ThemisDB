@@ -32,6 +32,12 @@ using json = nlohmann::json;
 namespace {
 constexpr std::size_t kEmbeddingDimensions = 256;
 
+/**
+ * @brief To Lower Ascii.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: std::transform(), begin(), end(), std::tolower().
+ */
 std::string toLowerAscii(std::string value) {
     std::transform(value.begin(), value.end(), value.begin(), [](unsigned char ch) {
         return static_cast<char>(std::tolower(ch));
@@ -39,10 +45,21 @@ std::string toLowerAscii(std::string value) {
     return value;
 }
 
+/**
+ * @brief Normalize Argument Id.
+ * @param[in] raw_id Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), value(), find().
+ */
 std::string normalizeArgumentId(std::string_view raw_id) {
     if (raw_id.empty()) {
         return {};
     }
+    /**
+     * @brief Value.
+     * @param[in] raw_id Input parameter.
+     * @return Return value.
+     */
     const std::string value(raw_id);
     if (value.find('/') != std::string::npos) {
         return value;
@@ -50,10 +67,22 @@ std::string normalizeArgumentId(std::string_view raw_id) {
     return "ethics_arguments/" + value;
 }
 
+/**
+ * @brief Normalize Collection Id.
+ * @param[in] raw_id Input parameter.
+ * @param[in] collection_name Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), value(), find(), std::string().
+ */
 std::string normalizeCollectionId(std::string_view raw_id, std::string_view collection_name) {
     if (raw_id.empty()) {
         return {};
     }
+    /**
+     * @brief Value.
+     * @param[in] raw_id Input parameter.
+     * @return Return value.
+     */
     const std::string value(raw_id);
     if (value.find('/') != std::string::npos) {
         return value;
@@ -61,6 +90,12 @@ std::string normalizeCollectionId(std::string_view raw_id, std::string_view coll
     return std::string(collection_name) + "/" + value;
 }
 
+/**
+ * @brief Extract Document Text.
+ * @param[in] doc Input parameter.
+ * @return Return value.
+ * @details Calls: find(), end(), is_string().
+ */
 std::string extractDocumentText(const json& doc) {
     static const std::array<const char*, 6> kCandidateFields = {
         "description", "dilemma_description", "content", "text", "title", "name"
@@ -74,6 +109,12 @@ std::string extractDocumentText(const json& doc) {
     return {};
 }
 
+/**
+ * @brief Embed Text.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: embedding(), empty(), reserve(), size(), push_back(), std::tolower(), std::sqrt().
+ */
 std::vector<float> embedText(std::string_view text) {
     std::vector<float> embedding(kEmbeddingDimensions, 0.0f);
     if (text.empty()) {
@@ -111,6 +152,12 @@ std::vector<float> embedText(std::string_view text) {
     return embedding;
 }
 
+/**
+ * @brief Parse Embedding.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: is_array(), reserve(), size(), is_number(), push_back().
+ */
 std::vector<float> parseEmbedding(const json& value) {
     if (!value.is_array()) {
         return {};
@@ -128,6 +175,13 @@ std::vector<float> parseEmbedding(const json& value) {
     return embedding;
 }
 
+/**
+ * @brief Cosine Similarity.
+ * @param[in] lhs Input parameter.
+ * @param[in] rhs Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), std::sqrt().
+ */
 double cosineSimilarity(const std::vector<float>& lhs, const std::vector<float>& rhs) {
     if (lhs.empty() || rhs.empty() || lhs.size() != rhs.size()) {
         return 0.0;
@@ -147,6 +201,12 @@ double cosineSimilarity(const std::vector<float>& lhs, const std::vector<float>&
     return dot / (std::sqrt(lhs_norm) * std::sqrt(rhs_norm));
 }
 
+/**
+ * @brief Document Id For Result.
+ * @param[in] doc Input parameter.
+ * @return Return value.
+ * @details Calls: find(), end(), is_string().
+ */
 std::string documentIdForResult(const json& doc) {
     if (const auto it = doc.find("id"); it != doc.end() && it->is_string()) {
         return it->get<std::string>();

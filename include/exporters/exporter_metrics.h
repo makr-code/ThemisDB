@@ -20,155 +20,246 @@
 
 namespace themis::exporters {
 
-/// Metrics for export operations
 class ExporterMetrics {
 public:
     ExporterMetrics() = default;
     
-    /// Reset all metrics
+    /**
+     * @brief Reset the modification detection flag.
+     */
     void reset();
     
-    /// Record an export operation
+    /**
+     * @brief Record Export.
+     * @param[in] entity_count Input parameter.
+     * @param[in] bytes_written Input parameter.
+     * @param[in] duration Input parameter.
+     */
     void recordExport(size_t entity_count, size_t bytes_written, 
                      std::chrono::milliseconds duration);
     
-    /// Record an error
+    /**
+     * @brief Record Error.
+     * @param[in] error_type Input parameter.
+     */
     void recordError(const std::string& error_type);
     
-    /// Record a duplicate detection
+    /**
+     * @brief Record Duplicate.
+     */
     void recordDuplicate();
     
-    /// Record a quality filter rejection
+    /**
+     * @brief Record Quality Filter Rejection.
+     * @param[in] reason Input parameter.
+     */
     void recordQualityFilterRejection(const std::string& reason);
     
-    /// Record schema validation
+    /**
+     * @brief Record Schema Validation.
+     * @param[in] passed Input parameter.
+     */
     void recordSchemaValidation(bool passed);
     
-    /// Get export rate (entities per second)
+    /**
+     * @brief Get Export Rate.
+     * @return Return value.
+     */
     double getExportRate() const;
     
-    /// Get throughput (bytes per second)
+    /**
+     * @brief Get Throughput.
+     * @return Return value.
+     */
     double getThroughput() const;
     
-    /// Get average latency per entity (milliseconds)
+    /**
+     * @brief Get Average Latency.
+     * @return Return value.
+     */
     double getAverageLatency() const;
     
-    /// Get P50 latency estimate (milliseconds)
+    /**
+     * @brief Get P50 Latency.
+     * @return Return value.
+     */
     double getP50Latency() const;
     
-    /// Get P95 latency estimate (milliseconds)
+    /**
+     * @brief Get P95 Latency.
+     * @return Return value.
+     */
     double getP95Latency() const;
     
-    /// Get P99 latency estimate (milliseconds)
+    /**
+     * @brief Get P99 Latency.
+     * @return Return value.
+     */
     double getP99Latency() const;
     
-    /// Get total errors
+    /**
+     * @brief Get Total Errors.
+     * @return Return value.
+     */
     size_t getTotalErrors() const;
     
-    /// Get errors by type
     std::map<std::string, size_t> getErrorsByType() const;
     
-    /// Get total duplicates detected
+    /**
+     * @brief Get Total Duplicates.
+     * @return Return value.
+     */
     size_t getTotalDuplicates() const;
     
-    /// Get quality filter rejections
     std::map<std::string, size_t> getQualityFilterRejections() const;
     
-    /// Get schema validation stats
     struct SchemaValidationStats {
         size_t total_validated = 0;
         size_t passed = 0;
         size_t failed = 0;
         double pass_rate = 0.0;
     };
+    /**
+     * @brief Get Schema Validation Stats.
+     * @return Return value.
+     */
     SchemaValidationStats getSchemaValidationStats() const;
     
-    /// P1: Record PII detection
     void recordPIIDetection(size_t count = 1);
     
-    /// P1: Record PII redaction
     void recordPIIRedaction(size_t count = 1);
     
-    /// P1: Get PII detection stats
+    /**
+     * @brief Get PIIDetections.
+     * @return Return value.
+     */
     size_t getPIIDetections() const;
+    /**
+     * @brief Get PIIRedactions.
+     * @return Return value.
+     */
     size_t getPIIRedactions() const;
     
-    /// P2: Record compression stats
+    /**
+     * @brief Record Compression.
+     * @param[in] uncompressed_bytes Input parameter.
+     * @param[in] compressed_bytes Input parameter.
+     */
     void recordCompression(size_t uncompressed_bytes, size_t compressed_bytes);
     
-    /// P2: Get compression ratio
+    /**
+     * @brief Get Compression Ratio.
+     * @return Return value.
+     */
     double getCompressionRatio() const;
 
-    /// P3: Record Parquet bytes written (exporter_parquet_bytes_written_total)
+    /**
+     * @brief Record Parquet Bytes Written.
+     * @param[in] bytes Input parameter.
+     */
     void recordParquetBytesWritten(size_t bytes);
 
-    /// P3: Get total Parquet bytes written
+    /**
+     * @brief Get Parquet Bytes Written.
+     * @return Return value.
+     */
     size_t getParquetBytesWritten() const;
 
-    /// Streaming: Record a checkpoint event (resume events for Prometheus/Grafana)
+    /**
+     * @brief Record Checkpoint.
+     */
     void recordCheckpoint();
 
-    /// Streaming: Get total checkpoint events
+    /**
+     * @brief Get Checkpoint Count.
+     * @return Return value.
+     */
     size_t getCheckpointCount() const;
 
-    /// Delta: Record documents skipped because they are at or below the watermark
-    /// (exporter_delta_docs_skipped_total)
     void recordDeltaDocSkipped(size_t count = 1);
 
-    /// Delta: Get total documents skipped by incremental export
+    /**
+     * @brief Get Delta Docs Skipped.
+     * @return Return value.
+     */
     size_t getDeltaDocsSkipped() const;
 
-    /// P3/Security: Record an export encryption event (exporter_encrypted_bytes_total)
-    /// @param plaintext_bytes  Number of plaintext bytes submitted for encryption.
-    /// @param encrypted_bytes  Number of bytes written to the encrypted container.
+    /**
+     * @brief Record Encryption.
+     * @param[in] plaintext_bytes Input parameter.
+     * @param[in] encrypted_bytes Input parameter.
+     */
     void recordEncryption(size_t plaintext_bytes, size_t encrypted_bytes);
 
-    /// P3/Security: Get total plaintext bytes that were encrypted
+    /**
+     * @brief Get Encrypted Plaintext Bytes.
+     * @return Return value.
+     */
     size_t getEncryptedPlaintextBytes() const;
 
-    /// P3/Security: Get total bytes written to encrypted containers
+    /**
+     * @brief Get Encrypted Output Bytes.
+     * @return Return value.
+     */
     size_t getEncryptedOutputBytes() const;
-    /// Encryption: Record bytes written to an encrypted export file
-    /// (exporter_encrypted_bytes_written_total)
+    /**
+     * @brief Record Encryption.
+     * @param[in] encrypted_bytes Input parameter.
+     */
     void recordEncryption(size_t encrypted_bytes);
 
-    /// Encryption: Get total bytes written to encrypted export files
+    /**
+     * @brief Get Encrypted Bytes Written.
+     * @return Return value.
+     */
     size_t getEncryptedBytesWritten() const;
 
-    /// HuggingFace: Record an HTTP 429 rate-limit hit
-    /// (exporters.huggingface.rate_limit_hit)
+    /**
+     * @brief Record Rate Limit Hit.
+     */
     void recordRateLimitHit();
 
-    /// HuggingFace: Get total rate-limit hits recorded
+    /**
+     * @brief Get Rate Limit Hits.
+     * @return Return value.
+     */
     size_t getRateLimitHits() const;
 
-    /// @brief Record an export denied by PolicyEngine.
-    ///
-    /// Increments the policy-denial counter and registers the event under the
-    /// unified error type key "policy_denied" in @c getErrorsByType().
-    ///
-    /// @param collection   Name of the collection that was denied.
-    /// @param user         Identity of the requesting user/service.
+    /**
+     * @brief Record Policy Denial.
+     * @param[in] collection Input parameter.
+     * @param[in] user Input parameter.
+     */
     void recordPolicyDenial(const std::string& collection, const std::string& user);
 
-    /// @return Total number of policy-denial events recorded.
+    /**
+     * @brief Get Policy Denials.
+     * @return Return value.
+     */
     size_t getPolicyDenials() const;
 
-    /// @brief Record a HuggingFace Hub upload failure.
-    ///
-    /// Increments the hub-upload-failure counter and registers the event under
-    /// the unified error type key "hub_upload_failure" in @c getErrorsByType().
-    ///
-    /// @param reason   Short reason string (e.g. HTTP status code or error class).
+    /**
+     * @brief Record Hub Upload Failure.
+     * @param[in] reason Input parameter.
+     */
     void recordHubUploadFailure(const std::string& reason);
 
-    /// @return Total number of hub-upload-failure events recorded.
+    /**
+     * @brief Get Hub Upload Failures.
+     * @return Return value.
+     */
     size_t getHubUploadFailures() const;
 
-    /// Export metrics as JSON
+    /**
+     * @brief To Json.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
     
-    /// Export metrics summary as string
+    /**
+     * @brief To String.
+     * @return Return value.
+     */
     std::string toString() const;
     
 private:
@@ -237,10 +328,17 @@ private:
     // HuggingFace Hub upload failures (exporter_hub_upload_failures_total)
     std::atomic<size_t> hub_upload_failures_{0};
     
-    // Helper to update latency histogram
+    /**
+     * @brief Helper to update latency histogram
+     * @param[in] duration Input parameter.
+     */
     void updateLatencyHistogram(std::chrono::milliseconds duration);
     
-    // Helper to calculate percentile from histogram
+    /**
+     * @brief Helper to calculate percentile from histogram
+     * @param[in] percentile Input parameter.
+     * @return Return value.
+     */
     double calculatePercentile(double percentile) const;
 };
 

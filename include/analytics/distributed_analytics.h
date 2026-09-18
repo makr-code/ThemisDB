@@ -70,34 +70,24 @@ namespace analytics {
 // ShardQueryExecutor interface
 // ---------------------------------------------------------------------------
 
-/**
- * Abstract interface for executing an OLAP query on a single shard.
- *
- * Implementors:
- *   - LocalShardExecutor  – executes via an in-process OLAPEngine (tests /
- *                           single-node mode).
- *   - RemoteShardExecutor – serialises the query and sends it to a remote
- *                           shard over the existing RPC transport (production).
- */
 class ShardQueryExecutor {
 public:
+    /**
+     * @brief Shard Query Executor.
+     * @return Return value.
+     */
     virtual ~ShardQueryExecutor() = default;
 
     /**
-     * Execute an OLAP query on the shard and return the partial result.
-     *
-     * @param shard_id  Identifier of the target shard (informational).
-     * @param query     The query to execute.
-     * @return Partial OLAPResult for this shard's data partition.
+     * @brief Execute.
+     * @param[in] shard_id Identifier of the shard.
+     * @param[in] query Input parameter.
+     * @return Return value.
      */
     virtual themis::analytics::OLAPResult execute(
         const std::string& shard_id,
         const themis::analytics::OLAPQuery& query) = 0;
 
-    /**
-     * Returns false if the shard is known to be unreachable, so the caller
-     * can skip it without paying a timeout penalty.
-     */
     virtual bool isHealthy() const { return true; }
 };
 
@@ -105,12 +95,13 @@ public:
 // LocalShardExecutor – thin wrapper around an existing OLAPEngine
 // ---------------------------------------------------------------------------
 
-/**
- * Executes a query against an in-process OLAPEngine.
- * Useful for single-node mode and unit tests.
- */
 class LocalShardExecutor final : public ShardQueryExecutor {
 public:
+    /**
+     * @brief Local Shard Executor.
+     * @param[in,out] engine Input/output parameter.
+     * @return Return value.
+     */
     explicit LocalShardExecutor(themis::analytics::OLAPEngine& engine)
         : engine_(engine) {}
 
@@ -128,121 +119,51 @@ private:
 // DistributedAnalyticsSharding
 // ---------------------------------------------------------------------------
 
-/**
- * Coordinator for distributed OLAP analytics across cluster shards.
- *
- * Usage:
- * @code
- *   DistributedAnalyticsSharding das;
- *
- *   // Register a local executor (in tests or single-node mode)
- *   OLAPEngine engine_a, engine_b;
- *   das.addShard("shard_a", std::make_shared<LocalShardExecutor>(engine_a));
- *   das.addShard("shard_b", std::make_shared<LocalShardExecutor>(engine_b));
- *
- *   // Execute a query distributed across all shards
- *   OLAPQuery q;
- *   q.collection = "sales";
- *   q.dimensions  = {{"region", "", true}};
- *   q.measures    = {{"total", "amount", Measure::Function::Sum}};
- *   auto result = das.executeDistributed(q);
- * @endcode
- */
 class DistributedAnalyticsSharding {
 public:
-    /**
-     * Configuration knobs.
-     */
     struct Config {
-        /// Maximum number of in-flight shard requests at a time.
-        /// 0 means unlimited (all shards queried concurrently).
         size_t max_parallel_shards = 0;
 
-        /// If true, a partial result is returned even when some shards fail.
-        /// The execution_info field in the result will indicate which shards
-        /// were skipped.
         bool allow_partial_results = true;
 
-        /// Maximum fraction of shards that may fail before the entire
-        /// `executeDistributed()` call is considered failed.
-        /// Range: [0.0, 1.0]. Default: 0.20 (tolerate up to 20 % failures).
-        /// When `allow_partial_results` is false, this field is not consulted
-        /// (a single failure is already fatal).
         double max_failure_rate = 0.20;
 
-        /// Timeout per shard in milliseconds. 0 = no timeout.
         uint32_t shard_timeout_ms = 30000;
 
-        /// Legacy alias retained for compatibility with older analytics tests.
-        /// When non-zero it overrides the generic timeout for shard execution.
         uint32_t shard_execution_timeout_ms = 30000;
 
-        /// Interval between background health-monitor sweeps.
-        /// Default: 5 s.  Set to zero to disable the background monitor.
         std::chrono::milliseconds health_check_interval{5000};
 
-        /// ====== SAFETY CONTROLS (Phase 2.2 Hardening) ======
 
-        /// Enable circuit breaker pattern for failed shards.
         bool enable_circuit_breaker = true;
 
-        /// Consecutive failure threshold before opening circuit breaker.
-        /// Default: 3 failures in a row.
         uint32_t circuit_breaker_failure_threshold = 3;
 
-        /// Initial delay (ms) before attempting recovery from OPEN state.
-        /// Default: 1000 ms. Increases exponentially with backoff.
         uint32_t circuit_breaker_recovery_delay_ms = 1000;
 
-        /// Maximum delay (ms) for recovery backoff to prevent infinite waits.
-        /// Default: 30000 ms (30 seconds).
         uint32_t circuit_breaker_max_recovery_delay_ms = 30000;
 
-        /// Maximum number of HALF_OPEN recovery attempts before returning to OPEN.
-        /// Default: 2 attempts.
         uint32_t circuit_breaker_recovery_attempts = 2;
 
-        /// Bounded queue: maximum number of queued requests per shard.
-        /// 0 means unbounded. Default: 100 requests per shard.
         uint32_t max_queued_requests_per_shard = 100;
 
-        /// Timeout (ms) for enqueuing a request when the queue is full.
-        /// 0 means non-blocking (drop if full). Default: 100 ms.
         uint32_t queue_enqueue_timeout_ms = 100;
 
         // Wave-A AN1: per-shard retry with exponential backoff
-        /// Per-shard retry configuration.  Retries are applied only to
-        /// transient failures (timeout, network error); permanent failures
-        /// (invalid query, auth/permission error) skip retry immediately.
         struct RetryConfig {
-            /// Maximum number of retry attempts after the first failure.
-            /// 0 = no retry (behaves like the pre-AN1 code path).
             uint32_t max_retries   = 2;
-            /// Base backoff delay in milliseconds for the first retry.
             uint32_t base_delay_ms = 50;
-            /// Hard cap on the computed backoff delay in milliseconds.
             uint32_t max_delay_ms  = 500;
         };
         RetryConfig retry_config;
     };
 
-    /**
-     * Circuit breaker states for shard-level fault tolerance.
-     *
-     * CLOSED: Normal operation. Requests are processed.
-     * OPEN: Shard has failed too many times. Requests are rejected immediately.
-     * HALF_OPEN: Attempting to recover. Limited requests are sent to probe shard health.
-     */
     enum class CircuitBreakerState : uint8_t {
         CLOSED = 0,    ///< Normal operation, requests processed.
         OPEN = 1,      ///< Too many failures, requests rejected.
         HALF_OPEN = 2  ///< Attempting recovery, limited requests sent.
     };
 
-    /**
-     * Per-shard circuit breaker state and diagnostics.
-     * Tracks consecutive failures, recovery attempts, and state transitions.
-     */
     struct CircuitBreakerInfo {
         CircuitBreakerState state = CircuitBreakerState::CLOSED;
         uint32_t consecutive_failures = 0;
@@ -253,10 +174,6 @@ public:
         std::string last_error;
     };
 
-    /**
-     * Per-shard execution information attached to the merged result.
-     * Includes circuit breaker state for diagnostics.
-     */
     struct ShardExecutionInfo {
         std::string shard_id;
         bool success = false;
@@ -266,28 +183,16 @@ public:
         uint32_t circuit_consecutive_failures = 0;
     };
 
-    /**
-     * Extended result that includes per-shard diagnostics.
-     */
     struct DistributedResult {
         themis::analytics::OLAPResult merged;
         std::vector<ShardExecutionInfo> shard_info;
         size_t successful_shards = 0;
         size_t total_shards = 0;
-        /// Stable per-query identifier for tracing the distributed fan-out / merge lifecycle.
         std::string operation_id;
-        /// Correlation identifier surfaced to operator tooling and runbooks.
         std::string correlation_id;
-        /// Canonical failure classification (`none`, `partial_failure`, `dependency_unavailable`, ...).
         std::string failure_class = "none";
-        /// Wall-clock duration of the entire executeDistributed() call in milliseconds.
         double total_execution_ms = 0.0;
-        /// Time spent in the result-merge phase only (mergeResults). Excludes scatter/gather.
         double merge_duration_ms = 0.0;
-        /// Actionable operator-facing remediation hints. Populated when failures, timeouts,
-        /// circuit-breaker trips, or high shard-failure rates are detected. Each entry is
-        /// a self-contained, human-readable hint suitable for surfacing in operator dashboards
-        /// or logs (e.g. "Shard 'shard_a' circuit breaker is OPEN — verify shard health").
         std::vector<std::string> operator_hints;
     };
 
@@ -296,6 +201,11 @@ public:
     // ------------------------------------------------------------------
 
     DistributedAnalyticsSharding();
+    /**
+     * @brief Distributed Analytics Sharding.
+     * @param[in] cfg Input parameter.
+     * @return Return value.
+     */
     explicit DistributedAnalyticsSharding(const Config& cfg);
     ~DistributedAnalyticsSharding();
 
@@ -303,47 +213,38 @@ public:
     // Shard management
     // ------------------------------------------------------------------
 
-    /**
-     * Register a shard and its executor.
-     * Overwrites any previously registered executor for the same shard_id.
-     *
-     * @param shard_id      Unique shard identifier.
-     * @param executor      Per-shard query executor.
-     * @param tenant_id     Optional tenant this shard exclusively serves.
-     *                      Empty string means the shard is accessible to all
-     *                      tenants (or tenant isolation is not required).
-     */
     void addShard(const std::string& shard_id,
                   std::shared_ptr<ShardQueryExecutor> executor,
                   const std::string& tenant_id = {});
 
     /**
-     * @brief Deregister a shard.
-     *
-     * @param shard_id  Identifier of the shard to remove.
+     * @brief Remove Shard.
+     * @param[in] shard_id Identifier of the shard.
      */
     void removeShard(const std::string& shard_id);
 
-    /** Total number of registered shards. */
+    /**
+     * @brief Get Shard Count.
+     * @return Return value.
+     */
     size_t getShardCount() const;
 
     /**
-     * Number of registered shards whose background health monitor last
-     * reported as healthy.  Reads a cached atomic flag — does not perform
-     * any network I/O; completes in ≤ 2 µs.
+     * @brief Get Healthy Shard Count.
+     * @return Return value.
      */
     size_t getHealthyShardCount() const;
 
     /**
-     * Asynchronously query live health for all registered shards.
-     *
-     * Unlike getHealthyShardCount(), this performs real isHealthy() calls
-     * without holding the shard registry lock, so it never blocks addShard()
-     * or removeShard().  The result is delivered via the returned future.
+     * @brief Get Healthy Shard Count Async.
+     * @return Return value.
      */
     std::future<size_t> getHealthyShardCountAsync() const;
 
-    /** Returns all registered shard IDs. */
+    /**
+     * @brief Get Shard Ids.
+     * @return Return value.
+     */
     std::vector<std::string> getShardIds() const;
 
     // ------------------------------------------------------------------
@@ -351,38 +252,28 @@ public:
     // ------------------------------------------------------------------
 
     /**
-     * @brief Execute an OLAP query across all healthy shards and merge results.
-     *
-     * The query is fanned-out to every healthy shard concurrently.
-     * Partial results are aggregated using the merge semantics documented in
-     * the file header.
-     *
-     * @param query  The query to execute on each shard.
-     * @return Merged DistributedResult.
+     * @brief Execute Distributed.
+     * @param[in] query Input parameter.
+     * @return Return value.
      */
     DistributedResult executeDistributed(
         const themis::analytics::OLAPQuery& query);
 
     /**
-     * @brief Convenience overload returning only the merged OLAPResult.
-     *
-     * @param query  The query to execute on each shard.
-     * @return Merged OLAPResult.
+     * @brief Execute.
+     * @param[in] query Input parameter.
+     * @return Return value.
      */
     themis::analytics::OLAPResult execute(
         const themis::analytics::OLAPQuery& query);
 
-    // ------------------------------------------------------------------
-    // Result merging (exposed for testing / custom pipelines)
-    // ------------------------------------------------------------------
-
     /**
-     * @brief Merge a collection of partial OLAPResults into a single result.
-     *
-     * @param partials   Partial results from individual shards.
-     * @param query      Original query (used to determine aggregate semantics).
-     * @return Merged OLAPResult.
+     * @brief ------------------------------------------------------------------ Result merging (exposed for testing / custom pipelines) ------------------------------------------------------------------
+     * @param[in] partials Input parameter.
+     * @param[in] query Input parameter.
+     * @return Return value.
      */
+
     static themis::analytics::OLAPResult mergeResults(
         const std::vector<themis::analytics::OLAPResult>& partials,
         const themis::analytics::OLAPQuery& query);
@@ -395,63 +286,55 @@ private:
     // ---------------------------------------------------------------
 
     /**
-     * Compute a stable string key for a result row's dimension values.
-     * The key encodes grouping_id so that CUBE/ROLLUP subtotals are kept
-     * separate from detail rows.
+     * @brief Row Group Key.
+     * @param[in] row Input parameter.
+     * @param[in] dims Input parameter.
+     * @param[in] grouping_id Identifier of the grouping.
+     * @return Return value.
      */
     static std::string rowGroupKey(
         const themis::analytics::OLAPResult::Row& row,
         const std::vector<themis::analytics::Dimension>& dims,
         int64_t grouping_id);
 
-    /// ====== SAFETY CONTROL HELPERS (Phase 2.2) ======
 
     /**
-     * Handle a successful shard execution: reset circuit breaker state to CLOSED.
-     * Called after a shard request completes successfully.
+     * @brief On Shard Success.
+     * @param[in,out] entry Input/output parameter.
      */
     void onShardSuccess(ShardEntry& entry);
 
     /**
-     * Handle a failed shard execution: increment failure count, possibly opening circuit.
-     * Called after a shard request fails.
-     *
-     * @param entry The shard entry.
-     * @param error_msg The error message for diagnostics.
-     * @return true if the shard is still usable (circuit not OPEN), false if circuit opened.
+     * @brief On Shard Failure.
+     * @param[in,out] entry Input/output parameter.
+     * @param[in] error_msg Input parameter.
+     * @return True when the operation succeeds.
      */
     bool onShardFailure(ShardEntry& entry, const std::string& error_msg);
 
     /**
-     * Check and update circuit breaker state based on recovery timing.
-     * Transitions OPEN → HALF_OPEN if recovery delay has elapsed.
-     *
-     * @param entry The shard entry.
-     * @return Current circuit breaker state after potential transition.
+     * @brief Update Circuit Breaker State.
+     * @param[in,out] entry Input/output parameter.
+     * @return Return value.
      */
     CircuitBreakerState updateCircuitBreakerState(ShardEntry& entry);
 
-    /**
-     * Attempt to enqueue a request for a shard with bounded queue enforcement.
-     * Returns true if enqueued, false if queue full and timeout exceeded.
-     *
-     * @param entry The shard entry.
-     * @param task The task to enqueue.
-     * @return true if successfully enqueued, false if queue full and timeout expired.
-     */
     bool tryEnqueueRequest(ShardEntry& entry, std::function<void()> task);
 
     /**
-     * Process queued requests for a shard after a request completes.
-     *
-     * @param entry The shard entry.
+     * @brief Process Queued Requests.
+     * @param[in,out] entry Input/output parameter.
      */
     void processQueuedRequests(ShardEntry& entry);
 
-    /** Start the background health-monitor thread (if interval > 0). */
+    /**
+     * @brief Start Health Monitor.
+     */
     void startHealthMonitor();
 
-    /** Entry-point for the background health-monitor thread. */
+    /**
+     * @brief Run Health Monitor.
+     */
     void runHealthMonitor();
 
     // ---------------------------------------------------------------
@@ -464,24 +347,15 @@ private:
     struct ShardEntry {
         std::string shard_id;
         std::shared_ptr<ShardQueryExecutor> executor;
-        /// If non-empty, only queries whose `tenant_id` matches are allowed
-        /// on this shard.  Empty = accessible to all tenants.
         std::string allowed_tenant_id;
-        /// Cached health flag updated by the background monitor.
-        /// Initialised to true (optimistic) when a shard is first added.
         std::shared_ptr<std::atomic<bool>> cached_healthy =
             std::make_shared<std::atomic<bool>>(true);
 
-        /// ====== SAFETY CONTROLS: Circuit Breaker State ======
-        /// Tracks shard-level fault tolerance state and recovery.
         std::shared_ptr<std::mutex> circuit_breaker_mutex = std::make_shared<std::mutex>();
         std::shared_ptr<CircuitBreakerInfo> circuit_breaker_info = std::make_shared<CircuitBreakerInfo>();
-        /// Bounded queue: pending requests waiting to be executed.
         std::shared_ptr<std::queue<std::function<void()>>> request_queue = std::make_shared<std::queue<std::function<void()>>>();
-        /// Queue synchronization
         std::shared_ptr<std::mutex> queue_mutex = std::make_shared<std::mutex>();
         std::shared_ptr<std::condition_variable> queue_cv = std::make_shared<std::condition_variable>();
-        /// Current in-flight request count
         std::shared_ptr<std::atomic<uint32_t>> in_flight_requests = std::make_shared<std::atomic<uint32_t>>(0);
     };
 

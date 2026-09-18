@@ -24,7 +24,13 @@ namespace utils {
 // Construction helpers
 // ---------------------------------------------------------------------------
 
-// m = ceil( -n * ln(p) / (ln(2))^2 )
+/**
+ * @brief m = ceil( -n * ln(p) / (ln(2))^2 )
+ * @param[in] n Input parameter.
+ * @param[in] p Input parameter.
+ * @return Return value.
+ * @details Calls: std::log(), std::ceil().
+ */
 size_t BloomFilter::optimalBits(size_t n, double p) {
     if (n == 0) {
       return 64;
@@ -33,7 +39,13 @@ size_t BloomFilter::optimalBits(size_t n, double p) {
     return static_cast<size_t>(std::ceil(-static_cast<double>(n) * std::log(p) / (ln2 * ln2)));
 }
 
-// k = ceil( (m/n) * ln(2) )
+/**
+ * @brief k = ceil( (m/n) * ln(2) )
+ * @param[in] bits Input parameter.
+ * @param[in] n Input parameter.
+ * @return Return value.
+ * @details Calls: std::ceil(), std::log().
+ */
 size_t BloomFilter::optimalHashCount(size_t bits, size_t n) {
     if (n == 0) {
       return 1;
@@ -53,15 +65,23 @@ BloomFilter::BloomFilter(size_t expected_elements, double false_positive_rate)
     bits_.assign(num_bits_, false);
 }
 
-// ---------------------------------------------------------------------------
-// Hash functions
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Hash functions ---------------------------------------------------------------------------
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @details Implements hash1 without additional internal calls.
+ */
 
 uint64_t BloomFilter::hash1(const std::string& key) {
     return std::hash<std::string>{}(key);
 }
 
-// Murmur-inspired finalizer mix on each byte accumulation
+/**
+ * @brief Murmur-inspired finalizer mix on each byte accumulation
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @details Implements hash2 without additional internal calls.
+ */
 uint64_t BloomFilter::hash2(const std::string& key) {
     uint64_t h = 0x9e3779b97f4a7c15ULL; // golden-ratio constant
     for (unsigned char c : key) {
@@ -82,11 +102,18 @@ size_t BloomFilter::probeIndex(const std::string& key, size_t i) const {
     return static_cast<size_t>((h1 + i * h2) % static_cast<uint64_t>(num_bits_));
 }
 
-// ---------------------------------------------------------------------------
-// Public API
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Public API ---------------------------------------------------------------------------
+ * @param[in] key Input parameter.
+ * @details Calls: lock(), probeIndex().
+ */
 
 void BloomFilter::insert(const std::string& key) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock lock(mutex_);
     for (size_t i = 0; i < num_hashes_; ++i) {
         bits_[probeIndex(key, i)] = true;
@@ -95,6 +122,11 @@ void BloomFilter::insert(const std::string& key) {
 }
 
 bool BloomFilter::contains(const std::string& key) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(mutex_);
     for (size_t i = 0; i < num_hashes_; ++i) {
         if (!bits_[probeIndex(key, i)]) {
@@ -104,13 +136,27 @@ bool BloomFilter::contains(const std::string& key) const {
     return true;
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lock(), std::fill(), begin(), end().
+ */
 void BloomFilter::clear() {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock lock(mutex_);
     std::fill(bits_.begin(), bits_.end(), false);
     approx_count_ = 0;
 }
 
 size_t BloomFilter::size() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(mutex_);
     return approx_count_;
 }

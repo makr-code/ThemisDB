@@ -25,12 +25,6 @@ namespace governance {
 // Types
 // ============================================================================
 
-/**
- * @brief GDPR Chapter V transfer mechanism.
- *
- * Determines the legal basis on which personal data may be transferred
- * to a destination country that is not within the EEA.
- */
 enum class TransferMechanism {
     ADEQUACY_DECISION,         ///< EU Commission adequacy decision (Art. 45)
     STANDARD_CONTRACTUAL_CLAUSES, ///< SCCs (Art. 46(2)(c/d))
@@ -39,9 +33,6 @@ enum class TransferMechanism {
     PROHIBITED,                ///< No valid transfer mechanism — deny transfer
 };
 
-/**
- * @brief Result of a cross-border transfer check.
- */
 struct TransferDecision {
     bool allowed = false;
     TransferMechanism mechanism = TransferMechanism::PROHIBITED;
@@ -54,25 +45,6 @@ struct TransferDecision {
 // CrossBorderTransferPolicy
 // ============================================================================
 
-/**
- * @brief Evaluates GDPR Chapter V cross-border data transfer legality.
- *
- * Maintains a mapping of destination region codes to transfer mechanisms.
- * On each transfer check it resolves the mechanism, determines whether
- * the transfer is allowed, and returns the appropriate HTTP header value.
- *
- * The adequacy list (EU Commission-approved countries) is loaded from a
- * simple in-memory map that can be hot-reloaded via loadAdequacyList().
- *
- * Unknown destination regions default to PROHIBITED.
- *
- * Integration with PolicyEngine:
- *   After routing a request, if the request carries an
- *   X-Destination-Region header, callers should invoke checkTransfer() and
- *   deny the request if the result is not allowed.
- *
- * Thread safety: all public methods are thread-safe.
- */
 class CrossBorderTransferPolicy {
 public:
     CrossBorderTransferPolicy();
@@ -84,61 +56,46 @@ public:
 
     // ── Policy configuration ─────────────────────────────────────────────
 
-    /**
-     * @brief Replace the full adequacy / mechanism mapping.
-     *
-     * Keys are upper-case ISO 3166-1 alpha-2 country codes or arbitrary
-     * region identifiers (e.g. "US", "CH", "IN", "CN").
-     *
-     * @param region_to_mechanism Map of region code → TransferMechanism.
-     */
     void loadAdequacyList(
         const std::unordered_map<std::string, TransferMechanism>& region_to_mechanism);
 
     /**
-     * @brief Add or update a single region entry.
+     * @brief Set Region Mechanism.
+     * @param[in] region Input parameter.
+     * @param[in] mechanism Input parameter.
      */
     void setRegionMechanism(const std::string& region, TransferMechanism mechanism);
 
     /**
-     * @brief Return the mechanism currently registered for a region, or
-     *        PROHIBITED if unknown.
+     * @brief Get Mechanism.
+     * @param[in] region Input parameter.
+     * @return Return value.
      */
     TransferMechanism getMechanism(const std::string& region) const;
 
-    /**
-     * @brief Return a snapshot of all registered region → mechanism pairs.
-     */
     std::unordered_map<std::string, TransferMechanism> getAdequacyList() const;
 
     // ── Transfer check ───────────────────────────────────────────────────
 
-    /**
-     * @brief Evaluate whether a data transfer to destination_region is allowed.
-     *
-     * Unknown regions → PROHIBITED.
-     * PROHIBITED     → allowed=false.
-     * All other mechanisms → allowed=true with mechanism code in the result.
-     *
-     * @param destination_region  Destination country/region code.
-     * @param data_classification Optional classification label of the data
-     *                            (reserved for future use in tiered policies).
-     * @return TransferDecision with allow/deny + mechanism + header value.
-     */
     TransferDecision checkTransfer(
         const std::string& destination_region,
         const std::optional<std::string>& data_classification = std::nullopt) const;
 
-    // ── Helpers ──────────────────────────────────────────────────────────
+    /**
+     * @brief ── Helpers ──────────────────────────────────────────────────────────
+     * @param[in] m Input parameter.
+     * @return Return value.
+     */
 
-    /// Convert a TransferMechanism enum to its X-Themis-Transfer-Mechanism
-    /// header string (e.g. "ADEQUACY_DECISION").
     static std::string mechanismToHeaderValue(TransferMechanism m);
 
-    /// Return a human-readable description of a transfer mechanism.
+    /**
+     * @brief Mechanism Description.
+     * @param[in] m Input parameter.
+     * @return Return value.
+     */
     static std::string mechanismDescription(TransferMechanism m);
 
-    /// Default EU Commission adequacy list as of 2025.
     static std::unordered_map<std::string, TransferMechanism>
         defaultEuAdequacyList();
 

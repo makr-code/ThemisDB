@@ -20,36 +20,15 @@
 
 namespace themis {
 
-/**
- * @brief Builder pattern for constructing StorageEngine instances
- * 
- * Provides a fluent interface for configuring and building StorageEngine
- * instances with custom or default dependencies.
- * 
- * Example usage:
- * @code
- * auto engine = StorageEngineBuilder::standard()
- *     .withEvaluator(custom_evaluator)
- *     .withEncryption(custom_encryption)
- *     .build();
- * @endcode
- */
 class StorageEngineBuilder {
 public:
-    /**
-     * @brief Construct an empty builder.
-     *
-     * Required dependencies are supplied explicitly before build(). The
-     * builder does not allocate any backend resources on its own.
-     */
     StorageEngineBuilder() = default;
     
     /**
-     * @brief Set the expression evaluator
-     * 
-     * @param eval Expression evaluator implementation. If null, build() will
-     *        fail fast with a descriptive runtime error.
-     * @return Reference to this builder for chaining
+     * @brief With Evaluator.
+     * @param[in] eval Input parameter.
+     * @return Return value.
+     * @details Implements withEvaluator without additional internal calls.
      */
     StorageEngineBuilder& withEvaluator(IExpressionEvaluatorPtr eval) {
         evaluator_ = eval;
@@ -57,11 +36,10 @@ public:
     }
     
     /**
-     * @brief Set the field encryption provider
-     * 
-     * @param enc Field encryption implementation. A null value is accepted at
-     *        assignment time but rejected during build().
-     * @return Reference to this builder for chaining
+     * @brief With Encryption.
+     * @param[in] enc Input parameter.
+     * @return Return value.
+     * @details Implements withEncryption without additional internal calls.
      */
     StorageEngineBuilder& withEncryption(IFieldEncryptionPtr enc) {
         encryption_ = enc;
@@ -69,11 +47,10 @@ public:
     }
     
     /**
-     * @brief Set the key provider
-     * 
-     * @param provider Key provider implementation. A null value is accepted at
-     *        assignment time but rejected during build().
-     * @return Reference to this builder for chaining
+     * @brief With Key Provider.
+     * @param[in] provider Input parameter.
+     * @return Return value.
+     * @details Implements withKeyProvider without additional internal calls.
      */
     StorageEngineBuilder& withKeyProvider(IKeyProviderPtr provider) {
         key_provider_ = provider;
@@ -81,11 +58,10 @@ public:
     }
     
     /**
-     * @brief Set the index manager
-     * 
-     * @param index Index manager implementation. May be null to disable index
-     *        integration in the constructed storage engine.
-     * @return Reference to this builder for chaining
+     * @brief With Index Manager.
+     * @param[in] index Input parameter.
+     * @return Return value.
+     * @details Implements withIndexManager without additional internal calls.
      */
     StorageEngineBuilder& withIndexManager(IIndexManagerPtr index) {
         index_manager_ = index;
@@ -93,12 +69,10 @@ public:
     }
     
     /**
-     * @brief Build the StorageEngine instance
-     * 
-        * @return Shared pointer to configured StorageEngine.
-        * @throws std::runtime_error if a required dependency is missing. The
-        *         builder validates the evaluator, encryption provider, and key
-        *         provider before constructing the engine.
+     * @brief Build.
+     * @return Return value.
+     * @throws std::runtime_error if an error occurs.
+     * @details Implements build without additional internal calls.
      */
     std::shared_ptr<StorageEngine> build() {
         // Validate required dependencies
@@ -119,13 +93,9 @@ public:
     }
     
     /**
-     * @brief Create a builder with standard default implementations
-     * 
-     * Returns a builder pre-configured with default implementations of all
-     * dependencies. Callers can override individual components before calling
-     * build().
-     * 
-     * @return Builder with default implementations.
+     * @brief Standard.
+     * @return Return value.
+     * @details Calls: withEvaluator(), StorageEngine::createDefaultEvaluator(), withEncryption(), StorageEngine::createDefaultEncryption(), withKeyProvider(), StorageEngine::createDefaultKeyProvider(), withIndexManager(), StorageEngine::createDefaultIndexManager().
      */
     static StorageEngineBuilder standard() {
         StorageEngineBuilder builder;

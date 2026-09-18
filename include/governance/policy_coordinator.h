@@ -24,7 +24,6 @@
 namespace themis {
 namespace governance {
 
-/// Unified policy decision combining classification and RBAC
 struct UnifiedPolicyDecision {
     // From PolicyEngine (classification-based)
     std::string classification;         // Normalized classification level
@@ -51,38 +50,13 @@ struct UnifiedPolicyDecision {
     std::string applied_classification_profile;     // PolicyEngine profile
 };
 
-/**
- * @brief PolicyCoordinator - Unified governance layer
- * 
- * Combines PolicyEngine (classification-based) and PolicyManager (RBAC-based)
- * for comprehensive governance and access control.
- * 
- * Evaluation flow:
- * 1. PolicyEngine evaluates classification from headers
- * 2. PolicyManager evaluates RBAC rules for resource/action/roles
- * 3. Combine decisions with "most restrictive wins" logic
- */
 class PolicyCoordinator {
 public:
-    /**
-     * @brief Construct coordinator with both policy systems
-     * @param policy_engine Classification-based policy engine
-     * @param policy_manager RBAC-based policy manager
-     */
     PolicyCoordinator(
         std::shared_ptr<PolicyEngine> policy_engine,
         std::shared_ptr<PolicyManager> policy_manager
     );
     
-    /**
-     * @brief Evaluate unified policy decision
-     * @param headers HTTP headers (for classification)
-     * @param route Route identifier (for classification)
-     * @param resource Resource being accessed (for RBAC)
-     * @param action Action being performed (for RBAC)
-     * @param user_roles User's roles (for RBAC)
-     * @return Unified policy decision combining both systems
-     */
     UnifiedPolicyDecision evaluate(
         const std::unordered_map<std::string, std::string>& headers,
         const std::string& route,
@@ -91,23 +65,17 @@ public:
         const std::vector<std::string>& user_roles
     ) const;
     
-    /**
-     * @brief Evaluate only classification policy (backward compatible)
-     * @param headers HTTP headers
-     * @param route Route identifier
-     * @return Classification-based policy decision
-     */
     PolicyDecision evaluateClassification(
         const std::unordered_map<std::string, std::string>& headers,
         const std::string& route
     ) const;
     
     /**
-     * @brief Evaluate only RBAC policy
-     * @param resource Resource being accessed
-     * @param action Action being performed
-     * @param user_roles User's roles
-     * @return RBAC-based policy decision
+     * @brief Evaluate RBAC.
+     * @param[in] resource Input parameter.
+     * @param[in] action Input parameter.
+     * @param[in] user_roles Input parameter.
+     * @return Return value.
      */
     PolicyManager::PolicyDecision evaluateRBAC(
         const std::string& resource,
@@ -116,11 +84,11 @@ public:
     ) const;
     
     /**
-     * @brief Check if user has required roles for resource/action
-     * @param resource Resource identifier
-     * @param action Action identifier
-     * @param user_roles User's roles
-     * @return true if user has required roles
+     * @brief Check Access.
+     * @param[in] resource Input parameter.
+     * @param[in] action Input parameter.
+     * @param[in] user_roles Input parameter.
+     * @return True when the operation succeeds.
      */
     bool checkAccess(
         const std::string& resource,
@@ -129,11 +97,11 @@ public:
     ) const;
     
     /**
-     * @brief Get applicable policy rules for resource/action
-     * @param resource Resource identifier
-     * @param action Action identifier
-     * @param user_roles User's roles
-     * @return Vector of applicable rules
+     * @brief Get Applicable Rules.
+     * @param[in] resource Input parameter.
+     * @param[in] action Input parameter.
+     * @param[in] user_roles Input parameter.
+     * @return Return value.
      */
     std::vector<PolicyRule> getApplicableRules(
         const std::string& resource,
@@ -141,41 +109,22 @@ public:
         const std::vector<std::string>& user_roles
     ) const;
     
-    /**
-     * @brief Get policy engine (for direct access if needed)
-     */
     std::shared_ptr<PolicyEngine> getPolicyEngine() const { return policy_engine_; }
     
-    /**
-     * @brief Get policy manager (for direct access if needed)
-     */
     std::shared_ptr<PolicyManager> getPolicyManager() const { return policy_manager_; }
 
-    /**
-     * @brief Start automatic hot-reload of the governance policy YAML file.
-     *
-     * Creates and starts a @c PolicyFileWatcher that polls the file loaded into
-     * the @c PolicyEngine and calls @c PolicyEngine::reloadIfChanged() whenever
-     * the file modification time changes.  The coordinator owns the watcher;
-     * call @c stopHotReload() or destroy the coordinator to stop it.
-     *
-     * Calling @c startHotReload() while the watcher is already running is a
-     * no-op and returns @c true.
-     *
-     * @param config  Watcher configuration (poll interval, debounce, callback).
-     * @return @c true on success, @c false if no policy engine is attached.
-     */
     bool startHotReload(PolicyFileWatcher::Config config = {});
 
     /**
-     * @brief Stop the hot-reload background thread.
-     *
-     * Blocks until the watcher thread has joined.  Safe to call even if
-     * @c startHotReload() was never called.
+     * @brief Stop Hot Reload.
      */
     void stopHotReload();
 
-    /// @return @c true if the hot-reload watcher is currently running.
+    /**
+     * @brief Is Hot Reload Running.
+     * @return True when the operation succeeds.
+     * @note Exception safety: noexcept.
+     */
     bool isHotReloadRunning() const noexcept;
 
 private:
@@ -183,7 +132,12 @@ private:
     std::shared_ptr<PolicyManager> policy_manager_;
     std::unique_ptr<PolicyFileWatcher> file_watcher_;
     
-    /// Combine decisions from both systems (most restrictive wins)
+    /**
+     * @brief Combine Decisions.
+     * @param[in] classification_decision Input parameter.
+     * @param[in] rbac_decision Input parameter.
+     * @return Return value.
+     */
     UnifiedPolicyDecision combineDecisions(
         const PolicyDecision& classification_decision,
         const PolicyManager::PolicyDecision& rbac_decision

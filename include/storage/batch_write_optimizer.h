@@ -72,6 +72,12 @@ public:
     };
     
     BatchWriteOptimizer();
+    /**
+        * @brief Construct an optimizer with an explicit configuration.
+        *
+        * @param config Durability and WAL policy to apply to generated write
+        *        options.
+     */
     explicit BatchWriteOptimizer(const Config& config);
     ~BatchWriteOptimizer();
     
@@ -94,20 +100,30 @@ public:
         double throughput_items_per_sec = 0.0;
     };
     
+    /**
+        * @brief Return a snapshot of optimizer statistics.
+     */
     Stats getStats() const;
     
     /**
      * @brief Record batch write for statistics
+     * @param[in] items Input parameter.
+     * @param[in] latency_ms Input parameter.
      */
     void recordBatchWrite(size_t items, double latency_ms);
     
     /**
      * @brief Create recommended configuration for use case
+        *
+        * @param use_case Human-readable workload label such as bulk-load or
+        *        transactional-write.
+        * @return Configuration tuned for the requested workload.
      */
     static Config recommendedConfigForUseCase(const std::string& use_case);
     
     /**
      * @brief Validate configuration and warn about dangerous settings
+     * @param[in] config Input parameter.
      */
     static void validateConfig(const Config& config);
     

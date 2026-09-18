@@ -31,6 +31,11 @@ namespace {
 /** Parse pprof folded-stacks text into a {stack → count} map. */
 [[nodiscard]] std::map<std::string, uint64_t> parseFolded(const std::string& text) {
     std::map<std::string, uint64_t> result;
+    /**
+     * @brief Stream.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     std::istringstream stream(text);
     std::string line = {};
     while (std::getline(stream, line)) {
@@ -105,7 +110,17 @@ class DistributedFlameGraph::Impl {
 public:
     explicit Impl(const DistributedFlameGraphConfig& config) : config_(config) {}
 
+    /**
+     * @brief Add Node Profile.
+     * @param[in] profile Input parameter.
+     * @details Calls: lk(), find(), end(), push_back(), size(), empty(), front(), erase().
+     */
     void addNodeProfile(const NodeProfile& profile) {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mutex_);
         auto it = profiles_.find(profile.node_id);
         if (it != profiles_.end() && profile.version < it->second.version) {
@@ -125,7 +140,16 @@ public:
         }
     }
 
+    /**
+     * @brief Clear Profiles.
+     * @details Calls: lk(), clear().
+     */
     void clearProfiles() {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mutex_);
         profiles_.clear();
         insertion_order_.clear();
@@ -207,6 +231,11 @@ public:
     }
 
     std::vector<std::string> getNodeIds() const {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mutex_);
         std::vector<std::string> ids = {};
 
@@ -219,17 +248,32 @@ public:
     }
 
     size_t nodeCount() const {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mutex_);
         return profiles_.size();
     }
 
     DistributedFlameGraphConfig getConfig() const {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mutex_);
         return config_;
     }
 
 private:
     [[nodiscard]] std::map<std::string, NodeProfile> snapshotProfiles() const {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mutex_);
         return profiles_;
     }
@@ -314,10 +358,19 @@ DistributedFlameGraph::DistributedFlameGraph(const DistributedFlameGraphConfig& 
 
 DistributedFlameGraph::~DistributedFlameGraph() = default;
 
+/**
+ * @brief Add Node Profile.
+ * @param[in] profile Input parameter.
+ * @details Implements addNodeProfile without additional internal calls.
+ */
 void DistributedFlameGraph::addNodeProfile(const NodeProfile& profile) {
     impl_->addNodeProfile(profile);
 }
 
+/**
+ * @brief Clear Profiles.
+ * @details Implements clearProfiles without additional internal calls.
+ */
 void DistributedFlameGraph::clearProfiles() {
     impl_->clearProfiles();
 }

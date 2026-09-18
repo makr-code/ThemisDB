@@ -23,14 +23,6 @@ namespace importers {
 
 using json = nlohmann::json;
 
-/**
- * @brief Conflict reason classification (Phase 2 T2.3.1).
- *
- * PHASE-2-HARDENING: Conflict Determinism & Reason Tracking
- * Determinism: yes (enum-based classification, no randomness)
- * Audit: conflicts classified with reason type
- * Bounded: classification ≤ 1ms
- */
 enum class ConflictReasonType {
     PRIMARY_KEY_COLLISION,  ///< Duplicate primary key
     MERGE_CONFLICT,         ///< Field-level merge needed
@@ -39,14 +31,6 @@ enum class ConflictReasonType {
     UNKNOWN                 ///< Reason could not be determined
 };
 
-/**
- * @brief Metadata tracked during conflict resolution (Phase 2 T2.3.1).
- *
- * PHASE-2-HARDENING: Conflict Resolution Metadata
- * Determinism: yes (all fields deterministic)
- * Audit: full metadata available for audit trail
- * Bounded: memory O(number of affected fields)
- */
 struct ConflictMetadata {
     ConflictReasonType reason;              ///< Why conflict occurred
     std::vector<std::string> affected_fields; ///< Fields involved in conflict
@@ -54,70 +38,34 @@ struct ConflictMetadata {
     uint64_t timestamp_used;                ///< Timestamp used for tiebreaker (0 if not used)
 };
 
-/**
- * @brief Import conflict resolver for in-session duplicate detection.
- *
- * Tracks entities by a caller-supplied conflict key during a single import
- * session.  When the same key is encountered a second time the configured
- * ConflictStrategy is applied:
- *
- * - SKIP      – discard the incoming duplicate; return the already-seen entity.
- * - OVERWRITE – replace the already-seen entity with the incoming one.
- * - MERGE     – field-level merge: incoming fields win unless listed in
- *               @c protected_fields.  Respects @c merge_depth for nested objects.
- * - ERROR     – signal a conflict error to the caller (returns nullopt-like
- *               empty json and sets @c conflict_detected out-parameter).
- *
- * Thread-safety: instances are not thread-safe.  Create one resolver per
- * import worker thread / per importData() call.
- *
- * Usage example:
- * @code
- *   ImportConflictResolver resolver;
- *   resolver.reset();
- *
- *   // For each entity produced by the parser:
- *   bool conflict = false;
- *   json resolved = resolver.resolve(entity, "users", "42",
- *                                    ConflictStrategy::MERGE,
- *                                    1, {"created_at"}, conflict);
- *   if (conflict && strategy == ConflictStrategy::ERROR) { ... abort ... }
- * @endcode
- */
 class ImportConflictResolver {
 public:
     ImportConflictResolver() = default;
 
     /**
-     * @brief Reset all state (call once at the beginning of each import session).
+     * @brief Reset the modification detection flag.
      */
     void reset();
 
     /**
-     * @brief Compute a string conflict key from an entity and the configured key columns.
-     *
-     * @param entity          The JSON entity from which field values are read.
-     * @param key_columns     Column names whose values are concatenated to form the key.
-     * @return                ASCII unit-separator (0x1F) delimited concatenation of the
-     *                        field values, or an empty string if @p key_columns is empty.
+     * @brief Compute Key.
+     * @param[in] entity Input parameter.
+     * @param[in] key_columns Input parameter.
+     * @return Return value.
      */
     static std::string computeKey(const json& entity,
                                   const std::vector<std::string>& key_columns);
 
     /**
-     * @brief Apply conflict resolution for a single entity.
-     *
-     * @param entity            Incoming entity (just produced by the parser).
-     * @param table_name        Source table name (used to scope the key registry).
-     * @param conflict_key      Pre-computed conflict key (see computeKey()).
-     * @param strategy          Conflict resolution strategy.
-     * @param merge_depth       Merge depth for MERGE strategy (1 = top-level,
-     *                          -1 = deep recursive).
-     * @param protected_fields  Fields that the MERGE strategy must not overwrite.
-     * @param[out] conflict_detected  Set to true if the key was already seen.
-     * @return                  The resolved entity to use for further processing.
-     *                          When @p strategy is ERROR and a conflict is detected
-     *                          the returned value equals the already-seen entity.
+     * @brief Resolve.
+     * @param[in] entity Input parameter.
+     * @param[in] table_name Name of the table.
+     * @param[in] conflict_key Input parameter.
+     * @param[in] strategy Input parameter.
+     * @param[in] merge_depth Input parameter.
+     * @param[in] protected_fields Input parameter.
+     * @param[in,out] conflict_detected Input/output parameter.
+     * @return Return value.
      */
     json resolve(const json& entity,
                  const std::string& table_name,
@@ -128,17 +76,12 @@ public:
                  bool& conflict_detected);
 
     /**
-     * @brief Merge two JSON entities field by field.
-     *
-     * Incoming fields win over existing ones unless they appear in
-     * @p protected_fields.  Nested objects are recursed into when
-     * @p depth != 1 (see merge_depth semantics above).
-     *
-     * @param existing         Entity already stored from a previous row.
-     * @param incoming         Entity produced from the current duplicate row.
-     * @param depth            Merge depth (1 = flat, -1 = unlimited recursion).
-     * @param protected_fields Fields not to overwrite from @p incoming.
-     * @return                 Merged entity.
+     * @brief Merge Entities.
+     * @param[in] existing Input parameter.
+     * @param[in] incoming Input parameter.
+     * @param[in] depth Input parameter.
+     * @param[in] protected_fields Input parameter.
+     * @return Return value.
      */
     static json mergeEntities(const json& existing,
                                const json& incoming,
@@ -146,27 +89,16 @@ public:
                                const std::vector<std::string>& protected_fields);
 
     /**
-     * @brief Resolve conflict with full metadata tracking (Phase 2 T2.3.1).
-     *
-     * PHASE-2-HARDENING: Conflict Determinism & Reason Tracking
-     * Determinism: yes (CRDT LWW with row_id tiebreaker)
-     * Audit: returns full ConflictMetadata for audit trail
-     * Bounded: resolution ≤ 100ms
-     *
-     * Same signature as resolve() but also returns structured metadata about
-     * the conflict reason, affected fields, and strategy used. This is the
-     * primary entry point for Phase 2 hardening.
-     *
-     * @param entity            Incoming entity (just produced by the parser).
-     * @param table_name        Source table name (used to scope the key registry).
-     * @param conflict_key      Pre-computed conflict key (see computeKey()).
-     * @param strategy          Conflict resolution strategy.
-     * @param merge_depth       Merge depth for MERGE strategy (1 = top-level,
-     *                          -1 = deep recursive).
-     * @param protected_fields  Fields that the MERGE strategy must not overwrite.
-     * @param[out] conflict_detected  Set to true if the key was already seen.
-     * @param[out] metadata    Conflict metadata including reason and strategy used.
-     * @return                  The resolved entity to use for further processing.
+     * @brief Resolve With Metadata.
+     * @param[in] entity Input parameter.
+     * @param[in] table_name Name of the table.
+     * @param[in] conflict_key Input parameter.
+     * @param[in] strategy Input parameter.
+     * @param[in] merge_depth Input parameter.
+     * @param[in] protected_fields Input parameter.
+     * @param[in,out] conflict_detected Input/output parameter.
+     * @param[in,out] metadata Input/output parameter.
+     * @return Return value.
      */
     json resolveWithMetadata(const json& entity,
                             const std::string& table_name,
@@ -178,23 +110,11 @@ public:
                             ConflictMetadata& metadata);
 
     /**
-     * @brief Determine the reason for a conflict (Phase 2 T2.3.1).
-     *
-     * PHASE-2-HARDENING: Conflict Reason Determination
-     * Determinism: yes (enum-based classification)
-     * Audit: reason type for audit trail
-     * Bounded: classification ≤ 1ms
-     *
-     * Analyzes two conflicting entities to determine the reason. Checks for:
-     * 1. Primary key collision (identical key fields)
-     * 2. Timestamp conflicts (different timestamps)
-     * 3. Merge conflicts (field-level differences)
-     * 4. Constraint violations (detected from entity structure)
-     *
-     * @param existing    Previously seen entity with same conflict key
-     * @param incoming    Newly encountered entity with same conflict key
-     * @param[out] affected_fields  Fields that differ between entities
-     * @return            ConflictReasonType enum value
+     * @brief Determine Conflict Reason.
+     * @param[in] existing Input parameter.
+     * @param[in] incoming Input parameter.
+     * @param[in,out] affected_fields Input/output parameter.
+     * @return Return value.
      */
     static ConflictReasonType determineConflictReason(
         const json& existing,

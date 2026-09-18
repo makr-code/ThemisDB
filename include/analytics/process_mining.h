@@ -30,75 +30,11 @@
 
 namespace themis {
 
-/**
- * @brief Process Mining & Discovery für ThemisDB
- * 
- * Dieses Modul ermöglicht die **Ableitung von Prozessen aus bestehenden Daten**:
- * 
- * ## Bidirektionale Prozess-Architektur
- * 
- * ```
- * ┌─────────────────────────────────────────────────────────────────────┐
- * │                    ThemisDB Process Mining                          │
- * ├─────────────────────────────────────────────────────────────────────┤
- * │                                                                     │
- * │   Modellierung → Ausführung    (Top-Down: BPMN/EPK → Instanzen)    │
- * │                                                                     │
- * │   ◄──────────── UND ────────────►                                   │
- * │                                                                     │
- * │   Daten → Prozess-Erkennung    (Bottom-Up: Event-Log → Modell)     │
- * │                                                                     │
- * └─────────────────────────────────────────────────────────────────────┘
- * ```
- * 
- * ## Process Mining Techniken
- * 
- * ### 1. Process Discovery (Alpha Miner, Heuristic Miner, Inductive Miner)
- * - Extrahiert Prozessmodelle aus Event-Logs
- * - Erkennt Sequenzen, Parallelität, Schleifen
- * 
- * ### 2. Conformance Checking
- * - Vergleicht Ist-Prozesse mit Soll-Modellen
- * - Token-Replay, Alignment-basiert
- * 
- * ### 3. Process Enhancement
- * - Erweitert Modelle mit Performance-Daten
- * - Bottleneck-Erkennung, Wartezeiten
- * 
- * ## Integration mit bestehenden Modulen
- * 
- * - **GraphAnalytics**: Community Detection für Prozess-Varianten
- * - **OLAPEngine**: Aggregation von Prozess-Metriken
- * - **VectorIndex**: Ähnliche Prozess-Muster finden
- * - **TemporalGraph**: Zeitliche Prozess-Evolution
- * 
- * ## Verwendung
- * 
- * ```cpp
- * ProcessMining mining(db);
- * 
- * // Event-Log aus Dokumenten extrahieren
- * auto eventLog = mining.extractEventLog("audit_log", {
- *     .case_id_field = "order_id",
- *     .activity_field = "action",
- *     .timestamp_field = "timestamp"
- * });
- * 
- * // Prozess-Modell ableiten
- * auto model = mining.discoverProcess(eventLog, MiningAlgorithm::HEURISTIC);
- * 
- * // Als BPMN exportieren
- * std::string bpmn = mining.exportToBPMN(model);
- * ```
- */
 
 // ============================================================================
 // Event Log Strukturen
 // ============================================================================
 
-/**
- * @brief Ein einzelnes Event im Event-Log
- */
 struct ProcessEvent {
     std::string case_id;            ///< Prozess-Instanz-ID (z.B. Bestellnummer)
     std::string activity;           ///< Aktivitätsname (z.B. "Bestellung erfasst")
@@ -114,9 +50,6 @@ struct ProcessEvent {
     std::optional<std::string> location;          ///< Geo-Location (WKT)
 };
 
-/**
- * @brief Ein Trace (Sequenz von Events für eine Case-ID)
- */
 struct ProcessTrace {
     std::string case_id;
     std::vector<ProcessEvent> events;
@@ -132,9 +65,6 @@ struct ProcessTrace {
     int variant_id = 0;
 };
 
-/**
- * @brief Vollständiges Event-Log
- */
 struct EventLog {
     std::vector<ProcessTrace> traces;
     
@@ -157,11 +87,6 @@ struct EventLog {
 // Extrahierte Prozess-Strukturen
 // ============================================================================
 
-/**
- * @brief Direkt-Follows Graph (DFG)
- * 
- * Zeigt, welche Aktivitäten direkt aufeinander folgen.
- */
 struct DirectlyFollowsGraph {
     std::set<std::string> activities;
     
@@ -182,9 +107,6 @@ struct DirectlyFollowsGraph {
     std::map<std::string, int> self_loops;
 };
 
-/**
- * @brief Entdecktes Prozess-Modell
- */
 struct DiscoveredProcess {
     std::string id;
     std::string name;
@@ -222,9 +144,6 @@ struct DiscoveredProcess {
 // Mining-Algorithmen
 // ============================================================================
 
-/**
- * @brief Verfügbare Mining-Algorithmen
- */
 enum class MiningAlgorithm {
     ALPHA,          ///< Alpha Miner - klassisch, findet Parallelität
     ALPHA_PLUS,     ///< Alpha+ - behandelt Schleifen besser
@@ -234,9 +153,6 @@ enum class MiningAlgorithm {
     FUZZY           ///< Fuzzy Miner - für komplexe Logs
 };
 
-/**
- * @brief Konfiguration für Event-Log-Extraktion
- */
 struct EventLogConfig {
     std::string case_id_field;      ///< Feld für Case-ID
     std::string activity_field;     ///< Feld für Aktivitätsname
@@ -255,9 +171,6 @@ struct EventLogConfig {
     std::vector<std::string> exclude_activities;
 };
 
-/**
- * @brief Konfiguration für Mining-Algorithmen
- */
 struct MiningConfig {
     MiningAlgorithm algorithm = MiningAlgorithm::HEURISTIC;
     
@@ -281,54 +194,45 @@ struct MiningConfig {
 
 class RocksDBWrapper;
 
-/**
- * @brief Process Mining Engine
- * 
- * Hauptklasse für Process Discovery und Conformance Checking.
- */
 class ProcessMining {
 public:
     struct Status {
         bool ok = true;
         std::string message;
+        /**
+         * @brief OK.
+         * @return Return value.
+         * @details Implements OK without additional internal calls.
+         */
         static Status OK() { return {}; }
+        /**
+         * @brief Error.
+         * @param[in] msg Input parameter.
+         * @return Return value.
+         * @details Calls: std::move().
+         */
         static Status Error(std::string msg) { return Status{false, std::move(msg)}; }
     };
 
+    /**
+     * @brief Process Mining.
+     * @param[in,out] db Input/output parameter.
+     * @return Return value.
+     */
     explicit ProcessMining(RocksDBWrapper& db);
     
     // ===== Event Log Extraktion =====
     
-    /**
-     * @brief Extrahiert Event-Log aus einer Collection
-     * 
-     * ```aql
-     * -- Äquivalente AQL-Abfrage:
-     * FOR doc IN audit_log
-     *   COLLECT case_id = doc.order_id INTO events
-     *   RETURN { case_id, events: events[*].doc }
-     * ```
-     */
     std::pair<Status, EventLog> extractEventLog(
         std::string_view collection,
         const EventLogConfig& config
     );
     
-    /**
-     * @brief Extrahiert Event-Log aus Graph-Kanten (temporale Edges)
-     * 
-     * Nutzt _from, _to und Zeitstempel um Sequenzen zu erkennen.
-     */
     std::pair<Status, EventLog> extractEventLogFromGraph(
         std::string_view edge_collection,
         std::string_view case_id_field = "case_id"
     );
     
-    /**
-     * @brief Extrahiert Event-Log aus vernetzten Dokumenten
-     * 
-     * Folgt Referenzen zwischen Dokumenten und erstellt Traces.
-     */
     std::pair<Status, EventLog> extractEventLogFromReferences(
         std::string_view start_collection,
         const std::vector<std::string>& reference_fields,
@@ -337,22 +241,13 @@ public:
 
     // ===== Process Discovery =====
     
-    /**
-     * @brief Erstellt Directly-Follows Graph aus Event-Log
-     */
     std::pair<Status, DirectlyFollowsGraph> createDFG(const EventLog& log);
     
-    /**
-     * @brief Entdeckt Prozess-Modell aus Event-Log
-     */
     std::pair<Status, DiscoveredProcess> discoverProcess(
         const EventLog& log,
         const MiningConfig& config = {}
     );
     
-    /**
-     * @brief Entdeckt Prozess-Modell direkt aus Collection
-     */
     std::pair<Status, DiscoveredProcess> discoverProcessFromCollection(
         std::string_view collection,
         const EventLogConfig& log_config,
@@ -361,9 +256,6 @@ public:
 
     // ===== Varianten-Analyse =====
     
-    /**
-     * @brief Identifiziert Prozess-Varianten
-     */
     struct VariantInfo {
         int variant_id = 0;
         std::vector<std::string> activities;    ///< Aktivitätssequenz
@@ -377,9 +269,6 @@ public:
         int top_n = 20
     );
     
-    /**
-     * @brief Clustert ähnliche Varianten (nutzt VectorIndex)
-     */
     std::pair<Status, std::map<int, std::vector<int>>> clusterVariants(
         const EventLog& log,
         int num_clusters = 5
@@ -387,9 +276,6 @@ public:
 
     // ===== Conformance Checking =====
     
-    /**
-     * @brief Token-Replay Conformance
-     */
     struct ConformanceResult {
         double fitness = 0.0;                   ///< 0.0 - 1.0
         double precision = 0.0;                 ///< Approximation of precision
@@ -405,9 +291,6 @@ public:
         const DiscoveredProcess& model
     );
     
-    /**
-     * @brief Alignment-basierte Conformance (präziser, aber langsamer)
-     */
     struct AlignmentResult {
         double fitness = 0;
         double precision;
@@ -426,9 +309,6 @@ public:
 
     // ===== Process Enhancement =====
     
-    /**
-     * @brief Fügt Performance-Daten zum Modell hinzu
-     */
     struct EnhancedProcess {
         DiscoveredProcess model;
         
@@ -449,9 +329,6 @@ public:
         const EventLog& log
     );
     
-    /**
-     * @brief Erkennt Bottlenecks (nutzt GraphAnalytics)
-     */
     std::pair<Status, std::vector<std::string>> detectBottlenecks(
         const EnhancedProcess& process,
         double threshold_percentile = 0.9
@@ -459,20 +336,15 @@ public:
 
     // ===== Export =====
     
-    /**
-     * @brief Exportiert als BPMN 2.0 XML
-     */
     std::pair<Status, std::string> exportToBPMN(const DiscoveredProcess& model);
     
-    /**
-     * @brief Exportiert als Petri-Netz (PNML)
-     */
     std::pair<Status, std::string> exportToPNML(const DiscoveredProcess& model);
     
     /**
-     * @brief Speichert als ThemisDB Prozess-Definition
-     * 
-     * Erstellt Einträge in _process_definitions, _process_nodes, _process_edges
+     * @brief Save As Process Definition.
+     * @param[in] model Input parameter.
+     * @param[in] process_id Identifier of the process.
+     * @return Return value.
      */
     Status saveAsProcessDefinition(
         const DiscoveredProcess& model,
@@ -481,9 +353,6 @@ public:
 
     // ===== Multi-Model Process Mining =====
     
-    /**
-     * @brief Findet ähnliche Prozess-Fragmente über Vektor-Suche
-     */
     struct SimilarFragment {
         std::vector<std::string> activities;
         double similarity;
@@ -495,9 +364,6 @@ public:
         int k = 10
     );
     
-    /**
-     * @brief Erkennt geografische Prozess-Cluster
-     */
     struct GeoProcessCluster {
         std::string region;                     ///< Geo-Region
         std::string centroid_wkt;               ///< Zentrum
@@ -510,11 +376,6 @@ public:
         double cluster_radius_km = 50.0
     );
     
-    /**
-     * @brief Temporale Prozess-Evolution
-     * 
-     * Wie hat sich der Prozess über Zeit verändert?
-     */
     struct ProcessEvolution {
         struct Snapshot {
             int64_t period_start;
@@ -535,12 +396,40 @@ private:
     RocksDBWrapper& db_;
     
     // Mining-Algorithmus-Implementierungen
+    /**
+     * @brief Run Alpha Miner.
+     * @param[in] log Input parameter.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     DiscoveredProcess runAlphaMiner(const EventLog& log, const MiningConfig& config);
+    /**
+     * @brief Run Heuristic Miner.
+     * @param[in] log Input parameter.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     DiscoveredProcess runHeuristicMiner(const EventLog& log, const MiningConfig& config);
+    /**
+     * @brief Run Inductive Miner.
+     * @param[in] log Input parameter.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     DiscoveredProcess runInductiveMiner(const EventLog& log, const MiningConfig& config);
     
     // Hilfsfunktionen
+    /**
+     * @brief Compute Variant Signature.
+     * @param[in] activities Input parameter.
+     * @return Return value.
+     */
     std::string computeVariantSignature(const std::vector<std::string>& activities);
+    /**
+     * @brief Embed Activities.
+     * @param[in] activities Input parameter.
+     * @return Return value.
+     */
     std::vector<float> embedActivities(const std::vector<std::string>& activities);
 };
 
@@ -548,26 +437,6 @@ private:
 // AQL-Funktionen für Process Mining
 // ============================================================================
 
-/**
- * @brief Process Mining Funktionen für AQL
- * 
- * Diese Funktionen können in regulären AQL-Abfragen verwendet werden:
- * 
- * ```aql
- * -- Event-Log aus Audit-Daten
- * LET log = EXTRACT_EVENT_LOG("audit", {
- *   caseId: "order_id",
- *   activity: "action", 
- *   timestamp: "ts"
- * })
- * 
- * -- Prozess-Modell ableiten
- * LET model = DISCOVER_PROCESS(log, { algorithm: "heuristic" })
- * 
- * -- Als BPMN speichern
- * RETURN EXPORT_BPMN(model)
- * ```
- */
 namespace ProcessMiningFunctions {
     // Funktionsnamen für AQL-Integration
     constexpr const char* EXTRACT_EVENT_LOG = "EXTRACT_EVENT_LOG";
@@ -580,7 +449,7 @@ namespace ProcessMiningFunctions {
     constexpr const char* PROCESS_EVOLUTION = "PROCESS_EVOLUTION";
     
     /**
-     * @brief Registriert Process Mining Funktionen beim AQL-Parser
+     * @brief Register Functions.
      */
     void registerFunctions();
 }

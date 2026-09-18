@@ -23,9 +23,6 @@
 namespace themis {
 namespace analytics {
 
-/**
- * @brief Export result status
- */
 enum class ExportStatus {
     SUCCESS,
     FAILED,
@@ -34,9 +31,6 @@ enum class ExportStatus {
     POLICY_REJECTED ///< Export rejected because a BoundedExecutionPolicy limit was exceeded
 };
 
-/**
- * @brief Export format
- */
 enum class ExportFormat {
     FMT_ARROW_IPC,      // Arrow IPC (Inter-Process Communication) format
     FMT_ARROW_PARQUET,  // Apache Parquet format
@@ -45,9 +39,6 @@ enum class ExportFormat {
     JSON            // JSON format
 };
 
-/**
- * @brief Export options
- */
 struct ExportOptions {
     ExportFormat format = ExportFormat::FMT_ARROW_IPC;
     bool compress = false;
@@ -56,52 +47,32 @@ struct ExportOptions {
     size_t batch_size = 10000;  // Rows per batch
     bool include_metadata = true;
 
-    /// Per-export execution policy.  When constrained (any non-zero limit)
-    /// this policy is applied as the fallback when the caller invokes the
-    /// policy-aware exportToFile(batch, path, options, policy) overload with
-    /// an unconstrained explicit policy.  Enables a single-configuration-point
-    /// default without modifying every call site.
     BoundedExecutionPolicy policy;
 };
 
-/**
- * @brief Export result
- */
 struct ExportResult {
     ExportStatus status;
     std::string message;
     size_t rows_exported = 0;
     size_t bytes_written = 0;
     double duration_ms = 0.0;
-    /// Stable per-operation identifier for logs, benchmarks, and runbooks.
     std::string operation_id;
-    /// Correlation identifier propagated across exporter diagnostics for operator triage.
     std::string correlation_id;
-    /// Canonical failure classification (`none`, `io_failure`, `policy_rejected`, ...).
     std::string failure_class = "none";
-    /// Operator-facing remediation hints for fail-closed or degraded export outcomes.
     std::vector<std::string> operator_hints;
 };
 
-/**
- * @brief Interface for Analytics Data Export
- * 
- * This interface defines the contract for exporting analytics data
- * to various formats, including Apache Arrow formats.
- * 
- * Implementations can provide real Arrow integration or other export mechanisms.
- */
 class IAnalyticsExporter {
 public:
+    /**
+     * @brief IAnalytics Exporter.
+     * @return Return value.
+     */
     virtual ~IAnalyticsExporter() = default;
 
-    /// @brief Move constructor for polymorphic analytics exporter base.
-    /// @note Resets the in-flight counter on move; derived classes must delegate here.
     IAnalyticsExporter(IAnalyticsExporter&&) noexcept
         : inflight_export_count_(0u) {}
 
-    /// @brief Move assignment operator for polymorphic analytics exporter base.
-    /// @note Resets the in-flight counter; derived classes extend this.
     IAnalyticsExporter& operator=(IAnalyticsExporter&&) noexcept {
         inflight_export_count_.store(0u, std::memory_order_relaxed);
         return *this;
@@ -114,44 +85,11 @@ protected:
     IAnalyticsExporter() = default;
 
 public:
-    /**
-    * @brief Export a RecordBatch to file
-    * @param batch The record batch to export
-    * @param output_path Output file path
-    * @param options Export options
-    * @return Export result
-    */
     [[nodiscard]] virtual ExportResult exportToFile(
         const ArrowRecordBatch& batch,
         const std::string& output_path,
         const ExportOptions& options = ExportOptions()) = 0;
 
-    /**
-     * @brief Export a RecordBatch to file with bounded-execution enforcement.
-     *
-     * Non-virtual wrapper that applies the resource limits declared by
-     * @p policy before delegating to the virtual `exportToFile()`:
-     *
-     *   - **Concurrency**: if `policy.max_concurrent_requests > 0` and the
-     *     number of in-flight `exportToFile()` calls on this exporter instance
-     *     already equals that limit, the call returns `POLICY_REJECTED`
-     *     immediately without touching the filesystem.
-     *   - **Timeout**: if `policy.max_latency_ms > 0` and the virtual call
-     *     has not returned within that many milliseconds, `POLICY_REJECTED` is
-     *     returned.  The virtual call may still be executing in a detached
-     *     thread; the caller must not destroy the exporter until the call
-     *     completes.
-     *
-     * When `!policy.isConstrained()` this overload is equivalent to calling
-     * the virtual `exportToFile(batch, output_path, options)` directly.
-     *
-     * @param batch        Record batch to export.
-     * @param output_path  Destination file path.
-     * @param options      Export format and compression settings.
-     * @param policy       Resource limits to enforce.
-     * @return ExportResult; status is `POLICY_REJECTED` on policy violation,
-     *         otherwise identical to the unconstrained overload.
-     */
     [[nodiscard]] ExportResult exportToFile(
         const ArrowRecordBatch&              batch,
         const std::string&                   output_path,
@@ -159,66 +97,36 @@ public:
         const BoundedExecutionPolicy&        policy);
 
 private:
-    /// In-flight request counter used by the BoundedExecutionPolicy wrapper.
     mutable std::atomic<uint32_t> inflight_export_count_{0u};
 
 public:
 
-    /**
-     * @brief Export a RecordBatch to string (for small datasets)
-     * @param batch The record batch to export
-     * @param options Export options
-     * @return Exported data as string
-     */
     [[nodiscard]] virtual std::string exportToString(
         const ArrowRecordBatch& batch,
         const ExportOptions& options = ExportOptions()) = 0;
 
-    /**
-     * @brief Export with streaming callback
-     * @param batch The record batch to export
-     * @param callback Function to handle exported chunks
-     * @param options Export options
-     * @return Export result
-     */
     [[nodiscard]] virtual ExportResult exportWithCallback(
         const ArrowRecordBatch& batch,
         std::function<void(const std::vector<uint8_t>&)> callback,
         const ExportOptions& options = ExportOptions()) = 0;
 
-    /**
-     * @brief Check if format is supported
-     */
     [[nodiscard]] virtual bool supportsFormat(ExportFormat format) const = 0;
 
-    /**
-     * @brief Get exporter name/version
-     */
     [[nodiscard]] virtual std::string getExporterInfo() const = 0;
 };
 
-/**
- * @brief Factory for creating exporters
- */
 class ExporterFactory {
 public:
     /**
-     * @brief Create an exporter for the specified format
-     * @param format Export format
-     * @return Exporter instance or nullptr if not supported
+     * @brief Create Exporter.
+     * @param[in] format Input parameter.
+     * @return Return value.
      */
     static std::unique_ptr<IAnalyticsExporter> createExporter(ExportFormat format);
 
     /**
-     * @brief Get the default JSON/CSV exporter
-     *
-     * Returns a @c JSONCSVExporter that handles @c ExportFormat::JSON and
-     * @c ExportFormat::CSV.  For Arrow-based formats (IPC, Parquet, Feather)
-     * use @c createExporter(format) which returns the appropriate concrete
-     * type, or throws @c std::runtime_error when the format requires Arrow
-     * support that was not compiled in.
-     *
-     * @return Unique pointer to a @c JSONCSVExporter instance.
+     * @brief Create Default Exporter.
+     * @return Return value.
      */
     static std::unique_ptr<IAnalyticsExporter> createDefaultExporter();
 };

@@ -27,7 +27,6 @@ namespace governance {
 // Result types
 // ============================================================================
 
-/// Result of a PCI-DSS compliance rule evaluation for a single PolicyRule.
 struct PciDssRuleEvalResult {
     std::string rule_id;          ///< ID of the evaluated PolicyRule
     std::string pci_dss_check_id; ///< ID of the PCI-DSS rule that was evaluated
@@ -36,6 +35,10 @@ struct PciDssRuleEvalResult {
     std::string description;      ///< Human-readable result description
     std::string recommendation;   ///< Remediation recommendation if not compliant
 
+    /**
+     * @brief To Json.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
 };
 
@@ -43,9 +46,6 @@ struct PciDssRuleEvalResult {
 // PCI-DSS Concrete Rule Evaluators
 // ============================================================================
 
-/// PCI-DSS Requirement 1: Install and maintain network controls.
-/// Verifies that a PolicyRule scopes access to cardholder data resources
-/// by requiring at least one role restriction (not open to all callers).
 class CardholderDataIsolation final : public IComplianceRule {
 public:
     std::string id() const override { return "pci_dss_req_1_isolation"; }
@@ -56,15 +56,9 @@ public:
                "(not open to anonymous or unconstrained callers) and must not allow "
                "unrestricted wildcard resource matching without encryption.";
     }
-    /// A PolicyRule satisfies isolation when:
-    ///   - It requires at least one role (required_roles is non-empty), OR
-    ///   - Encryption is required (blocking unauthenticated access paths).
     bool evaluate(const PolicyRule& rule) const override;
 };
 
-/// PCI-DSS Requirement 3: Protect stored account data.
-/// Verifies that a PolicyRule enforces encryption at rest for all
-/// cardholder data resources.
 class CardholderDataEncryption final : public IComplianceRule {
 public:
     std::string id() const override { return "pci_dss_req_3_encryption"; }
@@ -75,13 +69,9 @@ public:
                "Account Numbers (PANs) and sensitive authentication data are rendered "
                "unreadable in storage.";
     }
-    /// A PolicyRule satisfies stored-data protection when require_encryption=true.
     bool evaluate(const PolicyRule& rule) const override;
 };
 
-/// PCI-DSS Requirement 4: Protect cardholder data with strong cryptography
-/// during transmission over open, public networks.
-/// Verifies that a PolicyRule prevents unencrypted export of cardholder data.
 class TransmissionEncryption final : public IComplianceRule {
 public:
     std::string id() const override { return "pci_dss_req_4_transmission"; }
@@ -92,14 +82,9 @@ public:
                "so that data is only transmitted over encrypted channels. Rules with "
                "allow_export=true and require_encryption=false are non-compliant.";
     }
-    /// A PolicyRule satisfies transmission security when either:
-    ///   - Export is disabled (allow_export=false), OR
-    ///   - Encryption is required (require_encryption=true).
     bool evaluate(const PolicyRule& rule) const override;
 };
 
-/// PCI-DSS Requirement 7: Restrict access to system components and cardholder
-/// data by business need to know (least privilege).
 class AccessControlLeastPrivilege final : public IComplianceRule {
 public:
     std::string id() const override { return "pci_dss_req_7_least_privilege"; }
@@ -110,13 +95,9 @@ public:
                "to enforce least-privilege access; rules with an empty required_roles "
                "list grant unrestricted access and are non-compliant.";
     }
-    /// A PolicyRule satisfies least-privilege when required_roles is non-empty,
-    /// ensuring that access is restricted to identified roles only.
     bool evaluate(const PolicyRule& rule) const override;
 };
 
-/// PCI-DSS Requirement 10: Log and monitor all access to network resources
-/// and cardholder data.
 class CardholderDataAuditTrail final : public IComplianceRule {
 public:
     std::string id() const override { return "pci_dss_req_10_audit"; }
@@ -127,10 +108,6 @@ public:
                "Additionally, retention_days must be >= 365 (PCI-DSS Req 10.7 "
                "mandates 12 months of audit log availability).";
     }
-    /// A PolicyRule satisfies the audit requirement when:
-    ///   - audit_access=true   (access events are recorded), AND
-    ///   - audit_changes=true  (modification events are recorded), AND
-    ///   - retention_days >= 365 (logs available for at least 12 months).
     bool evaluate(const PolicyRule& rule) const override;
 };
 
@@ -138,33 +115,32 @@ public:
 // PciDssRuleSet
 // ============================================================================
 
-/// Aggregates all PCI-DSS compliance rule evaluators and provides:
-///   1. Per-rule compliance evaluation against the full PCI-DSS rule set.
-///   2. Summary compliance status over a PolicyManager's rule set.
-///   3. PCI-DSS / GDPR conflict detection helpers.
 class PciDssRuleSet {
 public:
     PciDssRuleSet();
 
-    // ---- Rule evaluation ------------------------------------------------
+    /**
+     * @brief ---- Rule evaluation ------------------------------------------------
+     * @param[in] rule Input parameter.
+     * @return Return value.
+     */
 
-    /// Evaluate all PCI-DSS rules against a single PolicyRule.
-    /// @return A list of evaluation results, one per PCI-DSS rule.
     std::vector<PciDssRuleEvalResult> evaluateRule(const PolicyRule& rule) const;
 
-    /// Return true if the PolicyRule satisfies all PCI-DSS checks.
+    /**
+     * @brief Is Rule Compliant.
+     * @param[in] rule Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool isRuleCompliant(const PolicyRule& rule) const;
 
-    /// Detect PCI-DSS / GDPR conflicts for a single rule.
-    ///
-    /// PCI-DSS Req 10.7 requires 12 months of audit log retention.
-    /// GDPR Article 5(1)(e) (storage limitation) requires minimising
-    /// retention periods, which can conflict with the PCI-DSS minimum.
-    ///
-    /// @return List of conflict descriptions (empty == no conflicts).
+    /**
+     * @brief Detect Gdpr Conflicts.
+     * @param[in] rule Input parameter.
+     * @return Return value.
+     */
     std::vector<std::string> detectGdprConflicts(const PolicyRule& rule) const;
 
-    /// Expose the list of rule evaluators (for external iteration/reporting).
     const std::vector<std::shared_ptr<IComplianceRule>>& rules() const {
         return rules_;
     }

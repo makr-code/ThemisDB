@@ -22,23 +22,6 @@
 namespace themis {
 namespace importers {
 
-/**
- * @brief MySQL / MariaDB mysqldump Importer
- *
- * Imports data from MySQL/MariaDB mysqldump files (SQL format).
- * Supports:
- * - DDL parsing (CREATE TABLE with backtick-quoted identifiers)
- * - DML parsing (single-row and multi-row INSERT INTO … VALUES)
- * - LOCK TABLES / UNLOCK TABLES blocks
- * - MySQL conditional comments (bang-comments: version-gated directives)
- * - Schema mapping to ThemisDB BaseEntity
- * - Type conversion for 30+ MySQL/MariaDB column types
- * - Batch processing
- * - Async import via importDataAsync()
- * - Structured error reporting (ImportErrorCode)
- * - Observability: metrics and tracing callbacks
- * - Permission-check callback (ACL enforcement)
- */
 class MySQLImporter : public IImporter {
 public:
     MySQLImporter();
@@ -70,7 +53,6 @@ private:
         std::vector<std::string> primary_keys;
     };
 
-    /// JDBC-compatible connection parameters stored from initialize().
     struct JdbcConfig {
         std::string host;
         int         port     = 3306;
@@ -121,6 +103,63 @@ private:
     // Identifier unquoting (strips backticks or double-quotes)
     static std::string unquoteIdentifier(const std::string& s);
 
+     * @param[in] sql Input parameter.
+     * @return Return value.
+    // Strip MySQL conditional comments: /*!... */ and /*! ... */
+    bool parseInsert(const std::string& sql, const ImportOptions& options,
+                     ImportStats& stats, size_t line_number,
+                     std::unordered_set<uint64_t>& delta_hashes);
+
+    // Schema mapping
+    /**
+     * @brief Map My SQLType To Themis.
+     * @param[in] mysql_type Input parameter.
+     * @param[in] options Input parameter.
+     * @return Return value.
+     */
+    std::string mapMySQLTypeToThemis(const std::string& mysql_type,
+                                     const ImportOptions& options) const;
+    /**
+     * @brief Should Import Table.
+     * @param[in] table_name Name of the table.
+     * @param[in] options Input parameter.
+     * @return True when the operation succeeds.
+     */
+    bool shouldImportTable(const std::string& table_name, const ImportOptions& options) const;
+
+    /**
+     * @brief JDBC URL parsing: "jdbc:mysql://host:port/database?
+     * @param[in] url Input parameter.
+     * @param[in,out] out Input/output parameter.
+     * @return True when the operation succeeds.
+     * @details param=val&..." Returns true if @p url is a valid JDBC URL; populates @p out on success.
+     */
+    static bool parseJdbcUrl(const std::string& url, JdbcConfig& out);
+
+    // Data conversion
+    /**
+     * @brief Convert Row To Entity.
+     * @param[in] schema Input parameter.
+     * @param[in] values Input parameter.
+     * @return Return value.
+     */
+    json convertRowToEntity(const TableSchema& schema, const std::vector<std::string>& values);
+
+    // INSERT value parsing
+    /**
+     * @brief Parse Insert Values.
+     * @param[in] values_clause Input parameter.
+     * @return Return value.
+     */
+    std::vector<std::string> parseInsertValues(const std::string& values_clause) const;
+
+    /**
+     * @brief Identifier unquoting (strips backticks or double-quotes)
+     * @param[in] s Input parameter.
+     * @return Return value.
+     */
+    static std::string unquoteIdentifier(const std::string& s);
+
     // Strip MySQL conditional comments: /*!... */ and /*! ... */
     static std::string stripMySQLComments(const std::string& sql);
 
@@ -141,28 +180,44 @@ private:
                   double duration_seconds) const;
 
     // Progress reporting
+    /**
+     * @brief Report Progress.
+     * @param[in,out] callback Input/output parameter.
+     * @param[in] stage Input parameter.
+     * @param[in] current Input parameter.
+     * @param[in] total Input parameter.
+     */
     void reportProgress(ProgressCallback& callback, const std::string& stage,
                         size_t current, size_t total);
 
-    // Delta / incremental import helpers (same pattern as PostgreSQL importer).
-    // When ImportOptions::delta_hash_file is set, rows whose FNV-1a hash is already
-    // in the file are skipped; new hashes are persisted at end of import.
-    // Setting delta_key_columns = {"updated_at"} is the recommended high-watermark
-    // configuration for MySQL sources.
+    /**
+     * @brief Delta / incremental import helpers (same pattern as PostgreSQL importer).
+     * @param[in] tuple_str Input parameter.
+     * @param[in] values Input parameter.
+     * @param[in] key_columns Input parameter.
+     * @param[in] schema_columns Input parameter.
+     * @return Return value.
+     * @details When ImportOptions::delta_hash_file is set, rows whose FNV-1a hash is already in the file are skipped; new hashes are persisted at end of import. Setting delta_key_columns = {"updated_at"} is the recommended high-watermark configuration for MySQL sources.
+     */
     static uint64_t computeRowHash(const std::string& tuple_str,
                                    const std::vector<std::string>& values,
                                    const std::vector<std::string>& key_columns,
                                    const std::vector<std::string>& schema_columns);
+    /**
+     * @brief Load Delta Hashes.
+     * @param[in] delta_hash_file Input parameter.
+     * @return Return value.
+     */
     static std::unordered_set<uint64_t> loadDeltaHashes(const std::string& delta_hash_file);
+    /**
+     * @brief Save Delta Hashes.
+     * @param[in] delta_hash_file Input parameter.
+     * @param[in] hashes Input parameter.
+     */
     static void saveDeltaHashes(const std::string& delta_hash_file,
                                 const std::unordered_set<uint64_t>& hashes);
 };
 
-/**
- * @brief MySQL/MariaDB Importer Plugin
- *
- * Wraps MySQLImporter as a ThemisDB plugin.
- */
 class MySQLImporterPlugin : public plugins::IThemisPlugin {
 public:
     MySQLImporterPlugin();
@@ -198,7 +253,6 @@ private:
 namespace themis {
 namespace importers {
 
-/** @brief My sql importer scheme plugin. */
 class MySQLImporterSchemePlugin : public IImporterPlugin {
 public:
     const char* pluginId() const override { return "mysql_plugin"; }

@@ -8,6 +8,12 @@
 namespace themis::query::fts {
 namespace {
 
+/**
+ * @brief Estimate Posting List Size.
+ * @param[in] list Input parameter.
+ * @return Return value.
+ * @details Calls: size(), capacity().
+ */
 size_t estimatePostingListSize(const PostingList& list) {
   size_t size = sizeof(PostingListEntry) * list.size();
   for (const auto& entry : list) {
@@ -16,6 +22,13 @@ size_t estimatePostingListSize(const PostingList& list) {
   return size;
 }
 
+/**
+ * @brief Bloom Hash.
+ * @param[in] term Input parameter.
+ * @param[in] seed Input parameter.
+ * @return Return value.
+ * @details Implements bloomHash without additional internal calls.
+ */
 size_t bloomHash(const std::string& term, uint64_t seed) {
   return std::hash<std::string>{}(term) ^ (seed + 0x9e3779b97f4a7c15ULL +
                                            (seed << 6U) + (seed >> 2U));
@@ -33,11 +46,21 @@ IndexCache::IndexCache(const Config& config) : config_(config) {
 
 std::optional<PostingList> IndexCache::lookup(const std::string& term) const {
   if (term.empty()) {
+    /**
+     * @brief Lock.
+     * @param[in] lock_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::shared_mutex> lock(lock_);
     stats_.misses++;
     return std::nullopt;
   }
 
+  /**
+   * @brief Lock.
+   * @param[in] lock_ Input parameter.
+   * @return Return value.
+   */
   std::unique_lock<std::shared_mutex> lock(lock_);
   if (bloom_bits_.empty()) {
     stats_.misses++;
@@ -67,6 +90,13 @@ std::optional<PostingList> IndexCache::lookup(const std::string& term) const {
   return it->second.posting_list;
 }
 
+/**
+ * @brief Insert.
+ * @param[in] term Input parameter.
+ * @param[in] list Input parameter.
+ * @return True on success.
+ * @details Calls: empty(), estimatePostingListSize(), lock(), find(), end(), erase(), back(), pop_back().
+ */
 bool IndexCache::insert(const std::string& term, PostingList&& list) {
   if (term.empty()) {
     return false;
@@ -78,6 +108,11 @@ bool IndexCache::insert(const std::string& term, PostingList&& list) {
     return false;
   }
 
+  /**
+   * @brief Lock.
+   * @param[in] lock_ Input parameter.
+   * @return Return value.
+   */
   std::unique_lock<std::shared_mutex> lock(lock_);
   stats_.max_size_bytes = max_bytes;
 
@@ -121,7 +156,16 @@ bool IndexCache::insert(const std::string& term, PostingList&& list) {
   return true;
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lock(), std::fill(), begin(), end().
+ */
 void IndexCache::clear() {
+  /**
+   * @brief Lock.
+   * @param[in] lock_ Input parameter.
+   * @return Return value.
+   */
   std::unique_lock<std::shared_mutex> lock(lock_);
   entries_.clear();
   lru_.clear();
@@ -131,6 +175,11 @@ void IndexCache::clear() {
 }
 
 IndexCache::Stats IndexCache::getStats() const {
+  /**
+   * @brief Lock.
+   * @param[in] lock_ Input parameter.
+   * @return Return value.
+   */
   std::shared_lock<std::shared_mutex> lock(lock_);
   Stats snapshot = stats_;
   snapshot.current_size_bytes = current_size_bytes_;

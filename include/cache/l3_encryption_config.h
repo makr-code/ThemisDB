@@ -21,13 +21,6 @@ namespace cache {
 // L3EncryptionMode — supported AEAD encryption algorithms
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Encryption algorithm applied to L3 cache values.
- *
- * All production modes are AEAD; only DISABLED skips authentication tags.
- * DISABLED must not be used in production — it exists solely for
- * development environments gated by a build flag.
- */
 enum class L3EncryptionMode {
     DISABLED,           ///< No encryption. Development-only.
     AES_256_GCM,        ///< AES-256-GCM authenticated encryption (default).
@@ -39,18 +32,6 @@ enum class L3EncryptionMode {
 // L3EncryptionConfig — encryption parameters for the L3 cache tier
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Configuration for L3 cache encryption.
- *
- * `key_provider_id` identifies the KMS/HSM provider registered with the
- * secrets subsystem (e.g., "aws-kms-prod", "vault-transit").
- *
- * `encrypt_keys_in_cache` controls whether map keys (in addition to values)
- * are encrypted; enabling this prevents enumeration of cache keys by anyone
- * with raw access to the storage backend.
- *
- * `key_rotation_interval_hours` drives automatic key rotation via `rotateKeys()`.
- */
 struct L3EncryptionConfig {
     L3EncryptionMode mode                   = L3EncryptionMode::AES_256_GCM;
     std::string      key_provider_id;        ///< KMS/HSM provider identifier.
@@ -58,9 +39,6 @@ struct L3EncryptionConfig {
     bool             require_auth_tag        = true;  ///< Require AEAD authentication tag.
     int              key_rotation_interval_hours = 24;
 
-    /**
-     * @brief Return `true` if an encryption mode other than DISABLED is selected.
-     */
     bool isEncryptionEnabled() const {
         return mode != L3EncryptionMode::DISABLED;
     }
@@ -70,34 +48,26 @@ struct L3EncryptionConfig {
 // IL3CacheEncryptionManager — encryption/decryption and key management interface
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Interface for L3 cache encryption, decryption, and key rotation.
- *
- * The cache layer calls `encrypt()` before persisting a value and
- * `decrypt()` after retrieving it.  The `key` parameter allows per-entry
- * AAD (Additional Authenticated Data) binding so that a ciphertext cannot
- * be moved to a different cache entry without detection.
- *
- * ### Thread safety
- * `encrypt()` and `decrypt()` must be safe to call concurrently.
- * `configure()` and `rotateKeys()` may briefly acquire an exclusive lock.
- */
 class IL3CacheEncryptionManager {
 public:
+    /**
+     * @brief IL3 Cache Encryption Manager.
+     * @return Return value.
+     */
     virtual ~IL3CacheEncryptionManager() = default;
 
     /**
-     * @brief Apply an encryption configuration.
-     *
-     * @return `true` on success; `false` if the key_provider_id cannot be
-     *         resolved or the configuration is otherwise invalid.
+     * @brief Configure.
+     * @param[in] config Input parameter.
+     * @return True when the operation succeeds.
      */
     virtual bool configure(const L3EncryptionConfig& config) = 0;
 
     /**
-     * @brief Encrypt @p value, binding it to @p key as AAD.
-     *
-     * @return Ciphertext (includes nonce and authentication tag).
+     * @brief Encrypt.
+     * @param[in] key Input parameter.
+     * @param[in] value Input parameter.
+     * @return Return value.
      */
     virtual std::vector<uint8_t> encrypt(
         const std::string&         key,
@@ -105,10 +75,10 @@ public:
     ) = 0;
 
     /**
-     * @brief Decrypt @p ciphertext, verifying the AAD binding to @p key.
-     *
-     * @return Plaintext on success; empty vector if decryption or tag
-     *         verification fails.
+     * @brief Decrypt.
+     * @param[in] key Input parameter.
+     * @param[in] ciphertext Input parameter.
+     * @return Return value.
      */
     virtual std::vector<uint8_t> decrypt(
         const std::string&         key,
@@ -116,16 +86,15 @@ public:
     ) = 0;
 
     /**
-     * @brief Rotate the active data-encryption key via the KMS/HSM provider.
-     *
-     * Re-encrypts in-flight writes with the new key; existing ciphertext is
-     * lazily re-encrypted on next read/write.
-     *
-     * @return `true` if rotation succeeded.
+     * @brief Rotate Keys.
+     * @return True when the operation succeeds.
      */
     virtual bool rotateKeys() = 0;
 
-    /// Return the currently active encryption mode.
+    /**
+     * @brief Active Mode.
+     * @return Return value.
+     */
     virtual L3EncryptionMode activeMode() const = 0;
 };
 

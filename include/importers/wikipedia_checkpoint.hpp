@@ -8,17 +8,7 @@ namespace themis::importers {
 
 using json = nlohmann::json;
 
-/**
- * @brief Durable checkpoint state for restart-safe full and incremental imports.
- */
 
-/**
- * @file wikipedia_checkpoint.hpp
- * @brief Checkpoint support for the Wikipedia import pipeline.
- *
- * Defines serialisable checkpoint state that allows an interrupted
- * Wikipedia XML dump ingestion to resume from the last committed offset.
- */
 struct WikipediaCheckpointState {
     std::string source_path;
     std::string source_id;
@@ -44,6 +34,12 @@ struct WikipediaCheckpointState {
         };
     }
 
+    /**
+     * @brief From Json.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     * @details Calls: value().
+     */
     static WikipediaCheckpointState fromJson(const json& j) {
         WikipediaCheckpointState state;
         state.source_path = j.value("source_path", std::string{});
@@ -59,13 +55,14 @@ struct WikipediaCheckpointState {
     }
 };
 
-/**
- * @brief JSON-backed checkpoint store used by the MVP importer.
- */
 class WikipediaCheckpointStore {
 public:
     explicit WikipediaCheckpointStore(std::string path = {});
 
+    /**
+     * @brief Set Path.
+     * @param[in] path Input parameter.
+     */
     void setPath(std::string path);
     [[nodiscard]] const std::string& path() const;
     [[nodiscard]] bool hasPath() const;

@@ -23,45 +23,14 @@ class VectorIndexManager;
 
 namespace vector {
 
-/**
- * @brief Approximate Radius Search for vector similarity
- * 
- * Provides efficient approximate search for all vectors within a given
- * radius (distance threshold) of a query vector. Unlike k-NN which finds
- * the k nearest neighbors, radius search finds ALL vectors within a
- * distance threshold.
- * 
- * Features:
- * - Approximate radius search (faster than exact)
- * - Configurable distance metrics (L2, Cosine, Dot Product)
- * - Max results limiting for performance
- * - Quality guarantees (recall threshold)
- * - Integration with existing vector indices
- * - Adaptive target count search with binary search optimization
- * - Sample-based result count estimation
- * - Comprehensive statistics tracking
- * 
- * Implementation Status: Production-Ready Beta
- * All core methods are fully implemented and tested.
- * 
- * References:
- * - Malkov, Y. A., & Yashunin, D. A. (2018). "Efficient and robust approximate nearest neighbor search using HNSW"
- * - Johnson, J., et al. (2019). "Billion-scale similarity search with GPUs" (FAISS)
- */
 class ApproximateRadiusSearch {
 public:
-    /**
-     * @brief Distance metric types
-     */
     enum class Metric {
         L2,           // Euclidean distance
         COSINE,       // Cosine similarity
         DOT_PRODUCT   // Dot product similarity
     };
 
-    /**
-     * @brief Configuration for radius search
-     */
     struct SearchConfig {
         Metric metric = Metric::COSINE;
         float radius = 0.5f;                   // Distance threshold
@@ -72,18 +41,12 @@ public:
         int ef_search = 64;                    // HNSW search parameter
     };
 
-    /**
-     * @brief Single result from radius search
-     */
     struct RadiusResult {
         std::string id;
         float distance = 0.0f;
         std::vector<float> vector;  // Optional: return vector data
     };
 
-    /**
-     * @brief Result of radius search operation
-     */
     struct SearchResult {
         std::vector<RadiusResult> results;
         size_t total_candidates = 0;      // Total vectors evaluated
@@ -92,14 +55,18 @@ public:
         bool truncated = false;            // True if max_results limit reached
     };
 
+    /**
+     * @brief Approximate Radius Search.
+     * @param[in,out] vector_manager Input/output parameter.
+     * @return Return value.
+     */
     explicit ApproximateRadiusSearch(VectorIndexManager& vector_manager);
 
     /**
-     * @brief Search for vectors within radius of query vector
-     * 
-     * @param query_vector The query vector
-     * @param config Search configuration
-     * @return Search results or error
+     * @brief Search.
+     * @param[in] query_vector Input parameter.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     Result<SearchResult> search(
         const std::vector<float>& query_vector,
@@ -107,9 +74,10 @@ public:
     );
 
     /**
-     * @brief Search for vectors within radius using vector ID
-     * 
-     * Convenience method that looks up the query vector by ID.
+     * @brief Search By Id.
+     * @param[in] query_id Identifier of the query.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     Result<SearchResult> searchById(
         std::string_view query_id,
@@ -117,7 +85,10 @@ public:
     );
 
     /**
-     * @brief Batch radius search for multiple query vectors
+     * @brief Batch Search.
+     * @param[in] query_vectors Input parameter.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     Result<std::vector<SearchResult>> batchSearch(
         const std::vector<std::vector<float>>& query_vectors,
@@ -125,10 +96,11 @@ public:
     );
 
     /**
-     * @brief Search with dynamic radius adjustment
-     * 
-     * Automatically adjusts radius to return approximately target_count results
-     * using binary search optimization.
+     * @brief Search With Target Count.
+     * @param[in] query_vector Input parameter.
+     * @param[in] target_count Input parameter.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     Result<SearchResult> searchWithTargetCount(
         const std::vector<float>& query_vector,
@@ -136,21 +108,12 @@ public:
         const SearchConfig& config
     );
 
-    /**
-     * @brief Estimate result count for a given radius
-     * 
-     * Uses sample-based estimation to predict how many results would be
-     * returned for a given radius. Useful for query planning and UI feedback.
-     */
     Result<size_t> estimateResultCount(
         const std::vector<float>& query_vector,
         float radius,
         Metric metric = Metric::COSINE
     );
 
-    /**
-     * @brief Get statistics about radius search performance
-     */
     struct Statistics {
         size_t total_searches = 0;
         double avg_results_per_search = 0.0;
@@ -159,6 +122,9 @@ public:
     };
 
     const Statistics& getStatistics() const { return stats_; }
+    /**
+     * @brief Reset Statistics.
+     */
     void resetStatistics();
 
 private:

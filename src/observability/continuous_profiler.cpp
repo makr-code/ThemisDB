@@ -112,7 +112,12 @@ std::vector<std::string> captureStack(int max_depth = 64) {
     return frames;
 }
 
-/** Encode @p bytes as base64 (for JSON serialisation). */
+/**
+ * @brief Base64 encode.
+ * @param[in] bytes Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size().
+ */
 std::string base64Encode(const std::vector<uint8_t>& bytes) {
     static const char kTable[] =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
@@ -137,6 +142,11 @@ std::string base64Encode(const std::vector<uint8_t>& bytes) {
 /** Parse folded-stacks text into a {stack -> count} map. */
 std::map<std::string, uint64_t> parseFolded(const std::string& text) {
     std::map<std::string, uint64_t> result;
+    /**
+     * @brief Stream.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     std::istringstream stream(text);
     std::string line = {};
     while (std::getline(stream, line)) {
@@ -159,6 +169,12 @@ std::map<std::string, uint64_t> parseFolded(const std::string& text) {
     return result;
 }
 
+/**
+ * @brief Profile Type Name.
+ * @param[in] t Input parameter.
+ * @return Pointer to the result.
+ * @details Implements profileTypeName without additional internal calls.
+ */
 const char* profileTypeName(ProfileType t) {
     switch (t) {
         case ProfileType::CPU:   return "cpu";
@@ -187,6 +203,13 @@ void ProfileSnapshot::saveToFile(const std::string& filename) const {
     }
 }
 
+/**
+ * @brief Load From File.
+ * @param[in] filename Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: ifs(), tellg(), seekg(), std::chrono::system_clock::now(), resize(), read(), data().
+ */
 ProfileSnapshot ProfileSnapshot::loadFromFile(const std::string& filename) {
     std::ifstream ifs(filename, std::ios::binary | std::ios::ate);
     if (!ifs) {
@@ -238,6 +261,11 @@ json ProfileDiff::toJSON() const {
 /** @brief ContinuousProfiler::Impl. */
 class ContinuousProfiler::Impl {
 public:
+    /**
+     * @brief Impl.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit Impl(const ContinuousProfilerConfig& config)
         : enabled_(config.enabled), config_(config) {}
 
@@ -245,7 +273,16 @@ public:
         stopInternal();
     }
 
+    /**
+     * @brief Start.
+     * @details Calls: lock(), std::thread().
+     */
     void start() {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lock(mutex_);
         if (running_ || !enabled_) {
           return;
@@ -254,11 +291,26 @@ public:
         worker_ = std::thread(&Impl::workerLoop, this);
     }
 
+    /**
+     * @brief Stop.
+     * @details Calls: stopInternal().
+     */
     void stop() {
         stopInternal();
     }
 
+    /**
+     * @brief Snapshot.
+     * @param[in] type Input parameter.
+     * @return Return value.
+     * @details Calls: lock(), std::chrono::system_clock::now(), empty(), load(), captureStack(), size(), std::to_string(), assign().
+     */
     ProfileSnapshot snapshot(ProfileType type) {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lock(mutex_);
 
         ProfileSnapshot snap;
@@ -307,6 +359,11 @@ public:
             ProfileType type,
             std::chrono::system_clock::time_point from,
             std::chrono::system_clock::time_point to) const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lock(mutex_);
         std::vector<ProfileSnapshot> result;
         auto it = history_.find(type);
@@ -384,14 +441,27 @@ public:
 
     void registerAnomalyCallback(
             std::function<void(const ProfileSnapshot&, const std::string&)> cb) {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lock(mutex_);
         anomaly_cb_ = std::move(cb);
     }
 
+    /**
+     * @brief Enable.
+     * @details Calls: store().
+     */
     void enable() {
         enabled_.store(true, std::memory_order_release);
     }
 
+    /**
+     * @brief Disable.
+     * @details Calls: store().
+     */
     void disable() {
         enabled_.store(false, std::memory_order_release);
     }
@@ -401,14 +471,20 @@ public:
     }
 
     ContinuousProfilerConfig getConfig() const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lock(mutex_);
         return config_;
     }
 
 private:
-    // -----------------------------------------------------------------------
-    // Background worker
-    // -----------------------------------------------------------------------
+    /**
+     * @brief ----------------------------------------------------------------------- Background worker -----------------------------------------------------------------------
+     * @details Calls: std::chrono::milliseconds(), std::chrono::steady_clock::now(), lk(), wait_for(), load(), captureStack(), size(), void().
+     */
 
     void workerLoop() {
         // Determine the sampling interval from cpu_sample_rate.
@@ -437,6 +513,11 @@ private:
         while (true) {
             // Wait for sample_period or until stopped
             {
+                /**
+                 * @brief Lk.
+                 * @param[in] mutex_ Input parameter.
+                 * @return Return value.
+                 */
                 std::unique_lock<std::mutex> lk(mutex_);
                 cv_.wait_for(lk, sample_period, [this] { return !running_; });
                 if (!running_) {
@@ -459,6 +540,11 @@ private:
                     }
                     key += frames[i];
                 }
+                /**
+                 * @brief Lk.
+                 * @param[in] mutex_ Input parameter.
+                 * @return Return value.
+                 */
                 std::unique_lock<std::mutex> lk(mutex_);
                 cpu_stacks_[key]++;
             }
@@ -473,6 +559,11 @@ private:
                 ProfileSnapshot snap;
                 std::function<void(const ProfileSnapshot&, const std::string&)> cb;
                 {
+                    /**
+                     * @brief Lk.
+                     * @param[in] mutex_ Input parameter.
+                     * @return Return value.
+                     */
                     std::unique_lock<std::mutex> lk(mutex_);
                     snap = snapshotNoLock(ProfileType::CPU);
                     cb = anomaly_cb_;
@@ -503,7 +594,12 @@ private:
         }
     }
 
-    /** Snapshot without acquiring the mutex (caller holds it). */
+    /**
+     * @brief Snapshot no lock.
+     * @param[in] type Input parameter.
+     * @return Return value.
+     * @details Calls: std::chrono::system_clock::now(), std::to_string(), assign(), begin(), end(), addSnapshot().
+     */
     ProfileSnapshot snapshotNoLock(ProfileType type) {
         ProfileSnapshot snap;
         snap.type = type;
@@ -523,6 +619,12 @@ private:
         return snap;
     }
 
+    /**
+     * @brief Add Snapshot.
+     * @param[in] type Input parameter.
+     * @param[in] snap Input parameter.
+     * @details Calls: push_back(), size(), erase(), begin().
+     */
     void addSnapshot(ProfileType type, const ProfileSnapshot& snap) {
         auto& vec = history_[type];
         vec.push_back(snap);
@@ -531,6 +633,11 @@ private:
         }
     }
 
+    /**
+     * @brief Persist Snapshot.
+     * @param[in] snap Input parameter.
+     * @details Calls: time_since_epoch(), count(), profileTypeName(), std::to_string(), saveToFile().
+     */
     void persistSnapshot(const ProfileSnapshot& snap) {
         // Build filename: <output_dir>/<type>_<timestamp_s>.folded
         auto ts_s = std::chrono::duration_cast<std::chrono::seconds>(
@@ -546,8 +653,17 @@ private:
         }
     }
 
+    /**
+     * @brief Stop Internal.
+     * @details Calls: lock(), notify_all(), joinable(), join().
+     */
     void stopInternal() {
         {
+            /**
+             * @brief Lock.
+             * @param[in] mutex_ Input parameter.
+             * @return Return value.
+             */
             std::unique_lock<std::mutex> lock(mutex_);
             if (!running_) {
               return;
@@ -591,9 +707,23 @@ ContinuousProfiler::ContinuousProfiler(const ContinuousProfilerConfig& config)
 
 ContinuousProfiler::~ContinuousProfiler() = default;
 
+/**
+ * @brief Start.
+ * @details Implements start without additional internal calls.
+ */
 void ContinuousProfiler::start() { impl_->start(); }
+/**
+ * @brief Stop.
+ * @details Implements stop without additional internal calls.
+ */
 void ContinuousProfiler::stop()  { impl_->stop();  }
 
+/**
+ * @brief Snapshot.
+ * @param[in] type Input parameter.
+ * @return Return value.
+ * @details Implements snapshot without additional internal calls.
+ */
 ProfileSnapshot ContinuousProfiler::snapshot(ProfileType type) {
     return impl_->snapshot(type);
 }
@@ -615,7 +745,15 @@ void ContinuousProfiler::registerAnomalyCallback(
     impl_->registerAnomalyCallback(std::move(cb));
 }
 
+/**
+ * @brief Enable.
+ * @details Implements enable without additional internal calls.
+ */
 void ContinuousProfiler::enable()       { impl_->enable();    }
+/**
+ * @brief Disable.
+ * @details Implements disable without additional internal calls.
+ */
 void ContinuousProfiler::disable()      { impl_->disable();   }
 bool ContinuousProfiler::isEnabled() const { return impl_->isEnabled(); }
 

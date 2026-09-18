@@ -28,9 +28,12 @@
 namespace themis {
 namespace utils {
 
-// ============================================================================
-// Version Implementation
-// ============================================================================
+/**
+ * @brief ============================================================================ Version Implementation ============================================================================
+ * @param[in] version_str Input parameter.
+ * @return Return value.
+ * @details Calls: version_regex(), std::regex_match(), std::stoi(), str().
+ */
 
 std::optional<Version> Version::parse(const std::string& version_str) {
     // Match semantic versioning: v?major.minor.patch[-prerelease][+build]
@@ -130,6 +133,12 @@ bool ReleaseInfo::isCritical() const {
     return critical_patch;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value(), Version::parse(), isCritical(), LOG_ERROR(), what().
+ */
 std::optional<ReleaseInfo> ReleaseInfo::fromJson(const json& j) {
     try {
         ReleaseInfo info;
@@ -235,9 +244,12 @@ json UpdateCheckResult::toJson() const {
     return j;
 }
 
-// ============================================================================
-// UpdateCheckerConfig Implementation
-// ============================================================================
+/**
+ * @brief ============================================================================ UpdateCheckerConfig Implementation ============================================================================
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), std::chrono::seconds().
+ */
 
 UpdateCheckerConfig UpdateCheckerConfig::fromJson(const json& j) {
     UpdateCheckerConfig config = {};
@@ -308,7 +320,16 @@ UpdateChecker::~UpdateChecker() {
     stop();
 }
 
+/**
+ * @brief Start.
+ * @details Calls: lock(), LOG_WARN(), LOG_INFO(), count().
+ */
 void UpdateChecker::start() {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (running_) {
@@ -322,8 +343,17 @@ void UpdateChecker::start() {
     LOG_INFO("UpdateChecker started (interval: {}s)", config_.check_interval.count());
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: lock(), joinable(), join(), LOG_INFO().
+ */
 void UpdateChecker::stop() {
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         if (!running_) {
             return;
@@ -338,6 +368,10 @@ void UpdateChecker::stop() {
     LOG_INFO("UpdateChecker stopped");
 }
 
+/**
+ * @brief Check Loop.
+ * @details Calls: checkNow(), std::chrono::seconds(), std::this_thread::sleep_for().
+ */
 void UpdateChecker::checkLoop() {
     // Initial check
     checkNow();
@@ -359,6 +393,11 @@ void UpdateChecker::checkLoop() {
     }
 }
 
+/**
+ * @brief Check Now.
+ * @return Return value.
+ * @details Calls: LOG_INFO(), std::chrono::system_clock::now(), fetchReleases(), LOG_ERROR(), analyzeReleases(), toJson(), update_callback_(), lock().
+ */
 UpdateCheckResult UpdateChecker::checkNow() {
     LOG_INFO("Checking for ThemisDB updates...");
     
@@ -391,6 +430,11 @@ UpdateCheckResult UpdateChecker::checkNow() {
     
     // Update last result
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         last_result_ = result;
     }
@@ -399,18 +443,38 @@ UpdateCheckResult UpdateChecker::checkNow() {
 }
 
 UpdateCheckResult UpdateChecker::getLastResult() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return last_result_;
 }
 
 UpdateCheckerConfig UpdateChecker::getConfig() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return config_;
 }
 
+/**
+ * @brief Update Config.
+ * @param[in] config Input parameter.
+ * @details Calls: lock(), stop(), start().
+ */
 void UpdateChecker::updateConfig(const UpdateCheckerConfig& config) {
     bool was_running = false;
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         was_running = running_;
     }
@@ -420,6 +484,11 @@ void UpdateChecker::updateConfig(const UpdateCheckerConfig& config) {
     }
     
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         config_ = config;
     }
@@ -477,7 +546,15 @@ std::variant<std::vector<ReleaseInfo>, std::string> UpdateChecker::fetchReleases
 }
 
 #ifdef THEMIS_ENABLE_CURL
-// CURL callback for writing response data
+/**
+ * @brief CURL callback for writing response data
+ * @param[in,out] contents Input/output parameter.
+ * @param[in] size Input parameter.
+ * @param[in] nmemb Input parameter.
+ * @param[in,out] userp Input/output parameter.
+ * @return Return value.
+ * @details Calls: append().
+ */
 static size_t writeCallback(void* contents, size_t size, size_t nmemb, std::string* userp) {
     size_t total_size = size * nmemb;
     userp->append(static_cast<char*>(contents), total_size);
@@ -552,6 +629,12 @@ std::variant<json, std::string> UpdateChecker::httpGet(const std::string& url) {
 #endif
 }
 
+/**
+ * @brief Analyze Releases.
+ * @param[in] releases Input parameter.
+ * @return Return value.
+ * @details Calls: Version::parse().
+ */
 UpdateCheckResult UpdateChecker::analyzeReleases(const std::vector<ReleaseInfo>& releases) {
     UpdateCheckResult result;
     result.current_version = config_.current_version;
@@ -607,6 +690,11 @@ UpdateCheckResult UpdateChecker::analyzeReleases(const std::vector<ReleaseInfo>&
 }
 
 void UpdateChecker::onUpdateAvailable(std::function<void(const UpdateCheckResult&)> callback) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     update_callback_ = std::move(callback);
 }

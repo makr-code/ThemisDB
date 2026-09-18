@@ -25,19 +25,8 @@
 namespace themis {
 namespace acceleration {
 
-/**
- * @brief Resource Manager for ThemisDB + vLLM Co-Location
- * 
- * Manages CPU/RAM/GPU resource allocation when ThemisDB runs alongside vLLM
- * for AI/ML workloads (RAG, semantic search, etc.)
- * 
- * v1.1.0 Feature: Optimizes resource sharing for maximum efficiency
- */
 class VLLMResourceManager {
 public:
-    /**
-     * @brief Resource configuration for co-location
-     */
     struct Config {
         // System Resources
         size_t total_cpu_cores = 64;
@@ -76,9 +65,6 @@ public:
         std::vector<uint32_t> gpu_device_indices;             ///< Explicit multi-device override; empty = use gpu_device_index
     };
     
-    /**
-     * @brief Current resource usage statistics
-     */
     struct Stats {
         // CPU Usage
         double cpu_utilization = 0.0;       // 0-100%
@@ -98,12 +84,6 @@ public:
         double vllm_gpu_usage = 0.0;        // Estimated vLLM GPU usage
     };
 
-    /**
-     * @brief Result container for vector-similarity dispatch.
-     *
-     * Output arrays are row-major with shape `[num_queries × effective_top_k]`.
-     * `effective_top_k` is `min(top_k, num_vectors)`.
-     */
     struct SimilarityDispatchResult {
         bool success = false;                    ///< true on successful dispatch
         bool used_gpu = false;                   ///< true if CUDA path executed
@@ -113,7 +93,9 @@ public:
     };
     
     /**
-     * @brief Construct resource manager with configuration
+     * @brief VLLMResource Manager.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     explicit VLLMResourceManager(const Config& config);
     ~VLLMResourceManager();
@@ -125,40 +107,22 @@ public:
     VLLMResourceManager& operator=(VLLMResourceManager&&) = delete;
     
     /**
-     * @brief Initialize resource manager and detect hardware.
-     *
-     * @return true on success; false if hardware detection failed.
+     * @brief Initialize.
+     * @return True when the operation succeeds.
      */
     bool initialize();
     
     /**
-     * @brief Shutdown and release resources
+     * @brief Shutdown.
      */
     void shutdown();
     
     /**
-     * @brief Check if GPU can be used (vLLM not busy)
-     * 
-     * Uses NVML to check GPU utilization. Only allows GPU use if vLLM
-     * is below threshold (< 80% GPU usage).
-     * 
-     * @return true if GPU can be used
+     * @brief Can Use GPU.
+     * @return True when the operation succeeds.
      */
     bool canUseGPU();
 
-    /**
-     * @brief Execute vector-similarity search under vLLM-aware resource gating.
-     *
-     * Dispatch contract:
-     * - If `canUseGPU()` is true and CUDA is enabled, the CUDA ANN dispatch path
-     *   is attempted.
-     * - On CUDA errors, invalid kernel returns, or unavailable CUDA backend, the
-     *   method falls back deterministically to the CPU ANN dispatch path.
-     *
-     * Failure and edge cases:
-     * - Null pointers or zero-sized dimensions return `success=false`.
-     * - `top_k` is clamped to `num_vectors`.
-     */
     SimilarityDispatchResult dispatchVectorSimilarity(
         const float* queries,
         size_t num_queries,
@@ -170,40 +134,26 @@ public:
     );
     
     /**
-     * @brief Get recommended thread count for operation type
-     * 
-     * @param operation_type "rocksdb", "tbb", "general"
-     * @return Recommended thread count
+     * @brief Get Recommended Thread Count.
+     * @param[in] operation_type Input parameter.
+     * @return Return value.
      */
     size_t getRecommendedThreadCount(const std::string& operation_type) const;
     
     /**
-     * @brief Get current resource usage statistics
+     * @brief Get Stats.
+     * @return Return value.
      */
     Stats getStats() const;
     
-    /**
-     * @brief Get configuration
-     */
     const Config& getConfig() const { return config_; }
     
     /**
-     * @brief Update configuration (requires reinitialization)
+     * @brief Set Config.
+     * @param[in] config Input parameter.
      */
     void setConfig(const Config& config);
     
-    /**
-     * @brief Inject a GPU utilization provider for testing (bypasses NVML).
-     *
-     * When set, canUseGPU() and queryGPUUtilization() call this function instead
-     * of querying the real NVML stack. Allows CI tests to simulate any GPU
-     * utilization level without physical GPU hardware.
-     *
-     * Pass an empty std::function to clear the override.
-     *
-     * @param provider Returns the simulated GPU utilization (0–100), or nullopt
-     *                 if the GPU cannot be queried (treated as GPU busy).
-     */
     void setGpuUtilizationProviderForTesting(
         std::function<std::optional<double>()> provider);
 
@@ -239,20 +189,19 @@ private:
     std::vector<void*> nvml_devices_;
     
     /**
-     * @brief Initialize NVML for GPU monitoring
+     * @brief Initialize NVML.
+     * @return True when the operation succeeds.
      */
     bool initializeNVML();
     
     /**
-     * @brief Shutdown NVML
+     * @brief Shutdown NVML.
      */
     void shutdownNVML();
     
     /**
-     * @brief Query GPU utilization via NVML
-     *
-     * When multiple devices are monitored (gpu_device_indices), returns the
-     * maximum utilization across all of them.
+     * @brief Query GPUUtilization.
+     * @return Return value.
      */
     std::optional<double> queryGPUUtilization();
 };

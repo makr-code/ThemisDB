@@ -19,7 +19,12 @@
 namespace themis {
 namespace observability {
 
-// Helper functions
+/**
+ * @brief Helper functions
+ * @param[in] severity Input parameter.
+ * @return Pointer to the result.
+ * @details Implements to_string without additional internal calls.
+ */
 const char* to_string(IssueSeverity severity) {
     switch (severity) {
         case IssueSeverity::INFO: return "INFO";
@@ -29,6 +34,12 @@ const char* to_string(IssueSeverity severity) {
     }
 }
 
+/**
+ * @brief To string.
+ * @param[in] category Input parameter.
+ * @return Pointer to the result.
+ * @details Implements to_string without additional internal calls.
+ */
 const char* to_string(IssueCategory category) {
     switch (category) {
         case IssueCategory::QUERY_OPTIMIZATION: return "QUERY_OPTIMIZATION";
@@ -134,6 +145,13 @@ PerformanceAnalyzer::PerformanceAnalyzer(const PerformanceAnalyzerConfig& config
 
 PerformanceAnalyzer::~PerformanceAnalyzer() = default;
 
+/**
+ * @brief Analyze.
+ * @param[in] query_profiler Input parameter.
+ * @param[in] storage_profiler Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), analyze_queries(), insert(), end(), begin(), analyze_storage(), analyze_cache(), analyze_indexes().
+ */
 PerformanceAnalysis PerformanceAnalyzer::analyze(const QueryProfiler& query_profiler,
                                                 const StorageProfiler& storage_profiler) {
     PerformanceAnalysis analysis;
@@ -183,6 +201,12 @@ PerformanceAnalysis PerformanceAnalyzer::analyze(const QueryProfiler& query_prof
     return analysis;
 }
 
+/**
+ * @brief Analyze queries.
+ * @param[in] query_profiler Input parameter.
+ * @return Return value.
+ * @details Calls: check_slow_queries(), empty(), push_back(), check_full_scans().
+ */
 std::vector<PerformanceIssue> PerformanceAnalyzer::analyze_queries(
     const QueryProfiler& query_profiler) {
     std::vector<PerformanceIssue> issues;
@@ -202,6 +226,12 @@ std::vector<PerformanceIssue> PerformanceAnalyzer::analyze_queries(
     return issues;
 }
 
+/**
+ * @brief Analyze storage.
+ * @param[in] storage_profiler Input parameter.
+ * @return Return value.
+ * @details Calls: check_write_amplification(), empty(), push_back(), check_read_amplification(), check_slow_storage_ops().
+ */
 std::vector<PerformanceIssue> PerformanceAnalyzer::analyze_storage(
     const StorageProfiler& storage_profiler) {
     std::vector<PerformanceIssue> issues;
@@ -227,6 +257,13 @@ std::vector<PerformanceIssue> PerformanceAnalyzer::analyze_storage(
     return issues;
 }
 
+/**
+ * @brief Analyze cache.
+ * @param[in] query_profiler Input parameter.
+ * @param[in] storage_profiler Input parameter.
+ * @return Return value.
+ * @details Calls: check_cache_hit_rate(), empty(), push_back().
+ */
 std::vector<PerformanceIssue> PerformanceAnalyzer::analyze_cache(
     const QueryProfiler& query_profiler,
     const StorageProfiler& storage_profiler) {
@@ -240,6 +277,12 @@ std::vector<PerformanceIssue> PerformanceAnalyzer::analyze_cache(
     return issues;
 }
 
+/**
+ * @brief Analyze indexes.
+ * @param[in] query_profiler Input parameter.
+ * @return Return value.
+ * @details Calls: check_index_usage(), empty(), push_back().
+ */
 std::vector<PerformanceIssue> PerformanceAnalyzer::analyze_indexes(
     const QueryProfiler& query_profiler) {
     std::vector<PerformanceIssue> issues;
@@ -252,6 +295,12 @@ std::vector<PerformanceIssue> PerformanceAnalyzer::analyze_indexes(
     return issues;
 }
 
+/**
+ * @brief Generate recommendations.
+ * @param[in] issues Input parameter.
+ * @return Return value.
+ * @details Calls: json::array(), push_back().
+ */
 json PerformanceAnalyzer::generate_recommendations(
     const std::vector<PerformanceIssue>& issues) {
     json recommendations = json::array();
@@ -286,20 +335,39 @@ PerformanceAnalyzerConfig PerformanceAnalyzer::get_config() const {
     return impl_->config;
 }
 
+/**
+ * @brief Set config.
+ * @param[in] config Input parameter.
+ * @details Implements set_config without additional internal calls.
+ */
 void PerformanceAnalyzer::set_config(const PerformanceAnalyzerConfig& config) {
     impl_->config = config;
 }
 
 void PerformanceAnalyzer::export_analysis(const PerformanceAnalysis& analysis,
                                          const std::string& filename) const {
+    /**
+     * @brief File.
+     * @param[in] filename Input parameter.
+     * @return Return value.
+     */
     std::ofstream file(filename);
     file << analysis.toJSON().dump(2);
 }
 
 void PerformanceAnalyzer::export_html_report(const PerformanceAnalysis& analysis,
                                             const std::string& filename) const {
+    /**
+     * @brief File.
+     * @param[in] filename Input parameter.
+     * @return Return value.
+     */
     std::ofstream file(filename);
     
+    /**
+     * @brief Generate html header.
+     * @return Return value.
+     */
     file << generate_html_header();
     file << "<h1>ThemisDB Performance Analysis Report</h1>\n";
     
@@ -313,14 +381,28 @@ void PerformanceAnalyzer::export_html_report(const PerformanceAnalysis& analysis
     file << "<div class='issues'>\n";
     file << "<h2>Issues</h2>\n";
     for (const auto& issue : analysis.issues) {
+        /**
+         * @brief Generate html issue section.
+         * @param[in] issue Input parameter.
+         * @return Return value.
+         */
         file << generate_html_issue_section(issue);
     }
     file << "</div>\n";
     
+    /**
+     * @brief Generate html footer.
+     * @return Return value.
+     */
     file << generate_html_footer();
 }
 
-// Private helper methods
+/**
+ * @brief Private helper methods
+ * @param[in] query_profiler Input parameter.
+ * @return Return value.
+ * @details Calls: get_slow_queries(), empty(), size(), std::to_string(), count().
+ */
 PerformanceIssue PerformanceAnalyzer::check_slow_queries(const QueryProfiler& query_profiler) {
     auto slow_queries = query_profiler.get_slow_queries(impl_->config.slow_query_threshold);
     
@@ -349,6 +431,12 @@ PerformanceIssue PerformanceAnalyzer::check_slow_queries(const QueryProfiler& qu
     return issue;
 }
 
+/**
+ * @brief Check full scans.
+ * @param[in] query_profiler Input parameter.
+ * @return Return value.
+ * @details Calls: get_statistics(), value(), std::to_string().
+ */
 PerformanceIssue PerformanceAnalyzer::check_full_scans(const QueryProfiler& query_profiler) {
     auto stats = query_profiler.get_statistics();
 
@@ -393,6 +481,12 @@ PerformanceIssue PerformanceAnalyzer::check_full_scans(const QueryProfiler& quer
     return issue;
 }
 
+/**
+ * @brief Check index usage.
+ * @param[in] query_profiler Input parameter.
+ * @return Return value.
+ * @details Calls: get_statistics(), value(), std::to_string().
+ */
 PerformanceIssue PerformanceAnalyzer::check_index_usage(const QueryProfiler& query_profiler) {
     auto stats = query_profiler.get_statistics();
     double index_usage_pct = stats.value("index_usage_pct", 0.0);
@@ -421,6 +515,13 @@ PerformanceIssue PerformanceAnalyzer::check_index_usage(const QueryProfiler& que
     return issue;
 }
 
+/**
+ * @brief Check cache hit rate.
+ * @param[in] query_profiler Input parameter.
+ * @param[in] storage_profiler Input parameter.
+ * @return Return value.
+ * @details Calls: get_cache_metrics(), empty(), contains(), std::to_string().
+ */
 PerformanceIssue PerformanceAnalyzer::check_cache_hit_rate(
     const QueryProfiler& query_profiler,
     const StorageProfiler& storage_profiler) {
@@ -453,6 +554,12 @@ PerformanceIssue PerformanceAnalyzer::check_cache_hit_rate(
     return issue;
 }
 
+/**
+ * @brief Check write amplification.
+ * @param[in] storage_profiler Input parameter.
+ * @return Return value.
+ * @details Calls: get_amplification_metrics(), empty(), value(), std::to_string().
+ */
 PerformanceIssue PerformanceAnalyzer::check_write_amplification(
     const StorageProfiler& storage_profiler) {
     auto amp_metrics = storage_profiler.get_amplification_metrics();
@@ -483,6 +590,12 @@ PerformanceIssue PerformanceAnalyzer::check_write_amplification(
     return issue;
 }
 
+/**
+ * @brief Check read amplification.
+ * @param[in] storage_profiler Input parameter.
+ * @return Return value.
+ * @details Calls: get_amplification_metrics(), empty(), value(), std::to_string().
+ */
 PerformanceIssue PerformanceAnalyzer::check_read_amplification(
     const StorageProfiler& storage_profiler) {
     auto amp_metrics = storage_profiler.get_amplification_metrics();
@@ -513,6 +626,12 @@ PerformanceIssue PerformanceAnalyzer::check_read_amplification(
     return issue;
 }
 
+/**
+ * @brief Check slow storage ops.
+ * @param[in] storage_profiler Input parameter.
+ * @return Return value.
+ * @details Calls: get_slow_operations(), empty(), size(), std::to_string(), count().
+ */
 PerformanceIssue PerformanceAnalyzer::check_slow_storage_ops(
     const StorageProfiler& storage_profiler) {
     auto slow_ops = storage_profiler.get_slow_operations(impl_->config.slow_storage_op_threshold);

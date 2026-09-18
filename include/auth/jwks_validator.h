@@ -18,17 +18,6 @@
 namespace themis {
 namespace auth {
 
-/**
- * @brief JWKS (JSON Web Key Set) Schema Validator
- * 
- * Validates JWKS documents according to RFC 7517 (JSON Web Key)
- * and RFC 7518 (JSON Web Algorithms) before caching.
- * 
- * Security: Prevents malformed or malicious JWKS from being cached,
- * which could lead to authentication bypasses or DoS attacks.
- * 
- * P1 (High Priority) security hardening feature.
- */
 class JWKSValidator {
 public:
     struct ValidationResult {
@@ -75,24 +64,26 @@ public:
         // Require use field
         bool require_use = false;
 
+        /**
+         * @brief Defaults.
+         * @return Return value.
+         * @details Implements defaults without additional internal calls.
+         */
         static Config defaults() { return {}; }
     };
     
     explicit JWKSValidator(const Config& config = Config::defaults());
     
     /**
-     * @brief Validate a JWKS document
-     * 
-     * @param jwks JSON object containing JWKS
-     * @return ValidationResult with errors/warnings
+     * @brief Validate.
+     * @param[in] jwks Input parameter.
+     * @return Return value.
      */
     ValidationResult validate(const nlohmann::json& jwks) const;
     
     /**
-     * @brief Validate and throw on error
-     * 
-     * @param jwks JSON object containing JWKS
-     * @throws std::runtime_error if validation fails
+     * @brief Validate Or Throw.
+     * @param[in] jwks Input parameter.
      */
     void validateOrThrow(const nlohmann::json& jwks) const;
 
@@ -100,21 +91,60 @@ private:
     Config config_;
     
     // Validate JWKS structure
+    /**
+     * @brief Validate Structure.
+     * @param[in] jwks Input parameter.
+     * @param[in,out] result Input/output parameter.
+     * @return True when the operation succeeds.
+     */
     bool validateStructure(const nlohmann::json& jwks, ValidationResult& result) const;
     
     // Validate individual JWK
+    /**
+     * @brief Validate Key.
+     * @param[in] jwk Input parameter.
+     * @param[in] index Input parameter.
+     * @param[in,out] result Input/output parameter.
+     * @return True when the operation succeeds.
+     */
     bool validateKey(const nlohmann::json& jwk, size_t index, ValidationResult& result) const;
     
     // Validate RSA key
+    /**
+     * @brief Validate RSAKey.
+     * @param[in] jwk Input parameter.
+     * @param[in] index Input parameter.
+     * @param[in,out] result Input/output parameter.
+     * @return True when the operation succeeds.
+     */
     bool validateRSAKey(const nlohmann::json& jwk, size_t index, ValidationResult& result) const;
     
     // Validate EC key
+    /**
+     * @brief Validate ECKey.
+     * @param[in] jwk Input parameter.
+     * @param[in] index Input parameter.
+     * @param[in,out] result Input/output parameter.
+     * @return True when the operation succeeds.
+     */
     bool validateECKey(const nlohmann::json& jwk, size_t index, ValidationResult& result) const;
     
     // Validate symmetric key
+    /**
+     * @brief Validate Symmetric Key.
+     * @param[in] jwk Input parameter.
+     * @param[in] index Input parameter.
+     * @param[in,out] result Input/output parameter.
+     * @return True when the operation succeeds.
+     */
     bool validateSymmetricKey(const nlohmann::json& jwk, size_t index, ValidationResult& result) const;
     
-    // Check for duplicate kids
+    /**
+     * @brief Check for duplicate kids
+     * @param[in] jwks Input parameter.
+     * @param[in,out] result Input/output parameter.
+     * @return True when the operation succeeds.
+     */
     bool checkDuplicateKids(const nlohmann::json& jwks, ValidationResult& result) const;
 };
 

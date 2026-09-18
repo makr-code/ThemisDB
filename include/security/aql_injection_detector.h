@@ -22,29 +22,8 @@
 namespace themis {
 namespace security {
 
-/**
- * @brief AQL Injection Detection using AST-based validation
- * 
- * This class provides robust protection against AQL/SQL injection attacks by:
- * 1. Parsing queries into Abstract Syntax Trees (AST) for structural validation
- * 2. Validating parameterized queries with strict parameter checking
- * 3. Detecting suspicious patterns that indicate injection attempts
- * 4. Blocking dangerous operations (UPDATE, DELETE, INSERT, DROP, etc.)
- * 
- * Security Features:
- * - AST-based parsing ensures query structure is valid
- * - Case-insensitive keyword detection prevents bypasses
- * - Comment marker detection blocks comment-based attacks
- * - String literal validation within AST nodes
- * - Parameterized query enforcement with parameter validation
- * 
- * CWE Coverage: CWE-89 (SQL Injection), CWE-94 (Code Injection)
- */
 class AQLInjectionDetector {
 public:
-    /**
-     * @brief Result of an injection check operation
-     */
     struct InjectionCheckResult {
         bool is_safe = true;                          // True if query is safe to execute
         std::string error_message;                     // Error message if unsafe
@@ -55,23 +34,10 @@ public:
     };
     
     /**
-     * @brief Validate a parameterized AQL query with bound parameters
-     * 
-     * This is the RECOMMENDED way to execute AQL queries. Parameterized queries
-     * separate query structure from user data, preventing injection attacks.
-     * 
-     * @param aql_template The AQL query template with parameter placeholders
-     * @param parameters Vector of parameter values to bind
-     * @return InjectionCheckResult indicating if the query is safe
-     * 
-     * Example:
-     *   auto result = detector.validateParameterizedQuery(
-     *       "FOR doc IN users FILTER doc.name == @param0 RETURN doc",
-     *       {"Alice"}
-     *   );
-     *   if (result.is_safe) {
-     *       // Execute with bound parameters
-     *   }
+     * @brief Validate Parameterized Query.
+     * @param[in] aql_template Input parameter.
+     * @param[in] parameters Input parameter.
+     * @return Return value.
      */
     InjectionCheckResult validateParameterizedQuery(
         const std::string& aql_template,
@@ -79,73 +45,23 @@ public:
     );
     
     /**
-     * @brief Validate an AQL query using AST-based analysis
-     * 
-     * This method parses the AQL query into an AST and validates:
-     * - Query structure is valid and parseable
-     * - No dangerous operations (UPDATE, DELETE, INSERT, DROP)
-     * - String literals don't contain SQL keywords
-     * - No comment markers or suspicious patterns
-     * 
-     * Use this for queries that cannot be parameterized, but prefer
-     * validateParameterizedQuery() when possible.
-     * 
-     * @param aql The AQL query string to validate
-     * @return InjectionCheckResult indicating if the query is safe
-     * 
-     * Example:
-     *   auto result = detector.validateAQLAST(
-     *       "FOR doc IN users FILTER doc.age > 18 RETURN doc"
-     *   );
+     * @brief Validate AQLAST.
+     * @param[in] aql Input parameter.
+     * @return Return value.
      */
     InjectionCheckResult validateAQLAST(const std::string& aql);
 
     /**
-     * @brief Validate an AQL query for use in a read-only context
-     *
-     * Extends the base AST validation with additional read-only constraints.
-     * The query must parse as AQL and must not contain write/DDL operations.
-     *
-     * @param aql The AQL query string to validate.
-     * @return InjectionCheckResult with is_safe == false if any write/DDL
-     *         operation is detected.
-     *
-     * Example:
-     *   auto r = detector.validateForReadOnlyContext(
-     *       "FOR doc IN users FILTER doc.age > 18 RETURN doc");
-     *   // r.is_safe == true – pure read query is allowed
-     *
-     *   auto r2 = detector.validateForReadOnlyContext(
-     *       "INSERT {name:'evil'} INTO users");
-     *   // r2.is_safe == false – write operation rejected
+     * @brief Validate For Read Only Context.
+     * @param[in] aql Input parameter.
+     * @return Return value.
      */
     InjectionCheckResult validateForReadOnlyContext(const std::string& aql);
 
     /**
-     * @brief Validate that an AQL query does not contain unbounded FOR loops
-     *
-     * An unbounded FOR loop iterates over an entire collection without a LIMIT
-     * clause and can cause full-collection scans leading to DoS or data
-     * exfiltration.  This method rejects queries that contain at least one FOR
-     * clause but no top-level LIMIT clause.
-     *
-     * Exceptions (always allowed):
-     *   - Queries without any FOR clause (constant expressions, etc.)
-     *   - Queries that aggregate with COLLECT (result is bounded by distinct
-     *     group count, not collection size)
-     *
-     * @param aql The AQL query string to validate.
-     * @return InjectionCheckResult with is_safe == false when the query has a
-     *         FOR loop but no LIMIT clause.
-     *
-     * Example:
-     *   auto r = detector.validateUnboundedForLoops(
-     *       "FOR doc IN users LIMIT 100 RETURN doc");
-     *   // r.is_safe == true – bounded by LIMIT
-     *
-     *   auto r2 = detector.validateUnboundedForLoops(
-     *       "FOR doc IN users RETURN doc");
-     *   // r2.is_safe == false – unbounded FOR loop rejected
+     * @brief Validate Unbounded For Loops.
+     * @param[in] aql Input parameter.
+     * @return Return value.
      */
     InjectionCheckResult validateUnboundedForLoops(const std::string& aql);
 
@@ -155,48 +71,58 @@ private:
     // ============================================================================
     
     /**
-     * @brief Check if the AQL template has valid syntax
+     * @brief Is Valid AQLTemplate.
+     * @param[in] template_str Input parameter.
+     * @return True when the operation succeeds.
      */
     bool isValidAQLTemplate(const std::string& template_str);
     
     /**
-     * @brief Validate a single parameter value
+     * @brief Validate Parameter.
+     * @param[in] param Input parameter.
+     * @return Return value.
      */
     InjectionCheckResult validateParameter(const std::string& param);
     
     /**
-     * @brief Check if string contains suspicious injection patterns
+     * @brief Contains Suspicious Patterns.
+     * @param[in] str Input parameter.
+     * @return True when the operation succeeds.
      */
     bool containsSuspiciousPatterns(const std::string& str);
     
     /**
-     * @brief Extract detected patterns from string
+     * @brief Extract Patterns.
+     * @param[in] str Input parameter.
+     * @return Return value.
      */
     std::vector<std::string> extractPatterns(const std::string& str);
     
     /**
-     * @brief Check if string contains SQL/AQL keywords (case-insensitive)
+     * @brief Contains SQLKeywords.
+     * @param[in] str Input parameter.
+     * @return True when the operation succeeds.
      */
     bool containsSQLKeywords(const std::string& str);
     
     /**
-     * @brief Check if AST contains dangerous operations
-     * 
-     * Recursively traverse the AST checking for:
-     * - DELETE, UPDATE, INSERT, REPLACE, UPSERT, REMOVE operations
-     * - DROP, EXEC, SYSTEM calls (not valid in AQL but check for SQL injection)
+     * @brief Contains Dangerous Operations.
+     * @param[in] ast Input parameter.
+     * @return True when the operation succeeds.
      */
     bool containsDangerousOperations(const query::Query& ast);
     
     /**
-     * @brief Extract all string literals from AST
-     * 
-     * Recursively traverse AST and collect all string literal values
+     * @brief Extract String Literals.
+     * @param[in] ast Input parameter.
+     * @return Return value.
      */
     std::vector<std::string> extractStringLiterals(const query::Query& ast);
     
     /**
-     * @brief Extract string literals from an expression
+     * @brief Extract String Literals From Expression.
+     * @param[in] expr Input parameter.
+     * @param[in,out] literals Input/output parameter.
      */
     void extractStringLiteralsFromExpression(
         const std::shared_ptr<query::Expression>& expr,
@@ -204,17 +130,16 @@ private:
     );
     
     /**
-     * @brief Parse AQL query into AST
+     * @brief Parse AQL.
+     * @param[in] aql Input parameter.
+     * @return Return value.
      */
     Result<std::shared_ptr<query::Query>> parseAQL(const std::string& aql);
 
     /**
-     * @brief Recursively scan an expression node for dangerous operations
-     *
-     * Traverses every node in the expression tree and returns true if any
-     * FunctionCallExpr has a name that belongs to the disallowed-operations
-     * list (EXECUTE, EXEC, SYSTEM, SHELL, etc.).  Sub-queries embedded inside
-     * ANY/ALL/SubqueryExpr are delegated back to containsDangerousOperations().
+     * @brief Scan Expression For Dangerous Ops.
+     * @param[in] expr Input parameter.
+     * @return True when the operation succeeds.
      */
     bool scanExpressionForDangerousOps(const std::shared_ptr<query::Expression>& expr);
 

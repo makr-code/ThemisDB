@@ -20,19 +20,17 @@ namespace themis {
 namespace core {
 namespace concerns {
 
-/**
- * @brief Simple in-memory cache implementation of ICache.
- *
- * Thread-safe in-memory cache for testing and development. The eviction
- * policy is intentionally simple FIFO on insert when the cache is full;
- * it is not a strict LRU implementation.
- */
 class InMemoryCacheImpl : public ICache {
 public:
     explicit InMemoryCacheImpl(size_t maxSize = 1000, uint64_t defaultTTL = 0)
         : maxSize_(maxSize), defaultTTL_(defaultTTL), hits_(0), misses_(0) {}
 
     std::optional<CacheEntry> get(std::string_view key) const override {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         auto it = cache_.find(std::string(key));
@@ -59,6 +57,11 @@ public:
     }
 
     bool put(std::string_view key, const CacheEntry& entry, uint64_t ttl_ms = 0) override {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         // Evict if at capacity.
@@ -74,11 +77,21 @@ public:
     }
 
     void invalidate(std::string_view key) override {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         cache_.erase(std::string(key));
     }
 
     void clear() override {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         cache_.clear();
         hits_ = 0;
@@ -86,10 +99,19 @@ public:
     }
 
     void invalidatePattern(std::string_view pattern) override {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         try {
-            // Use basic_regex directly to avoid potential macro conflicts with 'regex'
+            /**
+             * @brief Use basic_regex directly to avoid potential macro conflicts with 'regex'
+             * @param[in] pattern Input parameter.
+             * @return Return value.
+             */
             const ::std::string pattern_str(pattern);
             const ::std::basic_regex<char> rx{pattern_str};
             for (auto it = cache_.begin(); it != cache_.end();) {
@@ -105,6 +127,11 @@ public:
     }
 
     size_t size() const override {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return cache_.size();
     }
@@ -123,6 +150,11 @@ public:
     }
 
     void setMaxSize(size_t maxSize) override {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         maxSize_ = maxSize;
     }

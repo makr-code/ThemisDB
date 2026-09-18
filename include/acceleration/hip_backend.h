@@ -22,31 +22,8 @@ namespace acceleration {
 // Forward declarations for HIP types (avoid including HIP headers in public API)
 struct HIPBackendImpl;
 
-/**
- * HIP Backend for AMD GPU Acceleration
- * 
- * Provides GPU-accelerated vector operations using AMD ROCm/HIP platform.
- * Compatible with AMD Radeon GPUs (RDNA2, RDNA3) and AMD Instinct GPUs (CDNA).
- * 
- * Features:
- * - L2, Cosine, and Inner Product distance computation on GPU
- * - Batch KNN search with parallel top-k selection
- * - Asynchronous operations via HIP streams
- * - Architecture-specific optimizations (Wave32/Wave64)
- * 
- * Hardware Requirements:
- * - AMD GPU with ROCm support (RDNA2+, CDNA)
- * - Minimum 8GB VRAM recommended
- * - ROCm 5.0+ installed
- * 
- * @see docs/GPU_SUPPORT_ROADMAP.md for setup instructions
- * @see https://rocm.docs.amd.com/ for ROCm documentation
- */
 class HIPVectorBackend : public IVectorBackend {
 public:
-    /**
-     * Configuration options for HIP backend
-     */
     struct HIPConfig {
         int deviceId = 0;              // GPU device ID to use
         int waveSize = 0;              // 0=auto, 32=Wave32 (RDNA), 64=Wave64 (CDNA)
@@ -55,9 +32,6 @@ public:
         bool enableProfiling = false;  // Enable HIP event profiling
     };
     
-    /**
-     * Device information structure
-     */
     struct DeviceInfo {
         std::string name;
         int computeUnits = 0;
@@ -69,6 +43,11 @@ public:
     };
     
     HIPVectorBackend();
+    /**
+     * @brief HIPVector Backend.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit HIPVectorBackend(const HIPConfig& config);
     ~HIPVectorBackend() override;
     
@@ -120,61 +99,47 @@ public:
     // HIP-specific methods
     
     /**
-     * Get device information
+     * @brief Get Device Info.
+     * @return Return value.
      */
     DeviceInfo getDeviceInfo() const;
     
     /**
-     * Set HIP configuration
+     * @brief Set Config.
+     * @param[in] config Input parameter.
      */
     void setConfig(const HIPConfig& config);
     
     /**
-     * Get current configuration
+     * @brief Get Config.
+     * @return Return value.
      */
     HIPConfig getConfig() const;
     
     /**
-     * Query available HIP devices
+     * @brief Get Available Devices.
+     * @return Return value.
      */
     static std::vector<DeviceInfo> getAvailableDevices();
     
     /**
-     * Get HIP version info
+     * @brief Get HIPVersion.
+     * @return Return value.
      */
     static std::string getHIPVersion();
     
     /**
-     * Get ROCm version info
+     * @brief Get ROCm Version.
+     * @return Return value.
      */
     static std::string getROCmVersion();
 
-    /**
-     * Populate the frozen ANN kernel dispatch table for this backend.
-     *
-     * When THEMIS_ENABLE_HIP is defined the returned table references the
-     * kernel launchers compiled in src/acceleration/hip/ann_kernels.hip.
-     * When HIP is unavailable all slots are null and the BackendRegistry
-     * falls back to the CPU table.
-     */
     ANNKernelDispatch populateANNDispatch() const override;
 
 private:
     std::unique_ptr<HIPBackendImpl> impl_;
 };
 
-/**
- * HIP Geospatial Backend for AMD GPU Acceleration
- *
- * Provides GPU-accelerated geospatial operations using the AMD ROCm/HIP
- * platform.  Implements the IGeoBackend interface and exposes the frozen
- * GeoKernelDispatch table wired to the launchers compiled in
- * src/acceleration/hip/geo_kernels.hip.
- *
- * When THEMIS_ENABLE_HIP is not defined the backend reports itself as
- * unavailable and all operations are no-ops, allowing the BackendRegistry
- * to fall back to the CPU geo backend.
- */
 class HIPGeoBackend : public IGeoBackend {
 public:
     HIPGeoBackend() = default;
@@ -205,14 +170,6 @@ public:
         size_t numPolygonVertices
     ) override;
 
-    /**
-     * Populate the frozen geo kernel dispatch table for this backend.
-     *
-     * When THEMIS_ENABLE_HIP is defined the returned table references the
-     * kernel launchers compiled in src/acceleration/hip/geo_kernels.hip.
-     * When HIP is unavailable all slots are null and the BackendRegistry
-     * falls back to the CPU geo table.
-     */
     GeoKernelDispatch populateGeoDispatch() const override;
 
 private:

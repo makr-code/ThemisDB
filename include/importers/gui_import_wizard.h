@@ -27,9 +27,6 @@ using json = nlohmann::json;
 // Wizard step enumeration
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief Current step in the import wizard flow.
- */
 enum class WizardStep : uint8_t {
     SOURCE   = 0,
     CONNECT  = 1,
@@ -41,15 +38,17 @@ enum class WizardStep : uint8_t {
     DONE     = 7,
 };
 
+/**
+ * @brief Wizard Step Name.
+ * @param[in] step Input parameter.
+ * @return Return value.
+ */
 std::string wizardStepName(WizardStep step);
 
 // ─────────────────────────────────────────────────────────────────────────────
 // ImportWizardState
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief Column mapping: source column → target field.
- */
 struct ColumnMapping {
     std::string source_column;  ///< Column name in the source dataset
     std::string target_field;   ///< Field name in ThemisDB collection
@@ -57,9 +56,6 @@ struct ColumnMapping {
     bool        skip = false;   ///< If true, skip this column entirely
 };
 
-/**
- * @brief Complete wizard state serialisable to/from JSON.
- */
 struct ImportWizardState {
     std::string session_id;
     WizardStep  current_step    = WizardStep::SOURCE;
@@ -94,7 +90,16 @@ struct ImportWizardState {
     std::string started_at;
     std::string finished_at;
 
+    /**
+     * @brief To JSON.
+     * @return Return value.
+     */
     json toJSON() const;
+    /**
+     * @brief From JSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static ImportWizardState fromJSON(const json& j);
 };
 
@@ -102,107 +107,104 @@ struct ImportWizardState {
 // ImportWizard
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief Server-side import wizard session.
- *
- * Drives one multi-step import flow.  Instantiated by the REST API handler
- * for each POST /api/v1/import/wizard/session call.
- */
 class ImportWizard {
 public:
-    /// Progress callback invoked during the IMPORT step.
     using ProgressCallback = std::function<void(const ImportWizardState&)>;
 
-    /**
-     * @brief Configuration for the wizard.
-     */
     struct Config {
-        /// Maximum rows to include in the PREVIEW step.
         size_t preview_max_rows = 20;
-        /// Maximum concurrent import sessions (enforced by ImportWizardManager).
         size_t max_sessions = 50;
-        /// Registry of source importer factories (name → factory).
         std::unordered_map<std::string,
             std::function<std::unique_ptr<IImporter>()>> importer_factories;
     };
 
+    /**
+     * @brief Import Wizard.
+     * @return Return value.
+     */
     explicit ImportWizard();
+    /**
+     * @brief Import Wizard.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit ImportWizard(Config config);
 
-    // ── Session lifecycle ─────────────────────────────────────────────────────
-
     /**
-     * @brief Create a new wizard session.
-     * @return Unique session ID.
+     * @brief ── Session lifecycle ─────────────────────────────────────────────────────
+     * @return Session token.
      */
+
     std::string createSession();
 
     /**
-     * @brief Return the current wizard state for a session.
+     * @brief Get State.
+     * @param[in] session_id Identifier of the session.
+     * @return Return value.
      */
     const ImportWizardState& getState(const std::string& session_id) const;
 
-    // ── Step handlers ─────────────────────────────────────────────────────────
-
     /**
-     * @brief Set the source type (advances from SOURCE → CONNECT).
+     * @brief ── Step handlers ─────────────────────────────────────────────────────────
+     * @param[in] session_id Identifier of the session.
+     * @param[in] source_type Input parameter.
+     * @return Return value.
      */
+
     ImportWizardState& setSource(const std::string& session_id,
                                   const std::string& source_type);
 
     /**
-     * @brief Validate connection parameters and load preview schema.
-     *
-     * Advances from CONNECT → PREVIEW on success.
-     * Sets state.error_message and stays on CONNECT on failure.
+     * @brief Connect.
+     * @param[in] session_id Identifier of the session.
+     * @param[in] connection_params Input parameter.
+     * @return Return value.
      */
     ImportWizardState& connect(const std::string& session_id,
                                 const json&        connection_params);
 
     /**
-     * @brief Apply user-supplied column mappings.
-     *
-     * Advances from PREVIEW / MAP → OPTIONS.
+     * @brief Set Column Mappings.
+     * @param[in] session_id Identifier of the session.
+     * @param[in] mappings Input parameter.
+     * @param[in] target_collection Input parameter.
+     * @return Return value.
      */
     ImportWizardState& setColumnMappings(const std::string&              session_id,
                                           const std::vector<ColumnMapping>& mappings,
                                           const std::string&              target_collection);
 
     /**
-     * @brief Set import options (conflict strategy, batch size, dry-run).
-     *
-     * Advances to CONFIRM.
+     * @brief Set Options.
+     * @param[in] session_id Identifier of the session.
+     * @param[in] conflict_strategy Input parameter.
+     * @param[in] batch_size Input parameter.
+     * @param[in] dry_run Input parameter.
+     * @return Return value.
      */
     ImportWizardState& setOptions(const std::string& session_id,
                                    const std::string& conflict_strategy,
                                    size_t             batch_size,
                                    bool               dry_run);
 
-    /**
-     * @brief Confirm and start the import.
-     *
-     * Moves to IMPORT and begins asynchronous execution.
-     * Progress is delivered via @p on_progress and the final state via
-     * the returned future.
-     *
-     * @param session_id   Session to import.
-     * @param on_progress  Callback invoked after each batch.
-     */
     void runImport(const std::string& session_id,
                    ProgressCallback   on_progress = {});
 
     /**
-     * @brief Cancel an in-progress import.
+     * @brief Cancel.
+     * @param[in] session_id Identifier of the session.
      */
     void cancel(const std::string& session_id);
 
     /**
-     * @brief Remove a completed or cancelled session.
+     * @brief Delete Session.
+     * @param[in] session_id Identifier of the session.
      */
     void deleteSession(const std::string& session_id);
 
     /**
-     * @brief List all active session IDs.
+     * @brief Active Sessions.
+     * @return Return value.
      */
     std::vector<std::string> activeSessions() const;
 
@@ -210,7 +212,16 @@ private:
     Config config_;
     std::unordered_map<std::string, ImportWizardState> sessions_;
 
+    /**
+     * @brief Require Session.
+     * @param[in] session_id Identifier of the session.
+     * @return Return value.
+     */
     ImportWizardState& requireSession(const std::string& session_id);
+    /**
+     * @brief Generate Session Id.
+     * @return Return value.
+     */
     std::string generateSessionId() const;
 };
 
@@ -218,16 +229,23 @@ private:
 // ImportWizardManager (process-singleton convenience wrapper)
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief Process-global import wizard registry.
- *
- * Provides a singleton ImportWizard instance shared by the API handler layer.
- */
 class ImportWizardManager {
 public:
+    /**
+     * @brief Instance.
+     * @return Return value.
+     */
     static ImportWizardManager& instance();
 
+    /**
+     * @brief Configure.
+     * @param[in] config Input parameter.
+     */
     void configure(ImportWizard::Config config);
+    /**
+     * @brief Wizard.
+     * @return Return value.
+     */
     ImportWizard& wizard();
 
 private:

@@ -88,61 +88,25 @@ struct AdaLoraExportReport {
     std::vector<std::string> errors;
 };
 
-/**
- * @brief HuggingFace legal ingestion plugin with canonicalization and AdaLoRA export.
- *
- * Pipeline:
- * - Raw ingest (HuggingFace adapter hook)
- * - Canonical relational core normalization
- * - Multi-model projection hooks (graph/vector/process/timeseries)
- * - Training export (AdaLoRA-compatible JSONL)
- */
 class HuggingFaceIngestPlugin {
 public:
     explicit HuggingFaceIngestPlugin(HuggingFaceIngestConfig config = {});
 
-    /**
-     * @brief Initialize plugin state and lifecycle resources.
-     * @return true when initialization was successful.
-     */
     [[nodiscard]] bool init();
 
     /**
-     * @brief Shutdown plugin and release in-memory lifecycle state.
+     * @brief Shutdown.
      */
     void shutdown();
 
-    /**
-     * @brief Execute full dataset snapshot import.
-     * @param request Full import request containing dataset and raw seed payload.
-     * @return Ingestion report including dirty tracking and checkpoint metadata.
-     */
     [[nodiscard]] IngestionReport runFullImport(const HuggingFaceImportRequest& request);
 
-    /**
-     * @brief Execute incremental update/refresh import.
-     * @param request Update request with changed records and resume behavior.
-     * @return Ingestion report including idempotent upsert and dead-letter outcomes.
-     */
     [[nodiscard]] IngestionReport runIncrementalUpdate(const HuggingFaceUpdateRequest& request);
 
-    /**
-     * @brief Run quality and compliance validation over canonical/training records.
-     * @return Validation report with failing examples and detailed error strings.
-     */
     [[nodiscard]] ValidationReport validateQuality() const;
 
-    /**
-     * @brief Export canonical training examples to AdaLoRA-compatible JSONL.
-     * @param request Export format and output path configuration.
-     * @return Export report with deterministic record count and failure diagnostics.
-     */
     [[nodiscard]] AdaLoraExportReport exportAdaLoraJsonl(const AdaLoraExportRequest& request) const;
 
-    /**
-     * @brief Return canonical relational core table names used by the pipeline.
-     * @return Stable table list for integration checks and documentation.
-     */
     [[nodiscard]] std::vector<std::string> canonicalTableNames() const;
 
     [[nodiscard]] bool isInitialized() const noexcept { return initialized_; }
@@ -219,18 +183,68 @@ private:
         std::string error;
     };
 
+    /**
+     * @brief Fetch Raw Rows.
+     * @param[in] request Input parameter.
+     * @return Return value.
+     */
     std::vector<json> fetchRawRows(const HuggingFaceImportRequest& request) const;
+    /**
+     * @brief Fetch Raw Rows.
+     * @param[in] request Input parameter.
+     * @return Return value.
+     */
     std::vector<json> fetchRawRows(const HuggingFaceUpdateRequest& request) const;
+    /**
+     * @brief Normalize Legal Record.
+     * @param[in] row Input parameter.
+     * @param[in] dataset_name Name of the dataset.
+     * @param[in] split Input parameter.
+     * @param[in] row_index Input parameter.
+     * @return Return value.
+     */
     NormalizationResult normalizeLegalRecord(
         const json& row,
         std::string_view dataset_name,
         std::string_view split,
         std::size_t row_index) const;
+    /**
+     * @brief Compute Quality Score.
+     * @param[in] raw_row Input parameter.
+     * @param[in] document Input parameter.
+     * @return Return value.
+     */
     double computeQualityScore(const json& raw_row, const LegalDocument& document) const;
+    /**
+     * @brief Build Leakage Sensitive Split.
+     * @param[in] document Input parameter.
+     * @return Return value.
+     */
     std::string buildLeakageSensitiveSplit(const LegalDocument& document) const;
+    /**
+     * @brief Project Document.
+     * @param[in] document Input parameter.
+     * @param[in] annotations Input parameter.
+     */
     void projectDocument(const LegalDocument& document, const std::vector<LegalAnnotation>& annotations);
+    /**
+     * @brief Upsert Canonical.
+     * @param[in] normalized Input parameter.
+     * @param[in] split Input parameter.
+     * @param[in,out] inserted Input/output parameter.
+     * @return Return value.
+     */
     std::size_t upsertCanonical(const NormalizationResult& normalized, const std::string& split, bool* inserted);
+    /**
+     * @brief Update Checkpoint.
+     * @param[in] processed_records Input parameter.
+     */
     void updateCheckpoint(std::size_t processed_records);
+    /**
+     * @brief Is Duplicate.
+     * @param[in] document Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool isDuplicate(const LegalDocument& document) const;
 
     HuggingFaceIngestConfig config_;

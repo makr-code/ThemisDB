@@ -26,9 +26,6 @@ namespace auth {
 // SubjectAttributes — identity and role attributes of the requesting principal
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Attributes describing the requesting subject (user, service, device).
- */
 struct SubjectAttributes {
     std::string subject_id;
     std::string role;
@@ -42,9 +39,6 @@ struct SubjectAttributes {
 // ResourceAttributes — attributes of the target resource
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Attributes describing the resource being accessed.
- */
 struct ResourceAttributes {
     std::string resource_id;
     std::string resource_type;   ///< e.g. "document", "collection", "query"
@@ -57,11 +51,6 @@ struct ResourceAttributes {
 // EnvironmentAttributes — contextual attributes at the time of the request
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Environmental context at the moment of the access request.
- *
- * Zero-value-initialised; populate only the fields relevant to the policy.
- */
 struct EnvironmentAttributes {
     std::string client_ip;
     std::string geo_region;
@@ -74,22 +63,12 @@ struct EnvironmentAttributes {
 // PolicyDecision — tri-valued decision per XACML semantics
 // ---------------------------------------------------------------------------
 
-/**
- * @brief XACML-aligned tri-valued policy decision.
- *
- * ALLOW and DENY are definitive.  NOT_APPLICABLE indicates that this
- * policy has no opinion; the decision engine combines multiple policies
- * using a combining algorithm (e.g., deny-overrides, permit-overrides).
- */
 enum class PolicyDecision { ALLOW, DENY, NOT_APPLICABLE };
 
 // ---------------------------------------------------------------------------
 // PolicyEvaluationResult — structured result from a single policy evaluation
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Result of evaluating an IAuthorizationPolicy.
- */
 struct PolicyEvaluationResult {
     PolicyDecision       decision = PolicyDecision::NOT_APPLICABLE;
     std::string          policy_id;
@@ -101,32 +80,14 @@ struct PolicyEvaluationResult {
 // IAuthorizationPolicy — ABAC policy evaluation interface
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Pure-virtual ABAC policy evaluation interface.
- *
- * Each IAuthorizationPolicy implementation encapsulates a single named policy
- * document (OPA Rego, Cedar, XACML, or custom rule engine).  The policy
- * engine composes multiple instances using a combining algorithm.
- *
- * ### Contract
- * - `evaluate()` is read-only and must be safe to call concurrently.
- * - `reload()` performs a hot-reload from the backing store; it may briefly
- *   block concurrent `evaluate()` calls while swapping the rule set.
- * - Returning NOT_APPLICABLE leaves the decision to other registered policies.
- */
 class IAuthorizationPolicy {
 public:
+    /**
+     * @brief IAuthorization Policy.
+     * @return Return value.
+     */
     virtual ~IAuthorizationPolicy() = default;
 
-    /**
-     * @brief Evaluate the policy for the given subject/resource/action triple.
-     *
-     * @param subject      Attributes of the requesting principal.
-     * @param resource     Attributes of the target resource.
-     * @param action       Requested action (e.g., "read", "write", "delete").
-     * @param environment  Optional contextual attributes.
-     * @return PolicyEvaluationResult containing the decision and audit metadata.
-     */
     [[nodiscard]] virtual PolicyEvaluationResult evaluate(
         const SubjectAttributes&     subject,
         const ResourceAttributes&    resource,
@@ -134,17 +95,10 @@ public:
         const EnvironmentAttributes& environment = {}
     ) const = 0;
 
-    /// Unique identifier for this policy (used for logging and combining).
     [[nodiscard]] virtual std::string policyId() const = 0;
 
-    /// Policy document version string (e.g., semver or git SHA).
     [[nodiscard]] virtual std::string policyVersion() const = 0;
 
-    /**
-     * @brief Hot-reload the policy document from its backing store.
-     *
-     * @return `true` if the reload succeeded; `false` on parse/validation error.
-     */
     [[nodiscard]] virtual bool reload() = 0;
 };
 

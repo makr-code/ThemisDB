@@ -64,6 +64,11 @@ public:
             return false;
         }
 
+        /**
+         * @brief Lock.
+         * @param[in] metrics_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lock(metrics_mutex_);
         auto& state = metrics_[metric_name];
         if (!state) {
@@ -81,6 +86,11 @@ public:
             return 0;
         }
 
+        /**
+         * @brief Lock.
+         * @param[in] metrics_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lock(metrics_mutex_);
         std::size_t count = 0;
 
@@ -95,6 +105,11 @@ public:
     }
 
     CardinalityLimit getCardinalityLimit(const std::string& metric_name) override {
+        /**
+         * @brief Lock.
+         * @param[in] metrics_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(metrics_mutex_);
         auto it = metrics_.find(metric_name);
         if (it != metrics_.end() && it->second) {
@@ -112,6 +127,11 @@ public:
         const std::string& metric_name,
         const std::map<std::string, std::string>& labels) override {
 
+        /**
+         * @brief Lock.
+         * @param[in] metrics_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(metrics_mutex_);
         auto it = metrics_.find(metric_name);
 
@@ -141,6 +161,11 @@ public:
         const std::string& metric_name,
         const std::map<std::string, std::string>& labels) override {
 
+        /**
+         * @brief Lock.
+         * @param[in] metrics_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(metrics_mutex_);
         auto it = metrics_.find(metric_name);
 
@@ -151,6 +176,11 @@ public:
             // held simultaneously by the same thread.
             lock.unlock();
             {
+                /**
+                 * @brief Write lock.
+                 * @param[in] metrics_mutex_ Input parameter.
+                 * @return Return value.
+                 */
                 std::unique_lock<std::shared_mutex> write_lock(metrics_mutex_);
                 auto& state = metrics_[metric_name];
                 if (!state) {
@@ -212,6 +242,11 @@ public:
         const std::string& metric_name,
         const std::map<std::string, std::string>& original_labels) override {
 
+        /**
+         * @brief Lock.
+         * @param[in] metrics_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(metrics_mutex_);
         auto it = metrics_.find(metric_name);
 
@@ -227,6 +262,11 @@ public:
     }
 
     CardinalityStats getCardinalityStats(const std::string& metric_name) override {
+        /**
+         * @brief Lock.
+         * @param[in] metrics_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(metrics_mutex_);
         auto it = metrics_.find(metric_name);
 
@@ -259,6 +299,11 @@ public:
         // holding metrics_mutex_ would deadlock.
         std::vector<std::string> names;
         {
+            /**
+             * @brief Lock.
+             * @param[in] metrics_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::shared_lock<std::shared_mutex> lock(metrics_mutex_);
             names.reserve(metrics_.size());
             for (const auto& [metric_name, state] : metrics_) {
@@ -284,6 +329,11 @@ public:
             return false;
         }
 
+        /**
+         * @brief Lock.
+         * @param[in] metrics_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(metrics_mutex_);
         auto it = metrics_.find(metric_name);
 
@@ -298,6 +348,11 @@ public:
     }
 
     bool resetMetricCardinality(const std::string& metric_name) override {
+        /**
+         * @brief Lock.
+         * @param[in] metrics_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lock(metrics_mutex_);
         auto it = metrics_.find(metric_name);
 
@@ -316,11 +371,21 @@ public:
     }
 
     void resetAll() override {
+        /**
+         * @brief Lock.
+         * @param[in] metrics_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lock(metrics_mutex_);
         metrics_.clear();
     }
 
     bool setTrackingEnabled(const std::string& metric_name, bool enabled) override {
+        /**
+         * @brief Lock.
+         * @param[in] metrics_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(metrics_mutex_);
         auto it = metrics_.find(metric_name);
 
@@ -335,6 +400,11 @@ public:
     }
 
     bool isTrackingEnabled(const std::string& metric_name) override {
+        /**
+         * @brief Lock.
+         * @param[in] metrics_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(metrics_mutex_);
         auto it = metrics_.find(metric_name);
 
@@ -352,7 +422,11 @@ private:
     std::shared_mutex metrics_mutex_;
 };
 
-// Factory function to create a new tracker
+/**
+ * @brief Factory function to create a new tracker
+ * @return Return value.
+ * @details Implements createHighCardinalityMetricsTracker without additional internal calls.
+ */
 std::unique_ptr<HighCardinalityMetricsTracker> createHighCardinalityMetricsTracker() {
     return std::make_unique<HighCardinalityMetricsTrackerImpl>();
 }

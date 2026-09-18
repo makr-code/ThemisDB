@@ -33,26 +33,15 @@ namespace graph {
 // TensorFingerprint — MinHash + Simhash signature of a TTTrain
 // ============================================================================
 
-/**
- * @brief 128-bit MinHash + Frobenius-norm-based fingerprint.
- *
- * Two tensors with similar fingerprints are candidate duplicates; exact
- * cosine similarity is computed to confirm.
- */
 struct TensorFingerprint {
-    /// 128-element MinHash signature (each element is a 64-bit hash)
     std::array<uint64_t, 128> minhash{};
 
-    /// Frobenius norm of each TT-core (length = TT-order)
     std::vector<float> core_norms;
 
-    /// Total Frobenius norm of the tensor
     float total_norm = 0.0f;
 
-    /// Tensor order (d)
     std::size_t order = 0;
 
-    /// Maximum TT-rank
     std::size_t max_rank = 0;
 };
 
@@ -60,9 +49,6 @@ struct TensorFingerprint {
 // SimilarTensorResult
 // ============================================================================
 
-/**
- * @brief One entry in a similar-tensor query result.
- */
 struct SimilarTensorResult {
     std::string tensor_id;      ///< Identifier of the similar tensor
     double      similarity = 0; ///< Cosine similarity ∈ [−1, 1]
@@ -75,12 +61,6 @@ struct SimilarTensorResult {
 // PersistedFingerprintNode
 // ============================================================================
 
-/**
- * @brief Durable node payload used for graph metadata recovery.
- *
- * Stores only fingerprint + node metadata. TT-trains and edges are rebuilt or
- * resolved externally after restore.
- */
 struct PersistedFingerprintNode {
     std::string tensor_id;
     TensorFingerprint fingerprint;
@@ -89,18 +69,12 @@ struct PersistedFingerprintNode {
     std::string field;
 };
 
-/**
- * @brief Durable directed edge payload for adjacency re-hydration.
- */
 struct PersistedFingerprintEdge {
     std::string from;
     std::string to = {};
     double similarity = 0.0;
 };
 
-/**
- * @brief Durable full graph payload used for one-shot snapshot restore.
- */
 struct PersistedFingerprintGraphSnapshot {
     std::vector<PersistedFingerprintNode> nodes;
     std::vector<PersistedFingerprintEdge> edges;
@@ -110,27 +84,17 @@ struct PersistedFingerprintGraphSnapshot {
 // FingerprintGraphConfig
 // ============================================================================
 
-/**
- * @brief Configuration for TensorFingerprintGraph.
- */
 struct FingerprintGraphConfig {
-    /// Cosine similarity threshold for adding an edge (default: 0.95)
     double similarity_threshold = 0.95;
 
-    /// Number of MinHash hash functions (default: 128)
     std::size_t num_hash_funcs  = 128;
 
-    /// Number of LSH bands (default: 32; rows_per_band = num_hash_funcs / bands)
     std::size_t num_bands       = 32;
 
-    /// Maximum candidates to verify per query before early-stopping
     std::size_t max_candidates  = 1000;
 
-    /// Maximum number of similar tensors to return per query
     std::size_t top_k           = 50;
 
-    /// Keep full TT-trains in-memory for similarity verification.
-    /// When false, a train loader callback should be provided.
     bool cache_trains_in_memory = true;
 };
 
@@ -138,19 +102,6 @@ struct FingerprintGraphConfig {
 // TensorFingerprintGraph
 // ============================================================================
 
-/**
- * @brief Directed similarity graph over TT-compressed tensors.
- *
- * Nodes are identified by a string `tensor_id` (typically
- * `"<tenant>/<collection>/<field>@<version>"`).  Edges are added
- * automatically when fingerprint similarity exceeds `similarity_threshold`.
- *
- * ### Thread safety
- * All public methods are protected by an internal `std::mutex`.  The graph
- * supports concurrent inserts and queries, but updates during a query may
- * cause the query to see a partially-updated adjacency list (acceptable for
- * approximate similarity search).
- */
 class TensorFingerprintGraph {
 public:
     using TrainLoadFn = std::function<std::optional<storage::TTTrain>(
@@ -158,10 +109,6 @@ public:
         const std::string& tenant,
         const std::string& collection,
         const std::string& field)>;
-    /**
-     * @brief Construct with configuration.
-     * @throws std::invalid_argument if num_hash_funcs % num_bands != 0.
-     */
     explicit TensorFingerprintGraph(
         const FingerprintGraphConfig& cfg = {});
 
@@ -169,139 +116,129 @@ public:
 
     // ─── Insert / Update ──────────────────────────────────────────────────
 
-    /**
-     * @brief Add or update a tensor in the graph.
-     *
-     * 1. Computes the TensorFingerprint.
-     * 2. Performs LSH lookup to find candidate neighbours.
-     * 3. Computes exact cosine similarity for each candidate.
-     * 4. Adds edges for pairs with similarity ≥ threshold.
-     *
-     * @param tensor_id  Unique identifier for this tensor.
-     * @param train      TT-train to fingerprint.
-     * @param tenant     Owning tenant (metadata).
-     * @param collection Collection name (metadata).
-     * @param field      Field name (metadata).
-     */
     void insert(const std::string&           tensor_id,
                 const storage::TTTrain&       train,
                 const std::string&           tenant     = "",
                 const std::string&           collection = "",
                 const std::string&           field      = "");
 
-    /// Configure optional train resolver used when in-memory train cache is disabled.
+    /**
+     * @brief Set Train Load Fn.
+     * @param[in] fn Input parameter.
+     */
     void setTrainLoadFn(TrainLoadFn fn);
 
     /**
-     * @brief Remove a tensor and all its edges from the graph.
-     *
-     * @return True if the tensor_id existed, false otherwise.
+     * @brief Remove.
+     * @param[in] tensor_id Identifier of the tensor.
+     * @return True when the operation succeeds.
      */
     bool remove(const std::string& tensor_id);
 
     // ─── Query ────────────────────────────────────────────────────────────
 
-    /**
-     * @brief Find tensors most similar to the given train.
-     *
-     * Uses LSH for candidate selection + exact cosine similarity ranking.
-     *
-     * @param train   Query tensor (does not need to be in the graph).
-     * @param top_k   Number of results to return (overrides config if > 0).
-     * @return        Sorted result list (descending similarity).
-     */
     std::vector<SimilarTensorResult>
     findSimilar(const storage::TTTrain& train,
                 std::size_t top_k = 0) const;
 
-    /**
-     * @brief Get graph neighbours of an already-stored tensor.
-     *
-     * Returns tensors directly connected to `tensor_id` by a similarity edge.
-     *
-     * @return Sorted result list (descending similarity), or empty if not found.
-     */
     std::vector<SimilarTensorResult>
     neighbours(const std::string& tensor_id) const;
 
-    /// Export node fingerprint metadata for durable graph bootstrap.
+    /**
+     * @brief Export Persisted Nodes.
+     * @return Return value.
+     */
     std::vector<PersistedFingerprintNode> exportPersistedNodes() const;
 
-    /// Replace in-memory graph with persisted node metadata and rebuilt buckets.
-    /// Edges are not restored and start empty after import.
+    /**
+     * @brief Import Persisted Nodes.
+     * @param[in] nodes Input parameter.
+     */
     void importPersistedNodes(const std::vector<PersistedFingerprintNode>& nodes);
 
-    /// Export directed adjacency edges for durable graph re-hydration.
+    /**
+     * @brief Export Persisted Edges.
+     * @return Return value.
+     */
     std::vector<PersistedFingerprintEdge> exportPersistedEdges() const;
 
-    /// Replace in-memory adjacency with persisted directed edges.
-    /// Missing nodes and duplicate directed edges are ignored.
+    /**
+     * @brief Import Persisted Edges.
+     * @param[in] edges Input parameter.
+     */
     void importPersistedEdges(const std::vector<PersistedFingerprintEdge>& edges);
 
-    /// Export node + edge payload in one snapshot.
+    /**
+     * @brief Export Persisted Graph.
+     * @return Return value.
+     */
     PersistedFingerprintGraphSnapshot exportPersistedGraph() const;
 
-    /// Export one persisted node payload if present.
     std::optional<PersistedFingerprintNode>
     exportPersistedNode(const std::string& tensor_id) const;
 
-    /// Export directed edges originating from one node.
     std::vector<PersistedFingerprintEdge>
     exportPersistedEdgesFor(const std::string& tensor_id) const;
 
-    /// Atomically replace graph state from a full persisted snapshot.
+    /**
+     * @brief Import Persisted Graph.
+     * @param[in] snapshot Input parameter.
+     */
     void importPersistedGraph(const PersistedFingerprintGraphSnapshot& snapshot);
 
-    /// Upsert one persisted node and replace its symmetric adjacency.
+    /**
+     * @brief Upsert Persisted Node.
+     * @param[in] node Input parameter.
+     * @param[in] edges Input parameter.
+     */
     void upsertPersistedNode(const PersistedFingerprintNode& node,
                              const std::vector<PersistedFingerprintEdge>& edges);
 
     // ─── GraphIndex-backed durable storage hooks ──────────────────────────
 
-    /// Called after insert() succeeds; delivers the newly persisted node and
-    /// all outgoing directed edges from that node.
-    /// Invoked outside the graph mutex. Exceptions are swallowed.
     using NodePersistHookFn =
         std::function<void(const PersistedFingerprintNode&,
                            const std::vector<PersistedFingerprintEdge>&)>;
 
-    /// Called after remove() succeeds; delivers the removed tensor_id.
-    /// Invoked outside the graph mutex. Exceptions are swallowed.
     using NodeRemoveHookFn = std::function<void(std::string_view tensor_id)>;
 
-    /// Callback signature for enumerating externally stored nodes during restore.
-    /// The caller's callback receives each (node, edges) pair.
     using NodeEnumerateFn = std::function<void(
         std::function<void(const PersistedFingerprintNode&,
                            const std::vector<PersistedFingerprintEdge>&)>)>;
 
-    /// Register (or clear with nullptr/empty fn) the node-persistence hook.
-    /// The hook is invoked after every successful insert() call.
+    /**
+     * @brief Set Node Persist Hook.
+     * @param[in] fn Input parameter.
+     */
     void setNodePersistHook(NodePersistHookFn fn);
 
-    /// Register (or clear with nullptr/empty fn) the node-removal hook.
-    /// The hook is invoked after every successful remove() call.
+    /**
+     * @brief Set Node Remove Hook.
+     * @param[in] fn Input parameter.
+     */
     void setNodeRemoveHook(NodeRemoveHookFn fn);
 
-    /// Restore graph state by enumerating nodes from an external per-node store.
-    ///
-    /// Clears the current in-memory graph, then calls @p enumerate_fn which
-    /// must invoke its argument once per stored (node, edges) pair.
-    /// After enumeration the graph supports findSimilar() and neighbours()
-    /// without requiring a full-blob snapshot.
-    ///
-    /// @param enumerate_fn  Callback that enumerates all stored nodes.
+    /**
+     * @brief Restore From External Store.
+     * @param[in] enumerate_fn Input parameter.
+     */
     void restoreFromExternalStore(NodeEnumerateFn enumerate_fn);
 
-    // ─── Statistics ───────────────────────────────────────────────────────
+    /**
+     * @brief ─── Statistics ───────────────────────────────────────────────────────
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
 
-    /// Number of nodes in the graph.
     std::size_t nodeCount()  const noexcept;
 
-    /// Number of directed edges in the graph.
+    /**
+     * @brief Edge Count.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     std::size_t edgeCount()  const noexcept;
 
-    /// Configuration.
     const FingerprintGraphConfig& config() const noexcept { return cfg_; }
 
 private:
@@ -341,23 +278,59 @@ private:
     std::atomic<bool>  has_node_persist_hook_{false};
     std::atomic<bool>  has_node_remove_hook_{false};
 
-    // ─── Fingerprinting ───────────────────────────────────────────────────
+    /**
+     * @brief ─── Fingerprinting ───────────────────────────────────────────────────
+     * @param[in] train Input parameter.
+     * @return Return value.
+     */
 
     TensorFingerprint computeFingerprint(const storage::TTTrain& train) const;
 
+    /**
+     * @brief Insert Into Buckets.
+     * @param[in] id Input parameter.
+     * @param[in] fp Input parameter.
+     */
     void insertIntoBuckets(const std::string& id, const TensorFingerprint& fp);
+    /**
+     * @brief Remove From Buckets.
+     * @param[in] id Input parameter.
+     * @param[in] fp Input parameter.
+     */
     void removeFromBuckets(const std::string& id, const TensorFingerprint& fp);
 
     std::unordered_set<std::string>
     lshCandidates(const TensorFingerprint& fp) const;
 
+    /**
+     * @brief Band Hash.
+     * @param[in] fp Input parameter.
+     * @param[in] band_start Input parameter.
+     * @param[in] rows_per_band Input parameter.
+     * @param[in] band_idx Input parameter.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     static uint64_t bandHash(const TensorFingerprint& fp,
                              std::size_t band_start,
                              std::size_t rows_per_band,
                              std::size_t band_idx) noexcept;
 
+    /**
+     * @brief Fnv1a64.
+     * @param[in] data Input parameter.
+     * @param[in] len Input parameter.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     static uint64_t fnv1a64(const void* data, std::size_t len) noexcept;
 
+    /**
+     * @brief Exact Similarity.
+     * @param[in] a Input parameter.
+     * @param[in] b Input parameter.
+     * @return Return value.
+     */
     double exactSimilarity(const storage::TTTrain& a,
                            const storage::TTTrain& b) const;
 
@@ -365,11 +338,9 @@ private:
     resolveTrainForNode(const std::string& tensor_id,
                         const NodeEntry& node) const;
 
-    /// Build persisted node payload — caller MUST hold mutex_ (at least shared).
     PersistedFingerprintNode
     buildPersistedNodeLocked(const std::string& tensor_id) const;
 
-    /// Build persisted outgoing edges for a node — caller MUST hold mutex_ (at least shared).
     std::vector<PersistedFingerprintEdge>
     buildPersistedEdgesForLocked(const std::string& tensor_id) const;
 };

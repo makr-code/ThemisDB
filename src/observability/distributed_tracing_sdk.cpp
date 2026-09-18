@@ -24,6 +24,12 @@ class RandomIdGenerator {
 public:
     explicit RandomIdGenerator(std::uint32_t seed) : gen_(seed) {}
 
+    /**
+     * @brief Generate Hex.
+     * @param[in] bytes Input parameter.
+     * @return Return value.
+     * @details Calls: dis(), reserve().
+     */
     std::string generateHex(std::size_t bytes) {
         std::uniform_int_distribution<> dis(0, 15);
         std::string result = {};
@@ -39,7 +45,12 @@ private:
     std::mt19937 gen_;
 };
 
-// String utilities
+/**
+ * @brief String utilities
+ * @param[in] str Input parameter.
+ * @return Return value.
+ * @details Calls: std::transform(), begin(), end(), std::tolower().
+ */
 std::string toLower(const std::string& str) {
     std::string result = str;
     std::transform(result.begin(), result.end(), result.begin(),
@@ -47,6 +58,12 @@ std::string toLower(const std::string& str) {
     return result;
 }
 
+/**
+ * @brief Is Valid Hex String.
+ * @param[in] str Input parameter.
+ * @return True on success.
+ * @details Calls: empty(), std::isxdigit().
+ */
 bool isValidHexString(const std::string& str) {
     if (str.empty()) {
       return false;
@@ -61,8 +78,11 @@ bool isValidHexString(const std::string& str) {
 
 // W3C Trace Context parsing
 std::pair<std::string, std::string> parseW3CTraceparent(const std::string& traceparent) {
-    // Format: version-trace_id-parent_id-trace_flags
-    // Example: 00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01
+    /**
+     * @brief Format: version-trace_id-parent_id-trace_flags Example: 00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01
+     * @param[in] traceparent Input parameter.
+     * @return Return value.
+     */
     std::istringstream iss(traceparent);
     std::string version, trace_id, span_id, flags;
 
@@ -86,8 +106,11 @@ std::pair<std::string, std::string> parseW3CTraceparent(const std::string& trace
 
 // Jaeger trace ID parsing
 std::pair<std::string, std::string> parseJaegerTraceId(const std::string& uber_trace_id) {
-    // Format: trace_id:span_id:parent_span_id:sampled
-    // Example: 4bf92f3577b34da6a3ce929d0e0e4736:00f067aa0ba902b7:0:1
+    /**
+     * @brief Format: trace_id:span_id:parent_span_id:sampled Example: 4bf92f3577b34da6a3ce929d0e0e4736:00f067aa0ba902b7:0:1
+     * @param[in] uber_trace_id Input parameter.
+     * @return Return value.
+     */
     std::istringstream iss(uber_trace_id);
     std::string trace_id, span_id;
 
@@ -105,9 +128,11 @@ std::pair<std::string, std::string> parseJaegerTraceId(const std::string& uber_t
 
 } // namespace
 
-// ============================================================================
-// DistributedTraceContext Implementation
-// ============================================================================
+/**
+ * @brief ============================================================================ DistributedTraceContext Implementation ============================================================================
+ * @return Return value.
+ * @details Calls: gen(), generateHex(), std::chrono::system_clock::now().
+ */
 
 std::shared_ptr<DistributedTraceContext> DistributedTraceContext::createRoot() {
     auto ctx = std::make_shared<DistributedTraceContext>();
@@ -331,6 +356,11 @@ std::shared_ptr<DistributedTraceContext> DistributedTracingSDK::extractContextFr
     const std::map<std::string, std::string>& headers,
     const TraceContextFormat* format) {
 
+    /**
+     * @brief Lock.
+     * @param[in] config_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(config_mutex_);
     TraceContextFormat fmt = format ? *format : config_.default_format;
     return DistributedTraceContext::fromHttpHeaders(headers, fmt);
@@ -344,11 +374,22 @@ std::map<std::string, std::string> DistributedTracingSDK::propagateContextToHead
         return {};
     }
 
+    /**
+     * @brief Lock.
+     * @param[in] config_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(config_mutex_);
     TraceContextFormat fmt = format ? *format : config_.default_format;
     return context->toHttpHeaders(fmt);
 }
 
+/**
+ * @brief Validate Trace Context.
+ * @param[in] context Input parameter.
+ * @return Return value.
+ * @details Calls: traceId(), empty(), length(), isValidHexString(), parentSpanId(), baggage(), size().
+ */
 DistributedTraceResult DistributedTracingSDK::validateTraceContext(
     const std::shared_ptr<DistributedTraceContext>& context) {
 
@@ -420,6 +461,14 @@ DistributedTraceResult DistributedTracingSDK::validateTraceContext(
     return result;
 }
 
+/**
+ * @brief Create Child Context.
+ * @param[in] parent_context Input parameter.
+ * @param[in] new_span_id Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: validateTraceContext(), traceId(), traceState(), isTraceSampled(), empty(), generateSpanId(), lock(), baggage().
+ */
 std::shared_ptr<DistributedTraceContext> DistributedTracingSDK::createChildContext(
     const std::shared_ptr<DistributedTraceContext>& parent_context,
     const std::string& new_span_id) {
@@ -444,6 +493,11 @@ std::shared_ptr<DistributedTraceContext> DistributedTracingSDK::createChildConte
 
     // Inherit baggage if configured
     {
+        /**
+         * @brief Lock.
+         * @param[in] config_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(config_mutex_);
         if (config_.inherit_baggage) {
             child_ctx->baggage_ = parent_context->baggage();
@@ -458,11 +512,21 @@ std::shared_ptr<DistributedTraceContext> DistributedTracingSDK::createChildConte
     return child_ctx;
 }
 
+/**
+ * @brief Generate Trace Id.
+ * @return Return value.
+ * @details Calls: gen(), generateHex().
+ */
 std::string DistributedTracingSDK::generateTraceId() {
     RandomIdGenerator gen(std::random_device{}());
     return gen.generateHex(16);
 }
 
+/**
+ * @brief Generate Span Id.
+ * @return Return value.
+ * @details Calls: gen(), generateHex().
+ */
 std::string DistributedTracingSDK::generateSpanId() {
     RandomIdGenerator gen(std::random_device{}());
     return gen.generateHex(8);

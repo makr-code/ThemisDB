@@ -25,9 +25,6 @@ namespace content {
 
 using json = nlohmann::json;
 
-/**
- * @brief Configuration for content validation
- */
 struct ContentValidationConfig {
     // Size limits
     uint64_t max_content_size = 100 * 1024 * 1024;  // 100 MB default
@@ -53,13 +50,19 @@ struct ContentValidationConfig {
     bool enable_schema_validation = false;
     std::string schema_path;  // Path to JSON schema for validation
     
+    /**
+     * @brief To Json.
+     * @return Return value.
+     */
     json toJson() const;
+    /**
+     * @brief From Json.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static ContentValidationConfig fromJson(const json& j);
 };
 
-/**
- * @brief Result of content validation
- */
 struct ContentValidationResult {
     ContentError error;  // Error details (OK if validation passed)
     
@@ -76,27 +79,13 @@ struct ContentValidationResult {
     bool policy_validated = false;
     bool malware_checked = false;
     
+    /**
+     * @brief To Json.
+     * @return Return value.
+     */
     json toJson() const;
 };
 
-/**
- * @brief Content Validator
- * 
- * Provides comprehensive input validation for content ingestion.
- * Validates:
- * - Content size limits
- * - MIME type and format
- * - Policy compliance
- * - File integrity
- * - Optional: Schema validation, malware scanning, PII detection
- * 
- * Usage:
- *   ContentValidator validator(config, policy);
- *   auto result = validator.validate(data, filename, correlation_id);
- *   if (result.error.failed()) {
- *       // Handle validation error
- *   }
- */
 class ContentValidator {
 public:
     explicit ContentValidator(
@@ -104,14 +93,6 @@ public:
         const ContentPolicy* policy = nullptr
     );
     
-    /**
-     * @brief Validate content before processing
-     * 
-     * @param data Binary content to validate
-     * @param filename Optional filename hint
-     * @param correlation_id Optional correlation ID for tracing
-     * @return ContentValidationResult with detailed validation status
-     */
     ContentValidationResult validate(
         const std::string& data,
         const std::string& filename = "",
@@ -119,28 +100,19 @@ public:
     );
     
     /**
-     * @brief Validate just the MIME type
-     * 
-     * @param mime_type MIME type to validate
-     * @return ContentError (OK if valid)
+     * @brief Validate Mime Type.
+     * @param[in] mime_type Input parameter.
+     * @return Return value.
      */
     ContentError validateMimeType(const std::string& mime_type);
     
-    /**
-     * @brief Validate content size
-     * 
-     * @param size Content size in bytes
-     * @param mime_type Optional MIME type for type-specific limits
-     * @return ContentError (OK if valid)
-     */
     ContentError validateSize(uint64_t size, const std::string& mime_type = "");
     
     /**
-     * @brief Validate content format (magic bytes check)
-     * 
-     * @param data Content data
-     * @param expected_mime MIME type to verify against
-     * @return ContentError (OK if valid)
+     * @brief Validate Format.
+     * @param[in] data Input parameter.
+     * @param[in] expected_mime Input parameter.
+     * @return Return value.
      */
     ContentError validateFormat(
         const std::string& data,
@@ -148,53 +120,41 @@ public:
     );
     
     /**
-     * @brief Validate filename for security issues
-     * 
-     * Rejects filenames that contain:
-     * - Path traversal sequences ("../" or "..\")
-     * - Absolute path prefixes ("/" or "C:\")
-     * - Null bytes or ASCII control characters
-     * - Excessively long names
-     * 
-     * @param filename Filename to validate
-     * @return ContentError (OK if safe)
+     * @brief Validate Filename.
+     * @param[in] filename Input parameter.
+     * @return Return value.
      */
     ContentError validateFilename(const std::string& filename);
     
-    /**
-     * @brief Check if processing timeout has been exceeded
-     * 
-     * @param start_time Processing start time
-     * @param operation_type Type of operation (extraction, chunking, etc.)
-     * @return ContentError (OK if within timeout, CONTENT_TIMEOUT otherwise)
-     */
     ContentError checkTimeout(
         const std::chrono::steady_clock::time_point& start_time,
         const std::string& operation_type = "processing"
     );
     
     /**
-     * @brief Get timeout for specific operation
-     * 
-     * @param operation_type Operation type (extraction, chunking, embedding, processing)
-     * @return Timeout duration
+     * @brief Get Operation Timeout.
+     * @param[in] operation_type Input parameter.
+     * @return Return value.
      */
     std::chrono::seconds getOperationTimeout(const std::string& operation_type) const;
     
     /**
-     * @brief Update configuration
+     * @brief Set Config.
+     * @param[in] config Input parameter.
      */
     void setConfig(const ContentValidationConfig& config);
+    /**
+     * @brief Get Config.
+     * @return Return value.
+     */
     const ContentValidationConfig& getConfig() const;
     
     /**
-     * @brief Set content policy
+     * @brief Set Policy.
+     * @param[in] policy Input parameter.
      */
     void setPolicy(const ContentPolicy* policy);
     
-    /**
-     * @brief Validation statistics
-     */
     struct Stats {
         uint64_t total_validations = 0;
         uint64_t successful_validations = 0;
@@ -204,9 +164,20 @@ public:
         uint64_t policy_violations = 0;
         uint64_t timeouts = 0;
         
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         json toJson() const;
     };
+    /**
+     * @brief Get Stats.
+     * @return Return value.
+     */
     const Stats& getStats() const;
+    /**
+     * @brief Reset Stats.
+     */
     void resetStats();
     
 private:
@@ -215,34 +186,48 @@ private:
     mutable Stats stats_;
     
     // Helper methods
+    /**
+     * @brief Detect Mime Type.
+     * @param[in] data Input parameter.
+     * @param[in] filename Input parameter.
+     * @return Return value.
+     */
     std::string detectMimeType(const std::string& data, const std::string& filename) const;
+    /**
+     * @brief Mime To Category.
+     * @param[in] mime_type Input parameter.
+     * @return Return value.
+     */
     ContentCategory mimeToCategory(const std::string& mime_type) const;
+    /**
+     * @brief Check Magic Bytes.
+     * @param[in] data Input parameter.
+     * @param[in] mime_type Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool checkMagicBytes(const std::string& data, const std::string& mime_type) const;
+    /**
+     * @brief Validate With Policy.
+     * @param[in] mime_type Input parameter.
+     * @param[in] size Input parameter.
+     * @return Return value.
+     */
     ContentError validateWithPolicy(const std::string& mime_type, uint64_t size);
 };
 
-/**
- * @brief RAII helper for timeout checking
- * 
- * Usage:
- *   ContentValidator validator(config);
- *   TimeoutGuard guard(validator, "extraction");
- *   // ... perform extraction ...
- *   if (auto err = guard.check(); err.failed()) {
- *       // Handle timeout
- *   }
- */
 class TimeoutGuard {
 public:
     TimeoutGuard(ContentValidator& validator, const std::string& operation_type);
     
     /**
-     * @brief Check if operation has timed out
+     * @brief Check.
+     * @return Return value.
      */
     ContentError check() const;
     
     /**
-     * @brief Get elapsed time
+     * @brief Elapsed.
+     * @return Return value.
      */
     std::chrono::milliseconds elapsed() const;
     

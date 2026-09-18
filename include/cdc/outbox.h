@@ -60,9 +60,6 @@ namespace cdc {
 // OutboxState
 // ============================================================
 
-/**
- * @brief Lifecycle state of an outbox record.
- */
 enum class OutboxState {
     PENDING,    ///< Written to outbox; not yet forwarded to Changefeed
     PUBLISHED,  ///< Successfully forwarded to Changefeed and marked done
@@ -73,12 +70,6 @@ enum class OutboxState {
 // OutboxRecord
 // ============================================================
 
-/**
- * @brief A single transactional outbox record.
- *
- * Written inside a user transaction alongside the application data.
- * Relay reads PENDING records and forwards them to Changefeed.
- */
 struct OutboxRecord {
     uint64_t     outbox_sequence{0};  ///< Monotonic outbox-internal sequence
     std::string  collection;          ///< Target collection / table name
@@ -92,7 +83,16 @@ struct OutboxRecord {
     std::string  failure_reason;      ///< Last relay error (FAILED state)
     nlohmann::json metadata;          ///< Caller-supplied metadata (tx_id, user, …)
 
+    /**
+     * @brief To Json.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
+    /**
+     * @brief From Json.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static OutboxRecord fromJson(const nlohmann::json& j);
 };
 
@@ -100,39 +100,8 @@ struct OutboxRecord {
 // OutboxWriter
 // ============================================================
 
-/**
- * @brief Writes outbox records into a RocksDB transaction.
- *
- * Usage:
- * @code
- *   // Caller owns the RocksDB transaction; OutboxWriter participates in it.
- *   rocksdb::Transaction* txn = db->BeginTransaction(write_opts);
- *
- *   OutboxWriter writer(db, cf);
- *
- *   // Write application data inside the same transaction:
- *   txn->Put(cf, "orders:42", order_json);
- *
- *   // Enqueue a CDC outbox record in the same transaction:
- *   OutboxRecord rec;
- *   rec.collection = "orders";
- *   rec.key        = "orders:42";
- *   rec.value      = order_json;
- *   rec.event_type = Changefeed::ChangeEventType::EVENT_PUT;
- *   writer.writeToOutbox(txn, rec);
- *
- *   txn->Commit();   // both the app data and outbox record commit atomically
- * @endcode
- *
- * Thread-safety: writeToOutbox() is thread-safe (uses an internal sequence
- * mutex); multiple writers may share one OutboxWriter instance.
- */
 class OutboxWriter {
 public:
-    /**
-     * @param db  RocksDB TransactionDB instance (not owned).
-     * @param cf  Optional column-family handle (nullptr = default CF).
-     */
     explicit OutboxWriter(rocksdb::TransactionDB* db,
                           rocksdb::ColumnFamilyHandle* cf = nullptr);
 
@@ -142,19 +111,10 @@ public:
     OutboxWriter& operator=(const OutboxWriter&) = delete;
 
     /**
-     * @brief Write an outbox record into an existing RocksDB transaction.
-     *
-     * Assigns a sequence number, sets state = PENDING, records
-     * created_at_ms, and calls txn->Put() to store the serialised record.
-     * The sequence counter is also updated inside the transaction so it
-     * commits atomically with the record.
-     *
-     * @param txn  Live RocksDB transaction to participate in (not owned).
-     * @param rec  Outbox record to enqueue (mutated in place: sequence and
-     *             created_at_ms are filled in by this method).
-     * @return     Reference to the populated record (same as @p rec).
-     * @throws CDCException (INVALID_ARGUMENT) if txn is null or key is empty.
-     * @throws CDCException (DB_WRITE_FAILED)  on RocksDB write error.
+     * @brief Write To Outbox.
+     * @param[in,out] txn Input/output parameter.
+     * @param[in,out] rec Input/output parameter.
+     * @return Return value.
      */
     OutboxRecord& writeToOutbox(rocksdb::Transaction* txn, OutboxRecord& rec);
 
@@ -166,7 +126,16 @@ private:
     static constexpr const char* KEY_PREFIX    = "cdc_outbox:";
     static constexpr const char* SEQUENCE_KEY  = "cdc_outbox_sequence";
 
+    /**
+     * @brief Make Key.
+     * @param[in] seq Input parameter.
+     * @return Return value.
+     */
     std::string  makeKey(uint64_t seq) const;
+    /**
+     * @brief Next Sequence.
+     * @return Return value.
+     */
     uint64_t     nextSequence();
 };
 
@@ -174,17 +143,11 @@ private:
 // OutboxRelayConfig
 // ============================================================
 
-/**
- * @brief Configuration for OutboxRelay.
- */
 struct OutboxRelayConfig {
-    /// How often the relay polls for PENDING records (default: 100 ms).
     std::chrono::milliseconds poll_interval{100};
 
-    /// Maximum records to relay in a single poll cycle (default: 100).
     size_t batch_size{100};
 
-    /// Maximum relay attempts before marking a record FAILED (0 = unlimited).
     int max_relay_attempts{5};
 };
 
@@ -192,35 +155,8 @@ struct OutboxRelayConfig {
 // OutboxRelay
 // ============================================================
 
-/**
- * @brief Relay that forwards PENDING outbox records to a Changefeed.
- *
- * Runs a background thread that periodically scans the outbox for PENDING
- * records, records each one as a ChangeEvent in the provided Changefeed,
- * and then marks it PUBLISHED.  Records that fail after max_relay_attempts
- * are marked FAILED and left in the outbox for operator inspection.
- *
- * Usage:
- * @code
- *   OutboxRelayConfig cfg;
- *   cfg.poll_interval = std::chrono::milliseconds(200);
- *
- *   OutboxRelay relay(db, cf, changefeed, cfg);
- *   relay.start();
- *   // ... application runs ...
- *   relay.stop();
- * @endcode
- *
- * Thread-safety: all public methods are thread-safe.
- */
 class OutboxRelay {
 public:
-    /**
-     * @param db         RocksDB TransactionDB instance (not owned).
-     * @param cf         Optional column-family handle (nullptr = default CF).
-     * @param changefeed Changefeed to publish events to (not owned).
-     * @param config     Relay configuration.
-     */
     explicit OutboxRelay(rocksdb::TransactionDB* db,
                          rocksdb::ColumnFamilyHandle* cf,
                          Changefeed& changefeed,
@@ -232,68 +168,48 @@ public:
     OutboxRelay& operator=(const OutboxRelay&) = delete;
 
     /**
-     * @brief Start the background relay thread.
-     *
-     * Safe to call multiple times (second call is a no-op).
+     * @brief Start.
      */
     void start();
 
     /**
-     * @brief Stop the background relay thread.
-     *
-     * Blocks until the thread exits.  After stop(), start() may be called again.
+     * @brief Stop.
      */
     void stop();
 
     /**
-     * @brief Perform one relay cycle synchronously (for testing / on-demand use).
-     *
-     * Fetches up to config.batch_size PENDING records, publishes them to
-     * Changefeed, and updates their state to PUBLISHED or FAILED.
-     *
-     * @return Number of records successfully published in this cycle.
+     * @brief Relay Once.
+     * @return Return value.
      */
     size_t relayOnce();
 
-    /**
-     * @brief Return all outbox records with the given state.
-     *
-     * @param state  Filter by state (PENDING, PUBLISHED, FAILED).
-     * @param limit  Maximum entries to return (0 = unlimited).
-     */
     std::vector<OutboxRecord> listRecords(OutboxState state,
                                           size_t limit = 0) const;
 
-    /**
-     * @brief Return all outbox records regardless of state.
-     *
-     * @param limit  Maximum entries to return (0 = unlimited).
-     */
     std::vector<OutboxRecord> listAllRecords(size_t limit = 0) const;
 
     /**
-     * @brief Remove a single outbox record by its sequence number.
-     *
-     * Intended for PUBLISHED or FAILED records that have been inspected.
-     *
-     * @return true if found and deleted, false if not found.
+     * @brief Remove Record.
+     * @param[in] outbox_sequence Input parameter.
+     * @return True when the operation succeeds.
      */
     bool removeRecord(uint64_t outbox_sequence);
 
     /**
-     * @brief Remove all PUBLISHED records (cleanup after successful delivery).
-     *
-     * @return Number of records removed.
+     * @brief Purge Published.
+     * @return Return value.
      */
     size_t purgePublished();
 
     /**
-     * @brief Total records relayed since construction.
+     * @brief Total Relayed.
+     * @return Return value.
      */
     uint64_t totalRelayed() const;
 
     /**
-     * @brief Total relay failures since construction (records marked FAILED).
+     * @brief Total Failed.
+     * @return Return value.
      */
     uint64_t totalFailed() const;
 
@@ -314,9 +230,28 @@ private:
     static constexpr const char* KEY_PREFIX   = "cdc_outbox:";
     static constexpr const char* SEQUENCE_KEY = "cdc_outbox_sequence";
 
+    /**
+     * @brief Make Key.
+     * @param[in] seq Input parameter.
+     * @return Return value.
+     */
     std::string makeKey(uint64_t seq) const;
+    /**
+     * @brief Relay Thread Func.
+     */
     void        relayThreadFunc();
+    /**
+     * @brief Update Record.
+     * @param[in] rec Input parameter.
+     */
     void        updateRecord(const OutboxRecord& rec);
+    /**
+     * @brief Scan Records.
+     * @param[in] limit Input parameter.
+     * @param[in] filter_state Input parameter.
+     * @param[in] all_states Input parameter.
+     * @return Return value.
+     */
     std::vector<OutboxRecord> scanRecords(size_t limit,
                                           OutboxState filter_state,
                                           bool all_states) const;

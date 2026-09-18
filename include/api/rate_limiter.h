@@ -56,12 +56,6 @@
 namespace themis {
 namespace graphql {
 
-/**
- * @brief Token Bucket Rate Limiter
- * 
- * Implements the token bucket algorithm for rate limiting.
- * Allows burst traffic while maintaining average rate limits.
- */
 class RateLimiter {
 public:
     struct Config {
@@ -69,10 +63,20 @@ public:
         size_t refill_rate = 10;            // Tokens per second
         std::chrono::seconds window = std::chrono::seconds(1);
         
+        /**
+         * @brief Defaults.
+         * @return Return value.
+         * @details Implements defaults without additional internal calls.
+         */
         static Config defaults() {
             return Config{};
         }
         
+        /**
+         * @brief Strict.
+         * @return Return value.
+         * @details Calls: std::chrono::seconds().
+         */
         static Config strict() {
             return Config{
                 .capacity = 10,
@@ -81,6 +85,11 @@ public:
             };
         }
         
+        /**
+         * @brief Permissive.
+         * @return Return value.
+         * @details Calls: std::chrono::seconds().
+         */
         static Config permissive() {
             return Config{
                 .capacity = 1000,
@@ -103,6 +112,11 @@ public:
             , refill_rate(rate)
         {}
         
+        /**
+         * @brief Refill.
+         * @param[in] now Input parameter.
+         * @details Calls: count(), std::min().
+         */
         void refill(std::chrono::steady_clock::time_point now) {
             auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
                 now - last_refill
@@ -130,14 +144,13 @@ public:
         }
     };
     
-    /**
-     * @brief Check if request is allowed for a key
-     * @param key Rate limit key (e.g., user ID, IP address)
-     * @param cost Number of tokens to consume (default: 1)
-     * @return true if request is allowed, false if rate limited
-     */
     bool allow(const std::string& key, size_t cost = 1) {
         auto now = std::chrono::steady_clock::now();
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         // TTL-based eviction: sweep every 64 calls to avoid O(n) on every request.
@@ -176,7 +189,10 @@ public:
     }
     
     /**
-     * @brief Get remaining tokens for a key
+     * @brief Remaining.
+     * @param[in] key Input parameter.
+     * @return Return value.
+     * @details Calls: std::chrono::steady_clock::now(), lock(), find(), end(), refill(), available().
      */
     size_t remaining(const std::string& key) {
         auto now = std::chrono::steady_clock::now();
@@ -191,7 +207,9 @@ public:
     }
     
     /**
-     * @brief Reset rate limit for a key
+     * @brief Reset the modification detection flag.
+     * @param[in] key Input parameter.
+     * @details Calls: lock(), erase().
      */
     void reset(const std::string& key) {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -199,7 +217,8 @@ public:
     }
     
     /**
-     * @brief Clear all rate limit state
+     * @brief Clear.
+     * @details Calls: lock().
      */
     void clear() {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -207,9 +226,6 @@ public:
         stats_ = Stats{};
     }
     
-    /**
-     * @brief Get rate limiter statistics
-     */
     struct Stats {
         std::atomic<uint64_t> allowed_requests{0};
         std::atomic<uint64_t> rejected_requests{0};
@@ -244,7 +260,9 @@ public:
     }
     
     /**
-     * @brief Configure rate limiter
+     * @brief Set Config.
+     * @param[in] config Input parameter.
+     * @details Calls: lock().
      */
     void setConfig(const Config& config) {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -252,13 +270,15 @@ public:
     }
     
     Config getConfig() const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return config_;
     }
     
-    /**
-     * @brief Create a rate limiter with configuration
-     */
     explicit RateLimiter(const Config& config = Config::defaults())
         : config_(config)
     {}
@@ -271,19 +291,11 @@ private:
     uint64_t evict_counter_{0};
 };
 
-/**
- * @brief Rate limit headers helper
- * 
- * Generates standard rate limit headers for HTTP responses.
- */
 struct RateLimitHeaders {
     size_t limit = 0;       // X-RateLimit-Limit
     size_t remaining = 0;   // X-RateLimit-Remaining
     std::chrono::seconds reset{0};  // X-RateLimit-Reset
     
-    /**
-     * @brief Convert to header map
-     */
     std::unordered_map<std::string, std::string> toHeaders() const {
         return {
             {"X-RateLimit-Limit", std::to_string(limit)},
@@ -293,15 +305,13 @@ struct RateLimitHeaders {
     }
 };
 
-/**
- * @brief Per-operation rate limiting
- * 
- * Different rate limits for different GraphQL operations.
- */
 class OperationRateLimiter {
 public:
     /**
-     * @brief Set rate limit for an operation type
+     * @brief Set Limit.
+     * @param[in] operation_type Input parameter.
+     * @param[in] config Input parameter.
+     * @details Calls: lock(), find(), end(), setConfig().
      */
     void setLimit(const std::string& operation_type, const RateLimiter::Config& config) {
         std::unique_lock<std::shared_mutex> lock(mutex_);
@@ -314,14 +324,12 @@ public:
         }
     }
     
-    /**
-     * @brief Check if request is allowed
-     * @param operation_type Query, Mutation, or Subscription
-     * @param key Rate limit key (user ID, IP, etc.)
-     * @param cost Number of tokens to consume
-     * @return true if allowed, false if rate limited
-     */
     bool allow(const std::string& operation_type, const std::string& key, size_t cost = 1) {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(mutex_);
         
         auto it = limiters_.find(operation_type);
@@ -334,7 +342,11 @@ public:
     }
     
     /**
-     * @brief Get remaining tokens for operation and key
+     * @brief Remaining.
+     * @param[in] operation_type Input parameter.
+     * @param[in] key Input parameter.
+     * @return Return value.
+     * @details Calls: lock(), find(), end().
      */
     size_t remaining(const std::string& operation_type, const std::string& key) {
         std::shared_lock<std::shared_mutex> lock(mutex_);
@@ -348,7 +360,11 @@ public:
     }
     
     /**
-     * @brief Get rate limit headers for operation
+     * @brief Get Headers.
+     * @param[in] operation_type Input parameter.
+     * @param[in] key Input parameter.
+     * @return Return value.
+     * @details Calls: lock(), find(), end(), getConfig(), remaining().
      */
     RateLimitHeaders getHeaders(const std::string& operation_type, const std::string& key) {
         std::shared_lock<std::shared_mutex> lock(mutex_);
@@ -367,7 +383,8 @@ public:
     }
     
     /**
-     * @brief Clear all rate limit state
+     * @brief Clear.
+     * @details Calls: lock().
      */
     void clear() {
         std::unique_lock<std::shared_mutex> lock(mutex_);
@@ -375,7 +392,9 @@ public:
     }
     
     /**
-     * @brief Singleton instance
+     * @brief Instance.
+     * @return Return value.
+     * @details Implements instance without additional internal calls.
      */
     static OperationRateLimiter& instance() {
         static OperationRateLimiter instance;

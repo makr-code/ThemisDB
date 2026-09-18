@@ -17,17 +17,6 @@
 namespace themis {
 namespace content {
 
-/**
- * @brief Geospatial Processor Plugin
- * 
- * Uses GDAL/OGR for geospatial data processing.
- * Extracts:
- * - Geometry data (coordinates, bounding box)
- * - CRS (Coordinate Reference System)
- * - Feature properties/attributes
- * - Topology information
- * - Spatial indexes
- */
 class GeoProcessor : public IContentProcessorPlugin {
 public:
     GeoProcessor();
@@ -71,15 +60,45 @@ private:
     bool initialized_ = false;
     
     // Internal methods
+    /**
+     * @brief Parse Geo JSON.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     GeoExtractionData parseGeoJSON(const std::vector<uint8_t>& blob);
     GeoExtractionData parseShapefile(const std::vector<uint8_t>& blob, const ExtractionOptions& options = {});
+    /**
+     * @brief Parse Geo TIFF.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     GeoExtractionData parseGeoTIFF(const std::vector<uint8_t>& blob);
+    /**
+     * @brief Parse KML.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     GeoExtractionData parseKML(const std::vector<uint8_t>& blob);
+    /**
+     * @brief Parse GPX.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     GeoExtractionData parseGPX(const std::vector<uint8_t>& blob);
     GeoExtractionData parseGeoPackage(const std::vector<uint8_t>& blob, const ExtractionOptions& options = {});
     
     std::pair<double, double> calculateCentroid(const GeoExtractionData& geo);
+    /**
+     * @brief Calculate Area.
+     * @param[in] geo Input parameter.
+     * @return Return value.
+     */
     double calculateArea(const GeoExtractionData& geo);
+    /**
+     * @brief Calculate Length.
+     * @param[in] geo Input parameter.
+     * @return Return value.
+     */
     double calculateLength(const GeoExtractionData& geo);
 };
 

@@ -26,12 +26,6 @@
 namespace themis {
 namespace governance {
 
-/**
- * @brief Error codes for compliance reporter operations (7350-7399 range).
- * 
- * Used for structured error handling in compliance report generation,
- * state management, and reporting pipeline.
- */
 enum class ComplianceError {
     kSuccess               = 0,      // No error
     kConflictDetected      = 7350,   // Policy conflict detected during report
@@ -41,47 +35,26 @@ enum class ComplianceError {
     kHtmlGenerationFailed  = 7354,   // HTML generation failed
 };
 
-/**
- * @brief Result struct for compliance report operations with error semantics.
- * 
- * Provides structured error handling with error codes, messages, and
- * optional success data. Thread-safe and auditable.
- */
 struct ComplianceReporterResult {
-    /// Error classification
     ComplianceError error = ComplianceError::kSuccess;
     
-    /// Human-readable error message (empty if kSuccess)
     std::string error_message;
     
-    /// Report content (filled if kSuccess)
     std::string report_content;
     
-    /// Report format (JSON, CSV, HTML, PDF)
     std::string report_format;
     
-    /// Unix timestamp (milliseconds) when result was generated
     int64_t generated_at_ms = 0;
     
-    /// Diagnostic code for integration with DiagnosticAggregator
     int32_t diagnostic_code = 0;
     
-    /**
-     * @brief Check if operation succeeded.
-     * @return true if error == kSuccess
-     */
     [[nodiscard]] bool isSuccess() const {
         return error == ComplianceError::kSuccess;
     }
     
-    /**
-     * @brief Get string representation of error code.
-     * @return Human-readable error name
-     */
     [[nodiscard]] std::string getErrorName() const;
 };
 
-/// PolicyCoverageAnalyzer identifies resources without policies and calculates coverage
 class PolicyCoverageAnalyzer {
 public:
     struct CoverageResult {
@@ -92,6 +65,10 @@ public:
         std::vector<std::string> uncovered_resource_list;
         std::unordered_map<std::string, int> coverage_by_action;
         
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
     };
     
@@ -101,27 +78,38 @@ public:
         std::vector<std::string> overlapping_rule_ids;
         int overlap_count = 0;
         
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
     };
     
-    /// Analyze coverage for a list of resources
     CoverageResult analyzeCoverage(
         const PolicyManager& policy_mgr,
         const std::vector<std::string>& resources,
         const std::vector<std::string>& actions = {"*"}
     ) const;
     
-    /// Detect overlapping rules (multiple rules apply to same resource/action)
+    /**
+     * @brief Detect Overlaps.
+     * @param[in] policy_mgr Input parameter.
+     * @return Return value.
+     */
     std::vector<OverlapResult> detectOverlaps(const PolicyManager& policy_mgr) const;
     
-    /// Find policy gaps (resources that should have policies but don't)
+    /**
+     * @brief Find Gaps.
+     * @param[in] policy_mgr Input parameter.
+     * @param[in] expected_resources Input parameter.
+     * @return Return value.
+     */
     std::vector<std::string> findGaps(
         const PolicyManager& policy_mgr,
         const std::vector<std::string>& expected_resources
     ) const;
 };
 
-/// ComplianceGapDetector compares policies vs compliance requirements
 class ComplianceGapDetector {
 public:
     struct ComplianceRequirement {
@@ -135,7 +123,16 @@ public:
         bool requires_audit = false;
         int min_retention_days = 0;
         
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
+        /**
+         * @brief From Json.
+         * @param[in] j Input parameter.
+         * @return Return value.
+         */
         static ComplianceRequirement fromJson(const nlohmann::json& j);
     };
     
@@ -147,6 +144,10 @@ public:
         std::vector<std::string> affected_resources;
         std::string recommendation;
         
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
     };
     
@@ -158,43 +159,66 @@ public:
         double compliance_percentage = 0.0;
         std::vector<ComplianceGap> gaps;
         
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
     };
     
-    /// Add a compliance requirement
+    /**
+     * @brief Add Requirement.
+     * @param[in] req Input parameter.
+     */
     void addRequirement(const ComplianceRequirement& req);
     
-    /// Detect gaps between requirements and current policies
+    /**
+     * @brief Detect Gaps.
+     * @param[in] policy_mgr Input parameter.
+     * @return Return value.
+     */
     std::vector<ComplianceGap> detectGaps(const PolicyManager& policy_mgr) const;
     
-    /// Get overall compliance status
     ComplianceStatus getComplianceStatus(
         const PolicyManager& policy_mgr,
         const std::string& framework = ""
     ) const;
     
-    /// Load requirements from JSON file
+    /**
+     * @brief Load Requirements.
+     * @param[in] path Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool loadRequirements(const std::string& path);
     
-    /// Export requirements as JSON
+    /**
+     * @brief Export Requirements.
+     * @return Return value.
+     */
     nlohmann::json exportRequirements() const;
     
 private:
     std::vector<ComplianceRequirement> requirements_;
     mutable std::mutex mutex_;
     
+    /**
+     * @brief Check Requirement.
+     * @param[in] req Input parameter.
+     * @param[in] policy_mgr Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool checkRequirement(const ComplianceRequirement& req, const PolicyManager& policy_mgr) const;
 };
 
-/// Base interface for all compliance report types.
-/// Concrete report structs derive from this interface to guarantee CSV export support.
 struct IComplianceReport {
+    /**
+     * @brief ICompliance Report.
+     * @return Return value.
+     */
     virtual ~IComplianceReport() = default;
-    /// Serialise the report as a CSV-formatted string.
     [[nodiscard]] virtual std::string toCSV() const = 0;
 };
 
-/// ComplianceReporter generates various audit reports
 class ComplianceReporter {
 public:
     enum class ReportFormat {
@@ -213,8 +237,16 @@ public:
         std::unordered_map<std::string, int> rules_with_audit;
         int64_t generated_at = 0;
         
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
         std::string toCSV() const override;
+        /**
+         * @brief To HTML.
+         * @return Return value.
+         */
         std::string toHTML() const;
     };
     
@@ -226,8 +258,16 @@ public:
         std::vector<ComplianceGapDetector::ComplianceGap> gaps;
         int64_t generated_at = 0;
         
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
         std::string toCSV() const override;
+        /**
+         * @brief To HTML.
+         * @return Return value.
+         */
         std::string toHTML() const;
     };
     
@@ -243,8 +283,16 @@ public:
         std::vector<Entry> entries;
         int64_t generated_at = 0;
         
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
         std::string toCSV() const override;
+        /**
+         * @brief To HTML.
+         * @return Return value.
+         */
         std::string toHTML() const;
     };
     
@@ -263,8 +311,16 @@ public:
         int low_risks = 0;
         int64_t generated_at = 0;
         
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
         std::string toCSV() const override;
+        /**
+         * @brief To HTML.
+         * @return Return value.
+         */
         std::string toHTML() const;
     };
     
@@ -275,53 +331,51 @@ public:
         int64_t start_time = 0;
         int64_t end_time = 0;
         
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
         std::string toCSV() const override;
+        /**
+         * @brief To HTML.
+         * @return Return value.
+         */
         std::string toHTML() const;
     };
 
-    /// CCPA/CPRA compliance report produced by generateCcpaReport().
     struct CcpaReport : public IComplianceReport {
-        /// Data categories covered by the active PolicyRules (derived from
-        /// classification levels present in the policy set).
         std::vector<std::string> data_categories;
 
-        /// Rules that allow export (potential third-party disclosures).
         std::vector<std::string> third_party_disclosure_rule_ids;
 
-        /// Total number of subjects registered as opted-out.
         int opt_out_count = 0;
 
-        /// Number of rules that pass all CCPA compliance checks.
         int ccpa_compliant_rules = 0;
 
-        /// Number of rules that fail at least one CCPA compliance check.
         int ccpa_non_compliant_rules = 0;
 
-        /// Rules that do not satisfy the RightToKnow evaluator.
         std::vector<std::string> missing_right_to_know;
 
-        /// Rules that do not satisfy the RightToDelete evaluator.
         std::vector<std::string> missing_right_to_delete;
 
-        /// Rules that do not satisfy the OptOutOfSale evaluator.
         std::vector<std::string> missing_opt_out_of_sale;
 
-        /// Rules that do not satisfy the DataPortability evaluator.
         std::vector<std::string> missing_data_portability;
 
-        /// Time window this report covers (Unix timestamps).
         int64_t start_time = 0;
         int64_t end_time   = 0;
 
-        /// Report generation timestamp.
         int64_t generated_at = 0;
 
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
         std::string toCSV() const override;
     };
 
-    /// Atomic state for compliance reporter (Phase 2B enhancement)
     enum class ReporterState : int32_t {
         DRAFT       = 0,      // Reporter initialized, not generating reports
         REPORTING   = 1,      // Report generation in progress
@@ -329,62 +383,54 @@ public:
         FAILED      = 3,      // Report generation failed (terminal state)
     };
 
-    /**
-     * @brief Initialize compliance reporter with atomic state tracking.
-     * @note Thread-safe constructor; sets initial state to DRAFT.
-     */
     ComplianceReporter();
     
-    /**
-     * @brief Get current atomic state of reporter.
-     * @return Current ReporterState
-     */
     [[nodiscard]] ReporterState getState() const;
     
-    /**
-     * @brief Check if reporter is in valid state for report generation.
-     * @return true if state == DRAFT (ready to start new report)
-     */
     [[nodiscard]] bool isReadyForReporting() const;
     
-    /// Generate policy summary report
+    /**
+     * @brief Generate Policy Summary.
+     * @param[in] policy_mgr Input parameter.
+     * @return Return value.
+     */
     PolicySummaryReport generatePolicySummary(const PolicyManager& policy_mgr) const;
     
-    /// Generate policy summary report with error semantics (Phase 2B enhancement)
+    /**
+     * @brief Generate Policy Summary With Result.
+     * @param[in] policy_mgr Input parameter.
+     * @return Return value.
+     */
     ComplianceReporterResult generatePolicySummaryWithResult(
         const PolicyManager& policy_mgr);
 
     
-    /// Generate compliance status report
     ComplianceStatusReport generateComplianceStatus(
         const PolicyManager& policy_mgr,
         const ComplianceGapDetector& detector,
         const std::string& framework = ""
     ) const;
     
-    /// Generate access control matrix
+    /**
+     * @brief Generate Access Control Matrix.
+     * @param[in] policy_mgr Input parameter.
+     * @return Return value.
+     */
     AccessControlMatrix generateAccessControlMatrix(const PolicyManager& policy_mgr) const;
     
-    /// Generate risk assessment report
+    /**
+     * @brief Generate Risk Assessment.
+     * @param[in] policy_mgr Input parameter.
+     * @return Return value.
+     */
     RiskAssessmentReport generateRiskAssessment(const PolicyManager& policy_mgr) const;
     
-    /// Generate change history report
     ChangeHistoryReport generateChangeHistory(
         const PolicyManager& policy_mgr,
         int64_t start_time = 0,
         int64_t end_time = INT64_MAX
     ) const;
     
-    /// Generate CCPA/CPRA compliance report.
-    /// Evaluates all active PolicyRules against the CCPA rule set and
-    /// summarises data categories, third-party disclosure candidates,
-    /// opt-out counts, and compliance gaps.
-    /// @param policy_mgr  Current policy manager instance.
-    /// @param opt_out_count  Number of subjects currently opted out (provided
-    ///        by the caller because the reporter does not own the opt-out registry).
-    /// @param start_time  Start of the reporting window (Unix seconds, default: epoch).
-    /// @param end_time    End of the reporting window (Unix seconds, default: MAX).
-    /// @return Structured CCPA report as a CcpaReport.
     CcpaReport generateCcpaReport(
         const PolicyManager& policy_mgr,
         int opt_out_count = 0,
@@ -392,41 +438,36 @@ public:
         int64_t end_time = INT64_MAX
     ) const;
 
-    /// Export report in specified format
+    /**
+     * @brief Export Report.
+     * @param[in] report Input parameter.
+     * @param[in] format Input parameter.
+     * @return Return value.
+     */
     std::string exportReport(const nlohmann::json& report, ReportFormat format) const;
     
-    /// Generate HTML header for reports
     [[nodiscard]] std::string generateHTMLHeader(const std::string& title) const;
     
-    /// Generate HTML footer for reports
     [[nodiscard]] std::string generateHTMLFooter() const;
     
 private:
-    /// Atomic state tracking (Phase 2B enhancement)
     mutable std::atomic<ReporterState> state_{ReporterState::DRAFT};
     mutable std::mutex state_mutex_;
     
     /**
-     * @brief Validate and update atomic state (Phase 2B enhancement).
-     * 
-     * Thread-safe state transition. Fails if state is invalid.
-     * 
-     * @param expected Expected current state
-     * @param target Target state to transition to
-     * @return true if transition succeeded, false if state mismatch
+     * @brief Transition State.
+     * @param[in] expected Input parameter.
+     * @param[in] target Input parameter.
+     * @return True when the operation succeeds.
      */
     bool transitionState(ReporterState expected, ReporterState target) const;
     
     /**
-     * @brief Generate HTML from string builder pattern (optimized, Phase 2B).
-     * 
-     * Avoids O(n²) concatenation by using pre-reserved string buffer
-     * and ostringstream with appropriate capacity.
-     * 
-     * @param title Report title
-     * @param headers Column headers
-     * @param rows Data rows (each row is list of cell values)
-     * @return Optimized HTML string
+     * @brief Generate HTMLOptimized.
+     * @param[in] title Input parameter.
+     * @param[in] headers Input parameter.
+     * @param[in] rows Input parameter.
+     * @return Return value.
      */
     std::string generateHTMLOptimized(
         const std::string& title,
@@ -434,13 +475,6 @@ private:
         const std::vector<std::vector<std::string>>& rows
     ) const;
     
-    /**
-     * @brief Record diagnostic for compliance failures (Phase 2B integration).
-     * 
-     * @param code Error code (e.g., ComplianceError::kReportingFailed)
-     * @param message Error message
-     * @param component Component name (default: "compliance_reporter")
-     */
     void recordComplianceDiagnostic(
         int32_t code,
         const std::string& message,

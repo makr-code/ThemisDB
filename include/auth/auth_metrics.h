@@ -29,15 +29,10 @@
 #else
 // Provide stub types when Prometheus is not available
 namespace prometheus {
-    /** @brief Registry for. */
     class Registry {};
-    /** @brief Family. */
     template<typename T> class Family {};
-    /** @brief Counter. */
     class Counter { public: void Increment(double = 1.0) {} };
-    /** @brief Gauge. */
     class Gauge { public: void Set(double) {} void Increment(double = 1.0) {} void Decrement(double = 1.0) {} };
-    /** @brief Histogram. */
     class Histogram { public: void Observe(double) {} };
 }
 #endif
@@ -45,9 +40,6 @@ namespace prometheus {
 namespace themis {
 namespace auth {
 
-/**
- * @brief Authentication method types for metrics
- */
 enum class AuthMethod {
     JWT,
     GSSAPI,
@@ -57,12 +49,6 @@ enum class AuthMethod {
     UNKNOWN
 };
 
-/**
- * @brief Prometheus metrics collector for authentication module
- * 
- * Thread-safe metrics collection for authentication operations.
- * Tracks success/failure rates, latency, cache performance, and security events.
- */
 class AuthMetrics {
 public:
     struct Config {
@@ -73,11 +59,21 @@ public:
         // Histogram buckets for latency (in milliseconds)
         std::vector<double> latency_buckets = {1, 5, 10, 25, 50, 100, 250, 500, 1000, 2500};
 
+        /**
+         * @brief Defaults.
+         * @return Return value.
+         * @details Implements defaults without additional internal calls.
+         */
         static Config defaults() { return {}; }
     };
     
 #ifdef THEMIS_HAS_PROMETHEUS
     AuthMetrics();
+    /**
+     * @brief Auth Metrics.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit AuthMetrics(const Config& config);
     explicit AuthMetrics(std::shared_ptr<prometheus::Registry> registry,
                         const Config& config = Config::defaults());
@@ -91,26 +87,20 @@ public:
     // Authentication Attempt Metrics
     // ========================================================================
     
-    /**
-     * @brief Record an authentication attempt
-     * @param method Authentication method used
-     * @param success Whether authentication succeeded
-     * @param duration_ms Time taken for authentication
-     */
     void recordAuthAttempt(AuthMethod method, bool success, double duration_ms = 0.0);
     
     /**
-     * @brief Record authentication success
-     * @param method Authentication method used
-     * @param duration_ms Time taken for authentication
+     * @brief Record Auth Success.
+     * @param[in] method Input parameter.
+     * @param[in] duration_ms Input parameter.
      */
     void recordAuthSuccess(AuthMethod method, double duration_ms);
     
     /**
-     * @brief Record authentication failure
-     * @param method Authentication method used
-     * @param error_code Error code (from AuthErrorCode)
-     * @param duration_ms Time taken before failure
+     * @brief Record Auth Failure.
+     * @param[in] method Input parameter.
+     * @param[in] error_code Input parameter.
+     * @param[in] duration_ms Input parameter.
      */
     void recordAuthFailure(AuthMethod method, int error_code, double duration_ms);
     
@@ -119,25 +109,25 @@ public:
     // ========================================================================
     
     /**
-     * @brief Record JWKS cache hit
+     * @brief Record JWKSCache Hit.
      */
     void recordJWKSCacheHit();
     
     /**
-     * @brief Record JWKS cache miss (fetch required)
+     * @brief Record JWKSCache Miss.
      */
     void recordJWKSCacheMiss();
     
     /**
-     * @brief Record JWKS fetch duration
-     * @param duration_ms Time taken to fetch JWKS
-     * @param success Whether fetch succeeded
+     * @brief Record JWKSFetch.
+     * @param[in] duration_ms Input parameter.
+     * @param[in] success Input parameter.
      */
     void recordJWKSFetch(double duration_ms, bool success);
     
     /**
-     * @brief Record JWKS cache size
-     * @param num_keys Number of keys in cache
+     * @brief Set JWKSCache Size.
+     * @param[in] num_keys Input parameter.
      */
     void setJWKSCacheSize(int num_keys);
     
@@ -146,15 +136,15 @@ public:
     // ========================================================================
     
     /**
-     * @brief Record rate limit exceeded event
-     * @param type Type of rate limit (ip, user)
+     * @brief Record Rate Limit Exceeded.
+     * @param[in] type Input parameter.
      */
     void recordRateLimitExceeded(const std::string& type);
     
     /**
-     * @brief Record current rate limit token count
-     * @param identifier Client identifier
-     * @param tokens Current token count
+     * @brief Set Rate Limit Tokens.
+     * @param[in] identifier Input parameter.
+     * @param[in] tokens Input parameter.
      */
     void setRateLimitTokens(const std::string& identifier, double tokens);
     
@@ -163,20 +153,20 @@ public:
     // ========================================================================
     
     /**
-     * @brief Record account lockout event
-     * @param user_id User identifier
+     * @brief Record Account Lockout.
+     * @param[in] user_id Identifier of the user.
      */
     void recordAccountLockout(const std::string& user_id);
     
     /**
-     * @brief Record account unlock event
-     * @param user_id User identifier
+     * @brief Record Account Unlock.
+     * @param[in] user_id Identifier of the user.
      */
     void recordAccountUnlock(const std::string& user_id);
     
     /**
-     * @brief Set current number of locked accounts
-     * @param count Number of locked accounts
+     * @brief Set Locked Account Count.
+     * @param[in] count Input parameter.
      */
     void setLockedAccountCount(int count);
     
@@ -185,14 +175,14 @@ public:
     // ========================================================================
     
     /**
-     * @brief Record error by error code
-     * @param error_code Authentication error code
+     * @brief Record Error.
+     * @param[in] error_code Input parameter.
      */
     void recordError(int error_code);
     
     /**
-     * @brief Record error by category
-     * @param category Error category (jwt, gssapi, mfa, rate_limit)
+     * @brief Record Error By Category.
+     * @param[in] category Input parameter.
      */
     void recordErrorByCategory(const std::string& category);
     
@@ -201,15 +191,15 @@ public:
     // ========================================================================
     
     /**
-     * @brief Record token validation duration
-     * @param method Authentication method
-     * @param duration_ms Time taken for validation
+     * @brief Record Token Validation.
+     * @param[in] method Input parameter.
+     * @param[in] duration_ms Input parameter.
      */
     void recordTokenValidation(AuthMethod method, double duration_ms);
     
     /**
-     * @brief Record revoked token check
-     * @param was_revoked Whether token was found to be revoked
+     * @brief Record Revoked Token Check.
+     * @param[in] was_revoked Input parameter.
      */
     void recordRevokedTokenCheck(bool was_revoked);
 
@@ -218,15 +208,10 @@ public:
     // ========================================================================
 
     /**
-     * @brief Record a credential-stuffing detection event.
-     *
-     * Increments the `credential_stuffing_attempts_total` counter with labels
-     * `{user_id, ip, outcome}` where outcome is one of:
-     *   "allowed", "captcha_required", "otp_required", "account_locked_24h"
-     *
-     * @param user_id  Targeted user account (may be empty for IP-only events)
-     * @param ip       Source IP address of the stuffing attempt
-     * @param outcome  Escalation outcome string
+     * @brief Record Credential Stuffing Attempt.
+     * @param[in] user_id Identifier of the user.
+     * @param[in] ip Input parameter.
+     * @param[in] outcome Input parameter.
      */
     void recordCredentialStuffingAttempt(const std::string& user_id,
                                          const std::string& ip,
@@ -237,19 +222,14 @@ public:
     // ========================================================================
 
     /**
-     * @brief Record a TOTP validation that succeeded with a non-zero time step offset.
-     *
-     * Increments the `totp_drift_total` counter labelled with the signed step
-     * offset value.  Sustained non-zero offsets indicate a device clock that is
-     * drifting and should be investigated.
-     *
-     * @param step_offset The signed time step offset at which the code matched
-     *                    (e.g., -1 means the previous 30-second window).
+     * @brief Record TOTPDrift.
+     * @param[in] step_offset Input parameter.
      */
     void recordTOTPDrift(int step_offset);
 
     /**
-     * @brief Get the total number of TOTP drift events recorded (always available).
+     * @brief Get TOTPDrift Count.
+     * @return Return value.
      */
     uint64_t getTOTPDriftCount() const;
 
@@ -258,20 +238,20 @@ public:
     // ========================================================================
 
     /**
-     * @brief Set the total LDAP connection pool size (idle + active).
-     * @param count Current pool size
+     * @brief Set LDAPPool Size.
+     * @param[in] count Input parameter.
      */
     void setLDAPPoolSize(int count);
 
     /**
-     * @brief Set the number of idle LDAP connections in the pool.
-     * @param count Number of idle connections
+     * @brief Set LDAPIdle Connections.
+     * @param[in] count Input parameter.
      */
     void setLDAPIdleConnections(int count);
 
     /**
-     * @brief Set the number of active (checked-out) LDAP connections.
-     * @param count Number of active connections
+     * @brief Set LDAPActive Connections.
+     * @param[in] count Input parameter.
      */
     void setLDAPActiveConnections(int count);
     
@@ -280,42 +260,50 @@ public:
     // ========================================================================
     
     /**
-     * @brief Get total authentication attempts
+     * @brief Get Total Attempts.
+     * @return Return value.
      */
     uint64_t getTotalAttempts() const;
     
     /**
-     * @brief Get successful authentications
+     * @brief Get Successful Auths.
+     * @return Return value.
      */
     uint64_t getSuccessfulAuths() const;
     
     /**
-     * @brief Get failed authentications
+     * @brief Get Failed Auths.
+     * @return Return value.
      */
     uint64_t getFailedAuths() const;
     
     /**
-     * @brief Get success rate (0.0 to 1.0)
+     * @brief Get Success Rate.
+     * @return Return value.
      */
     double getSuccessRate() const;
 
     /**
-     * @brief Get total credential-stuffing detection events recorded.
+     * @brief Get Credential Stuffing Total.
+     * @return Return value.
      */
     uint64_t getCredentialStuffingTotal() const;
 
     /**
-     * @brief Get current LDAP connection pool size.
+     * @brief Get LDAPPool Size.
+     * @return Return value.
      */
     int getLDAPPoolSize() const;
 
     /**
-     * @brief Get number of idle LDAP connections.
+     * @brief Get LDAPIdle Connections.
+     * @return Return value.
      */
     int getLDAPIdleConnections() const;
 
     /**
-     * @brief Get number of active LDAP connections.
+     * @brief Get LDAPActive Connections.
+     * @return Return value.
      */
     int getLDAPActiveConnections() const;
 
@@ -366,17 +354,14 @@ private:
     std::atomic<int> ldap_active_connections_count_{0};
     
     // Helper methods
+    /**
+     * @brief Auth Method To String.
+     * @param[in] method Input parameter.
+     * @return Return value.
+     */
     static std::string authMethodToString(AuthMethod method);
 };
 
-/**
- * @brief RAII helper for automatic auth duration measurement
- * 
- * Example usage:
- *   AuthDurationTimer timer(metrics, AuthMethod::JWT);
- *   // ... perform authentication ...
- *   timer.recordSuccess();  // or timer.recordFailure(error_code)
- */
 class AuthDurationTimer {
 public:
     AuthDurationTimer(AuthMetrics& metrics, AuthMethod method)
@@ -394,6 +379,10 @@ public:
         }
     }
     
+    /**
+     * @brief Record Success.
+     * @details Calls: getDuration(), recordAuthSuccess().
+     */
     void recordSuccess() {
         if (!recorded_) {
             auto duration = getDuration();
@@ -402,6 +391,11 @@ public:
         }
     }
     
+    /**
+     * @brief Record Failure.
+     * @param[in] error_code Input parameter.
+     * @details Calls: getDuration(), recordAuthFailure().
+     */
     void recordFailure(int error_code) {
         if (!recorded_) {
             auto duration = getDuration();

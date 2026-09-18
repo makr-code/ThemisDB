@@ -27,57 +27,25 @@ namespace access_model {
 // § 1  Latency Histogram
 // ============================================================================
 
-/**
- * @brief Fixed-bucket histogram for recording operation latency in microseconds.
- *
- * Thread-unsafe; callers must synchronize externally.
- */
 class LatencyHistogram {
 public:
-    /**
-     * @brief Construct a histogram with the given number of buckets and max range.
-     *
-     * @param num_buckets Number of fixed-width buckets
-     * @param max_latency_us Maximum tracked latency in microseconds; values beyond
-     *        this are placed in an overflow bucket
-     */
     explicit LatencyHistogram(std::size_t num_buckets = 1000,
                               uint64_t max_latency_us = 100000);
 
     /**
-     * @brief Record a single latency observation.
-     *
-     * @param latency_us Observed latency in microseconds
+     * @brief Record.
+     * @param[in] latency_us Input parameter.
      */
     void record(uint64_t latency_us);
 
-    /**
-     * @brief Compute the Nth percentile latency.
-     *
-     * @param p Percentile (0–100), e.g. 50 for median, 95 for P95
-     * @return Estimated latency at the given percentile in microseconds;
-     *         returns 0 if no samples recorded
-     */
     [[nodiscard]] uint64_t percentile(double p) const;
 
-    /**
-     * @brief Compute the arithmetic mean latency in microseconds.
-     */
     [[nodiscard]] double mean() const;
 
-    /**
-     * @brief Compute the standard deviation of recorded latencies.
-     */
     [[nodiscard]] double stdDev() const;
 
-    /**
-     * @brief Return the total number of recorded samples.
-     */
     [[nodiscard]] uint64_t count() const noexcept { return count_; }
 
-    /**
-     * @brief Return a human-readable summary of histogram statistics.
-     */
     [[nodiscard]] std::string describe() const;
 
     // Accessible to AccessModelMetrics for coordination overhead calculation
@@ -97,11 +65,6 @@ private:
 // § 2  Per-Key / Per-Tier Access Metrics
 // ============================================================================
 
-/**
- * @brief Access statistics for a single key or tier.
- *
- * Lightweight mutable counter bag; thread-unsafe — callers must synchronize.
- */
 struct AccessMetrics {
     uint64_t access_count = 0;    ///< Total get/put accesses
     uint64_t cache_hits = 0;      ///< Accesses satisfied from cache
@@ -111,29 +74,34 @@ struct AccessMetrics {
     uint64_t promotion_count = 0; ///< Number of promotions triggered
     uint64_t demotion_count = 0;  ///< Number of demotions triggered
 
-    /// Timestamp of most recent access
     std::chrono::system_clock::time_point last_access_time =
         std::chrono::system_clock::now();
 
-    /// Optional per-key latency histogram (null if not enabled)
     std::shared_ptr<LatencyHistogram> latency_histogram;
 
-    /// Record a single access with its latency.
+    /**
+     * @brief Record Access.
+     * @param[in] latency_us Input parameter.
+     */
     void recordAccess(uint64_t latency_us);
 
-    /// Record a cache hit.
+    /**
+     * @brief Record Cache Hit.
+     */
     void recordCacheHit();
 
-    /// Record a cache miss.
+    /**
+     * @brief Record Cache Miss.
+     */
     void recordCacheMiss();
 
-    /// Record an eviction.
+    /**
+     * @brief Record Eviction.
+     */
     void recordEviction();
 
-    /// Return the cache hit rate [0.0, 1.0]; returns 0 if no accesses recorded.
     [[nodiscard]] double cacheHitRate() const;
 
-    /// Return a human-readable summary.
     [[nodiscard]] std::string describe() const;
 };
 
@@ -141,12 +109,6 @@ struct AccessMetrics {
 // § 3  Aggregated Coordinator Metrics
 // ============================================================================
 
-/**
- * @brief Comprehensive metrics for the AccessCoordinator.
- *
- * Aggregates promotion/demotion counters and latency histograms.
- * Thread-unsafe; coordinators should protect access with their own mutex.
- */
 struct AccessOperationCounters {
     uint64_t promotions_initiated = 0;          ///< Promotions queued
     uint64_t promotions_succeeded = 0;          ///< Promotions completed OK
@@ -158,71 +120,49 @@ struct AccessOperationCounters {
     uint64_t storage_hot_accesses_observed = 0; ///< Hot-access signals received
 };
 
-/**
- * @brief Full coordinator metrics object.
- */
 class AccessModelMetrics {
 public:
-    /**
-     * @brief Construct with default histogram parameters.
-     */
     AccessModelMetrics();
 
-    // ── Recording ───────────────────────────────────────────────────────────
-
     /**
-     * @brief Record the latency of one event-processing cycle.
-     * @param latency_us Latency in microseconds
+     * @brief ── Recording ───────────────────────────────────────────────────────────
+     * @param[in] latency_us Input parameter.
      */
+
     void recordEventProcessingLatency(uint64_t latency_us);
 
     /**
-     * @brief Record the end-to-end latency of a tier promotion.
-     * @param latency_us Latency in microseconds
+     * @brief Record Tier Promotion Latency.
+     * @param[in] latency_us Input parameter.
      */
     void recordTierPromotionLatency(uint64_t latency_us);
 
     /**
-     * @brief Record the time taken to reach a policy decision.
-     * @param latency_us Latency in microseconds
+     * @brief Record Policy Decision Latency.
+     * @param[in] latency_us Input parameter.
      */
     void recordPolicyDecisionLatency(uint64_t latency_us);
 
     // ── Queries ─────────────────────────────────────────────────────────────
 
-    /**
-     * @brief Estimate the coordinator overhead as a percentage of application
-     *        query time (simplified approximation).
-     */
     [[nodiscard]] double coordinationOverheadPercent() const;
 
-    /**
-     * @brief Return a compact human-readable summary.
-     */
     [[nodiscard]] std::string describe() const;
 
-    /**
-     * @brief Return a detailed, multi-section report.
-     */
     [[nodiscard]] std::string detailedReport() const;
 
     // ── Public data ──────────────────────────────────────────────────────────
 
-    /// Operation counters (directly mutable by coordinator)
     AccessOperationCounters counters;
 
-    /// Snapshot timestamp
     std::chrono::system_clock::time_point timestamp = std::chrono::system_clock::now();
 
     // ── Public latency histograms (directly accessible for testing/inspection) ─
 
-    /// Histogram of coordinator event-processing latencies (µs)
     LatencyHistogram event_processing_latency_us_;
 
-    /// Histogram of end-to-end tier promotion latencies (µs)
     LatencyHistogram tier_promotion_latency_us_;
 
-    /// Histogram of policy decision latencies (µs)
     LatencyHistogram policy_decision_latency_us_;
 };
 

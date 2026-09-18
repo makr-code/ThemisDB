@@ -18,15 +18,12 @@
 
 namespace themis::exporters {
 
-/// Compression type
 enum class CompressionType {
     NONE,
     GZIP,   ///< Accepted for backward compatibility; produces ZSTD output (not gzip format).
-            ///< For gzip output, pipe through: zstd -d | gzip  (or pigz).
     ZSTD
 };
 
-/// Streaming output writer with optional compression
 class StreamWriter {
 public:
     struct Config {
@@ -37,26 +34,40 @@ public:
         size_t max_file_size = 0;  // 0 = unlimited
     };
     
+    /**
+     * @brief Stream Writer.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit StreamWriter(const Config& config);
     ~StreamWriter();
     
-    /// Write data to stream
+    /**
+     * @brief Write.
+     * @param[in] data Input parameter.
+     */
     void write(const std::string& data);
+    /**
+     * @brief Write.
+     * @param[in] data Input parameter.
+     * @param[in] size Input parameter.
+     */
     void write(const char* data, size_t size);
     
-    /// Flush buffered data
+    /**
+     * @brief Flush.
+     */
     void flush();
     
-    /// Close stream
+    /**
+     * @brief Close.
+     */
     void close();
     
-    /// Get bytes written (before compression)
     size_t getBytesWritten() const { return bytes_written_; }
     
-    /// Get compressed bytes written
     size_t getCompressedBytesWritten() const { return compressed_bytes_written_; }
     
-    /// Check if size limit reached
     bool isLimitReached() const {
         return config_.max_file_size > 0 && compressed_bytes_written_ >= config_.max_file_size;
     }
@@ -72,9 +83,18 @@ private:
     // Compression state
     void* compression_state_ = nullptr;  // zstd stream state
     
+    /**
+     * @brief Init Compression.
+     */
     void initCompression();
+    /**
+     * @brief Write Buffer.
+     */
     void writeBuffer();
     void compressAndWrite([[maybe_unused]] const char* data, [[maybe_unused]] size_t size);
+    /**
+     * @brief Finalize Compression.
+     */
     void finalizeCompression();
 };
 

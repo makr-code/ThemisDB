@@ -16,6 +16,14 @@ namespace themis::storage::detail {
  * must delete it (or wrap it in a `std::unique_ptr`) when done.
  */
 template <typename DBType = rocksdb::DB>
+/**
+ * @brief Open Db Compat.
+ * @param[in] options Input parameter.
+ * @param[in] db_path Input parameter.
+ * @param[in,out] out_db Input/output parameter.
+ * @return Return value.
+ * @details Calls: constexpr(), requires(), DBType::Open(), ok(), release().
+ */
 rocksdb::Status openDbCompat(
     const rocksdb::Options& options,
     const std::string& db_path,
@@ -43,6 +51,16 @@ rocksdb::Status openDbCompat(
  * must delete it (or wrap it in a `std::unique_ptr`) when done.
  */
 template <typename DBType = rocksdb::DB>
+/**
+ * @brief Open Db With Column Families Compat.
+ * @param[in] options Input parameter.
+ * @param[in] db_path Input parameter.
+ * @param[in] cf_descs Input parameter.
+ * @param[in,out] cf_handles Input/output parameter.
+ * @param[in,out] out_db Input/output parameter.
+ * @return Return value.
+ * @details Calls: constexpr(), requires(), DBType::Open(), ok(), release().
+ */
 rocksdb::Status openDbWithColumnFamiliesCompat(
     const rocksdb::DBOptions& options,
     const std::string& db_path,

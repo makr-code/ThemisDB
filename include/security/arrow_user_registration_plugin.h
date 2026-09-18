@@ -25,17 +25,6 @@
 namespace themis {
 namespace security {
 
-/**
- * @brief Apache Arrow User Registration Plugin
- *
- * Integrates with Apache Arrow for bulk user imports from columnar data sources.
- * Supports reading user data from Parquet files, Arrow IPC streams, and Arrow Flight.
- *
- * Use cases:
- * - Bulk import users from data warehouses
- * - Synchronize users from analytical databases
- * - Import users from Parquet/Arrow files
- */
 class ArrowUserRegistrationPlugin : public IUserRegistrationPlugin {
 public:
     struct Config {
@@ -49,6 +38,11 @@ public:
         bool        auto_sync            = false; ///< Automatically sync users on startup
     };
 
+    /**
+     * @brief Arrow User Registration Plugin.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit ArrowUserRegistrationPlugin(const Config& config);
 
     std::string getName() const override;
@@ -71,25 +65,17 @@ public:
 
 #ifdef THEMIS_ENABLE_ARROW
     /**
-     * @brief Bulk-sync users from an Arrow RecordBatch into the in-memory store.
-     *
-     * Expected columns (by name, all utf8):
-     *   - user_id       (required)
-     *   - password_hash (required) – pre-hashed credential
-     *   - roles         (optional) – comma-separated list, e.g. "admin,readonly"
-     *   - email         (optional) – stored in attributes["email"]
-     *
-     * @param batch Arrow RecordBatch containing user records.
-     * @return Result<size_t> Number of rows upserted, or an error.
+     * @brief Bulk Sync From Arrow.
+     * @param[in] batch Input parameter.
+     * @return Return value.
      */
     Result<size_t> bulkSyncFromArrow(const arrow::RecordBatch& batch);
 
     /**
-     * @brief Look up a user from the Arrow-backed store and verify credentials.
-     *
-     * @param user_id     User identifier to look up.
-     * @param credentials Plain-text password to verify against stored hash.
-     * @return Result<UserRegistrationData> User data on success, error on failure.
+     * @brief Authenticate From Arrow.
+     * @param[in] user_id Identifier of the user.
+     * @param[in] credentials Input parameter.
+     * @return Return value.
      */
     Result<UserRegistrationData> authenticateFromArrow(
         const std::string& user_id,
@@ -102,6 +88,11 @@ private:
     std::unordered_map<std::string, UserRegistrationData> user_store_;
     mutable std::mutex                                  store_mutex_;
 
+    /**
+     * @brief Hash Password.
+     * @param[in] password Input parameter.
+     * @return Return value.
+     */
     std::string hashPassword(const std::string& password) const;
 };
 

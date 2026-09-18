@@ -57,11 +57,6 @@
 namespace themis {
 namespace graphql {
 
-/**
- * @brief Simple metrics collector for GraphQL operations
- * 
- * Tracks basic performance and usage metrics for monitoring.
- */
 class Metrics {
 public:
     struct QueryMetrics {
@@ -121,12 +116,13 @@ public:
     };
     
     /**
-     * @brief Record a query execution
-     * @param operation_type Query, Mutation, or Subscription
-     * @param duration_ms Execution duration in milliseconds
-     * @param success Whether the query succeeded
-     * @param depth Maximum nesting depth of the query
-     * @param field_count Total number of fields in the query
+     * @brief Record Query.
+     * @param[in] operation_type Input parameter.
+     * @param[in] duration_ms Input parameter.
+     * @param[in] success Input parameter.
+     * @param[in] depth Input parameter.
+     * @param[in] field_count Input parameter.
+     * @details Calls: getMetricsForType(), fetch_add(), load(), compare_exchange_weak().
      */
     void recordQuery(
         const std::string& operation_type,
@@ -155,10 +151,12 @@ public:
         }
     }
     
-    /**
-     * @brief Get metrics for a specific operation type
-     */
     const QueryMetrics& getMetrics(const std::string& operation_type) const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = metrics_.find(operation_type);
         if (it != metrics_.end()) {
@@ -170,16 +168,19 @@ public:
         return empty;
     }
     
-    /**
-     * @brief Get all metrics
-     */
     std::unordered_map<std::string, QueryMetrics> getAllMetrics() const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return metrics_;
     }
     
     /**
-     * @brief Reset all metrics
+     * @brief Reset the modification detection flag.
+     * @details Calls: lock(), clear().
      */
     void reset() {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -187,7 +188,9 @@ public:
     }
     
     /**
-     * @brief Singleton instance
+     * @brief Instance.
+     * @return Return value.
+     * @details Implements instance without additional internal calls.
      */
     static Metrics& instance() {
         static Metrics instance;
@@ -197,6 +200,12 @@ public:
 private:
     Metrics() = default;
     
+    /**
+     * @brief Get Metrics For Type.
+     * @param[in] operation_type Input parameter.
+     * @return Return value.
+     * @details Calls: lock().
+     */
     QueryMetrics& getMetricsForType(const std::string& operation_type) {
         std::lock_guard<std::mutex> lock(mutex_);
         return metrics_[operation_type];
@@ -206,9 +215,6 @@ private:
     std::unordered_map<std::string, QueryMetrics> metrics_;
 };
 
-/**
- * @brief RAII helper for tracking query execution time
- */
 class QueryTimer {
 public:
     QueryTimer(const std::string& operation_type, size_t depth, size_t field_count)
@@ -232,6 +238,11 @@ public:
         );
     }
     
+    /**
+     * @brief Set Success.
+     * @param[in] success Input parameter.
+     * @details Implements setSuccess without additional internal calls.
+     */
     void setSuccess(bool success) {
         success_ = success;
     }

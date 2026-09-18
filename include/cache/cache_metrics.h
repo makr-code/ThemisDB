@@ -19,12 +19,6 @@
 namespace themis {
 namespace cache {
 
-/**
- * @brief Enhanced cache metrics for observability and monitoring
- * 
- * Thread-safe metrics collection for cache operations.
- * Supports Prometheus-style metrics export.
- */
 struct CacheMetrics {
     // Hit/Miss metrics per tier
     std::atomic<uint64_t> l1_hits{0};
@@ -158,25 +152,16 @@ struct CacheMetrics {
         return *this;
     }
     
-    /**
-     * @brief Calculate overall hit rate
-     */
     double getHitRate() const {
         uint64_t total = l1_hits.load() + l2_hits.load() + l3_hits.load() + misses.load();
         return total > 0 ? static_cast<double>(l1_hits + l2_hits + l3_hits) / total : 0.0;
     }
     
-    /**
-     * @brief Calculate L1 hit rate
-     */
     double getL1HitRate() const {
         uint64_t total = l1_hits.load() + l2_hits.load() + l3_hits.load() + misses.load();
         return total > 0 ? static_cast<double>(l1_hits) / total : 0.0;
     }
     
-    /**
-     * @brief Calculate compression ratio
-     */
     double getCompressionRatio() const {
         uint64_t cached = total_bytes_cached.load();
         uint64_t compressed = total_bytes_compressed.load();
@@ -186,9 +171,6 @@ struct CacheMetrics {
         return static_cast<double>(cached) / compressed;
     }
     
-    /**
-     * @brief Export metrics as JSON
-     */
     nlohmann::json toJson() const {
         nlohmann::json j;
         
@@ -247,7 +229,8 @@ struct CacheMetrics {
     }
     
     /**
-     * @brief Reset all metrics
+     * @brief Reset the modification detection flag.
+     * @details Implements reset without additional internal calls.
      */
     void reset() {
         l1_hits = 0;
@@ -282,12 +265,6 @@ struct CacheMetrics {
     }
 };
 
-/**
- * @brief Circuit breaker for fault isolation
- * 
- * Implements the circuit breaker pattern to prevent cascading failures.
- * States: CLOSED (normal) -> OPEN (failing) -> HALF_OPEN (testing)
- */
 class CircuitBreaker {
 public:
     enum class State {
@@ -301,6 +278,11 @@ public:
         uint32_t success_threshold = 2;        // Successes before closing from half-open
         uint32_t timeout_ms = 60000;           // Time before trying half-open (1 minute)
         uint32_t half_open_max_calls = 3;      // Max calls in half-open state
+        /**
+         * @brief Defaults.
+         * @return Return value.
+         * @details Implements defaults without additional internal calls.
+         */
         static Config defaults() { return {}; }
     };
     
@@ -313,7 +295,9 @@ public:
         , half_open_calls_(0) {}
     
     /**
-     * @brief Check if operation should be allowed
+     * @brief Allow Request.
+     * @return True when the operation succeeds.
+     * @details Calls: std::chrono::steady_clock::now(), load(), count().
      */
     bool allowRequest() {
         auto now = std::chrono::steady_clock::now();
@@ -345,7 +329,8 @@ public:
     }
     
     /**
-     * @brief Record successful operation
+     * @brief Record Success.
+     * @details Implements recordSuccess without additional internal calls.
      */
     void recordSuccess() {
         if (state_ == State::HALF_OPEN) {
@@ -362,7 +347,8 @@ public:
     }
     
     /**
-     * @brief Record failed operation
+     * @brief Record Failure.
+     * @details Calls: std::chrono::steady_clock::now().
      */
     void recordFailure() {
         last_failure_time_ = std::chrono::steady_clock::now();
@@ -380,22 +366,17 @@ public:
         }
     }
     
-    /**
-     * @brief Get current state
-     */
     State getState() const {
         return state_;
     }
     
-    /**
-     * @brief Check if circuit breaker is open
-     */
     bool isOpen() const {
         return state_ == State::OPEN;
     }
     
     /**
-     * @brief Reset circuit breaker to closed state
+     * @brief Reset the modification detection flag.
+     * @details Implements reset without additional internal calls.
      */
     void reset() {
         state_ = State::CLOSED;
@@ -404,9 +385,6 @@ public:
         half_open_calls_ = 0;
     }
 
-    /**
-     * @brief Get current failure count
-     */
     uint32_t getFailureCount() const {
         return failure_count_.load();
     }
@@ -420,17 +398,16 @@ private:
     std::atomic<uint32_t> half_open_calls_;
 };
 
-/**
- * @brief Token bucket rate limiter for cache operations
- * 
- * Implements token bucket algorithm for rate limiting.
- * Thread-safe implementation using atomics.
- */
 class RateLimiter {
 public:
     struct Config {
         uint32_t max_requests_per_second = 10000;  // Rate limit
         uint32_t burst_size = 0;                    // Burst size (0 = same as rate)
+        /**
+         * @brief Defaults.
+         * @return Return value.
+         * @details Implements defaults without additional internal calls.
+         */
         static Config defaults() { return {}; }
     };
     
@@ -444,8 +421,9 @@ public:
     }
     
     /**
-     * @brief Try to acquire a token for a request
-     * @return true if request is allowed, false if rate limited
+     * @brief Try Acquire.
+     * @return True when the operation succeeds.
+     * @details Calls: refillTokens(), load(), compare_exchange_weak().
      */
     bool tryAcquire() {
         refillTokens();
@@ -459,15 +437,13 @@ public:
         return false;  // Rate limited
     }
     
-    /**
-     * @brief Get current available tokens
-     */
     uint32_t availableTokens() const {
         return tokens_.load();
     }
     
     /**
-     * @brief Reset rate limiter
+     * @brief Reset the modification detection flag.
+     * @details Calls: std::chrono::steady_clock::now().
      */
     void reset() {
         tokens_ = config_.max_requests_per_second;
@@ -475,6 +451,10 @@ public:
     }
 
 private:
+    /**
+     * @brief Refill Tokens.
+     * @details Calls: std::chrono::steady_clock::now(), load(), count(), std::min(), compare_exchange_strong().
+     */
     void refillTokens() {
         auto now = std::chrono::steady_clock::now();
         auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(

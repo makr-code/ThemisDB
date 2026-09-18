@@ -74,6 +74,8 @@ public:
      *
      * Returns false once the last DataPoint has been consumed or after
      * close() has been called.
+     * @return True on success.
+     * @note Exception safety: noexcept.
      */
     bool valid() const noexcept;
 
@@ -85,18 +87,14 @@ public:
      * The reference is valid until the next advance() call that crosses a
      * page boundary (i.e. until the internal page buffer is refilled).
      * Copy the DataPoint if you need to retain it across advance() calls.
+     * @return Return value.
+     * @note Exception safety: noexcept.
      */
     const TSStore::DataPoint& current() const noexcept;
 
     /**
-     * @brief Move to the next DataPoint.
-     *
-     * Fetches the next page from the store when the current page is
-     * exhausted.  Calling advance() when valid() == false is a no-op and
-     * returns success.
-     *
-     * @return Success, or an error (e.g. storage I/O failure, cursor
-     *         invalidated by concurrent schema change).
+     * @brief Advance.
+     * @return Return value.
      */
     Result<void> advance();
 
@@ -104,15 +102,24 @@ public:
      * @brief Release all resources and mark the cursor as exhausted.
      *
      * After close(), valid() returns false.  The cursor may not be re-opened.
+     * @note Exception safety: noexcept.
      */
     void close() noexcept;
 
     // ── Observability ─────────────────────────────────────────────────────
 
-    /** Total number of DataPoints returned by current() so far. */
+    /**
+     * @brief Rows consumed.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     uint64_t rowsConsumed() const noexcept;
 
-    /** Total number of backend fetch operations issued. */
+    /**
+     * @brief Pages fetched.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     uint64_t pagesFetched() const noexcept;
 
     ~TsStreamCursor();
@@ -124,10 +131,21 @@ public:
     TsStreamCursor& operator=(TsStreamCursor&&)      noexcept = default;
 
 private:
+    /**
+     * @brief Ts Stream Cursor.
+     * @param[in,out] store Input/output parameter.
+     * @param[in] options Input parameter.
+     * @param[in] cfg Input parameter.
+     * @return Return value.
+     */
     explicit TsStreamCursor(TSStore& store,
                              TSStore::QueryOptions options,
                              Config cfg);
 
+    /**
+     * @brief Fetch Next Page.
+     * @return Return value.
+     */
     Result<void> fetchNextPage();
 
     TSStore*                        store_;

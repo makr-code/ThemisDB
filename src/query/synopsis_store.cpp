@@ -19,7 +19,18 @@ namespace query {
 SynopsisStore::SynopsisStore(size_t max_tuples, size_t max_bytes)
     : max_tuples_(max_tuples), max_bytes_(max_bytes) {}
 
+/**
+ * @brief Insert.
+ * @param[in] tuple Input parameter.
+ * @return True on success.
+ * @details Calls: lock(), size(), push_back(), std::move().
+ */
 bool SynopsisStore::insert(SynopsisTuple tuple) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     if (tuples_.size() >= max_tuples_) {
         return false;
@@ -33,7 +44,18 @@ bool SynopsisStore::insert(SynopsisTuple tuple) {
     return true;
 }
 
+/**
+ * @brief Expire.
+ * @param[in] window_start_us Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), empty(), front(), size(), push_back(), std::move(), pop_front().
+ */
 std::deque<SynopsisTuple> SynopsisStore::expire(int64_t window_start_us) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::deque<SynopsisTuple> expired = {};
 
@@ -46,21 +68,45 @@ std::deque<SynopsisTuple> SynopsisStore::expire(int64_t window_start_us) {
 }
 
 std::deque<SynopsisTuple> SynopsisStore::snapshot() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return tuples_;
 }
 
 size_t SynopsisStore::size() const noexcept {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return tuples_.size();
 }
 
 size_t SynopsisStore::bytes() const noexcept {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return total_bytes_;
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lock().
+ */
 void SynopsisStore::clear() {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     tuples_.clear();
     total_bytes_ = 0;

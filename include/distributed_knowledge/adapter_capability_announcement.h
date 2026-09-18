@@ -23,13 +23,6 @@ namespace themis::distributed_knowledge {
 // AdapterDomainType — coarse domain category broadcast with each announcement
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief Coarse-grained domain category for a LoRA adapter.
- *
- * Used by `AdaptiveShardRouter` to score domain affinity when routing
- * queries to shards.  Values are intentionally broad so that a shard can
- * advertise without exposing tenant or data details.
- */
 enum class AdapterDomainType {
     GENERAL,            ///< No specific specialisation
     SECURITY_MONITOR,   ///< Security anomaly detection / IntentAlert domain
@@ -45,7 +38,12 @@ enum class AdapterDomainType {
     CUSTOM              ///< Shard-defined domain (see custom_domain_label)
 };
 
-/// Convert `AdapterDomainType` to a human-readable string.
+/**
+ * @brief Adapter Domain Type To String.
+ * @param[in] t Input parameter.
+ * @return Return value.
+ * @details Implements adapterDomainTypeToString without additional internal calls.
+ */
 inline std::string adapterDomainTypeToString(AdapterDomainType t) {
     switch (t) {
         case AdapterDomainType::GENERAL:          return "GENERAL";
@@ -68,18 +66,6 @@ inline std::string adapterDomainTypeToString(AdapterDomainType t) {
 // AdapterCapabilityAnnouncement
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief Gossip payload broadcast by each shard to advertise its active LoRA
- *        adapter capabilities.
- *
- * Serialised via `toJson()` / `fromJson()` and embedded in
- * `GossipMessage::payload` with `message_type = "adapter_capability"`.
- *
- * Privacy contract:
- *  - `shard_id` identifies the broadcasting shard (not individual tenants).
- *  - No raw training data or model weights are included.
- *  - `performance_delta_p99_ms` is an aggregate delta, not per-query logs.
- */
 struct AdapterCapabilityAnnouncement {
     // Identity
     std::string shard_id;                   ///< Broadcasting shard identifier
@@ -102,8 +88,6 @@ struct AdapterCapabilityAnnouncement {
     // Liveness
     std::chrono::system_clock::time_point announced_at;
 
-    /// When true, this announcement signals that the adapter has been unloaded
-    /// and is no longer available on the originating shard.
     bool is_withdrawal = false;
 
     // ── Serialisation ────────────────────────────────────────────────────────
@@ -168,41 +152,11 @@ struct AdapterCapabilityAnnouncement {
 // GossipAdapterPublisher
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief Publishes `AdapterCapabilityAnnouncement` messages into the gossip
- *        network after each training round.
- *
- * The publisher is the single integration point between the training layer
- * (`IncrementalLoRATrainer`, `AdapterRegistry`) and the gossip transport.
- * It wraps the announcement in a `GossipMessage` with
- * `message_type = "adapter_capability"` and forwards it to the protocol.
- *
- * Usage:
- * @code
- *   GossipAdapterPublisher publisher(shard_id, gossip_protocol);
- *   publisher.announce(announcement);
- * @endcode
- *
- * Thread safety: `announce()` is thread-safe (mutex-protected).
- */
 class GossipAdapterPublisher {
 public:
-    /**
-     * @brief Callback invoked when a remote shard broadcasts an announcement.
-     *
-     * Consumers (e.g. `AdaptiveShardRouter`) register via
-     * `setAnnouncementCallback()` to receive remote announcements.
-     */
     using AnnouncementCallback =
         std::function<void(const AdapterCapabilityAnnouncement&)>;
 
-    /**
-     * @brief Construct publisher for a specific shard.
-     * @param local_shard_id   Shard identifier for outbound messages.
-     * @param gossip_message_fn  Callable that accepts a `nlohmann::json` payload
-     *                           and dispatches it via the live GossipProtocol.
-     *                           Signature: `void(nlohmann::json payload)`.
-     */
     explicit GossipAdapterPublisher(
         std::string local_shard_id,
         std::function<void(nlohmann::json)> gossip_message_fn);
@@ -215,42 +169,25 @@ public:
     GossipAdapterPublisher& operator=(GossipAdapterPublisher&&)      noexcept = default;
 
     /**
-     * @brief Broadcast an adapter capability announcement to all peers.
-     *
-     * Stamps `announced_at` with the current wall-clock time, serialises the
-     * announcement as JSON, and dispatches it via the gossip message function.
-     *
-     * @param announcement  Capability data to broadcast.
+     * @brief Announce.
+     * @param[in] announcement Input parameter.
      */
     void announce(AdapterCapabilityAnnouncement announcement);
 
     /**
-     * @brief Handle an inbound gossip message that may contain an announcement.
-     *
-     * Call this from the `GossipProtocol::handleMessage()` dispatch path when
-     * `message_type == "adapter_capability"`.  Deserialises the payload and
-     * invokes the registered `AnnouncementCallback`.
-     *
-     * @param payload  JSON payload from the incoming `GossipMessage`.
+     * @brief Handle Inbound Message.
+     * @param[in] payload Input parameter.
      */
     void handleInboundMessage(const nlohmann::json& payload);
 
     /**
-     * @brief Register callback for inbound remote announcements.
-     * @param cb  Callback invoked on the calling thread of `handleInboundMessage`.
+     * @brief Set Announcement Callback.
+     * @param[in] cb Input parameter.
      */
     void setAnnouncementCallback(AnnouncementCallback cb);
 
-    /**
-     * @brief Return the most recently sent announcement (or nullopt if none).
-     */
     [[nodiscard]] std::optional<AdapterCapabilityAnnouncement> lastAnnouncement() const;
 
-    /**
-     * @brief GDPR erase: clear buffered announcement payload (DK-OR).
-     *
-     * Clears `last_announcement_` and increments `erase_count_`.
-     */
     themis::governance::StoreErasureResult erase(
         const std::string& subject_id = "",
         themis::governance::Regulation regulation = themis::governance::Regulation::GDPR);

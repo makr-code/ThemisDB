@@ -21,22 +21,21 @@
 
 namespace themis::importers {
 
-/**
- * @brief Streaming Wikipedia ingestion pipeline with canonical-core + projection rebuild support.
- *
- * The pipeline consumes Wikimedia dump input incrementally, upserts into an
- * in-memory canonical relational core, tracks dirty pages for delta refreshes,
- * rebuilds graph/vector/process/timeseries projections, validates integrity,
- * and writes a portable `wikipedia.db` artifact plus sidecar manifest.
- */
 class WikipediaIngestionPipeline {
 public:
     explicit WikipediaIngestionPipeline(WikipediaIngestionConfig config = {});
 
     [[nodiscard]] bool initialize();
+    /**
+     * @brief Shutdown.
+     */
     void shutdown();
     [[nodiscard]] bool isInitialized() const;
 
+    /**
+     * @brief Set Config.
+     * @param[in] config Input parameter.
+     */
     void setConfig(const WikipediaIngestionConfig& config);
     [[nodiscard]] const WikipediaIngestionConfig& config() const;
 
@@ -58,6 +57,9 @@ public:
     [[nodiscard]] const WikipediaCheckpointState& checkpointState() const;
     [[nodiscard]] const WikipediaManifest& lastManifest() const;
 
+    /**
+     * @brief Cancel.
+     */
     void cancel();
 
 private:
@@ -76,12 +78,28 @@ private:
         const std::string& page_block,
         const WikipediaDumpSource& source,
         std::string& error) const;
+    /**
+     * @brief Apply Parsed Page.
+     * @param[in] parsed_page Input parameter.
+     * @param[in,out] stats Input/output parameter.
+     * @param[in] options Input parameter.
+     * @param[in] incremental Input parameter.
+     */
     void applyParsedPage(
         const WikipediaParsedPage& parsed_page,
         ImportStats& stats,
         const ImportOptions& options,
         bool incremental);
+    /**
+     * @brief Remove Existing Page Derived Rows.
+     * @param[in] page_id Identifier of the page.
+     */
     void removeExistingPageDerivedRows(uint64_t page_id);
+    /**
+     * @brief Mark Dirty Page.
+     * @param[in] page_id Identifier of the page.
+     * @param[in] reason Input parameter.
+     */
     void markDirtyPage(uint64_t page_id, const std::string& reason);
     [[nodiscard]] std::vector<WikipediaRevisionRecord> revisionsForPage(uint64_t page_id) const;
     [[nodiscard]] WikipediaProjectionSummary projectGraphDirtyPages();
@@ -90,8 +108,17 @@ private:
     [[nodiscard]] WikipediaProjectionSummary projectProcessDirtyPages();
     [[nodiscard]] size_t relationalRowCount() const;
     [[nodiscard]] WikipediaValidationReport validateUnlocked() const;
+    /**
+     * @brief Record Dead Letter.
+     * @param[in] record Input parameter.
+     * @param[in] options Input parameter.
+     */
     void recordDeadLetter(const WikipediaDeadLetterRecord& record, const ImportOptions& options);
     [[nodiscard]] std::string nowIso8601() const;
+    /**
+     * @brief Sync Checkpoint Store.
+     * @param[in] options Input parameter.
+     */
     void syncCheckpointStore(const ImportOptions& options);
 
     WikipediaIngestionConfig config_;

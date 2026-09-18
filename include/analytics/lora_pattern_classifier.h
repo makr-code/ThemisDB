@@ -41,9 +41,6 @@ namespace analytics {
 // PatternResult
 // ──────────────────────────────────────────────────────────────────────────────
 
-/**
- * Output of a single classify() call.
- */
 struct PatternResult {
     std::string label;              ///< Classification label (e.g. "fraud_sequence")
     double      confidence = 0.0;  ///< In [0.0, 1.0]
@@ -55,9 +52,6 @@ struct PatternResult {
 // AdapterDomain
 // ──────────────────────────────────────────────────────────────────────────────
 
-/**
- * Metadata for a registered LoRA adapter and its domain embedding.
- */
 struct AdapterDomain {
     std::string         adapter_id;
     std::string         domain;      ///< Human-readable domain name
@@ -76,18 +70,13 @@ struct LoRAPatternClassifierConfig {
 // LoRAPatternClassifier
 // ──────────────────────────────────────────────────────────────────────────────
 
-/** @brief LoRAPatternClassifier. */
 class LoRAPatternClassifier {
 public:
     using Config      = LoRAPatternClassifierConfig;
 
-    /// Injected LoRA inference function.
-    /// Receives (adapter_id, prompt) → JSON string: {"label":"...","confidence":0.92}
     using InferenceFn = std::function<std::string(const std::string& adapter_id,
                                                     const std::string& prompt)>;
 
-    /// Injected embedding function for adapter selection.
-    /// Receives text context → dense embedding vector.
     using EmbeddingFn = std::function<std::vector<double>(const std::string& text)>;
 
     explicit LoRAPatternClassifier(Config cfg = Config{});
@@ -96,52 +85,33 @@ public:
     LoRAPatternClassifier(const LoRAPatternClassifier&)            = delete;
     LoRAPatternClassifier& operator=(const LoRAPatternClassifier&) = delete;
 
-    // ── Injection ─────────────────────────────────────────────────────────────
-
     /**
-     * Inject a LoRA inference backend.
-     * Once set, classify() delegates to this function instead of the stub.
+     * @brief ── Injection ─────────────────────────────────────────────────────────────
+     * @param[in] fn Inference function to inject.
      */
+
     void setInferenceFn(InferenceFn fn);
 
     /**
-     * Inject an embedding function for adapter domain selection.
+     * @brief Set Embedding Fn.
+     * @param[in] fn Input parameter.
      */
     void setEmbeddingFn(EmbeddingFn fn);
 
     /**
-     * Register an adapter domain with its pre-computed embedding.
+     * @brief Register Adapter Domain.
+     * @param[in] domain Input parameter.
      */
     void registerAdapterDomain(AdapterDomain domain);
 
     // ── Classification ────────────────────────────────────────────────────────
 
-    /**
-     * Classify a set of DataPoints using the specified adapter.
-     *
-     * If adapter_id is empty, selectAdapter() is called automatically.
-     * Falls back to the adaptive statistical classifier when no InferenceFn is set.
-     */
     [[nodiscard]] PatternResult classify(const std::vector<DataPoint>& events,
                                          const std::string& adapter_id = "");
 
-    /**
-     * Classify each DataPoint individually, parallelised with std::async.
-     * At most Config::max_parallel_workers futures are in flight simultaneously.
-     *
-     * @return One PatternResult per input event, in the same order.
-     */
     [[nodiscard]] std::vector<PatternResult> batchClassify(
         const std::vector<DataPoint>& events);
 
-    /**
-     * Select the best-matching adapter domain for the given context string.
-     *
-     * Computes cosine similarity between the context embedding and each
-     * registered domain embedding.  Returns the adapter_id with the highest
-     * similarity.  Returns the first registered adapter if no EmbeddingFn
-     * has been set.  Returns "" if no adapters are registered.
-     */
     [[nodiscard]] std::string selectAdapter(const std::string& context);
 
     // ── State queries ─────────────────────────────────────────────────────────
@@ -150,32 +120,15 @@ public:
     [[nodiscard]] bool        hasInferenceFn() const;
 
 private:
-    /**
-     * Build a structured text prompt from an event batch (≤ 10 events shown).
-     */
     [[nodiscard]] static std::string buildPrompt(const std::vector<DataPoint>& events,
                                                   const std::string& adapter_id);
 
-    /**
-     * Parse {"label":"...","confidence":0.92} from an inference response.
-     * Returns a fallback PatternResult on parse error.
-     */
     [[nodiscard]] PatternResult parseInferenceResponse(const std::string& json,
                                                         const std::string& adapter_id) const;
 
-    /**
-     * Adaptive statistical fallback used when no InferenceFn is injected.
-     *
-     * Derives a robust label and confidence score from observed feature
-     * coverage, temporal consistency, and numeric dispersion.
-     */
     [[nodiscard]] PatternResult automlFallback(const std::vector<DataPoint>& events,
                                                const std::string& adapter_id) const;
 
-    /**
-     * Cosine similarity between two vectors.
-     * Returns 0.0 if either vector has zero norm or different sizes.
-     */
     [[nodiscard]] static double cosineSimilarity(const std::vector<double>& a,
                                                   const std::vector<double>& b);
 

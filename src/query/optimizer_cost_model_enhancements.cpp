@@ -206,6 +206,14 @@ bool EstimateValidation::hasSystematicOverestimation() const {
 
 static EstimateValidation g_estimate_validation;
 
+/**
+ * @brief Estimate Selectivity With Histogram.
+ * @param[in] histogram Input parameter.
+ * @param[in] predicateType Input parameter.
+ * @param[in] values Input parameter.
+ * @return Return value.
+ * @details Calls: estimateSelectivity().
+ */
 double CostModelEnhancements::estimateSelectivityWithHistogram(
     const ColumnHistogram& histogram,
     const std::string& predicateType,
@@ -213,6 +221,15 @@ double CostModelEnhancements::estimateSelectivityWithHistogram(
     return histogram.estimateSelectivity(predicateType, values);
 }
 
+/**
+ * @brief Estimate Join Cardinality With Correlation.
+ * @param[in] leftRows Input parameter.
+ * @param[in] rightRows Input parameter.
+ * @param[in] baseSelectivity Input parameter.
+ * @param[in] correlation Input parameter.
+ * @return Return value.
+ * @details Calls: isPositive(), isNegative(), std::clamp(), max().
+ */
 size_t CostModelEnhancements::estimateJoinCardinalityWithCorrelation(
     size_t leftRows,
     size_t rightRows,
@@ -297,6 +314,14 @@ double CostModelEnhancements::estimateMultiColumnSelectivity(
     return std::clamp(combinedSelectivity, 0.0, 1.0);
 }
 
+/**
+ * @brief Record Estimate.
+ * @param[in] actual Input parameter.
+ * @param[in] estimate Input parameter.
+ * @param[in] queryTemplate Input parameter.
+ * @param[in] operationType Input parameter.
+ * @details Calls: getError(), THEMIS_WARN(), push_back(), std::move(), size(), hasSystematicUnderestimation(), hasSystematicOverestimation().
+ */
 void CostModelEnhancements::recordEstimate(
     size_t actual,
     size_t estimate,
@@ -332,10 +357,19 @@ void CostModelEnhancements::recordEstimate(
     }
 }
 
+/**
+ * @brief Get Estimate Metrics.
+ * @return Return value.
+ * @details Implements getEstimateMetrics without additional internal calls.
+ */
 const EstimateValidation& CostModelEnhancements::getEstimateMetrics() {
     return g_estimate_validation;
 }
 
+/**
+ * @brief Clear Estimate Metrics.
+ * @details Calls: clear().
+ */
 void CostModelEnhancements::clearEstimateMetrics() {
     g_estimate_validation.samples.clear();
 }

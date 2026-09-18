@@ -18,26 +18,6 @@
 namespace themis {
 namespace importers {
 
-/**
- * @brief SQLite .dump Importer
- *
- * Imports data from SQLite database dump files produced by the
- * `.dump` command in the sqlite3 CLI.
- *
- * Supports:
- * - DDL parsing (CREATE TABLE, CREATE INDEX, CREATE VIRTUAL TABLE)
- * - DML parsing (INSERT INTO … VALUES)
- * - BEGIN TRANSACTION / COMMIT wrappers (ignored gracefully)
- * - Schema mapping to ThemisDB BaseEntity
- * - Type conversion for SQLite column types (type affinity rules)
- * - Batch processing
- * - Async import via importDataAsync()
- * - Structured error reporting (ImportErrorCode)
- * - Observability: metrics and tracing callbacks
- * - Permission-check callback (ACL enforcement)
- * - Dry-run mode
- * - include/exclude table filtering
- */
 class SQLiteImporter : public IImporter {
 public:
     SQLiteImporter();
@@ -73,27 +53,72 @@ private:
     std::map<std::string, TableSchema> schemas_;
 
     // Parsing methods
+    /**
+     * @brief Parse Dump File.
+     * @param[in] file_path Path to the file.
+     * @param[in] options Input parameter.
+     * @param[in,out] stats Input/output parameter.
+     * @param[in,out] callback Input/output parameter.
+     * @return True when the operation succeeds.
+     */
     bool parseDumpFile(const std::string& file_path,
                        const ImportOptions& options,
                        ImportStats& stats,
                        ProgressCallback& callback);
+    /**
+     * @brief Parse Create Table.
+     * @param[in] sql Input parameter.
+     * @param[in,out] schema Input/output parameter.
+     * @return True when the operation succeeds.
+     */
     bool parseCreateTable(const std::string& sql, TableSchema& schema);
+    /**
+     * @brief Parse Insert.
+     * @param[in] sql Input parameter.
+     * @param[in] options Input parameter.
+     * @param[in,out] stats Input/output parameter.
+     * @param[in] line_number Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool parseInsert(const std::string& sql,
                      const ImportOptions& options,
                      ImportStats& stats,
                      size_t line_number);
 
     // Schema mapping
+    /**
+     * @brief Map SQLite Type To Themis.
+     * @param[in] sqlite_type Input parameter.
+     * @param[in] options Input parameter.
+     * @return Return value.
+     */
     std::string mapSQLiteTypeToThemis(const std::string& sqlite_type,
                                       const ImportOptions& options) const;
+    /**
+     * @brief Should Import Table.
+     * @param[in] table_name Name of the table.
+     * @param[in] options Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool shouldImportTable(const std::string& table_name,
                            const ImportOptions& options) const;
 
     // Data conversion
+    /**
+     * @brief Convert Row To Entity.
+     * @param[in] schema Input parameter.
+     * @param[in] values Input parameter.
+     * @return Return value.
+     */
     json convertRowToEntity(const TableSchema& schema,
                             const std::vector<std::string>& values);
 
     // INSERT value parsing
+    /**
+     * @brief Parse Insert Values.
+     * @param[in] values_clause Input parameter.
+     * @return Return value.
+     */
     std::vector<std::string> parseInsertValues(
         const std::string& values_clause) const;
 
@@ -114,16 +139,18 @@ private:
                   double duration_seconds) const;
 
     // Progress reporting
+    /**
+     * @brief Report Progress.
+     * @param[in,out] callback Input/output parameter.
+     * @param[in] stage Input parameter.
+     * @param[in] current Input parameter.
+     * @param[in] total Input parameter.
+     */
     void reportProgress(ProgressCallback& callback,
                         const std::string& stage,
                         size_t current, size_t total);
 };
 
-/**
- * @brief SQLite Importer Plugin
- *
- * Wraps SQLiteImporter as a ThemisDB plugin.
- */
 class SQLiteImporterPlugin : public plugins::IThemisPlugin {
 public:
     SQLiteImporterPlugin();

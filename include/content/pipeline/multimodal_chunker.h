@@ -21,9 +21,6 @@
 
 namespace themis::content::pipeline {
 
-/**
- * @brief Content type for multi-modal chunking
- */
 enum class ContentType {
     BINARY,    // Generic binary data
     TEXT,      // Text content (UTF-8)
@@ -32,20 +29,8 @@ enum class ContentType {
     VIDEO      // Video data
 };
 
-/**
- * @brief Multi-modal chunking strategies
- * 
- * Provides content-aware chunking for different content types,
- * integrating with IContentProcessor strategies where appropriate.
- * 
- * This complements the existing IContentProcessor::chunk() by providing
- * a unified pipeline interface for common chunking patterns.
- */
 class MultiModalChunker {
 public:
-    /**
-     * @brief Configuration for multi-modal chunking
-     */
     struct MultiModalConfig {
         ContentType content_type = ContentType::BINARY;
         size_t chunk_size = 1024 * 1024;  // Default 1MB
@@ -66,43 +51,35 @@ public:
     };
 
     MultiModalChunker();
+    /**
+     * @brief Multi Modal Chunker.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit MultiModalChunker(const MultiModalConfig& config);
     ~MultiModalChunker() = default;
 
     /**
-     * @brief Chunk content based on content type
-     * 
-     * Uses content-aware strategies for different types.
-     * For production use with actual content analysis, integrate
-     * with IContentProcessor implementations.
-     * 
-     * @param data Input data to chunk
-     * @return Vector of chunks
+     * @brief Chunk.
+     * @param[in] data Input parameter.
+     * @return Return value.
      */
     std::vector<ContentChunker::Chunk> chunk(const std::vector<uint8_t>& data);
 
     /**
-     * @brief Chunk text content with sentence/paragraph awareness
-     * 
-     * For production, consider using TextProcessor::chunk() which provides
-     * token-based chunking with semantic embeddings.
-     * 
-     * @param text Input text (UTF-8)
-     * @return Vector of text chunks
+     * @brief Chunk text.
+     * @param[in] text Input parameter.
+     * @return Return value.
      */
     std::vector<ContentChunker::Chunk> chunk_text(const std::string& text);
 
     /**
-     * @brief Chunk image data with tile-based strategy
-     * 
-     * For production, consider using ImageProcessor::chunk() which provides
-     * EXIF metadata extraction and CLIP embeddings.
-     * 
-     * @param data Image data
-     * @param width Image width in pixels
-     * @param height Image height in pixels
-     * @param bytes_per_pixel Bytes per pixel (e.g., 3 for RGB, 4 for RGBA)
-     * @return Vector of image tile chunks
+     * @brief Chunk image.
+     * @param[in] data Input parameter.
+     * @param[in] width Input parameter.
+     * @param[in] height Input parameter.
+     * @param[in] bytes_per_pixel Input parameter.
+     * @return Return value.
      */
     std::vector<ContentChunker::Chunk> chunk_image(
         const std::vector<uint8_t>& data,
@@ -112,12 +89,14 @@ public:
     );
 
     /**
-     * @brief Get current configuration
+     * @brief Get config.
+     * @return Return value.
      */
     const MultiModalConfig& get_config() const;
 
     /**
-     * @brief Set new configuration
+     * @brief Set config.
+     * @param[in] config Input parameter.
      */
     void set_config(const MultiModalConfig& config);
 
@@ -126,7 +105,17 @@ private:
     ContentChunker generic_chunker_;  // Fallback to generic chunking
     
     // Helper methods
+    /**
+     * @brief Find sentence boundaries.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     std::vector<size_t> find_sentence_boundaries(const std::string& text);
+    /**
+     * @brief Find paragraph boundaries.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     std::vector<size_t> find_paragraph_boundaries(const std::string& text);
 };
 

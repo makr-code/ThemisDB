@@ -57,6 +57,12 @@ PIIDetectionResult PIIStreamDetectorAdapter::detect(
     // Stateless: create a fresh scanner per call.
     PIIStreamScannerConfig cfg;
     cfg.lookahead_bytes = lookaheadBytes_;
+    /**
+     * @brief Scanner.
+     * @param[in] engine_ Input parameter.
+     * @param[in] cfg Input parameter.
+     * @return Return value.
+     */
     PIIStreamScanner scanner(engine_, cfg);
 
     std::string_view sv(reinterpret_cast<const char*>(chunk.data()),chunk.size());
@@ -98,12 +104,22 @@ SanitisedChunk PIIStreamDetectorAdapter::pseudonymise(
     // Stateless: create a fresh scanner per call.
     PIIStreamScannerConfig cfg;
     cfg.lookahead_bytes = lookaheadBytes_;
+    /**
+     * @brief Scanner.
+     * @param[in] engine_ Input parameter.
+     * @param[in] cfg Input parameter.
+     * @return Return value.
+     */
     PIIStreamScanner scanner(engine_, cfg);
 
     std::string_view sv(reinterpret_cast<const char*>(chunk.data()),chunk.size());
     auto findings = scanner.scan_chunk(sv, /*is_last=*/true);
 
-    // Build the sanitised output by masking each finding.
+    /**
+     * @brief Build the sanitised output by masking each finding.
+     * @param[in] sv Input parameter.
+     * @return Return value.
+     */
     std::string text(sv);
     size_t offset_shift = 0; // track length changes from replacements
     for (const auto& f : findings) {
@@ -142,6 +158,12 @@ HashChainAuditLogAdapter::HashChainAuditLogAdapter(
     , writer_(cfg, chainSeed)
 {}
 
+/**
+ * @brief Append.
+ * @param[in] event Input parameter.
+ * @return Return value.
+ * @details Calls: time_since_epoch(), count(), write(), sequenceNumber().
+ */
 EntryId HashChainAuditLogAdapter::append(const AuditEvent& event) {
     nlohmann::json record;
     record["event_type"]  = event.eventType;
@@ -194,15 +216,30 @@ HKDFKeyCacheAdapter::HKDFKeyCacheAdapter(HKDFCacheConfig cfg)
     : cache_(cfg), cfg_(cfg)
 {}
 
+/**
+ * @brief Derive.
+ * @param[in] ctx Input parameter.
+ * @return Return value.
+ * @details Calls: derive_cached(), KeyHandle(), std::move().
+ */
 KeyHandle HKDFKeyCacheAdapter::derive(const KeyContext& ctx) {
     auto bytes = cache_.derive_cached(ctx.ikm, ctx.salt, ctx.info, ctx.outputLength);
     return KeyHandle(std::move(bytes));
 }
 
+/**
+ * @brief Evict.
+ * @param[in] ctx Input parameter.
+ * @details Calls: purge_by_ikm_hash(), ikmHash().
+ */
 void HKDFKeyCacheAdapter::evict(const KeyContext& ctx) {
     cache_.purge_by_ikm_hash(ikmHash(ctx.ikm));
 }
 
+/**
+ * @brief Evict All.
+ * @details Calls: clear().
+ */
 void HKDFKeyCacheAdapter::evictAll() {
     cache_.clear();
 }
@@ -224,7 +261,12 @@ size_t HKDFKeyCacheAdapter::maxCacheSize() const {
     return cfg_.max_entries;
 }
 
-// static
+/**
+ * @brief static
+ * @param[in] ikm Input parameter.
+ * @return Return value.
+ * @details Calls: SHA256(), data(), size(), std::setw(), std::setfill(), str().
+ */
 std::string HKDFKeyCacheAdapter::ikmHash(const std::vector<uint8_t>& ikm) {
     unsigned char digest[SHA256_DIGEST_LENGTH];
     SHA256(ikm.data(),ikm.size(), digest);
@@ -320,10 +362,19 @@ bool VectorReplayIterator::hasNext() const {
     return pos_ < entries_.size();
 }
 
+/**
+ * @brief Next.
+ * @return Return value.
+ * @details Implements next without additional internal calls.
+ */
 SAGALogEntry VectorReplayIterator::next() {
     return entries_[pos_++];
 }
 
+/**
+ * @brief Reset.
+ * @details Implements reset without additional internal calls.
+ */
 void VectorReplayIterator::reset() {
     pos_ = 0;
 }
@@ -336,11 +387,22 @@ SAGALogCompactorAdapter::SAGALogCompactorAdapter(const SAGALoggerConfig& cfg)
     : cfg_(cfg)
 {}
 
+/**
+ * @brief Compact.
+ * @param[in] range Input parameter.
+ * @return Return value.
+ * @details Calls: std::async(), std::chrono::steady_clock::now(), compactor(), what(), count().
+ */
 std::future<CompactionResult> SAGALogCompactorAdapter::compact(SegmentRange range) {
     return std::async(std::launch::async, [this, range]() {
         auto start = std::chrono::steady_clock::now();
         CompactionResult result;
         try {
+            /**
+             * @brief Compactor.
+             * @param[in] cfg_ Input parameter.
+             * @return Return value.
+             */
             SAGALogCompactor compactor(cfg_);
             // Use toTxnId as the upper boundary for the existing API.
             size_t archived = compactor.compact(range.toTxnId);
@@ -358,10 +420,20 @@ std::future<CompactionResult> SAGALogCompactorAdapter::compact(SegmentRange rang
     });
 }
 
+/**
+ * @brief Replay.
+ * @param[in] SegmentId Input parameter.
+ * @return Return value.
+ */
 std::unique_ptr<ReplayIterator> SAGALogCompactorAdapter::replay(
         SegmentId /*segmentId*/)
 {
     std::vector<SAGALogEntry> entries;
+    /**
+     * @brief Replayer.
+     * @param[in] cfg_ Input parameter.
+     * @return Return value.
+     */
     SAGALogReplayer replayer(cfg_);
     replayer.replay_incomplete([&entries](const SAGAStep& step) {
         SAGALogEntry entry;
@@ -384,15 +456,35 @@ SequentialUtilsPipeline::~SequentialUtilsPipeline() {
     shutdown();
 }
 
+/**
+ * @brief Register Stage.
+ * @param[in] stage Input parameter.
+ * @details Calls: lock(), push_back(), std::move().
+ */
 void SequentialUtilsPipeline::registerStage(std::unique_ptr<IUtilsStage> stage) {
+    /**
+     * @brief Lock.
+     * @param[in] mu_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mu_);
     stages_.push_back(std::move(stage));
 }
 
+/**
+ * @brief Run.
+ * @return Return value.
+ * @details Calls: lock(), push_back(), get(), std::async(), execute(), name().
+ */
 std::future<PipelineResult> SequentialUtilsPipeline::run() {
     // Snapshot stage pointers under the lock; execution is off-lock.
     std::vector<IUtilsStage*> snapshot;
     {
+        /**
+         * @brief Lock.
+         * @param[in] mu_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mu_);
         for (auto& s : stages_) {
           snapshot.push_back(s.get());
@@ -415,6 +507,11 @@ std::future<PipelineResult> SequentialUtilsPipeline::run() {
 }
 
 void SequentialUtilsPipeline::shutdown() noexcept {
+    /**
+     * @brief Lock.
+     * @param[in] mu_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mu_);
     if (shutdownCalled_) {
       return;

@@ -23,46 +23,6 @@ namespace themis {
 namespace query {
 namespace functions {
 
-/**
- * @brief Coordinate Reference System (CRS) Transformation Functions
- * 
- * Provides comprehensive coordinate transformation between different CRS:
- * 
- * ## Supported Coordinate Systems
- * 
- * ### Geographic (lat/lon on ellipsoid)
- * - WGS84 (EPSG:4326) - GPS, global standard
- * - ETRS89 (EPSG:4258) - European Terrestrial Reference System
- * - GRS80 - Geodetic Reference System 1980
- * 
- * ### Projected (meters on plane)
- * - UTM (Universal Transverse Mercator) - Zones 1-60 N/S
- * - ETRS89/UTM zone 32N (EPSG:25832) - Germany West
- * - ETRS89/UTM zone 33N (EPSG:25833) - Germany East
- * - Gauß-Krüger (EPSG:31466-31469) - Legacy German system
- * - Web Mercator (EPSG:3857) - Google Maps, OSM
- * 
- * ## Mathematical Foundation
- * 
- * UTM uses Transverse Mercator projection:
- * - Central meridian per zone
- * - Scale factor k0 = 0.9996
- * - False easting 500000m
- * - False northing 0m (N) or 10000000m (S)
- * 
- * ## Usage
- * 
- * ```aql
- * // Convert UTM to WGS84
- * LET wgs84 = ST_TRANSFORM(utm_point, 25832, 4326)
- * 
- * // Convert WGS84 to UTM zone 32N
- * LET utm = ST_TRANSFORM(wgs84_point, 4326, 25832)
- * 
- * // Get EPSG code for coordinates
- * LET epsg = ST_SRID(point)
- * ```
- */
 
 // ============================================================================
 // Ellipsoid Definitions
@@ -70,9 +30,6 @@ namespace functions {
 
 namespace crs {
 
-/**
- * @brief Ellipsoid parameters
- */
 struct Ellipsoid {
     std::string name = {};
     double a;      // Semi-major axis (meters)
@@ -96,9 +53,6 @@ inline const Ellipsoid WGS84_ELLIPSOID("WGS84", 6378137.0, 298.257223563);
 inline const Ellipsoid GRS80_ELLIPSOID("GRS80", 6378137.0, 298.257222101);
 inline const Ellipsoid BESSEL_ELLIPSOID("Bessel 1841", 6377397.155, 299.1528128);
 
-/**
- * @brief UTM Zone parameters
- */
 struct UTMZone {
     int zone = 0;          // 1-60
     bool isNorth;      // Northern or Southern hemisphere
@@ -117,9 +71,6 @@ struct UTMZone {
     {}
 };
 
-/**
- * @brief EPSG code mapping
- */
 struct EPSGDefinition {
     int code = 0;
     std::string name;
@@ -167,28 +118,26 @@ inline const std::unordered_map<int, EPSGDefinition>& getEPSGDatabase() {
 // Conversion Helper Functions
 // ============================================================================
 
-// Degrees to radians
+/**
+ * @brief Deg2rad.
+ * @param[in] deg Input parameter.
+ * @return Return value.
+ * @details Implements deg2rad without additional internal calls.
+ */
 inline double deg2rad(double deg) {
     return deg * M_PI / 180.0;
 }
 
-// Radians to degrees
+/**
+ * @brief Rad2deg.
+ * @param[in] rad Input parameter.
+ * @return Return value.
+ * @details Implements rad2deg without additional internal calls.
+ */
 inline double rad2deg(double rad) {
     return rad * 180.0 / M_PI;
 }
 
-/**
- * @brief Convert geographic (lat/lon) to UTM coordinates
- * 
- * Uses Transverse Mercator projection formulas.
- * Reference: Snyder, J.P., "Map Projections - A Working Manual", USGS Professional Paper 1395
- * 
- * @param lat Latitude in degrees
- * @param lon Longitude in degrees
- * @param zone UTM zone parameters
- * @param ellipsoid Ellipsoid parameters
- * @return (easting, northing) in meters
- */
 inline std::pair<double, double> geographicToUTM(
     double lat, double lon,
     const UTMZone& zone,
@@ -244,17 +193,6 @@ inline std::pair<double, double> geographicToUTM(
     return {easting, northing};
 }
 
-/**
- * @brief Convert UTM coordinates to geographic (lat/lon)
- * 
- * Inverse Transverse Mercator projection.
- * 
- * @param easting Easting in meters
- * @param northing Northing in meters
- * @param zone UTM zone parameters
- * @param ellipsoid Ellipsoid parameters
- * @return (latitude, longitude) in degrees
- */
 inline std::pair<double, double> utmToGeographic(
     double easting, double northing,
     const UTMZone& zone,
@@ -321,9 +259,6 @@ inline std::pair<double, double> utmToGeographic(
     return {rad2deg(phi), rad2deg(lambda)};
 }
 
-/**
- * @brief Convert geographic to Web Mercator (EPSG:3857)
- */
 inline std::pair<double, double> geographicToWebMercator(double lat, double lon) {
     constexpr double R = 6378137.0; // WGS84 semi-major axis
     
@@ -333,9 +268,6 @@ inline std::pair<double, double> geographicToWebMercator(double lat, double lon)
     return {x, y};
 }
 
-/**
- * @brief Convert Web Mercator to geographic
- */
 inline std::pair<double, double> webMercatorToGeographic(double x, double y) {
     constexpr double R = 6378137.0;
     
@@ -345,18 +277,6 @@ inline std::pair<double, double> webMercatorToGeographic(double x, double y) {
     return {lat, lon};
 }
 
-/**
- * @brief Helmert 7-parameter datum transformation
- * 
- * Transforms coordinates between different geodetic datums (e.g., DHDN to ETRS89)
- * using the Bursa-Wolf model with 7 parameters.
- * 
- * @param x, y, z Cartesian coordinates in source datum
- * @param dx, dy, dz Translation parameters (meters)
- * @param rx, ry, rz Rotation parameters (arc-seconds)
- * @param s Scale factor (ppm)
- * @return Transformed (x, y, z)
- */
 inline std::tuple<double, double, double> helmertTransform(
     double x, double y, double z,
     double dx, double dy, double dz,
@@ -380,9 +300,6 @@ inline std::tuple<double, double, double> helmertTransform(
     return {xNew, yNew, zNew};
 }
 
-/**
- * @brief Convert geographic (lat/lon/h) to Cartesian (X/Y/Z)
- */
 inline std::tuple<double, double, double> geographicToCartesian(
     double lat, double lon, double h,
     const Ellipsoid& ellipsoid
@@ -404,11 +321,6 @@ inline std::tuple<double, double, double> geographicToCartesian(
     return {x, y, z};
 }
 
-/**
- * @brief Convert Cartesian (X/Y/Z) to geographic (lat/lon/h)
- * 
- * Uses Bowring's iterative method for high accuracy.
- */
 inline std::tuple<double, double, double> cartesianToGeographic(
     double x, double y, double z,
     const Ellipsoid& ellipsoid
@@ -451,11 +363,6 @@ inline std::tuple<double, double, double> cartesianToGeographic(
     return {rad2deg(phi), rad2deg(lambda), h};
 }
 
-/**
- * @brief DHDN (Potsdam) to ETRS89 datum transformation parameters
- * 
- * Official BKG parameters for Germany
- */
 struct DHDNToETRS89Params {
     static constexpr double dx = 598.1;
     static constexpr double dy = 73.7;
@@ -467,15 +374,15 @@ struct DHDNToETRS89Params {
 };
 
 /**
- * @brief Determine UTM zone from longitude
+ * @brief Get UTMZone.
+ * @param[in] lon Input parameter.
+ * @return Return value.
+ * @details Implements getUTMZone without additional internal calls.
  */
 inline int getUTMZone(double lon) {
     return static_cast<int>((lon + 180.0) / 6.0) + 1;
 }
 
-/**
- * @brief Get EPSG code for UTM zone
- */
 inline int getUTMEpsg(int zone, bool isNorth, bool isWGS84 = true) {
     if (isWGS84) {
         return isNorth ? (32600 + zone) : (32700 + zone);
@@ -491,11 +398,6 @@ inline int getUTMEpsg(int zone, bool isNorth, bool isWGS84 = true) {
 // AQL Functions
 // ============================================================================
 
-/**
- * @brief ST_TRANSFORM(geometry, from_srid, to_srid) - Transform between CRS
- * 
- * Main coordinate transformation function.
- */
 class StTransformFunction : public IFunction {
 public:
     ~StTransformFunction() override = default;
@@ -688,9 +590,6 @@ private:
     }
 };
 
-/**
- * @brief ST_SRID(geometry) - Get or set SRID
- */
 class StSridFunction : public IFunction {
 public:
     ~StSridFunction() override = default;
@@ -748,9 +647,6 @@ public:
     }
 };
 
-/**
- * @brief ST_SETSRID(geometry, srid) - Set SRID without transformation
- */
 class StSetSridFunction : public IFunction {
 public:
     ~StSetSridFunction() override = default;
@@ -784,9 +680,6 @@ public:
     }
 };
 
-/**
- * @brief UTM_ZONE(longitude) - Calculate UTM zone from longitude
- */
 class UtmZoneFunction : public IFunction {
 public:
     ~UtmZoneFunction() override = default;
@@ -812,9 +705,6 @@ public:
     }
 };
 
-/**
- * @brief UTM_EPSG(zone, hemisphere, ellipsoid) - Get EPSG code for UTM zone
- */
 class UtmEpsgFunction : public IFunction {
 public:
     ~UtmEpsgFunction() override = default;
@@ -848,9 +738,6 @@ public:
     }
 };
 
-/**
- * @brief CRS_NAME(epsg) - Get name for EPSG code
- */
 class CrsNameFunction : public IFunction {
 public:
     ~CrsNameFunction() override = default;
@@ -882,9 +769,6 @@ public:
     }
 };
 
-/**
- * @brief CRS_IS_GEOGRAPHIC(epsg) - Check if CRS is geographic
- */
 class CrsIsGeographicFunction : public IFunction {
 public:
     ~CrsIsGeographicFunction() override = default;
@@ -916,9 +800,6 @@ public:
     }
 };
 
-/**
- * @brief CRS_IS_PROJECTED(epsg) - Check if CRS is projected
- */
 class CrsIsProjectedFunction : public IFunction {
 public:
     ~CrsIsProjectedFunction() override = default;
@@ -950,9 +831,6 @@ public:
     }
 };
 
-/**
- * @brief ST_MAKEPOINT_UTM(easting, northing, zone, hemisphere) - Create point from UTM
- */
 class StMakePointUtmFunction : public IFunction {
 public:
     ~StMakePointUtmFunction() override = default;
@@ -982,6 +860,12 @@ public:
         std::string hemisphere = args.size() > 3 ? args[3].get<std::string>() : "N";
         
         bool isNorth = (hemisphere == "N" || hemisphere == "n");
+        /**
+         * @brief Utm Zone.
+         * @param[in] zone Input parameter.
+         * @param[in] isNorth Input parameter.
+         * @return Return value.
+         */
         crs::UTMZone utmZone(zone, isNorth);
         
         auto [lat, lon] = crs::utmToGeographic(easting, northing, utmZone, crs::WGS84_ELLIPSOID);
@@ -998,7 +882,9 @@ public:
 // ============================================================================
 
 /**
- * @brief Register all CRS transformation functions with the registry
+ * @brief Register Crs Functions.
+ * @param[in,out] registry Input/output parameter.
+ * @details Calls: registerFunction().
  */
 inline void registerCrsFunctions(FunctionRegistry& registry) {
     registry.registerFunction(std::make_unique<StTransformFunction>());

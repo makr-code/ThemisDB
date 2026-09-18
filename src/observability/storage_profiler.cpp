@@ -19,7 +19,12 @@
 namespace themis {
 namespace observability {
 
-// Helper functions
+/**
+ * @brief Helper functions
+ * @param[in] type Input parameter.
+ * @return Pointer to the result.
+ * @details Implements to_string without additional internal calls.
+ */
 const char* to_string(StorageOpType type) {
     switch (type) {
         case StorageOpType::GET: return "GET";
@@ -116,6 +121,10 @@ public:
     
     explicit Impl(const StorageProfilerConfig& cfg) : config(cfg) {}
     
+    /**
+     * @brief Cleanup old.
+     * @details Calls: size(), erase(), begin(), std::chrono::system_clock::now(), std::remove_if(), end().
+     */
     void cleanup_old() {
         // Remove old operations
         if (operations.size() > config.max_ops_retained) {
@@ -142,6 +151,11 @@ StorageProfiler::StorageProfiler(const StorageProfilerConfig& config)
 
 StorageProfiler::~StorageProfiler() = default;
 
+/**
+ * @brief Record operation.
+ * @param[in] stats Input parameter.
+ * @details Calls: lock(), push_back(), log_slow_operation(), cleanup_old_data().
+ */
 void StorageProfiler::record_operation(const StorageOpStats& stats) {
     if (!impl_->config.enabled || !impl_->config.collect_op_stats) {
         return;
@@ -160,6 +174,12 @@ void StorageProfiler::record_operation(const StorageOpStats& stats) {
     cleanup_old_data();
 }
 
+/**
+ * @brief Collect rocksdb stats.
+ * @param[in] db_path Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), std::chrono::system_clock::now(), push_back(), cleanup_old_data().
+ */
 RocksDBStats StorageProfiler::collect_rocksdb_stats(const std::string& db_path) {
     (void)db_path;
     if (!impl_->config.enabled || !impl_->config.collect_rocksdb_stats) {
@@ -171,8 +191,8 @@ RocksDBStats StorageProfiler::collect_rocksdb_stats(const std::string& db_path) 
     RocksDBStats stats;
     stats.timestamp = std::chrono::system_clock::now();
     
-    // Note: In real implementation, this would query RocksDB Statistics
-    // For now, this is a placeholder that would be integrated with RocksDBWrapper
+    // RocksDB statistics are not queried here yet; the collected snapshot is
+    // kept as a time-stamped history entry until direct integration is added.
     
     impl_->rocksdb_stats_history.push_back(stats);
     cleanup_old_data();
@@ -322,6 +342,10 @@ json StorageProfiler::get_cache_metrics() const {
     return result;
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lock().
+ */
 void StorageProfiler::clear() {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     impl_->operations.clear();
@@ -349,6 +373,11 @@ void StorageProfiler::export_to_json(const std::string& filename) const {
         {"amplification_metrics", get_amplification_metrics()}
     };
     
+    /**
+     * @brief File.
+     * @param[in] filename Input parameter.
+     * @return Return value.
+     */
     std::ofstream file(filename);
     file << export_data.dump(2);
 }
@@ -358,16 +387,29 @@ StorageProfilerConfig StorageProfiler::get_config() const {
     return impl_->config;
 }
 
+/**
+ * @brief Set config.
+ * @param[in] config Input parameter.
+ * @details Calls: lock().
+ */
 void StorageProfiler::set_config(const StorageProfilerConfig& config) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     impl_->config = config;
 }
 
+/**
+ * @brief Enable.
+ * @details Calls: lock().
+ */
 void StorageProfiler::enable() {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     impl_->config.enabled = true;
 }
 
+/**
+ * @brief Disable.
+ * @details Calls: lock().
+ */
 void StorageProfiler::disable() {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     impl_->config.enabled = false;
@@ -378,14 +420,23 @@ bool StorageProfiler::is_enabled() const {
     return impl_->config.enabled;
 }
 
+/**
+ * @brief Cleanup old data.
+ * @details Calls: cleanup_old().
+ */
 void StorageProfiler::cleanup_old_data() {
     impl_->cleanup_old();
 }
 
+/**
+ * @brief Log slow operation.
+ * @param[in] stats Input parameter.
+ * @details Implements log_slow_operation without additional internal calls.
+ */
 void StorageProfiler::log_slow_operation(const StorageOpStats& stats) {
     (void)stats;
-    // Log slow operation (could be integrated with logging system)
-    // For now, just a placeholder
+    // Slow operations are not logged yet; this hook is reserved for future
+    // integration with the structured logging system.
 }
 
 // ScopedStorageOp implementation
@@ -402,30 +453,64 @@ ScopedStorageOp::~ScopedStorageOp() {
     profiler_.record_operation(stats_);
 }
 
+/**
+ * @brief Record bytes read.
+ * @param[in] bytes Input parameter.
+ * @details Implements record_bytes_read without additional internal calls.
+ */
 void ScopedStorageOp::record_bytes_read(size_t bytes) {
     stats_.bytes_read += bytes;
 }
 
+/**
+ * @brief Record bytes written.
+ * @param[in] bytes Input parameter.
+ * @details Implements record_bytes_written without additional internal calls.
+ */
 void ScopedStorageOp::record_bytes_written(size_t bytes) {
     stats_.bytes_written += bytes;
 }
 
+/**
+ * @brief Record keys.
+ * @param[in] count Input parameter.
+ * @details Implements record_keys without additional internal calls.
+ */
 void ScopedStorageOp::record_keys(size_t count) {
     stats_.keys_processed += count;
 }
 
+/**
+ * @brief Set cache hit.
+ * @param[in] hit Input parameter.
+ * @details Implements set_cache_hit without additional internal calls.
+ */
 void ScopedStorageOp::set_cache_hit(bool hit) {
     stats_.cache_hit = hit;
 }
 
+/**
+ * @brief Set from sst.
+ * @param[in] from_sst Input parameter.
+ * @details Implements set_from_sst without additional internal calls.
+ */
 void ScopedStorageOp::set_from_sst(bool from_sst) {
     stats_.from_sst = from_sst;
 }
 
+/**
+ * @brief Set from memtable.
+ * @param[in] from_memtable Input parameter.
+ * @details Implements set_from_memtable without additional internal calls.
+ */
 void ScopedStorageOp::set_from_memtable(bool from_memtable) {
     stats_.from_memtable = from_memtable;
 }
 
+/**
+ * @brief Record sst read.
+ * @details Implements record_sst_read without additional internal calls.
+ */
 void ScopedStorageOp::record_sst_read() {
     stats_.sst_reads++;
 }

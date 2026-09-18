@@ -20,6 +20,12 @@ namespace observability {
 
 namespace {
 
+/**
+ * @brief To Lower Copy.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: std::transform(), begin(), end(), std::tolower().
+ */
 std::string toLowerCopy(const std::string& text) {
     std::string lower = text;
     std::transform(lower.begin(), lower.end(), lower.begin(),

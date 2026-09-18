@@ -21,57 +21,26 @@
 namespace themis {
 namespace exporters {
 
-/// Output format variant for Arrow IPC
 enum class ArrowIPCFormat {
-    /// Arrow IPC File format (.arrow / Feather v2).
-    /// Produces a self-contained file with magic bytes, schema, record
-    /// batches, and a footer.  Readable by pyarrow, Polars, DuckDB, etc.
     FILE,
 
-    /// Arrow IPC Stream format (.arrows).
-    /// Produces a streaming sequence of messages without file magic or
-    /// footer.  Suitable for piped zero-copy IPC.
     STREAM,
 };
 
-/// Configuration for Arrow IPC export
 struct ArrowIPCExportConfig {
-    /// Output format variant (FILE or STREAM)
     ArrowIPCFormat format = ArrowIPCFormat::FILE;
 
-    /// When true, schema is inferred from the first batch of entities.
-    /// When false, schema is derived solely from column_hints (not yet
-    /// implemented; effectively treated as true).
     bool auto_detect_schema = true;
 
-    /// Columns to include (empty = include all fields from entities)
     std::vector<std::string> include_columns;
 
-    /// Columns to always exclude
     std::vector<std::string> exclude_columns;
 
-    /// Optional key/value metadata written to the Arrow schema
     std::map<std::string, std::string> schema_metadata;
 
-    /// When true, null counts are recorded accurately per column.
-    /// When false (default), null_count = 0 is reported for all columns
-    /// (valid only when all values are non-null).
     bool track_nulls = false;
 };
 
-/// Arrow IPC exporter for zero-copy data pipelines.
-///
-/// Implements IExporter and writes entities to Apache Arrow IPC files
-/// (.arrow) or streams (.arrows) with all entity fields represented as
-/// UTF-8 string columns.
-///
-/// When compiled with ARROW_ENABLED (Apache Arrow C++ available),
-/// actual Arrow IPC files are produced via arrow::ipc::RecordBatchWriter.
-///
-/// When ARROW_ENABLED is not defined, a minimal standards-conformant Arrow
-/// IPC File (or Stream) is written using an internal FlatBuffer encoder —
-/// no external libraries required.  Both paths produce files readable by
-/// pyarrow, Polars, DuckDB, and any compliant Arrow IPC reader.
 class ArrowIPCExporter : public IExporter {
 public:
     explicit ArrowIPCExporter(const ArrowIPCExportConfig& config = {});
@@ -88,30 +57,51 @@ public:
     std::string getName() const override { return "arrow_ipc_exporter"; }
     std::string getVersion() const override { return "1.0.0"; }
 
-    /// Replace the current configuration
+    /**
+     * @brief Set Config.
+     * @param[in] config Input parameter.
+     * @details Implements setConfig without additional internal calls.
+     */
     void setConfig(const ArrowIPCExportConfig& config) { config_ = config; }
     const ArrowIPCExportConfig& getConfig() const { return config_; }
 
-    /// Access live metrics (may be polled at any time)
     std::shared_ptr<ExporterMetrics> getMetrics() const { return metrics_; }
 
-    /// Reset all collected metrics
+    /**
+     * @brief Reset Metrics.
+     * @details Calls: reset().
+     */
     void resetMetrics() { if (metrics_) metrics_->reset(); }
 
-    /// Returns true if the Apache Arrow C++ library was compiled in
+    /**
+     * @brief Is Arrow Available.
+     * @return True when the operation succeeds.
+     */
     static bool isArrowAvailable();
 
 private:
     ArrowIPCExportConfig config_;
     std::shared_ptr<ExporterMetrics> metrics_;
 
-    /// Determine the effective column set for this export
+    /**
+     * @brief Resolve Columns.
+     * @param[in] entities Input parameter.
+     * @param[in] options Input parameter.
+     * @return Return value.
+     */
     std::vector<std::string> resolveColumns(
         const std::vector<BaseEntity>& entities,
         const ExportOptions& options
     ) const;
 
 #ifdef ARROW_ENABLED
+    /**
+     * @brief Export With Arrow.
+     * @param[in] entities Input parameter.
+     * @param[in] options Input parameter.
+     * @param[in] columns Input parameter.
+     * @return Return value.
+     */
     ExportStats exportWithArrow(
         const std::vector<BaseEntity>& entities,
         const ExportOptions& options,
@@ -119,6 +109,13 @@ private:
     );
 #endif
 
+    /**
+     * @brief Export Fallback.
+     * @param[in] entities Input parameter.
+     * @param[in] options Input parameter.
+     * @param[in] columns Input parameter.
+     * @return Return value.
+     */
     ExportStats exportFallback(
         const std::vector<BaseEntity>& entities,
         const ExportOptions& options,

@@ -42,9 +42,6 @@ namespace cdc {
 
 // ── DeliveryMode ──────────────────────────────────────────────────────────────
 
-/**
- * @brief Delivery semantics for a CDC listener.
- */
 enum class DeliveryMode {
     AtLeastOnce, ///< Events may be delivered more than once on failure; consumer must be idempotent or tolerant.
     ExactlyOnce, ///< Events are delivered exactly once; requires IIdempotentCDCListener.
@@ -52,36 +49,27 @@ enum class DeliveryMode {
 
 // ── IIdempotentCDCListener ────────────────────────────────────────────────────
 
-/**
- * @brief Marker interface for listeners that support exactly-once delivery.
- *
- * Listeners registered with DeliveryMode::ExactlyOnce must implement this
- * interface.  The CDC layer will call isDuplicate() before delivering each
- * event and skip duplicates.
- *
- * Thread-safety: all methods must be thread-safe.
- */
 class IIdempotentCDCListener {
 public:
+    /**
+     * @brief IIdempotent CDCListener.
+     * @return Return value.
+     */
     virtual ~IIdempotentCDCListener() = default;
 
     /**
-     * @brief Check whether the event with the given sequence has already been
-     *        processed by this listener.
-     *
-     * Called by the CDC layer before delivery.  Must return in ≤ 10 µs.
-     *
-     * @param collection  The collection the event originates from.
-     * @param sequence    Monotonic sequence number of the event.
-     * @return true if the event is a duplicate and should be skipped.
+     * @brief Is Duplicate.
+     * @param[in] collection Input parameter.
+     * @param[in] sequence Input parameter.
+     * @return True when the operation succeeds.
      */
     virtual bool isDuplicate(const std::string& collection,
                              uint64_t           sequence) const = 0;
 
     /**
-     * @brief Record that the event has been successfully processed.
-     *
-     * Called by the CDC layer after successful delivery.
+     * @brief Mark Processed.
+     * @param[in] collection Input parameter.
+     * @param[in] sequence Input parameter.
      */
     virtual void markProcessed(const std::string& collection,
                                uint64_t           sequence) = 0;
@@ -89,72 +77,53 @@ public:
 
 // ── IDeliveryGuaranteeConfig ──────────────────────────────────────────────────
 
-/**
- * @brief Abstract configuration interface for CDC delivery guarantees.
- *
- * Instances are created per listener registration and handed to the CDC layer.
- *
- * Thread-safety: all methods must be thread-safe.
- */
 class IDeliveryGuaranteeConfig {
 public:
+    /**
+     * @brief IDelivery Guarantee Config.
+     * @return Return value.
+     */
     virtual ~IDeliveryGuaranteeConfig() = default;
 
     /**
-     * @brief Set the delivery mode.
-     *
-     * Switching from ExactlyOnce to AtLeastOnce after the stream has started
-     * is allowed; the dedup state is discarded.
-     *
-     * @param mode  The desired delivery mode.
+     * @brief Set Mode.
+     * @param[in] mode Input parameter.
      */
     virtual void setMode(DeliveryMode mode) = 0;
 
     /**
-     * @brief Return the current delivery mode.
+     * @brief Mode.
+     * @return Return value.
      */
     virtual DeliveryMode mode() const = 0;
 
     /**
-     * @brief Set the acknowledgement timeout for at-least-once delivery.
-     *
-     * Events not acknowledged within this window are redelivered.
-     * Only relevant for AtLeastOnce mode.
-     *
-     * @param timeout  Timeout duration (default 30 s).
+     * @brief Set Ack Timeout.
+     * @param[in] timeout Input parameter.
      */
     virtual void setAckTimeout(std::chrono::milliseconds timeout) = 0;
 
     /**
-     * @brief Return the current acknowledgement timeout.
+     * @brief Ack Timeout.
+     * @return Return value.
      */
     virtual std::chrono::milliseconds ackTimeout() const = 0;
 
     /**
-     * @brief Set the deduplication window for exactly-once delivery.
-     *
-     * Events with a timestamp_ms older than (now − window) are considered
-     * outside the dedup window and will never be flagged as duplicates.
-     *
-     * Only relevant for ExactlyOnce mode.
-     *
-     * @param window  Window duration (default 5 min).
+     * @brief Set Deduplication Window.
+     * @param[in] window Input parameter.
      */
     virtual void setDeduplicationWindow(std::chrono::milliseconds window) = 0;
 
     /**
-     * @brief Return the current deduplication window.
+     * @brief Deduplication Window.
+     * @return Return value.
      */
     virtual std::chrono::milliseconds deduplicationWindow() const = 0;
 };
 
 // ── InMemoryDeliveryGuaranteeConfig ──────────────────────────────────────────
 
-/**
- * @brief Thread-safe in-memory implementation of IDeliveryGuaranteeConfig.
- *
- * Suitable for unit tests and standalone use.
- */
 class InMemoryDeliveryGuaranteeConfig : public IDeliveryGuaranteeConfig {
 public:
     static constexpr auto kDefaultAckTimeout      = std::chrono::seconds(30);
@@ -169,31 +138,61 @@ public:
     // ── IDeliveryGuaranteeConfig ─────────────────────────────────────────────
 
     void setMode(DeliveryMode mode) override {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         mode_ = mode;
     }
 
     DeliveryMode mode() const override {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         return mode_;
     }
 
     void setAckTimeout(std::chrono::milliseconds timeout) override {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         ack_timeout_ = timeout;
     }
 
     std::chrono::milliseconds ackTimeout() const override {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         return ack_timeout_;
     }
 
     void setDeduplicationWindow(std::chrono::milliseconds window) override {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         dedup_window_ = window;
     }
 
     std::chrono::milliseconds deduplicationWindow() const override {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         return dedup_window_;
     }
@@ -207,13 +206,6 @@ private:
 
 // ── InMemoryIdempotentListener ────────────────────────────────────────────────
 
-/**
- * @brief Thread-safe in-memory IIdempotentCDCListener.
- *
- * Stores processed (collection, sequence) pairs in an unordered_set.
- * Optionally accepts a max_window_size to bound memory usage by evicting
- * the oldest entries (FIFO) when the window is full.
- */
 class InMemoryIdempotentListener : public IIdempotentCDCListener {
 public:
     explicit InMemoryIdempotentListener(std::size_t max_window_size = 100'000)
@@ -222,6 +214,11 @@ public:
     bool isDuplicate(const std::string& collection,
                      uint64_t           sequence) const override
     {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         return processed_.count(makeKey(collection, sequence)) > 0;
     }
@@ -229,6 +226,11 @@ public:
     void markProcessed(const std::string& collection,
                        uint64_t           sequence) override
     {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         const std::string key = makeKey(collection, sequence);
         if (processed_.count(key)) return; // already recorded
@@ -242,11 +244,23 @@ public:
     }
 
     std::size_t processedCount() const {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         return processed_.size();
     }
 
 private:
+    /**
+     * @brief Make Key.
+     * @param[in] collection Input parameter.
+     * @param[in] seq Input parameter.
+     * @return Return value.
+     * @details Calls: std::to_string().
+     */
     static std::string makeKey(const std::string& collection, uint64_t seq) {
         return collection + ":" + std::to_string(seq);
     }

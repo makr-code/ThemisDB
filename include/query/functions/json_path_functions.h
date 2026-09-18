@@ -53,6 +53,8 @@ public:
      * @brief Parse a JSONPath expression
      * @param path JSONPath string (e.g., "$.field.nested[0]")
      * @return vector of path segments
+     * @throws std::runtime_error if an error occurs.
+     * @details Calls: starts_with(), substr(), empty(), length(), push_back(), Segment(), clear(), find().
      */
     static std::vector<Segment> parse(const std::string& path) {
         std::vector<Segment> segments;
@@ -127,6 +129,7 @@ public:
      * @param root The root JSON object
      * @param path The JSONPath string
      * @return The value at the path, or null if not found
+     * @details Calls: parse(), is_object(), contains(), is_array(), size().
      */
     static nlohmann::json extract(const nlohmann::json& root, const std::string& path) {
         auto segments = parse(path);
@@ -156,6 +159,7 @@ public:
      * @param path The JSONPath string
      * @param value The value to set
      * @return true if successful, false otherwise
+     * @details Calls: parse(), empty(), size(), is_object(), nlohmann::json::object(), contains(), nlohmann::json::array(), is_array().
      */
     static bool set(nlohmann::json& root, const std::string& path, const nlohmann::json& value) {
         auto segments = parse(path);
@@ -221,6 +225,7 @@ public:
      * @param root The root JSON object (modified in place)
      * @param path The JSONPath string
      * @return true if something was removed, false otherwise
+     * @details Calls: parse(), empty(), size(), is_object(), contains(), is_array(), back(), erase().
      */
     static bool remove(nlohmann::json& root, const std::string& path) {
         auto segments = parse(path);
@@ -269,6 +274,9 @@ public:
     
     /**
      * @brief Get the depth of a JSON structure (iterative with max depth limit)
+     * @param[in] root Input parameter.
+     * @return Return value.
+     * @details Calls: is_object(), is_array(), push_back(), empty(), back(), pop_back(), std::max(), begin().
      */
     static int depth(const nlohmann::json& root) {
         if (!root.is_object() && !root.is_array()) {
@@ -319,6 +327,10 @@ public:
     
     /**
      * @brief Check if a value exists in JSON
+     * @param[in] root Input parameter.
+     * @param[in] value Input parameter.
+     * @return True on success.
+     * @details Calls: is_object(), begin(), end(), value(), is_array().
      */
     static bool contains(const nlohmann::json& root, const nlohmann::json& value) {
         if (root == value) {
@@ -636,9 +648,11 @@ public:
     }
 };
 
-// ============================================================================
-// Register JSON Path Functions
-// ============================================================================
+/**
+ * @brief ============================================================================ Register JSON Path Functions ============================================================================
+ * @param[in,out] reg Input/output parameter.
+ * @details Calls: registerFunction().
+ */
 
 inline void registerJsonPathFunctions(FunctionRegistry& reg) {
     reg.registerFunction(std::make_unique<JsonExtractFunction>());

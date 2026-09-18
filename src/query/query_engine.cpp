@@ -78,12 +78,21 @@ namespace tbb {
 class task_group {
 public:
     template <typename F>
+    /**
+     * @brief Run.
+     * @param[in] f Input parameter.
+     * @details Calls: emplace_back().
+     */
     void run(F&& f) {
         if (!cancelled_) {
             tasks_.emplace_back(std::forward<F>(f));
         }
     }
 
+    /**
+     * @brief Wait.
+     * @details Calls: task(), clear().
+     */
     void wait() {
         for (auto& task : tasks_) {
             if (task) {
@@ -103,16 +112,35 @@ private:
 };
 
 template <typename Iter>
+/**
+ * @brief Parallel sort.
+ * @param[in] first Input parameter.
+ * @param[in] last Input parameter.
+ * @details Calls: std::sort().
+ */
 void parallel_sort(Iter first, Iter last) {
     std::sort(first, last);
 }
 
 template <typename Iter, typename Compare>
+/**
+ * @brief Parallel sort.
+ * @param[in] first Input parameter.
+ * @param[in] last Input parameter.
+ * @param[in] comp Input parameter.
+ * @details Calls: std::sort().
+ */
 void parallel_sort(Iter first, Iter last, Compare comp) {
     std::sort(first, last, comp);
 }
 
 template <typename F1, typename F2>
+/**
+ * @brief Parallel invoke.
+ * @param[in] f1 Input parameter.
+ * @param[in] f2 Input parameter.
+ * @details Implements parallel_invoke without additional internal calls.
+ */
 void parallel_invoke(F1&& f1, F2&& f2) {
     if (f1) {
         std::forward<F1>(f1)();
@@ -242,6 +270,7 @@ QueryEngine::QueryEngine(
 /**
  * @brief Inject storage dependency after construction.
  * @param storage Storage interface instance.
+ * @details Implements setStorage without additional internal calls.
  */
 void QueryEngine::setStorage(IStorageEnginePtr storage) {
     storage_ = storage;
@@ -250,6 +279,7 @@ void QueryEngine::setStorage(IStorageEnginePtr storage) {
 /**
  * @brief Create expression evaluator bound to this engine instance.
  * @return Shared pointer to query expression evaluator implementation.
+ * @details Implements get_expression_evaluator without additional internal calls.
  */
 IExpressionEvaluatorPtr QueryEngine::get_expression_evaluator() {
     return std::make_shared<QueryExpressionEvaluator>(this);
@@ -258,6 +288,7 @@ IExpressionEvaluatorPtr QueryEngine::get_expression_evaluator() {
 /**
  * @brief Create QueryEngine with default storage and index implementations.
  * @return Shared pointer to a ready-to-use QueryEngine.
+ * @details Calls: StorageEngine::createDefaultIndexManager().
  */
 std::shared_ptr<QueryEngine> QueryEngine::createDefault() {
     // Create default in-memory storage + no-op index manager using the
@@ -306,6 +337,12 @@ std::vector<std::string> QueryEngine::listCollections() const {
 
 static const std::string kEvalDocVar = "doc";
 
+/**
+ * @brief Stable Json Order Key.
+ * @param[in] doc Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), is_string(), dump().
+ */
 static std::string stableJsonOrderKey(const nlohmann::json& doc) {
 	if (doc.contains("_key") && doc["_key"].is_string()) {
 		return doc["_key"].get<std::string>();
@@ -313,6 +350,13 @@ static std::string stableJsonOrderKey(const nlohmann::json& doc) {
 	return doc.dump();
 }
 
+/**
+ * @brief Stable Json Less.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return True on success.
+ * @details Calls: stableJsonOrderKey(), dump().
+ */
 static bool stableJsonLess(const nlohmann::json& a, const nlohmann::json& b) {
 	const std::string keyA = stableJsonOrderKey(a);
 	const std::string keyB = stableJsonOrderKey(b);
@@ -322,10 +366,23 @@ static bool stableJsonLess(const nlohmann::json& a, const nlohmann::json& b) {
 	return keyA < keyB;
 }
 
+/**
+ * @brief Stable Json Ptr Less.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return True on success.
+ * @details Calls: stableJsonLess().
+ */
 static bool stableJsonPtrLess(const nlohmann::json* a, const nlohmann::json* b) {
 	return stableJsonLess(*a, *b);
 }
 
+/**
+ * @brief Log Sorted Deserialize Failures.
+ * @param[in,out] failed_pks Input/output parameter.
+ * @param[in] context Input parameter.
+ * @details Calls: empty(), std::sort(), begin(), end(), THEMIS_WARN().
+ */
 static void logSortedDeserializeFailures(std::vector<std::string>& failed_pks, const char* context) {
 	if (failed_pks.empty()) {
 		return;
@@ -336,8 +393,14 @@ static void logSortedDeserializeFailures(std::vector<std::string>& failed_pks, c
 	}
 }
 
-/// Parse `expression` as an AQL expression and evaluate it against `ctx`.
-/// Returns false on parse or evaluation errors.
+/**
+ * @brief Parse `expression` as an AQL expression and evaluate it against `ctx`.
+ * @param[in] expression Input parameter.
+ * @param[in] ctx Input parameter.
+ * @param[in] engine Input parameter.
+ * @return True on success.
+ * @details Returns false on parse or evaluation errors. Calls: empty(), parseExpression(), evaluateCondition(), THEMIS_WARN().
+ */
 static bool evalAqlExpression(const std::string& expression,
                                const QueryEngine::EvaluationContext* ctx,
                                const QueryEngine* engine) {
@@ -778,6 +841,11 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 			auto [st, keys] = secIdx_->scanKeysEqual(q.table, p.column, p.value);
 			if (!st.ok) {
 				THEMIS_ERROR("Parallel scan error ({}={}): {}", p.column, p.value, st.message);
+				/**
+				 * @brief Lk.
+				 * @param[in] errors_mutex Input parameter.
+				 * @return Return value.
+				 */
 				std::lock_guard<std::mutex> lk(errors_mutex);
 				errors.push_back(st.message);
 				child.setStatus(false, st.message);
@@ -1035,6 +1103,11 @@ QueryEngine::executeAndEntities(const ConjunctiveQuery& q) const {
 					try { local_entities.emplace_back(BaseEntity::deserialize(pk, *blob)); }
 					catch (...) {
          THEMIS_DEBUG("query_engine: unhandled exception caught");
+						/**
+						 * @brief Lk.
+						 * @param[in] failed_deserialize_mutex Input parameter.
+						 * @return Return value.
+						 */
 						std::lock_guard<std::mutex> lk(failed_deserialize_mutex);
 						failed_deserialize_pks.push_back(pk);
 					}
@@ -1166,6 +1239,11 @@ QueryEngine::executeOrKeys(const DisjunctiveQuery& q) const {
 			auto result = executeAndKeys(disjunct);
 			if (!result) {
 				THEMIS_ERROR("Parallel OR disjunct error: {}", result.error().context());
+				/**
+				 * @brief Lk.
+				 * @param[in] errors_mutex Input parameter.
+				 * @return Return value.
+				 */
 				std::lock_guard<std::mutex> lk(errors_mutex);
 				errors.push_back(result.error().context());
 				child.setStatus(false, result.error().context());
@@ -1247,6 +1325,11 @@ QueryEngine::executeOrKeysWithFallback(const DisjunctiveQuery& q, bool optimize)
 			child.setAttribute("disjunct.range_count", static_cast<int64_t>(disjunct.rangePredicates.size()));
 			auto result = executeAndKeysWithFallback(disjunct, optimize);
 			if (!result) {
+				/**
+				 * @brief Eg.
+				 * @param[in] error_mutex Input parameter.
+				 * @return Return value.
+				 */
 				std::lock_guard<std::mutex> eg(error_mutex);
 				errors.push_back(result.error().message());
 				THEMIS_ERROR("Parallel OR (fallback) disjunct error: {}", result.error().message());
@@ -1333,6 +1416,11 @@ QueryEngine::executeOrEntitiesWithFallback(const DisjunctiveQuery& q, bool optim
 					try { local_entities.emplace_back(BaseEntity::deserialize(pk, *blob)); }
 					catch (...) {
          THEMIS_DEBUG("query_engine: unhandled exception caught");
+						/**
+						 * @brief Lk.
+						 * @param[in] failed_deserialize_mutex Input parameter.
+						 * @return Return value.
+						 */
 						std::lock_guard<std::mutex> lk(failed_deserialize_mutex);
 						failed_deserialize_pks.push_back(pk);
 					}
@@ -1423,6 +1511,11 @@ QueryEngine::executeOrEntities(const DisjunctiveQuery& q) const {
 					try { local_entities.emplace_back(BaseEntity::deserialize(pk, *blob)); }
 					catch (...) {
          THEMIS_DEBUG("query_engine: unhandled exception caught");
+						/**
+						 * @brief Lk.
+						 * @param[in] failed_deserialize_mutex Input parameter.
+						 * @return Return value.
+						 */
 						std::lock_guard<std::mutex> lk(failed_deserialize_mutex);
 						failed_deserialize_pks.push_back(pk);
 					}
@@ -1591,6 +1684,11 @@ QueryEngine::executeAndEntitiesSequential(const std::string& table,
 					try { local_entities.emplace_back(BaseEntity::deserialize(pk, *blob)); }
 					catch (...) {
          THEMIS_DEBUG("query_engine: unhandled exception caught");
+						/**
+						 * @brief Lk.
+						 * @param[in] failed_deserialize_mutex Input parameter.
+						 * @return Return value.
+						 */
 						std::lock_guard<std::mutex> lk(failed_deserialize_mutex);
 						failed_deserialize_pks.push_back(pk);
 					}
@@ -1641,6 +1739,12 @@ QueryEngine::executeAndCount(const ConjunctiveQuery& q) const {
 // Out-of-line EvaluationContext CTE helpers
 namespace themis {
 namespace query {
+/**
+ * @brief Store CTE.
+ * @param[in] name Input parameter.
+ * @param[in] results Input parameter.
+ * @details Calls: store(), std::move().
+ */
 void QueryEngine::EvaluationContext::storeCTE(const std::string& name, std::vector<nlohmann::json> results) {
 	// Prefer cache if available; fall back to in-memory map
 	if (cte_cache) {
@@ -1672,7 +1776,12 @@ std::optional<std::vector<nlohmann::json>> QueryEngine::EvaluationContext::getCT
 	return std::nullopt;
 }
 
-// Basic helpers for AQL expression evaluation in QueryEngine
+/**
+ * @brief Basic helpers for AQL expression evaluation in QueryEngine
+ * @param[in] v Input parameter.
+ * @return Return value.
+ * @details Calls: is_number(), is_boolean(), is_string(), std::stod().
+ */
 static double qe_toNumber(const nlohmann::json& v) {
 	if (v.is_number()) {
 	  return v.get<double>();
@@ -1686,6 +1795,12 @@ static double qe_toNumber(const nlohmann::json& v) {
 	return 0.0;
 }
 
+/**
+ * @brief Qe to Bool.
+ * @param[in] v Input parameter.
+ * @return True on success.
+ * @details Calls: is_boolean(), is_number(), is_string(), empty(), is_array(), is_object().
+ */
 static bool qe_toBool(const nlohmann::json& v) {
 	if (v.is_boolean()) {
 	  return v.get<bool>();
@@ -1702,6 +1817,13 @@ static bool qe_toBool(const nlohmann::json& v) {
 	return false;
 }
 
+/**
+ * @brief Qe get Nested.
+ * @param[in] base Input parameter.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Calls: is_object(), find(), end(), is_array(), std::stoull(), size().
+ */
 static nlohmann::json qe_getNested(const nlohmann::json& base, const std::vector<std::string>& path) {
 	const nlohmann::json* current = &base;
 	for (const auto& key : path) {
@@ -1727,10 +1849,23 @@ static nlohmann::json qe_getNested(const nlohmann::json& base, const std::vector
 	return *current;
 }
 
-// Forward decl
+/**
+ * @brief Forward decl
+ * @param[in] expr Input parameter.
+ * @param[in] ctx Input parameter.
+ * @return Return value.
+ */
 static Result<nlohmann::json> qe_evalExpr(const std::shared_ptr<themis::query::Expression>& expr,
 								  const themis::query::QueryEngine::EvaluationContext& ctx);
 
+/**
+ * @brief Qe eval Function.
+ * @param[in] funcName Input parameter.
+ * @param[in] args Input parameter.
+ * @param[in] ctx Input parameter.
+ * @return Return value.
+ * @details Calls: qe_evalExpr(), size(), fmt::format(), evalArg(), value(), is_string(), Ok(), nlohmann::json().
+ */
 static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 									  const std::vector<std::shared_ptr<themis::query::Expression>>& args,
 									  const themis::query::QueryEngine::EvaluationContext& ctx) {
@@ -2316,6 +2451,11 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 				return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED, "Invalid POINT WKT");
 			}
 			std::string coords = u.substr(a+1, b-a-1);
+			/**
+			 * @brief Iss.
+			 * @param[in] coords Input parameter.
+			 * @return Return value.
+			 */
 			std::istringstream iss(coords); double x,y,z;
 			if (!(iss>>x>>y)) {
 				return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED, "Invalid POINT coords");
@@ -2342,6 +2482,11 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 			}
 			std::string inner = u.substr(a+2, b-(a+2));
 			nlohmann::json ring = nlohmann::json::array();
+			/**
+			 * @brief Ring Stream.
+			 * @param[in] inner Input parameter.
+			 * @return Return value.
+			 */
 			std::stringstream ringStream(inner);
 			std::string pointToken = {};
 			while (std::getline(ringStream, pointToken, ',')) {
@@ -2349,6 +2494,11 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 				if (pointToken.empty()) {
 				  continue;
 				}
+				/**
+				 * @brief Point Iss.
+				 * @param[in] pointToken Input parameter.
+				 * @return Return value.
+				 */
 				std::istringstream pointIss(pointToken);
 				double x, y, z;
 				if (!(pointIss >> x >> y)) {
@@ -2635,6 +2785,13 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 		fmt::format("Unknown function: {}", funcName));
 }
 
+/**
+ * @brief Qe eval Expr.
+ * @param[in] expr Input parameter.
+ * @param[in] ctx Input parameter.
+ * @return Return value.
+ * @details Calls: Ok(), nlohmann::json(), getType(), std::visit(), get(), has_value(), value(), is_null().
+ */
 static Result<nlohmann::json> qe_evalExpr(const std::shared_ptr<themis::query::Expression>& expr,
 								  const themis::query::QueryEngine::EvaluationContext& ctx) {
 	using namespace themis::query;
@@ -2927,6 +3084,11 @@ std::vector<std::string> QueryEngine::fullScanAndFilter_(const ConjunctiveQuery&
 		span.setAttribute("fullscan.mode", "parallel");
 		const size_t morsel_size = kScanConfig.morsel_size;
 		const size_t num_morsels = (n + morsel_size - 1) / morsel_size;
+		/**
+		 * @brief Morsel results.
+		 * @param[in] num_morsels Input parameter.
+		 * @return Return value.
+		 */
 		std::vector<std::vector<std::string>> morsel_results(num_morsels);
 
 		tbb::task_group tg;
@@ -3085,6 +3247,11 @@ QueryEngine::executeAndEntitiesWithFallback(const ConjunctiveQuery& q, bool opti
 
 // ===== Range-aware Ausführung =====
 namespace {
+/**
+ * @brief Big Limit.
+ * @return Return value.
+ * @details Implements bigLimit without additional internal calls.
+ */
 static inline size_t bigLimit() { return static_cast<size_t>(1000000000); }
 }
 
@@ -3244,10 +3411,12 @@ QueryEngine::executeAndEntitiesRangeAware_(const ConjunctiveQuery& q) const {
 	return Ok(std::move(out));
 }
 
-// ============================================================================
-// Join/LET/COLLECT Support (MVP)
-// ============================================================================
-// Helper: Extract all variable names referenced in an expression
+/**
+ * @brief ============================================================================ Join/LET/COLLECT Support (MVP) ============================================================================ Helper: Extract all variable names referenced in an expression
+ * @param[in] expr Input parameter.
+ * @param[in,out] vars Input/output parameter.
+ * @details Calls: getType(), insert().
+ */
 static void collectVariables(
 	const std::shared_ptr<query::Expression>& expr,
 	std::set<std::string>& vars
@@ -3314,6 +3483,14 @@ struct EquiJoinCondition {
 	std::string right_field;
 };
 
+/**
+ * @brief Analyze Equi Join.
+ * @param[in] filters Input parameter.
+ * @param[in] var1 Input parameter.
+ * @param[in] var2 Input parameter.
+ * @return Return value.
+ * @details Calls: getType(), checkFieldAccess(), empty().
+ */
 static EquiJoinCondition analyzeEquiJoin(
 	const std::vector<std::shared_ptr<query::FilterNode>>& filters,
 	const std::string& var1,
@@ -4035,7 +4212,11 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeGroupBy(
 	return Ok(std::move(results));
 }
 
-// Forward declaration for helper function
+/**
+ * @brief Forward declaration for helper function
+ * @param[in] expr Input parameter.
+ * @return Return value.
+ */
 static std::optional<utils::geo::MBR> extractBBoxFromFilter(
     const std::shared_ptr<themis::query::Expression>& expr
 );
@@ -4577,7 +4758,12 @@ QueryEngine::executeGeneralTraversal(
 // Hybrid Multi-Model Query Implementations
 // ============================================================================
 
-// Helper: Extract MBR from spatial filter expression for index optimization
+/**
+ * @brief Helper: Extract MBR from spatial filter expression for index optimization
+ * @param[in] expr Input parameter.
+ * @return Return value.
+ * @details Calls: getType(), size(), rfind(), find(), substr(), std::replace(), begin(), end().
+ */
 static std::optional<utils::geo::MBR> extractBBoxFromFilter(
     const std::shared_ptr<themis::query::Expression>& expr
 ) {
@@ -4608,6 +4794,11 @@ static std::optional<utils::geo::MBR> extractBBoxFromFilter(
                                 if (start != std::string::npos && end != std::string::npos) {
                                     std::string coords = wkt.substr(start + 2, end - start - 2);
                                     std::replace(coords.begin(), coords.end(), ',', ' ');
+                                    /**
+                                     * @brief Iss.
+                                     * @param[in] coords Input parameter.
+                                     * @return Return value.
+                                     */
                                     std::istringstream iss(coords);
                                     double minx = std::numeric_limits<double>::max();
                                     double miny = std::numeric_limits<double>::max();
@@ -4667,6 +4858,12 @@ struct HybridVGConfig {
 	size_t min_chunk_vector_bf = 128;   // parallel chunk size for brute-force vector
 };
 
+/**
+ * @brief Load Hybrid Config.
+ * @param[in,out] db Input/output parameter.
+ * @return Return value.
+ * @details Calls: get(), has_value(), nlohmann::json::parse(), value(), contains(), THEMIS_WARN().
+ */
 static HybridVGConfig loadHybridConfig_(RocksDBWrapper& db) {
 	HybridVGConfig cfg;
 	try {

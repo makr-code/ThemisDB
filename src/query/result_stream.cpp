@@ -314,7 +314,13 @@ template class ResultStream<double>;
 // Instantiate for nlohmann::json (commonly used for query results)
 template class ResultStream<nlohmann::json>;
 
-// Helper function implementation
+/**
+ * @brief Helper function implementation
+ * @param[in] keys Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: std::move().
+ */
 std::shared_ptr<ResultStream<std::string>> createKeyStream(
     std::vector<std::string> keys,
     StreamConfig config

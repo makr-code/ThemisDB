@@ -31,29 +31,16 @@ typedef struct ldap LDAP;
 namespace themis {
 namespace auth {
 
-/**
- * @brief Configuration parameters used exclusively by the connection pool.
- *
- * These are embedded inside LDAPConfig and consumed by LDAPConnectionPool.
- */
 struct LDAPPoolConfig {
-    /// Minimum number of idle connections kept alive in the pool.
     int min_idle{2};
 
-    /// Maximum total connections (idle + active) allowed in the pool.
     int max_size{16};
 
-    /**
-     * @brief Maximum time (milliseconds) to wait for an available connection
-     * before checkout() fails.
-     */
     int checkout_timeout_ms{5000};
 
     // Backward-compatible fields used by the auth tests.
     std::string host;
 
-    /// Connection / TLS setup parameters duplicated from LDAPConfig so the
-    /// pool can create new connections independently.
     std::string server_url;
     int         port{389};
     bool        use_tls{false};
@@ -66,21 +53,6 @@ struct LDAPPoolConfig {
 // ---------------------------------------------------------------------------
 class LDAPConnectionPool;
 
-/**
- * @brief RAII wrapper around a checked-out LDAP connection.
- *
- * On destruction the connection is returned to the pool (or evicted if it is
- * marked stale).  Callers obtain a PooledConnection via
- * LDAPConnectionPool::checkout() and use rawHandle() to access the underlying
- * LDAP* for bind / search operations.
- *
- * Example:
- * @code
- *   auto conn = pool.checkout();
- *   if (!conn) { return LDAPAuthResult::Failed("pool exhausted"); }
- *   ldap_sasl_bind_s(conn->rawHandle(), ...);
- * @endcode
- */
 class PooledConnection {
 public:
     PooledConnection(const PooledConnection&)            = delete;
@@ -90,16 +62,10 @@ public:
 
     ~PooledConnection();
 
-    /**
-     * @brief Access the raw LDAP handle.
-     * @return Underlying LDAP handle currently managed by this pooled wrapper.
-     */
     LDAP* rawHandle() const noexcept { return handle_; }
 
-    /// Mark this connection as stale so it is evicted (not returned) on destruction.
     void markStale() noexcept { stale_ = true; }
 
-    /// Returns true if the connection is still usable.
     bool isStale() const noexcept { return stale_; }
 
 private:
@@ -112,29 +78,13 @@ private:
     bool                stale_{false};
 };
 
-/**
- * @brief Thread-safe pool of pre-established LDAP connections.
- *
- * The pool maintains a set of idle LDAP* handles that survive across
- * authentication calls.  This avoids the repeated TCP + TLS + bind overhead
- * (typically 10–50 ms) for every user authentication under load.
- *
- * Thread safety:
- * - All public methods are safe to call concurrently.
- * - Connections are protected by an internal mutex.
- * - checkout() blocks (up to checkout_timeout_ms) when no idle connection
- *   is available and the pool is at max_size.
- *
- * Health checking:
- * - On every checkout, the pooled connection is validated by issuing a
- *   lightweight ldap_search_ext_s to the rootDSE ("" base, LDAP_SCOPE_BASE,
- *   requesting supportedLDAPVersion).  Stale connections are evicted and a
- *   fresh one is created transparently.
- *
- * Compliance: NIST SP 800-63B (authentication), SOC 2 CC6.1 (availability).
- */
 class LDAPConnectionPool {
 public:
+    /**
+     * @brief LDAPConnection Pool.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit LDAPConnectionPool(const LDAPPoolConfig& config);
     ~LDAPConnectionPool();
 
@@ -145,70 +95,65 @@ public:
     LDAPConnectionPool& operator=(LDAPConnectionPool&&)      = delete;
 
     /**
-     * @brief Check out a connection from the pool.
-     *
-     * Blocks up to config.checkout_timeout_ms waiting for an available
-     * connection.  Returns nullptr if the timeout expires, the pool is
-     * shutting down, or LDAP support is not compiled in.
-     *
-     * @return A non-null std::unique_ptr<PooledConnection> on success, or
-     *         nullptr on failure.
+     * @brief Checkout.
+     * @return Return value.
      */
     std::unique_ptr<PooledConnection> checkout();
 
-    /**
-     * @brief Return the pool configuration.
-     * @return Immutable reference to the pool configuration used by this pool.
-     */
     const LDAPPoolConfig& config() const noexcept { return config_; }
 
-    /**
-     * @brief Attach an audit logger for pool-level security events.
-     *
-     * [W8-17] When attached, pool exhaustion timeouts emit a structured
-     * PROVIDER_DEGRADED audit event via @p logger so operators can correlate
-     * pool saturation with downstream auth failures.
-     *
-     * @param logger Non-owning; may be nullptr (disables audit events).
-     */
     void setAuditLogger(utils::AuditLogger* logger) noexcept { audit_logger_ = logger; }
 
-    // -----------------------------------------------------------------------
-    // Metrics accessors (used by auth_metrics)
-    // -----------------------------------------------------------------------
-
     /**
-     * @brief Return the total capacity of the pool.
-     * @return Sum of idle and active slots, capped at @c max_size.
+     * @brief ----------------------------------------------------------------------- Metrics accessors (used by auth_metrics) -----------------------------------------------------------------------
+     * @return Return value.
+     * @note Exception safety: noexcept.
      */
+
     int poolSize() const noexcept;
 
     /**
-     * @brief Return the number of idle connections in the pool.
-     * @return Count of currently idle LDAP connections ready for checkout.
+     * @brief Idle Connections.
+     * @return Return value.
+     * @note Exception safety: noexcept.
      */
     int idleConnections() const noexcept;
 
     /**
-     * @brief Return the number of active checked-out connections.
-     * @return Count of connections currently checked out by callers.
+     * @brief Active Connections.
+     * @return Return value.
+     * @note Exception safety: noexcept.
      */
     int activeConnections() const noexcept;
 
 private:
     friend class PooledConnection;
 
-    /// Called by ~PooledConnection to return or evict a handle.
+    /**
+     * @brief Return Connection.
+     * @param[in,out] handle Input/output parameter.
+     * @param[in] stale Input parameter.
+     */
     void returnConnection(LDAP* handle, bool stale);
 
-    /// Create and initialise a new LDAP connection (does NOT bind user credentials).
+    /**
+     * @brief Create Connection.
+     * @return Pointer to the result.
+     */
     LDAP* createConnection();
 
-    /// Perform a lightweight health-check on an existing connection.
-    /// Returns true if the connection is alive, false if it should be evicted.
+    /**
+     * @brief Is Healthy.
+     * @param[in,out] handle Input/output parameter.
+     * @return True when the operation succeeds.
+     */
     bool isHealthy(LDAP* handle) const;
 
-    /// Destroy and free an LDAP handle.
+    /**
+     * @brief Destroy Handle.
+     * @param[in,out] handle Input/output parameter.
+     * @note Exception safety: noexcept.
+     */
     void destroyHandle(LDAP* handle) noexcept;
 
     LDAPPoolConfig config_;
@@ -216,20 +161,14 @@ private:
     mutable std::mutex mutex_;
     std::condition_variable cv_;
 
-    /// Set to true when the pool is shutting down; causes checkout() to return
-    /// nullptr and returnConnection() to destroy handles rather than re-pool them.
     bool closing_{false};
 
-    /// Idle connections available for checkout.
     std::deque<LDAP*> idle_;
 
-    /// Number of connections currently checked out.
     std::atomic<int> active_count_{0};
 
-    /// Total live connections (idle + active); used to enforce max_size.
     int total_count_{0};
 
-    /// [W8-17] Non-owning optional audit logger for pool-level security events.
     utils::AuditLogger* audit_logger_{nullptr};
 };
 

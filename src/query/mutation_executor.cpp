@@ -17,10 +17,40 @@ namespace query {
 MutationResult MutationExecutor::execute(const MutationExecutionPlan& plan,
                                           StorageContext&              ctx) const {
     switch (plan.mutation_type) {
+        /**
+         * @brief Execute Insert.
+         * @param[in] plan Input parameter.
+         * @param[in] ctx Input parameter.
+         * @return Return value.
+         */
         case ASTNodeType::Insert:  return executeInsert(plan, ctx);
+        /**
+         * @brief Execute Update.
+         * @param[in] plan Input parameter.
+         * @param[in] ctx Input parameter.
+         * @return Return value.
+         */
         case ASTNodeType::Update:  return executeUpdate(plan, ctx);
+        /**
+         * @brief Execute Remove.
+         * @param[in] plan Input parameter.
+         * @param[in] ctx Input parameter.
+         * @return Return value.
+         */
         case ASTNodeType::Remove:  return executeRemove(plan, ctx);
+        /**
+         * @brief Execute Replace.
+         * @param[in] plan Input parameter.
+         * @param[in] ctx Input parameter.
+         * @return Return value.
+         */
         case ASTNodeType::Replace: return executeReplace(plan, ctx);
+        /**
+         * @brief Execute Upsert.
+         * @param[in] plan Input parameter.
+         * @param[in] ctx Input parameter.
+         * @return Return value.
+         */
         case ASTNodeType::Upsert:  return executeUpsert(plan, ctx);
         default:
             return MutationResult::Failure(
@@ -35,8 +65,15 @@ MutationResult MutationExecutor::execute(const MutationExecutionPlan& plan,
 
 namespace {
 
-/// Process a single step against the storage context.
-/// Returns an error MutationResult if the step fails, std::nullopt on success.
+/**
+ * @brief Process a single step against the storage context.
+ * @param[in] step Input parameter.
+ * @param[in] collection Input parameter.
+ * @param[in,out] ctx Input/output parameter.
+ * @param[in,out] inserted_ids Input/output parameter.
+ * @return Return value.
+ * @details Returns an error MutationResult if the step fails, std::nullopt on success.
+ */
 std::optional<MutationResult> processStep(
     const MutationStep&              step,
     const std::string&               collection,

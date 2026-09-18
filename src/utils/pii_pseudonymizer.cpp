@@ -87,6 +87,11 @@ std::string PIIPseudonymizer::entityIndexKey(const std::string& entity_pk) const
 std::pair<nlohmann::json, std::vector<std::string>> PIIPseudonymizer::pseudonymize(
     const nlohmann::json& data
 ) {
+    /**
+     * @brief Lk.
+     * @param[in] mu_ Input parameter.
+     * @return Return value.
+     */
     std::scoped_lock lk(mu_);
     
     auto findings_map = detector_->detectInJson(data);
@@ -146,8 +151,20 @@ std::pair<nlohmann::json, std::vector<std::string>> PIIPseudonymizer::pseudonymi
     return {pseudonymized, created_uuids};
 }
 
+/**
+ * @brief Reveal PII.
+ * @param[in] pii_uuid Input parameter.
+ * @param[in] user_id Input parameter.
+ * @return Return value.
+ * @details Calls: lk(), get(), dbKey(), nlohmann::json::parse(), value(), themis::EncryptedBlob::fromJson(), decrypt(), logEvent().
+ */
 std::optional<std::string> PIIPseudonymizer::revealPII(const std::string& pii_uuid,
                                                       const std::string& user_id) {
+    /**
+     * @brief Lk.
+     * @param[in] mu_ Input parameter.
+     * @return Return value.
+     */
     std::scoped_lock lk(mu_);
     
     // Load mapping
@@ -192,7 +209,18 @@ std::optional<std::string> PIIPseudonymizer::revealPII(const std::string& pii_uu
     }
 }
 
+/**
+ * @brief Erase PII.
+ * @param[in] pii_uuid Input parameter.
+ * @return True on success.
+ * @details Calls: lk(), beginTransaction(), get(), dbKey(), rollback(), del(), commit(), logEvent().
+ */
 bool PIIPseudonymizer::erasePII(const std::string& pii_uuid) {
+    /**
+     * @brief Lk.
+     * @param[in] mu_ Input parameter.
+     * @return Return value.
+     */
     std::scoped_lock lk(mu_);
     // Use short-lived transaction for read-check + delete to avoid conflicts
     for (int attempt = 0; attempt < 3; ++attempt) {
@@ -237,11 +265,28 @@ bool PIIPseudonymizer::erasePII(const std::string& pii_uuid) {
 void PIIPseudonymizer::registerCacheInvalidator(
     std::function<void(const std::string&)> fn)
 {
+    /**
+     * @brief Lk.
+     * @param[in] mu_ Input parameter.
+     * @return Return value.
+     */
     std::scoped_lock lk(mu_);
     cache_invalidator_ = std::move(fn);
 }
 
+/**
+ * @brief Soft Delete PII.
+ * @param[in] pii_uuid Input parameter.
+ * @param[in] user_id Input parameter.
+ * @return True on success.
+ * @details Calls: lk(), beginTransaction(), get(), dbKey(), rollback(), json_str(), data(), size().
+ */
 bool PIIPseudonymizer::softDeletePII(const std::string& pii_uuid, const std::string& user_id) {
+    /**
+     * @brief Lk.
+     * @param[in] mu_ Input parameter.
+     * @return Return value.
+     */
     std::scoped_lock lk(mu_);
     // Use transactional read-modify-write with small retry loop
     for (int attempt = 0; attempt < 3; ++attempt) {
@@ -294,7 +339,18 @@ bool PIIPseudonymizer::softDeletePII(const std::string& pii_uuid, const std::str
     return false;
 }
 
+/**
+ * @brief Find PIIFor Entity.
+ * @param[in] entity_pk Input parameter.
+ * @return Return value.
+ * @details Calls: lk(), get(), entityIndexKey(), nlohmann::json::parse().
+ */
 std::vector<std::string> PIIPseudonymizer::findPIIForEntity(const std::string& entity_pk) {
+    /**
+     * @brief Lk.
+     * @param[in] mu_ Input parameter.
+     * @return Return value.
+     */
     std::scoped_lock lk(mu_);
     
     auto index_str = db_->get(entityIndexKey(entity_pk));
@@ -316,6 +372,12 @@ std::vector<std::string> PIIPseudonymizer::findPIIForEntity(const std::string& e
     }
 }
 
+/**
+ * @brief Erase All PIIFor Entity.
+ * @param[in] entity_pk Input parameter.
+ * @return Return value.
+ * @details Calls: findPIIForEntity(), erasePII(), del(), entityIndexKey().
+ */
 size_t PIIPseudonymizer::eraseAllPIIForEntity(const std::string& entity_pk) {
     auto pii_uuids = findPIIForEntity(entity_pk);
     

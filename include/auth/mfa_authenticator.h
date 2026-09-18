@@ -24,29 +24,8 @@ namespace auth {
 class AuthAuditLogger;
 class AuthMetrics;
 
-/**
- * @brief TOTP-based Multi-Factor Authentication
- * 
- * Implements Time-based One-Time Password (TOTP) according to RFC 6238
- * for multi-factor authentication. Provides:
- * - TOTP secret generation and storage
- * - TOTP code validation with time window
- * - Recovery codes for account recovery
- * - QR code generation for mobile app setup
- * 
- * Security considerations:
- * - Secrets stored encrypted in database
- * - Time window prevents replay attacks
- * - Rate limiting prevents brute force
- * - Recovery codes single-use only
- * 
- * Compliance: SOC 2 CC6.1, NIST SP 800-63B Level 2
- */
 class MFAAuthenticator {
 public:
-    /**
-     * @brief MFA configuration
-     */
     struct Config {
         // TOTP time step in seconds (default: 30s per RFC 6238)
         int time_step_seconds = 30;
@@ -69,9 +48,6 @@ public:
         std::string issuer = "ThemisDB";
     };
     
-    /**
-     * @brief MFA enrollment data for a user
-     */
     struct EnrollmentData {
         std::string user_id;
         std::string secret_base32;           // Base32-encoded TOTP secret
@@ -79,59 +55,63 @@ public:
         std::chrono::system_clock::time_point enrolled_at;
         bool enabled = false;
         
+        /**
+         * @brief To json.
+         * @return Return value.
+         */
         nlohmann::json to_json() const;
+        /**
+         * @brief From json.
+         * @param[in] j Input parameter.
+         * @return Return value.
+         */
         static EnrollmentData from_json(const nlohmann::json& j);
     };
     
     MFAAuthenticator();
+    /**
+     * @brief MFAAuthenticator.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit MFAAuthenticator(const Config& config);
     ~MFAAuthenticator() = default;
     
     /**
-     * @brief Attach an AuditLogger to receive MFA events (enroll, TOTP, recovery).
-     * Pass nullptr to detach.  The authenticator does NOT take ownership.
+     * @brief Set Audit Logger.
+     * @param[in,out] logger Input/output parameter.
+     * @details Implements setAuditLogger without additional internal calls.
      */
     void setAuditLogger(utils::AuditLogger* logger) { audit_logger_ = logger; }
 
     /**
-     * @brief Attach an AuthAuditLogger for typed MFA audit events including drift.
-     * Pass nullptr to detach.  The authenticator does NOT take ownership.
+     * @brief Set Auth Audit Logger.
+     * @param[in,out] logger Input/output parameter.
+     * @details Implements setAuthAuditLogger without additional internal calls.
      */
     void setAuthAuditLogger(AuthAuditLogger* logger) { auth_audit_logger_ = logger; }
 
     /**
-     * @brief Attach an AuthMetrics instance for TOTP drift observability.
-     * Pass nullptr to detach.  The authenticator does NOT take ownership.
+     * @brief Set Metrics.
+     * @param[in,out] metrics Input/output parameter.
+     * @details Implements setMetrics without additional internal calls.
      */
     void setMetrics(AuthMetrics* metrics) { metrics_ = metrics; }
     
     /**
-     * @brief Generate new TOTP secret and recovery codes for user enrollment
-     * 
-     * @param user_id User identifier
-     * @return Enrollment data with secret and recovery codes
+     * @brief Generate Enrollment.
+     * @param[in] user_id Identifier of the user.
+     * @return Return value.
      */
     EnrollmentData generateEnrollment(const std::string& user_id);
     
     /**
-     * @brief Generate TOTP provisioning URI for QR code
-     * 
-     * Format: otpauth://totp/{issuer}:{user}?secret={secret}&issuer={issuer}
-     * 
-     * @param enrollment Enrollment data
-     * @return URI string for QR code generation
+     * @brief Generate Provisioning URI.
+     * @param[in] enrollment Input parameter.
+     * @return Return value.
      */
     std::string generateProvisioningURI(const EnrollmentData& enrollment) const;
     
-    /**
-     * @brief Validate TOTP code for user
-     * 
-     * @param secret_base32 User's TOTP secret (base32 encoded)
-     * @param code TOTP code to validate
-     * @param timestamp Optional timestamp (defaults to current time)
-     * @param subject Optional user identifier recorded in drift audit entries
-     * @return true if code is valid within time window
-     */
     bool validateTOTP(
         const std::string& secret_base32,
         const std::string& code,
@@ -140,11 +120,10 @@ public:
     ) const;
     
     /**
-     * @brief Validate recovery code for user
-     * 
-     * @param enrollment User's enrollment data (will be modified to mark code as used)
-     * @param recovery_code Recovery code to validate
-     * @return true if code is valid and unused
+     * @brief Validate Recovery Code.
+     * @param[in,out] enrollment Input/output parameter.
+     * @param[in] recovery_code Input parameter.
+     * @return True when the operation succeeds.
      */
     bool validateRecoveryCode(
         EnrollmentData& enrollment,
@@ -152,20 +131,12 @@ public:
     );
     
     /**
-     * @brief Generate new recovery codes (e.g., after user uses all codes)
-     * 
-     * @param user_id User identifier
-     * @return New recovery codes
+     * @brief Generate Recovery Codes.
+     * @param[in] user_id Identifier of the user.
+     * @return Return value.
      */
     std::vector<std::string> generateRecoveryCodes(const std::string& user_id);
     
-    /**
-     * @brief Get current TOTP code for secret (for testing/validation)
-     * 
-     * @param secret_base32 TOTP secret (base32 encoded)
-     * @param timestamp Optional timestamp (defaults to current time)
-     * @return Current TOTP code
-     */
     std::string getCurrentTOTP(
         const std::string& secret_base32,
         std::optional<std::chrono::system_clock::time_point> timestamp = std::nullopt
@@ -177,31 +148,60 @@ private:
     AuthAuditLogger* auth_audit_logger_ = nullptr; ///< Non-owning, optional typed logger.
     AuthMetrics* metrics_ = nullptr;               ///< Non-owning, optional metrics.
     
-    // Generate random secret for TOTP (20 bytes = 160 bits)
+    /**
+     * @brief Generate random secret for TOTP (20 bytes = 160 bits)
+     * @return Return value.
+     */
     std::string generateSecret() const;
     
-    // Generate single recovery code
+    /**
+     * @brief Generate single recovery code
+     * @return Return value.
+     */
     std::string generateRecoveryCode() const;
     
-    // Compute TOTP value for given time counter
+    /**
+     * @brief Compute TOTP value for given time counter
+     * @param[in] secret Input parameter.
+     * @param[in] time_counter Input parameter.
+     * @return Return value.
+     */
     std::string computeTOTP(
         const std::vector<uint8_t>& secret,
         uint64_t time_counter
     ) const;
     
-    // Convert Base32 string to binary
+    /**
+     * @brief Convert Base32 string to binary
+     * @param[in] input Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> base32Decode(const std::string& input) const;
     
-    // Convert binary to Base32 string
+    /**
+     * @brief Convert binary to Base32 string
+     * @param[in] input Input parameter.
+     * @return Return value.
+     */
     std::string base32Encode(const std::vector<uint8_t>& input) const;
     
     // HMAC-SHA1 implementation
+    /**
+     * @brief Hmac SHA1.
+     * @param[in] key Input parameter.
+     * @param[in] message Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> hmacSHA1(
         const std::vector<uint8_t>& key,
         const std::vector<uint8_t>& message
     ) const;
     
-    // Get time counter from timestamp
+    /**
+     * @brief Get time counter from timestamp
+     * @param[in] timestamp Input parameter.
+     * @return Return value.
+     */
     uint64_t getTimeCounter(std::chrono::system_clock::time_point timestamp) const;
 };
 

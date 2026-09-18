@@ -294,10 +294,29 @@ class InputValidator {
     ".zip", ".tar", ".gz"
   };
   
-  // Validation helper methods
+  /**
+   * @brief Validation helper methods
+   * @param[in] input Input parameter.
+   * @return True on success.
+   */
   static bool validateSqlQueryPattern(std::string_view input);
+  /**
+   * @brief Validate Sql Injection Risk.
+   * @param[in] input Input parameter.
+   * @return True on success.
+   */
   static bool validateSqlInjectionRisk(std::string_view input);
+  /**
+   * @brief Validate Xss Risk.
+   * @param[in] input Input parameter.
+   * @return True on success.
+   */
   static bool validateXssRisk(std::string_view input);
+  /**
+   * @brief Validate Path Traversal.
+   * @param[in] path Input parameter.
+   * @return True on success.
+   */
   static bool validatePathTraversal(std::string_view path);
 };
 

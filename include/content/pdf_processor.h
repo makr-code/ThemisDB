@@ -25,9 +25,6 @@ namespace content {
 
 class ContentMetrics;  // forward declaration
 
-/**
- * @brief PDF Page Information
- */
 struct PDFPageInfo {
     int page_number = 0;   ///< 1-based page index (CON-020)
     std::string text = {};
@@ -37,9 +34,6 @@ struct PDFPageInfo {
     std::vector<std::pair<float, float>> text_positions;  // x,y positions of text blocks
 };
 
-/**
- * @brief PDF Document Metadata
- */
 struct PDFMetadata {
     std::string title;
     std::string author;
@@ -55,23 +49,8 @@ struct PDFMetadata {
     std::string pdf_version;
 };
 
-/**
- * @brief PDF Content Processor
- * 
- * Handles PDF document extraction:
- * - Text extraction with layout awareness
- * - Metadata extraction (title, author, keywords, etc.)
- * - Page-by-page chunking for RAG
- * - Table detection (basic)
- * - Image extraction (placeholder)
- * 
- * VCC-URN Compliant: Uses content-addressable storage for embedded resources.
- */
 class PDFProcessor : public IContentProcessor {
 public:
-    /**
-     * @brief Configuration for PDF processing
-     */
     struct Config {
         bool extract_text = true;
         bool extract_metadata = true;
@@ -84,43 +63,25 @@ public:
     };
 
     PDFProcessor();
+    /**
+     * @brief PDFProcessor.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit PDFProcessor(Config config);
     ~PDFProcessor() override = default;
 
-    /**
-     * @brief Extract text and metadata from PDF
-     * 
-     * @param blob Raw PDF bytes
-     * @param content_type Content type info
-     * @return ExtractionResult with text and metadata
-     */
     ExtractionResult extract(
         const std::string& blob,
         const ContentType& content_type
     ) override;
 
-    /**
-     * @brief Chunk PDF into pages or sections
-     * 
-     * @param extraction_result Extracted PDF data
-     * @param chunk_size Target chunk size in tokens
-     * @param overlap Overlap between chunks
-     * @return Vector of chunks with page/section metadata
-     */
     std::vector<json> chunk(
         const ExtractionResult& extraction_result,
         int chunk_size,
         int overlap
     ) override;
 
-    /**
-     * @brief Generate embedding for PDF chunk
-     * 
-     * Delegates to embedding service (CLIP-like or text model).
-     * 
-     * @param chunk_data Chunk text
-     * @return Embedding vector
-     */
     std::vector<float> generateEmbedding(const std::string& chunk_data) override;
 
     std::string getName() const override { return "PDFProcessor"; }
@@ -130,14 +91,14 @@ public:
     }
 
     /**
-     * @brief Check if PDF processing is available
-     * 
-     * Returns true if poppler or PoDoFo library is linked.
+     * @brief Is Available.
+     * @return True when the operation succeeds.
      */
     static bool isAvailable();
 
     /**
-     * @brief Get library version
+     * @brief Get Library Version.
+     * @return Return value.
      */
     static std::string getLibraryVersion();
 
@@ -145,17 +106,44 @@ private:
     Config config_;
 
     // Internal extraction methods
+    /**
+     * @brief Extract Metadata.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     PDFMetadata extractMetadata(const std::string& blob);
+    /**
+     * @brief Extract Pages.
+     * @param[in] blob Input parameter.
+     * @return Return value.
+     */
     std::vector<PDFPageInfo> extractPages(const std::string& blob);
+    /**
+     * @brief Extract All Text.
+     * @param[in] pages Input parameter.
+     * @return Return value.
+     */
     std::string extractAllText(const std::vector<PDFPageInfo>& pages);
 
-    // Token counting (simple whitespace-based)
+    /**
+     * @brief Token counting (simple whitespace-based)
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     int countTokens(const std::string& text);
 
-    // Helper for PDF date format -> ISO 8601
+    /**
+     * @brief Helper for PDF date format -> ISO 8601
+     * @param[in] pdf_date Input parameter.
+     * @return Return value.
+     */
     std::string parsePDFDate(const std::string& pdf_date);
 
-    // Check PDF header/signature
+    /**
+     * @brief Check PDF header/signature
+     * @param[in] blob Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool isPDFValid(const std::string& blob);
 
 #ifdef THEMIS_ENABLE_PDF
@@ -170,14 +158,14 @@ private:
 };
 
 /**
- * @brief Factory function for PDF Processor.
- * @return Unique pointer to PDFProcessor.
+ * @brief Create PDFProcessor.
+ * @return Return value.
  */
 std::unique_ptr<IContentProcessor> createPDFProcessor();
 /**
- * @brief Factory function for PDF Processor.
- * @param config Optional configuration.
- * @return Unique pointer to PDFProcessor.
+ * @brief Create PDFProcessor.
+ * @param[in] config Input parameter.
+ * @return Return value.
  */
 std::unique_ptr<IContentProcessor> createPDFProcessor(
     PDFProcessor::Config config

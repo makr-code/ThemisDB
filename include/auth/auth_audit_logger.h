@@ -21,20 +21,6 @@
 namespace themis {
 namespace auth {
 
-/**
- * @brief Decision classification for operator-visible audit events.
- *
- * Allows SIEMs, dashboards, and runbook automation to filter audit events by
- * the type of security decision that produced them.  Added in the operator
- * diagnostics hardening pass (ROADMAP.md §2c).
- *
- * Values:
- *  - @c unspecified   — decision class not set (backward-compatible default).
- *  - @c authentication — primary credential verification (JWT, LDAP, MFA, …).
- *  - @c policy         — key-management and rotation policy decisions.
- *  - @c revocation     — token or credential revocation decisions.
- *  - @c federation     — federated-identity and cross-realm decisions.
- */
 enum class DecisionClass : uint8_t {
     unspecified    = 0,
     authentication = 1,
@@ -43,48 +29,24 @@ enum class DecisionClass : uint8_t {
     federation     = 4,
 };
 
-/**
- * @brief Strongly-typed audit logging facade for authentication events.
- *
- * Wraps `utils::AuditLogger` and provides convenience methods for every
- * auth-module event category.  All methods are no-ops when no logger is
- * attached, so callers never need to guard with if (logger_) checks.
- *
- * Usage pattern (mirrors JWTKeyRotationManager):
- * @code
- *   JWTValidator validator(config);
- *   validator.setAuditLogger(&audit_logger);   // attach; non-owning
- * @endcode
- */
 class AuthAuditLogger {
 public:
-    /**
-     * @brief Construct with an optional underlying AuditLogger.
-     * @param logger Non-owning pointer; may be nullptr (disables logging).
-     */
     explicit AuthAuditLogger(utils::AuditLogger* logger = nullptr)
         : logger_(logger) {}
 
-    /** Attach or detach the underlying logger (nullptr = disabled). */
+    /**
+     * @brief Set Logger.
+     * @param[in,out] logger Input/output parameter.
+     * @details Implements setLogger without additional internal calls.
+     */
     void setLogger(utils::AuditLogger* logger) { logger_ = logger; }
 
-    /** @return true if a logger is currently attached. */
     bool isEnabled() const { return logger_ != nullptr; }
 
     // -----------------------------------------------------------------------
     // Decision-class-tagged emit
     // -----------------------------------------------------------------------
 
-    /**
-     * @brief Fire a security event tagged with an operator-visible decision class.
-     *
-     * When @p dc is @c DecisionClass::unspecified the event is emitted without
-     * a @c decision_class field (backward-compatible).  For all other values the
-     * field is injected into the JSON detail block so that SIEMs can filter by
-     * decision type.
-     *
-     * This is a low-level helper; prefer the typed @c log*() convenience methods.
-     */
     void emitWithDecisionClass(utils::SecurityEventType type,
                                const std::string& user_id,
                                const std::string& resource,
@@ -95,17 +57,26 @@ public:
     // JWT / Token events
     // -----------------------------------------------------------------------
 
-    /** JWT token was accepted and claims extracted. */
+    /**
+     * @brief Log JWTSuccess.
+     * @param[in] sub Input parameter.
+     * @param[in] jti Input parameter.
+     * @param[in] issuer Input parameter.
+     * @param[in] kid Input parameter.
+     */
     void logJWTSuccess(const std::string& sub,
                        const std::string& jti,
                        const std::string& issuer,
                        const std::string& kid);
 
-    /** JWT token was rejected (expired, bad sig, revoked, …). */
     void logJWTFailure(const std::string& reason,
                        const std::string& kid = "");
 
-    /** Token JTI was added to the revocation blacklist. */
+    /**
+     * @brief Log Token Revoked.
+     * @param[in] jti Input parameter.
+     * @param[in] sub Input parameter.
+     */
     void logTokenRevoked(const std::string& jti,
                          const std::string& sub);
 
@@ -113,47 +84,73 @@ public:
     // GSSAPI / Kerberos events
     // -----------------------------------------------------------------------
 
-    /** Kerberos / GSSAPI authentication succeeded. */
+    /**
+     * @brief Log Kerberos Success.
+     * @param[in] principal Input parameter.
+     */
     void logKerberosSuccess(const std::string& principal);
 
-    /** Kerberos / GSSAPI authentication failed. */
+    /**
+     * @brief Log Kerberos Failure.
+     * @param[in] reason Input parameter.
+     */
     void logKerberosFailure(const std::string& reason);
 
     // -----------------------------------------------------------------------
     // MFA / TOTP events
     // -----------------------------------------------------------------------
 
-    /** TOTP code was accepted. */
+    /**
+     * @brief Log TOTPSuccess.
+     * @param[in] user_id Identifier of the user.
+     */
     void logTOTPSuccess(const std::string& user_id);
 
-    /** TOTP code was rejected. */
+    /**
+     * @brief Log TOTPFailure.
+     * @param[in] user_id Identifier of the user.
+     */
     void logTOTPFailure(const std::string& user_id);
 
-    /** TOTP code validated with a non-zero time step offset (clock drift indicator).
-     *
-     *  Large or sustained offsets indicate a misconfigured device clock and should
-     *  be investigated. The audit entry records the subject, step offset, and the
-     *  Unix timestamp of the validation so that operations teams can track trends.
+    /**
+     * @brief Log TOTPDrift.
+     * @param[in] user_id Identifier of the user.
+     * @param[in] step_offset Input parameter.
+     * @param[in] timestamp Input parameter.
      */
     void logTOTPDrift(const std::string& user_id,
                       int step_offset,
                       std::chrono::system_clock::time_point timestamp);
 
-    /** Recovery code was used (single-use codes only). */
+    /**
+     * @brief Log Recovery Code Used.
+     * @param[in] user_id Identifier of the user.
+     */
     void logRecoveryCodeUsed(const std::string& user_id);
 
-    /** New MFA enrollment generated for user. */
+    /**
+     * @brief Log MFAEnrolled.
+     * @param[in] user_id Identifier of the user.
+     */
     void logMFAEnrolled(const std::string& user_id);
 
     // -----------------------------------------------------------------------
     // API Key events
     // -----------------------------------------------------------------------
 
-    /** API key authentication succeeded. */
+    /**
+     * @brief Log Api Key Success.
+     * @param[in] key_id Identifier of the key.
+     * @param[in] principal Input parameter.
+     */
     void logApiKeySuccess(const std::string& key_id,
                           const std::string& principal);
 
-    /** API key authentication failed (not found, inactive, expired, bad secret). */
+    /**
+     * @brief Log Api Key Failure.
+     * @param[in] key_id Identifier of the key.
+     * @param[in] reason Input parameter.
+     */
     void logApiKeyFailure(const std::string& key_id,
                           const std::string& reason);
 
@@ -161,32 +158,60 @@ public:
     // OAuth / SAML events
     // -----------------------------------------------------------------------
 
-    /** OAuth 2.0 device authorization was granted. */
+    /**
+     * @brief Log OAuth Device Granted.
+     * @param[in] client_id Identifier of the client.
+     * @param[in] sub Input parameter.
+     */
     void logOAuthDeviceGranted(const std::string& client_id,
                                const std::string& sub);
 
-    /** OAuth 2.0 device authorization was denied or expired. */
+    /**
+     * @brief Log OAuth Device Denied.
+     * @param[in] client_id Identifier of the client.
+     * @param[in] reason Input parameter.
+     */
     void logOAuthDeviceDenied(const std::string& client_id,
                               const std::string& reason);
 
-    /** SAML assertion was accepted. */
+    /**
+     * @brief Log SAMLSuccess.
+     * @param[in] subject Input parameter.
+     * @param[in] issuer Input parameter.
+     */
     void logSAMLSuccess(const std::string& subject,
                         const std::string& issuer);
 
-    /** SAML assertion was rejected. */
+    /**
+     * @brief Log SAMLFailure.
+     * @param[in] reason Input parameter.
+     */
     void logSAMLFailure(const std::string& reason);
 
     // -----------------------------------------------------------------------
     // Passkey / FIDO2 events
     // -----------------------------------------------------------------------
 
-    /** Passkey authentication succeeded. */
+    /**
+     * @brief Log Passkey Success.
+     * @param[in] user_id Identifier of the user.
+     * @param[in] credential_id Identifier of the credential.
+     */
     void logPasskeySuccess(const std::string& user_id, const std::string& credential_id);
 
-    /** Passkey authentication failed. */
+    /**
+     * @brief Log Passkey Failure.
+     * @param[in] user_id Identifier of the user.
+     * @param[in] reason Input parameter.
+     */
     void logPasskeyFailure(const std::string& user_id, const std::string& reason);
 
-    /** Passkey credential was registered for a user. */
+    /**
+     * @brief Log Passkey Registered.
+     * @param[in] user_id Identifier of the user.
+     * @param[in] credential_id Identifier of the credential.
+     * @param[in] rp_id Identifier of the rp.
+     */
     void logPasskeyRegistered(const std::string& user_id,
                               const std::string& credential_id,
                               const std::string& rp_id);
@@ -195,22 +220,39 @@ public:
     // mTLS events
     // -----------------------------------------------------------------------
 
-    /** mTLS client certificate authentication succeeded. */
+    /**
+     * @brief Log MTLSSuccess.
+     * @param[in] principal Input parameter.
+     * @param[in] serial Input parameter.
+     */
     void logMTLSSuccess(const std::string& principal, const std::string& serial);
 
-    /** mTLS client certificate authentication failed. */
+    /**
+     * @brief Log MTLSFailure.
+     * @param[in] reason Input parameter.
+     */
     void logMTLSFailure(const std::string& reason);
 
     // -----------------------------------------------------------------------
     // Role / permission change events
     // -----------------------------------------------------------------------
 
-    /** A user's role was changed. */
+    /**
+     * @brief Log Role Change.
+     * @param[in] user_id Identifier of the user.
+     * @param[in] old_role Input parameter.
+     * @param[in] new_role Input parameter.
+     */
     void logRoleChange(const std::string& user_id,
                        const std::string& old_role,
                        const std::string& new_role);
 
-    /** A permission was granted or revoked for a user. */
+    /**
+     * @brief Log Permission Change.
+     * @param[in] user_id Identifier of the user.
+     * @param[in] permission Input parameter.
+     * @param[in] granted Input parameter.
+     */
     void logPermissionChange(const std::string& user_id,
                              const std::string& permission,
                              bool granted);
@@ -219,11 +261,19 @@ public:
     // LDAP / Active Directory events
     // -----------------------------------------------------------------------
 
-    /** LDAP direct-bind authentication succeeded. */
+    /**
+     * @brief Log LDAPSuccess.
+     * @param[in] username Input parameter.
+     * @param[in] dn Input parameter.
+     */
     void logLDAPSuccess(const std::string& username,
                         const std::string& dn);
 
-    /** LDAP direct-bind authentication failed. */
+    /**
+     * @brief Log LDAPFailure.
+     * @param[in] username Input parameter.
+     * @param[in] reason Input parameter.
+     */
     void logLDAPFailure(const std::string& username,
                         const std::string& reason);
 
@@ -231,48 +281,56 @@ public:
     // Zero-trust continuous verification events
     // -----------------------------------------------------------------------
 
-    /** Zero-trust continuous verification passed for a request. */
     void logZeroTrustAllowed(const std::string& user_id,
                              const std::string& resource,
                              double trust_score,
                              const std::string& request_id = "");
 
-    /** Zero-trust continuous verification denied a request. */
     void logZeroTrustDenied(const std::string& user_id,
                             const std::string& resource,
                             const std::string& reason,
                             const std::string& request_id = "");
 
     /**
-     * @brief Emitted when background async re-evaluation revokes an active session.
-     *
-     * Resource path: "zero_trust/re_evaluation_failed"
+     * @brief Log Zero Trust Re Evaluation Failed.
+     * @param[in] user_id Identifier of the user.
+     * @param[in] session_id Identifier of the session.
+     * @param[in] reason Input parameter.
      */
     void logZeroTrustReEvaluationFailed(const std::string& user_id,
                                         const std::string& session_id,
                                         const std::string& reason);
 
-    // -----------------------------------------------------------------------
-    // Anomaly detection events (brute-force, credential stuffing)
-    // -----------------------------------------------------------------------
+    /**
+     * @brief ----------------------------------------------------------------------- Anomaly detection events (brute-force, credential stuffing) -----------------------------------------------------------------------
+     * @param[in] user_id Identifier of the user.
+     * @param[in] ip Input parameter.
+     * @param[in] failed_attempts Input parameter.
+     */
 
-    /** Brute-force attack detected: account locked after repeated failures. */
     void logBruteForceDetected(const std::string& user_id,
                                const std::string& ip,
                                size_t failed_attempts);
 
-    /** Credential stuffing suspected: many distinct usernames tried from one IP. */
+    /**
+     * @brief Log Credential Stuffing Suspected.
+     * @param[in] ip Input parameter.
+     * @param[in] distinct_users Input parameter.
+     */
     void logCredentialStuffingSuspected(const std::string& ip,
                                         size_t distinct_users);
 
-    /** Account locked due to repeated authentication failures. */
+    /**
+     * @brief Log Account Lockout Triggered.
+     * @param[in] user_id Identifier of the user.
+     * @param[in] ip Input parameter.
+     */
     void logAccountLockoutTriggered(const std::string& user_id,
                                     const std::string& ip);
 
 private:
     utils::AuditLogger* logger_;  ///< Non-owning; may be nullptr.
 
-    /** Fire a security event if a logger is attached. */
     void emit(utils::SecurityEventType type,
               const std::string& user_id,
               const std::string& resource,

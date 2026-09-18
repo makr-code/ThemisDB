@@ -31,38 +31,79 @@ namespace governance {
 // Compliance Framework Loader
 // ============================================================================
 
-/**
- * @brief Loads and validates compliance framework definitions
- * 
- * Loads requirement and control definitions from authoritative sources
- * and validates internal consistency and completeness.
- */
 class ComplianceFrameworkLoader {
 public:
-    /// Load all supported frameworks
+    /**
+     * @brief Load All Frameworks.
+     * @return Return value.
+     */
     static std::shared_ptr<ComplianceFrameworkRegistry> loadAllFrameworks();
     
-    /// Load specific framework
+    /**
+     * @brief Load Framework.
+     * @param[in] fw Input parameter.
+     * @return Return value.
+     */
     static std::shared_ptr<ComplianceFrameworkRegistry> loadFramework(
         ComplianceFramework fw);
     
-    /// Load framework from JSON file
+    /**
+     * @brief Load From File.
+     * @param[in] filepath Input parameter.
+     * @return Return value.
+     */
     static std::shared_ptr<ComplianceFrameworkRegistry> loadFromFile(
         const std::string& filepath);
     
-    /// Validate framework consistency
+    /**
+     * @brief Validate Framework.
+     * @param[in] registry Input parameter.
+     * @return True when the operation succeeds.
+     */
     static bool validateFramework(const ComplianceFrameworkRegistry& registry);
     
-    /// Get framework version
+    /**
+     * @brief Get Framework Version.
+     * @param[in] fw Input parameter.
+     * @return Return value.
+     */
     static std::string getFrameworkVersion(ComplianceFramework fw);
 
 private:
+    /**
+     * @brief Load Iso27001.
+     * @return Return value.
+     */
     static std::shared_ptr<ComplianceFrameworkRegistry> loadIso27001();
+    /**
+     * @brief Load Soc2.
+     * @return Return value.
+     */
     static std::shared_ptr<ComplianceFrameworkRegistry> loadSoc2();
+    /**
+     * @brief Load Gdpr.
+     * @return Return value.
+     */
     static std::shared_ptr<ComplianceFrameworkRegistry> loadGdpr();
+    /**
+     * @brief Load Ccpa.
+     * @return Return value.
+     */
     static std::shared_ptr<ComplianceFrameworkRegistry> loadCcpa();
+    /**
+     * @brief Load Hipaa.
+     * @return Return value.
+     */
     static std::shared_ptr<ComplianceFrameworkRegistry> loadHipaa();
+    /**
+     * @brief Load Pci Dss.
+     * @return Return value.
+     */
     static std::shared_ptr<ComplianceFrameworkRegistry> loadPciDss();
+    /**
+     * @brief Load Eu Ai Act.
+     * @return Return value.
+     */
     static std::shared_ptr<ComplianceFrameworkRegistry> loadEuAiAct();
 };
 
@@ -72,28 +113,24 @@ private:
 
 namespace iso27001 {
 
-/// A.5 Organization controls
 namespace organization_controls {
     constexpr auto kAccessControlPolicy = "A.5.1";
     constexpr auto kInfoSecurityRoles = "A.5.2";
     constexpr auto kSegregationOfDuties = "A.5.3";
 }
 
-/// A.6 People controls
 namespace people_controls {
     constexpr auto kScreening = "A.6.1";
     constexpr auto kTermsAndConditions = "A.6.2";
     constexpr auto kAwarenessTraining = "A.6.3";
 }
 
-/// A.7 Physical controls
 namespace physical_controls {
     constexpr auto kPerimeterSecurity = "A.7.1";
     constexpr auto kPhysicalEntry = "A.7.2";
     constexpr auto kOfficeSuppliesAccess = "A.7.3";
 }
 
-/// A.8 Technological controls
 namespace technological_controls {
     constexpr auto kUserEndpointDevices = "A.8.1";
     constexpr auto kServerRoom = "A.8.2";
@@ -102,7 +139,6 @@ namespace technological_controls {
     constexpr auto kPhysicalCryptographicMedia = "A.8.5";
 }
 
-/// A.9 Technical controls
 namespace technical_controls {
     constexpr auto kAccessControl = "A.9.1";
     constexpr auto kUserManagement = "A.9.2";
@@ -111,19 +147,16 @@ namespace technical_controls {
     constexpr auto kEncryptionKeys = "A.9.5";
 }
 
-/// A.10 Cryptography
 namespace cryptography_controls {
     constexpr auto kPolicyAndPlans = "A.10.1";
     constexpr auto kKeyManagement = "A.10.2";
 }
 
-/// A.11 Physical and environmental
 namespace physical_environmental_controls {
     constexpr auto kPerimeterSecurityControls = "A.11.1";
     constexpr auto kFacilitySecurityControls = "A.11.2";
 }
 
-/// A.12 Operations
 namespace operations_controls {
     constexpr auto kOperationalProcedures = "A.12.1";
     constexpr auto kChangeManagement = "A.12.2";
@@ -133,37 +166,31 @@ namespace operations_controls {
     constexpr auto kSegmentationOfNetworks = "A.12.6";
 }
 
-/// A.13 Communications
 namespace communications_controls {
     constexpr auto kNetworkSecurityControls = "A.13.1";
     constexpr auto kDataTransportSecurity = "A.13.2";
 }
 
-/// A.14 System Acquisition
 namespace system_acquisition_controls {
     constexpr auto kInfoSecurityRequirements = "A.14.1";
     constexpr auto kSecureInstallation = "A.14.2";
 }
 
-/// A.15 Supplier relationships
 namespace supplier_controls {
     constexpr auto kSupplierPolicies = "A.15.1";
     constexpr auto kSupplierSecurityManagement = "A.15.2";
 }
 
-/// A.16 Information security incident management
 namespace incident_management_controls {
     constexpr auto kIncidentResponseManagement = "A.16.1";
 }
 
-/// A.17 Business continuity
 namespace business_continuity_controls {
     constexpr auto kBcmObjectivesAndPlanning = "A.17.1";
     constexpr auto kImplementingBcm = "A.17.2";
     constexpr auto kTestingEvaluationAndImprovingBcm = "A.17.3";
 }
 
-/// A.18 Compliance
 namespace compliance_controls {
     constexpr auto kComplianceWithLaws = "A.18.1";
     constexpr auto kInfoSecurityReviews = "A.18.2";
@@ -177,9 +204,7 @@ namespace compliance_controls {
 
 namespace soc2 {
 
-/// Trust Service Criteria
 namespace criteria {
-    /// CC - Common Criteria
     namespace common {
         constexpr auto kEnvironmentAndResources = "CC1";
         constexpr auto kGoalsAndObjectives = "CC2";
@@ -192,28 +217,23 @@ namespace criteria {
         constexpr auto kRoleOfInternalAudit = "CC9";
     }
     
-    /// C - Security
     namespace security {
         constexpr auto kLogicalAndPhysicalAccess = "C1";
         constexpr auto kSystem = "C2";
     }
     
-    /// A - Availability
     namespace availability {
         constexpr auto kAvailability = "A1";
     }
     
-    /// P - Processing Integrity
     namespace processing {
         constexpr auto kProcessingIntegrity = "P1";
     }
     
-    /// CF - Confidentiality
     namespace confidentiality {
         constexpr auto kConfidentiality = "CF1";
     }
     
-    /// PF - Privacy
     namespace privacy {
         constexpr auto kPrivacy = "PF1";
     }
@@ -227,7 +247,6 @@ namespace criteria {
 
 namespace gdpr {
 
-/// GDPR Articles
 namespace articles {
     constexpr auto kDataProtectionByDesign = "Article 25";
     constexpr auto kSecurity = "Article 32";
@@ -250,7 +269,6 @@ namespace articles {
 
 namespace ccpa {
 
-/// CCPA Sections
 namespace sections {
     constexpr auto kPrivacyPolicy = "Section 1798.100";
     constexpr auto kConsumerRights = "Section 1798.100";
@@ -268,7 +286,6 @@ namespace sections {
 
 namespace hipaa {
 
-/// HIPAA Technical Safeguards
 namespace technical_safeguards {
     constexpr auto kAccessControl = "164.312(a)(2)";
     constexpr auto kAuditControls = "164.312(b)";
@@ -285,7 +302,6 @@ namespace technical_safeguards {
 
 namespace pci_dss {
 
-/// PCI-DSS Requirements
 namespace requirements {
     constexpr auto kInstallFirewall = "1";
     constexpr auto kChangeDefaultPasswords = "2";
@@ -306,7 +322,6 @@ namespace requirements {
 
 namespace eu_ai_act {
 
-/// EU AI Act Articles
 namespace articles {
     constexpr auto kRiskCategorization = "Article 6";
     constexpr auto kHighRiskSystems = "Article 8";
@@ -323,28 +338,34 @@ namespace articles {
 // Cross-Framework Mappings
 // ============================================================================
 
-/**
- * @brief Maps equivalent requirements across frameworks
- * 
- * For example, GDPR Article 32 (Security) is equivalent to
- * ISO 27001 A.13 (Communications) in certain aspects.
- */
 class CrossFrameworkMapping {
 public:
-    /// Get equivalent requirements in another framework
+    /**
+     * @brief Get Equivalent Requirements.
+     * @param[in] requirement_id Identifier of the requirement.
+     * @param[in] from_fw Input parameter.
+     * @param[in] to_fw Input parameter.
+     * @return Return value.
+     */
     std::vector<std::string> getEquivalentRequirements(
         const std::string& requirement_id,
         ComplianceFramework from_fw,
         ComplianceFramework to_fw) const;
     
-    /// Check if two requirements are equivalent
+    /**
+     * @brief Are Equivalent.
+     * @param[in] req1 Input parameter.
+     * @param[in] fw1 Input parameter.
+     * @param[in] req2 Input parameter.
+     * @param[in] fw2 Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool areEquivalent(
         const std::string& req1,
         ComplianceFramework fw1,
         const std::string& req2,
         ComplianceFramework fw2) const;
     
-    /// Get all equivalent requirements across all frameworks
     std::map<ComplianceFramework, std::vector<std::string>>
     getAllEquivalentRequirements(
         const std::string& requirement_id,
@@ -361,20 +382,61 @@ private:
 // Compliance Requirement Builder
 // ============================================================================
 
-/**
- * @brief Fluent builder for compliance requirements
- */
 class ComplianceRequirementBuilder {
 public:
+    /**
+     * @brief With Id.
+     * @param[in] id Input parameter.
+     * @return Return value.
+     */
     ComplianceRequirementBuilder& withId(const std::string& id);
+    /**
+     * @brief With Framework.
+     * @param[in] fw Input parameter.
+     * @return Return value.
+     */
     ComplianceRequirementBuilder& withFramework(ComplianceFramework fw);
+    /**
+     * @brief With Text.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     ComplianceRequirementBuilder& withText(const std::string& text);
+    /**
+     * @brief With Section.
+     * @param[in] section Input parameter.
+     * @return Return value.
+     */
     ComplianceRequirementBuilder& withSection(const std::string& section);
+    /**
+     * @brief With Severity.
+     * @param[in] sev Input parameter.
+     * @return Return value.
+     */
     ComplianceRequirementBuilder& withSeverity(ComplianceSeverity sev);
+    /**
+     * @brief With Control.
+     * @param[in] control_id Identifier of the control.
+     * @return Return value.
+     */
     ComplianceRequirementBuilder& withControl(const std::string& control_id);
+    /**
+     * @brief With Category.
+     * @param[in] cat Input parameter.
+     * @return Return value.
+     */
     ComplianceRequirementBuilder& withCategory(const std::string& cat);
+    /**
+     * @brief With Mandatory.
+     * @param[in] mandatory Input parameter.
+     * @return Return value.
+     */
     ComplianceRequirementBuilder& withMandatory(bool mandatory);
     
+    /**
+     * @brief Build.
+     * @return Return value.
+     */
     ComplianceRequirement build() const;
 
 private:
@@ -385,20 +447,61 @@ private:
 // Compliance Control Builder
 // ============================================================================
 
-/**
- * @brief Fluent builder for compliance controls
- */
 class ComplianceControlBuilder {
 public:
+    /**
+     * @brief With Id.
+     * @param[in] id Input parameter.
+     * @return Return value.
+     */
     ComplianceControlBuilder& withId(const std::string& id);
+    /**
+     * @brief With Framework.
+     * @param[in] fw Input parameter.
+     * @return Return value.
+     */
     ComplianceControlBuilder& withFramework(ComplianceFramework fw);
+    /**
+     * @brief With Name.
+     * @param[in] name Input parameter.
+     * @return Return value.
+     */
     ComplianceControlBuilder& withName(const std::string& name);
+    /**
+     * @brief With Description.
+     * @param[in] desc Input parameter.
+     * @return Return value.
+     */
     ComplianceControlBuilder& withDescription(const std::string& desc);
+    /**
+     * @brief With Implementation.
+     * @param[in] impl Input parameter.
+     * @return Return value.
+     */
     ComplianceControlBuilder& withImplementation(const std::string& impl);
+    /**
+     * @brief Automated.
+     * @param[in] is_automated Input parameter.
+     * @return Return value.
+     */
     ComplianceControlBuilder& automated(bool is_automated);
+    /**
+     * @brief With Policy Rule.
+     * @param[in] rule_id Identifier of the rule.
+     * @return Return value.
+     */
     ComplianceControlBuilder& withPolicyRule(const std::string& rule_id);
+    /**
+     * @brief With Evidence Type.
+     * @param[in] type Input parameter.
+     * @return Return value.
+     */
     ComplianceControlBuilder& withEvidenceType(const std::string& type);
     
+    /**
+     * @brief Build.
+     * @return Return value.
+     */
     ComplianceControl build() const;
 
 private:

@@ -24,47 +24,23 @@ namespace cache {
 // RedisCacheCoordinatorConfig
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Configuration for the Redis-backed distributed cache coordinator.
- */
 struct RedisCacheCoordinatorConfig {
-    /// Redis server hostname or IP address.
     std::string host = "127.0.0.1";
 
-    /// Redis server port.
     uint16_t port = 6379;
 
-    /**
-     * @brief Channel prefix for pub/sub.
-     *
-     * Two sub-channels are used:
-     *   - "<channel_prefix>:entries"      – new entry notifications
-     *   - "<channel_prefix>:invalidations" – key/pattern invalidations
-     */
     std::string channel_prefix = "themis:cache";
 
-    /// Optional Redis AUTH password (empty = no authentication).
     std::string password;
 
-    /// Optional Redis database index (0–15).
     int db_index = 0;
 
-    /// TCP connect timeout in milliseconds.
     int connect_timeout_ms = 2000;
 
-    /// Interval between reconnect attempts when connection is lost (ms).
     int reconnect_interval_ms = 5000;
 
-    /// Maximum number of bytes for a single published message.
     size_t max_message_bytes = 65536;
 
-    /// Optional HMAC-SHA256 secret for message signing/verification.
-    ///
-    /// When non-empty, every published message is signed with
-    /// HMAC-SHA256(hmac_secret, payload) and the resulting hex digest is
-    /// appended as a "sig" field.  Received messages whose "sig" field
-    /// is absent or does not match are silently discarded.
-    /// When empty, signing and verification are disabled (default).
     std::string hmac_secret;
 };
 
@@ -72,34 +48,10 @@ struct RedisCacheCoordinatorConfig {
 // RedisCacheCoordinator
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Distributed cache coordinator backed by Redis pub/sub.
- *
- * Implements ICacheCoordinator using the RESP wire protocol.  Each instance
- * opens two TCP connections to the configured Redis server:
- *   1. Publisher connection – used by `publishEntry()` and
- *      `publishInvalidation()`.
- *   2. Subscriber connection – dedicated receive loop (background thread) that
- *      calls the registered callbacks when messages arrive.
- *
- * Thread-safety: all public methods are thread-safe.
- */
 class RedisCacheCoordinator final : public ICacheCoordinator {
 public:
-    /**
-     * @brief Construct the coordinator and start background connection.
-     *
-     * @param config  Configuration for the Redis connection and channels.
-     *
-     * The constructor starts the background subscriber thread immediately.
-     * The actual TCP connections are established asynchronously; `isConnected()`
-     * returns false until the first successful handshake.
-     */
     explicit RedisCacheCoordinator(const RedisCacheCoordinatorConfig& config = {});
 
-    /**
-     * @brief Destroy the coordinator, close connections, and join threads.
-     */
     ~RedisCacheCoordinator() override;
 
     // Non-copyable
@@ -130,9 +82,14 @@ public:
     // -----------------------------------------------------------------------
 
     /**
-     * @brief Return the effective channel names in use.
+     * @brief Entry Channel.
+     * @return Return value.
      */
     std::string entryChannel()        const;
+    /**
+     * @brief Invalidation Channel.
+     * @return Return value.
+     */
     std::string invalidationChannel() const;
 
 private:
@@ -140,68 +97,113 @@ private:
     using SocketFd = int;
     static constexpr SocketFd kInvalidSocket = -1;
 
-    // -----------------------------------------------------------------------
-    // Low-level TCP / RESP helpers
-    // -----------------------------------------------------------------------
+    /**
+     * @brief ----------------------------------------------------------------------- Low-level TCP / RESP helpers -----------------------------------------------------------------------
+     * @return Return value.
+     */
 
-    /// Open a blocking TCP connection to config_.host:config_.port.
     SocketFd tcpConnect();
 
-    /// Close a socket safely.
+    /**
+     * @brief Close Socket.
+     * @param[in,out] fd Input/output parameter.
+     */
     static void closeSocket(SocketFd& fd);
 
-    /// Send all bytes in buf; returns false on error.
+    /**
+     * @brief Send All.
+     * @param[in] fd Input parameter.
+     * @param[in] buf Input parameter.
+     * @return True when the operation succeeds.
+     */
     static bool sendAll(SocketFd fd, const std::string& buf);
 
-    /// Read a complete RESP simple-string or bulk-string reply line.
-    /// Returns true on success; on error or "-ERR …" sets err_out.
+    /**
+     * @brief Read Line.
+     * @param[in] fd Input parameter.
+     * @param[in,out] line_out Input/output parameter.
+     * @return True when the operation succeeds.
+     */
     static bool readLine(SocketFd fd, std::string& line_out);
 
-    /// Perform AUTH + SELECT handshake on a freshly connected socket.
+    /**
+     * @brief Redis Handshake.
+     * @param[in] fd Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool redisHandshake(SocketFd fd);
 
-    /// Build a RESP array command string.
+    /**
+     * @brief Build Resp Command.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     static std::string buildRespCommand(const std::vector<std::string>& args);
 
-    /// Publish a raw RESP payload on a channel.  Returns false on failure.
+    /**
+     * @brief Redis Publish.
+     * @param[in] channel Input parameter.
+     * @param[in] payload Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool redisPublish(const std::string& channel, const std::string& payload);
 
     // -----------------------------------------------------------------------
     // Publisher connection management
     // -----------------------------------------------------------------------
 
-    /// Ensure the publisher socket is open; reconnect if necessary.
+    /**
+     * @brief Ensure Publisher Connected.
+     * @return True when the operation succeeds.
+     */
     bool ensurePublisherConnected();
 
     // -----------------------------------------------------------------------
     // Subscriber thread
     // -----------------------------------------------------------------------
 
-    /// Entry point for the subscriber background thread.
+    /**
+     * @brief Subscriber Loop.
+     */
     void subscriberLoop();
 
-    /// Connect subscriber socket, send SUBSCRIBE, then pump messages.
-    /// Returns when the connection drops or stop_ is set.
+    /**
+     * @brief Subscriber Session.
+     * @param[in] fd Input parameter.
+     */
     void subscriberSession(SocketFd fd);
 
-    /// Parse one pub/sub message frame from the subscriber socket.
-    /// Returns true and populates channel/payload when a complete message
-    /// has been received.  Returns false on connection error.
+    /**
+     * @brief Read Pub Sub Message.
+     * @param[in] fd Input parameter.
+     * @param[in,out] channel_out Input/output parameter.
+     * @param[in,out] payload_out Input/output parameter.
+     * @return True when the operation succeeds.
+     */
     static bool readPubSubMessage(SocketFd fd,
                                   std::string& channel_out,
                                   std::string& payload_out);
 
-    /// Dispatch a received message to the appropriate callback.
+    /**
+     * @brief Dispatch Message.
+     * @param[in] channel Input parameter.
+     * @param[in] payload Input parameter.
+     */
     void dispatchMessage(const std::string& channel,
                          const std::string& payload);
 
-    /// Compute HMAC-SHA256(config_.hmac_secret, payload) and return hex string.
-    /// Returns empty string when hmac_secret is empty.
+    /**
+     * @brief Compute Hmac.
+     * @param[in] payload Input parameter.
+     * @return Return value.
+     */
     std::string computeHmac(const std::string& payload) const;
 
-    /// Verify the "sig" field in parsed JSON against the unsigned payload.
-    /// Returns true when hmac_secret is empty (signing disabled) or when the
-    /// signature matches.  Returns false on mismatch or absent sig field.
+    /**
+     * @brief Verify Hmac.
+     * @param[in] j Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool verifyHmac(const nlohmann::json& j) const;
 
     // -----------------------------------------------------------------------
@@ -215,9 +217,6 @@ private:
     SocketFd           pub_fd_   = kInvalidSocket;
     std::atomic<bool>  pub_ok_{false};  // D-3: atomic for lock-free reads in isConnected()
 
-    /// C2: Double-checked locking guard for expensive publisher initialization.
-    /// Set to true (memory_order_release) once ensurePublisherConnected() succeeds.
-    /// Reset to false (memory_order_release) on any send/read failure.
     std::atomic<bool>  coordinator_ready_{false};
 
     // Subscriber thread
@@ -244,16 +243,13 @@ public:
     // -----------------------------------------------------------------------
     // Injectable publish bridge (STUB #61)
     // -----------------------------------------------------------------------
-    /// Callback type: given a channel name and a serialised JSON payload,
-    /// publish the message and return true on success.  Used as a transport
-    /// replacement when THEMIS_POSIX_SOCKETS is not defined (non-POSIX builds).
     using RedisPublishBridgeFn = std::function<bool(const std::string& channel,
                                                     const std::string& payload)>;
 
-    /// Register a publish bridge used by `publishEntry()` and
-    /// `publishInvalidation()` on non-POSIX builds.
-    /// Pass an empty `std::function` to clear and revert to the no-op fallback.
-    /// Thread-safe (guarded by a static mutex).
+    /**
+     * @brief Set Redis Publish Bridge Fn.
+     * @param[in] fn Input parameter.
+     */
     static void setRedisPublishBridgeFn(RedisPublishBridgeFn fn);
 };
 

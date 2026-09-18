@@ -93,9 +93,7 @@ public:
     TsEncryptedKeyRotation& operator=(const TsEncryptedKeyRotation&) = delete;
 
     /**
-     * @brief Start the background rotation worker thread.
-     *
-     * No-op if the worker is already running.
+     * @brief Start.
      */
     void start();
 
@@ -127,6 +125,9 @@ public:
     }
 
 private:
+    /**
+     * @brief Rotation Loop.
+     */
     void rotationLoop();
 
     rocksdb::TransactionDB*              db_;

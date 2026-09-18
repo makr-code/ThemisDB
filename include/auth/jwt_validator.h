@@ -31,9 +31,6 @@ namespace themis { namespace utils { class AuditLogger; } }
 namespace themis {
 namespace auth {
 
-/**
- * @brief JWT token claims
- */
 struct JWTClaims {
     std::string sub;                          // Subject (user ID)
     std::string jti;                          // JWT ID – used for per-token revocation
@@ -41,8 +38,6 @@ struct JWTClaims {
     std::string tenant_id;                    // Tenant ID from JWT claim
     std::vector<std::string> groups;
     std::vector<std::string> roles;
-    /// OAuth2 `scope` / `scp` claim – space-separated or array.
-    /// Populated by parseAndValidate() from the `scope` (string) or `scp` (array) claim.
     std::vector<std::string> scopes;
     std::string issuer;
     std::chrono::system_clock::time_point expiration;
@@ -50,26 +45,11 @@ struct JWTClaims {
     std::optional<std::chrono::system_clock::time_point> issued_at;
     std::vector<std::string> audience;
     
-    /**
-     * @brief Check whether the token is already expired at call time.
-     * @return true when current system time is greater than expiration.
-     */
     bool isExpired() const {
         return std::chrono::system_clock::now() > expiration;
     }
 };
 
-/**
- * @brief JWT Validator for Keycloak OIDC tokens
- * 
- * Features:
- * - Parse JWT tokens (header.payload.signature)
- * - Validate signature using JWKS from Keycloak
- * - Check expiration and issuer
- * - Extract claims for access control
- * - Kid revocation/denylist support
- * - Metrics and logging on validation failures
- */
 
 // Input validation limits
 constexpr size_t MAX_JWT_TOKEN_SIZE = 16 * 1024;  // 16KB max token size
@@ -89,58 +69,45 @@ struct JWTValidatorConfig {
     bool require_issuer_validation = true;   // throw at construction if expected_issuer is unset
     bool require_audience_validation = true; // throw at construction if expected_audience is unset
     bool require_jti = false;                // when true, reject tokens that are missing the jti claim
-    /// Maximum time to wait for a concurrent JWKS refresh to complete.
-    /// If the refresher thread does not finish within this window, validation
-    /// proceeds with the stale cache (or returns an empty set if no cache exists).
     std::chrono::milliseconds refresh_wait_timeout{15'000};
 };
 
-/** @brief Validator for jwt. */
 class JWTValidator {
 public:
     /**
-     * @brief Initialize with Keycloak JWKS endpoint
-     * @param jwks_url URL to Keycloak JWKS endpoint
-     *        Example: https://keycloak.vcc.local/realms/vcc/protocol/openid-connect/certs
+     * @brief JWTValidator.
+     * @param[in] jwks_url Input parameter.
+     * @return Return value.
      */
     explicit JWTValidator(const std::string& jwks_url);
 
     /**
-     * @brief Initialize validator with full runtime configuration.
-     * @param cfg Validator config including JWKS endpoint, cache policy, and validation rules.
-     * @throws std::runtime_error when required issuer/audience validation is enabled but not configured.
+     * @brief JWTValidator.
+     * @param[in] cfg Input parameter.
+     * @return Return value.
      */
     explicit JWTValidator(const JWTValidatorConfig& cfg);
     
     /**
-     * @brief Parse and validate JWT token
-     * @param token Bearer token (with or without "Bearer " prefix)
-     * @return Parsed claims if valid
-     * @throws std::runtime_error if invalid/expired
+     * @brief Parse And Validate.
+     * @param[in] token Input parameter.
+     * @return Return value.
      */
     JWTClaims parseAndValidate(const std::string& token);
 
     /**
-     * @brief Non-blocking variant of parseAndValidate().
-     *
-     * Dispatches token validation (including any JWKS refresh) to the internal
-     * AuthWorkerThreadPool so the calling thread is never stalled.
-     *
-     * Performance target: JWKS refresh never blocks the validation hot path
-     * for more than 1 ms (visible to callers).
-     *
-     * @param token Bearer token (with or without "Bearer " prefix)
-     * @return std::future<JWTClaims> — becomes ready when validation completes
-     * @throws std::runtime_error if the internal thread pool is not running
+     * @brief Validate Async.
+     * @param[in] token Input parameter.
+     * @return Return value.
      */
     std::future<JWTClaims> validateAsync(const std::string& token);
     
     /**
-     * @brief Derive user-specific encryption key from DEK
-     * @param dek Base data encryption key
-     * @param claims JWT claims for user context
-     * @param field_name Field identifier for HKDF context
-     * @return User-specific field key
+     * @brief Derive User Key.
+     * @param[in] dek Input parameter.
+     * @param[in] claims Input parameter.
+     * @param[in] field_name Name of the field.
+     * @return Return value.
      */
     static std::vector<uint8_t> deriveUserKey(
         const std::vector<uint8_t>& dek,
@@ -149,129 +116,132 @@ public:
     );
     
     /**
-     * @brief Check if user has access to group-encrypted data
-     * @param claims User's JWT claims
-     * @param encryption_context Context used for encryption (user_id or group name)
+     * @brief Has Access.
+     * @param[in] claims Input parameter.
+     * @param[in] encryption_context Input parameter.
+     * @return True when the operation succeeds.
      */
     static bool hasAccess(const JWTClaims& claims, const std::string& encryption_context);
     
     /**
-     * @brief Attach a TokenBlacklist for per-token (JTI) revocation checks.
-     *
-     * When set, parseAndValidate() will extract the "jti" claim from the
-     * token payload and reject any token whose JTI appears in the blacklist.
-     * The validator does NOT take ownership; the caller must ensure the
-     * blacklist outlives the validator.
-     *
-     * @param bl Pointer to the TokenBlacklist (nullptr to detach).
+     * @brief Set Token Blacklist.
+     * @param[in,out] bl Input/output parameter.
      */
     void setTokenBlacklist(TokenBlacklist* bl);
 
     /**
-     * @brief Attach an AuditLogger to receive LOGIN_SUCCESS / LOGIN_FAILED events.
-     * Pass nullptr to detach.  The validator does NOT take ownership.
+     * @brief Set Audit Logger.
+     * @param[in,out] logger Input/output parameter.
+     * @details Implements setAuditLogger without additional internal calls.
      */
     void setAuditLogger(utils::AuditLogger* logger) { audit_logger_ = logger; }
 
     /**
-     * @brief Add a key ID to the revocation list
-     * @param kid Key ID to revoke
+     * @brief Revoke Kid.
+     * @param[in] kid Input parameter.
      */
     void revokeKid(const std::string& kid);
     
     /**
-     * @brief Check if a key ID is revoked
-     * @param kid Key ID to check
-     * @return true if the kid is revoked
+     * @brief Is Kid Revoked.
+     * @param[in] kid Input parameter.
+     * @return True when the operation succeeds.
      */
     bool isKidRevoked(const std::string& kid) const;
 
 private:
     /**
-     * @brief Decode a Base64URL-encoded string into raw bytes.
-     * @param input Base64URL input without padding requirements.
-     * @return Decoded bytes, or empty vector when decoding fails.
+     * @brief Decode Base64 Url.
+     * @param[in] input Input parameter.
+     * @return Return value.
      */
     std::vector<uint8_t> decodeBase64Url(const std::string& input);
 
     /**
-     * @brief Decode a Base64URL string and return UTF-8 text payload.
-     * @param input Base64URL input.
-     * @return Decoded text string (may be empty on decode failure).
+     * @brief Decode Base64 Url To String.
+     * @param[in] input Input parameter.
+     * @return Return value.
      */
     std::string decodeBase64UrlToString(const std::string& input);
 
     /**
-     * @brief Fetch and validate JWKS with cache and single-flight refresh semantics.
-     * @return Parsed JWKS JSON object.
-     * @throws std::runtime_error when HTTP fetch or JWKS validation fails.
+     * @brief Fetch JWKS.
+     * @return Return value.
      */
     nlohmann::json fetchJWKS();
 
     /**
-     * @brief Find matching JWK entry by key id.
-     * @param jwks JWKS JSON document containing a keys array.
-     * @param kid Key id to search for.
-     * @return Pointer to matching JWK object, or nullptr if not found.
+     * @brief Find Jwk For Kid.
+     * @param[in] jwks Input parameter.
+     * @param[in] kid Input parameter.
+     * @return Pointer to the result.
      */
     const nlohmann::json* findJwkForKid(const nlohmann::json& jwks, const std::string& kid) const;
 
     /**
-     * @brief Verify RS256 signature using an RSA JWK.
-     * @param header_payload JWT signing input (header.payload).
-     * @param signature Decoded signature bytes.
-     * @param jwk RSA JSON Web Key.
-     * @return true when signature verification succeeds.
+     * @brief Verify Signature RS256.
+     * @param[in] header_payload Input parameter.
+     * @param[in] signature Input parameter.
+     * @param[in] jwk Input parameter.
+     * @return True when the operation succeeds.
      */
     bool verifySignatureRS256(const std::string& header_payload,
                               const std::vector<uint8_t>& signature,
                               const nlohmann::json& jwk);
     /**
-     * @brief Verify an RSA JWT signature for the given algorithm (RS256/RS384/RS512).
-     *
-     * Supports SHA-256 (RS256), SHA-384 (RS384), and SHA-512 (RS512) digest algorithms.
+     * @brief Verify Signature RSA.
+     * @param[in] header_payload Input parameter.
+     * @param[in] signature Input parameter.
+     * @param[in] jwk Input parameter.
+     * @param[in] alg Input parameter.
+     * @return True when the operation succeeds.
      */
     bool verifySignatureRSA(const std::string& header_payload,
                             const std::vector<uint8_t>& signature,
                             const nlohmann::json& jwk,
                             const std::string& alg);
+    /**
+     * @brief Verify Signature ES256.
+     * @param[in] header_payload Input parameter.
+     * @param[in] signature Input parameter.
+     * @param[in] jwk Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool verifySignatureES256(const std::string& header_payload,
                               const std::vector<uint8_t>& signature,
                               const nlohmann::json& jwk);
     /**
-     * @brief Verify an ECDSA JWT signature for the given algorithm (ES256/ES384/ES512).
-     *
-     * Dispatches to the appropriate curve (P-256, P-384, P-521) and hash (SHA-256,
-     * SHA-384, SHA-512) based on the algorithm label.
+     * @brief Verify Signature EC.
+     * @param[in] header_payload Input parameter.
+     * @param[in] signature Input parameter.
+     * @param[in] jwk Input parameter.
+     * @param[in] alg Input parameter.
+     * @return True when the operation succeeds.
      */
     bool verifySignatureEC(const std::string& header_payload,
                            const std::vector<uint8_t>& signature,
                            const nlohmann::json& jwk,
                            const std::string& alg);
     /**
-     * @brief Verify an EdDSA (Ed25519) JWT signature.
-     *
-     * Expects a JWK of type "OKP" with crv="Ed25519" and a 32-byte base64url-
-     * encoded public key in the "x" field.  Requires OpenSSL ≥ 1.1.1.
+     * @brief Verify Signature Ed DSA.
+     * @param[in] header_payload Input parameter.
+     * @param[in] signature Input parameter.
+     * @param[in] jwk Input parameter.
+     * @return True when the operation succeeds.
      */
     bool verifySignatureEdDSA(const std::string& header_payload,
                               const std::vector<uint8_t>& signature,
                               const nlohmann::json& jwk);
 
     /**
-     * @brief Validate configured audience against token payload.
-     * @param payload Parsed JWT payload JSON.
-     * @return true when audience requirements are satisfied.
+     * @brief Check Audience.
+     * @param[in] payload Input parameter.
+     * @return True when the operation succeeds.
      */
     bool checkAudience(const nlohmann::json& payload) const;
     
     // testing helper
 public:
-    /**
-     * @brief Inject JWKS cache content for deterministic tests.
-     * @param jwks JWKS document to store as current cache.
-     * @param t Cache timestamp associated with the injected JWKS.
-     */
     void setJWKSForTesting(const nlohmann::json& jwks,
                            std::chrono::system_clock::time_point t = std::chrono::system_clock::now());
 private:
@@ -285,18 +255,10 @@ private:
     utils::AuditLogger* audit_logger_ = nullptr;     // Optional audit logger (non-owning)
     mutable std::atomic<bool> warned_blacklist_no_jti_{false};  // Warn once when blacklist set but token has no jti
 
-    /// Prevents concurrent JWKS refresh stampedes: only one thread performs the
-    /// HTTP fetch at a time; others wait on jwks_refresh_cv_ for it to finish.
     mutable std::mutex jwks_refresh_mutex_;
     mutable std::condition_variable jwks_refresh_cv_;
     mutable bool jwks_refreshing_{false};
 
-    /// Worker thread pool for validateAsync().
-    /// LIFETIME NOTE: worker_pool_ MUST be the last data member declared.
-    /// C++ destroys members in reverse-declaration order, so worker_pool_ is
-    /// destroyed first — its shutdown() joins all in-flight tasks before any
-    /// other member (cache, config, etc.) is released.  This guarantees that
-    /// tasks capturing 'this' never access a dangling member.
     std::unique_ptr<AuthWorkerThreadPool> worker_pool_;
 };
 

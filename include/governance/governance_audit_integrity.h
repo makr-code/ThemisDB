@@ -40,10 +40,6 @@ namespace governance {
 // Audit Entry with Integrity Information
 // ============================================================================
 
-/**
- * @struct SignatureInfo
- * @brief Cryptographic signature information for an audit entry
- */
 struct SignatureInfo {
     std::string signature;                    // Base64-encoded signature
     std::string algorithm;                    // "HMAC-SHA256", "RSA-SHA256", etc.
@@ -52,14 +48,19 @@ struct SignatureInfo {
     std::string previous_entry_hash;          // Chain-of-custody: hash of previous entry
     std::string entry_hash;                   // SHA-256 hash of this entry content
     
+    /**
+     * @brief To Json.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
+    /**
+     * @brief From Json.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static SignatureInfo fromJson(const nlohmann::json& j);
 };
 
-/**
- * @struct ImmutableAuditEntry
- * @brief Audit entry with cryptographic integrity guarantees
- */
 struct ImmutableAuditEntry {
     // Core audit information
     std::string entry_id;                     // Unique entry identifier
@@ -76,12 +77,21 @@ struct ImmutableAuditEntry {
     int64_t archive_timestamp_ms = 0;        // When archived
     std::string archive_hash;                 // Hash of archive (if archived)
     
+    /**
+     * @brief To Json.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
+    /**
+     * @brief From Json.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static ImmutableAuditEntry fromJson(const nlohmann::json& j);
     
     /**
-     * @brief Verify integrity of this entry
-     * @return true if signature and hash are valid
+     * @brief Verify Integrity.
+     * @return True when the operation succeeds.
      */
     bool verifyIntegrity() const;
 };
@@ -90,15 +100,6 @@ struct ImmutableAuditEntry {
 // Audit Signer - Cryptographic Signing and Verification
 // ============================================================================
 
-/**
- * @class AuditSigner
- * @brief Handles cryptographic signing and verification of audit entries
- * 
- * Supports:
- * - HMAC-SHA256: Fast, symmetric signing
- * - RSA-SHA256: Asymmetric signing for legal/regulatory compliance
- * - Key rotation: Verify entries signed with previous keys
- */
 class AuditSigner {
 public:
     enum class SignatureAlgorithm {
@@ -106,47 +107,33 @@ public:
         RSA_SHA256        // Asymmetric (use for compliance/non-repudiation)
     };
     
-    /**
-     * @brief Create a signer with given algorithm and key
-     * @param algorithm Signature algorithm to use
-     * @param key_id Unique identifier for this key
-     * @param secret_key Secret key (for HMAC) or private key (for RSA)
-     */
     AuditSigner(
         SignatureAlgorithm algorithm,
         const std::string& key_id,
         const std::string& secret_key
     );
     
-    /**
-     * @brief Sign an audit entry
-     * @param entry Audit entry to sign
-     * @param previous_entry_hash Hash of previous entry (for chain-of-custody)
-     * @return Populated SignatureInfo
-     */
     SignatureInfo signEntry(
         const ImmutableAuditEntry& entry,
         const std::string& previous_entry_hash = ""
     );
     
     /**
-     * @brief Verify a signature
-     * @param entry Audit entry
-     * @param signature_info Signature to verify
-     * @return true if signature is valid
+     * @brief Verify Signature.
+     * @param[in] entry Input parameter.
+     * @param[in] signature_info Input parameter.
+     * @return True when the operation succeeds.
      */
     bool verifySignature(
         const ImmutableAuditEntry& entry,
         const SignatureInfo& signature_info
     ) const;
     
-    /**
-     * @brief Get the key ID
-     */
     const std::string& getKeyId() const { return key_id_; }
     
     /**
-     * @brief Get the algorithm name
+     * @brief Get Algorithm Name.
+     * @return Return value.
      */
     std::string getAlgorithmName() const;
     
@@ -156,22 +143,31 @@ private:
     std::string secret_key_;
     
     /**
-     * @brief Compute SHA-256 hash of content
+     * @brief Compute Sha256 Hash.
+     * @param[in] content Input parameter.
+     * @return Return value.
      */
     std::string computeSha256Hash(const std::string& content) const;
     
     /**
-     * @brief Compute HMAC-SHA256
+     * @brief Compute Hmac Sha256.
+     * @param[in] content Input parameter.
+     * @return Return value.
      */
     std::string computeHmacSha256(const std::string& content) const;
     
     /**
-     * @brief Compute RSA-SHA256 signature
+     * @brief Compute Rsa Sha256.
+     * @param[in] content Input parameter.
+     * @return Return value.
      */
     std::string computeRsaSha256(const std::string& content) const;
     
     /**
-     * @brief Verify HMAC-SHA256 signature
+     * @brief Verify Hmac Sha256.
+     * @param[in] content Input parameter.
+     * @param[in] signature Input parameter.
+     * @return True when the operation succeeds.
      */
     bool verifyHmacSha256(
         const std::string& content,
@@ -179,7 +175,10 @@ private:
     ) const;
     
     /**
-     * @brief Verify RSA-SHA256 signature
+     * @brief Verify Rsa Sha256.
+     * @param[in] content Input parameter.
+     * @param[in] signature Input parameter.
+     * @return True when the operation succeeds.
      */
     bool verifyRsaSha256(
         const std::string& content,
@@ -191,10 +190,6 @@ private:
 // Audit Tamper Detector - Detect Alterations and Integrity Violations
 // ============================================================================
 
-/**
- * @struct TamperIncident
- * @brief Evidence of audit trail tampering
- */
 struct TamperIncident {
     enum class TamperType {
         INVALID_SIGNATURE,      // Entry signature doesn't match
@@ -215,30 +210,21 @@ struct TamperIncident {
     int64_t affected_entry_count = 0;        // Number of affected entries
     bool is_critical = false;                 // True if core audit trail corrupted
     
+    /**
+     * @brief To Json.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
+    /**
+     * @brief From Json.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static TamperIncident fromJson(const nlohmann::json& j);
 };
 
-/**
- * @class AuditTamperDetector
- * @brief Detects tampering in audit trails
- * 
- * Performs verification of:
- * - Cryptographic signatures
- * - Chain-of-custody (previous entry hashes)
- * - Sequence ordering
- * - Entry completeness
- * - Timestamp consistency
- */
 class AuditTamperDetector {
 public:
-    /**
-     * @brief Verify integrity of a single entry
-     * @param entry Entry to verify
-     * @param signer Signer for verification
-     * @param previous_entry Previous entry (for chain validation)
-     * @return Empty if valid, TamperIncident if tampering detected
-     */
     std::optional<TamperIncident> verifyEntry(
         const ImmutableAuditEntry& entry,
         const AuditSigner& signer,
@@ -246,10 +232,10 @@ public:
     );
     
     /**
-     * @brief Verify integrity of entire audit trail
-     * @param entries Audit entries to verify
-     * @param signer Signer for verification
-     * @return Vector of TamperIncident objects (empty if no tampering detected)
+     * @brief Verify Audit Trail.
+     * @param[in] entries Input parameter.
+     * @param[in] signer Input parameter.
+     * @return Return value.
      */
     std::vector<TamperIncident> verifyAuditTrail(
         const std::vector<ImmutableAuditEntry>& entries,
@@ -257,12 +243,12 @@ public:
     );
     
     /**
-     * @brief Verify integrity across a time range
-     * @param entries All entries
-     * @param signer Signer for verification
-     * @param start_time_ms Start of time range
-     * @param end_time_ms End of time range
-     * @return Vector of TamperIncident objects
+     * @brief Verify Time Range.
+     * @param[in] entries Input parameter.
+     * @param[in] signer Input parameter.
+     * @param[in] start_time_ms Input parameter.
+     * @param[in] end_time_ms Input parameter.
+     * @return Return value.
      */
     std::vector<TamperIncident> verifyTimeRange(
         const std::vector<ImmutableAuditEntry>& entries,
@@ -272,9 +258,9 @@ public:
     );
     
     /**
-     * @brief Generate tamper report
-     * @param incidents All detected incidents
-     * @return JSON report
+     * @brief Generate Tamper Report.
+     * @param[in] incidents Input parameter.
+     * @return Return value.
      */
     static nlohmann::json generateTamperReport(
         const std::vector<TamperIncident>& incidents
@@ -282,7 +268,10 @@ public:
     
 private:
     /**
-     * @brief Check if signature is valid
+     * @brief Check Signature Validity.
+     * @param[in] entry Input parameter.
+     * @param[in] signer Input parameter.
+     * @return Return value.
      */
     std::optional<TamperIncident> checkSignatureValidity(
         const ImmutableAuditEntry& entry,
@@ -290,7 +279,10 @@ private:
     );
     
     /**
-     * @brief Check if chain-of-custody is maintained
+     * @brief Check Chain Of Custody.
+     * @param[in] entry Input parameter.
+     * @param[in] previous_entry Input parameter.
+     * @return Return value.
      */
     std::optional<TamperIncident> checkChainOfCustody(
         const ImmutableAuditEntry& entry,
@@ -298,7 +290,10 @@ private:
     );
     
     /**
-     * @brief Check if sequence is valid
+     * @brief Check Sequence Validity.
+     * @param[in] entry Input parameter.
+     * @param[in] previous_entry Input parameter.
+     * @return Return value.
      */
     std::optional<TamperIncident> checkSequenceValidity(
         const ImmutableAuditEntry& entry,
@@ -306,7 +301,10 @@ private:
     );
     
     /**
-     * @brief Check timestamp consistency
+     * @brief Check Timestamp Validity.
+     * @param[in] entry Input parameter.
+     * @param[in] previous_entry Input parameter.
+     * @return Return value.
      */
     std::optional<TamperIncident> checkTimestampValidity(
         const ImmutableAuditEntry& entry,
@@ -318,10 +316,6 @@ private:
 // Audit Retention Policy - Enforce Retention and Archival Rules
 // ============================================================================
 
-/**
- * @struct AuditRetentionPolicy
- * @brief Policy for retaining and archiving audit entries
- */
 struct AuditRetentionPolicy {
     std::string policy_id;                    // Unique policy identifier
     int64_t retention_period_days = 2555;    // Default: 7 years (2555 days)
@@ -333,14 +327,19 @@ struct AuditRetentionPolicy {
     int64_t modified_at_ms = 0;              // Last modification time
     nlohmann::json metadata;                  // Additional metadata
     
+    /**
+     * @brief To Json.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
+    /**
+     * @brief From Json.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static AuditRetentionPolicy fromJson(const nlohmann::json& j);
 };
 
-/**
- * @struct LegalHold
- * @brief Legal hold on audit entries (overrides retention policy)
- */
 struct LegalHold {
     std::string hold_id;                      // Unique hold identifier
     std::string rule_id;                      // Rule ID (optional, for targeted holds)
@@ -350,27 +349,33 @@ struct LegalHold {
     std::string reason;                       // Reason for legal hold
     std::string status;                       // "active", "released", "expired"
     
+    /**
+     * @brief To Json.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
+    /**
+     * @brief From Json.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static LegalHold fromJson(const nlohmann::json& j);
 };
 
-/**
- * @class AuditRetentionManager
- * @brief Manages audit entry retention and archival
- */
 class AuditRetentionManager {
 public:
     /**
-     * @brief Create retention manager
-     * @param default_policy Default retention policy
+     * @brief Audit Retention Manager.
+     * @param[in] default_policy Input parameter.
+     * @return Return value.
      */
     explicit AuditRetentionManager(const AuditRetentionPolicy& default_policy);
     
     /**
-     * @brief Check if entry should be archived
-     * @param entry Audit entry
-     * @param current_time_ms Current time
-     * @return true if entry meets archival criteria
+     * @brief Check whether an entity has reached the archive threshold.
+     * @param[in] entry Input parameter.
+     * @param[in] current_time_ms Input parameter.
+     * @return True when the entity should be archived.
      */
     bool shouldArchive(
         const ImmutableAuditEntry& entry,
@@ -378,10 +383,10 @@ public:
     ) const;
     
     /**
-     * @brief Check if entry should be deleted
-     * @param entry Audit entry
-     * @param current_time_ms Current time
-     * @return true if entry meets deletion criteria (and not on legal hold)
+     * @brief Should Delete.
+     * @param[in] entry Input parameter.
+     * @param[in] current_time_ms Input parameter.
+     * @return True when the operation succeeds.
      */
     bool shouldDelete(
         const ImmutableAuditEntry& entry,
@@ -389,42 +394,36 @@ public:
     ) const;
     
     /**
-     * @brief Check if entry is on legal hold
-     * @param rule_id Rule ID
-     * @return true if any active legal hold covers this entry
+     * @brief Is On Legal Hold.
+     * @param[in] rule_id Identifier of the rule.
+     * @return True when the operation succeeds.
      */
     bool isOnLegalHold(const std::string& rule_id) const;
     
     /**
-     * @brief Add a legal hold
-     * @param hold Legal hold to add
+     * @brief Add Legal Hold.
+     * @param[in] hold Input parameter.
      */
     void addLegalHold(const LegalHold& hold);
     
     /**
-     * @brief Release a legal hold
-     * @param hold_id Hold ID to release
+     * @brief Release Legal Hold.
+     * @param[in] hold_id Identifier of the hold.
      */
     void releaseLegalHold(const std::string& hold_id);
     
-    /**
-     * @brief Get retention policy
-     */
     const AuditRetentionPolicy& getPolicy() const { return policy_; }
     
     /**
-     * @brief Set new retention policy (tracks change in audit log)
-     * @param new_policy New policy
-     * @param changed_by User making change
+     * @brief Set Policy.
+     * @param[in] new_policy Input parameter.
+     * @param[in] changed_by Input parameter.
      */
     void setPolicy(
         const AuditRetentionPolicy& new_policy,
         const std::string& changed_by
     );
     
-    /**
-     * @brief Get policy change history
-     */
     const std::vector<std::pair<int64_t, AuditRetentionPolicy>>& getPolicyHistory() const {
         return policy_history_;
     }
@@ -440,47 +439,31 @@ private:
 // Integrated Audit Integrity Manager
 // ============================================================================
 
-/**
- * @class AuditIntegrityManager
- * @brief Comprehensive audit trail integrity management
- * 
- * Orchestrates:
- * - Cryptographic signing of audit entries
- * - Tamper detection and incident reporting
- * - Retention policy enforcement and archival
- * - Chain-of-custody verification
- * - Performance monitoring (latency tracking)
- */
 class AuditIntegrityManager {
 public:
-    /**
-     * @brief Create integrity manager
-     * @param retention_policy Default retention policy
-     * @param signer Audit signer for cryptographic operations
-     */
     AuditIntegrityManager(
         const AuditRetentionPolicy& retention_policy,
         const std::shared_ptr<AuditSigner>& signer
     );
     
     /**
-     * @brief Add an audit entry (automatically signs it)
-     * @param entry Audit entry to add
-     * @return Signed entry with integrity info
+     * @brief Add Entry.
+     * @param[in] entry Input parameter.
+     * @return Return value.
      */
     ImmutableAuditEntry addEntry(const ImmutableAuditEntry& entry);
     
     /**
-     * @brief Verify audit trail integrity
-     * @return Vector of TamperIncident objects (empty if valid)
+     * @brief Verify Integrity.
+     * @return Return value.
      */
     std::vector<TamperIncident> verifyIntegrity();
     
     /**
-     * @brief Verify integrity within time range
-     * @param start_time_ms Start time
-     * @param end_time_ms End time
-     * @return Vector of TamperIncident objects
+     * @brief Verify Time Range.
+     * @param[in] start_time_ms Input parameter.
+     * @param[in] end_time_ms Input parameter.
+     * @return Return value.
      */
     std::vector<TamperIncident> verifyTimeRange(
         int64_t start_time_ms,
@@ -488,20 +471,12 @@ public:
     );
     
     /**
-     * @brief Get entry by ID
-     * @param entry_id Entry ID
-     * @return Entry if found
+     * @brief Get Entry.
+     * @param[in] entry_id Identifier of the entry.
+     * @return Return value.
      */
     std::optional<ImmutableAuditEntry> getEntry(const std::string& entry_id) const;
     
-    /**
-     * @brief Query entries
-     * @param rule_id Optional rule filter
-     * @param user Optional user filter
-     * @param start_time_ms Optional start time
-     * @param end_time_ms Optional end time
-     * @return Matching entries
-     */
     std::vector<ImmutableAuditEntry> queryEntries(
         const std::optional<std::string>& rule_id = std::nullopt,
         const std::optional<std::string>& user = std::nullopt,
@@ -510,57 +485,46 @@ public:
     ) const;
     
     /**
-     * @brief Archive entries meeting retention policy
-     * @return Number of entries archived
+     * @brief Archive Expired Entries.
+     * @return Return value.
      */
     int64_t archiveExpiredEntries();
     
     /**
-     * @brief Perform cleanup (delete entries past retention)
-     * @return Number of entries deleted
+     * @brief Perform Cleanup.
+     * @return Return value.
      */
     int64_t performCleanup();
     
-    /**
-     * @brief Get tamper detection results
-     */
     const std::vector<TamperIncident>& getLastTamperIncidents() const {
         return last_tamper_incidents_;
     }
     
     /**
-     * @brief Get performance metrics
-     * @return JSON with timing information
+     * @brief Get Performance Metrics.
+     * @return Return value.
      */
     nlohmann::json getPerformanceMetrics() const;
     
-    /**
-     * @brief Export audit trail (all entries with signatures)
-     * @param compress Whether to compress output
-     * @return JSON export
-     */
     nlohmann::json exportAuditTrail(bool compress = false) const;
     
     /**
-     * @brief Import audit trail
-     * @param data JSON import data
-     * @return true if successful
+     * @brief Import Audit Trail.
+     * @param[in] data Input parameter.
+     * @return True when the operation succeeds.
      */
     bool importAuditTrail(const nlohmann::json& data);
     
     /**
-     * @brief Rotate signing key
-     * @param new_signer New signer for future entries
-     * @param key_transition_entry Entry documenting the key rotation
+     * @brief Rotate Key.
+     * @param[in] new_signer Input parameter.
+     * @param[in] key_transition_entry Input parameter.
      */
     void rotateKey(
         const std::shared_ptr<AuditSigner>& new_signer,
         const ImmutableAuditEntry& key_transition_entry
     );
     
-    /**
-     * @brief Get signing key history (for multi-key verification)
-     */
     const std::vector<std::shared_ptr<AuditSigner>>& getKeyHistory() const {
         return key_history_;
     }
@@ -585,12 +549,14 @@ private:
     } metrics_;
     
     /**
-     * @brief Get next sequence number
+     * @brief Get Next Sequence Number.
+     * @return Return value.
      */
     int64_t getNextSequenceNumber() const;
     
     /**
-     * @brief Get previous entry hash
+     * @brief Get Previous Entry Hash.
+     * @return Return value.
      */
     std::string getPreviousEntryHash() const;
 };

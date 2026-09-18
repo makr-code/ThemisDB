@@ -42,9 +42,6 @@
 
 namespace themis {
 
-/**
- * @brief Configuration for property graph auto-batching
- */
 struct GraphAutoBufferConfig {
     // Buffer size thresholds
     size_t max_nodes_per_buffer = 1000;       // Max nodes before flush
@@ -69,9 +66,6 @@ struct GraphAutoBufferConfig {
     std::string default_graph_id = "default";
 };
 
-/**
- * @brief Statistics for graph auto-batching buffer
- */
 struct GraphAutoBufferStats {
     std::atomic<uint64_t> nodes_buffered{0};
     std::atomic<uint64_t> edges_buffered{0};
@@ -126,36 +120,8 @@ struct GraphAutoBufferStats {
     }
 };
 
-/**
- * @brief Auto-batching buffer for property graph operations
- * 
- * Automatically buffers node and edge operations and flushes them as batches.
- * Thread-safe, with configurable size and time thresholds.
- * 
- * Usage:
- * @code
- * GraphAutoBufferConfig config;
- * config.max_nodes_per_buffer = 500;
- * config.flush_interval = std::chrono::seconds(10);
- * 
- * GraphAutoBuffer buffer(&propertyGraph, config);
- * buffer.start();  // Start background flush thread
- * 
- * // Add nodes/edges (will be buffered)
- * buffer.addNode(node1, "social");
- * buffer.addEdge(edge1, "social");
- * // ... operations are automatically flushed in batches
- * 
- * buffer.stop();   // Stop and flush remaining operations
- * @endcode
- */
 class GraphAutoBuffer {
 public:
-    /**
-     * @brief Construct auto-batching buffer
-     * @param graph PropertyGraphManager instance (not owned)
-     * @param config Buffer configuration
-     */
     explicit GraphAutoBuffer(PropertyGraphManager* graph, 
                              GraphAutoBufferConfig config = GraphAutoBufferConfig{});
     
@@ -168,64 +134,48 @@ public:
     GraphAutoBuffer& operator=(GraphAutoBuffer&&) = delete;
     
     /**
-     * @brief Start background flush thread
+     * @brief Start.
      */
     void start();
     
     /**
-     * @brief Stop background flush thread and flush remaining operations
+     * @brief Stop.
      */
     void stop();
     
-    /**
-     * @brief Add a node (will be buffered)
-     * @param node Node entity
-     * @param graph_id Graph identifier
-     * @return Status
-     */
     PropertyGraphManager::Status addNode(const BaseEntity& node, 
                                          std::string_view graph_id = "default");
     
-    /**
-     * @brief Add an edge (will be buffered)
-     * @param edge Edge entity
-     * @param graph_id Graph identifier
-     * @return Status
-     */
     PropertyGraphManager::Status addEdge(const BaseEntity& edge, 
                                          std::string_view graph_id = "default");
     
     /**
-     * @brief Force immediate flush of all buffered operations
-     * @return Number of operations flushed
+     * @brief Flush.
+     * @return Return value.
      */
     size_t flush();
     
     /**
-     * @brief Flush buffered operations for specific graph
-     * @param graph_id Graph identifier
-     * @return Number of operations flushed
+     * @brief Flush For.
+     * @param[in] graph_id Identifier of the graph.
+     * @return Return value.
      */
     size_t flushFor(const std::string& graph_id);
     
     /**
-     * @brief Get current buffer statistics
+     * @brief Get Stats.
+     * @return Return value.
      */
     GraphAutoBufferStats getStats() const;
     
-    /**
-     * @brief Get current configuration
-     */
     const GraphAutoBufferConfig& getConfig() const { return config_; }
     
     /**
-     * @brief Update configuration (takes effect on next flush)
+     * @brief Set Config.
+     * @param[in] config Input parameter.
      */
     void setConfig(const GraphAutoBufferConfig& config);
     
-    /**
-     * @brief Check if buffer is running
-     */
     bool isRunning() const { return running_.load(); }
 
 private:
@@ -247,6 +197,11 @@ private:
                           estimateEntitySize(entity) + graph_id.size();
         }
         
+        /**
+         * @brief Estimate Entity Size.
+         * @param[in] entity Input parameter.
+         * @return Return value.
+         */
         static size_t estimateEntitySize(const BaseEntity& entity);
     };
     
@@ -258,6 +213,11 @@ private:
         size_t node_count = 0;
         size_t edge_count = 0;
         
+        /**
+         * @brief Add.
+         * @param[in] op Input parameter.
+         * @details Calls: empty(), std::chrono::steady_clock::now(), push_back(), std::move().
+         */
         void add(BufferedOp&& op) {
             if (operations.empty()) {
                 first_op_time = std::chrono::steady_clock::now();
@@ -271,6 +231,10 @@ private:
             operations.push_back(std::move(op));
         }
         
+        /**
+         * @brief Clear.
+         * @details Implements clear without additional internal calls.
+         */
         void clear() {
             operations.clear();
             memory_bytes = 0;
@@ -296,10 +260,28 @@ private:
     GraphAutoBufferStats stats_;
     
     // Helper functions
+    /**
+     * @brief Flush Thread.
+     */
     void flushThread();
     size_t flushInternal(bool lock_held = false);
+    /**
+     * @brief Flush Buffer.
+     * @param[in] graph_id Identifier of the graph.
+     * @param[in,out] buffer Input/output parameter.
+     * @return Return value.
+     */
     size_t flushBuffer(const std::string& graph_id, GraphBuffer& buffer);
+    /**
+     * @brief Should Flush Buffer.
+     * @param[in] buffer Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool shouldFlushBuffer(const GraphBuffer& buffer) const;
+    /**
+     * @brief Should Flush Global.
+     * @return True when the operation succeeds.
+     */
     bool shouldFlushGlobal() const;
 };
 

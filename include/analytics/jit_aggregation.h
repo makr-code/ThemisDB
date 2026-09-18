@@ -60,36 +60,6 @@ namespace analytics {
 // JITAggregationCompiler
 // ============================================================================
 
-/**
- * @brief Hot-path JIT compiler for columnar aggregation operators.
- *
- * Wraps AggregateOperator with a call-count based specialisation layer.
- * Repeated calls with the same aggregation specification are detected and
- * replaced with a cached specialised implementation after
- * Config::hot_threshold invocations.
- *
- * Example:
- * @code
- *   JITAggregationCompiler jit;
- *
- *   std::vector<AggregateSpec> specs = {{
- *       .result_name  = "total",
- *       .input_column = "price",
- *       .function     = AggregateSpec::Function::Sum,
- *       .group_by     = {"category"}
- *   }};
- *
- *   // First few calls: cold path (generic dispatch)
- *   for (int i = 0; i < 5; ++i)
- *       jit.aggregate(batch, specs);
- *
- *   // Calls >= hot_threshold: specialised path (jit_hits++)
- *   ColumnBatch result = jit.aggregate(batch, specs);
- *
- *   auto s = jit.stats();
- *   std::cout << "JIT hits: " << s.jit_hits << "\n";
- * @endcode
- */
 class JITAggregationCompiler {
 public:
     // -------------------------------------------------------------------------
@@ -97,17 +67,12 @@ public:
     // -------------------------------------------------------------------------
 
     struct Config {
-        /// Number of invocations of the same spec-set before specialisation.
         size_t hot_threshold = 10;
 
-        /// Enable the specialisation layer (disable for benchmarking baseline).
         bool enable_jit = true;
 
-        /// Optimisation level hint (0 = none, 1 = basic, 2 = standard, 3 = aggressive).
-        /// Currently affects only the LLVM backend when THEMIS_HAS_LLVM_JIT is defined.
         int optimization_level = 2;
 
-        /// Maximum number of distinct spec-sets to keep in the compilation cache.
         size_t max_cache_entries = 256;
     };
 
@@ -116,6 +81,11 @@ public:
     // -------------------------------------------------------------------------
 
     JITAggregationCompiler();
+    /**
+     * @brief JITAggregation Compiler.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit JITAggregationCompiler(const Config& config);
     ~JITAggregationCompiler();
 
@@ -129,14 +99,10 @@ public:
     // -------------------------------------------------------------------------
 
     /**
-     * @brief Execute an aggregation, using the specialised path when hot.
-     *
-     * @param input  Input ColumnBatch (may carry a pending SelectionVector;
-     *               it is materialised internally before aggregation).
-     * @param specs  Aggregation specifications (function + group-by).
-     *               All specs must share the same group_by list (first wins).
-     * @return       Aggregated ColumnBatch (one row per group, or one row
-     *               when group_by is empty).
+     * @brief Aggregate.
+     * @param[in] input Input parameter.
+     * @param[in] specs Input parameter.
+     * @return Return value.
      */
     ColumnBatch aggregate(const ColumnBatch& input,
                           const std::vector<AggregateSpec>& specs);
@@ -146,20 +112,23 @@ public:
     // -------------------------------------------------------------------------
 
     /**
-     * @brief Returns true when the given spec-set has a compiled specialisation.
-     * @param spec_key  Cache key as returned by makeSpecKey() or equivalent.
+     * @brief Is Compiled.
+     * @param[in] spec_key Input parameter.
+     * @return True when the operation succeeds.
      */
     bool isCompiled(const std::string& spec_key) const;
 
     /**
-     * @brief Returns the current call count for a spec-set key.
-     * @param spec_key  Cache key for the spec-set.
-     * @return Call count (0 when key is unknown).
+     * @brief Call Count.
+     * @param[in] spec_key Input parameter.
+     * @return Return value.
      */
     size_t callCount(const std::string& spec_key) const;
 
     /**
-     * @brief Compute the canonical cache key for a spec-set (for testing).
+     * @brief Make Spec Key.
+     * @param[in] specs Input parameter.
+     * @return Return value.
      */
     static std::string makeSpecKey(const std::vector<AggregateSpec>& specs);
 
@@ -168,12 +137,14 @@ public:
     // -------------------------------------------------------------------------
 
     /**
-     * @brief Evict the compiled specialisation for one spec-set.
-     * @param spec_key  Cache key to invalidate.
+     * @brief Invalidate.
+     * @param[in] spec_key Input parameter.
      */
     void invalidate(const std::string& spec_key);
 
-    /** @brief Evict all compiled specialisations. */
+    /**
+     * @brief Invalidate All.
+     */
     void invalidateAll();
 
     // -------------------------------------------------------------------------
@@ -181,29 +152,37 @@ public:
     // -------------------------------------------------------------------------
 
     struct Stats {
-        /// Total aggregate() invocations since construction (or last reset).
         size_t total_calls = 0;
 
-        /// Invocations served by a compiled specialisation.
         size_t jit_hits = 0;
 
-        /// Number of spec-sets that have been compiled.
         size_t jit_compilations = 0;
 
-        /// Current number of entries in the compilation cache.
         size_t cache_size = 0;
     };
 
-    /** @brief Return a snapshot of the current statistics. */
+    /**
+     * @brief Stats.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     Stats stats() const noexcept;
 
-    /** @brief Reset statistics counters (does not invalidate compiled code). */
+    /**
+     * @brief Reset Stats.
+     * @note Exception safety: noexcept.
+     */
     void resetStats() noexcept;
 
     // -------------------------------------------------------------------------
     // Config accessor
     // -------------------------------------------------------------------------
 
+    /**
+     * @brief Config.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     const Config& config() const noexcept;
 
 private:

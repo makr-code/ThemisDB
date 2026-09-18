@@ -24,151 +24,73 @@
 namespace themis {
 namespace acceleration {
 
-/**
- * @brief GPU kernel type classification for break-even analysis.
- *
- * Category A (Distance + TopK) and Category B (Graph algorithms) have different
- * speedup requirements based on theoretical parallelism and communication overhead.
- */
 enum class KernelType {
-    /// L2 distance computation (Category A)
     kDistance = 0,
-    /// TopK selection kernel (Category A)
     kTopK = 1,
-    /// Breadth-First Search (Category B)
     kBFS = 2,
-    /// Dijkstra shortest path (Category B)
     kDijkstra = 3,
-    /// Geospatial distance computation (Category B)
     kGeoDistance = 4,
-    /// Geospatial containment check (Category B)
     kGeoContainment = 5,
-    /// Invalid/unknown kernel type
     kUnknown = -1
 };
 
-/**
- * @brief GPU device type for break-even tracking.
- *
- * Different GPU architectures and generations have varying break-even points
- * due to memory bandwidth, compute density, and allocation overhead differences.
- */
 enum class DeviceType {
-    /// NVIDIA RTX 40-series, H100, etc.
     kNVIDIA_RTX = 0,
-    /// NVIDIA T4, A100, L4, etc.
     kNVIDIA_T4 = 1,
-    /// AMD MI210, MI300 series
     kAMD_MI210 = 2,
-    /// Intel Arc A-series
     kIntel_Arc = 3,
-    /// CPU-only fallback (no GPU)
     kCPU = 4,
-    /// Unknown device type
     kUnknown = -1
 };
 
-/**
- * @brief Workload profile for break-even decision.
- *
- * Captures the input characteristics that determine whether GPU acceleration
- * is beneficial. Used as cache key and profiling input.
- */
 struct WorkloadProfile {
-    /// Kernel type (distance, topk, bfs, dijkstra, geo*)
     KernelType kernel_type = KernelType::kUnknown;
 
-    /// Input cardinality (vector count or node count)
     size_t input_size = 0;
 
-    /// Output selectivity ratio [0, 1] (e.g., 0.01 = top 1%)
     float output_selectivity = 1.0f;
 
-    /// Vector dimension (for distance kernels)
     size_t vector_dimension = 0;
 
-    /// Target device type
     DeviceType device = DeviceType::kCPU;
 
-    /// Caller hint: force GPU usage regardless of break-even
     std::optional<bool> force_gpu;
 
-    /// Caller hint: prefer CPU regardless of break-even
     std::optional<bool> prefer_cpu;
 
     /**
-     * @brief Generate a stable cache key from profile.
-     *
-     * @return String key incorporating kernel, size, selectivity, device
+     * @brief To Cache Key.
+     * @return Return value.
      */
     std::string ToCacheKey() const;
 
     /**
-     * @brief Human-readable representation for logging.
-     *
-     * @return Formatted profile string
+     * @brief To String.
+     * @return Return value.
      */
     std::string ToString() const;
 };
 
-/**
- * @brief Break-even validation decision with profiling results.
- *
- * Output of the break-even decision engine. Contains the decision (use GPU or
- * CPU fallback), the speedup ratio, individual timings, and reason code.
- */
 struct BreakEvenDecision {
-    /// True if GPU is recommended, false if CPU fallback is preferred
     bool use_gpu = false;
 
-    /// Speedup ratio: CPU time / GPU time (> 1.0 means GPU is faster)
     float speedup_ratio = 0.0f;
 
-    /// CPU path execution time (milliseconds)
     std::chrono::milliseconds cpu_time_ms{0};
 
-    /// GPU path execution time including transfer (milliseconds)
     std::chrono::milliseconds gpu_time_ms{0};
 
-    /// Human-readable reason: "break_even_met", "gpu_unavailable", etc.
     std::string reason;
 
-    /// Whether this decision came from cache (for metrics)
     bool from_cache = false;
 
     /**
-     * @brief Human-readable representation of decision and metrics.
-     *
-     * @return Formatted decision string with speedup and timing info
+     * @brief To String.
+     * @return Return value.
      */
     std::string ToString() const;
 };
 
-/**
- * @brief Break-Even Validator: GPU acceleration decision framework.
- *
- * Profiles GPU vs. CPU paths for target workloads and maintains a cache of
- * decisions. Supports custom thresholds per kernel type and cache invalidation.
- *
- * Thread-safe: all public methods are protected by internal mutex.
- *
- * Example usage:
- * @code
- *   BreakEvenValidator validator;
- *   WorkloadProfile profile{
- *       .kernel_type = KernelType::kDistance,
- *       .input_size = 1'000'000,
- *       .vector_dimension = 128,
- *       .device = DeviceType::kNVIDIA_RTX,
- *   };
- *   auto decision = validator.ShouldUseGPU(profile);
- *   if (decision.use_gpu) {
- *       DispatchToGPU(profile);
- *   } else {
- *       DispatchToCPU(profile);
- *   }
- * @endcode
- */
 class BreakEvenValidator {
 public:
     using ProfileFn = std::function<std::optional<std::chrono::milliseconds>(
@@ -176,255 +98,171 @@ public:
     using MetricsSinkFn = std::function<void(
         const WorkloadProfile&, const BreakEvenDecision&)>;
 
-    /**
-     * @brief Construct a new BreakEvenValidator instance.
-     *
-     * Initializes with default speedup thresholds:
-     * - Category A (Distance, TopK): 1.5x
-     * - Category B (Graph): 1.3x
-     *
-     * Cache validity duration defaults to 24 hours.
-     */
     BreakEvenValidator();
 
-    /**
-     * @brief Destructor (default).
-     */
     ~BreakEvenValidator();
 
     /**
-     * @brief Make a GPU vs. CPU decision for the given workload.
-     *
-     * Primary decision interface. Checks cache first; if cache miss, profiles
-     * both CPU and GPU paths and makes a decision based on speedup thresholds.
-     *
-     * Respects force_gpu and prefer_cpu flags in the profile.
-     *
-     * @param profile Workload profile defining input characteristics
-     * @return BreakEvenDecision with recommendation and metrics
-     *
-     * @note Thread safety: Fully thread-safe; protected by internal mutex
+     * @brief Should Use GPU.
+     * @param[in] profile Input parameter.
+     * @return Return value.
      */
     BreakEvenDecision ShouldUseGPU(const WorkloadProfile& profile);
 
     /**
-     * @brief Explicit profiling of CPU and GPU paths (cache bypass).
-     *
-     * Bypasses cache and profiles both CPU and GPU execution times,
-     * then caches the result. Useful for:
-     * - Diagnostics and debugging
-     * - Refreshing cache entries
-     * - Measuring performance regression
-     *
-     * @param profile Workload profile to profile
-     * @return BreakEvenDecision with fresh profiling results
-     *
-     * @note Thread safety: Fully thread-safe
+     * @brief Profile.
+     * @param[in] profile Input parameter.
+     * @return Return value.
      */
     BreakEvenDecision Profile(const WorkloadProfile& profile);
 
     /**
-     * @brief Set the speedup threshold for a kernel type.
-     *
-     * Speedup threshold is the minimum CPU/GPU time ratio to recommend GPU.
-     * For example, threshold=1.5 means GPU is used only if CPU is 1.5x slower.
-     *
-     * @param kernel Kernel type to set threshold for
-     * @param threshold Minimum speedup ratio (must be >= 1.0)
-     *
-     * @note Thread safety: Fully thread-safe
+     * @brief Set Speedup Threshold.
+     * @param[in] kernel Input parameter.
+     * @param[in] threshold Input parameter.
      */
     void SetSpeedupThreshold(KernelType kernel, float threshold);
 
     /**
-     * @brief Get the current speedup threshold for a kernel type.
-     *
-     * @param kernel Kernel type
-     * @return Current threshold for this kernel (or default 1.5 if not set)
-     *
-     * @note Thread safety: Fully thread-safe
+     * @brief Get Speedup Threshold.
+     * @param[in] kernel Input parameter.
+     * @return Return value.
      */
     float GetSpeedupThreshold(KernelType kernel) const;
 
     /**
-     * @brief Clear the entire decision cache.
-     *
-     * Next call to ShouldUseGPU() will trigger profiling (cache miss).
-     *
-     * @note Thread safety: Fully thread-safe
+     * @brief Clear Cache.
      */
     void ClearCache();
 
     /**
-     * @brief Set the time-to-live for cached decisions.
-     *
-     * Cached decisions expire after this duration. Default: 24 hours.
-     * After expiry, ShouldUseGPU() will re-profile and refresh the cache.
-     *
-     * @param duration Cache validity duration
-     *
-     * @note Thread safety: Fully thread-safe
+     * @brief Set Cache Validity Duration.
+     * @param[in] duration Input parameter.
      */
     void SetCacheValidityDuration(std::chrono::hours duration);
 
     /**
-     * @brief Override CPU workload profiling with a caller-provided implementation.
-     *
-     * When set, ProfileCPU() delegates to @p fn instead of the built-in
-     * deterministic cost model. Passing an empty function restores the default
-     * CPU estimator. Any cached decisions are cleared so subsequent calls are
-     * re-profiled with the new behavior.
-     *
-     * @param fn CPU profiling callback, or empty to restore defaults
-     *
-     * @note Thread safety: Fully thread-safe
+     * @brief Set CPUProfile Fn.
+     * @param[in] fn Input parameter.
      */
     void SetCPUProfileFn(ProfileFn fn);
 
     /**
-     * @brief Override GPU workload profiling with a caller-provided implementation.
-     *
-     * When set, ProfileGPU() delegates to @p fn instead of the built-in
-     * deterministic GPU estimate. Passing an empty function restores the default
-     * GPU estimator. Any cached decisions are cleared so subsequent calls are
-     * re-profiled with the new behavior.
-     *
-     * @param fn GPU profiling callback, or empty to restore defaults
-     *
-     * @note Thread safety: Fully thread-safe
+     * @brief Set GPUProfile Fn.
+     * @param[in] fn Input parameter.
      */
     void SetGPUProfileFn(ProfileFn fn);
 
     /**
-     * @brief Register a metrics sink that receives every fresh profile decision.
-     *
-     * The sink is called after a non-cached profile completes successfully or
-     * degrades to CPU because GPU profiling is unavailable. Exceptions thrown by
-     * the sink are swallowed to preserve fail-closed decision behavior.
-     *
-     * @param fn Metrics callback, or empty to disable metrics emission
-     *
-     * @note Thread safety: Fully thread-safe
+     * @brief Set Metrics Sink.
+     * @param[in] fn Input parameter.
      */
     void SetMetricsSink(MetricsSinkFn fn);
 
     /**
-     * @brief Get the latest break-even speedup ratio for a kernel type.
-     *
-     * Returns the most recent speedup ratio observed for this kernel,
-     * or 0.0 if no profile has been run yet.
-     *
-     * @param kernel Kernel type to query
-     * @return Latest observed speedup ratio, or 0.0 if no data
-     *
-     * @note Thread safety: Fully thread-safe
+     * @brief Get Latest Break Even Ratio.
+     * @param[in] kernel Input parameter.
+     * @return Return value.
      */
     float GetLatestBreakEvenRatio(KernelType kernel) const;
 
     /**
-     * @brief Get cumulative cache hit count for metrics.
-     *
-     * @return Number of ShouldUseGPU() calls that hit the cache
-     *
-     * @note Thread safety: Fully thread-safe
+     * @brief Get Cache Hit Count.
+     * @return Return value.
      */
     size_t GetCacheHitCount() const;
 
     /**
-     * @brief Get cumulative cache miss count for metrics.
-     *
-     * @return Number of ShouldUseGPU() calls that missed the cache
-     *
-     * @note Thread safety: Fully thread-safe
+     * @brief Get Cache Miss Count.
+     * @return Return value.
      */
     size_t GetCacheMissCount() const;
 
     /**
-     * @brief Get current cache size (number of cached decisions).
-     *
-     * @return Number of cached decision entries
-     *
-     * @note Thread safety: Fully thread-safe
+     * @brief Get Cache Size.
+     * @return Return value.
      */
     size_t GetCacheSize() const;
 
     /**
-     * @brief Convert KernelType enum to string for logging/metrics.
-     *
-     * @param kernel Kernel type
-     * @return String representation (e.g., "distance", "bfs")
+     * @brief Kernel Type To String.
+     * @param[in] kernel Input parameter.
+     * @return Return value.
      */
     static std::string KernelTypeToString(KernelType kernel);
 
     /**
-     * @brief Convert DeviceType enum to string for logging/metrics.
-     *
-     * @param device Device type
-     * @return String representation (e.g., "nvidia_rtx", "cpu")
+     * @brief Device Type To String.
+     * @param[in] device Input parameter.
+     * @return Return value.
      */
     static std::string DeviceTypeToString(DeviceType device);
 
 private:
     /**
-     * @brief Profile CPU execution time for the given workload.
-     *
-     * Uses a caller-provided profiling hook when configured; otherwise falls
-     * back to the built-in deterministic CPU cost model.
-     *
-     * @param profile Workload to profile on CPU
-     * @return CPU execution time, or nullopt if profiling failed
+     * @brief Profile CPU.
+     * @param[in] profile Input parameter.
+     * @return Return value.
      */
     std::optional<std::chrono::milliseconds> ProfileCPU(
         const WorkloadProfile& profile);
 
     /**
-     * @brief Profile GPU execution time for the given workload.
-     *
-     * Uses a caller-provided profiling hook when configured; otherwise falls
-     * back to the built-in deterministic GPU estimate including transfer and
-     * launch overhead. Returns nullopt if the selected device cannot run GPU
-     * work or profiling fails.
-     *
-     * @param profile Workload to profile on GPU
-     * @return GPU execution time (transfer + compute), or nullopt if GPU unavailable
+     * @brief Profile GPU.
+     * @param[in] profile Input parameter.
+     * @return Return value.
      */
     std::optional<std::chrono::milliseconds> ProfileGPU(
         const WorkloadProfile& profile);
 
+    /**
+     * @brief Requires Vector Dimension.
+     * @param[in] kernel Input parameter.
+     * @return True when the operation succeeds.
+     */
     static bool RequiresVectorDimension(KernelType kernel);
+    /**
+     * @brief Is Gpu Capable Device.
+     * @param[in] device Input parameter.
+     * @return True when the operation succeeds.
+     */
     static bool IsGpuCapableDevice(DeviceType device);
+    /**
+     * @brief Estimate Work Units.
+     * @param[in] profile Input parameter.
+     * @return Return value.
+     */
     static double EstimateWorkUnits(const WorkloadProfile& profile);
+    /**
+     * @brief Milliseconds From Estimate.
+     * @param[in] estimated_ms Input parameter.
+     * @return Return value.
+     */
     static std::optional<std::chrono::milliseconds> MillisecondsFromEstimate(
         double estimated_ms);
 
     /**
-     * @brief Parse KernelType from string.
-     *
-     * @param s String representation
-     * @return Parsed KernelType, or kUnknown if not recognized
+     * @brief String To Kernel Type.
+     * @param[in] s Input parameter.
+     * @return Return value.
      */
     static KernelType StringToKernelType(const std::string& s);
 
     /**
-     * @brief Parse DeviceType from string.
-     *
-     * @param s String representation
-     * @return Parsed DeviceType, or kUnknown if not recognized
+     * @brief String To Device Type.
+     * @param[in] s Input parameter.
+     * @return Return value.
      */
     static DeviceType StringToDeviceType(const std::string& s);
 
-    /**
-     * @brief Cache entry with timestamp for expiry checking.
-     */
     struct CacheEntry {
         BreakEvenDecision decision;
         std::chrono::steady_clock::time_point timestamp;
 
         /**
-         * @brief Check if this entry has expired.
-         *
-         * @param ttl Cache time-to-live duration
-         * @return True if entry is older than ttl
+         * @brief Is Expired.
+         * @param[in] ttl Input parameter.
+         * @return True when the operation succeeds.
          */
         bool IsExpired(std::chrono::hours ttl) const;
     };

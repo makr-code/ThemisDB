@@ -22,60 +22,41 @@ namespace themis {
 namespace content {
 namespace adapters {
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Factory functions — each returns a heap-allocated adapter that wraps the
-// corresponding content/ processor.  Guards mirror the CMake build options.
-// ─────────────────────────────────────────────────────────────────────────────
-
 /**
- * @brief Create a PDF extractor adapter wrapping `content::PDFProcessor`.
- *
- * Available when `THEMIS_ENABLE_CONTENT` is ON and libpoppler is present.
- * Returns nullptr when `THEMIS_ENABLE_CONTENT` is OFF (compile-time guard).
+ * @brief ───────────────────────────────────────────────────────────────────────────── Factory functions — each returns a heap-allocated adapter that wraps the corresponding content/ processor.
+ * @return Return value.
+ * @details Guards mirror the CMake build options. ─────────────────────────────────────────────────────────────────────────────
  */
+
 std::shared_ptr<ingestion::IFormatExtractor> createPdfExtractorAdapter();
 
 /**
- * @brief Create an Office extractor adapter wrapping `content::OfficeProcessor`.
- *
- * Handles application/vnd.openxmlformats-officedocument.* (DOCX, XLSX, PPTX)
- * and application/msword / application/vnd.ms-excel via libzip + pugixml.
- * Requires `THEMIS_ENABLE_CONTENT && THEMIS_ENABLE_OFFICE`.
+ * @brief Create Office Extractor Adapter.
+ * @return Return value.
  */
 std::shared_ptr<ingestion::IFormatExtractor> createOfficeExtractorAdapter();
 
 /**
- * @brief Create an Image extractor adapter wrapping `content::ImageProcessor`
- *        and `content::OCRProcessor` (when OCR is enabled).
- *
- * Extracts EXIF metadata and (optionally) OCR text.
- * Requires `THEMIS_ENABLE_CONTENT`.
+ * @brief Create Image Extractor Adapter.
+ * @return Return value.
  */
 std::shared_ptr<ingestion::IFormatExtractor> createImageExtractorAdapter();
 
 /**
- * @brief Create an Archive extractor adapter wrapping `content::ArchiveProcessor`.
- *
- * Handles application/zip, application/x-tar, application/gzip, etc.
- * Extracts members to a temporary directory and returns their paths in
- * `FormatExtractResult::child_paths`.
- * Requires `THEMIS_ENABLE_CONTENT`.
+ * @brief Create Archive Extractor Adapter.
+ * @return Return value.
  */
 std::shared_ptr<ingestion::IFormatExtractor> createArchiveExtractorAdapter();
 
 /**
- * @brief Create an Audio extractor adapter wrapping `content::STTProcessor`.
- *
- * Transcribes audio to text via Whisper/FFmpeg.
- * Available when `THEMIS_ENABLE_CONTENT && THEMIS_ENABLE_VOICE_ASSISTANT` is ON.
+ * @brief Create Audio Extractor Adapter.
+ * @return Return value.
  */
 std::shared_ptr<ingestion::IFormatExtractor> createAudioExtractorAdapter();
 
 /**
- * @brief Create a plain-text / HTML / Markdown extractor adapter.
- *
- * Handles text/plain, text/html, text/markdown.  No heavy dependencies;
- * always available when `THEMIS_ENABLE_CONTENT` is ON.
+ * @brief Create Text Extractor Adapter.
+ * @return Return value.
  */
 std::shared_ptr<ingestion::IFormatExtractor> createTextExtractorAdapter();
 
@@ -83,12 +64,6 @@ std::shared_ptr<ingestion::IFormatExtractor> createTextExtractorAdapter();
 // FormatExtractorFactory — concrete IFormatExtractorFactory
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief Concrete factory that maps MIME types to content/ processor adapters.
- *
- * Constructed by `createDefaultFormatExtractorFactory()`.  All available
- * adapters are registered based on compile-time feature flags.
- */
 class FormatExtractorFactory : public ingestion::IFormatExtractorFactory {
 public:
     FormatExtractorFactory();
@@ -108,19 +83,8 @@ private:
 };
 
 /**
- * @brief Create a `FormatExtractorFactory` pre-populated with all adapters
- *        available at compile time.
- *
- * This is the primary entry point for server bootstrap and `ToolboxBuilder`.
- *
- * Equivalent to:
- * @code
- * auto f = std::make_shared<FormatExtractorFactory>();
- * f->registerExtractor(createPdfExtractorAdapter());     // if available
- * f->registerExtractor(createOfficeExtractorAdapter());  // if available
- * // ...
- * return f;
- * @endcode
+ * @brief Create Default Format Extractor Factory.
+ * @return Return value.
  */
 std::shared_ptr<FormatExtractorFactory> createDefaultFormatExtractorFactory();
 

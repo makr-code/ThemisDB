@@ -22,122 +22,55 @@
 namespace themis {
 namespace graph {
 
-/**
- * @brief Parallel multi-source BFS/DFS for large graphs.
- *
- * Implements concurrent traversal from multiple source vertices, running one
- * independent search per source vertex.  Each search executes in its own
- * std::async task so that large fan-out workloads scale across available CPU
- * cores.  The individual per-source results are merged after all tasks
- * complete: if a vertex is reachable from more than one source, the result
- * records the source that discovered it first (non-deterministic when two
- * sources reach the vertex in the same wall-clock instant).
- *
- * Thread safety: all mutable state lives inside per-task closures; the
- * GraphIndexManager is accessed read-only (outNeighbors / outAdjacency), which
- * is safe to call concurrently per its documented contract.
- *
- * Usage:
- * @code
- *   ParallelTraversal pt(graph_manager);
- *   ParallelTraversal::Config cfg;
- *   cfg.max_depth = 5;
- *   cfg.num_threads = 4;
- *   auto result = pt.multiSourceBFS({"A", "B", "C"}, cfg);
- *   if (result) {
- *       for (const auto& v : result->visited_vertices) { ... }
- *   }
- * @endcode
- */
 class ParallelTraversal {
 public:
-    /**
-     * @brief Configuration for a multi-source traversal.
-     */
     struct Config {
-        /// Maximum depth each individual source traversal may reach.
         int max_depth = 10;
-        /// Stop collecting results once this many vertices have been found
-        /// across all sources (0 = no limit).
         size_t max_results = 0;
-        /// Maximum number of concurrent source traversals (0 = auto, clamped
-        /// to [2, hardware_concurrency]).
         uint32_t num_threads = 0;
-        /// Per-source traversal timeout in milliseconds (0 = no limit).
-        /// If a single source traversal exceeds this budget it is aborted and
-        /// its partial results are included in the merged output.
         uint32_t timeout_ms = 0;
-        /// Vertices that must never be visited by any source traversal.
         std::vector<std::string> forbidden_vertices;
 
-        /// Minimum frontier size that triggers parallel fan-out expansion
-        /// within a single source's BFS.  When the BFS frontier at any level
-        /// reaches this threshold, neighbor lookups are dispatched to multiple
-        /// threads (using at most `num_threads` workers, or auto if 0).
-        /// 0 = never parallelize fan-out (sources still run in parallel
-        /// with each other as usual).
         uint32_t fan_out_threshold = 0;
 
         Config() = default;
     };
 
-    /**
-     * @brief Aggregated result returned by multiSourceBFS / multiSourceDFS.
-     */
     struct MultiSourceResult {
-        /// Ordered list of all distinct vertices visited across all sources.
-        /// Vertices reachable from multiple sources appear only once (the
-        /// source that first claimed them wins).
         std::vector<std::string> visited_vertices;
 
-        /// Maps each visited vertex to the source that first reached it.
         std::unordered_map<std::string, std::string> vertex_to_source;
 
-        /// Total nodes explored (summed across all per-source traversals,
-        /// including duplicates before de-duplication).
         size_t total_nodes_explored = 0;
 
-        /// Total edges traversed (summed across all per-source traversals).
         size_t total_edges_traversed = 0;
 
-        /// Wall-clock time from start to end of multiSourceBFS/DFS (ms).
         double execution_time_ms = 0.0;
 
-        /// True if at least one per-source traversal was aborted due to
-        /// timeout_ms being exceeded.
         bool timed_out = false;
     };
 
     /**
-     * @brief Construct with a reference to the graph storage backend.
-     * @param graph_manager Must outlive this ParallelTraversal instance.
+     * @brief Parallel Traversal.
+     * @param[in,out] graph_manager Input/output parameter.
+     * @return Return value.
      */
     explicit ParallelTraversal(GraphIndexManager& graph_manager);
 
     /**
-     * @brief Run BFS from each source vertex in parallel and merge results.
-     *
-     * Each source vertex gets its own BFS executed in a separate thread.  The
-     * per-source BFS uses level-by-level frontier expansion.  Results are
-     * merged once all threads have completed.
-     *
-     * @param sources  Non-empty list of source vertex IDs.
-     * @return Merged MultiSourceResult, or an error if sources is empty.
+     * @brief Multi Source BFS.
+     * @param[in] sources Input parameter.
+     * @return Return value.
      */
     Result<MultiSourceResult> multiSourceBFS(
         const std::vector<std::string>& sources
     );
 
     /**
-     * @brief Run BFS from each source vertex in parallel with custom configuration.
-     *
-     * Each source vertex gets its own BFS executed in a separate thread.  The
-     * per-source BFS uses level-by-level frontier expansion.  Results are
-     * merged once all threads have completed.
-     *
-     * @param sources  Non-empty list of source vertex IDs.
-     * @param config   Traversal configuration.
-     * @return Merged MultiSourceResult, or an error if sources is empty.
+     * @brief Multi Source BFS.
+     * @param[in] sources Input parameter.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     Result<MultiSourceResult> multiSourceBFS(
         const std::vector<std::string>& sources,
@@ -145,27 +78,19 @@ public:
     );
 
     /**
-     * @brief Run DFS from each source vertex in parallel and merge results.
-     *
-     * Each source vertex gets its own iterative DFS executed in a separate
-     * thread.  Results are merged once all threads have completed.
-     *
-     * @param sources  Non-empty list of source vertex IDs.
-     * @return Merged MultiSourceResult, or an error if sources is empty.
+     * @brief Multi Source DFS.
+     * @param[in] sources Input parameter.
+     * @return Return value.
      */
     Result<MultiSourceResult> multiSourceDFS(
         const std::vector<std::string>& sources
     );
 
     /**
-     * @brief Run DFS from each source vertex in parallel with custom configuration.
-     *
-     * Each source vertex gets its own iterative DFS executed in a separate
-     * thread.  Results are merged once all threads have completed.
-     *
-     * @param sources  Non-empty list of source vertex IDs.
-     * @param config   Traversal configuration.
-     * @return Merged MultiSourceResult, or an error if sources is empty.
+     * @brief Multi Source DFS.
+     * @param[in] sources Input parameter.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     Result<MultiSourceResult> multiSourceDFS(
         const std::vector<std::string>& sources,
@@ -175,10 +100,14 @@ public:
 private:
     GraphIndexManager& graph_manager_;
 
-    /// Compute effective thread count from config and available hardware.
+    /**
+     * @brief Effective Thread Count.
+     * @param[in] config Input parameter.
+     * @param[in] num_sources Input parameter.
+     * @return Return value.
+     */
     static size_t effectiveThreadCount(const Config& config, size_t num_sources);
 
-    /// Per-source BFS result (before merging).
     struct SourceTraversalResult {
         std::string source = {};
         std::vector<std::string> visited;   // ordered by discovery
@@ -187,19 +116,34 @@ private:
         bool timed_out = false;
     };
 
-    /// Run a single-source BFS; called from within an async task.
+    /**
+     * @brief Run Single BFS.
+     * @param[in] source Input parameter.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     SourceTraversalResult runSingleBFS(
         const std::string& source,
         const Config& config
     );
 
-    /// Run a single-source DFS; called from within an async task.
+    /**
+     * @brief Run Single DFS.
+     * @param[in] source Input parameter.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     SourceTraversalResult runSingleDFS(
         const std::string& source,
         const Config& config
     );
 
-    /// Merge per-source results into a single MultiSourceResult.
+    /**
+     * @brief Merge Results.
+     * @param[in] per_source Input parameter.
+     * @param[in] execution_time_ms Input parameter.
+     * @return Return value.
+     */
     static MultiSourceResult mergeResults(
         std::vector<SourceTraversalResult>&& per_source,
         double execution_time_ms

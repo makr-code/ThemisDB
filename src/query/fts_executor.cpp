@@ -18,8 +18,20 @@ namespace {
 
 using Clock = std::chrono::steady_clock;
 
+/**
+ * @brief Split.
+ * @param[in] value Input parameter.
+ * @param[in] delim Input parameter.
+ * @return Return value.
+ * @details Calls: ss(), std::getline(), push_back().
+ */
 std::vector<std::string> split(const std::string& value, char delim) {
   std::vector<std::string> out;
+  /**
+   * @brief Ss.
+   * @param[in] value Input parameter.
+   * @return Return value.
+   */
   std::stringstream ss(value);
   std::string token;
   while (std::getline(ss, token, delim)) {
@@ -28,6 +40,12 @@ std::vector<std::string> split(const std::string& value, char delim) {
   return out;
 }
 
+/**
+ * @brief Normalize Term.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), std::isalnum(), push_back(), std::tolower().
+ */
 std::string normalizeTerm(const std::string& input) {
   std::string out;
   out.reserve(input.size());
@@ -59,6 +77,12 @@ std::vector<std::pair<std::string, uint32_t>> tokenize(const std::string& text) 
   return tokens;
 }
 
+/**
+ * @brief Extract Normalized Terms.
+ * @param[in] node Input parameter.
+ * @return Return value.
+ * @details Calls: normalizeTerm(), empty(), push_back(), tokenize(), reserve(), size().
+ */
 std::vector<std::string> extractNormalizedTerms(const SearchNode& node) {
   std::vector<std::string> terms;
   if (node.type == SearchNodeType::TERM) {
@@ -85,9 +109,19 @@ std::vector<std::string> extractNormalizedTerms(const SearchNode& node) {
 
 class DirectoryFtsIndex final : public FtsIndex {
  public:
+  /**
+   * @brief Directory Fts Index.
+   * @param[in] index_path Input parameter.
+   * @return Return value.
+   */
   explicit DirectoryFtsIndex(std::filesystem::path index_path)
       : index_path_(std::move(index_path)) {}
 
+  /**
+   * @brief Initialize.
+   * @return True on success.
+   * @details Calls: std::filesystem::create_directories(), loadFromDisk().
+   */
   bool initialize() {
     std::error_code ec;
     std::filesystem::create_directories(index_path_, ec);
@@ -99,6 +133,11 @@ class DirectoryFtsIndex final : public FtsIndex {
   }
 
   PostingList lookupTerm(const std::string& term) const override {
+    /**
+     * @brief Lock.
+     * @param[in] mu_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mu_);
     const auto normalized = normalizeTerm(term);
     auto it = postings_.find(normalized);
@@ -109,6 +148,11 @@ class DirectoryFtsIndex final : public FtsIndex {
   }
 
   DocumentMetadata getDocumentStats(uint64_t doc_id) const override {
+    /**
+     * @brief Lock.
+     * @param[in] mu_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mu_);
     auto it = documents_.find(doc_id);
     if (it == documents_.end()) {
@@ -118,6 +162,11 @@ class DirectoryFtsIndex final : public FtsIndex {
   }
 
   IndexStatistics getStatistics() const override {
+    /**
+     * @brief Lock.
+     * @param[in] mu_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mu_);
     IndexStatistics stats;
     stats.document_count = static_cast<uint32_t>(documents_.size());
@@ -137,12 +186,22 @@ class DirectoryFtsIndex final : public FtsIndex {
   }
 
   bool isHealthy() const override {
+    /**
+     * @brief Lock.
+     * @param[in] mu_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mu_);
     return healthy_;
   }
 
   void addDocuments(
       const std::vector<std::pair<uint64_t, std::string>>& documents) override {
+    /**
+     * @brief Lock.
+     * @param[in] mu_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mu_);
     std::unordered_set<std::string> touched_terms;
     for (const auto& [doc_id, text] : documents) {
@@ -183,6 +242,11 @@ class DirectoryFtsIndex final : public FtsIndex {
   }
 
   void removeDocuments(const std::vector<uint64_t>& doc_ids) override {
+    /**
+     * @brief Lock.
+     * @param[in] mu_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mu_);
     for (uint64_t doc_id : doc_ids) {
       eraseDocumentUnsafe(doc_id);
@@ -191,7 +255,17 @@ class DirectoryFtsIndex final : public FtsIndex {
   }
 
  private:
+  /**
+   * @brief Load From Disk.
+   * @return True on success.
+   * @details Calls: lock(), clear(), std::filesystem::exists(), in(), good(), std::getline(), split(), size().
+   */
   bool loadFromDisk() {
+    /**
+     * @brief Lock.
+     * @param[in] mu_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mu_);
     postings_.clear();
     documents_.clear();
@@ -199,6 +273,11 @@ class DirectoryFtsIndex final : public FtsIndex {
 
     const auto docs_file = index_path_ / "docs.tsv";
     if (std::filesystem::exists(docs_file)) {
+      /**
+       * @brief In.
+       * @param[in] docs_file Input parameter.
+       * @return Return value.
+       */
       std::ifstream in(docs_file);
       if (!in.good()) {
         healthy_ = false;
@@ -222,6 +301,11 @@ class DirectoryFtsIndex final : public FtsIndex {
 
     const auto postings_file = index_path_ / "postings.tsv";
     if (std::filesystem::exists(postings_file)) {
+      /**
+       * @brief In.
+       * @param[in] postings_file Input parameter.
+       * @return Return value.
+       */
       std::ifstream in(postings_file);
       if (!in.good()) {
         healthy_ = false;
@@ -257,8 +341,19 @@ class DirectoryFtsIndex final : public FtsIndex {
     return healthy_;
   }
 
+  /**
+   * @brief Persist To Disk Unsafe.
+   * @throws std::runtime_error if an error occurs.
+   * @details Calls: docs_out(), good(), reserve(), size(), push_back(), std::sort(), begin(), end().
+   */
   void persistToDiskUnsafe() {
     const auto docs_file = index_path_ / "docs.tsv";
+    /**
+     * @brief Docs out.
+     * @param[in] docs_file Input parameter.
+     * @param[in] trunc Input parameter.
+     * @return Return value.
+     */
     std::ofstream docs_out(docs_file, std::ios::trunc);
     if (!docs_out.good()) {
       healthy_ = false;
@@ -277,6 +372,12 @@ class DirectoryFtsIndex final : public FtsIndex {
     }
 
     const auto postings_file = index_path_ / "postings.tsv";
+    /**
+     * @brief Postings out.
+     * @param[in] postings_file Input parameter.
+     * @param[in] trunc Input parameter.
+     * @return Return value.
+     */
     std::ofstream postings_out(postings_file, std::ios::trunc);
     if (!postings_out.good()) {
       healthy_ = false;
@@ -314,6 +415,11 @@ class DirectoryFtsIndex final : public FtsIndex {
     return static_cast<float>(total) / static_cast<float>(documents_.size());
   }
 
+  /**
+   * @brief Erase Document Unsafe.
+   * @param[in] doc_id Input parameter.
+   * @details Calls: erase(), begin(), end(), std::remove_if(), empty().
+   */
   void eraseDocumentUnsafe(uint64_t doc_id) {
     documents_.erase(doc_id);
     for (auto it = postings_.begin(); it != postings_.end();) {
@@ -347,6 +453,12 @@ struct IntermediateDocResult {
   std::vector<uint32_t> merged_positions;
 };
 
+/**
+ * @brief Collect Terms.
+ * @param[in] node Input parameter.
+ * @return Return value.
+ * @details Calls: extractNormalizedTerms(), insert(), end(), begin().
+ */
 std::vector<std::string> collectTerms(const SearchNode& node) {
   std::vector<std::string> terms;
   if (node.type == SearchNodeType::TERM || node.type == SearchNodeType::PHRASE) {
@@ -398,6 +510,16 @@ SearchNode annotateNodeForDoc(const SearchNode& node,
   return annotated;
 }
 
+/**
+ * @brief Match Phrase Terms Recursive.
+ * @param[in] positions_by_term Input parameter.
+ * @param[in] term_index Input parameter.
+ * @param[in] previous_position Input parameter.
+ * @param[in] max_gap Input parameter.
+ * @param[in] exact_phrase Input parameter.
+ * @return True on success.
+ * @details Calls: size(), std::upper_bound(), begin(), end().
+ */
 bool matchPhraseTermsRecursive(
     const std::vector<const std::vector<uint32_t>*>& positions_by_term,
     std::size_t term_index,
@@ -428,6 +550,13 @@ bool matchPhraseTermsRecursive(
   return false;
 }
 
+/**
+ * @brief Doc Matches Query.
+ * @param[in] node Input parameter.
+ * @param[in] doc Input parameter.
+ * @return True on success.
+ * @details Calls: find(), normalizeTerm(), end(), extractNormalizedTerms(), empty(), size(), front(), reserve().
+ */
 bool docMatchesQuery(const SearchNode& node, const IntermediateDocResult& doc) {
   switch (node.type) {
     case SearchNodeType::TERM:
@@ -478,6 +607,12 @@ bool docMatchesQuery(const SearchNode& node, const IntermediateDocResult& doc) {
 
 }  // namespace
 
+/**
+ * @brief Open.
+ * @param[in] index_path Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::filesystem::path(), initialize().
+ */
 std::unique_ptr<FtsIndex> FtsIndex::open(const std::string& index_path) {
   if (index_path.empty()) {
     return nullptr;
@@ -500,14 +635,38 @@ FtsExecutor::FtsExecutor(
 
 FtsExecutor::~FtsExecutor() = default;
 
+/**
+ * @brief Execute.
+ * @param[in] query Input parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), traverseAndScore().
+ */
 Result<std::vector<SearchResult>> FtsExecutor::execute(const SearchNode& query,
                                                        const ExecutionOptions& options) {
+  /**
+   * @brief Lock.
+   * @param[in] index_lock_ Input parameter.
+   * @return Return value.
+   */
   std::shared_lock<std::shared_mutex> lock(index_lock_);
   return traverseAndScore(query, options);
 }
 
+/**
+ * @brief Execute Batch.
+ * @param[in] queries Input parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), tl::unexpected(), isHealthy(), reserve(), size(), traverseAndScore(), error(), push_back().
+ */
 Result<std::vector<std::vector<SearchResult>>> FtsExecutor::executeBatch(
     const std::vector<SearchNode>& queries, const ExecutionOptions& options) {
+  /**
+   * @brief Lock.
+   * @param[in] index_lock_ Input parameter.
+   * @return Return value.
+   */
   std::shared_lock<std::shared_mutex> lock(index_lock_);
   if (!index_) {
     return tl::unexpected(FtsError::INDEX_NOT_FOUND);
@@ -528,8 +687,20 @@ Result<std::vector<std::vector<SearchResult>>> FtsExecutor::executeBatch(
   return out;
 }
 
+/**
+ * @brief Update Index.
+ * @param[in] updates Input parameter.
+ * @return Return value.
+ * @details Calls: Clock::now(), std::chrono::milliseconds(), lock(), try_lock(), tl::unexpected(), std::this_thread::sleep_for(), empty(), removeDocuments().
+ */
 Result<void> FtsExecutor::updateIndex(const IndexUpdateBatch& updates) {
   auto deadline = Clock::now() + std::chrono::milliseconds(200);
+  /**
+   * @brief Lock.
+   * @param[in] index_lock_ Input parameter.
+   * @param[in] defer_lock Input parameter.
+   * @return Return value.
+   */
   std::unique_lock<std::shared_mutex> lock(index_lock_, std::defer_lock);
   while (!lock.try_lock()) {
     if (Clock::now() >= deadline) {
@@ -557,6 +728,11 @@ Result<void> FtsExecutor::updateIndex(const IndexUpdateBatch& updates) {
 }
 
 IndexStatistics FtsExecutor::getStatistics() const {
+  /**
+   * @brief Lock.
+   * @param[in] index_lock_ Input parameter.
+   * @return Return value.
+   */
   std::shared_lock<std::shared_mutex> lock(index_lock_);
   if (!index_) {
     return {};
@@ -566,6 +742,11 @@ IndexStatistics FtsExecutor::getStatistics() const {
 }
 
 bool FtsExecutor::isIndexHealthy() const {
+  /**
+   * @brief Lock.
+   * @param[in] index_lock_ Input parameter.
+   * @return Return value.
+   */
   std::shared_lock<std::shared_mutex> lock(index_lock_);
   return index_ && index_->isHealthy();
 }
@@ -582,6 +763,13 @@ FtsExecutor::CacheStats FtsExecutor::getCacheStats() const {
   return stats;
 }
 
+/**
+ * @brief Traverse And Score.
+ * @param[in] query Input parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Calls: fetch_add(), tl::unexpected(), isHealthy(), std::chrono::milliseconds(), Clock::now(), collectTerms(), normalizeTerm(), empty().
+ */
 Result<std::vector<SearchResult>> FtsExecutor::traverseAndScore(
     const SearchNode& query, const ExecutionOptions& options) {
   metrics_.total_queries.fetch_add(1, std::memory_order_relaxed);

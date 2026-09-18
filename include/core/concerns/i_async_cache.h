@@ -19,50 +19,6 @@ namespace themis {
 namespace core {
 namespace concerns {
 
-/**
- * @brief Async variant of the cache interface for non-blocking cache operations.
- *
- * `IAsyncCache` extends `ICache` with `std::future`-returning methods so that
- * callers on hot paths can initiate a cache lookup or write without blocking
- * on network I/O (e.g. a Redis backend).
- *
- * ## Default implementations
- *
- * Every async method has a default body that dispatches the corresponding
- * synchronous `ICache` method on a separate thread via `std::async`.  Concrete
- * classes that already implement `ICache` (e.g. `InMemoryCacheImpl`) can
- * inherit from `IAsyncCache` and get working async variants for free:
- *
- * @code
- *   class MyRedisCache : public IAsyncCache {
- *       // Only needs to implement the ICache pure-virtual methods;
- *       // all IAsyncCache methods work via the defaults (or can be
- *       // overridden with a native async Redis client call).
- *   };
- * @endcode
- *
- * ## Thread Safety
- *
- * The underlying `ICache` implementation must be thread-safe if multiple
- * async operations can be in-flight concurrently.
- * Exceptions thrown by synchronous cache methods are captured by the returned
- * future and rethrown when callers wait on it.
- *
- * ## Usage
- *
- * @code
- *   IAsyncCache& cache = ...;
- *
- *   // Non-blocking get — do other work while cache I/O is in-flight
- *   auto future = cache.getAsync("user:42");
- *   // ... other work ...
- *   auto entry = future.get();
- *   if (entry) { ... }
- *
- *   // Fire-and-forget write
- *   cache.putAsync("user:42", entry, 30000);
- * @endcode
- */
 class IAsyncCache : public ICache {
 public:
     // -----------------------------------------------------------------------
@@ -70,12 +26,10 @@ public:
     // -----------------------------------------------------------------------
 
     /**
-     * @brief Retrieve a cache entry asynchronously.
-     *
-     * @param key Cache key.
-     * @return A future that resolves to the cached `CacheEntry` if present
-     *         and not expired, or `std::nullopt` on a cache miss.
-    * @throws std::system_error if the async task cannot be launched.
+     * @brief Get Async.
+     * @param[in] key Input parameter.
+     * @return Return value.
+     * @details Calls: std::async(), std::string(), get().
      */
     virtual std::future<std::optional<CacheEntry>> getAsync(std::string_view key) {
         return std::async(std::launch::async,
@@ -84,15 +38,6 @@ public:
             });
     }
 
-    /**
-     * @brief Insert or replace a cache entry asynchronously.
-     *
-     * @param key    Cache key.
-     * @param entry  Value to store.
-     * @param ttl_ms Entry TTL in milliseconds (0 = default TTL).
-     * @return A future that resolves to true on success, false on failure.
-    * @throws std::system_error if the async task cannot be launched.
-     */
     virtual std::future<bool> putAsync(std::string_view key,
                                         const CacheEntry& entry,
                                         uint64_t ttl_ms = 0)
@@ -104,12 +49,10 @@ public:
     }
 
     /**
-     * @brief Remove a single cache entry asynchronously.
-     *
-     * @param key Key of the entry to remove.
-     * @return A future that resolves when the entry has been removed (or was
-     *         already absent).
-    * @throws std::system_error if the async task cannot be launched.
+     * @brief Invalidate Async.
+     * @param[in] key Input parameter.
+     * @return Return value.
+     * @details Calls: std::async(), std::string(), invalidate().
      */
     virtual std::future<void> invalidateAsync(std::string_view key) {
         return std::async(std::launch::async,
@@ -123,20 +66,6 @@ public:
 // NoOpAsyncCache
 // ---------------------------------------------------------------------------
 
-/**
- * @brief No-op async cache implementation.
- *
- * All sync cache operations are silent no-ops with sane return values.
- * All async methods return already-satisfied futures (via
- * `std::launch::deferred`) so tests can call them without spawning threads.
- *
- * Example (testing):
- * @code
- *   NoOpAsyncCache cache;
- *   auto f = cache.getAsync("user:42");
- *   EXPECT_FALSE(f.get().has_value()); // always a miss
- * @endcode
- */
 class NoOpAsyncCache : public IAsyncCache {
 public:
     // ICache sync methods (all no-ops with safe defaults)

@@ -22,32 +22,6 @@
 
 namespace themis { namespace cache {
 
-/**
- * @brief Singleflight request coalescer — eliminates thundering-herd on cache misses.
- *
- * When multiple threads call `Do(key, fn)` concurrently with the same key, only
- * the *first* call actually executes `fn()`.  All subsequent callers for the same
- * key block and receive the same `shared_ptr<Result>` once the first call
- * completes.  This reduces redundant backend fetches to exactly one per key
- * during a cache-miss storm.
- *
- * ### Behaviour
- * - `fn` is called exactly once per in-flight key regardless of the number of
- *   concurrent callers.
- * - The `Result` is shared (by value-copy inside the struct) across all waiters.
- * - If `fn` throws, every waiter receives a `Result{success=false}` and the
- *   exception message is stored in `Result::error`.
- * - After the flight completes the key is removed so subsequent independent
- *   requests start a new flight.
- *
- * ### Thread safety
- * All methods are fully thread-safe.  The hot-path mutex is held only while
- * inserting or looking up the inflight entry, not during the execution of `fn`.
- *
- * ### Performance target
- * - Under contention: ≥ N–1 threads saved from redundant backend calls
- * - Lock hold-time: O(1), unordered_map lookup + shared_future construction only
- */
 class RequestCoalescer {
 public:
     struct Result {
@@ -57,16 +31,14 @@ public:
         std::string error;   ///< Exception message when success == false
     };
 
-    /**
-     * @brief Execute `fn` for `key`, or join an already-running flight.
-     *
-     * @tparam F  Callable with signature `Result()`.
-     * @param  key  Logical cache key.
-     * @param  fn   Factory function that fetches / computes the value.
-     * @return Shared pointer to the result produced by the first caller.
-     *         All concurrent callers for the same key receive the same pointer.
-     */
     template<typename Fn>
+    /**
+     * @brief Do.
+     * @param[in] key Input parameter.
+     * @param[in] fn Input parameter.
+     * @return Return value.
+     * @details Calls: lk(), find(), end(), get_future(), share(), emplace(), get(), fn().
+     */
     std::shared_ptr<Result> Do(const std::string& key, Fn&& fn) {
         std::shared_future<std::shared_ptr<Result>> fut;
         std::shared_ptr<std::promise<std::shared_ptr<Result>>> prom;
@@ -120,13 +92,12 @@ public:
         return res;
     }
 
-    /**
-     * @brief Number of currently in-flight fetches.
-     *
-     * Useful for testing and monitoring.  The value is approximate in
-     * multi-threaded contexts.
-     */
     size_t inflight_count() const {
+        /**
+         * @brief Lk.
+         * @param[in] mu_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mu_);
         return inflight_.size();
     }

@@ -37,6 +37,12 @@ namespace query {
 
 namespace {
 
+/**
+ * @brief Sparql Literal To AQL.
+ * @param[in] val Input parameter.
+ * @return Return value.
+ * @details Calls: std::visit(), constexpr(), std::to_string(), str(), reserve(), size().
+ */
 std::string sparqlLiteralToAQL(const SPARQLLiteralValue& val) {
     return std::visit([](auto&& v) -> std::string {
         using T = std::decay_t<decltype(v)>;
@@ -119,6 +125,11 @@ class SPARQLLexer {
 public:
     explicit SPARQLLexer(const std::string& input) : input_(input), pos_(0) {}
 
+    /**
+     * @brief Tokenize.
+     * @return Return value.
+     * @details Calls: size(), skipWhitespace(), std::isalnum(), push_back(), substr(), std::isalpha(), readString(), std::isdigit().
+     */
     std::vector<SPARQLToken> tokenize() {
         std::vector<SPARQLToken> tokens = {};
 
@@ -255,6 +266,10 @@ private:
     const std::string& input_;
     size_t pos_ = {};
 
+    /**
+     * @brief Skip Whitespace.
+     * @details Calls: size(), std::isspace().
+     */
     void skipWhitespace() {
         while (pos_ < input_.size() &&
                std::isspace(static_cast<unsigned char>(input_[pos_]))) {
@@ -262,6 +277,13 @@ private:
         }
     }
 
+    /**
+     * @brief Read String.
+     * @param[in] quote Input parameter.
+     * @param[in] start Input parameter.
+     * @return Return value.
+     * @details Calls: size().
+     */
     SPARQLToken readString(char quote, size_t start) {
         ++pos_;  // skip opening quote
         std::string val = {};
@@ -347,9 +369,19 @@ private:
 
 class SPARQLParserImpl {
 public:
+    /**
+     * @brief SPARQLParser Impl.
+     * @param[in] tokens Input parameter.
+     * @return Return value.
+     */
     explicit SPARQLParserImpl(std::vector<SPARQLToken> tokens)
         : tokens_(std::move(tokens)), pos_(0) {}
 
+    /**
+     * @brief Parse.
+     * @return Return value.
+     * @details Calls: check(), parseSelect(), error(), code(), context(), match(), std::move(), Ok().
+     */
     Result<SPARQLASTNode> parse() {
         try {
             if (!check(SPARQLTokenType::SELECT)) {
@@ -385,6 +417,10 @@ private:
 
     const SPARQLToken& current() const { return tokens_[pos_]; }
 
+    /**
+     * @brief Advance.
+     * @details Calls: size().
+     */
     void advance() {
         if (pos_ + 1 < tokens_.size()) {
           ++pos_;
@@ -393,6 +429,12 @@ private:
 
     bool check(SPARQLTokenType t) const { return current().type == t; }
 
+    /**
+     * @brief Match.
+     * @param[in] t Input parameter.
+     * @return True on success.
+     * @details Calls: check(), advance().
+     */
     bool match(SPARQLTokenType t) {
         if (check(t)) { advance(); return true; }
         return false;
@@ -406,7 +448,12 @@ private:
                 ", token '" + current().value + "')");
     }
 
-    // ---------- SELECT ----------
+    /**
+     * @brief ---------- SELECT ----------
+     * @return Return value.
+     * @throws std::runtime_error if an error occurs.
+     * @details Calls: advance(), check(), push_back(), current(), empty(), parseFilterExpr(), error(), code().
+     */
 
     Result<SPARQLSelectStatement> parseSelect() {
         advance();  // consume SELECT
@@ -563,7 +610,11 @@ private:
         return Ok(std::move(stmt));
     }
 
-    // ---------- Triple Pattern ----------
+    /**
+     * @brief ---------- Triple Pattern ----------
+     * @return Return value.
+     * @details Calls: parseTerm(), error(), code(), context(), match(), Ok().
+     */
 
     Result<SPARQLTriplePattern> parseTriplePattern() {
         auto subj = parseTerm();
@@ -579,6 +630,12 @@ private:
         return Ok(SPARQLTriplePattern{*subj, *pred, *obj});
     }
 
+    /**
+     * @brief Parse Term.
+     * @return Return value.
+     * @throws std::runtime_error if an error occurs.
+     * @details Calls: check(), current(), advance(), std::string(), std::stoll(), THEMIS_WARN(), std::stod(), Ok().
+     */
     Result<SPARQLTerm> parseTerm() {
         SPARQLTerm term = {};
 
@@ -639,7 +696,11 @@ private:
         return Ok(std::move(term));
     }
 
-    // ---------- Filter expressions ----------
+    /**
+     * @brief ---------- Filter expressions ----------
+     * @return Return value.
+     * @details Calls: check(), advance(), parseExpr(), match().
+     */
 
     Result<std::shared_ptr<SPARQLExpr>> parseFilterExpr() {
         if (!check(SPARQLTokenType::LPAREN)) {
@@ -657,8 +718,18 @@ private:
         return expr;
     }
 
+    /**
+     * @brief Parse Expr.
+     * @return Return value.
+     * @details Calls: parseOrExpr().
+     */
     Result<std::shared_ptr<SPARQLExpr>> parseExpr()         { return parseOrExpr(); }
 
+    /**
+     * @brief Parse Or Expr.
+     * @return Return value.
+     * @details Calls: parseAndExpr(), check(), advance(), std::move().
+     */
     Result<std::shared_ptr<SPARQLExpr>> parseOrExpr() {
         auto left = parseAndExpr();
         if (!left) {
@@ -679,6 +750,11 @@ private:
         return left;
     }
 
+    /**
+     * @brief Parse And Expr.
+     * @return Return value.
+     * @details Calls: parseRelationalExpr(), check(), advance(), std::move().
+     */
     Result<std::shared_ptr<SPARQLExpr>> parseAndExpr() {
         auto left = parseRelationalExpr();
         if (!left) {
@@ -699,6 +775,11 @@ private:
         return left;
     }
 
+    /**
+     * @brief Parse Relational Expr.
+     * @return Return value.
+     * @details Calls: parseUnaryExpr(), check(), empty(), advance(), std::move().
+     */
     Result<std::shared_ptr<SPARQLExpr>> parseRelationalExpr() {
         auto left = parseUnaryExpr();
         if (!left) {
@@ -730,6 +811,11 @@ private:
         return left;
     }
 
+    /**
+     * @brief Parse Unary Expr.
+     * @return Return value.
+     * @details Calls: check(), advance(), parsePrimaryExpr(), std::move().
+     */
     Result<std::shared_ptr<SPARQLExpr>> parseUnaryExpr() {
         if (check(SPARQLTokenType::NOT_OP)) {
             advance();
@@ -745,6 +831,12 @@ private:
         return parsePrimaryExpr();
     }
 
+    /**
+     * @brief Parse Primary Expr.
+     * @return Return value.
+     * @throws std::runtime_error if an error occurs.
+     * @details Calls: check(), advance(), parseExpr(), match(), current(), std::move(), std::string(), std::stoll().
+     */
     Result<std::shared_ptr<SPARQLExpr>> parsePrimaryExpr() {
         if (check(SPARQLTokenType::LPAREN)) {
             advance();
@@ -879,12 +971,20 @@ static std::string filterExprToAQL(const SPARQLExpr& expr,
 
 }  // anonymous namespace
 
-// ============================================================================
-// SPARQLParser – public API
-// ============================================================================
+/**
+ * @brief ============================================================================ SPARQLParser – public API ============================================================================
+ * @param[in] sparql_query Input parameter.
+ * @return Return value.
+ * @details Calls: lexer(), tokenize(), impl(), std::move(), std::string(), what().
+ */
 
 Result<SPARQLASTNode> SPARQLParser::parse(const std::string& sparql_query) {
     try {
+        /**
+         * @brief Lexer.
+         * @param[in] sparql_query Input parameter.
+         * @return Return value.
+         */
         SPARQLLexer lexer(sparql_query);
         auto tokens = lexer.tokenize();
         SPARQLParserImpl impl(std::move(tokens));
@@ -895,9 +995,12 @@ Result<SPARQLASTNode> SPARQLParser::parse(const std::string& sparql_query) {
     }
 }
 
-// ============================================================================
-// SPARQLToAQLTranspiler
-// ============================================================================
+/**
+ * @brief ============================================================================ SPARQLToAQLTranspiler ============================================================================
+ * @param[in] stmt Input parameter.
+ * @return Return value.
+ * @details Calls: std::to_string(), find(), end(), push_back(), termToAQLStr(), empty(), size(), filterExprToAQL().
+ */
 
 std::string SPARQLToAQLTranspiler::transpileSelect(const SPARQLSelectStatement& stmt) {
     std::ostringstream oss = {};
@@ -1033,6 +1136,12 @@ std::string SPARQLToAQLTranspiler::transpileSelect(const SPARQLSelectStatement& 
     return oss.str();
 }
 
+/**
+ * @brief Transpile.
+ * @param[in] ast Input parameter.
+ * @return Return value.
+ * @details Calls: Ok(), transpileSelect().
+ */
 Result<std::string> SPARQLToAQLTranspiler::transpile(const SPARQLASTNode& ast) {
     return Ok(transpileSelect(ast.select));
 }

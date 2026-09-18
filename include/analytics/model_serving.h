@@ -72,23 +72,15 @@ struct ModelServingEntry;
 // Configuration
 // ============================================================================
 
-/**
- * Configuration passed to ModelServingEngine at construction time.
- */
 struct ModelServingConfig {
-    /// Maximum number of models that may be registered simultaneously.
     size_t max_models       = 100;
 
-    /// Maximum number of data-points accepted in a single predictBatch call.
     size_t max_batch_size   = 10'000;
 
-    /// Collect per-call latency observations (small overhead).
     bool   track_latency    = true;
 
-    /// Sliding-window size used to compute p99 latency.
     size_t latency_window   = 1'000;
 
-    /// Require SHA-256 integrity metadata for loadModel() operations.
     bool   require_model_integrity = false;
 };
 
@@ -96,9 +88,6 @@ struct ModelServingConfig {
 // ModelInfo
 // ============================================================================
 
-/**
- * Metadata about a model that has been registered with the engine.
- */
 struct ModelInfo {
     std::string    name;            ///< Logical model name
     std::string    version;         ///< Version string (e.g. "1.0", "2024-01")
@@ -113,9 +102,6 @@ struct ModelInfo {
 // ModelHealthMetrics
 // ============================================================================
 
-/**
- * Runtime statistics accumulated for one registered model.
- */
 struct ModelHealthMetrics {
     std::string name;
     std::string version;
@@ -135,44 +121,6 @@ struct ModelHealthMetrics {
 // ModelServingEngine
 // ============================================================================
 
-/**
- * Central registry for trained AutoML models.
- *
- * Models are identified by (name, version) pairs.  The engine supports
- * online single-record inference with sub-millisecond overhead, batch
- * inference for throughput-optimised workloads, class-probability
- * output, and lightweight health-metric collection.
- *
- * @code
- *   using namespace themisdb::analytics;
- *
- *   // --- Train a model (via AutoML) ---
- *   AutoML automl;
- *   auto model = automl.trainClassifier(training_data, {
- *       .target = "churn",
- *       .metric = AutoMLMetric::F1
- *   });
- *
- *   // --- Register and serve ---
- *   ModelServingEngine engine;
- *   engine.registerModel("churn-predictor", "v1", std::move(model));
- *
- *   // Online inference (single record)
- *   DataPoint dp;
- *   dp.set("age", 35.0);
- *   dp.set("tenure_months", 12.0);
- *   std::string label = engine.predict("churn-predictor", "v1", dp);
- *
- *   // Batch inference
- *   auto labels = engine.predictBatch("churn-predictor", "v1", batch);
- *
- *   // Health metrics
- *   auto h = engine.healthMetrics("churn-predictor", "v1");
- *   if (h) {
- *       std::cout << "avg_latency_ms=" << h->avg_latency_ms << "\n";
- *   }
- * @endcode
- */
 class ModelServingEngine {
 public:
     explicit ModelServingEngine(ModelServingConfig config = {});
@@ -181,130 +129,115 @@ public:
     ModelServingEngine(const ModelServingEngine&)            = delete;
     ModelServingEngine& operator=(const ModelServingEngine&) = delete;
 
-    // ---- Registry management ----
-
     /**
-     * Register a trained AutoML model under (name, version).
-     *
-     * @throws std::invalid_argument if name or version is empty.
-     * @throws std::runtime_error    if the registry is full
-     *                                (exceeds ModelServingConfig::max_models).
-     * @throws std::runtime_error    if a model with the same (name,version)
-     *                                is already registered.
+     * @brief ---- Registry management ----
+     * @param[in] name Input parameter.
+     * @param[in] version Input parameter.
+     * @param[in] model Input parameter.
      */
+
     void registerModel(const std::string& name,
                        const std::string& version,
                        AutoMLModel        model);
 
     /**
-     * Unregister the model identified by (name, version).
-     *
-     * @return true if the model was found and removed; false otherwise.
+     * @brief Unregister Model.
+     * @param[in] name Input parameter.
+     * @param[in] version Input parameter.
+     * @return True when the operation succeeds.
      */
     bool unregisterModel(const std::string& name,
                          const std::string& version);
 
-    // ---- Inference ----
-
     /**
-     * Predict the label / value for a single DataPoint.
-     *
-     * @throws std::out_of_range if no model is registered under (name,version).
+     * @brief ---- Inference ----
+     * @param[in] name Input parameter.
+     * @param[in] version Input parameter.
+     * @param[in] point Input parameter.
+     * @return Return value.
      */
+
     std::string predict(const std::string& name,
                         const std::string& version,
                         const DataPoint&   point) const;
 
     /**
-     * Predict labels / values for a batch of DataPoints.
-     *
-     * Returns one string per input point in the same order.
-     *
-     * @throws std::out_of_range if no model is registered under (name,version).
-     * @throws std::invalid_argument if data.size() > ModelServingConfig::max_batch_size.
+     * @brief Predict Batch.
+     * @param[in] name Input parameter.
+     * @param[in] version Input parameter.
+     * @param[in] data Input parameter.
+     * @return Return value.
      */
     std::vector<std::string> predictBatch(
         const std::string&        name,
         const std::string&        version,
         const std::vector<DataPoint>& data) const;
 
-    /**
-     * Return class probabilities for a batch (classification models only).
-     *
-     * Outer vector: one entry per data-point.
-     * Inner map: class label → probability in [0,1].
-     *
-     * For regression models the inner map contains a single entry
-     * {"value" → predicted_double}.
-     *
-     * @throws std::out_of_range if no model is registered under (name,version).
-     * @throws std::invalid_argument if data.size() > ModelServingConfig::max_batch_size.
-     */
     std::vector<std::map<std::string, double>> predictProba(
         const std::string&            name,
         const std::string&            version,
         const std::vector<DataPoint>& data) const;
 
-    // ---- Registry queries ----
-
     /**
-     * Return metadata for all registered models (unordered).
+     * @brief ---- Registry queries ----
+     * @return Return value.
      */
+
     std::vector<ModelInfo> listModels() const;
 
     /**
-     * Return metadata for a specific model, or nullopt if not registered.
+     * @brief Model Info.
+     * @param[in] name Input parameter.
+     * @param[in] version Input parameter.
+     * @return Return value.
      */
     std::optional<ModelInfo> modelInfo(const std::string& name,
                                        const std::string& version) const;
 
     /**
-     * Return health metrics for a specific model, or nullopt if not registered.
+     * @brief Health Metrics.
+     * @param[in] name Input parameter.
+     * @param[in] version Input parameter.
+     * @return Return value.
      */
     std::optional<ModelHealthMetrics> healthMetrics(const std::string& name,
                                                      const std::string& version) const;
 
     /**
-     * Return true iff (name, version) is currently registered.
+     * @brief Is Registered.
+     * @param[in] name Input parameter.
+     * @param[in] version Input parameter.
+     * @return True when the operation succeeds.
      */
     bool isRegistered(const std::string& name,
                       const std::string& version) const;
 
-    // ---- Persistence ----
-
     /**
-     * Serialise a registered model to a string (delegates to AutoMLModel::serialize).
-     *
-     * @throws std::out_of_range if not registered.
+     * @brief ---- Persistence ----
+     * @param[in] name Input parameter.
+     * @param[in] version Input parameter.
+     * @return Return value.
      */
+
     std::string serializeModel(const std::string& name,
                                 const std::string& version) const;
 
     /**
-     * Deserialise and register a model previously serialised via serializeModel.
-     *
-     * Equivalent to constructing an AutoMLModel via AutoMLModel::deserialize
-     * and calling registerModel(name, version, std::move(m)).
-     *
-     * @throws std::invalid_argument if name or version is empty.
-     * @throws std::runtime_error    if the registry is full or (name,version)
-     *                                is already registered.
-     * @throws std::invalid_argument if integrity is required but no hash was provided.
-     * @throws std::runtime_error    if a provided SHA-256 hash does not match.
+     * @brief Load Model.
+     * @param[in] name Input parameter.
+     * @param[in] version Input parameter.
+     * @param[in] serialized_data Input parameter.
      */
     void loadModel(const std::string& name,
                    const std::string& version,
                    const std::string& serialized_data);
 
     /**
-     * Deserialise and register a model with explicit SHA-256 integrity check.
-     *
-     * The caller provides the expected lowercase hex SHA-256 digest of
-     * serialized_data. The load operation fails closed on mismatch.
-     *
-     * @param expected_sha256_hex  Expected SHA-256 digest (64 lowercase hex chars).
-     * @throws std::invalid_argument if expected_sha256_hex is empty or not valid 64-char hex.
-     * @throws std::runtime_error    if digest mismatch.
+     * @brief Load Model.
+     * @param[in] name Input parameter.
+     * @param[in] version Input parameter.
+     * @param[in] serialized_data Input parameter.
+     * @param[in] expected_sha256_hex Input parameter.
      */
     void loadModel(const std::string& name,
                    const std::string& version,
@@ -336,8 +269,11 @@ private:
 // ============================================================================
 
 /**
- * Build the canonical registry key from (name, version).
- * Exposed so external code can build keys consistently.
+ * @brief Make Model Key.
+ * @param[in] name Input parameter.
+ * @param[in] version Input parameter.
+ * @return Return value.
+ * @details Implements makeModelKey without additional internal calls.
  */
 inline std::string makeModelKey(const std::string& name,
                                  const std::string& version) {

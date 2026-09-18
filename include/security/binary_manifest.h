@@ -21,38 +21,27 @@
 namespace themis {
 namespace security {
 
-/**
- * @brief Binary file entry in manifest
- */
 struct BinaryFileEntry {
     std::string path;              // Relative path to binary
     std::string sha256_hash;       // SHA-256 hash of file
     size_t size_bytes;             // File size in bytes
     std::string version;           // Binary version (optional)
     
+    /**
+     * @brief To json.
+     * @return Return value.
+     */
     nlohmann::json to_json() const;
+    /**
+     * @brief From json.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static BinaryFileEntry from_json(const nlohmann::json& j);
 };
 
-/**
- * @brief Release manifest for binary integrity verification
- * 
- * Contains SHA-256 hashes of all release binaries and is signed with
- * RSA-4096 to ensure authenticity and integrity.
- * 
- * Security features:
- * - RSA-4096 signature for non-repudiation
- * - SHA-256 file hashing for integrity
- * - Timestamp for freshness verification
- * - Version tracking for update validation
- * 
- * Compliance: SOC 2 CC7.1, NIST SP 800-218 (SSDF)
- */
 class BinaryManifest {
 public:
-    /**
-     * @brief Manifest metadata
-     */
     struct Metadata {
         std::string version;          // ThemisDB version (e.g., "1.4.0")
         std::string build_id;         // Build identifier (e.g., git commit hash)
@@ -62,57 +51,46 @@ public:
     };
     
     BinaryManifest() = default;
+    /**
+     * @brief Binary Manifest.
+     * @param[in] metadata Input parameter.
+     * @return Return value.
+     */
     explicit BinaryManifest(const Metadata& metadata);
     
     /**
-     * @brief Add binary file to manifest
-     * 
-     * @param entry Binary file entry with path and hash
+     * @brief Add File.
+     * @param[in] entry Input parameter.
      */
     void addFile(const BinaryFileEntry& entry);
     
-    /**
-     * @brief Get all files in manifest
-     * 
-     * @return Vector of all binary file entries
-     */
     const std::vector<BinaryFileEntry>& getFiles() const { return files_; }
     
-    /**
-     * @brief Get manifest metadata
-     * 
-     * @return Manifest metadata
-     */
     const Metadata& getMetadata() const { return metadata_; }
     
     /**
-     * @brief Set manifest metadata
-     * 
-     * @param metadata Manifest metadata
+     * @brief Set Metadata.
+     * @param[in] metadata Input parameter.
+     * @details Implements setMetadata without additional internal calls.
      */
     void setMetadata(const Metadata& metadata) { metadata_ = metadata; }
     
     /**
-     * @brief Serialize manifest to JSON
-     * 
-     * @return JSON representation of manifest
+     * @brief To json.
+     * @return Return value.
      */
     nlohmann::json to_json() const;
     
     /**
-     * @brief Deserialize manifest from JSON
-     * 
-     * @param j JSON representation
-     * @return BinaryManifest object
+     * @brief From json.
+     * @param[in] j Input parameter.
+     * @return Return value.
      */
     static BinaryManifest from_json(const nlohmann::json& j);
     
     /**
-     * @brief Get canonical JSON string for signing
-     * 
-     * Produces deterministic JSON output with sorted keys for consistent hashing.
-     * 
-     * @return Canonical JSON string
+     * @brief Get Canonical Json.
+     * @return Return value.
      */
     std::string getCanonicalJson() const;
 
@@ -121,31 +99,35 @@ private:
     std::vector<BinaryFileEntry> files_;
 };
 
-/**
- * @brief Signed manifest with RSA-4096 signature
- */
 struct SignedManifest {
     BinaryManifest manifest;
     std::string signature_base64;    // RSA-4096 signature (base64 encoded)
     std::string signature_algorithm; // "RSA-4096-SHA256"
     std::string signer_id;          // Key ID used for signing
     
+    /**
+     * @brief To json.
+     * @return Return value.
+     */
     nlohmann::json to_json() const;
+    /**
+     * @brief From json.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static SignedManifest from_json(const nlohmann::json& j);
     
     /**
-     * @brief Save signed manifest to file
-     * 
-     * @param path File path
-     * @return true if successful
+     * @brief Save To File.
+     * @param[in] path Input parameter.
+     * @return True when the operation succeeds.
      */
     bool saveToFile(const std::string& path) const;
     
     /**
-     * @brief Load signed manifest from file
-     * 
-     * @param path File path
-     * @return SignedManifest object
+     * @brief Load From File.
+     * @param[in] path Input parameter.
+     * @return Return value.
      */
     static SignedManifest loadFromFile(const std::string& path);
 };

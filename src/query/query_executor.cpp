@@ -73,8 +73,13 @@ std::vector<Row> ResultSet::page(std::size_t offset, std::size_t limit) const
     AdvanceSafe::advance(it_end, static_cast<std::ptrdiff_t>(count),
                          it, end);
 
-    // Validate sub-range before copying.
-    // Gap B008: previously iterated [it, it_end) without RangeValidator.
+    /**
+     * @brief Validate sub-range before copying.
+     * @param[in] it Input parameter.
+     * @param[in] it_end Input parameter.
+     * @return Return value.
+     * @details Gap B008: previously iterated [it, it_end) without RangeValidator.
+     */
     RangeValidator<std::vector<Row>::const_iterator> sub_range(it, it_end);
 
     std::vector<Row> result = {};
@@ -138,9 +143,10 @@ bool QueryExecutor::isExecutionTimeoutExceeded() const noexcept
     return elapsed_ms > static_cast<long long>(context_->timeout_ms);
 }
 
-// ---------------------------------------------------------------------------
-// QueryExecutor::execute
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- QueryExecutor::execute ---------------------------------------------------------------------------
+ * @return Return value.
+ */
 
 ResultSet QueryExecutor::execute()
 {
@@ -194,9 +200,11 @@ ResultSet QueryExecutor::execute()
     return rs;
 }
 
-// ---------------------------------------------------------------------------
-// QueryExecutor::execute_streaming
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- QueryExecutor::execute_streaming ---------------------------------------------------------------------------
+ * @param[in] cb Input parameter.
+ * @return Return value.
+ */
 
 std::size_t QueryExecutor::execute_streaming(RowCallback cb)
 {

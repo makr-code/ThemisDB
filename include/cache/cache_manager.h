@@ -30,9 +30,6 @@ namespace cache {
 // Forward declarations
 class CacheEvictionPolicy;
 
-/**
- * @brief Cache manager configuration
- */
 struct CacheManagerConfig {
     size_t default_cache_size = 1000;
     size_t default_max_bytes = 0;
@@ -41,9 +38,6 @@ struct CacheManagerConfig {
     bool enable_compression = false;
 };
 
-/**
- * @brief Event raised when cache operation occurs
- */
 struct CacheEvent {
     enum Type {
         MISS,           ///< Cache miss occurred
@@ -59,61 +53,22 @@ struct CacheEvent {
     int64_t timestamp_us = 0;
 };
 
-/**
- * @brief Cache manager with policy coordination
- * 
- * Central management of multiple caches with:
- * - Policy object registration and move semantics
- * - Event handling with callback chaining
- * - Moved-from state validation
- * - Coordinated eviction across shards
- */
 class CacheManager {
 public:
-    /**
-     * @brief Event handler callback type
-     */
     using EventHandler = std::function<void(const CacheEvent&)>;
 
     /**
-     * @brief Create cache manager with configuration
-     * 
-     * @param config Manager configuration
-     * @throws std::invalid_argument If config is invalid
+     * @brief Cache Manager.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     explicit CacheManager(const CacheManagerConfig& config);
 
-    /**
-     * @brief Destructor - releases all managed caches and policies
-     */
     ~CacheManager() noexcept;
 
     // Move semantics
-    /**
-     * @brief Move constructor
-     * 
-     * @param other Manager to move from
-     * 
-     * Transfers all caches, policies, and event handlers.
-     * `other` becomes moved-from state (safe for destruction/reassignment).
-     * 
-     * @post other.is_moved_from() == true
-     */
     CacheManager(CacheManager&& other) noexcept;
 
-    /**
-     * @brief Move assignment operator
-     * 
-     * @param other Manager to move from
-     * @return Reference to this manager
-     * 
-     * Release-and-acquire:
-     * - Clears current manager state
-     * - Acquires all caches and policies from `other`
-     * - `other` becomes moved-from state
-     * 
-     * @post other.is_moved_from() == true
-     */
     CacheManager& operator=(CacheManager&& other) noexcept;
 
     // No copy
@@ -122,90 +77,63 @@ public:
 
     // --- Cache registration ---
 
-    /**
-     * @brief Register new cache with manager
-     * 
-     * @param cache_name Name for this cache instance
-     * @param size Maximum entries (0 = use default)
-     * @return true if registered, false if name already exists
-     * @throws std::logic_error If called on moved-from manager
-     */
     bool register_cache(const std::string& cache_name, size_t size = 0);
 
     /**
-     * @brief Unregister cache
-     * 
-     * @param cache_name Cache name
-     * @return true if unregistered, false if not found
-     * @throws std::logic_error If called on moved-from manager
+     * @brief Unregister cache.
+     * @param[in] cache_name Name of the cache.
+     * @return True when the operation succeeds.
      */
     bool unregister_cache(const std::string& cache_name);
 
     /**
-     * @brief Get registered cache names
-     * 
-     * @return Vector of cache names
+     * @brief Get cache names.
+     * @return Return value.
      */
     std::vector<std::string> get_cache_names() const;
 
-    // --- Policy management ---
-
     /**
-     * @brief Set eviction policy for cache
-     * 
-     * @param cache_name Target cache name
-     * @param policy Eviction policy (moved into manager)
-     * @return true if policy set, false if cache not found
-     * @throws std::logic_error If called on moved-from manager
-     * 
-     * Policies are moved to manager for ownership.
+     * @brief --- Policy management ---
+     * @param[in] cache_name Name of the cache.
+     * @param[in] policy Input parameter.
+     * @return True when the operation succeeds.
+     * @note Exception safety: noexcept.
      */
+
     bool set_eviction_policy(const std::string& cache_name, 
                              CacheEvictionPolicy&& policy) noexcept;
 
     /**
-     * @brief Get eviction policy for cache
-     * 
-     * @param cache_name Cache name
-     * @return Pointer to policy, or nullptr if not found
+     * @brief Get eviction policy.
+     * @param[in] cache_name Name of the cache.
+     * @return Pointer to the result.
      */
     const CacheEvictionPolicy* get_eviction_policy(const std::string& cache_name) const;
 
-    // --- Event handling ---
-
     /**
-     * @brief Register event handler
-     * 
-     * @param handler Callback to invoke on cache events
-     * @return Handler ID (for later unregistration)
-     * @throws std::logic_error If called on moved-from manager
+     * @brief --- Event handling ---
+     * @param[in] handler Input parameter.
+     * @return Return value.
      */
+
     uint32_t register_event_handler(EventHandler&& handler);
 
     /**
-     * @brief Unregister event handler
-     * 
-     * @param handler_id ID returned from register_event_handler
-     * @return true if unregistered, false if ID not found
+     * @brief Unregister event handler.
+     * @param[in] handler_id Identifier of the handler.
+     * @return True when the operation succeeds.
      */
     bool unregister_event_handler(uint32_t handler_id);
 
     /**
-     * @brief Dispatch event to all registered handlers
-     * 
-     * @param event Event to dispatch
-     * @throws std::logic_error If called on moved-from manager
+     * @brief Dispatch event.
+     * @param[in] event Input parameter.
+     * @note Exception safety: noexcept.
      */
     void dispatch_event(const CacheEvent& event) noexcept;
 
     // --- Statistics ---
 
-    /**
-     * @brief Get statistics for cache
-     * 
-     * @param cache_name Cache name
-     * @return Statistics object if cache found, std::nullopt otherwise
-     */
     struct CacheStats {
         uint64_t hits = 0;
         uint64_t misses = 0;
@@ -215,34 +143,22 @@ public:
         double hit_rate = 0.0;
     };
 
+    /**
+     * @brief Get cache stats.
+     * @param[in] cache_name Name of the cache.
+     * @return Return value.
+     */
     std::optional<CacheStats> get_cache_stats(const std::string& cache_name) const;
 
     /**
-     * @brief Clear all caches
-     * 
-     * @throws std::logic_error If called on moved-from manager
+     * @brief Clear all.
      */
     void clear_all();
 
-    /**
-     * @brief Get manager configuration
-     * 
-     * @return Current config
-     */
     const CacheManagerConfig& get_config() const noexcept { return config_; }
 
-    /**
-     * @brief Check if manager is in moved-from state
-     * 
-     * @return true if resources have been moved out
-     */
     bool is_moved_from() const noexcept { return is_moved_from_; }
 
-    /**
-     * @brief Check if manager is valid (not moved-from)
-     * 
-     * @return true if manager is operational
-     */
     bool is_valid() const noexcept { return !is_moved_from_; }
 
 private:
@@ -263,6 +179,10 @@ private:
     uint32_t next_handler_id_;
     bool is_moved_from_;
 
+    /**
+     * @brief Cleanup.
+     * @note Exception safety: noexcept.
+     */
     void cleanup() noexcept;
 };
 

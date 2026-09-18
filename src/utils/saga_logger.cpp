@@ -61,6 +61,12 @@ nlohmann::json SignedBatch::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), is_string(), is_number_integer(), is_number_unsigned(), get_str(), is_number(), get_i64(), empty().
+ */
 SignedBatch SignedBatch::fromJson(const nlohmann::json& j) {
     SignedBatch batch;
     auto get_str = [](const nlohmann::json& obj, const char* key) -> std::string {
@@ -139,11 +145,21 @@ SAGALogger::SAGALogger(std::shared_ptr<FieldEncryption> enc,
     );
 }
 
+/**
+ * @brief Log Step.
+ * @param[in] step Input parameter.
+ * @details Calls: lk(), dump(), size(), ctx(), logErrorContext(), fmt::format(), what(), empty().
+ */
 void SAGALogger::logStep(const SAGAStep& step) {
     if (!cfg_.enabled) {
       return;
     }
     
+    /**
+     * @brief Lk.
+     * @param[in] mu_ Input parameter.
+     * @return Return value.
+     */
     std::scoped_lock lk(mu_);
     
     // Phase 2.7: Validate step size (ERR_AUDIT_BUFFER_OVERFLOW)
@@ -219,7 +235,16 @@ void SAGALogger::logStep(const SAGAStep& step) {
     }
 }
 
+/**
+ * @brief Flush.
+ * @details Calls: lk(), empty(), signAndFlushBatch(), ctx(), fmt::format(), what(), logErrorContext().
+ */
 void SAGALogger::flush() {
+    /**
+     * @brief Lk.
+     * @param[in] mu_ Input parameter.
+     * @return Return value.
+     */
     std::scoped_lock lk(mu_);
     if (!buffer_.empty()) {
         try {
@@ -252,12 +277,30 @@ std::string SAGALogger::generateBatchId() const {
     return oss.str();
 }
 
+/**
+ * @brief Sha256.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: out(), SHA256(), data(), size().
+ */
 std::vector<uint8_t> SAGALogger::sha256(const std::vector<uint8_t>& data) {
+    /**
+     * @brief Out.
+     * @param[in] SHA256_DIGEST_LENGTH Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> out(SHA256_DIGEST_LENGTH);
     ::SHA256(data.data(),data.size(), out.data());
     return out;
 }
 
+/**
+ * @brief Append Json Line.
+ * @param[in] path Input parameter.
+ * @param[in] j Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: ofs(), themis::utils::makeErrorContext(), themis::utils::logErrorWithContext(), dump().
+ */
 void SAGALogger::appendJsonLine(const std::string& path, const nlohmann::json& j) {
     std::ofstream ofs(path, std::ios::app | std::ios::binary);
     if (!ofs) {
@@ -285,6 +328,10 @@ void SAGALogger::appendJsonLine(const std::string& path, const nlohmann::json& j
     }
 }
 
+/**
+ * @brief Sign And Flush Batch.
+ * @details Calls: empty(), generateBatchId(), std::chrono::system_clock::now(), nlohmann::json::array(), time_since_epoch(), count(), push_back(), dump().
+ */
 void SAGALogger::signAndFlushBatch() {
     if (buffer_.empty()) {
       return;
@@ -373,6 +420,12 @@ void SAGALogger::signAndFlushBatch() {
     batch_start_time_ = std::chrono::system_clock::now();
 }
 
+/**
+ * @brief Verify Batch.
+ * @param[in] batch_id Input parameter.
+ * @return True on success.
+ * @details Calls: sig_file(), std::getline(), nlohmann::json::parse(), is_discarded(), is_object(), contains(), is_string(), SignedBatch::fromJson().
+ */
 bool SAGALogger::verifyBatch(const std::string& batch_id) {
     // 1. Load signature metadata
     std::ifstream sig_file(cfg_.signature_path);
@@ -461,6 +514,12 @@ bool SAGALogger::verifyBatch(const std::string& batch_id) {
     return true;
 }
 
+/**
+ * @brief Load Batch.
+ * @param[in] batch_id Input parameter.
+ * @return Return value.
+ * @details Calls: verifyBatch(), log_file(), sig_file(), std::getline(), nlohmann::json::parse(), is_discarded(), is_object(), contains().
+ */
 std::vector<SAGAStep> SAGALogger::loadBatch(const std::string& batch_id) {
     if (!verifyBatch(batch_id)) {
         return {}; // Verification failed
@@ -571,6 +630,12 @@ std::string SAGALogCompactor::archivePath() const {
     return archive_path_;
 }
 
+/**
+ * @brief Compact.
+ * @param[in] before_txn_id Input parameter.
+ * @return Return value.
+ * @details Calls: ifs(), std::getline(), empty(), nlohmann::json::parse(), is_discarded(), is_object(), push_back(), contains().
+ */
 size_t SAGALogCompactor::compact(const std::string& before_txn_id) {
     // Read all lines from the WAL and separate into two buckets:
     //   completed  — saga_id < before_txn_id AND status == "success"
@@ -654,6 +719,12 @@ SAGALogReplayer::SAGALogReplayer(const SAGALoggerConfig& cfg)
     : cfg_(cfg)
 {}
 
+/**
+ * @brief Replay incomplete.
+ * @param[in] handler Input parameter.
+ * @return Return value.
+ * @details Calls: ifs(), std::getline(), empty(), nlohmann::json::parse(), is_discarded(), is_object(), contains(), is_string().
+ */
 size_t SAGALogReplayer::replay_incomplete(RecoveryHandler handler) {
     // Scan the WAL for steps where action == "compensate" and
     // status == "pending".  These represent compensation steps that were
@@ -715,6 +786,11 @@ size_t SAGALogReplayer::replay_incomplete(RecoveryHandler handler) {
     return replayed;
 }
 
+/**
+ * @brief Log Error Context.
+ * @param[in] ctx Input parameter.
+ * @details Calls: toJSON().
+ */
 void SAGALogger::logErrorContext(const ErrorContext& ctx) {
     // Phase 2.3: Log error context to stderr to avoid recursion
     // when normal logging fails during buffer overflow or flush failures

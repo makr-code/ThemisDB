@@ -55,9 +55,6 @@ namespace analytics {
 // Value type
 // ============================================================================
 
-/**
- * A field value in a change record.
- */
 using FieldValue = std::variant<
     std::nullptr_t,  // null
     bool,
@@ -87,22 +84,12 @@ enum class ViewAggFunc {
 // Change record
 // ============================================================================
 
-/**
- * Type of change in a CDC event.
- */
 enum class ChangeType {
     INSERT,
     UPDATE,   ///< requires both before_row and after_row
     DELETE
 };
 
-/**
- * A single data-change record for CDC-based view maintenance.
- *
- * For INSERT:  after_row contains the new row, before_row is empty.
- * For DELETE:  before_row contains the deleted row, after_row is empty.
- * For UPDATE:  before_row is the old state, after_row the new state.
- */
 struct ChangeRecord {
     using Row = std::unordered_map<std::string, FieldValue>;
 
@@ -117,18 +104,12 @@ struct ChangeRecord {
 // View definition
 // ============================================================================
 
-/**
- * Aggregate specification within a view.
- */
 struct ViewAggSpec {
     std::string output_name;   ///< Name in query result
     ViewAggFunc func;
     std::string source_field;  ///< Source field in base rows (empty → COUNT(*))
 };
 
-/**
- * Base filter condition for the view.
- */
 struct ViewFilter {
     enum class Op { EQ, NE, LT, LE, GT, GE, IS_NULL, IS_NOT_NULL };
     std::string field;
@@ -136,23 +117,16 @@ struct ViewFilter {
     FieldValue value;
 };
 
-/**
- * Defines what an IncrementalView computes.
- */
 struct ViewDefinition {
     std::string name;
     std::string source_collection;
 
-    /// Dimensions for GROUP BY
     std::vector<std::string> dimensions;
 
-    /// Aggregations
     std::vector<ViewAggSpec> aggregations;
 
-    /// Optional base filter (applied to each change record before maintenance)
     std::vector<ViewFilter> base_filters;
 
-    /// Staleness threshold in seconds (0 = never stale based on time)
     int64_t staleness_seconds = 0;
 };
 
@@ -160,19 +134,11 @@ struct ViewDefinition {
 // View result row
 // ============================================================================
 
-/**
- * One row in a view query result.
- * `group_key` maps dimension names → their string-serialized values.
- * `values` maps aggregation output names → results.
- */
 struct ViewRow {
     std::unordered_map<std::string, std::string> group_key;
     std::unordered_map<std::string, FieldValue>  values;
 };
 
-/**
- * Query result from an IncrementalView.
- */
 struct ViewQueryResult {
     std::vector<ViewRow>   rows;
     int64_t                total_rows = 0;
@@ -184,22 +150,13 @@ struct ViewQueryResult {
 // IncrementalView
 // ============================================================================
 
-/**
- * A single incrementally maintained materialized view.
- *
- * The view maintains per-group aggregate states that are updated in O(1) per
- * change, avoiding full re-computation.
- *
- * MIN/MAX use a sorted multiset to correctly handle removals.
- * STDDEV/VARIANCE use Welford's online algorithm.
- * COUNT_DISTINCT tracks unique string representations.
- * FIRST/LAST are maintained per insertion order.
- *
- * Thread-safety: ingest/applyChange is serialized via a writer mutex;
- * query() uses a shared (reader) lock.
- */
 class IncrementalView {
 public:
+    /**
+     * @brief Incremental View.
+     * @param[in] def Input parameter.
+     * @return Return value.
+     */
     explicit IncrementalView(const ViewDefinition& def);
     ~IncrementalView();
 
@@ -208,67 +165,52 @@ public:
     IncrementalView& operator=(const IncrementalView&) = delete;
 
     /**
-     * Apply a single change record to this view.
-     * Thread-safe.
-     *
-     * @return true  if the record was applied (passed base filters).
-     * @return false if the record was filtered out or belongs to a different
-     *               collection.
+     * @brief Apply Change.
+     * @param[in] change Input parameter.
+     * @return True when the operation succeeds.
      */
     bool applyChange(const ChangeRecord& change);
 
     /**
-     * Apply a batch of change records.
-     * Thread-safe. Processes changes in micro-batches (≤ 256 rows) to allow
-     * concurrent readers to acquire the shared lock between batches.
-     * Base filters are evaluated outside the write lock.
+     * @brief Apply Changes.
+     * @param[in] changes Input parameter.
+     * @return Return value.
      */
     int applyChanges(const std::vector<ChangeRecord>& changes);
 
-    /**
-     * Query the current view state.
-     *
-     * @param filters  Additional runtime filters on dimension values.
-     * @param limit    Maximum rows to return (0 = all).
-     * @param offset   Row offset for pagination.
-     */
     ViewQueryResult query(
         const std::vector<ViewFilter>& filters = {},
         int64_t limit  = 0,
         int64_t offset = 0
     ) const;
 
-    /**
-     * Get the view definition.
-     */
     const ViewDefinition& definition() const { return def_; }
 
     /**
-     * Discard all aggregated state. After this, the view is empty.
+     * @brief Clear.
      */
     void clear();
 
     /**
-     * Number of groups currently tracked.
+     * @brief Group Count.
+     * @return Return value.
      */
     int64_t groupCount() const;
 
-    /**
-     * True if the view has been modified since it was last marked fresh.
-     */
     bool isDirty() const { return dirty_.load(); }
 
     /**
-     * True if staleness_seconds > 0 and the last update was more than
-     * staleness_seconds ago.
+     * @brief Is Stale.
+     * @return True when the operation succeeds.
      */
     bool isStale() const;
 
-    /**
-     * Total number of changes applied (monotonically increasing).
-     */
     uint64_t changeCount() const { return change_count_.load(); }
 
+    /**
+     * @brief Last Update Time.
+     * @return Return value.
+     */
     std::chrono::system_clock::time_point lastUpdateTime() const;
 
 private:
@@ -295,10 +237,18 @@ private:
         FieldValue last_val{nullptr};
         bool       has_first = false;
 
-        /// Add a field value contribution (+1 add, -1 remove).
+        /**
+         * @brief Add.
+         * @param[in] v Input parameter.
+         * @param[in] sign Input parameter.
+         */
         void add(const FieldValue& v, int sign);
 
-        /// Compute result for a given function.
+        /**
+         * @brief Result.
+         * @param[in] func Input parameter.
+         * @return Return value.
+         */
         FieldValue result(ViewAggFunc func) const;
     };
 
@@ -312,12 +262,31 @@ private:
     std::atomic<int64_t>  last_update_us_{0};
 
     // Internal helpers
+    /**
+     * @brief Make Group Key.
+     * @param[in] row Input parameter.
+     * @return Return value.
+     */
     GroupKey makeGroupKey(const ChangeRecord::Row& row) const;
     std::unordered_map<std::string, std::string> parseGroupKey(const GroupKey& gk) const;
+    /**
+     * @brief Passes Base Filters.
+     * @param[in] row Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool passesBaseFilters(const ChangeRecord::Row& row) const;
     bool passesRuntimeFilters(const std::unordered_map<std::string, std::string>& gk,
                                const std::vector<ViewFilter>& filters) const;
+    /**
+     * @brief Apply Row.
+     * @param[in] row Input parameter.
+     * @param[in] sign Input parameter.
+     */
     void applyRow(const ChangeRecord::Row& row, int sign);
+    /**
+     * @brief Prune Empty Group.
+     * @param[in] gk Input parameter.
+     */
     void pruneEmptyGroup(const GroupKey& gk);
 };
 
@@ -325,78 +294,57 @@ private:
 // IncrementalViewManager
 // ============================================================================
 
-/**
- * Registry and dispatcher for multiple IncrementalViews.
- *
- * Usage:
- * @code
- *   IncrementalViewManager mgr;
- *
- *   ViewDefinition def;
- *   def.name = "sales_by_region";
- *   def.source_collection = "sales";
- *   def.dimensions = {"region", "product"};
- *   def.aggregations = {
- *       {"total",  ViewAggFunc::SUM,   "amount"},
- *       {"orders", ViewAggFunc::COUNT, ""}
- *   };
- *   mgr.createView(def);
- *
- *   // On INSERT from CDC:
- *   ChangeRecord rec;
- *   rec.type = ChangeType::INSERT;
- *   rec.collection = "sales";
- *   rec.after_row = {{"region","EU"}, {"product","X"}, {"amount",99.9}};
- *   mgr.applyChange(rec);
- *
- *   // Query:
- *   auto result = mgr.query("sales_by_region");
- * @endcode
- */
 class IncrementalViewManager {
 public:
     IncrementalViewManager();
     ~IncrementalViewManager();
 
     /**
-     * Register a new incremental view.
-     * @return false if a view with the same name already exists.
+     * @brief Create View.
+     * @param[in] def Input parameter.
+     * @return True when the operation succeeds.
      */
     bool createView(const ViewDefinition& def);
 
     /**
-     * Remove a view by name.
+     * @brief Drop View.
+     * @param[in] name Input parameter.
+     * @return True when the operation succeeds.
      */
     bool dropView(const std::string& name);
 
     /**
-     * Check if a view exists.
+     * @brief Has View.
+     * @param[in] name Input parameter.
+     * @return True when the operation succeeds.
      */
     bool hasView(const std::string& name) const;
 
     /**
-     * Get a view by name.
+     * @brief Get View.
+     * @param[in] name Input parameter.
+     * @return Return value.
      */
     std::shared_ptr<IncrementalView> getView(const std::string& name) const;
 
     /**
-     * List all registered view names.
+     * @brief List Views.
+     * @return Return value.
      */
     std::vector<std::string> listViews() const;
 
     /**
-     * Apply a single change to all views that observe the change's collection.
+     * @brief Apply Change.
+     * @param[in] change Input parameter.
      */
     void applyChange(const ChangeRecord& change);
 
     /**
-     * Apply a batch of changes to all relevant views.
+     * @brief Apply Changes.
+     * @param[in] changes Input parameter.
      */
     void applyChanges(const std::vector<ChangeRecord>& changes);
 
-    /**
-     * Query a view by name. Returns empty result if not found.
-     */
     ViewQueryResult query(
         const std::string& view_name,
         const std::vector<ViewFilter>& filters = {},
@@ -404,9 +352,6 @@ public:
         int64_t offset = 0
     ) const;
 
-    /**
-     * Total changes applied across all views (since creation).
-     */
     uint64_t totalChanges() const { return total_changes_.load(); }
 
 private:
@@ -420,12 +365,17 @@ private:
 // ============================================================================
 
 /**
- * Convert a FieldValue to a human-readable string.
+ * @brief Field Value To Str.
+ * @param[in] v Input parameter.
+ * @return Return value.
  */
 std::string fieldValueToStr(const FieldValue& v);
 
 /**
- * Convert ViewAggFunc to string.
+ * @brief View Agg Func To String.
+ * @param[in] f Input parameter.
+ * @return Pointer to the result.
+ * @details Implements viewAggFuncToString without additional internal calls.
  */
 inline const char* viewAggFuncToString(ViewAggFunc f) {
     switch (f) {

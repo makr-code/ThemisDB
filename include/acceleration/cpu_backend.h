@@ -18,7 +18,6 @@ namespace themis {
 namespace acceleration {
 
 // CPU fallback implementation for vector operations
-/** @brief CPU fallback implementation for vector operations. */
 class CPUVectorBackend : public IVectorBackend {
 public:
     CPUVectorBackend() = default;
@@ -73,13 +72,25 @@ public:
     ANNKernelDispatch populateANNDispatch() const override;
     
 protected:
-    // Allow derived classes to call these helper methods
+    /**
+     * @brief Allow derived classes to call these helper methods
+     * @param[in] a Input parameter.
+     * @param[in] b Input parameter.
+     * @param[in] dim Input parameter.
+     * @return Return value.
+     */
     float computeL2Distance(const float* a, const float* b, size_t dim) const;
+    /**
+     * @brief Compute Cosine Distance.
+     * @param[in] a Input parameter.
+     * @param[in] b Input parameter.
+     * @param[in] dim Input parameter.
+     * @return Return value.
+     */
     float computeCosineDistance(const float* a, const float* b, size_t dim) const;
 };
 
 // CPU fallback implementation for graph operations
-/** @brief CPU fallback implementation for graph operations. */
 class CPUGraphBackend : public IGraphBackend {
 public:
     CPUGraphBackend() = default;
@@ -129,7 +140,6 @@ public:
 };
 
 // CPU fallback implementation for geo operations
-/** @brief CPU fallback implementation for geo operations. */
 class CPUGeoBackend : public IGeoBackend {
 public:
     CPUGeoBackend() = default;
@@ -180,13 +190,28 @@ public:
     GeoKernelDispatch populateGeoDispatch() const override;
 
 protected:
+    /**
+     * @brief Haversine Distance.
+     * @param[in] lat1 Input parameter.
+     * @param[in] lon1 Input parameter.
+     * @param[in] lat2 Input parameter.
+     * @param[in] lon2 Input parameter.
+     * @return Return value.
+     */
     double haversineDistance(double lat1, double lon1, double lat2, double lon2) const;
+    /**
+     * @brief Vincenty Distance.
+     * @param[in] lat1 Input parameter.
+     * @param[in] lon1 Input parameter.
+     * @param[in] lat2 Input parameter.
+     * @param[in] lon2 Input parameter.
+     * @return Return value.
+     */
     double vincentyDistance(double lat1, double lon1, double lat2, double lon2) const;
 };
 
 // CPU fallback implementation for FP16/BF16 matrix operations.
 // On CPU all precisions are executed as FP32.
-/** @brief On CPU all precisions are executed as FP32. */
 class CPUMatrixBackend : public IMatrixBackend {
 public:
     CPUMatrixBackend() = default;

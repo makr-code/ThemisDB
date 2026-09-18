@@ -38,10 +38,6 @@ namespace themis::governance {
 // Event Schema and Correlation
 // ============================================================================
 
-/**
- * @enum OperationalEventType
- * @brief Classification of operational events
- */
 enum class OperationalEventType : int32_t {
     // Policy evaluation events
     POLICY_EVALUATION_PERMIT      = 5010,  // Policy evaluation: permit
@@ -76,10 +72,6 @@ enum class OperationalEventType : int32_t {
     EVIDENCE_COLLECTED            = 5062,  // Evidence collected
 };
 
-/**
- * @struct OperationalEvent
- * @brief Structured operational event for audit logging
- */
 struct THEMIS_SECURITY_API OperationalEvent {
     // Identifiers and timing
     std::string event_id;                     // Unique event identifier (UUID)
@@ -120,20 +112,19 @@ struct THEMIS_SECURITY_API OperationalEvent {
     std::vector<std::string> evidence_ids;    // IDs of collected evidence items
     
     /**
-     * @brief Serialize to JSON
+     * @brief To Json.
+     * @return Return value.
      */
     nlohmann::json toJson() const;
     
     /**
-     * @brief Deserialize from JSON
+     * @brief From Json.
+     * @param[in] j Input parameter.
+     * @return Return value.
      */
     static OperationalEvent fromJson(const nlohmann::json& j);
 };
 
-/**
- * @struct ComplianceEvidence
- * @brief Evidence collected for compliance demonstrations
- */
 struct THEMIS_SECURITY_API ComplianceEvidence {
     std::string evidence_id;                  // Unique evidence identifier
     std::string requirement_id;               // Associated compliance requirement
@@ -158,12 +149,15 @@ struct THEMIS_SECURITY_API ComplianceEvidence {
     bool is_retained = true;                  // Whether to retain long-term
     
     /**
-     * @brief Serialize to JSON
+     * @brief To Json.
+     * @return Return value.
      */
     nlohmann::json toJson() const;
     
     /**
-     * @brief Deserialize from JSON
+     * @brief From Json.
+     * @param[in] j Input parameter.
+     * @return Return value.
      */
     static ComplianceEvidence fromJson(const nlohmann::json& j);
 };
@@ -172,23 +166,8 @@ struct THEMIS_SECURITY_API ComplianceEvidence {
 // Event Logging and Correlation
 // ============================================================================
 
-/**
- * @class OperationalAuditLogger
- * @brief Thread-safe operational event logging with correlation tracking
- * 
- * Records all governance operations with:
- * - Structured event schema
- * - Correlation IDs for related events
- * - Causality tracking (parent/child relationships)
- * - Performance overhead monitoring (<5% target)
- * - Compliance evidence collection
- */
 class THEMIS_SECURITY_API OperationalAuditLogger {
 public:
-    /**
-     * @brief Create audit logger
-     * @param max_events Maximum events to retain in memory (default: 100,000)
-     */
     explicit OperationalAuditLogger(size_t max_events = 100000);
     ~OperationalAuditLogger();
     
@@ -199,28 +178,12 @@ public:
     OperationalAuditLogger& operator=(OperationalAuditLogger&&) = delete;
     
     /**
-     * @brief Log an operational event
-     * 
-     * Thread-safe. Automatically populates event_id, timestamp_ms, and
-     * sequence_number if not already set.
-     * 
-     * @param event Event to log
-     * @return The logged event (with auto-populated fields)
+     * @brief Log Event.
+     * @param[in] event Input parameter.
+     * @return Return value.
      */
     OperationalEvent logEvent(const OperationalEvent& event);
     
-    /**
-     * @brief Log a policy evaluation event
-     * 
-     * Convenience method for policy evaluation decisions.
-     * 
-     * @param correlation_id Correlation ID for related events
-     * @param policy_id Policy being evaluated
-     * @param decision "permit" or "deny"
-     * @param actor_id User performing evaluation
-     * @param context Additional context
-     * @return The logged event
-     */
     OperationalEvent logPolicyEvaluation(
         const std::string& correlation_id,
         const std::string& policy_id,
@@ -229,16 +192,6 @@ public:
         const std::unordered_map<std::string, std::string>& context = {}
     );
     
-    /**
-     * @brief Log a compliance check event
-     * 
-     * @param correlation_id Correlation ID
-     * @param check_name Name of compliance check
-     * @param result "pass" or "fail"
-     * @param actor_id User performing check
-     * @param context Additional context
-     * @return The logged event
-     */
     OperationalEvent logComplianceCheck(
         const std::string& correlation_id,
         const std::string& check_name,
@@ -247,17 +200,6 @@ public:
         const std::unordered_map<std::string, std::string>& context = {}
     );
     
-    /**
-     * @brief Log a data governance operation
-     * 
-     * @param correlation_id Correlation ID
-     * @param operation_name Name of operation (e.g., "data_masking", "lineage_update")
-     * @param resource_id Resource being operated on
-     * @param success true if successful
-     * @param actor_id Actor performing operation
-     * @param context Additional context
-     * @return The logged event
-     */
     OperationalEvent logDataGovernanceOp(
         const std::string& correlation_id,
         const std::string& operation_name,
@@ -267,16 +209,6 @@ public:
         const std::unordered_map<std::string, std::string>& context = {}
     );
     
-    /**
-     * @brief Log a policy lifecycle event
-     * 
-     * @param correlation_id Correlation ID
-     * @param policy_id Policy being operated on
-     * @param lifecycle_event "create", "update", "delete", "activate", "deprecate"
-     * @param actor_id Actor performing operation
-     * @param context Additional context
-     * @return The logged event
-     */
     OperationalEvent logPolicyLifecycle(
         const std::string& correlation_id,
         const std::string& policy_id,
@@ -286,10 +218,9 @@ public:
     );
     
     /**
-     * @brief Link a parent event to a child event (for causality tracking)
-     * 
-     * @param parent_event_id Event that triggered the child event
-     * @param child_event_id Event that was triggered
+     * @brief Link Causality Relationship.
+     * @param[in] parent_event_id Identifier of the parent event.
+     * @param[in] child_event_id Identifier of the child event.
      */
     void linkCausalityRelationship(
         const std::string& parent_event_id,
@@ -297,33 +228,21 @@ public:
     );
     
     /**
-     * @brief Get event by ID
-     * 
-     * @param event_id Event identifier
-     * @return Event if found, nullopt otherwise
+     * @brief Get Event By Id.
+     * @param[in] event_id Identifier of the event.
+     * @return Return value.
      */
     std::optional<OperationalEvent> getEventById(const std::string& event_id) const;
     
     /**
-     * @brief Query events by correlation ID
-     * 
-     * Returns all events in a correlation group.
-     * 
-     * @param correlation_id Correlation ID
-     * @return Vector of events (ordered by sequence number)
+     * @brief Query Events By Correlation Id.
+     * @param[in] correlation_id Identifier of the correlation.
+     * @return Return value.
      */
     std::vector<OperationalEvent> queryEventsByCorrelationId(
         const std::string& correlation_id
     ) const;
     
-    /**
-     * @brief Query events in time range
-     * 
-     * @param start_ms Start time (Unix milliseconds, 0 = no lower bound)
-     * @param end_ms End time (Unix milliseconds, 0 = no upper bound)
-     * @param event_type Optional: filter by event type
-     * @return Matching events (ordered by timestamp)
-     */
     std::vector<OperationalEvent> queryEventsByTimeRange(
         int64_t start_ms,
         int64_t end_ms,
@@ -331,66 +250,50 @@ public:
     ) const;
     
     /**
-     * @brief Query events by actor
-     * 
-     * @param actor_id Actor ID to query
-     * @return Events performed by actor (ordered by timestamp, most recent first)
+     * @brief Query Events By Actor.
+     * @param[in] actor_id Identifier of the actor.
+     * @return Return value.
      */
     std::vector<OperationalEvent> queryEventsByActor(
         const std::string& actor_id
     ) const;
     
     /**
-     * @brief Query events by module
-     * 
-     * @param module_name Module name (e.g., "policy_engine")
-     * @return Events from module (ordered by timestamp)
+     * @brief Query Events By Module.
+     * @param[in] module_name Name of the module.
+     * @return Return value.
      */
     std::vector<OperationalEvent> queryEventsByModule(
         const std::string& module_name
     ) const;
     
     /**
-     * @brief Query events by resource
-     * 
-     * @param resource_id Resource ID
-     * @return Events affecting resource (ordered by timestamp)
+     * @brief Query Events By Resource.
+     * @param[in] resource_id Identifier of the resource.
+     * @return Return value.
      */
     std::vector<OperationalEvent> queryEventsByResource(
         const std::string& resource_id
     ) const;
     
     /**
-     * @brief Get causality chain for an event
-     * 
-     * Returns parent event, grandparent, etc. leading up to this event.
-     * 
-     * @param event_id Event to trace
-     * @return Vector of events in causality chain (most recent to oldest)
+     * @brief Get Causality Chain.
+     * @param[in] event_id Identifier of the event.
+     * @return Return value.
      */
     std::vector<OperationalEvent> getCausalityChain(
         const std::string& event_id
     ) const;
     
     /**
-     * @brief Get events triggered by a parent event
-     * 
-     * @param parent_event_id Parent event ID
-     * @return All events where causality_parent_id == parent_event_id
+     * @brief Get Triggered Events.
+     * @param[in] parent_event_id Identifier of the parent event.
+     * @return Return value.
      */
     std::vector<OperationalEvent> getTriggeredEvents(
         const std::string& parent_event_id
     ) const;
     
-    /**
-     * @brief Export events as JSON
-     * 
-     * @param start_ms Optional: filter by start time
-     * @param end_ms Optional: filter by end time
-     * @param event_type Optional: filter by type
-     * @param compress Whether to compress output (default: false)
-     * @return JSON array of events
-     */
     nlohmann::json exportEvents(
         int64_t start_ms = 0,
         int64_t end_ms = 0,
@@ -399,26 +302,25 @@ public:
     ) const;
     
     /**
-     * @brief Get event statistics
-     * 
-     * @return JSON with event counts by type, module, result, etc.
+     * @brief Get Event Statistics.
+     * @return Return value.
      */
     nlohmann::json getEventStatistics() const;
     
     /**
-     * @brief Get performance metrics
-     * 
-     * @return JSON with logging overhead, latencies, etc.
+     * @brief Get Performance Metrics.
+     * @return Return value.
      */
     nlohmann::json getPerformanceMetrics() const;
     
     /**
-     * @brief Get total event count
+     * @brief Get Total Event Count.
+     * @return Return value.
      */
     size_t getTotalEventCount() const;
     
     /**
-     * @brief Clear all logged events (for testing)
+     * @brief Clear.
      */
     void clear();
 
@@ -439,12 +341,14 @@ private:
     std::unordered_map<std::string, std::vector<std::string>> causality_map_;
     
     /**
-     * @brief Generate unique event ID (UUID)
+     * @brief Generate Event Id.
+     * @return Return value.
      */
     std::string generateEventId() const;
     
     /**
-     * @brief Get next sequence number
+     * @brief Get Next Sequence Number.
+     * @return Return value.
      */
     int64_t getNextSequenceNumber() const;
 };
@@ -453,10 +357,6 @@ private:
 // Event Correlation and Aggregation
 // ============================================================================
 
-/**
- * @struct CorrelationGroup
- * @brief Group of correlated events
- */
 struct THEMIS_SECURITY_API CorrelationGroup {
     std::string correlation_id;               // Correlation ID for this group
     int64_t created_at_ms = 0;               // When group was created
@@ -465,27 +365,18 @@ struct THEMIS_SECURITY_API CorrelationGroup {
     std::vector<std::string> causality_chain; // Causality ordering
     
     /**
-     * @brief Serialize to JSON
+     * @brief To Json.
+     * @return Return value.
      */
     nlohmann::json toJson() const;
 };
 
-/**
- * @class EventCorrelationEngine
- * @brief Links related events across modules and time boundaries
- * 
- * Features:
- * - Automatic correlation ID propagation
- * - Causality tracking (which event triggered which)
- * - Time-range correlation queries
- * - Event aggregation and batching
- * - Performance-optimized correlation lookup
- */
 class THEMIS_SECURITY_API EventCorrelationEngine {
 public:
     /**
-     * @brief Create correlation engine
-     * @param audit_logger Audit logger to correlate
+     * @brief Event Correlation Engine.
+     * @param[in] audit_logger Input parameter.
+     * @return Return value.
      */
     explicit EventCorrelationEngine(
         std::shared_ptr<OperationalAuditLogger> audit_logger
@@ -497,14 +388,6 @@ public:
     EventCorrelationEngine(const EventCorrelationEngine&) = delete;
     EventCorrelationEngine& operator=(const EventCorrelationEngine&) = delete;
     
-    /**
-     * @brief Create new correlation group
-     * 
-     * @param operation_name Name of operation being tracked
-     * @param actor_id Actor performing operation
-     * @param initial_context Optional context
-     * @return Correlation ID for new group
-     */
     std::string createCorrelation(
         const std::string& operation_name,
         const std::string& actor_id,
@@ -512,23 +395,19 @@ public:
     );
     
     /**
-     * @brief Get correlation group
-     * 
-     * @param correlation_id Correlation ID
-     * @return CorrelationGroup if found
+     * @brief Get Correlation Group.
+     * @param[in] correlation_id Identifier of the correlation.
+     * @return Return value.
      */
     std::optional<CorrelationGroup> getCorrelationGroup(
         const std::string& correlation_id
     ) const;
     
     /**
-     * @brief Query correlations by time range
-     * 
-     * Returns all correlation groups that had activity in the time range.
-     * 
-     * @param start_ms Start time (Unix milliseconds)
-     * @param end_ms End time (Unix milliseconds)
-     * @return Matching correlation groups
+     * @brief Query Correlations By Time Range.
+     * @param[in] start_ms Input parameter.
+     * @param[in] end_ms Input parameter.
+     * @return Return value.
      */
     std::vector<CorrelationGroup> queryCorrelationsByTimeRange(
         int64_t start_ms,
@@ -536,36 +415,27 @@ public:
     ) const;
     
     /**
-     * @brief Query correlations by actor
-     * 
-     * @param actor_id Actor ID
-     * @return Correlation groups initiated by actor
+     * @brief Query Correlations By Actor.
+     * @param[in] actor_id Identifier of the actor.
+     * @return Return value.
      */
     std::vector<CorrelationGroup> queryCorrelationsByActor(
         const std::string& actor_id
     ) const;
     
     /**
-     * @brief Get correlation latency (time from first to last event)
-     * 
-     * @param correlation_id Correlation ID
-     * @return Latency in milliseconds, 0 if not found
+     * @brief Get Correlation Latency.
+     * @param[in] correlation_id Identifier of the correlation.
+     * @return Return value.
      */
     int64_t getCorrelationLatency(const std::string& correlation_id) const;
     
     /**
-     * @brief Get statistics on correlation latencies
-     * 
-     * @return JSON with p50, p95, p99 latencies
+     * @brief Get Correlation Latency Stats.
+     * @return Return value.
      */
     nlohmann::json getCorrelationLatencyStats() const;
     
-    /**
-     * @brief Export correlation data
-     * 
-     * @param correlation_id Optional: export single correlation
-     * @return JSON export
-     */
     nlohmann::json exportCorrelations(
         const std::optional<std::string>& correlation_id = std::nullopt
     ) const;
@@ -584,7 +454,8 @@ private:
     std::vector<std::pair<int64_t, std::string>> timeline_;
     
     /**
-     * @brief Generate correlation ID (UUID)
+     * @brief Generate Correlation Id.
+     * @return Return value.
      */
     std::string generateCorrelationId() const;
 };
@@ -593,22 +464,12 @@ private:
 // Compliance Evidence Collection
 // ============================================================================
 
-/**
- * @class ComplianceEvidenceCollector
- * @brief Automated evidence collection for compliance demonstrations
- * 
- * Features:
- * - Links evidence to compliance requirements (EU AI Act, SOC 2, ISO 27001)
- * - Automated evidence collection from operational events
- * - Evidence fingerprinting for integrity verification
- * - Evidence retention policy enforcement
- * - Export for regulatory audits
- */
 class THEMIS_SECURITY_API ComplianceEvidenceCollector {
 public:
     /**
-     * @brief Create evidence collector
-     * @param audit_logger Audit logger to collect evidence from
+     * @brief Compliance Evidence Collector.
+     * @param[in] audit_logger Input parameter.
+     * @return Return value.
      */
     explicit ComplianceEvidenceCollector(
         std::shared_ptr<OperationalAuditLogger> audit_logger
@@ -620,17 +481,6 @@ public:
     ComplianceEvidenceCollector(const ComplianceEvidenceCollector&) = delete;
     ComplianceEvidenceCollector& operator=(const ComplianceEvidenceCollector&) = delete;
     
-    /**
-     * @brief Collect evidence for a compliance requirement
-     * 
-     * Automatically collects evidence from related events based on
-     * compliance requirement type.
-     * 
-     * @param requirement Compliance requirement (e.g., "EU_AI_ACT_13", "SOC2_CC7.2")
-     * @param actor_id Actor initiating collection
-     * @param context Optional additional context
-     * @return Collected evidence items
-     */
     std::vector<ComplianceEvidence> collectEvidence(
         const std::string& requirement,
         const std::string& actor_id,
@@ -638,18 +488,16 @@ public:
     );
     
     /**
-     * @brief Record manually collected evidence
-     * 
-     * @param evidence Evidence item to record
-     * @return The recorded evidence (with auto-populated fields)
+     * @brief Record Evidence.
+     * @param[in] evidence Input parameter.
+     * @return Return value.
      */
     ComplianceEvidence recordEvidence(const ComplianceEvidence& evidence);
     
     /**
-     * @brief Link evidence to an event
-     * 
-     * @param evidence_id Evidence ID
-     * @param event_id Event ID to link
+     * @brief Link Evidence To Event.
+     * @param[in] evidence_id Identifier of the evidence.
+     * @param[in] event_id Identifier of the event.
      */
     void linkEvidenceToEvent(
         const std::string& evidence_id,
@@ -657,10 +505,9 @@ public:
     );
     
     /**
-     * @brief Link evidence to multiple events
-     * 
-     * @param evidence_id Evidence ID
-     * @param event_ids Event IDs to link
+     * @brief Link Evidence To Events.
+     * @param[in] evidence_id Identifier of the evidence.
+     * @param[in] event_ids Input parameter.
      */
     void linkEvidenceToEvents(
         const std::string& evidence_id,
@@ -668,79 +515,58 @@ public:
     );
     
     /**
-     * @brief Get evidence by requirement
-     * 
-     * @param requirement Compliance requirement
-     * @return Evidence items for this requirement
+     * @brief Get Evidence By Requirement.
+     * @param[in] requirement Input parameter.
+     * @return Return value.
      */
     std::vector<ComplianceEvidence> getEvidenceByRequirement(
         const std::string& requirement
     ) const;
     
     /**
-     * @brief Get evidence by event
-     * 
-     * @param event_id Event ID
-     * @return Evidence items linked to this event
+     * @brief Get Evidence By Event.
+     * @param[in] event_id Identifier of the event.
+     * @return Return value.
      */
     std::vector<ComplianceEvidence> getEvidenceByEvent(
         const std::string& event_id
     ) const;
     
     /**
-     * @brief Get evidence by time range
-     * 
-     * @param start_ms Start time (Unix milliseconds)
-     * @param end_ms End time (Unix milliseconds)
-     * @return Evidence items collected in range
+     * @brief Get Evidence By Time Range.
+     * @param[in] start_ms Input parameter.
+     * @param[in] end_ms Input parameter.
+     * @return Return value.
      */
     std::vector<ComplianceEvidence> getEvidenceByTimeRange(
         int64_t start_ms,
         int64_t end_ms
     ) const;
     
-    /**
-     * @brief Export evidence for audit
-     * 
-     * Returns evidence in structured format suitable for regulatory submission.
-     * 
-     * @param requirement Optional: filter by requirement
-     * @param start_ms Optional: filter by start time
-     * @param end_ms Optional: filter by end time
-     * @return JSON export
-     */
     nlohmann::json exportEvidenceForAudit(
         const std::optional<std::string>& requirement = std::nullopt,
         int64_t start_ms = 0,
         int64_t end_ms = 0
     ) const;
     
-    /**
-     * @brief Generate evidence report
-     * 
-     * Creates compliance report with summary of evidence collected.
-     * 
-     * @param requirements Optional: specific requirements to report on
-     * @return JSON report
-     */
     nlohmann::json generateEvidenceReport(
         const std::vector<std::string>& requirements = {}
     ) const;
     
     /**
-     * @brief Get evidence statistics
-     * 
-     * @return JSON with counts by requirement, retention status, etc.
+     * @brief Get Evidence Statistics.
+     * @return Return value.
      */
     nlohmann::json getEvidenceStatistics() const;
     
     /**
-     * @brief Get total evidence count
+     * @brief Get Total Evidence Count.
+     * @return Return value.
      */
     size_t getTotalEvidenceCount() const;
     
     /**
-     * @brief Clear all evidence (for testing)
+     * @brief Clear.
      */
     void clear();
 
@@ -756,28 +582,34 @@ private:
     std::unordered_map<std::string, std::vector<std::string>> requirement_evidence_map_;
     
     /**
-     * @brief Generate evidence ID (UUID)
+     * @brief Generate Evidence Id.
+     * @return Return value.
      */
     std::string generateEvidenceId() const;
     
     /**
-     * @brief Compute fingerprint of evidence for integrity
+     * @brief Compute Evidence Fingerprint.
+     * @param[in] content Input parameter.
+     * @return Return value.
      */
     std::string computeEvidenceFingerprint(const std::string& content) const;
 };
 
 /**
- * @brief Get process-global operational audit logger
+ * @brief Get Global Audit Logger.
+ * @return Return value.
  */
 THEMIS_SECURITY_API OperationalAuditLogger& getGlobalAuditLogger();
 
 /**
- * @brief Get process-global event correlation engine
+ * @brief Get Global Correlation Engine.
+ * @return Return value.
  */
 THEMIS_SECURITY_API EventCorrelationEngine& getGlobalCorrelationEngine();
 
 /**
- * @brief Get process-global evidence collector
+ * @brief Get Global Evidence Collector.
+ * @return Return value.
  */
 THEMIS_SECURITY_API ComplianceEvidenceCollector& getGlobalEvidenceCollector();
 

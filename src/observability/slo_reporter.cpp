@@ -59,19 +59,38 @@ SloReporter::SloReporter() : SloReporter(Config{}) {}
 SloReporter::SloReporter(const Config& config) : config_(config) {}
 SloReporter::~SloReporter() = default;
 
-// ---------------------------------------------------------------------------
-// registerSlo / record
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- registerSlo / record ---------------------------------------------------------------------------
+ * @param[in] slo Input parameter.
+ * @details Calls: lk().
+ */
 
 void SloReporter::registerSlo(const SloDefinition& slo) {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     SloState& state = slos_[slo.name];
     state.def = slo;
     // Preserve existing samples when replacing a definition.
 }
 
+/**
+ * @brief Record.
+ * @param[in] slo_name Input parameter.
+ * @param[in] good_request Input parameter.
+ * @param[in] timestamp Input parameter.
+ * @details Calls: lk(), find(), end(), push_back(), size(), pop_front().
+ */
 void SloReporter::record(const std::string& slo_name, bool good_request,
                           std::chrono::system_clock::time_point timestamp) {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     auto it = slos_.find(slo_name);
     if (it == slos_.end()) return;  // unknown SLO – silently ignored
@@ -90,6 +109,11 @@ void SloReporter::record(const std::string& slo_name, bool good_request,
 // ---------------------------------------------------------------------------
 
 SloStatus SloReporter::getStatus(const std::string& slo_name) const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     auto it = slos_.find(slo_name);
     if (it == slos_.end()) {
@@ -102,6 +126,11 @@ SloStatus SloReporter::getStatus(const std::string& slo_name) const {
 }
 
 std::vector<SloStatus> SloReporter::getAllStatuses() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     auto now = std::chrono::system_clock::now();
     std::vector<SloStatus> result = {};
@@ -195,16 +224,27 @@ json SloReporter::generateReportJson() const {
     };
 }
 
-// ---------------------------------------------------------------------------
-// clear / sloCount
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- clear / sloCount ---------------------------------------------------------------------------
+ * @details Calls: lk().
+ */
 
 void SloReporter::clear() {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     slos_.clear();
 }
 
 size_t SloReporter::sloCount() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return slos_.size();
 }
@@ -213,7 +253,12 @@ size_t SloReporter::sloCount() const {
 // Private helpers
 // ---------------------------------------------------------------------------
 
-/*static*/
+/**
+ * @brief static
+ * @param[in,out] state Input/output parameter.
+ * @param[in] now Input parameter.
+ * @details Calls: empty(), front(), pop_front().
+ */
 void SloReporter::expireSamples(SloState& state,
                                  std::chrono::system_clock::time_point now) {
     const auto cutoff = now - state.def.window;
@@ -222,7 +267,12 @@ void SloReporter::expireSamples(SloState& state,
     }
 }
 
-/*static*/
+/**
+ * @brief static
+ * @param[in] state Input parameter.
+ * @return Return value.
+ * @details Calls: size(), std::max(), std::chrono::system_clock::now(), std::chrono::hours(), burnRateMultiplier(), computeBurnRate(), burnRateSeverity(), std::setprecision().
+ */
 SloStatus SloReporter::computeStatus(const SloState& state) {
     SloStatus s;
     s.name      = state.def.name;

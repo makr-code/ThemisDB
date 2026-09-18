@@ -67,11 +67,6 @@
 namespace themis {
 namespace graphql {
 
-/**
- * @brief Audit log entry for GraphQL operations
- * 
- * Records important events for security, compliance, and debugging.
- */
 struct AuditLogEntry {
     enum class EventType {
         QueryExecution,
@@ -100,7 +95,10 @@ struct AuditLogEntry {
     std::unordered_map<std::string, std::string> metadata;
     
     /**
-     * @brief Convert event type to string
+     * @brief Event Type To String.
+     * @param[in] type Input parameter.
+     * @return Return value.
+     * @details Implements eventTypeToString without additional internal calls.
      */
     static std::string eventTypeToString(EventType type) {
         switch (type) {
@@ -116,9 +114,6 @@ struct AuditLogEntry {
         }
     }
     
-    /**
-     * @brief Convert to JSON string for logging
-     */
     std::string toJSON() const {
         std::ostringstream oss;
         oss << "{"
@@ -160,23 +155,14 @@ private:
     }
 };
 
-/**
- * @brief Audit logger for GraphQL operations
- * 
- * Provides structured logging for security and compliance.
- */
 class AuditLogger {
 public:
     using LogHandler = std::function<void(const AuditLogEntry&)>;
     
     /**
-     * @brief Log an audit entry
-     *
-     * Handlers are invoked outside the critical section: the handlers vector
-     * is copied under the lock (O(n) pointer copies), the lock is released,
-     * and then each handler is called. This prevents slow handlers (file I/O,
-     * network sinks, regex matching, etc.) from stalling concurrent API
-     * threads. The buffer append and statistics update remain lock-protected.
+     * @brief Log.
+     * @param[in] entry Input parameter.
+     * @details Calls: lock(), handler(), size(), erase(), begin(), push_back().
      */
     void log(const AuditLogEntry& entry) {
         // Copy handlers under lock so we can invoke them without holding it.
@@ -209,10 +195,9 @@ public:
     }
     
     /**
-     * @brief Register a log handler
-     * 
-     * Handlers are called for each log entry.
-     * Example: write to file, send to monitoring system, etc.
+     * @brief Add Handler.
+     * @param[in] handler Input parameter.
+     * @details Calls: lock(), push_back().
      */
     void addHandler(const LogHandler& handler) {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -220,7 +205,8 @@ public:
     }
     
     /**
-     * @brief Clear all handlers
+     * @brief Clear Handlers.
+     * @details Calls: lock(), clear().
      */
     void clearHandlers() {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -228,17 +214,9 @@ public:
     }
     
     /**
-     * @brief Register a file-backed audit log handler
-     *
-     * Creates a handler that appends newline-delimited JSON audit entries to
-     * @p path (JSONL format).  Entries are opened in append mode so that
-     * existing content is preserved across process restarts.  Calling this
-     * method is the programmatic equivalent of setting
-     * `persistence: {backend: file}` in `config/audit.yaml`.
-     *
-     * The returned handler captures a shared state object; ownership is
-     * transferred to the internal handlers list and the caller need not
-     * retain anything.
+     * @brief Add File Handler.
+     * @param[in] path Input parameter.
+     * @details Calls: addHandler(), lk(), ofs(), is_open(), toJSON().
      */
     void addFileHandler(const std::string& path) {
         // Shared state so the lambda captures by value without copying the path.
@@ -253,20 +231,24 @@ public:
         });
     }
     
-    /**
-     * @brief Get recent log entries
-     */
     std::vector<AuditLogEntry> getRecent(size_t count) const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         size_t start = buffer_.size() > count ? buffer_.size() - count : 0;
         return std::vector<AuditLogEntry>(buffer_.begin() + start, buffer_.end());
     }
     
-    /**
-     * @brief Search log entries by user ID
-     */
     std::vector<AuditLogEntry> searchByUser(const std::string& user_id) const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         std::vector<AuditLogEntry> results = {};
@@ -279,10 +261,12 @@ public:
         return results;
     }
     
-    /**
-     * @brief Search log entries by event type
-     */
     std::vector<AuditLogEntry> searchByEventType(AuditLogEntry::EventType type) const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         std::vector<AuditLogEntry> results = {};
@@ -296,7 +280,8 @@ public:
     }
     
     /**
-     * @brief Clear the buffer
+     * @brief Clear.
+     * @details Calls: lock().
      */
     void clear() {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -304,7 +289,9 @@ public:
     }
     
     /**
-     * @brief Set buffer capacity
+     * @brief Set Buffer Capacity.
+     * @param[in] capacity Input parameter.
+     * @details Calls: lock(), size(), erase(), begin().
      */
     void setBufferCapacity(size_t capacity) {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -316,9 +303,6 @@ public:
         }
     }
     
-    /**
-     * @brief Get audit statistics
-     */
     struct Stats {
         uint64_t total_entries = 0;
         uint64_t failure_entries = 0;
@@ -330,12 +314,19 @@ public:
     };
     
     Stats getStats() const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return stats_;
     }
     
     /**
-     * @brief Singleton instance
+     * @brief Instance.
+     * @return Return value.
+     * @details Implements instance without additional internal calls.
      */
     static AuditLogger& instance() {
         static AuditLogger instance;
@@ -352,36 +343,35 @@ private:
     Stats stats_;
 };
 
-/**
- * @brief Standalone file-backed audit log handler
- *
- * Appends newline-delimited JSON (JSONL) audit entries to a configurable
- * file path. Thread-safe: concurrent invocations are serialised by an
- * internal mutex. Registered automatically by `AuditLogger::addFileHandler()`
- * and by default when `config/audit.yaml` specifies `persistence: {backend: file}`.
- */
 class FileAuditLogHandler {
 public:
     /**
-     * @brief Construct a handler that writes to @p path.
-     *
-     * The file is opened in append mode on each write so that content
-     * survives process restarts and multiple handler instances for the same
-     * path do not conflict.
+     * @brief File Audit Log Handler.
+     * @param[in] path Input parameter.
+     * @return Return value.
      */
     explicit FileAuditLogHandler(const std::string& path)
         : path_(path) {}
 
-    /** Append @p entry as a JSON line to the configured file. */
     void operator()(const AuditLogEntry& entry) {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
+        /**
+         * @brief Ofs.
+         * @param[in] path_ Input parameter.
+         * @param[in] app Input parameter.
+         * @return Return value.
+         */
         std::ofstream ofs(path_, std::ios::app);
         if (ofs.is_open()) {
             ofs << entry.toJSON() << "\n";
         }
     }
 
-    /** Return the configured file path. */
     const std::string& path() const { return path_; }
 
 private:
@@ -389,9 +379,6 @@ private:
     mutable std::mutex mutex_;
 };
 
-/**
- * @brief Helper to create audit log entries
- */
 class AuditLogBuilder {
 public:
     AuditLogBuilder(AuditLogEntry::EventType type)
@@ -401,57 +388,122 @@ public:
         entry_.success = true;
     }
     
+    /**
+     * @brief Operation Name.
+     * @param[in] name Input parameter.
+     * @return Return value.
+     * @details Implements operationName without additional internal calls.
+     */
     AuditLogBuilder& operationName(const std::string& name) {
         entry_.operation_name = name;
         return *this;
     }
     
+    /**
+     * @brief Operation Type.
+     * @param[in] type Input parameter.
+     * @return Return value.
+     * @details Implements operationType without additional internal calls.
+     */
     AuditLogBuilder& operationType(const std::string& type) {
         entry_.operation_type = type;
         return *this;
     }
     
+    /**
+     * @brief User.
+     * @param[in] user_id Identifier of the user.
+     * @return Return value.
+     * @details Implements user without additional internal calls.
+     */
     AuditLogBuilder& user(const std::string& user_id) {
         entry_.user_id = user_id;
         return *this;
     }
     
+    /**
+     * @brief Tenant.
+     * @param[in] tenant_id Identifier of the tenant.
+     * @return Return value.
+     * @details Implements tenant without additional internal calls.
+     */
     AuditLogBuilder& tenant(const std::string& tenant_id) {
         entry_.tenant_id = tenant_id;
         return *this;
     }
     
+    /**
+     * @brief Ip Address.
+     * @param[in] ip Input parameter.
+     * @return Return value.
+     * @details Implements ipAddress without additional internal calls.
+     */
     AuditLogBuilder& ipAddress(const std::string& ip) {
         entry_.ip_address = ip;
         return *this;
     }
     
+    /**
+     * @brief Success.
+     * @param[in] succeeded Input parameter.
+     * @return Return value.
+     * @details Implements success without additional internal calls.
+     */
     AuditLogBuilder& success(bool succeeded) {
         entry_.success = succeeded;
         return *this;
     }
     
+    /**
+     * @brief Error.
+     * @param[in] error_msg Input parameter.
+     * @return Return value.
+     * @details Implements error without additional internal calls.
+     */
     AuditLogBuilder& error(const std::string& error_msg) {
         entry_.error_message = error_msg;
         entry_.success = false;
         return *this;
     }
     
+    /**
+     * @brief Query Hash.
+     * @param[in] hash Input parameter.
+     * @return Return value.
+     * @details Implements queryHash without additional internal calls.
+     */
     AuditLogBuilder& queryHash(const std::string& hash) {
         entry_.query_hash = hash;
         return *this;
     }
     
+    /**
+     * @brief Complexity.
+     * @param[in] complexity Input parameter.
+     * @return Return value.
+     * @details Implements complexity without additional internal calls.
+     */
     AuditLogBuilder& complexity(size_t complexity) {
         entry_.query_complexity = complexity;
         return *this;
     }
     
+    /**
+     * @brief Metadata.
+     * @param[in] key Input parameter.
+     * @param[in] value Input parameter.
+     * @return Return value.
+     * @details Implements metadata without additional internal calls.
+     */
     AuditLogBuilder& metadata(const std::string& key, const std::string& value) {
         entry_.metadata[key] = value;
         return *this;
     }
     
+    /**
+     * @brief Log.
+     * @details Calls: AuditLogger::instance().
+     */
     void log() {
         AuditLogger::instance().log(entry_);
     }

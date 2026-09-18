@@ -25,18 +25,12 @@
 namespace themis {
 namespace analytics {
 
-/**
- * @brief OLAP Dimension for grouping
- */
 struct Dimension {
     std::string name;
     std::string expression;  // Optional expression for computed dimensions
     bool include_in_grouping = true;
 };
 
-/**
- * @brief OLAP Measure (aggregation)
- */
 struct Measure {
     enum class Function {
         Count,
@@ -58,6 +52,12 @@ struct Measure {
     Function function = Function::Sum;
     double percentile_value = 0.0;  // For percentile function
     
+    /**
+     * @brief Function Name.
+     * @param[in] f Input parameter.
+     * @return Return value.
+     * @details Implements functionName without additional internal calls.
+     */
     static std::string functionName(Function f) {
         switch (f) {
             case Function::Count: return "COUNT";
@@ -77,9 +77,6 @@ struct Measure {
     }
 };
 
-/**
- * @brief OLAP Filter condition
- */
 struct Filter {
     enum class Operator {
         Eq,
@@ -104,43 +101,28 @@ struct Filter {
     std::optional<std::variant<int64_t, double, std::string>> value2;  // For BETWEEN
 };
 
-/**
- * @brief OLAP Sort specification
- */
 struct Sort {
     std::string field;
     bool ascending = true;
     bool nulls_first = false;
 };
 
-/**
- * @brief CUBE operator result cell
- */
 struct CubeCell {
     std::unordered_map<std::string, std::optional<std::string>> dimensions;
     std::unordered_map<std::string, double> measures;
     int64_t grouping_id = 0;  // Bitmask indicating which dimensions are in subtotal
 };
 
-/**
- * @brief ROLLUP operator result row
- */
 struct RollupRow {
     std::vector<std::optional<std::string>> dimension_values;
     std::unordered_map<std::string, double> measures;
     int level = 0;  // 0 = detail, higher = subtotal level
 };
 
-/**
- * @brief Grouping set specification
- */
 struct GroupingSet {
     std::vector<std::string> dimensions;
 };
 
-/**
- * @brief OLAP Query specification
- */
 struct OLAPQuery {
     std::string collection;
     std::vector<Dimension> dimensions;
@@ -150,11 +132,6 @@ struct OLAPQuery {
     std::optional<int64_t> limit;
     std::optional<int64_t> offset;
 
-    /// Optional tenant identifier for multi-tenant deployments.
-    /// When non-empty, `DistributedAnalyticsSharding` enforces that every
-    /// registered shard belongs to (or is allowed for) this tenant before
-    /// dispatching the query.  Shard executors may also use this field to
-    /// scope their key-prefix access at the storage layer.
     std::string tenant_id;
     
     // Advanced grouping
@@ -179,9 +156,6 @@ struct OLAPQuery {
     std::vector<WindowSpec> windows;
 };
 
-/**
- * @brief OLAP Query Result
- */
 struct OLAPResult {
     struct Row {
         std::unordered_map<std::string, std::variant<std::nullptr_t, bool, int64_t, double, std::string>> values;
@@ -200,40 +174,6 @@ struct OLAPResult {
     std::unordered_map<std::string, double> grand_totals;
 };
 
-/**
- * @brief OLAP Query Engine
- * 
- * Provides analytical query capabilities including:
- * - Multi-dimensional aggregations
- * - CUBE and ROLLUP operators
- * - Window functions
- * - Columnar query optimization
- * - GPU-accelerated aggregations via CUDA/ROCm (when enabled)
- * 
- * Usage:
- * @code
- *   OLAPEngine engine;
- *   
- *   OLAPQuery query;
- *   query.collection = "sales";
- *   query.dimensions.push_back({"region", "", true});
- *   query.dimensions.push_back({"product", "", true});
- *   query.measures.push_back({"total_sales", "amount", Measure::Function::Sum});
- *   query.grouping_mode = OLAPQuery::GroupingMode::Cube;
- *   
- *   auto result = engine.execute(query);
- * @endcode
- * 
- * GPU-accelerated usage:
- * @code
- *   OLAPEngine::Config config;
- *   config.enable_gpu = true;
- *   config.gpu_device_id = 0;
- *   config.gpu_memory_limit = 8ULL * 1024 * 1024 * 1024;  // 8 GB
- *   OLAPEngine engine(config);
- *   auto result = engine.execute(query);  // Offloads to GPU for large datasets
- * @endcode
- */
 class OLAPEngine {
 public:
     using ExportToParquetFn = std::function<bool(const OLAPResult&,
@@ -244,32 +184,30 @@ public:
                                                            const std::vector<Filter>&,
                                                            const std::string&)>;
 
-    /**
-     * @brief GPU acceleration configuration for the OLAP engine.
-     */
     struct Config {
-        /// Enable GPU-accelerated aggregations (SUM, AVG, COUNT, MIN, MAX).
         bool enable_gpu = false;
-        /// GPU device index (0-based) to use when enable_gpu is true.
         int gpu_device_id = 0;
-        /// Maximum GPU memory budget in bytes.
         size_t gpu_memory_limit = 4ULL * 1024 * 1024 * 1024;  // 4 GB
-        /// Minimum row count per group before using the GPU path.
         size_t gpu_threshold_rows = 10'000;
-        /// Maximum number of OLAP query results to keep in the LRU result cache.
-        /// Set to 0 to disable caching entirely.
         size_t result_cache_max_entries = 1'000;
-        /// Time-to-live for cached OLAP results in milliseconds.
-        /// Entries older than this are evicted on next access.
-        /// Set to 0 for no TTL-based expiry (cache entries live until evicted by LRU).
         int64_t result_cache_ttl_ms = 60'000;  // 60 seconds
     };
 
     OLAPEngine();
+    /**
+     * @brief OLAPEngine.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit OLAPEngine(const Config& config);
     ~OLAPEngine();
     
     // Main query execution
+    /**
+     * @brief Execute.
+     * @param[in] query Input parameter.
+     * @return Return value.
+     */
     OLAPResult execute(const OLAPQuery& query);
     
     // Specialized operations
@@ -311,35 +249,26 @@ public:
         std::vector<std::string> optimization_notes;
     };
     
+    /**
+     * @brief Explain.
+     * @param[in] query Input parameter.
+     * @return Return value.
+     */
     QueryPlan explain(const OLAPQuery& query);
     
-    // Statistics collection for optimization
+    /**
+     * @brief Statistics collection for optimization
+     * @param[in] collection Input parameter.
+     */
     void collectStatistics(std::string_view collection);
     
     // v1.1.0: Parquet Export for Data Lake Integration
-    /**
-     * @brief Export OLAP query results to Parquet file
-     * 
-     * @param result The OLAP query result to export
-     * @param path Output path for Parquet file
-     * @param compression Compression codec (none, snappy, gzip, zstd)
-     * @return true if successful
-     */
     bool exportToParquet(
         const OLAPResult& result,
         const std::string& path,
         const std::string& compression = "snappy"
     );
     
-    /**
-     * @brief Export entire collection to Parquet (columnar format)
-     * 
-     * @param collection Collection name
-     * @param path Output path for Parquet file
-     * @param filters Optional filters to apply
-     * @param compression Compression codec
-     * @return true if successful
-     */
     bool exportCollectionToParquet(
         std::string_view collection,
         const std::string& path,
@@ -347,14 +276,42 @@ public:
         const std::string& compression = "snappy"
     );
 
+    /**
+     * @brief Set Export To Parquet Fn.
+     * @param[in] fn Input parameter.
+     */
     static void setExportToParquetFn(ExportToParquetFn fn);
+    /**
+     * @brief Set Export Collection To Parquet Fn.
+     * @param[in] fn Input parameter.
+     */
     static void setExportCollectionToParquetFn(ExportCollectionToParquetFn fn);
 
 private:
     // Internal helpers
+    /**
+     * @brief Execute Simple Group By.
+     * @param[in] query Input parameter.
+     * @return Return value.
+     */
     OLAPResult executeSimpleGroupBy(const OLAPQuery& query);
+    /**
+     * @brief Execute Cube Query.
+     * @param[in] query Input parameter.
+     * @return Return value.
+     */
     OLAPResult executeCubeQuery(const OLAPQuery& query);
+    /**
+     * @brief Execute Rollup Query.
+     * @param[in] query Input parameter.
+     * @return Return value.
+     */
     OLAPResult executeRollupQuery(const OLAPQuery& query);
+    /**
+     * @brief Execute Grouping Sets Query.
+     * @param[in] query Input parameter.
+     * @return Return value.
+     */
     OLAPResult executeGroupingSetsQuery(const OLAPQuery& query);
     
     // Aggregation helpers
@@ -368,20 +325,28 @@ private:
     std::unique_ptr<Impl> impl_;
 };
 
-/**
- * @brief Columnar data store for OLAP optimization
- * 
- * Provides column-oriented storage for faster analytical queries.
- * Supports compression and vectorized operations.
- */
 class ColumnarStore {
 public:
     ColumnarStore();
     ~ColumnarStore();
     
     // Column operations
+    /**
+     * @brief Create Column.
+     * @param[in] name Input parameter.
+     * @param[in] type Input parameter.
+     */
     void createColumn(std::string_view name, std::string_view type);
+    /**
+     * @brief Drop Column.
+     * @param[in] name Input parameter.
+     */
     void dropColumn(std::string_view name);
+    /**
+     * @brief Has Column.
+     * @param[in] name Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool hasColumn(std::string_view name) const;
     
     // Data operations
@@ -389,18 +354,61 @@ public:
         const std::vector<std::unordered_map<std::string, std::variant<std::nullptr_t, bool, int64_t, double, std::string>>>& rows
     );
     
+    /**
+     * @brief Clear.
+     */
     void clear();
+    /**
+     * @brief Row Count.
+     * @return Return value.
+     */
     size_t rowCount() const;
     
     // Aggregation (vectorized)
+    /**
+     * @brief Sum.
+     * @param[in] column Input parameter.
+     * @return Return value.
+     */
     double sum(std::string_view column) const;
+    /**
+     * @brief Avg.
+     * @param[in] column Input parameter.
+     * @return Return value.
+     */
     double avg(std::string_view column) const;
+    /**
+     * @brief Min.
+     * @param[in] column Input parameter.
+     * @return Return value.
+     */
     double min(std::string_view column) const;
+    /**
+     * @brief Max.
+     * @param[in] column Input parameter.
+     * @return Return value.
+     */
     double max(std::string_view column) const;
+    /**
+     * @brief Count.
+     * @param[in] column Input parameter.
+     * @return Return value.
+     */
     int64_t count(std::string_view column) const;
+    /**
+     * @brief Count Distinct.
+     * @param[in] column Input parameter.
+     * @return Return value.
+     */
     int64_t countDistinct(std::string_view column) const;
     
     // Filtered aggregation
+    /**
+     * @brief Sum Where.
+     * @param[in] column Input parameter.
+     * @param[in] mask Input parameter.
+     * @return Return value.
+     */
     double sumWhere(std::string_view column, const std::vector<bool>& mask) const;
     
     // Statistics for query optimization
@@ -415,6 +423,11 @@ public:
         double avg_value = 0;
     };
     
+    /**
+     * @brief Get Column Stats.
+     * @param[in] column Input parameter.
+     * @return Return value.
+     */
     ColumnStats getColumnStats(std::string_view column) const;
     
 private:
@@ -422,9 +435,6 @@ private:
     std::unique_ptr<Impl> impl_;
 };
 
-/**
- * @brief Materialized view for pre-computed aggregations
- */
 class MaterializedView {
 public:
     struct Definition {
@@ -450,6 +460,9 @@ public:
     const Definition& definition() const { return definition_; }
     
     // Refresh the view
+    /**
+     * @brief Refresh.
+     */
     void refresh();
     void incrementalRefresh(
         const std::vector<std::unordered_map<std::string, std::variant<std::nullptr_t, bool, int64_t, double, std::string>>>& changes
@@ -463,8 +476,20 @@ public:
     );
     
     // Metadata
+    /**
+     * @brief Last Refresh Time.
+     * @return Return value.
+     */
     std::chrono::system_clock::time_point lastRefreshTime() const;
+    /**
+     * @brief Row Count.
+     * @return Return value.
+     */
     int64_t rowCount() const;
+    /**
+     * @brief Is Stale.
+     * @return True when the operation succeeds.
+     */
     bool isStale() const;
     
 private:

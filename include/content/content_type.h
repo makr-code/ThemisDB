@@ -23,12 +23,6 @@ namespace content {
 
 using json = nlohmann::json;
 
-/**
- * @brief Content Type Categories
- * 
- * High-level classification of content types.
- * Each category has specific processing requirements.
- */
 enum class ContentCategory {
     TEXT,        // Documents, code, JSON, XML, etc.
     IMAGE,       // Photos, diagrams, screenshots
@@ -42,12 +36,6 @@ enum class ContentCategory {
     UNKNOWN
 };
 
-/**
- * @brief Content Type Definition
- * 
- * Describes a specific content type (e.g., "application/pdf", "image/jpeg").
- * Maps MIME types to processing strategies.
- */
 struct ContentType {
     std::string mime_type;           // IANA MIME type (e.g., "text/plain")
     ContentCategory category;         // High-level category
@@ -67,71 +55,79 @@ struct ContentType {
         bool multimodal = false;      // Multiple data types (e.g., video = audio + images)
     } features{};
     
+    /**
+     * @brief To Json.
+     * @return Return value.
+     */
     json toJson() const;
+    /**
+     * @brief From Json.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static ContentType fromJson(const json& j);
 };
 
-/**
- * @brief Content Type Registry
- * 
- * Central registry for all supported content types.
- * Pre-configured with common types, extensible via plugins.
- */
 class ContentTypeRegistry {
 public:
+    /**
+     * @brief Instance.
+     * @return Return value.
+     */
     static ContentTypeRegistry& instance();
     
     /**
-     * @brief Register a content type
+     * @brief Register Type.
+     * @param[in] type Input parameter.
      */
     void registerType(const ContentType& type);
     
     /**
-     * @brief Lookup content type by MIME type
-     * @return Optional containing ContentType if found, nullopt otherwise
+     * @brief Get By Mime Type.
+     * @param[in] mime_type Input parameter.
+     * @return Return value.
      */
     std::optional<ContentType> getByMimeType(const std::string& mime_type) const;
     
     /**
-     * @brief Lookup content type by file extension
-     * @return Optional containing ContentType if found, nullopt otherwise
+     * @brief Get By Extension.
+     * @param[in] extension Input parameter.
+     * @return Return value.
      */
     std::optional<ContentType> getByExtension(const std::string& extension) const;
     
     /**
-     * @brief Detect content type from blob (magic bytes)
-     * @return Optional containing ContentType if detected, nullopt otherwise
+     * @brief Detect From Blob.
+     * @param[in] blob Input parameter.
+     * @return Return value.
      */
     std::optional<ContentType> detectFromBlob(const std::string& blob) const;
     
     /**
-     * @brief Get all types in a category
+     * @brief Get By Category.
+     * @param[in] category Input parameter.
+     * @return Return value.
      */
     std::vector<const ContentType*> getByCategory(ContentCategory category) const;
     
     /**
-     * @brief List all registered types
+     * @brief Get All Types.
+     * @return Return value.
      */
     std::vector<const ContentType*> getAllTypes() const;
 
 private:
     ContentTypeRegistry();
+    /**
+     * @brief Register Default Types.
+     */
     void registerDefaultTypes();
     
     std::vector<ContentType> types_;
 };
 
 /**
- * @brief Initialize default content types
- * 
- * Pre-registers common types:
- * - TEXT: text/plain, text/markdown, text/html, application/json, text/x-python, etc.
- * - IMAGE: image/jpeg, image/png, image/svg+xml, image/tiff (GeoTIFF)
- * - AUDIO: audio/mpeg, audio/wav, audio/flac
- * - VIDEO: video/mp4, video/webm
- * - GEO: application/geo+json, application/vnd.geo+json, application/gpx+xml, image/tiff (GeoTIFF)
- * - CAD: model/step, model/iges, model/stl, application/dxf
- * - STRUCTURED: text/csv, application/vnd.apache.parquet, application/vnd.apache.arrow
+ * @brief Initialize Default Content Types.
  */
 void initializeDefaultContentTypes();
 

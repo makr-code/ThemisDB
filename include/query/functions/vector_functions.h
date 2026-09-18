@@ -25,28 +25,6 @@ namespace themis {
 namespace query {
 namespace functions {
 
-/**
- * @brief Vector/Embedding Functions for AQL
- * 
- * Provides functions for vector operations commonly used in:
- * - Machine Learning embeddings (BERT, OpenAI, etc.)
- * - Similarity search
- * - Recommendation systems
- * - Semantic search
- * 
- * ## Supported Operations
- * - Similarity: COSINE_SIMILARITY, EUCLIDEAN_DISTANCE, DOT_PRODUCT, MANHATTAN_DISTANCE
- * - Normalization: L2_NORMALIZE, MIN_MAX_NORMALIZE
- * - Aggregation: VECTOR_SUM, VECTOR_AVG, VECTOR_MEAN
- * - Operations: VECTOR_ADD, VECTOR_SUB, VECTOR_SCALE, VECTOR_DOT
- * - Search: SIMILARITY (top-k search), VECTOR_NEAREST
- * 
- * ## Vector Format
- * Vectors are represented as JSON arrays of numbers: [0.1, 0.2, 0.3, ...]
- * 
- * ## ArangoDB Compatibility
- * Compatible with ArangoDB's vector search functions
- */
 
 // ============================================================================
 // Helper Functions
@@ -54,7 +32,13 @@ namespace functions {
 
 namespace vector_helpers {
 
-// Validate that a JSON value is a numeric vector
+/**
+ * @brief Validate that a JSON value is a numeric vector.
+ * @param[in] vec JSON vector to validate.
+ * @param[in] funcName Function name used in error messages.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: is_array(), is_number().
+ */
 inline void validateVector(const nlohmann::json& vec, const std::string& funcName) {
     if (!vec.is_array()) {
         throw std::runtime_error(funcName + ": Expected vector (array of numbers)");
@@ -66,7 +50,14 @@ inline void validateVector(const nlohmann::json& vec, const std::string& funcNam
     }
 }
 
-// Validate two vectors have same dimension
+/**
+ * @brief Validate that two vectors have the same dimension.
+ * @param[in] v1 First vector.
+ * @param[in] v2 Second vector.
+ * @param[in] funcName Function name used in error messages.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: size().
+ */
 inline void validateSameDimension(const nlohmann::json& v1, const nlohmann::json& v2, 
                                    const std::string& funcName) {
     if (v1.size() != v2.size()) {
@@ -74,7 +65,12 @@ inline void validateSameDimension(const nlohmann::json& v1, const nlohmann::json
     }
 }
 
-// Convert JSON array to std::vector<double>
+/**
+ * @brief Convert a JSON array to std::vector<double>.
+ * @param[in] vec JSON array of numbers to convert.
+ * @return std::vector<double> containing the numeric values.
+ * @details Calls: reserve(), size(), push_back().
+ */
 inline std::vector<double> toVector(const nlohmann::json& vec) {
     std::vector<double> result = {};
 
@@ -85,7 +81,12 @@ inline std::vector<double> toVector(const nlohmann::json& vec) {
     return result;
 }
 
-// Convert std::vector<double> to JSON array
+/**
+ * @brief Convert std::vector<double> to a JSON array.
+ * @param[in] vec Vector to convert to JSON.
+ * @return JSON array containing the vector values.
+ * @details Calls: nlohmann::json::array(), push_back().
+ */
 inline nlohmann::json fromVector(const std::vector<double>& vec) {
     nlohmann::json result = nlohmann::json::array();
     for (double v : vec) {
@@ -94,7 +95,12 @@ inline nlohmann::json fromVector(const std::vector<double>& vec) {
     return result;
 }
 
-// L2 norm (Euclidean length)
+/**
+ * @brief Compute the L2 norm of a vector.
+ * @param[in] vec Vector whose magnitude is computed.
+ * @return Euclidean length of the vector.
+ * @details Calls: std::sqrt().
+ */
 inline double l2Norm(const std::vector<double>& vec) {
     double sum = 0.0;
     for (double v : vec) {
@@ -103,7 +109,13 @@ inline double l2Norm(const std::vector<double>& vec) {
     return std::sqrt(sum);
 }
 
-// Dot product
+/**
+ * @brief Compute the dot product of two vectors.
+ * @param[in] v1 First vector.
+ * @param[in] v2 Second vector.
+ * @return Dot product of the input vectors.
+ * @details Calls: size().
+ */
 inline double dotProduct(const std::vector<double>& v1, const std::vector<double>& v2) {
     double sum = 0.0;
     for (size_t i = 0; i < v1.size(); ++i) {
@@ -118,10 +130,6 @@ inline double dotProduct(const std::vector<double>& v1, const std::vector<double
 // Similarity Functions
 // ============================================================================
 
-/**
- * @brief COSINE_SIMILARITY(vec1, vec2) - Cosine similarity between vectors
- * Returns: Value between -1 and 1 (1 = identical direction)
- */
 class CosineSimilarityFunction : public IFunction {
 public:
     ~CosineSimilarityFunction() override = default;
@@ -162,9 +170,6 @@ public:
     }
 };
 
-/**
- * @brief EUCLIDEAN_DISTANCE(vec1, vec2) - Euclidean (L2) distance
- */
 class EuclideanDistanceFunction : public IFunction {
 public:
     ~EuclideanDistanceFunction() override = default;
@@ -203,9 +208,6 @@ public:
     }
 };
 
-/**
- * @brief DOT_PRODUCT(vec1, vec2) - Dot product of two vectors
- */
 class DotProductFunction : public IFunction {
 public:
     ~DotProductFunction() override = default;
@@ -238,9 +240,6 @@ public:
     }
 };
 
-/**
- * @brief MANHATTAN_DISTANCE(vec1, vec2) - Manhattan (L1) distance
- */
 class ManhattanDistanceFunction : public IFunction {
 public:
     ~ManhattanDistanceFunction() override = default;
@@ -278,9 +277,6 @@ public:
     }
 };
 
-/**
- * @brief CHEBYSHEV_DISTANCE(vec1, vec2) - Chebyshev (L∞) distance
- */
 class ChebyshevDistanceFunction : public IFunction {
 public:
     ~ChebyshevDistanceFunction() override = default;
@@ -318,10 +314,6 @@ public:
     }
 };
 
-/**
- * @brief SIMILARITY(vec1, vec2, k) - Top-k similarity search helper
- * Note: In practice, this is used with an index. This is a placeholder.
- */
 class SimilarityFunction : public IFunction {
 public:
     ~SimilarityFunction() override = default;
@@ -369,9 +361,6 @@ public:
 // Normalization Functions
 // ============================================================================
 
-/**
- * @brief L2_NORMALIZE(vec) - Normalize vector to unit length
- */
 class L2NormalizeFunction : public IFunction {
 public:
     ~L2NormalizeFunction() override = default;
@@ -409,9 +398,6 @@ public:
     }
 };
 
-/**
- * @brief MIN_MAX_NORMALIZE(vec, min, max) - Scale vector to [0,1] range
- */
 class MinMaxNormalizeFunction : public IFunction {
 public:
     ~MinMaxNormalizeFunction() override = default;
@@ -464,9 +450,6 @@ public:
 // Vector Arithmetic Functions
 // ============================================================================
 
-/**
- * @brief VECTOR_ADD(vec1, vec2) - Element-wise addition
- */
 class VectorAddFunction : public IFunction {
 public:
     ~VectorAddFunction() override = default;
@@ -503,9 +486,6 @@ public:
     }
 };
 
-/**
- * @brief VECTOR_SUB(vec1, vec2) - Element-wise subtraction
- */
 class VectorSubFunction : public IFunction {
 public:
     ~VectorSubFunction() override = default;
@@ -542,9 +522,6 @@ public:
     }
 };
 
-/**
- * @brief VECTOR_MUL(vec1, vec2) - Element-wise multiplication (Hadamard product)
- */
 class VectorMulFunction : public IFunction {
 public:
     ~VectorMulFunction() override = default;
@@ -581,9 +558,6 @@ public:
     }
 };
 
-/**
- * @brief VECTOR_SCALE(vec, scalar) - Scale vector by scalar
- */
 class VectorScaleFunction : public IFunction {
 public:
     ~VectorScaleFunction() override = default;
@@ -622,9 +596,6 @@ public:
 // Aggregation Functions
 // ============================================================================
 
-/**
- * @brief VECTOR_SUM(vec) - Sum of all vector elements
- */
 class VectorSumFunction : public IFunction {
 public:
     ~VectorSumFunction() override = default;
@@ -652,9 +623,6 @@ public:
     }
 };
 
-/**
- * @brief VECTOR_AVG(vec) or VECTOR_MEAN(vec) - Average of vector elements
- */
 class VectorAvgFunction : public IFunction {
 public:
     ~VectorAvgFunction() override = default;
@@ -687,9 +655,6 @@ public:
     }
 };
 
-/**
- * @brief VECTOR_NORM(vec, p) - Lp norm of vector
- */
 class VectorNormFunction : public IFunction {
 public:
     ~VectorNormFunction() override = default;
@@ -733,9 +698,6 @@ public:
     }
 };
 
-/**
- * @brief VECTOR_DIM(vec) - Dimensionality of vector
- */
 class VectorDimFunction : public IFunction {
 public:
     ~VectorDimFunction() override = default;
@@ -761,9 +723,6 @@ public:
     }
 };
 
-/**
- * @brief VECTOR_MIN(vec) - Minimum element in vector
- */
 class VectorMinFunction : public IFunction {
 public:
     ~VectorMinFunction() override = default;
@@ -795,9 +754,6 @@ public:
     }
 };
 
-/**
- * @brief VECTOR_MAX(vec) - Maximum element in vector
- */
 class VectorMaxFunction : public IFunction {
 public:
     ~VectorMaxFunction() override = default;
@@ -833,9 +789,6 @@ public:
 // Utility Functions
 // ============================================================================
 
-/**
- * @brief VECTOR_ZEROS(n) - Create zero vector
- */
 class VectorZerosFunction : public IFunction {
 public:
     ~VectorZerosFunction() override = default;
@@ -866,9 +819,6 @@ public:
     }
 };
 
-/**
- * @brief VECTOR_ONES(n) - Create vector of ones
- */
 class VectorOnesFunction : public IFunction {
 public:
     ~VectorOnesFunction() override = default;
@@ -899,9 +849,6 @@ public:
     }
 };
 
-/**
- * @brief VECTOR_RANDOM(n, min, max) - Create random vector
- */
 class VectorRandomFunction : public IFunction {
 public:
     ~VectorRandomFunction() override = default;
@@ -934,8 +881,19 @@ public:
         
         std::random_device rd = {};
         std::mt19937 gen(rd());
+        /**
+         * @brief Dis.
+         * @param[in] minVal Input parameter.
+         * @param[in] maxVal Input parameter.
+         * @return Return value.
+         */
         std::uniform_real_distribution<> dis(minVal, maxVal);
         
+        /**
+         * @brief Vec.
+         * @param[in] n Input parameter.
+         * @return Return value.
+         */
         std::vector<double> vec(n);
         for (int i = 0; i < n; ++i) {
             vec[i] = dis(gen);
@@ -945,9 +903,6 @@ public:
     }
 };
 
-/**
- * @brief VECTOR_SLICE(vec, start, end) - Extract sub-vector
- */
 class VectorSliceFunction : public IFunction {
 public:
     ~VectorSliceFunction() override = default;
@@ -1001,9 +956,6 @@ public:
     }
 };
 
-/**
- * @brief VECTOR_CONCAT(vec1, vec2, ...) - Concatenate vectors
- */
 class VectorConcatFunction : public IFunction {
 public:
     ~VectorConcatFunction() override = default;
@@ -1044,12 +996,11 @@ public:
     }
 };
 
-// ============================================================================
-// Registration Function
-// ============================================================================
 
 /**
- * @brief Register all Vector functions with the registry
+ * @brief Register Vector Functions.
+ * @param[in,out] registry Input/output parameter.
+ * @details Calls: registerFunction().
  */
 inline void registerVectorFunctions(FunctionRegistry& registry) {
     // Similarity

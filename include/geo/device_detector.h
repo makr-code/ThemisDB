@@ -20,27 +20,11 @@
 namespace themis {
 namespace geo {
 
-/**
- * @brief Minimum compute capability (major.minor) required for geo CUDA kernels.
- *
- * CUDA devices below compute capability 5.0 lack atomic operations and
- * warp-shuffle instructions relied upon by the geo distance/containment kernels.
- */
 constexpr int kGeoMinComputeMajor = 5;
 constexpr int kGeoMinComputeMinor = 0;
 
-/**
- * @brief Minimum VRAM (bytes) required to run the geo GPU backend.
- *
- * The geo batch kernels allocate point arrays and result buffers; 128 MiB is
- * the practical minimum for a 65 536-element batch.
- */
 constexpr uint64_t kGeoMinVramBytes = 128ULL * 1024ULL * 1024ULL; // 128 MiB
 
-/**
- * @brief Capability assessment for a single GPU device from the geo module's
- *        perspective.
- */
 struct GeoDeviceCapability {
     themis::gpu::DeviceInfo device;   ///< Underlying device information
 
@@ -51,112 +35,90 @@ struct GeoDeviceCapability {
     std::string reason; ///< Human-readable explanation when suitable_for_geo == false
 };
 
-/**
- * @brief Detect and report GPU devices available for the geo module.
- *
- * Wraps themis::gpu::DeviceDiscovery with geo-specific capability checks so
- * that the GPU backend and the admin / observability layer can determine
- * device suitability without duplicating logic.
- *
- * All methods are static and stateless — thread-safe to call concurrently.
- */
 class GeoDeviceDetector {
 public:
     using EnumerateFn = std::function<std::vector<themis::gpu::DeviceInfo>()>;
 
     /**
-     * @brief Enumerate all devices and assess their geo capability.
-     *
-     * Calls DeviceDiscovery::Enumerate() and evaluates each device against
-     * the geo compute-capability and VRAM thresholds.  Always returns at
-     * least one entry (CPU_FALLBACK sentinel) so callers never receive an
-     * empty list.
+     * @brief Detect.
+     * @return Return value.
      */
     static std::vector<GeoDeviceCapability> Detect();
 
     /**
-     * @brief Return the best device suited for geo GPU operations.
-     *
-     * Selects the suitable device with the most free VRAM.  Returns the
-     * CPU_FALLBACK sentinel capability when no suitable GPU device is present.
-     *
-     * @param capabilities  List produced by Detect() (avoids re-enumeration).
+     * @brief Best Device.
+     * @param[in] capabilities Input parameter.
+     * @return Return value.
      */
     static GeoDeviceCapability BestDevice(
         const std::vector<GeoDeviceCapability>& capabilities);
 
     /**
-     * @brief Convenience overload: detect then pick the best device.
+     * @brief Best Device.
+     * @return Return value.
      */
     static GeoDeviceCapability BestDevice();
 
     /**
-     * @brief True when at least one device suitable for geo operations exists.
-     *
-     * @param capabilities  List produced by Detect() (avoids re-enumeration).
+     * @brief Has Suitable Device.
+     * @param[in] capabilities Input parameter.
+     * @return True when the operation succeeds.
      */
     static bool HasSuitableDevice(
         const std::vector<GeoDeviceCapability>& capabilities);
 
     /**
-     * @brief Convenience overload: detect then check.
+     * @brief Has Suitable Device.
+     * @return True when the operation succeeds.
      */
     static bool HasSuitableDevice();
 
     /**
-     * @brief Assess a single DeviceInfo against geo requirements.
-     *
-     * Useful for unit testing individual device records without invoking the
-     * full discovery path.
+     * @brief Assess.
+     * @param[in] device Input parameter.
+     * @return Return value.
      */
     static GeoDeviceCapability Assess(const themis::gpu::DeviceInfo& device);
 
     /**
-     * @brief Serialize the capability list to a JSON string for the admin API.
-     *
-     * The returned object has the shape:
-     * @code
-     * {
-     *   "has_suitable_device": <bool>,
-     *   "devices": [
-     *     {
-     *       "index": <int>,
-     *       "name": "<string>",
-     *       "backend": "<string>",
-     *       "total_vram_mb": <uint64>,
-     *       "free_vram_mb": <uint64>,
-     *       "compute_capability": "<major>.<minor>",
-     *       "is_healthy": <bool>,
-     *       "suitable_for_geo": <bool>,
-     *       "reason": "<string>"
-     *     },
-     *     ...
-     *   ]
-     * }
-     * @endcode
-     *
-     * @param capabilities  List produced by Detect() (avoids re-enumeration).
+     * @brief Report Json.
+     * @param[in] capabilities Input parameter.
+     * @return Return value.
      */
     static std::string ReportJson(
         const std::vector<GeoDeviceCapability>& capabilities);
 
     /**
-     * @brief Convenience overload: detect then serialise.
+     * @brief Report Json.
+     * @return Return value.
      */
     static std::string ReportJson();
 
-    /// Register a custom device enumeration bridge for CPU-only or test builds.
-    /// Thread-safe; pass an empty function to fall back to DeviceDiscovery::Enumerate().
+    /**
+     * @brief Set Enumerate Fn.
+     * @param[in] fn Input parameter.
+     * @details Calls: lk(), enumerateFnMutex(), enumerateFnStorage(), std::move().
+     */
     static void setEnumerateFn(EnumerateFn fn) {
         std::lock_guard<std::mutex> lk(enumerateFnMutex());
         enumerateFnStorage() = std::move(fn);
     }
 
 private:
+    /**
+     * @brief Enumerate Fn Mutex.
+     * @return Return value.
+     * @details Implements enumerateFnMutex without additional internal calls.
+     */
     static std::mutex& enumerateFnMutex() {
         static std::mutex m;
         return m;
     }
+    /**
+     * @brief Enumerate Fn Storage.
+     * @return Return value.
+     * @details Implements enumerateFnStorage without additional internal calls.
+     */
     static EnumerateFn& enumerateFnStorage() {
         static EnumerateFn fn;
         return fn;

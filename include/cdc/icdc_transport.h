@@ -32,48 +32,21 @@
 namespace themis {
 namespace cdc {
 
-/**
- * @brief Abstract transport interface for CDC change event delivery.
- *
- * Implemented by transport backends that forward ChangeEvent records to
- * external message systems (e.g. Kafka).
- *
- * Thread-safety: start()/stop() must not be called concurrently with each
- * other.  publish() may be called from a single producer thread while the
- * transport is running.
- */
 class ICDCTransport {
 public:
+    /**
+     * @brief ICDCTransport.
+     * @return Return value.
+     */
     virtual ~ICDCTransport() = default;
 
-    /**
-     * @brief Start the transport.
-     *
-     * Initialise any backend connections and begin background processing.
-     * Calling start() on an already-running transport is a no-op that returns
-     * true.
-     *
-     * @return true on success, false if initialisation failed.
-     */
     [[nodiscard]] virtual bool start() = 0;
 
     /**
-     * @brief Stop the transport.
-     *
-     * Flush pending events, terminate background threads, and release backend
-     * resources.  Calling stop() on an already-stopped transport is a no-op.
+     * @brief Stop.
      */
     virtual void stop() = 0;
 
-    /**
-     * @brief Publish a single change event to the transport backend.
-     *
-     * The call is non-blocking where possible; delivery confirmation is
-     * handled asynchronously by the concrete implementation.
-     *
-     * @param event  The change event to publish.
-     * @return true if the event was accepted for delivery, false on error.
-     */
     [[nodiscard]] virtual bool publish(const Changefeed::ChangeEvent& event) = 0;
 };
 

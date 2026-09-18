@@ -25,47 +25,22 @@ namespace themis {
 namespace core {
 namespace concerns {
 
-/**
- * @brief Zipkin tracing backend adapter implementing ITracer.
- *
- * Wraps the existing OpenTelemetry-based Tracer to target a Zipkin backend.
- * The underlying OTel SDK can export to Zipkin via its Zipkin exporter when
- * THEMIS_ENABLE_TRACING is defined; this adapter adds Zipkin-specific defaults
- * and handles both the B3 multi-header and B3 single-header propagation
- * formats used by Zipkin instrumented services.
- *
- * Default collector endpoint: http://localhost:9411/api/v2/spans
- *
- * Header propagation:
- *   - startSpanFromHeaders() recognises:
- *       1. W3C `traceparent` header (highest priority).
- *       2. B3 single header (`b3: {traceId}-{spanId}-{sampling}-{parentSpanId}`).
- *       3. B3 multi-headers (`X-B3-TraceId`, `X-B3-SpanId`, `X-B3-ParentSpanId`,
- *          `X-B3-Sampled`).
- *     The decoded IDs are attached as span attributes for UI correlation when
- *     full OTLP context propagation is not available.
- *   - injectContext() writes the W3C `traceparent` header plus both the B3
- *     single and multi headers so downstream services using any convention
- *     can continue the trace.
- *
- * A circuit breaker guards every span-export call so that a failing or
- * unreachable Zipkin instance does not block the critical path. When the
- * breaker is open, span creation degrades to no-op spans.
- */
 class ZipkinTracerAdapter : public ITracer {
 public:
-    /// Default Zipkin HTTP collector endpoint.
     static constexpr const char* kDefaultEndpoint = "http://localhost:9411/api/v2/spans";
 
-    /**
-     * @brief Configuration for the circuit breaker that guards Zipkin export.
-     */
     struct CircuitBreakerConfig {
         size_t failure_threshold = 5;
         std::chrono::seconds timeout = std::chrono::seconds(30);
         size_t success_threshold = 2;
     };
 
+    /**
+     * @brief Zipkin Tracer Adapter.
+     * @param[in] cb_config Input parameter.
+     * @return Return value.
+     * @details Implements ZipkinTracerAdapter without additional internal calls.
+     */
     explicit ZipkinTracerAdapter(const CircuitBreakerConfig& cb_config) {
         sharding::CircuitBreaker::Config cfg;
         cfg.failure_threshold = cb_config.failure_threshold;
@@ -74,16 +49,19 @@ public:
         circuit_breaker_ = std::make_unique<sharding::CircuitBreaker>(cfg);
     }
 
-    /// Construct with default circuit-breaker settings.
     ZipkinTracerAdapter() : ZipkinTracerAdapter(CircuitBreakerConfig{}) {}
 
     // -------------------------------------------------------------------------
     // ISpan adapter – delegates to themis::Tracer::Span
     // -------------------------------------------------------------------------
 
-    /** @brief ISpan adapter – delegates to themis::Tracer::Span. */
     class ZipkinSpanAdapter : public ISpan {
     public:
+        /**
+         * @brief Zipkin Span Adapter.
+         * @param[in] span Input parameter.
+         * @return Return value.
+         */
         explicit ZipkinSpanAdapter(themis::Tracer::Span span)
             : span_(std::move(span)) {}
 
@@ -114,6 +92,11 @@ public:
 
         ~ZipkinSpanAdapter() override { span_.end(); }
 
+        /**
+         * @brief Get Span.
+         * @return Return value.
+         * @details Implements getSpan without additional internal calls.
+         */
         themis::Tracer::Span& getSpan()             { return span_; }
         const themis::Tracer::Span& getSpan() const { return span_; }
 
@@ -154,17 +137,6 @@ public:
         return span_ptr;
     }
 
-    /**
-     * @brief Extract trace context from inbound headers and start a child span.
-     *
-    * Checks for headers in the following priority order:
-    *  1. W3C `traceparent` header (highest priority, handled by base Tracer).
-    *  2. B3 single header (`b3`).
-    *  3. B3 multi-headers (`X-B3-TraceId` / `X-B3-SpanId` / …).
-    *
-    * When B3 headers are detected the decoded IDs are attached as span
-    * attributes for Zipkin UI correlation. W3C Baggage is also extracted.
-     */
     std::unique_ptr<ISpan> startSpanFromHeaders(
             const std::string& name,
             const std::map<std::string, std::string>& carrier_headers) override {
@@ -222,14 +194,6 @@ public:
         return span_ptr;
     }
 
-    /**
-     * @brief Inject trace context into outgoing headers.
-     *
-    * Writes the W3C `traceparent` header, the B3 single header (`b3`), and
-    * B3 multi-headers (`X-B3-TraceId`, `X-B3-SpanId`, `X-B3-Sampled`) so
-    * downstream services using any of the three conventions can continue the
-    * trace. Also injects W3C Baggage when any items are present.
-     */
     void injectContext(std::map<std::string, std::string>& carrier_headers) override {
         std::string trace_id = themis::Tracer::getCurrentTraceId();
         std::string span_id  = themis::Tracer::getCurrentSpanId();
@@ -285,7 +249,6 @@ public:
         return ProbeResult::healthy();
     }
 
-    /// Expose circuit-breaker state for monitoring.
     sharding::CircuitBreaker::State circuitBreakerState() const {
         return circuit_breaker_->getState();
     }
@@ -298,7 +261,6 @@ private:
     // Helpers
     // -------------------------------------------------------------------------
 
-    /// Case-insensitive header lookup.
     static std::string headerValueCI(const std::map<std::string, std::string>& headers,
                                      const std::string& name) {
         auto it = headers.find(name);
@@ -325,13 +287,11 @@ private:
     };
 
     /**
-     * @brief Parse a B3 single-header value.
-     *
-     * Formats (per OpenZipkin B3 spec):
-     *   Deny:   `b3: 0`
-     *   Accept: `b3: {traceId}-{spanId}[-{sampling}[-{parentSpanId}]]`
-     *
-     * @return true if at least traceId and spanId were successfully parsed.
+     * @brief Parse B3 Single.
+     * @param[in] value Input parameter.
+     * @param[in,out] out Input/output parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: reserve(), find(), push_back(), substr(), size(), empty(), std::all_of(), begin().
      */
     static bool parseB3Single(const std::string& value, B3Ids& out) {
         // Reject sampling-deny shorthand.

@@ -35,15 +35,6 @@ namespace themis {
 namespace plugins {
 namespace ethics {
 
-/**
- * @brief Assembles the Ebene-3 MetaVerdict from Ebene-1/2 results.
- *
- * Inject a `LegalGrounding` via `setLegalGrounding()` before calling
- * `buildMetaVerdict()`.  When the Legal-DB is unavailable, pass a
- * `LegalGrounding` with `grounding_available = false`; no exception is thrown.
- *
- * @since LDM-4 (Target: Q2 2027)
- */
 class MetaVerdictBuilder {
 public:
     MetaVerdictBuilder()  = default;
@@ -56,33 +47,12 @@ public:
     MetaVerdictBuilder& operator=(MetaVerdictBuilder&&)      noexcept = default;
 
     /**
-     * @brief Set the legal-DB grounding to attach to every MetaVerdict.
-     *
-     * Pass `LegalGrounding{.grounding_available = false}` when the Legal-DB
-     * is offline.  The resulting MetaVerdict will have
-     * `legal_grounding.grounding_available = false` — this is observable but
-     * does not prevent MetaVerdict assembly.
-     *
-     * @param grounding  Legal-DB citation data (or unavailability flag).
+     * @brief Set Legal Grounding.
+     * @param[in] grounding Input parameter.
+     * @note Exception safety: noexcept.
      */
     void setLegalGrounding(LegalGrounding grounding) noexcept;
 
-    /**
-     * @brief Build a MetaVerdict from Ebene-1/2 results.
-     *
-     * @param ebene1_results    All N school outputs from Ebene-1.
-     * @param cluster_positions Per-cluster consolidated positions from Ebene-2
-     *                          (may be empty for LAYERED_FAST).
-     * @param legal_grounding   Legal-DB citation; `grounding_available=false`
-     *                          when Legal-DB is offline (no exception thrown).
-     * @param mode              Active discourse mode.
-     * @param mirror_dissent    Mirror-school outputs (always included in
-     *                          MetaVerdict::minority_dissent for audit).
-     * @return                  Assembled MetaVerdict.
-     *
-     * @note `participating_schools` in the returned MetaVerdict always
-     *       contains ALL N schools (incl. ABSTAIN) for EU AI Act Art. 13.
-     */
     [[nodiscard]] MetaVerdict buildMetaVerdict(
         const std::vector<DiscourseRoundOutput>& ebene1_results,
         const std::vector<ClusterPosition>&      cluster_positions,
@@ -93,12 +63,6 @@ public:
 private:
     LegalGrounding grounding_;
 
-    /**
-     * @brief Map a school_id to its cultural region.
-     *
-     * @param school_id  School identifier.
-     * @return           Cultural region string, e.g. "Western-European".
-     */
     [[nodiscard]] static std::string culturalRegion(
         const std::string& school_id) noexcept;
 };

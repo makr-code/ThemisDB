@@ -24,15 +24,6 @@
 
 namespace themis {
 
-/**
- * @brief Tracks query patterns to identify indexing opportunities
- * 
- * Thread-safe storage of query execution statistics:
- * - Field access frequency
- * - Filter predicates (equality, range, IN)
- * - Join conditions
- * - Query execution times
- */
 class QueryPatternTracker {
 public:
     struct QueryPattern {
@@ -48,22 +39,26 @@ public:
         int64_t cache_hits = 0;             // L3 cache hits for this pattern
         double avg_cache_miss_penalty_ms = 0.0;  // Average penalty from cache miss
         
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
+        /**
+         * @brief From Json.
+         * @param[in] j Input parameter.
+         * @return Return value.
+         */
         static QueryPattern fromJson(const nlohmann::json& j);
     };
     
+    /**
+     * @brief Query Pattern Tracker.
+     * @return Return value.
+     */
     explicit QueryPatternTracker();
     ~QueryPatternTracker() = default;
     
-    /**
-     * @brief Record a query pattern observation
-     * @param collection Collection/table name
-     * @param field Field name used in filter/join
-     * @param operation Type of operation (eq, range, in, join)
-     * @param execution_time_ms Query execution time
-     * @param cache_miss Optional: whether this query experienced cache miss
-     * @param cache_miss_penalty_ms Optional: penalty from cache miss
-     */
     void recordPattern(const std::string& collection,
                       const std::string& field,
                       const std::string& operation,
@@ -71,28 +66,18 @@ public:
                       bool cache_miss = false,
                       double cache_miss_penalty_ms = 0.0);
     
-    /**
-     * @brief Get all tracked patterns for a collection
-     * @param collection Collection name (empty = all collections)
-     * @return Vector of query patterns sorted by frequency
-     */
     std::vector<QueryPattern> getPatterns(const std::string& collection = "") const;
     
-    /**
-     * @brief Get top N most frequent patterns
-     * @param limit Maximum number of patterns to return
-     * @return Top patterns by count
-     */
     std::vector<QueryPattern> getTopPatterns(size_t limit = 10) const;
     
     /**
-     * @brief Clear all tracked patterns
+     * @brief Clear.
      */
     void clear();
     
     /**
-     * @brief Get total number of tracked patterns.
-     * @return Number of distinct query patterns currently tracked.
+     * @brief Size.
+     * @return Return value.
      */
     size_t size() const;
 
@@ -101,21 +86,24 @@ private:
     // Key: "collection:field:operation"
     std::map<std::string, QueryPattern> patterns_;
     
+    /**
+     * @brief Make Key.
+     * @param[in] collection Input parameter.
+     * @param[in] field Input parameter.
+     * @param[in] operation Input parameter.
+     * @return Return value.
+     */
     std::string makeKey(const std::string& collection,
                        const std::string& field,
                        const std::string& operation) const;
     
+    /**
+     * @brief Get Current Time Ms.
+     * @return Return value.
+     */
     int64_t getCurrentTimeMs() const;
 };
 
-/**
- * @brief Analyzes data selectivity to estimate index effectiveness
- * 
- * Performs sampling and statistics to determine:
- * - Cardinality (number of unique values)
- * - Distribution (uniform, skewed, sparse)
- * - Null ratio
- */
 class SelectivityAnalyzer {
 public:
     struct SelectivityStats {
@@ -131,41 +119,38 @@ public:
         double estimated_l3_cache_fit_ratio = 0.0;  // % of index that fits in L3 (20MB)
         double estimated_cache_miss_rate = 0.0;      // Estimated cache miss rate
         
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
+        /**
+         * @brief From Json.
+         * @param[in] j Input parameter.
+         * @return Return value.
+         */
         static SelectivityStats fromJson(const nlohmann::json& j);
     };
     
+    /**
+     * @brief Selectivity Analyzer.
+     * @param[in,out] db Input/output parameter.
+     * @return Return value.
+     */
     explicit SelectivityAnalyzer(rocksdb::TransactionDB* db);
     ~SelectivityAnalyzer() = default;
     
-    /**
-     * @brief Analyze selectivity of a field using sampling
-     * @param collection Collection name
-     * @param field Field name to analyze
-     * @param sample_size Number of documents to sample (0 = full scan)
-     * @return Selectivity statistics
-     */
     SelectivityStats analyze(const std::string& collection,
                             const std::string& field,
                             size_t sample_size = 1000);
     
     /**
-     * @brief Estimate index benefit score (0.0 - 1.0)
-     * @param stats Selectivity statistics
-     * @return Score where 1.0 = highly beneficial, 0.0 = not beneficial
+     * @brief Calculate Index Benefit.
+     * @param[in] stats Input parameter.
+     * @return Return value.
      */
     double calculateIndexBenefit(const SelectivityStats& stats) const;
     
-    /**
-     * @brief Calculate cache-aware selectivity (Phase 2)
-     * 
-     * Estimates how much of the index will fit in L3 cache (20MB)
-     * and adjusts selectivity score accordingly.
-     * 
-     * @param stats Selectivity statistics
-     * @param l3_cache_size_mb L3 cache size in MB (default: 20MB)
-     * @return Adjusted selectivity stats with cache metrics
-     */
     SelectivityStats analyzeCacheAware(const SelectivityStats& stats,
                                        size_t l3_cache_size_mb = 20) const;
 
@@ -176,9 +161,6 @@ private:
                                      int64_t total) const;
 };
 
-/**
- * @brief Generates index suggestions based on query patterns and selectivity
- */
 class IndexSuggestionEngine {
 public:
     struct IndexSuggestion {
@@ -193,38 +175,34 @@ public:
         int64_t queries_affected = 0;
         int64_t estimated_speedup_ms = 0;
         
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
+        /**
+         * @brief From Json.
+         * @param[in] j Input parameter.
+         * @return Return value.
+         */
         static IndexSuggestion fromJson(const nlohmann::json& j);
     };
     
+    /**
+     * @brief Index Suggestion Engine.
+     * @param[in,out] tracker Input/output parameter.
+     * @param[in,out] analyzer Input/output parameter.
+     * @return Return value.
+     */
     explicit IndexSuggestionEngine(QueryPatternTracker* tracker,
                                   SelectivityAnalyzer* analyzer);
     ~IndexSuggestionEngine() = default;
     
-    /**
-     * @brief Generate index suggestions
-     * @param collection Collection to analyze (empty = all collections)
-     * @param min_score Minimum score threshold (0.0 - 1.0)
-     * @param limit Maximum number of suggestions
-     * @return Suggestions sorted by score (descending)
-     */
     std::vector<IndexSuggestion> generateSuggestions(
         const std::string& collection = "",
         double min_score = 0.5,
         size_t limit = 10);
     
-    /**
-     * @brief Generate cache-aware index suggestions (Phase 2)
-     * 
-     * Analyzes query patterns and cache behavior to recommend indexes
-     * that maximize L3 cache utilization and minimize cache misses.
-     * 
-     * @param collection Collection to analyze (empty = all collections)
-     * @param target_cache_hit_rate Target cache hit rate (0.0 - 1.0, default: 0.70)
-     * @param min_score Minimum score threshold (0.0 - 1.0)
-     * @param limit Maximum number of suggestions
-     * @return Cache-aware suggestions sorted by score (descending)
-     */
     std::vector<IndexSuggestion> generateCacheAwareIndexes(
         const std::string& collection = "",
         float target_cache_hit_rate = 0.70f,
@@ -232,25 +210,25 @@ public:
         size_t limit = 10);
     
     /**
-     * @brief Check if an index already exists
-     * @param collection Collection name
-     * @param field Field name
-     * @return True if index exists
+     * @brief Index Exists.
+     * @param[in] collection Input parameter.
+     * @param[in] field Input parameter.
+     * @return True when the operation succeeds.
      */
     bool indexExists(const std::string& collection,
                     const std::string& field) const;
 
     /**
-     * @brief Register an existing index so it is excluded from suggestions
-     * @param collection Collection name
-     * @param field Field name
+     * @brief Register Index.
+     * @param[in] collection Input parameter.
+     * @param[in] field Input parameter.
      */
     void registerIndex(const std::string& collection, const std::string& field);
 
     /**
-     * @brief Unregister an existing index (e.g. after it has been dropped)
-     * @param collection Collection name
-     * @param field Field name
+     * @brief Unregister Index.
+     * @param[in] collection Input parameter.
+     * @param[in] field Input parameter.
      */
     void unregisterIndex(const std::string& collection, const std::string& field);
 
@@ -264,41 +242,71 @@ private:
     mutable std::shared_mutex existingIndexesMutex_;
     std::unordered_set<std::string> existingIndexes_;
     
+    /**
+     * @brief Calculate Score.
+     * @param[in] pattern Input parameter.
+     * @param[in] stats Input parameter.
+     * @return Return value.
+     */
     double calculateScore(const QueryPatternTracker::QueryPattern& pattern,
                          const SelectivityAnalyzer::SelectivityStats& stats) const;
     
+    /**
+     * @brief Recommend Index Type.
+     * @param[in] pattern Input parameter.
+     * @param[in] stats Input parameter.
+     * @return Return value.
+     */
     std::string recommendIndexType(const QueryPatternTracker::QueryPattern& pattern,
                                    const SelectivityAnalyzer::SelectivityStats& stats) const;
     
+    /**
+     * @brief Generate Reason.
+     * @param[in] pattern Input parameter.
+     * @param[in] stats Input parameter.
+     * @param[in] index_type Input parameter.
+     * @return Return value.
+     */
     std::string generateReason(const QueryPatternTracker::QueryPattern& pattern,
                               const SelectivityAnalyzer::SelectivityStats& stats,
                               const std::string& index_type) const;
 };
 
-/**
- * @brief Main facade for adaptive indexing functionality
- */
 class AdaptiveIndexManager {
 public:
+    /**
+     * @brief Adaptive Index Manager.
+     * @param[in,out] db Input/output parameter.
+     * @return Return value.
+     */
     explicit AdaptiveIndexManager(rocksdb::TransactionDB* db);
     ~AdaptiveIndexManager() = default;
     
     // Component access
+    /**
+     * @brief Get Pattern Tracker.
+     * @return Pointer to the result.
+     * @details Implements getPatternTracker without additional internal calls.
+     */
     QueryPatternTracker* getPatternTracker() { return &tracker_; }
+    /**
+     * @brief Get Selectivity Analyzer.
+     * @return Pointer to the result.
+     * @details Implements getSelectivityAnalyzer without additional internal calls.
+     */
     SelectivityAnalyzer* getSelectivityAnalyzer() { return &analyzer_; }
+    /**
+     * @brief Get Suggestion Engine.
+     * @return Pointer to the result.
+     * @details Implements getSuggestionEngine without additional internal calls.
+     */
     IndexSuggestionEngine* getSuggestionEngine() { return &engine_; }
     
-    /**
-     * @brief Get index suggestions (convenience method)
-     */
     std::vector<IndexSuggestionEngine::IndexSuggestion> getSuggestions(
         const std::string& collection = "",
         double min_score = 0.5,
         size_t limit = 10);
     
-    /**
-     * @brief Get query patterns (convenience method)
-     */
     std::vector<QueryPatternTracker::QueryPattern> getPatterns(
         const std::string& collection = "");
 

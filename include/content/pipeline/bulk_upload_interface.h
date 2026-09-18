@@ -23,38 +23,8 @@
 
 namespace themis::content::pipeline {
 
-/**
- * @brief Bulk upload interface for efficient content ingestion
- * 
- * This class provides a simplified, pipeline-specific interface for
- * batch content upload operations. It can be used as a facade or
- * integrated with ThemisDB's AsyncIngestionWorker for production use.
- * 
- * For production deployments, consider using AsyncIngestionWorker directly
- * (include/content/async_ingestion_worker.h) which provides:
- * - Multi-threaded processing with configurable worker pools
- * - Job queue management with priority support
- * - Advanced progress tracking and cancellation
- * - Archive extraction and batch file processing
- * 
- * This interface is designed for:
- * - Simple batch upload scenarios
- * - Testing and development
- * - Pipeline-specific upload patterns
- * - Integration point for custom upload strategies
- * 
- * Future enhancements:
- * - Integration adapter for AsyncIngestionWorker
- * - Resume capability for interrupted uploads
- * - Batch optimization and deduplication
- * - Multi-modal content handling
- * - Compaction strategies
- */
 class BulkUploadInterface {
 public:
-    /**
-     * @brief Status of an upload operation
-     */
     enum class UploadStatus {
         PENDING,
         IN_PROGRESS,
@@ -63,9 +33,6 @@ public:
         CANCELLED
     };
 
-    /**
-     * @brief Metadata for a content item
-     */
     struct ContentMetadata {
         std::string content_id;
         std::string content_type;
@@ -74,9 +41,6 @@ public:
         size_t chunk_count = 0;
     };
 
-    /**
-     * @brief Upload operation result
-     */
     struct UploadResult {
         UploadStatus status = UploadStatus::PENDING;
         std::string content_id = {};
@@ -84,68 +48,53 @@ public:
         size_t bytes_uploaded = 0;
     };
 
-    /**
-     * @brief Progress callback signature
-     */
     using ProgressCallback = std::function<void(const std::string& content_id,
                                                  size_t bytes_uploaded,
                                                  size_t total_bytes)>;
 
     BulkUploadInterface() = default;
+    /**
+     * @brief Bulk Upload Interface.
+     * @return Return value.
+     */
     virtual ~BulkUploadInterface() = default;
 
     /**
-     * @brief Upload a single content item
-     * 
-     * Simple implementation for basic use cases. For production with
-     * ContentManager integration, consider AsyncIngestionWorker.
-     * 
-     * @param content Content data to upload
-     * @param metadata Content metadata
-     * @return Upload result
+     * @brief Upload.
+     * @param[in] content Input parameter.
+     * @param[in] metadata Input parameter.
+     * @return Return value.
      */
     virtual UploadResult upload(const std::vector<uint8_t>& content,
                                 const ContentMetadata& metadata);
 
     /**
-     * @brief Upload multiple content items in batch
-     * 
-     * Simple sequential implementation. For parallel processing,
-     * use AsyncIngestionWorker with BATCH_FILES job type.
-     * 
-     * @param contents Vector of content data to upload
-     * @param metadata_list Vector of metadata for each content item
-     * @return Vector of upload results
+     * @brief Bulk upload.
+     * @param[in] contents Input parameter.
+     * @param[in] metadata_list Input parameter.
+     * @return Return value.
      */
     virtual std::vector<UploadResult> bulk_upload(
         const std::vector<std::vector<uint8_t>>& contents,
         const std::vector<ContentMetadata>& metadata_list);
 
     /**
-     * @brief Set progress callback
-     * @param callback Callback function for progress updates
+     * @brief Set progress callback.
+     * @param[in] callback Input parameter.
      */
     void set_progress_callback(ProgressCallback callback);
 
     /**
-     * @brief Cancel an ongoing upload operation
-     * 
-     * Note: Current simple implementation doesn't support cancellation.
-     * Use AsyncIngestionWorker for advanced cancellation support.
-     * 
-     * @param content_id ID of the content to cancel
-     * @return true if cancellation was successful
+     * @brief Cancel upload.
+     * @param[in] content_id Identifier of the content.
+     * @return True when the operation succeeds.
      */
     virtual bool cancel_upload(const std::string& content_id);
 
     /**
-     * @brief Get status of an upload operation
-     * 
-     * Note: Current implementation doesn't track status persistently.
-     * Use AsyncIngestionWorker for comprehensive status tracking.
-     * 
-     * @param content_id ID of the content
-     * @return Current upload status
+     * @brief Get upload status.
+     * @param[in] content_id Identifier of the content.
+     * @return Return value.
      */
     virtual UploadStatus get_upload_status(const std::string& content_id) const;
 

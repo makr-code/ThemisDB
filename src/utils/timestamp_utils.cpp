@@ -28,9 +28,15 @@ namespace utils {
 
 namespace {
 
-// Parse a fixed-width integer at position pos in s, advancing pos by width.
-// width is caller-controlled (max 4 for a 4-digit year) so overflow is not
-// possible for valid timestamps; we still guard against non-digit characters.
+/**
+ * @brief Parse a fixed-width integer at position pos in s, advancing pos by width.
+ * @param[in] s Input parameter.
+ * @param[in,out] pos Input/output parameter.
+ * @param[in] width Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details width is caller-controlled (max 4 for a 4-digit year) so overflow is not possible for valid timestamps; we still guard against non-digit characters. Calls: size(), std::string().
+ */
 int parseField(const std::string& s, size_t& pos, size_t width) {
     if (pos > s.size() || width > s.size() - pos) {
         throw std::invalid_argument("TimestampUtils::parse: unexpected end of string");
@@ -51,6 +57,14 @@ int parseField(const std::string& s, size_t& pos, size_t width) {
     return val;
 }
 
+/**
+ * @brief Expect Char.
+ * @param[in] s Input parameter.
+ * @param[in,out] pos Input/output parameter.
+ * @param[in] expected Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: size(), std::string(), std::to_string().
+ */
 void expectChar(const std::string& s, size_t& pos, char expected) {
     if (pos >= s.size() || s[pos] != expected) {
         throw std::invalid_argument(
@@ -59,7 +73,12 @@ void expectChar(const std::string& s, size_t& pos, char expected) {
     ++pos;
 }
 
-// Portable timegm: convert broken-down UTC time to time_t.
+/**
+ * @brief Portable timegm: convert broken-down UTC time to time_t.
+ * @param[in,out] tm_utc Input/output parameter.
+ * @return Return value.
+ * @details Calls: defined(), _mkgmtime(), timegm().
+ */
 time_t utc_to_time_t(std::tm& tm_utc) {
 #if defined(_WIN32)
     return _mkgmtime(&tm_utc);
@@ -70,9 +89,14 @@ time_t utc_to_time_t(std::tm& tm_utc) {
 
 } // anonymous namespace
 
-// ---------------------------------------------------------------------------
-// format
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- format ---------------------------------------------------------------------------
+ * @param[in] tp Input parameter.
+ * @param[in] include_ms Input parameter.
+ * @return Return value.
+ * @throws std::overflow_error if an error occurs.
+ * @details Calls: time_since_epoch(), count(), defined(), gmtime_s(), gmtime_r(), std::snprintf(), result().
+ */
 
 std::string TimestampUtils::format(std::chrono::system_clock::time_point tp, bool include_ms) {
     auto ms_since_epoch = std::chrono::duration_cast<std::chrono::milliseconds>(tp.time_since_epoch());
@@ -97,6 +121,11 @@ std::string TimestampUtils::format(std::chrono::system_clock::time_point tp, boo
                   tm_utc.tm_min,
                   tm_utc.tm_sec);
 
+    /**
+     * @brief Result.
+     * @param[in] buf Input parameter.
+     * @return Return value.
+     */
     std::string result(buf);
     if (include_ms) {
         char ms_buf[16];
@@ -110,9 +139,13 @@ std::string TimestampUtils::format(std::chrono::system_clock::time_point tp, boo
     return result;
 }
 
-// ---------------------------------------------------------------------------
-// parse
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- parse ---------------------------------------------------------------------------
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: parseField(), expectChar(), size(), std::string(), utc_to_time_t().
+ */
 
 std::chrono::system_clock::time_point TimestampUtils::parse(const std::string& s) {
     // Expected: YYYY-MM-DDTHH:MM:SS[.mmm][Z|(+|-)HH:MM]
@@ -197,17 +230,23 @@ std::chrono::system_clock::time_point TimestampUtils::parse(const std::string& s
     return std::chrono::system_clock::time_point{std::chrono::milliseconds{epoch_ms}};
 }
 
-// ---------------------------------------------------------------------------
-// now
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- now ---------------------------------------------------------------------------
+ * @param[in] include_ms Input parameter.
+ * @return Return value.
+ * @details Calls: format().
+ */
 
 std::string TimestampUtils::now(bool include_ms) {
     return format(std::chrono::system_clock::now(), include_ms);
 }
 
-// ---------------------------------------------------------------------------
-// formatDuration
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- formatDuration ---------------------------------------------------------------------------
+ * @param[in] ns Input parameter.
+ * @return Return value.
+ * @details Calls: count(), std::snprintf(), str().
+ */
 
 std::string TimestampUtils::formatDuration(std::chrono::nanoseconds ns) {
     using namespace std::chrono;
@@ -253,14 +292,23 @@ std::string TimestampUtils::formatDuration(std::chrono::nanoseconds ns) {
     return oss.str();
 }
 
-// ---------------------------------------------------------------------------
-// toUnixMs / fromUnixMs
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- toUnixMs / fromUnixMs ---------------------------------------------------------------------------
+ * @param[in] tp Input parameter.
+ * @return Return value.
+ * @details Calls: time_since_epoch(), count().
+ */
 
 int64_t TimestampUtils::toUnixMs(std::chrono::system_clock::time_point tp) {
     return std::chrono::duration_cast<std::chrono::milliseconds>(tp.time_since_epoch()).count();
 }
 
+/**
+ * @brief From Unix Ms.
+ * @param[in] ms Input parameter.
+ * @return Return value.
+ * @details Implements fromUnixMs without additional internal calls.
+ */
 std::chrono::system_clock::time_point TimestampUtils::fromUnixMs(int64_t ms) {
     return std::chrono::system_clock::time_point{std::chrono::milliseconds{ms}};
 }

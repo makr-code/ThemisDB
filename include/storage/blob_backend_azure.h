@@ -94,7 +94,19 @@ private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
 
+    /**
+        * @brief Compute the SHA-256 digest for a blob payload.
+        *
+        * @param data Raw blob bytes.
+        * @return Hex-encoded SHA-256 digest.
+     */
     static std::string computeSHA256(const std::vector<uint8_t>& data);
+    /**
+        * @brief Derive the storage object name for a blob identifier.
+        *
+        * @param blob_id Logical blob identifier.
+        * @return Fully qualified blob name including any configured prefix.
+     */
     std::string getBlobName(const std::string& blob_id) const;
 };
 

@@ -32,17 +32,46 @@ namespace {
     static TensorAwareQueryOptimizer::AstVisitorFn s_ast_visitor_fn;
 } // namespace
 
+/**
+ * @brief Set Ast Visitor Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void TensorAwareQueryOptimizer::setAstVisitorFn(AstVisitorFn fn) {
+    /**
+     * @brief Lock.
+     * @param[in] s_ast_visitor_fn_mutex Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(s_ast_visitor_fn_mutex);
     s_ast_visitor_fn = std::move(fn);
 }
 
+/**
+ * @brief Clear Ast Visitor Fn.
+ * @details Calls: lock().
+ */
 void TensorAwareQueryOptimizer::clearAstVisitorFn() {
+    /**
+     * @brief Lock.
+     * @param[in] s_ast_visitor_fn_mutex Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(s_ast_visitor_fn_mutex);
     s_ast_visitor_fn = nullptr;
 }
 
+/**
+ * @brief Get Ast Visitor Fn.
+ * @return Return value.
+ * @details Calls: lock().
+ */
 static TensorAwareQueryOptimizer::AstVisitorFn getAstVisitorFn() {
+    /**
+     * @brief Lock.
+     * @param[in] s_ast_visitor_fn_mutex Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(s_ast_visitor_fn_mutex);
     return s_ast_visitor_fn;
 }
@@ -66,16 +95,32 @@ const std::unordered_set<std::string> TensorAwareQueryOptimizer::kTensorFunction
 TensorAwareQueryOptimizer::IRVisitorFn TensorAwareQueryOptimizer::ir_visitor_fn_;
 std::mutex TensorAwareQueryOptimizer::ir_visitor_mutex_;
 
-// ============================================================================
-// setIRVisitorFn / clearIRVisitorFn
-// ============================================================================
+/**
+ * @brief ============================================================================ setIRVisitorFn / clearIRVisitorFn ============================================================================
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 
 void TensorAwareQueryOptimizer::setIRVisitorFn(IRVisitorFn fn) {
+    /**
+     * @brief Lock.
+     * @param[in] ir_visitor_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(ir_visitor_mutex_);
     ir_visitor_fn_ = std::move(fn);
 }
 
+/**
+ * @brief Clear IRVisitor Fn.
+ * @details Calls: lock().
+ */
 void TensorAwareQueryOptimizer::clearIRVisitorFn() {
+    /**
+     * @brief Lock.
+     * @param[in] ir_visitor_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(ir_visitor_mutex_);
     ir_visitor_fn_ = nullptr;
 }
@@ -180,19 +225,40 @@ double TensorAwareQueryOptimizer::estimateTTCost(
     return cost;
 }
 
+/**
+ * @brief Set Tensor Node Detector Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void TensorAwareQueryOptimizer::setTensorNodeDetectorFn(TensorNodeDetectorFn fn) {
+    /**
+     * @brief Lock.
+     * @param[in] detector_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock lock(detector_mutex_);
     tensor_node_detector_fn_ = std::move(fn);
 }
 
+/**
+ * @brief Clear Tensor Node Detector Fn.
+ * @details Calls: lock().
+ */
 void TensorAwareQueryOptimizer::clearTensorNodeDetectorFn() {
+    /**
+     * @brief Lock.
+     * @param[in] detector_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock lock(detector_mutex_);
     tensor_node_detector_fn_ = nullptr;
 }
 
-// ============================================================================
-// rewriteNode — depth-first DFS
-// ============================================================================
+/**
+ * @brief ============================================================================ rewriteNode — depth-first DFS ============================================================================
+ * @param[in,out] node Input/output parameter.
+ * @details Calls: lock(), visitor_snap(), THEMIS_WARN(), detector(), reset(), has_value(), isTensorFunction(), reserve().
+ */
 
 void TensorAwareQueryOptimizer::rewriteNode(QueryPlanNode& node) {
     ++last_stats_.nodes_visited;
@@ -203,6 +269,11 @@ void TensorAwareQueryOptimizer::rewriteNode(QueryPlanNode& node) {
     {
         IRVisitorFn visitor_snap;
         {
+            /**
+             * @brief Lock.
+             * @param[in] ir_visitor_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(ir_visitor_mutex_);
             visitor_snap = ir_visitor_fn_;
         }
@@ -232,6 +303,11 @@ void TensorAwareQueryOptimizer::rewriteNode(QueryPlanNode& node) {
 
     TensorNodeDetectorFn detector;
     {
+        /**
+         * @brief Lock.
+         * @param[in] detector_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock lock(detector_mutex_);
         detector = tensor_node_detector_fn_;
     }
@@ -340,6 +416,13 @@ TensorAwareQueryOptimizer::rewrite(std::shared_ptr<QueryPlanNode> root) {
 namespace themis {
 namespace query {
 
+/**
+ * @brief Plan Ann Graph Hybrid.
+ * @param[in] query Input parameter.
+ * @param[in] frontdoor Input parameter.
+ * @param[in] kg Input parameter.
+ * @return Return value.
+ */
 std::vector<HybridAnnGraphResult> planAnnGraphHybrid(
     const HybridAnnGraphQuery&              query,
     const index::AnnFrontdoor*              frontdoor,

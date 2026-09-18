@@ -19,9 +19,6 @@
 namespace themis {
 namespace content {
 
-/**
- * @brief TTS synthesis options
- */
 struct TTSOptions {
     std::string voice_id = "default";
     std::string language = "en";
@@ -32,9 +29,6 @@ struct TTSOptions {
     bool normalize_audio = true;
 };
 
-/**
- * @brief TTS synthesis result
- */
 struct TTSResult {
     bool success = false;
     std::string error_message;
@@ -47,17 +41,6 @@ struct TTSResult {
     int64_t processing_time_ms = 0;
 };
 
-/**
- * @brief Text-to-Speech Processor
- * 
- * Features:
- * - Multi-language speech synthesis
- * - Multiple voice profiles
- * - Adjustable speed and pitch
- * - High-quality neural TTS
- * - Multiple output formats (WAV, MP3, OGG)
- * - Real-time streaming synthesis
- */
 class TTSProcessor : public IContentProcessorPlugin {
 public:
     TTSProcessor();
@@ -84,26 +67,11 @@ public:
     bool healthCheck() const override;
     json getStatistics() const override;
     
-    /**
-     * @brief Synthesize speech from text
-     * 
-     * @param text Text to synthesize
-     * @param options TTS options (voice, speed, pitch, etc.)
-     * @return Audio data with metadata
-     */
     TTSResult synthesize(
         const std::string& text,
         const TTSOptions& options = {}
     );
     
-    /**
-     * @brief Stream synthesis in real-time
-     * 
-     * @param text Text to synthesize
-     * @param callback Callback for each audio chunk
-     * @param options TTS options
-     * @return true if streaming successful
-     */
     bool streamSynthesize(
         const std::string& text,
         std::function<void(const std::vector<uint8_t>&)> callback,
@@ -111,72 +79,38 @@ public:
     );
     
     /**
-     * @brief Get available voice profiles
-     * 
-     * @return List of available voices with metadata
+     * @brief Get Available Voices.
+     * @return Return value.
      */
     json getAvailableVoices() const;
     
     /**
-     * @brief Get supported languages
-     * 
-     * @return List of supported language codes
+     * @brief Get Supported Languages.
+     * @return Return value.
      */
     std::vector<std::string> getSupportedLanguages() const;
 
-    /**
-     * @brief Callback type for an external audio format encoder.
-     *
-     * Receives the raw 16-bit PCM buffer and the sample rate (Hz) and must
-     * return the encoded audio bytes (e.g. real LAME MP3 or libopus Ogg
-     * frames).  The returned vector must be non-empty to replace the PCM
-     * passthrough fallback.
-     */
     using AudioEncoderFn = std::function<std::vector<uint8_t>(
         const std::vector<uint8_t>& pcm, int sample_rate)>;
 
     /**
-     * @brief Inject a real MP3 encoder backend.
-     *
-     * When set, `convertToFormat()` delegates to @p fn for `format == "mp3"`
-     * instead of returning raw PCM bytes.  Pass `nullptr` to revert to the
-     * PCM passthrough path.
-     *
-     * Roadmap ref: src/content/FUTURE_ENHANCEMENTS.md §TTS Audio Format Support
+     * @brief Set Mp3 Encoder Fn.
+     * @param[in] fn Input parameter.
      */
     void setMp3EncoderFn(AudioEncoderFn fn);
 
     /**
-     * @brief Inject a real Ogg/Opus encoder backend.
-     *
-     * When set, `convertToFormat()` delegates to @p fn for `format == "ogg"`
-     * instead of returning raw PCM bytes.  Pass `nullptr` to revert to the
-     * PCM passthrough path.
-     *
-     * Roadmap ref: src/content/FUTURE_ENHANCEMENTS.md §TTS Audio Format Support
+     * @brief Set Ogg Encoder Fn.
+     * @param[in] fn Input parameter.
      */
     void setOggEncoderFn(AudioEncoderFn fn);
 
-    /**
-     * @brief Injection type for a custom PCM synthesis backend.
-     *
-     * Signature: `std::vector<uint8_t> fn(const std::string& text,
-     *                                     const TTSOptions& options)`
-     *
-     * The returned vector must be a non-empty 16-bit PCM buffer to replace
-     * the silence stub.  An empty return reverts to the built-in silence path.
-     */
     using TTSSynthFn = std::function<
         std::vector<uint8_t>(const std::string& text, const TTSOptions& options)>;
 
     /**
-     * @brief Inject a custom PCM synthesis backend (non-TTS builds).
-     *
-     * When @p fn is non-null, `generatePCM()` delegates to it instead of the
-     * built-in silence stub used when `THEMIS_ENABLE_PIPER_TTS` is not defined.
-     * Pass `nullptr` to revert to the silence stub.
-     *
-     * Roadmap ref: src/content/FUTURE_ENHANCEMENTS.md §TTS Backend.
+     * @brief Set Synth Fn.
+     * @param[in] fn Input parameter.
      */
     void setSynthFn(TTSSynthFn fn);
 
@@ -213,25 +147,56 @@ private:
     TTSSynthFn synth_fn_;
 
     // Internal methods
+    /**
+     * @brief Load TTSModel.
+     * @return True when the operation succeeds.
+     */
     bool loadTTSModel();
+    /**
+     * @brief Unload TTSModel.
+     */
     void unloadTTSModel();
     
+    /**
+     * @brief Synthesize Internal.
+     * @param[in] text Input parameter.
+     * @param[in] options Input parameter.
+     * @return Return value.
+     */
     TTSResult synthesizeInternal(
         const std::string& text,
         const TTSOptions& options
     );
     
+    /**
+     * @brief Generate PCM.
+     * @param[in] text Input parameter.
+     * @param[in] options Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> generatePCM(
         const std::string& text,
         const TTSOptions& options
     );
     
+    /**
+     * @brief Convert To Format.
+     * @param[in] pcm_data Input parameter.
+     * @param[in] format Input parameter.
+     * @param[in] sample_rate Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> convertToFormat(
         const std::vector<uint8_t>& pcm_data,
         const std::string& format,
         int sample_rate
     );
     
+    /**
+     * @brief Preprocess Text.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     std::string preprocessText(const std::string& text);
 };
 

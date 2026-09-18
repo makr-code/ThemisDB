@@ -74,15 +74,30 @@ struct GremlinParser::Lexer {
         return p < src.size() ? src[p] : '\0';
     }
 
+    /**
+     * @brief Advance.
+     * @return Return value.
+     * @details Calls: size().
+     */
     char advance() {
         return pos < src.size() ? src[pos++] : '\0';
     }
 
+    /**
+     * @brief Skip Whitespace.
+     * @details Calls: size(), std::isspace().
+     */
     void skipWhitespace() {
         while (pos < src.size() && std::isspace(static_cast<unsigned char>(src[pos])))
             ++pos;
     }
 
+    /**
+     * @brief Read String.
+     * @param[in] delim Input parameter.
+     * @return Return value.
+     * @details Calls: size().
+     */
     std::string readString(char delim) {
         ++pos;  // skip opening delimiter
         std::string buf = {};
@@ -104,6 +119,11 @@ struct GremlinParser::Lexer {
         return buf;
     }
 
+    /**
+     * @brief Tokenize.
+     * @return Return value.
+     * @details Calls: reserve(), size(), skipWhitespace(), push_back(), readString(), std::isdigit(), std::isalpha(), std::isalnum().
+     */
     std::vector<Token> tokenize() {
         std::vector<Token> tokens = {};
 
@@ -194,6 +214,11 @@ struct GremlinParser::Parser {
         return tokens[p];
     }
 
+    /**
+     * @brief Consume.
+     * @return Return value.
+     * @details Calls: size().
+     */
     const Token& consume() {
         const Token& t = tokens[pos];
         if (pos < tokens.size() - 1) {
@@ -210,6 +235,13 @@ struct GremlinParser::Parser {
         return check(GremlinTokenType::IDENT, offset) && peek(offset).value == s;
     }
 
+    /**
+     * @brief Expect.
+     * @param[in] t Input parameter.
+     * @param[in] ctx Input parameter.
+     * @throws std::runtime_error if an error occurs.
+     * @details Calls: check(), std::to_string(), peek(), consume().
+     */
     void expect(GremlinTokenType t, const std::string& ctx) {
         if (!check(t))
             throw std::runtime_error("Expected " + ctx + " at position "
@@ -217,7 +249,12 @@ struct GremlinParser::Parser {
         consume();
     }
 
-    // Parse a GremlinValue literal from the token stream
+    /**
+     * @brief Parse a GremlinValue literal from the token stream
+     * @return Return value.
+     * @throws std::runtime_error if an error occurs.
+     * @details Calls: peek(), consume(), GremlinValue(), std::stoll(), THEMIS_WARN(), std::to_string(), std::stod(), matchIdent().
+     */
     GremlinValue parseValue() {
         const Token& t = peek();
         if (t.type == GremlinTokenType::STRING_LIT) {
@@ -263,7 +300,12 @@ struct GremlinParser::Parser {
                                  + std::to_string(t.position));
     }
 
-    // Parse P.eq(v) / P.within(v1,v2) / bare predicate identifier
+    /**
+     * @brief Parse P.
+     * @return Return value.
+     * @throws std::runtime_error if an error occurs.
+     * @details eq(v) / P.within(v1,v2) / bare predicate identifier Calls: matchIdent(), check(), consume(), peek(), find(), end(), expect(), push_back().
+     */
     GremlinPredicate parsePredicate() {
         // P.op(args) syntax
         if (matchIdent("P") && check(GremlinTokenType::DOT, 1)) {
@@ -329,7 +371,12 @@ struct GremlinParser::Parser {
                                  + std::to_string(peek().position));
     }
 
-    // Try to parse a predicate; if not possible, parse a literal value and wrap in Eq
+    /**
+     * @brief Try to parse a predicate; if not possible, parse a literal value and wrap in Eq
+     * @param[in,out] step Input/output parameter.
+     * @return True on success.
+     * @details Calls: matchIdent(), check(), count(), peek(), parsePredicate(), push_back(), parseValue().
+     */
     bool tryParsePredicateOrValue(GremlinStep& step) {
         // Check for P.xxx pattern or bare eq/neq/etc.
         bool looks_like_pred =
@@ -347,7 +394,14 @@ struct GremlinParser::Parser {
         return false;
     }
 
-    // Parse one step after '.'
+    /**
+     * @brief Parse one step after '.
+     * @param[in] name Input parameter.
+     * @param[in] stepPos Input parameter.
+     * @return Return value.
+     * @throws std::runtime_error if an error occurs.
+     * @details ' Calls: find(), end(), std::to_string(), expect(), check(), push_back(), peek(), consume().
+     */
     GremlinStep parseStep(const std::string& name, size_t stepPos) {
         GremlinStep step;
 
@@ -535,6 +589,12 @@ struct GremlinParser::Parser {
         return step;
     }
 
+    /**
+     * @brief Parse.
+     * @return Return value.
+     * @throws std::runtime_error if an error occurs.
+     * @details Calls: matchIdent(), consume(), check(), peek(), std::to_string(), expect(), emplace_back(), std::stoll().
+     */
     GremlinASTNode parse() {
         GremlinASTNode ast;
 
@@ -603,9 +663,12 @@ struct GremlinParser::Parser {
     }
 };
 
-// ============================================================================
-// GremlinParser::parse
-// ============================================================================
+/**
+ * @brief ============================================================================ GremlinParser::parse ============================================================================
+ * @param[in] gremlin Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), lexer(), tokenize(), parser(), Ok(), std::string(), what().
+ */
 
 Result<GremlinASTNode> GremlinParser::parse(const std::string& gremlin) {
     if (gremlin.empty())
@@ -613,8 +676,18 @@ Result<GremlinASTNode> GremlinParser::parse(const std::string& gremlin) {
                                    "empty Gremlin query");
 
     try {
+        /**
+         * @brief Lexer.
+         * @param[in] gremlin Input parameter.
+         * @return Return value.
+         */
         Lexer lexer(gremlin);
         auto tokens = lexer.tokenize();
+        /**
+         * @brief Parser.
+         * @param[in] tokens Input parameter.
+         * @return Return value.
+         */
         Parser parser(tokens);
         return Ok(parser.parse());
     } catch (const std::exception& e) {
@@ -623,9 +696,12 @@ Result<GremlinASTNode> GremlinParser::parse(const std::string& gremlin) {
     }
 }
 
-// ============================================================================
-// GremlinToAQLTranspiler
-// ============================================================================
+/**
+ * @brief ============================================================================ GremlinToAQLTranspiler ============================================================================
+ * @param[in] val Input parameter.
+ * @return Return value.
+ * @details Calls: std::visit(), constexpr(), std::to_string(), str().
+ */
 
 std::string GremlinToAQLTranspiler::valueToAQL(const GremlinValue& val) {
     return std::visit([](const auto& v) -> std::string {
@@ -655,6 +731,13 @@ std::string GremlinToAQLTranspiler::valueToAQL(const GremlinValue& val) {
     }, val);
 }
 
+/**
+ * @brief Predicate To AQL.
+ * @param[in] pred Input parameter.
+ * @param[in] lhs Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), valueToAQL(), rhs(), size().
+ */
 std::string GremlinToAQLTranspiler::predicateToAQL(const GremlinPredicate& pred,
                                                     const std::string& lhs) {
     if (pred.values.empty() &&
@@ -699,6 +782,12 @@ std::string GremlinToAQLTranspiler::predicateToAQL(const GremlinPredicate& pred,
     return lhs;
 }
 
+/**
+ * @brief Transpile.
+ * @param[in] ast Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), valueToAQL(), push_back(), has_value(), predicateToAQL(), size(), front(), str().
+ */
 Result<std::string> GremlinToAQLTranspiler::transpile(const GremlinASTNode& ast) {
     try {
         if (ast.steps.empty())
@@ -878,6 +967,11 @@ Result<std::string> GremlinToAQLTranspiler::transpile(const GremlinASTNode& ast)
         std::string collection = {};
         if (!labels.empty())
             collection = labels[0];  // primary label → collection name
+        /**
+         * @brief If.
+         * @param[in] startedWithE Input parameter.
+         * @return Return value.
+         */
         else if (startedWithE)
             collection = "_edges";
         else

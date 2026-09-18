@@ -50,14 +50,7 @@
 
 namespace themis::analytics::detail {
 
-/**
- * O(1) LRU cache with a configurable capacity.
- *
- * @tparam K  Key type — must satisfy std::hash and operator==.
- * @tparam V  Value type — must be move-constructible.
- */
 template <typename K, typename V>
-/** @brief Lru cache component. */
 class LRUCache {
 public:
     // -----------------------------------------------------------------------
@@ -65,8 +58,9 @@ public:
     // -----------------------------------------------------------------------
 
     /**
-     * @param max_entries  Maximum number of entries.  Must be ≥ 1.
-     * @throws std::invalid_argument if max_entries == 0.
+     * @brief LRUCache.
+     * @param[in] max_entries Input parameter.
+     * @return Return value.
      */
     explicit LRUCache(std::size_t max_entries)
         : max_entries_(max_entries) {
@@ -88,12 +82,10 @@ public:
     // -----------------------------------------------------------------------
 
     /**
-     * Look up @p key.
-     *
-     * On a cache hit the entry is promoted to MRU position.
-     *
-     * @return Pointer to the cached value, or nullptr on a miss.
-     *         The pointer is valid until the next non-const operation.
+     * @brief Get.
+     * @param[in] key Input parameter.
+     * @return Pointer to the result.
+     * @details Calls: find(), end(), splice(), begin().
      */
     V* get(const K& key) {
         auto it = map_.find(key);
@@ -105,7 +97,6 @@ public:
         return &it->second->second;
     }
 
-    /** Const overload — does NOT update the access order. */
     const V* peek(const K& key) const {
         auto it = map_.find(key);
         if (it == map_.end()) {
@@ -115,14 +106,10 @@ public:
     }
 
     /**
-     * Insert or update a key-value pair.
-     *
-     * If @p key is already present the value is updated in-place and the
-     * entry is promoted to MRU.  If the cache is at capacity the LRU entry
-     * is evicted first.
-     *
-     * @param key    Cache key.
-     * @param value  Value to cache (moved in).
+     * @brief Put.
+     * @param[in] key Input parameter.
+     * @param[in] value Input parameter.
+     * @details Calls: find(), end(), std::move(), splice(), begin(), size(), erase(), back().
      */
     void put(K key, V value) {
         auto it = map_.find(key);
@@ -143,9 +130,10 @@ public:
     }
 
     /**
-     * Remove the entry for @p key if it exists.
-     *
-     * @return true if the entry was found and removed, false otherwise.
+     * @brief Erase.
+     * @param[in] key Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: find(), end().
      */
     bool erase(const K& key) {
         auto it = map_.find(key);
@@ -157,7 +145,10 @@ public:
         return true;
     }
 
-    /** Remove all entries. */
+    /**
+     * @brief Clear.
+     * @details Implements clear without additional internal calls.
+     */
     void clear() {
         list_.clear();
         map_.clear();
@@ -167,16 +158,12 @@ public:
     // Capacity / size queries
     // -----------------------------------------------------------------------
 
-    /** Number of entries currently in the cache. */
     [[nodiscard]] std::size_t size()  const noexcept { return map_.size(); }
 
-    /** Maximum number of entries (supplied at construction). */
     [[nodiscard]] std::size_t capacity() const noexcept { return max_entries_; }
 
-    /** Returns true iff the cache contains no entries. */
     [[nodiscard]] bool empty() const noexcept { return map_.empty(); }
 
-    /** Returns true iff the cache is at capacity. */
     [[nodiscard]] bool full()  const noexcept { return map_.size() >= max_entries_; }
 
 private:

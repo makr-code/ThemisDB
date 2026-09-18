@@ -48,7 +48,6 @@ namespace governance {
 // Type Definitions & Enums
 // ============================================================================
 
-/// Supported compliance frameworks
 enum class ComplianceFramework {
     kEuAiAct,      ///< EU AI Act (2024)
     kSoc2TypeI,    ///< SOC 2 Type I
@@ -60,7 +59,6 @@ enum class ComplianceFramework {
     kPciDss,       ///< Payment Card Industry Data Security Standard
 };
 
-/// Compliance status for a requirement or control
 enum class ComplianceStatus {
     kCompliant,           ///< Requirement fully met
     kNonCompliant,        ///< Requirement not met
@@ -69,7 +67,6 @@ enum class ComplianceStatus {
     kPendingReview,       ///< Awaiting assessment
 };
 
-/// Severity level for compliance violation
 enum class ComplianceSeverity {
     kCritical,  ///< Must fix immediately
     kHigh,      ///< Should fix soon
@@ -81,12 +78,6 @@ enum class ComplianceSeverity {
 // Compliance Requirement Definition
 // ============================================================================
 
-/**
- * @brief Represents a single compliance requirement from a framework
- * 
- * Maps regulatory requirement to one or more technical controls
- * with evidence collection and remediation tracking.
- */
 struct ComplianceRequirement {
     std::string requirement_id;           ///< Unique ID (e.g., "GDPR-A.32.1")
     ComplianceFramework framework;        ///< Source framework
@@ -101,10 +92,17 @@ struct ComplianceRequirement {
     int64_t updated_at_ms = 0;            ///< Last update timestamp
     nlohmann::json metadata;              ///< Additional metadata
     
-    /// Convert to JSON representation
+    /**
+     * @brief To Json.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
     
-    /// Create from JSON representation
+    /**
+     * @brief From Json.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static ComplianceRequirement fromJson(const nlohmann::json& j);
 };
 
@@ -112,12 +110,6 @@ struct ComplianceRequirement {
 // Compliance Control Definition
 // ============================================================================
 
-/**
- * @brief Represents a technical control implementing a requirement
- * 
- * Controls are specific technical or procedural measures that satisfy
- * one or more compliance requirements.
- */
 struct ComplianceControl {
     std::string control_id;               ///< Unique control ID (e.g., "CTL-ENCRYPTION-001")
     ComplianceFramework framework;        ///< Source framework
@@ -130,10 +122,17 @@ struct ComplianceControl {
     int version = 1;                      ///< Control version
     int64_t created_at_ms = 0;            ///< Creation timestamp
     
-    /// Convert to JSON representation
+    /**
+     * @brief To Json.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
     
-    /// Create from JSON representation
+    /**
+     * @brief From Json.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static ComplianceControl fromJson(const nlohmann::json& j);
 };
 
@@ -141,12 +140,6 @@ struct ComplianceControl {
 // Compliance Evidence
 // ============================================================================
 
-/**
- * @brief Evidence item supporting compliance claim
- * 
- * Records specific evidence that a control is implemented or a requirement
- * is satisfied, with timestamp and optional metadata.
- */
 struct ComplianceEvidence {
     std::string evidence_id;         ///< Unique evidence ID
     std::string control_id;          ///< Associated control
@@ -157,7 +150,10 @@ struct ComplianceEvidence {
     bool satisfies_requirement = true; ///< Whether evidence satisfies requirement
     nlohmann::json metadata;         ///< Additional metadata
     
-    /// Convert to JSON representation
+    /**
+     * @brief To Json.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
 };
 
@@ -165,12 +161,6 @@ struct ComplianceEvidence {
 // Compliance Violation
 // ============================================================================
 
-/**
- * @brief Represents a compliance violation
- * 
- * When a requirement is not met, a violation is recorded with
- * remediation guidance and deadline.
- */
 struct ComplianceViolation {
     std::string violation_id;               ///< Unique violation ID
     std::string requirement_id;             ///< Non-compliant requirement
@@ -185,7 +175,10 @@ struct ComplianceViolation {
     int64_t remediated_at_ms = 0;           ///< When fixed
     std::string remediation_evidence;       ///< Evidence of remediation
     
-    /// Convert to JSON representation
+    /**
+     * @brief To Json.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
 };
 
@@ -193,68 +186,105 @@ struct ComplianceViolation {
 // Compliance Framework Registry
 // ============================================================================
 
-/**
- * @brief Registry of all compliance requirements and controls for a framework
- * 
- * Maintains complete mapping of requirements to controls with
- * versioning support.
- */
 class ComplianceFrameworkRegistry {
 public:
     ComplianceFrameworkRegistry() = default;
     ~ComplianceFrameworkRegistry() = default;
     
-    /// Add a requirement to the registry
+    /**
+     * @brief Add Requirement.
+     * @param[in] req Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool addRequirement(const ComplianceRequirement& req);
     
-    /// Add a control to the registry
+    /**
+     * @brief Add Control.
+     * @param[in] ctl Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool addControl(const ComplianceControl& ctl);
     
-    /// Get requirement by ID
+    /**
+     * @brief Get Requirement.
+     * @param[in] req_id Identifier of the req.
+     * @return Return value.
+     */
     std::optional<ComplianceRequirement> getRequirement(const std::string& req_id) const;
     
-    /// Get control by ID
+    /**
+     * @brief Get Control.
+     * @param[in] ctl_id Identifier of the ctl.
+     * @return Return value.
+     */
     std::optional<ComplianceControl> getControl(const std::string& ctl_id) const;
     
-    /// List all requirements for a framework
+    /**
+     * @brief Get Requirements.
+     * @param[in] fw Input parameter.
+     * @return Return value.
+     */
     std::vector<ComplianceRequirement> getRequirements(ComplianceFramework fw) const;
     
-    /// List all controls for a framework
+    /**
+     * @brief Get Controls.
+     * @param[in] fw Input parameter.
+     * @return Return value.
+     */
     std::vector<ComplianceControl> getControls(ComplianceFramework fw) const;
     
-    /// Get requirements by category
+    /**
+     * @brief Get Requirements By Category.
+     * @param[in] fw Input parameter.
+     * @param[in] category Input parameter.
+     * @return Return value.
+     */
     std::vector<ComplianceRequirement> getRequirementsByCategory(
         ComplianceFramework fw,
         const std::string& category) const;
     
-    /// Get total requirement count for framework
+    /**
+     * @brief Get Requirement Count.
+     * @param[in] fw Input parameter.
+     * @return Return value.
+     */
     int getRequirementCount(ComplianceFramework fw) const;
     
-    /// Get total control count for framework
+    /**
+     * @brief Get Control Count.
+     * @param[in] fw Input parameter.
+     * @return Return value.
+     */
     int getControlCount(ComplianceFramework fw) const;
     
-    /// Export framework as JSON
+    /**
+     * @brief Export To Json.
+     * @param[in] fw Input parameter.
+     * @return Return value.
+     */
     nlohmann::json exportToJson(ComplianceFramework fw) const;
     
-    /// Import framework from JSON
+    /**
+     * @brief Import From Json.
+     * @param[in] j Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool importFromJson(const nlohmann::json& j);
     
-    /// Clear all data
+    /**
+     * @brief Clear.
+     */
     void clear();
 
 private:
     mutable std::mutex mu_;
     
-    /// Requirements indexed by ID
     std::unordered_map<std::string, ComplianceRequirement> requirements_;
     
-    /// Controls indexed by ID
     std::unordered_map<std::string, ComplianceControl> controls_;
     
-    /// Requirement IDs by framework
     std::map<ComplianceFramework, std::vector<std::string>> requirements_by_framework_;
     
-    /// Control IDs by framework
     std::map<ComplianceFramework, std::vector<std::string>> controls_by_framework_;
 };
 
@@ -262,12 +292,6 @@ private:
 // Compliance Context
 // ============================================================================
 
-/**
- * @brief Context for compliance validation
- * 
- * Captures system state, policies, and configuration needed for
- * compliance validation.
- */
 struct ComplianceContext {
     std::string system_id;                    ///< System being validated
     std::vector<std::string> enabled_frameworks; ///< Frameworks to validate
@@ -277,7 +301,10 @@ struct ComplianceContext {
     int64_t validation_time_ms = 0;           ///< When validation occurred
     nlohmann::json metadata;                  ///< Additional context
     
-    /// Convert to JSON representation
+    /**
+     * @brief To Json.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
 };
 
@@ -285,12 +312,6 @@ struct ComplianceContext {
 // Compliance Status Report
 // ============================================================================
 
-/**
- * @brief High-level compliance status for a framework
- * 
- * Summarizes overall compliance with one framework including
- * metrics and violation summary.
- */
 struct ComplianceStatusReport {
     std::string report_id;
     ComplianceFramework framework;
@@ -308,7 +329,10 @@ struct ComplianceStatusReport {
     std::vector<ComplianceViolation> violations;
     std::vector<ComplianceEvidence> evidence;
     
-    /// Convert to JSON representation
+    /**
+     * @brief To Json.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
 };
 
@@ -316,11 +340,6 @@ struct ComplianceStatusReport {
 // Compliance Validation Result
 // ============================================================================
 
-/**
- * @brief Result of compliance validation
- * 
- * Contains validation status, findings, and evidence for audit trail.
- */
 struct ComplianceValidationResult {
     bool success = true;
     std::string error_message;
@@ -330,7 +349,10 @@ struct ComplianceValidationResult {
     std::vector<ComplianceStatusReport> framework_reports;
     std::vector<ComplianceViolation> all_violations;
     
-    /// Convert to JSON representation
+    /**
+     * @brief To Json.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
 };
 

@@ -44,32 +44,6 @@ namespace acceleration {
 
 #ifdef THEMIS_ENABLE_CUDA
 
-/**
- * FAISS GPU Vector Backend
- * Production-grade GPU vector search using Facebook's FAISS library.
- *
- * Supported index types:
- *   FLAT_L2  – Exact brute-force L2 (GPU)
- *   FLAT_IP  – Exact brute-force inner-product (GPU)
- *   IVF_FLAT – Inverted-file with flat quantizer (GPU, fast approximate)
- *   IVF_PQ   – Inverted-file + product quantizer (GPU, memory-efficient approx)
- *   IVF_SQ8  – Inverted-file + 8-bit scalar quantizer (GPU, higher recall than PQ
- *               at equivalent memory)
- *   HNSW_FLAT– Hierarchical Navigable Small World flat graph (CPU-side FAISS HNSW;
- *               use when low-latency single-query search is needed without a GPU
- *               at query time — same IVectorBackend interface)
- *
- * Sources:
- * - Library: FAISS (Facebook AI Similarity Search)
- * - Repository: https://github.com/facebookresearch/faiss
- * - License: MIT
- * - Paper: Johnson, J., Douze, M., & Jégou, H. (2019)
- *          "Billion-scale similarity search with GPUs"
- *          IEEE Transactions on Big Data, 7(3), 535-547
- * - arXiv: https://arxiv.org/abs/1702.08734
- * - ThemisDB Integration: Multi-backend GPU support wrapper, integrated with
- *   RocksDB persistence and ACID transaction system
- */
 class FaissGPUVectorBackend : public IVectorBackend {
 public:
     enum class IndexType {
@@ -128,23 +102,28 @@ public:
     // Faiss-specific methods
     
     /**
-     * Initialize index with configuration
+     * @brief Initialize Index.
+     * @param[in] config Input parameter.
+     * @return True when the operation succeeds.
      */
     bool initializeIndex(const Config& config);
     
     /**
-     * Add vectors to the index (for persistent indices)
+     * @brief Add Vectors.
+     * @param[in] vectors Input parameter.
+     * @param[in] numVectors Input parameter.
+     * @return True when the operation succeeds.
      */
     bool addVectors(const float* vectors, size_t numVectors);
     
     /**
-     * Train index (required for IVF indices before adding vectors)
+     * @brief Train Index.
+     * @param[in] vectors Input parameter.
+     * @param[in] numVectors Input parameter.
+     * @return True when the operation succeeds.
      */
     bool trainIndex(const float* vectors, size_t numVectors);
     
-    /**
-     * Search in pre-built index
-     */
     std::vector<std::vector<std::pair<uint32_t, float>>> search(
         const float* queries,
         size_t numQueries,
@@ -152,18 +131,19 @@ public:
     );
     
     /**
-     * Save index to disk
+     * @brief Save Index.
+     * @param[in] filepath Input parameter.
+     * @return True when the operation succeeds.
      */
     bool saveIndex(const std::string& filepath);
     
     /**
-     * Load index from disk
+     * @brief Load Index.
+     * @param[in] filepath Input parameter.
+     * @return True when the operation succeeds.
      */
     bool loadIndex(const std::string& filepath);
     
-    /**
-     * Get index statistics
-     */
     struct IndexStats {
         size_t numVectors = 0;
         size_t dimension = 0;
@@ -172,10 +152,14 @@ public:
         IndexType type;
     };
     
+    /**
+     * @brief Get Index Stats.
+     * @return Return value.
+     */
     IndexStats getIndexStats() const;
     
     /**
-     * Reset index (clear all vectors)
+     * @brief Reset Index.
      */
     void resetIndex();
     
@@ -199,6 +183,10 @@ private:
 
     // Helper methods
     std::unique_ptr<faiss::Index, IndexDeleter> createIndex(IndexType type, int dimension);
+    /**
+     * @brief Transfer Index To GPU.
+     * @return True when the operation succeeds.
+     */
     bool transferIndexToGPU();
 
     void setError(AccelerationErrorCode code, const std::string& msg,

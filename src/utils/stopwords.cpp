@@ -15,6 +15,12 @@
 namespace themis {
 namespace utils {
 
+/**
+ * @brief Make set.
+ * @param[in,out] list Input/output parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), emplace().
+ */
 static std::unordered_set<std::string> make_set(std::initializer_list<const char*> list) {
     std::unordered_set<std::string> s = {};
 
@@ -25,6 +31,12 @@ static std::unordered_set<std::string> make_set(std::initializer_list<const char
     return s;
 }
 
+/**
+ * @brief Defaults.
+ * @param[in] language Input parameter.
+ * @return Return value.
+ * @details Calls: make_set().
+ */
 std::unordered_set<std::string> Stopwords::defaults(const std::string& language) {
     if (language == "en" || language == "EN") {
         return make_set({
@@ -47,6 +59,13 @@ std::unordered_set<std::string> Stopwords::defaults(const std::string& language)
     return {};
 }
 
+/**
+ * @brief Merge.
+ * @param[in] base Input parameter.
+ * @param[in] custom Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), std::transform(), begin(), end(), std::tolower(), emplace(), std::move().
+ */
 std::unordered_set<std::string> Stopwords::merge(const std::unordered_set<std::string>& base,
                                                  const std::vector<std::string>& custom) {
     std::unordered_set<std::string> out = base;

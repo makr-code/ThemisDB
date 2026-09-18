@@ -19,10 +19,10 @@
 
 /**
  * @file rocksdb_writer.h
- * @brief RocksDB Writer Interface (Placeholder)
- * 
- * Full implementation TBD during build integration phase.
- * Writes to 7 Column Families with namespace isolation.
+ * @brief RocksDB writer interface for namespaced document output.
+ *
+ * Writes records into the configured RocksDB instance using column-family
+ * separation to keep namespaces isolated.
  */
 
 #pragma once
@@ -34,7 +34,18 @@ namespace tools {
 
 class RocksDBWriter {
 public:
+    /**
+     * @brief Rocks DBWriter.
+     * @param[in] db_path Input parameter.
+     * @return Return value.
+     */
     explicit RocksDBWriter(const std::string& db_path);
+    /**
+     * @brief Write.
+     * @param[in] key Input parameter.
+     * @param[in] value Input parameter.
+     * @param[in] cf Input parameter.
+     */
     void write(const std::string& key, const std::string& value, const std::string& cf);
 };
 

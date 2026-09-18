@@ -49,12 +49,6 @@ namespace gpu {
 // Error Handling Utilities
 // ============================================================================
 
-/**
- * @brief Log a CUDA error with context information
- *
- * @param location Source file location for diagnostics
- * @param error_msg Human-readable error message
- */
 inline void logGPUError(const std::string& location, const std::string& error_msg) noexcept {
     auto logger = spdlog::get("gpu");
     if (logger) {
@@ -62,12 +56,6 @@ inline void logGPUError(const std::string& location, const std::string& error_ms
     }
 }
 
-/**
- * @brief Log a CUDA operation with success status
- *
- * @param operation Name of the operation (e.g., "cudaMalloc")
- * @param success True if operation succeeded
- */
 inline void logGPUOperation(const std::string& operation, bool success) noexcept {
     if (!success) {
         auto logger = spdlog::get("gpu");
@@ -81,35 +69,9 @@ inline void logGPUOperation(const std::string& operation, bool success) noexcept
 // GPUMemoryHandle — RAII wrapper for GPU device memory
 // ============================================================================
 
-/**
- * @class GPUMemoryHandle
- * @brief Type-safe RAII wrapper for GPU device memory allocation
- *
- * Features:
- * - Automatic allocation on construction (may throw)
- * - Automatic deallocation on destruction (no-throw)
- * - Move-only semantics (prevents accidental copies)
- * - Type-safe access via get() and getTyped()
- * - Size tracking for bounds checking
- *
- * @tparam T Element type (float, int, etc.)
- *
- * @throws std::runtime_error if allocation fails
- *
- * Example:
- * ```cpp
- * {
- *     GPUMemoryHandle<float> device_buffer(1024);  // Allocate 1024 floats
- *     // Use device_buffer.get() or device_buffer.getTyped()
- * }  // Automatic cleanup on scope exit
- * ```
- */
 template<typename T = void>
 class GPUMemoryHandle {
  public:
-    /// Allocate GPU memory for count elements of type T
-    /// @param count Number of elements to allocate
-    /// @throws std::runtime_error if CUDA allocation fails
     explicit GPUMemoryHandle(size_t count) : ptr_(nullptr), size_(0), count_(count) {
         if (count == 0) {
             return;  // Empty allocation is valid
@@ -121,29 +83,30 @@ class GPUMemoryHandle {
         if (err != cudaSuccess) {
             std::string msg = std::string("cudaMalloc failed: ") + cudaGetErrorString(err);
             logGPUError(__FILE__, msg);
+            /**
+             * @brief Runtime error.
+             * @param[in] msg Input parameter.
+             * @return Return value.
+             */
             throw std::runtime_error(msg);
         }
         size_ = bytes;
 #endif
     }
 
-    /// Default constructor (empty allocation)
     GPUMemoryHandle() noexcept : ptr_(nullptr), size_(0), count_(0) {}
 
-    /// Destructor — frees GPU memory (no-throw)
     ~GPUMemoryHandle() noexcept {
         destroy();
     }
 
     // --- Move semantics (enabled) ---
 
-    /// Move constructor
     GPUMemoryHandle(GPUMemoryHandle&& other) noexcept
         : ptr_(std::exchange(other.ptr_, nullptr)),
           size_(std::exchange(other.size_, 0)),
           count_(std::exchange(other.count_, 0)) {}
 
-    /// Move assignment
     GPUMemoryHandle& operator=(GPUMemoryHandle&& other) noexcept {
         if (this != &other) {
             destroy();
@@ -156,41 +119,32 @@ class GPUMemoryHandle {
 
     // --- Copy semantics (deleted) ---
 
-    /// Delete copy constructor (move-only semantics)
     GPUMemoryHandle(const GPUMemoryHandle&) = delete;
 
-    /// Delete copy assignment (move-only semantics)
     GPUMemoryHandle& operator=(const GPUMemoryHandle&) = delete;
 
     // --- Accessors ---
 
-    /// Get device pointer as void*
     void* get() const noexcept {
         return ptr_;
     }
 
-    /// Get device pointer typed as T*
     T* getTyped() const noexcept {
         return static_cast<T*>(ptr_);
     }
 
-    /// Get allocation size in bytes
     size_t size() const noexcept {
         return size_;
     }
 
-    /// Get allocation count (number of T elements)
     size_t count() const noexcept {
         return count_;
     }
 
-    /// Check if allocation is valid
     bool isValid() const noexcept {
         return ptr_ != nullptr;
     }
 
-    /// Release ownership (manual management)
-    /// Caller must manually free with cudaFree
     void* release() noexcept {
         size_ = 0;
         count_ = 0;
@@ -202,7 +156,6 @@ class GPUMemoryHandle {
     size_t size_ = {};
     size_t count_ = {};
 
-    /// Destroy and free GPU memory
     void destroy() noexcept {
         if (ptr_ != nullptr) {
 #if THEMIS_GPU_RAII_HAS_CUDA
@@ -220,55 +173,33 @@ class GPUMemoryHandle {
 // GPUStreamHandle — RAII wrapper for GPU stream lifecycle
 // ============================================================================
 
-/**
- * @class GPUStreamHandle
- * @brief RAII wrapper for CUDA stream management
- *
- * Features:
- * - Automatic stream creation on construction
- * - Automatic stream destruction on destruction
- * - Move-only semantics
- * - Synchronization support
- * - Validity checking
- *
- * @throws std::runtime_error if stream creation fails
- *
- * Example:
- * ```cpp
- * {
- *     GPUStreamHandle stream;  // Create stream
- *     kernel<<<blocks, threads, 0, stream.get()>>>(args);
- *     stream.synchronize();    // Wait for completion
- * }  // Automatic cleanup on scope exit
- * ```
- */
 class GPUStreamHandle {
  public:
-    /// Create a new GPU stream
-    /// @throws std::runtime_error if stream creation fails
     explicit GPUStreamHandle() : stream_(nullptr) {
 #if THEMIS_GPU_RAII_HAS_CUDA
         cudaError_t err = cudaStreamCreate(&stream_);
         if (err != cudaSuccess) {
             std::string msg = std::string("cudaStreamCreate failed: ") + cudaGetErrorString(err);
             logGPUError(__FILE__, msg);
+            /**
+             * @brief Runtime error.
+             * @param[in] msg Input parameter.
+             * @return Return value.
+             */
             throw std::runtime_error(msg);
         }
 #endif
     }
 
-    /// Destructor — destroy the stream
     ~GPUStreamHandle() noexcept {
         destroy();
     }
 
     // --- Move semantics (enabled) ---
 
-    /// Move constructor
     GPUStreamHandle(GPUStreamHandle&& other) noexcept
         : stream_(std::exchange(other.stream_, nullptr)) {}
 
-    /// Move assignment
     GPUStreamHandle& operator=(GPUStreamHandle&& other) noexcept {
         if (this != &other) {
             destroy();
@@ -279,26 +210,25 @@ class GPUStreamHandle {
 
     // --- Copy semantics (deleted) ---
 
-    /// Delete copy constructor
     GPUStreamHandle(const GPUStreamHandle&) = delete;
 
-    /// Delete copy assignment
     GPUStreamHandle& operator=(const GPUStreamHandle&) = delete;
 
     // --- Accessors ---
 
-    /// Get the underlying CUDA stream
     cudaStream_t get() const noexcept {
         return stream_;
     }
 
-    /// Check if stream is valid
     bool isValid() const noexcept {
         return stream_ != nullptr;
     }
 
-    /// Synchronize (wait for all pending operations)
-    /// @throws std::runtime_error if synchronization fails
+    /**
+     * @brief Synchronize.
+     * @throws std::runtime_error if an error occurs.
+     * @details Calls: cudaStreamSynchronize(), std::string(), cudaGetErrorString(), logGPUError().
+     */
     void synchronize() {
 #if THEMIS_GPU_RAII_HAS_CUDA
         if (stream_ != nullptr) {
@@ -312,8 +242,6 @@ class GPUStreamHandle {
 #endif
     }
 
-    /// Query if all operations in stream have completed
-    /// @return true if stream is idle; false if pending operations exist
     bool isIdle() noexcept {
 #if THEMIS_GPU_RAII_HAS_CUDA
         if (stream_ == nullptr) {
@@ -329,7 +257,6 @@ class GPUStreamHandle {
  private:
     cudaStream_t stream_;
 
-    /// Destroy the stream (no-throw)
     void destroy() noexcept {
         if (stream_ != nullptr) {
 #if THEMIS_GPU_RAII_HAS_CUDA
@@ -345,57 +272,33 @@ class GPUStreamHandle {
 // GPUEventHandle — RAII wrapper for GPU event lifecycle
 // ============================================================================
 
-/**
- * @class GPUEventHandle
- * @brief RAII wrapper for CUDA event management
- *
- * Features:
- * - Automatic event creation on construction
- * - Automatic event destruction on destruction
- * - Move-only semantics
- * - Event recording and completion checking
- * - Timing support
- *
- * @throws std::runtime_error if event creation fails
- *
- * Example:
- * ```cpp
- * {
- *     GPUEventHandle start_event, end_event;
- *     start_event.record(stream);
- *     kernel<<<blocks, threads, 0, stream>>>(args);
- *     end_event.record(stream);
- *     end_event.wait();  // Ensure completion
- * }  // Automatic cleanup
- * ```
- */
 class GPUEventHandle {
  public:
-    /// Create a new GPU event
-    /// @throws std::runtime_error if event creation fails
     explicit GPUEventHandle() : event_(nullptr) {
 #if THEMIS_GPU_RAII_HAS_CUDA
         cudaError_t err = cudaEventCreate(&event_);
         if (err != cudaSuccess) {
             std::string msg = std::string("cudaEventCreate failed: ") + cudaGetErrorString(err);
             logGPUError(__FILE__, msg);
+            /**
+             * @brief Runtime error.
+             * @param[in] msg Input parameter.
+             * @return Return value.
+             */
             throw std::runtime_error(msg);
         }
 #endif
     }
 
-    /// Destructor — destroy the event
     ~GPUEventHandle() noexcept {
         destroy();
     }
 
     // --- Move semantics (enabled) ---
 
-    /// Move constructor
     GPUEventHandle(GPUEventHandle&& other) noexcept
         : event_(std::exchange(other.event_, nullptr)) {}
 
-    /// Move assignment
     GPUEventHandle& operator=(GPUEventHandle&& other) noexcept {
         if (this != &other) {
             destroy();
@@ -406,15 +309,12 @@ class GPUEventHandle {
 
     // --- Copy semantics (deleted) ---
 
-    /// Delete copy constructor
     GPUEventHandle(const GPUEventHandle&) = delete;
 
-    /// Delete copy assignment
     GPUEventHandle& operator=(const GPUEventHandle&) = delete;
 
     // --- Accessors ---
 
-    /// Get the underlying CUDA event
 #if THEMIS_GPU_RAII_HAS_CUDA
     cudaEvent_t get() const noexcept {
         return event_;
@@ -425,14 +325,16 @@ class GPUEventHandle {
     }
 #endif
 
-    /// Check if event is valid
     bool isValid() const noexcept {
         return event_ != nullptr;
     }
 
-    /// Record event in stream
-    /// @param stream CUDA stream to record event in
-    /// @throws std::runtime_error if recording fails
+    /**
+     * @brief Record.
+     * @param[in] stream Input parameter.
+     * @throws std::runtime_error if an error occurs.
+     * @details Calls: cudaEventRecord(), std::string(), cudaGetErrorString(), logGPUError().
+     */
     void record(cudaStream_t stream) {
 #if THEMIS_GPU_RAII_HAS_CUDA
         if (event_ == nullptr) {
@@ -447,8 +349,6 @@ class GPUEventHandle {
 #endif
     }
 
-    /// Query if event has completed
-    /// @return true if event is complete; false if pending
     bool isCompleted() noexcept {
 #if THEMIS_GPU_RAII_HAS_CUDA
         if (event_ == nullptr) {
@@ -461,8 +361,11 @@ class GPUEventHandle {
 #endif
     }
 
-    /// Wait for event to complete
-    /// @throws std::runtime_error if wait fails
+    /**
+     * @brief Wait.
+     * @throws std::runtime_error if an error occurs.
+     * @details Calls: cudaEventSynchronize(), std::string(), cudaGetErrorString(), logGPUError().
+     */
     void wait() {
 #if THEMIS_GPU_RAII_HAS_CUDA
         if (event_ == nullptr) {
@@ -484,7 +387,6 @@ class GPUEventHandle {
     void* event_;
 #endif
 
-    /// Destroy the event (no-throw)
     void destroy() noexcept {
         if (event_ != nullptr) {
 #if THEMIS_GPU_RAII_HAS_CUDA
@@ -500,21 +402,31 @@ class GPUEventHandle {
 // Factory functions for convenient RAII object creation
 // ============================================================================
 
-/// Create GPU memory buffer
-/// @tparam T Element type
-/// @param count Number of elements to allocate
-/// @return GPU memory handle with automatic cleanup
 template<typename T>
+/**
+ * @brief Make GPUMemory.
+ * @param[in] count Input parameter.
+ * @return Return value.
+ * @details Implements makeGPUMemory without additional internal calls.
+ */
 inline GPUMemoryHandle<T> makeGPUMemory(size_t count) {
     return GPUMemoryHandle<T>(count);
 }
 
-/// Create GPU stream with automatic cleanup
+/**
+ * @brief Make GPUStream.
+ * @return Return value.
+ * @details Calls: GPUStreamHandle().
+ */
 inline GPUStreamHandle makeGPUStream() {
     return GPUStreamHandle();
 }
 
-/// Create GPU event with automatic cleanup
+/**
+ * @brief Make GPUEvent.
+ * @return Return value.
+ * @details Calls: GPUEventHandle().
+ */
 inline GPUEventHandle makeGPUEvent() {
     return GPUEventHandle();
 }

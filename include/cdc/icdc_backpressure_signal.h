@@ -33,18 +33,6 @@ namespace cdc {
 
 // ── BackpressureLevel ─────────────────────────────────────────────────────────
 
-/**
- * @brief Severity levels for consumer backpressure signals.
- *
- * Ordered from least (None) to most severe (Critical).  The CDC layer uses
- * these levels to adjust delivery throughput:
- *   None     — normal operation; no throttling.
- *   Low      — advisory; the CDC layer may log the condition.
- *   Medium   — the CDC layer reduces event batch sizes.
- *   High     — the CDC layer introduces inter-batch delays.
- *   Critical — the CDC layer calls ICDCPauseControl::pause(Backpressure)
- *              if a pause-control handle is registered.
- */
 enum class BackpressureLevel {
     None     = 0, ///< Normal operation
     Low      = 1, ///< Light congestion
@@ -55,53 +43,34 @@ enum class BackpressureLevel {
 
 // ── ICDCBackpressureSignal ────────────────────────────────────────────────────
 
-/**
- * @brief Abstract advisory backpressure interface for CDC consumers.
- *
- * Implementations are expected to be thread-safe.
- *
- * Design constraints (from FUTURE_ENHANCEMENTS.md):
- *  - Signals are advisory; the CDC layer may still deliver events when a
- *    signal is active, but reduces throughput at Medium/High levels.
- *  - Critical level triggers automatic ICDCPauseControl::pause() when
- *    a pause-control integration is configured.
- *  - signalBackpressure() is non-blocking; ≤ 1 µs overhead.
- *  - currentLevel() is non-blocking.
- */
 class ICDCBackpressureSignal {
 public:
+    /**
+     * @brief ICDCBackpressure Signal.
+     * @return Return value.
+     */
     virtual ~ICDCBackpressureSignal() = default;
 
     /**
-     * @brief Signal the current backpressure level to the CDC layer.
-     *
-     * Replaces the previous level; subsequent calls with a lower level
-     * effectively clear the signal.
-     *
-     * @param level  The new backpressure level.
+     * @brief Signal Backpressure.
+     * @param[in] level Input parameter.
      */
     virtual void signalBackpressure(BackpressureLevel level) = 0;
 
     /**
-     * @brief Clear backpressure; equivalent to signalBackpressure(None).
+     * @brief Clear Backpressure.
      */
     virtual void clearBackpressure() = 0;
 
     /**
-     * @brief Return the current backpressure level without blocking.
+     * @brief Current Level.
+     * @return Return value.
      */
     virtual BackpressureLevel currentLevel() const = 0;
 };
 
 // ── InMemoryBackpressureSignal ────────────────────────────────────────────────
 
-/**
- * @brief Thread-safe in-memory implementation of ICDCBackpressureSignal.
- *
- * Stores the current level atomically.  An optional callback is invoked
- * (under a light mutex) whenever the level changes, allowing integration
- * tests and the CDC layer to react to level changes immediately.
- */
 class InMemoryBackpressureSignal : public ICDCBackpressureSignal {
 public:
     using LevelCallback = std::function<void(BackpressureLevel /*new_level*/)>;
@@ -114,6 +83,11 @@ public:
     void signalBackpressure(BackpressureLevel level) override {
         BackpressureLevel prev = level_.exchange(level, std::memory_order_acq_rel);
         if (prev != level && callback_) {
+            /**
+             * @brief Lk.
+             * @param[in] cb_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::unique_lock<std::mutex> lk(cb_mutex_);
             if (callback_) {
               callback_(level);
@@ -129,13 +103,12 @@ public:
         return level_.load(std::memory_order_acquire);
     }
 
-    // ── Extra helpers ─────────────────────────────────────────────────────────
-
     /**
-     * @brief Register or replace the level-change callback.
-     *
-     * Thread-safe; replaces any previously registered callback.
+     * @brief ── Extra helpers ─────────────────────────────────────────────────────────
+     * @param[in] cb Input parameter.
+     * @details Calls: lk(), std::move().
      */
+
     void setCallback(LevelCallback cb) {
         std::unique_lock<std::mutex> lk(cb_mutex_);
         callback_ = std::move(cb);

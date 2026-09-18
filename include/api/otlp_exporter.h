@@ -84,15 +84,6 @@
 namespace themis {
 namespace api {
 
-/**
- * @brief Configuration for the OTLP HTTP span exporter.
- *
- * Mirrors the fields in `config/networking/otlp.yaml`.
- *
- * ### Defaults
- * All default values match the YAML config.  Callers may construct a default-
- * initialised instance and override only the fields they care about.
- */
 struct OtlpExporterConfig {
     bool        enabled        = false;
     std::string endpoint       = "http://localhost:4318/v1/traces";
@@ -123,12 +114,6 @@ struct OtlpExporterConfig {
     int retry_initial_delay_ms = 100; ///< Initial retry back-off delay in milliseconds (>= 1); doubled each attempt.
 };
 
-/**
- * @brief Lightweight span descriptor used by OtlpExporter.
- *
- * Callers fill in the fields they know; the exporter serialises the struct
- * into OTLP JSON format.
- */
 struct SpanData {
     std::string  trace_id;       ///< 32 hex chars (128-bit); e.g. from X-Correlation-ID
     std::string  span_id;        ///< 16 hex chars (64-bit); unique per request leg
@@ -139,36 +124,9 @@ struct SpanData {
     int          status_code = 0; ///< 0 = Unset, 1 = OK, 2 = Error (OTLP StatusCode)
     std::string  status_message;
 
-    /// Per-span key/value attributes (string values only for simplicity).
     std::unordered_map<std::string, std::string> attributes;
 };
 
-/**
- * @brief Asynchronous OTLP/HTTP span exporter.
- *
- * Implements a background-thread producer/consumer pipeline:
- *  - `enqueue(SpanData)` is called from HTTP-handling threads (fast, lock-free for
- *    normal operation).
- *  - A single background thread batches queued spans and sends them to the
- *    configured OTLP collector using a synchronous libcurl HTTP POST.
- *
- * The JSON payload sent to the collector follows the OTLP JSON trace format:
- *   https://opentelemetry.io/docs/specs/otlp/#json-encoding
- *
- * ### Thread safety
- * `enqueue()` is safe to call from any thread concurrently.
- * `start()` / `stop()` should only be called once at server startup/shutdown.
- *
- * ### Lifecycle
- * ```cpp
- * OtlpExporter exporter(config);
- * exporter.start();                   // launches background flush thread
- * // … normal operation …
- * exporter.enqueue(span);
- * // …
- * exporter.stop();                    // flushes remaining spans and joins thread
- * ```
- */
 class OtlpExporter {
 public:
     explicit OtlpExporter(OtlpExporterConfig config = {});
@@ -180,63 +138,62 @@ public:
     OtlpExporter& operator=(OtlpExporter&&) = delete;
 
     /**
-     * @brief Start the background flush thread.
-     *
-     * No-op if `config.enabled` is false or if already started.
+     * @brief Start.
      */
     void start();
 
     /**
-     * @brief Stop the background flush thread and flush remaining spans.
-     *
-     * Blocks until the background thread has exited.
+     * @brief Stop.
      */
     void stop();
 
     /**
-     * @brief Enqueue a finished span for asynchronous export.
-     *
-     * If the queue is full (`max_queue_size`), the oldest span is dropped and
-     * a warning is logged.  This call never blocks.
-     *
-     * No-op if `config.enabled` is false.
-     *
-     * @param span  Completed span to export.
+     * @brief Enqueue.
+     * @param[in] span Input parameter.
      */
     void enqueue(SpanData span);
 
     /**
-     * @brief Return the total number of spans successfully exported since start().
+     * @brief Exported Span Count.
+     * @return Return value.
+     * @note Exception safety: noexcept.
      */
     uint64_t exportedSpanCount() const noexcept;
 
     /**
-     * @brief Return the total number of spans dropped due to a full queue since start().
+     * @brief Dropped Span Count.
+     * @return Return value.
+     * @note Exception safety: noexcept.
      */
     uint64_t droppedSpanCount() const noexcept;
 
-    /// Return the current configuration.
     const OtlpExporterConfig& config() const noexcept { return config_; }
 
 #ifdef THEMIS_HAS_PROMETHEUS
     /**
-     * @brief Register OTLP span counters in a Prometheus registry.
-     *
-     * Must be called before start().  Registers:
-     *  - `otlp_spans_exported_total`
-     *  - `otlp_spans_dropped_total`
-     *
-     * No-op when Prometheus support is not compiled in.
-     *
-     * @param registry  Shared Prometheus registry instance.
+     * @brief Set Prometheus Registry.
+     * @param[in] registry Input parameter.
      */
     void setPrometheusRegistry(std::shared_ptr<prometheus::Registry> registry);
 #endif
 
 private:
+    /**
+     * @brief Flush Loop.
+     */
     void flushLoop();
+    /**
+     * @brief Flush Batch.
+     * @param[in,out] batch Input/output parameter.
+     */
     void flushBatch(std::vector<SpanData>& batch);
 
+    /**
+     * @brief Build Otlp Json.
+     * @param[in] cfg Input parameter.
+     * @param[in] spans Input parameter.
+     * @return Return value.
+     */
     static std::string buildOtlpJson(const OtlpExporterConfig& cfg,
                                      const std::vector<SpanData>& spans);
 

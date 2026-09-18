@@ -31,39 +31,16 @@
 namespace themis {
 namespace auth {
 
-/**
- * @brief Result of a federated token validation
- *
- * Carries the validated claims together with the realm (issuer URL) that
- * successfully validated the token.
- */
 struct FederatedValidationResult {
     JWTClaims    claims;      ///< Validated JWT claims
     std::string  realm;       ///< Issuer URL of the realm that validated the token
 };
 
-/**
- * @brief In-memory entry in the cross-provider token validation cache.
- *
- * Caches the result of a successful validateToken() call keyed by the raw
- * bearer token string.  Entries are considered valid until
- * @c expires_at passes (derived from JWTClaims::expiration).
- *
- * Thread safety: all access is serialised through cache_mutex_ in
- * FederatedIdentityManager.
- */
 struct CachedValidation {
     FederatedValidationResult result;                   ///< The cached validation result
     std::chrono::system_clock::time_point expires_at;  ///< Wall-clock expiry from JWT exp
 };
 
-/**
- * @brief Result of an RFC 8693 OAuth 2.0 Token Exchange
- *
- * Contains the raw exchanged access token, the token type declared by the IdP,
- * the optional lifetime, and the validated claims extracted by the
- * JWTValidator pipeline.
- */
 struct TokenExchangeResult {
     std::string  access_token;        ///< Exchanged access token (raw JWT)
     std::string  issued_token_type;   ///< Token type URI returned by the IdP
@@ -74,62 +51,6 @@ struct TokenExchangeResult {
     std::string  realm;               ///< Issuer URL of the realm that issued the token
 };
 
-/**
- * @brief Manages federated identity across multiple OIDC realms
- *
- * Allows ThemisDB to accept tokens issued by any of a set of registered OIDC
- * identity providers (realms).  When a token arrives the manager inspects its
- * @c iss claim, locates the matching realm, and delegates full JWT validation
- * to the corresponding OIDCProvider.
- *
- * Thread safety: all public methods are safe to call concurrently.
- *
- * Typical usage:
- * @code
- *   FederatedIdentityManager fed;
- *
- *   OIDCProviderConfig prod_cfg;
- *   prod_cfg.issuer_url = "https://keycloak.example.com/realms/production";
- *   prod_cfg.client_id  = "themisdb";
- *   fed.addRealm(prod_cfg);
- *
- *   OIDCProviderConfig dev_cfg;
- *   dev_cfg.issuer_url = "https://keycloak.example.com/realms/development";
- *   dev_cfg.client_id  = "themisdb";
- *   fed.addRealm(dev_cfg);
- *
- *   // Validate a bearer token without knowing which realm issued it
- *   FederatedValidationResult result = fed.validateToken(bearer_token);
- *   std::cout << "Authenticated via realm: " << result.realm << "\n";
- *   std::cout << "Subject: " << result.claims.sub << "\n";
- * @endcode
- *
- * ### Provider-degradation contract (auth_principal_contract.h §6)
- *
- * Each realm is backed by an OIDCProvider that performs network I/O (JWKS fetch,
- * token-exchange POST).  The following failure semantics apply to all network-bound
- * paths:
- *
- *   - **Realm not found**: validateToken() throws AuthException with
- *     AuthErrorCode::FEDERATION_UNKNOWN_REALM (fail-closed — not a known issuer).
- *   - **Provider network error**: if OIDCProvider::validateToken() throws a network
- *     or JWKS-fetch error, FederatedIdentityManager re-throws as
- *     AuthErrorCode::PROVIDER_DEGRADED.  The caller MUST treat this as a hard denial.
- *   - **Provider capability mismatch**: if the token exchange endpoint is absent or
- *     requires TLS that is not configured, exchangeToken() throws
- *     AuthErrorCode::PROVIDER_CAPABILITY_MISMATCH.
- *   - **Multiple realms share an issuer URL**: addRealm() throws
- *     AuthErrorCode::AUTH_CONFIG_INVALID at registration time; no duplicate realms
- *     are silently accepted.
- *   - **Token size violation**: tokens exceeding kMaxJwtTokenBytes are rejected
- *     before any realm lookup with AuthErrorCode::JWT_INVALID_FORMAT.
- *
- * All network-bound operations are synchronous.  Callers that need non-blocking
- * federation MUST dispatch to an async worker thread and handle the resulting
- * future according to the async-provider contract (auth_principal_contract.h §7).
- *
- * @see include/auth/auth_principal_contract.h — §4 Fail-closed, §6 Provider capability
- */
 class FederatedIdentityManager {
 public:
     FederatedIdentityManager() = default;
@@ -147,44 +68,34 @@ public:
     // -----------------------------------------------------------------------
 
     /**
-     * @brief Register a new OIDC realm.
-     *
-     * The trailing slash of @p config.issuer_url (if any) is stripped before
-     * registration so that "https://idp.example.com/realms/x" and
-     * "https://idp.example.com/realms/x/" are treated as the same realm.
-     *
-     * @param config  Provider configuration for the realm.
-     * @throws AuthException(AUTH_CONFIG_INVALID) if @p config.issuer_url is
-     *         empty or if a realm with the same normalized issuer URL is
-     *         already registered.
+     * @brief Add Realm.
+     * @param[in] config Input parameter.
      */
     void addRealm(const OIDCProviderConfig& config);
 
     /**
-     * @brief Remove a previously registered realm.
-     *
-     * @param issuer_url  Issuer URL of the realm to remove (trailing slash
-     *                    normalized automatically).
-     * @return true if the realm was found and removed, false otherwise.
+     * @brief Remove Realm.
+     * @param[in] issuer_url Input parameter.
+     * @return True when the operation succeeds.
      */
     bool removeRealm(const std::string& issuer_url);
 
     /**
-     * @brief Check whether a realm is registered.
-     *
-     * @param issuer_url  Issuer URL (trailing slash normalized automatically).
+     * @brief Has Realm.
+     * @param[in] issuer_url Input parameter.
+     * @return True when the operation succeeds.
      */
     bool hasRealm(const std::string& issuer_url) const;
 
     /**
-     * @brief Return the normalized issuer URLs of all registered realms.
-     * @return Vector of normalized issuer URLs in their current registry order.
+     * @brief Realm Issuers.
+     * @return Return value.
      */
     std::vector<std::string> realmIssuers() const;
 
     /**
-     * @brief Return the number of registered realms.
-     * @return Count of realms currently registered in the manager.
+     * @brief Realm Count.
+     * @return Return value.
      */
     size_t realmCount() const;
 
@@ -193,19 +104,9 @@ public:
     // -----------------------------------------------------------------------
 
     /**
-     * @brief Validate a bearer token against the realm that issued it.
-     *
-     * The method peeks at the token's @c iss claim (without full validation)
-     * to identify the responsible realm, then delegates to that realm's
-     * OIDCProvider::validateToken().
-     *
-     * @param token  JWT bearer token (with or without "Bearer " prefix).
-     * @return FederatedValidationResult containing the validated claims and
-     *         the matched realm's issuer URL.
-     * @throws AuthException(JWT_ISSUER_MISMATCH) if the token's issuer does
-     *         not match any registered realm.
-     * @throws AuthException on any other validation failure (expired,
-     *         invalid signature, audience mismatch, …).
+     * @brief Validate Token.
+     * @param[in] token Input parameter.
+     * @return Return value.
      */
     FederatedValidationResult validateToken(const std::string& token);
 
@@ -213,44 +114,6 @@ public:
     // RFC 8693 Token Exchange
     // -----------------------------------------------------------------------
 
-    /**
-     * @brief Exchange a token via RFC 8693 (OAuth 2.0 Token Exchange).
-     *
-     * Implements the token exchange grant type for service-to-service
-     * impersonation and delegation in federated scenarios.
-     *
-     * The method:
-     *  1. Validates @p subject_token through the registered realm's
-     *     JWTValidator pipeline to ensure the caller holds a valid credential.
-     *  2. Posts a token-exchange request to the realm's @c token_endpoint
-     *     using @c grant_type=urn:ietf:params:oauth:grant-type:token-exchange.
-     *  3. Validates the returned token through the same JWTValidator pipeline.
-     *  4. Scopes the exchanged token to @p target_scopes (minimum required
-     *     permissions) if provided.
-     *
-     * @param subject_token        The token being exchanged (JWT bearer token).
-     * @param subject_token_type   URI identifying the type of @p subject_token,
-     *                             e.g. @c urn:ietf:params:oauth:token-type:access_token.
-     * @param requested_token_type URI identifying the desired token type,
-     *                             e.g. @c urn:ietf:params:oauth:token-type:access_token.
-     * @param target_scopes        Optional list of scopes to request; the IdP
-     *                             will scope the exchanged token to the
-     *                             minimum required permissions.  When empty,
-     *                             no explicit scope restriction is sent.
-     * @return TokenExchangeResult with the raw exchanged token and its
-     *         validated JWTClaims.
-     * @throws AuthException(JWT_ISSUER_MISMATCH) if @p subject_token's issuer
-     *         does not match any registered realm.
-     * @throws AuthException(AUTH_CONFIG_INVALID) if the realm's
-     *         @c token_endpoint is absent or not HTTPS.
-     * @throws AuthException(AUTH_INTERNAL_ERROR) on HTTP or JSON parse failure.
-     * @throws AuthException(AUTH_INVALID_CREDENTIALS) if the IdP returns an
-     *         OAuth error response.
-     * @throws AuthException(AUTH_INSUFFICIENT_PERMISSIONS) if the IdP grants
-     *         fewer scopes than requested via @p target_scopes.
-     * @throws std::runtime_error if the subject token or the returned token
-     *         fail JWTValidator signature/expiry/audience validation.
-     */
     TokenExchangeResult exchangeToken(
         const std::string& subject_token,
         const std::string& subject_token_type,
@@ -258,21 +121,16 @@ public:
         const std::vector<std::string>& target_scopes = {});
 
     /**
-     * @brief Access a specific realm's OIDCProvider.
-     *
-     * Calls discover() lazily if the provider has not yet fetched its
-     * discovery document.
-     *
-     * @param issuer_url  Issuer URL (trailing slash normalized automatically).
-     * @return Reference to the OIDCProvider for that realm.
-     * @throws AuthException(AUTH_CONFIG_INVALID) if no realm with the given
-     *         issuer URL is registered.
+     * @brief Realm Provider.
+     * @param[in] issuer_url Input parameter.
+     * @return Return value.
      */
     OIDCProvider& realmProvider(const std::string& issuer_url);
 
     /**
-     * @brief Attach an AuthAuditLogger that receives JWT success/failure events.
-     * @param logger Non-owning pointer; may be nullptr (disables audit logging).
+     * @brief Set Audit Logger.
+     * @param[in,out] logger Input/output parameter.
+     * @details Implements setAuditLogger without additional internal calls.
      */
     void setAuditLogger(AuthAuditLogger* logger) { audit_logger_ = logger; }
 
@@ -280,184 +138,126 @@ public:
     // Testing helpers
     // -----------------------------------------------------------------------
 
-    /**
-     * @brief Override the HTTP GET function injected into every realm's
-     *        OIDCProvider (for unit tests only).
-     *
-     * Must be called *before* addRealm() for the hook to apply, or use
-     * realmProvider() to inject per-realm after registration.
-     */
     void setHttpGetForTesting(
         std::function<std::string(const std::string& url)> fn);
 
-    /**
-     * @brief Override the HTTP POST function used by exchangeToken()
-     *        (for unit tests only).
-     *
-     * When set, exchangeToken() calls this function instead of libcurl to
-     * submit the token-exchange form POST.  The function receives the target
-     * URL and the URL-encoded form body, and must return the raw JSON response
-     * body or throw std::runtime_error on failure.
-     */
     void setHttpPostForTesting(
         std::function<std::string(const std::string& url,
                                   const std::string& body)> fn);
 
-    // -----------------------------------------------------------------------
-    // Cross-provider trust registry
-    //
-    // Records which issuers are trusted by which realms.  Used internally by
-    // exchangeToken() to guard cross-realm token exchange.  All methods are
-    // thread-safe.
-    // -----------------------------------------------------------------------
-
     /**
-     * @brief Register a cross-provider trust relationship.
-     *
-     * After this call, @p trusting_issuer is marked as accepting tokens
-     * originally issued by @p subject_issuer.
-     *
-     * @param subject_issuer   Normalized issuer URL of the token source.
-     * @param trusting_issuer  Normalized issuer URL of the realm that trusts it.
-     * @throws AuthException(AUTH_CONFIG_INVALID) if either issuer URL is empty.
+     * @brief ----------------------------------------------------------------------- Cross-provider trust registry Records which issuers are trusted by which realms.
+     * @param[in] subject_issuer Input parameter.
+     * @param[in] trusting_issuer Input parameter.
+     * @details Used internally by exchangeToken() to guard cross-realm token exchange. All methods are thread-safe. -----------------------------------------------------------------------
      */
+
     void addCrossProviderTrust(const std::string& subject_issuer,
                                 const std::string& trusting_issuer);
 
     /**
-     * @brief Remove a previously registered cross-provider trust relationship.
-     *
-     * @param subject_issuer   Normalized issuer URL of the token source.
-     * @param trusting_issuer  Normalized issuer URL of the realm that trusts it.
-     * @return true if the trust was found and removed, false otherwise.
+     * @brief Remove Cross Provider Trust.
+     * @param[in] subject_issuer Input parameter.
+     * @param[in] trusting_issuer Input parameter.
+     * @return True when the operation succeeds.
      */
     bool removeCrossProviderTrust(const std::string& subject_issuer,
                                   const std::string& trusting_issuer);
 
     /**
-     * @brief Check whether @p trusting_issuer accepts tokens from @p subject_issuer.
-     *
-     * A realm always implicitly trusts itself (same-issuer tokens).
-     *
-     * @return true if the trust relationship is registered or the issuers match.
+     * @brief Is Trusted By.
+     * @param[in] subject_issuer Input parameter.
+     * @param[in] trusting_issuer Input parameter.
+     * @return True when the operation succeeds.
      */
     bool isTrustedBy(const std::string& subject_issuer,
                      const std::string& trusting_issuer) const;
 
     /**
-     * @brief Return all subject-issuers trusted by @p trusting_issuer.
+     * @brief Get Cross Provider Trusts.
+     * @param[in] trusting_issuer Input parameter.
+     * @return Return value.
      */
     std::vector<std::string> getCrossProviderTrusts(
         const std::string& trusting_issuer) const;
 
-    // -----------------------------------------------------------------------
-    // Multi-realm distributed trust-state synchronization (ROADMAP §3c)
-    //
-    // Propagates the local trust registry to a peer node via a simple TCP JSON
-    // payload using the existing TBLK/v1 retry pattern.  The peer node must
-    // expose a JSON-over-TCP listener on @p peer_rpc_endpoint.
-    //
-    // Wire format:
-    //   {"op":"sync_trust","entries":[{"subject":"<issuer>","trusting":"<issuer>"},…]}
-    //
-    // This push throws AuthException(AUTH_INTERNAL_ERROR) if the connect or
-    // send fails after all retry attempts; individual attempt failures within
-    // the retry budget are logged but swallowed.
-    // -----------------------------------------------------------------------
-
     /**
-     * @brief Push local trust-registry state to a peer federation node.
-     *
-     * Serialises the complete trust registry and pushes it to the peer node at
-     * @p peer_rpc_endpoint (format: "host:port") using a TCP JSON payload.  The
-     * peer node is identified by @p peer_node_id for logging purposes.
-     *
-     * Uses the same three-attempt exponential-backoff retry pattern as the
-     * LDAP connection pool (kBaseDelayMs=100 ms).
-     *
-     * @param peer_node_id      Human-readable identifier of the target node
-     *                          (used in log/audit messages only).
-     * @param peer_rpc_endpoint TCP endpoint of the peer node's trust-sync
-     *                          listener, e.g. "10.0.0.42:7171".
-     * @throws AuthException(AUTH_INTERNAL_ERROR) if TCP connect + send fails
-     *         after all retry attempts.
+     * @brief ----------------------------------------------------------------------- Multi-realm distributed trust-state synchronization (ROADMAP §3c) Propagates the local trust registry to a peer node via a simple TCP JSON payload using the existing TBLK/v1 retry pattern.
+     * @param[in] peer_node_id Identifier of the peer node.
+     * @param[in] peer_rpc_endpoint Input parameter.
+     * @details The peer node must expose a JSON-over-TCP listener on @p peer_rpc_endpoint. Wire format: {"op":"sync_trust","entries":[{"subject":"<issuer>","trusting":"<issuer>"},…]} This push throws AuthException(AUTH_INTERNAL_ERROR) if the connect or send fails after all retry attempts; individual attempt failures within the retry budget are logged but swallowed. -----------------------------------------------------------------------
      */
+
     void syncTrustState(const std::string& peer_node_id,
                         const std::string& peer_rpc_endpoint);
 
-    // -----------------------------------------------------------------------
-    // In-memory token validation cache
-    //
-    // validateToken() populates the cache automatically after each successful
-    // validation.  Callers may also query and manage the cache directly.
-    // All entries are keyed by the raw bearer token string.
-    // -----------------------------------------------------------------------
-
     /**
-     * @brief Explicitly insert or replace a cached validation entry.
-     *
-     * Typically used from tests; production code relies on the implicit
-     * cache-fill inside validateToken().
-     *
-     * @param token   Raw bearer token used as the cache key.
-     * @param result  Validation result to cache for @p token.
+     * @brief ----------------------------------------------------------------------- In-memory token validation cache validateToken() populates the cache automatically after each successful validation.
+     * @param[in] token Input parameter.
+     * @param[in] result Input parameter.
+     * @details Callers may also query and manage the cache directly. All entries are keyed by the raw bearer token string. -----------------------------------------------------------------------
      */
+
     void cacheValidationResult(const std::string& token,
                                const FederatedValidationResult& result);
 
     /**
-     * @brief Look up @p token in the validation cache.
-     *
-     * @return The cached result if present and not expired, or std::nullopt.
+     * @brief Get Cached Result.
+     * @param[in] token Input parameter.
+     * @return Return value.
      */
     std::optional<FederatedValidationResult> getCachedResult(
         const std::string& token) const;
 
     /**
-     * @brief Evict all entries whose JWT expiration has passed.
-     *
-     * @return Number of entries removed.
+     * @brief Evict Expired Cache Entries.
+     * @return Return value.
      */
     size_t evictExpiredCacheEntries();
 
     /**
-     * @brief Remove all entries from the token validation cache.
+     * @brief Clear Token Cache.
      */
     void clearTokenCache();
 
     /**
-     * @brief Return the number of entries currently in the token cache
-     *        (including possibly-expired ones not yet evicted).
-     * @return Current number of cached token-validation entries.
+     * @brief Token Cache Size.
+     * @return Return value.
      */
     size_t tokenCacheSize() const;
 
 private:
-    /// Normalize an issuer URL by stripping trailing slashes.
+    /**
+     * @brief Normalize.
+     * @param[in] url Input parameter.
+     * @return Return value.
+     */
     static std::string normalize(const std::string& url);
 
-    /// Peek at the JWT payload and extract the "iss" claim without
-    /// performing any cryptographic verification.
+    /**
+     * @brief Extract Issuer.
+     * @param[in] token Input parameter.
+     * @return Return value.
+     */
     static std::string extractIssuer(const std::string& token);
 
-    /// Build an application/x-www-form-urlencoded request body from a list
-    /// of key–value pairs.
     static std::string buildFormBody(
         const std::vector<std::pair<std::string, std::string>>& params);
 
-    /// Perform an HTTP POST and return the raw response body.
-    /// Uses the mock function if setHttpPostForTesting() was called.
+    /**
+     * @brief Http Post.
+     * @param[in] url Input parameter.
+     * @param[in] body Input parameter.
+     * @return Return value.
+     */
     std::string httpPost(const std::string& url, const std::string& body) const;
 
     mutable std::mutex mutex_;
 
-    /// issuer_url (normalized) -> OIDCProvider
     std::unordered_map<std::string, std::shared_ptr<OIDCProvider>> realms_;
 
-    /// Optional HTTP GET mock injected for testing; applied to all new realms
     std::function<std::string(const std::string& url)> http_get_fn_;
 
-    /// Optional HTTP POST mock injected for testing; used by exchangeToken()
     std::function<std::string(const std::string& url,
                                const std::string& body)> http_post_fn_;
 
@@ -473,9 +273,7 @@ private:
     // The LRU order list (cache_lru_order_) enforces kTokenCacheMaxSize cap.
     // -----------------------------------------------------------------------
     mutable std::mutex cache_mutex_;
-    /// @brief Cache map: SHA-256(token) hex → CachedValidation entry.
     std::unordered_map<std::string, CachedValidation> token_cache_;
-    /// @brief LRU order list: front = most recently used key, back = LRU key.
     std::list<std::string> cache_lru_order_;
 
     // -----------------------------------------------------------------------

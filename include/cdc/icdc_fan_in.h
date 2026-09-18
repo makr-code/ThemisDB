@@ -43,25 +43,14 @@ namespace cdc {
 
 // ── CollectionId ─────────────────────────────────────────────────────────────
 
-/// Strong typedef for a named collection identifier within a fan-in.
 using CollectionId = std::string;
 
 // ── FanInEvent ────────────────────────────────────────────────────────────────
 
-/**
- * @brief A tagged ChangeEvent that carries its originating CollectionId.
- *
- * All fields of the underlying ChangeEvent are accessible via the `event`
- * member.  The `collection` field identifies which registered source produced
- * the event.
- */
 struct FanInEvent {
     CollectionId           collection; ///< Name of the originating collection
     Changefeed::ChangeEvent event;     ///< The underlying change event
 
-    /**
-     * @brief Serialise to JSON, adding a top-level "collection" field.
-     */
     nlohmann::json toJson() const {
         nlohmann::json j = event.toJson();
         j["collection"] = collection;
@@ -71,39 +60,23 @@ struct FanInEvent {
 
 // ── IFanInMergePolicy ─────────────────────────────────────────────────────────
 
-/**
- * @brief Pluggable merge / ordering policy for fan-in event streams.
- *
- * Implementations decide how to order or deduplicate FanInEvents from
- * multiple source collections when they are merged into a single stream.
- *
- * Thread-safety: implementations must be thread-safe.
- */
 class IFanInMergePolicy {
 public:
+    /**
+     * @brief IFan In Merge Policy.
+     * @return Return value.
+     */
     virtual ~IFanInMergePolicy() = default;
 
     /**
-     * @brief Sort (or otherwise reorder) a batch of fan-in events in-place.
-     *
-     * Called once per listEvents() invocation after events from all sources
-     * have been gathered.  The default (wall-clock + lexicographic collection
-     * tie-break) is provided by TimestampMergePolicy below.
-     *
-     * @param events  Mutable reference to the event batch to be reordered.
+     * @brief Merge.
+     * @param[in,out] events Input/output parameter.
      */
     virtual void merge(std::vector<FanInEvent>& events) const = 0;
 };
 
 // ── TimestampMergePolicy ──────────────────────────────────────────────────────
 
-/**
- * @brief Default merge policy: order by (timestamp_ms ASC, collection ASC,
- *        sequence ASC).
- *
- * This provides a globally deterministic total order when event clocks are
- * reasonably synchronised.
- */
 class TimestampMergePolicy : public IFanInMergePolicy {
 public:
     void merge(std::vector<FanInEvent>& events) const override {
@@ -122,73 +95,34 @@ public:
 
 // ── ICDCFanIn ─────────────────────────────────────────────────────────────────
 
-/**
- * @brief Abstract multi-source CDC fan-in interface.
- *
- * Combines events from multiple registered Changefeed sources into a single
- * merged event stream.
- *
- * Thread-safety: all methods must be thread-safe in every implementation.
- */
 class ICDCFanIn {
 public:
+    /**
+     * @brief ICDCFan In.
+     * @return Return value.
+     */
     virtual ~ICDCFanIn() = default;
 
-    /**
-     * @brief Register a named CDC source.
-     *
-     * @param id    Unique collection identifier.
-     * @param feed  Non-owning pointer to the Changefeed to subscribe from.
-     * @return true if the source was added; false if id is already registered.
-     */
     [[nodiscard]] virtual bool addSource(const CollectionId& id, Changefeed* feed) = 0;
 
-    /**
-     * @brief Deregister a named CDC source.
-     *
-     * @return true if the source was found and removed; false otherwise.
-     */
     [[nodiscard]] virtual bool removeSource(const CollectionId& id) = 0;
 
-    /**
-     * @brief List all events from all (or a subset of) registered sources,
-     *        merged according to the active IFanInMergePolicy.
-     *
-     * @param from_sequence  Only return events with sequence > from_sequence
-     *                       (0 = return all events).
-     * @param limit          Maximum number of events to return (0 = unlimited).
-     * @param collections    If non-empty, restrict to these collection IDs.
-     * @return Merged, ordered event batch.
-     */
     [[nodiscard]] virtual std::vector<FanInEvent> listEvents(
         uint64_t                         from_sequence  = 0,
         std::size_t                      limit          = 0,
         const std::vector<CollectionId>& collections    = {}) const = 0;
 
     /**
-     * @brief Set a custom merge policy.
-     *
-     * Replaces the previous policy.  Ownership is transferred to the fan-in.
-     *
-     * @param policy  Non-null pointer to the merge policy.
+     * @brief Set Merge Policy.
+     * @param[in] policy Input parameter.
      */
     virtual void setMergePolicy(std::unique_ptr<IFanInMergePolicy> policy) = 0;
 
-    /**
-     * @brief Return the list of registered collection IDs.
-     */
     [[nodiscard]] virtual std::vector<CollectionId> sourceIds() const = 0;
 };
 
 // ── InMemoryFanIn ─────────────────────────────────────────────────────────────
 
-/**
- * @brief Thread-safe in-memory implementation of ICDCFanIn.
- *
- * Suitable for unit tests and standalone use (no RocksDB dependency).
- * Queries each registered Changefeed via its listEvents() API and merges
- * the results using the configured IFanInMergePolicy.
- */
 class InMemoryFanIn : public ICDCFanIn {
 public:
     InMemoryFanIn()
@@ -197,6 +131,11 @@ public:
     // ── ICDCFanIn ────────────────────────────────────────────────────────────
 
     bool addSource(const CollectionId& id, Changefeed* feed) override {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         if (sources_.count(id)) {
           return false;
@@ -206,6 +145,11 @@ public:
     }
 
     bool removeSource(const CollectionId& id) override {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         return sources_.erase(id) > 0;
     }
@@ -218,6 +162,11 @@ public:
         // Take a snapshot of sources under the lock, then query without holding it.
         std::unordered_map<CollectionId, Changefeed*> snapshot;
         {
+            /**
+             * @brief Lk.
+             * @param[in] mutex_ Input parameter.
+             * @return Return value.
+             */
             std::unique_lock<std::mutex> lk(mutex_);
             snapshot = sources_;
         }
@@ -252,6 +201,11 @@ public:
         }
 
         {
+            /**
+             * @brief Lk.
+             * @param[in] mutex_ Input parameter.
+             * @return Return value.
+             */
             std::unique_lock<std::mutex> lk(mutex_);
             if (policy_) {
               policy_->merge(merged);
@@ -265,11 +219,21 @@ public:
     }
 
     void setMergePolicy(std::unique_ptr<IFanInMergePolicy> policy) override {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         policy_ = std::move(policy);
     }
 
     std::vector<CollectionId> sourceIds() const override {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lk(mutex_);
         std::vector<CollectionId> ids = {};
 

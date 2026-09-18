@@ -34,55 +34,50 @@
 namespace themis {
 namespace gpu {
 
-/**
- * @class GPUMemoryPool
- * @brief GPU memory pool with fragmentation control and leak prevention
- */
 class GPUMemoryPool {
 public:
-    /// @brief Memory pool configuration
     struct Config {
         size_t total_pool_size = 0;        ///< Pre-allocate pool (0 = no pre-alloc)
         double fragmentation_threshold = 0.10;  ///< Trigger defrag at 10%
         bool enable_statistics = true;     ///< Track allocation statistics
     };
 
-    /// @brief Construct memory pool
-    /// @param config Pool configuration
     explicit GPUMemoryPool(const Config& config = {});
 
-    /// @brief Destructor — frees all allocations
     ~GPUMemoryPool() noexcept;
 
-    /// Delete copy operations
     GPUMemoryPool(const GPUMemoryPool&) = delete;
     GPUMemoryPool& operator=(const GPUMemoryPool&) = delete;
 
-    /// Allow move operations
     GPUMemoryPool(GPUMemoryPool&&) noexcept = default;
     GPUMemoryPool& operator=(GPUMemoryPool&&) noexcept = default;
 
-    /// @brief Allocate memory from pool
-    /// @param size Number of bytes to allocate
-    /// @return Device pointer if successful; nullptr if failed
-    /// @throws std::runtime_error on allocation failure
+    /**
+     * @brief Allocate.
+     * @param[in] size Input parameter.
+     * @return Pointer to the result.
+     */
     void* allocate(size_t size);
 
-    /// @brief Deallocate memory back to pool
-    /// @param ptr Device pointer to deallocate
-    /// @return true if deallocation succeeded; false if pointer not found
+    /**
+     * @brief Deallocate.
+     * @param[in,out] ptr Input/output parameter.
+     * @return True when the operation succeeds.
+     */
     bool deallocate(void* ptr);
 
-    /// @brief Get fragmentation ratio
-    /// @return Ratio of fragmented free space to total free space (0.0-1.0)
+    /**
+     * @brief Get Fragmentation Ratio.
+     * @return Return value.
+     */
     double getFragmentationRatio() const;
 
-    /// @brief Force defragmentation of pool
-    /// @return Number of blocks coalesced
+    /**
+     * @brief Defragment.
+     * @return Return value.
+     */
     size_t defragment();
 
-    /// @brief Get current statistics
-    /// @return Structure with pool metrics
     struct Statistics {
         size_t total_allocated = 0;      ///< Total bytes allocated
         size_t total_freed = 0;          ///< Total bytes freed/available
@@ -91,12 +86,16 @@ public:
         double fragmentation_ratio = 0.0;
     };
 
-    /// @brief Get pool statistics
-    /// @return Current statistics
+    /**
+     * @brief Return access control statistics.
+     * @return Access control statistics.
+     */
     Statistics getStatistics() const;
 
-    /// @brief Check for memory leaks
-    /// @return Number of potentially leaked blocks
+    /**
+     * @brief Check For Leaks.
+     * @return Return value.
+     */
     size_t checkForLeaks() const;
 
 private:
@@ -115,8 +114,20 @@ private:
     size_t total_freed_ = 0;
     int64_t next_allocation_id_ = 1;
 
+    /**
+     * @brief Find Block.
+     * @param[in,out] ptr Input/output parameter.
+     * @return Pointer to the result.
+     */
     Block* findBlock(void* ptr);
+    /**
+     * @brief Coalesce Adjacent Blocks.
+     */
     void coalesceAdjacentBlocks();
+    /**
+     * @brief Compute Fragmented Size.
+     * @return Return value.
+     */
     size_t computeFragmentedSize() const;
 };
 

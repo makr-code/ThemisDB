@@ -55,12 +55,21 @@ static constexpr std::chrono::milliseconds kLockTimeout{200};
  */
 bool QueryCancellationToken::waitUntilCancelledFor(
         std::chrono::milliseconds timeout) noexcept {
+    /**
+     * @brief Lock.
+     * @param[in] cv_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::mutex> lock(cv_mutex_);
     return cv_.wait_for(lock, timeout,
                         [this]() noexcept { return isCancelled(); });
 }
 
-// ── QueryCanceller ──────────────────────────────────────────────────────────
+/**
+ * @brief ── QueryCanceller ──────────────────────────────────────────────────────────
+ * @return Return value.
+ * @details Implements instance without additional internal calls.
+ */
 
 QueryCanceller& QueryCanceller::instance() {
     static QueryCanceller inst;
@@ -70,9 +79,13 @@ QueryCanceller& QueryCanceller::instance() {
 std::shared_ptr<QueryCancellationToken>
 QueryCanceller::registerQuery(const std::string& request_id) {
     auto token = std::make_shared<QueryCancellationToken>();
-    // Use timed_lock to prevent indefinite blocking if the mutex is contended.
-    // If we timeout, the token is still valid for the caller, just not 
-    // cancellable via this registry (caller can cancel directly via the token).
+    /**
+     * @brief Use timed_lock to prevent indefinite blocking if the mutex is contended.
+     * @param[in] mutex_ Input parameter.
+     * @param[in] kLockTimeout Input parameter.
+     * @return Return value.
+     * @details If we timeout, the token is still valid for the caller, just not cancellable via this registry (caller can cancel directly via the token).
+     */
     std::unique_lock<std::timed_mutex> lock(mutex_, kLockTimeout);
     if (!lock.owns_lock()) {
         THEMIS_WARN("QueryCanceller::registerQuery: lock timeout for '{}'; token not registered",
@@ -83,10 +96,20 @@ QueryCanceller::registerQuery(const std::string& request_id) {
     return token;
 }
 
+/**
+ * @brief Cancel.
+ * @param[in] request_id Input parameter.
+ * @return True on success.
+ * @details Calls: lock(), owns_lock(), THEMIS_WARN(), find(), end(), erase().
+ */
 bool QueryCanceller::cancel(const std::string& request_id) {
-    // Use timed_lock to prevent indefinite blocking.
-    // This ensures cancellation requests don't hang if the registry is locked
-    // by another thread for an extended period.
+    /**
+     * @brief Use timed_lock to prevent indefinite blocking.
+     * @param[in] mutex_ Input parameter.
+     * @param[in] kLockTimeout Input parameter.
+     * @return Return value.
+     * @details This ensures cancellation requests don't hang if the registry is locked by another thread for an extended period.
+     */
     std::unique_lock<std::timed_mutex> lock(mutex_, kLockTimeout);
     if (!lock.owns_lock()) {
         THEMIS_WARN("QueryCanceller::cancel: lock timeout for '{}'", request_id);
@@ -107,10 +130,19 @@ bool QueryCanceller::cancel(const std::string& request_id) {
     return true;
 }
 
+/**
+ * @brief Unregister Query.
+ * @param[in] request_id Input parameter.
+ * @details Calls: lock(), owns_lock(), THEMIS_WARN(), erase().
+ */
 void QueryCanceller::unregisterQuery(const std::string& request_id) {
-    // Use timed_lock to prevent indefinite blocking on cleanup.
-    // If timeout occurs, the token will eventually be cleaned up by weak_ptr
-    // expiration when all references are released.
+    /**
+     * @brief Use timed_lock to prevent indefinite blocking on cleanup.
+     * @param[in] mutex_ Input parameter.
+     * @param[in] kLockTimeout Input parameter.
+     * @return Return value.
+     * @details If timeout occurs, the token will eventually be cleaned up by weak_ptr expiration when all references are released.
+     */
     std::unique_lock<std::timed_mutex> lock(mutex_, kLockTimeout);
     if (!lock.owns_lock()) {
         THEMIS_WARN("QueryCanceller::unregisterQuery: lock timeout for '{}'", request_id);

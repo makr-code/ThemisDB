@@ -96,9 +96,12 @@ std::string ErrorContext::toFormattedString() const {
     return oss.str();
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Error Code Naming
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── Error Code Naming ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] code Input parameter.
+ * @return Return value.
+ * @details Calls: fmt::format().
+ */
 
 std::string errorCodeName(ErrorCode code) {
     switch (code) {
@@ -206,6 +209,12 @@ std::string errorCodeName(ErrorCode code) {
     }
 }
 
+/**
+ * @brief Category Name.
+ * @param[in] category Input parameter.
+ * @return Return value.
+ * @details Implements categoryName without additional internal calls.
+ */
 std::string categoryName(ErrorCategory category) {
     switch (category) {
         case ErrorCategory::AuditLog:           return "AuditLog";
@@ -231,6 +240,12 @@ std::string categoryName(ErrorCategory category) {
     }
 }
 
+/**
+ * @brief Severity Name.
+ * @param[in] severity Input parameter.
+ * @return Return value.
+ * @details Implements severityName without additional internal calls.
+ */
 std::string severityName(ErrorSeverity severity) {
     switch (severity) {
         case ErrorSeverity::Fatal:      return "Fatal";
@@ -241,6 +256,12 @@ std::string severityName(ErrorSeverity severity) {
     }
 }
 
+/**
+ * @brief Incident Name.
+ * @param[in] incident Input parameter.
+ * @return Return value.
+ * @details Implements incidentName without additional internal calls.
+ */
 std::string incidentName(IncidentCategory incident) {
     switch (incident) {
         case IncidentCategory::BufferOverflow:           return "BufferOverflow";
@@ -262,9 +283,12 @@ std::string incidentName(IncidentCategory incident) {
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Incident Categorization
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── Incident Categorization ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] code Input parameter.
+ * @return Return value.
+ * @details Implements categorizeIncident without additional internal calls.
+ */
 
 IncidentCategory categorizeIncident(ErrorCode code) {
     // Categorize based on error code patterns and semantics
@@ -370,9 +394,16 @@ IncidentCategory categorizeIncident(ErrorCode code) {
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Error Context Creation
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── Error Context Creation ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] code Input parameter.
+ * @param[in] message Input parameter.
+ * @param[in] component Input parameter.
+ * @param[in] severity Input parameter.
+ * @param[in] is_recoverable Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), std::chrono::milliseconds().
+ */
 
 ErrorContext makeErrorContext(ErrorCode code,
                               const std::string& message,
@@ -456,9 +487,12 @@ ErrorContext makeErrorContext(ErrorCode code,
     return ctx;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Diagnostic Logging
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── Diagnostic Logging ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] ctx Input parameter.
+ * @param[in] logger Input parameter.
+ * @details Calls: spdlog::get(), spdlog::default_logger(), critical(), toFormattedString(), error(), warn(), info(), debug().
+ */
 
 void logErrorWithContext(const ErrorContext& ctx,
                          std::shared_ptr<spdlog::logger> logger) {

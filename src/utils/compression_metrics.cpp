@@ -16,12 +16,25 @@
 namespace themis {
 namespace utils {
 
+/**
+ * @brief Record compression.
+ * @param[in] method Input parameter.
+ * @param[in] bytes_in Input parameter.
+ * @param[in] bytes_out Input parameter.
+ * @param[in] duration Input parameter.
+ * @details Calls: lock(), count().
+ */
 void CompressionMetrics::record_compression(
     const std::string& method,
     size_t bytes_in,
     size_t bytes_out,
     std::chrono::microseconds duration
 ) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto& stats = stats_[method];
     stats.bytes_in += bytes_in;
@@ -30,12 +43,25 @@ void CompressionMetrics::record_compression(
     stats.compression_count += 1;
 }
 
+/**
+ * @brief Record decompression.
+ * @param[in] method Input parameter.
+ * @param[in] bytes_in Input parameter.
+ * @param[in] bytes_out Input parameter.
+ * @param[in] duration Input parameter.
+ * @details Calls: lock(), count().
+ */
 void CompressionMetrics::record_decompression(
     const std::string& method,
     size_t bytes_in,
     size_t bytes_out,
     std::chrono::microseconds duration
 ) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto& stats = stats_[method];
     stats.bytes_in += bytes_out; // Original size
@@ -45,12 +71,22 @@ void CompressionMetrics::record_decompression(
 }
 
 CompressionMetrics::MethodStats CompressionMetrics::get_method_stats(const std::string& method) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = stats_.find(method);
     return it != stats_.end() ? it->second : MethodStats{};
 }
 
 std::vector<std::string> CompressionMetrics::get_methods() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<std::string> methods = {};
 
@@ -61,12 +97,26 @@ std::vector<std::string> CompressionMetrics::get_methods() const {
     return methods;
 }
 
+/**
+ * @brief Reset.
+ * @details Calls: lock(), clear().
+ */
 void CompressionMetrics::reset() {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     stats_.clear();
 }
 
 std::string CompressionMetrics::get_summary() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::ostringstream oss = {};
     

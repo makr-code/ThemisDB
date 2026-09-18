@@ -24,7 +24,14 @@
 namespace themis {
 namespace utils {
 
-// Internal implementation with full Result<T> error handling
+/**
+ * @brief Internal implementation with full Result<T> error handling
+ * @param[in] data Input parameter.
+ * @param[in] size Input parameter.
+ * @param[in] level Input parameter.
+ * @return Return value.
+ * @details Calls: Ok(), THEMIS_WARN(), THEMIS_ERROR(), fmt::format(), ZSTD_compressBound(), reserve(), resize(), what().
+ */
 Result<std::vector<uint8_t>> zstd_compress_safe(const uint8_t* data, size_t size, int level) {
 #ifdef THEMIS_HAS_ZSTD
     // Step 1: Handle empty input
@@ -161,6 +168,12 @@ Result<std::vector<uint8_t>> zstd_compress_safe(const uint8_t* data, size_t size
 #endif
 }
 
+/**
+ * @brief Zstd decompress safe.
+ * @param[in] compressed Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), Ok(), size(), THEMIS_ERROR(), ZSTD_getFrameContentSize(), data(), std::string(), logErrorWithContext().
+ */
 Result<std::vector<uint8_t>> zstd_decompress_safe(const std::vector<uint8_t>& compressed) {
 #ifdef THEMIS_HAS_ZSTD
     // Step 1: Handle empty input
@@ -344,7 +357,14 @@ Result<std::vector<uint8_t>> zstd_decompress_safe(const std::vector<uint8_t>& co
 #endif
 }
 
-// Public API - backward compatible, but now with security validation
+/**
+ * @brief Public API - backward compatible, but now with security validation
+ * @param[in] data Input parameter.
+ * @param[in] size Input parameter.
+ * @param[in] level Input parameter.
+ * @return Return value.
+ * @details Calls: zstd_compress_safe().
+ */
 std::vector<uint8_t> zstd_compress(const uint8_t* data, size_t size, int level) {
     auto result = zstd_compress_safe(data, size, level);
     if (result) {
@@ -354,6 +374,12 @@ std::vector<uint8_t> zstd_compress(const uint8_t* data, size_t size, int level) 
     return {};
 }
 
+/**
+ * @brief Zstd decompress.
+ * @param[in] compressed Input parameter.
+ * @return Return value.
+ * @details Calls: zstd_decompress_safe().
+ */
 std::vector<uint8_t> zstd_decompress(const std::vector<uint8_t>& compressed) {
     auto result = zstd_decompress_safe(compressed);
     if (result) {
@@ -380,6 +406,11 @@ struct ZstdStreamCompressor::Impl {
     }
     ~Impl() { if (cstream) ZSTD_freeCStream(cstream); }
 
+    /**
+     * @brief Reinit.
+     * @param[in] new_level Input parameter.
+     * @details Calls: ZSTD_initCStream().
+     */
     void reinit(int new_level) {
         level = (new_level > 0) ? new_level : level;
         if (cstream) {
@@ -387,6 +418,12 @@ struct ZstdStreamCompressor::Impl {
         }
     }
 #else
+    /**
+     * @brief Impl.
+     * @param[in] int Input parameter.
+     * @return Return value.
+     * @details Implements Impl without additional internal calls.
+     */
     explicit Impl(int) {}
 #endif
 };
@@ -396,6 +433,13 @@ ZstdStreamCompressor::ZstdStreamCompressor(int level)
 
 ZstdStreamCompressor::~ZstdStreamCompressor() = default;
 
+/**
+ * @brief Compress chunk.
+ * @param[in] data Input parameter.
+ * @param[in] size Input parameter.
+ * @return Return value.
+ * @details Calls: Ok(), ZSTD_CStreamOutSize(), reserve(), chunk(), data(), size(), ZSTD_compressStream(), ZSTD_isError().
+ */
 Result<std::vector<uint8_t>> ZstdStreamCompressor::compress_chunk(const uint8_t* data, size_t size) {
 #ifdef THEMIS_HAS_ZSTD
     if (!impl_->cstream) {
@@ -412,6 +456,11 @@ Result<std::vector<uint8_t>> ZstdStreamCompressor::compress_chunk(const uint8_t*
 
     ZSTD_inBuffer  in  = { data, size, 0 };
     while (in.pos < in.size) {
+        /**
+         * @brief Chunk.
+         * @param[in] out_buf_size Input parameter.
+         * @return Return value.
+         */
         std::vector<uint8_t> chunk(out_buf_size);
         ZSTD_outBuffer out = { chunk.data(),chunk.size(), 0 };
         const size_t rc = ZSTD_compressStream(impl_->cstream, &out, &in);
@@ -430,6 +479,11 @@ Result<std::vector<uint8_t>> ZstdStreamCompressor::compress_chunk(const uint8_t*
 #endif
 }
 
+/**
+ * @brief Flush.
+ * @return Return value.
+ * @details Calls: ZSTD_CStreamOutSize(), chunk(), data(), size(), ZSTD_endStream(), ZSTD_isError(), ZSTD_getErrorName(), insert().
+ */
 Result<std::vector<uint8_t>> ZstdStreamCompressor::flush() {
 #ifdef THEMIS_HAS_ZSTD
     if (!impl_->cstream) {
@@ -441,6 +495,11 @@ Result<std::vector<uint8_t>> ZstdStreamCompressor::flush() {
 
     // Flush then end-frame loop.
     for (bool done = false; !done; ) {
+        /**
+         * @brief Chunk.
+         * @param[in] out_buf_size Input parameter.
+         * @return Return value.
+         */
         std::vector<uint8_t> chunk(out_buf_size);
         ZSTD_outBuffer out = { chunk.data(),chunk.size(), 0 };
         const size_t remaining = ZSTD_endStream(impl_->cstream, &out);
@@ -460,6 +519,11 @@ Result<std::vector<uint8_t>> ZstdStreamCompressor::flush() {
 #endif
 }
 
+/**
+ * @brief Reset.
+ * @param[in] level Input parameter.
+ * @details Calls: reinit(), else().
+ */
 void ZstdStreamCompressor::reset(int level) {
 #ifdef THEMIS_HAS_ZSTD
     if (impl_->cstream) {
@@ -487,6 +551,10 @@ struct ZstdStreamDecompressor::Impl {
     }
     ~Impl() { if (dstream) ZSTD_freeDStream(dstream); }
 
+    /**
+     * @brief Reinit.
+     * @details Calls: ZSTD_initDStream().
+     */
     void reinit() {
         done = false;
         if (dstream) {
@@ -504,6 +572,13 @@ ZstdStreamDecompressor::ZstdStreamDecompressor()
 
 ZstdStreamDecompressor::~ZstdStreamDecompressor() = default;
 
+/**
+ * @brief Decompress chunk.
+ * @param[in] data Input parameter.
+ * @param[in] size Input parameter.
+ * @return Return value.
+ * @details Calls: Ok(), ZSTD_DStreamOutSize(), reserve(), chunk(), data(), size(), ZSTD_decompressStream(), ZSTD_isError().
+ */
 Result<std::vector<uint8_t>> ZstdStreamDecompressor::decompress_chunk(const uint8_t* data, size_t size) {
 #ifdef THEMIS_HAS_ZSTD
     if (!impl_->dstream) {
@@ -520,6 +595,11 @@ Result<std::vector<uint8_t>> ZstdStreamDecompressor::decompress_chunk(const uint
 
     ZSTD_inBuffer in = { data, size, 0 };
     while (in.pos < in.size) {
+        /**
+         * @brief Chunk.
+         * @param[in] out_buf_size Input parameter.
+         * @return Return value.
+         */
         std::vector<uint8_t> chunk(out_buf_size);
         ZSTD_outBuffer out = { chunk.data(),chunk.size(), 0 };
         const size_t rc = ZSTD_decompressStream(impl_->dstream, &out, &in);
@@ -546,6 +626,10 @@ bool ZstdStreamDecompressor::is_done() const {
     return impl_->done;
 }
 
+/**
+ * @brief Reset.
+ * @details Calls: reinit().
+ */
 void ZstdStreamDecompressor::reset() {
 #ifdef THEMIS_HAS_ZSTD
     if (impl_->dstream) {

@@ -115,7 +115,14 @@ struct HKDFCache::Impl {
         }
     }
 
-    // Build the binary cache key: ikm | 0x00 | salt | 0x00 | info | 0x00 | len
+    /**
+     * @brief Build the binary cache key: ikm | 0x00 | salt | 0x00 | info | 0x00 | len
+     * @param[in] ikm Input parameter.
+     * @param[in] salt Input parameter.
+     * @param[in] info Input parameter.
+     * @param[in] outlen Input parameter.
+     * @return Return value.
+     */
     static std::string make_key(const std::vector<uint8_t>& ikm,
                                  const std::vector<uint8_t>& salt,
                                  const std::string& info,
@@ -133,12 +140,23 @@ struct HKDFCache::Impl {
         return k;
     }
 
-    // Shard index = hash(key) & (kShards-1)  — cheap power-of-two modulo
+    /**
+     * @brief Shard index = hash(key) & (kShards-1) — cheap power-of-two modulo
+     * @param[in] k Input parameter.
+     * @return Return value.
+     * @details Implements shard_index without additional internal calls.
+     */
     static size_t shard_index(const std::string& k) {
         return std::hash<std::string>{}(k) & (kShards - 1);
     }
 
-    // SHA-256 of data → hex string
+    /**
+     * @brief SHA-256 of data → hex string
+     * @param[in] data Input parameter.
+     * @param[in] len Input parameter.
+     * @return Return value.
+     * @details Calls: SHA256(), std::setfill(), std::setw(), str().
+     */
     static std::string sha256_hex(const uint8_t* data, size_t len) {
         unsigned char digest[SHA256_DIGEST_LENGTH];
         SHA256(data, len, digest);
@@ -158,11 +176,21 @@ struct HKDFCache::Impl {
 HKDFCache::HKDFCache(Config cfg) : impl_(std::make_unique<Impl>(std::move(cfg))) {}
 HKDFCache::~HKDFCache() = default;
 
+/**
+ * @brief Thread Local.
+ * @return Return value.
+ * @details Implements threadLocal without additional internal calls.
+ */
 HKDFCache& HKDFCache::threadLocal() {
     thread_local HKDFCache instance;
     return instance;
 }
 
+/**
+ * @brief Set Capacity.
+ * @param[in] cap Input parameter.
+ * @details Calls: lk().
+ */
 void HKDFCache::setCapacity(size_t cap) {
     impl_->cfg.max_entries = cap ? cap : 1;
     size_t per_shard = std::max<size_t>(1, impl_->cfg.max_entries / kShards);
@@ -172,6 +200,10 @@ void HKDFCache::setCapacity(size_t cap) {
     }
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lk(), OPENSSL_cleanse(), data(), size().
+ */
 void HKDFCache::clear() {
     for (auto& s : impl_->shards) {
         std::lock_guard<std::mutex> lk(s.mu);
@@ -184,6 +216,14 @@ void HKDFCache::clear() {
     }
 }
 
+/**
+ * @brief Derive cached.
+ * @param[in] ikm Input parameter.
+ * @param[in] salt Input parameter.
+ * @param[in] info Input parameter.
+ * @param[in] output_length Input parameter.
+ * @return Return value.
+ */
 std::vector<uint8_t> HKDFCache::derive_cached(const std::vector<uint8_t>& ikm,
                                                const std::vector<uint8_t>& salt,
                                                const std::string& info,
@@ -231,6 +271,11 @@ std::vector<uint8_t> HKDFCache::derive_cached(const std::vector<uint8_t>& ikm,
     return out;
 }
 
+/**
+ * @brief Purge by ikm hash.
+ * @param[in] ikm_hash Input parameter.
+ * @details Calls: lk(), begin(), end(), find(), size(), Impl::sha256_hex(), data(), std::next().
+ */
 void HKDFCache::purge_by_ikm_hash(const std::string& ikm_hash) {
     for (auto& shard : impl_->shards) {
         std::lock_guard<std::mutex> lk(shard.mu);

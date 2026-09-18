@@ -42,9 +42,6 @@ namespace rocksdb {
 namespace themis {
 namespace cdc {
 
-/**
- * @brief A single dead-letter queue entry wrapping a failed ChangeEvent.
- */
 struct DLQEntry {
     uint64_t    dlq_sequence = 0;       ///< DLQ-internal sequence (unique within DLQ)
     Changefeed::ChangeEvent event;  ///< Original change event that failed delivery
@@ -52,30 +49,21 @@ struct DLQEntry {
     int         attempt_count;      ///< Number of delivery attempts that were made
     int64_t     enqueued_at_ms;     ///< Wall-clock timestamp when enqueued (ms since epoch)
 
+    /**
+     * @brief To Json.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
+    /**
+     * @brief From Json.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static DLQEntry fromJson(const nlohmann::json& j);
 };
 
-/**
- * @brief Dead-letter queue for failed CDC event deliveries.
- *
- * Thread-safe. Backed by the same RocksDB instance as the Changefeed
- * (or a dedicated one), using the key prefix "dlq:".
- *
- * Typical lifecycle:
- * 1. ChangefeedBuffer exhausts retries → calls enqueue().
- * 2. Operator inspects entries via listEntries().
- * 3. Operator replays individual entries via replay() after fixing the root cause.
- * 4. Successfully replayed entries are removed via remove(); drain() clears all.
- */
 class DeadLetterQueue {
 public:
-    /**
-     * @brief Construct a DeadLetterQueue backed by the given RocksDB instance.
-     *
-     * @param db   RocksDB TransactionDB instance (not owned).
-     * @param cf   Optional column-family handle (nullptr = default CF).
-     */
     explicit DeadLetterQueue(rocksdb::TransactionDB* db,
                              rocksdb::ColumnFamilyHandle* cf = nullptr);
 
@@ -92,42 +80,35 @@ public:
     // ------------------------------------------------------------------ //
 
     /**
-     * @brief Enqueue a failed event.
-     *
-     * @param event          The ChangeEvent that could not be delivered.
-     * @param failure_reason Human-readable description of the last error.
-     * @param attempt_count  Total number of delivery attempts that were made.
-     * @return               The DLQEntry as stored (with assigned dlq_sequence).
+     * @brief Enqueue.
+     * @param[in] event Input parameter.
+     * @param[in] failure_reason Input parameter.
+     * @param[in] attempt_count Input parameter.
+     * @return Return value.
      */
     DLQEntry enqueue(const Changefeed::ChangeEvent& event,
                      const std::string& failure_reason,
                      int attempt_count);
 
     /**
-     * @brief Replay a DLQ entry by re-recording it to the provided Changefeed.
-     *
-     * On success the entry is removed from the DLQ automatically.
-     *
-     * @param dlq_sequence   The DLQ sequence of the entry to replay.
-     * @param changefeed     Target Changefeed instance to re-record into.
-     * @return               The newly recorded ChangeEvent (with fresh sequence).
-     * @throws CDCException  If the entry is not found or re-recording fails.
+     * @brief Replay.
+     * @param[in] dlq_sequence Input parameter.
+     * @param[in,out] changefeed Input/output parameter.
+     * @return Return value.
      */
     Changefeed::ChangeEvent replay(uint64_t dlq_sequence,
                                    Changefeed& changefeed);
 
     /**
-     * @brief Remove a single DLQ entry.
-     *
-     * @param dlq_sequence   The DLQ sequence of the entry to delete.
-     * @return               true if found and deleted, false if not found.
+     * @brief Remove.
+     * @param[in] dlq_sequence Input parameter.
+     * @return True when the operation succeeds.
      */
     bool remove(uint64_t dlq_sequence);
 
     /**
-     * @brief Remove all DLQ entries.
-     *
-     * @return Number of entries deleted.
+     * @brief Drain.
+     * @return Return value.
      */
     size_t drain();
 
@@ -135,25 +116,18 @@ public:
     // Read operations
     // ------------------------------------------------------------------ //
 
-    /**
-     * @brief List DLQ entries in enqueue order.
-     *
-     * @param limit  Maximum number of entries to return (0 = unlimited).
-     * @return       Vector of DLQEntry, oldest first.
-     */
     std::vector<DLQEntry> listEntries(size_t limit = 0) const;
 
     /**
-     * @brief Fetch a single DLQ entry by its sequence number.
-     *
-     * @param dlq_sequence  DLQ sequence to look up.
-     * @return              The DLQEntry.
-     * @throws CDCException If not found.
+     * @brief Get Entry.
+     * @param[in] dlq_sequence Input parameter.
+     * @return Return value.
      */
     DLQEntry getEntry(uint64_t dlq_sequence) const;
 
     /**
-     * @brief Return the number of entries currently in the DLQ.
+     * @brief Size.
+     * @return Return value.
      */
     size_t size() const;
 
@@ -166,7 +140,16 @@ private:
 
     mutable std::mutex sequence_mutex_;
 
+    /**
+     * @brief Make Key.
+     * @param[in] dlq_sequence Input parameter.
+     * @return Return value.
+     */
     std::string makeKey(uint64_t dlq_sequence) const;
+    /**
+     * @brief Next Sequence.
+     * @return Return value.
+     */
     uint64_t    nextSequence();
 };
 

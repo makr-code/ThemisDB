@@ -55,11 +55,6 @@
 namespace themis {
 namespace graphql {
 
-/**
- * @brief GraphQL Value representation
- * 
- * Supports all GraphQL value types: Null, Boolean, Int, Float, String, Enum, List, Object
- */
 struct Value;
 
 using ValueMap = std::unordered_map<std::string, std::shared_ptr<Value>>;
@@ -90,10 +85,21 @@ struct Value {
     > data = nullptr;
     
     // Convenience constructors
+    /**
+     * @brief Null.
+     * @return Return value.
+     * @details Implements null without additional internal calls.
+     */
     static std::shared_ptr<Value> null() {
         return std::make_shared<Value>();
     }
     
+    /**
+     * @brief Boolean.
+     * @param[in] v Input parameter.
+     * @return Return value.
+     * @details Implements boolean without additional internal calls.
+     */
     static std::shared_ptr<Value> boolean(bool v) {
         auto val = std::make_shared<Value>();
         val->type = Type::Boolean;
@@ -101,6 +107,12 @@ struct Value {
         return val;
     }
     
+    /**
+     * @brief Integer.
+     * @param[in] v Input parameter.
+     * @return Return value.
+     * @details Implements integer without additional internal calls.
+     */
     static std::shared_ptr<Value> integer(int64_t v) {
         auto val = std::make_shared<Value>();
         val->type = Type::Int;
@@ -108,6 +120,12 @@ struct Value {
         return val;
     }
     
+    /**
+     * @brief Floating.
+     * @param[in] v Input parameter.
+     * @return Return value.
+     * @details Implements floating without additional internal calls.
+     */
     static std::shared_ptr<Value> floating(double v) {
         auto val = std::make_shared<Value>();
         val->type = Type::Float;
@@ -115,6 +133,12 @@ struct Value {
         return val;
     }
     
+    /**
+     * @brief String.
+     * @param[in] v Input parameter.
+     * @return Return value.
+     * @details Calls: std::move().
+     */
     static std::shared_ptr<Value> string(std::string v) {
         auto val = std::make_shared<Value>();
         val->type = Type::String;
@@ -122,6 +146,12 @@ struct Value {
         return val;
     }
     
+    /**
+     * @brief Enum Value.
+     * @param[in] v Input parameter.
+     * @return Return value.
+     * @details Calls: std::move().
+     */
     static std::shared_ptr<Value> enumValue(std::string v) {
         auto val = std::make_shared<Value>();
         val->type = Type::Enum;
@@ -129,6 +159,12 @@ struct Value {
         return val;
     }
     
+    /**
+     * @brief List.
+     * @param[in] v Input parameter.
+     * @return Return value.
+     * @details Calls: std::move().
+     */
     static std::shared_ptr<Value> list(ValueList v) {
         auto val = std::make_shared<Value>();
         val->type = Type::List;
@@ -136,6 +172,12 @@ struct Value {
         return val;
     }
     
+    /**
+     * @brief Object.
+     * @param[in] v Input parameter.
+     * @return Return value.
+     * @details Calls: std::move().
+     */
     static std::shared_ptr<Value> object(ValueMap v) {
         auto val = std::make_shared<Value>();
         val->type = Type::Object;
@@ -143,8 +185,12 @@ struct Value {
         return val;
     }
     
-    /// Create a variable-reference value.  @p name must be the bare variable
-    /// name WITHOUT the leading '$' (e.g. "id", not "$id").
+    /**
+     * @brief Variable Ref.
+     * @param[in] name Input parameter.
+     * @return Return value.
+     * @details Calls: std::move().
+     */
     static std::shared_ptr<Value> variableRef(std::string name) {
         auto val = std::make_shared<Value>();
         val->type = Type::VariableRef;
@@ -161,9 +207,6 @@ struct Value {
     bool isEnum() const { return type == Type::Enum; }
     bool isList() const { return type == Type::List; }
     bool isObject() const { return type == Type::Object; }
-    /// Returns true when the value is a variable reference ($name).
-    /// The variable will be resolved against ExecutionContext::variables at
-    /// execution time.
     bool isVariableRef() const { return type == Type::VariableRef; }
     
     // Value getters
@@ -173,13 +216,9 @@ struct Value {
     const std::string& asString() const { return std::get<std::string>(data); }
     const ValueList& asList() const { return std::get<ValueList>(data); }
     const ValueMap& asObject() const { return std::get<ValueMap>(data); }
-    /// Returns the bare variable name (without '$') for a VariableRef value.
     const std::string& asVariableRef() const { return std::get<std::string>(data); }
 };
 
-/**
- * @brief GraphQL Field Selection
- */
 struct Field {
     std::string name = {};
     std::string alias;  // Optional alias
@@ -191,18 +230,12 @@ struct Field {
     }
 };
 
-/**
- * @brief GraphQL Operation Type
- */
 enum class OperationType {
     Query,
     Mutation,
     Subscription
 };
 
-/**
- * @brief GraphQL Variable Definition
- */
 struct VariableDefinition {
     std::string name;
     std::string type_name;
@@ -211,9 +244,6 @@ struct VariableDefinition {
     std::shared_ptr<Value> default_value;
 };
 
-/**
- * @brief GraphQL Operation (parsed query)
- */
 struct Operation {
     OperationType type = OperationType::Query;
     std::string name;  // Optional operation name
@@ -221,9 +251,6 @@ struct Operation {
     std::vector<Field> selections;
 };
 
-/**
- * @brief GraphQL Document (can contain multiple operations)
- */
 struct Document {
     std::vector<Operation> operations;
     
@@ -238,9 +265,6 @@ struct Document {
     }
 };
 
-/**
- * @brief GraphQL Parse Error
- */
 struct ParseError {
     std::string message = {};
     size_t line = 0;
@@ -251,11 +275,6 @@ struct ParseError {
     }
 };
 
-/**
- * @brief Query Limits Configuration
- * 
- * Configurable limits to prevent DoS attacks and resource exhaustion.
- */
 struct QueryLimits {
     size_t max_query_size_bytes = 100000;      // Maximum query size in bytes
     size_t max_depth = 10;                      // Maximum nesting depth
@@ -263,23 +282,22 @@ struct QueryLimits {
     size_t max_ast_nodes = 1000;                // Maximum AST nodes
     size_t max_subscriptions = 10;              // Maximum concurrent subscriptions per connection
 
-    /// Allow GraphQL introspection fields (`__schema`, `__type`, `__typename`).
-    ///
-    /// Set to `false` in production deployments to prevent schema leakage:
-    ///   auto limits = QueryLimits::production();   // allow_introspection = false
-    ///
-    /// When `false`, `Parser::parse()` rejects any query that contains a
-    /// top-level or nested introspection field and returns a parse error so the
-    /// query is never executed.  This blocks schema reconnaissance by untrusted
-    /// clients while leaving query execution and mutation paths unaffected.
     bool allow_introspection = true;
 
-    // Default safe limits (development / trusted context)
+    /**
+     * @brief Default safe limits (development / trusted context)
+     * @return Return value.
+     * @details Implements defaults without additional internal calls.
+     */
     static QueryLimits defaults() {
         return QueryLimits{};
     }
     
-    // More permissive limits for trusted contexts
+    /**
+     * @brief More permissive limits for trusted contexts
+     * @return Return value.
+     * @details Implements permissive without additional internal calls.
+     */
     static QueryLimits permissive() {
         return QueryLimits{
             .max_query_size_bytes = 1000000,
@@ -291,8 +309,11 @@ struct QueryLimits {
         };
     }
 
-    /// Hardened limits for production deployments.
-    /// Disables introspection to prevent schema leakage by untrusted clients.
+    /**
+     * @brief Production.
+     * @return Return value.
+     * @details Implements production without additional internal calls.
+     */
     static QueryLimits production() {
         QueryLimits l;
         l.allow_introspection = false;
@@ -300,25 +321,6 @@ struct QueryLimits {
     }
 };
 
-/**
- * @brief GraphQL Parser
- * 
- * Parses GraphQL query strings into Document structures.
- * 
- * Supported features:
- * - Query, Mutation, Subscription operations
- * - Field selections with aliases
- * - Arguments (all value types)
- * - Variables and variable definitions (with default values)
- * - Variable substitution at execution time via ExecutionContext::variables
- * - Nested selections
- * - Comments (# to end of line)
- * 
- * Not yet supported:
- * - Fragments
- * - Directives
- * - Inline fragments
- */
 class Parser {
 public:
     struct Result {
@@ -328,56 +330,150 @@ public:
     };
     
     /**
-     * Parse a GraphQL query string with default limits
-     * @param query The GraphQL query string to parse
-     * @return Result containing the parsed document or errors
+     * @brief Parse.
+     * @param[in] query Input parameter.
+     * @return Return value.
      */
     static Result parse(std::string_view query);
     
     /**
-     * Parse a GraphQL query string with custom limits
-     * @param query The GraphQL query string to parse
-     * @param limits Query limits to enforce
-     * @return Result containing the parsed document or errors
+     * @brief Parse.
+     * @param[in] query Input parameter.
+     * @param[in] limits Input parameter.
+     * @return Return value.
      */
     static Result parse(std::string_view query, const QueryLimits& limits);
     
 private:
     Parser(std::string_view query, const QueryLimits& limits);
     
+    /**
+     * @brief Parse Document.
+     * @return Return value.
+     */
     Result parseDocument();
+    /**
+     * @brief Parse Operation.
+     * @return Return value.
+     */
     themis::Result<Operation> parseOperation();
     themis::Result<Field> parseField(size_t depth = 0);
+    /**
+     * @brief Parse Value.
+     * @return Return value.
+     */
     themis::Result<std::shared_ptr<Value>> parseValue();
+    /**
+     * @brief Parse Variable Definition.
+     * @return Return value.
+     */
     themis::Result<VariableDefinition> parseVariableDefinition();
     
     // Validation helpers
+    /**
+     * @brief Check Query Size.
+     * @return True when the operation succeeds.
+     */
     bool checkQuerySize();
+    /**
+     * @brief Check Depth Limit.
+     * @param[in] depth Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool checkDepthLimit(size_t depth);
+    /**
+     * @brief Check Field Limit.
+     * @return True when the operation succeeds.
+     */
     bool checkFieldLimit();
+    /**
+     * @brief Check ASTNode Limit.
+     * @return True when the operation succeeds.
+     */
     bool checkASTNodeLimit();
-    /// Return true if @p field_name is a GraphQL introspection field
-    /// (`__schema`, `__type`, or `__typename`).
+    /**
+     * @brief Is Introspection Field Name.
+     * @param[in] field_name Name of the field.
+     * @return True when the operation succeeds.
+     * @note Exception safety: noexcept.
+     */
     static bool isIntrospectionFieldName(std::string_view field_name) noexcept;
+    /**
+     * @brief Increment Field Count.
+     * @details Implements incrementFieldCount without additional internal calls.
+     */
     void incrementFieldCount() { field_count_++; }
+    /**
+     * @brief Increment ASTNode Count.
+     * @details Implements incrementASTNodeCount without additional internal calls.
+     */
     void incrementASTNodeCount() { ast_node_count_++; }
     
     // Tokenization helpers
+    /**
+     * @brief Skip Whitespace.
+     */
     void skipWhitespace();
+    /**
+     * @brief Skip Comment.
+     */
     void skipComment();
+    /**
+     * @brief Match.
+     * @param[in] c Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool match(char c);
+    /**
+     * @brief Match.
+     * @param[in] s Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool match(std::string_view s);
+    /**
+     * @brief Peek.
+     * @param[in] c Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool peek(char c) const;
+    /**
+     * @brief Parse Name.
+     * @return Return value.
+     */
     themis::Result<std::string> parseName();
+    /**
+     * @brief Parse String.
+     * @return Return value.
+     */
     themis::Result<std::string> parseString();
+    /**
+     * @brief Parse Int.
+     * @return Return value.
+     */
     themis::Result<int64_t> parseInt();
+    /**
+     * @brief Parse Float.
+     * @return Return value.
+     */
     themis::Result<double> parseFloat();
     
     // Helper methods
+    /**
+     * @brief Get Location Context.
+     * @return Return value.
+     */
     std::string getLocationContext() const;
+    /**
+     * @brief Convert To Parse Error.
+     * @param[in] error Input parameter.
+     * @return Return value.
+     */
     ParseError convertToParseError(const themis::Error& error);
     
-    // Deprecated: Use Result<T> return types instead of error() method
+    /**
+     * @brief Deprecated: Use Result<T> return types instead of error() method
+     * @param[in] message Input parameter.
+     */
     void error(std::string message);
     
     std::string_view source_;
@@ -391,9 +487,6 @@ private:
     std::vector<ParseError> errors_;
 };
 
-/**
- * @brief GraphQL Execution Context
- */
 struct ExecutionContext {
     std::unordered_map<std::string, std::shared_ptr<Value>> variables;
     std::string tenant_id;
@@ -410,12 +503,6 @@ struct ExecutionContext {
     std::unordered_map<std::string, Resolver> resolvers;
 };
 
-/**
- * @brief Masked Error - Safe for client exposure
- * 
- * Masks internal implementation details while providing
- * useful information for debugging in development.
- */
 struct MaskedError {
     std::string message;
     std::string code = {};
@@ -463,11 +550,6 @@ struct MaskedError {
     }
 };
 
-/**
- * @brief GraphQL Executor
- * 
- * Executes parsed GraphQL documents against the ThemisDB data layer.
- */
 class Executor {
 public:
     struct Result {
@@ -491,35 +573,55 @@ public:
     );
     
 private:
+    /**
+     * @brief Execute Operation.
+     * @param[in] operation Input parameter.
+     * @param[in] context Input parameter.
+     * @return Return value.
+     */
     std::shared_ptr<Value> executeOperation(
         const Operation& operation,
         const ExecutionContext& context
     );
     
+    /**
+     * @brief Execute Selections.
+     * @param[in] selections Input parameter.
+     * @param[in] parent Input parameter.
+     * @param[in] context Input parameter.
+     * @return Return value.
+     */
     std::shared_ptr<Value> executeSelections(
         const std::vector<Field>& selections,
         const std::shared_ptr<Value>& parent,
         const ExecutionContext& context
     );
     
+    /**
+     * @brief Execute Field.
+     * @param[in] field Input parameter.
+     * @param[in] parent Input parameter.
+     * @param[in] context Input parameter.
+     * @return Return value.
+     */
     std::shared_ptr<Value> executeField(
         const Field& field,
         const std::shared_ptr<Value>& parent,
         const ExecutionContext& context
     );
 
-    /// Resolve a single argument value: if it is a VariableRef, look it up in
-    /// @p context.variables and return the bound value (or null when unbound).
-    /// All other value types are returned unchanged.
+    /**
+     * @brief Resolve Value.
+     * @param[in] value Input parameter.
+     * @param[in] context Input parameter.
+     * @return Return value.
+     */
     static std::shared_ptr<Value> resolveValue(
         const std::shared_ptr<Value>& value,
         const ExecutionContext& context
     );
 };
 
-/**
- * @brief GraphQL Schema Type
- */
 struct TypeRef {
     std::string name;
     bool is_non_null = false;
@@ -527,9 +629,6 @@ struct TypeRef {
     std::shared_ptr<TypeRef> of_type;  // For list/non-null wrapping
 };
 
-/**
- * @brief GraphQL Field Definition
- */
 struct FieldDefinition {
     std::string name;
     std::string description;
@@ -537,9 +636,6 @@ struct FieldDefinition {
     std::unordered_map<std::string, TypeRef> arguments;
 };
 
-/**
- * @brief GraphQL Type Definition
- */
 struct TypeDefinition {
     enum class Kind {
         Scalar,
@@ -558,20 +654,39 @@ struct TypeDefinition {
     std::vector<std::string> interfaces;   // Implemented interfaces
 };
 
-/**
- * @brief GraphQL Schema
- * 
- * Defines the types and operations available in the API.
- */
 class Schema {
 public:
     Schema();
     
+    /**
+     * @brief Add Type.
+     * @param[in] type Input parameter.
+     */
     void addType(TypeDefinition type);
+    /**
+     * @brief Get Type.
+     * @param[in] name Input parameter.
+     * @return Pointer to the result.
+     */
     const TypeDefinition* getType(std::string_view name) const;
     
+    /**
+     * @brief Set Query Type.
+     * @param[in] name Input parameter.
+     * @details Implements setQueryType without additional internal calls.
+     */
     void setQueryType(std::string_view name) { query_type_ = name; }
+    /**
+     * @brief Set Mutation Type.
+     * @param[in] name Input parameter.
+     * @details Implements setMutationType without additional internal calls.
+     */
     void setMutationType(std::string_view name) { mutation_type_ = name; }
+    /**
+     * @brief Set Subscription Type.
+     * @param[in] name Input parameter.
+     * @details Implements setSubscriptionType without additional internal calls.
+     */
     void setSubscriptionType(std::string_view name) { subscription_type_ = name; }
     
     const std::string& queryType() const { return query_type_; }
@@ -579,13 +694,25 @@ public:
     const std::string& subscriptionType() const { return subscription_type_; }
     
     // Introspection policy
+    /**
+     * @brief Set Introspection Enabled.
+     * @param[in] enabled Input parameter.
+     * @details Implements setIntrospectionEnabled without additional internal calls.
+     */
     void setIntrospectionEnabled(bool enabled) { introspection_enabled_ = enabled; }
     bool isIntrospectionEnabled() const { return introspection_enabled_; }
     
-    // Generate SDL (Schema Definition Language)
+    /**
+     * @brief Generate SDL (Schema Definition Language)
+     * @return Return value.
+     */
     std::string toSDL() const;
     
-    // Introspection support (respects introspection policy)
+    /**
+     * @brief Introspection support (respects introspection policy)
+     * @param[in] field Input parameter.
+     * @return Return value.
+     */
     std::shared_ptr<Value> introspect(const Field& field) const;
     
 private:
@@ -596,23 +723,54 @@ private:
     bool introspection_enabled_ = true;  // Default: enabled for development
 };
 
-/**
- * @brief ThemisDB GraphQL Schema Builder
- * 
- * Creates the default GraphQL schema for ThemisDB operations.
- */
 class ThemisSchemaBuilder {
 public:
+    /**
+     * @brief Build.
+     * @return Return value.
+     */
     static Schema build();
     
 private:
+    /**
+     * @brief Add Geo Scalar Types.
+     * @param[in,out] schema Input/output parameter.
+     */
     static void addGeoScalarTypes(Schema& schema);
+    /**
+     * @brief Add Document Types.
+     * @param[in,out] schema Input/output parameter.
+     */
     static void addDocumentTypes(Schema& schema);
+    /**
+     * @brief Add Graph Types.
+     * @param[in,out] schema Input/output parameter.
+     */
     static void addGraphTypes(Schema& schema);
+    /**
+     * @brief Add Vector Types.
+     * @param[in,out] schema Input/output parameter.
+     */
     static void addVectorTypes(Schema& schema);
+    /**
+     * @brief Add Timeseries Types.
+     * @param[in,out] schema Input/output parameter.
+     */
     static void addTimeseriesTypes(Schema& schema);
+    /**
+     * @brief Add Query Type.
+     * @param[in,out] schema Input/output parameter.
+     */
     static void addQueryType(Schema& schema);
+    /**
+     * @brief Add Mutation Type.
+     * @param[in,out] schema Input/output parameter.
+     */
     static void addMutationType(Schema& schema);
+    /**
+     * @brief Add Subscription Type.
+     * @param[in,out] schema Input/output parameter.
+     */
     static void addSubscriptionType(Schema& schema);
 };
 

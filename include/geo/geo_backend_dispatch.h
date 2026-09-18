@@ -26,74 +26,37 @@ struct GeoKernelDispatch;
 
 namespace geo {
 
-/**
- * @class GeoBackendDispatcher
- * @brief Dispatches geospatial operations to GPU or CPU based on availability.
- *
- * Detects CUDA GPU availability at runtime (when THEMIS_GEO_CUDA=ON).
- * Decides GPU vs CPU dispatch based on batch size heuristics and error handling.
- * All operations have CPU fallback paths.
- *
- * Thread Safety: Not thread-safe. Each thread must use its own instance
- * or provide external synchronization.
- *
- * Memory: Allocates and frees GPU device memory per dispatch operation.
- */
 class GeoBackendDispatcher {
 public:
-    /**
-     * @brief Point coordinate (WGS84: latitude, longitude in degrees).
-     */
     struct Point {
         double lat_deg = 0.0;
         double lon_deg = 0.0;
     };
 
-    /**
-     * @brief Polygon defined by vertices (WGS84 degrees).
-     */
     struct Polygon {
         std::vector<Point> vertices;
     };
 
-    /**
-     * @brief Result of Haversine distance batch operation.
-     */
     struct HaversineResult {
         std::vector<double> distances_km;  ///< Output distances [points1.size()]
         bool                cpu_fallback = true;  ///< true if CPU executed
         int                 error_code = 0;       ///< 0 = success
     };
 
-    /**
-     * @brief Result of Vincenty distance batch operation.
-     */
     struct VincentyResult {
         std::vector<double> distances_km;  ///< Output distances [points1.size()]
         bool                cpu_fallback = true;  ///< true if CPU executed
         int                 error_code = 0;       ///< 0 = success
     };
 
-    /**
-     * @brief Result of point-in-polygon batch operation.
-     */
     struct PointInPolygonResult {
         std::vector<uint8_t> containment_mask;  ///< 1=inside, 0=outside [num_test_points]
         bool                 cpu_fallback = true;  ///< true if CPU executed
         int                  error_code = 0;       ///< 0 = success
     };
 
-    /**
-     * @brief Constructor.
-     *
-     * Detects GPU availability at construction time. GPU state remains
-     * constant for the lifetime of this dispatcher.
-     */
     GeoBackendDispatcher() noexcept;
 
-    /**
-     * @brief Destructor.
-     */
     ~GeoBackendDispatcher() noexcept;
 
     // Prevent copying
@@ -105,66 +68,35 @@ public:
     GeoBackendDispatcher& operator=(GeoBackendDispatcher&&) noexcept = default;
 
     /**
-     * @brief Query whether CUDA GPU is available and functional.
-     *
-     * Returns true only if:
-     * 1. THEMIS_GEO_CUDA is defined at compile time
-     * 2. At least one GPU is detected at runtime (cudaGetDeviceCount > 0)
-     * 3. GPU device is accessible (cudaGetDevice, cudaGetDeviceProperties OK)
-     *
-     * @return true if GPU is available for dispatch; false otherwise (CPU only)
+     * @brief Is Cuda Available.
+     * @return True when the operation succeeds.
+     * @note Exception safety: noexcept.
      */
     bool isCudaAvailable() const noexcept;
 
-    /**
-     * @brief Compute Haversine distances for batch of point pairs.
-     *
-     * Dispatches to GPU if:
-     * - CUDA is available
-     * - Batch size exceeds heuristic threshold (~1000 points)
-     *
-     * Falls back to CPU on any GPU error or if threshold not met.
-     *
-     * @param points1         First set of points [n] (WGS84 degrees)
-     * @param points2         Second set of points [n] (WGS84 degrees)
-     * @param earth_radius_km Earth radius (km; typically 6371.0)
-     * @return HaversineResult with distances_km and status
-     *
-     * Gate Target: GATE-A-06-01 ≤ 500ms p99 (GPU), p99 ≤ 50ms (CPU)
-     */
     HaversineResult computeHaversineBatch(
         const std::vector<Point>& points1,
         const std::vector<Point>& points2,
         double earth_radius_km = 6371.0) noexcept;
 
     /**
-     * @brief Compute Vincenty distances (ellipsoidal model) for batch.
-     *
-     * Higher precision than Haversine; appropriate for high-accuracy geodesy.
-     * Dispatch strategy same as Haversine.
-     *
-     * @param points1 First set of points [n]
-     * @param points2 Second set of points [n]
-     * @return VincentyResult with distances_km and status
-     *
-     * Gate Target: Similar to Haversine (Phase 2-3 kernel)
+     * @brief Compute Vincenty Batch.
+     * @param[in] points1 Input parameter.
+     * @param[in] points2 Input parameter.
+     * @return Return value.
+     * @note Exception safety: noexcept.
      */
     VincentyResult computeVincentyBatch(
         const std::vector<Point>& points1,
         const std::vector<Point>& points2) noexcept;
 
     /**
-     * @brief Test batch of points for containment in polygons.
-     *
-     * Uses ray-casting algorithm (GPU) or CPU fallback.
-     * Dispatches to GPU if batch size exceeds threshold.
-     *
-     * @param test_points    Points to test [num_test_points]
-     * @param polygons       Polygons for containment test
-     * @param num_test_points Number of points to test
-     * @return PointInPolygonResult with containment_mask [num_test_points]
-     *
-     * Gate Target: GATE-A-06-02 ≤ 2ms p99 (GPU), p99 ≤ 0.5ms (CPU)
+     * @brief Compute Point In Polygon Batch.
+     * @param[in] test_points Input parameter.
+     * @param[in] polygons Input parameter.
+     * @param[in] num_test_points Input parameter.
+     * @return Return value.
+     * @note Exception safety: noexcept.
      */
     PointInPolygonResult computePointInPolygonBatch(
         const std::vector<Point>& test_points,
@@ -173,18 +105,17 @@ public:
 
 private:
     /**
-     * @brief Detect CUDA GPU availability at runtime.
-     * @return true if GPU is available and accessible
+     * @brief Detect Cuda Availability.
+     * @return True when the operation succeeds.
+     * @note Exception safety: noexcept.
      */
     bool detectCudaAvailability() const noexcept;
 
     /**
-     * @brief Decide whether to use GPU for this operation.
-     *
-     * Uses batch-size heuristic: GPU overhead amortization threshold.
-     *
-     * @param batch_size Number of work items
-     * @return true if should attempt GPU dispatch
+     * @brief Should Use Cuda.
+     * @param[in] batch_size Input parameter.
+     * @return True when the operation succeeds.
+     * @note Exception safety: noexcept.
      */
     bool shouldUseCuda(size_t batch_size) const noexcept;
 
@@ -194,10 +125,24 @@ private:
         const Point& p2,
         double earth_radius_km = 6371.0) const noexcept;
 
+    /**
+     * @brief Vincenty Distance.
+     * @param[in] p1 Input parameter.
+     * @param[in] p2 Input parameter.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     double vincentyDistance(
         const Point& p1,
         const Point& p2) const noexcept;
 
+    /**
+     * @brief Point In Polygon.
+     * @param[in] test_point Input parameter.
+     * @param[in] polygon Input parameter.
+     * @return True when the operation succeeds.
+     * @note Exception safety: noexcept.
+     */
     bool pointInPolygon(
         const Point& test_point,
         const Polygon& polygon) const noexcept;

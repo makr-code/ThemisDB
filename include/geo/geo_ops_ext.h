@@ -18,11 +18,25 @@ namespace themis {
 namespace geo {
 
 // Extension interface for providing additional ST_* operations via plugins
-/** @brief Extension interface for providing additional ST_* operations via plugins. */
 class IGeoOpsExtension {
 public:
+    /**
+     * @brief IGeo Ops Extension.
+     * @return Return value.
+     */
     virtual ~IGeoOpsExtension() = default;
+    /**
+     * @brief Name.
+     * @return Pointer to the result.
+     * @note Exception safety: noexcept.
+     */
     virtual const char* name() const noexcept = 0;
+    /**
+     * @brief Supports.
+     * @param[in] op_name Name of the op.
+     * @return True when the operation succeeds.
+     * @note Exception safety: noexcept.
+     */
     virtual bool supports(const std::string& op_name) const noexcept = 0; // e.g., "ST_Buffer"
 };
 

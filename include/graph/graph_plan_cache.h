@@ -31,58 +31,33 @@ namespace graph {
 // GraphLRUPlanCache
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief Thread-safe generic LRU cache with optional TTL expiry.
- *
- * Uses a combination of a doubly-linked list (access order) and a hash map
- * for O(1) average-case insert, lookup, and eviction.
- *
- * @tparam K Key type (must be hashable).
- * @tparam V Value type (must be movable).
- */
 template <typename K, typename V>
 class GraphLRUPlanCache {
 public:
     using Clock     = std::chrono::steady_clock;
     using TimePoint = std::chrono::time_point<Clock>;
 
-    /**
-     * @brief Metrics snapshot for this cache instance.
-     */
     struct Metrics {
         uint64_t hits      = 0; ///< Total cache hits
         uint64_t misses    = 0; ///< Total cache misses
         uint64_t evictions = 0; ///< Entries evicted due to LRU or TTL
         uint64_t inserts   = 0; ///< Total entries inserted
 
-        /**
-         * @brief Compute the hit ratio in [0.0, 1.0].
-         * @return Hit ratio, or 0.0 if no lookups have been performed.
-         */
         double hitRatio() const {
             uint64_t total = hits + misses;
             return total > 0 ? static_cast<double>(hits) / static_cast<double>(total) : 0.0;
         }
     };
 
-    /**
-     * @brief Construct a cache with the given capacity and TTL.
-     *
-     * @param max_size Maximum number of entries (0 = unlimited).
-     * @param ttl      Time-to-live per entry (zero = no expiry).
-     */
     explicit GraphLRUPlanCache(size_t max_size = 0,
                                std::chrono::milliseconds ttl = std::chrono::milliseconds{0})
         : max_size_(max_size), ttl_(ttl) {}
 
     /**
-     * @brief Insert or update a key-value pair.
-     *
-     * If the key already exists it is updated in place and promoted to MRU
-     * position.  When the cache is full the LRU entry is evicted.
-     *
-     * @param key   Cache key.
-     * @param value Value to store.
+     * @brief Put.
+     * @param[in] key Input parameter.
+     * @param[in] value Input parameter.
+     * @details Calls: lock(), find(), end(), erase(), push_front(), std::move(), Clock::now(), begin().
      */
     void put(const K& key, V value) {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -106,13 +81,10 @@ public:
     }
 
     /**
-     * @brief Look up a value by key.
-     *
-     * On a hit the entry is promoted to MRU position.  Expired entries
-     * (TTL-based) are treated as misses and lazily evicted.
-     *
-     * @param key Cache key.
-     * @return The cached value, or std::nullopt on miss/expiry.
+     * @brief Get.
+     * @param[in] key Input parameter.
+     * @return Return value.
+     * @details Calls: lock(), find(), end(), isExpired(), evictEntry(), erase(), push_front(), begin().
      */
     std::optional<V> get(const K& key) {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -136,9 +108,10 @@ public:
     }
 
     /**
-     * @brief Remove a specific key from the cache.
-     * @param key Cache key to remove.
-     * @return true if the key was present and removed.
+     * @brief Remove.
+     * @param[in] key Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: lock(), find(), end(), erase().
      */
     bool remove(const K& key) {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -151,34 +124,40 @@ public:
         return true;
     }
 
-    /// Clear all entries.
+    /**
+     * @brief Clear.
+     * @details Calls: lock().
+     */
     void clear() {
         std::lock_guard<std::mutex> lock(mutex_);
         map_.clear();
         lru_.clear();
     }
 
-    /**
-     * @brief Return the current number of live entries.
-     * @return Entry count.
-     */
     size_t size() const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return map_.size();
     }
 
-    /**
-     * @brief Return a copy of the current metrics.
-     * @return Metrics snapshot.
-     */
     Metrics metrics() const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return metrics_;
     }
 
     /**
-     * @brief Evict all TTL-expired entries.
-     * @return Number of entries evicted.
+     * @brief Purge Expired.
+     * @return Return value.
+     * @details Calls: lock(), begin(), end(), isExpired(), erase().
      */
     size_t purgeExpired() {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -198,8 +177,9 @@ public:
     }
 
     /**
-     * @brief Set or update the maximum cache size.
-     * @param max_size New maximum (0 = unlimited).
+     * @brief Set Max Size.
+     * @param[in] max_size Input parameter.
+     * @details Calls: lock(), size(), evictLRU().
      */
     void setMaxSize(size_t max_size) {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -210,24 +190,17 @@ public:
     }
 
     /**
-     * @brief Set or update the TTL for new and existing lookups.
-     * @param ttl New TTL (zero = no expiry).
+     * @brief Set TTL.
+     * @param[in] ttl Input parameter.
+     * @details Calls: lock().
      */
     void setTTL(std::chrono::milliseconds ttl) {
         std::lock_guard<std::mutex> lock(mutex_);
         ttl_ = ttl;
     }
 
-    /**
-     * @brief Return configured maximum size (0 = unlimited).
-     * @return Max size.
-     */
     size_t maxSize() const { return max_size_; }
 
-    /**
-     * @brief Return configured TTL (zero = no expiry).
-     * @return TTL.
-     */
     std::chrono::milliseconds ttl() const { return ttl_; }
 
 private:
@@ -244,7 +217,10 @@ private:
         return Clock::now() - e.inserted >= ttl_;
     }
 
-    // Must be called under lock.
+    /**
+     * @brief Must be called under lock.
+     * @details Calls: empty(), back(), erase(), pop_back().
+     */
     void evictLRU() {
         if (lru_.empty()) {
           return;
@@ -274,20 +250,15 @@ private:
 // GraphCostHistogram
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief Fixed-bucket latency histogram for query cost tracking.
- *
- * Provides O(1) recording and approximate percentile computation.
- * Bucket upper bounds (ms): 1, 5, 10, 25, 50, 100, 250, 500, 1000, +Inf.
- */
 class GraphCostHistogram {
 public:
     static constexpr size_t   kBucketCount = 10;
     static constexpr uint64_t kBounds[9]   = {1, 5, 10, 25, 50, 100, 250, 500, 1000};
 
     /**
-     * @brief Record one observation.
-     * @param latency_ms Observed latency in milliseconds.
+     * @brief Record.
+     * @param[in] latency_ms Input parameter.
+     * @details Calls: fetch_add().
      */
     void record(uint64_t latency_ms) {
         for (size_t i = 0; i < 9; ++i) {
@@ -299,10 +270,6 @@ public:
         counts_[9].fetch_add(1, std::memory_order_relaxed);
     }
 
-    /**
-     * @brief Return the total number of observations.
-     * @return Observation count.
-     */
     uint64_t total() const {
         uint64_t sum = 0;
         for (size_t i = 0; i < kBucketCount; ++i)
@@ -310,11 +277,6 @@ public:
         return sum;
     }
 
-    /**
-     * @brief Compute approximate p-th percentile latency.
-     * @param p Percentile in [0.0, 1.0] (e.g. 0.99 for p99).
-     * @return Approximate latency in ms, or 0.0 if no data.
-     */
     double percentileMs(double p) const {
         const uint64_t n = total();
         if (n == 0) {
@@ -340,17 +302,21 @@ public:
         return static_cast<double>(kBounds[8]) * 2.0;
     }
 
-    /// Reset all counters.
+    /**
+     * @brief Reset the modification detection flag.
+     * @details Calls: store().
+     */
     void reset() {
         for (size_t i = 0; i < kBucketCount; ++i)
             counts_[i].store(0, std::memory_order_relaxed);
     }
 
-    /**
-     * @brief Return a snapshot of raw bucket counts.
-     * @return Vector of counts indexed by bucket.
-     */
     std::vector<uint64_t> bucketCounts() const {
+        /**
+         * @brief Out.
+         * @param[in] kBucketCount Input parameter.
+         * @return Return value.
+         */
         std::vector<uint64_t> out(kBucketCount);
         for (size_t i = 0; i < kBucketCount; ++i)
             out[i] = counts_[i].load(std::memory_order_relaxed);
@@ -365,31 +331,17 @@ private:
 // GraphAdvancedCostModel
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief Extended per-algorithm cost model for graph query planning.
- *
- * Combines an exponential moving average (EMA) of observed execution times
- * with a fixed-bucket histogram for percentile analysis.  Optionally
- * supports a graph-size cost multiplier for scaling estimates.
- */
 class GraphAdvancedCostModel {
 public:
     static constexpr double kDefaultAlpha = 0.1; ///< Default EMA learning rate
 
-    /**
-     * @brief Construct with configurable EMA learning rate.
-     * @param alpha EMA alpha in (0.0, 1.0]; smaller = slower adaptation.
-     */
     explicit GraphAdvancedCostModel(double alpha = kDefaultAlpha)
         : alpha_(alpha) {}
 
     /**
-     * @brief Record an observed execution duration.
-     *
-     * Updates the EMA and histogram.  Thread-safe for histogram updates;
-     * EMA update requires external synchronisation if called concurrently.
-     *
-     * @param observed_ms Observed execution time in milliseconds.
+     * @brief Observe.
+     * @param[in] observed_ms Input parameter.
+     * @details Calls: std::min(), record(), std::max().
      */
     void observe(double observed_ms) {
         if (exec_count_ == 0) {
@@ -402,57 +354,25 @@ public:
         histogram_.record(static_cast<uint64_t>(std::max(0.0, observed_ms)));
     }
 
-    /**
-     * @brief Return the current EMA cost estimate.
-     * @return EMA cost in ms, or 0.0 before any observations.
-     */
     double emaCostMs() const { return ema_cost_ms_; }
 
-    /**
-     * @brief Return the confidence level in [0.0, 1.0].
-     * @return Confidence (saturates at 1.0 after kMaxConfidenceObs observations).
-     */
     double confidence() const { return confidence_; }
 
-    /**
-     * @brief Return the number of observations recorded.
-     * @return Observation count.
-     */
     uint32_t execCount() const { return exec_count_; }
 
-    /**
-     * @brief Return the p99 latency estimate from the histogram.
-     * @return Approximate p99 latency in ms.
-     */
     double p99Ms() const { return histogram_.percentileMs(0.99); }
 
-    /**
-     * @brief Return the p95 latency estimate from the histogram.
-     * @return Approximate p95 latency in ms.
-     */
     double p95Ms() const { return histogram_.percentileMs(0.95); }
 
-    /**
-     * @brief Return the p50 latency estimate from the histogram.
-     * @return Approximate p50 latency in ms.
-     */
     double p50Ms() const { return histogram_.percentileMs(0.50); }
 
-    /**
-     * @brief Compute a cost estimate blending static and learned data.
-     *
-     * When confidence is high the learned EMA dominates; when low the
-     * theoretical estimate is preferred.
-     *
-     * @param theoretical_ms Static/theory-based cost estimate in ms.
-     * @return Blended estimate in ms.
-     */
     double blendedEstimate(double theoretical_ms) const {
         return confidence_ * ema_cost_ms_ + (1.0 - confidence_) * theoretical_ms;
     }
 
     /**
-     * @brief Reset all learned state.
+     * @brief Reset the modification detection flag.
+     * @details Implements reset without additional internal calls.
      */
     void reset() {
         ema_cost_ms_ = 0.0;
@@ -461,10 +381,6 @@ public:
         histogram_.reset();
     }
 
-    /**
-     * @brief Access the underlying histogram for raw bucket data.
-     * @return Const reference to the histogram.
-     */
     const GraphCostHistogram& histogram() const { return histogram_; }
 
 private:

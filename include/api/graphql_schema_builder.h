@@ -71,19 +71,6 @@ struct SchemaValidationResult;
 // GraphQLTypeDescriptor — plain-data descriptor for a GraphQL type
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Plain-data struct describing a single GraphQL object type.
- *
- * Intended for use with `IGraphQLSchemaBuilder::addType()` so that callers
- * can register types without a dependency on the full `graphql.h` schema library.
- *
- * ### Field types
- * Field types are expressed as GraphQL type strings, e.g.:
- *  - `"String"` — non-null string scalar
- *  - `"String!"` — non-null string (required field)
- *  - `"[Entity]"` — list of Entity objects
- *  - `"[Entity!]!"` — non-null list of non-null Entity objects
- */
 struct GraphQLFieldDescriptor {
     std::string name;         ///< Field name (must be a valid GraphQL identifier)
     std::string type_string;  ///< GraphQL type expression, e.g. "String!", "[Entity!]!"
@@ -92,12 +79,6 @@ struct GraphQLFieldDescriptor {
     std::string deprecation_reason; ///< Non-empty when `deprecated == true`
 };
 
-/**
- * @brief Plain-data struct describing a single GraphQL object type for registration.
- *
- * Passed to `IGraphQLSchemaBuilder::addType()`.  The builder validates the
- * descriptor and returns a `SchemaValidationResult` on `build()`.
- */
 struct GraphQLTypeDescriptor {
     std::string name;           ///< Type name, e.g. "Entity", "Query", "Mutation"
     std::string description;    ///< Optional human-readable description
@@ -109,43 +90,43 @@ struct GraphQLTypeDescriptor {
 // SchemaValidationResult — structured result of IGraphQLSchemaBuilder::build()
 // ---------------------------------------------------------------------------
 
-/**
- * @brief A single validation error produced during schema building.
- */
 struct SchemaValidationError {
     std::string type_name;  ///< Name of the type where the error occurred, or empty for global errors
     std::string field_name; ///< Name of the field where the error occurred, or empty for type-level errors
     std::string message;    ///< Human-readable error description
 };
 
-/**
- * @brief Structured result returned by `IGraphQLSchemaBuilder::build()`.
- *
- * A successful build has `valid == true` and an empty `errors` list.
- * A failed build has `valid == false` and one or more entries in `errors`.
- *
- * Usage:
- * ```cpp
- * auto result = builder.build();
- * if (!result.valid) {
- *     for (const auto& err : result.errors) {
- *         LOG_ERROR("{}.{}: {}", err.type_name, err.field_name, err.message);
- *     }
- * }
- * ```
- */
 struct SchemaValidationResult {
     bool valid = false;
     std::vector<SchemaValidationError> errors;
 
+    /**
+     * @brief Ok.
+     * @return Return value.
+     * @details Implements ok without additional internal calls.
+     */
     static SchemaValidationResult ok() {
         return {true, {}};
     }
 
+    /**
+     * @brief Fail.
+     * @param[in] errs Input parameter.
+     * @return Return value.
+     * @details Calls: std::move().
+     */
     static SchemaValidationResult fail(std::vector<SchemaValidationError> errs) {
         return {false, std::move(errs)};
     }
 
+    /**
+     * @brief Fail.
+     * @param[in] type_name Name of the type.
+     * @param[in] field_name Name of the field.
+     * @param[in] message Input parameter.
+     * @return Return value.
+     * @details Calls: std::move().
+     */
     static SchemaValidationResult fail(std::string type_name, std::string field_name, std::string message) {
         SchemaValidationError e;
         e.type_name  = std::move(type_name);
@@ -159,72 +140,45 @@ struct SchemaValidationResult {
 // IGraphQLSchemaBuilder — pure-virtual interface for schema construction
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Pure-virtual interface for constructing a GraphQL schema at server
- *        initialization time.
- *
- * ### Contract
- * - `addType()` may be called multiple times before `build()`.
- * - `addQuery()` and `addMutation()` register root-level fields.
- * - `build()` is callable exactly once.  A second call returns a
- *   `Result::error` with `SchemaAlreadyBuilt` to prevent post-init mutation.
- * - After `build()` returns, the schema is immutable; further `add*()` calls
- *   must throw `std::logic_error` or be no-ops (implementation choice).
- * - `build()` validates all registered types for: duplicate names, unknown
- *   field type references, and injection-vulnerable field name patterns.
- *
- * ### Thread safety
- * `add*()` calls are NOT thread-safe; all registrations must happen on a
- * single thread before `build()`.  After `build()` returns successfully, the
- * schema is safe to read from any thread.
- */
 class IGraphQLSchemaBuilder {
 public:
+    /**
+     * @brief IGraph QLSchema Builder.
+     * @return Return value.
+     */
     virtual ~IGraphQLSchemaBuilder() = default;
 
     /**
-     * @brief Register an object or interface type.
-     *
-     * @param descriptor  Description of the type and its fields.
-     * @return `*this` for fluent chaining.
-     * @throws std::logic_error if `build()` has already been called.
+     * @brief Add Type.
+     * @param[in] descriptor Input parameter.
+     * @return Return value.
      */
     virtual IGraphQLSchemaBuilder& addType(GraphQLTypeDescriptor descriptor) = 0;
 
     /**
-     * @brief Register a root Query field (i.e. a query entry point).
-     *
-     * @param field  Field descriptor for the root query field.
-     * @return `*this` for fluent chaining.
-     * @throws std::logic_error if `build()` has already been called.
+     * @brief Add Query.
+     * @param[in] field Input parameter.
+     * @return Return value.
      */
     virtual IGraphQLSchemaBuilder& addQuery(GraphQLFieldDescriptor field) = 0;
 
     /**
-     * @brief Register a root Mutation field.
-     *
-     * @param field  Field descriptor for the root mutation field.
-     * @return `*this` for fluent chaining.
-     * @throws std::logic_error if `build()` has already been called.
+     * @brief Add Mutation.
+     * @param[in] field Input parameter.
+     * @return Return value.
      */
     virtual IGraphQLSchemaBuilder& addMutation(GraphQLFieldDescriptor field) = 0;
 
     /**
-     * @brief Validate and freeze the schema.
-     *
-     * Validates all registered types and fields.  On success returns
-     * `SchemaValidationResult::ok()`.  On failure returns a result with
-     * `valid == false` and one or more structured errors.
-     *
-     * Calling `build()` a second time returns an error with the message
-     * `"Schema already built"`.
-     *
-     * @return Structured validation result.
+     * @brief Build.
+     * @return Return value.
      */
     virtual SchemaValidationResult build() = 0;
 
     /**
-     * @brief Return `true` after a successful `build()` call.
+     * @brief Is Built.
+     * @return True when the operation succeeds.
+     * @note Exception safety: noexcept.
      */
     virtual bool isBuilt() const noexcept = 0;
 };

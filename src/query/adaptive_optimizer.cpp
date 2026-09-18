@@ -32,6 +32,12 @@ namespace query {
 
 namespace {
 
+/**
+ * @brief Trim Copy.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: std::find_if_not(), begin(), end(), std::isspace(), rbegin(), rend(), base(), std::string().
+ */
 std::string trimCopy(const std::string& input) {
     const auto first = std::find_if_not(input.begin(), input.end(), [](unsigned char c) {
         return std::isspace(c) != 0;
@@ -45,6 +51,12 @@ std::string trimCopy(const std::string& input) {
     return std::string(first, last);
 }
 
+/**
+ * @brief To Lower Copy.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: std::transform(), begin(), end(), std::tolower().
+ */
 std::string toLowerCopy(const std::string& input) {
     std::string lowered = input;
     std::transform(lowered.begin(), lowered.end(), lowered.begin(), [](unsigned char c) {
@@ -53,6 +65,13 @@ std::string toLowerCopy(const std::string& input) {
     return lowered;
 }
 
+/**
+ * @brief Starts With.
+ * @param[in] text Input parameter.
+ * @param[in] prefix Input parameter.
+ * @return True on success.
+ * @details Calls: size(), std::equal(), begin(), end().
+ */
 bool startsWith(const std::string& text, const std::string& prefix) {
     return text.size() >= prefix.size() &&
            std::equal(prefix.begin(), prefix.end(), text.begin());
@@ -60,11 +79,18 @@ bool startsWith(const std::string& text, const std::string& prefix) {
 
 } // namespace
 
-// ============================================================================
-// AdaptiveQueryStats Implementation
-// ============================================================================
+/**
+ * @brief ============================================================================ AdaptiveQueryStats Implementation ============================================================================
+ * @param[in] exec Input parameter.
+ * @details Calls: lock(), push_back(), size(), erase(), begin(), fetch_add().
+ */
 
 void AdaptiveQueryStats::recordExecution(const QueryExecution& exec) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto& history = executions_[exec.query_hash];
@@ -80,6 +106,11 @@ void AdaptiveQueryStats::recordExecution(const QueryExecution& exec) {
 
 std::vector<AdaptiveQueryStats::QueryExecution> 
 AdaptiveQueryStats::getHistory(const std::string& query_hash, size_t limit) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = executions_.find(query_hash);
@@ -97,6 +128,11 @@ AdaptiveQueryStats::getHistory(const std::string& query_hash, size_t limit) cons
 }
 
 double AdaptiveQueryStats::getAverageSelectivity(const std::string& query_hash) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = executions_.find(query_hash);
@@ -129,6 +165,11 @@ bool AdaptiveQueryStats::hasCardinalityMisestimation(
 }
 
 size_t AdaptiveQueryStats::getAverageActualRows(const std::string& query_hash) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = executions_.find(query_hash);
@@ -154,7 +195,17 @@ double AdaptiveQueryStats::getAdaptiveAdjustmentFactor(
     return smoothing * avg_selectivity + (1.0 - smoothing) * 1.0;
 }
 
+/**
+ * @brief Prune Old Stats.
+ * @param[in] retention Input parameter.
+ * @details Calls: lock(), std::chrono::system_clock::now(), erase(), std::remove_if(), begin(), end(), empty().
+ */
 void AdaptiveQueryStats::pruneOldStats(std::chrono::hours retention) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto cutoff = std::chrono::system_clock::now() - retention;
@@ -263,7 +314,12 @@ AdaptivePlanSelector::PlanChoice AdaptivePlanSelector::getAlternativePlan(
             alternative.description = "Switch to nested loop join (underestimated cardinality)";
         }
     }
-    // If we significantly overestimated, prefer more selective strategies
+    /**
+     * @brief If we significantly overestimated, prefer more selective strategies
+     * @param[in,out] param Input/output parameter.
+     * @return Return value.
+     * @details Implements if without additional internal calls.
+     */
     else if (estimated_rows > actual_rows * 5) {
         if (current_plan.strategy == Strategy::TABLE_SCAN) {
             alternative.strategy = Strategy::INDEX_SCAN;
@@ -518,6 +574,11 @@ NumaAwareOptimizer::NumaPlacement NumaAwareOptimizer::getOptimalPlacement(
     return placement;
 }
 
+/**
+ * @brief Is Numa Available.
+ * @return True on success.
+ * @details Calls: defined(), numa_available().
+ */
 bool NumaAwareOptimizer::isNumaAvailable() {
 #if defined(__linux__) && HAS_NUMA
     return numa_available() != -1;
@@ -526,6 +587,11 @@ bool NumaAwareOptimizer::isNumaAvailable() {
 #endif
 }
 
+/**
+ * @brief Get Numa Node Count.
+ * @return Return value.
+ * @details Calls: defined(), isNumaAvailable(), numa_num_configured_nodes().
+ */
 size_t NumaAwareOptimizer::getNumaNodeCount() {
 #if defined(__linux__) && HAS_NUMA
     if (isNumaAvailable()) {
@@ -535,6 +601,12 @@ size_t NumaAwareOptimizer::getNumaNodeCount() {
     return 1;
 }
 
+/**
+ * @brief Pin Thread To Cpu.
+ * @param[in] cpu_id Input parameter.
+ * @return True on success.
+ * @details Calls: CPU_ZERO(), CPU_SET(), pthread_self(), pthread_setaffinity_np(), else().
+ */
 bool NumaAwareOptimizer::pinThreadToCpu(int cpu_id) {
 #ifdef __linux__
     cpu_set_t cpuset;

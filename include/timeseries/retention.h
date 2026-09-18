@@ -89,7 +89,10 @@ public:
     RetentionManager(const RetentionManager&) = delete;
     RetentionManager& operator=(const RetentionManager&) = delete;
 
-    // Apply retention for now() – synchronous
+    /**
+     * @brief Apply retention synchronously via the current retention policy.
+     * @return Return value.
+     */
     size_t apply();
 
     /**
@@ -100,6 +103,7 @@ public:
 
     /**
      * Stop background async retention cleanup.
+     * @brief Stop Async.
      */
     void stopAsync();
 
@@ -111,6 +115,11 @@ public:
 
     /// Update policy (takes effect on next apply())
     void setPolicy(RetentionPolicy policy) {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         policy_ = std::move(policy);
     }
@@ -121,8 +130,16 @@ public:
 
     /**
      * Set staged deletion policy. When set, apply() performs graduated deletion.
+     * @brief Set Staged Deletion.
+     * @param[in] staged Input parameter.
+     * @details Calls: lock().
      */
     void setStagedDeletion(const StagedDeletionPolicy& staged) {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         staged_policy_ = staged;
         use_staged_deletion_ = true;
@@ -138,6 +155,11 @@ public:
      * Called synchronously after each retention action.
      */
     void setAuditCallback(std::function<void(const RetentionAuditEntry&)> cb) {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         audit_callback_ = std::move(cb);
     }
@@ -146,12 +168,22 @@ public:
      * Returns the compliance audit log (last N entries kept in memory).
      */
     std::vector<RetentionAuditEntry> getAuditLog() const {
+        /**
+         * @brief Lock.
+         * @param[in] audit_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(audit_mutex_);
         return audit_log_;
     }
 
     /// Clear the in-memory audit log
     void clearAuditLog() {
+        /**
+         * @brief Lock.
+         * @param[in] audit_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(audit_mutex_);
         audit_log_.clear();
     }
@@ -180,7 +212,14 @@ private:
 
     RetentionStats stats_;
 
+    /**
+     * @brief Async Loop.
+     */
     void asyncLoop();
+    /**
+     * @brief Log Audit.
+     * @param[in] entry Input parameter.
+     */
     void logAudit(const RetentionAuditEntry& entry);
 };
 

@@ -32,15 +32,6 @@ namespace auth {
 // Forward declaration to avoid circular includes.
 class AuthMetrics;
 
-/**
- * @brief Outcome of a per-user credential-stuffing escalation check.
- *
- * When the persistent breach counter for a user crosses successive thresholds
- * the required mitigation action escalates:
- *   breach 1 → CAPTCHA_REQUIRED
- *   breach 2 → OTP_REQUIRED
- *   breach 3+ → ACCOUNT_LOCKED_24H
- */
 enum class CredentialStuffingOutcome {
     ALLOWED,           ///< No special action required
     CAPTCHA_REQUIRED,  ///< First breach: challenge with CAPTCHA
@@ -48,9 +39,6 @@ enum class CredentialStuffingOutcome {
     ACCOUNT_LOCKED_24H ///< Third+ breach: lock account for 24 hours
 };
 
-/**
- * @brief Configuration for authentication rate limiting
- */
 struct AuthRateLimitConfig {
     // Per-IP rate limit for auth attempts
     size_t max_attempts_per_ip_per_minute = 10;
@@ -101,13 +89,6 @@ struct AuthRateLimitConfig {
     CredentialStuffingRedisConfig cs_redis;
 };
 
-/**
- * @brief Anomaly event emitted by AuthRateLimiter when a suspicious authentication
- *        pattern is detected (brute-force, credential stuffing, account lockout).
- *
- * Register a handler via AuthRateLimiter::setAnomalyCallback() to forward events
- * to an audit log, SIEM, or alerting system.
- */
 struct AuthAnomalyEvent {
     enum class Type {
         BRUTE_FORCE_DETECTED,           ///< Account locked after repeated failures from an IP
@@ -120,17 +101,11 @@ struct AuthAnomalyEvent {
     std::string detail;
     std::chrono::system_clock::time_point timestamp;
 
-    /// Escalation outcome when type == CREDENTIAL_STUFFING_SUSPECTED.
-    /// ALLOWED means no special action beyond the detection alert itself.
     CredentialStuffingOutcome cs_outcome = CredentialStuffingOutcome::ALLOWED;
 };
 
-/// Callback invoked (outside internal mutex) on each detected auth anomaly.
 using AuthAnomalyCallback = std::function<void(const AuthAnomalyEvent&)>;
 
-/**
- * @brief Failed authentication attempt record
- */
 struct FailedAttempt {
     std::chrono::system_clock::time_point timestamp;
     std::string ip_address;
@@ -138,9 +113,6 @@ struct FailedAttempt {
     std::string reason;  // e.g., "invalid_password", "invalid_token"
 };
 
-/**
- * @brief Account lockout information
- */
 struct LockoutInfo {
     bool is_locked = false;
     std::chrono::system_clock::time_point locked_until;
@@ -150,30 +122,21 @@ struct LockoutInfo {
     std::vector<FailedAttempt> recent_failures;
 };
 
-/**
- * @brief Account Lockout Manager
- * 
- * Tracks failed authentication attempts and locks accounts after
- * too many failures to prevent brute-force attacks.
- * 
- * Features:
- * - Tracks failed attempts per user
- * - Automatic lockout after N failures within time window
- * - Configurable lockout duration
- * - Admin unlock capability
- * - Thread-safe
- * - Automatic cleanup of old records
- */
 class AccountLockoutManager {
 public:
+    /**
+     * @brief Account Lockout Manager.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit AccountLockoutManager(const AuthRateLimitConfig& config);
     
     /**
-     * @brief Record a failed authentication attempt
-     * @param user_id User identifier
-     * @param ip_address Client IP address
-     * @param reason Failure reason
-     * @return true if account should be locked
+     * @brief Record Failed Attempt.
+     * @param[in] user_id Identifier of the user.
+     * @param[in] ip_address Input parameter.
+     * @param[in] reason Input parameter.
+     * @return True when the operation succeeds.
      */
     bool recordFailedAttempt(
         const std::string& user_id,
@@ -182,60 +145,67 @@ public:
     );
     
     /**
-     * @brief Record a successful authentication (resets failure count)
-     * @param user_id User identifier
+     * @brief Record Successful Auth.
+     * @param[in] user_id Identifier of the user.
      */
     void recordSuccessfulAuth(const std::string& user_id);
     
     /**
-     * @brief Check if account is currently locked
-     * @param user_id User identifier
-     * @return true if account is locked
+     * @brief Is Account Locked.
+     * @param[in] user_id Identifier of the user.
+     * @return True when the operation succeeds.
      */
     bool isAccountLocked(const std::string& user_id) const;
     
     /**
-     * @brief Get lockout information for user
-     * @param user_id User identifier
-     * @return Lockout info if exists
+     * @brief Get Lockout Info.
+     * @param[in] user_id Identifier of the user.
+     * @return Return value.
      */
     std::optional<LockoutInfo> getLockoutInfo(const std::string& user_id) const;
     
     /**
-     * @brief Manually unlock an account (admin operation)
-     * @param user_id User identifier
-     * @return true if account was locked and is now unlocked
+     * @brief Unlock Account.
+     * @param[in] user_id Identifier of the user.
+     * @return True when the operation succeeds.
      */
     bool unlockAccount(const std::string& user_id);
     
     /**
-     * @brief Get number of currently locked accounts
+     * @brief Get Locked Account Count.
+     * @return Return value.
      */
     size_t getLockedAccountCount() const;
 
     /**
-     * @brief Forcefully lock an account for a specified duration.
-     *
-     * Used by the credential-stuffing escalation policy to apply a 24-hour
-     * lock regardless of the normal failed-attempt threshold.
-     *
-     * @param user_id  User to lock
-     * @param duration Lock duration (e.g. std::chrono::hours(24))
+     * @brief Force Lock Account.
+     * @param[in] user_id Identifier of the user.
+     * @param[in] duration Input parameter.
      */
     void forceLockAccount(const std::string& user_id, std::chrono::seconds duration);
     
     /**
-     * @brief Cleanup expired lockouts and old records
+     * @brief Cleanup.
      */
     void cleanup();
     
     /**
-     * @brief Reset all lockouts (for testing)
+     * @brief Reset the modification detection flag.
      */
     void reset();
 
 private:
+    /**
+     * @brief Lock Account.
+     * @param[in] user_id Identifier of the user.
+     * @param[in] info Input parameter.
+     */
     void lockAccount(const std::string& user_id, const LockoutInfo& info);
+    /**
+     * @brief Should Lock Account.
+     * @param[in] info Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool shouldLockAccount(const LockoutInfo& info) const;
     
     AuthRateLimitConfig config_;
@@ -250,39 +220,20 @@ private:
     std::chrono::steady_clock::time_point last_cleanup_;
 };
 
-/**
- * @brief Authentication-specific rate limiter
- * 
- * Combines IP-based rate limiting and account lockout protection
- * specifically for authentication endpoints.
- * 
- * Features:
- * - Per-IP rate limiting (prevent distributed brute-force)
- * - Per-user rate limiting (prevent targeted attacks)
- * - Account lockout after failed attempts
- * - Whitelisting for trusted IPs
- * - Metrics and monitoring
- */
 class AuthRateLimiter {
 public:
     explicit AuthRateLimiter(const AuthRateLimitConfig& config = AuthRateLimitConfig());
     
-    /**
-     * @brief Check if authentication attempt is allowed
-     * @param ip_address Client IP address
-     * @param user_id User identifier (empty for pre-auth checks)
-     * @return true if attempt allowed, false if rate limited or locked
-     */
     bool allowAuthAttempt(
         const std::string& ip_address,
         const std::string& user_id = ""
     );
     
     /**
-     * @brief Record a failed authentication attempt
-     * @param user_id User identifier
-     * @param ip_address Client IP address
-     * @param reason Failure reason
+     * @brief Record Failed Auth.
+     * @param[in] user_id Identifier of the user.
+     * @param[in] ip_address Input parameter.
+     * @param[in] reason Input parameter.
      */
     void recordFailedAuth(
         const std::string& user_id,
@@ -291,9 +242,9 @@ public:
     );
     
     /**
-     * @brief Record a successful authentication
-     * @param user_id User identifier
-     * @param ip_address Client IP address
+     * @brief Record Successful Auth.
+     * @param[in] user_id Identifier of the user.
+     * @param[in] ip_address Input parameter.
      */
     void recordSuccessfulAuth(
         const std::string& user_id,
@@ -301,97 +252,70 @@ public:
     );
     
     /**
-     * @brief Check if account is locked
-     * @param user_id User identifier
-     * @return true if account is locked
+     * @brief Is Account Locked.
+     * @param[in] user_id Identifier of the user.
+     * @return True when the operation succeeds.
      */
     bool isAccountLocked(const std::string& user_id) const;
     
     /**
-     * @brief Get lockout information for user
-     * @param user_id User identifier
-     * @return Lockout info if exists
+     * @brief Get Lockout Info.
+     * @param[in] user_id Identifier of the user.
+     * @return Return value.
      */
     std::optional<LockoutInfo> getLockoutInfo(const std::string& user_id) const;
     
     /**
-     * @brief Manually unlock an account (admin operation)
-     * @param user_id User identifier
-     * @return true if account was unlocked
+     * @brief Unlock Account.
+     * @param[in] user_id Identifier of the user.
+     * @return True when the operation succeeds.
      */
     bool unlockAccount(const std::string& user_id);
     
     /**
-     * @brief Get retry-after time in seconds for rate-limited client
-     * @param ip_address Client IP address
-     * @return Seconds until next attempt allowed (0 if not rate limited)
+     * @brief Get Retry After.
+     * @param[in] ip_address Input parameter.
+     * @return Return value.
      */
     uint32_t getRetryAfter(const std::string& ip_address) const;
     
     /**
-     * @brief Check if IP is whitelisted
+     * @brief Is Whitelisted.
+     * @param[in] ip_address Input parameter.
+     * @return True when the operation succeeds.
      */
     bool isWhitelisted(const std::string& ip_address) const;
 
     /**
-     * @brief Register a callback invoked whenever an authentication anomaly is detected.
-     *
-     * The callback is invoked outside the internal mutex, so performing I/O (e.g.
-     * writing to an audit log or forwarding to a SIEM) is safe without risking a
-     * deadlock.  Pass nullptr or an empty function to deregister.
-     *
-     * Detected anomaly types:
-     *   - ACCOUNT_LOCKOUT_TRIGGERED  – account locked after repeated failures
-     *   - BRUTE_FORCE_DETECTED       – same IP responsible for locking an account
-     *   - CREDENTIAL_STUFFING_SUSPECTED – one IP tried many distinct usernames
-     *     (cs_outcome field carries the escalation level for the targeted user)
+     * @brief Set Anomaly Callback.
+     * @param[in] callback Input parameter.
      */
     void setAnomalyCallback(AuthAnomalyCallback callback);
 
     /**
-     * @brief Attach an audit logger for structured anomaly event logging.
-     *
-     * When set, every anomaly event (brute-force, credential stuffing, account
-     * lockout) is forwarded to the audit logger in addition to the anomaly
-     * callback.  Pass nullptr to detach.  Does not take ownership.
+     * @brief Set Audit Logger.
+     * @param[in,out] logger Input/output parameter.
      */
     void setAuditLogger(utils::AuditLogger* logger);
 
     /**
-     * @brief Inject a shared rate-limiter backend for distributed counter storage.
-     *
-     * When a backend is set, AuthRateLimiter uses it instead of the internal
-     * in-process token-bucket for IP and user rate limiting.  Two or more
-     * AuthRateLimiter instances that share the same backend instance will
-     * observe each other's request counts, enabling consistent rate limiting
-     * across nodes (or across multiple in-process instances for testing).
-     *
-     * - Pass an InMemoryRateLimiterBackend instance for single-node deployments
-     *   (or shared between multiple in-process instances for testing).
-     * - Pass a RedisRateLimiterBackend instance for multi-node deployments.
-     * - Pass nullptr to revert to the default in-process token-bucket behaviour.
-     *
-     * Typically called once during initialisation before any concurrent access.
+     * @brief Set Backend.
+     * @param[in] backend Input parameter.
      */
     void setBackend(std::shared_ptr<IRateLimiterBackend> backend);
 
     /**
-     * @brief Attach a metrics collector for credential-stuffing instrumentation.
-     *
-     * When set, every credential-stuffing detection event calls
-     * AuthMetrics::recordCredentialStuffingAttempt().  Pass nullptr to detach.
-     * Does not take ownership.
+     * @brief Set Metrics.
+     * @param[in,out] metrics Input/output parameter.
      */
     void setMetrics(AuthMetrics* metrics);
     
     /**
-     * @brief Update configuration at runtime
+     * @brief Update the access control configuration.
+     * @param[in] config New access control configuration.
      */
     void updateConfig(const AuthRateLimitConfig& config);
     
-    /**
-     * @brief Get current statistics
-     */
     struct Statistics {
         size_t total_auth_attempts = 0;
         size_t allowed_attempts = 0;
@@ -402,15 +326,19 @@ public:
         size_t currently_locked_accounts = 0;
     };
     
+    /**
+     * @brief Return access control statistics.
+     * @return Access control statistics.
+     */
     Statistics getStatistics() const;
     
     /**
-     * @brief Reset all state (for testing)
+     * @brief Reset the modification detection flag.
      */
     void reset();
     
     /**
-     * @brief Cleanup old records
+     * @brief Cleanup.
      */
     void cleanup();
 
@@ -453,30 +381,47 @@ private:
                          CredentialStuffingOutcome cs_outcome
                              = CredentialStuffingOutcome::ALLOWED) const;
 
-    // Track credential-stuffing for a given (ip, user_id) pair.
-    // Returns true if the credential-stuffing alert threshold was just crossed.
-    // Must be called with stuffing_mutex_ held.
+    /**
+     * @brief Track credential-stuffing for a given (ip, user_id) pair.
+     * @param[in] ip Input parameter.
+     * @param[in] user_id Identifier of the user.
+     * @param[in] cfg Input parameter.
+     * @return True when the operation succeeds.
+     * @details Returns true if the credential-stuffing alert threshold was just crossed. Must be called with stuffing_mutex_ held.
+     */
     bool trackCredentialStuffing(const std::string& ip, const std::string& user_id,
                                   const AuthRateLimitConfig& cfg);
 
-    // ── Per-user persistent breach-count tracking ────────────────────────
-    // Build the Redis/in-memory key for a user on the current UTC day.
-    // Format: "cs:{user_id}:{YYYYMMDD}"
+    /**
+     * @brief ── Per-user persistent breach-count tracking ──────────────────────── Build the Redis/in-memory key for a user on the current UTC day.
+     * @param[in] user_id Identifier of the user.
+     * @return Return value.
+     * @details Format: "cs:{user_id}:{YYYYMMDD}"
+     */
     static std::string csBreachKey(const std::string& user_id);
 
-    // Atomically increment the daily breach counter for user_id and return
-    // the new count.  Uses Redis when available; otherwise falls back to the
-    // in-process map.  Must NOT be called with stats_mutex_ held (may block
-    // on network I/O).
+    /**
+     * @brief Atomically increment the daily breach counter for user_id and return the new count.
+     * @param[in] user_id Identifier of the user.
+     * @return Return value.
+     * @details Uses Redis when available; otherwise falls back to the in-process map. Must NOT be called with stats_mutex_ held (may block on network I/O).
+     */
     uint32_t incrementAndGetBreachCount(const std::string& user_id);
 
-    // Determine the escalation outcome from a raw breach count.
+    /**
+     * @brief Determine the escalation outcome from a raw breach count.
+     * @param[in] count Input parameter.
+     * @return Return value.
+     */
     static CredentialStuffingOutcome outcomeFromBreachCount(uint32_t count);
 
-    // Called after the IP-level stuffing threshold fires.  Increments the
-    // per-user daily breach counter and fires the appropriate escalation
-    // response (CAPTCHA / OTP / 24h lock).  Returns the outcome.
-    // Must NOT be called with stats_mutex_ held.
+    /**
+     * @brief Called after the IP-level stuffing threshold fires.
+     * @param[in] user_id Identifier of the user.
+     * @param[in] ip Input parameter.
+     * @return Return value.
+     * @details Increments the per-user daily breach counter and fires the appropriate escalation response (CAPTCHA / OTP / 24h lock). Returns the outcome. Must NOT be called with stats_mutex_ held.
+     */
     CredentialStuffingOutcome escalateCredentialStuffing(const std::string& user_id,
                                                          const std::string& ip);
 
@@ -490,6 +435,10 @@ private:
     // Guarded by cs_redis_mutex_.
     struct redisContext* cs_redis_ctx_ = nullptr;
     mutable std::mutex   cs_redis_mutex_;
+    /**
+     * @brief Connect Cs Redis.
+     * @return True when the operation succeeds.
+     */
     bool connectCsRedis();
 #endif
 

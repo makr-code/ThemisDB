@@ -27,7 +27,11 @@
 
 namespace themis {
 
-// Lazy-initialized JIT QueryCompiler for hot-path conjunctive queries (v1.8.0)
+/**
+ * @brief Lazy-initialized JIT QueryCompiler for hot-path conjunctive queries (v1.
+ * @return Return value.
+ * @details 8.0) Implements getJitCompiler without additional internal calls.
+ */
 static query::QueryCompiler& getJitCompiler() {
     static query::QueryCompiler compiler;
     return compiler;
@@ -38,13 +42,21 @@ static query::QueryCompiler& getJitCompiler() {
 // in the static QueryCompiler always operates on the correct engine instance.
 static thread_local query::QueryEngine* tl_jit_engine = nullptr;
 
-// Lazy-initialized NLP analyzer (thread-safe in C++11+)
+/**
+ * @brief Lazy-initialized NLP analyzer (thread-safe in C++11+)
+ * @return Return value.
+ * @details Implements getNlpAnalyzer without additional internal calls.
+ */
 static themis::analytics::NlpTextAnalyzer& getNlpAnalyzer() {
     static themis::analytics::NlpTextAnalyzer instance;
     return instance;
 }
 
-// Lazy-initialized RuntimeReoptimizer (thread-safe in C++11+)
+/**
+ * @brief Lazy-initialized RuntimeReoptimizer (thread-safe in C++11+)
+ * @return Return value.
+ * @details Implements getReoptimizer without additional internal calls.
+ */
 static RuntimeReoptimizer& getReoptimizer() {
     static RuntimeReoptimizer instance;
     return instance;
@@ -97,6 +109,12 @@ collectGeometries(query::QueryEngine& engine,
     return out;
 }
 
+/**
+ * @brief Entity To Result Row.
+ * @param[in] entity Input parameter.
+ * @return Return value.
+ * @details Calls: nlohmann::json::parse(), toJson(), contains(), getPrimaryKey().
+ */
 static nlohmann::json entityToResultRow(const BaseEntity& entity) {
     nlohmann::json row = nlohmann::json::parse(entity.toJson());
     if (!row.contains("pk")) {
@@ -108,7 +126,13 @@ static nlohmann::json entityToResultRow(const BaseEntity& entity) {
     return row;
 }
 
-// GAP-002: Migrated from std::pair<Status, json> to Result<json>
+/**
+ * @brief GAP-002: Migrated from std::pair<Status, json> to Result<json>
+ * @param[in] aql Input parameter.
+ * @param[in,out] engine Input/output parameter.
+ * @return Return value.
+ * @details Calls: getNlpAnalyzer(), normalizeQuery(), estimateQueryComplexity(), extractQueryHints(), suggestIndexes(), getReoptimizer(), RuntimeReoptimizer::computeQueryHash(), beginExecutionGuard().
+ */
 Result<nlohmann::json> executeAql(const std::string& aql, query::QueryEngine& engine) {
     // NLP Pre-processing (PR #317 Integration Phase 1)
     // This provides query analysis for optimization and caching
@@ -397,13 +421,12 @@ Result<nlohmann::json> executeAql(const std::string& aql, query::QueryEngine& en
 
 namespace {
 
-/// Build a GraphTraversal QueryPlanNode from a parsed traversal query.
-///
-/// Uses a static cost model (branching_factor^depth) to estimate cost and nodes
-/// explored since no real graph statistics are available at plan time.  The
-/// algorithm is chosen to mirror GraphQueryOptimizer::selectAlgorithm():
-///   - shortestPath: BFS (depth ≤ 5) or Bidirectional (depth > 5)
-///   - k-hop traversal: BFS
+/**
+ * @brief Build a GraphTraversal QueryPlanNode from a parsed traversal query.
+ * @param[in] tv Input parameter.
+ * @return Return value.
+ * @details Uses a static cost model (branching_factor^depth) to estimate cost and nodes explored since no real graph statistics are available at plan time. The algorithm is chosen to mirror GraphQueryOptimizer::selectAlgorithm(): - shortestPath: BFS (depth ≤ 5) or Bidirectional (depth > 5) - k-hop traversal: BFS
+ */
 query::QueryPlanNode buildGraphTraversalPlanNode(
     const AQLTranslator::TranslationResult::TraversalQuery& tv)
 {
@@ -454,14 +477,13 @@ query::QueryPlanNode buildGraphTraversalPlanNode(
     return node;
 }
 
-/// Parse + translate @p aql and build the corresponding QueryPlanNode.
-///
-/// For graph traversal queries a proper GraphTraversal node is produced with
-/// algorithm selection and cost estimates.  All other non-conjunctive forms
-/// (vector+geo, content+geo, OR, join) fall back to a SeqScan node labelled
-/// with the query type.  Conjunctive queries use the existing engine optimizer.
-///
-/// Returns Err on parse or translation failure.
+/**
+ * @brief Parse + translate @p aql and build the corresponding QueryPlanNode.
+ * @param[in] aql Input parameter.
+ * @param[in,out] engine Input/output parameter.
+ * @return Return value.
+ * @details For graph traversal queries a proper GraphTraversal node is produced with algorithm selection and cost estimates. All other non-conjunctive forms (vector+geo, content+geo, OR, join) fall back to a SeqScan node labelled with the query type. Conjunctive queries use the existing engine optimizer. Returns Err on parse or translation failure.
+ */
 Result<query::QueryPlanNode> buildExplainPlanNode(
     const std::string& aql, query::QueryEngine& engine)
 {
@@ -520,6 +542,14 @@ Result<query::QueryPlanNode> buildExplainPlanNode(
 
 } // anonymous namespace
 
+/**
+ * @brief Explain Aql.
+ * @param[in] aql Input parameter.
+ * @param[in,out] engine Input/output parameter.
+ * @param[in] analyze Input parameter.
+ * @return Return value.
+ * @details Calls: buildExplainPlanNode(), error(), code(), message(), Ok(), query::QueryPlanVisualizer::toJSON().
+ */
 Result<nlohmann::json> explainAql(const std::string& aql, query::QueryEngine& engine, bool analyze) {
     auto pn = buildExplainPlanNode(aql, engine);
     if (!pn) {
@@ -528,6 +558,14 @@ Result<nlohmann::json> explainAql(const std::string& aql, query::QueryEngine& en
     return Ok(query::QueryPlanVisualizer::toJSON(*pn, analyze));
 }
 
+/**
+ * @brief Explain Aql Text.
+ * @param[in] aql Input parameter.
+ * @param[in,out] engine Input/output parameter.
+ * @param[in] analyze Input parameter.
+ * @return Return value.
+ * @details Calls: buildExplainPlanNode(), error(), code(), message(), Ok(), query::QueryPlanVisualizer::toText().
+ */
 Result<std::string> explainAqlText(const std::string& aql, query::QueryEngine& engine, bool analyze) {
     auto pn = buildExplainPlanNode(aql, engine);
     if (!pn) {
@@ -536,6 +574,13 @@ Result<std::string> explainAqlText(const std::string& aql, query::QueryEngine& e
     return Ok(query::QueryPlanVisualizer::toText(*pn, analyze));
 }
 
+/**
+ * @brief Explain Aql Dot.
+ * @param[in] aql Input parameter.
+ * @param[in,out] engine Input/output parameter.
+ * @return Return value.
+ * @details Calls: buildExplainPlanNode(), error(), code(), message(), Ok(), query::QueryPlanVisualizer::toDOT().
+ */
 Result<std::string> explainAqlDot(const std::string& aql, query::QueryEngine& engine) {
     auto pn = buildExplainPlanNode(aql, engine);
     if (!pn) {
@@ -544,6 +589,13 @@ Result<std::string> explainAqlDot(const std::string& aql, query::QueryEngine& en
     return Ok(query::QueryPlanVisualizer::toDOT(*pn));
 }
 
+/**
+ * @brief Execute Multi Statement Aql.
+ * @param[in] aql Input parameter.
+ * @param[in,out] engine Input/output parameter.
+ * @return Return value.
+ * @details Calls: parseTransactionBlock(), error(), code(), message(), Ok(), nlohmann::json(), size(), nlohmann::json::array().
+ */
 Result<nlohmann::json> executeMultiStatementAql(const std::string& aql, query::QueryEngine& engine) {
     // Parse the multi-statement transaction block
     query::AQLParser parser;
@@ -713,7 +765,14 @@ Result<nlohmann::json> executeMultiStatementAql(const std::string& aql, query::Q
     return Ok(nlohmann::json({{"type", "commit"}, {"results", results}}));
 }
 
-// ── Phase 4: executeMultiStatementAql with DML mutation support ───────────────
+/**
+ * @brief ── Phase 4: executeMultiStatementAql with DML mutation support ───────────────
+ * @param[in] aql Input parameter.
+ * @param[in,out] engine Input/output parameter.
+ * @param[in,out] storage Input/output parameter.
+ * @return Return value.
+ * @details Calls: parseTransactionBlock(), error(), code(), message(), empty(), size(), Ok(), nlohmann::json().
+ */
 
 Result<nlohmann::json> executeMultiStatementAql(const std::string&                            aql,
                                                  query::QueryEngine&                            engine,
@@ -966,6 +1025,15 @@ Result<nlohmann::json> executeMultiStatementAql(const std::string&              
 
 
 
+/**
+ * @brief Execute Aql With RLS.
+ * @param[in] aql Input parameter.
+ * @param[in,out] engine Input/output parameter.
+ * @param[in,out] rls Input/output parameter.
+ * @param[in] ctx Input parameter.
+ * @return Return value.
+ * @details Calls: executeAql(), parse(), AQLTranslator::translate(), value(), has_value(), empty(), front(), is_object().
+ */
 Result<nlohmann::json> executeAqlWithRLS(
     const std::string& aql,
     query::QueryEngine& engine,
@@ -1021,7 +1089,12 @@ Result<nlohmann::json> executeAqlWithRLS(
     return Ok(std::move(doc));
 }
 
-// ── Type-annotated execution ──────────────────────────────────────────────
+/**
+ * @brief ── Type-annotated execution ──────────────────────────────────────────────
+ * @param[in] aql Input parameter.
+ * @param[in,out] engine Input/output parameter.
+ * @return Return value.
+ */
 
 Result<query::AnnotatedQueryResult> executeAqlAnnotated(
     const std::string& aql,
@@ -1059,7 +1132,13 @@ Result<query::AnnotatedQueryResult> executeAqlAnnotated(
     return Ok(std::move(annotated));
 }
 
-// ── Per-query resource limits ─────────────────────────────────────────────────
+/**
+ * @brief ── Per-query resource limits ─────────────────────────────────────────────────
+ * @param[in] aql Input parameter.
+ * @param[in,out] engine Input/output parameter.
+ * @param[in] limits Input parameter.
+ * @return Return value.
+ */
 
 Result<nlohmann::json> executeAqlWithLimits(
     const std::string& aql,
@@ -1124,7 +1203,13 @@ Result<nlohmann::json> executeAqlWithLimits(
     return result;
 }
 
-// ── SQL dialect compatibility layer ──────────────────────────────────────────
+/**
+ * @brief ── SQL dialect compatibility layer ──────────────────────────────────────────
+ * @param[in] sql Input parameter.
+ * @param[in,out] engine Input/output parameter.
+ * @return Return value.
+ * @details Calls: parse(), error(), message(), transpile(), value(), executeAql().
+ */
 
 Result<nlohmann::json> executeSQL(const std::string& sql, query::QueryEngine& engine) {
     // Parse the SQL statement into an AST.
@@ -1151,7 +1236,14 @@ Result<nlohmann::json> executeSQL(const std::string& sql, query::QueryEngine& en
     return executeAql(transpile_result.value(), engine);
 }
 
-// ── Query cancellation via request ID ────────────────────────────────────────
+/**
+ * @brief ── Query cancellation via request ID ────────────────────────────────────────
+ * @param[in] aql Input parameter.
+ * @param[in,out] engine Input/output parameter.
+ * @param[in] request_id Input parameter.
+ * @param[in,out] canceller Input/output parameter.
+ * @return Return value.
+ */
 
 Result<nlohmann::json> executeAqlCancellable(
     const std::string& aql,
@@ -1163,7 +1255,13 @@ Result<nlohmann::json> executeAqlCancellable(
     // the strong shared_ptr.  ScopedRegistration only stores the request_id
     // for cleanup; it does NOT call registerQuery again (no double registration).
     auto token = canceller.registerQuery(request_id);
-    // RAII guard: calls canceller.unregisterQuery(request_id) on scope exit.
+    /**
+     * @brief RAII guard: calls canceller.
+     * @param[in] request_id Input parameter.
+     * @param[in] canceller Input parameter.
+     * @return Return value.
+     * @details unregisterQuery(request_id) on scope exit.
+     */
     query::QueryCanceller::ScopedRegistration guard(request_id, canceller);
 
     // Pre-execution cancellation check: the token may have been cancelled

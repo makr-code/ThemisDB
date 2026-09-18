@@ -80,6 +80,12 @@ int levelIndex(core::concerns::ILogger::Level level) noexcept {
     return static_cast<int>(level);
 }
 
+/**
+ * @brief Inject Trace Fields.
+ * @param[in,out] fields Input/output parameter.
+ * @param[in] ctx Input parameter.
+ * @details Calls: empty(), insert_or_assign().
+ */
 void injectTraceFields(core::concerns::ILogger::Fields& fields,
                        const core::concerns::TraceContext& ctx) {
     if (!ctx.trace_id.empty()) {
@@ -129,6 +135,11 @@ std::string LogEntry::toJson() const {
 /** @brief LogAggregator::Impl. */
 class LogAggregator::Impl {
 public:
+    /**
+     * @brief Impl.
+     * @param[in] cfg Input parameter.
+     * @return Return value.
+     */
     explicit Impl(const LogAggregatorConfig& cfg)
         : config_(cfg)
         , file_open_(false)
@@ -159,6 +170,12 @@ public:
         }
     }
 
+    /**
+     * @brief Accept.
+     * @param[in] level Input parameter.
+     * @param[in] message Input parameter.
+     * @param[in] fields Input parameter.
+     */
     void accept(Level level,
                 const std::string& message,
                 const Fields& fields)
@@ -177,6 +194,11 @@ public:
         entry.message   = message;
         entry.fields    = fields;
 
+        /**
+         * @brief Lk.
+         * @param[in] mu_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mu_);
 
         // In-process ring buffer
@@ -237,9 +259,14 @@ public:
         std::shared_ptr<std::promise<void>> promise;
     };
 
-    /// Post a task to the async queue.  Returns the associated future.
-    /// If the queue is full or async is disabled, the promise is resolved
-    /// immediately (record dropped) and the overflow counter incremented.
+    /**
+     * @brief Post a task to the async queue.
+     * @param[in] level Input parameter.
+     * @param[in] message Input parameter.
+     * @param[in] fields Input parameter.
+     * @return Return value.
+     * @details Returns the associated future. If the queue is full or async is disabled, the promise is resolved immediately (record dropped) and the overflow counter incremented.
+     */
     std::future<void> enqueue(Level level,
                                std::string message,
                                Fields fields)
@@ -254,6 +281,11 @@ public:
         }
 
         {
+            /**
+             * @brief Lk.
+             * @param[in] async_mu_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lk(async_mu_);
             if (async_queue_.size() >= config_.async_queue_max_size) {
                 ++async_overflows_;
@@ -268,10 +300,19 @@ public:
         return f;
     }
 
+    /**
+     * @brief Run Worker.
+     * @details Calls: lk(), wait(), empty(), load(), std::move(), front(), pop(), accept().
+     */
     void runWorker() {
         while (true) {
             AsyncTask task;
             {
+                /**
+                 * @brief Lk.
+                 * @param[in] async_mu_ Input parameter.
+                 * @return Return value.
+                 */
                 std::unique_lock<std::mutex> lk(async_mu_);
                 async_cv_.wait(lk, [this] {
                     return !async_queue_.empty() || worker_stop_.load();
@@ -293,8 +334,17 @@ public:
         }
     }
 
+    /**
+     * @brief Stop Worker.
+     * @details Calls: lk(), store(), notify_all(), joinable(), join().
+     */
     void stopWorker() {
         {
+            /**
+             * @brief Lk.
+             * @param[in] async_mu_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lk(async_mu_);
             worker_stop_.store(true);
         }
@@ -337,40 +387,91 @@ LogAggregator::LogAggregator(const LogAggregatorConfig& config)
 
 LogAggregator::~LogAggregator() = default;
 
+/**
+ * @brief Log.
+ * @param[in] level Input parameter.
+ * @param[in] message Input parameter.
+ * @details Calls: accept().
+ */
 void LogAggregator::log(Level level, const std::string& message) {
     impl_->accept(level, message, {});
 }
 
+/**
+ * @brief Trace.
+ * @param[in] message Input parameter.
+ * @details Calls: log().
+ */
 void LogAggregator::trace(const std::string& message) {
     log(Level::TRACE, message);
 }
 
+/**
+ * @brief Debug.
+ * @param[in] message Input parameter.
+ * @details Calls: log().
+ */
 void LogAggregator::debug(const std::string& message) {
     log(Level::DEBUG, message);
 }
 
+/**
+ * @brief Info.
+ * @param[in] message Input parameter.
+ * @details Calls: log().
+ */
 void LogAggregator::info(const std::string& message) {
     log(Level::INFO, message);
 }
 
+/**
+ * @brief Warn.
+ * @param[in] message Input parameter.
+ * @details Calls: log().
+ */
 void LogAggregator::warn(const std::string& message) {
     log(Level::WARN, message);
 }
 
+/**
+ * @brief Error.
+ * @param[in] message Input parameter.
+ * @details Calls: log().
+ */
 void LogAggregator::error(const std::string& message) {
     log(Level::ERROR, message);
 }
 
+/**
+ * @brief Critical.
+ * @param[in] message Input parameter.
+ * @details Calls: log().
+ */
 void LogAggregator::critical(const std::string& message) {
     log(Level::CRITICAL, message);
 }
 
+/**
+ * @brief Log Structured.
+ * @param[in] level Input parameter.
+ * @param[in] message Input parameter.
+ * @param[in] fields Input parameter.
+ * @details Calls: accept().
+ */
 void LogAggregator::logStructured(Level level,
                                    const std::string& message,
                                    const Fields& fields) {
     impl_->accept(level, message, fields);
 }
 
+/**
+ * @brief Log With Context.
+ * @param[in] level Input parameter.
+ * @param[in] message Input parameter.
+ * @param[in] ctx Input parameter.
+ * @param[in] fields Input parameter.
+ * @details Calls: injectTraceFields(), accept().
+ */
 void LogAggregator::logWithContext(Level level,
                                     const std::string& message,
                                     const TraceCtx& ctx,
@@ -380,6 +481,11 @@ void LogAggregator::logWithContext(Level level,
     impl_->accept(level, message, merged);
 }
 
+/**
+ * @brief Set Level.
+ * @param[in] level Input parameter.
+ * @details Calls: lk().
+ */
 void LogAggregator::setLevel(Level level) {
     std::lock_guard<std::mutex> lk(impl_->mu_);
     impl_->config_.min_level = level;
@@ -390,6 +496,11 @@ LogAggregator::Level LogAggregator::getLevel() const {
     return impl_->config_.min_level;
 }
 
+/**
+ * @brief Set Pattern.
+ * @param[in] pattern Input parameter.
+ * @details Calls: lk().
+ */
 void LogAggregator::setPattern(const std::string& pattern) {
     std::lock_guard<std::mutex> lk(impl_->mu_);
     impl_->config_.format_pattern = pattern;
@@ -443,6 +554,10 @@ std::vector<LogEntry> LogAggregator::entriesAtLevel(Level min_level) const {
     return all;
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lk().
+ */
 void LogAggregator::clear() {
     std::lock_guard<std::mutex> lk(impl_->mu_);
     impl_->buffer_.clear();
@@ -465,6 +580,11 @@ LogAggregatorStats LogAggregator::stats() const {
     return s;
 }
 
+/**
+ * @brief Set Entry Callback.
+ * @param[in] cb Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void LogAggregator::setEntryCallback(EntryCallback cb) {
     std::lock_guard<std::mutex> lk(impl_->mu_);
     impl_->callback_ = std::move(cb);
@@ -475,20 +595,41 @@ LogAggregatorConfig LogAggregator::getConfig() const {
     return impl_->config_;
 }
 
-// ---------------------------------------------------------------------------
-// IAsyncLogger overrides — worker-thread-backed async dispatch
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- IAsyncLogger overrides — worker-thread-backed async dispatch ---------------------------------------------------------------------------
+ * @param[in] level Input parameter.
+ * @param[in] message Input parameter.
+ * @return Return value.
+ * @details Calls: enqueue(), std::string().
+ */
 
 std::future<void> LogAggregator::logAsync(Level level, std::string_view message) {
     return impl_->enqueue(level, std::string(message), {});
 }
 
+/**
+ * @brief Log Structured Async.
+ * @param[in] level Input parameter.
+ * @param[in] message Input parameter.
+ * @param[in] fields Input parameter.
+ * @return Return value.
+ * @details Calls: enqueue(), std::string().
+ */
 std::future<void> LogAggregator::logStructuredAsync(Level level,
                                                      std::string_view message,
                                                      const Fields& fields) {
     return impl_->enqueue(level, std::string(message), fields);
 }
 
+/**
+ * @brief Log With Context Async.
+ * @param[in] level Input parameter.
+ * @param[in] message Input parameter.
+ * @param[in] ctx Input parameter.
+ * @param[in] fields Input parameter.
+ * @return Return value.
+ * @details Calls: logWithContext(), std::string(), set_value(), get_future().
+ */
 std::future<void> LogAggregator::logWithContextAsync(Level level,
                                                        std::string_view message,
                                                        const TraceCtx& ctx,

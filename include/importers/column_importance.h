@@ -21,17 +21,6 @@
 namespace themis {
 namespace importers {
 
-/**
- * @brief Information-theoretic column importance analysis.
- *
- * Implements Shannon Entropy, Mutual Information, Gini Impurity, and
- * Information Gain (ID3 algorithm) to rank columns by predictive value
- * and identify redundant candidates for denormalisation.
- *
- * References:
- *   - Breiman (2001) "Feature Importance Using the Permutation Method"
- *   - Tibshirani (1996) "The Lasso: A Shrinkage and Selection Method"
- */
 class ColumnImportanceAnalyzer {
 public:
     struct ColumnImportance {
@@ -43,29 +32,19 @@ public:
         double information_gain{0.0};    ///< ID3 algorithm gain
         std::vector<double> shap_values; ///< SHAP feature importance (approximated)
 
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         json toJson() const;
     };
 
-    /**
-     * @brief Analyse column importance across all sampled tables.
-     *
-     * @param schemas   Table schema descriptions.
-     * @param samples   Sampled column values (up to sample_size rows per column).
-     * @param sample_size  Maximum number of rows used per column analysis.
-     */
     std::vector<ColumnImportance> analyzeImportance(
         const std::vector<InferenceTableSchema>& schemas,
         const std::vector<SampleData>& samples,
         size_t sample_size = 10000
     );
 
-    /**
-     * @brief Identify column pairs with Pearson correlation above threshold.
-     *
-     * These pairs are candidates for denormalisation or index elimination.
-     *
-     * @param correlation_threshold  Default 0.95 (95 % correlation).
-     */
     std::vector<std::pair<std::string, std::string>>
     findRedundantColumns(
         const std::vector<ColumnImportance>& importance_scores,

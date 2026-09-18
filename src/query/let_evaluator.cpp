@@ -45,6 +45,13 @@ namespace {
 namespace themis {
 namespace query {
 
+/**
+ * @brief Evaluate Let.
+ * @param[in] node Input parameter.
+ * @param[in] currentDoc Input parameter.
+ * @return True on success.
+ * @details Calls: evaluateExpression(), std::move(), what().
+ */
 bool LetEvaluator::evaluateLet(const LetNode& node, const nlohmann::json& currentDoc) {
     try {
         auto value = evaluateExpression(node.expression, currentDoc);
@@ -69,6 +76,10 @@ bool LetEvaluator::hasVariable(const std::string& varName) const {
     return bindings_.find(varName) != bindings_.end();
 }
 
+/**
+ * @brief Clear.
+ * @details Implements clear without additional internal calls.
+ */
 void LetEvaluator::clear() {
     bindings_.clear();
 }
@@ -460,7 +471,11 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
                 evaluatedArgs.push_back(evaluateExpression(arg, currentDoc));
             }
             
-            // Create function context with current document and bindings
+            /**
+             * @brief Create function context with current document and bindings
+             * @param[in] currentDoc Input parameter.
+             * @return Return value.
+             */
             themis::query::functions::FunctionContext ctx(currentDoc);
             
             // Copy LET bindings to function context
@@ -1088,6 +1103,11 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
             }
             
             std::string coords = wkt.substr(start + 1, end - start - 1);
+            /**
+             * @brief Iss.
+             * @param[in] coords Input parameter.
+             * @return Return value.
+             */
             std::istringstream iss(coords);
             double x, y, z;
             
@@ -1130,6 +1150,11 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
                     token.clear();
                 }
                 if (!token.empty()) {
+                    /**
+                     * @brief Tss.
+                     * @param[in] token Input parameter.
+                     * @return Return value.
+                     */
                     std::istringstream tss(token);
                     double x, y, z;
                     if (!(tss >> x >> y)) {
@@ -1178,6 +1203,11 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
                     token.clear();
                 }
                 if (!token.empty()) {
+                    /**
+                     * @brief Tss.
+                     * @param[in] token Input parameter.
+                     * @return Return value.
+                     */
                     std::istringstream tss(token);
                     double x, y, z;
                     if (!(tss >> x >> y)) {

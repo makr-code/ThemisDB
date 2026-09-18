@@ -21,23 +21,12 @@ namespace themis {
 namespace plugins {
 namespace ethics {
 
-/**
- * @brief Compression mode for prior discourse rounds.
- *
- * Three modes oriented at the RECOMP taxonomy (§12.1.2):
- *  - PRINCIPLE_CITATIONS_ONLY: Extractive — thesis_id + verdict only (~75 % reduction, ΔDC ≤ −0.05)
- *  - STRUCTURED_SUMMARY: Abstractive — LLM-generated summary (~60 % reduction, ΔDC ≤ −0.08)
- *  - HEADLINE: Ultra-sparse — only "[thesis_id: name]" tokens (~80 % reduction, ΔDC ≤ −0.15)
- */
 enum class CompressionMode {
     PRINCIPLE_CITATIONS_ONLY,   ///< Extractive: thesis_id + verdict only (LLMLingua-style)
     STRUCTURED_SUMMARY,         ///< Abstractive: generative summary via small LLM (RECOMP)
     HEADLINE                    ///< Ultra-sparse: only "[thesis_id: name]" tokens
 };
 
-/**
- * @brief Configuration for PriorRoundCompressor.
- */
 struct CompressionConfig {
     CompressionMode mode{CompressionMode::PRINCIPLE_CITATIONS_ONLY};
     int             trigger_round{3};           ///< Only compress rounds >= trigger_round
@@ -47,9 +36,6 @@ struct CompressionConfig {
     std::string     coherence_anchor_field{"thesis_ids"};
 };
 
-/**
- * @brief Result of a compression operation.
- */
 struct CompressionResult {
     std::string compressed_text;
     int         original_tokens{0};
@@ -59,25 +45,16 @@ struct CompressionResult {
     bool        coherence_anchors_intact{true};
 };
 
-/**
- * @brief Compresses prior discourse rounds to fit within LLM context windows.
- *
- * Implements §12.1.2 of the Context-Window-Budget-Strategie. Three compression
- * modes map to the RECOMP taxonomy (extractive / abstractive / ultra-sparse).
- *
- * All methods are const and thread-safe (no mutable state).
- */
 class PriorRoundCompressor {
 public:
     PriorRoundCompressor() = default;
 
     /**
-     * @brief Compress arguments from a single prior round.
-     *
-     * @param round_arguments Arguments produced in the round to compress.
-     * @param config          Compression configuration.
-     * @param current_round   Current discourse round number (1-based).
-     * @return CompressionResult containing the compressed text and metrics.
+     * @brief Compress Prior Round.
+     * @param[in] round_arguments Input parameter.
+     * @param[in] config Input parameter.
+     * @param[in] current_round Input parameter.
+     * @return Return value.
      */
     CompressionResult compressPriorRound(
         const std::vector<EthicalArgument>& round_arguments,
@@ -85,16 +62,12 @@ public:
         int current_round) const;
 
     /**
-     * @brief Build the full prior context for injection into the next round.
-     *
-     * Applies hierarchical compression: older rounds are compressed more
-     * aggressively than recent rounds.
-     *
-     * @param all_rounds      Arguments from all previous rounds (index 0 = R1).
-     * @param config          Base compression configuration.
-     * @param current_round   Current discourse round number (1-based).
-     * @param max_total_tokens Hard token budget for the entire prior context.
-     * @return Assembled prior context string within the token budget.
+     * @brief Build Prior Context.
+     * @param[in] all_rounds Input parameter.
+     * @param[in] config Input parameter.
+     * @param[in] current_round Input parameter.
+     * @param[in] max_total_tokens Input parameter.
+     * @return Return value.
      */
     std::string buildPriorContext(
         const std::vector<std::vector<EthicalArgument>>& all_rounds,
@@ -103,60 +76,65 @@ public:
         int max_total_tokens) const;
 
     /**
-     * @brief Estimate DC loss by computing token-level overlap.
-     *
-     * Implements the shared-token-overlap metric from §12.6.
-     *
-     * @param original_arg   Full original argument text.
-     * @param compressed_arg Compressed argument text.
-     * @return Estimated ΔDC (0.0 = no loss, 1.0 = total loss).
+     * @brief Measure Dc Loss.
+     * @param[in] original_arg Input parameter.
+     * @param[in] compressed_arg Input parameter.
+     * @return Return value.
      */
     float measureDcLoss(
         const std::string& original_arg,
         const std::string& compressed_arg) const;
 
-    /**
-     * @brief Callback type for an external LLM abstractive summariser.
-     *
-     * Receives the full ethical argument and the maximum token budget.  Must
-     * return a non-empty abstractive summary string that fits within the
-     * budget, or an empty string to fall back to the built-in extractive path.
-     *
-     * Thread safety: fn must be callable from multiple threads.
-     */
     using LlmSummaryFn = std::function<std::string(
         const EthicalArgument& arg, int max_tokens)>;
 
     /**
-     * @brief Inject a real LLM abstractive summariser for STRUCTURED_SUMMARY mode.
-     *
-     * When set, `compressStructuredSummary()` delegates to @p fn instead of
-     * the built-in TF-weighted extractive fallback.  An empty return from fn
-     * (e.g. model timeout) transparently falls back to extractive selection.
-     * Pass `nullptr` to revert to the extractive path.
-     *
-     * Roadmap ref: src/ethics_ai/FUTURE_ENHANCEMENTS.md §PriorRoundCompressor LLM (§12.2.1)
+     * @brief Set Llm Summary Fn.
+     * @param[in] fn Input parameter.
      */
     void setLlmSummaryFn(LlmSummaryFn fn);
 
-    /// Approximate token count: chars / 4 (GPT-style BPE approximation).
+    /**
+     * @brief Count Tokens.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     static int countTokens(const std::string& text) noexcept;
 
 private:
 
-    /// Extract principle citations (thesis_id references) from argument content.
+    /**
+     * @brief Extract Principle Citations.
+     * @param[in] content Input parameter.
+     * @return Return value.
+     */
     static std::vector<std::string> extractPrincipleCitations(
         const std::string& content);
 
-    /// Extract verdict from argument content (looks for PROHIBIT/PERMIT/CONDITIONAL/ABSTAIN).
+    /**
+     * @brief Extract Verdict.
+     * @param[in] content Input parameter.
+     * @return Return value.
+     */
     static std::string extractVerdict(const std::string& content);
 
-    /// Apply PRINCIPLE_CITATIONS_ONLY compression to a single argument.
+    /**
+     * @brief Compress Principle Citations Only.
+     * @param[in] arg Input parameter.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     CompressionResult compressPrincipleCitationsOnly(
         const EthicalArgument& arg,
         const CompressionConfig& config) const;
 
-    /// Apply HEADLINE compression to a single argument.
+    /**
+     * @brief Compress Headline.
+     * @param[in] arg Input parameter.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     CompressionResult compressHeadline(
         const EthicalArgument& arg,
         const CompressionConfig& config) const;
@@ -170,15 +148,18 @@ private:
     //                   (§12.2.1 Cascade) and returns its abstractive summary.
     // Removal Plan: Replace with real LLM dispatch when IArgumentGenerator
     //               is integrated with the Cascade Router (§12.2.1 Q3 2026).
+    /**
+     * @brief Compress Structured Summary.
+     * @param[in] arg Input parameter.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     CompressionResult compressStructuredSummary(
         const EthicalArgument& arg,
         const CompressionConfig& config) const;
 
-    /// Injected LLM abstractive summariser (null → extractive fallback).
     LlmSummaryFn llm_summary_fn_;
     
-    /// CRITICAL FIX: Protect access to llm_summary_fn_ from concurrent access
-    /// (data_race: shared data access without lock protection at line 294)
     mutable std::mutex llm_fn_mutex_;
 };
 

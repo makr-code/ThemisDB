@@ -46,13 +46,6 @@ namespace document {
 // KeyRotationDescriptor
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief Plain-data descriptor for an encryption key-rotation operation.
- *
- * Contains only key identifiers — never raw key material.  Passed to
- * IEncryptedDocumentEntity::reencrypt() to trigger key rotation without
- * decrypting to plaintext through the public API.
- */
 struct KeyRotationDescriptor {
     std::string old_key_id;      ///< Identifier of the current encryption key
     std::string new_key_id;      ///< Identifier of the replacement key
@@ -63,35 +56,18 @@ struct KeyRotationDescriptor {
 // IEncryptedDocumentEntity
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief Opaque handle to an encrypted document stored in a collection.
- *
- * ### Opacity contract
- * - Key material, cipher parameters, and internal buffer pointers are never
- *   accessible through this interface.
- * - Instances are obtained exclusively via
- *   IDocumentManager::createEncrypted(); there are no public constructors.
- *
- * ### Thread safety
- * - documentId() and collectionId() are safe to call concurrently.
- * - reencrypt() is not re-entrant on the same handle.
- */
 class IEncryptedDocumentEntity {
 public:
+    /**
+     * @brief IEncrypted Document Entity.
+     * @return Return value.
+     */
     virtual ~IEncryptedDocumentEntity() = default;
 
-    /// @brief The document's unique identifier within its collection.
     [[nodiscard]] virtual const DocumentId&   documentId()   const noexcept = 0;
 
-    /// @brief The owning collection identifier.
     [[nodiscard]] virtual const CollectionId& collectionId() const noexcept = 0;
 
-    /**
-     * @brief Rotate the encryption key without exposing plaintext.
-     *
-     * @return ERR_DOC_INVALID_ARGUMENT if @p desc.new_key_id is empty.
-     * @return ERR_DOC_ENCRYPT_FAILED   on key-provider or crypto failure.
-     */
     [[nodiscard]] virtual Result<void> reencrypt(const KeyRotationDescriptor& desc) = 0;
 };
 
@@ -99,106 +75,51 @@ public:
 // IDocumentManager
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief Primary document CRUD interface.
- *
- * All methods return @c Result<T>; no method throws exceptions through this
- * interface boundary.  Implementations must be thread-safe.
- *
- * Documents are stored as @c nlohmann::json payloads.  Collection-level ACL
- * is validated at the interface boundary before any operation proceeds.
- *
- * ### Lifecycle hooks
- * - Hooks are dispatched synchronously in registration order.
- * - @c beforeCreate fires before the storage write; @c afterCreate fires after
- *   the @c Result<DocumentId> is returned to the caller.
- * - @c afterDelete is guaranteed to fire even on storage failure.
- *
- * ### Error codes
- *   - ERR_DOC_INVALID_ID        — empty document id
- *   - ERR_DOC_ALREADY_EXISTS    — create() on a duplicate id
- *   - ERR_DOC_NOT_FOUND         — get/update/remove on a missing document
- *   - ERR_DOC_INVALID_ARGUMENT  — missing required argument
- */
 class IDocumentManager {
 public:
+    /**
+     * @brief IDocument Manager.
+     * @return Return value.
+     */
     virtual ~IDocumentManager() = default;
 
     // ── CRUD ──────────────────────────────────────────────────────────────
 
-    /**
-     * @brief Create a new document in @p collection with the given @p id.
-     *
-     * @return ERR_DOC_INVALID_ID     if @p id is empty.
-     * @return ERR_DOC_ALREADY_EXISTS if the id already exists.
-     */
     [[nodiscard]] virtual Result<DocumentId> create(const CollectionId&   collection,
                                       const DocumentId&     id,
                                       const nlohmann::json& body) = 0;
 
-    /**
-     * @brief Retrieve a document by collection and id.
-     *
-     * @return std::nullopt (success) if the document does not exist.
-     */
     [[nodiscard]] virtual Result<std::optional<nlohmann::json>> get(
         const CollectionId& collection,
         const DocumentId&   id) const = 0;
 
-    /**
-     * @brief Replace the body of an existing document.
-     *
-     * @return ERR_DOC_NOT_FOUND if the document does not exist.
-     */
     [[nodiscard]] virtual Result<void> update(const CollectionId&   collection,
                                 const DocumentId&     id,
                                 const nlohmann::json& body) = 0;
 
-    /**
-     * @brief Remove a document.  No-op (success) if not found.
-     *
-     * @note  @c afterDelete is fired even if the underlying storage fails.
-     */
     [[nodiscard]] virtual Result<void> remove(const CollectionId& collection,
                                 const DocumentId&   id) = 0;
 
-    /**
-     * @brief List all document IDs in a collection.
-     */
     [[nodiscard]] virtual Result<std::vector<DocumentId>> list(
         const CollectionId& collection) const = 0;
 
     // ── Encrypted entity factory ─────────────────────────────────────────
 
-    /**
-     * @brief Create an opaque encrypted document handle.
-     *
-     * The document is stored with its payload encrypted.  The returned
-     * IEncryptedDocumentEntity exposes no key material or cipher parameters.
-     *
-     * @return ERR_DOC_INVALID_ID    if @p id is empty.
-     * @return ERR_DOC_ENCRYPT_FAILED on key-provider failure.
-     */
     [[nodiscard]] virtual Result<std::unique_ptr<IEncryptedDocumentEntity>> createEncrypted(
         const CollectionId&   collection,
         const DocumentId&     id,
         const nlohmann::json& body) = 0;
 
-    // ── Lifecycle hooks ───────────────────────────────────────────────────
-
     /**
-     * @brief Register a lifecycle observer.
-     *
-     * Thread-safe.  The hook is called for every subsequent CRUD operation.
-     * Duplicates (same pointer) are silently ignored.
+     * @brief ── Lifecycle hooks ───────────────────────────────────────────────────
+     * @param[in,out] hook Input/output parameter.
      */
+
     virtual void registerLifecycleHook(IDocumentLifecycleHook& hook) = 0;
 
     /**
-     * @brief Unregister a previously registered observer.
-     *
-     * Thread-safe.  Any in-flight callback on @p hook completes before this
-     * method returns.  No-op if @p hook was not registered.
+     * @brief Unregister Lifecycle Hook.
+     * @param[in,out] hook Input/output parameter.
      */
     virtual void unregisterLifecycleHook(IDocumentLifecycleHook& hook) = 0;
 };
@@ -207,22 +128,6 @@ public:
 // InMemoryEncryptedEntity  (package-private implementation detail)
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief In-memory concrete implementation of IEncryptedDocumentEntity.
- *
- * No real encryption is performed; this is intended for unit tests and
- * development use only.
- *
- * STUB/SIMULATION NOTE:
- * Purpose:          Provide a testable IEncryptedDocumentEntity without a
- *                   real key provider.
- * Activation:       Always active in InMemoryDocumentManager.
- * Production Delta: reencrypt() records the new key_id but does not
- *                   re-cipher any data bytes; equivalent to a no-op cipher
- *                   on an empty plaintext (valid for in-memory/test use).
- * Removal Plan:     Replace with a KeyProviderEncryptedEntity that wraps a
- *                   real IKeyProvider when key management is wired in.
- */
 class InMemoryEncryptedEntity final : public IEncryptedDocumentEntity {
 public:
     InMemoryEncryptedEntity(DocumentId doc_id, CollectionId col_id)
@@ -244,11 +149,6 @@ public:
         return Result<void>{};
     }
 
-    /**
-     * @brief Return the current key ID after the last successful reencrypt().
-     *
-     * Returns an empty string if reencrypt() has never been called.
-     */
     [[nodiscard]] const std::string& currentKeyId() const noexcept {
         return current_key_id_;
     }
@@ -263,12 +163,6 @@ private:
 // InMemoryDocumentManager
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief Thread-safe in-memory implementation of IDocumentManager.
- *
- * Backed by an @c InMemoryDocumentStore.  Suitable for unit tests and
- * development; not production-grade.
- */
 class InMemoryDocumentManager final : public IDocumentManager {
 public:
     // ── CRUD ──────────────────────────────────────────────────────────────
@@ -388,6 +282,11 @@ public:
     // ── Lifecycle hooks ───────────────────────────────────────────────────
 
     void registerLifecycleHook(IDocumentLifecycleHook& hook) override {
+        /**
+         * @brief Lk.
+         * @param[in] hooks_mu_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lk(hooks_mu_);
         auto ptr = &hook;
         if (std::find(hooks_.begin(), hooks_.end(), ptr) == hooks_.end()) {
@@ -396,6 +295,11 @@ public:
     }
 
     void unregisterLifecycleHook(IDocumentLifecycleHook& hook) override {
+        /**
+         * @brief Lk.
+         * @param[in] hooks_mu_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lk(hooks_mu_);
         auto ptr = &hook;
         hooks_.erase(std::remove(hooks_.begin(), hooks_.end(), ptr),
@@ -404,6 +308,11 @@ public:
 
 private:
     void dispatchHooks(const DocumentLifecycleEvent& evt) const {
+        /**
+         * @brief Lk.
+         * @param[in] hooks_mu_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lk(hooks_mu_);
         for (auto* h : hooks_) {
             switch (evt.type) {
@@ -417,6 +326,11 @@ private:
         }
     }
 
+    /**
+     * @brief Now Ms.
+     * @return Return value.
+     * @details Calls: system_clock::now(), time_since_epoch(), count().
+     */
     static int64_t nowMs() {
         using namespace std::chrono;
         return duration_cast<milliseconds>(

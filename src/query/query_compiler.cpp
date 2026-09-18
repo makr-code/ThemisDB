@@ -82,7 +82,12 @@ namespace query {
 
 namespace {
 
-// Convert a 64-bit integer to a 16-char lowercase hex string.
+/**
+ * @brief Convert a 64-bit integer to a 16-char lowercase hex string.
+ * @param[in] v Input parameter.
+ * @return Return value.
+ * @details Calls: out().
+ */
 static std::string toHex16(uint64_t v) {
     static const char kHex[] = "0123456789abcdef";
     std::string out(16, '0');
@@ -92,7 +97,12 @@ static std::string toHex16(uint64_t v) {
     return out;
 }
 
-// Elapsed microseconds since a start point.
+/**
+ * @brief Elapsed microseconds since a start point.
+ * @param[in] start Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), count().
+ */
 static uint64_t elapsedUs(
     const std::chrono::steady_clock::time_point& start) {
     return static_cast<uint64_t>(
@@ -123,12 +133,21 @@ public:
         std::function<Result<QueryResult>(const QueryParams&)> hot_fn;
     };
 
+    /**
+     * @brief Impl.
+     * @param[in] cfg Input parameter.
+     * @return Return value.
+     */
     explicit Impl(const QueryCompiler::Config& cfg)
         : config_(cfg) {}
 
-    // -----------------------------------------------------------------------
-    // compile
-    // -----------------------------------------------------------------------
+    /**
+     * @brief ----------------------------------------------------------------------- compile -----------------------------------------------------------------------
+     * @param[in] query_text Input parameter.
+     * @param[in] param Input parameter.
+     * @param[in] executor Input parameter.
+     * @return Return value.
+     */
 
     QueryCompiler::CompiledQuery compile(
         const std::string&              query_text,
@@ -166,9 +185,12 @@ public:
         return handle;
     }
 
-    // -----------------------------------------------------------------------
-    // execute
-    // -----------------------------------------------------------------------
+    /**
+     * @brief ----------------------------------------------------------------------- execute -----------------------------------------------------------------------
+     * @param[in] handle Input parameter.
+     * @param[in] params Input parameter.
+     * @return Return value.
+     */
 
     Result<QueryResult> execute(
         const QueryCompiler::CompiledQuery& handle,
@@ -275,9 +297,11 @@ public:
         return it == entries_.end() ? 0 : it->second.call_count;
     }
 
-    // -----------------------------------------------------------------------
-    // Cache management
-    // -----------------------------------------------------------------------
+    /**
+     * @brief ----------------------------------------------------------------------- Cache management -----------------------------------------------------------------------
+     * @param[in] key Input parameter.
+     * @details Calls: find(), end(), THEMIS_DEBUG().
+     */
 
     void invalidate(const std::string& key) {
         auto it = entries_.find(key);
@@ -291,6 +315,10 @@ public:
         }
     }
 
+    /**
+     * @brief Invalidate All.
+     * @details Calls: THEMIS_DEBUG(), size().
+     */
     void invalidateAll() {
         for (auto& [k, e] : entries_) {
             e.is_compiled       = false;
@@ -351,6 +379,10 @@ private:
      *     3. Compile to native machine code via MCJIT.
      *     4. Store a function pointer as the hot_fn.
      *   Timeout enforcement applies equally to LLVM compilation.
+     * @brief Try Specialise.
+     * @param[in,out] entry Input/output parameter.
+     * @param[in] key Input parameter.
+     * @details Calls: std::chrono::steady_clock::now(), captured_executor(), value(), elapsedUs(), THEMIS_WARN(), THEMIS_INFO(), what(), THEMIS_ERROR().
      */
     void trySpecialise(Entry& entry, const std::string& key) {
         const auto t0 = std::chrono::steady_clock::now();
@@ -470,11 +502,23 @@ QueryCompiler::QueryCompiler(const Config& config)
 
 QueryCompiler::~QueryCompiler() = default;
 
-// static
+/**
+ * @brief static
+ * @param[in] query_text Input parameter.
+ * @return Return value.
+ * @details Calls: toHex16(), themis::hash::fnv1a64().
+ */
 std::string QueryCompiler::makeKey(const std::string& query_text) {
     return toHex16(themis::hash::fnv1a64(query_text));
 }
 
+/**
+ * @brief Compile.
+ * @param[in] query_text Input parameter.
+ * @param[in] params_meta Input parameter.
+ * @param[in] executor Input parameter.
+ * @return Return value.
+ */
 QueryCompiler::CompiledQuery QueryCompiler::compile(
     const std::string&              query_text,
     const std::vector<std::string>& params_meta,
@@ -483,6 +527,12 @@ QueryCompiler::CompiledQuery QueryCompiler::compile(
     return impl_->compile(query_text, params_meta, std::move(executor));
 }
 
+/**
+ * @brief Execute.
+ * @param[in] compiled Input parameter.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ */
 Result<QueryResult> QueryCompiler::execute(
     const CompiledQuery& compiled,
     const QueryParams&   params)
@@ -498,10 +548,19 @@ size_t QueryCompiler::callCount(const std::string& key) const {
     return impl_->callCount(key);
 }
 
+/**
+ * @brief Invalidate.
+ * @param[in] key Input parameter.
+ * @details Implements invalidate without additional internal calls.
+ */
 void QueryCompiler::invalidate(const std::string& key) {
     impl_->invalidate(key);
 }
 
+/**
+ * @brief Invalidate All.
+ * @details Implements invalidateAll without additional internal calls.
+ */
 void QueryCompiler::invalidateAll() {
     impl_->invalidateAll();
 }

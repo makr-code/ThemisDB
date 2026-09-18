@@ -29,11 +29,6 @@
 namespace themis {
 namespace aql {
 
-/**
- * @brief Result type for semantic validation
- *
- * Contains validation status, error details, warnings, and confidence score.
- */
 struct SemanticValidationResult {
     enum class Status {
         VALID,                    ///< Query passes all semantic checks
@@ -49,21 +44,15 @@ struct SemanticValidationResult {
     std::string error_message;
     std::vector<std::string> warnings;
     
-    /// Confidence score (0.0 to 1.0) for the query quality
     double confidence_score = 1.0;
     
-    /// Estimated output cardinality (rows)
     std::optional<size_t> estimated_output_rows;
     
-    /// Time spent in semantic validation (ms)
     std::chrono::milliseconds validation_latency_ms{0};
 
     bool isValid() const { return status == Status::VALID; }
 };
 
-/**
- * @brief Semantic type information for a collection attribute
- */
 struct AttributeTypeInfo {
     std::string collection_name;
     std::string attribute_name;
@@ -72,63 +61,61 @@ struct AttributeTypeInfo {
     std::optional<size_t> cardinality; // Number of distinct values
 };
 
-/**
- * @brief Schema context provider for semantic validation
- *
- * Abstracts how semantic validator accesses collection schemas,
- * function signatures, and cardinality statistics.
- */
 class SemanticSchemaContext {
 public:
+    /**
+     * @brief Semantic Schema Context.
+     * @return Return value.
+     */
     virtual ~SemanticSchemaContext() = default;
 
-    /// Retrieve type information for an attribute
+    /**
+     * @brief Get Attribute Type.
+     * @param[in] collection_name Name of the collection.
+     * @param[in] attribute_name Name of the attribute.
+     * @return Return value.
+     */
     virtual std::optional<AttributeTypeInfo> getAttributeType(
         const std::string& collection_name,
         const std::string& attribute_name) const = 0;
 
-    /// List all collections available in current context
+    /**
+     * @brief List Collections.
+     * @return Return value.
+     */
     virtual std::vector<std::string> listCollections() const = 0;
 
-    /// Check if a function exists and retrieve signature
+    /**
+     * @brief Is Function Defined.
+     * @param[in] function_name Name of the function.
+     * @return True when the operation succeeds.
+     */
     virtual bool isFunctionDefined(const std::string& function_name) const = 0;
 
-    /// Get estimated cardinality (row count) for a collection
+    /**
+     * @brief Get Collection Cardinality.
+     * @param[in] collection_name Name of the collection.
+     * @return Return value.
+     */
     virtual std::optional<size_t> getCollectionCardinality(
         const std::string& collection_name) const = 0;
 };
 
-/**
- * @brief Semantic validator for LLM-generated AQL queries
- *
- * Performs type checking, cardinality estimation, and semantic constraint
- * validation on ASTs that have already passed syntax validation.
- *
- * @see Configuration: configure() method
- */
 class LLMSemanticValidator {
 public:
-    /// Configuration for semantic validation behavior
     struct Config {
-        /// Maximum time allowed for semantic validation (ms)
         std::chrono::milliseconds validation_timeout_ms{5000};
 
-        /// Warn if estimated output exceeds this threshold (rows)
         size_t cardinality_warning_threshold = 1000000;
 
-        /// Enable type checking
         bool enable_type_checking = true;
 
-        /// Enable cardinality estimation
         bool enable_cardinality_estimation = true;
 
-        /// Enable join validation
         bool enable_join_validation = true;
 
-        /// Enable function signature validation
         bool enable_function_validation = true;
 
-        /// Minimum confidence score for query acceptance (0.0 to 1.0)
         double min_confidence_score = 0.6;
     };
 
@@ -136,27 +123,28 @@ public:
         std::shared_ptr<SemanticSchemaContext> schema_context,
         const Config& config = Config());
 
+    /**
+     * @brief LLMSemantic Validator.
+     * @return Return value.
+     */
     virtual ~LLMSemanticValidator() = default;
 
     /**
-     * @brief Validate semantic constraints on a parsed AQL AST
-     *
-     * @param ast The abstract syntax tree (post-parser validation)
-     * @return Validation result with status, confidence score, and diagnostics
-     *
-     * @throws LLMException on internal validation errors (not schema issues)
+     * @brief Validate.
+     * @param[in] ast Input parameter.
+     * @return Return value.
      */
     SemanticValidationResult validate(const query::ASTNode* ast);
 
     /**
-     * @brief Reconfigure validation behavior at runtime
-     *
-     * @param config New configuration parameters
+     * @brief Configure.
+     * @param[in] config Input parameter.
      */
     void configure(const Config& config);
 
     /**
-     * @brief Get current configuration
+     * @brief Get Config.
+     * @return Return value.
      */
     const Config& getConfig() const;
 
@@ -165,19 +153,38 @@ private:
     Config config_;
     std::shared_ptr<spdlog::logger> logger_;
 
-    /// Perform type checking on expressions
+    /**
+     * @brief Check Attribute Types.
+     * @param[in] ast Input parameter.
+     * @param[in,out] result Input/output parameter.
+     */
     void checkAttributeTypes(const query::ASTNode* ast, SemanticValidationResult& result);
 
-    /// Estimate output cardinality based on AST operations
+    /**
+     * @brief Estimate Cardinality.
+     * @param[in] ast Input parameter.
+     * @param[in,out] result Input/output parameter.
+     */
     void estimateCardinality(const query::ASTNode* ast, SemanticValidationResult& result);
 
-    /// Validate join feasibility and detect impossible joins
+    /**
+     * @brief Validate Joins.
+     * @param[in] ast Input parameter.
+     * @param[in,out] result Input/output parameter.
+     */
     void validateJoins(const query::ASTNode* ast, SemanticValidationResult& result);
 
-    /// Validate function calls against known signatures
+    /**
+     * @brief Validate Function Signatures.
+     * @param[in] ast Input parameter.
+     * @param[in,out] result Input/output parameter.
+     */
     void validateFunctionSignatures(const query::ASTNode* ast, SemanticValidationResult& result);
 
-    /// Calculate confidence score based on validation findings
+    /**
+     * @brief Compute Confidence Score.
+     * @param[in,out] result Input/output parameter.
+     */
     void computeConfidenceScore(SemanticValidationResult& result);
 };
 

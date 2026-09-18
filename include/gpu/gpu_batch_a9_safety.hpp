@@ -42,75 +42,28 @@ namespace batch_a9 {
 // Kernel Timeout Enforcement — 5-second hard limit
 // ============================================================================
 
-/**
- * @brief Configuration for kernel execution with timeout and fallback
- */
 struct KernelExecutionConfig {
-    /// Timeout limit (default: 5 seconds)
     std::chrono::milliseconds timeout_ms{5000};
     
-    /// Whether to fallback to CPU on GPU failure
     bool enable_cpu_fallback = true;
     
-    /// Whether to log timeouts and errors
     bool enable_logging = true;
     
-    /// CUDA stream (optional, may be nullptr for default stream)
     cudaStream_t stream = nullptr;
 };
 
-/**
- * @brief Result of kernel execution attempt
- */
 struct KernelExecutionResult {
-    /// True if GPU execution succeeded
     bool gpu_success = false;
     
-    /// True if execution fell back to CPU
     bool cpu_fallback = false;
     
-    /// Execution time in milliseconds
     std::chrono::milliseconds execution_time_ms{0};
     
-    /// Error message (if any)
     std::string error_message;
     
-    /// True if execution completed (GPU or CPU)
     bool success() const { return gpu_success || cpu_fallback; }
 };
 
-/**
- * @brief Execute a kernel with strict 5-second timeout and CPU fallback
- *
- * This function ensures all GPU operations have a bounded execution time.
- * If the GPU operation exceeds 5 seconds, execution automatically falls back
- * to CPU (if CPU implementation is provided).
- *
- * @param gpu_kernel GPU implementation to execute
- * @param cpu_kernel CPU fallback implementation (optional)
- * @param config Execution configuration
- * @return Execution result with success status and timing
- *
- * Usage:
- * ```cpp
- * auto gpu_impl = [&]() {
- *     kernel<<<blocks, threads, 0, stream>>>(args);
- * };
- * 
- * auto cpu_impl = [&]() {
- *     // CPU fallback implementation
- * };
- * 
- * KernelExecutionConfig config;
- * config.timeout_ms = std::chrono::milliseconds(5000);
- * config.enable_cpu_fallback = true;
- * 
- * auto result = executeKernelWithTimeout(gpu_impl, cpu_impl, config);
- * if (!result.success()) {
- *     THEMIS_ERROR("Kernel execution failed: {}", result.error_message);
- * }
- * ```
- */
 inline KernelExecutionResult executeKernelWithTimeout(
     const std::function<void()>& gpu_kernel,
     const std::function<void()>& cpu_kernel,
@@ -262,18 +215,6 @@ inline KernelExecutionResult executeKernelWithTimeout(
 // CUDA Call Safety Macros — Systematic error checking
 // ============================================================================
 
-/**
- * @brief Safe CUDA call with automatic error checking and logging
- *
- * Usage:
- * ```cpp
- * CUDA_SAFE_CALL(cudaMalloc(&ptr, size));
- * CUDA_SAFE_CALL(cudaMemcpy(dst, src, size, cudaMemcpyHostToDevice));
- * ```
- *
- * Logs warnings on error and continues execution (non-throwing).
- * For exception-throwing variant, see CUDA_SAFE_CALL_THROW.
- */
 #if THEMIS_BATCH_A9_HAS_CUDA
 #define CUDA_SAFE_CALL(call) do { \
     cudaError_t err = (call); \
@@ -289,20 +230,6 @@ inline KernelExecutionResult executeKernelWithTimeout(
 #define CUDA_SAFE_CALL(call) do { (void)(call); } while(0)
 #endif
 
-/**
- * @brief Safe CUDA call with exception throwing on error
- *
- * Usage:
- * ```cpp
- * try {
- *     CUDA_SAFE_CALL_THROW(cudaMalloc(&ptr, size));
- * } catch (const std::runtime_error& e) {
- *     // Handle allocation failure
- * }
- * ```
- *
- * Throws std::runtime_error if CUDA call fails.
- */
 #if THEMIS_BATCH_A9_HAS_CUDA
 #define CUDA_SAFE_CALL_THROW(call) do { \
     cudaError_t err = (call); \
@@ -311,6 +238,11 @@ inline KernelExecutionResult executeKernelWithTimeout(
                          " at " + __FILE__ + ":" + std::to_string(__LINE__); \
         auto logger = spdlog::get("gpu"); \
         if (logger) { logger->error("{}", msg); } \
+        /**
+         * @brief Runtime error.
+         * @param[in] msg Input parameter.
+         * @return Return value.
+         */
         throw std::runtime_error(msg); \
     } \
 } while(0)
@@ -318,19 +250,6 @@ inline KernelExecutionResult executeKernelWithTimeout(
 #define CUDA_SAFE_CALL_THROW(call) do { (void)(call); } while(0)
 #endif
 
-/**
- * @brief Safe CUDA call with fallback execution
- *
- * Usage:
- * ```cpp
- * CUDA_SAFE_CALL_WITH_FALLBACK(
- *     cudaMalloc(&gpu_ptr, size),
- *     { fallback_code_on_gpu_failure(); }
- * );
- * ```
- *
- * If CUDA call fails, executes the fallback code block.
- */
 #if THEMIS_BATCH_A9_HAS_CUDA
 #define CUDA_SAFE_CALL_WITH_FALLBACK(call, fallback) do { \
     cudaError_t err = (call); \
@@ -354,14 +273,6 @@ inline KernelExecutionResult executeKernelWithTimeout(
 // GPU Memory Transfer Safety — Checked cudaMemcpy operations
 // ============================================================================
 
-/**
- * @brief Safe memory copy from host to device with error checking
- *
- * @param device_ptr GPU destination pointer
- * @param host_ptr CPU source pointer
- * @param size Number of bytes to copy
- * @return true if copy succeeded; false on failure
- */
 inline bool safeMemcpyHostToDevice(void* device_ptr, const void* host_ptr, size_t size) noexcept {
 #if THEMIS_BATCH_A9_HAS_CUDA
     if (device_ptr == nullptr || host_ptr == nullptr || size == 0) {
@@ -387,14 +298,6 @@ inline bool safeMemcpyHostToDevice(void* device_ptr, const void* host_ptr, size_
 #endif
 }
 
-/**
- * @brief Safe memory copy from device to host with error checking
- *
- * @param host_ptr CPU destination pointer
- * @param device_ptr GPU source pointer
- * @param size Number of bytes to copy
- * @return true if copy succeeded; false on failure
- */
 inline bool safeMemcpyDeviceToHost(void* host_ptr, const void* device_ptr, size_t size) noexcept {
 #if THEMIS_BATCH_A9_HAS_CUDA
     if (device_ptr == nullptr || host_ptr == nullptr || size == 0) {
@@ -420,11 +323,6 @@ inline bool safeMemcpyDeviceToHost(void* host_ptr, const void* device_ptr, size_
 #endif
 }
 
-/**
- * @brief Check whether at least one GPU device is available.
- *
- * @return true when a CUDA device is detected; false otherwise.
- */
 inline bool isGPUAvailable() noexcept {
 #if THEMIS_BATCH_A9_HAS_CUDA
     int device_count = 0;
@@ -435,24 +333,11 @@ inline bool isGPUAvailable() noexcept {
 #endif
 }
 
-/**
- * @brief Validate allocation size for Batch A-9 safety constraints.
- *
- * @param size Allocation size in bytes.
- * @return true for sizes in the allowed range; false otherwise.
- */
 inline bool isAllocationValid(size_t size) noexcept {
     constexpr size_t kMaxAllocationBytes = static_cast<size_t>(1ULL << 30);  // 1 GiB
     return size > 0 && size <= kMaxAllocationBytes;
 }
 
-/**
- * @brief Synchronize a CUDA stream with a bounded timeout.
- *
- * @param stream CUDA stream to synchronize; nullptr uses device-wide sync.
- * @param timeout_ms Timeout in milliseconds.
- * @return true on successful synchronization; false on timeout or CUDA error.
- */
 inline bool streamSynchronizeWithTimeout(cudaStream_t stream, std::uint32_t timeout_ms) noexcept {
 #if THEMIS_BATCH_A9_HAS_CUDA
     if (stream == nullptr) {

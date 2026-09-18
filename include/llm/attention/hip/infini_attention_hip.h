@@ -200,7 +200,8 @@ private:
      * @param[out] O Output tensor
      * @return Status code
      *
-     * @note Placeholder (Phase 2.2): calls CPU fallback currently
+    * @note Uses the CPU fallback until the HIP local-attention kernel is
+    *       available in the build.
      */
     Status computeLocalAttention(
         const Tensor& Q,
@@ -249,7 +250,8 @@ private:
      * @param[out] O_final Blended output
      * @return Status code
      *
-     * @note Placeholder (Phase 2.2): simple 50/50 blend currently
+    * @note Blends local and compressive outputs with a fixed 50/50 weight
+    *       until a learned blending policy is available.
      */
     Status blendOutputs(
         const Tensor& O_local,

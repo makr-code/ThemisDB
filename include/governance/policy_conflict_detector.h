@@ -46,9 +46,6 @@
 namespace themis {
 namespace governance {
 
-/**
- * @brief Conflict severity levels
- */
 enum class ConflictSeverity {
     LOW,       ///< Informational, no impact on functionality
     MEDIUM,    ///< May cause unexpected behavior, review recommended
@@ -56,9 +53,6 @@ enum class ConflictSeverity {
     CRITICAL   ///< Immediate risk to data security or compliance
 };
 
-/**
- * @brief Conflict types with root cause classifications
- */
 enum class ConflictType {
     PERMIT_DENY,           ///< Contradictory access decisions (allow vs deny)
     OVERLAPPING,           ///< Partially overlapping with no precedence
@@ -70,9 +64,6 @@ enum class ConflictType {
     COMPLIANCE_CONFLICT    ///< Cross-framework compliance conflicts
 };
 
-/**
- * @brief Represents a single detected conflict
- */
 struct PolicyConflict {
     std::string conflict_id;                  ///< Unique conflict identifier
     ConflictType conflict_type;               ///< Category of conflict
@@ -83,14 +74,12 @@ struct PolicyConflict {
     int64_t detected_at;                      ///< Timestamp of detection
     
     /**
-     * Convert conflict to JSON for API responses and logging
+     * @brief To Json.
+     * @return Return value.
      */
     nlohmann::json toJson() const;
 };
 
-/**
- * @brief Precedence evaluation result for a rule
- */
 struct PrecedenceEvaluation {
     std::string rule_id;                      ///< Rule being evaluated
     int effective_priority;                   ///< Computed priority
@@ -99,12 +88,13 @@ struct PrecedenceEvaluation {
     std::vector<std::string> overridden_by;   ///< Rules that override this one
     std::string rationale;                    ///< Explanation of priority decision
     
+    /**
+     * @brief To Json.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
 };
 
-/**
- * @brief Result of atomic update validation
- */
 struct AtomicUpdateResult {
     bool success = 0;                             ///< Whether update succeeded
     std::string transaction_id;               ///< Transaction identifier
@@ -114,18 +104,6 @@ struct AtomicUpdateResult {
     int64_t operation_time_us;                ///< Microseconds to complete
 };
 
-/**
- * @brief Policy Conflict Detection and Resolution Engine
- * 
- * **Thread Safety:**
- * All public methods are thread-safe. Concurrent reads are allowed.
- * Writes are serialized with a shared_mutex.
- * 
- * **Performance:**
- * - Conflict detection: O(n²) in worst case (n = number of rules)
- * - Conflict caching: Results cached until policy changes
- * - Precedence evaluation: O(n log n) with incremental updates
- */
 class PolicyConflictDetector {
 public:
     PolicyConflictDetector();
@@ -138,134 +116,53 @@ public:
     PolicyConflictDetector& operator=(PolicyConflictDetector&&) noexcept = default;
 
     /**
-     * @brief Detect all conflicts in a policy set
-     * 
-     * Performs comprehensive conflict analysis across all rules in the
-     * policy manager. Returns all detected conflicts with severity and
-     * resolution recommendations.
-     * 
-     * **Complexity:** O(n²) where n = number of rules
-     * 
-     * @param policy_mgr PolicyManager containing rules to analyze
-     * @return Vector of detected conflicts
-     * @throws std::runtime_error if policy_mgr is invalid
+     * @brief Detect All Conflicts.
+     * @param[in] policy_mgr Input parameter.
+     * @return Return value.
      */
     std::vector<PolicyConflict> detectAllConflicts(const PolicyManager& policy_mgr);
 
     /**
-     * @brief Detect PERMIT-DENY conflicts
-     * 
-     * Identifies rules with same resource/action patterns but contradictory
-     * effects (one allows, one denies). These represent the most critical
-     * conflict category requiring immediate resolution.
-     * 
-     * **Example:**
-     * - Rule A: resource="data/*", action="read", allow_export=true
-     * - Rule B: resource="data/*", action="read", allow_export=false
-     * → Conflict detected (export permission conflict)
-     * 
-     * @param policy_mgr PolicyManager to analyze
-     * @return Vector of PERMIT-DENY conflicts
+     * @brief Detect Permit Deny Conflicts.
+     * @param[in] policy_mgr Input parameter.
+     * @return Return value.
      */
     std::vector<PolicyConflict> detectPermitDenyConflicts(const PolicyManager& policy_mgr);
 
     /**
-     * @brief Detect overlapping but not contradictory rules
-     * 
-     * Identifies rules with overlapping resource/action patterns where
-     * precedence is ambiguous (neither rule is strictly more permissive).
-     * May require manual prioritization.
-     * 
-     * @param policy_mgr PolicyManager to analyze
-     * @return Vector of overlapping conflicts
+     * @brief Detect Overlapping Conflicts.
+     * @param[in] policy_mgr Input parameter.
+     * @return Return value.
      */
     std::vector<PolicyConflict> detectOverlappingConflicts(const PolicyManager& policy_mgr);
 
     /**
-     * @brief Detect circular dependencies in policy chain
-     * 
-     * Identifies circular dependency chains where policies reference
-     * each other in a cycle, preventing deterministic evaluation.
-     * 
-     * **Example:**
-     * - Policy A depends on Policy B
-     * - Policy B depends on Policy C
-     * - Policy C depends on Policy A
-     * → Circular dependency detected
-     * 
-     * @param policy_mgr PolicyManager to analyze
-     * @return Vector of circular dependency conflicts
+     * @brief Detect Circular Dependencies.
+     * @param[in] policy_mgr Input parameter.
+     * @return Return value.
      */
     std::vector<PolicyConflict> detectCircularDependencies(const PolicyManager& policy_mgr);
 
     /**
-     * @brief Evaluate precedence for a specific rule
-     * 
-     * Determines the effective priority of a rule considering:
-     * 1. Explicit priority values (lower number = higher priority)
-     * 2. Deny-Overrides-Permit pattern (deny rules have higher implicit priority)
-     * 3. Creation timestamp (earlier rules break ties)
-     * 4. Scope specificity (more specific scopes have higher priority)
-     * 
-     * **Algorithm:**
-     * ```
-     * effective_priority = explicit_priority * 100 + precedence_bonus
-     * precedence_bonus:
-     *   - Deny rules: +50
-     *   - Specific scope: +20
-     *   - Creation order: +((now - created_at) / 1 second)
-     * ```
-     * 
-     * @param rule_id Rule to evaluate
-     * @param policy_mgr PolicyManager context
-     * @return Precedence evaluation with rationale
+     * @brief Evaluate Rule Precedence.
+     * @param[in] rule_id Identifier of the rule.
+     * @param[in] policy_mgr Input parameter.
+     * @return Return value.
      */
     PrecedenceEvaluation evaluateRulePrecedence(
         const std::string& rule_id,
         const PolicyManager& policy_mgr
     );
 
-    /**
-     * @brief Evaluate precedence for all rules
-     * 
-     * Computes precedence relationships across entire policy set,
-     * identifying which rules override which.
-     * 
-     * **Time Complexity:** O(n² log n) with caching
-     * 
-     * @param policy_mgr PolicyManager to analyze
-     * @return Map of rule_id -> PrecedenceEvaluation
-     */
     std::unordered_map<std::string, PrecedenceEvaluation> evaluateAllPrecedence(
         const PolicyManager& policy_mgr
     );
 
     /**
-     * @brief Atomically add a new rule with conflict validation
-     * 
-     * Validates the new rule for conflicts with existing rules before
-     * committing. If conflicts are detected, the transaction is rolled back
-     * and an error result is returned. No partial state is left behind.
-     * 
-     * **Transaction Semantics:**
-     * 1. Acquire exclusive lock on policy manager
-     * 2. Create snapshot of current state
-     * 3. Attempt to add rule
-     * 4. Run conflict detection on updated set
-     * 5. If conflicts found:
-     *    a. Restore snapshot
-     *    b. Release lock
-     *    c. Return failure with conflict details
-     * 6. If no conflicts:
-     *    a. Commit changes
-     *    b. Release lock
-     *    c. Return success
-     * 
-     * **Performance:** O(n²) for conflict detection
-     * 
-     * @param rule Rule to add
-     * @param policy_mgr PolicyManager to update
-     * @return AtomicUpdateResult with status and details
+     * @brief Atomic Add Rule.
+     * @param[in] rule Input parameter.
+     * @param[in,out] policy_mgr Input/output parameter.
+     * @return Return value.
      */
     AtomicUpdateResult atomicAddRule(
         const PolicyRule& rule,
@@ -273,14 +170,10 @@ public:
     );
 
     /**
-     * @brief Atomically update an existing rule with conflict validation
-     * 
-     * Validates changes to rule for conflicts before committing.
-     * Uses same atomic semantics as atomicAddRule().
-     * 
-     * @param rule Updated rule
-     * @param policy_mgr PolicyManager to update
-     * @return AtomicUpdateResult with status and details
+     * @brief Atomic Update Rule.
+     * @param[in] rule Input parameter.
+     * @param[in,out] policy_mgr Input/output parameter.
+     * @return Return value.
      */
     AtomicUpdateResult atomicUpdateRule(
         const PolicyRule& rule,
@@ -288,14 +181,10 @@ public:
     );
 
     /**
-     * @brief Atomically remove a rule
-     * 
-     * Removes rule and validates remaining rules for orphaned dependencies
-     * or other issues. Automatically resolved if simple removal is sufficient.
-     * 
-     * @param rule_id Rule to remove
-     * @param policy_mgr PolicyManager to update
-     * @return AtomicUpdateResult with status and details
+     * @brief Atomic Remove Rule.
+     * @param[in] rule_id Identifier of the rule.
+     * @param[in,out] policy_mgr Input/output parameter.
+     * @return Return value.
      */
     AtomicUpdateResult atomicRemoveRule(
         const std::string& rule_id,
@@ -303,13 +192,10 @@ public:
     );
 
     /**
-     * @brief Check if two rules have conflicting effects
-     * 
-     * Low-level check for direct conflicts between two specific rules.
-     * 
-     * @param rule1 First rule
-     * @param rule2 Second rule
-     * @return Optional conflict if detected
+     * @brief Check Rule Conflict.
+     * @param[in] rule1 Input parameter.
+     * @param[in] rule2 Input parameter.
+     * @return Return value.
      */
     std::optional<PolicyConflict> checkRuleConflict(
         const PolicyRule& rule1,
@@ -317,57 +203,53 @@ public:
     );
 
     /**
-     * @brief Get cached conflict report
-     * 
-     * Returns previously computed conflict report without re-analyzing.
-     * Report is invalidated when policy_mgr changes.
-     * 
-     * @param policy_mgr PolicyManager to check cache for
-     * @return Vector of cached conflicts, empty if not cached
+     * @brief Get Cached Conflicts.
+     * @param[in] policy_mgr Input parameter.
+     * @return Return value.
      */
     std::vector<PolicyConflict> getCachedConflicts(const PolicyManager& policy_mgr) const;
 
     /**
-     * @brief Clear conflict detection cache
-     * 
-     * Invalidates all cached results. Useful after bulk policy updates.
+     * @brief Clear Cache.
      */
     void clearCache();
 
     /**
-     * @brief Enable/disable caching of conflict results
-     * 
-     * When caching is enabled, conflict detection results are cached
-     * and reused for identical policy sets. Default: enabled.
-     * 
-     * @param enabled Whether to cache results
+     * @brief Set Caching Enabled.
+     * @param[in] enabled Input parameter.
+     * @details Implements setCachingEnabled without additional internal calls.
      */
     void setCachingEnabled(bool enabled) { caching_enabled_ = enabled; }
 
     /**
-     * @brief Get statistics on conflict detection
-     * 
-     * Returns metrics on conflict types, severities, and detection performance.
-     * 
-     * @return JSON statistics object
+     * @brief Return access control statistics.
+     * @return Access control statistics.
      */
     nlohmann::json getStatistics() const;
 
 private:
     /**
-     * @brief Check if two rules match on resource and action patterns
-     * 
-     * @return true if rules apply to same resource/action combinations
+     * @brief Rules Match.
+     * @param[in] rule1 Input parameter.
+     * @param[in] rule2 Input parameter.
+     * @return True when the operation succeeds.
      */
     bool rulesMatch(const PolicyRule& rule1, const PolicyRule& rule2) const;
 
     /**
-     * @brief Check if rules have same scope specificity
+     * @brief Has Same Scope.
+     * @param[in] rule1 Input parameter.
+     * @param[in] rule2 Input parameter.
+     * @return True when the operation succeeds.
      */
     bool hasSameScope(const PolicyRule& rule1, const PolicyRule& rule2) const;
 
     /**
-     * @brief Compute conflict severity based on conflict type and effects
+     * @brief Compute Severity.
+     * @param[in] rule1 Input parameter.
+     * @param[in] rule2 Input parameter.
+     * @param[in] conflict_type Input parameter.
+     * @return Return value.
      */
     ConflictSeverity computeSeverity(
         const PolicyRule& rule1,
@@ -376,7 +258,10 @@ private:
     ) const;
 
     /**
-     * @brief Generate unique conflict ID
+     * @brief Generate Conflict Id.
+     * @param[in] rule_ids Input parameter.
+     * @param[in] conflict_type Input parameter.
+     * @return Return value.
      */
     std::string generateConflictId(
         const std::vector<std::string>& rule_ids,
@@ -384,7 +269,12 @@ private:
     ) const;
 
     /**
-     * @brief Check for circular dependencies using depth-first search
+     * @brief Has Circular Dependency.
+     * @param[in] rule_id Identifier of the rule.
+     * @param[in,out] visited Input/output parameter.
+     * @param[in,out] rec_stack Input/output parameter.
+     * @param[in] policy_mgr Input parameter.
+     * @return True when the operation succeeds.
      */
     bool hasCircularDependency(
         const std::string& rule_id,

@@ -62,6 +62,11 @@ namespace {
             return false;
         }
 
+        /**
+         * @brief Field.
+         * @param[in] raw_field Input parameter.
+         * @return Return value.
+         */
         std::string field(raw_field);
         std::transform(field.begin(), field.end(), field.begin(),
                        [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
@@ -74,6 +79,14 @@ namespace {
         return terminal == "_key" || terminal == "id";
     }
 
+    /**
+     * @brief Enforce Json Size Limit.
+     * @param[in] value Input parameter.
+     * @param[in] max_bytes Input parameter.
+     * @param[in] context Input parameter.
+     * @throws std::runtime_error if an error occurs.
+     * @details Calls: dump(), size(), fmt::format().
+     */
     void enforceJsonSizeLimit(const nlohmann::json& value,
                               uint64_t max_bytes,
                               std::string_view context) {
@@ -85,6 +98,14 @@ namespace {
         }
     }
 
+    /**
+     * @brief Enforce Accumulated Size Limit.
+     * @param[in] accumulated_bytes Input parameter.
+     * @param[in] max_bytes Input parameter.
+     * @param[in] context Input parameter.
+     * @throws std::runtime_error if an error occurs.
+     * @details Calls: fmt::format().
+     */
     void enforceAccumulatedSizeLimit(uint64_t accumulated_bytes,
                                      uint64_t max_bytes,
                                      std::string_view context) {
@@ -95,6 +116,12 @@ namespace {
         }
     }
 
+    /**
+     * @brief Stable Json Order Key.
+     * @param[in] doc Input parameter.
+     * @return Return value.
+     * @details Calls: contains(), is_string(), dump().
+     */
     static std::string stableJsonOrderKey(const nlohmann::json& doc) {
         if (doc.contains("_key") && doc["_key"].is_string()) {
             return doc["_key"].get<std::string>();
@@ -102,6 +129,13 @@ namespace {
         return doc.dump();
     }
 
+    /**
+     * @brief Stable Json Less.
+     * @param[in] a Input parameter.
+     * @param[in] b Input parameter.
+     * @return True on success.
+     * @details Calls: stableJsonOrderKey(), dump().
+     */
     static bool stableJsonLess(const nlohmann::json& a, const nlohmann::json& b) {
         const std::string key_a = stableJsonOrderKey(a);
         const std::string key_b = stableJsonOrderKey(b);
@@ -111,6 +145,12 @@ namespace {
         return key_a < key_b;
     }
 
+    /**
+     * @brief Sorted Json Array.
+     * @param[in] data Input parameter.
+     * @return Return value.
+     * @details Calls: is_array(), reserve(), size(), push_back(), std::sort(), begin(), end().
+     */
     static std::vector<nlohmann::json> sortedJsonArray(const nlohmann::json& data) {
         std::vector<nlohmann::json> values = {};
 
@@ -164,9 +204,10 @@ namespace themis::query {
                  config_.enable_result_streaming);
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// DK-4: Federated RAG merge (Layer C)
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── DK-4: Federated RAG merge (Layer C) ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] merger Input parameter.
+ */
 
 void QueryFederation::setRAGMerger(
     std::shared_ptr<distributed_knowledge::FederatedRAGMerger> merger)
@@ -174,6 +215,10 @@ void QueryFederation::setRAGMerger(
     rag_merger_ = std::move(merger);
 }
 
+/**
+ * @brief Set Shard Router.
+ * @param[in] router Input parameter.
+ */
 void QueryFederation::setShardRouter(
     std::shared_ptr<sharding::AdaptiveShardRouter> router)
 {
@@ -191,6 +236,12 @@ distributed_knowledge::MergedRAGContext QueryFederation::mergeRAGResults(
     return rag_merger_->merge(shard_results);
 }
 
+/**
+ * @brief Execute Federated RAGQuery.
+ * @param[in] query Input parameter.
+ * @param[in] domain Input parameter.
+ * @return Return value.
+ */
 distributed_knowledge::MergedRAGContext QueryFederation::executeFederatedRAGQuery(
     const std::string& query,
     distributed_knowledge::AdapterDomainType domain)
@@ -295,7 +346,13 @@ distributed_knowledge::MergedRAGContext QueryFederation::executeFederatedRAGQuer
     return rag_merger_->merge(rag_results);
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] query Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: std::chrono::steady_clock::now(), spdlog::info(), substr(), analyzeQuery(), join_keyword_regex(), std::regex_search(), empty(), createExecutionPlan().
+ */
 
 nlohmann::json QueryFederation::execute(const std::string& query) {
     total_queries_++;
@@ -486,6 +543,12 @@ nlohmann::json QueryFederation::execute(const std::string& query) {
     }
 }
 
+/**
+ * @brief Create Execution Plan.
+ * @param[in] query Input parameter.
+ * @return Return value.
+ * @details Calls: analyzeQuery(), empty(), size(), estimateCollectionSize(), std::min(), spdlog::debug(), has_value(), determineRelevantShards().
+ */
 QueryFederation::ExecutionPlan QueryFederation::createExecutionPlan(
     const std::string& query
 ) {
@@ -553,6 +616,15 @@ QueryFederation::ExecutionPlan QueryFederation::createExecutionPlan(
     return plan;
 }
 
+/**
+ * @brief Execute Join.
+ * @param[in] left_collection Input parameter.
+ * @param[in] right_collection Input parameter.
+ * @param[in] join_condition Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: isValidAqlIdentifier(), find_first_not_of(), spdlog::info(), estimateCollectionSize(), nlohmann::json::array(), find_last_not_of(), substr(), rfind().
+ */
 nlohmann::json QueryFederation::executeJoin(
     const std::string& left_collection,
     const std::string& right_collection,
@@ -788,6 +860,12 @@ nlohmann::json QueryFederation::executeJoin(
     return result;
 }
 
+/**
+ * @brief Execute Aggregation.
+ * @param[in] query Input parameter.
+ * @return Return value.
+ * @details Calls: spdlog::info(), substr(), scatterGather(), std::sort(), begin(), end(), nlohmann::json::object(), spdlog::warn().
+ */
 nlohmann::json QueryFederation::executeAggregation(const std::string& query) {
     spdlog::info("Executing federated aggregation: {}", query.substr(0, 100));
     
@@ -852,6 +930,12 @@ nlohmann::json QueryFederation::getStatistics() const {
     return stats;
 }
 
+/**
+ * @brief Analyze Query.
+ * @param[in] query Input parameter.
+ * @return Return value.
+ * @details Calls: std::transform(), begin(), end(), std::toupper(), empty(), std::find(), push_back(), re_for().
+ */
 QueryFederation::QueryMetadata QueryFederation::analyzeQuery(
     const std::string& query
 ) {
@@ -1121,9 +1205,20 @@ QueryFederation::QueryMetadata QueryFederation::analyzeQuery(
     return metadata;
 }
 
+/**
+ * @brief Determine Relevant Shards.
+ * @param[in] metadata Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), std::sort(), begin(), end(), erase(), std::unique(), empty(), front().
+ */
 std::vector<std::string> QueryFederation::determineRelevantShards(
     const QueryMetadata& metadata
 ) {
+    /**
+     * @brief Lock.
+     * @param[in] routing_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(routing_mutex_);
 
     const auto normalizeShardIds = [](std::vector<std::string> shards) {
@@ -1220,6 +1315,13 @@ std::vector<std::string> QueryFederation::determineRelevantShards(
     return normalizeShardIds(std::move(ids));
 }
 
+/**
+ * @brief Rewrite Query For Shard.
+ * @param[in] query Input parameter.
+ * @param[in] shard_id Input parameter.
+ * @return Return value.
+ * @details Implements rewriteQueryForShard without additional internal calls.
+ */
 std::string QueryFederation::rewriteQueryForShard(
     const std::string& query,
     const std::string& shard_id
@@ -1235,6 +1337,13 @@ std::string QueryFederation::rewriteQueryForShard(
     return rewritten;
 }
 
+/**
+ * @brief Merge Results.
+ * @param[in] results Input parameter.
+ * @param[in] metadata Input parameter.
+ * @return Return value.
+ * @details Calls: nlohmann::json::array(), dump(), size(), enforceAccumulatedSizeLimit(), push_back(), reserve(), emplace_back(), std::sort().
+ */
 nlohmann::json QueryFederation::mergeResults(
     const std::vector<sharding::ShardResult>& results,
     const QueryMetadata& metadata
@@ -1290,6 +1399,13 @@ nlohmann::json QueryFederation::mergeResults(
     return merged;
 }
 
+/**
+ * @brief Apply Global Operations.
+ * @param[in] merged Input parameter.
+ * @param[in] metadata Input parameter.
+ * @return Return value.
+ * @details Calls: is_array(), has_value(), reserve(), size(), push_back(), std::sort(), begin(), end().
+ */
 nlohmann::json QueryFederation::applyGlobalOperations(
     const nlohmann::json& merged,
     const QueryMetadata& metadata
@@ -1346,6 +1462,12 @@ nlohmann::json QueryFederation::applyGlobalOperations(
     return result;
 }
 
+/**
+ * @brief Estimate Collection Size.
+ * @param[in] collection Input parameter.
+ * @return Return value.
+ * @details Implements estimateCollectionSize without additional internal calls.
+ */
 uint64_t QueryFederation::estimateCollectionSize(const std::string& collection) {
     // Simplified size estimation
     // Real implementation would query metadata or use statistics

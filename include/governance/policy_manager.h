@@ -27,12 +27,6 @@
 namespace themis {
 namespace governance {
 
-/**
- * @brief Policy lifecycle state machine.
- *
- * Defines valid state transitions: DRAFT → ACTIVE → (DEPRECATED|RETIRED)
- * and DEPRECATED → RETIRED. Used to track policy maturity and enforcement status.
- */
 enum class PolicyState {
     DRAFT       = 0,  ///< Policy created but not yet activated
     ACTIVE      = 1,  ///< Policy is actively enforced
@@ -40,12 +34,6 @@ enum class PolicyState {
     RETIRED     = 3,  ///< Policy archived, no longer used
 };
 
-/**
- * @brief Lifecycle metadata for a policy rule.
- *
- * Tracks state transitions, timestamps, and user actions for audit
- * and compliance purposes.
- */
 struct PolicyLifecycle {
     PolicyState current_state = PolicyState::DRAFT;
     int64_t created_at = 0;           ///< Unix timestamp (ms) of creation
@@ -56,22 +44,19 @@ struct PolicyLifecycle {
     std::string last_modified_by;     ///< User who last modified the rule
     
     /**
-     * @brief Validate if a state transition is allowed.
-     * 
-     * @param target_state Desired next state.
-     * @return true if transition is valid, false otherwise.
+     * @brief Can Transition To.
+     * @param[in] target_state Input parameter.
+     * @return True when the operation succeeds.
      */
     bool canTransitionTo(PolicyState target_state) const;
     
     /**
-     * @brief Get human-readable description of current state.
-     * 
-     * @return Description string.
+     * @brief Get State Description.
+     * @return Return value.
      */
     std::string getStateDescription() const;
 };
 
-/// PolicyRule represents a single governance rule
 struct PolicyRule {
     std::string id;                                    // Unique identifier
     std::string name;                                  // Human-readable name
@@ -110,37 +95,37 @@ struct PolicyRule {
     // Lifecycle management (Phase 2-3)
     PolicyLifecycle lifecycle;                         // State machine and audit trail
 
+    /**
+     * @brief To Json.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
+    /**
+     * @brief From Json.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static PolicyRule fromJson(const nlohmann::json& j);
     
-    /// Check if rule applies to a resource/action combination
+    /**
+     * @brief Applies To.
+     * @param[in] resource Input parameter.
+     * @param[in] action Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool appliesTo(const std::string& resource, const std::string& action) const;
 };
 
-/// Immutable snapshot of the complete policy rule set.
-///
-/// Used as the double-buffer read target for `PolicyManager::reloadPolicies()`.
-/// Readers capture a `shared_ptr<const PolicySet>` without holding any lock;
-/// the old set is kept alive by its ref-count until all in-flight readers finish,
-/// satisfying the "zero requests dropped during reload window" requirement.
-///
-/// **Immutability contract**: instances must never be modified after being
-/// published via the `active_policy_set_` field.  Always create a fresh
-/// `PolicySet` and atomically swap the pointer instead of mutating the current one.
 struct PolicySet {
     std::unordered_map<std::string, PolicyRule> rules;
-    /// Stable deterministic identifier derived from sorted rule IDs.
-    /// Used only for logging and audit entries, not for cryptographic integrity.
     std::string version_hash;
     std::int64_t loaded_at = 0; ///< Unix epoch milliseconds of last load
 };
 
-/// PolicyManager manages governance rules and RBAC policies
 class PolicyManager {
 public:
     // ========== Policy Error Handling (Phase 2-3) ==========
     
-    /// Error codes for policy lifecycle operations.
     enum class PolicyError {
         kSuccess                = 0,  // Operation succeeded
         kRuleNotFound           = 1,  // Rule with given ID not found
@@ -149,7 +134,6 @@ public:
         kAuditFailed            = 4,  // Audit logging failed
     };
     
-    /// Result of a policy operation with error details.
     struct PolicyResult {
         PolicyError error = PolicyError::kSuccess;
         std::string error_message;
@@ -158,40 +142,58 @@ public:
     
     PolicyManager();
     
-    /// Load policy rules from YAML/JSON file
+    /**
+     * @brief Load Rules.
+     * @param[in] path Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool loadRules(const std::string& path);
     
-    /// Save policy rules to YAML/JSON file
+    /**
+     * @brief Save Rules.
+     * @param[in] path Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool saveRules(const std::string& path);
     
-    /// Add a policy rule
+    /**
+     * @brief Add Rule.
+     * @param[in] rule Input parameter.
+     */
     void addRule(const PolicyRule& rule);
     
-    /// Remove a policy rule by ID
+    /**
+     * @brief Remove Rule.
+     * @param[in] rule_id Identifier of the rule.
+     */
     void removeRule(const std::string& rule_id);
     
-    /// Get a policy rule by ID
+    /**
+     * @brief Get Rule.
+     * @param[in] rule_id Identifier of the rule.
+     * @return Return value.
+     */
     std::optional<PolicyRule> getRule(const std::string& rule_id) const;
     
-    /// List all policy rules
+    /**
+     * @brief List Rules.
+     * @return Return value.
+     */
     std::vector<PolicyRule> listRules() const;
     
-    /// Find applicable rules for a resource/action combination
-    /// @param resource Resource identifier
-    /// @param action Action identifier
-    /// @param user_roles User's roles (for role-based filtering)
-    /// @return Vector of applicable rules, sorted by priority (highest first)
+    /**
+     * @brief Find Applicable Rules.
+     * @param[in] resource Input parameter.
+     * @param[in] action Input parameter.
+     * @param[in] user_roles Input parameter.
+     * @return Return value.
+     */
     std::vector<PolicyRule> findApplicableRules(
         const std::string& resource,
         const std::string& action,
         const std::vector<std::string>& user_roles
     ) const;
     
-    /// Evaluate policy for a given request
-    /// @param resource Resource being accessed
-    /// @param action Action being performed
-    /// @param user_roles User's roles
-    /// @return Policy decision with aggregated effects
     struct PolicyDecision {
         bool allowed = true;                           // Whether access is allowed
         bool require_encryption = false;               // Whether encryption is required
@@ -206,136 +208,168 @@ public:
         std::vector<std::string> applied_rules;        // IDs of applied rules
     };
     
+    /**
+     * @brief Evaluate Policy.
+     * @param[in] resource Input parameter.
+     * @param[in] action Input parameter.
+     * @param[in] user_roles Input parameter.
+     * @return Return value.
+     */
     PolicyDecision evaluatePolicy(
         const std::string& resource,
         const std::string& action,
         const std::vector<std::string>& user_roles
     ) const;
     
-    /// Validate policy rules (check for conflicts, cycles, etc.)
     struct ValidationResult {
         bool valid = true;
         std::vector<std::string> errors;
         std::vector<std::string> warnings;
     };
+    /**
+     * @brief Validate Rules.
+     * @return Return value.
+     */
     ValidationResult validateRules() const;
     
-    /// Get policy statistics
     struct PolicyStats {
         int total_rules = 0;
         int enabled_rules = 0;
         int disabled_rules = 0;
         std::unordered_map<std::string, int> rules_by_classification;
     };
+    /**
+     * @brief Get Stats.
+     * @return Return value.
+     */
     PolicyStats getStats() const;
     
-    /// Export rules as JSON
+    /**
+     * @brief Export Rules.
+     * @return Return value.
+     */
     nlohmann::json exportRules() const;
     
-    /// Import rules from JSON
+    /**
+     * @brief Import Rules.
+     * @param[in] j Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool importRules(const nlohmann::json& j);
     
-    // ========== Phase 5: Versioning & History ==========
+    /**
+     * @brief ========== Phase 5: Versioning & History ==========
+     * @param[in] rule_id Identifier of the rule.
+     * @param[in] updated_rule Input parameter.
+     * @param[in] modified_by Input parameter.
+     * @param[in] change_description Input parameter.
+     * @return True when the operation succeeds.
+     */
     
-    /// Update a rule (creates a new version in history)
     bool updateRule(const std::string& rule_id, const PolicyRule& updated_rule, 
                     const std::string& modified_by, const std::string& change_description);
     
-    /// Get version history for a rule
+    /**
+     * @brief Get Rule Versions.
+     * @param[in] rule_id Identifier of the rule.
+     * @return Return value.
+     */
     std::vector<PolicyRuleVersion> getRuleVersions(const std::string& rule_id) const;
     
-    /// Get a specific version of a rule
+    /**
+     * @brief Get Rule Version.
+     * @param[in] rule_id Identifier of the rule.
+     * @param[in] version Input parameter.
+     * @return Return value.
+     */
     std::optional<PolicyRuleVersion> getRuleVersion(
         const std::string& rule_id, const std::string& version) const;
     
-    /// Rollback a rule to a specific version
+    /**
+     * @brief Rollback To Version.
+     * @param[in] rule_id Identifier of the rule.
+     * @param[in] version Input parameter.
+     * @param[in] modified_by Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool rollbackToVersion(const std::string& rule_id, const std::string& version, 
                            const std::string& modified_by);
     
-    /// Rollback a rule to the previous version
+    /**
+     * @brief Rollback To Previous Version.
+     * @param[in] rule_id Identifier of the rule.
+     * @param[in] modified_by Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool rollbackToPreviousVersion(const std::string& rule_id, const std::string& modified_by);
     
-    /// Preview changes that would occur if rolling back to a version
+    /**
+     * @brief Preview Rollback.
+     * @param[in] rule_id Identifier of the rule.
+     * @param[in] target_version Input parameter.
+     * @return Return value.
+     */
     std::vector<VersionDiff> previewRollback(
         const std::string& rule_id, const std::string& target_version) const;
     
-    /// Compare two versions of a rule
+    /**
+     * @brief Compare Rule Versions.
+     * @param[in] rule_id Identifier of the rule.
+     * @param[in] version1 Input parameter.
+     * @param[in] version2 Input parameter.
+     * @return Return value.
+     */
     std::vector<VersionDiff> compareRuleVersions(
         const std::string& rule_id, const std::string& version1, const std::string& version2) const;
     
-    /// Get audit trail for a rule
     std::vector<PolicyRuleVersion> getAuditTrail(
         const std::string& rule_id, int64_t start_time = 0, int64_t end_time = INT64_MAX) const;
     
-    /// Query audit trail by user
     std::vector<PolicyRuleVersion> getAuditTrailByUser(
         const std::string& user, int64_t start_time = 0, int64_t end_time = INT64_MAX) const;
 
-    // ========== Lifecycle State Management (Phase 2-3) ==========
-    
     /**
-     * @brief Transition a policy rule to ACTIVE state.
-     * 
-     * Validates state transition, checks for conflicts, and logs audit event.
-     * Returns detailed result with error codes.
-     * 
-     * @param rule_id Rule identifier.
-     * @param user_id User performing the activation.
-     * @return PolicyResult with success/error details.
+     * @brief ========== Lifecycle State Management (Phase 2-3) ==========
+     * @param[in] rule_id Identifier of the rule.
+     * @param[in] user_id Identifier of the user.
+     * @return Return value.
      */
+    
     PolicyResult activateRuleWithValidation(
         const std::string& rule_id, const std::string& user_id);
     
     /**
-     * @brief Transition a policy rule from ACTIVE to DEPRECATED.
-     * 
-     * Policy is retained in history but no longer enforced.
-     * 
-     * @param rule_id Rule identifier.
-     * @param user_id User performing the deprecation.
-     * @return Rule version on success, empty string on failure.
+     * @brief Deprecate Rule.
+     * @param[in] rule_id Identifier of the rule.
+     * @param[in] user_id Identifier of the user.
+     * @return Return value.
      */
     std::string deprecateRule(const std::string& rule_id, const std::string& user_id);
     
     /**
-     * @brief Transition a policy rule to RETIRED (terminal) state.
-     * 
-     * @param rule_id Rule identifier.
-     * @param user_id User performing the retirement.
-     * @return Rule version on success, empty string on failure.
+     * @brief Retire Rule.
+     * @param[in] rule_id Identifier of the rule.
+     * @param[in] user_id Identifier of the user.
+     * @return Return value.
      */
     std::string retireRule(const std::string& rule_id, const std::string& user_id);
     
     /**
-     * @brief Check if a state transition is valid for a given rule.
-     * 
-     * @param rule_id Rule identifier.
-     * @param target_state Desired next state.
-     * @return true if transition is allowed, false otherwise.
+     * @brief Can Transition Rule.
+     * @param[in] rule_id Identifier of the rule.
+     * @param[in] target_state Input parameter.
+     * @return True when the operation succeeds.
      */
     bool canTransitionRule(const std::string& rule_id, PolicyState target_state);
 
     // ========== Hot-Reload API (double-buffer) ==========
 
-    /// Reload policies from disk with an atomic double-buffer swap.
-    ///
-    /// Loads the new rule set from @p path, validates it via PolicyValidator,
-    /// and – only if validation passes – atomically promotes it as the active
-    /// PolicySet via a release-store. Readers that captured a snapshot of the
-    /// old set before the swap will complete normally (the old PolicySet stays
-    /// alive through its shared_ptr ref-count).
-    ///
-    /// On validation failure the current rule set is retained unchanged.
-    /// Emits a `governance_policy_reload_total` Prometheus counter with
-    /// `result=success` or `result=failure` in both cases.
-    ///
-    /// @param path   Path to a YAML or JSON policy file.
-    /// @param err    Optional output: error description on failure.
-    /// @return       true on success, false on load or validation failure.
     bool reloadPolicies(const std::string& path, std::string* err = nullptr);
 
-    /// @return The version hash of the currently active PolicySet.
-    ///         Empty string if no policy set has been promoted via reloadPolicies().
+    /**
+     * @brief Active Policy Version.
+     * @return Return value.
+     */
     std::string activePolicyVersion() const;
     
 private:
@@ -350,16 +384,28 @@ private:
     mutable std::shared_mutex policy_set_mutex_;
     std::shared_ptr<const PolicySet> active_policy_set_;  // null until first reloadPolicies()
     
-    /// Helper: match pattern with wildcards
+    /**
+     * @brief Match Pattern.
+     * @param[in] pattern Input parameter.
+     * @param[in] value Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool matchPattern(const std::string& pattern, const std::string& value) const;
     
-    /// Helper: aggregate effects from multiple rules
+    /**
+     * @brief Aggregate Rules.
+     * @param[in] rules Input parameter.
+     * @return Return value.
+     */
     PolicyDecision aggregateRules(const std::vector<PolicyRule>& rules) const;
     
-    /// Helper: increment semantic version
     std::string incrementVersion(const std::string& current_version, int level = 2) const; // 0=major, 1=minor, 2=patch
     
-    /// Helper: detect conflicts between a rule and all active rules
+    /**
+     * @brief Check Conflicts For Rule.
+     * @param[in] rule Input parameter.
+     * @return Return value.
+     */
     std::vector<std::string> checkConflictsForRule(const PolicyRule& rule) const;
 };
 

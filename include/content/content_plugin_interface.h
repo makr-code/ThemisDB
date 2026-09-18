@@ -39,9 +39,6 @@ using json = nlohmann::json;
 // Data Structures
 // ============================================================================
 
-/**
- * @brief Plugin Metadata
- */
 struct PluginInfo {
     std::string name;
     std::string version;
@@ -61,9 +58,6 @@ struct PluginInfo {
     size_t recommended_memory_mb = 256;
 };
 
-/**
- * @brief Geo-specific extraction data
- */
 struct GeoExtractionData {
     std::vector<std::pair<double, double>> coordinates;  // lat, lon pairs
     std::string crs;                                      // e.g., "EPSG:4326"
@@ -72,9 +66,6 @@ struct GeoExtractionData {
     std::string geometry_type;                            // Point, LineString, Polygon, etc.
 };
 
-/**
- * @brief Media-specific extraction data (video/audio)
- */
 struct MediaExtractionData {
     int64_t duration_ms = 0;
     int width = 0;
@@ -93,9 +84,6 @@ struct MediaExtractionData {
     std::string subtitles;                     // Extracted subtitle text
 };
 
-/**
- * @brief CAD-specific extraction data
- */
 struct CADExtractionData {
     std::vector<std::string> part_ids;
     json assembly_tree;
@@ -107,9 +95,6 @@ struct CADExtractionData {
     int part_count = 0;
 };
 
-/**
- * @brief Extraction Result from Content Processor
- */
 struct ContentExtractionResult {
     bool success = false;
     std::string error_message;
@@ -131,9 +116,6 @@ struct ContentExtractionResult {
     size_t output_size_bytes = 0;
 };
 
-/**
- * @brief Content Chunk for RAG/Search
- */
 struct ContentChunk {
     std::string text;
     int sequence = 0;
@@ -144,17 +126,11 @@ struct ContentChunk {
     std::vector<float> embedding;              // Optional pre-computed embedding
 };
 
-/**
- * @brief Plugin Configuration (loaded from YAML)
- */
 class PluginConfig {
 public:
     PluginConfig() = default;
     explicit PluginConfig(const json& settings) : settings_(settings) {}
     
-    /**
-     * @brief Get configuration value with default
-     */
     template<typename T>
     T get(const std::string& path, T default_value) const {
         try {
@@ -171,9 +147,6 @@ public:
         return default_value;
     }
     
-    /**
-     * @brief Check if configuration path exists
-     */
     bool has(const std::string& path) const {
         try {
             std::string fixed_path = path;
@@ -185,15 +158,15 @@ public:
         }
     }
     
-    /**
-     * @brief Get raw JSON settings
-     */
     const json& raw() const { return settings_; }
     
-    /**
-     * @brief Set configuration value
-     */
     template<typename T>
+    /**
+     * @brief Set.
+     * @param[in] path Input parameter.
+     * @param[in] value Input parameter.
+     * @details Calls: std::replace(), begin(), end(), ptr().
+     */
     void set(const std::string& path, T value) {
         try {
             std::string fixed_path = path;
@@ -207,9 +180,6 @@ private:
     json settings_;
 };
 
-/**
- * @brief Extraction Options (per-request)
- */
 struct ExtractionOptions {
     bool extract_text = true;
     bool extract_metadata = true;
@@ -242,107 +212,43 @@ struct ExtractionOptions {
 // Plugin Interface
 // ============================================================================
 
-/**
- * @brief Content Processor Plugin Interface
- * 
- * All Content Processor plugins must implement this interface.
- * Plugins are loaded as dynamic libraries (DLL/SO/DYLIB).
- */
 class IContentProcessorPlugin {
 public:
+    /**
+     * @brief IContent Processor Plugin.
+     * @return Return value.
+     */
     virtual ~IContentProcessorPlugin() = default;
     
-    /**
-     * @brief Get plugin information
-     */
     [[nodiscard]] virtual PluginInfo getInfo() const = 0;
     
-    /**
-     * @brief Initialize plugin with configuration
-     * 
-     * Called once when plugin is loaded.
-     * 
-     * @param config Configuration from YAML
-     * @return true if initialization successful
-     */
     [[nodiscard]] virtual bool initialize(const PluginConfig& config) = 0;
     
     /**
-     * @brief Shutdown plugin
-     * 
-     * Called when plugin is unloaded. Clean up resources.
+     * @brief Shutdown.
      */
     virtual void shutdown() = 0;
     
-    /**
-     * @brief Check if plugin can process given MIME type
-     * 
-     * @param mime_type MIME type string (e.g., "application/pdf")
-     * @return true if plugin can handle this type
-     */
     [[nodiscard]] virtual bool canProcess(const std::string& mime_type) const = 0;
     
-    /**
-     * @brief Extract content from binary blob
-     * 
-     * Main extraction method. Extracts text, metadata, and other
-     * content from the input blob.
-     * 
-     * @param blob Input binary data
-     * @param mime_type MIME type of the content
-     * @param options Extraction options
-     * @return Extraction result with text, metadata, etc.
-     */
     [[nodiscard]] virtual ContentExtractionResult extract(
         const std::vector<uint8_t>& blob,
         const std::string& mime_type,
         const ExtractionOptions& options = {}
     ) = 0;
     
-    /**
-     * @brief Chunk extracted content for RAG/search
-     * 
-     * Splits extracted content into smaller chunks suitable for
-     * embedding and retrieval.
-     * 
-     * @param result Extraction result from extract()
-     * @param max_tokens Maximum tokens per chunk
-     * @param overlap Token overlap between chunks
-     * @return Vector of content chunks
-     */
     [[nodiscard]] virtual std::vector<ContentChunk> chunk(
         const ContentExtractionResult& result,
         int max_tokens,
         int overlap
     ) = 0;
     
-    /**
-     * @brief Generate embedding for text chunk (optional)
-     * 
-     * Default implementation returns empty vector.
-     * Override if plugin provides embedding generation.
-     * 
-     * @param text Text to embed
-     * @return Embedding vector
-     */
     [[nodiscard]] virtual std::vector<float> generateEmbedding([[maybe_unused]] const std::string& text) {
         return {};
     }
     
-    /**
-     * @brief Health check
-     * 
-     * Verify that plugin is operational and all dependencies are available.
-     * 
-     * @return true if healthy
-     */
     [[nodiscard]] virtual bool healthCheck() const = 0;
     
-    /**
-     * @brief Get plugin statistics
-     * 
-     * Returns statistics about plugin usage (documents processed, errors, etc.)
-     */
     [[nodiscard]] virtual json getStatistics() const {
         return json::object();
     }
@@ -352,46 +258,37 @@ public:
 // Plugin Entry Points
 // ============================================================================
 
-/**
- * @brief Plugin creation function type
- */
 using CreatePluginFunc = IContentProcessorPlugin* (*)();
 
-/**
- * @brief Plugin destruction function type
- */
 using DestroyPluginFunc = void (*)(IContentProcessorPlugin*);
 
-/**
- * @brief Plugin version function type
- */
 using GetVersionFunc = const char* (*)();
 
-/**
- * @brief Plugin Entry Point Macro
- * 
- * Use this macro to export plugin entry points:
- * 
- * @code
- * class MyProcessor : public IContentProcessorPlugin {
- *     // ... implementation ...
- * };
- * 
- * THEMIS_CONTENT_PLUGIN(MyProcessor)
- * @endcode
- * 
- * NOTE: Only used when building standalone plugins. When building monolithic
- * themis_core, these functions are not exported to avoid duplicate symbols.
- */
 #ifdef THEMIS_BUILD_STANDALONE_PLUGINS
 #define THEMIS_CONTENT_PLUGIN(PluginClass) \
     extern "C" { \
+        /**
+         * @brief Themis create plugin.
+         * @return Pointer to the result.
+         * @details Calls: PluginClass().
+         */
         THEMIS_PLUGIN_API IContentProcessorPlugin* themis_create_plugin() { \
             return new PluginClass(); \
         } \
+        /**
+         * @brief Themis destroy plugin.
+         * @param[in,out] plugin Input/output parameter.
+         * @return Return value.
+         * @details Implements themis_destroy_plugin without additional internal calls.
+         */
         THEMIS_PLUGIN_API void themis_destroy_plugin(IContentProcessorPlugin* plugin) { \
             delete plugin; \
         } \
+        /**
+         * @brief Themis get plugin api version.
+         * @return Pointer to the result.
+         * @details Implements themis_get_plugin_api_version without additional internal calls.
+         */
         THEMIS_PLUGIN_API const char* themis_get_plugin_api_version() { \
             return THEMIS_PLUGIN_API_VERSION; \
         } \
@@ -405,7 +302,10 @@ using GetVersionFunc = const char* (*)();
 // ============================================================================
 
 /**
- * @brief Simple token counter (whitespace-based)
+ * @brief Count Tokens.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::isspace().
  */
 inline int countTokens(const std::string& text) {
     if (text.empty()) {
@@ -433,7 +333,10 @@ inline int countTokens(const std::string& text) {
 }
 
 /**
- * @brief Split text into sentences
+ * @brief Split Sentences.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: size(), std::isspace(), empty(), front(), erase(), push_back(), clear().
  */
 inline std::vector<std::string> splitSentences(const std::string& text) {
     std::vector<std::string> sentences;

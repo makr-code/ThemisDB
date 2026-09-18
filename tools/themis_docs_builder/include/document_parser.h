@@ -19,9 +19,9 @@
 
 /**
  * @file document_parser.h
- * @brief Document Parser Interface (Placeholder)
- * 
- * Full implementation TBD during build integration phase.
+ * @brief Document parser interface for structured content imports.
+ *
+ * Parses supported text formats into a normalized Document record.
  * Supports: Markdown, HTML, plain text, JSON
  */
 
@@ -43,6 +43,12 @@ struct Document {
 
 class DocumentParser {
 public:
+    /**
+     * @brief Parse.
+     * @param[in] file_path Input parameter.
+     * @param[in] format Input parameter.
+     * @return Return value.
+     */
     static Document parse(const std::string& file_path, const std::string& format);
 };
 

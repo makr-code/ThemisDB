@@ -39,6 +39,11 @@ std::optional<nlohmann::json> InputValidator::loadSchema(const std::string& sche
           path += "/";
         }
         path += schema_name + ".json";
+        /**
+         * @brief In.
+         * @param[in] path Input parameter.
+         * @return Return value.
+         */
         std::ifstream in(path);
         if (!in.good()) {
             return std::nullopt; // schema optional
@@ -58,6 +63,12 @@ std::optional<nlohmann::json> InputValidator::loadSchema(const std::string& sche
     }
 }
 
+/**
+ * @brief Is Ascii Control.
+ * @param[in] c Input parameter.
+ * @return True on success.
+ * @details Implements isAsciiControl without additional internal calls.
+ */
 static bool isAsciiControl(char c) {
     unsigned char uc = static_cast<unsigned char>(c);
     return (uc < 0x20u) || (uc == 0x7Fu);
@@ -118,10 +129,14 @@ bool InputValidator::validatePathSegment(const std::string& segment) const {
     return true;
 }
 
-// Validate a single JSON value against a JSON Schema property descriptor.
-// Supports: type, minLength, maxLength, minimum, maximum, exclusiveMinimum,
-//           exclusiveMaximum, pattern, enum.
-// Returns an error message on failure, std::nullopt on success.
+/**
+ * @brief Validate a single JSON value against a JSON Schema property descriptor.
+ * @param[in] field_name Input parameter.
+ * @param[in] value Input parameter.
+ * @param[in] prop Input parameter.
+ * @return Return value.
+ * @details Supports: type, minLength, maxLength, minimum, maximum, exclusiveMinimum, exclusiveMaximum, pattern, enum. Returns an error message on failure, std::nullopt on success.
+ */
 static std::optional<std::string> validatePropertyConstraints(
     const std::string& field_name,
     const nlohmann::json& value,
@@ -221,7 +236,13 @@ static std::optional<std::string> validatePropertyConstraints(
     return std::nullopt;
 }
 
-// static
+/**
+ * @brief static
+ * @param[in] payload Input parameter.
+ * @param[in] schema Input parameter.
+ * @return Return value.
+ * @details Calls: is_object(), std::string(), contains(), is_string(), is_array(), begin(), end(), key().
+ */
 std::optional<std::string> InputValidator::validateJson(
     const nlohmann::json& payload,
     const nlohmann::json& schema
@@ -309,6 +330,11 @@ std::optional<std::string> InputValidator::validateJsonSchema(
         {
             static std::mutex s_warned_mutex;
             static std::unordered_set<std::string> s_warned_schemas;
+            /**
+             * @brief Lock.
+             * @param[in] s_warned_mutex Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(s_warned_mutex);
             if (s_warned_schemas.emplace(schema_name).second) {
                 THEMIS_WARN("InputValidator::validateJsonSchema: schema '{}' not found — "

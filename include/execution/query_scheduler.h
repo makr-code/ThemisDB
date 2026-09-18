@@ -53,18 +53,12 @@ namespace themis::execution {
 // QueryEntry
 // ============================================================================
 
-/**
- * @brief SLA priority class for a query.
- */
 enum class SLAPriority : int {
     HIGH   = 2,  ///< SLA < 10 ms
     MEDIUM = 1,  ///< 10 ms ≤ SLA < 100 ms
     LOW    = 0,  ///< SLA ≥ 100 ms
 };
 
-/**
- * @brief A single query entry in the scheduler queue.
- */
 struct QueryEntry {
     using ExecuteFn = std::function<void()>;
 
@@ -80,28 +74,15 @@ struct QueryEntry {
 // QueryScheduler
 // ============================================================================
 
-/**
- * @brief SLA-aware, deadline-first query scheduler.
- *
- * @see QueryEntry, SLAPriority
- */
 class QueryScheduler {
 public:
-    /**
-     * @brief Configuration.
-     */
     struct Config {
         std::size_t max_queue_depth = 1000;  ///< Backpressure threshold.
         std::size_t shed_threshold  = 5000;  ///< Load-shed threshold.
-        /// Re-prioritisation window: promote if deadline within this many ms.
         long        urgent_window_ms = 5000;
-        /// Default SLA for MEDIUM queries if none specified.
         long        default_sla_ms   = 50;
     };
 
-    /**
-     * @brief Metrics snapshot.
-     */
     struct Metrics {
         std::size_t  queue_depth_high   = 0;
         std::size_t  queue_depth_medium = 0;
@@ -116,14 +97,12 @@ public:
         double       avg_dequeue_us     = 0.0;
     };
 
-    /**
-     * @brief Constructs the scheduler with default configuration.
-     */
     QueryScheduler();
 
     /**
-     * @brief Constructs the scheduler.
-     * @param cfg  Configuration.
+     * @brief Query Scheduler.
+     * @param[in] cfg Input parameter.
+     * @return Return value.
      */
     explicit QueryScheduler(const Config& cfg);
 
@@ -133,16 +112,6 @@ public:
     QueryScheduler(const QueryScheduler&)            = delete;
     QueryScheduler& operator=(const QueryScheduler&) = delete;
 
-    /**
-     * @brief Enqueues a query for scheduling.
-     *
-     * @param execute     The query thunk.
-     * @param priority    SLA priority class.
-     * @param sla_ms      Deadline relative to now (milliseconds).
-     * @param name        Optional diagnostic name.
-     * @param timeout     Maximum backpressure wait time.
-     * @return Assigned query ID, or 0 if enqueue failed (shutdown or timeout).
-     */
     [[nodiscard]] std::uint64_t enqueue(
         QueryEntry::ExecuteFn execute,
         SLAPriority           priority  = SLAPriority::MEDIUM,
@@ -150,39 +119,24 @@ public:
         std::string           name      = {},
         std::chrono::milliseconds timeout = std::chrono::seconds(5));
 
-    /**
-     * @brief Dequeues the highest-priority (earliest-deadline) query.
-     *
-     * Blocks until a query is available or @p timeout elapses.
-     *
-     * @param out      Output: the dequeued entry.
-     * @param timeout  Maximum wait duration.
-     * @return @c true if an entry was dequeued; @c false on timeout/shutdown.
-     */
     bool dequeue(QueryEntry& out,
                  std::chrono::milliseconds timeout = std::chrono::seconds(5));
 
-    /**
-     * @brief Reports completion of a query (for SLA tracking).
-     *
-     * @param query_id    ID returned by @ref enqueue().
-     * @param completion_time  When the query finished.
-     */
     void reportCompletion(
         std::uint64_t query_id,
         std::chrono::steady_clock::time_point completion_time
             = std::chrono::steady_clock::now());
 
-    /// @brief Returns current metrics.
     [[nodiscard]] Metrics metrics() const noexcept;
 
-    /// @brief Total entries currently in the queue.
     [[nodiscard]] std::size_t size() const noexcept;
 
-    /// @brief Initiates graceful shutdown.
+    /**
+     * @brief Shutdown.
+     * @note Exception safety: noexcept.
+     */
     void shutdown() noexcept;
 
-    /// @brief Returns true once shutdown has been requested.
     [[nodiscard]] bool is_shutdown() const noexcept {
         return shutdown_.load(std::memory_order_acquire);
     }

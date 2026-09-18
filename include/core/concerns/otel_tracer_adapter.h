@@ -18,28 +18,19 @@ namespace themis {
 namespace core {
 namespace concerns {
 
-/**
- * @brief OpenTelemetry adapter implementation of ITracer.
- * 
- * Wraps the existing OpenTelemetry-based tracer to implement the ITracer interface.
- * A circuit breaker guards span-export calls so that a failing or unreachable
- * OTLP endpoint does not block the critical path. Once the circuit trips it
- * transitions to HALF_OPEN after `timeout` seconds to probe recovery.
- *
- * The adapter intentionally degrades to no-op spans while the circuit is open
- * so callers can keep tracing calls on hot paths without branching.
- */
 class OpenTelemetryTracerAdapter : public ITracer {
 public:
-    /**
-     * @brief Configuration for the circuit breaker that guards OTLP export.
-     */
     struct CircuitBreakerConfig {
         size_t failure_threshold = 5;
         std::chrono::seconds timeout = std::chrono::seconds(30);
         size_t success_threshold = 2;
     };
 
+    /**
+     * @brief Open Telemetry Tracer Adapter.
+     * @param[in] cb_config Input parameter.
+     * @return Return value.
+     */
     explicit OpenTelemetryTracerAdapter(
         const CircuitBreakerConfig& cb_config)
     {
@@ -50,12 +41,15 @@ public:
         circuit_breaker_ = std::make_unique<sharding::CircuitBreaker>(cfg);
     }
 
-    /// Construct with default circuit-breaker settings.
     OpenTelemetryTracerAdapter() : OpenTelemetryTracerAdapter(CircuitBreakerConfig{}) {}
 
-    /** @brief Otel span adapter component. */
     class OtelSpanAdapter : public ISpan {
     public:
+        /**
+         * @brief Otel Span Adapter.
+         * @param[in] span Input parameter.
+         * @return Return value.
+         */
         explicit OtelSpanAdapter(themis::Tracer::Span span)
             : span_(std::move(span)) {}
 
@@ -91,9 +85,13 @@ public:
             return span_.isValid();
         }
 
-        /// Explicitly end the span on destruction (RAII guarantee).
         ~OtelSpanAdapter() override { span_.end(); }
 
+        /**
+         * @brief Get Span.
+         * @return Return value.
+         * @details Implements getSpan without additional internal calls.
+         */
         themis::Tracer::Span& getSpan() { return span_; }
         const themis::Tracer::Span& getSpan() const { return span_; }
 
@@ -193,12 +191,6 @@ public:
     }
 
     // Lifecycle hooks
-    /**
-     * @brief Flush any queued spans through the underlying tracer.
-     *
-     * The adapter's flush is best-effort; it delegates to the shared tracer
-     * implementation and does not throw.
-     */
     void flush() noexcept override;
 
     ProbeResult isHealthy() const override {
@@ -211,10 +203,6 @@ public:
         return ProbeResult::healthy();
     }
 
-    /**
-     * @brief Expose circuit-breaker state for monitoring.
-     * @return Current breaker state that guards span creation.
-     */
     sharding::CircuitBreaker::State circuitBreakerState() const {
         return circuit_breaker_->getState();
     }

@@ -68,6 +68,10 @@ struct GapFillConfig {
  */
 class IGapFiller {
 public:
+    /**
+     * @brief IGap Filler.
+     * @return Return value.
+     */
     virtual ~IGapFiller() = default;
 
     /**
@@ -201,6 +205,10 @@ public:
                                                    int64_t to_ms,
                                                    int64_t interval_ms);
 
+    /**
+     * @brief Set Config.
+     * @param[in] cfg Input parameter.
+     */
     void                setConfig(const GapFillConfig& cfg);
     const GapFillConfig& config() const { return config_; }
 
@@ -208,6 +216,11 @@ private:
     GapFillConfig                    config_;
     std::unique_ptr<IGapFiller>      impl_;
 
+    /**
+     * @brief Make Impl.
+     * @param[in] method Input parameter.
+     * @return Return value.
+     */
     static std::unique_ptr<IGapFiller> makeImpl(GapFillMethod method);
 };
 

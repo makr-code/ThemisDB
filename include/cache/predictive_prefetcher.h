@@ -29,59 +29,28 @@ class RocksDBWrapper;
 
 namespace cache {
 
-/**
- * @brief Predictive pre-fetcher based on query sequence history.
- *
- * Uses a first-order Markov chain (bigram model) to predict which query
- * fingerprints are likely to be accessed next given the current fingerprint.
- *
- * For each observed (from → to) fingerprint transition a count is maintained.
- * `getPrefetchCandidates()` returns the top-N successors ranked by their
- * transition frequency relative to the observed total for that source key.
- *
- * Thread-Safety:
- * - All operations are protected by a single internal mutex.
- *
- * Memory Bounds:
- * - At most `max_tracked_keys` distinct source keys are tracked; once the
- *   table is full the oldest source key is evicted (FIFO order).
- * - Each source key stores at most `max_successors_per_key` successor counts.
- *
- * Metrics:
- * - `getStats()` reports `tracked_keys`, `total_transitions_recorded`,
- *   `candidates_generated`, and `prefetch_hits` (caller-incremented via
- *   `recordPrefetchHit()`).
- */
 class PredictivePrefetcher {
 public:
     struct Config {
-        /// Maximum distinct source keys tracked in the transition table.
         size_t max_tracked_keys = 5000;
 
-        /// Maximum successor entries per source key.
         size_t max_successors_per_key = 20;
 
-        /// Minimum number of observed transitions for a successor to be
-        /// returned as a candidate.  Filters noise from cold entries.
         uint32_t min_transition_count = 2;
 
-        /// Maximum number of candidate fingerprints returned by
-        /// getPrefetchCandidates().
         size_t max_predictions = 3;
 
-        /// Minimum prediction confidence [0.0, 1.0]: fraction of transitions
-        /// from the source key that must lead to the successor.
         double min_confidence = 0.0;
 
-        /// When true, prediction scores are weighted by time-of-day access
-        /// frequency (24 one-hour buckets).
         bool enable_time_of_day_weighting = false;
 
-        /// When true, exactly 50 % of tenants are routed to the Markov model
-        /// (with time-of-day weighting) and the other 50 % to the frequency
-        /// baseline.  The split is deterministic: hash(tenant_id) % 2.
         bool enable_ab_test = false;
 
+        /**
+         * @brief Defaults.
+         * @return Return value.
+         * @details Implements defaults without additional internal calls.
+         */
         static Config defaults() { return {}; }
     };
 
@@ -91,98 +60,44 @@ public:
     PredictivePrefetcher(const PredictivePrefetcher&) = delete;
     PredictivePrefetcher& operator=(const PredictivePrefetcher&) = delete;
 
-    /**
-     * @brief Record a query access and update the transition model.
-     *
-     * If `tenant_id` is non-empty the per-tenant last-access state is used so
-     * that sessions from different tenants do not bleed into each other.
-     *
-     * @param fingerprint  SHA-256 hex fingerprint of the accessed query.
-     * @param tenant_id    Optional tenant identifier (empty = global session).
-     */
     void recordQueryAccess(const std::string& fingerprint,
                            const std::string& tenant_id = "");
 
-    /**
-     * @brief Return candidate fingerprints likely to be accessed next.
-     *
-     * Candidates are sorted in descending order of transition frequency.
-     * Only candidates whose observed frequency is ≥ `min_transition_count`
-     * and whose confidence is ≥ `min_confidence` are included.
-     *
-     * @param fingerprint  Current query fingerprint (the "from" key).
-     * @param tenant_id    Optional tenant identifier (empty = global session).
-     * @return Up to `max_predictions` candidate fingerprints.
-     */
     std::vector<std::string> getPrefetchCandidates(
         const std::string& fingerprint,
         const std::string& tenant_id = "") const;
 
-    /**
-     * @brief Record that a prefetch candidate was already in the cache.
-     *
-     * Used externally by AdaptiveQueryCache to track effective prefetch hits
-     * for metrics purposes.
-     *
-     * @param tenant_id  Optional tenant identifier; used to attribute the hit
-     *                   to the correct A/B group when `enable_ab_test` is true.
-     */
     void recordPrefetchHit(const std::string& tenant_id = "");
 
-    /**
-     * @brief Record that prefetch candidates were generated for a key.
-     *
-     * Called by getPrefetchCandidates() when at least one candidate is returned.
-     * Also emits the current `cache.prefetch.hit_rate` gauge to MetricsCollector
-     * so the gauge stays fresh even when hits are sparse.
-     *
-     * @param count      Number of candidates generated (1..max_predictions).
-     * @param tenant_id  Optional tenant identifier; used to attribute the
-     *                   generation event to the correct A/B group.
-     */
     void recordCandidatesGenerated(size_t count = 1,
                                    const std::string& tenant_id = "");
 
     /**
-     * @brief Track bytes fetched via prefetch that were never subsequently hit.
-     *
-     * The caller (e.g. AdaptiveQueryCache) should call this when a prefetched
-     * entry expires or is evicted before being accessed.  Used to report the
-     * `cache.prefetch.overhead_bytes` metric.
-     *
-     * @param bytes Number of overhead bytes to record.
+     * @brief Record Overhead Bytes.
+     * @param[in] bytes Input parameter.
      */
     void recordOverheadBytes(uint64_t bytes);
 
     /**
-     * @brief Persist the Markov transition matrix to RocksDB.
-     *
-     * Keys are written under the prefix `prefetch_model::`.  Each key encodes
-     * the (from, to) fingerprint pair; the value is a JSON object containing
-     * the raw transition count and the 24-bucket time-of-day histogram.
-     *
-     * @param db  Open RocksDBWrapper instance.  If null this is a no-op.
+     * @brief Save Model.
+     * @param[in,out] db Input/output parameter.
      */
     void saveModel(RocksDBWrapper* db);
 
     /**
-     * @brief Restore the Markov transition matrix from RocksDB.
-     *
-     * Scans `prefetch_model::` prefix and populates the in-memory transition
-     * table.  Existing in-memory state is merged (not replaced) so that
-     * concurrent learning is not lost.
-     *
-     * @param db  Open RocksDBWrapper instance.  If null this is a no-op.
+     * @brief Load Model.
+     * @param[in,out] db Input/output parameter.
      */
     void loadModel(RocksDBWrapper* db);
 
     /**
-     * @brief Clear all transition state and reset counters.
+     * @brief Clear.
      */
     void clear();
 
     /**
-     * @brief Get operational statistics as JSON.
+     * @brief Get Stats.
+     * @return Return value.
      */
     nlohmann::json getStats() const;
 
@@ -220,18 +135,29 @@ private:
     mutable uint64_t ab_baseline_generated_ = 0;
 
     // Internal helpers
-    /// Returns true if ToD weighting should be applied for this tenant.
-    /// When enable_ab_test is true: group 0 (fnv1a(tenant_id) % 2 == 0) uses
-    /// Markov + ToD; group 1 uses raw Markov frequency without ToD weighting.
+    /**
+     * @brief Use To DWeighting.
+     * @param[in] tenant_id Identifier of the tenant.
+     * @return True when the operation succeeds.
+     */
     bool useToDWeighting(const std::string& tenant_id) const;
 
-    /// Stable FNV-1a hash of a string – used for deterministic A/B routing.
+    /**
+     * @brief Fnv1a Hash.
+     * @param[in] s Input parameter.
+     * @return Return value.
+     */
     static uint64_t fnv1aHash(const std::string& s);
 
-    /// Return the current wall-clock hour in [0, 23].
+    /**
+     * @brief Current Hour.
+     * @return Return value.
+     */
     static int currentHour();
 
-    /// Emit `cache.prefetch.hit_rate` and `cache.prefetch.overhead_bytes` via MetricsCollector.
+    /**
+     * @brief Emit Metrics.
+     */
     void emitMetrics() const;
 };
 

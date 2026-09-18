@@ -23,69 +23,34 @@
 namespace themis {
 namespace aql {
 
-/**
- * @brief Timeout manager for LLM operations
- * 
- * Provides timeout enforcement for long-running LLM operations.
- * Supports configurable timeouts per operation type.
- */
 class LLMTimeoutManager {
 public:
-    /**
-     * @brief Timeout configuration for different operation types.
-     *
-     * All four fields are **soft defaults** — they are used when a timeout is not
-     * specified explicitly.  Override any value at construction time or at runtime
-     * via @ref LLMTimeoutManager::setConfig():
-     *
-     * @code
-     *   LLMTimeoutManager::TimeoutConfig cfg;
-     *   cfg.infer_timeout        = std::chrono::seconds(60);  // tighter inference budget
-     *   cfg.rag_timeout          = std::chrono::seconds(120); // more time for RAG
-     *   cfg.embed_timeout        = std::chrono::seconds(30);
-     *   cfg.model_load_timeout   = std::chrono::seconds(300);
-     *   timeout_mgr.setConfig(cfg);
-     * @endcode
-     *
-     * Default values:
-     *   - @c infer_timeout        300 s  (5 min)   — LLM inference / chat completion
-     *   - @c rag_timeout          600 s  (10 min)  — retrieval-augmented generation (slower)
-     *   - @c embed_timeout         60 s  (1 min)   — embedding generation
-     *   - @c model_load_timeout   900 s  (15 min)  — cold model load from disk
-     */
     struct TimeoutConfig {
         std::chrono::seconds infer_timeout{300};      ///< Soft default: 5 minutes
         std::chrono::seconds rag_timeout{600};        ///< Soft default: 10 minutes (RAG is slower)
         std::chrono::seconds embed_timeout{60};       ///< Soft default: 1 minute
         std::chrono::seconds model_load_timeout{900}; ///< Soft default: 15 minutes
+        /**
+         * @brief Defaults.
+         * @return Return value.
+         * @details Implements defaults without additional internal calls.
+         */
         static TimeoutConfig defaults() { return {}; }
     };
     
     explicit LLMTimeoutManager(const TimeoutConfig& config = TimeoutConfig::defaults())
         : config_(config) {}
     
-    /**
-     * @brief Execute function with timeout
-     * @tparam Func Callable type
-     * @tparam Result Return type of function
-     * @param func Function to execute
-     * @param timeout Timeout duration
-     * @param operation_name Name for error reporting
-     * @return Result of function execution
-     * @throws LLMException with TIMEOUT code if execution exceeds timeout
-     *
-     * @note Uses `std::jthread` internally.  When a timeout occurs,
-     *       `request_stop()` is signalled on the worker and ownership of the
-     *       thread is transferred to a thin background cleanup thread that joins
-     *       it once it finishes — **the worker thread is never detached**.  This
-     *       eliminates the thread-leak that occurred when the previous
-     *       implementation called `worker.detach()` on timeout.  (The cleanup
-     *       wrapper thread itself is detached, but it holds no captured references
-     *       other than the jthread handle and exits as soon as the join completes.)
-     *       For cooperative early exit (so the function can abort at its next
-     *       check-point) use @ref executeWithCancelToken() instead.
-     */
     template<typename Func, typename Duration, typename Result = std::invoke_result_t<Func>>
+    /**
+     * @brief Execute With Timeout.
+     * @param[in] func Input parameter.
+     * @param[in] timeout Input parameter.
+     * @param[in] operation_name Name of the operation.
+     * @return Return value.
+     * @throws LLMException if an error occurs.
+     * @details Calls: Result(), task(), get_future(), worker(), std::move(), t(), wait_for(), request_stop().
+     */
     Result executeWithTimeout(Func&& func, Duration timeout, const std::string& operation_name) {
         // Wrap the user callable in a packaged_task so we can retrieve the result
         // (or propagated exception) via a future.
@@ -126,70 +91,62 @@ public:
         return future.get();
     }
     
-    /**
-     * @brief Execute inference with configured timeout
-     */
     template<typename Func>
+    /**
+     * @brief Execute Infer With Timeout.
+     * @param[in] func Input parameter.
+     * @return Return value.
+     * @details Calls: executeWithTimeout().
+     */
     auto executeInferWithTimeout(Func&& func) {
         return executeWithTimeout(std::forward<Func>(func), config_.infer_timeout, "LLM INFER");
     }
     
-    /**
-     * @brief Execute RAG with configured timeout
-     */
     template<typename Func>
+    /**
+     * @brief Execute RAGWith Timeout.
+     * @param[in] func Input parameter.
+     * @return Return value.
+     * @details Calls: executeWithTimeout().
+     */
     auto executeRAGWithTimeout(Func&& func) {
         return executeWithTimeout(std::forward<Func>(func), config_.rag_timeout, "LLM RAG");
     }
     
-    /**
-     * @brief Execute embedding with configured timeout
-     */
     template<typename Func>
+    /**
+     * @brief Execute Embed With Timeout.
+     * @param[in] func Input parameter.
+     * @return Return value.
+     * @details Calls: executeWithTimeout().
+     */
     auto executeEmbedWithTimeout(Func&& func) {
         return executeWithTimeout(std::forward<Func>(func), config_.embed_timeout, "LLM EMBED");
     }
     
-    /**
-     * @brief Execute model load with configured timeout
-     */
     template<typename Func>
+    /**
+     * @brief Execute Model Load With Timeout.
+     * @param[in] func Input parameter.
+     * @return Return value.
+     * @details Calls: executeWithTimeout().
+     */
     auto executeModelLoadWithTimeout(Func&& func) {
         return executeWithTimeout(std::forward<Func>(func), config_.model_load_timeout, "LLM MODEL LOAD");
     }
 
-    /**
-     * @brief Execute function with timeout and cooperative cancellation.
-     *
-     * Like executeWithTimeout(), but passes a shared cancel token to @p func.
-     * When the timeout fires the token is set to @c true before the worker
-     * thread is handed off for cleanup, giving the function an opportunity to
-     * abort at the next point where it checks the token.  The worker thread is
-     * never detached — it is joined by a background cleanup thread once it
-     * finishes.
-     *
-     * @tparam Func Callable of the form @c Result(std::shared_ptr<std::atomic<bool>>).
-     * @param func Function to execute; receives the cancel token as its sole argument.
-     * @param timeout Timeout duration.
-     * @param operation_name Name for error reporting.
-     * @return Result of function execution.
-     * @throws LLMException with TIMEOUT code if execution exceeds timeout.
-     *
-     * Usage example:
-     * @code
-     *   timeout_mgr.executeWithCancelToken(
-     *       [](auto cancel_token) {
-     *           for (auto& chunk : data) {
-     *               if (cancel_token->load(std::memory_order_acquire)) break;
-     *               process(chunk);
-     *           }
-     *       },
-     *       std::chrono::seconds(5), "my_op");
-     * @endcode
-     */
     template<typename Func,
              typename Duration,
              typename Result = std::invoke_result_t<std::decay_t<Func>, std::shared_ptr<std::atomic<bool>>>>
+    /**
+     * @brief Execute With Cancel Token.
+     * @param[in] func Input parameter.
+     * @param[in] timeout Input parameter.
+     * @param[in] operation_name Name of the operation.
+     * @return Return value.
+     * @throws LLMException if an error occurs.
+     * @details Calls: Result(), task(), f(), get_future(), worker(), std::move(), t(), wait_for().
+     */
     Result executeWithCancelToken(Func&& func,
                                   Duration timeout,
                                   const std::string& operation_name) {
@@ -231,49 +188,60 @@ public:
         return future.get();
     }
 
-    /**
-     * @brief Execute inference with configured timeout and cooperative cancellation.
-     */
     template<typename Func>
+    /**
+     * @brief Execute Infer With Cancel Token.
+     * @param[in] func Input parameter.
+     * @return Return value.
+     * @details Calls: executeWithCancelToken().
+     */
     auto executeInferWithCancelToken(Func&& func) {
         return executeWithCancelToken(std::forward<Func>(func),
                                       config_.infer_timeout, "LLM INFER");
     }
 
-    /**
-     * @brief Execute RAG with configured timeout and cooperative cancellation.
-     */
     template<typename Func>
+    /**
+     * @brief Execute RAGWith Cancel Token.
+     * @param[in] func Input parameter.
+     * @return Return value.
+     * @details Calls: executeWithCancelToken().
+     */
     auto executeRAGWithCancelToken(Func&& func) {
         return executeWithCancelToken(std::forward<Func>(func),
                                       config_.rag_timeout, "LLM RAG");
     }
 
-    /**
-     * @brief Execute embedding with configured timeout and cooperative cancellation.
-     */
     template<typename Func>
+    /**
+     * @brief Execute Embed With Cancel Token.
+     * @param[in] func Input parameter.
+     * @return Return value.
+     * @details Calls: executeWithCancelToken().
+     */
     auto executeEmbedWithCancelToken(Func&& func) {
         return executeWithCancelToken(std::forward<Func>(func),
                                       config_.embed_timeout, "LLM EMBED");
     }
 
-    /**
-     * @brief Execute model load with configured timeout and cooperative cancellation.
-     */
     template<typename Func>
+    /**
+     * @brief Execute Model Load With Cancel Token.
+     * @param[in] func Input parameter.
+     * @return Return value.
+     * @details Calls: executeWithCancelToken().
+     */
     auto executeModelLoadWithCancelToken(Func&& func) {
         return executeWithCancelToken(std::forward<Func>(func),
                                       config_.model_load_timeout, "LLM MODEL LOAD");
     }
     
-    /**
-     * @brief Get current timeout configuration
-     */
     const TimeoutConfig& getConfig() const { return config_; }
     
     /**
-     * @brief Update timeout configuration
+     * @brief Set Config.
+     * @param[in] config Input parameter.
+     * @details Implements setConfig without additional internal calls.
      */
     void setConfig(const TimeoutConfig& config) { config_ = config; }
 
@@ -281,9 +249,6 @@ private:
     TimeoutConfig config_;
 };
 
-/**
- * @brief Retry policy with exponential backoff
- */
 class RetryPolicy {
 public:
     struct Config {
@@ -291,20 +256,17 @@ public:
         std::chrono::milliseconds initial_delay{100};
         double backoff_multiplier = 2.0;
         std::chrono::milliseconds max_delay{10000};  // 10 seconds max
+        /**
+         * @brief Defaults.
+         * @return Return value.
+         * @details Implements defaults without additional internal calls.
+         */
         static Config defaults() { return {}; }
     };
     
     explicit RetryPolicy(const Config& config = Config::defaults())
         : config_(config) {}
     
-    /**
-     * @brief Execute function with retry and exponential backoff
-     * @tparam Func Callable type
-     * @param func Function to execute
-     * @param should_retry Predicate to determine if error is retryable
-     * @return Result of successful execution
-     * @throws Last exception if all retries exhausted
-     */
     template<typename Func>
     auto executeWithRetry(Func&& func, 
                          std::function<bool(const std::exception&)> should_retry = nullptr) {
@@ -344,7 +306,10 @@ public:
     }
     
     /**
-     * @brief Check if an LLM error is retryable
+     * @brief Is Retryable Error.
+     * @param[in] e Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: getErrorCode().
      */
     static bool isRetryableError(const std::exception& e) {
         // Try to cast to LLMException
