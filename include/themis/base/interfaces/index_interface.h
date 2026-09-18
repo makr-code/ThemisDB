@@ -65,10 +65,6 @@ enum class ScanOrder {
 /// They map indexed field values to primary keys.
 class THEMIS_BASE_API ISecondaryIndex {
 public:
-    /**
-     * @brief TBD: Describe ~ISecondaryIndex.
-     * @return Return value.
-     */
     virtual ~ISecondaryIndex() = default;
 
     /// @brief Insert or update an index entry
@@ -128,10 +124,6 @@ struct VectorSearchResult {
 /// Common implementations include HNSW, IVF, and PQ-based indexes.
 class THEMIS_BASE_API IVectorIndex {
 public:
-    /**
-     * @brief TBD: Describe ~IVectorIndex.
-     * @return Return value.
-     */
     virtual ~IVectorIndex() = default;
 
     /// @brief Insert or update a vector entry
@@ -200,10 +192,6 @@ struct GraphEdge {
 /// They enable efficient graph traversal queries.
 class THEMIS_BASE_API IGraphIndex {
 public:
-    /**
-     * @brief TBD: Describe ~IGraphIndex.
-     * @return Return value.
-     */
     virtual ~IGraphIndex() = default;
 
     /// @brief Insert or update an edge
@@ -269,10 +257,6 @@ public:
 /// - Provide query optimization hints
 class IIndexManager {
 public:
-    /**
-     * @brief TBD: Describe ~IIndexManager.
-     * @return Return value.
-     */
     virtual ~IIndexManager() = default;
 
     /// @brief Create a new secondary index

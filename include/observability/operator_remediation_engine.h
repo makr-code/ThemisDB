@@ -279,7 +279,6 @@ public:
 
     /**
      * @brief Virtual destructor for safe polymorphic deletion.
-     * @return Return value.
      */
     virtual ~IRemediationHintListener() = default;
 };
@@ -306,19 +305,16 @@ public:
 
     /**
      * @brief Get the pattern name.
-     * @return Return value.
      */
     virtual std::string patternName() const = 0;
 
     /**
      * @brief Get the problem category this pattern detects.
-     * @return Return value.
      */
     virtual ProblemCategory problemCategory() const = 0;
 
     /**
      * @brief Virtual destructor for safe polymorphic deletion.
-     * @return Return value.
      */
     virtual ~RemediationPattern() = default;
 };
@@ -506,7 +502,6 @@ public:
 
     /**
      * @brief Virtual destructor for safe polymorphic deletion.
-     * @return Return value.
      */
     virtual ~OperatorRemediationEngine() = default;
 

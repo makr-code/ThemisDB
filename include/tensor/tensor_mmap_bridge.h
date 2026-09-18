@@ -103,7 +103,6 @@ public:
      *
      * After `release()`, all pointers from `slices()` are invalid.
      * Calling `release()` multiple times is safe.
-     * @note Exception safety: noexcept.
      */
     void release() noexcept;
 
@@ -194,7 +193,6 @@ public:
      */
     using SstMapFn = std::function<void*(std::size_t bytes, std::size_t core_idx)>;
 
-     * @param[in] fn Input parameter.
     /** @brief Inject the SST page-map backend (STUB #270). Thread-safe. */
     static void setSstMapFn(SstMapFn fn);
     /** @brief Clear the SST page-map backend. Falls back to MAP_ANONYMOUS+memcpy. */

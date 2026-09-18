@@ -82,8 +82,6 @@ struct AggShardResult {
  *
  * The coordinator calls this after collecting all shards' AggShardResults.
  * Returns a single AggShardResult that reflects the global aggregate.
- * @param[in] shards Input parameter.
- * @return Return value.
  */
 AggShardResult mergeShardResults(const std::vector<AggShardResult>& shards);
 
@@ -129,10 +127,6 @@ public:
      * In multi-shard mode fans out to all shards and merges.
      *
      * @return Merged aggregate result
-     * @brief TBD: Describe refreshAggregate.
-     * @param[in] cfg Input parameter.
-     * @param[in] from_ms Input parameter.
-     * @param[in] to_ms Input parameter.
      */
     AggShardResult refreshAggregate(
         const AggConfig& cfg,
@@ -171,7 +165,6 @@ public:
      * @brief Read the current watermark for @p agg_id.
      * @return Milliseconds-since-epoch of the last successfully processed
      *         upper boundary, or 0 if no watermark has been set yet.
-     * @param[in] agg_id Input parameter.
      */
     int64_t getWatermark(const std::string& agg_id) const;
 
@@ -179,14 +172,11 @@ public:
      * @brief Persist the watermark to @p watermark_ms for @p agg_id.
      *
      * This write goes through RocksDB's WAL, so it survives node restarts.
-     * @param[in] agg_id Input parameter.
-     * @param[in] watermark_ms Input parameter.
      */
     void setWatermark(const std::string& agg_id, int64_t watermark_ms);
 
     /**
      * @brief Remove the watermark entry (e.g., when an aggregate is deleted).
-     * @param[in] agg_id Input parameter.
      */
     void deleteWatermark(const std::string& agg_id);
 
@@ -200,12 +190,8 @@ class ContinuousAggregateManager {
 public:
     explicit ContinuousAggregateManager(TSStore* store) : store_(store) {}
 
-    /**
-     * @brief Compute aggregates for [from,to] and store as derived metric Derived metric name: metric + "__agg_" + window_ms
-     * @param[in] cfg Input parameter.
-     * @param[in] from_ms Input parameter.
-     * @param[in] to_ms Input parameter.
-     */
+    // Compute aggregates for [from,to] and store as derived metric
+    // Derived metric name: metric + "__agg_" + window_ms
     void refresh(const AggConfig& cfg, int64_t from_ms, int64_t to_ms);
 
     /**
@@ -238,16 +224,9 @@ public:
      * @param hierarchy   Rollup level definitions
      * @param from_ms     Start of refresh window (milliseconds)
      * @param to_ms       End of refresh window (milliseconds)
-     * @brief TBD: Describe refreshHierarchy.
      */
     void refreshHierarchy(const RollupHierarchy& hierarchy, int64_t from_ms, int64_t to_ms);
 
-    /**
-     * @brief TBD: Describe derivedMetricName.
-     * @param[in] base Input parameter.
-     * @param[in] win Input parameter.
-     * @return Return value.
-     */
     static std::string derivedMetricName(const std::string& base, std::chrono::milliseconds win);
 
 private:
@@ -338,11 +317,6 @@ struct ContinuousAggMaterializationStatus {
  */
 class ContinuousAggMaterializationEngine {
 public:
-    /**
-     * @brief TBD: Describe ContinuousAggMaterializationEngine.
-     * @param[in,out] store Input/output parameter.
-     * @return Return value.
-     */
     explicit ContinuousAggMaterializationEngine(TSStore* store);
 
     // ------------------------------------------------------------------
@@ -358,7 +332,6 @@ public:
      *
      * @return true on success; false if a definition with the same name
      *         already exists.
-     * @param[in] def Input parameter.
      */
     bool createAggregate(ContinuousAggDefinition def);
 
@@ -371,20 +344,16 @@ public:
      * desired.
      *
      * @return true if the definition was found and removed; false otherwise.
-     * @param[in] name Input parameter.
      */
     bool dropAggregate(const std::string& name);
 
     /**
      * @brief Return the definition for the given aggregate name, or nullopt.
-     * @param[in] name Input parameter.
-     * @return Return value.
      */
     std::optional<ContinuousAggDefinition> getAggregate(const std::string& name) const;
 
     /**
      * @brief List the names of all registered aggregates.
-     * @return Return value.
      */
     std::vector<std::string> listAggregates() const;
 
@@ -449,7 +418,6 @@ public:
 
     /**
      * @brief Return the materialization status of all registered aggregates.
-     * @return Return value.
      */
     std::vector<ContinuousAggMaterializationStatus> getAllStatus() const;
 

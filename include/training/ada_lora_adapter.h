@@ -104,20 +104,15 @@ public:
     /**
      * @brief Remove a registered layer.
      * @return true if the layer existed and was removed; false otherwise.
-     * @param[in] layer_name Input parameter.
      */
     bool removeLayer(const std::string& layer_name);
 
-     * @param[in] layer_name Input parameter.
-     * @return True on success.
     /** @brief Whether a layer with the given name is registered. */
     bool hasLayer(const std::string& layer_name) const;
 
-     * @return Return value.
     /** @brief Names of all registered layers (order unspecified). */
     std::vector<std::string> layerNames() const;
 
-     * @return Return value.
     /** @brief Number of registered layers. */
     size_t layerCount() const;
 
@@ -157,7 +152,6 @@ public:
 
     /**
      * @brief Reallocate using the adapter's configured rank_budget.
-     * @return Return value.
      */
     ReallocResult reallocateRanks();
 
@@ -168,24 +162,18 @@ public:
     /**
      * @brief Current active rank for a layer.
      * @throws std::out_of_range if the layer does not exist
-     * @param[in] layer_name Input parameter.
-     * @return Return value.
      */
     size_t getActiveRank(const std::string& layer_name) const;
 
     /**
      * @brief Maximum rank for a layer.
      * @throws std::out_of_range if the layer does not exist
-     * @param[in] layer_name Input parameter.
-     * @return Return value.
      */
     size_t getMaxRank(const std::string& layer_name) const;
 
     /**
      * @brief Current importance score for a layer.
      * @throws std::out_of_range if the layer does not exist
-     * @param[in] layer_name Input parameter.
-     * @return Return value.
      */
     float getImportance(const std::string& layer_name) const;
 
@@ -198,7 +186,6 @@ public:
     /**
      * @brief Total active parameter count (sum over layers of 2 * active_rank *
      *        (in_dim + out_dim) / 2).
-     * @return Return value.
      */
     size_t totalActiveParameterCount() const;
 
@@ -253,11 +240,9 @@ public:
     // Configuration
     // -------------------------------------------------------------------------
 
-     * @return Return value.
     /** @brief Global rank budget used by reallocateRanks(). */
     size_t rankBudget() const;
 
-     * @param[in] budget Input parameter.
     /** @brief Update the global rank budget. */
     void setRankBudget(size_t budget);
 

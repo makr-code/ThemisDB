@@ -92,7 +92,6 @@ public:
     
     /**
      * @brief Get default templates
-     * @return Return value.
      */
     static PromptTemplateManager createDefault();
 
@@ -100,64 +99,25 @@ private:
     std::unordered_map<EvaluationDimension, std::string> templates_;
     std::unordered_map<EvaluationDimension, std::vector<FewShotExample>> few_shot_examples_;
     
-    /**
-     * @brief Default template strings
-     * @return Return value.
-     */
+    // Default template strings
     static std::string getFaithfulnessTemplate();
-    /**
-     * @brief TBD: Describe getRelevanceTemplate.
-     * @return Return value.
-     */
     static std::string getRelevanceTemplate();
-    /**
-     * @brief TBD: Describe getCompletenessTemplate.
-     * @return Return value.
-     */
     static std::string getCompletenessTemplate();
-    /**
-     * @brief TBD: Describe getCoherenceTemplate.
-     * @return Return value.
-     */
     static std::string getCoherenceTemplate();
     
-    /**
-     * @brief Default few-shot examples
-     * @return Return value.
-     */
+    // Default few-shot examples
     static std::vector<FewShotExample> getFaithfulnessExamples();
-    /**
-     * @brief TBD: Describe getRelevanceExamples.
-     * @return Return value.
-     */
     static std::vector<FewShotExample> getRelevanceExamples();
-    /**
-     * @brief TBD: Describe getCompletenessExamples.
-     * @return Return value.
-     */
     static std::vector<FewShotExample> getCompletenessExamples();
-    /**
-     * @brief TBD: Describe getCoherenceExamples.
-     * @return Return value.
-     */
     static std::vector<FewShotExample> getCoherenceExamples();
     
-    /**
-     * @brief Helper to replace placeholders in template
-     * @param[in] template_str Input parameter.
-     * @param[in] input Input parameter.
-     * @return Return value.
-     */
+    // Helper to replace placeholders in template
     std::string replacePlaceholders(
         const std::string& template_str,
         const EvaluationInput& input
     ) const;
     
-    /**
-     * @brief Format few-shot examples for prompt
-     * @param[in] examples Input parameter.
-     * @return Return value.
-     */
+    // Format few-shot examples for prompt
     std::string formatFewShotExamples(
         const std::vector<FewShotExample>& examples
     ) const;

@@ -205,8 +205,6 @@ public:
      *
      * @throws std::invalid_argument if the configuration is invalid
      *         (e.g. fanout < 2, leaf_capacity < 2, buffer_size_bytes == 0).
-     * @param[in] config Input parameter.
-     * @return Return value.
      */
     explicit WomTree(const Config& config);
 
@@ -337,15 +335,11 @@ public:
      * it may be momentarily stale by at most the number of in-flight writers,
      * but it is always consistent with what `get()`/`contains()` observe once
      * the same exclusive lock is acquired.
-     * @return Return value.
-     * @note Exception safety: noexcept.
      */
     size_t size() const noexcept;
 
     /**
      * @brief Return true if the tree contains no live entries.
-     * @return True on success.
-     * @note Exception safety: noexcept.
      */
     bool empty() const noexcept;
 
@@ -360,14 +354,11 @@ public:
 
     /**
      * @brief Return a consistent snapshot of current statistics.
-     * @return Return value.
      */
     Stats stats() const;
 
     /**
      * @brief Return the active configuration.
-     * @return Return value.
-     * @note Exception safety: noexcept.
      */
     const Config& config() const noexcept;
 

@@ -73,54 +73,15 @@ private:
     
     bool initialized_ = false;
     
-    /**
-     * @brief Internal methods
-     * @param[in] blob Input parameter.
-     * @return Return value.
-     */
+    // Internal methods
     CADExtractionData parseSTEP(const std::vector<uint8_t>& blob);
-    /**
-     * @brief TBD: Describe parseIGES.
-     * @param[in] blob Input parameter.
-     * @return Return value.
-     */
     CADExtractionData parseIGES(const std::vector<uint8_t>& blob);
-    /**
-     * @brief TBD: Describe parseDXF.
-     * @param[in] blob Input parameter.
-     * @return Return value.
-     */
     CADExtractionData parseDXF(const std::vector<uint8_t>& blob);
-    /**
-     * @brief TBD: Describe parseSTL.
-     * @param[in] blob Input parameter.
-     * @return Return value.
-     */
     CADExtractionData parseSTL(const std::vector<uint8_t>& blob);
-    /**
-     * @brief TBD: Describe parseOBJ.
-     * @param[in] blob Input parameter.
-     * @return Return value.
-     */
     CADExtractionData parseOBJ(const std::vector<uint8_t>& blob);
     
-    /**
-     * @brief TBD: Describe render3DPreview.
-     * @param[in] blob Input parameter.
-     * @return Return value.
-     */
     std::vector<uint8_t> render3DPreview(const std::vector<uint8_t>& blob);
-    /**
-     * @brief TBD: Describe extractAssemblyTree.
-     * @param[in] blob Input parameter.
-     * @return Return value.
-     */
     json extractAssemblyTree(const std::vector<uint8_t>& blob);
-    /**
-     * @brief TBD: Describe extractBillOfMaterials.
-     * @param[in] blob Input parameter.
-     * @return Return value.
-     */
     json extractBillOfMaterials(const std::vector<uint8_t>& blob);
 };
 

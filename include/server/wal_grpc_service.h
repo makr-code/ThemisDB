@@ -29,11 +29,6 @@ public:
     /// when the generated proto stubs are absent from the build.
     using ServiceFn = std::function<void*()>;
 
-    /**
-     * @brief TBD: Describe WalGrpcService.
-     * @param[in] wal_applier Input parameter.
-     * @return Return value.
-     */
     explicit WalGrpcService(std::shared_ptr<sharding::WALApplier> wal_applier);
     ~WalGrpcService();
 
@@ -45,7 +40,6 @@ public:
      *
      * In non-proto builds, this returns nullptr unless a callback is registered
      * via setServiceFn() and returns a non-null service pointer.
-     * @return Pointer to the result.
      */
     void* service();
 
@@ -61,7 +55,6 @@ public:
      * failure via std::runtime_error.
      *
      * Pass an empty function to remove a previously registered callback.
-     * @param[in] fn Input parameter.
      */
     static void setServiceFn(ServiceFn fn);
 

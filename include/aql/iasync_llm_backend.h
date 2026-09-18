@@ -64,10 +64,6 @@ namespace aql {
  */
 class IAsyncLLMBackend {
 public:
-    /**
-     * @brief TBD: Describe ~IAsyncLLMBackend.
-     * @return Return value.
-     */
     virtual ~IAsyncLLMBackend() = default;
 
     // -------------------------------------------------------------------------
@@ -145,8 +141,6 @@ public:
     /**
      * @param plugin  Synchronous LLM plugin whose generate() and embed() methods
      *                will be called from worker threads.  Must not be null.
-     * @brief TBD: Describe ThreadPoolAsyncLLMBackend.
-     * @return Return value.
      */
     explicit ThreadPoolAsyncLLMBackend(std::shared_ptr<llm::ILLMPlugin> plugin)
         : plugin_(std::move(plugin))

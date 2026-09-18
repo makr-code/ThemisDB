@@ -57,16 +57,7 @@ struct GradientStatistics {
     // Shard IDs corresponding to statistics
     std::vector<std::string> shard_ids;
     
-    /**
-     * @brief TBD: Describe toJSON.
-     * @return Return value.
-     */
     nlohmann::json toJSON() const;
-    /**
-     * @brief TBD: Describe fromJSON.
-     * @param[in] j Input parameter.
-     * @return Return value.
-     */
     static GradientStatistics fromJSON(const nlohmann::json& j);
 };
 
@@ -80,16 +71,7 @@ struct DetectionResult {
     std::string detection_method;
     bool requires_action = false;
     
-    /**
-     * @brief TBD: Describe toJSON.
-     * @return Return value.
-     */
     nlohmann::json toJSON() const;
-    /**
-     * @brief TBD: Describe fromJSON.
-     * @param[in] j Input parameter.
-     * @return Return value.
-     */
     static DetectionResult fromJSON(const nlohmann::json& j);
 };
 
@@ -100,10 +82,6 @@ struct DetectionResult {
 /** @brief Byzantine Detector Interface. */
 class ByzantineDetector {
 public:
-    /**
-     * @brief TBD: Describe ~ByzantineDetector.
-     * @return Return value.
-     */
     virtual ~ByzantineDetector() = default;
     
     // Analyze gradients from all shards
@@ -116,10 +94,7 @@ public:
         const std::map<std::string, std::vector<GradientTensor>>& shard_gradients
     ) = 0;
     
-    /**
-     * @brief Get detector name
-     * @return Return value.
-     */
+    // Get detector name
     virtual std::string getName() const = 0;
 };
 
@@ -143,41 +118,16 @@ public:
     
     std::string getName() const override { return "MEDIAN"; }
     
-    /**
-     * @brief TBD: Describe setThreshold.
-     * @param[in] threshold Input parameter.
-     * @details Implements setThreshold without additional internal calls.
-     */
     void setThreshold(float threshold) { threshold_ = threshold; }
     float getThreshold() const { return threshold_; }
     
 private:
     float threshold_ = 0.0f;  // Number of MAD for outlier detection (typically 2.5-3.5)
     
-    /**
-     * @brief Helper methods
-     * @param[in] gradients Input parameter.
-     * @return Return value.
-     */
+    // Helper methods
     float computeL2Norm(const std::vector<GradientTensor>& gradients) const;
-    /**
-     * @brief TBD: Describe computeMean.
-     * @param[in] values Input parameter.
-     * @return Return value.
-     */
     float computeMean(const std::vector<float>& values) const;
-    /**
-     * @brief TBD: Describe computeMedian.
-     * @param[in] values Input parameter.
-     * @return Return value.
-     */
     float computeMedian(std::vector<float> values) const;
-    /**
-     * @brief TBD: Describe computeMAD.
-     * @param[in] values Input parameter.
-     * @param[in] median Input parameter.
-     * @return Return value.
-     */
     float computeMAD(const std::vector<float>& values, float median) const;
 };
 
@@ -201,11 +151,6 @@ public:
     
     std::string getName() const override { return "KRUM"; }
     
-    /**
-     * @brief TBD: Describe setMaxByzantineShards.
-     * @param[in] f Input parameter.
-     * @details Implements setMaxByzantineShards without additional internal calls.
-     */
     void setMaxByzantineShards(int f) { max_byzantine_shards_ = f; }
     int getMaxByzantineShards() const { return max_byzantine_shards_; }
     
@@ -218,12 +163,7 @@ public:
 private:
     int max_byzantine_shards_ = 0;  // f parameter: max number of Byzantine shards
     
-    /**
-     * @brief Helper methods
-     * @param[in] grad1 Input parameter.
-     * @param[in] grad2 Input parameter.
-     * @return Return value.
-     */
+    // Helper methods
     float computeDistance(
         const std::vector<GradientTensor>& grad1,
         const std::vector<GradientTensor>& grad2
@@ -250,11 +190,6 @@ public:
     
     std::string getName() const override { return "BULYAN"; }
     
-    /**
-     * @brief TBD: Describe setMaxByzantineShards.
-     * @param[in] f Input parameter.
-     * @details Implements setMaxByzantineShards without additional internal calls.
-     */
     void setMaxByzantineShards(int f) { max_byzantine_shards_ = f; }
     int getMaxByzantineShards() const { return max_byzantine_shards_; }
     
@@ -267,12 +202,7 @@ private:
     int max_byzantine_shards_ = 0;  // f parameter: max number of Byzantine shards
     KrumDetector krum_detector_;  // Use Krum for selection
     
-    /**
-     * @brief Helper methods
-     * @param[in] selected_gradients Input parameter.
-     * @param[in] trim_count Input parameter.
-     * @return Return value.
-     */
+    // Helper methods
     std::vector<GradientTensor> computeTrimmedMean(
         const std::vector<std::vector<GradientTensor>>& selected_gradients,
         int trim_count
@@ -306,12 +236,7 @@ private:
     MedianDetector median_detector_;
     KrumDetector krum_detector_;
     
-    /**
-     * @brief Combine results from multiple detectors
-     * @param[in] median_result Input parameter.
-     * @param[in] krum_result Input parameter.
-     * @return Return value.
-     */
+    // Combine results from multiple detectors
     DetectionResult combineResults(
         const DetectionResult& median_result,
         const DetectionResult& krum_result

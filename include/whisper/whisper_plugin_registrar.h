@@ -51,7 +51,6 @@ public:
     /**
      * @brief Construct from an existing WhisperPlugin instance.
      * @param plugin Heap-allocated WhisperPlugin; adapter takes ownership.
-     * @return Return value.
      */
     explicit WhisperPluginAdapter(std::unique_ptr<WhisperPlugin> plugin);
 
@@ -90,8 +89,6 @@ public:
 
     // ── Direct access ───────────────────────────────────────────────────────
 
-     * @brief TBD: Describe getWhisperPlugin.
-     * @details Calls: get().
     /** @return Non-owning pointer to the wrapped WhisperPlugin. */
     WhisperPlugin*       getWhisperPlugin()       { return whisper_plugin_.get(); }
     const WhisperPlugin* getWhisperPlugin() const { return whisper_plugin_.get(); }
@@ -173,7 +170,6 @@ public:
      *
      * Calls WhisperPlugin::initialize(model_path, config) when "model_path"
      * is present; otherwise returns false.
-     * @return Return value.
      */
     static ReloadCallback defaultReloadCallback();
 

@@ -49,11 +49,6 @@ public:
         bool        auto_sync            = false; ///< Automatically sync users on startup
     };
 
-    /**
-     * @brief TBD: Describe ArrowUserRegistrationPlugin.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit ArrowUserRegistrationPlugin(const Config& config);
 
     std::string getName() const override;
@@ -107,11 +102,6 @@ private:
     std::unordered_map<std::string, UserRegistrationData> user_store_;
     mutable std::mutex                                  store_mutex_;
 
-    /**
-     * @brief TBD: Describe hashPassword.
-     * @param[in] password Input parameter.
-     * @return Return value.
-     */
     std::string hashPassword(const std::string& password) const;
 };
 

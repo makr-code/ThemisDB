@@ -228,7 +228,6 @@ public:
      * of polling Kafka.  The mock is consumed once and then cleared.
      *
      * @note Available in all build configurations.
-     * @param[in] events Input parameter.
      */
     void setMockEventsForTesting(std::vector<CDCEvent> events);
 
@@ -248,13 +247,8 @@ private:
         std::string dead_letter_topic;
     };
 
-    /**
-     * @brief Parses a Debezium envelope JSON into a CDCEvent.
-     * @param[in] envelope Input parameter.
-     * @param[in,out] error_out Input/output parameter.
-     * @return Return value.
-     * @details Returns CDCEvent with op=Unknown on parse failure; sets @p error_out.
-     */
+    /// Parses a Debezium envelope JSON into a CDCEvent.
+    /// Returns CDCEvent with op=Unknown on parse failure; sets @p error_out.
     static CDCEvent parseDebeziumEnvelope(const json& envelope,
                                            std::string& error_out);
 

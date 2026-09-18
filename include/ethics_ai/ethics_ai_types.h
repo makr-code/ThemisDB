@@ -246,11 +246,6 @@ struct Status {
     Status(bool ok_, const std::string& msg = "", int code_ = 0) 
         : ok(ok_), message(msg), code(code_) {}
     
-    /**
-     * @brief TBD: Describe OK.
-     * @return Return value.
-     * @details Calls: Status().
-     */
     static Status OK() { return Status(true); }
     static Status Error(const std::string& msg, int code = -1) { 
         return Status(false, msg, code); 
@@ -260,30 +255,11 @@ struct Status {
     operator bool() const { return ok; }
 };
 
-/**
- * @brief Helper functions for enum conversions
- * @param[in] type Input parameter.
- * @return Pointer to the result.
- */
+// Helper functions for enum conversions
 const char* argumentTypeToString(ArgumentType type);
-/**
- * @brief TBD: Describe stringToArgumentType.
- * @param[in] str Input parameter.
- * @return Return value.
- */
 ArgumentType stringToArgumentType(const std::string& str);
 
-/**
- * @brief TBD: Describe argumentStrengthToString.
- * @param[in] strength Input parameter.
- * @return Pointer to the result.
- */
 const char* argumentStrengthToString(ArgumentStrength strength);
-/**
- * @brief TBD: Describe stringToArgumentStrength.
- * @param[in] str Input parameter.
- * @return Return value.
- */
 ArgumentStrength stringToArgumentStrength(const std::string& str);
 
 // ============================================================================
@@ -738,14 +714,8 @@ public:
      *
      * @param entry  Entry to append (moved into the log).
      * @return Zero-based index of the newly appended entry.
-     * @details Calls: lock(), size(), push_back(), std::move().
      */
     size_t append(RoundAuditEntry entry) {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         entry.round_index = static_cast<uint32_t>(entries_.size());
         entries_.push_back(std::move(entry));
@@ -791,33 +761,18 @@ public:
      * @return Copy of all audit entries in insertion order.
      */
     [[nodiscard]] std::vector<RoundAuditEntry> exportAuditLog() const {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         return entries_;
     }
 
     /// @return Number of entries in the log.
     [[nodiscard]] size_t size() const noexcept {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         return entries_.size();
     }
 
     /// @return True when no entries have been appended yet.
     [[nodiscard]] bool empty() const noexcept {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         return entries_.empty();
     }
@@ -998,10 +953,6 @@ struct CulturalEthicsSchoolDescriptor {
  */
 class IAdaLoRABiasCorrector {
 public:
-    /**
-     * @brief TBD: Describe ~IAdaLoRABiasCorrector.
-     * @return Return value.
-     */
     virtual ~IAdaLoRABiasCorrector() = default;
 
     /**
@@ -1054,14 +1005,8 @@ public:
      *
      * @param school_id  School identifier.
      * @param factor     Multiplicative factor; clamped to [0.0, ∞) at use time.
-     * @details Calls: lock().
      */
     void registerAdapter(const std::string& school_id, double factor) {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         adapters_[school_id] = factor;
     }
@@ -1070,11 +1015,6 @@ public:
         const std::string& school_id, double raw_score) const noexcept override {
         double factor = 1.0;
         {
-            /**
-             * @brief TBD: Describe lock.
-             * @param[in] mutex_ Input parameter.
-             * @return Return value.
-             */
             std::lock_guard<std::mutex> lock(mutex_);
             const auto it = adapters_.find(school_id);
             if (it != adapters_.end()) { factor = it->second; }
@@ -1090,11 +1030,6 @@ public:
     }
 
     [[nodiscard]] bool hasAdapter(const std::string& school_id) const noexcept override {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         return adapters_.count(school_id) != 0u;
     }

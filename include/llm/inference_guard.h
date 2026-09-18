@@ -61,7 +61,6 @@ public:
      * @param engine InferenceEngineEnhanced instance (not owned, must outlive this guard)
      * @throws std::invalid_argument if engine is null
      * @throws std::runtime_error if context creation fails
-     * @return Return value.
      */
     explicit InferenceGuard(InferenceEngineEnhanced& engine);
     
@@ -126,7 +125,6 @@ public:
      * Caller must ensure proper cleanup via engine->DestroyContext()
      * 
      * @return Pointer to InferenceContext (caller owns cleanup responsibility)
-     * @note Exception safety: noexcept.
      */
     InferenceContext* Release() noexcept;
 
@@ -136,7 +134,6 @@ private:
     
     /**
      * @brief Cleanup helper (guaranteed no-throw)
-     * @note Exception safety: noexcept.
      */
     void Cleanup() noexcept;
 };
@@ -153,7 +150,6 @@ public:
      * 
      * @param capacity Maximum number of tokens
      * @throws std::invalid_argument if capacity is 0
-     * @return Return value.
      */
     explicit TokenBufferGuard(size_t capacity);
     
@@ -220,7 +216,6 @@ public:
     
     /**
      * @brief Pre-allocate tokens (may throw std::bad_alloc)
-     * @param[in] size Input parameter.
      */
     void Reserve(size_t size);
 
@@ -262,8 +257,6 @@ public:
     
     /**
      * @brief Check if plugin is healthy and ready
-     * @return True on success.
-     * @note Exception safety: noexcept.
      */
     bool IsHealthy() const noexcept;
     

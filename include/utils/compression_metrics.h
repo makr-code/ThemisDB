@@ -54,23 +54,12 @@ public:
         }
     };
     
-    /**
-     * @brief TBD: Describe instance.
-     * @return Return value.
-     * @details Implements instance without additional internal calls.
-     */
     static CompressionMetrics& instance() {
         static CompressionMetrics metrics;
         return metrics;
     }
     
-    /**
-     * @brief Record compression operation
-     * @param[in] method Input parameter.
-     * @param[in] bytes_in Input parameter.
-     * @param[in] bytes_out Input parameter.
-     * @param[in] duration Input parameter.
-     */
+    // Record compression operation
     void record_compression(
         const std::string& method,
         size_t bytes_in,
@@ -78,13 +67,7 @@ public:
         std::chrono::microseconds duration
     );
     
-    /**
-     * @brief Record decompression operation
-     * @param[in] method Input parameter.
-     * @param[in] bytes_in Input parameter.
-     * @param[in] bytes_out Input parameter.
-     * @param[in] duration Input parameter.
-     */
+    // Record decompression operation
     void record_decompression(
         const std::string& method,
         size_t bytes_in,
@@ -92,28 +75,16 @@ public:
         std::chrono::microseconds duration
     );
     
-    /**
-     * @brief Get statistics for a specific method
-     * @param[in] method Input parameter.
-     * @return Return value.
-     */
+    // Get statistics for a specific method
     MethodStats get_method_stats(const std::string& method) const;
     
-    /**
-     * @brief Get all method names
-     * @return Return value.
-     */
+    // Get all method names
     std::vector<std::string> get_methods() const;
     
-    /**
-     * @brief Reset all statistics
-     */
+    // Reset all statistics
     void reset();
     
-    /**
-     * @brief Get human-readable summary
-     * @return Return value.
-     */
+    // Get human-readable summary
     std::string get_summary() const;
     
 private:
@@ -139,11 +110,6 @@ public:
         // Intentionally empty - call finish() explicitly
     }
     
-    /**
-     * @brief TBD: Describe finish.
-     * @param[in] output_size Input parameter.
-     * @details Calls: std::chrono::steady_clock::now(), CompressionMetrics::instance(), record_compression(), record_decompression().
-     */
     void finish(size_t output_size) {
         auto end = std::chrono::steady_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start_);

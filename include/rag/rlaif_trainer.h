@@ -146,10 +146,6 @@ struct RLAIFTrainerStats {
  */
 class IAIJudge {
 public:
-    /**
-     * @brief TBD: Describe ~IAIJudge.
-     * @return Return value.
-     */
     virtual ~IAIJudge() = default;
 
     /**
@@ -319,15 +315,12 @@ public:
      */
     void loadDefaultPrinciples();
 
-     * @param[in] principle Input parameter.
     /** @brief Add a custom principle. */
     void addPrinciple(const AIPrinciple& principle);
 
-     * @param[in] principle_id Input parameter.
     /** @brief Remove a principle by ID. */
     void removePrinciple(const std::string& principle_id);
 
-     * @return Return value.
     /** @brief Return all currently registered principles. */
     const std::vector<AIPrinciple>& getPrinciples() const;
 
@@ -396,8 +389,6 @@ public:
 
     /**
      * @brief Add a (query, draft) pair to the processing queue.
-     * @param[in] query Input parameter.
-     * @param[in] draft_response Input parameter.
      */
     void addToQueue(const std::string& query,
                     const std::string& draft_response);
@@ -417,7 +408,6 @@ public:
 
     /**
      * @brief Return all accumulated preference pairs.
-     * @return Return value.
      */
     const std::vector<PreferencePair>& getDataset() const;
 
@@ -426,7 +416,6 @@ public:
      */
     void clearDataset();
 
-     * @return Return value.
     /** @brief Return the number of accumulated preference pairs. */
     size_t datasetSize() const;
 
@@ -434,7 +423,6 @@ public:
     // Statistics & monitoring
     // ═══════════════════════════════════════════════════════════
 
-     * @return Return value.
     /** @brief Return aggregated training statistics. */
     RLAIFTrainerStats getStats() const;
 
@@ -453,29 +441,24 @@ public:
     // Configuration
     // ═══════════════════════════════════════════════════════════
 
-     * @return Return value.
     /** @brief Return current configuration. */
     const RLAIFConfig& getConfig() const;
 
     /**
      * @brief Replace configuration.
      * @throws std::invalid_argument on invalid parameters.
-     * @param[in] config Input parameter.
      */
     void setConfig(const RLAIFConfig& config);
 
-     * @param[in] judge Input parameter.
     /** @brief Replace the AI judge (nullptr ⟹ heuristic fallback). */
     void setJudge(std::shared_ptr<IAIJudge> judge);
 
-     * @return Return value.
     /** @brief Return the active judge name. */
     std::string judgeName() const;
 
     /**
      * @brief Validate a RLAIFConfig.
      * @throws std::invalid_argument describing the first violation found.
-     * @param[in] config Input parameter.
      */
     static void validateConfig(const RLAIFConfig& config);
 
@@ -518,21 +501,11 @@ private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
 
-    /**
-     * @brief Internal helpers
-     * @param[in] response Input parameter.
-     * @param[in] iteration Input parameter.
-     * @return Return value.
-     */
+    // Internal helpers
     ConstitutionalRevision applyRevisionCycle(
         const std::string& response,
         int                iteration) const;
 
-    /**
-     * @brief TBD: Describe scoreResponse.
-     * @param[in] response Input parameter.
-     * @return Return value.
-     */
     double scoreResponse(const std::string& response) const;
 };
 
@@ -548,7 +521,6 @@ public:
     /**
      * @brief Create a standard trainer with default principles and heuristic
      *        judge.  Suitable for testing and offline dataset generation.
-     * @return Return value.
      */
     static RLAIFTrainer createDefault();
 

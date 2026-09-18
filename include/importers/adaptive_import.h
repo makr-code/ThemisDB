@@ -70,7 +70,6 @@ public:
      *
      * Reduces batch size when memory > 80 % or CPU > 90 %; increases
      * batch size when both are below 50 %.
-     * @param[in] metrics Input parameter.
      */
     void adaptBatchSize(const RuntimeMetrics& metrics);
 
@@ -103,11 +102,6 @@ public:
 private:
     double batch_multiplier_{1.0};
 
-    /**
-     * @brief TBD: Describe topologicalSort.
-     * @param[in] schemas Input parameter.
-     * @return Return value.
-     */
     std::vector<std::string> topologicalSort(
         const std::vector<InferenceTableSchema>& schemas
     ) const;

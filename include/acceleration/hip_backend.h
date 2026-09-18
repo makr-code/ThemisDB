@@ -69,11 +69,6 @@ public:
     };
     
     HIPVectorBackend();
-    /**
-     * @brief TBD: Describe HIPVectorBackend.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit HIPVectorBackend(const HIPConfig& config);
     ~HIPVectorBackend() override;
     
@@ -126,43 +121,31 @@ public:
     
     /**
      * Get device information
-     * @brief TBD: Describe getDeviceInfo.
-     * @return Return value.
      */
     DeviceInfo getDeviceInfo() const;
     
     /**
      * Set HIP configuration
-     * @brief TBD: Describe setConfig.
-     * @param[in] config Input parameter.
      */
     void setConfig(const HIPConfig& config);
     
     /**
      * Get current configuration
-     * @brief TBD: Describe getConfig.
-     * @return Return value.
      */
     HIPConfig getConfig() const;
     
     /**
      * Query available HIP devices
-     * @brief TBD: Describe getAvailableDevices.
-     * @return Return value.
      */
     static std::vector<DeviceInfo> getAvailableDevices();
     
     /**
      * Get HIP version info
-     * @brief TBD: Describe getHIPVersion.
-     * @return Return value.
      */
     static std::string getHIPVersion();
     
     /**
      * Get ROCm version info
-     * @brief TBD: Describe getROCmVersion.
-     * @return Return value.
      */
     static std::string getROCmVersion();
 

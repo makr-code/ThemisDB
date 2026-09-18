@@ -48,30 +48,14 @@ struct SignatureVerificationResult {
  */
 class ISignatureVerifier {
 public:
-    /**
-     * @brief TBD: Describe ~ISignatureVerifier.
-     * @return Return value.
-     */
     virtual ~ISignatureVerifier() = default;
     
-    /**
-     * @brief TBD: Describe verify.
-     * @param[in] data Input parameter.
-     * @param[in] signature Input parameter.
-     * @param[in] cert_pem Input parameter.
-     * @return Return value.
-     */
     virtual SignatureVerificationResult verify(
         const std::vector<uint8_t>& data,
         const std::vector<uint8_t>& signature,
         const std::string& cert_pem
     ) = 0;
     
-    /**
-     * @brief TBD: Describe setNext.
-     * @param[in] next Input parameter.
-     * @details Implements setNext without additional internal calls.
-     */
     void setNext(std::shared_ptr<ISignatureVerifier> next) {
         next_ = next;
     }
@@ -79,13 +63,6 @@ public:
 protected:
     std::shared_ptr<ISignatureVerifier> next_;
     
-    /**
-     * @brief TBD: Describe passToNext.
-     * @param[in] data Input parameter.
-     * @param[in] signature Input parameter.
-     * @param[in] cert_pem Input parameter.
-     * @return Return value.
-     */
     SignatureVerificationResult passToNext(
         const std::vector<uint8_t>& data,
         const std::vector<uint8_t>& signature,
@@ -203,11 +180,6 @@ private:
  */
 class CertificateChainVerifier : public ISignatureVerifier {
 public:
-    /**
-     * @brief TBD: Describe CertificateChainVerifier.
-     * @param[in] ca_bundle_path Input parameter.
-     * @return Return value.
-     */
     explicit CertificateChainVerifier(const std::string& ca_bundle_path);
     ~CertificateChainVerifier() override = default;
     
@@ -220,12 +192,6 @@ public:
 private:
     std::string ca_bundle_path_;
     
-    /**
-     * @brief TBD: Describe verifyCertificateChain.
-     * @param[in,out] cert Input/output parameter.
-     * @param[in,out] store Input/output parameter.
-     * @return True on success.
-     */
     bool verifyCertificateChain(X509* cert, X509_STORE* store);
 };
 
@@ -234,11 +200,6 @@ private:
  */
 class CRLChecker : public ISignatureVerifier {
 public:
-    /**
-     * @brief TBD: Describe CRLChecker.
-     * @param[in] crl_url Input parameter.
-     * @return Return value.
-     */
     explicit CRLChecker(const std::string& crl_url);
     ~CRLChecker() override = default;
     
@@ -259,21 +220,12 @@ private:
     mutable std::mutex cache_mutex_;
     mutable CRLCache crl_cache_;
 
-     * @brief TBD: Describe downloadAndParseCRL.
-     * @return Pointer to the result.
     /** Download and parse the CRL from crl_url_; returns nullptr on failure. */
     X509_CRL* downloadAndParseCRL() const;
 
-     * @brief TBD: Describe getOrRefreshCRL.
-     * @return Pointer to the result.
     /** Return the cached CRL (re-fetching if expired), or nullptr. */
     X509_CRL* getOrRefreshCRL() const;
 
-    /**
-     * @brief TBD: Describe isCertificateRevoked.
-     * @param[in,out] cert Input/output parameter.
-     * @return True on success.
-     */
     bool isCertificateRevoked(X509* cert);
 };
 

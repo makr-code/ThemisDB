@@ -712,7 +712,6 @@ public:
      *
      * When set, restoreCollections() calls this function before falling back
      * to full checkpoint restore.
-     * @param[in] fn Input parameter.
      */
     void setCfSstIngestFn(CfSstIngestFn fn);
 
@@ -739,20 +738,8 @@ private:
     std::atomic<bool> scheduler_running_{false};
     std::thread scheduler_thread_;
 
-    /**
-     * @brief TBD: Describe runScheduledBackupLoop.
-     */
     void runScheduledBackupLoop();
-    /**
-     * @brief TBD: Describe processScheduledBackups.
-     */
     void processScheduledBackups();
-    /**
-     * @brief TBD: Describe shouldRunScheduledBackup.
-     * @param[in] entry Input parameter.
-     * @param[in] current_time Input parameter.
-     * @return True on success.
-     */
     bool shouldRunScheduledBackup(const ScheduledBackupEntry& entry,
                                   const std::tm& current_time) const;
 
@@ -762,7 +749,6 @@ private:
     
     /**
      * @brief Return the current wall-clock timestamp formatted as `YYYYMMDD_HHMMSS`.
-     * @return Return value.
      */
     std::string getTimestamp() const;
     

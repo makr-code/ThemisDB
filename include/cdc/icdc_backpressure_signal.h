@@ -70,10 +70,6 @@ enum class BackpressureLevel {
  */
 class ICDCBackpressureSignal {
 public:
-    /**
-     * @brief TBD: Describe ~ICDCBackpressureSignal.
-     * @return Return value.
-     */
     virtual ~ICDCBackpressureSignal() = default;
 
     /**
@@ -93,7 +89,6 @@ public:
 
     /**
      * @brief Return the current backpressure level without blocking.
-     * @return Return value.
      */
     virtual BackpressureLevel currentLevel() const = 0;
 };
@@ -119,11 +114,6 @@ public:
     void signalBackpressure(BackpressureLevel level) override {
         BackpressureLevel prev = level_.exchange(level, std::memory_order_acq_rel);
         if (prev != level && callback_) {
-            /**
-             * @brief TBD: Describe lk.
-             * @param[in] cb_mutex_ Input parameter.
-             * @return Return value.
-             */
             std::unique_lock<std::mutex> lk(cb_mutex_);
             if (callback_) {
               callback_(level);
@@ -145,15 +135,8 @@ public:
      * @brief Register or replace the level-change callback.
      *
      * Thread-safe; replaces any previously registered callback.
-     * @param[in] cb Input parameter.
-     * @details Calls: lk(), std::move().
      */
     void setCallback(LevelCallback cb) {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] cb_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::mutex> lk(cb_mutex_);
         callback_ = std::move(cb);
     }

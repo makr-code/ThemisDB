@@ -126,7 +126,6 @@ public:
 
     /**
      * @brief Return the current detector configuration.
-     * @return Return value.
      */
     DetectorConfig getConfig() const;
 

@@ -114,10 +114,6 @@ struct ComputeGraphStats {
 /// @endcode
 class IComputeGraph {
 public:
-    /**
-     * @brief TBD: Describe ~IComputeGraph.
-     * @return Return value.
-     */
     virtual ~IComputeGraph() = default;
 
     /// @brief Add a kernel node to the graph.
@@ -187,10 +183,12 @@ public:
     /// @note Valid only after a successful execute() call
     [[nodiscard]] virtual ComputeGraphStats getStats() const = 0;
 
-    /**
-     * @brief @brief Clear execution state, allowing execute() to be called again.
-     * @details Resets execution state (statistics, buffers) but keeps the compiled DAG and optimization decisions. Next execute() will re-run the same compiled graph. @note This does not un-compile the graph; isCompiled() remains true
-     */
+    /// @brief Clear execution state, allowing execute() to be called again.
+    ///
+    /// Resets execution state (statistics, buffers) but keeps the compiled DAG
+    /// and optimization decisions. Next execute() will re-run the same compiled graph.
+    ///
+    /// @note This does not un-compile the graph; isCompiled() remains true
     virtual void reset() = 0;
 
     /// @brief Export the graph topology as a Graphviz DOT string for visualization.
@@ -232,10 +230,6 @@ public:
 /// and execution models; the factory encapsulates these differences.
 class IComputeGraphFactory {
 public:
-    /**
-     * @brief TBD: Describe ~IComputeGraphFactory.
-     * @return Return value.
-     */
     virtual ~IComputeGraphFactory() = default;
 
     /// @brief Create a new IComputeGraph bound to the given backend.

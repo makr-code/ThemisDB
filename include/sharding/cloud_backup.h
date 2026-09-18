@@ -177,7 +177,6 @@ public:
      * @param backup_id Unique backup identifier
      * @param shard_ids List of shard IDs to backup
      * @return true if backup was successful
-     * @brief TBD: Describe createBackup.
      */
     bool createBackup(const std::string& backup_id,
                      const std::vector<std::string>& shard_ids);
@@ -193,7 +192,6 @@ public:
         *         requested shard is not part of the catalogued backup, the backup
         *         id is empty, or no local BackupManager is available to apply the
         *         downloaded artifact
-     * @brief TBD: Describe restoreBackup.
      */
     bool restoreBackup(const std::string& backup_id,
                       const std::vector<std::string>& shard_ids);
@@ -204,7 +202,6 @@ public:
      * @param backup_id Backup identifier to delete
      * @return true if deletion was successful
      * @return false when the backup_id is empty or the backup is not found
-     * @brief TBD: Describe deleteBackup.
      */
     bool deleteBackup(const std::string& backup_id);
     
@@ -212,7 +209,6 @@ public:
      * List all available backups
      * 
      * @return Vector of backup information
-     * @brief TBD: Describe listBackups.
      */
     std::vector<BackupInfo> listBackups() const;
     
@@ -221,7 +217,6 @@ public:
      * 
      * @param backup_id Backup identifier
      * @return Backup info if found, nullopt otherwise
-     * @brief TBD: Describe getBackupInfo.
      */
     std::optional<BackupInfo> getBackupInfo(const std::string& backup_id) const;
     
@@ -231,7 +226,6 @@ public:
      * @param datacenter_id Unique datacenter identifier
      * @param shard_endpoints List of shard endpoints in target datacenter
      * @return true if configuration was successful
-     * @brief TBD: Describe setReplicationTarget.
      */
     bool setReplicationTarget(const std::string& datacenter_id,
                              const std::vector<std::string>& shard_endpoints);
@@ -242,7 +236,6 @@ public:
      * @param datacenter_id Target datacenter identifier
      * @return true if replication was enabled
      * @return false when datacenter_id is empty or replication target not found
-     * @brief TBD: Describe enableContinuousReplication.
      */
     bool enableContinuousReplication(const std::string& datacenter_id);
     
@@ -252,7 +245,6 @@ public:
      * @param datacenter_id Target datacenter identifier
      * @return true if replication was disabled
      * @return false when datacenter_id is empty or replication target not found
-     * @brief TBD: Describe disableContinuousReplication.
      */
     bool disableContinuousReplication(const std::string& datacenter_id);
     
@@ -306,80 +298,20 @@ using GCSListFn = std::function<std::vector<std::string>(const std::string& buck
 using GCSExistsFn = std::function<bool(const std::string& bucket,
                                        const std::string& remote_path)>;
 
-/**
- * @brief TBD: Describe setS3DownloadFn.
- * @param[in] fn Input parameter.
- */
 void setS3DownloadFn(S3DownloadFn fn);
-/**
- * @brief TBD: Describe setS3UploadFn.
- * @param[in] fn Input parameter.
- */
 void setS3UploadFn(S3UploadFn fn);
-/**
- * @brief TBD: Describe setS3DeleteFn.
- * @param[in] fn Input parameter.
- */
 void setS3DeleteFn(S3DeleteFn fn);
-/**
- * @brief TBD: Describe setS3ListFn.
- * @param[in] fn Input parameter.
- */
 void setS3ListFn(S3ListFn fn);
-/**
- * @brief TBD: Describe setS3ExistsFn.
- * @param[in] fn Input parameter.
- */
 void setS3ExistsFn(S3ExistsFn fn);
-/**
- * @brief TBD: Describe setAzureUploadFn.
- * @param[in] fn Input parameter.
- */
 void setAzureUploadFn(AzureUploadFn fn);
-/**
- * @brief TBD: Describe setAzureDownloadFn.
- * @param[in] fn Input parameter.
- */
 void setAzureDownloadFn(AzureDownloadFn fn);
-/**
- * @brief TBD: Describe setAzureDeleteFn.
- * @param[in] fn Input parameter.
- */
 void setAzureDeleteFn(AzureDeleteFn fn);
-/**
- * @brief TBD: Describe setAzureListFn.
- * @param[in] fn Input parameter.
- */
 void setAzureListFn(AzureListFn fn);
-/**
- * @brief TBD: Describe setAzureExistsFn.
- * @param[in] fn Input parameter.
- */
 void setAzureExistsFn(AzureExistsFn fn);
-/**
- * @brief TBD: Describe setGCSUploadFn.
- * @param[in] fn Input parameter.
- */
 void setGCSUploadFn(GCSUploadFn fn);
-/**
- * @brief TBD: Describe setGCSDownloadFn.
- * @param[in] fn Input parameter.
- */
 void setGCSDownloadFn(GCSDownloadFn fn);
-/**
- * @brief TBD: Describe setGCSDeleteFn.
- * @param[in] fn Input parameter.
- */
 void setGCSDeleteFn(GCSDeleteFn fn);
-/**
- * @brief TBD: Describe setGCSListFn.
- * @param[in] fn Input parameter.
- */
 void setGCSListFn(GCSListFn fn);
-/**
- * @brief TBD: Describe setGCSExistsFn.
- * @param[in] fn Input parameter.
- */
 void setGCSExistsFn(GCSExistsFn fn);
 
 } // namespace sharding

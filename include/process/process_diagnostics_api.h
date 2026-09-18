@@ -368,12 +368,6 @@ private:
     ExtendedProcessDiagnostics() = delete;
 };
 
-/**
- * @brief TBD: Describe toString.
- * @param[in] c Input parameter.
- * @return Return value.
- * @details Implements toString without additional internal calls.
- */
 inline std::string_view toString(IncidentContext c) {
     switch (c) {
         case IncidentContext::CHURN_DETECTION:
@@ -437,19 +431,6 @@ inline std::string ConflictAnalysis::format() const {
     return oss.str();
 }
 
-/**
- * @brief TBD: Describe ExtendedDiagnosticRecord.
- * @param[in] incident_type Input parameter.
- * @param[in] error_code Input parameter.
- * @param[in] operation Input parameter.
- * @param[in] input_identifier Input parameter.
- * @param[in] actionable_message Input parameter.
- * @param[in] trace_context_ Input parameter.
- * @param[in] incident_context_ Input parameter.
- * @param[in] churn_metric_ Input parameter.
- * @param[in] conflict_analysis_ Input parameter.
- * @return Return value.
- */
 inline ExtendedDiagnosticRecord::ExtendedDiagnosticRecord(
     DiagnosticIncidentType incident_type,
     ProcError error_code,
@@ -471,10 +452,6 @@ inline ExtendedDiagnosticRecord::ExtendedDiagnosticRecord(
 
 inline std::string ExtendedDiagnosticRecord::toFormattedMessage() const {
     std::ostringstream oss = {};
-    /**
-     * @brief TBD: Describe toFormattedMessage.
-     * @return Return value.
-     */
     oss << DiagnosticRecord::toFormattedMessage();
 
     if (incident_context.has_value()) {
@@ -495,16 +472,6 @@ inline std::string ExtendedDiagnosticRecord::toFormattedMessage() const {
     return oss.str();
 }
 
-/**
- * @brief TBD: Describe createChurnIncident.
- * @param[in] error Input parameter.
- * @param[in] input_id Input parameter.
- * @param[in] message Input parameter.
- * @param[in] concurrent_ops Input parameter.
- * @param[in] trace_id Input parameter.
- * @return Return value.
- * @details Calls: has_value(), std::string(), ExtendedDiagnosticRecord().
- */
 inline ExtendedDiagnosticRecord ExtendedProcessDiagnostics::createChurnIncident(
     ProcError error,
     std::string_view input_id,
@@ -529,17 +496,6 @@ inline ExtendedDiagnosticRecord ExtendedProcessDiagnostics::createChurnIncident(
     );
 }
 
-/**
- * @brief TBD: Describe createConflictIncident.
- * @param[in] error Input parameter.
- * @param[in] input_id Input parameter.
- * @param[in] message Input parameter.
- * @param[in] conflict_count Input parameter.
- * @param[in] retry_count Input parameter.
- * @param[in] trace_id Input parameter.
- * @return Return value.
- * @details Calls: has_value(), std::string(), ExtendedDiagnosticRecord().
- */
 inline ExtendedDiagnosticRecord ExtendedProcessDiagnostics::createConflictIncident(
     ProcError error,
     std::string_view input_id,
@@ -570,14 +526,6 @@ inline ExtendedDiagnosticRecord ExtendedProcessDiagnostics::createConflictIncide
     );
 }
 
-/**
- * @brief TBD: Describe createTracedIncident.
- * @param[in] base_incident Input parameter.
- * @param[in] trace_id Input parameter.
- * @param[in] span_id Input parameter.
- * @return Return value.
- * @details Calls: std::string(), ExtendedDiagnosticRecord().
- */
 inline ExtendedDiagnosticRecord ExtendedProcessDiagnostics::createTracedIncident(
     const DiagnosticRecord& base_incident,
     std::string_view trace_id,
@@ -597,16 +545,6 @@ inline ExtendedDiagnosticRecord ExtendedProcessDiagnostics::createTracedIncident
     );
 }
 
-/**
- * @brief TBD: Describe createResourceExhaustionIncident.
- * @param[in] error Input parameter.
- * @param[in] input_id Input parameter.
- * @param[in] message Input parameter.
- * @param[in] resource_type Input parameter.
- * @param[in] trace_id Input parameter.
- * @return Return value.
- * @details Calls: has_value(), std::string(), detailed_message(), empty(), ExtendedDiagnosticRecord().
- */
 inline ExtendedDiagnosticRecord ExtendedProcessDiagnostics::createResourceExhaustionIncident(
     ProcError error,
     std::string_view input_id,
@@ -619,11 +557,6 @@ inline ExtendedDiagnosticRecord ExtendedProcessDiagnostics::createResourceExhaus
         trace_context.trace_id = std::string(*trace_id);
     }
 
-    /**
-     * @brief TBD: Describe detailed_message.
-     * @param[in] message Input parameter.
-     * @return Return value.
-     */
     std::string detailed_message(message);
     if (!resource_type.empty()) {
         detailed_message += " [resource=";

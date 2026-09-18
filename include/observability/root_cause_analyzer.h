@@ -88,10 +88,6 @@ struct SystemSnapshot {
     /// Arbitrary extra metrics not covered by the named fields above.
     std::map<std::string, double> extra_metrics;
 
-    /**
-     * @brief TBD: Describe toJSON.
-     * @return Return value.
-     */
     json toJSON() const;
 };
 
@@ -139,10 +135,6 @@ struct CausalGraph {
     /// Returns the root nodes (nodes with no incoming edges).
     std::vector<std::string> rootNodes() const;
 
-    /**
-     * @brief TBD: Describe toJSON.
-     * @return Return value.
-     */
     json toJSON() const;
 };
 
@@ -179,15 +171,7 @@ struct RootCauseReport {
     /// Per-metric change percentages observed during the incident.
     std::map<std::string, double> metric_impacts;
 
-    /**
-     * @brief TBD: Describe toJSON.
-     * @return Return value.
-     */
     json toJSON() const;
-    /**
-     * @brief TBD: Describe toReport.
-     * @return Return value.
-     */
     std::string toReport() const;
 };
 
@@ -249,13 +233,11 @@ public:
      * @brief Register a time series for correlation and causal analysis.
      *
      * If a series with the same name already exists it is replaced.
-     * @param[in] series Input parameter.
      */
     void addTimeSeries(const TimeSeries& series);
 
     /**
      * @brief Remove a previously registered time series.
-     * @param[in] name Input parameter.
      */
     void removeTimeSeries(const std::string& name);
 
@@ -303,13 +285,11 @@ public:
 
     /**
      * @brief Return the current configuration.
-     * @return Return value.
      */
     RootCauseAnalyzerConfig getConfig() const;
 
     /**
      * @brief Replace the current configuration.
-     * @param[in] config Input parameter.
      */
     void setConfig(const RootCauseAnalyzerConfig& config);
 

@@ -136,31 +136,13 @@ public:
     FinalLayerOrchestrator() = default;
     ~FinalLayerOrchestrator() = default;
 
-    /**
-     * @brief TBD: Describe setAdapterRegistry.
-     * @param[in] registry Input parameter.
-     */
     void setAdapterRegistry(std::shared_ptr<AdapterRegistry> registry);
-    /**
-     * @brief TBD: Describe setModelRouter.
-     * @param[in] router Input parameter.
-     */
     void setModelRouter(std::shared_ptr<ModelRouter> router);
-    /**
-     * @brief TBD: Describe setTransitionPolicy.
-     * @param[in] policy Input parameter.
-     */
     void setTransitionPolicy(FinalLayerTransitionPolicy policy);
     [[nodiscard]] FinalLayerTransitionPolicy transitionPolicy() const;
 
     [[nodiscard]] bool registerPackage(const FinalLayerPackage& package);
     [[nodiscard]] bool updatePackage(const FinalLayerPackage& package);
-    /**
-     * @brief TBD: Describe setPackageStatus.
-     * @param[in] package_id Input parameter.
-     * @param[in] new_status Input parameter.
-     * @return True on success.
-     */
     bool setPackageStatus(const std::string& package_id,
                           FinalLayerPackageStatus new_status);
     [[nodiscard]] std::vector<FinalLayerPackage> listPackages() const;

@@ -93,11 +93,6 @@ public:
     };
     
     GPUSafeFailManager();
-    /**
-     * @brief TBD: Describe GPUSafeFailManager.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit GPUSafeFailManager(const Config& config);
     ~GPUSafeFailManager() = default;
     
@@ -123,8 +118,6 @@ public:
      * @brief Record a GPU operation failure
      * 
      * Updates circuit breaker state and health metrics
-     * @param[in] type Input parameter.
-     * @param[in] error_message Input parameter.
      */
     void recordFailure(FailureType type, const std::string& error_message);
     
@@ -139,19 +132,16 @@ public:
      * @brief Check if GPU operations should be attempted
      * 
      * Returns false if circuit is open or GPU is in failed state
-     * @return True on success.
      */
     bool shouldAttemptGPU() const;
     
     /**
      * @brief Get current GPU health status
-     * @return Return value.
      */
     GPUHealthStatus getHealthStatus() const;
     
     /**
      * @brief Check if GPU is healthy enough for operations
-     * @return True on success.
      */
     bool isHealthy() const;
     
@@ -162,13 +152,11 @@ public:
     
     /**
      * @brief Force GPU to failed state (use for maintenance)
-     * @param[in] reason Input parameter.
      */
     void forceFailed(const std::string& reason);
     
     /**
      * @brief Check if circuit breaker should reset
-     * @return True on success.
      */
     bool canResetCircuit() const;
     
@@ -179,7 +167,6 @@ public:
     
     /**
      * @brief Get error rate (0.0 - 1.0)
-     * @return Return value.
      */
     float getErrorRate() const;
     
@@ -212,32 +199,12 @@ private:
     
     bool is_cpu_fallback_active_ = false;
     
-    /**
-     * @brief Helper methods
-     */
+    // Helper methods
     void updateState();
-    /**
-     * @brief TBD: Describe logDegradation.
-     * @param[in] reason Input parameter.
-     */
     void logDegradation(const std::string& reason);
-    /**
-     * @brief TBD: Describe logRecovery.
-     */
     void logRecovery();
-    /**
-     * @brief TBD: Describe isCircuitOpen.
-     * @return True on success.
-     */
     bool isCircuitOpen() const;
-    /**
-     * @brief TBD: Describe openCircuit.
-     * @param[in] reason Input parameter.
-     */
     void openCircuit(const std::string& reason);
-    /**
-     * @brief TBD: Describe closeCircuit.
-     */
     void closeCircuit();
 };
 
@@ -252,15 +219,10 @@ public:
     GPUTimeoutGuard(std::chrono::seconds timeout, const std::string& operation_name);
     ~GPUTimeoutGuard();
     
-    /**
-     * @brief Check if operation has timed out
-     * @return True on success.
-     */
+    // Check if operation has timed out
     bool hasTimedOut() const;
     
-    /**
-     * @brief Cancel the timeout (call when operation completes successfully)
-     */
+    // Cancel the timeout (call when operation completes successfully)
     void cancel();
     
 private:
@@ -279,10 +241,6 @@ private:
  */
 class MemoryPressureMonitor {
 public:
-    /**
-     * @brief TBD: Describe ~MemoryPressureMonitor.
-     * @return Return value.
-     */
     virtual ~MemoryPressureMonitor() = default;
     enum class PressureLevel {
         NORMAL,    // < 70% memory used
@@ -301,36 +259,18 @@ public:
         bool should_block_new = false;     // Should block new allocations
     };
     
-    /**
-     * @brief TBD: Describe MemoryPressureMonitor.
-     * @param[in] total_memory_bytes Input parameter.
-     * @return Return value.
-     */
     explicit MemoryPressureMonitor(size_t total_memory_bytes);
     
-    /**
-     * @brief Update current memory usage
-     * @param[in] used_bytes Input parameter.
-     */
+    // Update current memory usage
     void updateUsage(size_t used_bytes);
     
-    /**
-     * @brief Get current memory status
-     * @return Return value.
-     */
+    // Get current memory status
     MemoryStatus getStatus() const;
     
-    /**
-     * @brief Check if allocation would succeed
-     * @param[in] bytes Input parameter.
-     * @return True on success.
-     */
+    // Check if allocation would succeed
     bool canAllocate(size_t bytes) const;
     
-    /**
-     * @brief Get recommended action
-     * @return Return value.
-     */
+    // Get recommended action
     std::string getRecommendedAction() const;
     
 private:

@@ -182,10 +182,6 @@ enum class TransportFailureClass : uint8_t {
  */
 class ITransportContract {
 public:
-    /**
-     * @brief TBD: Describe ~ITransportContract.
-     * @return Return value.
-     */
     virtual ~ITransportContract() = default;
 
     /**

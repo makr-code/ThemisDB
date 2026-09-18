@@ -44,12 +44,6 @@ struct WikipediaCheckpointState {
         };
     }
 
-    /**
-     * @brief TBD: Describe fromJson.
-     * @param[in] j Input parameter.
-     * @return Return value.
-     * @details Calls: value().
-     */
     static WikipediaCheckpointState fromJson(const json& j) {
         WikipediaCheckpointState state;
         state.source_path = j.value("source_path", std::string{});
@@ -72,10 +66,6 @@ class WikipediaCheckpointStore {
 public:
     explicit WikipediaCheckpointStore(std::string path = {});
 
-    /**
-     * @brief TBD: Describe setPath.
-     * @param[in] path Input parameter.
-     */
     void setPath(std::string path);
     [[nodiscard]] const std::string& path() const;
     [[nodiscard]] bool hasPath() const;

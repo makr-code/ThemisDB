@@ -209,8 +209,6 @@ private:
      *
      * Iterates all registered prefixes and returns the one with the
      * longest matching prefix.  Returns nullptr if no policy matches.
-     * @param[in] path Input parameter.
-     * @return Pointer to the result.
      */
     const CdnRoutePolicy* findPolicy(const std::string& path) const;
 

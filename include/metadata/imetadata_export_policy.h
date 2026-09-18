@@ -68,10 +68,6 @@ enum class MetadataExportTrigger {
  */
 class IMetadataExportPolicy {
 public:
-    /**
-     * @brief TBD: Describe ~IMetadataExportPolicy.
-     * @return Return value.
-     */
     virtual ~IMetadataExportPolicy() = default;
 
     /**
@@ -168,15 +164,8 @@ public:
      * @brief Add @p table_name to the exclusion list.
      *
      * Subsequent shouldExport() calls for that name will return false.
-     * @param[in] table_name Input parameter.
-     * @details Calls: lk(), insert(), std::string().
      */
     void addExclusion(std::string_view table_name) {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::mutex> lk(mutex_);
         exclusions_.insert(std::string(table_name));
     }
@@ -185,15 +174,8 @@ public:
      * @brief Remove @p table_name from the exclusion list.
      *
      * No-op if the name was not excluded.
-     * @param[in] table_name Input parameter.
-     * @details Calls: lk(), erase(), std::string().
      */
     void removeExclusion(std::string_view table_name) {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::mutex> lk(mutex_);
         exclusions_.erase(std::string(table_name));
     }
@@ -202,11 +184,6 @@ public:
 
     bool shouldExport(std::string_view      table_name,
                       MetadataExportTrigger /*trigger*/) const override {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::mutex> lk(mutex_);
         return exclusions_.find(std::string(table_name)) == exclusions_.end();
     }

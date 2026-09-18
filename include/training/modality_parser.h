@@ -103,11 +103,6 @@ struct ModalityParseResult {
  */
 class TextClauseExtractor {
 public:
-    /**
-     * @brief TBD: Describe TextClauseExtractor.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit TextClauseExtractor(const ModalityParserConfig& config);
 
     /**
@@ -139,11 +134,6 @@ private:
  */
 class TableExtractor {
 public:
-    /**
-     * @brief TBD: Describe TableExtractor.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit TableExtractor(const ModalityParserConfig& config);
 
     /**
@@ -180,11 +170,6 @@ private:
  */
 class CitationExtractor {
 public:
-    /**
-     * @brief TBD: Describe CitationExtractor.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit CitationExtractor(const ModalityParserConfig& config);
 
     /**
@@ -221,17 +206,10 @@ private:
  */
 class OCRExtractor {
 public:
-    /**
-     * @brief TBD: Describe OCRExtractor.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit OCRExtractor(const ModalityParserConfig& config);
 
     /**
      * @brief Returns true when OCR support is compiled in and initialised.
-     * @return True on success.
-     * @note Exception safety: noexcept.
      */
     bool isAvailable() const noexcept;
 
@@ -271,7 +249,6 @@ public:
     /**
      * @brief Construct the detector with the given configuration.
      * @param config Parser configuration (language, thresholds, OCR flag).
-     * @return Return value.
      */
     explicit ModalityDetector(const ModalityParserConfig& config);
 

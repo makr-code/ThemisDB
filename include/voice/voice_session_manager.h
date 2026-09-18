@@ -67,11 +67,6 @@ enum class SessionState {
     TERMINATED    // Teardown complete, resources released
 };
 
-/**
- * @brief TBD: Describe sessionStateToString.
- * @param[in] state Input parameter.
- * @return Return value.
- */
 std::string sessionStateToString(SessionState state);
 
 // Voice session with full metadata
@@ -135,10 +130,6 @@ struct SessionTimeoutConfig {
 /// @note Thread safety is the responsibility of the implementation.
 class ISessionPersistenceBackend {
 public:
-    /**
-     * @brief TBD: Describe ~ISessionPersistenceBackend.
-     * @return Return value.
-     */
     virtual ~ISessionPersistenceBackend() = default;
 
     /// @brief Save session to durable storage.
@@ -190,11 +181,8 @@ public:
     /// @return Vector of all session IDs currently stored
     std::vector<std::string> listActiveSessions() override;
 
-    /**
-     * @brief @brief Get current session count.
-     * @return Return value.
-     * @details @return Number of sessions currently in memory
-     */
+    /// @brief Get current session count.
+    /// @return Number of sessions currently in memory
     size_t count() const;
 
 private:
@@ -259,65 +247,95 @@ public:
     /// @error 6605 User ID validation failed (empty or invalid)
     VoiceSessionData createSession(const std::string& user_id, const std::string& device_id = "");
 
-    /**
-     * @brief @brief Get existing session by ID.
-     * @param[in] session_id Input parameter.
-     * @return Return value.
-     * @details @param session_id Session identifier @return std::optional<VoiceSessionData> containing the session if found and not expired; std::nullopt if not found or expired @error 6601 Session not found @error 6602 Session expired
-     */
+    /// @brief Get existing session by ID.
+    ///
+    /// @param session_id Session identifier
+    ///
+    /// @return std::optional<VoiceSessionData> containing the session if found
+    ///         and not expired; std::nullopt if not found or expired
+    /// @error 6601 Session not found
+    /// @error 6602 Session expired
     std::optional<VoiceSessionData> getSession(const std::string& session_id);
 
-    /**
-     * @brief @brief Update session context and metadata.
-     * @param[in] session_id Input parameter.
-     * @param[in] context_update Input parameter.
-     * @return True on success.
-     * @details @param session_id Session identifier @param context_update JSON context data to merge into session.context @pre Session must exist and not be in TERMINATED state @post Session context is updated; last_activity_ms is refreshed @return true if update succeeded; false if session not found or expired @error 6601 Session not found @error 6603 Session state transition invalid
-     */
+    /// @brief Update session context and metadata.
+    ///
+    /// @param session_id Session identifier
+    /// @param context_update JSON context data to merge into session.context
+    ///
+    /// @pre Session must exist and not be in TERMINATED state
+    /// @post Session context is updated; last_activity_ms is refreshed
+    ///
+    /// @return true if update succeeded; false if session not found or expired
+    /// @error 6601 Session not found
+    /// @error 6603 Session state transition invalid
     bool updateSession(const std::string& session_id, const json& context_update);
     
-    /**
-     * @brief @brief Add a conversation turn to session history.
-     * @param[in] session_id Input parameter.
-     * @param[in] user_msg Input parameter.
-     * @param[in] assistant_msg Input parameter.
-     * @return True on success.
-     * @details @param session_id Session identifier @param user_msg User message (non-empty required) @param assistant_msg Assistant response (non-empty required) @pre Session must exist and be in ACTIVE or IDLE state @pre user_msg and assistant_msg must both be non-empty @post Conversation turn is appended to session.conversation_history @post total_turns counter is incremented @return true if turn was added; false if session not found or messages empty @note Rejects empty messages fail-closed to prevent silent history corruption @error 6601 Session not found @error 6603 Invalid message content
-     */
+    /// @brief Add a conversation turn to session history.
+    ///
+    /// @param session_id Session identifier
+    /// @param user_msg User message (non-empty required)
+    /// @param assistant_msg Assistant response (non-empty required)
+    ///
+    /// @pre Session must exist and be in ACTIVE or IDLE state
+    /// @pre user_msg and assistant_msg must both be non-empty
+    /// @post Conversation turn is appended to session.conversation_history
+    /// @post total_turns counter is incremented
+    ///
+    /// @return true if turn was added; false if session not found or messages empty
+    /// @note Rejects empty messages fail-closed to prevent silent history corruption
+    /// @error 6601 Session not found
+    /// @error 6603 Invalid message content
     bool addConversationTurn(const std::string& session_id, const std::string& user_msg, const std::string& assistant_msg);
     
-    /**
-     * @brief @brief Touch session (update last activity).
-     * @param[in] session_id Input parameter.
-     * @return True on success.
-     * @details @param session_id Session identifier @pre Session must exist @post last_activity_ms is updated to current time @post If session state is IDLE, transitions back to ACTIVE @return true if touched; false if session not found @error 6601 Session not found
-     */
+    /// @brief Touch session (update last activity).
+    ///
+    /// @param session_id Session identifier
+    ///
+    /// @pre Session must exist
+    /// @post last_activity_ms is updated to current time
+    /// @post If session state is IDLE, transitions back to ACTIVE
+    ///
+    /// @return true if touched; false if session not found
+    /// @error 6601 Session not found
     bool touchSession(const std::string& session_id);
 
-    /**
-     * @brief @brief Update the preferred language for a session.
-     * @param[in] session_id Input parameter.
-     * @param[in] language_code Input parameter.
-     * @return True on success.
-     * @details @param session_id Session identifier @param language_code BCP-47 language code (e.g., "en", "fr", "es") @return true if language updated; false if session not found @error 6601 Session not found
-     */
+    /// @brief Update the preferred language for a session.
+    ///
+    /// @param session_id Session identifier
+    /// @param language_code BCP-47 language code (e.g., "en", "fr", "es")
+    ///
+    /// @return true if language updated; false if session not found
+    /// @error 6601 Session not found
     bool updatePreferredLanguage(const std::string& session_id, const std::string& language_code);
 
-    /**
-     * @brief @brief Terminate session explicitly with timeout guard (Wave A Block 2).
-     * @param[in] session_id Input parameter.
-     * @return True on success.
-     * @details Initiates graceful session shutdown with fail-closed timeout enforcement. On timeout or error, forces resource release (fail-closed behavior). State transition: ACTIVE/IDLE/EXPIRED → CLOSING → TERMINATED @param session_id Session identifier @pre Session must exist @post Session transitions to TERMINATED state @post All session references cleared (no dangling pointers) @post Audit event logged (terminateSession action) @return true if terminated successfully; false if session not found or timeout @error 6601 Session not found @error 6608 Teardown timeout exceeded (Wave A Block 2)
-     */
+    /// @brief Terminate session explicitly with timeout guard (Wave A Block 2).
+    ///
+    /// Initiates graceful session shutdown with fail-closed timeout enforcement.
+    /// On timeout or error, forces resource release (fail-closed behavior).
+    ///
+    /// State transition: ACTIVE/IDLE/EXPIRED → CLOSING → TERMINATED
+    ///
+    /// @param session_id Session identifier
+    ///
+    /// @pre Session must exist
+    /// @post Session transitions to TERMINATED state
+    /// @post All session references cleared (no dangling pointers)
+    /// @post Audit event logged (terminateSession action)
+    ///
+    /// @return true if terminated successfully; false if session not found or timeout
+    /// @error 6601 Session not found
+    /// @error 6608 Teardown timeout exceeded (Wave A Block 2)
     bool terminateSession(const std::string& session_id);
 
-    /**
-     * @brief @brief Terminate session with explicit timeout override (Wave A Block 2).
-     * @param[in] session_id Input parameter.
-     * @param[in] timeout_ms Input parameter.
-     * @return True on success.
-     * @details Identical to terminateSession() but allows caller to specify timeout duration. Useful for emergency shutdowns or testing teardown timeout behavior. @param session_id Session identifier @param timeout_ms Override timeout in milliseconds @return true if terminated successfully; false if timeout/not found
-     */
+    /// @brief Terminate session with explicit timeout override (Wave A Block 2).
+    ///
+    /// Identical to terminateSession() but allows caller to specify timeout duration.
+    /// Useful for emergency shutdowns or testing teardown timeout behavior.
+    ///
+    /// @param session_id Session identifier
+    /// @param timeout_ms Override timeout in milliseconds
+    ///
+    /// @return true if terminated successfully; false if timeout/not found
     bool terminateSessionWithTimeout(
         const std::string& session_id,
         int64_t timeout_ms
@@ -336,96 +354,86 @@ public:
     /// @return Number of sessions successfully terminated
     size_t terminateAllSessions(int64_t timeout_ms = 10000);
 
-    /**
-     * @brief @brief Detect double-close attempt (fail-closed).
-     * @param[in] session_id Input parameter.
-     * @return True on success.
-     * @details Prevents double-termination bugs (resource cleanup races). Returns true if session is already CLOSING or TERMINATED. @param session_id Session identifier @return true if session already in CLOSING/TERMINATED state; false otherwise
-     */
+    /// @brief Detect double-close attempt (fail-closed).
+    ///
+    /// Prevents double-termination bugs (resource cleanup races).
+    /// Returns true if session is already CLOSING or TERMINATED.
+    ///
+    /// @param session_id Session identifier
+    /// @return true if session already in CLOSING/TERMINATED state; false otherwise
     bool isDoubleCloseAttempt(const std::string& session_id);
 
-    /**
-     * @brief @brief Get session teardown status (Wave A Block 2 diagnostics).
-     * @param[in] session_id Input parameter.
-     * @return Return value.
-     * @details Returns structured info about session teardown progress. Useful for debugging resource leaks and timeout issues. @param session_id Session identifier @return JSON object with: state, teardown_start_ms, elapsed_ms, error_code
-     */
+    /// @brief Get session teardown status (Wave A Block 2 diagnostics).
+    ///
+    /// Returns structured info about session teardown progress.
+    /// Useful for debugging resource leaks and timeout issues.
+    ///
+    /// @param session_id Session identifier
+    /// @return JSON object with: state, teardown_start_ms, elapsed_ms, error_code
     json getSessionTeardownStatus(const std::string& session_id);
 
-    /**
-     * @brief @brief Expire old sessions (cleanup).
-     * @return Return value.
-     * @details Scans all sessions and transitions IDLE/EXPIRED sessions to TERMINATED. Intended to be called periodically (e.g., every cleanup_interval_ms). @post All expired sessions removed from cache @return Number of sessions expired/cleaned up
-     */
+    /// @brief Expire old sessions (cleanup).
+    ///
+    /// Scans all sessions and transitions IDLE/EXPIRED sessions to TERMINATED.
+    /// Intended to be called periodically (e.g., every cleanup_interval_ms).
+    ///
+    /// @post All expired sessions removed from cache
+    /// @return Number of sessions expired/cleaned up
     size_t expireOldSessions();
 
-    /**
-     * @brief @brief Get all sessions for a user (multi-device sync).
-     * @param[in] user_id Input parameter.
-     * @return Return value.
-     * @details @param user_id User identifier @return Vector of VoiceSessionData for all non-terminated sessions owned by user_id @note Returns empty vector if user has no active sessions
-     */
+    /// @brief Get all sessions for a user (multi-device sync).
+    ///
+    /// @param user_id User identifier
+    ///
+    /// @return Vector of VoiceSessionData for all non-terminated sessions owned by user_id
+    /// @note Returns empty vector if user has no active sessions
     std::vector<VoiceSessionData> getSessionsForUser(const std::string& user_id);
 
-    /**
-     * @brief @brief Get analytics summary.
-     * @return Return value.
-     * @details @return SessionAnalytics with aggregate statistics
-     */
+    /// @brief Get analytics summary.
+    ///
+    /// @return SessionAnalytics with aggregate statistics
     SessionAnalytics getAnalytics() const;
 
-    /**
-     * @brief @brief Check if session is active.
-     * @param[in] session_id Input parameter.
-     * @return True on success.
-     * @details @param session_id Session identifier @return true if session exists and state is ACTIVE; false otherwise
-     */
+    /// @brief Check if session is active.
+    ///
+    /// @param session_id Session identifier
+    ///
+    /// @return true if session exists and state is ACTIVE; false otherwise
     bool isSessionActive(const std::string& session_id);
 
-    /**
-     * @brief @brief Get session state.
-     * @param[in] session_id Input parameter.
-     * @return Return value.
-     * @details @param session_id Session identifier @return SessionState if session found; SessionState::TERMINATED if not found
-     */
+    /// @brief Get session state.
+    ///
+    /// @param session_id Session identifier
+    ///
+    /// @return SessionState if session found; SessionState::TERMINATED if not found
     SessionState getSessionState(const std::string& session_id);
 
-    /**
-     * @brief @brief Generate a unique session ID.
-     * @return Return value.
-     * @details @return UUID-style session identifier (e.g., "session_12345678abcdef") @note Format is stable and suitable for logging/debugging
-     */
+    /// @brief Generate a unique session ID.
+    ///
+    /// @return UUID-style session identifier (e.g., "session_12345678abcdef")
+    /// @note Format is stable and suitable for logging/debugging
     static std::string generateSessionId();
     
-    /**
-     * @brief @brief Validate state transition (fail-closed) @param session_id Session identifier @param new_state Target state @return true if transition is valid; false if violates state machine @error 6603 Invalid state transition
-     * @param[in] session_id Input parameter.
-     * @param[in] new_state Input parameter.
-     * @return True on success.
-     */
+    /// @brief Validate state transition (fail-closed)
+    /// @param session_id Session identifier
+    /// @param new_state Target state
+    /// @return true if transition is valid; false if violates state machine
+    /// @error 6603 Invalid state transition
     bool validateStateTransition(const std::string& session_id, SessionState new_state);
     
-    /**
-     * @brief @brief Detect use-after-free (fail-closed) @param session_id Session identifier @return true if session has expired; false if active
-     * @param[in] session_id Input parameter.
-     * @return True on success.
-     */
+    /// @brief Detect use-after-free (fail-closed)
+    /// @param session_id Session identifier
+    /// @return true if session has expired; false if active
     bool isUseAfterFreeAttempt(const std::string& session_id);
 
-    /**
-     * @brief @brief Check whether a session identifier is known to the manager.
-     * @param[in] session_id Input parameter.
-     * @return True on success.
-     * @details @param session_id Session identifier @return true when the session exists in the active cache or backend
-     */
+    /// @brief Check whether a session identifier is known to the manager.
+    /// @param session_id Session identifier
+    /// @return true when the session exists in the active cache or backend
     bool sessionIdExists(const std::string& session_id);
 
-    /**
-     * @brief @brief Get the last state-change timestamp for a session.
-     * @param[in] session_id Input parameter.
-     * @return Return value.
-     * @details @param session_id Session identifier @return timestamp in milliseconds, or 0 if unknown
-     */
+    /// @brief Get the last state-change timestamp for a session.
+    /// @param session_id Session identifier
+    /// @return timestamp in milliseconds, or 0 if unknown
     int64_t getStateChangeTimestamp(const std::string& session_id);
 
 private:
@@ -446,24 +454,13 @@ private:
     };
     std::map<std::string, TeardownInfo> teardown_tracker_;
 
-    /**
-     * @brief TBD: Describe isExpired.
-     * @param[in] session Input parameter.
-     * @return True on success.
-     */
     bool isExpired(const VoiceSessionData& session) const;
-    /**
-     * @brief TBD: Describe nowMs.
-     * @return Return value.
-     */
     int64_t nowMs() const;
     
-    /**
-     * @brief @brief Internal: Perform teardown with timeout enforcement (Wave A Block 2) @param session_id Session identifier @param timeout_ms Timeout in milliseconds @return true if successfully terminated; false on timeout
-     * @param[in] session_id Input parameter.
-     * @param[in] timeout_ms Input parameter.
-     * @return True on success.
-     */
+    /// @brief Internal: Perform teardown with timeout enforcement (Wave A Block 2)
+    /// @param session_id Session identifier
+    /// @param timeout_ms Timeout in milliseconds
+    /// @return true if successfully terminated; false on timeout
     bool teardownSessionLocked(
         const std::string& session_id,
         int64_t timeout_ms

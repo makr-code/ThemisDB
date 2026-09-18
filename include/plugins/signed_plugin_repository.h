@@ -142,14 +142,11 @@ public:
     /**
      * @brief Check whether a key with the given fingerprint is currently pinned
      *        and active.
-     * @param[in] fingerprint Input parameter.
-     * @return True on success.
      */
     bool hasPinnedKey(const std::string& fingerprint) const;
 
     /**
      * @brief Return a snapshot of all pinned keys (active and inactive).
-     * @return Return value.
      */
     std::vector<PinnedKey> getPinnedKeys() const;
 
@@ -254,12 +251,8 @@ private:
     /// Find a pinned key by fingerprint (caller must hold mutex_).
     const PinnedKey* findPinnedKeyLocked(const std::string& fingerprint) const;
 
-    /**
-     * @brief Verify entry signature and key-pin status.
-     * @param[in] entry Input parameter.
-     * @return True on success.
-     * @details Caller **must** hold mutex_ before calling this method.
-     */
+    /// Verify entry signature and key-pin status.
+    /// Caller **must** hold mutex_ before calling this method.
     bool verifyEntryLocked(const RepositoryEntry& entry) const;
 
     /// Verify an Ed25519 signature using the given raw public key.

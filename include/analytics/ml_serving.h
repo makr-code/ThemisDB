@@ -88,7 +88,6 @@ struct MLTensor {
     std::vector<float>     data;   ///< Row-major float32 values
 
     /** @brief Total number of elements (product of shape dimensions).
-     * @note Exception safety: noexcept.
      *  @return Number of elements. */
     std::size_t numElements() const noexcept;
 };
@@ -146,10 +145,6 @@ struct MLServingResponse {
  */
 class IMLServingBackend {
 public:
-    /**
-     * @brief TBD: Describe ~IMLServingBackend.
-     * @return Return value.
-     */
     virtual ~IMLServingBackend() = default;
 
     /** Human-readable name of this backend (e.g. "ONNX Runtime 1.17.0"). */
@@ -319,9 +314,6 @@ public:
 
     // ─── Backend introspection ───────────────────────────────────────────────
 
-     * @brief TBD: Describe isBackendAvailable.
-     * @param[in] type Input parameter.
-     * @return True on success.
     /** Returns true if the specified backend type is compiled in and available. */
     bool isBackendAvailable(MLBackendType type) const;
 
@@ -398,15 +390,9 @@ private:
 // Helper utilities
 // ============================================================================
 
- * @brief TBD: Describe mlServingStatusName.
- * @param[in] status Input parameter.
- * @return Return value.
 /** Returns a human-readable string for the given status code. */
 std::string mlServingStatusName(MLServingStatus status);
 
- * @brief TBD: Describe mlBackendTypeName.
- * @param[in] type Input parameter.
- * @return Return value.
 /** Returns a human-readable string for the given backend type. */
 std::string mlBackendTypeName(MLBackendType type);
 

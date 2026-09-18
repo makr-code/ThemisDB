@@ -268,21 +268,17 @@ public:
     /**
      * @brief Return the graph-writer that was set via `withGraphWriter()`.
      * May return null if no writer was configured.
-     * @return Return value.
      */
     std::shared_ptr<ingestion::IGraphWriter> graphWriter() const;
 
     /**
      * @brief Return the vector-writer that was set via `withVectorWriter()`.
      * May return null if no writer was configured.
-     * @return Return value.
      */
     std::shared_ptr<ingestion::IVectorWriter> vectorWriter() const;
 
     /**
      * @brief Return the number of profile paths registered.
-     * @return Return value.
-     * @note Exception safety: noexcept.
      */
     std::size_t profileCount() const noexcept;
 

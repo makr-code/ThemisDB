@@ -142,12 +142,6 @@ public:
         size_t preemption_count = 0;
     };
     
-    /**
-     * @brief TBD: Describe ContinuousBatchScheduler.
-     * @param[in] config Input parameter.
-     * @param[in,out] kv_cache Input/output parameter.
-     * @return Return value.
-     */
     explicit ContinuousBatchScheduler(
         const SchedulerConfig& config,
         PagedKVCache* kv_cache
@@ -155,32 +149,19 @@ public:
     
     ~ContinuousBatchScheduler();
     
-    /**
-     * @brief Attach a metrics collector for queue-length and backpressure-drop instrumentation.
-     * @param[in,out] collector Input/output parameter.
-     * @details May be called at any time after construction; safe to call nullptr to detach. Ownership is NOT transferred. Calls: lock().
-     */
+    // Attach a metrics collector for queue-length and backpressure-drop
+    // instrumentation.  May be called at any time after construction; safe to
+    // call nullptr to detach.  Ownership is NOT transferred.
     void setMetricsCollector(monitoring::LLMMetricsCollector* collector) {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         metrics_collector_ = collector;
     }
 
-    /**
-     * @brief Attach a TokenQuotaManager for per-user/per-model token-per-minute enforcement.
-     * @param[in,out] quota Input/output parameter.
-     * @details submitRequest() will call check() and, on success, consume() on the manager. Pass nullptr to disable quota checks. Ownership is NOT transferred. Calls: lock().
-     */
+    // Attach a TokenQuotaManager for per-user/per-model token-per-minute
+    // enforcement.  submitRequest() will call check() and, on success,
+    // consume() on the manager.  Pass nullptr to disable quota checks.
+    // Ownership is NOT transferred.
     void setQuotaManager(TokenQuotaManager* quota) {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         quota_manager_ = quota;
     }
@@ -204,15 +185,8 @@ public:
      * the end of submitRequest() and processBatchResults() whenever the queue
      * depth changes.  Pass an empty std::function to detach.
      * Ownership of any captured state is the caller's responsibility.
-     * @param[in] cb Input parameter.
-     * @details Calls: lock(), std::move().
      */
     void setShardLoadCallback(ShardLoadCallback cb) {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         shard_load_cb_ = std::move(cb);
     }
@@ -224,59 +198,26 @@ public:
         std::function<void(const InferenceResponse&)> callback = nullptr
     );
     
-    /**
-     * @brief Request management
-     * @param[in] request_id Input parameter.
-     * @return True on success.
-     */
+    // Request management
     bool cancelRequest(const std::string& request_id);
-    /**
-     * @brief TBD: Describe reprioritizeRequest.
-     * @param[in] request_id Input parameter.
-     * @param[in] new_priority Input parameter.
-     * @return True on success.
-     */
     bool reprioritizeRequest(const std::string& request_id, RequestPriority new_priority);
     
-    /**
-     * @brief Scheduler lifecycle
-     */
+    // Scheduler lifecycle
     void start();
-    /**
-     * @brief TBD: Describe stop.
-     */
     void stop();
-    /**
-     * @brief TBD: Describe isRunning.
-     * @return True on success.
-     */
     bool isRunning() const;
     
-    /**
-     * @brief Batch scheduling (main loop)
-     * @return Return value.
-     */
+    // Batch scheduling (main loop)
     std::vector<ScheduledRequest*> scheduleNextBatch();
     
-    /**
-     * @brief Process batch results
-     * @param[in] batch Input parameter.
-     * @param[in] responses Input parameter.
-     */
+    // Process batch results
     void processBatchResults(
         const std::vector<ScheduledRequest*>& batch,
         const std::vector<InferenceResponse>& responses
     );
     
-    /**
-     * @brief Preemption
-     * @param[in] request_ids Input parameter.
-     */
+    // Preemption
     void preemptRequests(const std::vector<std::string>& request_ids);
-    /**
-     * @brief TBD: Describe resumeRequests.
-     * @param[in] request_ids Input parameter.
-     */
     void resumeRequests(const std::vector<std::string>& request_ids);
     
     // Statistics
@@ -304,10 +245,6 @@ public:
         size_t kv_budget_exhausted_count = 0;
     };
     
-    /**
-     * @brief TBD: Describe getStats.
-     * @return Return value.
-     */
     Stats getStats() const;
 
     /**
@@ -328,7 +265,6 @@ public:
      * @brief Return a point-in-time snapshot of LLM queue metrics.
      *
      * Thread-safe; acquires the internal scheduler mutex briefly.
-     * @return Return value.
      */
     LLMStats getLLMStats() const;
     
@@ -386,35 +322,14 @@ private:
     // scheduleNextBatch() and processBatchResults().
     size_t effective_prefill_chunk_size_ = 0;
     
-    /**
-     * @brief Internal helpers
-     * @param[in] request Input parameter.
-     * @param[in] current_batch_tokens Input parameter.
-     * @param[in] reserved_blocks Input parameter.
-     * @return True on success.
-     */
+    // Internal helpers
     bool canAddToBatch(const ScheduledRequest* request,
                       size_t current_batch_tokens,
                       size_t reserved_blocks) const;
-    /**
-     * @brief TBD: Describe allocateKVCacheBlocks.
-     * @param[in,out] request Input/output parameter.
-     */
     void allocateKVCacheBlocks(ScheduledRequest* request);
-    /**
-     * @brief TBD: Describe freeKVCacheBlocks.
-     * @param[in,out] request Input/output parameter.
-     */
     void freeKVCacheBlocks(ScheduledRequest* request);
-    /**
-     * @brief TBD: Describe updateStats.
-     */
     void updateStats();
     
-    /**
-     * @brief TBD: Describe generateRequestId.
-     * @return Return value.
-     */
     std::string generateRequestId();
     
     // Thread-safe counters using atomics (std::memory_order_relaxed)

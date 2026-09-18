@@ -74,18 +74,7 @@ public:
         );
 
     private:
-        /**
-         * @brief TBD: Describe sha256Hex.
-         * @param[in] input Input parameter.
-         * @return Return value.
-         */
         static std::string sha256Hex(const std::string& input);
-        /**
-         * @brief TBD: Describe combineHashes.
-         * @param[in] left Input parameter.
-         * @param[in] right Input parameter.
-         * @return Return value.
-         */
         static std::string combineHashes(const std::string& left,
                                          const std::string& right);
     };
@@ -113,7 +102,6 @@ public:
         /**
          * @brief Verify that a proof is consistent (root matches; offline check).
          * @return true if the proof is self-consistent.
-         * @param[in] proof Input parameter.
          */
         bool verifyBlockchainAnchor(const IntegrityProof& proof);
     };

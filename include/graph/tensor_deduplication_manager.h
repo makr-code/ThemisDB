@@ -184,7 +184,6 @@ public:
      * If the tensor is delta-encoded, loads and adds the canonical reference.
      *
      * @return Reconstructed float32 tensor, or std::nullopt if not found.
-     * @param[in] tensor_id Input parameter.
      */
     std::optional<std::vector<float>> retrieve(const std::string& tensor_id) const;
 
@@ -198,8 +197,6 @@ public:
 
     /**
      * @brief Aggregate deduplication statistics.
-     * @return Return value.
-     * @note Exception safety: noexcept.
      */
     DeduplicationStats getStats() const noexcept;
 
@@ -320,59 +317,18 @@ private:
     storage::TTTrain addTrains(const storage::TTTrain& a,
                                const storage::TTTrain& b) const;
 
-    /**
-     * @brief TBD: Describe makeKey.
-     * @param[in] tenant Input parameter.
-     * @param[in] collection Input parameter.
-     * @param[in] field Input parameter.
-     * @return Return value.
-     */
     storage::TensorFieldKey makeKey(const std::string& tenant,
                                     const std::string& collection,
                                     const std::string& field) const;
 
-    /**
-     * @brief TBD: Describe makeKeyIndex.
-     * @param[in] key Input parameter.
-     * @return Return value.
-     */
     std::string makeKeyIndex(const storage::TensorFieldKey& key) const;
-    /**
-     * @brief TBD: Describe clearMappingForTensorIdLocked.
-     * @param[in] tensor_id Input parameter.
-     */
     void clearMappingForTensorIdLocked(const std::string& tensor_id);
-    /**
-     * @brief TBD: Describe replayMutationJournal.
-     * @param[in] snapshot_key Input parameter.
-     * @return True on success.
-     */
     bool replayMutationJournal(const std::string& snapshot_key);
-    /**
-     * @brief TBD: Describe activateSnapshotKey.
-     * @param[in] snapshot_key Input parameter.
-     */
     void activateSnapshotKey(const std::string& snapshot_key) const;
-    /**
-     * @brief TBD: Describe clearMutationJournal.
-     * @param[in] snapshot_key Input parameter.
-     */
     void clearMutationJournal(const std::string& snapshot_key) const;
-    /**
-     * @brief TBD: Describe persistUpsertJournalEntry.
-     * @param[in] record Input parameter.
-     * @param[in] total_bytes_stored Input parameter.
-     * @param[in] bytes_saved Input parameter.
-     */
     void persistUpsertJournalEntry(const StoredTensorRecord& record,
                                    std::size_t total_bytes_stored,
                                    std::size_t bytes_saved) const;
-    /**
-     * @brief TBD: Describe persistDeleteJournalEntry.
-     * @param[in] tensor_id Input parameter.
-     * @param[in] total_bytes_stored Input parameter.
-     * @param[in] bytes_saved Input parameter.
-     */
     void persistDeleteJournalEntry(const std::string& tensor_id,
                                    std::size_t total_bytes_stored,
                                    std::size_t bytes_saved) const;

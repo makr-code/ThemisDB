@@ -78,22 +78,12 @@ public:
     
     /// Store object by ID (moves the object)
     void store(const IdType& id, T obj) {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(mutex_);
         objects_[id] = std::move(obj);
     }
     
     /// Retrieve object by ID (returns copy/reference)
     std::optional<T> get(const IdType& id) const {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(mutex_);
         auto it = objects_.find(id);
         if (it != objects_.end()) {
@@ -104,33 +94,18 @@ public:
     
     /// Check if ID exists
     bool contains(const IdType& id) const {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(mutex_);
         return objects_.find(id) != objects_.end();
     }
     
     /// Clear all entries
     void clear() {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(mutex_);
         objects_.clear();
     }
     
     /// Get count of stored objects
     size_t size() const {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(mutex_);
         return objects_.size();
     }
@@ -199,11 +174,6 @@ struct TransactionHandle {
     
     /// Create handle from transaction (before move)
     template <typename T>
-    /**
-     * @brief TBD: Describe from.
-     * @param[in] txn Input parameter.
-     * @return Return value.
-     */
     static TransactionHandle from(const T& txn);
     
     /// Verify handle validity

@@ -61,9 +61,6 @@ class FederationReplicaManager {
  public:
   /**
    * @brief Factory method to create replica manager.
-   * @param[in] config Input parameter.
-   * @param[in] node_id Input parameter.
-   * @return Return value.
    */
   static std::unique_ptr<FederationReplicaManager> Create(
       const FederationReplicaConfig& config,
@@ -71,8 +68,6 @@ class FederationReplicaManager {
 
   /**
    * @brief Constructor.
-   * @param[in] impl Input parameter.
-   * @return Return value.
    */
   explicit FederationReplicaManager(
       std::unique_ptr<FederationReplicaManagerImpl> impl);
@@ -84,53 +79,39 @@ class FederationReplicaManager {
 
   /**
    * @brief Apply committed log entry to state machine.
-   * @param[in] log_index Input parameter.
-   * @param[in] log_term Input parameter.
-   * @param[in] data Input parameter.
-   * @return Return value.
    */
   std::string ApplyEntry(uint64_t log_index, uint64_t log_term,
                          const std::string& data);
 
   /**
    * @brief Verify replica consistency via state hash.
-   * @param[in] expected_state_hash Input parameter.
-   * @param[in] at_log_index Input parameter.
-   * @return True on success.
    */
   bool VerifyConsistency(const std::string& expected_state_hash,
                          uint64_t at_log_index) const;
 
   /**
    * @brief Take snapshot of current state.
-   * @return Return value.
    */
   std::shared_ptr<Snapshot> TakeSnapshot();
 
   /**
    * @brief Restore from snapshot and replay tail entries.
-   * @param[in] snapshot Input parameter.
-   * @param[in] tail_entries Input parameter.
-   * @return True on success.
    */
   bool RestoreFromSnapshot(const Snapshot* snapshot,
                            const std::vector<std::string>& tail_entries);
 
   /**
    * @brief Get current state hash.
-   * @return Return value.
    */
   std::string GetStateHash() const;
 
   /**
    * @brief Get last applied log index.
-   * @return Return value.
    */
   uint64_t GetLastApplied() const;
 
   /**
    * @brief Get replica statistics.
-   * @return Return value.
    */
   ReplicaStats GetStats() const;
 

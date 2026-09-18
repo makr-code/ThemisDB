@@ -142,7 +142,6 @@ public:
      * @param inner  Handler to delegate valid requests to.  Must not be null.
      *               Ownership is shared; the middleware holds a `shared_ptr`.
      * @throws std::invalid_argument if @p inner is null.
-     * @return Return value.
      */
     explicit TransportPolicyMiddleware(std::shared_ptr<IHttpHandler> inner);
 

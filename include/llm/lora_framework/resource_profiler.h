@@ -28,10 +28,6 @@ using json = nlohmann::json;
  * @brief Resource usage snapshot
  */
 struct ResourceSnapshot {
-    /**
-     * @brief TBD: Describe ~ResourceSnapshot.
-     * @return Return value.
-     */
     virtual ~ResourceSnapshot() = default;
     std::chrono::system_clock::time_point timestamp;
     
@@ -93,10 +89,6 @@ struct ResourceSnapshot {
  * @brief Resource profiling statistics
  */
 struct ResourceStats {
-    /**
-     * @brief TBD: Describe ~ResourceStats.
-     * @return Return value.
-     */
     virtual ~ResourceStats() = default;
     // Memory peaks
     size_t peak_gpu_memory = 0;
@@ -162,16 +154,7 @@ public:
         float gpu_utilization_alert_threshold = 0.95f;  // Alert at 95%
     };
     
-    /**
-     * @brief TBD: Describe ResourceProfiler.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit ResourceProfiler(const Config& config);
-    /**
-     * @brief TBD: Describe ResourceProfiler.
-     * @return Return value.
-     */
     explicit ResourceProfiler();
     ~ResourceProfiler();
     
@@ -229,19 +212,16 @@ public:
     
     /**
      * @brief Check if profiler is running
-     * @return True on success.
      */
     bool is_running() const;
     
     /**
      * @brief Get configuration
-     * @return Return value.
      */
     Config get_config() const;
     
     /**
      * @brief Update configuration
-     * @param[in] config Input parameter.
      */
     void set_config(const Config& config);
     
@@ -269,31 +249,26 @@ private:
     
     /**
      * @brief Query GPU memory status
-     * @param[in,out] snapshot Input/output parameter.
      */
     void query_gpu_memory(ResourceSnapshot& snapshot) const;
     
     /**
      * @brief Query CPU memory status
-     * @param[in,out] snapshot Input/output parameter.
      */
     void query_cpu_memory(ResourceSnapshot& snapshot) const;
     
     /**
      * @brief Query GPU utilization
-     * @param[in,out] snapshot Input/output parameter.
      */
     void query_gpu_utilization(ResourceSnapshot& snapshot) const;
     
     /**
      * @brief Check for resource alerts
-     * @param[in] snapshot Input parameter.
      */
     void check_alerts(const ResourceSnapshot& snapshot);
     
     /**
      * @brief Log snapshot to file
-     * @param[in] snapshot Input parameter.
      */
     void log_snapshot(const ResourceSnapshot& snapshot);
 };

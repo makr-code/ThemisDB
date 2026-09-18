@@ -63,10 +63,6 @@ struct BlobRef {
  */
 class IBlobStorageBackend {
 public:
-    /**
-     * @brief TBD: Describe ~IBlobStorageBackend.
-     * @return Return value.
-     */
     virtual ~IBlobStorageBackend() = default;
     
     /**

@@ -41,10 +41,6 @@ namespace auth {
  */
 class ITokenBlacklist {
 public:
-    /**
-     * @brief TBD: Describe ~ITokenBlacklist.
-     * @return Return value.
-     */
     virtual ~ITokenBlacklist() = default;
 
     /**
@@ -117,7 +113,6 @@ public:
         /**
          * @brief Return the default TokenBlacklist configuration.
          * @return Default cleanup interval and entry-cap settings.
-         * @details Implements defaults without additional internal calls.
          */
         static Config defaults() { return {}; }
     };
@@ -134,8 +129,6 @@ public:
     /**
      * @brief Attach an AuditLogger to receive TOKEN_REVOKED events.
      * Pass nullptr to detach.  The blacklist does NOT take ownership.
-     * @param[in,out] logger Input/output parameter.
-     * @details Implements setAuditLogger without additional internal calls.
      */
     void setAuditLogger(utils::AuditLogger* logger) { audit_logger_ = logger; }
 
@@ -248,10 +241,6 @@ public:
         uint64_t bloom_negatives     = 0;  ///< isRevoked() short-circuited by Bloom filter
     };
 
-    /**
-     * @brief TBD: Describe getStatistics.
-     * @return Return value.
-     */
     Statistics getStatistics() const;
 
 private:
@@ -273,11 +262,6 @@ private:
         static constexpr size_t kBitsPerEntry = 10;  ///< ~1 % false-positive rate
         static constexpr size_t kNumHashes    = 7;   ///< optimal for 10 bits/entry
 
-        /**
-         * @brief TBD: Describe BloomFilter.
-         * @param[in] capacity Input parameter.
-         * @return Return value.
-         */
         explicit BloomFilter(size_t capacity)
             : bit_count_(std::max<size_t>(64, capacity * kBitsPerEntry))
             , bits_((bit_count_ + 7) / 8, 0)
@@ -332,10 +316,6 @@ private:
     utils::AuditLogger* audit_logger_{nullptr};  ///< Non-owning; may be nullptr.
     RevocationCallback on_revoke_callback_;      ///< Invoked outside mutex on revoke.
 
-    /**
-     * @brief TBD: Describe needsCleanup.
-     * @return True on success.
-     */
     bool needsCleanup() const;
     /// Prune expired entries and rebuild the Bloom filter (lock must be held).
     void pruneExpiredLocked();

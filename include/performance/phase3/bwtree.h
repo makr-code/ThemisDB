@@ -46,10 +46,6 @@ struct BwTreePage {
     PageType type;
     std::atomic<BwTreePage*> next_delta{nullptr};  // Delta chain
     
-    /**
-     * @brief TBD: Describe ~BwTreePage.
-     * @return Return value.
-     */
     virtual ~BwTreePage() = default;
 };
 
@@ -86,19 +82,8 @@ class MappingTable {
 public:
     MappingTable(size_t size = 10000);
     
-    /**
-     * @brief Atomic get/set operations
-     * @param[in] pid Input parameter.
-     * @return Pointer to the result.
-     */
+    // Atomic get/set operations
     BwTreePage* get(PageID pid) const;
-    /**
-     * @brief TBD: Describe compare_and_swap.
-     * @param[in] pid Input parameter.
-     * @param[in,out] expected Input/output parameter.
-     * @param[in,out] desired Input/output parameter.
-     * @return True on success.
-     */
     bool compare_and_swap(PageID pid, BwTreePage* expected, BwTreePage* desired);
     
 private:
@@ -111,25 +96,9 @@ public:
     BwTree();
     ~BwTree();
     
-    /**
-     * @brief Lock-free operations
-     * @param[in] key Input parameter.
-     * @param[in] value Input parameter.
-     * @return True on success.
-     */
+    // Lock-free operations
     bool insert(int64_t key, const std::string& value);
-    /**
-     * @brief TBD: Describe remove.
-     * @param[in] key Input parameter.
-     * @return True on success.
-     */
     bool remove(int64_t key);
-    /**
-     * @brief TBD: Describe search.
-     * @param[in] key Input parameter.
-     * @param[in,out] value Input/output parameter.
-     * @return True on success.
-     */
     bool search(int64_t key, std::string& value) const;
     
     // Range scan
@@ -141,10 +110,6 @@ public:
         size_t num_deltas;
         size_t consolidations;
     };
-    /**
-     * @brief TBD: Describe get_stats.
-     * @return Return value.
-     */
     Stats get_stats() const;
 
 private:
@@ -155,24 +120,13 @@ private:
     // Delta consolidation threshold
     static constexpr size_t DELTA_CHAIN_THRESHOLD = 10;
     
-    /**
-     * @brief Delta consolidation
-     * @param[in] pid Input parameter.
-     */
+    // Delta consolidation
     void consolidate(PageID pid);
     
-    /**
-     * @brief Helper: Apply deltas to get consolidated page
-     * @param[in,out] page Input/output parameter.
-     * @return Return value.
-     */
+    // Helper: Apply deltas to get consolidated page
     std::unique_ptr<LeafPage> apply_deltas(BwTreePage* page) const;
     
-    /**
-     * @brief Helper: Count delta chain length
-     * @param[in,out] page Input/output parameter.
-     * @return Return value.
-     */
+    // Helper: Count delta chain length
     size_t count_delta_chain_length(BwTreePage* page) const;
 
     // -----------------------------------------------------------------------
@@ -203,18 +157,14 @@ private:
     std::mutex               retired_mutex_;
     std::vector<RetiredChain> retired_chains_;
 
-    /**
-     * @brief Push @p head onto the deferred-deletion list, tagged with the current consolidation epoch.
-     * @param[in,out] head Input/output parameter.
-     * @note Exception safety: noexcept.
-     */
+    /// Push @p head onto the deferred-deletion list, tagged with the
+    /// current consolidation epoch.
     void retire_chain(BwTreePage* head) noexcept;
 
-    /**
-     * @brief Walk the retired-chain list and delete chains whose retirement epoch satisfies (current_epoch - retirement_epoch) >= kSafeReclaimEpochs.
-     * @note Exception safety: noexcept.
-     * @details Uses wrapping unsigned subtraction so the epoch counter can roll over UINT64_MAX without triggering premature reclamation.
-     */
+    /// Walk the retired-chain list and delete chains whose retirement epoch
+    /// satisfies (current_epoch - retirement_epoch) >= kSafeReclaimEpochs.
+    /// Uses wrapping unsigned subtraction so the epoch counter can roll over
+    /// UINT64_MAX without triggering premature reclamation.
     void reclaim_retired_chains() noexcept;
 
     /// Delete an entire delta chain starting at @p head.

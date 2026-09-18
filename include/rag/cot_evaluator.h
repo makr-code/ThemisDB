@@ -61,11 +61,6 @@ public:
      * @brief Construct evaluator with configuration
      */
     CoTEvaluator();
-    /**
-     * @brief TBD: Describe CoTEvaluator.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit CoTEvaluator(const Config& config);
     
     /**

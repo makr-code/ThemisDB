@@ -149,19 +149,9 @@ public:
     // ========================================================================
 
     ParallelExecutor();
-    /**
-     * @brief TBD: Describe ParallelExecutor.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit ParallelExecutor(ParallelConfig config);
 
     const ParallelConfig& getConfig() const noexcept { return config_; }
-    /**
-     * @brief TBD: Describe setConfig.
-     * @param[in] cfg Input parameter.
-     * @details Calls: validateConfig().
-     */
     void setConfig(const ParallelConfig& cfg) {
         config_ = cfg;
         validateConfig(config_);
@@ -245,32 +235,14 @@ private:
     /// Clamp zero values in a config to their minimum of 1.
     static void validateConfig(ParallelConfig& cfg) noexcept;
 
-    /**
-     * @brief ── Internal sequential helpers ─────────────────────────────────────────
-     * @param[in] input Input parameter.
-     * @param[in] filter Input parameter.
-     * @return Return value.
-     */
+    // ── Internal sequential helpers ─────────────────────────────────────────
 
     static Table sequentialScan(
         const Table& input, const FilterFn& filter);
 
-    /**
-     * @brief TBD: Describe sequentialHashJoin.
-     * @param[in] left Input parameter.
-     * @param[in] right Input parameter.
-     * @param[in] spec Input parameter.
-     * @return Return value.
-     */
     static std::vector<JoinTuple> sequentialHashJoin(
         const Table& left, const Table& right, const JoinSpec& spec);
 
-    /**
-     * @brief TBD: Describe sequentialAggregate.
-     * @param[in] input Input parameter.
-     * @param[in] spec Input parameter.
-     * @return Return value.
-     */
     static AggregateResult sequentialAggregate(
         const Table& input, const AggregateSpec& spec);
 
@@ -286,18 +258,7 @@ private:
 
     using PartialMap = std::unordered_map<std::string, PartialAgg>;
 
-    /**
-     * @brief TBD: Describe mergePartial.
-     * @param[in,out] dst Input/output parameter.
-     * @param[in] src Input parameter.
-     */
     static void mergePartial(PartialMap& dst, const PartialMap& src);
-    /**
-     * @brief TBD: Describe finalise.
-     * @param[in] p Input parameter.
-     * @param[in] fn Input parameter.
-     * @return Return value.
-     */
     static double finalise(const PartialAgg& p, AggregateFunction fn);
 
     /// Compute the group key string from an entity for the given spec.

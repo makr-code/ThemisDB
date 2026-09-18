@@ -757,26 +757,11 @@ struct ImportHandle {
     }
 
     std::string getStage() const {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] stage_mutex Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(stage_mutex);
         return stage;
     }
 
-    /**
-     * @brief TBD: Describe setStage.
-     * @param[in] s Input parameter.
-     * @details Calls: lk().
-     */
     void setStage(const std::string& s) {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] stage_mutex Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(stage_mutex);
         stage = s;
     }
@@ -819,38 +804,18 @@ struct ImportHandle {
  */
 class ImportJobRegistry {
 public:
-    /**
-     * @brief TBD: Describe add.
-     * @param[in] handle Input parameter.
-     * @details Calls: lk(), std::move().
-     */
     void add(std::shared_ptr<ImportHandle> handle) {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(mutex_);
         jobs_[handle->id] = std::move(handle);
     }
 
     std::shared_ptr<ImportHandle> get(const std::string& id) const {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(mutex_);
         auto it = jobs_.find(id);
         return (it != jobs_.end()) ? it->second : nullptr;
     }
 
     std::vector<std::shared_ptr<ImportHandle>> all() const {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(mutex_);
         std::vector<std::shared_ptr<ImportHandle>> out;
         out.reserve(jobs_.size());
@@ -896,17 +861,7 @@ public:
         return out;
     }
 
-    /**
-     * @brief TBD: Describe remove.
-     * @param[in] id Input parameter.
-     * @details Calls: lk(), erase().
-     */
     void remove(const std::string& id) {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(mutex_);
         jobs_.erase(id);
     }
@@ -923,10 +878,6 @@ private:
  */
 class IImporter {
 public:
-    /**
-     * @brief TBD: Describe ~IImporter.
-     * @return Return value.
-     */
     virtual ~IImporter() = default;
     
     /**
@@ -994,7 +945,6 @@ public:
      * @param options      Import options (streaming_row_callback is overwritten).
      * @param row_callback Callback invoked for every successfully converted row.
      * @return             Accumulated import statistics.
-     * @details Calls: std::move(), importData().
      */
     virtual ImportStats importDataStreaming(
         const std::string& source_path,

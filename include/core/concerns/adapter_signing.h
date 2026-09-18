@@ -79,7 +79,6 @@ public:
      * @param expected_sig  The expected @c AdapterSignature.  Both
      *                      @c algorithm and @c digest must be non-empty for
      *                      any validation to succeed.
-     * @return Return value.
      */
     explicit SignedAdapterValidator(AdapterSignature expected_sig);
 

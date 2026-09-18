@@ -96,19 +96,11 @@ struct GatewayHookResult {
  */
 class IAPIGatewayHook {
 public:
-    /**
-     * @brief TBD: Describe ~IAPIGatewayHook.
-     * @return Return value.
-     */
     virtual ~IAPIGatewayHook() = default;
 
     /// Unique identifier for this hook (used for registration/deregistration).
     /// @deprecated No external callers confirmed. CANDIDATE_FOR_REMOVAL (see src/ROADMAP.md).
     [[nodiscard, deprecated("No external callers; CANDIDATE_FOR_REMOVAL – tracked in src/ROADMAP.md")]]
-    /**
-     * @brief TBD: Describe hookId.
-     * @return Return value.
-     */
     virtual std::string hookId() const = 0;
 
     /// Phase in which this hook executes.
@@ -143,10 +135,6 @@ public:
  */
 class IGatewayHookRegistry {
 public:
-    /**
-     * @brief TBD: Describe ~IGatewayHookRegistry.
-     * @return Return value.
-     */
     virtual ~IGatewayHookRegistry() = default;
 
     /**
@@ -156,11 +144,6 @@ public:
      * @deprecated No external callers confirmed. CANDIDATE_FOR_REMOVAL (see src/ROADMAP.md).
      */
     [[nodiscard, deprecated("No external callers; CANDIDATE_FOR_REMOVAL – tracked in src/ROADMAP.md")]]
-    /**
-     * @brief TBD: Describe registerHook.
-     * @param[in] hook Input parameter.
-     * @return True on success.
-     */
     virtual bool registerHook(std::shared_ptr<IAPIGatewayHook> hook) = 0;
 
     /**
@@ -170,11 +153,6 @@ public:
      * @deprecated No external callers confirmed. CANDIDATE_FOR_REMOVAL (see src/ROADMAP.md).
      */
     [[nodiscard, deprecated("No external callers; CANDIDATE_FOR_REMOVAL – tracked in src/ROADMAP.md")]]
-    /**
-     * @brief TBD: Describe unregisterHook.
-     * @param[in] hook_id Input parameter.
-     * @return True on success.
-     */
     virtual bool unregisterHook(const std::string& hook_id) = 0;
 
     /**
@@ -182,11 +160,6 @@ public:
      * @deprecated No external callers confirmed. CANDIDATE_FOR_REMOVAL (see src/ROADMAP.md).
      */
     [[nodiscard, deprecated("No external callers; CANDIDATE_FOR_REMOVAL – tracked in src/ROADMAP.md")]]
-    /**
-     * @brief TBD: Describe getHooks.
-     * @param[in] phase Input parameter.
-     * @return Return value.
-     */
     virtual std::vector<std::shared_ptr<IAPIGatewayHook>> getHooks(
         GatewayHookPhase phase
     ) const = 0;

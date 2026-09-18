@@ -40,7 +40,6 @@ public:
      * @brief Validate latitude value
      * @param lat Latitude in degrees
      * @return true if valid, false otherwise
-     * @details Calls: std::isfinite().
      */
     static bool isValidLatitude(double lat) {
         if (!std::isfinite(lat)) {
@@ -53,7 +52,6 @@ public:
      * @brief Validate longitude value
      * @param lon Longitude in degrees
      * @return true if valid, false otherwise
-     * @details Calls: std::isfinite().
      */
     static bool isValidLongitude(double lon) {
         if (!std::isfinite(lon)) {
@@ -67,7 +65,6 @@ public:
      * @param lon Longitude in degrees
      * @param lat Latitude in degrees
      * @return true if both coordinates are valid
-     * @details Calls: isValidLongitude(), isValidLatitude().
      */
     static bool isValidCoordinate(double lon, double lat) {
         return isValidLongitude(lon) && isValidLatitude(lat);
@@ -77,7 +74,6 @@ public:
      * @brief Validate geometry size
      * @param size_bytes Size of geometry in bytes
      * @throws std::invalid_argument if size exceeds limit
-     * @details Calls: std::to_string().
      */
     static void validateGeometrySize(size_t size_bytes) {
         if (size_bytes > MAX_GEOMETRY_SIZE_BYTES) {
@@ -93,7 +89,6 @@ public:
      * @brief Validate coordinate count
      * @param count Number of coordinates
      * @throws std::invalid_argument if count exceeds limit
-     * @details Calls: std::to_string().
      */
     static void validateCoordinateCount(size_t count) {
         if (count > MAX_COORDINATES) {
@@ -109,7 +104,6 @@ public:
      * @brief Sanitize latitude to valid range (clamp)
      * @param lat Latitude to sanitize
      * @return Clamped latitude value
-     * @details Calls: std::isfinite().
      */
     static double sanitizeLatitude(double lat) {
         if (!std::isfinite(lat)) {
@@ -128,7 +122,6 @@ public:
      * @brief Sanitize longitude to valid range (clamp)
      * @param lon Longitude to sanitize
      * @return Clamped longitude value
-     * @details Calls: std::isfinite().
      */
     static double sanitizeLongitude(double lon) {
         if (!std::isfinite(lon)) {
@@ -147,7 +140,6 @@ public:
      * @brief Check if a number is NaN or infinite
      * @param value Value to check
      * @return true if value is finite
-     * @details Calls: std::isfinite().
      */
     static bool isFinite(double value) {
         return std::isfinite(value);
@@ -158,7 +150,6 @@ public:
      * @param lon Longitude
      * @param lat Latitude
      * @throws std::invalid_argument if coordinates are invalid
-     * @details Calls: isFinite(), isValidLongitude(), std::to_string(), isValidLatitude().
      */
     static void validateCoordinateOrThrow(double lon, double lat) {
         if (!isFinite(lon)) {

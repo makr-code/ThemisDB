@@ -99,15 +99,7 @@ enum class CypherExprType {
 };
 
 struct CypherExpr {
-    /**
-     * @brief TBD: Describe ~CypherExpr.
-     * @return Return value.
-     */
     virtual ~CypherExpr() = default;
-    /**
-     * @brief TBD: Describe exprType.
-     * @return Return value.
-     */
     virtual CypherExprType exprType() const = 0;
 };
 
@@ -225,7 +217,6 @@ public:
      * Example:
      *   CypherParser p;
      *   auto ast = p.parse("MATCH (n:User) WHERE n.age > 18 RETURN n.name");
-     * @brief TBD: Describe parse.
      */
     Result<CypherASTNode> parse(const std::string& cypher_query);
 
@@ -258,30 +249,12 @@ public:
      *
      * @param ast  The parsed Cypher AST.
      * @return     Result<std::string> – the AQL string on success.
-     * @brief TBD: Describe transpile.
      */
     Result<std::string> transpile(const CypherASTNode& ast);
 
 private:
-    /**
-     * @brief TBD: Describe literalToAQL.
-     * @param[in] val Input parameter.
-     * @return Return value.
-     */
     static std::string literalToAQL(const CypherLiteralValue& val);
-    /**
-     * @brief TBD: Describe exprToAQL.
-     * @param[in] expr Input parameter.
-     * @param[in] default_var Input parameter.
-     * @return Return value.
-     */
     static std::string exprToAQL(const CypherExpr& expr, const std::string& default_var);
-    /**
-     * @brief TBD: Describe nodePatternToFilter.
-     * @param[in] node Input parameter.
-     * @param[in] var Input parameter.
-     * @return Return value.
-     */
     static std::string nodePatternToFilter(const CypherNodePattern& node,
                                            const std::string& var);
 };

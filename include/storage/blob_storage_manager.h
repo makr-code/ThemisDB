@@ -68,11 +68,6 @@ private:
     }
     
 public:
-    /**
-     * @brief TBD: Describe BlobStorageManager.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit BlobStorageManager(const BlobStorageConfig& config)
         : config_(config) {}
     
@@ -80,14 +75,8 @@ public:
      * @brief Register a blob storage backend
      * @param type Backend type
      * @param backend Backend implementation
-     * @details Calls: lock().
      */
     void registerBackend(BlobStorageType type, std::shared_ptr<IBlobStorageBackend> backend) {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         backends_[type] = backend;
     }
@@ -98,18 +87,12 @@ public:
      * @param data Blob data
      * @return BlobRef Reference to stored blob
      * @throws std::runtime_error if no suitable backend available
-     * @details Calls: selectBackendType(), size(), lock(), find(), end(), isAvailable(), has_value(), error().
      */
     BlobRef put(const std::string& blob_id, const std::vector<uint8_t>& data) {
         BlobStorageType target_type = selectBackendType(data.size());
         
         std::shared_ptr<IBlobStorageBackend> backend;
         {
-            /**
-             * @brief TBD: Describe lock.
-             * @param[in] mutex_ Input parameter.
-             * @return Return value.
-             */
             std::lock_guard<std::mutex> lock(mutex_);
             auto it = backends_.find(target_type);
             if (it != backends_.end() && it->second && it->second->isAvailable()) {
@@ -139,17 +122,10 @@ public:
      * @brief Retrieve a blob
      * @param ref Blob reference
      * @return Blob data or nullopt if not found
-     * @throws std::runtime_error if an error occurs.
-     * @details Calls: lock(), find(), end(), std::to_string(), has_value(), value().
      */
     std::optional<std::vector<uint8_t>> get(const BlobRef& ref) {
         std::shared_ptr<IBlobStorageBackend> backend;
         {
-            /**
-             * @brief TBD: Describe lock.
-             * @param[in] mutex_ Input parameter.
-             * @return Return value.
-             */
             std::lock_guard<std::mutex> lock(mutex_);
             auto it = backends_.find(ref.type);
             if (it != backends_.end()) {
@@ -174,16 +150,10 @@ public:
      * @brief Delete a blob
      * @param ref Blob reference
      * @return true if deleted
-     * @details Calls: lock(), find(), end(), has_value().
      */
     bool remove(const BlobRef& ref) {
         std::shared_ptr<IBlobStorageBackend> backend;
         {
-            /**
-             * @brief TBD: Describe lock.
-             * @param[in] mutex_ Input parameter.
-             * @return Return value.
-             */
             std::lock_guard<std::mutex> lock(mutex_);
             auto it = backends_.find(ref.type);
             if (it != backends_.end()) {
@@ -206,16 +176,10 @@ public:
      * @brief Check if blob exists
      * @param ref Blob reference
      * @return true if exists
-     * @details Calls: lock(), find(), end().
      */
     bool exists(const BlobRef& ref) {
         std::shared_ptr<IBlobStorageBackend> backend;
         {
-            /**
-             * @brief TBD: Describe lock.
-             * @param[in] mutex_ Input parameter.
-             * @return Return value.
-             */
             std::lock_guard<std::mutex> lock(mutex_);
             auto it = backends_.find(ref.type);
             if (it != backends_.end()) {
@@ -241,11 +205,6 @@ public:
      * @brief Get registered backend types
      */
     std::vector<BlobStorageType> getRegisteredBackends() const {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         std::vector<BlobStorageType> types = {};
 

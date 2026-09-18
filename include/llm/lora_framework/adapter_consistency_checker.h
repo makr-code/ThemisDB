@@ -25,10 +25,6 @@ namespace lora {
  * @brief Result of consistency check
  */
 struct ConsistencyCheckResult {
-    /**
-     * @brief TBD: Describe ~ConsistencyCheckResult.
-     * @return Return value.
-     */
     virtual ~ConsistencyCheckResult() = default;
     bool is_valid = false;
     std::string checksum;          // SHA-256 hex
@@ -62,16 +58,7 @@ public:
         std::string signature_algorithm = "ed25519";
     };
     
-    /**
-     * @brief TBD: Describe AdapterConsistencyChecker.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit AdapterConsistencyChecker(const Config& config);
-    /**
-     * @brief TBD: Describe AdapterConsistencyChecker.
-     * @return Return value.
-     */
     explicit AdapterConsistencyChecker();
     ~AdapterConsistencyChecker();
     

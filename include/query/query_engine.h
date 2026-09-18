@@ -332,18 +332,7 @@ public:
     struct [[deprecated("Use Result<T> pattern instead")]] Status {
         bool ok = true;
         std::string message;
-        /**
-         * @brief TBD: Describe OK.
-         * @return Return value.
-         * @details Implements OK without additional internal calls.
-         */
         static Status OK() { return {}; }
-        /**
-         * @brief TBD: Describe Error.
-         * @param[in] msg Input parameter.
-         * @return Return value.
-         * @details Calls: std::move().
-         */
         static Status Error(std::string msg) { return Status{false, std::move(msg)}; }
     };
 
@@ -413,11 +402,6 @@ public:
      * Pass nullptr to disable statistics-based optimisation.
      */
     void setStatisticsCollector(StatisticsCollector* sc) noexcept {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] config_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(config_mutex_);
         stats_collector_ = sc;
     }
@@ -444,11 +428,6 @@ public:
                            const std::string& caller_id)> checker,
         std::string caller_id = "") noexcept
     {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] config_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(config_mutex_);
         collection_access_checker_ = std::move(checker);
         collection_access_caller_id_ = std::move(caller_id);
@@ -467,11 +446,6 @@ public:
      * @param al Pointer to AuditLogger instance, or nullptr to disable.
      */
     void setAuditLogger(::themis::utils::AuditLogger* al) noexcept {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] config_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(config_mutex_);
         audit_logger_ = al;
     }
@@ -492,11 +466,6 @@ public:
         std::chrono::milliseconds query_timeout = std::chrono::seconds(30),
         std::chrono::milliseconds lock_timeout  = std::chrono::seconds(1)) noexcept
     {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] config_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(config_mutex_);
         query_timeout_ms_ = query_timeout;
         lock_timeout_ms_  = lock_timeout;
@@ -516,22 +485,13 @@ public:
     // Forward declaration for EvaluationContext
     struct EvaluationContext;
     
-    /**
-     * @brief Expression evaluation (public for testing)
-     * @param[in] expr Input parameter.
-     * @param[in] ctx Input parameter.
-     * @return True on success.
-     */
+    // Expression evaluation (public for testing)
     bool evaluateCondition(
         const std::shared_ptr<query::Expression>& expr,
         const EvaluationContext& ctx
     ) const;
     
-    /**
-     * @brief Rekursive Pfadabfrage (Multi-Hop Traversal)
-     * @param[in] q Input parameter.
-     * @return Return value.
-     */
+    // Rekursive Pfadabfrage (Multi-Hop Traversal)
     Result<std::vector<std::vector<std::string>>> executeRecursivePathQuery(const RecursivePathQuery& q) const;
 
     // General graph traversal (non-shortest path)
@@ -615,11 +575,6 @@ public:
         std::vector<std::string> keys;
         std::shared_ptr<std::unordered_map<std::string, double>> bm25_scores; // pk -> score
     };
-    /**
-     * @brief TBD: Describe executeAndKeysWithScores.
-     * @param[in] q Input parameter.
-     * @return Return value.
-     */
     Result<KeysWithScores> executeAndKeysWithScores(const ConjunctiveQuery& q) const;
 
     /**
@@ -630,11 +585,7 @@ public:
      * FIND-016: Added Doxygen documentation for public API
      * Executes each disjunct (AND block) separately and unions the results.
      */
-    /**
-     * @brief OR-Queries: Union von mehreren AND-Blöcken
-     * @param[in] q Input parameter.
-     * @return Return value.
-     */
+    // OR-Queries: Union von mehreren AND-Blöcken
     Result<std::vector<std::string>> executeOrKeys(const DisjunctiveQuery& q) const;
     
     /**
@@ -683,13 +634,7 @@ public:
      * Used by the query optimizer to execute predicates in optimal order
      * (e.g., most selective predicates first).
      */
-    /**
-     * @brief Sequenzielles Ausführen in vorgegebener Reihenfolge (z.
-     * @param[in] table Input parameter.
-     * @param[in] orderedPredicates Input parameter.
-     * @return Return value.
-     * @details B. vom Optimizer)
-     */
+    // Sequenzielles Ausführen in vorgegebener Reihenfolge (z. B. vom Optimizer)
     Result<std::vector<std::string>> executeAndKeysSequential(
         const std::string& table,
         const std::vector<PredicateEq>& orderedPredicates
@@ -749,14 +694,6 @@ public:
         const EvaluationContext* parent_context = nullptr  // Phase 4.1: For CTE results
     ) const;
     
-    /**
-     * @brief TBD: Describe executeGroupBy.
-     * @param[in] for_node Input parameter.
-     * @param[in] collect Input parameter.
-     * @param[in] filters Input parameter.
-     * @param[in] return_node Input parameter.
-     * @return Return value.
-     */
     Result<std::vector<nlohmann::json>> executeGroupBy(
         const query::ForNode& for_node,
         const std::shared_ptr<query::CollectNode>& collect,
@@ -797,11 +734,6 @@ public:
         float vector_distance = 0.0f;
         nlohmann::json entity;
     };
-    /**
-     * @brief TBD: Describe executeVectorGeoQuery.
-     * @param[in] q Input parameter.
-     * @return Return value.
-     */
     Result<std::vector<VectorGeoResult>> executeVectorGeoQuery(
         const VectorGeoQuery& q
     ) const;
@@ -814,11 +746,6 @@ public:
         std::optional<double> geo_distance; // if boost_by_distance enabled
         nlohmann::json entity;
     };
-    /**
-     * @brief TBD: Describe executeContentGeoQuery.
-     * @param[in] q Input parameter.
-     * @return Return value.
-     */
     Result<std::vector<ContentGeoResult>> executeContentGeoQuery(
         const ContentGeoQuery& q
     ) const;
@@ -830,11 +757,6 @@ public:
         float vector_distance = 0.0f;
         nlohmann::json entity;
     };
-    /**
-     * @brief TBD: Describe executeFilteredVectorSearch.
-     * @param[in] q Input parameter.
-     * @return Return value.
-     */
     Result<std::vector<FilteredVectorSearchResult>> executeFilteredVectorSearch(
         const FilteredVectorSearchQuery& q
     ) const;
@@ -846,11 +768,6 @@ public:
         float vector_distance = 0.0f;
         nlohmann::json entity;
     };
-    /**
-     * @brief TBD: Describe executeRadiusVectorSearch.
-     * @param[in] q Input parameter.
-     * @return Return value.
-     */
     Result<std::vector<RadiusVectorSearchResult>> executeRadiusVectorSearch(
         const RadiusVectorSearchQuery& q
     ) const;
@@ -862,11 +779,6 @@ public:
         double bm25_score = 0.0;
         nlohmann::json entity;
     };
-    /**
-     * @brief TBD: Describe executeContentSearch.
-     * @param[in] q Input parameter.
-     * @return Return value.
-     */
     Result<std::vector<ContentSearchResult>> executeContentSearch(
         const ContentSearchQuery& q
     ) const;
@@ -875,12 +787,19 @@ public:
     // Query Plan Visualisation
     // ------------------------------------------------------------------
 
-    /**
-     * @brief Build an execution plan tree for the given conjunctive query.
-     * @param[in] q Input parameter.
-     * @return Return value.
-     * @details Uses the internal SecondaryIndexManager to estimate predicate selectivity and order predicates optimally, then constructs a QueryPlanNode tree via QueryPlanVisualizer::buildPlan(). The returned QueryPlanNode can be rendered as text, JSON, or DOT using QueryPlanVisualizer::toText() / toJSON() / toDOT(). If the engine has no attached SecondaryIndexManager, all estimates default to zero and the optimizer still produces a structurally valid plan tree. @param q The logical AND query whose plan is requested. @returns Root node of the execution plan tree.
-     */
+    /// Build an execution plan tree for the given conjunctive query.
+    /// Uses the internal SecondaryIndexManager to estimate predicate selectivity
+    /// and order predicates optimally, then constructs a QueryPlanNode tree via
+    /// QueryPlanVisualizer::buildPlan().
+    ///
+    /// The returned QueryPlanNode can be rendered as text, JSON, or DOT using
+    /// QueryPlanVisualizer::toText() / toJSON() / toDOT().
+    ///
+    /// If the engine has no attached SecondaryIndexManager, all estimates default
+    /// to zero and the optimizer still produces a structurally valid plan tree.
+    ///
+    /// @param q  The logical AND query whose plan is requested.
+    /// @returns  Root node of the execution plan tree.
     query::QueryPlanNode buildExplainPlan(const ConjunctiveQuery& q) const;
 
     /**
@@ -920,11 +839,6 @@ private:
     mutable std::mutex config_mutex_;
 
     [[nodiscard]] AuditConfigSnapshot snapshotAuditConfig() const noexcept {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] config_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(config_mutex_);
         return AuditConfigSnapshot{audit_logger_, query_timeout_ms_};
     }
@@ -948,11 +862,6 @@ private:
     class QueryExpressionEvaluator : public IExpressionEvaluator {
     public:
     ~QueryExpressionEvaluator() override = default;
-        /**
-         * @brief TBD: Describe QueryExpressionEvaluator.
-         * @param[in,out] engine Input/output parameter.
-         * @return Return value.
-         */
         explicit QueryExpressionEvaluator(QueryEngine* engine) 
             : engine_(engine) {}
         
@@ -960,66 +869,28 @@ private:
         bool evaluate(const std::string& expression, const void* context) const override;
         std::string get_expression_type() const override;
 
-        /**
-         * @brief Helpers for richer evaluation paths (non-override)
-         * @param[in] expression Input parameter.
-         * @param[in] context Input parameter.
-         * @return True on success.
-         */
+        // Helpers for richer evaluation paths (non-override)
         bool evaluateBoolean(std::string_view expression, const void* context) const;
-        /**
-         * @brief TBD: Describe canEvaluate.
-         * @param[in] expression Input parameter.
-         * @return True on success.
-         */
         bool canEvaluate(std::string_view expression) const;
         
     private:
         QueryEngine* engine_;
     };
     
-    /**
-     * @brief Expression evaluation helpers (implemented in cpp)
-     * @param[in] expr Input parameter.
-     * @param[in] ctx Input parameter.
-     * @return Return value.
-     */
+    // Expression evaluation helpers (implemented in cpp)
     Result<nlohmann::json> evaluateExpression(
         const std::shared_ptr<query::Expression>& expr,
         const EvaluationContext& ctx
     ) const;
 
-    /**
-     * @brief TBD: Describe intersectSortedLists_.
-     * @param[in] lists Input parameter.
-     * @return Return value.
-     */
     static std::vector<std::string> intersectSortedLists_(std::vector<std::vector<std::string>> lists);
-    /**
-     * @brief TBD: Describe unionSortedLists_.
-     * @param[in] lists Input parameter.
-     * @return Return value.
-     */
     static std::vector<std::string> unionSortedLists_(std::vector<std::vector<std::string>> lists);
 
-    /**
-     * @brief Full-Scan Fallback: Durchsucht alle Reihen einer Tabelle und filtert per Prädikaten
-     * @param[in] q Input parameter.
-     * @return Return value.
-     */
+    // Full-Scan Fallback: Durchsucht alle Reihen einer Tabelle und filtert per Prädikaten
     std::vector<std::string> fullScanAndFilter_(const ConjunctiveQuery& q) const;
 
-    /**
-     * @brief Range-Unterstützung
-     * @param[in] q Input parameter.
-     * @return Return value.
-     */
+    // Range-Unterstützung
     Result<std::vector<std::string>> executeAndKeysRangeAware_(const ConjunctiveQuery& q) const;
-    /**
-     * @brief TBD: Describe executeAndEntitiesRangeAware_.
-     * @param[in] q Input parameter.
-     * @return Return value.
-     */
     Result<std::vector<BaseEntity>> executeAndEntitiesRangeAware_(const ConjunctiveQuery& q) const;
 };
 
@@ -1038,12 +909,6 @@ struct QueryEngine::EvaluationContext {
     // Phase 3.4: Parent context for correlated subqueries
     const EvaluationContext* parent = nullptr;
     
-    /**
-     * @brief TBD: Describe bind.
-     * @param[in] var Input parameter.
-     * @param[in] value Input parameter.
-     * @details Calls: std::move().
-     */
     void bind(const std::string& var, nlohmann::json value) {
         bindings[var] = std::move(value);
     }
@@ -1077,18 +942,8 @@ struct QueryEngine::EvaluationContext {
         return it->second;
     }
     
-    /**
-     * @brief Phase 4.
-     * @param[in] name Input parameter.
-     * @param[in] results Input parameter.
-     * @details 3: CTE access with cache fallback (out-of-line to avoid incomplete CTECache)
-     */
+    // Phase 4.3: CTE access with cache fallback (out-of-line to avoid incomplete CTECache)
     void storeCTE(const std::string& name, std::vector<nlohmann::json> results);
-    /**
-     * @brief TBD: Describe getCTE.
-     * @param[in] name Input parameter.
-     * @return Return value.
-     */
     std::optional<std::vector<nlohmann::json>> getCTE(const std::string& name) const;
     
     // Phase 3.4: Create child context with parent chain

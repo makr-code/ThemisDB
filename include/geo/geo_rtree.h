@@ -71,8 +71,6 @@ public:
      *
      * Incremental insertion is O(log n) with the R*-tree variant.
      * Prefer `bulkLoad()` when inserting many geometries at once.
-     * @param[in] key Input parameter.
-     * @param[in] geom Input parameter.
      */
     void insert(const std::string& key, const GeometryInfo& geom);
 
@@ -113,7 +111,6 @@ public:
 
     /**
      * @brief Return the number of entries currently in the index.
-     * @return Return value.
      */
     std::size_t size() const;
 
@@ -123,7 +120,6 @@ public:
      *
      * The value is also logged as a structured entry with field
      * `geo_index_bytes_allocated` for operator observability.
-     * @return Return value.
      */
     std::size_t memoryBytes() const;
 

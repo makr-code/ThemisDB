@@ -46,18 +46,7 @@ public:
     struct Status {
         bool ok = true;
         std::string message;
-        /**
-         * @brief TBD: Describe OK.
-         * @return Return value.
-         * @details Implements OK without additional internal calls.
-         */
         static Status OK() { return {}; }
-        /**
-         * @brief TBD: Describe Error.
-         * @param[in] msg Input parameter.
-         * @return Return value.
-         * @details Calls: std::move().
-         */
         static Status Error(std::string msg) { return {false, std::move(msg)}; }
     };
 
@@ -76,11 +65,9 @@ public:
         double score = 0.0;
     };
 
-    /**
-     * @brief ----------------------------------------------------------------------- Construction -----------------------------------------------------------------------
-     * @param[in,out] db Input/output parameter.
-     * @return Return value.
-     */
+    // -----------------------------------------------------------------------
+    // Construction
+    // -----------------------------------------------------------------------
 
     explicit InvertedIndex(RocksDBWrapper& db);
 
@@ -91,8 +78,6 @@ public:
     /**
      * @brief Create (or overwrite) the index metadata for table/column.
      * @return Status indicating success or failure.
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
      */
     Status create(std::string_view table, std::string_view column);
 
@@ -112,24 +97,18 @@ public:
      * Posting data is NOT purged here. Call deindex() for each document
      * before dropping to avoid orphaned keys.
      * @return Status indicating success or failure.
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
      */
     Status drop(std::string_view table, std::string_view column);
 
     /**
      * @brief Check if the index metadata key exists.
      * @return True if the index exists, false otherwise.
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
      */
     bool exists(std::string_view table, std::string_view column) const;
 
     /**
      * @brief Retrieve the stored configuration for the index.
      * @return Configuration if the index exists, nullopt if the index does not exist.
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
      */
     std::optional<Config> getConfig(std::string_view table,
                                     std::string_view column) const;
@@ -146,10 +125,6 @@ public:
      * the same pk are removed first (upsert semantics).
      *
      * @return Error if the index does not exist.
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @param[in] pk Input parameter.
-     * @param[in] text Input parameter.
      */
     Status index(std::string_view table, std::string_view column,
                  std::string_view pk, std::string_view text);
@@ -163,10 +138,6 @@ public:
      * Callers may pass an empty string.
      *
      * @return Error if the index does not exist.
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @param[in] pk Input parameter.
-     * @param[in] text Input parameter.
      */
     Status deindex(std::string_view table, std::string_view column,
                    std::string_view pk, std::string_view text);
@@ -238,68 +209,29 @@ public:
     static std::vector<std::string> tokenize(std::string_view text,
                                              const Config& config);
 
-    /**
-     * @brief ----------------------------------------------------------------------- Key-schema helpers (static; same prefixes as SecondaryIndexManager) -----------------------------------------------------------------------
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @return Return value.
-     */
+    // -----------------------------------------------------------------------
+    // Key-schema helpers (static; same prefixes as SecondaryIndexManager)
+    // -----------------------------------------------------------------------
 
     static std::string makeMetaKey(std::string_view table,
                                    std::string_view column);
-    /**
-     * @brief TBD: Describe makeIndexKey.
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @param[in] token Input parameter.
-     * @param[in] pk Input parameter.
-     * @return Return value.
-     */
     static std::string makeIndexKey(std::string_view table,
                                     std::string_view column,
                                     std::string_view token,
                                     std::string_view pk);
-    /**
-     * @brief TBD: Describe makeIndexPrefix.
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @param[in] token Input parameter.
-     * @return Return value.
-     */
     static std::string makeIndexPrefix(std::string_view table,
                                        std::string_view column,
                                        std::string_view token);
-    /**
-     * @brief TBD: Describe makeTFKey.
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @param[in] token Input parameter.
-     * @param[in] pk Input parameter.
-     * @return Return value.
-     */
     static std::string makeTFKey(std::string_view table,
                                  std::string_view column,
                                  std::string_view token,
                                  std::string_view pk);
-    /**
-     * @brief TBD: Describe makeDocLenKey.
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @param[in] pk Input parameter.
-     * @return Return value.
-     */
     static std::string makeDocLenKey(std::string_view table,
                                      std::string_view column,
                                      std::string_view pk);
 
-    /**
-     * @brief Reverse-index key: stores the set of tokens currently indexed for a pk.
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @param[in] pk Input parameter.
-     * @return Return value.
-     * @details Key: ftrev:<table>:<column>:<pk> → JSON array of token strings.
-     */
+    /// Reverse-index key: stores the set of tokens currently indexed for a pk.
+    /// Key: ftrev:<table>:<column>:<pk>  →  JSON array of token strings.
     static std::string makeRevKey(std::string_view table,
                                   std::string_view column,
                                   std::string_view pk);
@@ -312,12 +244,7 @@ private:
         std::string_view table, std::string_view column,
         std::string_view query, size_t limit) const;
 
-    /**
-     * @brief Remove all posting data for a given pk using the stored reverse-index key.
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @param[in] pk Input parameter.
-     */
+    // Remove all posting data for a given pk using the stored reverse-index key.
     void removePostings_(std::string_view table, std::string_view column,
                          std::string_view pk);
 };

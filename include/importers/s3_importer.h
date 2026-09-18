@@ -142,7 +142,6 @@ public:
      * @param bucket  Output: bucket name.
      * @param key     Output: object key (may be a prefix ending with '/').
      * @return true if @p url is a well-formed S3 URL; false otherwise.
-     * @details Calls: size(), substr(), find(), clear(), empty().
      */
     static bool parseS3Url(const std::string& url,
                             std::string& bucket,

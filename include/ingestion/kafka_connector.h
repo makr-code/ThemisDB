@@ -123,7 +123,6 @@ public:
 
     /**
      * @brief Configure retry behaviour for this connector.
-     * @param[in] config Input parameter.
      */
     void setRetryConfig(const RetryConfig& config);
 
@@ -162,13 +161,8 @@ public:
      * When set, every Kafka poll that would normally be performed via
      * librdkafka is replaced by a call to @p fn.  Pass an empty
      * `KafkaMessageFn{}` to restore the real librdkafka consumer.
-     * @param[in] fn Input parameter.
      */
     void setMessageBatchProvider(KafkaMessageFn fn);
-    /**
-     * @brief TBD: Describe setMessageFetchForTesting.
-     * @param[in] fn Input parameter.
-     */
     void setMessageFetchForTesting(KafkaMessageFn fn);
 
 private:

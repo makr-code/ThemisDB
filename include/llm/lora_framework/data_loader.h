@@ -47,10 +47,6 @@ struct InstructionDataSample {
  * @brief Batch of training samples
  */
 struct TrainingBatch {
-    /**
-     * @brief TBD: Describe ~TrainingBatch.
-     * @return Return value.
-     */
     virtual ~TrainingBatch() = default;
     std::vector<std::vector<int>> input_ids;      // [batch_size, seq_len]
     std::vector<std::vector<int>> label_ids;      // [batch_size, seq_len]
@@ -78,10 +74,6 @@ enum class DatasetFormat {
  */
 class ITokenizer {
 public:
-    /**
-     * @brief TBD: Describe ~ITokenizer.
-     * @return Return value.
-     */
     virtual ~ITokenizer() = default;
     
     /**
@@ -148,17 +140,8 @@ public:
     
 private:
     int vocab_size_ = 0;
-    /**
-     * @brief Simple character-level tokenization for testing
-     * @param[in] text Input parameter.
-     * @return Return value.
-     */
+    // Simple character-level tokenization for testing
     std::vector<int> char_to_token(const std::string& text);
-    /**
-     * @brief TBD: Describe token_to_char.
-     * @param[in] tokens Input parameter.
-     * @return Return value.
-     */
     std::string token_to_char(const std::vector<int>& tokens);
 };
 
@@ -166,10 +149,6 @@ private:
  * @brief Data loader configuration
  */
 struct DataLoaderConfig {
-    /**
-     * @brief TBD: Describe ~DataLoaderConfig.
-     * @return Return value.
-     */
     virtual ~DataLoaderConfig() = default;
     DatasetFormat format = DatasetFormat::JSONL;
     int max_sequence_length = 2048;
@@ -294,52 +273,15 @@ private:
     // Custom formatter (optional)
     std::function<std::string(const InstructionDataSample&)> custom_formatter_;
     
-    /**
-     * @brief Helper methods
-     * @param[in] filepath Input parameter.
-     * @return True on success.
-     */
+    // Helper methods
     bool parseJSONL(const std::string& filepath);
-    /**
-     * @brief TBD: Describe parseAlpaca.
-     * @param[in] filepath Input parameter.
-     * @return True on success.
-     */
     bool parseAlpaca(const std::string& filepath);
-    /**
-     * @brief TBD: Describe parseShareGPT.
-     * @param[in] filepath Input parameter.
-     * @return True on success.
-     */
     bool parseShareGPT(const std::string& filepath);
-    /**
-     * @brief TBD: Describe parsePlainText.
-     * @param[in] filepath Input parameter.
-     * @return True on success.
-     */
     bool parsePlainText(const std::string& filepath);
     
-    /**
-     * @brief TBD: Describe formatSample.
-     * @param[in] sample Input parameter.
-     * @return Return value.
-     */
     std::string formatSample(const InstructionDataSample& sample) const;
-    /**
-     * @brief TBD: Describe tokenizeSample.
-     * @param[in,out] sample Input/output parameter.
-     */
     void tokenizeSample(InstructionDataSample& sample);
-    /**
-     * @brief TBD: Describe createBatch.
-     * @param[in] batch_indices Input parameter.
-     * @return Return value.
-     */
     TrainingBatch createBatch(const std::vector<size_t>& batch_indices);
-    /**
-     * @brief TBD: Describe padBatch.
-     * @param[in,out] batch Input/output parameter.
-     */
     void padBatch(TrainingBatch& batch);
 };
 

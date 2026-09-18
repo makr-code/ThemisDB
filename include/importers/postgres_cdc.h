@@ -68,11 +68,6 @@ public:
     /** @brief Logical Decoder. */
     class LogicalDecoder {
     public:
-        /**
-         * @brief TBD: Describe LogicalDecoder.
-         * @param[in] connection_string Input parameter.
-         * @return Return value.
-         */
         explicit LogicalDecoder(const std::string& connection_string);
         ~LogicalDecoder();
 
@@ -114,7 +109,6 @@ public:
         /**
          * @brief Acknowledge all changes up to (and including) lsn.
          * Advances the replication slot's confirmed_flush_lsn.
-         * @param[in] lsn Input parameter.
          */
         void confirmLSN(uint64_t lsn);
 

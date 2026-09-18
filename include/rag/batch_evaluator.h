@@ -145,7 +145,6 @@ public:
     /**
      * @brief Construct batch evaluator
      * @param judge Judge instance to use
-     * @return Return value.
      */
     explicit BatchEvaluator(std::shared_ptr<RAGJudge> judge);
     /**
@@ -270,24 +269,13 @@ private:
     std::atomic<size_t> total_processed_;
     std::atomic<size_t> total_failed_;
     
-    /**
-     * @brief Worker thread function
-     */
+    // Worker thread function
     void workerThread();
     
-    /**
-     * @brief Helper to process single evaluation
-     * @param[in] input Input parameter.
-     * @return Return value.
-     */
+    // Helper to process single evaluation
     EvaluationResult processEvaluation(const EvaluationInput& input);
     
-    /**
-     * @brief Calculate batch statistics
-     * @param[in] results Input parameter.
-     * @param[in] total_time Input parameter.
-     * @return Return value.
-     */
+    // Calculate batch statistics
     BatchEvaluationResult aggregateResults(
         const std::vector<EvaluationResult>& results,
         std::chrono::milliseconds total_time

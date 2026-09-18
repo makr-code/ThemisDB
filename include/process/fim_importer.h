@@ -83,7 +83,6 @@ public:
      * instead of returning the "not yet implemented" error result.
      *
      * @param fn  Callable that performs the HTTP GET and returns the response body.
-     * @details Calls: std::move().
      */
     void setHttpFetchFn(HttpFetchFn fn) { http_fetch_fn_ = std::move(fn); }
 
@@ -161,12 +160,7 @@ public:
 private:
     HttpFetchFn http_fetch_fn_;  ///< Optional HTTP GET backend; null = stub path.
 
-    /**
-     * @brief Internal helper — wraps a BpmnSerializer::ImportResult into a ProcessModelRecord.
-     * @param[in] ir Input parameter.
-     * @param[in] domain Input parameter.
-     * @return Return value.
-     */
+    // Internal helper — wraps a BpmnSerializer::ImportResult into a ProcessModelRecord.
     static ProcessModelRecord buildRecord_(
         const BpmnSerializer::ImportResult& ir,
         ProcessDomain domain);

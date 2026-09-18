@@ -54,13 +54,7 @@ namespace functions {
 
 namespace vector_helpers {
 
-/**
- * @brief Validate that a JSON value is a numeric vector
- * @param[in] vec Input parameter.
- * @param[in] funcName Input parameter.
- * @throws std::runtime_error if an error occurs.
- * @details Calls: is_array(), is_number().
- */
+// Validate that a JSON value is a numeric vector
 inline void validateVector(const nlohmann::json& vec, const std::string& funcName) {
     if (!vec.is_array()) {
         throw std::runtime_error(funcName + ": Expected vector (array of numbers)");
@@ -72,14 +66,7 @@ inline void validateVector(const nlohmann::json& vec, const std::string& funcNam
     }
 }
 
-/**
- * @brief Validate two vectors have same dimension
- * @param[in] v1 Input parameter.
- * @param[in] v2 Input parameter.
- * @param[in] funcName Input parameter.
- * @throws std::runtime_error if an error occurs.
- * @details Calls: size().
- */
+// Validate two vectors have same dimension
 inline void validateSameDimension(const nlohmann::json& v1, const nlohmann::json& v2, 
                                    const std::string& funcName) {
     if (v1.size() != v2.size()) {
@@ -87,12 +74,7 @@ inline void validateSameDimension(const nlohmann::json& v1, const nlohmann::json
     }
 }
 
-/**
- * @brief Convert JSON array to std::vector<double>
- * @param[in] vec Input parameter.
- * @return Return value.
- * @details Calls: reserve(), size(), push_back().
- */
+// Convert JSON array to std::vector<double>
 inline std::vector<double> toVector(const nlohmann::json& vec) {
     std::vector<double> result = {};
 
@@ -103,12 +85,7 @@ inline std::vector<double> toVector(const nlohmann::json& vec) {
     return result;
 }
 
-/**
- * @brief Convert std::vector<double> to JSON array
- * @param[in] vec Input parameter.
- * @return Return value.
- * @details Calls: nlohmann::json::array(), push_back().
- */
+// Convert std::vector<double> to JSON array
 inline nlohmann::json fromVector(const std::vector<double>& vec) {
     nlohmann::json result = nlohmann::json::array();
     for (double v : vec) {
@@ -117,12 +94,7 @@ inline nlohmann::json fromVector(const std::vector<double>& vec) {
     return result;
 }
 
-/**
- * @brief L2 norm (Euclidean length)
- * @param[in] vec Input parameter.
- * @return Return value.
- * @details Calls: std::sqrt().
- */
+// L2 norm (Euclidean length)
 inline double l2Norm(const std::vector<double>& vec) {
     double sum = 0.0;
     for (double v : vec) {
@@ -131,13 +103,7 @@ inline double l2Norm(const std::vector<double>& vec) {
     return std::sqrt(sum);
 }
 
-/**
- * @brief Dot product
- * @param[in] v1 Input parameter.
- * @param[in] v2 Input parameter.
- * @return Return value.
- * @details Calls: size().
- */
+// Dot product
 inline double dotProduct(const std::vector<double>& v1, const std::vector<double>& v2) {
     double sum = 0.0;
     for (size_t i = 0; i < v1.size(); ++i) {
@@ -968,19 +934,8 @@ public:
         
         std::random_device rd = {};
         std::mt19937 gen(rd());
-        /**
-         * @brief TBD: Describe dis.
-         * @param[in] minVal Input parameter.
-         * @param[in] maxVal Input parameter.
-         * @return Return value.
-         */
         std::uniform_real_distribution<> dis(minVal, maxVal);
         
-        /**
-         * @brief TBD: Describe vec.
-         * @param[in] n Input parameter.
-         * @return Return value.
-         */
         std::vector<double> vec(n);
         for (int i = 0; i < n; ++i) {
             vec[i] = dis(gen);
@@ -1095,8 +1050,6 @@ public:
 
 /**
  * @brief Register all Vector functions with the registry
- * @param[in,out] registry Input/output parameter.
- * @details Calls: registerFunction().
  */
 inline void registerVectorFunctions(FunctionRegistry& registry) {
     // Similarity

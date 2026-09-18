@@ -407,49 +407,18 @@ struct ErrorMetadata {
      */
     json operator_hint = json::object();
 
-    /**
-     * @brief TBD: Describe toJSON.
-     * @return Return value.
-     */
     json toJSON() const;
 };
 
 /** @brief Error registry for. */
 class ErrorRegistry {
 public:
-    /**
-     * @brief TBD: Describe getInstance.
-     * @return Return value.
-     */
     static ErrorRegistry& getInstance();
     
-    /**
-     * @brief TBD: Describe registerError.
-     * @param[in] metadata Input parameter.
-     */
     void registerError(const ErrorMetadata& metadata);
-    /**
-     * @brief TBD: Describe getError.
-     * @param[in] code Input parameter.
-     * @return Return value.
-     */
     ErrorMetadata getError(ErrorCode code) const;
-    /**
-     * @brief TBD: Describe getErrorsByCategory.
-     * @param[in] category Input parameter.
-     * @return Return value.
-     */
     std::vector<ErrorMetadata> getErrorsByCategory(const std::string& category) const;
-    /**
-     * @brief TBD: Describe searchErrors.
-     * @param[in] query Input parameter.
-     * @return Return value.
-     */
     std::vector<ErrorMetadata> searchErrors(const std::string& query) const;
-    /**
-     * @brief TBD: Describe getAllCategories.
-     * @return Return value.
-     */
     std::vector<std::string> getAllCategories() const;
 
     /**
@@ -457,8 +426,6 @@ public:
      *
      * Convenience shorthand for `getError(code).solution`.
      * Returns an empty string for unknown error codes.
-     * @param[in] code Input parameter.
-     * @return Return value.
      */
     std::string getRecoveryHint(ErrorCode code) const;
 
@@ -479,17 +446,10 @@ public:
         }
     }
 
-    /**
-     * @brief TBD: Describe toJSON.
-     * @return Return value.
-     */
     json toJSON() const;
     
 private:
     ErrorRegistry();
-    /**
-     * @brief TBD: Describe registerDefaultErrors.
-     */
     void registerDefaultErrors();
     
     std::unordered_map<int, ErrorMetadata> errors_;

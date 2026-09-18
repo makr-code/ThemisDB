@@ -93,25 +93,21 @@ public:
     /**
      * @brief Check if a plugin is registered
      * @param name Plugin identifier
-     * @return True on success.
      */
     bool hasPlugin(const std::string& name) const;
     
     /**
      * @brief Get aggregated capabilities from all plugins
-     * @return Return value.
      */
     json getAggregatedCapabilities() const;
     
     /**
      * @brief Get aggregated statistics from all plugins
-     * @return Return value.
      */
     json getAggregatedStats() const;
     
     /**
      * @brief Singleton instance
-     * @return Return value.
      */
     static LLMPluginManager& instance();
     
@@ -121,16 +117,11 @@ public:
     
     /**
      * @brief Generate text using default plugin
-     * @param[in] request Input parameter.
-     * @return Return value.
      */
     InferenceResponse generate(const InferenceRequest& request);
     
     /**
      * @brief RAG generation using default plugin
-     * @param[in] rag_context Input parameter.
-     * @param[in] request Input parameter.
-     * @return Return value.
      */
     InferenceResponse generateRAG(
         const RAGContext& rag_context,
@@ -139,8 +130,6 @@ public:
     
     /**
      * @brief Embed text using default plugin
-     * @param[in] text Input parameter.
-     * @return Return value.
      */
     std::vector<float> embed(const std::string& text);
 
@@ -152,15 +141,7 @@ public:
      * @return true if loaded successfully, false if model_id/path empty or load failed
      */
     bool loadModel(const std::string& model_id, const std::string& path);
-    /**
-     * @brief TBD: Describe unloadModel.
-     * @param[in] model_id Input parameter.
-     */
     void unloadModel(const std::string& model_id);
-    /**
-     * @brief TBD: Describe listModels.
-     * @return Return value.
-     */
     std::vector<std::string> listModels() const;
 
     // Convenience wrappers for LoRA management
@@ -172,36 +153,12 @@ public:
      * @return true if loaded successfully, false if lora_id/path empty or load failed
      */
     bool loadLoRA(const std::string& lora_id, const std::string& path, const std::string& base_model);
-    /**
-     * @brief TBD: Describe unloadLoRA.
-     * @param[in] lora_id Input parameter.
-     * @return True on success.
-     */
     bool unloadLoRA(const std::string& lora_id);
-    /**
-     * @brief TBD: Describe listLoRAs.
-     * @return Return value.
-     */
     std::vector<LoRAInfo> listLoRAs() const;
 
-    /**
-     * @brief Streaming and ingestion helpers
-     * @param[in] request Input parameter.
-     * @return Return value.
-     */
+    // Streaming and ingestion helpers
     std::vector<std::string> generateStream(const InferenceRequest& request);
-    /**
-     * @brief TBD: Describe ingestModel.
-     * @param[in] model_id Input parameter.
-     * @param[in] data Input parameter.
-     * @return True on success.
-     */
     bool ingestModel(const std::string& model_id, const std::string& data);
-    /**
-     * @brief TBD: Describe getModelInfo.
-     * @param[in] model_id Input parameter.
-     * @return Return value.
-     */
     std::optional<ModelInfo> getModelInfo(const std::string& model_id) const;
 
     /**
@@ -275,24 +232,9 @@ public:
         bool sync_on_checkpoint = false;
     };
 
-    /**
-     * @brief TBD: Describe getStatistics.
-     * @return Return value.
-     */
     PluginStatistics getStatistics() const;
-    /**
-     * @brief TBD: Describe getCacheStatistics.
-     * @return Return value.
-     */
     CacheStatistics getCacheStatistics() const;
-    /**
-     * @brief TBD: Describe getHealthStatus.
-     * @return Return value.
-     */
     HealthStatus getHealthStatus() const;
-    /**
-     * @brief TBD: Describe clearAllCaches.
-     */
     void clearAllCaches();
 
     /**
@@ -302,7 +244,6 @@ public:
      * OOM event and recovery counters, and the OOM-threshold flag.
      * In CPU-simulation builds (no CUDA) the numbers reflect
      * the simulation budget configured in ActiveVRAMAllocator::Config.
-     * @return Return value.
      */
     ActiveVRAMAllocator::Stats getVRAMStats() const;
 
@@ -584,10 +525,6 @@ private:
     /// Column family handle for SSM state (not owned by this class)
     rocksdb::ColumnFamilyHandle* state_cf_ = nullptr;
     
-    /**
-     * @brief TBD: Describe getDefaultPluginLocked.
-     * @return Pointer to the result.
-     */
     ILLMPlugin* getDefaultPluginLocked() const;
 };
 

@@ -147,7 +147,6 @@ public:
      */
     void addReplica(const std::string& replica_id, const std::string& endpoint);
     
-     * @param[in] replica_id Input parameter.
     /** @brief Remove replica target by id. */
     void removeReplica(const std::string& replica_id);
     
@@ -160,28 +159,24 @@ public:
     /** @brief Return whether shipping loop is active. */
     /**
      * @return true, wenn der Hintergrundthread aktiv laeuft.
-     * @brief TBD: Describe isRunning.
      */
     bool isRunning() const;
     
     /** @brief Return snapshot of registered replica state. */
     /**
      * @return Kopie der aktuellen ReplicaInfo-Eintraege.
-     * @brief TBD: Describe getReplicaInfo.
      */
     std::vector<ReplicaInfo> getReplicaInfo() const;
     
     /** @brief Return shipper statistics snapshot. */
     /**
      * @return Thread-sichere Momentaufnahme der WALShipperStats.
-     * @brief TBD: Describe getStatistics.
      */
     WALShipperStats getStatistics() const;
     
     /** @brief Wake shipping loop for immediate processing cycle. */
     void forceShip();
     
-     * @param[in] metrics Input parameter.
     /** @brief Set optional Prometheus metrics exporter. */
     void setMetricsExporter(std::shared_ptr<class PrometheusMetrics> metrics);
     

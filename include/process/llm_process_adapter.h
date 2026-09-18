@@ -42,10 +42,6 @@ struct ProcessDescriptor {
 /** @brief Illm process adapter component. */
 class ILLMProcessAdapter {
 public:
-    /**
-     * @brief TBD: Describe ~ILLMProcessAdapter.
-     * @return Return value.
-     */
     virtual ~ILLMProcessAdapter() = default;
     virtual ProcessDescriptor generateDescriptor(
         const std::string& activity_id,
@@ -54,15 +50,7 @@ public:
     virtual std::vector<ProcessDescriptor> generateBatch(
         const std::vector<std::pair<std::string, std::string>>& activity_name_pairs,
         const std::string& process_context = "") = 0;
-    /**
-     * @brief TBD: Describe activeBackend.
-     * @return Return value.
-     */
     virtual LLMDescriptorBackend activeBackend() const = 0;
-    /**
-     * @brief TBD: Describe isAvailable.
-     * @return True on success.
-     */
     virtual bool isAvailable() const = 0;
 };
 

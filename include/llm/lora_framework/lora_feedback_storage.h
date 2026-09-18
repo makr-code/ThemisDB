@@ -59,11 +59,6 @@ public:
         RemoveGraphLinkFn remove_graph_link_fn;          // Optional graph-unlink bridge
     };
     
-    /**
-     * @brief TBD: Describe FeedbackStorageService.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit FeedbackStorageService(const Config& config);
     ~FeedbackStorageService() noexcept;
     
@@ -186,7 +181,6 @@ public:
      * When set, createGraphLink() delegates to this function instead of the
      * log-only placeholder.  Calling with nullptr reverts to placeholder behavior.
      * Thread-safe: uses an internal mutex.
-     * @param[in] fn Input parameter.
      */
     void setCreateGraphLinkFn(CreateGraphLinkFn fn);
 
@@ -196,7 +190,6 @@ public:
      * When set, removeGraphLink() delegates to this function instead of the
      * log-only placeholder.  Calling with nullptr reverts to placeholder behavior.
      * Thread-safe: uses an internal mutex.
-     * @param[in] fn Input parameter.
      */
     void setRemoveGraphLinkFn(RemoveGraphLinkFn fn);
 
@@ -205,42 +198,14 @@ private:
     std::vector<std::shared_ptr<FeedbackPlugin>> plugins_;
     mutable std::mutex mutex_;
     
-    /**
-     * @brief Helper methods
-     * @return Return value.
-     */
+    // Helper methods
     std::string generateFeedbackId() const;
-    /**
-     * @brief TBD: Describe makeFeedbackKey.
-     * @param[in] id Input parameter.
-     * @return Return value.
-     */
     std::string makeFeedbackKey(const std::string& id) const;
-    /**
-     * @brief TBD: Describe createGraphLink.
-     * @param[in] feedback_id Input parameter.
-     * @param[in] adapter_id Input parameter.
-     * @return True on success.
-     */
     bool createGraphLink(const std::string& feedback_id, const std::string& adapter_id);
-    /**
-     * @brief TBD: Describe removeGraphLink.
-     * @param[in] feedback_id Input parameter.
-     * @param[in] adapter_id Input parameter.
-     * @return True on success.
-     */
     bool removeGraphLink(const std::string& feedback_id, const std::string& adapter_id);
     
-    /**
-     * @brief Validation and processing
-     * @param[in] feedback Input parameter.
-     * @return True on success.
-     */
+    // Validation and processing
     bool runValidation(const Feedback& feedback) const;
-    /**
-     * @brief TBD: Describe runProcessing.
-     * @param[in,out] feedback Input/output parameter.
-     */
     void runProcessing(Feedback& feedback);
 
     // Bridge callbacks for graph edge persistence (stub #304)

@@ -49,12 +49,6 @@ struct GradientClippingConfig {
         };
     }
     
-    /**
-     * @brief TBD: Describe fromJSON.
-     * @param[in] j Input parameter.
-     * @return Return value.
-     * @details Calls: contains().
-     */
     static GradientClippingConfig fromJSON(const json& j) {
         GradientClippingConfig config = {};
         if (j.contains("method")) {
@@ -87,12 +81,6 @@ struct GradientAccumulationConfig {
         };
     }
     
-    /**
-     * @brief TBD: Describe fromJSON.
-     * @param[in] j Input parameter.
-     * @return Return value.
-     * @details Calls: contains().
-     */
     static GradientAccumulationConfig fromJSON(const json& j) {
         GradientAccumulationConfig config = {};
         if (j.contains("accumulation_steps")) {
@@ -109,10 +97,6 @@ struct GradientAccumulationConfig {
  * @brief Gradient statistics
  */
 struct GradientStats {
-    /**
-     * @brief TBD: Describe ~GradientStats.
-     * @return Return value.
-     */
     virtual ~GradientStats() = default;
     float global_norm = 0.0f;       // L2 norm of all gradients
     float max_gradient = 0.0f;      // Maximum absolute gradient value
@@ -227,11 +211,6 @@ public:
  */
 class GradientAccumulator {
 public:
-    /**
-     * @brief TBD: Describe GradientAccumulator.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit GradientAccumulator(const GradientAccumulationConfig& config);
     ~GradientAccumulator() = default;
     

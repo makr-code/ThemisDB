@@ -86,11 +86,6 @@ public:
         double learning_rate = 0.01;     ///< Gradient-descent step size
         size_t max_click_buffer = 1000;  ///< Maximum stored click events before training
         double regularization = 0.001;  ///< L2 regularization coefficient
-        /**
-         * @brief TBD: Describe defaults.
-         * @return Return value.
-         * @details Implements defaults without additional internal calls.
-         */
         static Config defaults() { return {}; }
     };
 
@@ -143,7 +138,6 @@ public:
 
     /**
      * @brief Record a click event for later training.
-     * @param[in] event Input parameter.
      */
     void recordClick(const ClickEvent& event);
 
@@ -165,8 +159,6 @@ public:
 
     /**
      * @brief Set feature weights directly (e.g. to load a pre-trained model).
-     * @param[in] weights Input parameter.
-     * @details Implements setWeights without additional internal calls.
      */
     void setWeights(const RankingFeatures& weights) { weights_ = weights; }
 
@@ -176,7 +168,6 @@ public:
 
     /**
      * @brief Register a named scoring variant for A/B experiments.
-     * @param[in] variant Input parameter.
      */
     void registerVariant(const Variant& variant);
 
@@ -199,42 +190,12 @@ private:
     std::vector<ClickEvent> clicks_;    ///< Pending click events
     std::map<std::string, Variant> variants_; ///< Named A/B variants
 
-    /**
-     * @brief TBD: Describe score.
-     * @param[in] f Input parameter.
-     * @return Return value.
-     */
     double score(const RankingFeatures& f) const;
-    /**
-     * @brief TBD: Describe dot.
-     * @param[in] w Input parameter.
-     * @param[in] f Input parameter.
-     * @return Return value.
-     */
     static double dot(const RankingFeatures& w, const RankingFeatures& f);
-    /**
-     * @brief TBD: Describe gradient.
-     * @param[in] f_pos Input parameter.
-     * @param[in] f_neg Input parameter.
-     * @return Return value.
-     */
     static RankingFeatures gradient(const RankingFeatures& f_pos,
                                      const RankingFeatures& f_neg);
-    /**
-     * @brief TBD: Describe addScaled.
-     * @param[in] w Input parameter.
-     * @param[in] g Input parameter.
-     * @param[in] lr Input parameter.
-     * @return Return value.
-     */
     static RankingFeatures addScaled(const RankingFeatures& w,
                                       const RankingFeatures& g, double lr);
-    /**
-     * @brief TBD: Describe regularize.
-     * @param[in] w Input parameter.
-     * @param[in] reg Input parameter.
-     * @return Return value.
-     */
     static RankingFeatures regularize(const RankingFeatures& w, double reg);
 };
 

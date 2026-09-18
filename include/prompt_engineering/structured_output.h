@@ -81,10 +81,6 @@ struct StructuredOutputResult {
  */
 class IStructuredOutputEnforcer {
 public:
-    /**
-     * @brief TBD: Describe ~IStructuredOutputEnforcer.
-     * @return Return value.
-     */
     virtual ~IStructuredOutputEnforcer() = default;
 
     /**
@@ -93,9 +89,6 @@ public:
      * Applies repair (if configured) and validates against the declared
      * constraint type.  Retries up to `JsonSchemaConstraint::max_retries`
      * times for JSON_SCHEMA mode.
-     * @param[in] raw_output Input parameter.
-     * @param[in] config Input parameter.
-     * @return Return value.
      */
     virtual StructuredOutputResult enforce(
         const std::string&           raw_output,
@@ -105,9 +98,6 @@ public:
      * @brief Validate @p output against @p config; populate @p errors.
      *
      * @return `true` iff validation passes (errors is empty).
-     * @param[in] output Input parameter.
-     * @param[in] config Input parameter.
-     * @param[in,out] errors Input/output parameter.
      */
     virtual bool validate(const std::string&           output,
                           const StructuredOutputConfig& config,
@@ -153,23 +143,13 @@ private:
 
     // ── JSON validation helpers ──────────────────────────────────────────────
 
-    /**
-     * @brief Check that @p text is structurally valid JSON (balanced braces/brackets, basic string quoting).
-     * @param[in] text Input parameter.
-     * @param[in,out] errors Input/output parameter.
-     * @return True on success.
-     * @details Populates @p errors on failure.
-     */
+    /// Check that @p text is structurally valid JSON (balanced braces/brackets,
+    /// basic string quoting).  Populates @p errors on failure.
     static bool checkJsonStructure(const std::string&       text,
                                    std::vector<std::string>& errors);
 
-    /**
-     * @brief Extract the string values of a JSON array at top-level key @p key.
-     * @param[in] json Input parameter.
-     * @param[in] key Input parameter.
-     * @return Return value.
-     * @details Returns empty vector if the key is absent.
-     */
+    /// Extract the string values of a JSON array at top-level key @p key.
+    /// Returns empty vector if the key is absent.
     static std::vector<std::string> extractStringArray(
         const std::string& json, const std::string& key);
 

@@ -124,7 +124,6 @@ public:
      * @brief Get the current ACTIVE version of a secret.
      *
      * @return nullopt if no secret with this name exists or no active version.
-     * @param[in] name Input parameter.
      */
     std::optional<SecretVersion> getSecret(const std::string& name) const;
 
@@ -135,8 +134,6 @@ public:
      * so they can migrate to the new version before it is revoked.
      *
      * @return nullopt if the name or version is unknown.
-     * @param[in] name Input parameter.
-     * @param[in] version Input parameter.
      */
     std::optional<SecretVersion> getSecretVersion(const std::string& name,
                                                   uint32_t version) const;
@@ -156,8 +153,6 @@ public:
      * @brief Explicitly revoke a specific version (ACTIVE or RETIRING → REVOKED).
      *
      * @return true if found and revoked; false if already REVOKED or unknown.
-     * @param[in] name Input parameter.
-     * @param[in] version Input parameter.
      */
     bool revokeVersion(const std::string& name, uint32_t version);
 
@@ -165,7 +160,6 @@ public:
      * @brief Delete a secret and all its versions permanently.
      *
      * @return true if the secret existed.
-     * @param[in] name Input parameter.
      */
     bool deleteSecret(const std::string& name);
 
@@ -173,12 +167,9 @@ public:
     // Query
     // -----------------------------------------------------------------------
 
-     * @param[in] name Input parameter.
-     * @return Return value.
     /** @brief List all version metadata for a secret (values not included). */
     std::vector<VersionInfo> listVersions(const std::string& name) const;
 
-     * @return Return value.
     /** @brief List all secret names. */
     std::vector<std::string> listSecrets() const;
 
@@ -186,7 +177,6 @@ public:
      * @brief Return true if the active version's age exceeds policy.max_age.
      *
      * @return false if the secret does not exist.
-     * @param[in] name Input parameter.
      */
     bool isRotationDue(const std::string& name) const;
 
@@ -200,10 +190,9 @@ public:
      */
     void checkAndRevoke();
 
-    /**
-     * @brief ----------------------------------------------------------------------- Statistics -----------------------------------------------------------------------
-     * @return Return value.
-     */
+    // -----------------------------------------------------------------------
+    // Statistics
+    // -----------------------------------------------------------------------
 
     Statistics getStatistics() const;
 
@@ -215,19 +204,7 @@ private:
         uint64_t                 rotation_count = 0;
     };
 
-    /**
-     * @brief TBD: Describe findVersion.
-     * @param[in,out] entry Input/output parameter.
-     * @param[in] version Input parameter.
-     * @return Return value.
-     */
     SecretVersion& findVersion(SecretEntry& entry, uint32_t version);
-    /**
-     * @brief TBD: Describe findVersionConst.
-     * @param[in] entry Input parameter.
-     * @param[in] version Input parameter.
-     * @return Pointer to the result.
-     */
     const SecretVersion* findVersionConst(const SecretEntry& entry,
                                           uint32_t version) const;
 

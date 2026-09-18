@@ -74,11 +74,6 @@ public:
     };
 
     ContentChunker();
-    /**
-     * @brief TBD: Describe ContentChunker.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit ContentChunker(const ChunkConfig& config);
     ~ContentChunker() = default;
 

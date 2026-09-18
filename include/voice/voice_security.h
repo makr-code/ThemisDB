@@ -88,11 +88,6 @@ enum class PIIType {
     CUSTOM
 };
 
-/**
- * @brief TBD: Describe piiTypeToString.
- * @param[in] type Input parameter.
- * @return Return value.
- */
 std::string piiTypeToString(PIIType type);
 
 // Redaction result
@@ -192,133 +187,54 @@ public:
     explicit VoiceSecurityManager(const VoiceSecurityConfig& config = {});
     ~VoiceSecurityManager() = default;
 
-    /**
-     * @brief PII Redaction
-     * @param[in] text Input parameter.
-     * @return Return value.
-     */
+    // PII Redaction
     RedactionResult redactPII(const std::string& text);
-    /**
-     * @brief TBD: Describe redactPIITypes.
-     * @param[in] text Input parameter.
-     * @param[in] types Input parameter.
-     * @return Return value.
-     */
     RedactionResult redactPIITypes(const std::string& text, const std::vector<PIIType>& types);
-    /**
-     * @brief TBD: Describe containsPII.
-     * @param[in] text Input parameter.
-     * @return True on success.
-     */
     bool containsPII(const std::string& text) const;
 
-    /**
-     * @brief Consent Management
-     * @param[in] record Input parameter.
-     * @return True on success.
-     */
+    // Consent Management
     bool recordConsent(const ConsentRecord& record);
-    /**
-     * @brief TBD: Describe getConsent.
-     * @param[in] user_id Input parameter.
-     * @return Return value.
-     */
     std::optional<ConsentRecord> getConsent(const std::string& user_id) const;
-    /**
-     * @brief TBD: Describe hasRecordingConsent.
-     * @param[in] user_id Input parameter.
-     * @return True on success.
-     */
     bool hasRecordingConsent(const std::string& user_id) const;
-    /**
-     * @brief TBD: Describe hasTranscriptionConsent.
-     * @param[in] user_id Input parameter.
-     * @return True on success.
-     */
     bool hasTranscriptionConsent(const std::string& user_id) const;
-    /**
-     * @brief TBD: Describe revokeConsent.
-     * @param[in] user_id Input parameter.
-     * @return True on success.
-     */
     bool revokeConsent(const std::string& user_id);
 
-    /**
-     * @brief Audit Logging
-     * @param[in] entry Input parameter.
-     */
+    // Audit Logging
     void logEvent(const VoiceAuditEntry& entry);
-    /**
-     * @brief TBD: Describe logAccess.
-     * @param[in] user_id Input parameter.
-     * @param[in] session_id Input parameter.
-     * @param[in] resource Input parameter.
-     */
     void logAccess(const std::string& user_id, const std::string& session_id, const std::string& resource);
-    /**
-     * @brief TBD: Describe logError.
-     * @param[in] user_id Input parameter.
-     * @param[in] session_id Input parameter.
-     * @param[in] error Input parameter.
-     */
     void logError(const std::string& user_id, const std::string& session_id, const std::string& error);
     std::vector<VoiceAuditEntry> getAuditLog(const std::string& user_id = "", size_t limit = 100) const;
 
-    /**
-     * @brief GDPR/CCPA Data Deletion
-     * @param[in] request Input parameter.
-     * @return Return value.
-     */
+    // GDPR/CCPA Data Deletion
     DataDeletionResult deleteUserData(const DataDeletionRequest& request);
-    /**
-     * @brief TBD: Describe scheduleAutoDelete.
-     * @param[in] user_id Input parameter.
-     * @param[in] delete_after_ms Input parameter.
-     * @return True on success.
-     */
     bool scheduleAutoDelete(const std::string& user_id, int64_t delete_after_ms);
 
-    /**
-     * @brief Data export (GDPR right to access)
-     * @param[in] user_id Input parameter.
-     * @return Return value.
-     */
+    // Data export (GDPR right to access)
     json exportUserData(const std::string& user_id) const;
 
-    /**
-     * @brief Security stats
-     * @return Return value.
-     */
+    // Security stats
     json getSecurityStats() const;
     
     // Phase 3: Rate Limiting for Auth Failures
     
-    /**
-     * @brief @brief Record authentication failure (Phase 3) @param user_id User identifier @return true if user is NOT locked out; false if reached lockout threshold
-     * @param[in] user_id Input parameter.
-     * @return True on success.
-     */
+    /// @brief Record authentication failure (Phase 3)
+    /// @param user_id User identifier
+    /// @return true if user is NOT locked out; false if reached lockout threshold
     bool recordAuthFailure(const std::string& user_id);
     
-    /**
-     * @brief @brief Check if user is locked out due to rate limiting (Phase 3) @param user_id User identifier @return true if user is currently locked out; false otherwise
-     * @param[in] user_id Input parameter.
-     * @return True on success.
-     */
+    /// @brief Check if user is locked out due to rate limiting (Phase 3)
+    /// @param user_id User identifier
+    /// @return true if user is currently locked out; false otherwise
     bool isRateLimited(const std::string& user_id) const;
     
-    /**
-     * @brief @brief Reset rate limiter for a user (Phase 3) @param user_id User identifier
-     * @param[in] user_id Input parameter.
-     */
+    /// @brief Reset rate limiter for a user (Phase 3)
+    /// @param user_id User identifier
     void resetRateLimiter(const std::string& user_id);
     
     // Phase 3: Security Denial Audit Trail
     
-    /**
-     * @brief @brief Log security denial for audit trail (Phase 3) @param entry SecurityDenialEntry with user, action, reason
-     * @param[in] entry Input parameter.
-     */
+    /// @brief Log security denial for audit trail (Phase 3)
+    /// @param entry SecurityDenialEntry with user, action, reason
     void logSecurityDenial(const SecurityDenialEntry& entry);
     
     /// @brief Get all security denials for a user (Phase 3)
@@ -326,16 +242,13 @@ public:
     /// @return Vector of SecurityDenialEntry
     std::vector<SecurityDenialEntry> getSecurityDenials(const std::string& user_id, size_t limit = 100) const;
     
-    /**
-     * @brief @brief Deny operation with full audit context (Phase 3) @param user_id User identifier @param session_id Session identifier @param action Action being attempted (e.
-     * @param[in] user_id Input parameter.
-     * @param[in] session_id Input parameter.
-     * @param[in] action Input parameter.
-     * @param[in] resource Input parameter.
-     * @param[in] reason Input parameter.
-     * @return True on success.
-     * @details g., "escalate_privileges") @param resource Resource being accessed @param reason Denial reason (e.g., "privilege_escalation_attempt") @return Always false (denial)
-     */
+    /// @brief Deny operation with full audit context (Phase 3)
+    /// @param user_id User identifier
+    /// @param session_id Session identifier
+    /// @param action Action being attempted (e.g., "escalate_privileges")
+    /// @param resource Resource being accessed
+    /// @param reason Denial reason (e.g., "privilege_escalation_attempt")
+    /// @return Always false (denial)
     bool denyOperationWithAudit(const std::string& user_id,
                                 const std::string& session_id,
                                 const std::string& action,
@@ -358,29 +271,11 @@ private:
     // Phase 3: Security denial trail
     std::vector<SecurityDenialEntry> denial_trail_;
 
-    /**
-     * @brief TBD: Describe applyPattern.
-     * @param[in] text Input parameter.
-     * @param[in] type Input parameter.
-     * @return Return value.
-     */
     RedactionResult applyPattern(const std::string& text, PIIType type) const;
-    /**
-     * @brief TBD: Describe maskValue.
-     * @param[in] value Input parameter.
-     * @param[in] type Input parameter.
-     * @return Return value.
-     */
     std::string maskValue(const std::string& value, PIIType type) const;
     
-    /**
-     * @brief Phase 3: Rate limiting helpers
-     * @return Return value.
-     */
+    // Phase 3: Rate limiting helpers
     int64_t nowMs() const;
-    /**
-     * @brief TBD: Describe cleanupExpiredLockouts.
-     */
     void cleanupExpiredLockouts();
 };
 

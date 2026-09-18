@@ -82,8 +82,6 @@ struct SignedRequest {
      * nonce=<nonce>\n
      * key_id=<key_id>\n
      * cert_serial=<cert_serial>\n
-     * @brief TBD: Describe getCanonicalString.
-     * @return Return value.
      */
     std::string getCanonicalString() const;
 };
@@ -104,7 +102,6 @@ public:
     /**
      * @brief Construct signer with certificate/private-key configuration.
      * @param config Signer configuration.
-     * @return Return value.
      */
     explicit SignedRequestSigner(const Config& config);
     
@@ -130,11 +127,9 @@ private:
     Config config_;
     std::string cert_serial_;
     
-     * @return Return value.
     /** @brief Generate nonce value used for replay protection. */
     uint64_t generateNonce() const;
     
-     * @return Return value.
     /** @brief Return current wall-clock time in milliseconds since epoch. */
     uint64_t getCurrentTimestampMs() const;
     
@@ -166,7 +161,6 @@ public:
     /**
      * @brief Construct verifier.
      * @param config Verification configuration.
-     * @return Return value.
      */
     explicit SignedRequestVerifier(const Config& config);
     
@@ -194,19 +188,12 @@ private:
     std::deque<NonceEntry> nonce_fifo_;
     mutable std::mutex nonce_mutex_;
     
-     * @param[in] timestamp_ms Input parameter.
-     * @return True on success.
     /** @brief Check request timestamp skew against configured limit. */
     bool verifyTimestamp(uint64_t timestamp_ms) const;
     
-     * @param[in] nonce Input parameter.
-     * @param[in] timestamp_ms Input parameter.
-     * @return True on success.
     /** @brief Validate nonce uniqueness within replay window. */
     bool verifyNonce(uint64_t nonce, uint64_t timestamp_ms);
     
-     * @param[in] request Input parameter.
-     * @return True on success.
     /** @brief Verify signature using trust-store certificate material. */
     bool verifySignature(const SignedRequest& request);
 
@@ -217,7 +204,6 @@ private:
      */
     void purgeExpiredNoncesLocked(uint64_t now_ms);
     
-     * @return Return value.
     /** @brief Return current wall-clock time in milliseconds since epoch. */
     uint64_t getCurrentTimestampMs() const;
 };

@@ -48,33 +48,13 @@ public:
 
     using RequestHandler = std::function<nlohmann::json(const nlohmann::json&)>;
 
-    /**
-     * @brief TBD: Describe AdminAPI.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit AdminAPI(const Config& config);
     ~AdminAPI() = default;
 
-    /**
-     * @brief Register handlers
-     * @param[in] handler Input parameter.
-     */
+    // Register handlers
     void registerTopologyHandler(RequestHandler handler);
-    /**
-     * @brief TBD: Describe registerRebalanceHandler.
-     * @param[in] handler Input parameter.
-     */
     void registerRebalanceHandler(RequestHandler handler);
-    /**
-     * @brief TBD: Describe registerHealthHandler.
-     * @param[in] handler Input parameter.
-     */
     void registerHealthHandler(RequestHandler handler);
-    /**
-     * @brief TBD: Describe registerStatsHandler.
-     * @param[in] handler Input parameter.
-     */
     void registerStatsHandler(RequestHandler handler);
     /// Register handler for repair / anti-entropy operations.
     void registerRepairHandler(RequestHandler handler);
@@ -83,19 +63,10 @@ public:
      * Attach a ShardRepairEngine so that GET /admin/health automatically
      * enriches its response with per-shard repair health reports.
      * The engine is optional; without it the health response is unchanged.
-     * @brief TBD: Describe setRepairEngine.
-     * @param[in] engine Input parameter.
      */
     void setRepairEngine(std::shared_ptr<ShardRepairEngine> engine);
 
-    /**
-     * @brief Handle HTTP request
-     * @param[in] method Input parameter.
-     * @param[in] path Input parameter.
-     * @param[in] body Input parameter.
-     * @param[in] operator_cert Input parameter.
-     * @return Return value.
-     */
+    // Handle HTTP request
     nlohmann::json handleRequest(const std::string& method, 
                                   const std::string& path,
                                   const nlohmann::json& body,
@@ -141,7 +112,6 @@ public:
      * Without a manager set, the endpoint returns 501 Not Implemented.
      * The manager must outlive this AdminAPI instance (or be kept alive via
      * the shared_ptr).
-     * @param[in] mgr Input parameter.
      */
     void setMigrationManager(std::shared_ptr<HardwareMigrationManager> mgr);
 
@@ -151,7 +121,6 @@ public:
      * Used for testing / custom integration.  Overrides the built-in
      * `HardwareMigrationManager` path when set.  The body will contain at
      * minimum `{"shard_id": "...", "new_endpoint": "..."}`.
-     * @param[in] handler Input parameter.
      */
     void registerMigrateHardwareHandler(RequestHandler handler);
 
@@ -166,34 +135,11 @@ private:
     std::shared_ptr<ShardRepairEngine> repair_engine_;
     std::shared_ptr<HardwareMigrationManager> migration_manager_;
 
-    /**
-     * @brief TBD: Describe authorizeRequest.
-     * @param[in] operator_cert Input parameter.
-     * @return True on success.
-     */
     bool authorizeRequest(const std::string& operator_cert);
-    /**
-     * @brief TBD: Describe auditLog.
-     * @param[in] method Input parameter.
-     * @param[in] path Input parameter.
-     * @param[in] operator_cert Input parameter.
-     */
     void auditLog(const std::string& method, const std::string& path, const std::string& operator_cert);
-    /**
-     * @brief TBD: Describe createErrorResponse.
-     * @param[in] code Input parameter.
-     * @param[in] message Input parameter.
-     * @return Return value.
-     */
     nlohmann::json createErrorResponse(int code, const std::string& message);
     /// Build the repair health section for GET /admin/health.
     nlohmann::json buildRepairHealthJson() const;
-    /**
-     * @brief TBD: Describe handleMigrateHardware.
-     * @param[in] shard_id Input parameter.
-     * @param[in] body Input parameter.
-     * @return Return value.
-     */
     nlohmann::json handleMigrateHardware(const std::string& shard_id,
                                           const nlohmann::json& body);
 };

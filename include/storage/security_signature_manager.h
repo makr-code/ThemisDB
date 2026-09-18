@@ -44,7 +44,6 @@ public:
      *
      * @param db Persistent RocksDB wrapper. When null, the manager stays
      *        unavailable and all mutating operations fail closed.
-     * @return Return value.
      */
     explicit SecuritySignatureManager(std::shared_ptr<RocksDBWrapper> db);
     /**
@@ -54,7 +53,6 @@ public:
      *                `options.allow_in_memory_fallback` is `false`, the manager stays
      *                unavailable and all mutating operations fail closed.
      * @param options Construction-time fallback policy.
-     * @return Return value.
      */
     explicit SecuritySignatureManager(std::shared_ptr<RocksDBWrapper> db,
                                       Options options);
@@ -75,12 +73,8 @@ public:
     
     // Verification Operations
     
-    /**
-     * @brief Verify a file against stored signature Returns true if hash matches, false if mismatch or signature missing
-     * @param[in] file_path Input parameter.
-     * @param[in] resource_id Input parameter.
-     * @return True on success.
-     */
+    /// Verify a file against stored signature
+    /// Returns true if hash matches, false if mismatch or signature missing
     bool verifyFile(const std::string& file_path, const std::string& resource_id);
 
     /// Result returned by verifyAll()
@@ -97,11 +91,9 @@ public:
         }
     };
 
-    /**
-     * @brief Verify all stored signatures by iterating over all document keys and checking each file's SHA256 hash against its stored signature.
-     * @return Return value.
-     * @details Uses RocksDBWrapper::iterateRange under the hood when RocksDB is available.
-     */
+    /// Verify all stored signatures by iterating over all document keys and
+    /// checking each file's SHA256 hash against its stored signature.
+    /// Uses RocksDBWrapper::iterateRange under the hood when RocksDB is available.
     VerifyAllResult verifyAll();
     
     /// Compute SHA256 hash of a file
@@ -126,11 +118,6 @@ private:
     std::unordered_map<std::string, std::string> mem_store_; // Simple map for tests/in-memory mode
     static constexpr const char* KEY_PREFIX = "security_sig:";
     
-    /**
-     * @brief TBD: Describe makeKey.
-     * @param[in] resource_id Input parameter.
-     * @return Return value.
-     */
     std::string makeKey(const std::string& resource_id) const;
 
     /// Returns the [start_key, end_key) range that covers all keys with KEY_PREFIX.

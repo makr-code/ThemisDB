@@ -53,10 +53,6 @@ struct ExportStats {
     // Optional: Detailed metrics
     std::shared_ptr<ExporterMetrics> metrics;
     
-    /**
-     * @brief TBD: Describe toJson.
-     * @return Return value.
-     */
     std::string toJson() const;
 };
 
@@ -140,20 +136,25 @@ struct ExportOptions {
     themis::utils::AuditLogger* audit_logger = nullptr;
 };
 
-/**
- * @brief @brief Enforce export policy before any cursor or output file is opened.
- * @param[in] options Input parameter.
- * @details Builds a `ModelTrainingExportRequest` from `options` and calls `PolicyEngine::checkExportPermission()`. If the engine denies the request an `ExporterException(ERR_EXPORT_POLICY_DENIED, ...)` is thrown. On denial, if `options.audit_logger` is non-null, an EXPORT_DENIED event is written with requester, collection, and denial reason. On approval, if `options.audit_logger` is non-null, a BULK_EXPORT event is written. This is a no-op when `options.policy_engine == nullptr`. All concrete exporters MUST call this at the very start of `exportEntities()`, before opening any file or database cursor.
- */
+/// @brief Enforce export policy before any cursor or output file is opened.
+///
+/// Builds a `ModelTrainingExportRequest` from `options` and calls
+/// `PolicyEngine::checkExportPermission()`.  If the engine denies the
+/// request an `ExporterException(ERR_EXPORT_POLICY_DENIED, ...)` is thrown.
+/// On denial, if `options.audit_logger` is non-null, an EXPORT_DENIED event
+/// is written with requester, collection, and denial reason.
+/// On approval, if `options.audit_logger` is non-null, a BULK_EXPORT event
+/// is written.
+///
+/// This is a no-op when `options.policy_engine == nullptr`.
+///
+/// All concrete exporters MUST call this at the very start of
+/// `exportEntities()`, before opening any file or database cursor.
 void enforceExportPolicy(const ExportOptions& options);
 
 /// Generic exporter interface
 class IExporter {
 public:
-    /**
-     * @brief TBD: Describe ~IExporter.
-     * @return Return value.
-     */
     virtual ~IExporter() = default;
     
     /// Export entities to the configured format

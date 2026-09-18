@@ -47,7 +47,6 @@ void cleanup_vulkan_lora();
 
 /**
  * @brief Check if Vulkan backend is available
- * @return True on success.
  */
 bool is_vulkan_available();
 

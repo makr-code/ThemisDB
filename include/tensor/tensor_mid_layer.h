@@ -96,20 +96,8 @@ public:
     TensorMidLayer() = default;
     ~TensorMidLayer() = default;
 
-    /**
-     * @brief TBD: Describe setAdapterRepository.
-     * @param[in] repository Input parameter.
-     */
     void setAdapterRepository(std::shared_ptr<AdapterRepository> repository);
-    /**
-     * @brief TBD: Describe setFingerprintGraph.
-     * @param[in] graph Input parameter.
-     */
     void setFingerprintGraph(std::shared_ptr<TensorFingerprintGraph> graph);
-    /**
-     * @brief TBD: Describe setAnnFrontdoor.
-     * @param[in] frontdoor Input parameter.
-     */
     void setAnnFrontdoor(std::shared_ptr<index::AnnFrontdoor> frontdoor);
 
     [[nodiscard]] TensorLayerPlan plan(const TensorLayerContext& context) const noexcept;

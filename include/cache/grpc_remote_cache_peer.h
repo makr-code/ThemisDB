@@ -98,8 +98,6 @@ public:
      *
      * The gRPC channel is created eagerly; the first RPC will establish the
      * connection.
-     * @param[in] config Input parameter.
-     * @return Return value.
      */
     explicit GrpcRemoteCachePeer(Config config);
 
@@ -109,8 +107,6 @@ public:
      * This does not opt into insecure transport; production callers must set
      * `tls_enabled=true` or provide an explicit local/test override via
      * `Config::allow_insecure`.
-     * @param[in] addr Input parameter.
-     * @return Return value.
      */
     explicit GrpcRemoteCachePeer(const std::string& addr);
 
@@ -145,19 +141,12 @@ public:
     }
 
 private:
-    /**
-     * @brief TBD: Describe buildCredentials.
-     * @return Return value.
-     */
     std::shared_ptr<grpc::ChannelCredentials> buildCredentials() const;
 
     /**
      * @brief Execute a blocking unary RPC with the given JSON payload.
      *
      * @throws std::runtime_error when the RPC fails or times out.
-     * @param[in] type Input parameter.
-     * @param[in] key Input parameter.
-     * @param[in] tenant_id Input parameter.
      */
     void sendRpc(const std::string& type,
                  const std::string& key,
@@ -199,29 +188,14 @@ public:
         explicit Config(std::string addr) : address(std::move(addr)) {}
     };
 
-    /**
-     * @brief TBD: Describe GrpcRemoteCachePeer.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit GrpcRemoteCachePeer(Config config)
         : config_(std::move(config)) {}
 
-    /**
-     * @brief TBD: Describe GrpcRemoteCachePeer.
-     * @param[in] addr Input parameter.
-     * @return Return value.
-     */
     explicit GrpcRemoteCachePeer(const std::string& addr)
         : GrpcRemoteCachePeer(Config(addr)) {}
 
     ~GrpcRemoteCachePeer() override = default;
 
-    /**
-     * @brief TBD: Describe setBackendInvokeFn.
-     * @param[in] fn Input parameter.
-     * @details Calls: lk(), bridgeMutex(), backendInvokeFn(), std::move().
-     */
     static void setBackendInvokeFn(BackendInvokeFn fn) {
         std::lock_guard<std::mutex> lk(bridgeMutex());
         backendInvokeFn() = std::move(fn);
@@ -245,34 +219,16 @@ public:
     }
 
 private:
-    /**
-     * @brief TBD: Describe bridgeMutex.
-     * @return Return value.
-     * @details Implements bridgeMutex without additional internal calls.
-     */
     static std::mutex& bridgeMutex() {
         static std::mutex m;
         return m;
     }
 
-    /**
-     * @brief TBD: Describe backendInvokeFn.
-     * @return Return value.
-     * @details Implements backendInvokeFn without additional internal calls.
-     */
     static BackendInvokeFn& backendInvokeFn() {
         static BackendInvokeFn fn;
         return fn;
     }
 
-    /**
-     * @brief TBD: Describe invoke.
-     * @param[in] type Input parameter.
-     * @param[in] key Input parameter.
-     * @param[in] tenant_id Input parameter.
-     * @throws std::runtime_error if an error occurs.
-     * @details Calls: lk(), bridgeMutex(), backendInvokeFn(), store(), fn().
-     */
     void invoke(const std::string& type,
                 const std::string& key,
                 const std::string& tenant_id) {

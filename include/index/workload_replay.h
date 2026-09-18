@@ -44,16 +44,7 @@ struct WorkloadEvent {
     IndexRecommender::AccessType access_type = IndexRecommender::AccessType::FILTER;
     double       selectivity = 1.0;   ///< 0 = very selective, 1 = not selective
 
-    /**
-     * @brief TBD: Describe toJSON.
-     * @return Return value.
-     */
     json toJSON() const;
-    /**
-     * @brief TBD: Describe fromJSON.
-     * @param[in] j Input parameter.
-     * @return Return value.
-     */
     static WorkloadEvent fromJSON(const json& j);
 };
 

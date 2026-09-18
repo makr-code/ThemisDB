@@ -307,13 +307,11 @@ public:
     
     /**
      * @brief Check if there are requests ready to process
-     * @return True on success.
      */
     bool hasPendingRequests() const;
     
     /**
      * @brief Get current batch statistics
-     * @return Return value.
      */
     BatchStats getCurrentStats() const;
     
@@ -329,7 +327,6 @@ public:
     
     /**
      * @brief Get current configuration
-     * @return Return value.
      */
     const ContinuousBatchSchedulerConfig& getConfig() const;
     
@@ -355,7 +352,6 @@ public:
     
     /**
      * @brief Check if scheduler is running
-     * @return True on success.
      */
     bool isRunning() const;
     
@@ -397,7 +393,6 @@ public:
     
     /**
      * @brief Check if speculative decoding is enabled
-     * @return True on success.
      */
     bool isSpeculativeDecodingEnabled() const;
     
@@ -413,7 +408,6 @@ public:
     
     /**
      * @brief Get KV cache manager
-     * @return Pointer to the result.
      */
     KVCacheManager* getKVCacheManager();
     
@@ -429,7 +423,6 @@ public:
     
     /**
      * @brief Get detailed statistics as JSON
-     * @return Return value.
      */
     nlohmann::json getStatsJson() const;
     
@@ -519,42 +512,31 @@ private:
     
     /**
      * @brief Get the index for a priority level
-     * @param[in] priority Input parameter.
-     * @return Return value.
      */
     size_t getPriorityQueueIndex(SchedulingPriority priority) const;
     
     /**
      * @brief Select requests for the next batch
-     * @return Return value.
      */
     std::vector<int64_t> selectNextBatch();
     
     /**
      * @brief Process prefill phase for a request
-     * @param[in,out] request Input/output parameter.
-     * @return True on success.
      */
     bool processPrefill(Request& request);
     
     /**
      * @brief Process decode phase for a request
-     * @param[in,out] request Input/output parameter.
-     * @return True on success.
      */
     bool processDecode(Request& request);
     
     /**
      * @brief Process chunked prefill
-     * @param[in,out] request Input/output parameter.
-     * @return True on success.
      */
     bool processChunkedPrefill(Request& request);
     
     /**
      * @brief Process speculative decoding
-     * @param[in,out] request Input/output parameter.
-     * @return True on success.
      */
     bool processSpeculativeDecoding(Request& request);
     
@@ -565,14 +547,11 @@ private:
     
     /**
      * @brief Update request state
-     * @param[in] request_id Input parameter.
-     * @param[in] state Input parameter.
      */
     void updateRequestState(int64_t request_id, RequestState state);
     
     /**
      * @brief Update statistics
-     * @param[in] request Input parameter.
      */
     void updateStats(const Request& request);
     

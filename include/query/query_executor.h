@@ -241,7 +241,6 @@ public:
      *
      * Thread-safe: may be called from a signal handler or watchdog thread.
      * No-op if execution has already completed.
-     * @note Exception safety: noexcept.
      */
     void abort() noexcept;
 

@@ -30,17 +30,7 @@ namespace Eigen {
     public:
         MatrixXf() : rows_(0), cols_(0) {}
         MatrixXf(int r, int c) { resize(r, c); }
-        /**
-         * @brief TBD: Describe resize.
-         * @param[in] r Input parameter.
-         * @param[in] c Input parameter.
-         * @details Calls: assign().
-         */
         void resize(int r, int c) { rows_ = r; cols_ = c; data_.assign((size_t)r * c, 0.0f); }
-        /**
-         * @brief TBD: Describe setZero.
-         * @details Calls: std::fill(), begin(), end().
-         */
         void setZero() { std::fill(data_.begin(), data_.end(), 0.0f); }
         int rows() const { return rows_; }
         int cols() const { return cols_; }
@@ -54,28 +44,8 @@ namespace Eigen {
             return true;
         }
 
-        /**
-         * @brief TBD: Describe Zero.
-         * @param[in] r Input parameter.
-         * @param[in] c Input parameter.
-         * @return Return value.
-         * @details Calls: m(), setZero().
-         */
         static MatrixXf Zero(int r, int c) { MatrixXf m(r, c); m.setZero(); return m; }
-        /**
-         * @brief TBD: Describe Random.
-         * @param[in] r Input parameter.
-         * @param[in] c Input parameter.
-         * @return Return value.
-         * @details Calls: m(), rng(), dist().
-         */
         static MatrixXf Random(int r, int c) {
-            /**
-             * @brief TBD: Describe m.
-             * @param[in] r Input parameter.
-             * @param[in] c Input parameter.
-             * @return Return value.
-             */
             MatrixXf m(r, c);
             std::mt19937 rng(42);
             std::uniform_real_distribution<float> dist(-1.0f, 1.0f);
@@ -89,28 +59,12 @@ namespace Eigen {
         struct RowRef {
             MatrixXf& parent;
             int r = {};
-            /**
-             * @brief TBD: Describe transpose.
-             * @return Return value.
-             */
             VectorXf transpose() const;
         };
 
-        /**
-         * @brief TBD: Describe row.
-         * @param[in] r Input parameter.
-         * @return Return value.
-         * @details Implements row without additional internal calls.
-         */
         RowRef row(int r) { return RowRef{*this, r}; }
 
         MatrixXf transpose() const {
-            /**
-             * @brief TBD: Describe out.
-             * @param[in] cols_ Input parameter.
-             * @param[in] rows_ Input parameter.
-             * @return Return value.
-             */
             MatrixXf out(cols_, rows_);
             for (int i = 0; i < rows_; ++i)
                 for (int j = 0; j < cols_; ++j)
@@ -129,33 +83,13 @@ namespace Eigen {
     public:
         VectorXf() : n_(0) {}
         VectorXf(int n) : n_(n), data_(n, 0.0f) {}
-        /**
-         * @brief TBD: Describe resize.
-         * @param[in] n Input parameter.
-         * @details Calls: assign().
-         */
         void resize(int n) { n_ = n; data_.assign(n, 0.0f); }
         int size() const { return n_; }
         float& operator()(int i) { return data_[(size_t)i]; }
         const float& operator()(int i) const { return data_[(size_t)i]; }
         float sum() const { float s = 0.0f; for (auto v : data_) s += v; return s; }
-        /**
-         * @brief TBD: Describe setZero.
-         * @details Calls: std::fill(), begin(), end().
-         */
         void setZero() { std::fill(data_.begin(), data_.end(), 0.0f); }
-        /**
-         * @brief TBD: Describe Random.
-         * @param[in] n Input parameter.
-         * @return Return value.
-         * @details Calls: v(), rng(), dist().
-         */
         static VectorXf Random(int n) {
-            /**
-             * @brief TBD: Describe v.
-             * @param[in] n Input parameter.
-             * @return Return value.
-             */
             VectorXf v(n);
             std::mt19937 rng(42);
             std::uniform_real_distribution<float> dist(-1.0f, 1.0f);
@@ -207,17 +141,7 @@ namespace Eigen {
     public:
         MatrixXd() : rows_(0), cols_(0) {}
         MatrixXd(int r, int c) { resize(r, c); }
-        /**
-         * @brief TBD: Describe resize.
-         * @param[in] r Input parameter.
-         * @param[in] c Input parameter.
-         * @details Calls: assign().
-         */
         void resize(int r, int c) { rows_ = r; cols_ = c; data_.assign((size_t)r * c, 0.0); }
-        /**
-         * @brief TBD: Describe setZero.
-         * @details Calls: std::fill(), begin(), end().
-         */
         void setZero() { std::fill(data_.begin(), data_.end(), 0.0); }
         int rows() const { return rows_; }
         int cols() const { return cols_; }
@@ -230,28 +154,8 @@ namespace Eigen {
             return true;
         }
 
-        /**
-         * @brief TBD: Describe Zero.
-         * @param[in] r Input parameter.
-         * @param[in] c Input parameter.
-         * @return Return value.
-         * @details Calls: m(), setZero().
-         */
         static MatrixXd Zero(int r, int c) { MatrixXd m(r, c); m.setZero(); return m; }
-        /**
-         * @brief TBD: Describe Random.
-         * @param[in] r Input parameter.
-         * @param[in] c Input parameter.
-         * @return Return value.
-         * @details Calls: m(), rng(), dist().
-         */
         static MatrixXd Random(int r, int c) {
-            /**
-             * @brief TBD: Describe m.
-             * @param[in] r Input parameter.
-             * @param[in] c Input parameter.
-             * @return Return value.
-             */
             MatrixXd m(r, c);
             std::mt19937 rng(42);
             std::uniform_real_distribution<double> dist(-1.0, 1.0);
@@ -273,21 +177,9 @@ namespace Eigen {
             }
         };
 
-        /**
-         * @brief TBD: Describe row.
-         * @param[in] r Input parameter.
-         * @return Return value.
-         * @details Implements row without additional internal calls.
-         */
         RowRef row(int r) { return RowRef{*this, r}; }
 
         MatrixXd transpose() const {
-            /**
-             * @brief TBD: Describe out.
-             * @param[in] cols_ Input parameter.
-             * @param[in] rows_ Input parameter.
-             * @return Return value.
-             */
             MatrixXd out(cols_, rows_);
             for (int i = 0; i < rows_; ++i)
                 for (int j = 0; j < cols_; ++j)
@@ -306,20 +198,11 @@ namespace Eigen {
     public:
         VectorXd() : n_(0) {}
         VectorXd(int n) : n_(n), data_(n, 0.0) {}
-        /**
-         * @brief TBD: Describe resize.
-         * @param[in] n Input parameter.
-         * @details Calls: assign().
-         */
         void resize(int n) { n_ = n; data_.assign(n, 0.0); }
         int size() const { return n_; }
         double& operator()(int i) { return data_[(size_t)i]; }
         const double& operator()(int i) const { return data_[(size_t)i]; }
         double sum() const { double s = 0.0; for (auto v : data_) s += v; return s; }
-        /**
-         * @brief TBD: Describe setZero.
-         * @details Calls: std::fill(), begin(), end().
-         */
         void setZero() { std::fill(data_.begin(), data_.end(), 0.0); }
         std::vector<double> data_;
     private:

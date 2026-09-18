@@ -120,7 +120,6 @@ public:
      *
      * Calls loadModel(config["model_path"], config) when "model_path" is
      * present; otherwise returns false (or true in stub mode).
-     * @return Return value.
      */
     static ReloadCallback defaultReloadCallback();
 

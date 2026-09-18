@@ -154,17 +154,8 @@ private:
     int total_overflows_ = 0;
     int total_steps_ = 0;
     
-    /**
-     * @brief Helper for FP16/BF16 conversion (simplified for CPU)
-     * @param[in] value Input parameter.
-     * @return Return value.
-     */
+    // Helper for FP16/BF16 conversion (simplified for CPU)
     static float fp32_to_fp16(float value);
-    /**
-     * @brief TBD: Describe fp16_to_fp32.
-     * @param[in] value Input parameter.
-     * @return Return value.
-     */
     static float fp16_to_fp32(float value);
 };
 
@@ -182,11 +173,6 @@ private:
  */
 class MixedPrecisionScope {
 public:
-    /**
-     * @brief TBD: Describe MixedPrecisionScope.
-     * @param[in,out] trainer Input/output parameter.
-     * @return Return value.
-     */
     explicit MixedPrecisionScope(MixedPrecisionTrainer* trainer)
         : trainer_(trainer) {}
     

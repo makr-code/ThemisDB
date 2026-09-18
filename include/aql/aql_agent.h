@@ -145,10 +145,6 @@ struct AgentResult {
  */
 class IAgent {
 public:
-    /**
-     * @brief TBD: Describe ~IAgent.
-     * @return Return value.
-     */
     virtual ~IAgent() = default;
 
     /**
@@ -173,7 +169,6 @@ public:
      *
      * @throws std::invalid_argument if a tool with the same name is already
      *         registered.
-     * @param[in] tool Input parameter.
      */
     virtual void registerTool(const AgentTool& tool) = 0;
 
@@ -181,7 +176,6 @@ public:
      * @brief Remove a previously registered tool by name.
      *
      * @throws std::invalid_argument if no tool with that name is registered.
-     * @param[in] name Input parameter.
      */
     virtual void removeTool(const std::string& name) = 0;
 

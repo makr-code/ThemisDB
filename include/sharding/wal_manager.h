@@ -111,8 +111,6 @@ struct LSN {
         return std::to_string(segment) + "/" + std::to_string(offset);
     }
     
-     * @param[in] str Input parameter.
-     * @return Return value.
     /** @brief Parse LSN from segment/offset text representation. */
     static LSN fromString(const std::string& str);
 };
@@ -137,16 +135,12 @@ struct WALEntry {
     std::string transaction_id; // Transaction ID (optional)
     nlohmann::json data;        // Operation data (JSON for flexibility)
     
-     * @return Return value.
     /** @brief Serialize WAL entry into binary wire/storage format. */
     std::vector<uint8_t> serialize() const;
     
-     * @param[in] bytes Input parameter.
-     * @return Return value.
     /** @brief Deserialize WAL entry from binary bytes. */
     static WALEntry deserialize(const std::vector<uint8_t>& bytes);
     
-     * @return Return value.
     /** @brief Return serialized entry size in bytes. */
     size_t size() const;
 };
@@ -168,8 +162,6 @@ struct WALManagerConfig {
 /** @brief Thread-safe write-ahead log manager with segment rotation and retention. */
 class WALManager {
 public:
-     * @param[in] config Input parameter.
-     * @return Return value.
     /** @brief Construct WAL manager with configured directory/segment policy. */
     explicit WALManager(const WALManagerConfig& config);
 
@@ -199,11 +191,9 @@ public:
     std::vector<WALEntry> readRange(const LSN& start_lsn, 
                                     const std::optional<LSN>& end_lsn = std::nullopt);
     
-     * @return Return value.
     /** @brief Return current LSN (position of next append). */
     LSN getCurrentLSN() const;
     
-     * @return Return value.
     /** @brief Return oldest retained LSN after segment retention cleanup. */
     LSN getOldestLSN() const;
     
@@ -224,10 +214,6 @@ public:
     
     /** @brief Return WAL statistics snapshot. */
     struct Statistics;
-    /**
-     * @brief TBD: Describe getStatistics.
-     * @return Return value.
-     */
     Statistics getStatistics() const;
 
     /**
@@ -257,7 +243,6 @@ private:
     std::atomic<uint64_t> total_entries_{0};
     std::atomic<uint64_t> total_bytes_{0};
     
-     * @param[in] segment_number Input parameter.
     /** @brief Open or create WAL segment file by segment number. */
     void openSegment(uint64_t segment_number);
     
@@ -267,8 +252,6 @@ private:
     /** @brief Rotate active segment and apply retention cleanup. */
     void rotateSegment();
     
-     * @param[in] segment_number Input parameter.
-     * @return Return value.
     /** @brief Build filesystem path for a WAL segment number. */
     std::string getSegmentPath(uint64_t segment_number) const;
     
@@ -295,11 +278,7 @@ struct WALManager::Statistics {
 
 } // namespace themis::sharding
 
-/**
- * @brief Inline implementation of initialize() placed in header for tests.
- * @return True on success.
- * @details Calls: std::filesystem::create_directories(), loadExistingSegments().
- */
+// Inline implementation of initialize() placed in header for tests.
 inline bool themis::sharding::WALManager::initialize() {
     try {
         std::filesystem::create_directories(config_.wal_directory);

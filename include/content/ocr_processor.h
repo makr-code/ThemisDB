@@ -53,11 +53,6 @@ public:
     };
 
     OcrProcessor();
-    /**
-     * @brief TBD: Describe OcrProcessor.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit OcrProcessor(Config config);
     ~OcrProcessor() override = default;
 
@@ -105,13 +100,11 @@ public:
 
     /**
      * @brief Check whether OCR is available (Tesseract linked at build time)
-     * @return True on success.
      */
     static bool isAvailable();
 
     /**
      * @brief Return Tesseract version string, or a "none" marker if unavailable
-     * @return Return value.
      */
     static std::string getTesseractVersion();
 
@@ -162,14 +155,8 @@ private:
 
 /**
  * @brief Factory functions for OcrProcessor
- * @return Return value.
  */
 std::unique_ptr<IContentProcessor> createOcrProcessor();
-/**
- * @brief TBD: Describe createOcrProcessor.
- * @param[in] config Input parameter.
- * @return Return value.
- */
 std::unique_ptr<IContentProcessor> createOcrProcessor(OcrProcessor::Config config);
 
 }  // namespace content

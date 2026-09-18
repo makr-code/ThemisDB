@@ -70,7 +70,6 @@ public:
     /**
      * @brief Construct shedder with static policy configuration.
      * @param config Threshold and toggle configuration.
-     * @return Return value.
      */
     explicit LoadShedder(const Config& config);
     

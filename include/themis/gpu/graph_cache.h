@@ -122,8 +122,6 @@ public:
      * On a hit, increments the entry's replay counter and last_access stamp,
      * then returns a pointer to the entry (valid until the next mutating call
      * on this cache object).  Returns nullptr on a miss.
-     * @param[in] shape Input parameter.
-     * @return Pointer to the result.
      */
     const GraphEntry* lookup(const QueryShape& shape);
 
@@ -133,7 +131,6 @@ public:
      * If an entry for @p shape already exists its capture_count is
      * incremented (idempotent).  Otherwise a new entry is inserted,
      * evicting the LRU entry first if the cache is full.
-     * @param[in] shape Input parameter.
      */
     void capture(const QueryShape& shape);
 
@@ -142,7 +139,6 @@ public:
      *
      * In a production CUDA build this would also call cudaGraphExecDestroy /
      * cudaGraphDestroy to release device resources.
-     * @param[in] shape Input parameter.
      */
     void invalidate(const QueryShape& shape);
 
@@ -151,21 +147,10 @@ public:
      */
     void clear();
 
-    /**
-     * @brief TBD: Describe size.
-     * @return Return value.
-     */
     size_t size()     const;
-    /**
-     * @brief TBD: Describe getStats.
-     * @return Return value.
-     */
     Stats  getStats() const;
 
 private:
-    /**
-     * @brief TBD: Describe evictLRU.
-     */
     void evictLRU();  ///< Remove the least-recently-used entry (O(n), n ≤ 32)
 
     mutable std::mutex mutex_;

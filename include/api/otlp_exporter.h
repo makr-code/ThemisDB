@@ -207,15 +207,11 @@ public:
 
     /**
      * @brief Return the total number of spans successfully exported since start().
-     * @return Return value.
-     * @note Exception safety: noexcept.
      */
     uint64_t exportedSpanCount() const noexcept;
 
     /**
      * @brief Return the total number of spans dropped due to a full queue since start().
-     * @return Return value.
-     * @note Exception safety: noexcept.
      */
     uint64_t droppedSpanCount() const noexcept;
 
@@ -238,22 +234,9 @@ public:
 #endif
 
 private:
-    /**
-     * @brief TBD: Describe flushLoop.
-     */
     void flushLoop();
-    /**
-     * @brief TBD: Describe flushBatch.
-     * @param[in,out] batch Input/output parameter.
-     */
     void flushBatch(std::vector<SpanData>& batch);
 
-    /**
-     * @brief TBD: Describe buildOtlpJson.
-     * @param[in] cfg Input parameter.
-     * @param[in] spans Input parameter.
-     * @return Return value.
-     */
     static std::string buildOtlpJson(const OtlpExporterConfig& cfg,
                                      const std::vector<SpanData>& spans);
 

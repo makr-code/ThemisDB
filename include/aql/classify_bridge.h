@@ -46,10 +46,6 @@ struct ClassifyResult {
  */
 class IClassifyFn {
 public:
-    /**
-     * @brief TBD: Describe ~IClassifyFn.
-     * @return Return value.
-     */
     virtual ~IClassifyFn() = default;
 
     /**

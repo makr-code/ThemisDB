@@ -66,10 +66,6 @@ struct GeoIndexEntry {
  */
 class IRTreeCursor {
 public:
-    /**
-     * @brief TBD: Describe ~IRTreeCursor.
-     * @return Return value.
-     */
     virtual ~IRTreeCursor() = default;
 
     /**
@@ -109,10 +105,6 @@ public:
  */
 class IGeoIndex {
 public:
-    /**
-     * @brief TBD: Describe ~IGeoIndex.
-     * @return Return value.
-     */
     virtual ~IGeoIndex() = default;
 
     /**
@@ -145,8 +137,6 @@ public:
      *
      * This invalidates all open cursors; subsequent calls to `next()` on
      * previously opened cursors return `CursorStatus::STALE`.
-     * @param[in] key Input parameter.
-     * @param[in] geom Input parameter.
      */
     virtual void insert(const std::string& key, const GeometryInfo& geom) = 0;
 

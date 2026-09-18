@@ -88,87 +88,41 @@ public:
      */
     class Builder {
     public:
-        /**
-         * @brief TBD: Describe withPerShardTimeout.
-         * @param[in] timeout Input parameter.
-         * @return Return value.
-         * @details Implements withPerShardTimeout without additional internal calls.
-         */
         Builder& withPerShardTimeout(std::chrono::milliseconds timeout) {
             per_shard_timeout_ = timeout;
             return *this;
         }
 
-        /**
-         * @brief TBD: Describe withOverallTimeout.
-         * @param[in] timeout Input parameter.
-         * @return Return value.
-         * @details Implements withOverallTimeout without additional internal calls.
-         */
         Builder& withOverallTimeout(std::chrono::milliseconds timeout) {
             overall_timeout_ = timeout;
             return *this;
         }
 
-        /**
-         * @brief TBD: Describe withMaxRetries.
-         * @param[in] max_retries Input parameter.
-         * @return Return value.
-         * @details Implements withMaxRetries without additional internal calls.
-         */
         Builder& withMaxRetries(int max_retries) {
             max_retries_ = max_retries;
             return *this;
         }
 
-        /**
-         * @brief TBD: Describe withInitialBackoffMs.
-         * @param[in] backoff_ms Input parameter.
-         * @return Return value.
-         * @details Implements withInitialBackoffMs without additional internal calls.
-         */
         Builder& withInitialBackoffMs(int backoff_ms) {
             initial_backoff_ms_ = backoff_ms;
             return *this;
         }
 
-        /**
-         * @brief TBD: Describe withMaxBackoffMs.
-         * @param[in] max_backoff_ms Input parameter.
-         * @return Return value.
-         * @details Implements withMaxBackoffMs without additional internal calls.
-         */
         Builder& withMaxBackoffMs(int max_backoff_ms) {
             max_backoff_ms_ = max_backoff_ms;
             return *this;
         }
 
-        /**
-         * @brief TBD: Describe withBackoffMultiplier.
-         * @param[in] multiplier Input parameter.
-         * @return Return value.
-         * @details Implements withBackoffMultiplier without additional internal calls.
-         */
         Builder& withBackoffMultiplier(double multiplier) {
             backoff_multiplier_ = multiplier;
             return *this;
         }
 
-        /**
-         * @brief TBD: Describe withJitterFraction.
-         * @param[in] jitter Input parameter.
-         * @return Return value.
-         * @details Implements withJitterFraction without additional internal calls.
-         */
         Builder& withJitterFraction(double jitter) {
             jitter_fraction_ = jitter;
             return *this;
         }
 
-        /**
-         * @brief TBD: Describe build.
-         * @return Return value.
-         */
         TimeoutPolicy build() const;
 
     private:
@@ -311,7 +265,6 @@ public:
     /**
      * @brief Constructor
      * @param policy Timeout policy to use
-     * @return Return value.
      */
     explicit QueryTimeoutContext(const TimeoutPolicy& policy);
 

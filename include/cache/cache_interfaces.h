@@ -55,10 +55,6 @@ struct EvictionEvent {
  * required to be internally thread-safe.
  */
 struct IEvictionPolicy {
-    /**
-     * @brief TBD: Describe ~IEvictionPolicy.
-     * @return Return value.
-     */
     virtual ~IEvictionPolicy() = default;
 
     /// Notify the policy that @p key was accessed (cache hit).
@@ -123,10 +119,6 @@ struct KeyFilter {
  * Thread-safety: all methods are thread-safe.
  */
 struct ICacheAdminOps {
-    /**
-     * @brief TBD: Describe ~ICacheAdminOps.
-     * @return Return value.
-     */
     virtual ~ICacheAdminOps() = default;
 
     /**
@@ -149,7 +141,6 @@ struct ICacheAdminOps {
      *
      * If new_capacity < current_size, excess entries are evicted
      * using the active eviction policy before this call returns.
-     * @param[in] new_capacity Input parameter.
      */
     virtual void resize(size_t new_capacity) = 0;
 
@@ -204,10 +195,6 @@ struct WarmupResult {
  * Implementations read from NDJSON logs, snapshots, or in-memory fixtures.
  */
 struct IWarmupSource {
-    /**
-     * @brief TBD: Describe ~IWarmupSource.
-     * @return Return value.
-     */
     virtual ~IWarmupSource() = default;
 
     /**
@@ -230,10 +217,6 @@ struct IWarmupSource {
  * not override entries that are already live in the cache.
  */
 struct ICacheWarmup {
-    /**
-     * @brief TBD: Describe ~ICacheWarmup.
-     * @return Return value.
-     */
     virtual ~ICacheWarmup() = default;
 
     /**
@@ -295,10 +278,6 @@ struct PurgeResult {
  * Thread-safety: implementations must be thread-safe.
  */
 struct IGDPRPurgeHook {
-    /**
-     * @brief TBD: Describe ~IGDPRPurgeHook.
-     * @return Return value.
-     */
     virtual ~IGDPRPurgeHook() = default;
 
     /**
@@ -346,10 +325,6 @@ struct TTLAdapterConfig {
  * Thread-safety: computeTTL() and configure() must be thread-safe.
  */
 struct ITTLAdapter {
-    /**
-     * @brief TBD: Describe ~ITTLAdapter.
-     * @return Return value.
-     */
     virtual ~ITTLAdapter() = default;
 
     /**
@@ -368,7 +343,6 @@ struct ITTLAdapter {
      *
      * May be called at runtime to change adaptation parameters without
      * restarting the cache.
-     * @param[in] config Input parameter.
      */
     virtual void configure(const TTLAdapterConfig& config) = 0;
 };
@@ -407,17 +381,12 @@ struct ITTLAdapter {
  */
 template<typename K, typename V>
 struct ICacheBackend {
-    /**
-     * @brief TBD: Describe ~ICacheBackend.
-     * @return Return value.
-     */
     virtual ~ICacheBackend() = default;
 
     /**
      * @brief Look up @p key in the cache.
      *
      * @return The cached value, or `std::nullopt` on a miss.
-     * @param[in] key Input parameter.
      */
     virtual std::optional<V> get(const K& key) = 0;
 
@@ -435,7 +404,6 @@ struct ICacheBackend {
      *
      * @return true  if the key existed and was removed.
      * @return false if the key was not present (idempotent).
-     * @param[in] key Input parameter.
      */
     virtual bool remove(const K& key) = 0;
 
@@ -443,8 +411,6 @@ struct ICacheBackend {
      * @brief Return true if @p key is currently held in the cache.
      *
      * Must complete in O(1) amortised time.
-     * @param[in] key Input parameter.
-     * @return True on success.
      */
     virtual bool contains(const K& key) const = 0;
 
@@ -460,7 +426,6 @@ struct ICacheBackend {
      *
      * The returned value is a snapshot; concurrent modifications may change
      * it immediately after the call returns.
-     * @return Return value.
      */
     virtual std::size_t size() const = 0;
 };

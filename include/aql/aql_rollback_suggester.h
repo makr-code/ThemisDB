@@ -97,10 +97,6 @@ struct RollbackSuggestion {
  */
 class IAQLRollbackSuggester {
 public:
-    /**
-     * @brief TBD: Describe ~IAQLRollbackSuggester.
-     * @return Return value.
-     */
     virtual ~IAQLRollbackSuggester() = default;
 
     /**

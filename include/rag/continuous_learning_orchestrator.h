@@ -83,11 +83,6 @@ struct ContinuousLearningConfig {
  */
 class ContinuousLearningOrchestrator {
   public:
-    /**
-     * @brief TBD: Describe ContinuousLearningOrchestrator.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit ContinuousLearningOrchestrator(const ContinuousLearningConfig &config);
     ~ContinuousLearningOrchestrator();
 
@@ -160,7 +155,6 @@ class ContinuousLearningOrchestrator {
 
     /**
      * @brief Get current learning statistics
-     * @return Return value.
      */
     LearningStats getStats() const;
 
@@ -173,7 +167,6 @@ class ContinuousLearningOrchestrator {
 
     /**
      * @brief Check if system is improving over time
-     * @return True on success.
      */
     bool isSystemImproving() const;
 
@@ -202,13 +195,11 @@ class ContinuousLearningOrchestrator {
 
     /**
      * @brief Get the data selection configuration currently in use.
-     * @return Return value.
      */
     const themis::training::LoRADataSelectionConfig& getDataSelectionConfig() const;
 
     /**
      * @brief Update the data selection configuration (live reload).
-     * @param[in] cfg Input parameter.
      */
     void setDataSelectionConfig(const themis::training::LoRADataSelectionConfig& cfg);
 
@@ -311,7 +302,6 @@ class ContinuousLearningOrchestrator {
      * @brief Trigger Loop 2 — WorkloadAdaptiveOptimizer + HNSW (60 s interval).
      *
      * Delegates to `triggerLoop(LOOP_2_WORKLOAD)` after the cooldown guard passes.
-     * @return Return value.
      */
     LoopResult triggerLoop2WorkloadAdaptation();
 
@@ -320,7 +310,6 @@ class ContinuousLearningOrchestrator {
      *
      * Advisory-only; always passes the guardrail.  Delegates to
      * `triggerLoop(LOOP_3_SCHEMA_INDEX)` after the cooldown guard passes.
-     * @return Return value.
      */
     LoopResult triggerLoop3IndexLifecycle();
 
@@ -329,7 +318,6 @@ class ContinuousLearningOrchestrator {
      *
      * Delegates to `triggerLoop(LOOP_4_RLAIF)`.  On success + guardrail pass,
      * `FEDERATED_ROUND_START` is fired automatically.
-     * @return Return value.
      */
     LoopResult triggerLoop4AdapterImprovement();
 
@@ -462,73 +450,38 @@ class ContinuousLearningOrchestrator {
      *
      * Internally weak references are used, so providers fail closed (with
      * warning + fallback) if a dependency is released during runtime.
-     * @param[in] bao_optimizer Input parameter.
-     * @param[in] workload_optimizer Input parameter.
-     * @param[in] feedback_collector Input parameter.
      */
     void wireLiveSignalProviders(
         std::shared_ptr<themis::performance::phase3::BaoOptimizer> bao_optimizer,
         std::shared_ptr<themis::performance::WorkloadAdaptiveOptimizer> workload_optimizer,
         std::shared_ptr<themis::prompt_engineering::FeedbackCollector> feedback_collector);
 
-    /**
-     * @brief Persistence
-     */
+    // Persistence
     void saveMetrics();
-    /**
-     * @brief TBD: Describe loadMetrics.
-     */
     void loadMetrics();
-    /**
-     * @brief TBD: Describe saveModelCheckpoint.
-     * @param[in] model_id Input parameter.
-     */
     void saveModelCheckpoint(const std::string &model_id);
 
   private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
 
-    /**
-     * @brief Learning strategies
-     */
+    // Learning strategies
     void runPromptOptimization();
-    /**
-     * @brief TBD: Describe runRetrievalOptimization.
-     */
     void runRetrievalOptimization();
-    /**
-     * @brief TBD: Describe runLoRARetraining.
-     */
     void runLoRARetraining();
 
-    /**
-     * @brief A/B Testing
-     * @param[in] model_id Input parameter.
-     */
+    // A/B Testing
     void deployABTest(const std::string &model_id);
-    /**
-     * @brief TBD: Describe promoteOrRollback.
-     * @param[in] result Input parameter.
-     */
     void promoteOrRollback(const ABTestResult &result);
 
-    /**
-     * @brief Background thread
-     */
+    // Background thread
     void learningLoopThread();
 
-    /**
-     * @brief IMPL-A3: Federation event handler
-     */
+    // IMPL-A3: Federation event handler
     void handleFederatedRoundStart();
 
-    /**
-     * @brief IMPL-A2: Cooldown helper — returns true if the named loop is still within its cooldown window.
-     * @param[in] phase Input parameter.
-     * @return True on success.
-     * @details Updates last-trigger timestamp when allowed.
-     */
+    // IMPL-A2: Cooldown helper — returns true if the named loop is still within
+    // its cooldown window.  Updates last-trigger timestamp when allowed.
     bool checkAndUpdateCooldown(LoopPhase phase);
 };
 

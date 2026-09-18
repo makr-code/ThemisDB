@@ -58,11 +58,6 @@ struct BatchJob {
 enum class BatchJobStatus {
     PENDING, RUNNING, COMPLETED, FAILED
 };
-/**
- * @brief TBD: Describe batchJobStatusToString.
- * @param[in] s Input parameter.
- * @return Return value.
- */
 std::string batchJobStatusToString(BatchJobStatus s);
 
 // Batch summary
@@ -119,11 +114,7 @@ public:
         BatchProgressCallback progress_cb = nullptr
     );
 
-    /**
-     * @brief Process a single item (used internally)
-     * @param[in] item Input parameter.
-     * @return Return value.
-     */
+    // Process a single item (used internally)
     BatchItemResult processItem(const BatchAudioItem& item);
 
     // Quality metrics
@@ -132,50 +123,23 @@ public:
         int sample_rate = 16000
     ) const;
 
-    /**
-     * @brief WER computation (pure text comparison)
-     * @param[in] reference Input parameter.
-     * @param[in] hypothesis Input parameter.
-     * @return Return value.
-     */
+    // WER computation (pure text comparison)
     float computeWER(const std::string& reference, const std::string& hypothesis) const;
 
-    /**
-     * @brief PESQ-like estimation from SNR (approximation, no external lib required)
-     * @param[in] snr_db Input parameter.
-     * @return Return value.
-     */
+    // PESQ-like estimation from SNR (approximation, no external lib required)
     float estimatePESQ(float snr_db) const;
 
-    /**
-     * @brief SNR estimation from audio
-     * @param[in] audio_data Input parameter.
-     * @param[in] sample_rate Input parameter.
-     * @return Return value.
-     */
+    // SNR estimation from audio
     float estimateSNR(const std::vector<uint8_t>& audio_data, int sample_rate) const;
 
-    /**
-     * @brief Load test helper: simulate N concurrent requests
-     * @param[in] num_concurrent Input parameter.
-     * @param[in] template_item Input parameter.
-     * @return Return value.
-     */
+    // Load test helper: simulate N concurrent requests
     BatchSummary runLoadTest(
         size_t num_concurrent,
         const BatchAudioItem& template_item
     );
 
-    /**
-     * @brief Statistics
-     * @return Return value.
-     */
+    // Statistics
     json getStatistics() const;
-    /**
-     * @brief TBD: Describe getJobSummary.
-     * @param[in] job_id Input parameter.
-     * @return Return value.
-     */
     BatchSummary getJobSummary(const std::string& job_id) const;
 
     /**
@@ -201,29 +165,10 @@ private:
 
     std::map<std::string, BatchSummary> job_summaries_;
 
-    /**
-     * @brief TBD: Describe generateJobId.
-     * @return Return value.
-     */
     static std::string generateJobId();
-    /**
-     * @brief TBD: Describe tokenize.
-     * @param[in] text Input parameter.
-     * @return Return value.
-     */
     std::vector<std::string> tokenize(const std::string& text) const;
-    /**
-     * @brief TBD: Describe computeRMS.
-     * @param[in] samples Input parameter.
-     * @return Return value.
-     */
     float computeRMS(const std::vector<float>& samples) const;
     float computeNoiseFloor(const std::vector<float>& samples, size_t window_size = 800) const;
-    /**
-     * @brief TBD: Describe rawToFloat.
-     * @param[in] data Input parameter.
-     * @return Return value.
-     */
     std::vector<float> rawToFloat(const std::vector<uint8_t>& data) const;
 };
 

@@ -185,9 +185,6 @@ public:
      *
      * If the collection is already assigned to a different tier the assignment
      * is updated in-place.
-     * @brief TBD: Describe assignTier.
-     * @param[in] collection Input parameter.
-     * @param[in] tier Input parameter.
      */
     void assignTier(const std::string& collection, ReplicationTier tier);
 
@@ -195,8 +192,6 @@ public:
      * Remove a collection's explicit tier assignment.
      *
      * After removal getTier() returns the default_tier from the config.
-     * @brief TBD: Describe removeTier.
-     * @param[in] collection Input parameter.
      */
     void removeTier(const std::string& collection);
 
@@ -205,25 +200,16 @@ public:
      *
      * Returns the explicitly assigned tier if one exists, otherwise the
      * default_tier from the MultiTierConfig.
-     * @brief TBD: Describe getTier.
-     * @param[in] collection Input parameter.
-     * @return Return value.
      */
     ReplicationTier getTier(const std::string& collection) const;
 
     /**
      * Get the full TierConfig for a collection's current tier.
-     * @brief TBD: Describe getTierConfig.
-     * @param[in] collection Input parameter.
-     * @return Return value.
      */
     TierConfig getTierConfig(const std::string& collection) const;
 
     /**
      * Return the built-in (or overridden) TierConfig for the given tier.
-     * @brief TBD: Describe getDefaultTierConfig.
-     * @param[in] tier Input parameter.
-     * @return Return value.
      */
     TierConfig getDefaultTierConfig(ReplicationTier tier) const;
 
@@ -235,13 +221,9 @@ public:
      *
      * When enabled, `recordAccess()` updates per-collection counters and
      * `evaluateTierPromotion()` applies the promotion/demotion rules.
-     * @brief TBD: Describe enableAutoTiering.
-     * @param[in] enabled Input parameter.
      */
     void enableAutoTiering(bool enabled);
 
-     * @brief TBD: Describe isAutoTieringEnabled.
-     * @return True on success.
     /** Returns true when auto-tiering is currently enabled. */
     bool isAutoTieringEnabled() const;
 
@@ -249,8 +231,6 @@ public:
      * Record a single access to the collection.
      *
      * Has no effect when auto-tiering is disabled.  Thread-safe.
-     * @brief TBD: Describe recordAccess.
-     * @param[in] collection Input parameter.
      */
     void recordAccess(const std::string& collection);
 
@@ -264,16 +244,11 @@ public:
      *
      * Returns the new tier (which may be the same as the current tier).
      * Returns the current tier unchanged when auto-tiering is disabled.
-     * @brief TBD: Describe evaluateTierPromotion.
-     * @param[in] collection Input parameter.
-     * @return Return value.
      */
     ReplicationTier evaluateTierPromotion(const std::string& collection);
 
     // ── Statistics & introspection ────────────────────────────────────────────
 
-     * @brief TBD: Describe getStats.
-     * @return Return value.
     /** Return aggregate tier statistics. */
     MultiTierStats getStats() const;
 
@@ -282,8 +257,6 @@ public:
      *
      * Only collections that have had at least one access recorded or an
      * explicit tier assignment are included.
-     * @brief TBD: Describe getCollectionStats.
-     * @return Return value.
      */
     std::vector<CollectionAccessStats> getCollectionStats() const;
 
@@ -292,9 +265,6 @@ public:
      *
      * Collections relying on the default tier are NOT included unless they have
      * been explicitly assigned.
-     * @brief TBD: Describe getCollectionsForTier.
-     * @param[in] tier Input parameter.
-     * @return Return value.
      */
     std::vector<std::string> getCollectionsForTier(ReplicationTier tier) const;
 
@@ -305,8 +275,6 @@ private:
      * Expire old timestamps outside the rolling window and recompute
      * access_rate_per_min and recent_accesses.
      * Must be called while holding the stats write lock.
-     * @brief TBD: Describe refreshAccessRate.
-     * @param[in,out] stats Input/output parameter.
      */
     void refreshAccessRate(CollectionAccessStats& stats) const;
 
@@ -314,10 +282,6 @@ private:
      * Apply a tier change and update promotion/demotion counters.
      * Acquires assignments_mutex_ and stats_mutex_ internally.
      * Must NOT be called while holding either lock.
-     * @brief TBD: Describe applyTierChange.
-     * @param[in] collection Input parameter.
-     * @param[in] old_tier Input parameter.
-     * @param[in] new_tier Input parameter.
      */
     void applyTierChange(const std::string& collection,
                          ReplicationTier    old_tier,

@@ -90,9 +90,6 @@ public:
         
         /**
          * Load configuration from YAML file
-         * @brief TBD: Describe loadFromYAML.
-         * @param[in] yaml_path Input parameter.
-         * @return Return value.
          */
         static Config loadFromYAML(const std::string& yaml_path);
     };
@@ -141,13 +138,11 @@ public:
     
     /**
      * Start background update thread
-     * @brief TBD: Describe start.
      */
     void start();
     
     /**
      * Stop background update thread
-     * @brief TBD: Describe stop.
      */
     void stop();
     
@@ -171,7 +166,6 @@ public:
      * @param shard_id Shard identifier
      * @param data_path Path to RocksDB data directory
      * @return Analysis result with extracted metadata
-     * @brief TBD: Describe analyzeShardData.
      */
     AnalysisResult analyzeShardData(const std::string& shard_id, const std::string& data_path);
     
@@ -194,7 +188,6 @@ public:
      * @param capability Capability to save
      * @param audit_info Audit information (user, reason, etc.)
      * @return true if successful
-     * @brief TBD: Describe saveCapability.
      */
     bool saveCapability(
         const std::string& shard_id,
@@ -206,7 +199,6 @@ public:
      * Get statistics about auto-generation
      * 
      * @return Statistics as JSON
-     * @brief TBD: Describe getStatistics.
      */
     nlohmann::json getStatistics() const;
     
@@ -214,7 +206,6 @@ public:
      * Update configuration at runtime
      * 
      * @param config New configuration
-     * @brief TBD: Describe updateConfig.
      */
     void updateConfig(const Config& config);
     
@@ -222,11 +213,6 @@ public:
      * Get current configuration
      */
     Config getConfig() const {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         return config_;
     }
@@ -244,7 +230,6 @@ public:
      * @param shard_id   Shard identifier
      * @param timestamp  Unix epoch seconds to record as last run time
      * @param doc_count  Document count to record as last known count
-     * @brief TBD: Describe persistState.
      */
     void persistState(const std::string& shard_id, int64_t timestamp, uint64_t doc_count);
 
@@ -273,32 +258,21 @@ private:
     
     /**
      * Background worker thread function
-     * @brief TBD: Describe workerThread.
      */
     void workerThread();
     
     /**
      * Process a single shard
-     * @brief TBD: Describe processShard.
-     * @param[in] shard Input parameter.
      */
     void processShard(const sharding::ShardInfo& shard);
     
     /**
      * Check if shard should be updated
-     * @brief TBD: Describe shouldUpdate.
-     * @param[in] shard Input parameter.
-     * @param[in] current Input parameter.
-     * @return True on success.
      */
     bool shouldUpdate(const sharding::ShardInfo& shard, const AnalysisResult& current);
     
     /**
      * Calculate change significance between old and new
-     * @brief TBD: Describe calculateChangeSignificance.
-     * @param[in] old_cap Input parameter.
-     * @param[in] new_result Input parameter.
-     * @return Return value.
      */
     double calculateChangeSignificance(
         const sharding::DomainCapability& old_cap,
@@ -307,10 +281,6 @@ private:
     
     /**
      * Extract keywords using TF-IDF
-     * @brief TBD: Describe extractKeywords.
-     * @param[in] documents Input parameter.
-     * @param[in] max_keywords Input parameter.
-     * @return Return value.
      */
     std::vector<std::string> extractKeywords(
         const std::vector<std::string>& documents,
@@ -319,11 +289,6 @@ private:
     
     /**
      * Generate audit trail
-     * @brief TBD: Describe generateAuditTrail.
-     * @param[in] shard_id Input parameter.
-     * @param[in] previous Input parameter.
-     * @param[in] current Input parameter.
-     * @return Return value.
      */
     nlohmann::json generateAuditTrail(
         const std::string& shard_id,
@@ -333,10 +298,6 @@ private:
     
     /**
      * Create cryptographic signature
-     * @brief TBD: Describe generateSignature.
-     * @param[in] capability Input parameter.
-     * @param[in] private_key_path Input parameter.
-     * @return Return value.
      */
     std::string generateSignature(
         const sharding::DomainCapability& capability,
@@ -345,32 +306,22 @@ private:
     
     /**
      * Log to audit file
-     * @brief TBD: Describe auditLog.
-     * @param[in] shard_id Input parameter.
-     * @param[in] entry Input parameter.
      */
     void auditLog(const std::string& shard_id, const nlohmann::json& entry);
     
     /**
      * Get update schedule for shard
-     * @brief TBD: Describe getScheduleForShard.
-     * @param[in] shard Input parameter.
-     * @return Return value.
      */
     UpdateSchedule getScheduleForShard(const sharding::ShardInfo& shard) const;
     
     /**
      * Determine shard type from metadata
-     * @brief TBD: Describe determineShardType.
-     * @param[in] shard Input parameter.
-     * @return Return value.
      */
     std::string determineShardType(const sharding::ShardInfo& shard) const;
     
     /**
      * Load persisted schedule/count state from state_db_ into in-memory maps.
      * Called once in the constructor when state_db_ is non-null.
-     * @brief TBD: Describe loadPersistedState.
      */
     void loadPersistedState();
 };

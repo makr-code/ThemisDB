@@ -230,11 +230,6 @@ public:
     };
 
     LLMAQLHandler();
-    /**
-     * @brief TBD: Describe LLMAQLHandler.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit LLMAQLHandler(const Config& config);
     ~LLMAQLHandler();
 
@@ -287,59 +282,20 @@ public:
         const std::string& model_id = ""
     );
 
-    /**
-     * @brief Model management commands
-     * @param[in] model_id Input parameter.
-     * @param[in] path Input parameter.
-     */
+    // Model management commands
     void executeModelLoad(const std::string& model_id, const std::string& path);
-    /**
-     * @brief TBD: Describe executeModelUnload.
-     * @param[in] model_id Input parameter.
-     */
     void executeModelUnload(const std::string& model_id);
-    /**
-     * @brief TBD: Describe executeModelList.
-     * @return Return value.
-     */
     std::vector<std::string> executeModelList();
-    /**
-     * @brief TBD: Describe executeModelIngest.
-     * @param[in] model_id Input parameter.
-     * @param[in] blob_urn Input parameter.
-     */
     void executeModelIngest(const std::string& model_id, const std::string& blob_urn);
 
-    /**
-     * @brief LoRA management commands
-     * @param[in] lora_id Input parameter.
-     * @param[in] path Input parameter.
-     */
+    // LoRA management commands
     void executeLoRALoad(const std::string& lora_id, const std::string& path);
-    /**
-     * @brief TBD: Describe executeLoRAUnload.
-     * @param[in] lora_id Input parameter.
-     */
     void executeLoRAUnload(const std::string& lora_id);
-    /**
-     * @brief TBD: Describe executeLoRAList.
-     * @return Return value.
-     */
     std::vector<std::string> executeLoRAList();
 
-    /**
-     * @brief Statistics commands
-     * @return Return value.
-     */
+    // Statistics commands
     std::string executeStats();
-    /**
-     * @brief TBD: Describe executeCacheStats.
-     * @return Return value.
-     */
     std::string executeCacheStats();
-    /**
-     * @brief TBD: Describe executeCacheClear.
-     */
     void executeCacheClear();
 
     /**
@@ -348,7 +304,6 @@ public:
      * Each state string is one of "CLOSED", "OPEN", or "HALF_OPEN" as produced
      * by @c sharding::CircuitBreaker::stateToString().
      * Intended for observability dashboards and the @c LLM STATS output.
-     * @return Return value.
      */
     CircuitBreakerStates getCircuitBreakerStates() const;
 
@@ -360,11 +315,6 @@ public:
         std::unordered_map<std::string, std::string> options;
     };
 
-    /**
-     * @brief TBD: Describe executeBatchInfer.
-     * @param[in] requests Input parameter.
-     * @return Return value.
-     */
     std::vector<std::string> executeBatchInfer(
         const std::vector<BatchInferRequest>& requests
     );
@@ -674,7 +624,6 @@ public:
 
     /**
      * @brief Return the current post-generation AQL validation enforcement level.
-     * @return Return value.
      */
     TranslationValidationMode getValidationMode() const;
 
@@ -807,7 +756,6 @@ public:
 
     /**
      * @brief Return the currently active validation limits.
-     * @return Return value.
      */
     ValidationLimitsConfig getValidationLimits() const;
 
@@ -821,20 +769,8 @@ public:
      * @param config  New timeout configuration.
      */
     void setTimeoutConfig(const LLMTimeoutManager::TimeoutConfig& config);
-    /**
-     * @brief TBD: Describe setDomainRouteResolver.
-     * @param[in] resolver Input parameter.
-     */
     void setDomainRouteResolver(DomainRouteResolver resolver);
-    /**
-     * @brief TBD: Describe setAdaptiveShardRouter.
-     * @param[in] router Input parameter.
-     */
     void setAdaptiveShardRouter(std::shared_ptr<sharding::AdaptiveShardRouter> router);
-    /**
-     * @brief TBD: Describe setShardingManager.
-     * @param[in,out] sharding_manager Input/output parameter.
-     */
     void setShardingManager(sharding::ShardingManager* sharding_manager);
 
     /**
@@ -929,7 +865,6 @@ public:
 
     /**
      * @brief Return the currently attached `AQLIngestionBridge`, or nullptr.
-     * @return Return value.
      */
     std::shared_ptr<AQLIngestionBridge> ingestionBridge() const;
 
@@ -939,7 +874,6 @@ public:
      *
      * Call this before invoking executeRAG() / executeCommand(…, "RAG", …).
      * When not set, doc.content carries the primary key (backward-compatible).
-     * @param[in] storage Input parameter.
      */
     void setStorage(std::shared_ptr<RocksDBWrapper> storage);
 

@@ -34,11 +34,6 @@ std::string calculateSHA256(const std::string& file_path);
  *   New code MUST NOT use MD5 for integrity or authentication purposes.
  */
 [[deprecated("MD5 is cryptographically broken (CWE-327). Use calculateSHA256() instead.")]]
-/**
- * @brief TBD: Describe calculateMD5.
- * @param[in] file_path Input parameter.
- * @return Return value.
- */
 std::string calculateMD5(const std::string& file_path);
 
 } // namespace utils

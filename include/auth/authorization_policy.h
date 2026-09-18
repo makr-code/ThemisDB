@@ -116,10 +116,6 @@ struct PolicyEvaluationResult {
  */
 class IAuthorizationPolicy {
 public:
-    /**
-     * @brief TBD: Describe ~IAuthorizationPolicy.
-     * @return Return value.
-     */
     virtual ~IAuthorizationPolicy() = default;
 
     /**

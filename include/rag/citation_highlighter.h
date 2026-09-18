@@ -181,7 +181,6 @@ public:
 
     /**
      * @brief Return current configuration
-     * @return Return value.
      */
     CitationHighlighterConfig getConfig() const;
 
@@ -207,19 +206,16 @@ class CitationHighlighterFactory {
 public:
     /**
      * @brief Strict mode: only very strong matches are cited (threshold=0.30)
-     * @return Return value.
      */
     static std::unique_ptr<CitationHighlighter> createStrict();
 
     /**
      * @brief Balanced mode: default thresholds (threshold=0.15)
-     * @return Return value.
      */
     static std::unique_ptr<CitationHighlighter> createBalanced();
 
     /**
      * @brief Permissive mode: even weak overlaps are cited (threshold=0.05)
-     * @return Return value.
      */
     static std::unique_ptr<CitationHighlighter> createPermissive();
 };

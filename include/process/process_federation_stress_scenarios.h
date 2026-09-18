@@ -80,17 +80,7 @@ constexpr std::uint32_t kPartitionDetectionTimeoutMs = 1000;
  */
 class ByzantineConsensusScenario {
  public:
-  /**
-   * @brief TBD: Describe Name.
-   * @return Return value.
-   * @details Implements Name without additional internal calls.
-   */
   static std::string Name() { return "ByzantineNodeUnderQuorum"; }
-  /**
-   * @brief TBD: Describe Description.
-   * @return Return value.
-   * @details Implements Description without additional internal calls.
-   */
   static std::string Description() {
     return "Byzantine node sends conflicting votes; quorum prevails";
   }
@@ -124,17 +114,7 @@ class ByzantineConsensusScenario {
  */
 class NetworkPartitionHealingScenario {
  public:
-  /**
-   * @brief TBD: Describe Name.
-   * @return Return value.
-   * @details Implements Name without additional internal calls.
-   */
   static std::string Name() { return "NetworkPartitionAndHealing"; }
-  /**
-   * @brief TBD: Describe Description.
-   * @return Return value.
-   * @details Implements Description without additional internal calls.
-   */
   static std::string Description() {
     return "Partition for 5s, detect, continue majority, heal, re-sync";
   }
@@ -172,17 +152,7 @@ class NetworkPartitionHealingScenario {
  */
 class CallbackUnderHighChurnScenario {
  public:
-  /**
-   * @brief TBD: Describe Name.
-   * @return Return value.
-   * @details Implements Name without additional internal calls.
-   */
   static std::string Name() { return "CallbackUnderHighChurn"; }
-  /**
-   * @brief TBD: Describe Description.
-   * @return Return value.
-   * @details Implements Description without additional internal calls.
-   */
   static std::string Description() {
     return "500+ concurrent updates trigger callbacks for conflict resolution";
   }
@@ -214,17 +184,7 @@ class CallbackUnderHighChurnScenario {
  */
 class MultiModelConflictScenario {
  public:
-  /**
-   * @brief TBD: Describe Name.
-   * @return Return value.
-   * @details Implements Name without additional internal calls.
-   */
   static std::string Name() { return "MultiModelConflicts"; }
-  /**
-   * @brief TBD: Describe Description.
-   * @return Return value.
-   * @details Implements Description without additional internal calls.
-   */
   static std::string Description() {
     return "Simultaneous conflicts on 3+ models; each resolved independently";
   }
@@ -261,17 +221,7 @@ class MultiModelConflictScenario {
  */
 class AuditTrailHighChurnScenario {
  public:
-  /**
-   * @brief TBD: Describe Name.
-   * @return Return value.
-   * @details Implements Name without additional internal calls.
-   */
   static std::string Name() { return "AuditTrailHighChurn"; }
-  /**
-   * @brief TBD: Describe Description.
-   * @return Return value.
-   * @details Implements Description without additional internal calls.
-   */
   static std::string Description() {
     return "10K+ audit entries with concurrent reads and writes";
   }
@@ -302,17 +252,7 @@ class AuditTrailHighChurnScenario {
  */
 class TemporalReconstructionScenario {
  public:
-  /**
-   * @brief TBD: Describe Name.
-   * @return Return value.
-   * @details Implements Name without additional internal calls.
-   */
   static std::string Name() { return "TemporalReconstruction"; }
-  /**
-   * @brief TBD: Describe Description.
-   * @return Return value.
-   * @details Implements Description without additional internal calls.
-   */
   static std::string Description() {
     return "Reconstruct model at 10 historical timepoints; verify equivalence";
   }
@@ -349,17 +289,7 @@ class TemporalReconstructionScenario {
  */
 class CorrelationIdPropagationScenario {
  public:
-  /**
-   * @brief TBD: Describe Name.
-   * @return Return value.
-   * @details Implements Name without additional internal calls.
-   */
   static std::string Name() { return "CorrelationIdPropagation"; }
-  /**
-   * @brief TBD: Describe Description.
-   * @return Return value.
-   * @details Implements Description without additional internal calls.
-   */
   static std::string Description() {
     return "Correlation ID flows through 4+ RPC hops; collected in single trace";
   }
@@ -392,17 +322,7 @@ class CorrelationIdPropagationScenario {
  */
 class TraceCompletenessPartitionScenario {
  public:
-  /**
-   * @brief TBD: Describe Name.
-   * @return Return value.
-   * @details Implements Name without additional internal calls.
-   */
   static std::string Name() { return "TraceCompletenessUnderPartition"; }
-  /**
-   * @brief TBD: Describe Description.
-   * @return Return value.
-   * @details Implements Description without additional internal calls.
-   */
   static std::string Description() {
     return "Traces from majority partition complete; minority delayed; all collected";
   }
@@ -437,17 +357,7 @@ class TraceCompletenessPartitionScenario {
  */
 class PartitionDetectionLatencyScenario {
  public:
-  /**
-   * @brief TBD: Describe Name.
-   * @return Return value.
-   * @details Implements Name without additional internal calls.
-   */
   static std::string Name() { return "PartitionDetectionLatency"; }
-  /**
-   * @brief TBD: Describe Description.
-   * @return Return value.
-   * @details Implements Description without additional internal calls.
-   */
   static std::string Description() {
     return "Measure time to detect network partition (heartbeat timeout)";
   }
@@ -478,17 +388,7 @@ class PartitionDetectionLatencyScenario {
  */
 class SplitBrainPreventionScenario {
  public:
-  /**
-   * @brief TBD: Describe Name.
-   * @return Return value.
-   * @details Implements Name without additional internal calls.
-   */
   static std::string Name() { return "SplitBrainPrevention"; }
-  /**
-   * @brief TBD: Describe Description.
-   * @return Return value.
-   * @details Implements Description without additional internal calls.
-   */
   static std::string Description() {
     return "Minority partition (2/5 nodes) cannot elect leader; writes rejected";
   }
@@ -519,17 +419,7 @@ class SplitBrainPreventionScenario {
  */
 class CascadingFailuresScenario {
  public:
-  /**
-   * @brief TBD: Describe Name.
-   * @return Return value.
-   * @details Implements Name without additional internal calls.
-   */
   static std::string Name() { return "CascadingFailures"; }
-  /**
-   * @brief TBD: Describe Description.
-   * @return Return value.
-   * @details Implements Description without additional internal calls.
-   */
   static std::string Description() {
     return "Simulate 2-3 node failures; verify F < N/3 constraints respected";
   }
@@ -563,17 +453,7 @@ class CascadingFailuresScenario {
  */
 class RejoinLogSyncScenario {
  public:
-  /**
-   * @brief TBD: Describe Name.
-   * @return Return value.
-   * @details Implements Name without additional internal calls.
-   */
   static std::string Name() { return "RejoinLogSync"; }
-  /**
-   * @brief TBD: Describe Description.
-   * @return Return value.
-   * @details Implements Description without additional internal calls.
-   */
   static std::string Description() {
     return "Partition heals; minority catches up via log sync; verify consistency";
   }
@@ -608,10 +488,6 @@ class FederationStressScenario {
   /// Cleanup phase (tear down resources)
   virtual void Cleanup() = 0;
 
-  /**
-   * @brief TBD: Describe ~FederationStressScenario.
-   * @return Return value.
-   */
   virtual ~FederationStressScenario() = default;
 };
 

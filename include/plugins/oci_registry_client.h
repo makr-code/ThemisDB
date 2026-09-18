@@ -151,7 +151,6 @@ public:
 
     /**
      * @brief Set the HTTP connect/read timeout in seconds (default: 30).
-     * @param[in] timeout_seconds Input parameter.
      */
     void setTimeout(long timeout_seconds);
 
@@ -194,29 +193,15 @@ private:
         const std::string& dest_path,
         const std::vector<std::string>& extra_headers = {});
 
-    /**
-     * @brief Obtain (or refresh) a Bearer token via the WWW-Authenticate challenge.
-     * @param[in] registry Input parameter.
-     * @param[in] scope Input parameter.
-     * @return Return value.
-     */
+    // Obtain (or refresh) a Bearer token via the WWW-Authenticate challenge.
     Result<std::string> obtainBearerToken(
         const std::string& registry,
         const std::string& scope);
 
-    /**
-     * @brief Verify the SHA-256 digest of a file matches the expected "sha256:<hex>" string.
-     * @param[in] file_path Input parameter.
-     * @param[in] expected_digest Input parameter.
-     * @return True on success.
-     */
+    // Verify the SHA-256 digest of a file matches the expected "sha256:<hex>" string.
     static bool verifyDigest(const std::string& file_path, const std::string& expected_digest);
 
-    /**
-     * @brief Build the base API URL for a registry.
-     * @param[in] registry Input parameter.
-     * @return Return value.
-     */
+    // Build the base API URL for a registry.
     static std::string registryBaseUrl(const std::string& registry);
 
     std::unordered_map<std::string, OciAuthConfig> auth_configs_;

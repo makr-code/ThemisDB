@@ -79,11 +79,6 @@ public:
         double frequency_weight = 0.3;   ///< Weight of word-frequency signal in confidence score [0,1]; 0 disables frequency blending
         size_t max_expansions = 5;       ///< Maximum number of synonym terms to add
         int max_edit_distance = 2;       ///< Maximum edit distance for spelling correction
-        /**
-         * @brief TBD: Describe defaults.
-         * @return Return value.
-         * @details Implements defaults without additional internal calls.
-         */
         static Config defaults() { return {}; }
     };
 
@@ -115,7 +110,6 @@ public:
      * @brief Add words to the vocabulary used for spelling correction.
      *
      * Words already in the vocabulary are ignored (idempotent).
-     * @param[in] words Input parameter.
      */
     void addVocabulary(const std::vector<std::string>& words);
 
@@ -232,24 +226,9 @@ private:
     /// optional word frequency counts for frequency-weighted suggestion ranking (lowercase keys)
     std::unordered_map<std::string, size_t> word_frequencies_;
 
-    /**
-     * @brief Helpers
-     * @param[in] text Input parameter.
-     * @return Return value.
-     */
+    // Helpers
     static std::vector<std::string> tokenize(const std::string& text);
-    /**
-     * @brief TBD: Describe toLower.
-     * @param[in] s Input parameter.
-     * @return Return value.
-     */
     static std::string toLower(const std::string& s);
-    /**
-     * @brief TBD: Describe editDistance.
-     * @param[in] a Input parameter.
-     * @param[in] b Input parameter.
-     * @return Return value.
-     */
     static int editDistance(const std::string& a, const std::string& b);
 };
 

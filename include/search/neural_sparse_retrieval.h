@@ -110,11 +110,6 @@ public:
         float  score_threshold = 0.0f; ///< Minimum raw score for a result to be included
         bool   normalize_scores = true;///< Rescale result scores to [0, 1] before returning
 
-        /**
-         * @brief TBD: Describe defaults.
-         * @return Return value.
-         * @details Implements defaults without additional internal calls.
-         */
         static Config defaults() { return {}; }
     };
 
@@ -234,16 +229,10 @@ public:
 
     /**
      * @brief Number of documents currently indexed.
-     * @return Return value.
      */
     size_t size() const;
 
     const Config& getConfig() const { return config_; }
-    /**
-     * @brief TBD: Describe setConfig.
-     * @param[in] config Input parameter.
-     * @details Implements setConfig without additional internal calls.
-     */
     void setConfig(const Config& config) { config_ = config; }
 
     /**
@@ -255,7 +244,6 @@ public:
      *
      * Promoted to public static for direct unit testing (same pattern as
      * `HybridSearch::normalizeScores`).
-     * @param[in,out] results Input/output parameter.
      */
     static void normalizeScores(std::vector<Result>& results);
 
@@ -269,26 +257,13 @@ private:
     // Forward index: doc_id -> sparse vector (needed for clean removal)
     std::unordered_map<std::string, SparseVector> forward_index_;
 
-    /**
-     * @brief Internal helper: insert a validated + truncated sparse vector
-     * @param[in] doc_id Input parameter.
-     * @param[in] vec Input parameter.
-     */
+    // Internal helper: insert a validated + truncated sparse vector
     void insertVector(const std::string& doc_id, const SparseVector& vec);
 
-    /**
-     * @brief Internal helper: remove a document from the inverted index
-     * @param[in] doc_id Input parameter.
-     * @param[in] vec Input parameter.
-     */
+    // Internal helper: remove a document from the inverted index
     void eraseFromIndex(const std::string& doc_id, const SparseVector& vec);
 
-    /**
-     * @brief Internal helper: clamp and optionally truncate a sparse vector
-     * @param[in] raw Input parameter.
-     * @param[in] max_terms Input parameter.
-     * @return Return value.
-     */
+    // Internal helper: clamp and optionally truncate a sparse vector
     static SparseVector sanitize(const SparseVector& raw, size_t max_terms);
 };
 

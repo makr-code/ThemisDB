@@ -147,27 +147,21 @@ struct UpdatesConfig {
 
     /**
      * @brief Load configuration from YAML file
-     * @param[in] yaml_path Input parameter.
-     * @return Return value.
      */
     static UpdatesConfig loadFromYaml(const std::string& yaml_path);
     
     /**
      * @brief Load configuration from JSON
-     * @param[in] j Input parameter.
-     * @return Return value.
      */
     static UpdatesConfig fromJson(const json& j);
     
     /**
      * @brief Convert to JSON
-     * @return Return value.
      */
     json toJson() const;
     
     /**
      * @brief Save configuration to YAML file
-     * @param[in] yaml_path Input parameter.
      */
     void saveToYaml(const std::string& yaml_path) const;
 };

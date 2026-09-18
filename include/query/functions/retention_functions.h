@@ -473,11 +473,9 @@ public:
     }
 };
 
-/**
- * @brief ============================================================================ Register Retention Functions ============================================================================
- * @param[in,out] reg Input/output parameter.
- * @details Calls: registerFunction().
- */
+// ============================================================================
+// Register Retention Functions
+// ============================================================================
 
 inline void registerRetentionFunctions(FunctionRegistry& reg) {
     // Statistical functions for adaptive retention

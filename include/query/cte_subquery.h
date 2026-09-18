@@ -121,8 +121,6 @@ public:
     
     /**
      * @brief Setzt Recursive CTE Konfiguration
-     * @param[in] config Input parameter.
-     * @details Implements setRecursiveConfig without additional internal calls.
      */
     void setRecursiveConfig(const RecursiveCTEConfig& config) {
         recursiveConfig_ = config;
@@ -137,9 +135,6 @@ private:
     
     /**
      * @brief Prüft ob zwei Result-Sets identisch sind (für fixpoint check)
-     * @param[in] a Input parameter.
-     * @param[in] b Input parameter.
-     * @return True on success.
      */
     bool areResultsEqual(
         const std::vector<nlohmann::json>& a,
@@ -148,9 +143,6 @@ private:
     
     /**
      * @brief Erkennt Zyklen in recursive CTEs
-     * @param[in] newResults Input parameter.
-     * @param[in] history Input parameter.
-     * @return True on success.
      */
     bool detectCycle(
         const std::vector<nlohmann::json>& newResults,

@@ -48,35 +48,11 @@ static constexpr uint8_t kGorillaCurrentVersion = 0x01; // format version 1
 /** @brief Bit writer component. */
 class BitWriter {
 public:
-    /**
-     * @brief TBD: Describe writeBit.
-     * @param[in] bit Input parameter.
-     */
     void writeBit(bool bit);
-    /**
-     * @brief TBD: Describe writeBits.
-     * @param[in] value Input parameter.
-     * @param[in] bits Input parameter.
-     */
     void writeBits(uint64_t value, int bits);
-    /**
-     * @brief TBD: Describe writeVarUInt.
-     * @param[in] value Input parameter.
-     */
     void writeVarUInt(uint64_t value);
-    /**
-     * @brief TBD: Describe writeZigZag64.
-     * @param[in] value Input parameter.
-     */
     void writeZigZag64(int64_t value);
-    /**
-     * @brief TBD: Describe alignToByte.
-     */
     void alignToByte();
-    /**
-     * @brief TBD: Describe finish.
-     * @return Return value.
-     */
     std::vector<uint8_t> finish();
 
 private:
@@ -230,16 +206,7 @@ private:
 /** @brief Gorilla encoder component. */
 class GorillaEncoder {
 public:
-    /**
-     * @brief TBD: Describe add.
-     * @param[in] timestamp_ms Input parameter.
-     * @param[in] value Input parameter.
-     */
     void add(int64_t timestamp_ms, double value);
-    /**
-     * @brief TBD: Describe finish.
-     * @return Return value.
-     */
     std::vector<uint8_t> finish();
 
 private:
@@ -255,11 +222,6 @@ private:
 /** @brief Gorilla decoder component. */
 class GorillaDecoder {
 public:
-    /**
-     * @brief TBD: Describe GorillaDecoder.
-     * @param[in] data Input parameter.
-     * @return Return value.
-     */
     explicit GorillaDecoder(const std::vector<uint8_t>& data);
     std::optional<std::pair<int64_t,double>> next();
 
@@ -283,13 +245,8 @@ private:
     std::vector<uint8_t> data_; // owned, header-stripped payload (declared after error_)
     BitReader br_;
 
-    /**
-     * @brief Strips the 3-byte chunk header if present; sets error_out=true on unsupported version.
-     * @param[in] data Input parameter.
-     * @param[in,out] error_out Input/output parameter.
-     * @return Return value.
-     * @details Returns the payload (header-stripped or original).
-     */
+    // Strips the 3-byte chunk header if present; sets error_out=true on
+    // unsupported version.  Returns the payload (header-stripped or original).
     static std::vector<uint8_t> gorilla_strip_header(
             const std::vector<uint8_t>& data, bool& error_out);
 };

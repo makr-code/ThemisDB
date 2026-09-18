@@ -221,29 +221,16 @@ struct RedundancyConfig {
     bool auto_recovery = true;
     uint32_t recovery_parallelism = 4;
     
-    /**
-     * @brief Validate configuration
-     * @return True on success.
-     */
+    // Validate configuration
     bool validate() const;
     
-    /**
-     * @brief Get storage efficiency (0.
-     * @return Return value.
-     * @details 0 to 1.0)
-     */
+    // Get storage efficiency (0.0 to 1.0)
     double getStorageEfficiency() const;
     
-    /**
-     * @brief Get fault tolerance (number of failures tolerated)
-     * @return Return value.
-     */
+    // Get fault tolerance (number of failures tolerated)
     uint32_t getFaultTolerance() const;
     
-    /**
-     * @brief Get effective replication factor
-     * @return Return value.
-     */
+    // Get effective replication factor
     uint32_t getEffectiveReplicationFactor() const;
 };
 
@@ -259,16 +246,8 @@ struct ChunkInfo {
     std::string checksum;           // CRC32 or SHA256
     bool is_parity = false;         // For erasure coding
     
-    /**
-     * @brief Serialize to binary
-     * @return Return value.
-     */
+    // Serialize to binary
     std::vector<uint8_t> serialize() const;
-    /**
-     * @brief TBD: Describe deserialize.
-     * @param[in] data Input parameter.
-     * @return Return value.
-     */
     static std::optional<ChunkInfo> deserialize(const std::vector<uint8_t>& data);
 };
 
@@ -280,24 +259,13 @@ struct StripeGroup {
     std::chrono::system_clock::time_point created_at;
     uint64_t total_size;
     
-    /**
-     * @brief Check if all chunks are available
-     * @return True on success.
-     */
+    // Check if all chunks are available
     bool isComplete() const;
     
-    /**
-     * @brief Get missing chunk indices
-     * @return Return value.
-     */
+    // Get missing chunk indices
     std::vector<uint32_t> getMissingChunks() const;
     
-    /**
-     * @brief Can recover from erasure coding?
-     * @param[in] data_shards Input parameter.
-     * @param[in] parity_shards Input parameter.
-     * @return True on success.
-     */
+    // Can recover from erasure coding?
     bool canRecover(uint32_t data_shards, uint32_t parity_shards) const;
 };
 
@@ -311,22 +279,9 @@ struct WriteResult {
     std::chrono::milliseconds latency;
     std::string error_message;
     
-    /**
-     * @brief TBD: Describe successful.
-     * @param[in] doc_id Input parameter.
-     * @param[in] shards Input parameter.
-     * @param[in] lat Input parameter.
-     * @return Return value.
-     */
     static WriteResult successful(const std::string& doc_id, 
                                   const std::vector<std::string>& shards,
                                   std::chrono::milliseconds lat);
-    /**
-     * @brief TBD: Describe failed.
-     * @param[in] doc_id Input parameter.
-     * @param[in] error Input parameter.
-     * @return Return value.
-     */
     static WriteResult failed(const std::string& doc_id, 
                              const std::string& error);
 };
@@ -376,19 +331,9 @@ struct RedundancyStats {
 /** @brief Interface for erasure-coding implementations used by parity modes. */
 class ErasureCoder {
 public:
-    /**
-     * @brief TBD: Describe ~ErasureCoder.
-     * @return Return value.
-     */
     virtual ~ErasureCoder() = default;
     
-    /**
-     * @brief Encode data into data + parity chunks
-     * @param[in] data Input parameter.
-     * @param[in] data_shards Input parameter.
-     * @param[in] parity_shards Input parameter.
-     * @return Return value.
-     */
+    // Encode data into data + parity chunks
     virtual std::vector<std::vector<uint8_t>> encode(
         const std::vector<uint8_t>& data,
         uint32_t data_shards,
@@ -405,11 +350,7 @@ public:
         uint32_t parity_shards
     ) = 0;
     
-    /**
-     * @brief Factory method
-     * @param[in] algorithm Input parameter.
-     * @return Return value.
-     */
+    // Factory method
     static std::unique_ptr<ErasureCoder> create(ErasureCodingAlgorithm algorithm);
 };
 
@@ -434,54 +375,18 @@ public:
     ) override;
     
 private:
-    /**
-     * @brief Galois Field GF(2^8) operations with irreducible polynomial x^8+x^4+x^3+x^2+1 (0x1d)
-     * @param[in] a Input parameter.
-     * @param[in] b Input parameter.
-     * @return Return value.
-     */
+    // Galois Field GF(2^8) operations with irreducible polynomial x^8+x^4+x^3+x^2+1 (0x1d)
     uint8_t gf_mul(uint8_t a, uint8_t b);
-    /**
-     * @brief TBD: Describe gf_inv.
-     * @param[in] a Input parameter.
-     * @return Return value.
-     */
     uint8_t gf_inv(uint8_t a);
-    /**
-     * @brief TBD: Describe gf_div.
-     * @param[in] a Input parameter.
-     * @param[in] b Input parameter.
-     * @return Return value.
-     */
     uint8_t gf_div(uint8_t a, uint8_t b);
-    /**
-     * @brief TBD: Describe gf_pow.
-     * @param[in] a Input parameter.
-     * @param[in] exp Input parameter.
-     * @return Return value.
-     */
     uint8_t gf_pow(uint8_t a, uint8_t exp);
-    /**
-     * @brief TBD: Describe gf_matrix_mul.
-     * @param[in] matrix Input parameter.
-     * @param[in] vec Input parameter.
-     * @param[in,out] result Input/output parameter.
-     */
     void gf_matrix_mul(const std::vector<std::vector<uint8_t>>& matrix,
                        const std::vector<uint8_t>& vec,
                        std::vector<uint8_t>& result);
-    /**
-     * @brief Build Vandermonde parity matrix (parity_shards x data_shards) V[p][j] = gf_pow(p+1, j)
-     * @param[in] rows Input parameter.
-     * @param[in] cols Input parameter.
-     * @return Return value.
-     */
+    // Build Vandermonde parity matrix (parity_shards x data_shards)
+    // V[p][j] = gf_pow(p+1, j)
     std::vector<std::vector<uint8_t>> buildVandermondeMatrix(uint32_t rows, uint32_t cols);
-    /**
-     * @brief Gaussian elimination in GF(2^8) for matrix inversion
-     * @param[in,out] matrix Input/output parameter.
-     * @return True on success.
-     */
+    // Gaussian elimination in GF(2^8) for matrix inversion
     bool invertMatrix(std::vector<std::vector<uint8_t>>& matrix);
 };
 
@@ -505,42 +410,17 @@ public:
     ) override;
     
 private:
-    /**
-     * @brief Cauchy matrix operations
-     * @param[in] rows Input parameter.
-     * @param[in] cols Input parameter.
-     * @return Return value.
-     */
+    // Cauchy matrix operations
     std::vector<std::vector<uint8_t>> buildCauchyMatrix(uint32_t rows, uint32_t cols);
     
-    /**
-     * @brief Optimized Galois Field operations for Cauchy
-     * @param[in] a Input parameter.
-     * @param[in] b Input parameter.
-     * @return Return value.
-     */
+    // Optimized Galois Field operations for Cauchy
     uint8_t gf_mul(uint8_t a, uint8_t b);
-    /**
-     * @brief TBD: Describe gf_inv.
-     * @param[in] a Input parameter.
-     * @return Return value.
-     */
     uint8_t gf_inv(uint8_t a);
-    /**
-     * @brief TBD: Describe gf_matrix_mul.
-     * @param[in] matrix Input parameter.
-     * @param[in] vec Input parameter.
-     * @param[in,out] result Input/output parameter.
-     */
     void gf_matrix_mul(const std::vector<std::vector<uint8_t>>& matrix,
                        const std::vector<uint8_t>& vec,
                        std::vector<uint8_t>& result);
     
-    /**
-     * @brief Matrix inversion for recovery
-     * @param[in,out] matrix Input/output parameter.
-     * @return True on success.
-     */
+    // Matrix inversion for recovery
     bool invertMatrix(std::vector<std::vector<uint8_t>>& matrix);
 };
 
@@ -578,55 +458,17 @@ public:
     ) override;
 
 private:
-    /**
-     * @brief Return number of local groups for given data/parity counts.
-     * @param[in] data_shards Input parameter.
-     * @param[in] parity_shards Input parameter.
-     * @return Return value.
-     */
+    // Return number of local groups for given data/parity counts.
     static uint32_t localGroupCount(uint32_t data_shards, uint32_t parity_shards);
 
-    /**
-     * @brief GF(2^8) helpers (shared Vandermonde parity logic)
-     * @param[in] a Input parameter.
-     * @param[in] b Input parameter.
-     * @return Return value.
-     */
+    // GF(2^8) helpers (shared Vandermonde parity logic)
     static uint8_t gf_mul(uint8_t a, uint8_t b);
-    /**
-     * @brief TBD: Describe gf_inv.
-     * @param[in] a Input parameter.
-     * @return Return value.
-     */
     static uint8_t gf_inv(uint8_t a);
-    /**
-     * @brief TBD: Describe gf_pow.
-     * @param[in] a Input parameter.
-     * @param[in] exp Input parameter.
-     * @return Return value.
-     */
     static uint8_t gf_pow(uint8_t a, uint8_t exp);
-    /**
-     * @brief TBD: Describe gf_matrix_mul.
-     * @param[in] m Input parameter.
-     * @param[in] v Input parameter.
-     * @param[in,out] result Input/output parameter.
-     */
     static void gf_matrix_mul(const std::vector<std::vector<uint8_t>>& m,
                                const std::vector<uint8_t>& v,
                                std::vector<uint8_t>& result);
-    /**
-     * @brief TBD: Describe invertMatrix.
-     * @param[in,out] matrix Input/output parameter.
-     * @return True on success.
-     */
     static bool invertMatrix(std::vector<std::vector<uint8_t>>& matrix);
-    /**
-     * @brief TBD: Describe buildVandermonde.
-     * @param[in] rows Input parameter.
-     * @param[in] cols Input parameter.
-     * @return Return value.
-     */
     static std::vector<std::vector<uint8_t>> buildVandermonde(uint32_t rows, uint32_t cols);
 };
 
@@ -724,20 +566,11 @@ public:
         std::string shard_id;
     };
 
-     * @param[in] config Input parameter.
-     * @return Return value.
     /** @brief Construct strategy for a given redundancy configuration. */
     explicit RedundancyStrategy(const RedundancyConfig& config);
     /** @brief Destroy strategy and associated coder resources. */
     ~RedundancyStrategy();
     
-     * @param[in] document_id Input parameter.
-     * @param[in] data Input parameter.
-     * @param[in] collection Input parameter.
-     * @param[in,out] ring Input/output parameter.
-     * @param[in,out] topology Input/output parameter.
-     * @param[in] handler Input parameter.
-     * @return Return value.
     /** @brief Write document using the currently configured redundancy mode. */
     WriteResult write(
         const std::string& document_id,
@@ -751,11 +584,6 @@ public:
     /** @brief Read document using configured read preference and redundancy mode.
      *  @return ReadResult annotated with a monotonic version_token for callers
      *          that need to detect stale cross-shard snapshots.
-     * @param[in] document_id Input parameter.
-     * @param[in] collection Input parameter.
-     * @param[in,out] ring Input/output parameter.
-     * @param[in,out] topology Input/output parameter.
-     * @param[in] handler Input parameter.
      */
     ReadResult read(
         const std::string& document_id,
@@ -765,12 +593,6 @@ public:
         ReadHandler handler
     );
     
-     * @param[in] document_id Input parameter.
-     * @param[in] collection Input parameter.
-     * @param[in,out] ring Input/output parameter.
-     * @param[in,out] topology Input/output parameter.
-     * @param[in] handler Input parameter.
-     * @return True on success.
     /** @brief Remove document from all replicas/chunks according to mode semantics. */
     bool remove(
         const std::string& document_id,
@@ -780,13 +602,6 @@ public:
         WriteHandler handler  // Sends delete command
     );
     
-     * @param[in] document_id Input parameter.
-     * @param[in] collection Input parameter.
-     * @param[in,out] ring Input/output parameter.
-     * @param[in,out] topology Input/output parameter.
-     * @param[in] read_handler Input parameter.
-     * @param[in] write_handler Input parameter.
-     * @return True on success.
     /** @brief Attempt recovery of degraded/unavailable document replicas/chunks. */
     bool recoverDocument(
         const std::string& document_id,
@@ -831,15 +646,12 @@ public:
     /** @brief Return currently active strategy configuration. */
     const RedundancyConfig& getConfig() const { return config_; }
     
-     * @param[in] config Input parameter.
     /** @brief Update strategy configuration (dynamic reconfiguration). */
     void updateConfig(const RedundancyConfig& config);
     
-     * @return Return value.
     /** @brief Return aggregated redundancy runtime statistics. */
     RedundancyStats getStats() const;
     
-     * @return Return value.
     /** @brief Export strategy metrics in Prometheus text exposition format. */
     std::string exportPrometheusMetrics() const;
     
@@ -917,15 +729,7 @@ private:
                          const std::string& document_id,
                          const std::vector<uint8_t>& data);
     
-    /**
-     * @brief Internal write methods for each mode
-     * @param[in] document_id Input parameter.
-     * @param[in] data Input parameter.
-     * @param[in,out] ring Input/output parameter.
-     * @param[in,out] topology Input/output parameter.
-     * @param[in] handler Input parameter.
-     * @return Return value.
-     */
+    // Internal write methods for each mode
     WriteResult writeMirror(
         const std::string& document_id,
         const std::vector<uint8_t>& data,
@@ -934,15 +738,6 @@ private:
         WriteHandler handler
     );
     
-    /**
-     * @brief TBD: Describe writeStripe.
-     * @param[in] document_id Input parameter.
-     * @param[in] data Input parameter.
-     * @param[in,out] ring Input/output parameter.
-     * @param[in,out] topology Input/output parameter.
-     * @param[in] handler Input parameter.
-     * @return Return value.
-     */
     WriteResult writeStripe(
         const std::string& document_id,
         const std::vector<uint8_t>& data,
@@ -951,15 +746,6 @@ private:
         WriteHandler handler
     );
     
-    /**
-     * @brief TBD: Describe writeStripeMirror.
-     * @param[in] document_id Input parameter.
-     * @param[in] data Input parameter.
-     * @param[in,out] ring Input/output parameter.
-     * @param[in,out] topology Input/output parameter.
-     * @param[in] handler Input parameter.
-     * @return Return value.
-     */
     WriteResult writeStripeMirror(
         const std::string& document_id,
         const std::vector<uint8_t>& data,
@@ -968,15 +754,6 @@ private:
         WriteHandler handler
     );
     
-    /**
-     * @brief TBD: Describe writeParity.
-     * @param[in] document_id Input parameter.
-     * @param[in] data Input parameter.
-     * @param[in,out] ring Input/output parameter.
-     * @param[in,out] topology Input/output parameter.
-     * @param[in] handler Input parameter.
-     * @return Return value.
-     */
     WriteResult writeParity(
         const std::string& document_id,
         const std::vector<uint8_t>& data,
@@ -985,15 +762,6 @@ private:
         WriteHandler handler
     );
     
-    /**
-     * @brief TBD: Describe writeGeoMirror.
-     * @param[in] document_id Input parameter.
-     * @param[in] data Input parameter.
-     * @param[in,out] ring Input/output parameter.
-     * @param[in,out] topology Input/output parameter.
-     * @param[in] handler Input parameter.
-     * @return Return value.
-     */
     WriteResult writeGeoMirror(
         const std::string& document_id,
         const std::vector<uint8_t>& data,
@@ -1002,14 +770,7 @@ private:
         WriteHandler handler
     );
     
-    /**
-     * @brief Internal read methods
-     * @param[in] document_id Input parameter.
-     * @param[in,out] ring Input/output parameter.
-     * @param[in,out] topology Input/output parameter.
-     * @param[in] handler Input parameter.
-     * @return Return value.
-     */
+    // Internal read methods
     ReadResult readMirror(
         const std::string& document_id,
         ConsistentHashRing& ring,
@@ -1017,12 +778,6 @@ private:
         ReadHandler handler
     );
     
-     * @param[in] document_id Input parameter.
-     * @param[in] collection Input parameter.
-     * @param[in,out] ring Input/output parameter.
-     * @param[in,out] topology Input/output parameter.
-     * @param[in] handler Input parameter.
-     * @return Return value.
     /** @brief Version-aware read with consistency checking */
     ReadResult readMirrorWithVersion(
         const std::string& document_id,
@@ -1032,14 +787,6 @@ private:
         ReadHandlerWithVersion handler
     );
 
-    /**
-     * @brief TBD: Describe readGeoMirror.
-     * @param[in] document_id Input parameter.
-     * @param[in,out] ring Input/output parameter.
-     * @param[in,out] topology Input/output parameter.
-     * @param[in] handler Input parameter.
-     * @return Return value.
-     */
     ReadResult readGeoMirror(
         const std::string& document_id,
         ConsistentHashRing& ring,
@@ -1047,14 +794,6 @@ private:
         ReadHandler handler
     );
     
-    /**
-     * @brief TBD: Describe readStripe.
-     * @param[in] document_id Input parameter.
-     * @param[in,out] ring Input/output parameter.
-     * @param[in,out] topology Input/output parameter.
-     * @param[in] handler Input parameter.
-     * @return Return value.
-     */
     ReadResult readStripe(
         const std::string& document_id,
         ConsistentHashRing& ring,
@@ -1062,14 +801,6 @@ private:
         ReadHandler handler
     );
     
-    /**
-     * @brief TBD: Describe readParity.
-     * @param[in] document_id Input parameter.
-     * @param[in,out] ring Input/output parameter.
-     * @param[in,out] topology Input/output parameter.
-     * @param[in] handler Input parameter.
-     * @return Return value.
-     */
     ReadResult readParity(
         const std::string& document_id,
         ConsistentHashRing& ring,
@@ -1077,22 +808,12 @@ private:
         ReadHandler handler
     );
     
-    /**
-     * @brief Utility methods
-     * @param[in] data Input parameter.
-     * @param[in] chunk_size Input parameter.
-     * @return Return value.
-     */
+    // Utility methods
     std::vector<std::vector<uint8_t>> splitIntoChunks(
         const std::vector<uint8_t>& data,
         size_t chunk_size
     );
     
-    /**
-     * @brief TBD: Describe mergeChunks.
-     * @param[in] chunks Input parameter.
-     * @return Return value.
-     */
     std::vector<uint8_t> mergeChunks(
         const std::vector<std::vector<uint8_t>>& chunks
     );
@@ -1101,10 +822,6 @@ private:
      * @brief Merge chunks with version consistency checking and conflict resolution
      * 
      * Resolves GAP: undefined_conflict_resolution, unspecified_consistency, missing_version_tracking
-     * @param[in] versioned_chunks Input parameter.
-     * @param[in] conflict_resolution Input parameter.
-     * @param[in,out] result_version Input/output parameter.
-     * @return Return value.
      */
     std::vector<uint8_t> mergeChunksWithConsistency(
         const std::vector<VersionedChunk>& versioned_chunks,
@@ -1112,43 +829,22 @@ private:
         uint64_t& result_version
     );
     
-    /**
-     * @brief TBD: Describe selectReadShard.
-     * @param[in] available_shards Input parameter.
-     * @param[in,out] topology Input/output parameter.
-     * @return Return value.
-     */
     std::string selectReadShard(
         const std::vector<std::string>& available_shards,
         ShardTopology& topology
     );
 
-    /**
-     * @brief Select the best shard from candidates, preferring shards in local_region when config is GEO_MIRROR with LOCAL_REGION or FOLLOWER read preference.
-     * @param[in] candidates Input parameter.
-     * @param[in,out] topology Input/output parameter.
-     * @param[in] local_region Input parameter.
-     * @return Return value.
-     */
+    // Select the best shard from candidates, preferring shards in local_region
+    // when config is GEO_MIRROR with LOCAL_REGION or FOLLOWER read preference.
     std::string selectGeoReadShard(
         const std::vector<std::string>& candidates,
         ShardTopology& topology,
         const std::string& local_region
     );
 
-    /**
-     * @brief Evaluate geo-failover: mark regions as failed-out based on health thresholds
-     * @param[in,out] topology Input/output parameter.
-     */
+    // Evaluate geo-failover: mark regions as failed-out based on health thresholds
     void evaluateGeoFailover(ShardTopology& topology) const;
     
-    /**
-     * @brief TBD: Describe waitForWriteConcern.
-     * @param[in] futures Input parameter.
-     * @param[in] concern Input parameter.
-     * @param[in] total_shards Input parameter.
-     * @return True on success.
-     */
     bool waitForWriteConcern(
         const std::vector<std::future<bool>>& futures,
         WriteConcern concern,
@@ -1167,31 +863,22 @@ public:
     /** @brief Destroy manager and owned strategy instances. */
     ~CollectionRedundancyManager();
     
-     * @param[in] config Input parameter.
     /** @brief Set default redundancy config used when collection override is absent. */
     void setDefaultConfig(const RedundancyConfig& config);
     
-     * @param[in] collection Input parameter.
-     * @param[in] config Input parameter.
     /** @brief Set or replace per-collection redundancy configuration. */
     void setCollectionConfig(const std::string& collection, 
                             const RedundancyConfig& config);
     
-     * @param[in] collection Input parameter.
-     * @return Return value.
     /** @brief Get effective config for collection (default fallback when unset). */
     RedundancyConfig getConfig(const std::string& collection) const;
     
-     * @param[in] collection Input parameter.
-     * @return Return value.
     /** @brief Get lazily-created strategy instance for collection. */
     std::shared_ptr<RedundancyStrategy> getStrategy(const std::string& collection);
     
-     * @return Return value.
     /** @brief List collections with explicit configuration overrides. */
     std::vector<std::string> listCollections() const;
     
-     * @param[in] collection Input parameter.
     /** @brief Remove collection override and associated cached strategy. */
     void removeCollectionConfig(const std::string& collection);
     

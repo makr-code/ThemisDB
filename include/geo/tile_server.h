@@ -109,7 +109,6 @@ struct VectorTileResult {
  * @param lat   Latitude  in decimal degrees (WGS84, ≈ -85.05 … 85.05).
  * @param zoom  Zoom level (0 … 22).
  * @return      Tile coordinate containing the point.
- * @note Exception safety: noexcept.
  */
 TileCoord latLonToTile(double lon, double lat, uint32_t zoom) noexcept;
 
@@ -123,7 +122,6 @@ TileCoord latLonToTile(double lon, double lat, uint32_t zoom) noexcept;
  * @param tile  Tile address.
  * @return      WGS84 bounding box: { minx=west, miny=south,
  *              maxx=east, maxy=north } in degrees.
- * @note Exception safety: noexcept.
  */
 MBR tileToBBox(const TileCoord& tile) noexcept;
 
@@ -133,7 +131,6 @@ MBR tileToBBox(const TileCoord& tile) noexcept;
  * @param x     Tile column (0 … 2^zoom − 1).
  * @param zoom  Zoom level.
  * @return      Longitude of the western edge in degrees.
- * @note Exception safety: noexcept.
  */
 double tileXToLon(uint32_t x, uint32_t zoom) noexcept;
 
@@ -145,7 +142,6 @@ double tileXToLon(uint32_t x, uint32_t zoom) noexcept;
  * @param y     Tile row (0 … 2^zoom − 1).
  * @param zoom  Zoom level.
  * @return      Latitude of the northern edge in degrees.
- * @note Exception safety: noexcept.
  */
 double tileYToLat(uint32_t y, uint32_t zoom) noexcept;
 

@@ -83,15 +83,9 @@ public:
      * cancelled this call is a no-op (the token is silently discarded).
      *
      * @param token  Token string to enqueue.
-     * @details Calls: lock(), notify_one().
      */
     void push(const std::string& token) {
         {
-            /**
-             * @brief TBD: Describe lock.
-             * @param[in] mutex_ Input parameter.
-             * @return Return value.
-             */
             std::lock_guard<std::mutex> lock(mutex_);
             if (closed_ || cancelled_) {
               return;
@@ -107,15 +101,9 @@ public:
      * After close() returns the consumer will drain any remaining queued tokens
      * and then see an empty optional from nextToken(), indicating completion.
      * Calling close() more than once is safe (idempotent).
-     * @details Calls: lock(), notify_all().
      */
     void close() {
         {
-            /**
-             * @brief TBD: Describe lock.
-             * @param[in] mutex_ Input parameter.
-             * @return Return value.
-             */
             std::lock_guard<std::mutex> lock(mutex_);
             closed_ = true;
         }
@@ -131,14 +119,8 @@ public:
      *
      * @return The next token, or std::nullopt when the stream is exhausted
      *         (closed with no more queued tokens) or cancelled.
-     * @details Calls: lock(), wait(), empty(), front(), pop().
      */
     std::optional<std::string> nextToken() {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::mutex> lock(mutex_);
         cv_.wait(lock, [this] {
             return !queue_.empty() || closed_ || cancelled_;
@@ -157,15 +139,9 @@ public:
      * Unblocks any waiting consumer (nextToken() returns nullopt) and sets the
      * cancelled flag so producers can detect and abort early via isCancelled().
      * Calling cancel() more than once is safe (idempotent).
-     * @details Calls: lock(), notify_all().
      */
     void cancel() {
         {
-            /**
-             * @brief TBD: Describe lock.
-             * @param[in] mutex_ Input parameter.
-             * @return Return value.
-             */
             std::lock_guard<std::mutex> lock(mutex_);
             cancelled_ = true;
         }
@@ -185,11 +161,6 @@ public:
      * @brief Check whether the stream has been closed by the producer.
      */
     bool isClosed() const {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         return closed_;
     }
@@ -206,11 +177,6 @@ public:
      */
     class Iterator {
     public:
-        /**
-         * @brief TBD: Describe Iterator.
-         * @param[in,out] stream Input/output parameter.
-         * @return Return value.
-         */
         explicit Iterator(AQLTokenStream* stream)
             : stream_(stream), current_(stream ? stream->nextToken() : std::nullopt) {}
 

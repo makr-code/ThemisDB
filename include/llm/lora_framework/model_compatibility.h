@@ -57,10 +57,6 @@ enum class ModelArchitecture {
  * @brief Model metadata extracted from file
  */
 struct ModelMetadata {
-    /**
-     * @brief TBD: Describe ~ModelMetadata.
-     * @return Return value.
-     */
     virtual ~ModelMetadata() = default;
     std::string model_path;
     ModelFormat format = ModelFormat::UNKNOWN;
@@ -102,29 +98,9 @@ struct ModelMetadata {
         };
     }
     
-    /**
-     * @brief TBD: Describe format_to_string.
-     * @param[in] fmt Input parameter.
-     * @return Return value.
-     */
     static std::string format_to_string(ModelFormat fmt);
-    /**
-     * @brief TBD: Describe architecture_to_string.
-     * @param[in] arch Input parameter.
-     * @return Return value.
-     */
     static std::string architecture_to_string(ModelArchitecture arch);
-    /**
-     * @brief TBD: Describe string_to_format.
-     * @param[in] str Input parameter.
-     * @return Return value.
-     */
     static ModelFormat string_to_format(const std::string& str);
-    /**
-     * @brief TBD: Describe string_to_architecture.
-     * @param[in] str Input parameter.
-     * @return Return value.
-     */
     static ModelArchitecture string_to_architecture(const std::string& str);
 };
 
@@ -143,21 +119,11 @@ struct CompatibilityResult {
     size_t recommended_rank = 8;
     size_t recommended_batch_size = 4;
     
-    /**
-     * @brief TBD: Describe add_error.
-     * @param[in] error Input parameter.
-     * @details Calls: push_back().
-     */
     void add_error(const std::string& error) {
         errors.push_back(error);
         is_compatible = false;
     }
     
-    /**
-     * @brief TBD: Describe add_warning.
-     * @param[in] warning Input parameter.
-     * @details Calls: push_back().
-     */
     void add_warning(const std::string& warning) {
         warnings.push_back(warning);
     }
@@ -254,29 +220,21 @@ public:
 private:
     /**
      * @brief Read GGUF metadata
-     * @param[in] path Input parameter.
-     * @return Return value.
      */
     static std::optional<ModelMetadata> read_gguf_metadata(const std::string& path);
     
     /**
      * @brief Read SafeTensors metadata
-     * @param[in] path Input parameter.
-     * @return Return value.
      */
     static std::optional<ModelMetadata> read_safetensors_metadata(const std::string& path);
     
     /**
      * @brief Detect architecture from metadata
-     * @param[in] metadata Input parameter.
-     * @return Return value.
      */
     static ModelArchitecture detect_architecture(const json& metadata);
     
     /**
      * @brief Get quantization memory reduction factor
-     * @param[in] quant_type Input parameter.
-     * @return Return value.
      */
     static float get_quantization_reduction(const std::string& quant_type);
 };

@@ -181,11 +181,6 @@ public:
     
     // Current document
     const nlohmann::json& currentDocument() const { return current_doc_; }
-    /**
-     * @brief TBD: Describe setCurrentDocument.
-     * @param[in] doc Input parameter.
-     * @details Implements setCurrentDocument without additional internal calls.
-     */
     void setCurrentDocument(const nlohmann::json& doc) { current_doc_ = doc; }
     
     // Variable bindings
@@ -193,23 +188,12 @@ public:
         auto it = variables_.find(name);
         return it != variables_.end() ? it->second : nlohmann::json(nullptr);
     }
-    /**
-     * @brief TBD: Describe setVariable.
-     * @param[in] name Input parameter.
-     * @param[in] value Input parameter.
-     * @details Implements setVariable without additional internal calls.
-     */
     void setVariable(const std::string& name, const nlohmann::json& value) {
         variables_[name] = value;
     }
     
     // Database access callback (for DOCUMENT, COLLECTION, etc.)
     using DocumentLoader = std::function<nlohmann::json(const std::string&, const std::string&)>;
-    /**
-     * @brief TBD: Describe setDocumentLoader.
-     * @param[in] loader Input parameter.
-     * @details Calls: std::move().
-     */
     void setDocumentLoader(DocumentLoader loader) { doc_loader_ = std::move(loader); }
     nlohmann::json loadDocument(const std::string& collection, const std::string& key) const {
         if (doc_loader_) {
@@ -220,42 +204,20 @@ public:
     
     // User context (for permission checks)
     const std::string& userId() const { return user_id_; }
-    /**
-     * @brief TBD: Describe setUserId.
-     * @param[in] id Input parameter.
-     * @details Implements setUserId without additional internal calls.
-     */
     void setUserId(const std::string& id) { user_id_ = id; }
 
-    /**
-     * @brief Graph infrastructure access (for graph functions)
-     * @param[in,out] mgr Input/output parameter.
-     * @details Implements setGraphIndexManager without additional internal calls.
-     */
+    // Graph infrastructure access (for graph functions)
     void setGraphIndexManager(themis::GraphIndexManager* mgr) { graph_mgr_ = mgr; }
     themis::GraphIndexManager* getGraphIndexManager() const { return graph_mgr_; }
     
-    /**
-     * @brief TBD: Describe setGraphAnalytics.
-     * @param[in,out] analytics Input/output parameter.
-     * @details Implements setGraphAnalytics without additional internal calls.
-     */
     void setGraphAnalytics(themis::GraphAnalytics* analytics) { graph_analytics_ = analytics; }
     themis::GraphAnalytics* getGraphAnalytics() const { return graph_analytics_; }
 
-    /**
-     * @brief Full-text / secondary index access (for FULLTEXT, PHRASE, FUZZY functions)
-     * @param[in,out] mgr Input/output parameter.
-     * @details Implements setSecondaryIndexManager without additional internal calls.
-     */
+    // Full-text / secondary index access (for FULLTEXT, PHRASE, FUZZY functions)
     void setSecondaryIndexManager(themis::SecondaryIndexManager* mgr) { secondary_idx_mgr_ = mgr; }
     themis::SecondaryIndexManager* getSecondaryIndexManager() const { return secondary_idx_mgr_; }
 
-    /**
-     * @brief Process mining engine access (for PM_DISCOVER_PROCESS, PM_VARIANTS, etc.
-     * @param[in,out] pm Input/output parameter.
-     * @details ) Implements setProcessMining without additional internal calls.
-     */
+    // Process mining engine access (for PM_DISCOVER_PROCESS, PM_VARIANTS, etc.)
     void setProcessMining(themis::ProcessMining* pm) { process_mining_ = pm; }
     themis::ProcessMining* getProcessMining() const { return process_mining_; }
 
@@ -264,11 +226,6 @@ public:
     using CollectionScanner = std::function<std::vector<nlohmann::json>(
         const std::string& collection,
         const std::function<bool(const nlohmann::json&)>& predicate)>;
-    /**
-     * @brief TBD: Describe setCollectionScanner.
-     * @param[in] scanner Input parameter.
-     * @details Calls: std::move().
-     */
     void setCollectionScanner(CollectionScanner scanner) { collection_scanner_ = std::move(scanner); }
     std::vector<nlohmann::json> scanCollection(
         const std::string& collection,
@@ -302,7 +259,6 @@ public:
      * @brief Inject a load function for PM_LOAD_ADMIN_MODEL (resolves stub #283).
      *
      * @param fn  Callable that loads and returns a process model by ID.
-     * @details Calls: std::move().
      */
     void setAdminModelLoadFn(AdminModelLoadFn fn) { admin_model_load_fn_ = std::move(fn); }
 
@@ -310,7 +266,6 @@ public:
      * @brief Inject a list function for PM_LIST_ADMIN_MODELS (resolves stub #283).
      *
      * @param fn  Callable that returns a JSON array of model descriptors.
-     * @details Calls: std::move().
      */
     void setAdminModelListFn(AdminModelListFn fn) { admin_model_list_fn_ = std::move(fn); }
 
@@ -353,7 +308,6 @@ public:
      * @brief Inject a task-registration function for SCHEDULE_TASK.
      *
      * @param fn  Callable that registers a task and returns its ID.
-     * @details Calls: std::move().
      */
     void setRegisterTaskFn(RegisterTaskFn fn) { register_task_fn_ = std::move(fn); }
 
@@ -361,7 +315,6 @@ public:
      * @brief Inject a task-list function for LIST_SCHEDULED_TASKS.
      *
      * @param fn  Callable that returns a JSON array of task descriptors.
-     * @details Calls: std::move().
      */
     void setListTasksFn(ListTasksFn fn) { list_tasks_fn_ = std::move(fn); }
 
@@ -369,7 +322,6 @@ public:
      * @brief Inject a task-cancellation function for CANCEL_TASK.
      *
      * @param fn  Callable that cancels a task by ID.
-     * @details Calls: std::move().
      */
     void setCancelTaskFn(CancelTaskFn fn) { cancel_task_fn_ = std::move(fn); }
 
@@ -412,10 +364,6 @@ private:
  */
 class IFunction {
 public:
-    /**
-     * @brief TBD: Describe ~IFunction.
-     * @return Return value.
-     */
     virtual ~IFunction() = default;
     
     /// Get function signature for validation and documentation

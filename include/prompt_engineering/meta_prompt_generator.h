@@ -27,10 +27,6 @@ namespace prompt_engineering {
  */
 class ILLMProvider {
 public:
-    /**
-     * @brief TBD: Describe ~ILLMProvider.
-     * @return Return value.
-     */
     virtual ~ILLMProvider() = default;
 
     /**
@@ -136,8 +132,6 @@ public:
     
     /**
      * @brief Update configuration
-     * @param[in] config Input parameter.
-     * @details Implements setConfig without additional internal calls.
      */
     void setConfig(const MetaPromptConfig& config) { config_ = config; }
 
@@ -149,7 +143,6 @@ public:
      * instead of the static template.
      * 
      * @param provider Shared pointer to an ILLMProvider implementation
-     * @details Calls: std::move().
      */
     void setLLMProvider(std::shared_ptr<ILLMProvider> provider) {
         llm_provider_ = std::move(provider);
@@ -157,7 +150,6 @@ public:
 
     /**
      * @brief Remove the attached LLM provider (fall back to template-based generation)
-     * @details Calls: reset().
      */
     void clearLLMProvider() {
         llm_provider_.reset();
@@ -174,9 +166,6 @@ private:
     
     /**
      * @brief Build improvement instructions based on feedback
-     * @param[in] feedback Input parameter.
-     * @param[in] score Input parameter.
-     * @return Return value.
      */
     std::string buildImprovementInstructions(
         const std::string& feedback,
@@ -185,14 +174,11 @@ private:
     
     /**
      * @brief Generate constraint clauses
-     * @return Return value.
      */
     std::string buildConstraints() const;
     
     /**
      * @brief Generate example section for meta-prompt
-     * @param[in] original_prompt Input parameter.
-     * @return Return value.
      */
     std::string buildExampleSection(
         const std::string& original_prompt
@@ -200,8 +186,6 @@ private:
     
     /**
      * @brief Analyze prompt structure
-     * @param[in] prompt Input parameter.
-     * @return Return value.
      */
     nlohmann::json analyzePromptStructure(const std::string& prompt) const;
 };

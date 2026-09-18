@@ -52,7 +52,6 @@ public:
     /**
      * @brief Construct from an existing SDPlugin instance.
      * @param plugin Heap-allocated SDPlugin; adapter takes ownership.
-     * @return Return value.
      */
     explicit SDPluginAdapter(std::unique_ptr<SDPlugin> plugin);
 
@@ -91,8 +90,6 @@ public:
 
     // ── Direct access ───────────────────────────────────────────────────────
 
-     * @brief TBD: Describe getSDPlugin.
-     * @details Calls: get().
     /** @return Non-owning pointer to the wrapped SDPlugin. */
     SDPlugin*       getSDPlugin()       { return sd_plugin_.get(); }
     const SDPlugin* getSDPlugin() const { return sd_plugin_.get(); }
@@ -176,7 +173,6 @@ public:
      * "model_path" is present and non-empty. Missing or empty paths are
      * treated as a successful stub-mode no-op so hot-plug reload can keep the
      * plugin unloaded without failing the caller.
-     * @return Return value.
      */
     static ReloadCallback defaultReloadCallback();
 

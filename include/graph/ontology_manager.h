@@ -167,9 +167,6 @@ public:
 
     /**
      * @brief Add an axiom programmatically (before build()).
-     * @param[in] source_class Input parameter.
-     * @param[in] edge_type Input parameter.
-     * @param[in] target_class Input parameter.
      */
     void addAxiom(std::string source_class, std::string edge_type, std::string target_class);
 
@@ -284,16 +281,8 @@ private:
     mutable std::list<std::string> isa_cache_lru_;  // front = oldest; O(1) eviction
     mutable std::shared_mutex isa_cache_mutex_;
 
-    /**
-     * @brief ── Internal helpers ─────────────────────────────────────────────────────
-     * @param[in] conceptName Input parameter.
-     * @param[in] superConcept Input parameter.
-     * @return True on success.
-     */
+    // ── Internal helpers ─────────────────────────────────────────────────────
     bool isAUncached(std::string_view conceptName, std::string_view superConcept) const;
-    /**
-     * @brief TBD: Describe evictIsACacheEntry.
-     */
     void evictIsACacheEntry() const;
 
     /// Parse JSON text into concepts_ + axioms_ (shared by file and string loaders).

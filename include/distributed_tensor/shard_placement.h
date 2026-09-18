@@ -173,26 +173,20 @@ class ShardPlacementStrategy {
           std::nullopt,
       PlacementConstraint constraints = PlacementConstraint::NONE) noexcept = 0;
 
-  /**
-   * @brief Validate that a placement plan satisfies constraints.
-   * @param[in] plan Input parameter.
-   * @param[in] constraints Input parameter.
-   * @return True on success.
-   * @note Exception safety: noexcept.
-   * @details @param plan Placement plan to validate. @param constraints Constraints to verify against. @return true if plan satisfies constraints, false otherwise.
-   */
+  /// Validate that a placement plan satisfies constraints.
+  ///
+  /// @param plan Placement plan to validate.
+  /// @param constraints Constraints to verify against.
+  /// @return true if plan satisfies constraints, false otherwise.
   virtual bool validate_placement(const PlacementPlan& plan,
                                    PlacementConstraint constraints) const
       noexcept = 0;
 
-  /**
-   * @brief Optimize an existing placement for better performance or cost.
-   * @param[in] current_plan Input parameter.
-   * @param[in] available_nodes Input parameter.
-   * @return Return value.
-   * @note Exception safety: noexcept.
-   * @details @param current_plan Current placement plan. @param available_nodes Available nodes for rebalancing. @return Optimized placement plan.
-   */
+  /// Optimize an existing placement for better performance or cost.
+  ///
+  /// @param current_plan Current placement plan.
+  /// @param available_nodes Available nodes for rebalancing.
+  /// @return Optimized placement plan.
   virtual PlacementPlan optimize_placement(
       const PlacementPlan& current_plan,
       const std::vector<NodeCapacity>& available_nodes) noexcept = 0;

@@ -96,7 +96,6 @@ public:
     /**
      * @brief Deregister a collection.  Future WAL entries for that collection
      *        are silently dropped.
-     * @param[in] collection Input parameter.
      */
     void deregisterCollection(const std::string& collection);
 
@@ -108,13 +107,10 @@ public:
      * Use an empty string to subscribe to all registered collections.
      *
      * @return Subscription ID that can be passed to unsubscribe().
-     * @param[in] collection Input parameter.
-     * @param[in] callback Input parameter.
      */
     uint64_t subscribe(const std::string& collection,
                        EncodedCallback callback);
 
-     * @param[in] subscription_id Input parameter.
     /** @brief Unsubscribe a previously registered callback. */
     void unsubscribe(uint64_t subscription_id);
 
@@ -138,10 +134,6 @@ public:
         uint64_t encoding_errors{0};   ///< Encoding failures
     };
 
-    /**
-     * @brief TBD: Describe getStats.
-     * @return Return value.
-     */
     Stats getStats() const;
 
     // ── IReplicationListener (only WAL entries matter) ──────────────────────
@@ -187,10 +179,6 @@ private:
 
     bool started_{false};
 
-    /**
-     * @brief TBD: Describe dispatch.
-     * @param[in] ev Input parameter.
-     */
     void dispatch(const SchemaEncodedEvent& ev);
 };
 

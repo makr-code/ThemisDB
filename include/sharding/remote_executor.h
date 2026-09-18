@@ -72,9 +72,6 @@ public:
     
     /**
      * Construct Remote Executor with configuration
-     * @brief TBD: Describe RemoteExecutor.
-     * @param[in] config Input parameter.
-     * @return Return value.
      */
     explicit RemoteExecutor(const Config& config);
     
@@ -83,7 +80,6 @@ public:
      * @param shard_info Target shard information
      * @param path Request path (e.g., "/api/v1/data/urn:themis:...")
      * @return Result with response data or error
-     * @brief TBD: Describe get.
      */
     Result get(const ShardInfo& shard_info, const std::string& path);
     
@@ -93,7 +89,6 @@ public:
      * @param path Request path
      * @param body Request body (JSON)
      * @return Result with response data or error
-     * @brief TBD: Describe post.
      */
     Result post(const ShardInfo& shard_info,
                 const std::string& path,
@@ -105,7 +100,6 @@ public:
      * @param path Request path
      * @param body Request body (JSON)
      * @return Result with response data or error
-     * @brief TBD: Describe put.
      */
     Result put(const ShardInfo& shard_info,
                const std::string& path,
@@ -116,7 +110,6 @@ public:
      * @param shard_info Target shard information
      * @param path Request path
      * @return Result with response data or error
-     * @brief TBD: Describe del.
      */
     Result del(const ShardInfo& shard_info, const std::string& path);
     
@@ -126,7 +119,6 @@ public:
      * @param shard_info Target shard information
      * @param query Query string (e.g., AQL query)
      * @return Result with query results
-     * @brief TBD: Describe executeQuery.
      */
     Result executeQuery(const ShardInfo& shard_info, const std::string& query);
 
@@ -147,7 +139,6 @@ public:
      * @param data         Pointer to binary payload bytes.
      * @param size         Payload size in bytes.
      * @return Result with success flag, shard_id, and optional error message.
-     * @brief TBD: Describe postBinary.
      */
     Result postBinary(const ShardInfo& shard_info,
                       const std::string& path,
@@ -157,7 +148,6 @@ public:
     /**
      * Check if remote executor is ready
      * @return true if configured and ready to execute requests
-     * @brief TBD: Describe isReady.
      */
     bool isReady() const;
     
@@ -179,7 +169,6 @@ private:
      * Convert ShardInfo to endpoint URL
      * @param shard_info Shard information
      * @return Endpoint URL (e.g., "https://shard-001.dc1:8080")
-     * @brief TBD: Describe getEndpointURL.
      */
     std::string getEndpointURL(const ShardInfo& shard_info) const;
     
@@ -198,11 +187,6 @@ private:
     
     /**
      * Convert MTLSClient::Response to RemoteExecutor::Result
-     * @brief TBD: Describe convertResponse.
-     * @param[in] response Input parameter.
-     * @param[in] shard_id Input parameter.
-     * @param[in] start_time_ms Input parameter.
-     * @return Return value.
      */
     Result convertResponse(const MTLSClient::Response& response,
                           const std::string& shard_id,

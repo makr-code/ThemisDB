@@ -105,10 +105,6 @@ public:
      *
      * The host-side layer graphs must already have been updated before this
      * call.  Only the new node's adjacency rows are transferred.
-     * @param[in] new_id Input parameter.
-     * @param[in] vector Input parameter.
-     * @param[in] updated_layers Input parameter.
-     * @return True on success.
      */
     bool addNode(int64_t                             new_id,
                  const float*                        vector,
@@ -163,8 +159,6 @@ public:
 
     /**
      * @brief Return the current max-batch-size setting.
-     * @return Return value.
-     * @note Exception safety: noexcept.
      */
     size_t maxBatchSize() const noexcept;
 
@@ -173,24 +167,17 @@ public:
      *        successfully allocated (i.e. buildIndex() allocated it without
      *        error).  When false, batchSearch() falls back to per-invocation
      *        allocation.
-     * @return True on success.
-     * @note Exception safety: noexcept.
      */
     bool hasVisitedPool() const noexcept;
 
     // ── Diagnostics ───────────────────────────────────────────────────────────
 
-     * @return True on success.
-     * @note Exception safety: noexcept.
     /** @brief True when device memory has been allocated and the index is built. */
     bool isBuilt() const noexcept;
 
-     * @return True on success.
-     * @note Exception safety: noexcept.
     /** @brief True when a CUDA-capable device is available and selected. */
     bool isCudaAvailable() const noexcept;
 
-     * @return Return value.
     /** @brief Return a human-readable summary of device utilisation. */
     std::string deviceInfo() const;
 

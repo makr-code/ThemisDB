@@ -65,17 +65,12 @@ public:
      * Complexity: O(d · n · r³) where r = max(rank_A, rank_B).
      *
      * @throws std::invalid_argument if A and B have incompatible mode_sizes.
-     * @param[in] a Input parameter.
-     * @param[in] b Input parameter.
-     * @return Return value.
      */
     static double innerProduct(const storage::TTTrain& a,
                                const storage::TTTrain& b);
 
     /**
      * @brief Frobenius norm ‖A‖_F without reconstruction.
-     * @param[in] a Input parameter.
-     * @return Return value.
      */
     static double frobeniusNorm(const storage::TTTrain& a);
 
@@ -83,9 +78,6 @@ public:
      * @brief Cosine similarity cos(A, B) = ⟨A,B⟩ / (‖A‖·‖B‖) ∈ [−1, 1].
      *
      * Returns 0.0 when either norm is zero.
-     * @param[in] a Input parameter.
-     * @param[in] b Input parameter.
-     * @return Return value.
      */
     static double cosineSimilarity(const storage::TTTrain& a,
                                    const storage::TTTrain& b);
@@ -207,36 +199,18 @@ public:
 
     /**
      * @brief Check whether two trains have compatible mode_sizes.
-     * @param[in] a Input parameter.
-     * @param[in] b Input parameter.
-     * @return True on success.
-     * @note Exception safety: noexcept.
      */
     static bool isCompatible(const storage::TTTrain& a,
                               const storage::TTTrain& b) noexcept;
 
 private:
-    /**
-     * @brief Transfer-matrix algorithm: compute M_k = M_{k-1} ⊗ (G_A_k^T · G_B_k) for k = 1…d, then return Tr(M_d).
-     * @param[in] M Input parameter.
-     * @param[in] coreA Input parameter.
-     * @param[in] coreB Input parameter.
-     * @return Return value.
-     */
+    // Transfer-matrix algorithm: compute M_k = M_{k-1} ⊗ (G_A_k^T · G_B_k)
+    // for k = 1…d, then return Tr(M_d).
     static std::vector<float> transferStep(
         const std::vector<float>& M,
         const storage::TTCore&    coreA,
         const storage::TTCore&    coreB);
 
-    /**
-     * @brief TBD: Describe matMul.
-     * @param[in] A Input parameter.
-     * @param[in] B Input parameter.
-     * @param[in] m Input parameter.
-     * @param[in] k Input parameter.
-     * @param[in] n Input parameter.
-     * @return Return value.
-     */
     static std::vector<float> matMul(const std::vector<float>& A,
                                      const std::vector<float>& B,
                                      std::size_t m,

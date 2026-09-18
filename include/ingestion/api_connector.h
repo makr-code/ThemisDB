@@ -117,19 +117,16 @@ public:
 
     /**
      * @brief Override the API key (alternative to `options["api_key"]`)
-     * @param[in] key Input parameter.
      */
     void setApiKey(const std::string& key);
 
     /**
      * @brief Override the page size (alternative to `options["page_size"]`)
-     * @param[in] page_size Input parameter.
      */
     void setPageSize(size_t page_size);
 
     /**
      * @brief Configure retry and timeout behaviour
-     * @param[in] config Input parameter.
      */
     void setRetryConfig(const RetryConfig& config);
 
@@ -159,7 +156,6 @@ public:
      * When set, every HTTP GET that would normally be performed via libcurl
      * is replaced by a call to @p fn.  Pass an empty `ApiHttpGetFn{}` to
      * restore the real libcurl implementation.
-     * @param[in] fn Input parameter.
      */
     void setHttpGetForTesting(ApiHttpGetFn fn);
 
@@ -189,7 +185,6 @@ public:
      * `{status_code, response_body}`.
      *
      * Pass an empty `ApiHttpPostFn{}` to restore the real libcurl path.
-     * @param[in] fn Input parameter.
      */
     void setHttpPostForTesting(ApiHttpPostFn fn);
 

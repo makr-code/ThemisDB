@@ -104,12 +104,9 @@ struct TransactionSnapshot {
     std::string checksum;  // SHA-256
     size_t total_transactions;
     
-     * @return Return value.
     /** @brief Serialize snapshot content (without auto-checksum recompute) to JSON. */
     nlohmann::json toJson() const;
     
-     * @param[in] j Input parameter.
-     * @return Return value.
     /** @brief Parse snapshot payload from JSON document. */
     static std::optional<TransactionSnapshot> fromJson(const nlohmann::json& j);
 };
@@ -128,9 +125,6 @@ public:
     /**
      * @brief Create and persist a new transaction snapshot.
      * @return Snapshot id on success, nullopt on persistence/error failure.
-     * @param[in] coordinator_id Input parameter.
-     * @param[in] last_applied_lsn Input parameter.
-     * @param[in] active_transactions Input parameter.
      */
     std::optional<uint64_t> createSnapshot(
         const std::string& coordinator_id,
@@ -138,29 +132,21 @@ public:
         const std::vector<TransactionSnapshotEntry>& active_transactions
     );
     
-     * @return Return value.
     /** @brief Load most recent snapshot by snapshot-id ordering. */
     std::optional<TransactionSnapshot> loadLatestSnapshot();
     
-     * @param[in] snapshot_id Input parameter.
-     * @return Return value.
     /** @brief Load snapshot by explicit id. */
     std::optional<TransactionSnapshot> loadSnapshot(uint64_t snapshot_id);
     
-     * @return Return value.
     /** @brief List all available snapshot ids (newest first). */
     std::vector<uint64_t> listSnapshots();
     
-     * @param[in] snapshot_id Input parameter.
-     * @return True on success.
     /** @brief Delete snapshot file by id if it exists. */
     bool deleteSnapshot(uint64_t snapshot_id);
     
     /** @brief Remove oldest snapshot files beyond retention window. */
     void cleanupOldSnapshots();
     
-     * @param[in] snapshot Input parameter.
-     * @return True on success.
     /** @brief Verify snapshot checksum against serialized payload. */
     bool verifySnapshot(const TransactionSnapshot& snapshot);
     
@@ -168,77 +154,45 @@ private:
     std::string snapshot_directory_;
     size_t max_snapshots_;
     
-     * @param[in] snapshot_id Input parameter.
-     * @return Return value.
     /** @brief Build absolute snapshot filepath for a snapshot id. */
     std::string getSnapshotPath(uint64_t snapshot_id) const;
     
-     * @param[in] data Input parameter.
-     * @return Return value.
     /** @brief Compute SHA-256 checksum for serialized JSON payload. */
     std::string calculateChecksum(const nlohmann::json& data) const;
     
-     * @param[in] snapshot Input parameter.
-     * @return True on success.
     /** @brief Persist snapshot document to disk. */
     bool saveSnapshotToFile(const TransactionSnapshot& snapshot);
     
-     * @param[in] filepath Input parameter.
-     * @return Return value.
     /** @brief Load snapshot document from disk path and validate checksum. */
     std::optional<TransactionSnapshot> loadSnapshotFromFile(const std::string& filepath);
 };
 
- * @param[in] state Input parameter.
- * @return Return value.
 /** @brief Convert transaction state enum to stable storage string. */
 std::string transactionStateToString(TransactionState state);
- * @param[in] str Input parameter.
- * @return Return value.
 /** @brief Parse transaction state enum from storage string. */
 TransactionState transactionStateFromString(const std::string& str);
- * @param[in] protocol Input parameter.
- * @return Return value.
 /** @brief Convert transaction protocol enum to stable storage string. */
 std::string transactionProtocolToString(TransactionProtocol protocol);
- * @param[in] str Input parameter.
- * @return Return value.
 /** @brief Parse transaction protocol enum from storage string. */
 TransactionProtocol transactionProtocolFromString(const std::string& str);
 
- * @param[in,out] j Input/output parameter.
- * @param[in] p Input parameter.
 /** @brief JSON serializer for ParticipantStatus. */
 void to_json(nlohmann::json& j, const ParticipantStatus& p);
- * @param[in] j Input parameter.
- * @param[in,out] p Input/output parameter.
 /** @brief JSON deserializer for ParticipantStatus. */
 void from_json(const nlohmann::json& j, ParticipantStatus& p);
 
- * @param[in,out] j Input/output parameter.
- * @param[in] s Input parameter.
 /** @brief JSON serializer for SAGAStep. */
 void to_json(nlohmann::json& j, const SAGAStep& s);
- * @param[in] j Input parameter.
- * @param[in,out] s Input/output parameter.
 /** @brief JSON deserializer for SAGAStep. */
 void from_json(const nlohmann::json& j, SAGAStep& s);
 
- * @param[in,out] j Input/output parameter.
- * @param[in] i Input parameter.
 /** @brief JSON serializer for PercolatorIntent. */
 void to_json(nlohmann::json& j, const PercolatorIntent& i);
- * @param[in] j Input parameter.
- * @param[in,out] i Input/output parameter.
 /** @brief JSON deserializer for PercolatorIntent. */
 void from_json(const nlohmann::json& j, PercolatorIntent& i);
 
- * @param[in,out] j Input/output parameter.
- * @param[in] e Input parameter.
 /** @brief JSON serializer for TransactionSnapshotEntry. */
 void to_json(nlohmann::json& j, const TransactionSnapshotEntry& e);
- * @param[in] j Input parameter.
- * @param[in,out] e Input/output parameter.
 /** @brief JSON deserializer for TransactionSnapshotEntry. */
 void from_json(const nlohmann::json& j, TransactionSnapshotEntry& e);
 

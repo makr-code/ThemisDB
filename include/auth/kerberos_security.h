@@ -74,11 +74,6 @@ public:
         bool reject_expired_tickets = true;
     };
     
-    /**
-     * @brief TBD: Describe KerberosSecurityValidator.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit KerberosSecurityValidator(const Config& config);
     
     /**
@@ -181,11 +176,6 @@ public:
         bool has_channel_binding;
     };
     
-    /**
-     * @brief TBD: Describe getTokenInfo.
-     * @param[in] token_data Input parameter.
-     * @return Return value.
-     */
     TokenInfo getTokenInfo(const std::vector<uint8_t>& token_data);
     
     /**
@@ -223,28 +213,10 @@ private:
         const uint8_t* value;
     };
     
-    /**
-     * @brief TBD: Describe parseASN1Tag.
-     * @param[in] data Input parameter.
-     * @param[in] size Input parameter.
-     * @param[in,out] tag Input/output parameter.
-     * @return True on success.
-     */
     bool parseASN1Tag(const uint8_t* data, size_t size, ASN1Tag& tag);
-    /**
-     * @brief TBD: Describe validateASN1Depth.
-     * @param[in] data Input parameter.
-     * @param[in] size Input parameter.
-     * @param[in] current_depth Input parameter.
-     * @return True on success.
-     */
     bool validateASN1Depth(const uint8_t* data, size_t size, size_t current_depth);
     
-    /**
-     * @brief Channel binding helpers
-     * @param[in] cert_data Input parameter.
-     * @return Return value.
-     */
+    // Channel binding helpers
     std::vector<uint8_t> computeTLSServerEndpoint(const std::vector<uint8_t>& cert_data);
 };
 

@@ -83,7 +83,6 @@ public:
      *
      * Calling this multiple times with the same path+method is allowed; the
      * last registration wins (useful for unit-test reset scenarios).
-     * @param[in] entry Input parameter.
      */
     void registerRoute(RouteEntry entry);
 
@@ -92,7 +91,6 @@ public:
      *
      * Returns a value (not a reference) so the caller does not need to hold
      * the registry mutex during iteration.  Safe to call from any thread.
-     * @return Return value.
      */
     std::vector<RouteEntry> entries() const;
 

@@ -87,8 +87,6 @@ public:
      * @brief Construct from configuration.
      * @throws std::invalid_argument if required config fields are empty.
      * @throws std::runtime_error   if the IdP certificate cannot be parsed.
-     * @param[in] config Input parameter.
-     * @return Return value.
      */
     explicit SamlAuthProvider(const Config& config);
 

@@ -127,13 +127,11 @@ public:
     /**
      * @brief Remove a rule by name.
      * @return true if a rule with that name was found and removed.
-     * @param[in] name Input parameter.
      */
     bool removeRule(const std::string& name);
 
     /**
      * @brief Return the number of registered rules.
-     * @return Return value.
      */
     size_t ruleCount() const;
 
@@ -158,10 +156,6 @@ public:
 private:
     std::vector<CompiledRule> rules_;
 
-    /**
-     * @brief TBD: Describe addRule.
-     * @param[in] rule Input parameter.
-     */
     void addRule(PolicyRule rule);
 };
 

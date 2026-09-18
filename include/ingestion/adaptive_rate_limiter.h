@@ -224,7 +224,6 @@ public:
      * @brief Acquire a token (blocks indefinitely until available).
      *
      * Useful for simple cases where blocking is acceptable.
-     * @details Calls: tryAcquireToken().
      */
     void acquireToken() {
         while (!tryAcquireToken(true)) {
@@ -250,7 +249,6 @@ public:
 
     /**
      * @brief Get current rate limiter statistics.
-     * @return Return value.
      */
     Stats getStats() const;
 
@@ -264,7 +262,6 @@ public:
 
     /**
      * @brief Get the current rate limit.
-     * @return Return value.
      */
     double getRateLimit() const;
 
@@ -282,15 +279,8 @@ public:
 
     /**
      * @brief Set the configuration (takes effect on next token acquisition).
-     * @param[in] new_config Input parameter.
-     * @details Calls: lock().
      */
     void setConfig(const AdaptiveRateLimiterConfig& new_config) {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         config_ = new_config;
     }
@@ -299,11 +289,6 @@ public:
      * @brief Get the current configuration.
      */
     AdaptiveRateLimiterConfig getConfig() const {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         return config_;
     }
@@ -341,7 +326,6 @@ private:
 
     /**
      * @brief Adjust rate limit based on API feedback.
-     * @param[in] info Input parameter.
      */
     void adjustRateLimit(const RateLimitInfo& info);
 };
@@ -383,21 +367,17 @@ public:
 
     /**
      * @brief Get the rate limiter for a connector (const version).
-     * @param[in] connector_name Input parameter.
-     * @return Pointer to the result.
      */
     const AdaptiveRateLimiter* getLimiter(const std::string& connector_name) const;
 
     /**
      * @brief Unregister and remove a rate limiter.
      * @return true if the limiter was found and removed
-     * @param[in] connector_name Input parameter.
      */
     bool unregisterLimiter(const std::string& connector_name);
 
     /**
      * @brief Get list of all registered connector names.
-     * @return Return value.
      */
     std::vector<std::string> listLimiters() const;
 

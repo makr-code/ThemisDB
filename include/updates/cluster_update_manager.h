@@ -284,7 +284,6 @@ public:
      *
      * @param config  Cluster topology and default options.
      * @throws std::invalid_argument if the node list is empty.
-     * @return Return value.
      */
     explicit ClusterUpdateManager(const Config& config);
 
@@ -313,8 +312,6 @@ public:
 
     /**
      * @brief Initiate a cluster-wide update using default options.
-     * @param[in] version Input parameter.
-     * @return Return value.
      */
     ClusterUpdateResult updateCluster(const std::string& version);
 
@@ -332,19 +329,16 @@ public:
 
     /**
      * @brief Return a snapshot of all known node statuses.
-     * @return Return value.
      */
     std::vector<ClusterNodeStatus> nodeStatuses() const;
 
     /**
      * @brief Return true when a cancellation has been requested.
-     * @return True on success.
      */
     bool isCancelled() const;
 
     /**
      * @brief Return the total number of nodes in the cluster.
-     * @return Return value.
      */
     size_t totalNodes() const;
 
@@ -357,7 +351,6 @@ public:
      *
      * When not set, the manager uses a no-op that returns true (useful
      * for dry-run or unit-test scenarios).
-     * @param[in] fn Input parameter.
      */
     void setNodeUpdateFunc(NodeUpdateFunc fn);
 
@@ -366,7 +359,6 @@ public:
      *
      * When not set, the manager assumes the node is healthy immediately
      * after the NodeUpdateFunc succeeds.
-     * @param[in] fn Input parameter.
      */
     void setNodeHealthCheckFunc(NodeHealthCheckFunc fn);
 
@@ -376,13 +368,11 @@ public:
      * Called when a node's update or health check fails and
      * @c rollback_on_failure is true.  When not set, the node is marked
      * ROLLED_BACK in state but no remote action is taken.
-     * @param[in] fn Input parameter.
      */
     void setNodeRollbackFunc(NodeRollbackFunc fn);
 
     /**
      * @brief Register a progress callback.
-     * @param[in] fn Input parameter.
      */
     void setProgressCallback(ProgressCallback fn);
 
@@ -396,14 +386,8 @@ private:
     void emitProgress(const std::string& current_node,
                       const std::string& status_msg);
 
-    /**
-     * @brief Apply the update to a single node and update its status entry.
-     * @param[in] node Input parameter.
-     * @param[in] version Input parameter.
-     * @param[in] opts Input parameter.
-     * @return True on success.
-     * @details Returns true on success.
-     */
+    /// Apply the update to a single node and update its status entry.
+    /// Returns true on success.
     bool updateSingleNode(const ClusterNode&          node,
                           const std::string&          version,
                           const ClusterUpdateOptions& opts);

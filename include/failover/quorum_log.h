@@ -47,36 +47,18 @@ public:
     QuorumLog(const QuorumLog&) = delete;
     QuorumLog& operator=(const QuorumLog&) = delete;
 
-    /**
-     * @brief @brief Appends a quorum decision to the log.
-     * @param[in] epoch Input parameter.
-     * @param[in] node_id Input parameter.
-     * @param[in] decision Input parameter.
-     * @return True on success.
-     * @details @returns true on success; false if the file cannot be opened or written.
-     */
+    /// @brief Appends a quorum decision to the log.
+    /// @returns true on success; false if the file cannot be opened or written.
     bool append(uint64_t epoch, const std::string& node_id, const std::string& decision);
 
-    /**
-     * @brief @brief Reads all valid entries and returns the last known quorum state.
-     * @return Return value.
-     * @details @details Entries with invalid CRC32 are skipped with a warning.
-     */
+    /// @brief Reads all valid entries and returns the last known quorum state.
+    /// @details Entries with invalid CRC32 are skipped with a warning.
     QuorumState recover() const;
 
     /// @brief Returns the log file path.
     const std::filesystem::path& path() const noexcept { return log_path_; }
 
 private:
-    /**
-     * @brief TBD: Describe computeCrc32.
-     * @param[in] epoch Input parameter.
-     * @param[in] node_id Input parameter.
-     * @param[in] decision Input parameter.
-     * @param[in] ts_ms Input parameter.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
     static uint32_t computeCrc32(uint64_t epoch, const std::string& node_id,
                                  const std::string& decision, int64_t ts_ms) noexcept;
 

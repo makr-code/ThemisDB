@@ -67,8 +67,6 @@ public:
      *        purge thread.
      *
      * @throws std::runtime_error if the database cannot be opened.
-     * @param[in] config Input parameter.
-     * @return Return value.
      */
     explicit RocksDBTokenBlacklist(const Config& config);
 
@@ -124,9 +122,6 @@ private:
     /// Other CF handles that must be kept open until DB is closed.
     std::vector<rocksdb::ColumnFamilyHandle*> other_cf_handles_;
 
-    /**
-     * @brief TBD: Describe purgeLoop.
-     */
     void purgeLoop();
 
     /// Encode expiry as 8-byte big-endian int64 (seconds since Unix epoch).

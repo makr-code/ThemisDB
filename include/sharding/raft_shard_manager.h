@@ -70,7 +70,6 @@ public:
     /**
      * @brief Construct manager for per-shard Raft instances.
      * @param config Base per-shard configuration.
-     * @return Return value.
      */
     explicit RaftShardManager(const Config& config);
 
@@ -195,7 +194,6 @@ namespace sharding {
  * @brief Convert Raft node state enum to readable string.
  * @param state Raft node state enum value.
  * @return "LEADER", "FOLLOWER", "CANDIDATE", or "UNKNOWN".
- * @details Implements raftNodeStateToString without additional internal calls.
  */
 inline std::string raftNodeStateToString(RaftNodeState state) {
     switch (state) {

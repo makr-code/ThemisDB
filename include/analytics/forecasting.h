@@ -98,10 +98,6 @@ public:
 
     /// Append a point (keeps the series sorted).
     void push(int64_t timestamp_ms, double value);
-    /**
-     * @brief TBD: Describe push.
-     * @param[in] point Input parameter.
-     */
     void push(const TimeSeriesPoint& point);
 
     // ---- Accessors ----
@@ -122,26 +118,11 @@ public:
     /// Split into train / test at a given fraction (0 < ratio < 1).
     std::pair<TimeSeries, TimeSeries> trainTestSplit(double train_ratio = 0.8) const;
 
-    /**
-     * @brief ---- Statistics ----
-     * @return Return value.
-     */
+    // ---- Statistics ----
 
     double mean()   const;
-    /**
-     * @brief TBD: Describe stddev.
-     * @return Return value.
-     */
     double stddev() const;
-    /**
-     * @brief TBD: Describe min.
-     * @return Return value.
-     */
     double min()    const;
-    /**
-     * @brief TBD: Describe max.
-     * @return Return value.
-     */
     double max()    const;
 
 private:
@@ -293,7 +274,6 @@ public:
      *
      * @param ts     Training data (must have at least 2 points).
      * @throws std::invalid_argument if ts has fewer than 2 points.
-     * @brief TBD: Describe fit.
      */
     void fit(const TimeSeries& ts);
     /**
@@ -303,15 +283,9 @@ public:
      * @param config Optional overrides; if not supplied the model's own
      *               config (set at construction) is used.
      * @throws std::invalid_argument if ts has fewer than 2 points.
-     * @brief TBD: Describe fit.
      */
     void fit(const TimeSeries& ts, const ForecastConfig& config);
 
-    /**
-     * @brief TBD: Describe isFitted.
-     * @return True on success.
-     * @note Exception safety: noexcept.
-     */
     bool isFitted() const noexcept;
 
     // ---- Prediction ----
@@ -325,8 +299,6 @@ public:
      * @param steps  Number of future points to forecast.
      * @returns      Vector of ForecastPoint (size == steps).
      * @throws std::runtime_error if the model has not been fitted.
-     * @brief TBD: Describe predict.
-     * @return Return value.
      */
     std::vector<ForecastPoint> predict(int steps) const;
 
@@ -347,8 +319,6 @@ public:
      * @param steps  Number of future points per series (must be ≥ 1).
      * @returns      Vector of size batch.size(), each element of size steps.
      * @throws std::invalid_argument if @p steps < 1 or any series has < 2 points.
-     * @brief TBD: Describe predictBatch.
-     * @return Return value.
      */
     std::vector<std::vector<ForecastPoint>> predictBatch(
         const std::vector<TimeSeries>& batch, int steps) const;
@@ -365,7 +335,6 @@ public:
      *
      * @param new_value  The new observation value (timestamp is implicitly
      *                   one median-interval step after the last training point).
-     * @brief TBD: Describe update.
      */
     void update(double new_value);
 
@@ -376,9 +345,6 @@ public:
      *
      * The model predicts len(test_ts) steps ahead starting at the last
      * training observation and computes MAE, RMSE, and MAPE.
-     * @brief TBD: Describe evaluate.
-     * @param[in] test_ts Input parameter.
-     * @return Return value.
      */
     ForecastMetrics evaluate(const TimeSeries& test_ts) const;
 
@@ -412,22 +378,8 @@ public:
         bool           fitted           = false;
     };
 
-    /**
-     * @brief TBD: Describe info.
-     * @return Return value.
-     */
     ModelInfo        info()   const;
-    /**
-     * @brief TBD: Describe method.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
     ForecastMethod   method() const noexcept;
-    /**
-     * @brief TBD: Describe config.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
     const ForecastConfig& config() const noexcept;
 
 private:

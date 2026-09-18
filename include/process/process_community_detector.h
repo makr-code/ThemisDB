@@ -90,7 +90,6 @@ public:
      *
      * @see detect() to run community detection on a process model
      * @see generateReport() to create human-readable community descriptions
-     * @return Return value.
      */
     explicit ProcessCommunityDetector(RocksDBWrapper& db);
 
@@ -146,8 +145,6 @@ public:
      * @endcode
      *
      * @return true if all communities were stored successfully.
-     * @param[in] model_id Input parameter.
-     * @param[in] communities Input parameter.
      */
     bool persistCommunities(
         std::string_view model_id,

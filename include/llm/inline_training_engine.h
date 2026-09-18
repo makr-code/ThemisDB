@@ -81,16 +81,7 @@ struct OptimizerConfig {
     bool use_gradient_clipping = true;
     float max_grad_norm = 1.0f;
 
-    /**
-     * @brief TBD: Describe toJSON.
-     * @return Return value.
-     */
     nlohmann::json toJSON() const;
-    /**
-     * @brief TBD: Describe fromJSON.
-     * @param[in] j Input parameter.
-     * @return Return value.
-     */
     static OptimizerConfig fromJSON(const nlohmann::json& j);
 };
 
@@ -105,16 +96,7 @@ struct SchedulerConfig {
     int total_steps = 1000;
     float power = 1.0f;  // For polynomial decay
 
-    /**
-     * @brief TBD: Describe toJSON.
-     * @return Return value.
-     */
     nlohmann::json toJSON() const;
-    /**
-     * @brief TBD: Describe fromJSON.
-     * @param[in] j Input parameter.
-     * @return Return value.
-     */
     static SchedulerConfig fromJSON(const nlohmann::json& j);
 };
 
@@ -122,10 +104,6 @@ struct SchedulerConfig {
  * @brief Training metrics and statistics
  */
 struct TrainingMetrics {
-    /**
-     * @brief TBD: Describe ~TrainingMetrics.
-     * @return Return value.
-     */
     virtual ~TrainingMetrics() = default;
     int epoch = 0;
     int step = 0;
@@ -141,10 +119,6 @@ struct TrainingMetrics {
     double elapsed_seconds = 0.0;
     double samples_per_second = 0.0;
 
-    /**
-     * @brief TBD: Describe toJSON.
-     * @return Return value.
-     */
     nlohmann::json toJSON() const;
 };
 
@@ -162,10 +136,6 @@ using CheckpointCallback = std::function<void(const std::string& checkpoint_path
  * @brief Training state for checkpointing
  */
 struct TrainingState {
-    /**
-     * @brief TBD: Describe ~TrainingState.
-     * @return Return value.
-     */
     virtual ~TrainingState() = default;
     int current_epoch = 0;
     int current_step = 0;
@@ -175,16 +145,7 @@ struct TrainingState {
     // Optimizer state (will be serialized by optimizer)
     std::vector<uint8_t> optimizer_state;
 
-    /**
-     * @brief TBD: Describe toJSON.
-     * @return Return value.
-     */
     nlohmann::json toJSON() const;
-    /**
-     * @brief TBD: Describe fromJSON.
-     * @param[in] j Input parameter.
-     * @return Return value.
-     */
     static TrainingState fromJSON(const nlohmann::json& j);
 };
 
@@ -235,16 +196,7 @@ struct InlineTrainingConfig {
     // from running without an active governance check.
     bool require_policy_gate = false;
 
-    /**
-     * @brief TBD: Describe toJSON.
-     * @return Return value.
-     */
     nlohmann::json toJSON() const;
-    /**
-     * @brief TBD: Describe fromJSON.
-     * @param[in] j Input parameter.
-     * @return Return value.
-     */
     static InlineTrainingConfig fromJSON(const nlohmann::json& j);
 };
 
@@ -258,10 +210,6 @@ struct TrainingResult {
     TrainingMetrics final_metrics;
     std::vector<TrainingMetrics> history;
 
-    /**
-     * @brief TBD: Describe toJSON.
-     * @return Return value.
-     */
     nlohmann::json toJSON() const;
 };
 
@@ -328,7 +276,6 @@ public:
      *
      * Roadmap ref: src/llm/FUTURE_ENHANCEMENTS.md §InlineTrainingEngine
      *              production gradient (v1.8.0)
-     * @param[in] fn Input parameter.
      */
     void setGradientComputer(GradientComputerFn fn);
 
@@ -345,7 +292,6 @@ public:
      *
      * Thread-safe: the stored shared_ptr is replaced atomically via the
      * engine's internal mutex before the next train() call reads it.
-     * @param[in] policy Input parameter.
      */
     void setGovernancePolicy(
         std::shared_ptr<governance::ModelGovernancePolicy> policy);
@@ -359,7 +305,6 @@ public:
      * filesystem JSON if the key is absent.
      *
      * Pass nullptr to clear the handle and revert to filesystem-only mode.
-     * @param[in] db Input parameter.
      */
     void setCheckpointDb(std::shared_ptr<rocksdb::DB> db);
 
@@ -401,13 +346,11 @@ public:
 
     /**
      * @brief Check if training is currently running
-     * @return True on success.
      */
     bool isTraining() const;
 
     /**
      * @brief Get current training state (for monitoring)
-     * @return Return value.
      */
     std::optional<TrainingState> getCurrentState() const;
 
@@ -419,65 +362,34 @@ private:
     // Optional RocksDB handle for checkpoint persistence (dual-write)
     std::shared_ptr<rocksdb::DB> checkpoint_db_;
 
-    /**
-     * @brief Training loop implementation
-     * @param[in] adapter_id Input parameter.
-     * @param[in] base_model_path Input parameter.
-     * @param[in] training_config Input parameter.
-     * @return Return value.
-     */
+    // Training loop implementation
     TrainingResult trainLoop(
         const std::string& adapter_id,
         const std::string& base_model_path,
         const TrainingConfig& training_config
     );
 
-    /**
-     * @brief Gradient computation
-     * @param[in] batch Input parameter.
-     * @param[in,out] gradients Input/output parameter.
-     */
+    // Gradient computation
     void computeGradients(
         const std::vector<TrainingDataIterator::TrainingSample>& batch,
         std::vector<float>& gradients
     );
 
-    /**
-     * @brief Optimizer step
-     * @param[in,out] parameters Input/output parameter.
-     * @param[in] gradients Input parameter.
-     * @param[in] step Input parameter.
-     */
+    // Optimizer step
     void optimizerStep(
         std::vector<float>& parameters,
         const std::vector<float>& gradients,
         int step
     );
 
-    /**
-     * @brief Learning rate scheduling
-     * @param[in] step Input parameter.
-     * @return Return value.
-     */
+    // Learning rate scheduling
     float getLearningRate(int step) const;
 
-    /**
-     * @brief Checkpointing
-     * @param[in] path Input parameter.
-     * @param[in] state Input parameter.
-     */
+    // Checkpointing
     void saveCheckpoint(const std::string& path, const TrainingState& state);
-    /**
-     * @brief TBD: Describe loadCheckpoint.
-     * @param[in] path Input parameter.
-     * @return Return value.
-     */
     TrainingState loadCheckpoint(const std::string& path);
 
-    /**
-     * @brief Validation
-     * @return Return value.
-     */
+    // Validation
     TrainingMetrics runValidation();
 };
 
@@ -488,9 +400,6 @@ class TrainingEngineFactory {
 public:
     /**
      * @brief Create a training engine with default configuration
-     * @param[in] registry Input parameter.
-     * @param[in] data_iterator Input parameter.
-     * @return Return value.
      */
     static std::unique_ptr<InlineTrainingEngine> create(
         std::shared_ptr<AdapterRegistry> registry,
@@ -499,10 +408,6 @@ public:
 
     /**
      * @brief Create a training engine with custom configuration
-     * @param[in] registry Input parameter.
-     * @param[in] data_iterator Input parameter.
-     * @param[in] config Input parameter.
-     * @return Return value.
      */
     static std::unique_ptr<InlineTrainingEngine> create(
         std::shared_ptr<AdapterRegistry> registry,

@@ -76,10 +76,6 @@ using IContextPtr = std::shared_ptr<IContext>;
  */
 class IContext {
 public:
-    /**
-     * @brief TBD: Describe ~IContext.
-     * @return Return value.
-     */
     virtual ~IContext() = default;
 
     // -----------------------------------------------------------------------
@@ -223,7 +219,6 @@ public:
     /**
      * @brief Factory: create an empty root context with no parent.
      * @return A new root `SimpleContext` managed by a `shared_ptr`.
-     * @details Calls: SimpleContext().
      */
     static std::shared_ptr<SimpleContext> create() {
         return std::shared_ptr<SimpleContext>(new SimpleContext(nullptr));
@@ -253,22 +248,12 @@ public:
     // IContext implementation
 
     void set(std::string_view key, std::string_view value) override {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(mutex_);
         attrs_[std::string(key)] = std::string(value);
     }
 
     std::optional<std::string> get(std::string_view key) const override {
         {
-            /**
-             * @brief TBD: Describe lk.
-             * @param[in] mutex_ Input parameter.
-             * @return Return value.
-             */
             std::lock_guard<std::mutex> lk(mutex_);
             auto it = attrs_.find(std::string(key));
             if (it != attrs_.end()) {
@@ -316,11 +301,6 @@ public:
     }
 
 private:
-    /**
-     * @brief TBD: Describe SimpleContext.
-     * @param[in] parent Input parameter.
-     * @return Return value.
-     */
     explicit SimpleContext(std::shared_ptr<SimpleContext> parent)
         : parent_(std::move(parent)) {}
 

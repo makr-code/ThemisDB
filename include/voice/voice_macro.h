@@ -202,11 +202,6 @@ public:
      * Allows callers to rename, re-describe, re-tag, or enable/disable a macro.
      *
      * @return true on success, false if the macro was not found.
-     * @param[in] macro_id Input parameter.
-     * @param[in] name Input parameter.
-     * @param[in] description Input parameter.
-     * @param[in] tags Input parameter.
-     * @param[in] enabled Input parameter.
      */
     bool setMacroMeta(
         const MacroID& macro_id,
@@ -218,9 +213,6 @@ public:
     /**
      * @brief Replace the steps and options of an existing macro.
      * @return true on success, false if the macro was not found.
-     * @param[in] macro_id Input parameter.
-     * @param[in] steps Input parameter.
-     * @param[in] options Input parameter.
      */
     bool updateMacro(
         const MacroID& macro_id,
@@ -230,7 +222,6 @@ public:
     /**
      * @brief Remove a macro.
      * @return true on success, false if not found.
-     * @param[in] macro_id Input parameter.
      */
     bool deleteMacro(const MacroID& macro_id);
 
@@ -255,7 +246,6 @@ public:
      * internal storage.  The empty string signals no match.
      *
      * @return MacroID of the first matching enabled macro, or empty string.
-     * @param[in] utterance Input parameter.
      */
     MacroID matchTrigger(const std::string& utterance) const;
 
@@ -273,7 +263,6 @@ public:
     /**
      * @brief Import macros from a JSON string produced by exportMacros().
      * @return IDs of successfully imported macros.
-     * @param[in] json_str Input parameter.
      */
     std::vector<MacroID> importMacros(const std::string& json_str);
 
@@ -281,7 +270,6 @@ public:
     // Statistics
     // -----------------------------------------------------------------------
 
-     * @return Return value.
     /** @brief Return statistics object (macro count, total executions). */
     json getStatistics() const;
 

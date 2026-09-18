@@ -150,11 +150,10 @@ public:
     // Information Schema endpoints
     // ========================================================================
 
-    /**
-     * @brief GET /api/v1/information_schema (full dump) GET /api/v1/information_schema/tables GET /api/v1/information_schema/columns[/:table] GET /api/v1/information_schema/statistics[/:table]
-     * @param[in] req Input parameter.
-     * @return Return value.
-     */
+    /// GET /api/v1/information_schema  (full dump)
+    /// GET /api/v1/information_schema/tables
+    /// GET /api/v1/information_schema/columns[/:table]
+    /// GET /api/v1/information_schema/statistics[/:table]
     http::response<http::string_body> handleGetInformationSchema(
         const http::request<http::string_body>& req);
 
@@ -162,19 +161,11 @@ public:
     // Statistics endpoints
     // ========================================================================
 
-    /**
-     * @brief GET /api/v1/metadata/stats/:table – return cached statistics POST /api/v1/metadata/stats/:table – trigger collection
-     * @param[in] req Input parameter.
-     * @return Return value.
-     */
+    /// GET  /api/v1/metadata/stats/:table  – return cached statistics
+    /// POST /api/v1/metadata/stats/:table  – trigger collection
     http::response<http::string_body> handleGetStats(
         const http::request<http::string_body>& req);
 
-    /**
-     * @brief TBD: Describe handleCollectStats.
-     * @param[in] req Input parameter.
-     * @return Return value.
-     */
     http::response<http::string_body> handleCollectStats(
         const http::request<http::string_body>& req);
 
@@ -190,11 +181,8 @@ public:
     // Index recommendations endpoint
     // ========================================================================
 
-    /**
-     * @brief GET /api/v1/metadata/index_recommendations – all tables GET /api/v1/metadata/index_recommendations/:table – single table
-     * @param[in] req Input parameter.
-     * @return Return value.
-     */
+    /// GET /api/v1/metadata/index_recommendations         – all tables
+    /// GET /api/v1/metadata/index_recommendations/:table  – single table
     http::response<http::string_body> handleGetIndexRecommendations(
         const http::request<http::string_body>& req);
 
@@ -202,11 +190,8 @@ public:
     // Schema audit endpoint
     // ========================================================================
 
-    /**
-     * @brief GET /api/v1/metadata/audit – full audit history GET /api/v1/metadata/audit/:table – per-table audit history
-     * @param[in] req Input parameter.
-     * @return Return value.
-     */
+    /// GET /api/v1/metadata/audit              – full audit history
+    /// GET /api/v1/metadata/audit/:table       – per-table audit history
     http::response<http::string_body> handleGetAuditLog(
         const http::request<http::string_body>& req);
 
@@ -214,12 +199,9 @@ public:
     // Schema import endpoint
     // ========================================================================
 
-    /**
-     * @brief PUT /api/v1/metadata/schema_import Bulk-import multiple table schemas from a JSON array.
-     * @param[in] req Input parameter.
-     * @return Return value.
-     * @details Body: { "tables": [ <TableSchema JSON>, … ] }
-     */
+    /// PUT /api/v1/metadata/schema_import
+    /// Bulk-import multiple table schemas from a JSON array.
+    /// Body: { "tables": [ <TableSchema JSON>, … ] }
     http::response<http::string_body> handleSchemaImport(
         const http::request<http::string_body>& req);
 
@@ -227,12 +209,9 @@ public:
     // Batch constraint validation
     // ========================================================================
 
-    /**
-     * @brief POST /api/v1/metadata/constraints/validate/:table Validate a batch of rows against the table's registered constraints.
-     * @param[in] req Input parameter.
-     * @return Return value.
-     * @details Body: { "rows": [ { <column>: <value>, … }, … ] }
-     */
+    /// POST /api/v1/metadata/constraints/validate/:table
+    /// Validate a batch of rows against the table's registered constraints.
+    /// Body: { "rows": [ { <column>: <value>, … }, … ] }
     http::response<http::string_body> handleBatchConstraintValidation(
         const http::request<http::string_body>& req);
 
@@ -256,19 +235,13 @@ public:
     // Column lineage endpoints
     // ========================================================================
 
-    /**
-     * @brief GET /api/v1/metadata/lineage/:table – export all lineage for a table GET /api/v1/metadata/lineage/:table/:column – provenance for one column
-     * @param[in] req Input parameter.
-     * @return Return value.
-     */
+    /// GET  /api/v1/metadata/lineage/:table           – export all lineage for a table
+    /// GET  /api/v1/metadata/lineage/:table/:column   – provenance for one column
     http::response<http::string_body> handleGetColumnLineage(
         const http::request<http::string_body>& req);
 
-    /**
-     * @brief POST /api/v1/metadata/lineage – record a derivation entry Body: ColumnLineageEntry JSON object
-     * @param[in] req Input parameter.
-     * @return Return value.
-     */
+    /// POST /api/v1/metadata/lineage – record a derivation entry
+    /// Body: ColumnLineageEntry JSON object
     http::response<http::string_body> handleRecordLineageDerivation(
         const http::request<http::string_body>& req);
 
@@ -278,14 +251,8 @@ private:
         const std::string& target,
         std::string& table_name) const;
 
-    /**
-     * @brief Extract table name from a path with given prefix e.
-     * @param[in] target Input parameter.
-     * @param[in] prefix Input parameter.
-     * @param[in,out] table_name Input/output parameter.
-     * @return Return value.
-     * @details g. prefix="/api/v1/metadata/stats/", target="/api/v1/metadata/stats/users" → "users"
-     */
+    /// Extract table name from a path with given prefix
+    /// e.g. prefix="/api/v1/metadata/stats/", target="/api/v1/metadata/stats/users" → "users"
     std::string extractTableName(
         const std::string& target,
         const std::string& prefix,

@@ -139,24 +139,12 @@ public:
     ) const;
 
 private:
-    /**
-     * @brief TBD: Describe checkUnknownCollections.
-     * @param[in] query Input parameter.
-     * @param[in] schema Input parameter.
-     * @param[in,out] result Input/output parameter.
-     */
     void checkUnknownCollections(
         const std::string& query,
         const std::vector<CollectionMetadata>& schema,
         ValidationResult& result
     ) const;
 
-    /**
-     * @brief TBD: Describe checkUnknownFields.
-     * @param[in] query Input parameter.
-     * @param[in] schema Input parameter.
-     * @param[in,out] result Input/output parameter.
-     */
     void checkUnknownFields(
         const std::string& query,
         const std::vector<CollectionMetadata>& schema,

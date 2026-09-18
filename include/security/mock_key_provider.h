@@ -117,22 +117,8 @@ private:
     mutable std::mutex mutex_;
     std::mt19937 rng_;
     
-    /**
-     * @brief TBD: Describe generateRandomKey.
-     * @return Return value.
-     */
     std::vector<uint8_t> generateRandomKey();
-    /**
-     * @brief TBD: Describe makeKeyPath.
-     * @param[in] key_id Input parameter.
-     * @param[in] version Input parameter.
-     * @return Return value.
-     */
     std::string makeKeyPath(const std::string& key_id, uint32_t version) const;
-    /**
-     * @brief TBD: Describe getCurrentTimeMs.
-     * @return Return value.
-     */
     int64_t getCurrentTimeMs() const;
 };
 

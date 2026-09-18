@@ -117,17 +117,12 @@ struct AdversarialTestReport {
  */
 class IAdversarialPromptTester {
 public:
-    /**
-     * @brief TBD: Describe ~IAdversarialPromptTester.
-     * @return Return value.
-     */
     virtual ~IAdversarialPromptTester() = default;
 
     /**
      * @brief Add a test case to the active suite.
      *
      * @throws std::invalid_argument if a case with the same `id` already exists.
-     * @param[in] test_case Input parameter.
      */
     virtual void addTestCase(AdversarialTestCase test_case) = 0;
 
@@ -190,7 +185,6 @@ public:
      * @brief Replace the built-in blocklist detector with a custom function.
      *
      * Must be called before `runAll()` / `runOne()`.
-     * @param[in] fn Input parameter.
      */
     void setDetectorFn(DetectorFn fn);
 

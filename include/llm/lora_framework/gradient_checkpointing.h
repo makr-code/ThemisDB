@@ -134,7 +134,6 @@ public:
     /**
      * @brief Construct gradient checkpointer
      * @param config Checkpoint configuration
-     * @return Return value.
      */
     explicit GradientCheckpointer(const CheckpointConfig& config);
     
@@ -231,7 +230,6 @@ private:
     
     /**
      * @brief Calculate checkpoint interval for SQRT_N strategy
-     * @return Return value.
      */
     int calculateSqrtNInterval() const;
 };

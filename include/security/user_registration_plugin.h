@@ -47,10 +47,6 @@ struct UserRegistrationData {
  */
 class IUserRegistrationPlugin {
 public:
-    /**
-     * @brief TBD: Describe ~IUserRegistrationPlugin.
-     * @return Return value.
-     */
     virtual ~IUserRegistrationPlugin() = default;
     
     /**
@@ -178,7 +174,6 @@ private:
  * Intended for standalone deployments and unit tests.
  *
  * NOT recommended for production enterprise deployments.
- * @return Return value.
  */
 std::shared_ptr<IUserRegistrationPlugin> createEmbeddedUserRegistrationPlugin();
 

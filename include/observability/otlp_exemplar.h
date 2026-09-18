@@ -55,45 +55,17 @@ struct ExemplarReservoirConfig {
 /** @brief I exemplar reservoir. */
 class IExemplarReservoir {
 public:
-    /**
-     * @brief TBD: Describe ~IExemplarReservoir.
-     * @return Return value.
-     */
     virtual ~IExemplarReservoir() = default;
-    /**
-     * @brief TBD: Describe offer.
-     * @param[in] exemplar Input parameter.
-     */
     virtual void offer(const MetricExemplar& exemplar) = 0;
-    /**
-     * @brief TBD: Describe collect.
-     * @return Return value.
-     */
     virtual std::vector<MetricExemplar> collect() = 0;
-    /**
-     * @brief TBD: Describe size.
-     * @return Return value.
-     */
     virtual size_t size() const = 0;
-    /**
-     * @brief TBD: Describe reset.
-     */
     virtual void reset() = 0;
 };
 
 /** @brief I exemplar sampler. */
 class IExemplarSampler {
 public:
-    /**
-     * @brief TBD: Describe ~IExemplarSampler.
-     * @return Return value.
-     */
     virtual ~IExemplarSampler() = default;
-    /**
-     * @brief TBD: Describe shouldSample.
-     * @param[in] ctx Input parameter.
-     * @return True on success.
-     */
     virtual bool shouldSample(const OTLPTraceContext& ctx) const = 0;
     virtual void recordMeasurement(double value, const OTLPTraceContext& ctx,
                                    const std::map<std::string, std::string>& attrs) = 0;

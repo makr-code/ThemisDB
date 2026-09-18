@@ -100,7 +100,6 @@ namespace detail {
  * compilable and behave as a no-op.
  *
  * @param ptr Device pointer to release. nullptr is ignored.
- * @note Exception safety: noexcept.
  */
 void destroyDeviceMemoryNoThrow(void* ptr) noexcept;
 
@@ -312,12 +311,6 @@ private:
 /// @param count Number of elements to allocate
 /// @return DeviceMemoryGuard managing the allocation
 template<typename T>
-/**
- * @brief TBD: Describe makeDeviceMemory.
- * @param[in] count Input parameter.
- * @return Return value.
- * @details Implements makeDeviceMemory without additional internal calls.
- */
 inline DeviceMemoryGuard<T> makeDeviceMemory(size_t count) {
     return DeviceMemoryGuard<T>(count);
 }

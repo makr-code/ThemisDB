@@ -55,11 +55,6 @@ public:
     // -----------------------------------------------------------------------
 
     std::optional<std::string> getSecret(std::string_view name) const override {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = secrets_.find(std::string(name));
         if (it == secrets_.end()) {
@@ -69,21 +64,11 @@ public:
     }
 
     bool hasSecret(std::string_view name) const override {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         return secrets_.count(std::string(name)) > 0;
     }
 
     std::vector<std::string> listSecretNames() const override {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         std::vector<std::string> names = {};
 
@@ -108,14 +93,8 @@ public:
      *
      * @param name   Secret name.
      * @param value  Secret value.
-     * @details Calls: lock(), std::string().
      */
     void setSecret(std::string_view name, std::string_view value) {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         secrets_[std::string(name)] = std::string(value);
     }
@@ -127,14 +106,8 @@ public:
      *
      * @param name  Secret name to remove.
      * @return true if the secret was found and removed, false otherwise.
-     * @details Calls: lock(), erase(), std::string().
      */
     bool removeSecret(std::string_view name) {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         return secrets_.erase(std::string(name)) > 0;
     }
@@ -143,11 +116,6 @@ public:
      * @brief Return the number of secrets currently stored.
      */
     size_t size() const {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         return secrets_.size();
     }
@@ -219,11 +187,6 @@ public:
     * than once in the returned vector.
      */
     std::vector<std::string> listSecretNames() const override {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         std::vector<std::string> result = {};
 
@@ -252,14 +215,8 @@ public:
      * listSecretNames() when the corresponding environment variable exists.
      *
      * @param name The logical secret name (e.g. "db.password").
-     * @details Calls: lock(), push_back(), std::string().
      */
     void registerName(std::string_view name) {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         registered_names_.push_back(std::string(name));
     }

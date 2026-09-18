@@ -79,11 +79,6 @@ public:
         bool scale_with_dataset = true;          ///< Scale efSearch with dataset size
     };
     
-    /**
-     * @brief TBD: Describe HnswParameterTuner.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit HnswParameterTuner(const Config& config);
     ~HnswParameterTuner() = default;
     
@@ -111,7 +106,6 @@ public:
     
     /**
      * @brief Update configuration
-     * @param[in] config Input parameter.
      */
     void updateConfig(const Config& config);
     
@@ -126,10 +120,6 @@ public:
         size_t adaptations_count = 0;
     };
     
-    /**
-     * @brief TBD: Describe getStats.
-     * @return Return value.
-     */
     Stats getStats() const;
     
     /**
@@ -193,9 +183,6 @@ private:
     
     /**
      * @brief Calculate efSearch based on k and dataset size
-     * @param[in] k Input parameter.
-     * @param[in] dataset_size Input parameter.
-     * @return Return value.
      */
     int calculateEfSearch(size_t k, size_t dataset_size) const;
     
@@ -268,10 +255,6 @@ public:
         double   avg_k          = 0.0;
     };
 
-    /**
-     * @brief TBD: Describe getStats.
-     * @return Return value.
-     */
     Stats getStats() const;
 
 private:
@@ -301,20 +284,16 @@ public:
     
     /**
      * @brief Get optimal cache-line size for platform
-     * @return Return value.
      */
     static size_t getCacheLineSize();
     
     /**
      * @brief Align size to cache line boundary
-     * @param[in] size Input parameter.
-     * @return Return value.
      */
     static size_t alignToCacheLine(size_t size);
     
     /**
      * @brief Check if SIMD prefetching is available
-     * @return True on success.
      */
     static bool hasSIMDPrefetch();
 };

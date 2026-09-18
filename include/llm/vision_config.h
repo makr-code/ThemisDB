@@ -48,17 +48,11 @@ struct ModelLicense {
     
     /**
      * @brief Check if license is compatible with another
-     * @param[in] other_license_id Input parameter.
-     * @return True on success.
      */
     bool isCompatibleWith(const std::string& other_license_id) const;
     
     /**
      * @brief Validate usage against license terms
-     * @param[in] is_commercial Input parameter.
-     * @param[in] will_modify Input parameter.
-     * @param[in] will_distribute Input parameter.
-     * @return True on success.
      */
     bool validateUsage(bool is_commercial, bool will_modify, bool will_distribute) const;
 };
@@ -67,10 +61,6 @@ struct ModelLicense {
  * @brief Model metadata with license information
  */
 struct VisionModelMetadata {
-    /**
-     * @brief TBD: Describe ~VisionModelMetadata.
-     * @return Return value.
-     */
     virtual ~VisionModelMetadata() = default;
     std::string model_id;                ///< Unique model identifier
     std::string model_name;              ///< Human-readable name
@@ -88,10 +78,6 @@ struct VisionModelMetadata {
  * @brief Resource limits for vision processing
  */
 struct VisionResourceLimits {
-    /**
-     * @brief TBD: Describe ~VisionResourceLimits.
-     * @return Return value.
-     */
     virtual ~VisionResourceLimits() = default;
     size_t max_memory_mb = 0;                ///< Maximum memory usage
     size_t max_memory_per_request_mb = 0;    ///< Memory per request
@@ -110,10 +96,6 @@ struct VisionResourceLimits {
  * @brief Rate limiting configuration
  */
 struct VisionRateLimits {
-    /**
-     * @brief TBD: Describe ~VisionRateLimits.
-     * @return Return value.
-     */
     virtual ~VisionRateLimits() = default;
     bool enabled = false;                        ///< Rate limiting enabled
     size_t requests_per_minute = 0;          ///< Requests per minute
@@ -127,10 +109,6 @@ struct VisionRateLimits {
  * @brief Resource quota tracking
  */
 struct VisionResourceQuota {
-    /**
-     * @brief TBD: Describe ~VisionResourceQuota.
-     * @return Return value.
-     */
     virtual ~VisionResourceQuota() = default;
     bool enabled = false;                        ///< Quota enforcement enabled
     std::string enforcement;             ///< Enforcement mode: soft, hard
@@ -145,10 +123,6 @@ struct VisionResourceQuota {
  * @brief Monitoring configuration
  */
 struct VisionMonitoringConfig {
-    /**
-     * @brief TBD: Describe ~VisionMonitoringConfig.
-     * @return Return value.
-     */
     virtual ~VisionMonitoringConfig() = default;
     bool enabled = false;                        ///< Monitoring enabled
     bool track_latency = false;                  ///< Track latency metrics
@@ -181,10 +155,6 @@ struct VisionMonitoringConfig {
  * @brief Security configuration for vision processing
  */
 struct VisionSecurityConfig {
-    /**
-     * @brief TBD: Describe ~VisionSecurityConfig.
-     * @return Return value.
-     */
     virtual ~VisionSecurityConfig() = default;
     // Input validation
     struct ValidationConfig {
@@ -239,10 +209,6 @@ struct VisionSecurityConfig {
  * @brief Pipeline configuration
  */
 struct VisionPipelineConfig {
-    /**
-     * @brief TBD: Describe ~VisionPipelineConfig.
-     * @return Return value.
-     */
     virtual ~VisionPipelineConfig() = default;
     std::string stability;               ///< Stability level: development, staging, production
     
@@ -325,146 +291,47 @@ public:
     
     /**
      * @brief Validate configuration
-     * @param[in,out] error_message Input/output parameter.
-     * @return True on success.
      */
     bool validate(std::string& error_message) const;
     
-    /**
-     * @brief API Configuration
-     * @return Return value.
-     */
+    // API Configuration
     VisionAPIStability getAPIStability() const;
-    /**
-     * @brief TBD: Describe getAPIVersion.
-     * @return Return value.
-     */
     const std::string& getAPIVersion() const;
-    /**
-     * @brief TBD: Describe getAPIPrefix.
-     * @return Return value.
-     */
     const std::string& getAPIPrefix() const;
-    /**
-     * @brief TBD: Describe isBackwardCompatible.
-     * @return True on success.
-     */
     bool isBackwardCompatible() const;
     
-    /**
-     * @brief License Management
-     * @return True on success.
-     */
+    // License Management
     bool isLicenseEnforced() const;
-    /**
-     * @brief TBD: Describe isLicenseAllowed.
-     * @param[in] license_id Input parameter.
-     * @return True on success.
-     */
     bool isLicenseAllowed(const std::string& license_id) const;
-    /**
-     * @brief TBD: Describe getModelLicense.
-     * @param[in] model_id Input parameter.
-     * @return Return value.
-     */
     std::shared_ptr<ModelLicense> getModelLicense(const std::string& model_id) const;
-    /**
-     * @brief TBD: Describe validateModelUsage.
-     * @param[in] model_id Input parameter.
-     * @param[in] is_commercial Input parameter.
-     * @return True on success.
-     */
     bool validateModelUsage(const std::string& model_id, bool is_commercial) const;
-    /**
-     * @brief TBD: Describe getRequiredAttribution.
-     * @param[in] model_id Input parameter.
-     * @return Return value.
-     */
     std::string getRequiredAttribution(const std::string& model_id) const;
     
-    /**
-     * @brief Resource Management
-     * @return Return value.
-     */
+    // Resource Management
     const VisionResourceLimits& getResourceLimits() const;
-    /**
-     * @brief TBD: Describe getRateLimits.
-     * @return Return value.
-     */
     const VisionRateLimits& getRateLimits() const;
-    /**
-     * @brief TBD: Describe getResourceQuota.
-     * @return Return value.
-     */
     const VisionResourceQuota& getResourceQuota() const;
     
-    /**
-     * @brief Monitoring
-     * @return Return value.
-     */
+    // Monitoring
     const VisionMonitoringConfig& getMonitoringConfig() const;
-    /**
-     * @brief TBD: Describe isMonitoringEnabled.
-     * @return True on success.
-     */
     bool isMonitoringEnabled() const;
-    /**
-     * @brief TBD: Describe isAuditEnabled.
-     * @return True on success.
-     */
     bool isAuditEnabled() const;
     
-    /**
-     * @brief Security
-     * @return Return value.
-     */
+    // Security
     const VisionSecurityConfig& getSecurityConfig() const;
-    /**
-     * @brief TBD: Describe isSandboxingEnabled.
-     * @return True on success.
-     */
     bool isSandboxingEnabled() const;
-    /**
-     * @brief TBD: Describe isModelVerificationEnabled.
-     * @return True on success.
-     */
     bool isModelVerificationEnabled() const;
     
-    /**
-     * @brief Pipeline
-     * @return Return value.
-     */
+    // Pipeline
     const VisionPipelineConfig& getPipelineConfig() const;
     
-    /**
-     * @brief Model Registry
-     * @return Return value.
-     */
+    // Model Registry
     std::vector<std::string> getAvailableModels() const;
-    /**
-     * @brief TBD: Describe getModelMetadata.
-     * @param[in] model_id Input parameter.
-     * @return Return value.
-     */
     std::shared_ptr<VisionModelMetadata> getModelMetadata(const std::string& model_id) const;
-    /**
-     * @brief TBD: Describe isModelProductionReady.
-     * @param[in] model_id Input parameter.
-     * @return True on success.
-     */
     bool isModelProductionReady(const std::string& model_id) const;
     
-    /**
-     * @brief Feature Flags
-     * @param[in] feature_name Input parameter.
-     * @return True on success.
-     */
+    // Feature Flags
     bool isFeatureEnabled(const std::string& feature_name) const;
-    /**
-     * @brief TBD: Describe isExperimentalFeature.
-     * @param[in] feature_name Input parameter.
-     * @return True on success.
-     */
     bool isExperimentalFeature(const std::string& feature_name) const;
 
 private:

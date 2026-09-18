@@ -50,12 +50,6 @@ public:
      * @note Returns nullptr instead of throwing on error for graceful fallback
      */
     template<typename PluginInterface>
-    /**
-     * @brief TBD: Describe get.
-     * @param[in] plugin_name Input parameter.
-     * @return Return value.
-     * @details Implements get without additional internal calls.
-     */
     static std::unique_ptr<PluginInterface> get(const std::string& plugin_name) {
         try {
             return PluginRegistry::create<PluginInterface>(plugin_name);
@@ -73,11 +67,6 @@ public:
      * @return Vector of plugin instances
      */
     template<typename PluginInterface>
-    /**
-     * @brief TBD: Describe getAll.
-     * @return Return value.
-     * @details Calls: push_back(), std::move().
-     */
     static std::vector<std::unique_ptr<PluginInterface>> getAll() {
         std::vector<std::unique_ptr<PluginInterface>> result;
         auto names = PluginRegistry::listPlugins<PluginInterface>();
@@ -100,12 +89,6 @@ public:
      * @return true if plugin exists and is correct type
      */
     template<typename PluginInterface>
-    /**
-     * @brief TBD: Describe has.
-     * @param[in] plugin_name Input parameter.
-     * @return True on success.
-     * @details Implements has without additional internal calls.
-     */
     static bool has(const std::string& plugin_name) {
         return PluginRegistry::hasPlugin<PluginInterface>(plugin_name);
     }
@@ -120,11 +103,6 @@ public:
      * @return First available plugin or nullptr
      */
     template<typename PluginInterface>
-    /**
-     * @brief TBD: Describe getWithFallback.
-     * @return Return value.
-     * @details Calls: empty(), std::move().
-     */
     static std::unique_ptr<PluginInterface> getWithFallback() {
         auto plugins = getAll<PluginInterface>();
         if (!plugins.empty()) {

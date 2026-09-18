@@ -179,27 +179,17 @@ private:
 
     // ── Helpers ──────────────────────────────────────────────────────────
 
-    /**
-     * @brief Merge a left and right entity into a single entity.
-     * @param[in] left Input parameter.
-     * @param[in] right Input parameter.
-     * @return Return value.
-     * @details Applies output_fields selection/aliasing and detects ambiguous names. @throws ExporterException(ERR_EXPORT_JOIN_AMBIGUOUS_FIELD) on conflict.
-     */
+    /// Merge a left and right entity into a single entity.
+    /// Applies output_fields selection/aliasing and detects ambiguous names.
+    /// @throws ExporterException(ERR_EXPORT_JOIN_AMBIGUOUS_FIELD) on conflict.
     BaseEntity mergeEntities(const BaseEntity& left, const BaseEntity& right) const;
 
-    /**
-     * @brief Build a PIIDetector from config_.
-     * @return Return value.
-     * @details pii_config. Returns nullptr when PII detection is disabled.
-     */
+    /// Build a PIIDetector from config_.pii_config.  Returns nullptr when
+    /// PII detection is disabled.
     std::unique_ptr<PIIDetector> buildPIIDetector() const;
 
-    /**
-     * @brief Estimate the raw heap bytes consumed by one BaseEntity in the hash table (primary key + serialised field data).
-     * @param[in] entity Input parameter.
-     * @return Return value.
-     */
+    /// Estimate the raw heap bytes consumed by one BaseEntity in the hash
+    /// table (primary key + serialised field data).
     static size_t estimateEntityBytes(const BaseEntity& entity);
 };
 

@@ -75,11 +75,6 @@ public:
      * @brief Construct evaluator with configuration
      */
     CompletenessEvaluator();
-    /**
-     * @brief TBD: Describe CompletenessEvaluator.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit CompletenessEvaluator(const Config& config);
     
     /**

@@ -101,10 +101,6 @@ struct LoRAQuantizationConfig {
  * @brief Quantization statistics for a LoRA adapter
  */
 struct QuantizationStats {
-    /**
-     * @brief TBD: Describe ~QuantizationStats.
-     * @return Return value.
-     */
     virtual ~QuantizationStats() = default;
     std::string lora_id;
     QuantizationMode mode = QuantizationMode::NONE;
@@ -151,10 +147,6 @@ enum class SchedulingStrategy {
  * - Context-based: different weights per request type
  */
 struct AlphaSchedule {
-    /**
-     * @brief TBD: Describe ~AlphaSchedule.
-     * @return Return value.
-     */
     virtual ~AlphaSchedule() = default;
     std::string schedule_id;
     FusionStrategy strategy = FusionStrategy::STATIC;
@@ -217,10 +209,6 @@ struct FusionConfig {
  * @brief Fusion cache entry metadata
  */
 struct FusionCacheEntry {
-    /**
-     * @brief TBD: Describe ~FusionCacheEntry.
-     * @return Return value.
-     */
     virtual ~FusionCacheEntry() = default;
     std::string fusion_id;
     std::vector<std::string> source_lora_ids;
@@ -241,10 +229,6 @@ struct FusionCacheEntry {
  * @brief Fusion performance metrics
  */
 struct FusionMetrics {
-    /**
-     * @brief TBD: Describe ~FusionMetrics.
-     * @return Return value.
-     */
     virtual ~FusionMetrics() = default;
     std::string fusion_id;
     FusionStrategy strategy;
@@ -268,10 +252,6 @@ struct FusionMetrics {
  * Represents a loaded LoRA adapter with its metadata and handle.
  */
 struct LoRASlot {
-    /**
-     * @brief TBD: Describe ~LoRASlot.
-     * @return Return value.
-     */
     virtual ~LoRASlot() = default;
     std::string lora_id;
     std::string path;
@@ -375,11 +355,6 @@ public:
         bool enforce_security_validation = true;
     };
     
-    /**
-     * @brief TBD: Describe MultiLoRAManager.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit MultiLoRAManager(const Config& config);
     ~MultiLoRAManager();
     
@@ -520,8 +495,6 @@ public:
      * 
      * Returns pointer to loaded LoRA slot, or nullptr if not loaded.
      * Updates last_used timestamp.
-     * @param[in] lora_id Input parameter.
-     * @return Pointer to the result.
      */
     LoRASlot* getLoRA(const std::string& lora_id);
     
@@ -540,32 +513,15 @@ public:
     /// Bridge callback for removing a LoRA adapter when no llama_context is available.
     using RemoveAdapterFn = std::function<bool(const LoRASlot& slot)>;
 
-    /**
-     * @brief TBD: Describe setApplyAdapterFn.
-     * @param[in] fn Input parameter.
-     */
     void setApplyAdapterFn(ApplyAdapterFn fn);
-    /**
-     * @brief TBD: Describe setRemoveAdapterFn.
-     * @param[in] fn Input parameter.
-     */
     void setRemoveAdapterFn(RemoveAdapterFn fn);
 
-    /**
-     * @brief TBD: Describe applyLoRA.
-     * @param[in] lora_id Input parameter.
-     * @param[in,out] context Input/output parameter.
-     * @return True on success.
-     */
     bool applyLoRA(const std::string& lora_id, llama_context* context);
     
     /**
      * @brief Remove LoRA from model context
      * 
      * Deactivates a LoRA adapter.
-     * @param[in] lora_id Input parameter.
-     * @param[in,out] context Input/output parameter.
-     * @return True on success.
      */
     bool removeLoRA(const std::string& lora_id, llama_context* context);
     
@@ -711,20 +667,16 @@ public:
     
     /**
      * @brief Pin a LoRA in memory (prevent eviction)
-     * @param[in] lora_id Input parameter.
      */
     void pinLoRA(const std::string& lora_id);
     
     /**
      * @brief Unpin a LoRA (allow eviction)
-     * @param[in] lora_id Input parameter.
      */
     void unpinLoRA(const std::string& lora_id);
     
     /**
      * @brief Check if LoRA is loaded
-     * @param[in] lora_id Input parameter.
-     * @return True on success.
      */
     bool isLoRALoaded(const std::string& lora_id) const;
     
@@ -838,7 +790,6 @@ public:
     
     /**
      * @brief List all loaded LoRAs
-     * @return Return value.
      */
     std::vector<LoRAInfo> listLoRAs() const;
     
@@ -866,15 +817,11 @@ public:
 
     /**
      * @brief List loaded LoRAs filtered by base model id
-     * @param[in] base_model_id Input parameter.
-     * @return Return value.
      */
     std::vector<LoRAInfo> listLoRAs(const std::string& base_model_id) const;
 
     /**
      * @brief Get LoRA info by id
-     * @param[in] lora_id Input parameter.
-     * @return Return value.
      */
     std::optional<LoRAInfo> getLoRAInfo(const std::string& lora_id) const;
     
@@ -895,13 +842,11 @@ public:
     
     /**
      * @brief Get memory usage statistics
-     * @return Return value.
      */
     json getMemoryStats() const;
     
     /**
      * @brief Get LoRA cache statistics
-     * @return Return value.
      */
     json getCacheStats() const;
 
@@ -914,10 +859,6 @@ public:
         size_t switches = 0;
     };
 
-    /**
-     * @brief TBD: Describe getStatistics.
-     * @return Return value.
-     */
     Stats getStatistics() const;
 
     // Backward-compat: legacy tests expect getStats()
@@ -927,8 +868,6 @@ public:
      * @brief Export LoRA for cross-shard transfer
      * 
      * Serializes a LoRA adapter for transfer to another shard.
-     * @param[in] lora_id Input parameter.
-     * @return Return value.
      */
     std::vector<uint8_t> exportLoRA(const std::string& lora_id);
     
@@ -936,10 +875,6 @@ public:
      * @brief Import LoRA from another shard
      * 
      * Deserializes and loads a LoRA adapter received from another shard.
-     * @param[in] lora_id Input parameter.
-     * @param[in] data Input parameter.
-     * @param[in] base_model_id Input parameter.
-     * @return True on success.
      */
     bool importLoRA(
         const std::string& lora_id,
@@ -1011,12 +946,7 @@ private:
                              int source_gpu, int target_gpu, size_t vram_bytes,
                              const std::string& details = "");
     
-    /**
-     * @brief Helper for access frequency calculation
-     * @param[in] lora Input parameter.
-     * @param[in] now Input parameter.
-     * @return Return value.
-     */
+    // Helper for access frequency calculation
     double calculateAccessFrequency(const LoRASlot* lora, 
                                    const std::chrono::system_clock::time_point& now) const;
     // Fusion cache and metrics (v1.5.0) (protected by adapter_cache_lock_)
@@ -1061,158 +991,43 @@ private:
      * Returns true when the check passes or when @c config_.lora_base_dir is
      * empty (legacy/unconfigured deployments).  Returns false when the path
      * escapes the base directory; callers must reject the request in that case.
-     * @param[in] lora_path Input parameter.
-     * @return True on success.
      */
     bool isLoRAPathTrusted(const std::string& lora_path) const;
     
-    /**
-     * @brief Background eviction worker
-     */
+    // Background eviction worker
     void evictionWorker();
-    /**
-     * @brief TBD: Describe startEvictionThread.
-     */
     void startEvictionThread();
-    /**
-     * @brief TBD: Describe stopEvictionThread.
-     */
     void stopEvictionThread();
     
-    /**
-     * @brief Multi-GPU helpers (v1.
-     * @param[in] vram_bytes Input parameter.
-     * @return Return value.
-     * @details 4.0)
-     */
+    // Multi-GPU helpers (v1.4.0)
     int selectGPUForLoRA(size_t vram_bytes);  // Select best GPU for new LoRA
-    /**
-     * @brief TBD: Describe loadLoRAOnGPU.
-     * @param[in,out] lora Input/output parameter.
-     * @param[in] gpu_id Input parameter.
-     * @return True on success.
-     */
     bool loadLoRAOnGPU(LoRASlot* lora, int gpu_id);  // Load LoRA on specific GPU
-    /**
-     * @brief TBD: Describe loadLoRAMultiGPU.
-     * @param[in,out] lora Input/output parameter.
-     * @return True on success.
-     */
     bool loadLoRAMultiGPU(LoRASlot* lora);  // Load LoRA across multiple GPUs
-    /**
-     * @brief TBD: Describe updateGPUMemoryTracking.
-     */
     void updateGPUMemoryTracking();  // Recalculate per-GPU memory usage
-    /**
-     * @brief TBD: Describe isGPUHealthy.
-     * @param[in] gpu_id Input parameter.
-     * @return True on success.
-     */
     bool isGPUHealthy(int gpu_id) const;  // Check GPU health status
-    /**
-     * @brief TBD: Describe getAvailableGPUs.
-     * @return Return value.
-     */
     std::vector<int> getAvailableGPUs() const;  // Get list of available GPUs
     
-    /**
-     * @brief Quantization helpers
-     * @param[in,out] lora Input/output parameter.
-     * @return True on success.
-     */
+    // Quantization helpers
     bool quantizeLoRA(LoRASlot* lora);
-    /**
-     * @brief TBD: Describe quantizeINT8.
-     * @param[in,out] lora Input/output parameter.
-     * @param[in] weights Input parameter.
-     */
     void quantizeINT8(LoRASlot* lora, const std::vector<float>& weights);
-    /**
-     * @brief TBD: Describe quantizeINT4.
-     * @param[in,out] lora Input/output parameter.
-     * @param[in] weights Input parameter.
-     */
     void quantizeINT4(LoRASlot* lora, const std::vector<float>& weights);
-    /**
-     * @brief TBD: Describe calibrateScales.
-     * @param[in] weights Input parameter.
-     * @param[in,out] scales Input/output parameter.
-     */
     void calibrateScales(const std::vector<float>& weights, std::vector<float>& scales);
-    /**
-     * @brief TBD: Describe simulateWeights.
-     * @param[in] count Input parameter.
-     * @return Return value.
-     */
     std::vector<float> simulateWeights(size_t count);  // For testing without real weights
     
-    /**
-     * @brief Fusion helpers (v1.
-     * @param[in] fused_id Input parameter.
-     * @param[in] config Input parameter.
-     * @return True on success.
-     * @details 5.0)
-     */
+    // Fusion helpers (v1.5.0)
     bool fuseLoRAsInternal(const std::string& fused_id, const FusionConfig& config);
-    /**
-     * @brief TBD: Describe computeScheduledWeights.
-     * @param[in] fusion_id Input parameter.
-     * @return Return value.
-     */
     std::vector<float> computeScheduledWeights(const std::string& fusion_id) const;
-    /**
-     * @brief TBD: Describe computeLinearSchedule.
-     * @param[in] schedule Input parameter.
-     * @param[in] time_offset Input parameter.
-     * @return Return value.
-     */
     std::vector<float> computeLinearSchedule(const AlphaSchedule& schedule, double time_offset) const;
-    /**
-     * @brief TBD: Describe computeExponentialSchedule.
-     * @param[in] schedule Input parameter.
-     * @param[in] time_offset Input parameter.
-     * @return Return value.
-     */
     std::vector<float> computeExponentialSchedule(const AlphaSchedule& schedule, double time_offset) const;
-    /**
-     * @brief TBD: Describe computeStepWiseSchedule.
-     * @param[in] schedule Input parameter.
-     * @param[in] time_offset Input parameter.
-     * @return Return value.
-     */
     std::vector<float> computeStepWiseSchedule(const AlphaSchedule& schedule, double time_offset) const;
-    /**
-     * @brief TBD: Describe validateFusionCompatibility.
-     * @param[in] source_loras Input parameter.
-     * @param[in] config Input parameter.
-     * @return True on success.
-     */
     bool validateFusionCompatibility(
         const std::vector<LoRASlot*>& source_loras,
         const FusionConfig& config
     ) const;
-    /**
-     * @brief TBD: Describe updateFusionMetrics.
-     * @param[in] fusion_id Input parameter.
-     * @param[in] fusion_time_ms Input parameter.
-     */
     void updateFusionMetrics(const std::string& fusion_id, double fusion_time_ms);
-    /**
-     * @brief TBD: Describe updateInferenceMetrics.
-     * @param[in] fusion_id Input parameter.
-     * @param[in] inference_time_ms Input parameter.
-     */
     void updateInferenceMetrics(const std::string& fusion_id, double inference_time_ms);
     
-    /**
-     * @brief TBD: Describe hasCapacity.
-     * @param[in] vram_bytes Input parameter.
-     * @return True on success.
-     */
     bool hasCapacity(size_t vram_bytes) const;
-    /**
-     * @brief TBD: Describe updateMemoryUsage.
-     */
     void updateMemoryUsage();
 };
 

@@ -328,13 +328,6 @@ public:
     }
     
 private:
-    /**
-     * @brief TBD: Describe flattenRecursive.
-     * @param[in] arr Input parameter.
-     * @param[in] depth Input parameter.
-     * @return Return value.
-     * @details Calls: nlohmann::json::array(), is_array(), push_back().
-     */
     static nlohmann::json flattenRecursive(const nlohmann::json& arr, int64_t depth) {
         nlohmann::json result = nlohmann::json::array();
         for (const auto& elem : arr) {
@@ -749,11 +742,9 @@ public:
     }
 };
 
-/**
- * @brief ============================================================================ Register Array Functions ============================================================================
- * @param[in,out] reg Input/output parameter.
- * @details Calls: registerFunction().
- */
+// ============================================================================
+// Register Array Functions
+// ============================================================================
 
 inline void registerArrayFunctions(FunctionRegistry& reg) {
     reg.registerFunction(std::make_unique<FirstFunction>());

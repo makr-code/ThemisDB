@@ -26,10 +26,6 @@ namespace themis::llm {
  * @brief Resource usage statistics
  */
 struct VisionResourceUsage {
-    /**
-     * @brief TBD: Describe ~VisionResourceUsage.
-     * @return Return value.
-     */
     virtual ~VisionResourceUsage() = default;
     size_t current_memory_mb = 0;
     size_t peak_memory_mb = 0;
@@ -53,21 +49,9 @@ struct VisionResourceUsage {
     
     /**
      * @brief Get current resource utilization as percentage
-     * @param[in] limit_mb Input parameter.
-     * @return Return value.
      */
     double getMemoryUtilization(size_t limit_mb) const;
-    /**
-     * @brief TBD: Describe getVRAMUtilization.
-     * @param[in] limit_mb Input parameter.
-     * @return Return value.
-     */
     double getVRAMUtilization(size_t limit_mb) const;
-    /**
-     * @brief TBD: Describe getRequestUtilization.
-     * @param[in] limit Input parameter.
-     * @return Return value.
-     */
     double getRequestUtilization(size_t limit) const;
 };
 
@@ -76,10 +60,6 @@ struct VisionResourceUsage {
  */
 class RateLimiter {
 public:
-    /**
-     * @brief TBD: Describe ~RateLimiter.
-     * @return Return value.
-     */
     virtual ~RateLimiter() = default;
     RateLimiter(size_t rate_per_minute, size_t burst_size);
     
@@ -91,13 +71,11 @@ public:
     
     /**
      * @brief Get number of available tokens
-     * @return Return value.
      */
     size_t availableTokens() const;
     
     /**
      * @brief Get time until next token available
-     * @return Return value.
      */
     std::chrono::milliseconds timeUntilNextToken() const;
     
@@ -107,9 +85,6 @@ public:
     void reset();
     
 private:
-    /**
-     * @brief TBD: Describe refillTokens.
-     */
     void refillTokens();
     
     size_t capacity_ = 0;           ///< Bucket capacity (burst size)
@@ -124,17 +99,11 @@ private:
  */
 class QuotaTracker {
 public:
-    /**
-     * @brief TBD: Describe ~QuotaTracker.
-     * @return Return value.
-     */
     virtual ~QuotaTracker() = default;
     QuotaTracker(const VisionResourceQuota& quota);
     
     /**
      * @brief Check if user has quota available
-     * @param[in] user_id Input parameter.
-     * @return True on success.
      */
     bool hasQuotaAvailable(const std::string& user_id) const;
     
@@ -155,11 +124,6 @@ public:
         size_t inference_minutes_remaining = 0;
         size_t vram_hours_remaining = 0;
     };
-    /**
-     * @brief TBD: Describe getRemainingQuota.
-     * @param[in] user_id Input parameter.
-     * @return Return value.
-     */
     QuotaRemaining getRemainingQuota(const std::string& user_id) const;
     
     /**
@@ -189,17 +153,11 @@ private:
  */
 class VisionResourceMonitor {
 public:
-    /**
-     * @brief TBD: Describe VisionResourceMonitor.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit VisionResourceMonitor(std::shared_ptr<VisionConfig> config);
     ~VisionResourceMonitor();
     
     /**
      * @brief Initialize the monitor
-     * @return True on success.
      */
     bool initialize();
     
@@ -223,8 +181,6 @@ public:
     /**
      * @brief Start tracking a request
      * @return Request tracking ID
-     * @param[in] user_id Input parameter.
-     * @param[in] model_id Input parameter.
      */
     uint64_t startRequest(const std::string& user_id, const std::string& model_id);
     
@@ -237,8 +193,6 @@ public:
     
     /**
      * @brief Reject a request (rate limit, quota, or resource limit exceeded)
-     * @param[in] user_id Input parameter.
-     * @param[in] reason Input parameter.
      */
     void rejectRequest(const std::string& user_id, const std::string& reason);
     
@@ -248,27 +202,21 @@ public:
     
     /**
      * @brief Update memory usage
-     * @param[in] memory_mb Input parameter.
      */
     void updateMemoryUsage(size_t memory_mb);
     
     /**
      * @brief Update VRAM usage
-     * @param[in] vram_mb Input parameter.
      */
     void updateVRAMUsage(size_t vram_mb);
     
     /**
      * @brief Register a model load
-     * @param[in] model_id Input parameter.
-     * @param[in] memory_mb Input parameter.
-     * @param[in] vram_mb Input parameter.
      */
     void registerModelLoad(const std::string& model_id, size_t memory_mb, size_t vram_mb);
     
     /**
      * @brief Register a model unload
-     * @param[in] model_id Input parameter.
      */
     void registerModelUnload(const std::string& model_id);
     
@@ -278,7 +226,6 @@ public:
     
     /**
      * @brief Get current resource usage
-     * @return Return value.
      */
     VisionResourceUsage getResourceUsage() const;
     
@@ -291,22 +238,15 @@ public:
         uint64_t total_requests = 0;
         uint64_t rejected_requests = 0;
     };
-    /**
-     * @brief TBD: Describe getRateLimiterStats.
-     * @return Return value.
-     */
     RateLimiterStats getRateLimiterStats() const;
     
     /**
      * @brief Get quota stats for a user
-     * @param[in] user_id Input parameter.
-     * @return Return value.
      */
     QuotaTracker::QuotaRemaining getUserQuota(const std::string& user_id) const;
     
     /**
      * @brief Export metrics (for Prometheus)
-     * @return Return value.
      */
     std::string exportMetrics() const;
     
@@ -329,7 +269,6 @@ public:
     
     /**
      * @brief Check if system is healthy
-     * @return True on success.
      */
     bool isHealthy() const;
     
@@ -344,10 +283,6 @@ public:
         double vram_utilization_percent = 0.0;
         double request_utilization_percent = 0.0;
     };
-    /**
-     * @brief TBD: Describe getHealthStatus.
-     * @return Return value.
-     */
     HealthStatus getHealthStatus() const;
 
 private:
@@ -398,29 +333,11 @@ private:
     std::thread metrics_thread_;
     std::thread quota_reset_thread_;
     
-    /**
-     * @brief Helper methods
-     */
+    // Helper methods
     void metricsCollectionLoop();
-    /**
-     * @brief TBD: Describe quotaResetLoop.
-     */
     void quotaResetLoop();
-    /**
-     * @brief TBD: Describe logAuditEvent.
-     * @param[in] event_type Input parameter.
-     * @param[in] user_id Input parameter.
-     * @param[in] model_id Input parameter.
-     * @param[in] details Input parameter.
-     * @param[in] success Input parameter.
-     */
     void logAuditEvent(const std::string& event_type, const std::string& user_id,
                       const std::string& model_id, const std::string& details, bool success);
-    /**
-     * @brief TBD: Describe getUserRateLimiter.
-     * @param[in] user_id Input parameter.
-     * @return Pointer to the result.
-     */
     RateLimiter* getUserRateLimiter(const std::string& user_id);
 };
 

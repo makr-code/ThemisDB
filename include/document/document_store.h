@@ -85,10 +85,6 @@ struct DocumentRecord {
  */
 class IDocumentStore {
 public:
-    /**
-     * @brief TBD: Describe ~IDocumentStore.
-     * @return Return value.
-     */
     virtual ~IDocumentStore() = default;
 
     /**
@@ -161,11 +157,6 @@ public:
                 errors::ErrorCode::ERR_DOC_INVALID_ID,
                 "document id must not be empty"));
         }
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mu_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(mu_);
         auto key = makeKey(record.collection_id, record.id);
         if (store_.count(key)) {
@@ -183,11 +174,6 @@ public:
         const CollectionId& collection,
         const DocumentId&   id) const override
     {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mu_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(mu_);
         auto it = store_.find(makeKey(collection, id));
         if (it == store_.end()) {
@@ -200,11 +186,6 @@ public:
                         const DocumentId&   id,
                         const nlohmann::json& body) override
     {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mu_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(mu_);
         auto it = store_.find(makeKey(collection, id));
         if (it == store_.end()) {
@@ -219,11 +200,6 @@ public:
     Result<void> remove(const CollectionId& collection,
                         const DocumentId&   id) override
     {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mu_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(mu_);
         store_.erase(makeKey(collection, id));
         return Result<void>{};
@@ -232,11 +208,6 @@ public:
     Result<std::vector<DocumentId>> list(
         const CollectionId& collection) const override
     {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mu_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(mu_);
         const std::string prefix = collection + ":";
         std::vector<DocumentId> ids = {};
@@ -254,11 +225,6 @@ public:
     Result<std::size_t> count(
         const CollectionId& collection) const override
     {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mu_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(mu_);
         const std::string prefix = collection + ":";
         std::size_t n = 0;
@@ -273,23 +239,12 @@ public:
     }
 
 private:
-    /**
-     * @brief TBD: Describe makeKey.
-     * @param[in] col Input parameter.
-     * @param[in] id Input parameter.
-     * @return Return value.
-     */
     static std::string makeKey(const CollectionId& col,
                                const DocumentId&   id)
     {
         return col + ":" + id;
     }
 
-    /**
-     * @brief TBD: Describe nowMs.
-     * @return Return value.
-     * @details Calls: system_clock::now(), time_since_epoch(), count().
-     */
     static int64_t nowMs() {
         using namespace std::chrono;
         return duration_cast<milliseconds>(

@@ -84,11 +84,6 @@ enum class ConflictType {
 class VectorClock {
 public:
     VectorClock() = default;
-    /**
-     * @brief TBD: Describe VectorClock.
-     * @param[in] node_id Input parameter.
-     * @return Return value.
-     */
     explicit VectorClock(const std::string& node_id);
     
     // Copy / move constructors (mutex is not copied – new instance gets its own mutex)
@@ -97,57 +92,29 @@ public:
     VectorClock& operator=(const VectorClock& other);
     VectorClock& operator=(VectorClock&& other) noexcept;
     
-    /**
-     * @brief Increment this node's clock
-     * @param[in] node_id Input parameter.
-     */
+    // Increment this node's clock
     void increment(const std::string& node_id);
     
-    /**
-     * @brief Merge with another vector clock (take max of each component)
-     * @param[in] other Input parameter.
-     */
+    // Merge with another vector clock (take max of each component)
     void merge(const VectorClock& other);
     
-    /**
-     * @brief Get timestamp for a specific node
-     * @param[in] node_id Input parameter.
-     * @return Return value.
-     */
+    // Get timestamp for a specific node
     uint64_t get(const std::string& node_id) const;
     
-    /**
-     * @brief Compare two vector clocks Returns: -1 if this < other, 0 if concurrent, 1 if this > other
-     * @param[in] other Input parameter.
-     * @return Return value.
-     */
+    // Compare two vector clocks
+    // Returns: -1 if this < other, 0 if concurrent, 1 if this > other
     int compare(const VectorClock& other) const;
     
-    /**
-     * @brief Check if this happened-before other
-     * @param[in] other Input parameter.
-     * @return True on success.
-     */
+    // Check if this happened-before other
     bool happensBefore(const VectorClock& other) const;
     
-    /**
-     * @brief Check if clocks are concurrent (neither happened-before the other)
-     * @param[in] other Input parameter.
-     * @return True on success.
-     */
+    // Check if clocks are concurrent (neither happened-before the other)
     bool isConcurrent(const VectorClock& other) const;
     
-    /**
-     * @brief Serialize to JSON
-     * @return Return value.
-     */
+    // Serialize to JSON
     std::string toJson() const;
     
-    /**
-     * @brief Deserialize from JSON
-     * @param[in] json Input parameter.
-     * @return Return value.
-     */
+    // Deserialize from JSON
     static VectorClock fromJson(const std::string& json);
     
 private:
@@ -188,30 +155,15 @@ public:
         }
     };
     
-    /**
-     * @brief TBD: Describe HybridLogicalClock.
-     * @param[in] node_id Input parameter.
-     * @return Return value.
-     */
     explicit HybridLogicalClock(const std::string& node_id);
     
-    /**
-     * @brief Generate a new timestamp for a local event
-     * @return Return value.
-     */
+    // Generate a new timestamp for a local event
     Timestamp now();
     
-    /**
-     * @brief Update clock based on received message timestamp
-     * @param[in] received Input parameter.
-     * @return Return value.
-     */
+    // Update clock based on received message timestamp
     Timestamp receive(const Timestamp& received);
     
-    /**
-     * @brief Get current timestamp without incrementing
-     * @return Return value.
-     */
+    // Get current timestamp without incrementing
     Timestamp current() const;
     
 private:
@@ -237,16 +189,8 @@ struct MMWriteEntry {
     std::string checksum;           // Content checksum
     std::vector<std::string> dependencies;  // Causal dependencies
     
-    /**
-     * @brief Serialize/deserialize
-     * @return Return value.
-     */
+    // Serialize/deserialize
     std::vector<uint8_t> serialize() const;
-    /**
-     * @brief TBD: Describe deserialize.
-     * @param[in] data Input parameter.
-     * @return Return value.
-     */
     static std::optional<MMWriteEntry> deserialize(const std::vector<uint8_t>& data);
 };
 
@@ -287,10 +231,6 @@ struct MMPeerInfo {
  */
 class ConflictResolver {
 public:
-    /**
-     * @brief TBD: Describe ~ConflictResolver.
-     * @return Return value.
-     */
     virtual ~ConflictResolver() = default;
     
     // Resolve a conflict, returns the winning write
@@ -337,11 +277,6 @@ public:
         FLAG_DW             // Disable-Wins Flag (concurrent enable+disable → disabled)
     };
     
-    /**
-     * @brief TBD: Describe CRDTMergeResolver.
-     * @param[in] type Input parameter.
-     * @return Return value.
-     */
     explicit CRDTMergeResolver(CRDTType type);
     
     MMWriteEntry resolve(
@@ -354,71 +289,17 @@ public:
 private:
     CRDTType crdt_type_;
     
-    /**
-     * @brief CRDT merge implementations
-     * @param[in] writes Input parameter.
-     * @return Return value.
-     */
+    // CRDT merge implementations
     std::string mergeLWWRegister(const std::vector<MMWriteEntry>& writes);
-    /**
-     * @brief TBD: Describe mergeMVRegister.
-     * @param[in] writes Input parameter.
-     * @return Return value.
-     */
     std::string mergeMVRegister(const std::vector<MMWriteEntry>& writes);
-    /**
-     * @brief TBD: Describe mergeGCounter.
-     * @param[in] writes Input parameter.
-     * @return Return value.
-     */
     std::string mergeGCounter(const std::vector<MMWriteEntry>& writes);
-    /**
-     * @brief TBD: Describe mergePNCounter.
-     * @param[in] writes Input parameter.
-     * @return Return value.
-     */
     std::string mergePNCounter(const std::vector<MMWriteEntry>& writes);
-    /**
-     * @brief TBD: Describe mergeGSet.
-     * @param[in] writes Input parameter.
-     * @return Return value.
-     */
     std::string mergeGSet(const std::vector<MMWriteEntry>& writes);
-    /**
-     * @brief TBD: Describe mergeORSet.
-     * @param[in] writes Input parameter.
-     * @return Return value.
-     */
     std::string mergeORSet(const std::vector<MMWriteEntry>& writes);
-    /**
-     * @brief TBD: Describe mergeLWWMap.
-     * @param[in] writes Input parameter.
-     * @return Return value.
-     */
     std::string mergeLWWMap(const std::vector<MMWriteEntry>& writes);
-    /**
-     * @brief TBD: Describe mergeTwoPSet.
-     * @param[in] writes Input parameter.
-     * @return Return value.
-     */
     std::string mergeTwoPSet(const std::vector<MMWriteEntry>& writes);
-    /**
-     * @brief TBD: Describe mergeRGA.
-     * @param[in] writes Input parameter.
-     * @return Return value.
-     */
     std::string mergeRGA(const std::vector<MMWriteEntry>& writes);
-    /**
-     * @brief TBD: Describe mergeFlagEW.
-     * @param[in] writes Input parameter.
-     * @return Return value.
-     */
     std::string mergeFlagEW(const std::vector<MMWriteEntry>& writes);
-    /**
-     * @brief TBD: Describe mergeFlagDW.
-     * @param[in] writes Input parameter.
-     * @return Return value.
-     */
     std::string mergeFlagDW(const std::vector<MMWriteEntry>& writes);
 };
 
@@ -433,11 +314,6 @@ public:
         const std::vector<MMWriteEntry>& writes
     )>;
     
-    /**
-     * @brief TBD: Describe CustomResolver.
-     * @param[in] resolver Input parameter.
-     * @return Return value.
-     */
     explicit CustomResolver(ResolverFunc resolver);
     
     MMWriteEntry resolve(
@@ -496,27 +372,12 @@ public:
     using WriteCallback = std::function<void(const MMWriteEntry&, bool success)>;
     using ConflictCallback = std::function<void(const ConflictRecord&)>;
     
-    /**
-     * @brief TBD: Describe MultiMasterReplicationManager.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit MultiMasterReplicationManager(const MMReplicationConfig& config);
     ~MultiMasterReplicationManager();
     
-    /**
-     * @brief Lifecycle
-     * @return True on success.
-     */
+    // Lifecycle
     bool start();
-    /**
-     * @brief TBD: Describe stop.
-     */
     void stop();
-    /**
-     * @brief TBD: Describe isRunning.
-     * @return True on success.
-     */
     bool isRunning() const;
     
     // Write Operations
@@ -552,62 +413,23 @@ public:
         uint32_t read_quorum = 0  // 0 = use config default
     );
     
-    /**
-     * @brief Peer Management
-     * @param[in] peer Input parameter.
-     */
+    // Peer Management
     void addPeer(const MMPeerInfo& peer);
-    /**
-     * @brief TBD: Describe removePeer.
-     * @param[in] node_id Input parameter.
-     */
     void removePeer(const std::string& node_id);
-    /**
-     * @brief TBD: Describe getPeers.
-     * @return Return value.
-     */
     std::vector<MMPeerInfo> getPeers() const;
-    /**
-     * @brief TBD: Describe getLocalInfo.
-     * @return Return value.
-     */
     MMPeerInfo getLocalInfo() const;
     
-    /**
-     * @brief Conflict Management
-     * @param[in] callback Input parameter.
-     */
+    // Conflict Management
     void registerConflictCallback(ConflictCallback callback);
-    /**
-     * @brief TBD: Describe setConflictResolver.
-     * @param[in] collection Input parameter.
-     * @param[in] resolver Input parameter.
-     */
     void setConflictResolver(
         const std::string& collection,
         std::shared_ptr<ConflictResolver> resolver
     );
-    /**
-     * @brief TBD: Describe getUnresolvedConflicts.
-     * @return Return value.
-     */
     std::vector<ConflictRecord> getUnresolvedConflicts() const;
-    /**
-     * @brief TBD: Describe resolveConflict.
-     * @param[in] conflict_id Input parameter.
-     * @param[in] winning_write_id Input parameter.
-     * @return True on success.
-     */
     bool resolveConflict(const std::string& conflict_id, const std::string& winning_write_id);
     
-    /**
-     * @brief Synchronization
-     */
+    // Synchronization
     void triggerSync();  // Force immediate sync with peers
-    /**
-     * @brief TBD: Describe getReplicationLag.
-     * @return Return value.
-     */
     uint64_t getReplicationLag() const;  // Max lag across all peers
     
     // Statistics
@@ -622,10 +444,6 @@ public:
         uint64_t bytes_received;
         std::chrono::milliseconds avg_replication_latency;
     };
-    /**
-     * @brief TBD: Describe getStats.
-     * @return Return value.
-     */
     Stats getStats() const;
 
     // Topology Snapshot for web UI visualization
@@ -657,15 +475,10 @@ public:
      * Build a topology snapshot for visualization (web UI / REST API).
      * Returns the local node and all known peers with their current state
      * and estimated replication lag.
-     * @brief TBD: Describe getTopologySnapshot.
-     * @return Return value.
      */
     TopologySnapshot getTopologySnapshot() const;
 
-    /**
-     * @brief Prometheus Metrics Export
-     * @return Return value.
-     */
+    // Prometheus Metrics Export
     std::string exportPrometheusMetrics() const;
     
 private:
@@ -713,64 +526,20 @@ private:
     std::atomic<uint64_t> stats_bytes_sent_{0};
     std::atomic<uint64_t> stats_bytes_received_{0};
     
-    /**
-     * @brief Internal methods
-     */
+    // Internal methods
     void replicationLoop();
-    /**
-     * @brief TBD: Describe heartbeatLoop.
-     */
     void heartbeatLoop();
-    /**
-     * @brief TBD: Describe syncLoop.
-     */
     void syncLoop();
     
-    /**
-     * @brief TBD: Describe replicateWrite.
-     * @param[in] entry Input parameter.
-     * @return True on success.
-     */
     bool replicateWrite(const MMWriteEntry& entry);
-    /**
-     * @brief TBD: Describe sendToPeer.
-     * @param[in] node_id Input parameter.
-     * @param[in] entry Input parameter.
-     * @return True on success.
-     */
     bool sendToPeer(const std::string& node_id, const MMWriteEntry& entry);
-    /**
-     * @brief TBD: Describe receiveFromPeer.
-     * @param[in] node_id Input parameter.
-     * @param[in] entry Input parameter.
-     */
     void receiveFromPeer(const std::string& node_id, const MMWriteEntry& entry);
     
-    /**
-     * @brief TBD: Describe detectConflict.
-     * @param[in] incoming Input parameter.
-     * @param[in] existing Input parameter.
-     * @return True on success.
-     */
     bool detectConflict(const MMWriteEntry& incoming, const MMWriteEntry& existing);
-    /**
-     * @brief TBD: Describe handleConflict.
-     * @param[in] document_id Input parameter.
-     * @param[in] conflicting_writes Input parameter.
-     */
     void handleConflict(const std::string& document_id, 
                         const std::vector<MMWriteEntry>& conflicting_writes);
     
-    /**
-     * @brief TBD: Describe antiEntropySync.
-     * @param[in] peer_id Input parameter.
-     */
     void antiEntropySync(const std::string& peer_id);
-    /**
-     * @brief TBD: Describe getMissingWrites.
-     * @param[in] peer_clock Input parameter.
-     * @return Return value.
-     */
     std::vector<MMWriteEntry> getMissingWrites(const VectorClock& peer_clock);
 };
 

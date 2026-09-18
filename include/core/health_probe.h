@@ -99,10 +99,6 @@ struct AggregateHealthReport {
  */
 class IHealthProbe {
 public:
-    /**
-     * @brief TBD: Describe ~IHealthProbe.
-     * @return Return value.
-     */
     virtual ~IHealthProbe() = default;
 
     /**
@@ -110,7 +106,6 @@ public:
      *
      * Maps to the Kubernetes `livenessProbe`.  A failed liveness check
      * signals that the process should be restarted.
-     * @return Return value.
      */
     virtual HealthCheckResult checkLiveness() = 0;
 
@@ -119,7 +114,6 @@ public:
      *
      * Maps to the Kubernetes `readinessProbe`.  A failed readiness check
      * removes the pod from the service endpoint list.
-     * @return Return value.
      */
     virtual HealthCheckResult checkReadiness() = 0;
 
@@ -128,7 +122,6 @@ public:
      *
      * Maps to the Kubernetes `startupProbe`.  Returns UNKNOWN until
      * initialisation is done, then transitions to HEALTHY.
-     * @return Return value.
      */
     virtual HealthCheckResult checkStartup() = 0;
 
@@ -148,10 +141,6 @@ public:
  */
 class IHealthProbeRegistry {
 public:
-    /**
-     * @brief TBD: Describe ~IHealthProbeRegistry.
-     * @return Return value.
-     */
     virtual ~IHealthProbeRegistry() = default;
 
     /**
@@ -160,7 +149,6 @@ public:
       * A second probe with the same component name must be rejected.
       *
      * @return `false` if a probe with the same `componentName()` is already registered.
-     * @param[in] probe Input parameter.
      */
     virtual bool registerProbe(std::shared_ptr<IHealthProbe> probe) = 0;
 
@@ -168,7 +156,6 @@ public:
      * @brief Unregister a probe by component name.
      *
      * @return `false` if no probe with @p component_name was found.
-     * @param[in] component_name Input parameter.
      */
     virtual bool unregisterProbe(const std::string& component_name) = 0;
 
@@ -179,7 +166,6 @@ public:
      * even when one probe reports UNHEALTHY.
         * Empty registries should return a deterministic status per deployment
         * policy (for example HEALTHY or UNKNOWN).
-     * @return Return value.
      */
     virtual AggregateHealthReport checkAll() = 0;
 
@@ -189,8 +175,6 @@ public:
      * Returns a result with status UNKNOWN if @p component_name is not registered.
      * The returned `component_name` should still reflect the requested name so
      * callers can correlate lookup failures.
-     * @param[in] component_name Input parameter.
-     * @return Return value.
      */
     virtual HealthCheckResult checkComponent(const std::string& component_name) = 0;
 };

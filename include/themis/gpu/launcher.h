@@ -76,11 +76,9 @@ public:
     // -----------------------------------------------------------------------
     using BackendFn = std::function<bool(const WorkItem&)>;
 
-    /**
-     * @brief ----------------------------------------------------------------------- Construction -----------------------------------------------------------------------
-     * @param[in] backend Input parameter.
-     * @return Return value.
-     */
+    // -----------------------------------------------------------------------
+    // Construction
+    // -----------------------------------------------------------------------
     explicit GPULauncher(BackendFn backend);
 
     // -----------------------------------------------------------------------
@@ -91,7 +89,6 @@ public:
      * @brief Submit a single work item for asynchronous execution.
      *
      * @return Future resolving to the WorkResult when execution completes.
-     * @param[in] item Input parameter.
      */
     std::future<WorkResult> submit(WorkItem item);
 
@@ -102,7 +99,6 @@ public:
      * future resolves when all items have completed.
      *
      * @return Future resolving to one WorkResult per item.
-     * @param[in] items Input parameter.
      */
     std::future<std::vector<WorkResult>> submitBatch(
         std::vector<WorkItem> items);
@@ -118,10 +114,6 @@ public:
         size_t batches_submitted = 0;
     };
 
-    /**
-     * @brief TBD: Describe getStats.
-     * @return Return value.
-     */
     Stats getStats() const;
 
 private:
@@ -129,11 +121,6 @@ private:
     mutable std::mutex stats_mutex_;
     Stats stats_;
 
-    /**
-     * @brief TBD: Describe executeOne.
-     * @param[in] item Input parameter.
-     * @return Return value.
-     */
     WorkResult executeOne(WorkItem item);
 };
 

@@ -155,13 +155,6 @@ inline nlohmann::json MutationStep::toJSON() const {
     return {{"type", typeName}, {"description", description}, {"params", params}};
 }
 
-/**
- * @brief TBD: Describe Ok.
- * @param[in] affected Input parameter.
- * @param[in] ids Input parameter.
- * @return Return value.
- * @details Calls: std::move().
- */
 inline MutationResult MutationResult::Ok(int64_t affected, std::vector<std::string> ids) {
     MutationResult r;
     r.success        = true;
@@ -170,13 +163,6 @@ inline MutationResult MutationResult::Ok(int64_t affected, std::vector<std::stri
     return r;
 }
 
-/**
- * @brief TBD: Describe Failure.
- * @param[in] code Input parameter.
- * @param[in] msg Input parameter.
- * @return Return value.
- * @details Calls: std::move(), push_back().
- */
 inline MutationResult MutationResult::Failure(std::string code, std::string msg) {
     MutationResult r;
     r.success    = false;

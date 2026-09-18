@@ -150,7 +150,6 @@ public:
 
     /**
      * @brief Configure retry behaviour for this connector.
-     * @param[in] config Input parameter.
      */
     void setRetryConfig(const RetryConfig& config);
 
@@ -190,13 +189,8 @@ public:
      * When set, every replication-stream poll that would normally be executed
      * against a live database is replaced by calls to @p fn.  Pass an empty
      * `CdcEventFetchFn{}` to restore the real stream path.
-     * @param[in] fn Input parameter.
      */
     void setEventBatchProvider(CdcEventFetchFn fn);
-    /**
-     * @brief TBD: Describe setCdcEventFetchForTesting.
-     * @param[in] fn Input parameter.
-     */
     void setCdcEventFetchForTesting(CdcEventFetchFn fn);
 
 private:

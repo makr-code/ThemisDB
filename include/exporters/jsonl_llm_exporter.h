@@ -189,12 +189,13 @@ public:
         format_template_ = makeFormatTemplate(config.format_template_type);
     }
     
-    /**
-     * @brief Validate that all entities in \p sample satisfy the configured format template's required fields.
-     * @param[in] sample Input parameter.
-     * @return Return value.
-     * @details Returns immediately with a valid result when no template is active (format_template_type == NONE). Intended for use as a CI/preflight dry-run before a full export. The returned TemplateValidationResult::missing_fields list is sorted and deduplicated so automated comparisons are deterministic.
-     */
+    /// Validate that all entities in \p sample satisfy the configured format
+    /// template's required fields.  Returns immediately with a valid result
+    /// when no template is active (format_template_type == NONE).
+    ///
+    /// Intended for use as a CI/preflight dry-run before a full export.
+    /// The returned TemplateValidationResult::missing_fields list is sorted
+    /// and deduplicated so automated comparisons are deterministic.
     TemplateValidationResult validateTemplate(
         const std::vector<BaseEntity>& sample
     ) const;
@@ -225,61 +226,18 @@ private:
     std::shared_ptr<ExporterMetrics> metrics_;
     std::unique_ptr<IFormatTemplate> format_template_;  // non-null when format_template_type != NONE
 
-    /**
-     * @brief Export helpers
-     * @param[in] entity Input parameter.
-     * @param[in,out] weight Input/output parameter.
-     * @param[in] options Input parameter.
-     * @return Return value.
-     */
+    // Export helpers
     std::string formatInstructionTuning(const BaseEntity& entity, double& weight,
                                         const ExportOptions& options);
-    /**
-     * @brief TBD: Describe formatChatCompletion.
-     * @param[in] entity Input parameter.
-     * @param[in,out] weight Input/output parameter.
-     * @param[in] options Input parameter.
-     * @return Return value.
-     */
     std::string formatChatCompletion(const BaseEntity& entity, double& weight,
                                      const ExportOptions& options);
-    /**
-     * @brief TBD: Describe formatTextCompletion.
-     * @param[in] entity Input parameter.
-     * @param[in,out] weight Input/output parameter.
-     * @param[in] options Input parameter.
-     * @return Return value.
-     */
     std::string formatTextCompletion(const BaseEntity& entity, double& weight,
                                      const ExportOptions& options);
-    /**
-     * @brief TBD: Describe formatWithTemplate.
-     * @param[in] entity Input parameter.
-     * @param[in,out] weight Input/output parameter.
-     * @param[in] options Input parameter.
-     * @return Return value.
-     */
     std::string formatWithTemplate(const BaseEntity& entity, double& weight,
                                    const ExportOptions& options);
 
-    /**
-     * @brief TBD: Describe calculateWeight.
-     * @param[in] entity Input parameter.
-     * @return Return value.
-     */
     double calculateWeight(const BaseEntity& entity);
-    /**
-     * @brief TBD: Describe passesQualityFilter.
-     * @param[in] entity Input parameter.
-     * @return True on success.
-     */
     bool passesQualityFilter(const BaseEntity& entity);
-    /**
-     * @brief TBD: Describe extractMetadata.
-     * @param[in] entity Input parameter.
-     * @param[in] options Input parameter.
-     * @return Return value.
-     */
     std::string extractMetadata(const BaseEntity& entity, const ExportOptions& options);
 
     /// Returns true if field_name is allowed given include/exclude lists.
@@ -287,13 +245,7 @@ private:
                                 const std::vector<std::string>& include_fields,
                                 const std::vector<std::string>& exclude_fields);
     
-    /**
-     * @brief Schema validation helpers
-     * @param[in] json_str Input parameter.
-     * @param[in] schema Input parameter.
-     * @param[in,out] error Input/output parameter.
-     * @return True on success.
-     */
+    // Schema validation helpers
     bool validateJsonSchema(const std::string& json_str, const std::string& schema, std::string* error) const;
     
     // Quality metrics tracking

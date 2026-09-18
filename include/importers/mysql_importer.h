@@ -121,59 +121,6 @@ private:
     // Identifier unquoting (strips backticks or double-quotes)
     static std::string unquoteIdentifier(const std::string& s);
 
-     * @param[in] sql Input parameter.
-     * @return Return value.
-    // Strip MySQL conditional comments: /*!... */ and /*! ... */
-                     ImportStats& stats, size_t line_number,
-                     std::unordered_set<uint64_t>& delta_hashes);
-
-    /**
-     * @brief Schema mapping
-     * @param[in] mysql_type Input parameter.
-     * @param[in] options Input parameter.
-     * @return Return value.
-     */
-    std::string mapMySQLTypeToThemis(const std::string& mysql_type,
-                                     const ImportOptions& options) const;
-    /**
-     * @brief TBD: Describe shouldImportTable.
-     * @param[in] table_name Input parameter.
-     * @param[in] options Input parameter.
-     * @return True on success.
-     */
-    bool shouldImportTable(const std::string& table_name, const ImportOptions& options) const;
-
-    /**
-     * @brief JDBC URL parsing: "jdbc:mysql://host:port/database?
-     * @param[in] url Input parameter.
-     * @param[in,out] out Input/output parameter.
-     * @return True on success.
-     * @details param=val&..." Returns true if @p url is a valid JDBC URL; populates @p out on success.
-     */
-    static bool parseJdbcUrl(const std::string& url, JdbcConfig& out);
-
-    /**
-     * @brief Data conversion
-     * @param[in] schema Input parameter.
-     * @param[in] values Input parameter.
-     * @return Return value.
-     */
-    json convertRowToEntity(const TableSchema& schema, const std::vector<std::string>& values);
-
-    /**
-     * @brief INSERT value parsing
-     * @param[in] values_clause Input parameter.
-     * @return Return value.
-     */
-    std::vector<std::string> parseInsertValues(const std::string& values_clause) const;
-
-    /**
-     * @brief Identifier unquoting (strips backticks or double-quotes)
-     * @param[in] s Input parameter.
-     * @return Return value.
-     */
-    static std::string unquoteIdentifier(const std::string& s);
-
     // Strip MySQL conditional comments: /*!... */ and /*! ... */
     static std::string stripMySQLComments(const std::string& sql);
 
@@ -193,40 +140,20 @@ private:
                   const std::map<std::string, std::string>& attributes,
                   double duration_seconds) const;
 
-    /**
-     * @brief Progress reporting
-     * @param[in,out] callback Input/output parameter.
-     * @param[in] stage Input parameter.
-     * @param[in] current Input parameter.
-     * @param[in] total Input parameter.
-     */
+    // Progress reporting
     void reportProgress(ProgressCallback& callback, const std::string& stage,
                         size_t current, size_t total);
 
-    /**
-     * @brief Delta / incremental import helpers (same pattern as PostgreSQL importer).
-     * @param[in] tuple_str Input parameter.
-     * @param[in] values Input parameter.
-     * @param[in] key_columns Input parameter.
-     * @param[in] schema_columns Input parameter.
-     * @return Return value.
-     * @details When ImportOptions::delta_hash_file is set, rows whose FNV-1a hash is already in the file are skipped; new hashes are persisted at end of import. Setting delta_key_columns = {"updated_at"} is the recommended high-watermark configuration for MySQL sources.
-     */
+    // Delta / incremental import helpers (same pattern as PostgreSQL importer).
+    // When ImportOptions::delta_hash_file is set, rows whose FNV-1a hash is already
+    // in the file are skipped; new hashes are persisted at end of import.
+    // Setting delta_key_columns = {"updated_at"} is the recommended high-watermark
+    // configuration for MySQL sources.
     static uint64_t computeRowHash(const std::string& tuple_str,
                                    const std::vector<std::string>& values,
                                    const std::vector<std::string>& key_columns,
                                    const std::vector<std::string>& schema_columns);
-    /**
-     * @brief TBD: Describe loadDeltaHashes.
-     * @param[in] delta_hash_file Input parameter.
-     * @return Return value.
-     */
     static std::unordered_set<uint64_t> loadDeltaHashes(const std::string& delta_hash_file);
-    /**
-     * @brief TBD: Describe saveDeltaHashes.
-     * @param[in] delta_hash_file Input parameter.
-     * @param[in] hashes Input parameter.
-     */
     static void saveDeltaHashes(const std::string& delta_hash_file,
                                 const std::unordered_set<uint64_t>& hashes);
 };

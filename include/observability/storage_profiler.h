@@ -58,10 +58,6 @@ struct StorageOpStats {
     size_t sst_reads = 0;
     std::string column_family;
     
-    /**
-     * @brief TBD: Describe toJSON.
-     * @return Return value.
-     */
     json toJSON() const;
 };
 
@@ -111,10 +107,6 @@ struct RocksDBStats {
     double read_amplification = 0.0;
     double space_amplification = 0.0;
     
-    /**
-     * @brief TBD: Describe toJSON.
-     * @return Return value.
-     */
     json toJSON() const;
 };
 
@@ -219,13 +211,11 @@ public:
     
     /**
      * @brief Get configuration
-     * @return Return value.
      */
     StorageProfilerConfig get_config() const;
     
     /**
      * @brief Set configuration
-     * @param[in] config Input parameter.
      */
     void set_config(const StorageProfilerConfig& config);
     
@@ -241,7 +231,6 @@ public:
     
     /**
      * @brief Check if profiling is enabled
-     * @return True on success.
      */
     bool is_enabled() const;
 
@@ -249,14 +238,7 @@ private:
     class Impl;
     std::unique_ptr<Impl> impl_;
     
-    /**
-     * @brief TBD: Describe cleanup_old_data.
-     */
     void cleanup_old_data();
-    /**
-     * @brief TBD: Describe log_slow_operation.
-     * @param[in] stats Input parameter.
-     */
     void log_slow_operation(const StorageOpStats& stats);
 };
 
@@ -273,39 +255,12 @@ public:
     ScopedStorageOp(const ScopedStorageOp&) = delete;
     ScopedStorageOp& operator=(const ScopedStorageOp&) = delete;
     
-    /**
-     * @brief TBD: Describe record_bytes_read.
-     * @param[in] bytes Input parameter.
-     */
     void record_bytes_read(size_t bytes);
-    /**
-     * @brief TBD: Describe record_bytes_written.
-     * @param[in] bytes Input parameter.
-     */
     void record_bytes_written(size_t bytes);
-    /**
-     * @brief TBD: Describe record_keys.
-     * @param[in] count Input parameter.
-     */
     void record_keys(size_t count);
-    /**
-     * @brief TBD: Describe set_cache_hit.
-     * @param[in] hit Input parameter.
-     */
     void set_cache_hit(bool hit);
-    /**
-     * @brief TBD: Describe set_from_sst.
-     * @param[in] from_sst Input parameter.
-     */
     void set_from_sst(bool from_sst);
-    /**
-     * @brief TBD: Describe set_from_memtable.
-     * @param[in] from_memtable Input parameter.
-     */
     void set_from_memtable(bool from_memtable);
-    /**
-     * @brief TBD: Describe record_sst_read.
-     */
     void record_sst_read();
     
 private:
@@ -314,11 +269,7 @@ private:
     std::chrono::high_resolution_clock::time_point start_;
 };
 
-/**
- * @brief Helper functions
- * @param[in] type Input parameter.
- * @return Pointer to the result.
- */
+// Helper functions
 const char* to_string(StorageOpType type);
 
 } // namespace observability

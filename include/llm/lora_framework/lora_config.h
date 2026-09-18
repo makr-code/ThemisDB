@@ -26,10 +26,6 @@ using json = nlohmann::json;
  * @brief LoRA hyperparameters for training
  */
 struct LoRAHyperparameters {
-    /**
-     * @brief TBD: Describe ~LoRAHyperparameters.
-     * @return Return value.
-     */
     virtual ~LoRAHyperparameters() = default;
     int rank = 8;                          // LoRA rank (r)
     float alpha = 16.0f;                   // LoRA alpha scaling
@@ -79,12 +75,6 @@ struct LoRAHyperparameters {
         };
     }
     
-    /**
-     * @brief TBD: Describe fromJSON.
-     * @param[in] j Input parameter.
-     * @return Return value.
-     * @details Calls: contains().
-     */
     static LoRAHyperparameters fromJSON(const json& j) {
         LoRAHyperparameters params = {};
         if (j.contains("rank")) {
@@ -173,12 +163,6 @@ struct QLoRAConfig {
         };
     }
     
-    /**
-     * @brief TBD: Describe fromJSON.
-     * @param[in] j Input parameter.
-     * @return Return value.
-     * @details Calls: contains().
-     */
     static QLoRAConfig fromJSON(const json& j) {
         QLoRAConfig config = {};
         if (j.contains("enabled")) {
@@ -210,10 +194,6 @@ struct QLoRAConfig {
  * @brief LoRA adapter metadata
  */
 struct AdapterMetadata {
-    /**
-     * @brief TBD: Describe ~AdapterMetadata.
-     * @return Return value.
-     */
     virtual ~AdapterMetadata() = default;
     std::string adapter_id;
     std::string version = {};
@@ -250,12 +230,6 @@ struct AdapterMetadata {
         };
     }
     
-    /**
-     * @brief TBD: Describe fromJSON.
-     * @param[in] j Input parameter.
-     * @return Return value.
-     * @details Calls: contains(), std::chrono::system_clock::from_time_t().
-     */
     static AdapterMetadata fromJSON(const json& j) {
         AdapterMetadata metadata = {};
         if (j.contains("adapter_id")) {
@@ -304,10 +278,6 @@ struct AdapterMetadata {
  * @brief LoRA adapter information
  */
 struct AdapterInfo {
-    /**
-     * @brief TBD: Describe ~AdapterInfo.
-     * @return Return value.
-     */
     virtual ~AdapterInfo() = default;
     std::string adapter_id;
     std::string version;
@@ -338,10 +308,6 @@ struct AdapterInfo {
  * @brief Cache statistics for adapter manager
  */
 struct CacheStats {
-    /**
-     * @brief TBD: Describe ~CacheStats.
-     * @return Return value.
-     */
     virtual ~CacheStats() = default;
     size_t total_loads = 0;
     size_t cache_hits = 0;
@@ -411,12 +377,6 @@ struct LoRAConfig {
         };
     }
     
-    /**
-     * @brief TBD: Describe fromJSON.
-     * @param[in] j Input parameter.
-     * @return Return value.
-     * @details Calls: contains(), std::chrono::seconds().
-     */
     static LoRAConfig fromJSON(const json& j) {
         LoRAConfig config = {};
         if (j.contains("adapter_id")) {

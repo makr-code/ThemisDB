@@ -138,33 +138,14 @@ struct SchemaValidationResult {
     bool valid = false;
     std::vector<SchemaValidationError> errors;
 
-    /**
-     * @brief TBD: Describe ok.
-     * @return Return value.
-     * @details Implements ok without additional internal calls.
-     */
     static SchemaValidationResult ok() {
         return {true, {}};
     }
 
-    /**
-     * @brief TBD: Describe fail.
-     * @param[in] errs Input parameter.
-     * @return Return value.
-     * @details Calls: std::move().
-     */
     static SchemaValidationResult fail(std::vector<SchemaValidationError> errs) {
         return {false, std::move(errs)};
     }
 
-    /**
-     * @brief TBD: Describe fail.
-     * @param[in] type_name Input parameter.
-     * @param[in] field_name Input parameter.
-     * @param[in] message Input parameter.
-     * @return Return value.
-     * @details Calls: std::move().
-     */
     static SchemaValidationResult fail(std::string type_name, std::string field_name, std::string message) {
         SchemaValidationError e;
         e.type_name  = std::move(type_name);
@@ -199,10 +180,6 @@ struct SchemaValidationResult {
  */
 class IGraphQLSchemaBuilder {
 public:
-    /**
-     * @brief TBD: Describe ~IGraphQLSchemaBuilder.
-     * @return Return value.
-     */
     virtual ~IGraphQLSchemaBuilder() = default;
 
     /**
@@ -248,8 +225,6 @@ public:
 
     /**
      * @brief Return `true` after a successful `build()` call.
-     * @return True on success.
-     * @note Exception safety: noexcept.
      */
     virtual bool isBuilt() const noexcept = 0;
 };

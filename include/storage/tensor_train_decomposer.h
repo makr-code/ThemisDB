@@ -266,16 +266,11 @@ public:
      * Complexity: O(d · n · r³) using the transfer-matrix technique.
      *
      * @throws std::invalid_argument if A and B have incompatible mode_sizes.
-     * @param[in] a Input parameter.
-     * @param[in] b Input parameter.
-     * @return Return value.
      */
     static double innerProduct(const TTTrain& a, const TTTrain& b);
 
     /**
      * @brief Compute ‖A‖_F = sqrt(⟨A,A⟩) in compressed domain.
-     * @param[in] a Input parameter.
-     * @return Return value.
      */
     static double frobeniusNorm(const TTTrain& a);
 
@@ -283,9 +278,6 @@ public:
      * @brief Cosine similarity cos(A,B) = ⟨A,B⟩ / (‖A‖·‖B‖) in [−1, 1].
      *
      * Returns 0.0 when either norm is zero.
-     * @param[in] a Input parameter.
-     * @param[in] b Input parameter.
-     * @return Return value.
      */
     static double cosineSimilarity(const TTTrain& a, const TTTrain& b);
 
@@ -316,19 +308,12 @@ public:
                                    std::size_t& rank_out);
 
 private:
-    /**
-     * @brief Perform truncated SVD of an m×n matrix.
-     * @param[in] mat Input parameter.
-     * @param[in] m Input parameter.
-     * @param[in] n Input parameter.
-     * @param[in] delta Input parameter.
-     * @param[in] max_rank_cap Input parameter.
-     * @param[in,out] U Input/output parameter.
-     * @param[in,out] S Input/output parameter.
-     * @param[in,out] Vt Input/output parameter.
-     * @param[in,out] rank_out Input/output parameter.
-     * @details Returns U, S, Vt truncated to `rank` columns/rows (rank chosen so that σ_{rank+1} ≤ delta, or by max_rank cap). Uses Householder bidiagonalisation (Golub-Reinsch). Exposed for other tensor decomposers (e.g. HT) to reuse the same numerically robust truncation routine.
-     */
+    /// Perform truncated SVD of an m×n matrix.  Returns U, S, Vt truncated to
+    /// `rank` columns/rows (rank chosen so that σ_{rank+1} ≤ delta, or by
+    /// max_rank cap). Uses Householder bidiagonalisation (Golub-Reinsch).
+    ///
+    /// Exposed for other tensor decomposers (e.g. HT) to reuse the same
+    /// numerically robust truncation routine.
     static void truncatedSVD(const std::vector<float>& mat,
                              std::size_t m, std::size_t n,
                              double delta,

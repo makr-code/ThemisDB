@@ -115,11 +115,9 @@ public:
     /**
      * @brief Remove a previously registered wake word.
      * @return true if removed; false if not found.
-     * @param[in] id Input parameter.
      */
     bool removeWakeWord(const WakeWordID& id);
 
-     * @return Return value.
     /** @brief List all registered wake word IDs. */
     std::vector<WakeWordID> listWakeWords() const;
 
@@ -144,7 +142,6 @@ public:
      *
      * At most one callback is active at a time; calling this again replaces
      * the previous one.  Pass nullptr to remove.
-     * @param[in] callback Input parameter.
      */
     void setDetectionCallback(DetectionCallback callback);
 
@@ -152,43 +149,31 @@ public:
     // Configuration & state
     // -----------------------------------------------------------------------
 
-     * @param[in] config Input parameter.
     /** @brief Update runtime configuration (thread-safe). */
     void setConfig(const WakeWordConfig& config);
 
-     * @return Return value.
     /** @brief Return a copy of the current configuration. */
     WakeWordConfig getConfig() const;
 
     /** @brief Reset internal audio buffer and cooldown timer. */
     void reset();
 
-     * @return Return value.
     /** @brief Return runtime statistics (detections, false positives, …). */
     json getStatistics() const;
     
     // Phase 3: Confidence Thresholds and Safe Defaults
     
-    /**
-     * @brief @brief Check if confidence meets threshold (Phase 3) @param confidence Confidence score [0, 1] @return true if confidence >= threshold; false otherwise
-     * @param[in] confidence Input parameter.
-     * @return True on success.
-     * @note Exception safety: noexcept.
-     */
+    /// @brief Check if confidence meets threshold (Phase 3)
+    /// @param confidence Confidence score [0, 1]
+    /// @return true if confidence >= threshold; false otherwise
     bool meetsConfidenceThreshold(float confidence) const noexcept;
     
-    /**
-     * @brief @brief Detect timeout during wake-word processing (Phase 3) @return true if detector is experiencing timeout/delays
-     * @return True on success.
-     * @note Exception safety: noexcept.
-     */
+    /// @brief Detect timeout during wake-word processing (Phase 3)
+    /// @return true if detector is experiencing timeout/delays
     bool isTimeoutDetected() const noexcept;
     
-    /**
-     * @brief @brief Get safe default result when detection times out (Phase 3) @return WakeWordDetectionResult with detected=false (safe default)
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
+    /// @brief Get safe default result when detection times out (Phase 3)
+    /// @return WakeWordDetectionResult with detected=false (safe default)
     WakeWordDetectionResult getTimeoutDefault() const noexcept;
 
 private:
@@ -220,30 +205,11 @@ private:
     int64_t last_processing_start_ms_ = 0;
     bool timeout_detected_ = false;
 
-    /**
-     * @brief Helpers
-     * @param[in] samples Input parameter.
-     * @return Return value.
-     */
+    // Helpers
     float computeRMS(const std::vector<float>& samples) const;
-    /**
-     * @brief TBD: Describe pcmToFloat.
-     * @param[in] raw Input parameter.
-     * @return Return value.
-     */
     std::vector<float> pcmToFloat(const std::vector<uint8_t>& raw) const;
-    /**
-     * @brief TBD: Describe scorePhrase.
-     * @param[in] phrase Input parameter.
-     * @param[in] samples Input parameter.
-     * @return Return value.
-     */
     float scorePhrase(const std::string& phrase,
                       const std::vector<float>& samples) const;
-    /**
-     * @brief TBD: Describe nowMs.
-     * @return Return value.
-     */
     int64_t nowMs() const;
 };
 

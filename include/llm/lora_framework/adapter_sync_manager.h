@@ -45,10 +45,6 @@ class LoRAStorageService;
  * @brief Sync status for an adapter
  */
 struct AdapterSyncStatus {
-    /**
-     * @brief TBD: Describe ~AdapterSyncStatus.
-     * @return Return value.
-     */
     virtual ~AdapterSyncStatus() = default;
     std::string adapter_id;
     bool is_synced = false;
@@ -65,10 +61,6 @@ struct AdapterSyncStatus {
  * @brief Sync job result
  */
 struct SyncJobResult {
-    /**
-     * @brief TBD: Describe ~SyncJobResult.
-     * @return Return value.
-     */
     virtual ~SyncJobResult() = default;
     int adapters_checked = 0;
     int adapters_synced = 0;
@@ -163,7 +155,6 @@ public:
     
     /**
      * @brief Check if sync is running
-     * @return True on success.
      */
     bool isRunning() const;
     

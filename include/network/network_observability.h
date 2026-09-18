@@ -212,10 +212,6 @@ struct NetworkSpanEvent {
  */
 class INetworkObservabilitySink {
 public:
-    /**
-     * @brief TBD: Describe ~INetworkObservabilitySink.
-     * @return Return value.
-     */
     virtual ~INetworkObservabilitySink();
 
     /**
@@ -223,7 +219,6 @@ public:
      *
      * @param event  Stack-allocated event; do not store a pointer to it
      *               beyond the duration of this call.
-     * @note Exception safety: noexcept.
      */
     virtual void onSpan(const NetworkSpanEvent& event) noexcept = 0;
 
@@ -271,11 +266,6 @@ public:
      *              to the null (discard) sink.
      */
     void setSink(INetworkObservabilitySink* sink) noexcept {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         sink_ = sink;
     }
@@ -284,11 +274,6 @@ public:
      * @brief Return the currently registered sink (may be nullptr).
      */
     INetworkObservabilitySink* getSink() const noexcept {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         return sink_;
     }

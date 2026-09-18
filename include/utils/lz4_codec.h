@@ -121,8 +121,6 @@ std::vector<uint8_t> lz4_decompress(const std::vector<uint8_t>& compressed, size
  *
  * Mirrors LZ4_compressBound(). Returns 0 when LZ4 is not available or when
  * @p input_size exceeds MAX_INPUT_SIZE.
- * @param[in] input_size Input parameter.
- * @return Return value.
  */
 size_t lz4_compress_bound(size_t input_size);
 

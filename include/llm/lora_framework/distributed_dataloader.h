@@ -49,22 +49,15 @@ public:
      */
     class Dataset {
     public:
-        /**
-         * @brief TBD: Describe ~Dataset.
-         * @return Return value.
-         */
         virtual ~Dataset() = default;
         
         /**
          * @brief Get sample at index
-         * @param[in] index Input parameter.
-         * @return Return value.
          */
         virtual GPUTensor get(size_t index) const = 0;
         
         /**
          * @brief Get dataset size
-         * @return Return value.
          */
         virtual size_t size() const = 0;
     };
@@ -102,15 +95,7 @@ public:
         size_t position_ = 0;
     };
     
-    /**
-     * @brief TBD: Describe begin.
-     * @return Return value.
-     */
     Iterator begin();
-    /**
-     * @brief TBD: Describe end.
-     * @return Return value.
-     */
     Iterator end();
     
     /**
@@ -139,15 +124,7 @@ private:
     size_t num_batches_ = 0;
     std::vector<size_t> indices_;
     
-    /**
-     * @brief TBD: Describe initialize_indices.
-     */
     void initialize_indices();
-    /**
-     * @brief TBD: Describe load_batch.
-     * @param[in] batch_idx Input parameter.
-     * @return Return value.
-     */
     std::vector<GPUTensor> load_batch(size_t batch_idx);
 };
 
@@ -156,11 +133,6 @@ private:
  */
 class InMemoryDataset : public DistributedDataLoader::Dataset {
 public:
-    /**
-     * @brief TBD: Describe InMemoryDataset.
-     * @param[in] data Input parameter.
-     * @return Return value.
-     */
     explicit InMemoryDataset(std::vector<GPUTensor> data);
     ~InMemoryDataset() override = default;
     

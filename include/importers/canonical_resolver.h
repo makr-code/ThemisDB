@@ -58,10 +58,6 @@ struct GoldenRecord {
     json                     field_provenance;       ///< {"field_name": "source_entity_id", …}
     std::string              last_reconciliation;   ///< RFC 3339 timestamp
 
-    /**
-     * @brief TBD: Describe toJson.
-     * @return Return value.
-     */
     json toJson() const;
 };
 
@@ -174,19 +170,7 @@ public:
     );
 
 private:
-    /**
-     * @brief TBD: Describe computeCompleteness.
-     * @param[in] entity Input parameter.
-     * @return Return value.
-     */
     static double computeCompleteness(const json& entity);
-    /**
-     * @brief TBD: Describe bestStringValue.
-     * @param[in] v1 Input parameter.
-     * @param[in] v2 Input parameter.
-     * @param[in] policy Input parameter.
-     * @return Return value.
-     */
     static std::string bestStringValue(
         const std::string& v1,
         const std::string& v2,

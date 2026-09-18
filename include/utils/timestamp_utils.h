@@ -69,21 +69,16 @@ public:
      * Example: "1h 23m 45.678s"  (omits leading zero components)
      *
      * @param ns  Duration to format.
-     * @return Return value.
      */
     static std::string formatDuration(std::chrono::nanoseconds ns);
 
     /**
      * @brief Convert a time_point to Unix milliseconds since epoch.
-     * @param[in] tp Input parameter.
-     * @return Return value.
      */
     static int64_t toUnixMs(std::chrono::system_clock::time_point tp);
 
     /**
      * @brief Reconstruct a time_point from Unix milliseconds since epoch.
-     * @param[in] ms Input parameter.
-     * @return Return value.
      */
     static std::chrono::system_clock::time_point fromUnixMs(int64_t ms);
 };

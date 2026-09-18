@@ -27,10 +27,6 @@ namespace aql {
  */
 class TokenEstimator {
 public:
-    /**
-     * @brief TBD: Describe ~TokenEstimator.
-     * @return Return value.
-     */
     virtual ~TokenEstimator() = default;
 
     /**
@@ -103,7 +99,6 @@ public:
      *                     input string.  Must be thread-safe if estimate() is
      *                     called concurrently.  If null, falls back to
      *                     CharDivisionEstimator with ratio=4.
-     * @return Return value.
      */
     explicit TiktokenEstimator(TokenizeFunc tokenize_fn)
         : tokenize_fn_(std::move(tokenize_fn))

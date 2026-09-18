@@ -34,15 +34,8 @@ struct CDCTriggerConfig {
     std::optional<std::string> condition;             // Optional AQL filter condition
     uint32_t debounce_ms = 0;                         // Debounce interval in milliseconds
     
-    /**
-     * @brief Validation
-     * @return True on success.
-     */
+    // Validation
     bool isValid() const;
-    /**
-     * @brief TBD: Describe getValidationError.
-     * @return Return value.
-     */
     std::string getValidationError() const;
 };
 
@@ -82,22 +75,13 @@ public:
     
     ~EventTrigger() noexcept;
     
-    /**
-     * @brief Lifecycle
-     */
+    // Lifecycle
     void start();
-    /**
-     * @brief TBD: Describe stop.
-     */
     void stop();
     bool isRunning() const { return running_.load(); }
     
     // Configuration
     const CDCTriggerConfig& getConfig() const { return config_; }
-    /**
-     * @brief TBD: Describe updateConfig.
-     * @param[in] config Input parameter.
-     */
     void updateConfig(const CDCTriggerConfig& config);
     
     // Statistics
@@ -111,10 +95,6 @@ public:
         std::chrono::system_clock::time_point last_trigger_time;
     };
     
-    /**
-     * @brief TBD: Describe getStats.
-     * @return Return value.
-     */
     Stats getStats() const;
     
     // Circuit breaker configuration
@@ -123,10 +103,6 @@ public:
         std::chrono::seconds cooldown{30};           // How long circuit stays open
     };
     
-    /**
-     * @brief TBD: Describe setCircuitBreakerConfig.
-     * @param[in] config Input parameter.
-     */
     void setCircuitBreakerConfig(const CircuitBreakerConfig& config);
     
 private:
@@ -166,60 +142,27 @@ private:
     std::chrono::steady_clock::time_point cb_open_since_;
     std::atomic<uint64_t> callback_failures_{0};
     
-    /**
-     * @brief Check circuit breaker and attempt to close it if cooldown elapsed Returns true if the callback may be invoked (circuit closed or half-open probe).
-     * @return True on success.
-     */
+    // Check circuit breaker and attempt to close it if cooldown elapsed
+    // Returns true if the callback may be invoked (circuit closed or half-open probe).
     bool circuitAllows();
-    /**
-     * @brief Record a callback success (closes the circuit if it was half-open)
-     */
+    // Record a callback success (closes the circuit if it was half-open)
     void circuitRecordSuccess();
-    /**
-     * @brief Record a callback failure (may open the circuit)
-     */
+    // Record a callback failure (may open the circuit)
     void circuitRecordFailure();
     
-    /**
-     * @brief Event listener loop
-     */
+    // Event listener loop
     void listenerLoop();
     
-    /**
-     * @brief Event filtering
-     * @param[in] event Input parameter.
-     * @return True on success.
-     */
+    // Event filtering
     bool matchesFilter(const Changefeed::ChangeEvent& event) const;
-    /**
-     * @brief TBD: Describe matchesKeyPrefix.
-     * @param[in] key Input parameter.
-     * @return True on success.
-     */
     bool matchesKeyPrefix(const std::string& key) const;
-    /**
-     * @brief TBD: Describe matchesEventType.
-     * @param[in] type Input parameter.
-     * @return True on success.
-     */
     bool matchesEventType(Changefeed::ChangeEventType type) const;
-    /**
-     * @brief TBD: Describe matchesCondition.
-     * @param[in] event Input parameter.
-     * @return True on success.
-     */
     bool matchesCondition(const Changefeed::ChangeEvent& event) const;
 
-    /**
-     * @brief Debouncing
-     * @return True on success.
-     */
+    // Debouncing
     bool shouldDebounce() const;
     
-    /**
-     * @brief GAP 3 FIX: Circular dependency prevention
-     * @return True on success.
-     */
+    // GAP 3 FIX: Circular dependency prevention
     bool validateNoCircularDependencies() const;
 
     // ── Condition caching ─────────────────────────────────────────────────
@@ -235,10 +178,8 @@ private:
     mutable bool condition_parsed_{false};
     mutable std::mutex condition_cache_mutex_;
 
-    /**
-     * @brief Parse config_.
-     * @details condition into parsed_clauses_; must be called under condition_cache_mutex_.
-     */
+    // Parse config_.condition into parsed_clauses_; must be called under
+    // condition_cache_mutex_.
     void rebuildConditionCache_() const;
 };
 
@@ -250,11 +191,6 @@ private:
  */
 class EventTriggerManager {
 public:
-    /**
-     * @brief TBD: Describe EventTriggerManager.
-     * @param[in,out] changefeed Input/output parameter.
-     * @return Return value.
-     */
     explicit EventTriggerManager(Changefeed* changefeed);
     ~EventTriggerManager() noexcept;
     

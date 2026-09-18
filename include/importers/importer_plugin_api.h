@@ -347,13 +347,6 @@ private:
         size_t total_bytes = 0;  ///< sizeof(AllocHeader) + user-requested bytes
     };
 
-    /**
-     * @brief TBD: Describe sandboxAlloc.
-     * @param[in] bytes Input parameter.
-     * @param[in,out] user_data Input/output parameter.
-     * @return Pointer to the result.
-     * @details Calls: load(), fetch_add(), fetch_sub(), store(), std::malloc().
-     */
     static void* sandboxAlloc(size_t bytes, void* user_data) {
         auto* ctx = static_cast<AllocContext*>(user_data);
         if (ctx->limit_exceeded.load(std::memory_order_relaxed)) {
@@ -379,12 +372,6 @@ private:
         return header + 1;
     }
 
-    /**
-     * @brief TBD: Describe sandboxFree.
-     * @param[in,out] ptr Input/output parameter.
-     * @param[in,out] user_data Input/output parameter.
-     * @details Calls: fetch_sub(), std::free().
-     */
     static void sandboxFree(void* ptr, void* user_data) {
         if (!ptr) {
           return;
@@ -397,11 +384,6 @@ private:
         std::free(header);
     }
 
-    /**
-     * @brief TBD: Describe makeAllocator.
-     * @return Return value.
-     * @details Implements makeAllocator without additional internal calls.
-     */
     ThemisImporterAllocator makeAllocator() {
         ThemisImporterAllocator alloc{};
         alloc.alloc     = &V1ImporterAdapter::sandboxAlloc;
@@ -410,13 +392,6 @@ private:
         return alloc;
     }
 
-    /**
-     * @brief TBD: Describe runImportV1.
-     * @param[in] source_path Input parameter.
-     * @param[in] param Input parameter.
-     * @return Return value.
-     * @details Calls: makeAllocator(), import_data(), c_str(), push_back(), std::to_string(), load().
-     */
     ImportStats runImportV1(const std::string&  source_path,
                             const ImportOptions& /*options*/) {
         ImportStats stats;
@@ -499,14 +474,8 @@ public:
      *
      * @param name     Unique plugin identifier (e.g. "my_csv_importer").
      * @param factory  Factory callable returning a heap-allocated `IImporter`.
-     * @details Calls: lk(), std::move().
      */
     void registerFactory(const std::string& name, Factory factory) {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(mutex_);
         factories_[name] = std::move(factory);
     }
@@ -518,11 +487,6 @@ public:
      * @return      New instance, or `nullptr` if the name is not registered.
      */
     std::shared_ptr<IImporter> create(const std::string& name) const {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(mutex_);
         auto it = factories_.find(name);
         if (it == factories_.end()) {
@@ -535,11 +499,6 @@ public:
      * @brief Returns the names of all registered importer plugins.
      */
     std::vector<std::string> listPlugins() const {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(mutex_);
         std::vector<std::string> names = {};
 
@@ -554,11 +513,6 @@ public:
      * @brief Returns `true` if a plugin named @p name is registered.
      */
     bool hasPlugin(const std::string& name) const {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(mutex_);
         return factories_.count(name) > 0;
     }
@@ -569,14 +523,8 @@ public:
      * Safe to call even if @p name is not registered (no-op in that case).
      *
      * @param name  Plugin identifier to remove.
-     * @details Calls: lk(), erase().
      */
     void unregisterFactory(const std::string& name) {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(mutex_);
         factories_.erase(name);
     }
@@ -599,14 +547,8 @@ public:
      *   }
      *   // reg.clear() is now a no-op since all factories were removed by unloadPlugin()
      * @endcode
-     * @details Calls: lk().
      */
     void clear() {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(mutex_);
         factories_.clear();
     }
@@ -650,11 +592,6 @@ public:
      */
     bool loadPlugin(const std::string&      path,
                     const PluginSandboxConfig& sandbox = PluginSandboxConfig{}) {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(mutex_);
         last_load_error_.clear();
 
@@ -757,14 +694,8 @@ public:
      *
      * @param name  Plugin name as reported by the V1 descriptor (i.e.
      *              `THEMIS_IMPORTER_PLUGIN_V1::name`).
-     * @details Calls: lk(), erase(), find(), end(), closeLibraryHandle().
      */
     void unloadPlugin(const std::string& name) {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(mutex_);
         factories_.erase(name);
         auto it = loaded_v1_handles_.find(name);
@@ -789,11 +720,9 @@ public:
     }
 
 private:
-    /**
-     * @brief ---------------------------------------------------------------- Helpers ----------------------------------------------------------------
-     * @param[in,out] handle Input/output parameter.
-     * @details Calls: defined(), FreeLibrary(), dlclose().
-     */
+    // ----------------------------------------------------------------
+    // Helpers
+    // ----------------------------------------------------------------
     static void closeLibraryHandle(void* handle) {
         if (!handle) {
           return;
@@ -900,7 +829,6 @@ public:
      *
      * @param path  Filesystem path to the shared library.
      * @return      `true` on success; `false` otherwise (see `lastError()`).
-     * @details Calls: unload(), clear(), void(), defined(), LoadLibraryA(), c_str(), GetProcAddress(), dlopen().
      */
     bool load(const std::string& path) {
         unload();  // release any previously loaded library
@@ -1001,7 +929,6 @@ public:
      * @brief Unregister and close the loaded library.
      *
      * Safe to call even when no library is loaded (no-op).
-     * @details Calls: empty(), ImporterPluginRegistry::instance(), unregisterFactory(), clear(), destroy_fn_(), closeHandle().
      */
     void unload() {
         if (!handle_) {
@@ -1034,10 +961,6 @@ public:
     const std::string& lastError() const { return last_error_; }
 
 private:
-    /**
-     * @brief TBD: Describe closeHandle.
-     * @details Calls: defined(), FreeLibrary(), dlclose().
-     */
     void closeHandle() {
         if (!handle_) {
           return;
@@ -1122,20 +1045,10 @@ using ImporterRegistry = ImporterPluginRegistry;
 #define THEMIS_IMPORTER_PLUGIN_IMPL(PluginClass)                            \
     extern "C" {                                                             \
         THEMIS_PLUGIN_EXPORT                                                 \
-        /**
-         * @brief TBD: Describe createPlugin.
-         * @return Pointer to the result.
-         * @details Calls: PluginClass().
-         */
         themis::plugins::IThemisPlugin* createPlugin() {                    \
             return new PluginClass();                                        \
         }                                                                    \
         THEMIS_PLUGIN_EXPORT                                                 \
-        /**
-         * @brief TBD: Describe destroyPlugin.
-         * @param[in,out] plugin Input/output parameter.
-         * @details Implements destroyPlugin without additional internal calls.
-         */
         void destroyPlugin(themis::plugins::IThemisPlugin* plugin) {        \
             delete plugin;                                                   \
         }                                                                    \

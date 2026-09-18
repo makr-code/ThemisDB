@@ -137,12 +137,6 @@ struct DocumentModelInfo {
     bool has_temporal = false;      ///< Hat _valid_from oder _valid_to
     bool is_process = false;        ///< Hat _state
     
-    /**
-     * @brief TBD: Describe detect.
-     * @param[in] doc Input parameter.
-     * @return Return value.
-     * @details Calls: hasField().
-     */
     static DocumentModelInfo detect(const BaseEntity& doc) {
         DocumentModelInfo info;
         
@@ -513,26 +507,10 @@ public:
     struct Status {
         bool ok = true;
         std::string message;
-        /**
-         * @brief TBD: Describe OK.
-         * @return Return value.
-         * @details Implements OK without additional internal calls.
-         */
         static Status OK() { return {}; }
-        /**
-         * @brief TBD: Describe Error.
-         * @param[in] msg Input parameter.
-         * @return Return value.
-         * @details Calls: std::move().
-         */
         static Status Error(std::string msg) { return Status{false, std::move(msg)}; }
     };
 
-    /**
-     * @brief TBD: Describe ProcessGraphManager.
-     * @param[in,out] db Input/output parameter.
-     * @return Return value.
-     */
     explicit ProcessGraphManager(RocksDBWrapper& db);
 
     /**
@@ -558,25 +536,16 @@ public:
     
     /**
      * @brief Add a node to a process model
-     * @param[in] process_id Input parameter.
-     * @param[in] node Input parameter.
-     * @return Return value.
      */
     Status addProcessNode(std::string_view process_id, const ProcessNodeInfo& node);
     
     /**
      * @brief Add an edge (flow) to a process model
-     * @param[in] process_id Input parameter.
-     * @param[in] edge Input parameter.
-     * @return Return value.
      */
     Status addProcessEdge(std::string_view process_id, const ProcessEdgeInfo& edge);
     
     /**
      * @brief Add a hyperedge (for AND-joins, etc.)
-     * @param[in] process_id Input parameter.
-     * @param[in] hyperedge Input parameter.
-     * @return Return value.
      */
     Status addHyperedge(std::string_view process_id, const Hyperedge& hyperedge);
     
@@ -607,9 +576,6 @@ public:
     
     /**
      * @brief Advance a token to the next node(s)
-     * @param[in] instance_id Input parameter.
-     * @param[in] token_id Input parameter.
-     * @return Return value.
      */
     Status advanceToken(std::string_view instance_id, std::string_view token_id);
     
@@ -627,15 +593,8 @@ public:
     
     /**
      * @brief Suspend/resume a process instance
-     * @param[in] instance_id Input parameter.
-     * @return Return value.
      */
     Status suspendProcess(std::string_view instance_id);
-    /**
-     * @brief TBD: Describe resumeProcess.
-     * @param[in] instance_id Input parameter.
-     * @return Return value.
-     */
     Status resumeProcess(std::string_view instance_id);
     
     /**
@@ -677,9 +636,6 @@ public:
      * When multiple tokens have visited the same node (e.g. in parallel
      * gateway scenarios), the most recent timestamp across all tokens is
      * returned.
-     * @param[in] instance_id Input parameter.
-     * @param[in] node_id Input parameter.
-     * @return Return value.
      */
     std::optional<std::chrono::system_clock::time_point> getVisitTimestamp(
         std::string_view instance_id,
@@ -759,7 +715,6 @@ public:
      *
      * Thread safety: call before any concurrent query; the function object is
      * read under a shared lock from query methods.
-     * @param[in] fn Input parameter.
      */
     void setAqlQueryExecutor(AqlQueryExecutorFn fn);
 
@@ -973,93 +928,28 @@ private:
     std::function<std::vector<float>(std::string_view)> embedder_;
     AqlQueryExecutorFn aql_query_executor_;
     
-    /**
-     * @brief Internal helpers
-     * @param[in] process_id Input parameter.
-     * @return Return value.
-     */
+    // Internal helpers
     std::string makeProcessKey_(std::string_view process_id) const;
-    /**
-     * @brief TBD: Describe makeNodeKey_.
-     * @param[in] process_id Input parameter.
-     * @param[in] node_id Input parameter.
-     * @return Return value.
-     */
     std::string makeNodeKey_(std::string_view process_id, std::string_view node_id) const;
-    /**
-     * @brief TBD: Describe makeEdgeKey_.
-     * @param[in] process_id Input parameter.
-     * @param[in] edge_id Input parameter.
-     * @return Return value.
-     */
     std::string makeEdgeKey_(std::string_view process_id, std::string_view edge_id) const;
-    /**
-     * @brief TBD: Describe makeHyperedgeKey_.
-     * @param[in] process_id Input parameter.
-     * @param[in] hyperedge_id Input parameter.
-     * @return Return value.
-     */
     std::string makeHyperedgeKey_(std::string_view process_id, std::string_view hyperedge_id) const;
-    /**
-     * @brief TBD: Describe makeInstanceKey_.
-     * @param[in] instance_id Input parameter.
-     * @return Return value.
-     */
     std::string makeInstanceKey_(std::string_view instance_id) const;
-    /**
-     * @brief TBD: Describe makeTokenKey_.
-     * @param[in] instance_id Input parameter.
-     * @param[in] token_id Input parameter.
-     * @return Return value.
-     */
     std::string makeTokenKey_(std::string_view instance_id, std::string_view token_id) const;
     
-    /**
-     * @brief Token management
-     * @return Return value.
-     */
+    // Token management
     std::string generateTokenId_() const;
-    /**
-     * @brief TBD: Describe createToken_.
-     * @param[in,out] instance Input/output parameter.
-     * @param[in] node_id Input parameter.
-     * @return Return value.
-     */
     Status createToken_(ProcessInstance& instance, std::string_view node_id);
-    /**
-     * @brief TBD: Describe moveToken_.
-     * @param[in,out] instance Input/output parameter.
-     * @param[in,out] token Input/output parameter.
-     * @param[in] target_node Input parameter.
-     * @return Return value.
-     */
     Status moveToken_(ProcessInstance& instance, ProcessToken& token, std::string_view target_node);
     
-    /**
-     * @brief Gateway logic
-     * @param[in] gateway Input parameter.
-     * @param[in] token Input parameter.
-     * @param[in] outgoing_edges Input parameter.
-     * @return Return value.
-     */
+    // Gateway logic
     std::vector<std::string> evaluateGateway_(
         const ProcessNodeInfo& gateway,
         const ProcessToken& token,
         const std::vector<ProcessEdgeInfo>& outgoing_edges
     ) const;
     
-    /**
-     * @brief Hyperedge logic
-     * @param[in] hyperedge Input parameter.
-     * @return True on success.
-     */
+    // Hyperedge logic
     bool checkHyperedgeCondition_(const Hyperedge& hyperedge) const;
-    /**
-     * @brief TBD: Describe activateHyperedgeSource_.
-     * @param[in,out] hyperedge Input/output parameter.
-     * @param[in] source_node Input parameter.
-     * @return Return value.
-     */
     Status activateHyperedgeSource_(Hyperedge& hyperedge, std::string_view source_node);
 };
 

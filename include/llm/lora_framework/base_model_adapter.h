@@ -28,10 +28,6 @@ namespace lora {
  * @brief Layer information from base model
  */
 struct BaseLayerInfo {
-    /**
-     * @brief TBD: Describe ~BaseLayerInfo.
-     * @return Return value.
-     */
     virtual ~BaseLayerInfo() = default;
     std::string name;              // Layer name (e.g., "layers.0.attention.wq")
     std::vector<size_t> shape;     // Tensor shape
@@ -45,10 +41,6 @@ struct BaseLayerInfo {
  * @brief Model architecture information
  */
 struct ModelArchitectureInfo {
-    /**
-     * @brief TBD: Describe ~ModelArchitectureInfo.
-     * @return Return value.
-     */
     virtual ~ModelArchitectureInfo() = default;
     std::string architecture;      // "llama", "mistral", "gpt-neox"
     int num_layers = 0;                // Number of transformer layers
@@ -214,48 +206,16 @@ private:
     mutable const float* embedding_matrix_ = nullptr;
     mutable std::string embedding_tensor_name_;
     
-    /**
-     * @brief Helper methods
-     * @return True on success.
-     */
+    // Helper methods
     bool parseArchitecture();
-    /**
-     * @brief TBD: Describe identifyAdaptableLayers.
-     * @return True on success.
-     */
     bool identifyAdaptableLayers();
-    /**
-     * @brief TBD: Describe parseLayerInfo.
-     * @param[in] tensor Input parameter.
-     * @param[in,out] layer_info Input/output parameter.
-     * @return True on success.
-     */
     bool parseLayerInfo(const TensorMetadata& tensor, BaseLayerInfo& layer_info);
-    /**
-     * @brief TBD: Describe standardizeLayerName.
-     * @param[in] model_layer_name Input parameter.
-     * @return Return value.
-     */
     std::string standardizeLayerName(const std::string& model_layer_name) const;
-    /**
-     * @brief TBD: Describe matchesTargetModule.
-     * @param[in] layer_name Input parameter.
-     * @param[in] target_pattern Input parameter.
-     * @return True on success.
-     */
     bool matchesTargetModule(const std::string& layer_name, 
                             const std::string& target_pattern) const;
     
-    /**
-     * @brief Embedding extraction helpers
-     * @return Return value.
-     */
+    // Embedding extraction helpers
     std::string findEmbeddingTensorName() const;
-    /**
-     * @brief TBD: Describe extractEmbeddingFromGGUF.
-     * @param[in] token_id Input parameter.
-     * @return Return value.
-     */
     std::vector<float> extractEmbeddingFromGGUF(int token_id) const;
 };
 
@@ -281,11 +241,6 @@ public:
         bool use_gradient_checkpointing = false;
     };
     
-    /**
-     * @brief TBD: Describe LoRAEnhancedModel.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit LoRAEnhancedModel(const Config& config);
     ~LoRAEnhancedModel();
     
@@ -371,24 +326,9 @@ private:
     // Layer information for efficient lookup
     std::vector<BaseLayerInfo> active_layers_;
     
-    /**
-     * @brief Helper methods
-     * @return True on success.
-     */
+    // Helper methods
     bool createLoRAAdapters();
-    /**
-     * @brief TBD: Describe computeBaseOutput.
-     * @param[in] input Input parameter.
-     * @param[in] layer_name Input parameter.
-     * @return Return value.
-     */
     Tensor computeBaseOutput(const Tensor& input, const std::string& layer_name);
-    /**
-     * @brief TBD: Describe computeLoRAOutput.
-     * @param[in] input Input parameter.
-     * @param[in] layer_name Input parameter.
-     * @return Return value.
-     */
     Tensor computeLoRAOutput(const Tensor& input, const std::string& layer_name);
 };
 

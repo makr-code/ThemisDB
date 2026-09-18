@@ -78,7 +78,6 @@ public:
     /**
      * @brief Attempt to consume `bytes` from the bucket without blocking.
      * @return true if tokens were available, false if not enough tokens.
-     * @param[in] bytes Input parameter.
      */
     bool tryConsume(uint64_t bytes);
 
@@ -102,20 +101,16 @@ public:
      */
     void reconfigure(uint64_t rate_bps, uint64_t burst_bytes);
 
-     * @return Return value.
     /** @brief Current available tokens (bytes). */
     double availableBytes() const;
 
-     * @return Return value.
     /** @brief Configured rate in bps. */
     uint64_t rateBps() const;
 
-     * @return Return value.
     /** @brief Configured burst size in bytes. */
     uint64_t burstBytes() const;
 
 private:
-     * @brief TBD: Describe refill.
     /** Refill tokens based on elapsed time since last refill. */
     void refill();
 
@@ -167,7 +162,6 @@ public:
      * Does NOT consume tokens; use `add()` to actually commit the send.
      *
      * @return true if sending `bytes` would not overflow the bucket.
-     * @param[in] bytes Input parameter.
      */
     bool tryConform(uint64_t bytes) const;
 
@@ -178,20 +172,16 @@ public:
      */
     void reconfigure(uint64_t drain_rate_bps, uint64_t capacity_bytes);
 
-     * @return Return value.
     /** @brief Current bucket fill in bytes. */
     double currentFill() const;
 
-     * @return Return value.
     /** @brief Configured bucket capacity in bytes. */
     uint64_t capacityBytes() const;
 
-     * @return Return value.
     /** @brief Configured drain rate in bps. */
     uint64_t drainRateBps() const;
 
 private:
-     * @brief TBD: Describe drain.
     /** Drain elapsed bytes from bucket based on elapsed time. */
     void drain();
 
@@ -243,15 +233,12 @@ public:
      */
     void recordLoss();
 
-     * @return Return value.
     /** @brief Current congestion window in bytes. */
     uint64_t cwnd() const;
 
-     * @return Return value.
     /** @brief Current slow-start threshold in bytes. */
     uint64_t ssthresh() const;
 
-     * @return Return value.
     /** @brief Smoothed RTT estimate. */
     std::chrono::microseconds smoothedRtt() const;
 
@@ -339,11 +326,6 @@ public:
         uint32_t starvation_guard_threshold = 16;
     };
 
-    /**
-     * @brief TBD: Describe QoSManager.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit QoSManager(const Config& config);
     QoSManager();
     ~QoSManager();
@@ -410,7 +392,6 @@ public:
      * @brief Change the priority of a live connection (snake_case alias).
      * @param connection_id Target connection.
      * @param priority      New priority.
-     * @details Calls: setPriority().
      */
     void set_priority(uint64_t connection_id, Priority priority) {
         setPriority(connection_id, priority);
@@ -433,7 +414,6 @@ public:
      * @param connection_id Target connection.
      * @param rate_bps      Sustained rate in bits per second.
      * @param burst_bytes   Maximum burst size in bytes.
-     * @details Calls: setTokenBucket().
      */
     void set_token_bucket(uint64_t connection_id,
                           uint64_t rate_bps,
@@ -509,7 +489,6 @@ public:
     /**
      * @brief Return the number of pending sends in a specific priority queue.
      * @param priority Queue to query.
-     * @return Return value.
      */
     size_t getPendingQueueDepth(Priority priority) const;
 
@@ -541,7 +520,6 @@ public:
      * connection (unlimited window).
      *
      * @param connection_id Target connection.
-     * @return Return value.
      */
     uint64_t getCongestionWindow(uint64_t connection_id) const;
 
@@ -652,7 +630,6 @@ public:
 
     /**
      * @brief Retrieve aggregate statistics.
-     * @return Return value.
      */
     Stats getStats() const;
 
@@ -665,7 +642,6 @@ public:
 
     /**
      * @brief Retrieve statistics for all registered connections.
-     * @return Return value.
      */
     std::vector<ConnectionStats> getAllConnectionStats() const;
 
@@ -751,7 +727,6 @@ public:
 
     /**
      * @brief Retrieve statistics for all registered tenant quotas.
-     * @return Return value.
      */
     std::vector<TenantQuotaStats> getAllTenantStats() const;
 
@@ -791,22 +766,11 @@ private:
         std::atomic<uint64_t> backpressure_events{0};
     };
 
-    /**
-     * @brief TBD: Describe findConnection.
-     * @param[in] id Input parameter.
-     * @return Return value.
-     */
     std::shared_ptr<ConnectionState> findConnection(uint64_t id) const;
 
-    /**
-     * @brief Resolve effective max_bandwidth_bps from config (handles mbps override)
-     * @return Return value.
-     */
+    // Resolve effective max_bandwidth_bps from config (handles mbps override)
     uint64_t effectiveMaxBandwidthBps() const;
-    /**
-     * @brief Resolve effective default_rate_bps from config (handles per_connection_limit_mbps)
-     * @return Return value.
-     */
+    // Resolve effective default_rate_bps from config (handles per_connection_limit_mbps)
     uint64_t effectiveDefaultRateBps() const;
 
     Config config_;
@@ -858,11 +822,6 @@ private:
         std::atomic<uint64_t> active_connections{0};
     };
 
-    /**
-     * @brief TBD: Describe findTenant.
-     * @param[in] id Input parameter.
-     * @return Return value.
-     */
     std::shared_ptr<TenantState> findTenant(const std::string& id) const;
 
     mutable std::mutex tenants_mutex_;

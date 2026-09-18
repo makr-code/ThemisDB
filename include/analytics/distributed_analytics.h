@@ -81,10 +81,6 @@ namespace analytics {
  */
 class ShardQueryExecutor {
 public:
-    /**
-     * @brief TBD: Describe ~ShardQueryExecutor.
-     * @return Return value.
-     */
     virtual ~ShardQueryExecutor() = default;
 
     /**
@@ -93,7 +89,6 @@ public:
      * @param shard_id  Identifier of the target shard (informational).
      * @param query     The query to execute.
      * @return Partial OLAPResult for this shard's data partition.
-     * @brief TBD: Describe execute.
      */
     virtual themis::analytics::OLAPResult execute(
         const std::string& shard_id,
@@ -116,11 +111,6 @@ public:
  */
 class LocalShardExecutor final : public ShardQueryExecutor {
 public:
-    /**
-     * @brief TBD: Describe LocalShardExecutor.
-     * @param[in,out] engine Input/output parameter.
-     * @return Return value.
-     */
     explicit LocalShardExecutor(themis::analytics::OLAPEngine& engine)
         : engine_(engine) {}
 
@@ -306,11 +296,6 @@ public:
     // ------------------------------------------------------------------
 
     DistributedAnalyticsSharding();
-    /**
-     * @brief TBD: Describe DistributedAnalyticsSharding.
-     * @param[in] cfg Input parameter.
-     * @return Return value.
-     */
     explicit DistributedAnalyticsSharding(const Config& cfg);
     ~DistributedAnalyticsSharding();
 
@@ -339,8 +324,6 @@ public:
      */
     void removeShard(const std::string& shard_id);
 
-     * @brief TBD: Describe getShardCount.
-     * @return Return value.
     /** Total number of registered shards. */
     size_t getShardCount() const;
 
@@ -348,8 +331,6 @@ public:
      * Number of registered shards whose background health monitor last
      * reported as healthy.  Reads a cached atomic flag — does not perform
      * any network I/O; completes in ≤ 2 µs.
-     * @brief TBD: Describe getHealthyShardCount.
-     * @return Return value.
      */
     size_t getHealthyShardCount() const;
 
@@ -359,13 +340,9 @@ public:
      * Unlike getHealthyShardCount(), this performs real isHealthy() calls
      * without holding the shard registry lock, so it never blocks addShard()
      * or removeShard().  The result is delivered via the returned future.
-     * @brief TBD: Describe getHealthyShardCountAsync.
-     * @return Return value.
      */
     std::future<size_t> getHealthyShardCountAsync() const;
 
-     * @brief TBD: Describe getShardIds.
-     * @return Return value.
     /** Returns all registered shard IDs. */
     std::vector<std::string> getShardIds() const;
 
@@ -421,11 +398,6 @@ private:
      * Compute a stable string key for a result row's dimension values.
      * The key encodes grouping_id so that CUBE/ROLLUP subtotals are kept
      * separate from detail rows.
-     * @brief TBD: Describe rowGroupKey.
-     * @param[in] row Input parameter.
-     * @param[in] dims Input parameter.
-     * @param[in] grouping_id Input parameter.
-     * @return Return value.
      */
     static std::string rowGroupKey(
         const themis::analytics::OLAPResult::Row& row,
@@ -437,8 +409,6 @@ private:
     /**
      * Handle a successful shard execution: reset circuit breaker state to CLOSED.
      * Called after a shard request completes successfully.
-     * @brief TBD: Describe onShardSuccess.
-     * @param[in,out] entry Input/output parameter.
      */
     void onShardSuccess(ShardEntry& entry);
 
@@ -449,7 +419,6 @@ private:
      * @param entry The shard entry.
      * @param error_msg The error message for diagnostics.
      * @return true if the shard is still usable (circuit not OPEN), false if circuit opened.
-     * @brief TBD: Describe onShardFailure.
      */
     bool onShardFailure(ShardEntry& entry, const std::string& error_msg);
 
@@ -459,7 +428,6 @@ private:
      *
      * @param entry The shard entry.
      * @return Current circuit breaker state after potential transition.
-     * @brief TBD: Describe updateCircuitBreakerState.
      */
     CircuitBreakerState updateCircuitBreakerState(ShardEntry& entry);
 
@@ -477,15 +445,12 @@ private:
      * Process queued requests for a shard after a request completes.
      *
      * @param entry The shard entry.
-     * @brief TBD: Describe processQueuedRequests.
      */
     void processQueuedRequests(ShardEntry& entry);
 
-     * @brief TBD: Describe startHealthMonitor.
     /** Start the background health-monitor thread (if interval > 0). */
     void startHealthMonitor();
 
-     * @brief TBD: Describe runHealthMonitor.
     /** Entry-point for the background health-monitor thread. */
     void runHealthMonitor();
 

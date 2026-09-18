@@ -296,7 +296,6 @@ inline const char* errorCodeToString(AccelerationErrorCode code) {
  *
  * @param code The error code to check.
  * @return true if the code is AccelerationErrorCode::Success, false otherwise.
- * @details Implements isSuccess without additional internal calls.
  */
 inline bool isSuccess(AccelerationErrorCode code) {
     return code == AccelerationErrorCode::Success;
@@ -310,7 +309,6 @@ inline bool isSuccess(AccelerationErrorCode code) {
  *
  * @param code The error code to check.
  * @return true if the code is in the range [100, 200), false otherwise.
- * @details Implements isInitializationError without additional internal calls.
  */
 inline bool isInitializationError(AccelerationErrorCode code) {
     uint32_t c = static_cast<uint32_t>(code);
@@ -325,7 +323,6 @@ inline bool isInitializationError(AccelerationErrorCode code) {
  *
  * @param code The error code to check.
  * @return true if the code is in the range [200, 300), false otherwise.
- * @details Implements isResourceError without additional internal calls.
  */
 inline bool isResourceError(AccelerationErrorCode code) {
     uint32_t c = static_cast<uint32_t>(code);
@@ -340,7 +337,6 @@ inline bool isResourceError(AccelerationErrorCode code) {
  *
  * @param code The error code to check.
  * @return true if the code is in the range [300, 400), false otherwise.
- * @details Implements isRuntimeError without additional internal calls.
  */
 inline bool isRuntimeError(AccelerationErrorCode code) {
     uint32_t c = static_cast<uint32_t>(code);
@@ -355,7 +351,6 @@ inline bool isRuntimeError(AccelerationErrorCode code) {
  *
  * @param code The error code to check.
  * @return true if the code is in the range [400, 500), false otherwise.
- * @details Implements isConfigurationError without additional internal calls.
  */
 inline bool isConfigurationError(AccelerationErrorCode code) {
     uint32_t c = static_cast<uint32_t>(code);
@@ -370,7 +365,6 @@ inline bool isConfigurationError(AccelerationErrorCode code) {
  *
  * @param code The error code to check.
  * @return true if the code is in the range [500, 600), false otherwise.
- * @details Implements isKernelError without additional internal calls.
  */
 inline bool isKernelError(AccelerationErrorCode code) {
     uint32_t c = static_cast<uint32_t>(code);
@@ -385,7 +379,6 @@ inline bool isKernelError(AccelerationErrorCode code) {
  *
  * @param code The error code to check.
  * @return true if the code is in the range [600, 700), false otherwise.
- * @details Implements isValidationError without additional internal calls.
  */
 inline bool isValidationError(AccelerationErrorCode code) {
     uint32_t c = static_cast<uint32_t>(code);

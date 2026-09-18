@@ -97,16 +97,12 @@ public:
 
     /**
      * @brief Add or update a single region entry.
-     * @param[in] region Input parameter.
-     * @param[in] mechanism Input parameter.
      */
     void setRegionMechanism(const std::string& region, TransferMechanism mechanism);
 
     /**
      * @brief Return the mechanism currently registered for a region, or
      *        PROHIBITED if unknown.
-     * @param[in] region Input parameter.
-     * @return Return value.
      */
     TransferMechanism getMechanism(const std::string& region) const;
 
@@ -135,12 +131,8 @@ public:
 
     // ── Helpers ──────────────────────────────────────────────────────────
 
-    /**
-     * @brief Convert a TransferMechanism enum to its X-Themis-Transfer-Mechanism header string (e.
-     * @param[in] m Input parameter.
-     * @return Return value.
-     * @details g. "ADEQUACY_DECISION").
-     */
+    /// Convert a TransferMechanism enum to its X-Themis-Transfer-Mechanism
+    /// header string (e.g. "ADEQUACY_DECISION").
     static std::string mechanismToHeaderValue(TransferMechanism m);
 
     /// Return a human-readable description of a transfer mechanism.

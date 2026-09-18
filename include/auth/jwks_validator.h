@@ -75,11 +75,6 @@ public:
         // Require use field
         bool require_use = false;
 
-        /**
-         * @brief TBD: Describe defaults.
-         * @return Return value.
-         * @details Implements defaults without additional internal calls.
-         */
         static Config defaults() { return {}; }
     };
     
@@ -104,56 +99,22 @@ public:
 private:
     Config config_;
     
-    /**
-     * @brief Validate JWKS structure
-     * @param[in] jwks Input parameter.
-     * @param[in,out] result Input/output parameter.
-     * @return True on success.
-     */
+    // Validate JWKS structure
     bool validateStructure(const nlohmann::json& jwks, ValidationResult& result) const;
     
-    /**
-     * @brief Validate individual JWK
-     * @param[in] jwk Input parameter.
-     * @param[in] index Input parameter.
-     * @param[in,out] result Input/output parameter.
-     * @return True on success.
-     */
+    // Validate individual JWK
     bool validateKey(const nlohmann::json& jwk, size_t index, ValidationResult& result) const;
     
-    /**
-     * @brief Validate RSA key
-     * @param[in] jwk Input parameter.
-     * @param[in] index Input parameter.
-     * @param[in,out] result Input/output parameter.
-     * @return True on success.
-     */
+    // Validate RSA key
     bool validateRSAKey(const nlohmann::json& jwk, size_t index, ValidationResult& result) const;
     
-    /**
-     * @brief Validate EC key
-     * @param[in] jwk Input parameter.
-     * @param[in] index Input parameter.
-     * @param[in,out] result Input/output parameter.
-     * @return True on success.
-     */
+    // Validate EC key
     bool validateECKey(const nlohmann::json& jwk, size_t index, ValidationResult& result) const;
     
-    /**
-     * @brief Validate symmetric key
-     * @param[in] jwk Input parameter.
-     * @param[in] index Input parameter.
-     * @param[in,out] result Input/output parameter.
-     * @return True on success.
-     */
+    // Validate symmetric key
     bool validateSymmetricKey(const nlohmann::json& jwk, size_t index, ValidationResult& result) const;
     
-    /**
-     * @brief Check for duplicate kids
-     * @param[in] jwks Input parameter.
-     * @param[in,out] result Input/output parameter.
-     * @return True on success.
-     */
+    // Check for duplicate kids
     bool checkDuplicateKids(const nlohmann::json& jwks, ValidationResult& result) const;
 };
 

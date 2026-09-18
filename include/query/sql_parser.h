@@ -58,10 +58,6 @@ enum class SQLExprType {
 };
 
 struct SQLExpr {
-    /**
-     * @brief TBD: Describe ~SQLExpr.
-     * @return Return value.
-     */
     virtual ~SQLExpr() = default;
     [[nodiscard]] virtual SQLExprType type() const = 0;
     [[nodiscard]] virtual std::string toAQL(const std::string& var) const = 0;
@@ -202,7 +198,6 @@ public:
      *   SQLParser parser;
      *   auto result = parser.parse("SELECT name, age FROM users WHERE age > 30");
      *   if (result) { ... use result.value() ... }
-     * @brief TBD: Describe parse.
      */
     Result<SQLASTNode> parse(const std::string& sql_query);
 
@@ -244,40 +239,14 @@ public:
      *
      *   DELETE FROM users WHERE age < 18
      *   →  FOR _doc IN users FILTER _doc.age < 18 REMOVE _doc IN users
-     * @brief TBD: Describe transpile.
      */
     Result<std::string> transpile(const SQLASTNode& ast);
 
 private:
-    /**
-     * @brief TBD: Describe transpileSelect.
-     * @param[in] stmt Input parameter.
-     * @return Return value.
-     */
     static std::string transpileSelect(const SQLSelectStatement& stmt);
-    /**
-     * @brief TBD: Describe transpileInsert.
-     * @param[in] stmt Input parameter.
-     * @return Return value.
-     */
     static std::string transpileInsert(const SQLInsertStatement& stmt);
-    /**
-     * @brief TBD: Describe transpileUpdate.
-     * @param[in] stmt Input parameter.
-     * @return Return value.
-     */
     static std::string transpileUpdate(const SQLUpdateStatement& stmt);
-    /**
-     * @brief TBD: Describe transpileDelete.
-     * @param[in] stmt Input parameter.
-     * @return Return value.
-     */
     static std::string transpileDelete(const SQLDeleteStatement& stmt);
-    /**
-     * @brief TBD: Describe valueToAQL.
-     * @param[in] val Input parameter.
-     * @return Return value.
-     */
     static std::string valueToAQL(const SQLValue& val);
 };
 

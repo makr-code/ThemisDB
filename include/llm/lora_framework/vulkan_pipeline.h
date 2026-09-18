@@ -119,47 +119,37 @@ public:
 private:
     /**
      * @brief Load SPIR-V shader from file
-     * @param[in] path Input parameter.
-     * @return Return value.
      */
     std::vector<uint32_t> load_shader_file(const std::string& path);
     
     /**
      * @brief Create shader module
-     * @param[in] code Input parameter.
-     * @return Return value.
      */
     VkShaderModule create_shader_module(const std::vector<uint32_t>& code);
     
     /**
      * @brief Create descriptor set layout
      * Analyzes shader and creates appropriate layout
-     * @return True on success.
      */
     bool create_descriptor_set_layout();
     
     /**
      * @brief Create pipeline layout
-     * @param[in] push_constant_size Input parameter.
-     * @return True on success.
      */
     bool create_pipeline_layout(size_t push_constant_size);
     
     /**
      * @brief Create compute pipeline
-     * @return True on success.
      */
     bool create_compute_pipeline();
     
     /**
      * @brief Create descriptor pool
-     * @return True on success.
      */
     bool create_descriptor_pool();
     
     /**
      * @brief Allocate descriptor sets
-     * @return True on success.
      */
     bool allocate_descriptor_sets();
     
@@ -220,36 +210,10 @@ public:
     VulkanComputePipeline& operator=(VulkanComputePipeline&&) noexcept = default;
     
     bool create(size_t = 0) { return false; }
-    /**
-     * @brief TBD: Describe cleanup.
-     * @details Implements cleanup without additional internal calls.
-     */
     void cleanup() {}
     bool is_ready() const { return false; }
-    /**
-     * @brief TBD: Describe bind_buffer.
-     * @param[in] uint32_t Input parameter.
-     * @param[in,out] param Input/output parameter.
-     * @return True on success.
-     * @details Implements bind_buffer without additional internal calls.
-     */
     bool bind_buffer(uint32_t, VulkanBuffer*) { return false; }
-    /**
-     * @brief TBD: Describe set_push_constants.
-     * @param[in] param Input parameter.
-     * @param[in] size_t Input parameter.
-     * @return True on success.
-     * @details Implements set_push_constants without additional internal calls.
-     */
     bool set_push_constants(const void*, size_t) { return false; }
-    /**
-     * @brief TBD: Describe dispatch.
-     * @param[in] uint32_t Input parameter.
-     * @param[in] uint32_t Input parameter.
-     * @param[in] uint32_t Input parameter.
-     * @return True on success.
-     * @details Implements dispatch without additional internal calls.
-     */
     bool dispatch(uint32_t, uint32_t, uint32_t) { return false; }
     bool wait(uint64_t = 0) { return false; }
 };

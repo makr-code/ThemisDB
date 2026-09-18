@@ -49,7 +49,6 @@ public:
      *
      * @param event_ts_us  Event timestamp in microseconds since epoch.
      * @return true  → on-time; false → late (within budget or dropped).
-     * @note Exception safety: noexcept.
      */
     bool observe(int64_t event_ts_us) noexcept;
 
@@ -57,7 +56,6 @@ public:
      * @brief Advance the watermark to (max_seen_ts − allowed_lateness_ms).
      *
      * Called by the scheduler at each tick boundary.
-     * @note Exception safety: noexcept.
      */
     void advance() noexcept;
 
@@ -73,8 +71,6 @@ public:
     /** @return Total number of events dropped as beyond the late budget. */
     [[nodiscard]] uint64_t lateDropped() const noexcept;
 
-     * @brief TBD: Describe reset.
-     * @note Exception safety: noexcept.
     /** Reset all state. */
     void reset() noexcept;
 

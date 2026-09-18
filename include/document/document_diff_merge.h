@@ -128,10 +128,6 @@ struct MergeResult {
  */
 class IDocumentDiffMerge {
 public:
-    /**
-     * @brief TBD: Describe ~IDocumentDiffMerge.
-     * @return Return value.
-     */
     virtual ~IDocumentDiffMerge() = default;
 
     /**
@@ -182,11 +178,6 @@ public:
  */
 class InMemoryDocumentDiffMerge final : public IDocumentDiffMerge {
 public:
-    /**
-     * @brief TBD: Describe InMemoryDocumentDiffMerge.
-     * @param[in,out] store Input/output parameter.
-     * @return Return value.
-     */
     explicit InMemoryDocumentDiffMerge(IDocumentStore& store)
         : store_(store) {}
 
@@ -263,12 +254,7 @@ public:
     }
 
 private:
-    /**
-     * @brief ── diff helpers ──────────────────────────────────────────────────────
-     * @param[in] base Input parameter.
-     * @param[in] target Input parameter.
-     * @return Return value.
-     */
+    // ── diff helpers ──────────────────────────────────────────────────────
 
     static DocumentDiff computeDiff(const nlohmann::json& base,
                                      const nlohmann::json& target)
@@ -295,14 +281,7 @@ private:
         return d;
     }
 
-    /**
-     * @brief ── merge helpers ─────────────────────────────────────────────────────
-     * @param[in] base Input parameter.
-     * @param[in] ours Input parameter.
-     * @param[in] theirs Input parameter.
-     * @param[in] strategy Input parameter.
-     * @return Return value.
-     */
+    // ── merge helpers ─────────────────────────────────────────────────────
 
     static Result<MergeResult> computeMerge(const nlohmann::json& base,
                                              const nlohmann::json& ours,

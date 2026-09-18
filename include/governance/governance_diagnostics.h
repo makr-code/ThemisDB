@@ -233,7 +233,6 @@ public:
      * 
      * @param policies List of active policies to check
      * @return Detection result with conflict details
-     * @param[in] policy_ids Input parameter.
      */
     ConflictDetectionResult detectConflict(
         const std::vector<std::string>& policy_ids
@@ -467,53 +466,14 @@ private:
     std::vector<SafetyViolation> violation_history_;
     std::shared_ptr<ConflictDiagnosticHelper> conflict_helper_;
     
-    /**
-     * @brief Helper methods for each scenario check
-     * @param[in] req Input parameter.
-     * @return Return value.
-     */
+    // Helper methods for each scenario check
     SafetyViolation checkConflictingClassifications(const AccessRequest& req);
-    /**
-     * @brief TBD: Describe checkCCPACompliance.
-     * @param[in] req Input parameter.
-     * @return Return value.
-     */
     SafetyViolation checkCCPACompliance(const AccessRequest& req);
-    /**
-     * @brief TBD: Describe checkPrivilegeEscalation.
-     * @param[in] req Input parameter.
-     * @return Return value.
-     */
     SafetyViolation checkPrivilegeEscalation(const AccessRequest& req);
-    /**
-     * @brief TBD: Describe checkTemporalViolations.
-     * @param[in] req Input parameter.
-     * @return Return value.
-     */
     SafetyViolation checkTemporalViolations(const AccessRequest& req);
-    /**
-     * @brief TBD: Describe checkCrossBorderConflicts.
-     * @param[in] req Input parameter.
-     * @return Return value.
-     */
     SafetyViolation checkCrossBorderConflicts(const AccessRequest& req);
-    /**
-     * @brief TBD: Describe checkMaskingRuleConsistency.
-     * @param[in] req Input parameter.
-     * @return Return value.
-     */
     SafetyViolation checkMaskingRuleConsistency(const AccessRequest& req);
-    /**
-     * @brief TBD: Describe checkWhitelistExhaustion.
-     * @param[in] req Input parameter.
-     * @return Return value.
-     */
     SafetyViolation checkWhitelistExhaustion(const AccessRequest& req);
-    /**
-     * @brief TBD: Describe checkCascadingDenials.
-     * @param[in] req Input parameter.
-     * @return Return value.
-     */
     SafetyViolation checkCascadingDenials(const AccessRequest& req);
 };
 

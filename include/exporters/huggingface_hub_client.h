@@ -160,11 +160,6 @@ struct MemoryShardSpec {
 /// per upload operation.
 class HuggingFaceHubClient {
 public:
-    /**
-     * @brief TBD: Describe HuggingFaceHubClient.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit HuggingFaceHubClient(HubUploadConfig config);
     ~HuggingFaceHubClient();
 
@@ -218,11 +213,16 @@ private:
     /// raw token material is never logged.
     mutable std::mutex config_access_mutex_;
 
-    /**
-     * @brief Resolve the effective API token.
-     * @return Return value.
-     * @details Resolution order: 1. `hf_token` (explicit plaintext field) 2. `hf_token_kek_id` via `key_provider` (KEK/KMS-protected lookup) 3. `HF_TOKEN` environment variable Returns an empty string only when none of the above sources provide a token. Throws `std::invalid_argument` when `hf_token_kek_id` is set but `key_provider` is null, and `std::runtime_error` when key lookup fails or the resolved bytes are empty. Raw token material is never logged at any level.
-     */
+    /// Resolve the effective API token.
+    /// Resolution order:
+    ///   1. `hf_token` (explicit plaintext field)
+    ///   2. `hf_token_kek_id` via `key_provider` (KEK/KMS-protected lookup)
+    ///   3. `HF_TOKEN` environment variable
+    /// Returns an empty string only when none of the above sources provide a
+    /// token.  Throws `std::invalid_argument` when `hf_token_kek_id` is set
+    /// but `key_provider` is null, and `std::runtime_error` when key lookup
+    /// fails or the resolved bytes are empty.  Raw token material is never
+    /// logged at any level.
     std::string resolveToken() const;
 
     /// POST to Hub API; returns {http_status, response_body}.
@@ -253,12 +253,8 @@ private:
         std::function<void(double)> progress_cb,
         std::string* retry_after_out = nullptr) const;
 
-    /**
-     * @brief Ensure the Hub repo exists; creates it when create_repo=true.
-     * @param[in] bearer_token Input parameter.
-     * @return Return value.
-     * @details Returns the repo's full path or an error string in the result.
-     */
+    /// Ensure the Hub repo exists; creates it when create_repo=true.
+    /// Returns the repo's full path or an error string in the result.
     HubUploadResult ensureRepo(const std::string& bearer_token) const;
 };
 

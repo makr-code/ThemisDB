@@ -30,10 +30,6 @@ namespace llm {
  */
 class GrammarCache {
 public:
-    /**
-     * @brief TBD: Describe ~GrammarCache.
-     * @return Return value.
-     */
     virtual ~GrammarCache() = default;
     /**
      * @brief Configuration for grammar cache
@@ -52,7 +48,6 @@ public:
     /**
      * @brief Construct grammar cache with configuration.
      * @param config Cache configuration.
-     * @return Return value.
      */
     explicit GrammarCache(const Config& config);
     

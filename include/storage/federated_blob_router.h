@@ -88,11 +88,6 @@ public:
                            "federated blob router backend must not be null");
         }
 
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         backends_[region] = std::move(backend);
         return OkVoid();
@@ -267,11 +262,6 @@ public:
 
 private:
     [[nodiscard]] std::shared_ptr<IBlobStorageBackend> backendFor(const std::string& region) const {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = backends_.find(region);
         return it == backends_.end() ? nullptr : it->second;
@@ -297,11 +287,6 @@ private:
         return order;
     }
 
-    /**
-     * @brief TBD: Describe rollback.
-     * @param[in] route Input parameter.
-     * @details Calls: backendFor(), remove().
-     */
     void rollback(const FederatedBlobRoute& route) {
         for (const auto& [region, ref] : route.region_refs) {
             auto backend = backendFor(region);

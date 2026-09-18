@@ -58,7 +58,6 @@ public:
      *
      * @param kdf_service  Pointer to KDF service (not owned; must outlive this
      *                     object).  Pass nullptr to use key_material directly.
-     * @return Return value.
      */
     explicit GocryptfsBackend(KeyDerivationService* kdf_service);
 
@@ -162,7 +161,6 @@ private:
      *
      * @param write_fd     Write end of the stdin pipe (closed on return)
      * @param key_material Key bytes
-     * @return Return value.
      */
     Result<void> deliverKeyViaStdin(
         int write_fd,
@@ -188,7 +186,6 @@ private:
      * @param encrypted_dir  Ciphertext directory (salt file lives here)
      * @param key_material   Master key (or direct key when no KDF)
      * @param create_salt    When true, generate and persist a new salt
-     * @return Return value.
      */
     Result<std::vector<uint8_t>> resolveKey(
         const std::string& encrypted_dir,
@@ -196,17 +193,7 @@ private:
         bool create_salt
     );
 
-    /**
-     * @brief TBD: Describe directoryExists.
-     * @param[in] path Input parameter.
-     * @return True on success.
-     */
     bool directoryExists(const std::string& path);
-    /**
-     * @brief TBD: Describe createDirectory.
-     * @param[in] path Input parameter.
-     * @return True on success.
-     */
     bool createDirectory(const std::string& path);
 };
 

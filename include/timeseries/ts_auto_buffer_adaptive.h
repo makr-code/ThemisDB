@@ -122,29 +122,21 @@ public:
 
     /**
      * @brief Return the current recommended flush batch size.
-     * @return Return value.
-     * @note Exception safety: noexcept.
      */
     size_t recommendedBatchSize() const noexcept;
 
     /**
      * @brief Return the current EWMA latency in milliseconds.
-     * @return Return value.
-     * @note Exception safety: noexcept.
      */
     double ewmaLatencyMs() const noexcept;
 
     /**
      * @brief Return a snapshot of all controller statistics.
-     * @return Return value.
-     * @note Exception safety: noexcept.
      */
     FlushControllerStats stats() const noexcept;
 
     /**
      * @brief True when the controller is actively signalling backpressure.
-     * @return True on success.
-     * @note Exception safety: noexcept.
      */
     bool isBackpressureActive() const noexcept;
 
@@ -163,9 +155,6 @@ private:
     bool     backpressure_     = false;
     size_t   current_buffered_ = 0;
 
-    /**
-     * @brief TBD: Describe updateBatchSize.
-     */
     void updateBatchSize();
 };
 

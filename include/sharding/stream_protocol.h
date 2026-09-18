@@ -207,12 +207,9 @@ struct StreamMessageHeader {
     
     static constexpr size_t SIZE = 26;
     
-     * @return Return value.
     /** @brief Serialize message header into fixed-size big-endian wire format. */
     std::vector<uint8_t> serialize() const;
 
-     * @param[in] data Input parameter.
-     * @return Return value.
     /** @brief Parse message header from wire bytes. */
     static std::optional<StreamMessageHeader> deserialize(const std::vector<uint8_t>& data);
 };
@@ -234,12 +231,9 @@ struct StreamFileInfo {
     std::string content_hash;     // SHA-256 of entire file
     CompressionAlgorithm compression;
     
-     * @return Return value.
     /** @brief Serialize file metadata for transport. */
     std::vector<uint8_t> serialize() const;
 
-     * @param[in] data Input parameter.
-     * @return Return value.
     /** @brief Parse file metadata from transport bytes. */
     static std::optional<StreamFileInfo> deserialize(const std::vector<uint8_t>& data);
 };
@@ -255,16 +249,12 @@ struct StreamChunk {
     std::vector<uint8_t> data;
     uint32_t checksum;            // CRC32 of uncompressed data
     
-     * @return True on success.
     /** @brief Verify chunk checksum/integrity. */
     bool verify() const;
 
-     * @return Return value.
     /** @brief Serialize chunk header and payload. */
     std::vector<uint8_t> serialize() const;
 
-     * @param[in] data Input parameter.
-     * @return Return value.
     /** @brief Parse chunk from serialized bytes with basic metadata checks. */
     static std::optional<StreamChunk> deserialize(const std::vector<uint8_t>& data);
 };
@@ -291,10 +281,6 @@ struct StreamFileProgress {
         return total_bytes > 0 ? (100.0 * bytes_transferred / total_bytes) : 0.0;
     }
     
-    /**
-     * @brief TBD: Describe getThroughputBytesPerSecond.
-     * @return Return value.
-     */
     double getThroughputBytesPerSecond() const;
 };
 
@@ -333,7 +319,6 @@ struct StreamingStats {
     std::atomic<uint64_t> chunk_retries_total{0};
     std::atomic<uint64_t> compression_bytes_saved{0};
     
-     * @return Return value.
     /** @brief Export streaming counters in Prometheus exposition format. */
     std::string toPrometheusFormat() const;
 };
@@ -353,34 +338,20 @@ using StreamCompletionCallback = std::function<void(uint32_t session_id, bool su
  */
 class IStreamListener {
 public:
-    /**
-     * @brief TBD: Describe ~IStreamListener.
-     * @return Return value.
-     */
     virtual ~IStreamListener() = default;
 
-     * @param[in] session_id Input parameter.
-     * @param[in] remote_shard Input parameter.
     /** @brief Called when a session transitions to started state. */
     virtual void onSessionStarted(uint32_t session_id, const std::string& remote_shard) = 0;
 
-     * @param[in] progress Input parameter.
     /** @brief Called when session progress updates are available. */
     virtual void onSessionProgress(const StreamSessionProgress& progress) = 0;
 
-     * @param[in] session_id Input parameter.
-     * @param[in] success Input parameter.
     /** @brief Called when a session completes successfully or with failure. */
     virtual void onSessionCompleted(uint32_t session_id, bool success) = 0;
 
-     * @param[in] session_id Input parameter.
-     * @param[in] file Input parameter.
     /** @brief Called before transfer of one file begins. */
     virtual void onFileTransferStarted(uint32_t session_id, const StreamFileInfo& file) = 0;
 
-     * @param[in] session_id Input parameter.
-     * @param[in] file_id Input parameter.
-     * @param[in] success Input parameter.
     /** @brief Called when one file transfer completes. */
     virtual void onFileTransferCompleted(uint32_t session_id, const std::string& file_id, bool success) = 0;
 };
@@ -399,10 +370,6 @@ public:
         int level = 1
     );
 
-     * @param[in] data Input parameter.
-     * @param[in] algorithm Input parameter.
-     * @param[in] uncompressed_size Input parameter.
-     * @return Return value.
     /** @brief Decompress bytes to expected uncompressed size. */
     static std::vector<uint8_t> decompress(
         const std::vector<uint8_t>& data,
@@ -410,8 +377,6 @@ public:
         size_t uncompressed_size
     );
 
-     * @param[in] algorithm Input parameter.
-     * @return True on success.
     /** @brief Return whether compression algorithm is supported in current build. */
     static bool isSupported(CompressionAlgorithm algorithm);
 };
@@ -423,8 +388,6 @@ public:
 /** @brief Token-bucket limiter used to enforce bandwidth budgets. */
 class StreamRateLimiter {
 public:
-     * @param[in] bytes_per_second Input parameter.
-     * @return Return value.
     /** @brief Construct token-bucket limiter with byte-per-second budget. */
     explicit StreamRateLimiter(uint64_t bytes_per_second);
     
@@ -435,7 +398,6 @@ public:
      */
     std::chrono::milliseconds acquire(size_t bytes);
     
-     * @param[in] bytes_per_second Input parameter.
     /** @brief Update byte-per-second rate limit. */
     void setRate(uint64_t bytes_per_second);
     
@@ -466,7 +428,6 @@ public:
     /** @brief Destructor stops worker thread if running. */
     ~StreamTransferTask();
     
-     * @return True on success.
     /** @brief Start asynchronous file transfer worker. */
     bool start();
     
@@ -479,15 +440,12 @@ public:
     /** @brief Abort transfer and mark task as failed/incomplete. */
     void abort();
     
-     * @param[in] chunk_index Input parameter.
     /** @brief Mark chunk as acknowledged by receiver. */
     void onChunkAck(uint32_t chunk_index);
     
-     * @param[in] chunk_index Input parameter.
     /** @brief Queue chunk for retransmission after retry request. */
     void onRetryRequest(uint32_t chunk_index);
     
-     * @return Return value.
     /** @brief Return point-in-time file transfer progress snapshot. */
     StreamFileProgress getProgress() const;
     
@@ -521,21 +479,8 @@ private:
     std::condition_variable cv_;
     std::mutex mutex_;
     
-    /**
-     * @brief TBD: Describe transferLoop.
-     */
     void transferLoop();
-    /**
-     * @brief TBD: Describe createChunk.
-     * @param[in] chunk_index Input parameter.
-     * @return Return value.
-     */
     std::optional<StreamChunk> createChunk(uint32_t chunk_index);
-    /**
-     * @brief TBD: Describe sendChunk.
-     * @param[in] chunk Input parameter.
-     * @return True on success.
-     */
     bool sendChunk(const StreamChunk& chunk);
 };
 
@@ -556,7 +501,6 @@ public:
     /** @brief Destructor stops receive task if running. */
     ~StreamReceiveTask();
     
-     * @return True on success.
     /** @brief Start receive side state and output bookkeeping. */
     bool start();
     
@@ -567,23 +511,18 @@ public:
      * - Rejects stale/duplicate/out-of-range chunk indices.
      * - Rejects inconsistent metadata (offset/size mismatch).
      * - Returns false on integrity or write failures instead of applying partial state.
-     * @brief TBD: Describe onChunkReceived.
-     * @param[in] chunk Input parameter.
-     * @return True on success.
      */
     bool onChunkReceived(const StreamChunk& chunk);
     
     /** @brief Abort receive workflow and stop accepting chunks. */
     void abort();
     
-     * @return Return value.
     /** @brief Return point-in-time receive progress snapshot. */
     StreamFileProgress getProgress() const;
     
     /** @brief Return true when all required chunks were persisted. */
     bool isComplete() const { return complete_.load(); }
     
-     * @return True on success.
     /** @brief Verify final output integrity (content hash/checksum). */
     bool verifyIntegrity() const;
 
@@ -608,16 +547,7 @@ private:
     // File output
     std::mutex write_mutex_;
     
-    /**
-     * @brief TBD: Describe writeChunk.
-     * @param[in] chunk Input parameter.
-     * @return True on success.
-     */
     bool writeChunk(const StreamChunk& chunk);
-    /**
-     * @brief TBD: Describe requestRetry.
-     * @param[in] chunk_index Input parameter.
-     */
     void requestRetry(uint32_t chunk_index);
 };
 
@@ -628,23 +558,18 @@ private:
 /** @brief Stateful sender/receiver session between two shard endpoints. */
 class StreamSession {
 public:
-     * @param[in] config Input parameter.
-     * @return Return value.
     /** @brief Construct one stream session endpoint. */
     explicit StreamSession(const StreamSessionConfig& config);
 
     /** @brief Destructor ensures session background threads are stopped. */
     ~StreamSession();
     
-     * @return True on success.
     /** @brief Initialize protocol handshake and session metadata exchange. */
     bool initialize();
     
-     * @param[in] file Input parameter.
     /** @brief Add one file descriptor to this session transfer queue. */
     void addFile(const StreamFileInfo& file);
     
-     * @return True on success.
     /** @brief Start session execution and worker threads. */
     bool start();
     
@@ -654,7 +579,6 @@ public:
     /** @brief Resume stream tasks after pause. */
     void resume();
     
-     * @param[in] reason Input parameter.
     /** @brief Abort session and transition into terminal aborted state. */
     void abort(const std::string& reason);
     
@@ -670,22 +594,16 @@ public:
     
     /**
      * Get progress
-     * @brief TBD: Describe getProgress.
-     * @return Return value.
      */
     StreamSessionProgress getProgress() const;
     
     /**
      * Set progress callback
-     * @brief TBD: Describe setProgressCallback.
-     * @param[in] callback Input parameter.
      */
     void setProgressCallback(StreamProgressCallback callback);
     
     /**
      * Set completion callback
-     * @brief TBD: Describe setCompletionCallback.
-     * @param[in] callback Input parameter.
      */
     void setCompletionCallback(StreamCompletionCallback callback);
 
@@ -705,7 +623,6 @@ public:
      */
     void setPrepareTransferCallback(std::function<bool()> cb);
 
-     * @return True on success.
     /** @brief Return true while session is running in non-terminal state. */
     bool isActive() const;
 
@@ -735,36 +652,14 @@ private:
     std::mutex mutex_;
     std::condition_variable cv_;
     
-    /**
-     * @brief Network In real implementation, this would be the mTLS connection
-     */
+    // Network
+    // In real implementation, this would be the mTLS connection
     
     void sessionLoop();
-    /**
-     * @brief TBD: Describe heartbeatLoop.
-     */
     void heartbeatLoop();
-    /**
-     * @brief TBD: Describe processMessage.
-     * @param[in] header Input parameter.
-     * @param[in] payload Input parameter.
-     */
     void processMessage(const StreamMessageHeader& header, const std::vector<uint8_t>& payload);
-    /**
-     * @brief TBD: Describe sendMessage.
-     * @param[in] type Input parameter.
-     * @param[in] payload Input parameter.
-     * @return True on success.
-     */
     bool sendMessage(StreamMessageType type, const std::vector<uint8_t>& payload);
-    /**
-     * @brief TBD: Describe notifyProgress.
-     */
     void notifyProgress();
-    /**
-     * @brief TBD: Describe transitionState.
-     * @param[in] new_state Input parameter.
-     */
     void transitionState(StreamSessionState new_state);
 };
 
@@ -775,8 +670,6 @@ private:
 /** @brief Execution plan coordinating multiple stream sessions. */
 class StreamPlan {
 public:
-     * @param[in] config Input parameter.
-     * @return Return value.
     /** @brief Construct stream plan with execution policy. */
     explicit StreamPlan(const StreamPlanConfig& config);
 
@@ -785,12 +678,9 @@ public:
     
     /**
      * Add session to plan
-     * @brief TBD: Describe addSession.
-     * @param[in] session Input parameter.
      */
     void addSession(std::unique_ptr<StreamSession> session);
     
-     * @return True on success.
     /** @brief Execute plan using configured concurrency/retry settings. */
     bool execute();
     
@@ -807,8 +697,6 @@ public:
     
     /**
      * Get overall progress
-     * @brief TBD: Describe getProgress.
-     * @return Return value.
      */
     std::vector<StreamSessionProgress> getProgress() const;
     
@@ -824,8 +712,6 @@ public:
     
     /**
      * Add listener
-     * @brief TBD: Describe addListener.
-     * @param[in] listener Input parameter.
      */
     void addListener(std::shared_ptr<IStreamListener> listener);
 
@@ -843,9 +729,6 @@ private:
     std::mutex mutex_;
     std::condition_variable cv_;
     
-    /**
-     * @brief TBD: Describe executorLoop.
-     */
     void executorLoop();
     void notifyListeners(std::function<void(IStreamListener&)> callback);
 };
@@ -857,23 +740,18 @@ private:
 /** @brief Process-wide coordinator for stream plans and throttling. */
 class StreamCoordinator {
 public:
-     * @return Return value.
     /** @brief Return global stream coordinator singleton. */
     static StreamCoordinator& getInstance();
     
-     * @param[in] throttle_config Input parameter.
     /** @brief Initialize global coordinator and throttle state. */
     void initialize(const StreamThrottleConfig& throttle_config);
     
     /** @brief Shutdown coordinator and stop active plans/workers. */
     void shutdown();
     
-     * @param[in] config Input parameter.
-     * @return Return value.
     /** @brief Create and register a new stream plan instance. */
     std::shared_ptr<StreamPlan> createPlan(const StreamPlanConfig& config);
     
-     * @return Return value.
     /** @brief Return currently active stream plans snapshot. */
     std::vector<std::shared_ptr<StreamPlan>> getActivePlans() const;
     
@@ -885,7 +763,6 @@ public:
     /** @brief Return global shared rate limiter used by plans/sessions. */
     std::shared_ptr<StreamRateLimiter> getRateLimiter() const { return global_rate_limiter_; }
     
-     * @param[in] config Input parameter.
     /** @brief Update throttle policy and refresh limiter budget. */
     void updateThrottleConfig(const StreamThrottleConfig& config);
 

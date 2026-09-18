@@ -52,16 +52,7 @@ struct DLQEntry {
     int         attempt_count;      ///< Number of delivery attempts that were made
     int64_t     enqueued_at_ms;     ///< Wall-clock timestamp when enqueued (ms since epoch)
 
-    /**
-     * @brief TBD: Describe toJson.
-     * @return Return value.
-     */
     nlohmann::json toJson() const;
-    /**
-     * @brief TBD: Describe fromJson.
-     * @param[in] j Input parameter.
-     * @return Return value.
-     */
     static DLQEntry fromJson(const nlohmann::json& j);
 };
 
@@ -163,7 +154,6 @@ public:
 
     /**
      * @brief Return the number of entries currently in the DLQ.
-     * @return Return value.
      */
     size_t size() const;
 
@@ -176,16 +166,7 @@ private:
 
     mutable std::mutex sequence_mutex_;
 
-    /**
-     * @brief TBD: Describe makeKey.
-     * @param[in] dlq_sequence Input parameter.
-     * @return Return value.
-     */
     std::string makeKey(uint64_t dlq_sequence) const;
-    /**
-     * @brief TBD: Describe nextSequence.
-     * @return Return value.
-     */
     uint64_t    nextSequence();
 };
 

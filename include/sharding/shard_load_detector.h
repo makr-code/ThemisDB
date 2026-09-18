@@ -158,9 +158,6 @@ public:
         std::chrono::milliseconds rebalance_cooldown{std::chrono::hours(1)};
     };
     
-     * @param[in] topology Input parameter.
-     * @param[in] metrics Input parameter.
-     * @return Return value.
     /** @brief Construct detector with default detection configuration. */
     explicit ShardLoadDetector(
         std::shared_ptr<ShardTopology> topology,
@@ -293,12 +290,8 @@ private:
        LoadImbalanceResult& result
     ) const;
     
-     * @param[in] metrics Input parameter.
-     * @return Return value.
     /** @brief Collapse multi-signal shard metrics into one weighted load score. */
     double calculateLoad(const ShardLoadMetrics& metrics) const;
-     * @param[in] values Input parameter.
-     * @return Return value.
     /** @brief Compute standard deviation of value vector. */
     double calculateVariance(const std::vector<double>& values) const;
 

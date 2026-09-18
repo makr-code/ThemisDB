@@ -59,8 +59,6 @@ struct QueryDiffResult {
 
     /**
      * @brief Count entries of the given kind.
-     * @param[in] kind Input parameter.
-     * @return Return value.
      */
     int count(QueryDiffEntry::Kind kind) const;
 };
@@ -87,10 +85,6 @@ struct QueryDiffResult {
  */
 class IAQLQueryDiffExplainer {
 public:
-    /**
-     * @brief TBD: Describe ~IAQLQueryDiffExplainer.
-     * @return Return value.
-     */
     virtual ~IAQLQueryDiffExplainer() = default;
 
     /**

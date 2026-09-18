@@ -44,11 +44,6 @@ enum class VoiceErrorCode {
     UNKNOWN
 };
 
-/**
- * @brief TBD: Describe errorCodeToString.
- * @param[in] code Input parameter.
- * @return Return value.
- */
 std::string errorCodeToString(VoiceErrorCode code);
 
 // Voice error exception
@@ -68,11 +63,6 @@ enum class CircuitState {
     HALF_OPEN    // Testing if service recovered
 };
 
-/**
- * @brief TBD: Describe circuitStateToString.
- * @param[in] state Input parameter.
- * @return Return value.
- */
 std::string circuitStateToString(CircuitState state);
 
 // Circuit breaker config
@@ -90,12 +80,6 @@ public:
     explicit VoiceCircuitBreaker(const std::string& name, const CircuitBreakerConfig& config = {});
 
     template<typename Func>
-    /**
-     * @brief TBD: Describe call.
-     * @param[in] func Input parameter.
-     * @return True on success.
-     * @details Calls: canCall(), func(), recordSuccess(), recordFailure().
-     */
     bool call(Func&& func) {
         if (!canCall()) {
           return false;
@@ -110,34 +94,13 @@ public:
         }
     }
 
-    /**
-     * @brief TBD: Describe canCall.
-     * @return True on success.
-     */
     bool canCall();
-    /**
-     * @brief TBD: Describe recordSuccess.
-     */
     void recordSuccess();
-    /**
-     * @brief TBD: Describe recordFailure.
-     */
     void recordFailure();
-    /**
-     * @brief TBD: Describe reset.
-     */
     void reset();
 
-    /**
-     * @brief TBD: Describe getState.
-     * @return Return value.
-     */
     CircuitState getState() const;
     std::string getName() const { return name_; }
-    /**
-     * @brief TBD: Describe getStats.
-     * @return Return value.
-     */
     json getStats() const;
 
 private:
@@ -155,10 +118,6 @@ private:
     uint64_t successful_calls_ = 0;
     uint64_t rejected_calls_ = 0;
 
-    /**
-     * @brief TBD: Describe nowMs.
-     * @return Return value.
-     */
     int64_t nowMs() const;
 };
 
@@ -208,10 +167,6 @@ public:
         }
     }
 
-    /**
-     * @brief TBD: Describe getStats.
-     * @return Return value.
-     */
     json getStats() const;
 
 private:
@@ -219,10 +174,6 @@ private:
     std::atomic<uint64_t> total_retries_{0};
     std::atomic<uint64_t> total_failures_{0};
 
-    /**
-     * @brief TBD: Describe sleepMs.
-     * @param[in] ms Input parameter.
-     */
     void sleepMs(int64_t ms) const;
 };
 
@@ -236,29 +187,9 @@ public:
         std::string result;
     };
 
-    /**
-     * @brief TBD: Describe sttFallback.
-     * @param[in] error_context Input parameter.
-     * @return Return value.
-     */
     static FallbackResult sttFallback(const std::string& error_context);
-    /**
-     * @brief TBD: Describe ttsFallback.
-     * @param[in] error_context Input parameter.
-     * @return Return value.
-     */
     static FallbackResult ttsFallback(const std::string& error_context);
-    /**
-     * @brief TBD: Describe llmFallback.
-     * @param[in] user_input Input parameter.
-     * @return Return value.
-     */
     static FallbackResult llmFallback(const std::string& user_input);
-    /**
-     * @brief TBD: Describe sessionFallback.
-     * @param[in] session_id Input parameter.
-     * @return Return value.
-     */
     static FallbackResult sessionFallback(const std::string& session_id);
 };
 
@@ -297,57 +228,22 @@ public:
     VoiceErrorHandler();
     ~VoiceErrorHandler() = default;
 
-    /**
-     * @brief TBD: Describe sttCircuit.
-     * @return Return value.
-     */
     VoiceCircuitBreaker& sttCircuit();
-    /**
-     * @brief TBD: Describe ttsCircuit.
-     * @return Return value.
-     */
     VoiceCircuitBreaker& ttsCircuit();
-    /**
-     * @brief TBD: Describe llmCircuit.
-     * @return Return value.
-     */
     VoiceCircuitBreaker& llmCircuit();
-    /**
-     * @brief TBD: Describe storageCircuit.
-     * @return Return value.
-     */
     VoiceCircuitBreaker& storageCircuit();
 
-    /**
-     * @brief TBD: Describe getRetryHandler.
-     * @return Return value.
-     */
     VoiceRetryHandler& getRetryHandler();
 
     json handleError(VoiceErrorCode code, const std::string& context, const std::string& details = "");
     
-    /**
-     * @brief Phase 3: Error context with diagnostics
-     * @param[in] ctx Input parameter.
-     * @return Return value.
-     */
+    // Phase 3: Error context with diagnostics
     json createErrorContext(const ErrorContext& ctx);
     
-    /**
-     * @brief Phase 3: Log error with sanitized context (no credentials)
-     * @param[in] ctx Input parameter.
-     */
+    // Phase 3: Log error with sanitized context (no credentials)
     void logErrorWithContext(const ErrorContext& ctx);
 
-    /**
-     * @brief TBD: Describe isSystemHealthy.
-     * @return True on success.
-     */
     bool isSystemHealthy() const;
-    /**
-     * @brief TBD: Describe getHealthStatus.
-     * @return Return value.
-     */
     json getHealthStatus() const;
 
 private:

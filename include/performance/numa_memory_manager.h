@@ -163,21 +163,16 @@ public:
      * @brief Return the NUMA node the calling thread currently runs on.
      *
      * Returns 0 when NUMA topology is unavailable.
-     * @return Return value.
-     * @note Exception safety: noexcept.
      */
     int get_current_node() const noexcept;
 
     /**
      * @brief Return the detected system NUMA topology.
-     * @return Return value.
      */
     NUMATopologyInfo get_topology() const;
 
     /**
      * @brief Return true when more than one NUMA node is available.
-     * @return True on success.
-     * @note Exception safety: noexcept.
      */
     bool is_numa_available() const noexcept;
 
@@ -185,7 +180,6 @@ public:
     // Statistics
     // =========================================================================
 
-     * @return Return value.
     /** @brief Return a snapshot of current allocation statistics. */
     NUMAStats get_stats() const;
 
@@ -193,26 +187,9 @@ public:
     void reset_stats();
 
 private:
-    /**
-     * @brief Internal helpers
-     * @param[in] size Input parameter.
-     * @param[in] node Input parameter.
-     * @param[in] use_huge_pages Input parameter.
-     * @return Pointer to the result.
-     */
+    // Internal helpers
     void* do_allocate(size_t size, int node, bool use_huge_pages);
-    /**
-     * @brief TBD: Describe update_alloc_stats.
-     * @param[in] node Input parameter.
-     * @param[in] size Input parameter.
-     */
     void  update_alloc_stats(int node, size_t size);
-    /**
-     * @brief TBD: Describe resolve_node.
-     * @param[in] hint_node Input parameter.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
     int   resolve_node(int hint_node) const noexcept;
 
     NUMATopologyInfo topology_;
@@ -240,21 +217,8 @@ private:
     };
     Bucket buckets_[kBuckets];
 
-    /**
-     * @brief Lookup/insert/erase helpers
-     * @param[in,out] ptr Input/output parameter.
-     * @param[in] node Input parameter.
-     * @param[in] size Input parameter.
-     */
+    // Lookup/insert/erase helpers
     void   track_alloc(void* ptr, int node, size_t size);
-    /**
-     * @brief TBD: Describe untrack_alloc.
-     * @param[in,out] ptr Input/output parameter.
-     * @param[in,out] out_node Input/output parameter.
-     * @param[in,out] out_size Input/output parameter.
-     * @return True on success.
-     * @note Exception safety: noexcept.
-     */
     bool   untrack_alloc(void* ptr, int* out_node, size_t* out_size) noexcept;
 };
 

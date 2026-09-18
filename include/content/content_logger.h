@@ -47,7 +47,6 @@ public:
     
     /**
      * @brief Set correlation ID
-     * @param[in] correlation_id Input parameter.
      */
     void setCorrelationId(const std::string& correlation_id);
     
@@ -193,7 +192,6 @@ public:
     /**
      * @brief Enable/disable JSON formatting
      * @param enabled If true, logs are formatted as JSON
-     * @details Implements setJsonFormatting without additional internal calls.
      */
     void setJsonFormatting(bool enabled) { json_formatting_ = enabled; }
     
@@ -205,7 +203,6 @@ public:
     /**
      * @brief Enable/disable PII sanitization
      * @param enabled If true, filenames and messages are sanitized
-     * @details Implements setPiiSanitization without additional internal calls.
      */
     void setPiiSanitization(bool enabled) { pii_sanitization_ = enabled; }
     
@@ -219,36 +216,15 @@ private:
     bool json_formatting_ = true;
     bool pii_sanitization_ = true;
     
-    /**
-     * @brief Helper methods
-     * @param[in] filename Input parameter.
-     * @return Return value.
-     */
+    // Helper methods
     std::string sanitizeFilename(const std::string& filename) const;
-    /**
-     * @brief TBD: Describe sanitizeMessage.
-     * @param[in] message Input parameter.
-     * @return Return value.
-     */
     std::string sanitizeMessage(const std::string& message) const;
-    /**
-     * @brief TBD: Describe formatLogMessage.
-     * @param[in] level Input parameter.
-     * @param[in] event Input parameter.
-     * @param[in] message Input parameter.
-     * @param[in] metadata Input parameter.
-     * @return Return value.
-     */
     std::string formatLogMessage(
         utils::Logger::Level level,
         const std::string& event,
         const std::string& message,
         const json& metadata
     ) const;
-    /**
-     * @brief TBD: Describe buildBaseMetadata.
-     * @return Return value.
-     */
     json buildBaseMetadata() const;
 };
 
@@ -275,21 +251,16 @@ public:
     
     /**
      * @brief Set whether operation succeeded
-     * @param[in] success Input parameter.
-     * @details Implements setSuccess without additional internal calls.
      */
     void setSuccess(bool success) { success_ = success; }
     
     /**
      * @brief Set error code
-     * @param[in] error_code Input parameter.
-     * @details Implements setErrorCode without additional internal calls.
      */
     void setErrorCode(int error_code) { error_code_ = error_code; }
     
     /**
      * @brief Get elapsed time in milliseconds
-     * @return Return value.
      */
     double getElapsedMs() const;
     

@@ -42,10 +42,6 @@ struct ConsistencyIssue {
     std::string column_name;   ///< Affected column (may be empty)
     std::string detail;        ///< Human-readable description of the problem
 
-    /**
-     * @brief TBD: Describe toJSON.
-     * @return Return value.
-     */
     json toJSON() const;
 };
 
@@ -97,32 +93,22 @@ public:
     // Public API
     // ========================================================================
 
-    /**
-     * @brief Run a single synchronous consistency check and return all issues found.
-     * @return Return value.
-     * @details This method is thread-safe and can be called while the background thread is also running.
-     */
+    /// Run a single synchronous consistency check and return all issues found.
+    /// This method is thread-safe and can be called while the background thread
+    /// is also running.
     std::vector<ConsistencyIssue> runCheck() const;
 
-    /**
-     * @brief Start a background thread that calls runCheck() every @p interval.
-     * @param[in] interval Input parameter.
-     * @details Calling this a second time replaces the interval. Pass std::chrono::seconds(0) to stop the background thread.
-     */
+    /// Start a background thread that calls runCheck() every @p interval.
+    /// Calling this a second time replaces the interval.
+    /// Pass std::chrono::seconds(0) to stop the background thread.
     void startBackgroundCheck(std::chrono::seconds interval);
 
-    /**
-     * @brief Stop the background thread (blocking until it exits).
-     * @note Exception safety: noexcept.
-     * @details Called automatically by the destructor.
-     */
+    /// Stop the background thread (blocking until it exits).
+    /// Called automatically by the destructor.
     void stopBackgroundCheck() noexcept;
 
-    /**
-     * @brief Return the results of the most recent background (or manual) check.
-     * @return Return value.
-     * @details Returns an empty vector if no check has run yet.
-     */
+    /// Return the results of the most recent background (or manual) check.
+    /// Returns an empty vector if no check has run yet.
     std::vector<ConsistencyIssue> getLastCheckResults() const;
 
     /// Serialise the last check results as a JSON array.

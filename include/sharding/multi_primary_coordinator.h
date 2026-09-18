@@ -108,95 +108,62 @@ struct WriteConflict {
  */
 class MultiPrimaryCoordinator {
 public:
-    /**
-     * @brief TBD: Describe MultiPrimaryCoordinator.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit MultiPrimaryCoordinator(const MultiPrimaryConfig& config);
     ~MultiPrimaryCoordinator();
     
     /**
      * Register a primary node
-     * @brief TBD: Describe registerPrimary.
-     * @param[in] node_id Input parameter.
-     * @param[in] endpoint Input parameter.
      */
     void registerPrimary(const std::string& node_id, const std::string& endpoint);
     
     /**
      * Promote a standby to active primary
      * Manual operation, no automatic election
-     * @brief TBD: Describe promoteToPrimary.
-     * @param[in] node_id Input parameter.
-     * @return True on success.
      */
     bool promoteToPrimary(const std::string& node_id);
     
     /**
      * Demote an active primary to standby
-     * @brief TBD: Describe demoteToStandby.
-     * @param[in] node_id Input parameter.
-     * @return True on success.
      */
     bool demoteToStandby(const std::string& node_id);
     
     /**
      * Mark primary as offline (failed health check)
-     * @brief TBD: Describe markPrimaryOffline.
-     * @param[in] node_id Input parameter.
      */
     void markPrimaryOffline(const std::string& node_id);
     
     /**
      * Update primary heartbeat
-     * @brief TBD: Describe updateHeartbeat.
-     * @param[in] node_id Input parameter.
-     * @param[in] current_lsn Input parameter.
      */
     void updateHeartbeat(const std::string& node_id, const LSN& current_lsn);
     
     /**
      * Get all active primaries
-     * @brief TBD: Describe getActivePrimaries.
-     * @return Return value.
      */
     std::vector<PrimaryNodeInfo> getActivePrimaries() const;
     
     /**
      * Get primary info
-     * @brief TBD: Describe getPrimaryInfo.
-     * @param[in] node_id Input parameter.
-     * @return Return value.
      */
     std::optional<PrimaryNodeInfo> getPrimaryInfo(const std::string& node_id) const;
     
     /**
      * Check if current node is active primary
-     * @brief TBD: Describe isCurrentNodeActive.
-     * @return True on success.
      */
     bool isCurrentNodeActive() const;
     
     /**
      * Resolve write conflict (LWW)
-     * @brief TBD: Describe resolveConflict.
-     * @param[in] conflict Input parameter.
-     * @return Return value.
      */
     LSN resolveConflict(const WriteConflict& conflict) const;
     
     /**
      * Increment write count for current node
-     * @brief TBD: Describe recordWrite.
-     * @param[in] lsn Input parameter.
      */
     void recordWrite(const LSN& lsn);
     
     /**
      * Get primary with most recent LSN (for routing reads)
-     * @brief TBD: Describe getMostCurrentPrimary.
-     * @return Return value.
      */
     std::optional<std::string> getMostCurrentPrimary() const;
     
@@ -212,10 +179,6 @@ public:
         uint64_t conflicts_resolved = 0;
     };
     
-    /**
-     * @brief TBD: Describe getStatistics.
-     * @return Return value.
-     */
     Statistics getStatistics() const;
 
 private:

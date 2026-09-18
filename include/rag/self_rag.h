@@ -233,11 +233,6 @@ private:
     // Deduplicate passages across rounds by document id.
     std::vector<std::string> seen_ids_;
 
-    /**
-     * @brief TBD: Describe deduplicate.
-     * @param[in] candidates Input parameter.
-     * @return Return value.
-     */
     std::vector<SelfRAGDocument> deduplicate(
         std::vector<SelfRAGDocument> candidates) const;
 };

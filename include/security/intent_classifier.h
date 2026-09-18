@@ -177,11 +177,8 @@ public:
         ClassificationResult(const std::string& query,
                              const ZeroTrustContext& session_context)>;
 
-    /**
-     * @brief Inject a LoRA/LLM inference function.
-     * @param[in] fn Input parameter.
-     * @details Passing a null function resets the injected backend; classify() then falls back to the rule-based engine.
-     */
+    /// Inject a LoRA/LLM inference function.  Passing a null function resets
+    /// the injected backend; classify() then falls back to the rule-based engine.
     void setInferenceFn(InferenceFn fn);
 
 #ifdef THEMIS_HAS_LORA_CLASSIFIER

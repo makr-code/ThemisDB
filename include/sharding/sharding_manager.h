@@ -40,81 +40,45 @@ struct ShardNodeInfo {
 /** @brief SHARDING MANAGER - EDITION-AWARE. */
 class ShardingManager {
 public:
-    /**
-     * @brief Singleton instance
-     * @return Return value.
-     * @details Implements GetInstance without additional internal calls.
-     */
+    // Singleton instance
     static ShardingManager& GetInstance() {
         static ShardingManager instance;
         return instance;
     }
 
-    /**
-     * @brief Get maximum number of shard nodes allowed in this edition
-     * @return Return value.
-     * @details Implements GetMaxShardNodes without additional internal calls.
-     */
+    // Get maximum number of shard nodes allowed in this edition
     static constexpr int GetMaxShardNodes() {
         return edition::SHARDING_MAX_NODES;
     }
 
-    /**
-     * @brief Check if sharding is available in this edition
-     * @return True on success.
-     * @details Calls: GetMaxShardNodes().
-     */
+    // Check if sharding is available in this edition
     static constexpr bool IsShardingAvailable() {
         return GetMaxShardNodes() > 1;
     }
 
-    /**
-     * @brief Add a new shard node to the cluster Throws exception if would exceed edition limit
-     * @param[in] node Input parameter.
-     */
+    // Add a new shard node to the cluster
+    // Throws exception if would exceed edition limit
     void AddShardNode(const ShardNodeInfo& node);
 
-    /**
-     * @brief Get number of currently configured shard nodes
-     * @return Return value.
-     */
+    // Get number of currently configured shard nodes
     size_t GetNodeCount() const;
 
-    /**
-     * @brief Get remaining node capacity in this edition
-     * @return Return value.
-     */
+    // Get remaining node capacity in this edition
     int GetRemainingNodeCapacity() const;
 
-    /**
-     * @brief Validate node configuration before adding
-     * @param[in] requested_nodes Input parameter.
-     */
+    // Validate node configuration before adding
     void ValidateNodeCount(size_t requested_nodes);
 
-    /**
-     * @brief Get all configured shard nodes
-     * @return Return value.
-     */
+    // Get all configured shard nodes
     std::vector<ShardNodeInfo> GetAllNodes() const;
 
-    /**
-     * @brief Check health status of all nodes
-     * @return Return value.
-     */
+    // Check health status of all nodes
     int GetHealthyNodeCount() const;
 
-    /**
-     * @brief Remove a shard node from configuration
-     * @param[in] node_id Input parameter.
-     * @return True on success.
-     */
+    // Remove a shard node from configuration
     bool RemoveShardNode(uint32_t node_id);
 
-    /**
-     * @brief Get edition-specific sharding capability information
-     * @return Return value.
-     */
+    // Get edition-specific sharding capability information
     std::string GetShardingCapabilityInfo() const;
 
     // ----------------------------------------------------------------
@@ -131,7 +95,6 @@ public:
      * @param collection  Collection name (used to namespace the key)
      * @param key         Document / partition key
      * @return Shard identifier (node_address of the owning node), or ""
-     * @brief TBD: Describe GetShardForKey.
      */
     std::string GetShardForKey(const std::string& collection,
                                const std::string& key) const;
@@ -149,7 +112,6 @@ public:
      * @param min_key     Lower bound of the key range (inclusive)
      * @param max_key     Upper bound of the key range (inclusive)
      * @return Ordered list of unique shard identifiers
-     * @brief TBD: Describe GetShardsForKeyRange.
      */
     std::vector<std::string> GetShardsForKeyRange(
         const std::string& collection,

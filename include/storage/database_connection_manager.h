@@ -109,18 +109,11 @@ public:
     /** @brief Connection handle interface. */
     class Connection {
     public:
-        /**
-         * @brief TBD: Describe ~Connection.
-         * @return Return value.
-         */
         virtual ~Connection() = default;
         
         [[nodiscard]] virtual bool isValid() const = 0;
         [[nodiscard]] virtual bool ping() = 0;
         [[nodiscard]] virtual std::string getError() const = 0;
-        /**
-         * @brief TBD: Describe close.
-         */
         virtual void close() = 0;
         
         // Connection metadata
@@ -130,11 +123,6 @@ public:
         size_t error_count = 0;
     };
     
-    /**
-     * @brief TBD: Describe DatabaseConnectionManager.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit DatabaseConnectionManager(const ConnectionConfig& config);
     ~DatabaseConnectionManager();
     
@@ -190,19 +178,16 @@ public:
     
     /**
      * @brief Get connection statistics
-     * @return Return value.
      */
     ConnectionStats getStats() const;
     
     /**
      * @brief Get health info for all connections
-     * @return Return value.
      */
     std::vector<ConnectionHealth> getConnectionHealth() const;
     
     /**
      * @brief Check if manager is healthy
-     * @return True on success.
      */
     bool isHealthy() const;
     
@@ -220,11 +205,7 @@ protected:
     // Factory method - override in subclass for specific connection type
     [[nodiscard]] virtual std::shared_ptr<Connection> createConnection() = 0;
     
-    /**
-     * @brief Reconnection helper
-     * @param[in] old_conn Input parameter.
-     * @return Return value.
-     */
+    // Reconnection helper
     std::shared_ptr<Connection> reconnect(
         std::shared_ptr<Connection> old_conn
     );
@@ -250,33 +231,11 @@ private:
     std::atomic<size_t> total_reconnects_{0};
     std::atomic<size_t> circuit_trips_{0};
     
-    /**
-     * @brief Helper methods
-     * @param[in] conn Input parameter.
-     * @return True on success.
-     */
+    // Helper methods
     bool isConnectionStale(const Connection* conn) const;
-    /**
-     * @brief TBD: Describe shouldRemoveConnection.
-     * @param[in] conn Input parameter.
-     * @return True on success.
-     */
     bool shouldRemoveConnection(const Connection* conn) const;
-    /**
-     * @brief TBD: Describe updateCircuitBreaker.
-     * @param[in] success Input parameter.
-     */
     void updateCircuitBreaker(bool success);
-    /**
-     * @brief TBD: Describe canAttemptConnection.
-     * @return True on success.
-     */
     bool canAttemptConnection() const;
-    /**
-     * @brief TBD: Describe calculateBackoffDelay.
-     * @param[in] attempt Input parameter.
-     * @return Return value.
-     */
     std::chrono::milliseconds calculateBackoffDelay(size_t attempt) const;
 };
 
@@ -294,11 +253,6 @@ public:
         double jitter_factor = 0.2;  // 20% random jitter
     };
     
-    /**
-     * @brief TBD: Describe ExponentialBackoff.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit ExponentialBackoff(const Config& config);
     
     /**
@@ -345,19 +299,16 @@ public:
     
     /**
      * @brief Check if keepalive is running
-     * @return True on success.
      */
     bool isRunning() const;
     
     /**
      * @brief Get number of keepalive attempts
-     * @return Return value.
      */
     size_t getKeepaliveCount() const;
     
     /**
      * @brief Get number of failed keepalives
-     * @return Return value.
      */
     size_t getFailureCount() const;
     
@@ -372,9 +323,6 @@ private:
     std::atomic<size_t> keepalive_count_{0};
     std::atomic<size_t> failure_count_{0};
     
-    /**
-     * @brief TBD: Describe keepaliveLoop.
-     */
     void keepaliveLoop();
 };
 
@@ -394,7 +342,6 @@ public:
     
     /**
      * @brief Check if operation has timed out
-     * @return True on success.
      */
     bool hasTimedOut() const;
     
@@ -405,7 +352,6 @@ public:
     
     /**
      * @brief Get elapsed time
-     * @return Return value.
      */
     std::chrono::milliseconds getElapsedTime() const;
     

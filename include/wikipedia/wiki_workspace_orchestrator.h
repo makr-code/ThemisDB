@@ -85,29 +85,9 @@ private:
     [[nodiscard]] static std::string slugify(const std::string& text);
     [[nodiscard]] static std::string isoTimestamp();
     [[nodiscard]] static WikiState loadState(const std::string& root);
-    /**
-     * @brief TBD: Describe saveState.
-     * @param[in] root Input parameter.
-     * @param[in] state Input parameter.
-     */
     static void saveState(const std::string& root, const WikiState& state);
-    /**
-     * @brief TBD: Describe appendLog.
-     * @param[in] root Input parameter.
-     * @param[in] entry Input parameter.
-     */
     static void appendLog(const std::string& root, const std::string& entry);
-    /**
-     * @brief TBD: Describe rebuildIndex.
-     * @param[in] root Input parameter.
-     * @param[in] state Input parameter.
-     */
     static void rebuildIndex(const std::string& root, const WikiState& state);
-    /**
-     * @brief TBD: Describe hasContradictionCue.
-     * @param[in] text Input parameter.
-     * @return True on success.
-     */
     static bool hasContradictionCue(const std::string& text);
 
     std::mutex mutex_;

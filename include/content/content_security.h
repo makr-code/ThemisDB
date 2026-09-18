@@ -54,16 +54,7 @@ struct ContentSecurityConfig {
     uint64_t max_zip_bomb_ratio = 100;   // Max decompressed/compressed ratio (100×)
     size_t max_zip_file_count = 1000;    // Max number of files per archive
     
-    /**
-     * @brief TBD: Describe toJson.
-     * @return Return value.
-     */
     json toJson() const;
-    /**
-     * @brief TBD: Describe fromJson.
-     * @param[in] j Input parameter.
-     * @return Return value.
-     */
     static ContentSecurityConfig fromJson(const json& j);
 };
 
@@ -91,10 +82,6 @@ struct SecurityCheckResult {
     bool zip_bomb_checked = false;
     bool zip_bomb_detected = false;
     
-    /**
-     * @brief TBD: Describe toJson.
-     * @return Return value.
-     */
     json toJson() const;
 };
 
@@ -129,25 +116,21 @@ public:
     
     /**
      * @brief Set malware filter
-     * @param[in] filter Input parameter.
      */
     void setMalwareFilter(std::shared_ptr<security::MalwareFilterManager> filter);
     
     /**
      * @brief Set PII detector
-     * @param[in] detector Input parameter.
      */
     void setPiiDetector(std::shared_ptr<utils::PIIDetector> detector);
     
     /**
      * @brief Set perceptual-hash abuse detector for image content (PhotoDNA)
-     * @param[in] detector Input parameter.
      */
     void setPhotoAbuseDetector(std::shared_ptr<IAbuseDetector> detector);
     
     /**
      * @brief Set text pattern abuse detector
-     * @param[in] detector Input parameter.
      */
     void setTextAbuseDetector(std::shared_ptr<IAbuseDetector> detector);
     
@@ -156,7 +139,6 @@ public:
      *
      * Non-owning; the caller is responsible for keeping the logger alive.
      * Pass nullptr to detach.
-     * @param[in,out] logger Input/output parameter.
      */
     void setAuditLogger(utils::AuditLogger* logger);
     
@@ -230,13 +212,8 @@ public:
     
     /**
      * @brief Update configuration
-     * @param[in] config Input parameter.
      */
     void setConfig(const ContentSecurityConfig& config);
-    /**
-     * @brief TBD: Describe getConfig.
-     * @return Return value.
-     */
     const ContentSecurityConfig& getConfig() const;
     
     /**
@@ -257,20 +234,9 @@ public:
         std::atomic<uint64_t> zip_bomb_scans{0};
         std::atomic<uint64_t> zip_bomb_blocked{0};
         
-        /**
-         * @brief TBD: Describe toJson.
-         * @return Return value.
-         */
         json toJson() const;
     };
-    /**
-     * @brief TBD: Describe getMetrics.
-     * @return Return value.
-     */
     const Metrics& getMetrics() const;
-    /**
-     * @brief TBD: Describe resetMetrics.
-     */
     void resetMetrics();
     
 private:
@@ -282,14 +248,7 @@ private:
     utils::AuditLogger* audit_logger_ = nullptr;
     mutable Metrics metrics_;
     
-    /**
-     * @brief Helper methods
-     * @param[in] data Input parameter.
-     * @param[in] filename Input parameter.
-     * @param[in] mime_type Input parameter.
-     * @param[in] content_id Input parameter.
-     * @return Return value.
-     */
+    // Helper methods
     SecurityCheckResult checkMalware(
         const std::string& data,
         const std::string& filename,
@@ -297,41 +256,18 @@ private:
         const std::string& content_id
     );
     
-    /**
-     * @brief TBD: Describe checkPii.
-     * @param[in] text Input parameter.
-     * @param[in] content_id Input parameter.
-     * @return Return value.
-     */
     SecurityCheckResult checkPii(
         const std::string& text,
         const std::string& content_id
     );
     
-    /**
-     * @brief TBD: Describe checkAbuse.
-     * @param[in] data Input parameter.
-     * @param[in] mime_type Input parameter.
-     * @param[in] content_id Input parameter.
-     * @return Return value.
-     */
     SecurityCheckResult checkAbuse(
         const std::string& data,
         const std::string& mime_type,
         const std::string& content_id
     );
     
-    /**
-     * @brief TBD: Describe sanitizePath.
-     * @param[in] text Input parameter.
-     * @return Return value.
-     */
     std::string sanitizePath(const std::string& text) const;
-    /**
-     * @brief TBD: Describe sanitizeSystemInfo.
-     * @param[in] text Input parameter.
-     * @return Return value.
-     */
     std::string sanitizeSystemInfo(const std::string& text) const;
 };
 

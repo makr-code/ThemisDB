@@ -173,7 +173,6 @@ public:
 
     /**
      * @brief Number of samples accumulated so far.
-     * @return Return value.
      */
     size_t sampleCount() const;
 
@@ -338,7 +337,6 @@ public:
      * @brief Construct pipeline
      * @param config    Pipeline configuration
      * @param db_connection  Database connection string
-     * @return Return value.
      */
     explicit TrainingPipeline(const PipelineConfig& config,
                                const std::string& db_connection);
@@ -451,7 +449,6 @@ public:
 
     /**
      * @brief Get the last pipeline execution statistics
-     * @return Return value.
      */
     PipelineStats getLastStats() const;
 

@@ -93,8 +93,6 @@ public:
      * @param vec_index  Non-owning pointer to a VectorIndexManager.  May be null if
      *                   no embedding modalities are used.
      * @throws std::invalid_argument on invalid config.
-     * @brief TBD: Describe MultiModalSearch.
-     * @return Return value.
      */
     explicit MultiModalSearch(SecondaryIndexManager* sec_index,
                               VectorIndexManager* vec_index);

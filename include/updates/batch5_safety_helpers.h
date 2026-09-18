@@ -75,10 +75,6 @@ inline void* safe_realloc(void* ptr, size_t cur_size, size_t count) {
     
     void* result = std::realloc(ptr, new_size);
     if (!result && new_size > 0) {
-        /**
-         * @brief TBD: Describe bad_alloc.
-         * @return Return value.
-         */
         throw std::bad_alloc();
     }
     return result;
@@ -258,11 +254,6 @@ public:
         }
     }
     
-    /**
-     * @brief TBD: Describe get.
-     * @return Pointer to the result.
-     * @details Implements get without additional internal calls.
-     */
     int* get() { return resource_; }
     
 private:
@@ -289,10 +280,6 @@ private:
  *   msg += "Error: retry ";
  *   msg += std::to_string(n);
  *   msg += " failed";
- * @param[in] operation Input parameter.
- * @param[in] retry_count Input parameter.
- * @param[in] reason Input parameter.
- * @return Return value.
  */
 inline std::string build_error_message(const std::string& operation, 
                                        int retry_count,
@@ -326,11 +313,6 @@ inline std::string build_error_message(const std::string& operation,
  *   auto good_lambda = [used_var]() { return used_var; };
  */
 template<typename T>
-/**
- * @brief TBD: Describe demonstrate_lambda_capture.
- * @param[in] used_value Input parameter.
- * @details Implements demonstrate_lambda_capture without additional internal calls.
- */
 inline void demonstrate_lambda_capture(const T& used_value) {
     // Only capture what we use
     auto lambda = [used_value]() { return used_value; };
@@ -374,11 +356,6 @@ using ConstCorrectCallback = std::function<int(const int&)>;
  *   }
  */
 template<typename T>
-/**
- * @brief TBD: Describe make_vector_safe.
- * @return Return value.
- * @details Calls: reserve().
- */
 inline std::vector<T> make_vector_safe() {
     std::vector<T> v;
     v.reserve(1000);
@@ -408,19 +385,8 @@ inline std::vector<T> make_vector_safe() {
  */
 class UpdateEngineBase {
 public:
-    /**
-     * @brief TBD: Describe ~UpdateEngineBase.
-     * @return Return value.
-     */
     virtual ~UpdateEngineBase() = default;
-    /**
-     * @brief TBD: Describe apply.
-     */
     virtual void apply() = 0;
-    /**
-     * @brief TBD: Describe name.
-     * @return Return value.
-     */
     virtual std::string name() const = 0;
 };
 
@@ -454,13 +420,6 @@ public:
  *   }
  */
 template<typename T>
-/**
- * @brief TBD: Describe get_value.
- * @param[in,out] ptr Input/output parameter.
- * @param[in] default_value Input parameter.
- * @return Pointer to the result.
- * @details Implements get_value without additional internal calls.
- */
 inline T* get_value(T* ptr, const T& default_value) {
     // 7510 Fix: Check null explicitly BEFORE dereferencing
     if (ptr == nullptr) {
@@ -486,9 +445,6 @@ inline T* get_value(T* ptr, const T& default_value) {
  *   // GOOD: explicit cast or use same type
  *   if (static_cast<int>(size_t_var) > int_var) { ... }
  *   if (size_t_var > static_cast<size_t>(int_var)) { ... }
- * @param[in] size_value Input parameter.
- * @param[in] count_value Input parameter.
- * @return True on success.
  */
 inline bool safe_size_comparison(size_t size_value, int count_value) {
     // 7511 Fix: Explicit cast eliminates implicit conversion warnings

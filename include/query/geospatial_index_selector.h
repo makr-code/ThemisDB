@@ -49,10 +49,6 @@ struct DataDistribution {
     
     /**
      * @brief Determine distribution type from statistics
-     * @param[in] totalPoints Input parameter.
-     * @param[in] distinctLocationCells Input parameter.
-     * @param[in] spatialVariance Input parameter.
-     * @return Return value.
      */
     static DataDistribution infer(
         size_t totalPoints,
@@ -80,7 +76,6 @@ struct IndexStatistics {
     
     /**
      * @brief Calculate index efficiency score (0-1)
-     * @return Return value.
      */
     double getEfficiencyScore() const;
 };
@@ -98,7 +93,6 @@ struct IndexCandidate {
     
     /**
      * @brief String representation for debugging
-     * @return Return value.
      */
     std::string toString() const;
 };
@@ -192,11 +186,6 @@ private:
      * - Data distribution fit
      * - Index efficiency (maintenance vs. benefit)
      * - Historical hit rate
-     * @param[in] index Input parameter.
-     * @param[in] predicateType Input parameter.
-     * @param[in] dataDistribution Input parameter.
-     * @param[in] totalRows Input parameter.
-     * @return Return value.
      */
     static double scoreIndex(
         const IndexStatistics& index,
@@ -206,9 +195,6 @@ private:
     
     /**
      * @brief Score full scan fallback option
-     * @param[in] totalRows Input parameter.
-     * @param[in] predicateType Input parameter.
-     * @return Return value.
      */
     static double scoreFullScan(
         size_t totalRows,
@@ -220,9 +206,6 @@ private:
      * R-tree: 1.0x (baseline)
      * Grid: 0.8-1.2x depending on distribution
      * Quadtree: 0.9-1.1x (adaptive)
-     * @param[in] type Input parameter.
-     * @param[in] distribution Input parameter.
-     * @return Return value.
      */
     static double getIndexTypeCostMultiplier(
         SpatialIndexType type,

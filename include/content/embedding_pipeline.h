@@ -86,11 +86,6 @@ struct EmbeddingPipelineConfig {
  */
 class EmbeddingPipeline {
 public:
-    /**
-     * @brief TBD: Describe EmbeddingPipeline.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit EmbeddingPipeline(const EmbeddingPipelineConfig& config);
     ~EmbeddingPipeline() = default;
 
@@ -143,12 +138,9 @@ private:
     mutable std::atomic<uint64_t> failure_count_{0};
     mutable std::atomic<int> embedding_dim_{0};
 
-    /**
-     * @brief Core embed call wrapped with timeout enforcement.
-     * @param[in] text Input parameter.
-     * @return Return value.
-     * @details Returns empty vector on timeout/error, increments failure_count_, and calls config_.metrics->recordEmbeddingFailure() if metrics is set.
-     */
+    /// Core embed call wrapped with timeout enforcement.
+    /// Returns empty vector on timeout/error, increments failure_count_, and
+    /// calls config_.metrics->recordEmbeddingFailure() if metrics is set.
     std::vector<float> embedWithTimeout(const std::string& text);
 
     /// Notify the optional metrics sink of a failure.

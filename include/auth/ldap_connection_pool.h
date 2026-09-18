@@ -135,11 +135,6 @@ private:
  */
 class LDAPConnectionPool {
 public:
-    /**
-     * @brief TBD: Describe LDAPConnectionPool.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit LDAPConnectionPool(const LDAPPoolConfig& config);
     ~LDAPConnectionPool();
 
@@ -185,21 +180,18 @@ public:
     /**
      * @brief Return the total capacity of the pool.
      * @return Sum of idle and active slots, capped at @c max_size.
-     * @note Exception safety: noexcept.
      */
     int poolSize() const noexcept;
 
     /**
      * @brief Return the number of idle connections in the pool.
      * @return Count of currently idle LDAP connections ready for checkout.
-     * @note Exception safety: noexcept.
      */
     int idleConnections() const noexcept;
 
     /**
      * @brief Return the number of active checked-out connections.
      * @return Count of connections currently checked out by callers.
-     * @note Exception safety: noexcept.
      */
     int activeConnections() const noexcept;
 
@@ -212,12 +204,8 @@ private:
     /// Create and initialise a new LDAP connection (does NOT bind user credentials).
     LDAP* createConnection();
 
-    /**
-     * @brief Perform a lightweight health-check on an existing connection.
-     * @param[in,out] handle Input/output parameter.
-     * @return True on success.
-     * @details Returns true if the connection is alive, false if it should be evicted.
-     */
+    /// Perform a lightweight health-check on an existing connection.
+    /// Returns true if the connection is alive, false if it should be evicted.
     bool isHealthy(LDAP* handle) const;
 
     /// Destroy and free an LDAP handle.

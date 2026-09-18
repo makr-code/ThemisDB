@@ -113,7 +113,6 @@ public:
      * 3. GPU device is accessible (cudaGetDevice, cudaGetDeviceProperties OK)
      *
      * @return true if GPU is available for dispatch; false otherwise (CPU only)
-     * @note Exception safety: noexcept.
      */
     bool isCudaAvailable() const noexcept;
 
@@ -149,7 +148,6 @@ public:
      * @return VincentyResult with distances_km and status
      *
      * Gate Target: Similar to Haversine (Phase 2-3 kernel)
-     * @note Exception safety: noexcept.
      */
     VincentyResult computeVincentyBatch(
         const std::vector<Point>& points1,
@@ -167,7 +165,6 @@ public:
      * @return PointInPolygonResult with containment_mask [num_test_points]
      *
      * Gate Target: GATE-A-06-02 ≤ 2ms p99 (GPU), p99 ≤ 0.5ms (CPU)
-     * @note Exception safety: noexcept.
      */
     PointInPolygonResult computePointInPolygonBatch(
         const std::vector<Point>& test_points,
@@ -178,7 +175,6 @@ private:
     /**
      * @brief Detect CUDA GPU availability at runtime.
      * @return true if GPU is available and accessible
-     * @note Exception safety: noexcept.
      */
     bool detectCudaAvailability() const noexcept;
 
@@ -189,7 +185,6 @@ private:
      *
      * @param batch_size Number of work items
      * @return true if should attempt GPU dispatch
-     * @note Exception safety: noexcept.
      */
     bool shouldUseCuda(size_t batch_size) const noexcept;
 
@@ -199,24 +194,10 @@ private:
         const Point& p2,
         double earth_radius_km = 6371.0) const noexcept;
 
-    /**
-     * @brief TBD: Describe vincentyDistance.
-     * @param[in] p1 Input parameter.
-     * @param[in] p2 Input parameter.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
     double vincentyDistance(
         const Point& p1,
         const Point& p2) const noexcept;
 
-    /**
-     * @brief TBD: Describe pointInPolygon.
-     * @param[in] test_point Input parameter.
-     * @param[in] polygon Input parameter.
-     * @return True on success.
-     * @note Exception safety: noexcept.
-     */
     bool pointInPolygon(
         const Point& test_point,
         const Polygon& polygon) const noexcept;

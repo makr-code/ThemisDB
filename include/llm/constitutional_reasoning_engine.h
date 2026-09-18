@@ -24,10 +24,6 @@ namespace llm {
  * @brief Constitutional principle for self-critique
  */
 struct ConstitutionalPrinciple {
-    /**
-     * @brief TBD: Describe ~ConstitutionalPrinciple.
-     * @return Return value.
-     */
     virtual ~ConstitutionalPrinciple() = default;
     std::string id;
     std::string name;
@@ -45,10 +41,6 @@ struct ConstitutionalPrinciple {
  * @brief Result of constitutional reasoning
  */
 struct ConstitutionalReasoningResult {
-    /**
-     * @brief TBD: Describe ~ConstitutionalReasoningResult.
-     * @return Return value.
-     */
     virtual ~ConstitutionalReasoningResult() = default;
     // Original response
     std::string original_response;
@@ -290,72 +282,30 @@ private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
     
-    /**
-     * @brief Helper methods
-     * @param[in] response Input parameter.
-     * @param[in] query Input parameter.
-     * @param[in] principle Input parameter.
-     * @return Return value.
-     */
+    // Helper methods
     std::string buildCritiquePrompt(
         const std::string& response,
         const std::string& query,
         const ConstitutionalPrinciple& principle
     );
     
-    /**
-     * @brief TBD: Describe buildRevisionPrompt.
-     * @param[in] response Input parameter.
-     * @param[in] critiques Input parameter.
-     * @param[in] query Input parameter.
-     * @return Return value.
-     */
     std::string buildRevisionPrompt(
         const std::string& response,
         const std::vector<std::string>& critiques,
         const std::string& query
     );
     
-    /**
-     * @brief TBD: Describe shouldContinueIterating.
-     * @param[in] result Input parameter.
-     * @param[in] iteration Input parameter.
-     * @return True on success.
-     */
     bool shouldContinueIterating(
         const ConstitutionalReasoningResult& result,
         int iteration
     );
     
-    /**
-     * @brief TBD: Describe updateStatistics.
-     * @param[in] result Input parameter.
-     */
     void updateStatistics(const ConstitutionalReasoningResult& result);
     
-    /**
-     * @brief Violation detection helpers
-     * @param[in] response Input parameter.
-     * @return True on success.
-     */
+    // Violation detection helpers
     bool checkAutonomyRespect(const std::string& response);
-    /**
-     * @brief TBD: Describe checkTransparency.
-     * @param[in] response Input parameter.
-     * @return True on success.
-     */
     bool checkTransparency(const std::string& response);
-    /**
-     * @brief TBD: Describe checkNonHarmfulness.
-     * @param[in] response Input parameter.
-     * @return True on success.
-     */
     bool checkNonHarmfulness(const std::string& response);
-    /**
-     * @brief TBD: Describe checkFairness.
-     * @param[in] response Input parameter.
-     * @return True on success.
-     */
     bool checkFairness(const std::string& response);
 };
 
@@ -366,26 +316,21 @@ class ConstitutionalReasoningFactory {
 public:
     /**
      * @brief Create engine with default UN/Asimov principles
-     * @return Return value.
      */
     static std::unique_ptr<ConstitutionalReasoningEngine> createDefault();
     
     /**
      * @brief Create engine with strict principles
-     * @return Return value.
      */
     static std::unique_ptr<ConstitutionalReasoningEngine> createStrict();
     
     /**
      * @brief Create engine with lenient principles
-     * @return Return value.
      */
     static std::unique_ptr<ConstitutionalReasoningEngine> createLenient();
     
     /**
      * @brief Create engine with custom configuration
-     * @param[in] config Input parameter.
-     * @return Return value.
      */
     static std::unique_ptr<ConstitutionalReasoningEngine> create(
         const ConstitutionalReasoningConfig& config

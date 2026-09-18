@@ -70,7 +70,6 @@ public:
     /**
      * @brief Construct client with custom config
      * @param config Client configuration
-     * @return Return value.
      */
     explicit LLMJudgeClient(const Config& config);
     

@@ -69,7 +69,6 @@ public:
 
     /**
      * @brief Start the WebSocket session after HTTP upgrade
-     * @param[in] req Input parameter.
      */
     void run(http::request<http::string_body> req);
     
@@ -77,8 +76,6 @@ public:
      * @brief Set the JWT token extracted from the HTTP upgrade Authorization header.
      *
      * Called before run() so that per-message auth checks can use the same token.
-     * @param[in] token Input parameter.
-     * @details Implements setAuthToken without additional internal calls.
      */
     void setAuthToken(const std::string& token) { auth_token_ = token; }
 
@@ -87,20 +84,16 @@ public:
      *
      * Called before run() to inform the session which endpoint was requested,
      * e.g. "/v2/changes" for the dedicated changefeed WebSocket endpoint.
-     * @param[in] path Input parameter.
-     * @details Implements setRequestPath without additional internal calls.
      */
     void setRequestPath(const std::string& path) { request_path_ = path; }
     
     /**
      * @brief Send a text message to the client
-     * @param[in] message Input parameter.
      */
     void send(const std::string& message);
     
     /**
      * @brief Send a binary message to the client
-     * @param[in] data Input parameter.
      */
     void sendBinary(const std::vector<uint8_t>& data);
     
@@ -157,7 +150,6 @@ public:
     
     /**
      * @brief Update CDC last sent sequence
-     * @param[in] sequence Input parameter.
      */
     void updateCDCLastSentSequence(uint64_t sequence);
     
@@ -170,10 +162,6 @@ public:
         uint64_t last_sent_sequence;
         std::set<Changefeed::ChangeEventType> event_types;
     };
-    /**
-     * @brief TBD: Describe getCDCSubscription.
-     * @return Return value.
-     */
     CDCSubscription getCDCSubscription() const;
 
     /**
@@ -181,66 +169,22 @@ public:
      *
      * Returns nullptr for legacy /v2/changes sessions and before run() is
      * called.  WebSocketManager uses this to route polling to the new handler.
-     * @return Pointer to the result.
-     * @details Calls: get().
      */
     cdc::CdcWebSocketHandler* getCdcStreamHandler() {
         return cdc_stream_handler_.get();
     }
 
 private:
-    /**
-     * @brief TBD: Describe onAccept.
-     * @param[in] ec Input parameter.
-     */
     void onAccept(beast::error_code ec);
-    /**
-     * @brief TBD: Describe doRead.
-     */
     void doRead();
-    /**
-     * @brief TBD: Describe onRead.
-     * @param[in] ec Input parameter.
-     * @param[in] bytes_transferred Input parameter.
-     */
     void onRead(beast::error_code ec, std::size_t bytes_transferred);
-    /**
-     * @brief TBD: Describe onWrite.
-     * @param[in] ec Input parameter.
-     * @param[in] bytes_transferred Input parameter.
-     */
     void onWrite(beast::error_code ec, std::size_t bytes_transferred);
-    /**
-     * @brief TBD: Describe sendOnExecutor.
-     * @param[in] message Input parameter.
-     */
     void sendOnExecutor(std::string message);
-    /**
-     * @brief TBD: Describe sendBinaryOnExecutor.
-     * @param[in] data Input parameter.
-     */
     void sendBinaryOnExecutor(std::vector<uint8_t> data);
-    /**
-     * @brief TBD: Describe startWriteLocked.
-     */
     void startWriteLocked();
-    /**
-     * @brief TBD: Describe closeInternalErrorOnExecutor.
-     */
     void closeInternalErrorOnExecutor();
-    /**
-     * @brief TBD: Describe processMessage.
-     * @param[in] message Input parameter.
-     */
     void processMessage(const std::string& message);
-    /**
-     * @brief TBD: Describe processBinaryMessage.
-     * @param[in] data Input parameter.
-     */
     void processBinaryMessage(const std::vector<uint8_t>& data);
-    /**
-     * @brief TBD: Describe doClose.
-     */
     void doClose();
     
     // WebSocket stream (plain or TLS)
@@ -315,32 +259,26 @@ public:
     
     /**
      * @brief Add a new WebSocket session
-     * @param[in] session Input parameter.
      */
     void addSession(std::shared_ptr<WebSocketSession> session);
     
     /**
      * @brief Remove a WebSocket session
-     * @param[in] session_id Input parameter.
      */
     void removeSession(const std::string& session_id);
     
     /**
      * @brief Broadcast a message to all active sessions
-     * @param[in] message Input parameter.
      */
     void broadcast(const std::string& message);
     
     /**
      * @brief Send message to a specific session
-     * @param[in] session_id Input parameter.
-     * @param[in] message Input parameter.
      */
     void sendToSession(const std::string& session_id, const std::string& message);
     
     /**
      * @brief Get number of active sessions
-     * @return Return value.
      */
     size_t getActiveSessionCount() const;
     
@@ -351,14 +289,10 @@ public:
     
     /**
      * @brief Get all sessions subscribed to CDC
-     * @return Return value.
      */
     std::vector<std::shared_ptr<WebSocketSession>> getCDCSubscribedSessions() const;
 
 private:
-    /**
-     * @brief TBD: Describe pollCDCEvents.
-     */
     void pollCDCEvents();
     
     std::unordered_map<std::string, std::shared_ptr<WebSocketSession>> sessions_;

@@ -78,11 +78,7 @@ struct MBR {
         return x >= minx && x <= maxx && y >= miny && y <= maxy;
     }
     
-    /**
-     * @brief Expand MBR by distance (meters, approximate for lat/lon)
-     * @param[in] distance_meters Input parameter.
-     * @return Return value.
-     */
+    // Expand MBR by distance (meters, approximate for lat/lon)
     MBR expand(double distance_meters) const;
     
     // Area in square degrees (approximate)
@@ -132,16 +128,10 @@ struct GeometryInfo {
     bool isGeometryCollection() const { return type == GeometryType::GeometryCollection || type == GeometryType::GeometryCollectionZ; }
     bool hasZ() const { return has_z; }
     
-    /**
-     * @brief Compute MBR from coordinates
-     * @return Return value.
-     */
+    // Compute MBR from coordinates
     MBR computeMBR() const;
     
-    /**
-     * @brief Compute centroid
-     * @return Return value.
-     */
+    // Compute centroid
     Coordinate computeCentroid() const;
 };
 
@@ -149,128 +139,44 @@ struct GeometryInfo {
 /** @brief EWKB Parser/Serializer. */
 class EWKBParser {
 public:
-    /**
-     * @brief Parse EWKB binary to GeometryInfo
-     * @param[in] ewkb Input parameter.
-     * @return Return value.
-     */
+    // Parse EWKB binary to GeometryInfo
     static GeometryInfo parse(const std::vector<uint8_t>& ewkb);
     
-    /**
-     * @brief Serialize GeometryInfo to EWKB binary
-     * @param[in] geom Input parameter.
-     * @return Return value.
-     */
+    // Serialize GeometryInfo to EWKB binary
     static std::vector<uint8_t> serialize(const GeometryInfo& geom);
     
-    /**
-     * @brief Parse from WKT (Well-Known Text)
-     * @param[in] wkt Input parameter.
-     * @return Return value.
-     */
+    // Parse from WKT (Well-Known Text)
     static GeometryInfo parseWKT(const std::string& wkt);
     
-    /**
-     * @brief Parse from GeoJSON geometry object
-     * @param[in] geojson Input parameter.
-     * @return Return value.
-     */
+    // Parse from GeoJSON geometry object
     static GeometryInfo parseGeoJSON(const std::string& geojson);
     
-    /**
-     * @brief Serialize to GeoJSON geometry object
-     * @param[in] geom Input parameter.
-     * @return Return value.
-     */
+    // Serialize to GeoJSON geometry object
     static std::string toGeoJSON(const GeometryInfo& geom);
     
-    /**
-     * @brief Serialize to WKT
-     * @param[in] geom Input parameter.
-     * @return Return value.
-     */
+    // Serialize to WKT
     static std::string toWKT(const GeometryInfo& geom);
     
-    /**
-     * @brief Compute sidecar metadata from geometry
-     * @param[in] geom Input parameter.
-     * @return Return value.
-     */
+    // Compute sidecar metadata from geometry
     static GeoSidecar computeSidecar(const GeometryInfo& geom);
     
-    /**
-     * @brief Validate EWKB format
-     * @param[in] ewkb Input parameter.
-     * @return True on success.
-     */
+    // Validate EWKB format
     static bool validate(const std::vector<uint8_t>& ewkb);
     
 private:
-    /**
-     * @brief Internal parsing helpers
-     * @param[in] ptr Input parameter.
-     * @param[in] has_z Input parameter.
-     * @param[in] is_little_endian Input parameter.
-     * @return Return value.
-     */
+    // Internal parsing helpers
     static GeometryInfo parsePoint(const uint8_t*& ptr, bool has_z, bool is_little_endian);
-    /**
-     * @brief TBD: Describe parseLineString.
-     * @param[in] ptr Input parameter.
-     * @param[in] has_z Input parameter.
-     * @param[in] is_little_endian Input parameter.
-     * @return Return value.
-     */
     static GeometryInfo parseLineString(const uint8_t*& ptr, bool has_z, bool is_little_endian);
-    /**
-     * @brief TBD: Describe parsePolygon.
-     * @param[in] ptr Input parameter.
-     * @param[in] has_z Input parameter.
-     * @param[in] is_little_endian Input parameter.
-     * @return Return value.
-     */
     static GeometryInfo parsePolygon(const uint8_t*& ptr, bool has_z, bool is_little_endian);
-    /**
-     * @brief Recursive helper: parse one EWKB geometry starting at ptr (reads its own byte-order marker)
-     * @param[in] ptr Input parameter.
-     * @return Return value.
-     */
+    // Recursive helper: parse one EWKB geometry starting at ptr (reads its own byte-order marker)
     static GeometryInfo parseGeometryFromPtr(const uint8_t*& ptr);
-    /**
-     * @brief Recursive helper: serialize one geometry into buf
-     * @param[in,out] buf Input/output parameter.
-     * @param[in] geom Input parameter.
-     * @param[in] is_little_endian Input parameter.
-     */
+    // Recursive helper: serialize one geometry into buf
     static void serializeGeometryInto(std::vector<uint8_t>& buf, const GeometryInfo& geom, bool is_little_endian);
     
-    /**
-     * @brief Binary read helpers
-     * @param[in] ptr Input parameter.
-     * @param[in] is_little_endian Input parameter.
-     * @return Return value.
-     */
+    // Binary read helpers
     static double readDouble(const uint8_t*& ptr, bool is_little_endian);
-    /**
-     * @brief TBD: Describe readUInt32.
-     * @param[in] ptr Input parameter.
-     * @param[in] is_little_endian Input parameter.
-     * @return Return value.
-     */
     static uint32_t readUInt32(const uint8_t*& ptr, bool is_little_endian);
-    /**
-     * @brief TBD: Describe writeDouble.
-     * @param[in,out] buf Input/output parameter.
-     * @param[in] val Input parameter.
-     * @param[in] is_little_endian Input parameter.
-     */
     static void writeDouble(std::vector<uint8_t>& buf, double val, bool is_little_endian);
-    /**
-     * @brief TBD: Describe writeUInt32.
-     * @param[in,out] buf Input/output parameter.
-     * @param[in] val Input parameter.
-     * @param[in] is_little_endian Input parameter.
-     */
     static void writeUInt32(std::vector<uint8_t>& buf, uint32_t val, bool is_little_endian);
 };
 

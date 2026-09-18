@@ -110,17 +110,12 @@ public:
     // ========== Shape and Data Access ==========
     
     const std::vector<size_t>& shape() const { return shape_; }
-    /**
-     * @brief TBD: Describe size.
-     * @return Return value.
-     */
     size_t size() const;
     size_t ndim() const { return shape_.size(); }
     
     /**
      * @brief Get CPU data (downloads from GPU if needed)
      * Warning: This triggers CPU ↔ GPU transfer if tensor is on GPU
-     * @return Return value.
      */
     std::vector<float> cpu_data() const;
     
@@ -131,26 +126,14 @@ public:
     
     /**
      * @brief Upload data from CPU to current device
-     * @param[in] data Input parameter.
-     * @param[in] count Input parameter.
      */
     void upload(const float* data, size_t count);
-    /**
-     * @brief TBD: Describe upload.
-     * @param[in] data Input parameter.
-     */
     void upload(const std::vector<float>& data);
     
     /**
      * @brief Download data from current device to CPU
-     * @param[in,out] data Input/output parameter.
-     * @param[in] count Input parameter.
      */
     void download(float* data, size_t count) const;
-    /**
-     * @brief TBD: Describe download.
-     * @return Return value.
-     */
     std::vector<float> download() const;
     
     // ========== Operations ==========
@@ -172,27 +155,21 @@ public:
     
     /**
      * @brief Element-wise multiplication
-     * @param[in] other Input parameter.
-     * @return Return value.
      */
     GPUTensor mul(const GPUTensor& other) const;
     
     /**
      * @brief Matrix multiplication (dispatched to backend)
-     * @param[in] other Input parameter.
-     * @return Return value.
      */
     GPUTensor matmul(const GPUTensor& other) const;
     
     /**
      * @brief Transpose (2D tensors only)
-     * @return Return value.
      */
     GPUTensor transpose() const;
     
     /**
      * @brief Fill with value
-     * @param[in] value Input parameter.
      */
     void fill(float value);
     
@@ -203,7 +180,6 @@ public:
     
     /**
      * @brief Clone tensor (same device)
-     * @return Return value.
      */
     GPUTensor clone() const;
     
@@ -276,15 +252,7 @@ public:
     // and the target DType; it returns the converted element data as fp32.
     // Passing nullptr reverts to the CPU round-trip fallback path.
     using DtypeCastFn = std::function<std::vector<float>(const std::vector<float>&, DType, DType)>;
-    /**
-     * @brief TBD: Describe setCudaDtypeCastFn.
-     * @param[in] fn Input parameter.
-     */
     static void setCudaDtypeCastFn(DtypeCastFn fn);
-    /**
-     * @brief TBD: Describe setHipDtypeCastFn.
-     * @param[in] fn Input parameter.
-     */
     static void setHipDtypeCastFn(DtypeCastFn fn);
 
 private:
@@ -299,55 +267,19 @@ private:
     void* gpu_data_ = nullptr;
     VRAMAllocator* allocator_ = nullptr;
     
-    /**
-     * @brief GPU memory manager (shared across all tensors)
-     * @return Return value.
-     */
+    // GPU memory manager (shared across all tensors)
     static GPUMemoryManager& get_memory_manager();
     
-    /**
-     * @brief Backend operation dispatchers
-     * @param[in] other Input parameter.
-     * @return Return value.
-     */
+    // Backend operation dispatchers
     GPUTensor dispatch_add(const GPUTensor& other) const;
-    /**
-     * @brief TBD: Describe dispatch_sub.
-     * @param[in] other Input parameter.
-     * @return Return value.
-     */
     GPUTensor dispatch_sub(const GPUTensor& other) const;
-    /**
-     * @brief TBD: Describe dispatch_mul_scalar.
-     * @param[in] scalar Input parameter.
-     * @return Return value.
-     */
     GPUTensor dispatch_mul_scalar(float scalar) const;
-    /**
-     * @brief TBD: Describe dispatch_mul_elementwise.
-     * @param[in] other Input parameter.
-     * @return Return value.
-     */
     GPUTensor dispatch_mul_elementwise(const GPUTensor& other) const;
-    /**
-     * @brief TBD: Describe dispatch_matmul.
-     * @param[in] other Input parameter.
-     * @return Return value.
-     */
     GPUTensor dispatch_matmul(const GPUTensor& other) const;
-    /**
-     * @brief TBD: Describe dispatch_transpose.
-     * @return Return value.
-     */
     GPUTensor dispatch_transpose() const;
     
-    /**
-     * @brief Helper to allocate GPU memory
-     */
+    // Helper to allocate GPU memory
     void allocate_gpu_memory();
-    /**
-     * @brief TBD: Describe free_gpu_memory.
-     */
     void free_gpu_memory();
 };
 

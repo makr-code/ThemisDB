@@ -49,10 +49,6 @@ class FederationConsensusManager {
  public:
   /**
    * @brief Factory method to create consensus manager.
-   * @param[in] config Input parameter.
-   * @param[in] node_id Input parameter.
-   * @param[in] quorum_size Input parameter.
-   * @return Return value.
    */
   static std::unique_ptr<FederationConsensusManager> Create(
       const FederationConsensusConfig& config,
@@ -61,8 +57,6 @@ class FederationConsensusManager {
 
   /**
    * @brief Constructor.
-   * @param[in] impl Input parameter.
-   * @return Return value.
    */
   explicit FederationConsensusManager(
       std::unique_ptr<FederationConsensusManagerImpl> impl);
@@ -74,30 +68,21 @@ class FederationConsensusManager {
 
   /**
    * @brief Append entry to consensus log.
-   * @param[in] data Input parameter.
-   * @return Return value.
    */
   uint64_t AppendEntry(const std::string& data);
 
   /**
    * @brief Check if this node is leader.
-   * @return True on success.
    */
   bool IsLeader() const;
 
   /**
    * @brief Get current leader ID.
-   * @return Return value.
    */
   std::string GetLeader() const;
 
   /**
    * @brief Request vote (called by remote candidate).
-   * @param[in] candidate_id Input parameter.
-   * @param[in] candidate_term Input parameter.
-   * @param[in] candidate_last_log_index Input parameter.
-   * @param[in] candidate_last_log_term Input parameter.
-   * @return True on success.
    */
   bool RequestVote(const std::string& candidate_id, uint64_t candidate_term,
                    uint64_t candidate_last_log_index,
@@ -105,13 +90,6 @@ class FederationConsensusManager {
 
   /**
    * @brief Append entries RPC (heartbeat or replication).
-   * @param[in] leader_id Input parameter.
-   * @param[in] leader_term Input parameter.
-   * @param[in] prev_log_index Input parameter.
-   * @param[in] prev_log_term Input parameter.
-   * @param[in] entries Input parameter.
-   * @param[in] leader_commit Input parameter.
-   * @return True on success.
    */
   bool AppendEntries(const std::string& leader_id, uint64_t leader_term,
                      uint64_t prev_log_index, uint64_t prev_log_term,

@@ -72,10 +72,6 @@ private:
  */
 class IMetadataEncryptionProvider {
 public:
-    /**
-     * @brief TBD: Describe ~IMetadataEncryptionProvider.
-     * @return Return value.
-     */
     virtual ~IMetadataEncryptionProvider() = default;
 
     /**
@@ -179,7 +175,6 @@ public:
      *
      * @param key  Non-empty byte string used as the XOR mask.
      * @throws MetadataEncryptionException if @p key is empty.
-     * @return Return value.
      */
     explicit FieldSetMetadataEncryptionProvider(std::string_view key)
         : key_(key) {
@@ -195,30 +190,16 @@ public:
      * @brief Register @p field_name as a field that should be encrypted.
      *
      * Pass "*" to encrypt every field regardless of name.
-     * @param[in] field_name Input parameter.
-     * @details Calls: lk(), insert(), std::string().
      */
     void addField(std::string_view field_name) {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::mutex> lk(mutex_);
         fields_.insert(std::string(field_name));
     }
 
     /**
      * @brief Deregister @p field_name.  No-op if it was not registered.
-     * @param[in] field_name Input parameter.
-     * @details Calls: lk(), erase(), std::string().
      */
     void removeField(std::string_view field_name) {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::mutex> lk(mutex_);
         fields_.erase(std::string(field_name));
     }
@@ -230,11 +211,6 @@ public:
      * fieldCount() may return 1.
      */
     size_t fieldCount() const {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::mutex> lk(mutex_);
         return fields_.size();
     }
@@ -242,11 +218,6 @@ public:
     // ── IMetadataEncryptionProvider ───────────────────────────────────────────
 
     bool shouldEncrypt(std::string_view field_name) const override {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::mutex> lk(mutex_);
         return fields_.count("*") > 0 ||
                fields_.count(std::string(field_name)) > 0;

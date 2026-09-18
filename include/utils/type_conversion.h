@@ -25,11 +25,6 @@ namespace utils {
  */
 class ConversionException : public std::runtime_error {
 public:
-    /**
-     * @brief TBD: Describe ConversionException.
-     * @param[in] message Input parameter.
-     * @return Return value.
-     */
     explicit ConversionException(const std::string& message) 
         : std::runtime_error(message) {}
 };
@@ -53,7 +48,6 @@ namespace conversion {
      * @par Example
      *   size_t size = 1000;
      *   int32_t count = safe_size_to_int32(size);
-     * @details Calls: max(), std::to_string(), spdlog::warn().
      */
     inline int32_t safe_size_to_int32(size_t value) {
         if (value > static_cast<size_t>(std::numeric_limits<int32_t>::max())) {
@@ -61,11 +55,6 @@ namespace conversion {
                             " exceeds int32_t max (" + 
                             std::to_string(std::numeric_limits<int32_t>::max()) + ")";
             spdlog::warn("Type conversion: {}", msg);
-            /**
-             * @brief TBD: Describe ConversionException.
-             * @param[in] msg Input parameter.
-             * @return Return value.
-             */
             throw ConversionException(msg);
         }
         return static_cast<int32_t>(value);
@@ -76,7 +65,6 @@ namespace conversion {
      * @param value Source value
      * @return Converted value
      * @throws ConversionException if value exceeds int range
-     * @details Calls: max(), std::to_string(), spdlog::warn().
      */
     inline int safe_size_to_int(size_t value) {
         if (value > static_cast<size_t>(std::numeric_limits<int>::max())) {
@@ -84,11 +72,6 @@ namespace conversion {
                             " exceeds int max (" + 
                             std::to_string(std::numeric_limits<int>::max()) + ")";
             spdlog::warn("Type conversion: {}", msg);
-            /**
-             * @brief TBD: Describe ConversionException.
-             * @param[in] msg Input parameter.
-             * @return Return value.
-             */
             throw ConversionException(msg);
         }
         return static_cast<int>(value);
@@ -99,7 +82,6 @@ namespace conversion {
      * @param value Source value
      * @return Converted value
      * @throws ConversionException if value exceeds int32_t range
-     * @details Calls: max(), min(), std::to_string(), spdlog::warn().
      */
     inline int32_t safe_int64_to_int32(int64_t value) {
         if (value > std::numeric_limits<int32_t>::max() || 
@@ -109,11 +91,6 @@ namespace conversion {
                             std::to_string(std::numeric_limits<int32_t>::min()) + ", " +
                             std::to_string(std::numeric_limits<int32_t>::max()) + "]";
             spdlog::warn("Type conversion: {}", msg);
-            /**
-             * @brief TBD: Describe ConversionException.
-             * @param[in] msg Input parameter.
-             * @return Return value.
-             */
             throw ConversionException(msg);
         }
         return static_cast<int32_t>(value);
@@ -124,7 +101,6 @@ namespace conversion {
      * @param value Source value
      * @return Converted value
      * @throws ConversionException if value exceeds int range
-     * @details Calls: max(), std::to_string(), spdlog::warn().
      */
     inline int safe_uint64_to_int(uint64_t value) {
         if (value > static_cast<uint64_t>(std::numeric_limits<int>::max())) {
@@ -132,11 +108,6 @@ namespace conversion {
                             " exceeds int max (" + 
                             std::to_string(std::numeric_limits<int>::max()) + ")";
             spdlog::warn("Type conversion: {}", msg);
-            /**
-             * @brief TBD: Describe ConversionException.
-             * @param[in] msg Input parameter.
-             * @return Return value.
-             */
             throw ConversionException(msg);
         }
         return static_cast<int>(value);
@@ -157,11 +128,6 @@ namespace conversion {
                             std::to_string(-std::numeric_limits<float>::max()) + ", " +
                             std::to_string(std::numeric_limits<float>::max()) + "]";
             spdlog::warn("Type conversion: {}", msg);
-            /**
-             * @brief TBD: Describe ConversionException.
-             * @param[in] msg Input parameter.
-             * @return Return value.
-             */
             throw ConversionException(msg);
         }
         
@@ -180,18 +146,12 @@ namespace conversion {
      * @param value Source value
      * @return Converted value
      * @throws ConversionException if value is negative
-     * @details Calls: std::to_string(), spdlog::warn().
      */
     inline uint64_t safe_signed_to_unsigned(int64_t value) {
         if (value < 0) {
             std::string msg = "Sign error: cannot convert negative int64_t value " + 
                             std::to_string(value) + " to uint64_t";
             spdlog::warn("Type conversion: {}", msg);
-            /**
-             * @brief TBD: Describe ConversionException.
-             * @param[in] msg Input parameter.
-             * @return Return value.
-             */
             throw ConversionException(msg);
         }
         return static_cast<uint64_t>(value);
@@ -313,18 +273,12 @@ namespace conversion {
      * @par Example
      *   int count = get_count();
      *   size_t size = safe_int_to_size(count);
-     * @details Calls: std::to_string(), spdlog::warn().
      */
     inline size_t safe_int_to_size(int value) {
         if (value < 0) {
             std::string msg = "Cannot convert negative int value " + 
                             std::to_string(value) + " to size_t";
             spdlog::warn("Type conversion: {}", msg);
-            /**
-             * @brief TBD: Describe ConversionException.
-             * @param[in] msg Input parameter.
-             * @return Return value.
-             */
             throw ConversionException(msg);
         }
         return static_cast<size_t>(value);
@@ -335,18 +289,12 @@ namespace conversion {
      * @param value Source value
      * @return Converted value
      * @throws ConversionException if value is negative
-     * @details Calls: std::to_string(), spdlog::warn().
      */
     inline size_t safe_int64_to_size(int64_t value) {
         if (value < 0) {
             std::string msg = "Cannot convert negative int64_t value " + 
                             std::to_string(value) + " to size_t";
             spdlog::warn("Type conversion: {}", msg);
-            /**
-             * @brief TBD: Describe ConversionException.
-             * @param[in] msg Input parameter.
-             * @return Return value.
-             */
             throw ConversionException(msg);
         }
         return static_cast<size_t>(value);
@@ -381,7 +329,6 @@ namespace conversion {
      *   size_t pos2 = 50;
      *   ptrdiff_t diff = safe_diff(pos1, pos2);  // 50
      *   ptrdiff_t neg_diff = safe_diff(pos2, pos1);  // -50
-     * @details Calls: max(), std::to_string(), spdlog::warn().
      */
     inline std::ptrdiff_t safe_diff(size_t a, size_t b) {
         // Check if positive difference would overflow ptrdiff_t
@@ -391,11 +338,6 @@ namespace conversion {
                 std::string msg = "Difference " + std::to_string(diff) + 
                                 " too large for ptrdiff_t";
                 spdlog::warn("Type conversion: {}", msg);
-                /**
-                 * @brief TBD: Describe ConversionException.
-                 * @param[in] msg Input parameter.
-                 * @return Return value.
-                 */
                 throw ConversionException(msg);
             }
             return static_cast<std::ptrdiff_t>(diff);
@@ -405,11 +347,6 @@ namespace conversion {
                 std::string msg = "Difference " + std::to_string(diff) + 
                                 " too large for ptrdiff_t";
                 spdlog::warn("Type conversion: {}", msg);
-                /**
-                 * @brief TBD: Describe ConversionException.
-                 * @param[in] msg Input parameter.
-                 * @return Return value.
-                 */
                 throw ConversionException(msg);
             }
             return -static_cast<std::ptrdiff_t>(diff);

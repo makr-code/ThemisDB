@@ -261,7 +261,6 @@ public:
     /**
      * @brief Construct InferenceEngineEnhanced
      * @param model_config Model configuration
-     * @return Return value.
      */
     explicit InferenceEngineEnhanced(const ModelConfig& model_config);
     
@@ -283,7 +282,6 @@ public:
     
     /**
      * @brief Shutdown the inference engine
-     * @note Exception safety: noexcept.
      */
     void shutdown() noexcept;
     
@@ -301,7 +299,6 @@ public:
     
     /**
      * @brief Check if model is loaded
-     * @return True on success.
      */
     bool isModelLoaded() const;
     
@@ -370,7 +367,6 @@ public:
     /**
      * @brief Check if a request is in progress
      * @param request_id Request identifier
-     * @return True on success.
      */
     bool isRequestInProgress(int64_t request_id) const;
     
@@ -425,7 +421,6 @@ public:
     
     /**
      * @brief Check if speculative decoding is enabled
-     * @return True on success.
      */
     bool isSpeculativeDecodingEnabled() const;
     
@@ -486,7 +481,6 @@ public:
     
     /**
      * @brief Get all loaded adapter configurations
-     * @return Return value.
      */
     std::vector<LoRAConfig> getAllAdapterConfigs() const;
     
@@ -529,7 +523,6 @@ public:
     
     /**
      * @brief Get KV cache manager
-     * @return Pointer to the result.
      */
     PagedKVCache* getKVCache();
     
@@ -551,7 +544,6 @@ public:
     
     /**
      * @brief Get the scheduler
-     * @return Pointer to the result.
      */
     ContinuousBatchScheduler* getScheduler();
     
@@ -583,13 +575,11 @@ public:
     
     /**
      * @brief Get current inference statistics
-     * @return Return value.
      */
     InferenceStats getStats() const;
     
     /**
      * @brief Get detailed statistics as JSON
-     * @return Return value.
      */
     nlohmann::json getStatsJson() const;
     
@@ -600,7 +590,6 @@ public:
     
     /**
      * @brief Get model information
-     * @return Return value.
      */
     nlohmann::json getModelInfo() const;
     
@@ -616,19 +605,16 @@ public:
     
     /**
      * @brief Get current configuration
-     * @return Return value.
      */
     const ModelConfig& getConfig() const;
     
     /**
      * @brief Check if engine is ready
-     * @return True on success.
      */
     bool isReady() const;
     
     /**
      * @brief Get engine status
-     * @return Return value.
      */
     std::string getStatusString() const;
     
@@ -703,25 +689,16 @@ private:
     
     /**
      * @brief Tokenize text to token IDs
-     * @param[in] text Input parameter.
-     * @return Return value.
      */
     std::vector<int> tokenize(const std::string& text) const;
     
     /**
      * @brief Detokenize token IDs to text
-     * @param[in] token_ids Input parameter.
-     * @return Return value.
      */
     std::string detokenize(const std::vector<int>& token_ids) const;
     
     /**
      * @brief Apply sampling to logits
-     * @param[in,out] logits Input/output parameter.
-     * @param[in] temperature Input parameter.
-     * @param[in] top_p Input parameter.
-     * @param[in] top_k Input parameter.
-     * @param[in] repeat_penalty Input parameter.
      */
     void applySampling(
         std::vector<float>& logits,
@@ -733,7 +710,6 @@ private:
     
     /**
      * @brief Update statistics
-     * @param[in] request Input parameter.
      */
     void updateStats(const RequestState& request);
 };

@@ -34,11 +34,6 @@ namespace cuda {
  */
 class FlashAttentionCUDA : public IFlashAttention {
 public:
-    /**
-     * @brief TBD: Describe FlashAttentionCUDA.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit FlashAttentionCUDA(const FlashAttentionConfig& config);
     ~FlashAttentionCUDA() override;
     
@@ -62,13 +57,11 @@ public:
     
     /**
      * @brief Get CUDA compute capability
-     * @return Return value.
      */
     static int getComputeCapability();
     
     /**
      * @brief Check if CUDA is available
-     * @return True on success.
      */
     static bool isAvailable();
 
@@ -80,41 +73,12 @@ private:
     void* d_workspace_ = nullptr;
     size_t workspace_size_ = 0;
     
-    /**
-     * @brief Helper methods
-     * @param[in] Q Input parameter.
-     * @param[in] K Input parameter.
-     * @param[in] V Input parameter.
-     * @param[in,out] O Input/output parameter.
-     * @return Return value.
-     */
+    // Helper methods
     Status launchKernelSM90(const Tensor& Q, const Tensor& K, const Tensor& V, Tensor& O);
-    /**
-     * @brief TBD: Describe launchKernelSM86.
-     * @param[in] Q Input parameter.
-     * @param[in] K Input parameter.
-     * @param[in] V Input parameter.
-     * @param[in,out] O Input/output parameter.
-     * @return Return value.
-     */
     Status launchKernelSM86(const Tensor& Q, const Tensor& K, const Tensor& V, Tensor& O);
-    /**
-     * @brief TBD: Describe launchKernelSM80.
-     * @param[in] Q Input parameter.
-     * @param[in] K Input parameter.
-     * @param[in] V Input parameter.
-     * @param[in,out] O Input/output parameter.
-     * @return Return value.
-     */
     Status launchKernelSM80(const Tensor& Q, const Tensor& K, const Tensor& V, Tensor& O);
     
-    /**
-     * @brief TBD: Describe allocateWorkspace.
-     */
     void allocateWorkspace();
-    /**
-     * @brief TBD: Describe freeWorkspace.
-     */
     void freeWorkspace();
 };
 
@@ -128,17 +92,6 @@ private:
  * - Warp specialization (producer/consumer warps)
  * - Async copy with pipeline architecture
  * - FP16/BF16 support with tensor cores
- * @param[in] Q Input parameter.
- * @param[in] K Input parameter.
- * @param[in] V Input parameter.
- * @param[in,out] O Input/output parameter.
- * @param[in] batch_size Input parameter.
- * @param[in] seq_len Input parameter.
- * @param[in] num_heads Input parameter.
- * @param[in] head_dim Input parameter.
- * @param[in] scale Input parameter.
- * @param[in] is_causal Input parameter.
- * @return Return value.
  */
 __global__ void flash_attention_fwd_fused_fma_sm90(
     const __half* Q,          // [batch, seq_len, num_heads, head_dim]
@@ -155,17 +108,6 @@ __global__ void flash_attention_fwd_fused_fma_sm90(
 
 /**
  * @brief Flash Attention v2 forward kernel (SM86 - Ampere)
- * @param[in] Q Input parameter.
- * @param[in] K Input parameter.
- * @param[in] V Input parameter.
- * @param[in,out] O Input/output parameter.
- * @param[in] batch_size Input parameter.
- * @param[in] seq_len Input parameter.
- * @param[in] num_heads Input parameter.
- * @param[in] head_dim Input parameter.
- * @param[in] scale Input parameter.
- * @param[in] is_causal Input parameter.
- * @return Return value.
  */
 __global__ void flash_attention_fwd_sm86(
     const __half* Q,
@@ -184,18 +126,6 @@ __global__ void flash_attention_fwd_sm86(
  * @brief Paged attention forward kernel with block table
  * 
  * Supports variable-length sequences with paged KV cache
- * @param[in] Q Input parameter.
- * @param[in] K_blocks Input parameter.
- * @param[in] V_blocks Input parameter.
- * @param[in] block_table Input parameter.
- * @param[in,out] O Input/output parameter.
- * @param[in] batch_size Input parameter.
- * @param[in] seq_len Input parameter.
- * @param[in] num_heads Input parameter.
- * @param[in] head_dim Input parameter.
- * @param[in] scale Input parameter.
- * @param[in] block_size Input parameter.
- * @return Return value.
  */
 __global__ void paged_attention_fwd(
     const __half* Q,                    // Query [seq_len, num_heads, head_dim]
@@ -213,21 +143,6 @@ __global__ void paged_attention_fwd(
 
 /**
  * @brief Flash Attention backward kernel (for training)
- * @param[in] O Input parameter.
- * @param[in] dO Input parameter.
- * @param[in] Q Input parameter.
- * @param[in] K Input parameter.
- * @param[in] V Input parameter.
- * @param[in,out] dQ Input/output parameter.
- * @param[in,out] dK Input/output parameter.
- * @param[in,out] dV Input/output parameter.
- * @param[in] batch_size Input parameter.
- * @param[in] seq_len Input parameter.
- * @param[in] num_heads Input parameter.
- * @param[in] head_dim Input parameter.
- * @param[in] scale Input parameter.
- * @param[in] is_causal Input parameter.
- * @return Return value.
  */
 __global__ void flash_attention_bwd_fused(
     const __half* O,          // Output

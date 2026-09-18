@@ -21,10 +21,6 @@ struct OciImageRef {
     std::string repository;
     std::string tag;
     std::string digest;
-    /**
-     * @brief TBD: Describe fullRef.
-     * @return Return value.
-     */
     std::string fullRef() const;
 };
 
@@ -53,28 +49,10 @@ struct CosignVerifyReport {
 /** @brief I oci manifest verifier. */
 class IOciManifestVerifier {
 public:
-    /**
-     * @brief TBD: Describe ~IOciManifestVerifier.
-     * @return Return value.
-     */
     virtual ~IOciManifestVerifier() = default;
-    /**
-     * @brief TBD: Describe verify.
-     * @param[in] ref Input parameter.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     virtual CosignVerifyReport verify(const OciImageRef& ref,
                                       const CosignVerifyConfig& config) = 0;
-    /**
-     * @brief TBD: Describe requireSignedPlugins.
-     * @return True on success.
-     */
     virtual bool requireSignedPlugins() const = 0;
-    /**
-     * @brief TBD: Describe setEnforceSignatures.
-     * @param[in] enforce Input parameter.
-     */
     virtual void setEnforceSignatures(bool enforce) = 0;
 };
 

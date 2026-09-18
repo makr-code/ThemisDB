@@ -32,12 +32,7 @@ public:
     explicit RotaryEmbeddingGPU(const RotationConfig& config, GPUBackend backend = GPUBackend::CUDA);
     ~RotaryEmbeddingGPU();
     
-    /**
-     * @brief Override batch rotation with GPU acceleration
-     * @param[in] embeddings Input parameter.
-     * @param[in] positions Input parameter.
-     * @return Return value.
-     */
+    // Override batch rotation with GPU acceleration
     std::vector<std::vector<float>> rotateBatch(
         const std::vector<std::vector<float>>& embeddings,
         const std::vector<size_t>& positions

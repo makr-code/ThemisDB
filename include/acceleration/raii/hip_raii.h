@@ -69,12 +69,10 @@ public:
         }
     }
     
-    /**
-     * @brief @brief Wrap an existing stream without taking ownership.
-     * @param[in] stream Input parameter.
-     * @return Return value.
-     * @details @param stream The HIP stream handle to wrap (not owned by the wrapper). @return A HipStream instance that wraps but does not own the stream. @note The stream will not be destroyed when this wrapper goes out of scope. Implements wrap without additional internal calls.
-     */
+    /// @brief Wrap an existing stream without taking ownership.
+    /// @param stream The HIP stream handle to wrap (not owned by the wrapper).
+    /// @return A HipStream instance that wraps but does not own the stream.
+    /// @note The stream will not be destroyed when this wrapper goes out of scope.
     static HipStream wrap(hipStream_t stream) {
         HipStream wrapper;
         wrapper.stream_ = stream;
@@ -148,11 +146,9 @@ public:
         owned_ = true;
     }
     
-    /**
-     * @brief @brief Wait for all operations in this stream to complete.
-     * @throws std::runtime_error if an error occurs.
-     * @details @throws std::runtime_error if synchronization fails. @note No-op if stream is invalid (nullptr). Calls: hipStreamSynchronize(), std::string(), hipGetErrorString().
-     */
+    /// @brief Wait for all operations in this stream to complete.
+    /// @throws std::runtime_error if synchronization fails.
+    /// @note No-op if stream is invalid (nullptr).
     void synchronize() {
         if (stream_) {
             hipError_t err = hipStreamSynchronize(stream_);
@@ -174,11 +170,9 @@ public:
     /// @note The returned handle remains valid until this object is destroyed or reassigned.
     hipStream_t get() const { return stream_; }
     
-    /**
-     * @brief @brief Release ownership of the stream without destroying it.
-     * @return Return value.
-     * @details @return The underlying HIP stream handle. @note After calling release(), the caller is responsible for destroying the stream. Implements release without additional internal calls.
-     */
+    /// @brief Release ownership of the stream without destroying it.
+    /// @return The underlying HIP stream handle.
+    /// @note After calling release(), the caller is responsible for destroying the stream.
     hipStream_t release() {
         owned_ = false;
         hipStream_t tmp = stream_;
@@ -187,10 +181,6 @@ public:
     }
     
 private:
-    /**
-     * @brief TBD: Describe destroy.
-     * @details Calls: hipStreamDestroy().
-     */
     void destroy() {
         if (stream_ && owned_) {
             hipStreamDestroy(stream_);
@@ -273,12 +263,9 @@ public:
         free();
     }
     
-    /**
-     * @brief @brief Allocate device memory.
-     * @param[in] size Input parameter.
-     * @throws std::runtime_error if an error occurs.
-     * @details @param size Number of bytes to allocate. @throws std::runtime_error if allocation fails or if memory is already allocated. Calls: free(), hipMalloc(), std::string(), std::to_string(), hipGetErrorString().
-     */
+    /// @brief Allocate device memory.
+    /// @param size Number of bytes to allocate.
+    /// @throws std::runtime_error if allocation fails or if memory is already allocated.
     void allocate(size_t size) {
         if (ptr_) {
             free();
@@ -367,11 +354,9 @@ public:
     /// @return The size of the allocated memory; 0 if unallocated.
     size_t size() const { return size_; }
     
-    /**
-     * @brief @brief Release ownership of the memory without freeing it.
-     * @return Pointer to the result.
-     * @details @return The raw device pointer. @note After calling release(), the caller is responsible for calling hipFree(). Implements release without additional internal calls.
-     */
+    /// @brief Release ownership of the memory without freeing it.
+    /// @return The raw device pointer.
+    /// @note After calling release(), the caller is responsible for calling hipFree().
     void* release() {
         void* tmp = ptr_;
         ptr_ = nullptr;
@@ -380,10 +365,6 @@ public:
     }
     
 private:
-    /**
-     * @brief TBD: Describe free.
-     * @details Calls: hipFree().
-     */
     void free() {
         if (ptr_) {
             hipFree(ptr_);
@@ -523,7 +504,6 @@ public:
     /**
      * @brief Create a hipBLAS handle, throwing on failure.
      * @throws std::runtime_error if hipblasCreate fails.
-     * @details Calls: destroy(), hipblasCreate().
      */
     void createOrThrow() {
         if (handle_) { destroy(); }
@@ -616,8 +596,6 @@ public:
     /**
      * @brief Allocate @p count elements on the device.
      * @throws std::runtime_error on allocation failure.
-     * @param[in] count Input parameter.
-     * @details Calls: free(), hipMalloc(), std::string(), std::to_string(), hipGetErrorString().
      */
     void allocate(size_t count) {
         if (ptr_) { free(); }
@@ -654,7 +632,6 @@ public:
      * @param src   Host pointer with at least @p count valid elements.
      * @param count Number of elements to copy (must be ≤ capacity).
      * @throws std::runtime_error on copy failure or bounds violation.
-     * @details Calls: hipMemcpy(), std::string(), hipGetErrorString().
      */
     void copyFrom(const T* src, size_t count) {
         if (!ptr_) {

@@ -170,10 +170,6 @@ struct LeaseAcquireResult {
  */
 class IStonithProvider {
 public:
-    /**
-     * @brief TBD: Describe ~IStonithProvider.
-     * @return Return value.
-     */
     virtual ~IStonithProvider() = default;
 
     /**
@@ -253,10 +249,6 @@ struct EpochFencingConfig {
     /// Minimum epoch delta before a stale-epoch log warning is emitted.
     uint64_t log_warn_epoch_delta{1};
 
-    /**
-     * @brief TBD: Describe validate.
-     * @return True on success.
-     */
     bool validate() const;
 };
 
@@ -294,10 +286,6 @@ public:
                                  std::shared_ptr<IStonithProvider> stonith =
                                      std::make_shared<NullStonithProvider>());
 
-    /**
-     * @brief TBD: Describe ~EpochFencingManager.
-     * @return Return value.
-     */
     virtual ~EpochFencingManager();
 
     // ── Epoch management ────────────────────────────────────────────────────
@@ -375,12 +363,6 @@ private:
     mutable std::mutex mutex_;
     Metrics            metrics_;
 
-    /**
-     * @brief TBD: Describe issueStonith.
-     * @param[in] node Input parameter.
-     * @param[in] reason Input parameter.
-     * @return Return value.
-     */
     FencingResult issueStonith(const NodeId& node, const std::string& reason);
 };
 
@@ -401,10 +383,6 @@ struct LeaseConfig {
     /// Path prefix for WAL persistence (empty ⇒ in-memory only).
     std::string wal_path;
 
-    /**
-     * @brief TBD: Describe validate.
-     * @return True on success.
-     */
     bool validate() const;
 };
 
@@ -439,8 +417,6 @@ public:
     /**
      * @param config   Lease configuration.
      * @param fencing  Epoch fencing manager used for token issuance and STONITH.
-     * @brief TBD: Describe LeaseManager.
-     * @return Return value.
      */
     explicit LeaseManager(LeaseConfig config,
                           std::shared_ptr<EpochFencingManager> fencing);
@@ -544,28 +520,11 @@ private:
     std::unordered_map<LeaseKey, LeaseRecord>        leases_;
     Metrics                                          metrics_;
 
-    /**
-     * @brief ── Helpers ─────────────────────────────────────────────────────────────
-     * @param[in] key Input parameter.
-     * @return Return value.
-     */
+    // ── Helpers ─────────────────────────────────────────────────────────────
 
     LeaseRecord& getOrCreate(const LeaseKey& key);
-    /**
-     * @brief TBD: Describe persistToWal.
-     * @param[in] record Input parameter.
-     */
     void         persistToWal(const LeaseRecord& record);
-    /**
-     * @brief TBD: Describe loadFromWal.
-     */
     void         loadFromWal();
-    /**
-     * @brief TBD: Describe waitForExpiry.
-     * @param[in] key Input parameter.
-     * @param[in] timeout Input parameter.
-     * @return True on success.
-     */
     bool         waitForExpiry(const LeaseKey& key,
                                std::chrono::milliseconds timeout);
 };

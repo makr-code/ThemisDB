@@ -113,11 +113,6 @@ public:
     // -----------------------------------------------------------------------
 
     SessionManager();
-    /**
-     * @brief TBD: Describe SessionManager.
-     * @param[in] limits Input parameter.
-     * @return Return value.
-     */
     explicit SessionManager(const SessionLimits& limits);
     ~SessionManager() = default;
 
@@ -179,7 +174,6 @@ public:
      * and integrations while the canonical API name remains terminateSession().
      *
      * @param session_id Session to remove. No-op if not found.
-     * @details Calls: terminateSession().
      */
     void invalidateSession(const std::string& session_id) {
         terminateSession(session_id);
@@ -212,7 +206,6 @@ public:
 
     /**
      * @brief Current total number of stored sessions (including expired).
-     * @return Return value.
      */
     size_t size() const;
 
@@ -234,7 +227,6 @@ public:
      * @brief Generate a cryptographically random session identifier.
      *
      * Format: "sess_" + 32 hex characters (128 random bits).
-     * @return Return value.
      */
     static std::string generateSessionId();
 

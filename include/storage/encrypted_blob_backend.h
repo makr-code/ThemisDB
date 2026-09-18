@@ -35,10 +35,6 @@ namespace storage {
  */
 class IEncryptionKeyProvider {
 public:
-    /**
-     * @brief TBD: Describe ~IEncryptionKeyProvider.
-     * @return Return value.
-     */
     virtual ~IEncryptionKeyProvider() = default;
 
     /**

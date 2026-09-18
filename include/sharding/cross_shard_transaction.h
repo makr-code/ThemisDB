@@ -276,13 +276,11 @@ public:
     
     /**
      * @brief Initialize the coordinator
-     * @return True on success.
      */
     bool initialize();
     
     /**
      * @brief Start the coordinator
-     * @return True on success.
      */
     bool start();
     
@@ -415,9 +413,6 @@ public:
      * Records that @p waiting_transaction_id is waiting for
      * @p blocking_transaction_id on @p shard_id so the coordinator can build
      * a cross-shard wait-for graph for deadlock detection.
-     * @param[in] waiting_transaction_id Input parameter.
-     * @param[in] blocking_transaction_id Input parameter.
-     * @param[in] shard_id Input parameter.
      */
     void reportDistributedWait(
         const std::string& waiting_transaction_id,
@@ -427,7 +422,6 @@ public:
 
     /**
      * @brief Clear all distributed wait edges for a transaction.
-     * @param[in] transaction_id Input parameter.
      */
     void clearDistributedWaits(const std::string& transaction_id);
 
@@ -511,13 +505,11 @@ public:
     
     /**
      * @brief Get active transactions
-     * @return Return value.
      */
     std::vector<CrossShardTransaction> getActiveTransactions() const;
     
     /**
      * @brief Get transaction statistics
-     * @return Return value.
      */
     nlohmann::json getStatistics() const;
     
@@ -559,10 +551,6 @@ public:
         std::function<void(const std::string& /*txn_id*/,
                            const std::vector<std::string>& /*failed_shards*/)>;
 
-    /**
-     * @brief TBD: Describe setPreCommitCallback.
-     * @param[in] fn Input parameter.
-     */
     void setPreCommitCallback(PreCommitRpcFn fn);
 
     /**
@@ -609,22 +597,16 @@ public:
 private:
     /**
      * @brief Execute 2PC protocol
-     * @param[in,out] txn Input/output parameter.
-     * @return True on success.
      */
     bool execute2PC(CrossShardTransaction& txn);
     
     /**
      * @brief Execute 3PC protocol
-     * @param[in,out] txn Input/output parameter.
-     * @return True on success.
      */
     bool execute3PC(CrossShardTransaction& txn);
     
     /**
      * @brief Execute Percolator protocol
-     * @param[in,out] txn Input/output parameter.
-     * @return True on success.
      */
     bool executePercolator(CrossShardTransaction& txn);
     
@@ -638,32 +620,21 @@ private:
      * 
      * Unlike 2PC, Calvin does not require a voting round; all participants
      * execute the same pre-ordered transaction log, guaranteeing determinism.
-     * @param[in,out] txn Input/output parameter.
-     * @return True on success.
      */
     bool executeCalvin(CrossShardTransaction& txn);
     
     /**
      * @brief Send prepare request to shard
-     * @param[in] shard_id Input parameter.
-     * @param[in] transaction_id Input parameter.
-     * @return True on success.
      */
     bool sendPrepare(const std::string& shard_id, const std::string& transaction_id);
     
     /**
      * @brief Send commit request to shard
-     * @param[in] shard_id Input parameter.
-     * @param[in] transaction_id Input parameter.
-     * @return True on success.
      */
     bool sendCommit(const std::string& shard_id, const std::string& transaction_id);
     
     /**
      * @brief Send abort request to shard
-     * @param[in] shard_id Input parameter.
-     * @param[in] transaction_id Input parameter.
-     * @return True on success.
      */
     bool sendAbort(const std::string& shard_id, const std::string& transaction_id);
     
@@ -697,15 +668,11 @@ private:
      * for a finished transaction.
      *
      * Caller must hold transactions_mutex_.
-     * @param[in] transaction_id Input parameter.
      */
     void clearDistributedWaitEdgesLocked(const std::string& transaction_id);
     
     /**
      * @brief Execute compensations for SAGA transaction
-     * @param[in] transaction_id Input parameter.
-     * @param[in] executed_steps Input parameter.
-     * @param[in] compensations Input parameter.
      */
     void executeCompensations(
         const std::string& transaction_id,
@@ -722,9 +689,6 @@ private:
     
     /**
      * @brief Persist transaction state to durable storage
-     * @param[in] transaction_id Input parameter.
-     * @param[in] state Input parameter.
-     * @return True on success.
      */
     bool persistTransactionState(
         const std::string& transaction_id,
@@ -736,14 +700,8 @@ private:
      *
      * Prevents concurrent commit()/abort() callers from driving conflicting final
      * decisions for the same transaction at the same time.
-     * @param[in] transaction_id Input parameter.
-     * @return True on success.
      */
     bool tryStartTerminalDecision(const std::string& transaction_id);
-    /**
-     * @brief TBD: Describe finishTerminalDecision.
-     * @param[in] transaction_id Input parameter.
-     */
     void finishTerminalDecision(const std::string& transaction_id);
     
     /**

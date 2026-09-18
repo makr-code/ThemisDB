@@ -100,10 +100,6 @@ struct CacheReplicationEvent {
  */
 class ICacheReplicationListener {
 public:
-    /**
-     * @brief TBD: Describe ~ICacheReplicationListener.
-     * @return Return value.
-     */
     virtual ~ICacheReplicationListener() = default;
 
     /**
@@ -124,7 +120,6 @@ public:
     /**
      * @brief Called periodically so the listener can report its liveness.
      * @return true if the replica is reachable and healthy.
-     * @details Implements ping without additional internal calls.
      */
     virtual bool ping() { return true; }
 
@@ -238,13 +233,11 @@ public:
 
     /**
      * @brief Remove a replica by its replicaId().
-     * @param[in] replica_id Input parameter.
      */
     void removeReplica(const std::string& replica_id);
 
     /**
      * @brief Number of registered replicas (healthy + unhealthy).
-     * @return Return value.
      */
     size_t replicaCount() const;
 
@@ -302,13 +295,11 @@ public:
 
     /**
      * @brief Return replication statistics as JSON.
-     * @return Return value.
      */
     nlohmann::json getStats() const;
 
     /**
      * @brief Return per-replica health as JSON array.
-     * @return Return value.
      */
     nlohmann::json getReplicaHealth() const;
 
@@ -330,11 +321,6 @@ private:
     /// Build a CacheReplicationEvent with a fresh sequence number and timestamp.
     CacheReplicationEvent makeEvent(CacheReplicationEventType type) const;
 
-    /**
-     * @brief TBD: Describe healthToString.
-     * @param[in] h Input parameter.
-     * @return Pointer to the result.
-     */
     static const char* healthToString(CacheReplicaHealth h);
 };
 

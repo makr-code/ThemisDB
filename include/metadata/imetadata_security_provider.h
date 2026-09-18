@@ -101,10 +101,6 @@ private:
  */
 class IMetadataSecurityProvider {
 public:
-    /**
-     * @brief TBD: Describe ~IMetadataSecurityProvider.
-     * @return Return value.
-     */
     virtual ~IMetadataSecurityProvider() = default;
 
     /**
@@ -123,9 +119,6 @@ public:
      * @brief Assert that @p principal may perform @p op on @p resource.
      *
      * @throws MetadataAccessDeniedException if permission is denied.
-     * @param[in] principal Input parameter.
-     * @param[in] op Input parameter.
-     * @param[in] resource Input parameter.
      */
     virtual void assertPermission(std::string_view   principal,
                                   MetadataOperation  op,
@@ -184,16 +177,10 @@ public:
      * @param principal  Identity string.
      * @param op         The operation to permit.
      * @param resource   Resource name, or "*" for all resources.
-     * @details Calls: lk(), std::string(), insert().
      */
     void grant(std::string_view  principal,
                MetadataOperation op,
                std::string_view  resource) {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::mutex> lk(mutex_);
         rules_[std::string(principal)][op].insert(std::string(resource));
     }
@@ -202,19 +189,10 @@ public:
      * @brief Revoke a previously granted permission.
      *
      * No-op if the (principal, op, resource) triple was never granted.
-     * @param[in] principal Input parameter.
-     * @param[in] op Input parameter.
-     * @param[in] resource Input parameter.
-     * @details Calls: lk(), find(), std::string(), end(), erase().
      */
     void revoke(std::string_view  principal,
                 MetadataOperation op,
                 std::string_view  resource) {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::mutex> lk(mutex_);
         auto p_it = rules_.find(std::string(principal));
         if (p_it == rules_.end()) {
@@ -229,15 +207,8 @@ public:
 
     /**
      * @brief Remove all permissions for @p principal.
-     * @param[in] principal Input parameter.
-     * @details Calls: lk(), erase(), std::string().
      */
     void revokeAll(std::string_view principal) {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::mutex> lk(mutex_);
         rules_.erase(std::string(principal));
     }
@@ -247,11 +218,6 @@ public:
     bool hasPermission(std::string_view  principal,
                        MetadataOperation op,
                        std::string_view  resource) const override {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::mutex> lk(mutex_);
         return hasPermission_(principal, op, resource);
     }
@@ -259,20 +225,8 @@ public:
     void assertPermission(std::string_view  principal,
                           MetadataOperation op,
                           std::string_view  resource) const override {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::mutex> lk(mutex_);
         if (!hasPermission_(principal, op, resource)) {
-            /**
-             * @brief TBD: Describe MetadataAccessDeniedException.
-             * @param[in] principal Input parameter.
-             * @param[in] op Input parameter.
-             * @param[in] resource Input parameter.
-             * @return Return value.
-             */
             throw MetadataAccessDeniedException(principal, op, resource);
         }
     }

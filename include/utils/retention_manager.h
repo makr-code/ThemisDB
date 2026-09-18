@@ -93,14 +93,12 @@ public:
 
     /**
      * @brief Get all registered policies
-     * @return Return value.
      */
     std::vector<RetentionPolicy> getPolicies() const;
 
     /**
      * @brief Get a specific policy by name
      * @return Result containing pointer to policy, or error if not found
-     * @param[in] policy_name Input parameter.
      */
     themis::Result<const RetentionPolicy*> getPolicy(const std::string& policy_name) const;
 
@@ -173,8 +171,6 @@ public:
 
     /**
      * @brief Get statistics for a specific policy
-     * @param[in] policy_name Input parameter.
-     * @return Return value.
      */
     RetentionStats getPolicyStats(const std::string& policy_name) const;
 
@@ -238,13 +234,11 @@ public:
 
     /**
      * @brief Return true if a background job is currently running.
-     * @return True on success.
      */
     bool isBackgroundJobRunning() const;
 
     /**
      * @brief Get the latest compliance metrics.
-     * @return Return value.
      */
     ComplianceMetrics getComplianceMetrics() const;
 
@@ -255,10 +249,6 @@ private:
     std::string last_error_;
     bool audit_enabled_;
 
-    /**
-     * @brief TBD: Describe logAction.
-     * @param[in] action Input parameter.
-     */
     void logAction(const RetentionAction& action);
 
     // Background job state

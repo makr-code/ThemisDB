@@ -60,44 +60,17 @@ public:
 
     /**
      * @brief Convert language enum to string
-     * @param[in] lang Input parameter.
-     * @return Return value.
      */
     static std::string languageToString(Language lang);
 
 private:
-    /**
-     * @brief English Porter Stemmer helpers (simplified)
-     * @param[in] word Input parameter.
-     * @return Return value.
-     */
+    // English Porter Stemmer helpers (simplified)
     static std::string stemEnglish(std::string word);
-    /**
-     * @brief TBD: Describe endsWithDoubleConsonant.
-     * @param[in] word Input parameter.
-     * @return True on success.
-     */
     static bool endsWithDoubleConsonant(const std::string& word);
-    /**
-     * @brief TBD: Describe hasVowel.
-     * @param[in] word Input parameter.
-     * @return True on success.
-     */
     static bool hasVowel(const std::string& word);
-    /**
-     * @brief TBD: Describe replaceEnding.
-     * @param[in] word Input parameter.
-     * @param[in] from Input parameter.
-     * @param[in] to Input parameter.
-     * @return Return value.
-     */
     static std::string replaceEnding(std::string word, std::string_view from, std::string_view to);
     
-    /**
-     * @brief German stemmer helpers (simplified)
-     * @param[in] word Input parameter.
-     * @return Return value.
-     */
+    // German stemmer helpers (simplified)
     static std::string stemGerman(std::string word);
 };
 

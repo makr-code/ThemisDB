@@ -83,7 +83,6 @@ struct ApiAuthConfig {
      * 
      * Sets up recommended authentication and rate-limiting defaults
      * for all standard ThemisDB endpoints.
-     * @return Return value.
      */
     static ApiAuthConfig createSecureDefaults();
     
@@ -92,7 +91,6 @@ struct ApiAuthConfig {
      * 
      * Disables authentication and uses lenient rate limits.
      * NOT recommended for production use.
-     * @return Return value.
      */
     static ApiAuthConfig createDevDefaults();
 };

@@ -126,12 +126,8 @@ public:
     /// @brief Construct with default max_history=20.
     ConversationContext() = default;
 
-    /**
-     * @brief @brief Construct with custom max_history.
-     * @param[in] max_history Input parameter.
-     * @return Return value.
-     * @details @param max_history Maximum turns to retain (older turns dropped).
-     */
+    /// @brief Construct with custom max_history.
+    /// @param max_history Maximum turns to retain (older turns dropped).
     explicit ConversationContext(size_t max_history);
 
     /// @brief Add a user/assistant turn to history.
@@ -242,28 +238,23 @@ public:
     /// @error 6805 Context resolution failed
     IntentResult detect(const std::string& text, const ConversationContext* context = nullptr);
 
-    /**
-     * @brief @brief Extract named entities from text (standalone).
-     * @param[in] text Input parameter.
-     * @return Return value.
-     * @details @param text Input text to analyze. @return Vector of extracted NamedEntity objects. @error 6804 NER error
-     */
+    /// @brief Extract named entities from text (standalone).
+    ///
+    /// @param text Input text to analyze.
+    /// @return Vector of extracted NamedEntity objects.
+    /// @error 6804 NER error
     std::vector<NamedEntity> extractEntities(const std::string& text);
 
-    /**
-     * @brief @brief Classify intent category (without confidence scoring).
-     * @param[in] text Input parameter.
-     * @return Return value.
-     * @details @param text Input text. @return IntentCategory (or UNKNOWN if no clear category).
-     */
+    /// @brief Classify intent category (without confidence scoring).
+    ///
+    /// @param text Input text.
+    /// @return IntentCategory (or UNKNOWN if no clear category).
     IntentCategory classifyIntent(const std::string& text);
 
-    /**
-     * @brief @brief Check if confidence meets frozen threshold.
-     * @param[in] confidence Input parameter.
-     * @return True on success.
-     * @details @param confidence Score [0.0, 1.0]. @return true if confidence >= min_confidence_threshold; false otherwise.
-     */
+    /// @brief Check if confidence meets frozen threshold.
+    ///
+    /// @param confidence Score [0.0, 1.0].
+    /// @return true if confidence >= min_confidence_threshold; false otherwise.
     bool meetsThreshold(float confidence) const;
 
     /// @brief Normalize/canonicalize a query (frozen algorithm).
@@ -273,36 +264,24 @@ public:
     /// @return Normalized query string.
     std::string normalizeQuery(const std::string& text, const ConversationContext* context = nullptr);
 
-    /**
-     * @brief @brief Get aggregate statistics (JSON).
-     * @return Return value.
-     * @details @return JSON with detection counts and confidence distribution.
-     */
+    /// @brief Get aggregate statistics (JSON).
+    ///
+    /// @return JSON with detection counts and confidence distribution.
     json getStatistics() const;
     
-    /**
-     * @brief @brief Detect if confidence is too low for acceptance (Phase 3).
-     * @param[in] confidence Input parameter.
-     * @return True on success.
-     * @note Exception safety: noexcept.
-     * @details @param confidence Confidence score [0.0, 1.0]. @return true if confidence below threshold (should ask for clarification). @note Only meaningful if ask_clarification_on_low_confidence=true.
-     */
+    /// @brief Detect if confidence is too low for acceptance (Phase 3).
+    /// @param confidence Confidence score [0.0, 1.0].
+    /// @return true if confidence below threshold (should ask for clarification).
+    /// @note Only meaningful if ask_clarification_on_low_confidence=true.
     bool isConfidenceTooLow(float confidence) const noexcept;
     
-    /**
-     * @brief @brief Get safe default result when detection times out (Phase 3).
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     * @details @return IntentResult with intent=UNKNOWN and confidence=0. @note Returned when use_timeout_protection=true and timeout occurs.
-     */
+    /// @brief Get safe default result when detection times out (Phase 3).
+    /// @return IntentResult with intent=UNKNOWN and confidence=0.
+    /// @note Returned when use_timeout_protection=true and timeout occurs.
     IntentResult getTimeoutDefault() const noexcept;
     
-    /**
-     * @brief @brief Detect if detector is experiencing timeout delays (Phase 3).
-     * @return True on success.
-     * @note Exception safety: noexcept.
-     * @details @return true if timeout_detected_ flag is set after slow detection.
-     */
+    /// @brief Detect if detector is experiencing timeout delays (Phase 3).
+    /// @return true if timeout_detected_ flag is set after slow detection.
     bool isTimeoutDetected() const noexcept;
 
 private:
@@ -315,30 +294,9 @@ private:
     int64_t last_detection_start_ms_ = 0;  ///< Phase 3: for timeout tracking
     bool timeout_detected_ = false;        ///< Phase 3: timeout flag
 
-    /**
-     * @brief TBD: Describe extractDateEntities.
-     * @param[in] text Input parameter.
-     * @return Return value.
-     */
     std::vector<NamedEntity> extractDateEntities(const std::string& text) const;
-    /**
-     * @brief TBD: Describe extractNumberEntities.
-     * @param[in] text Input parameter.
-     * @return Return value.
-     */
     std::vector<NamedEntity> extractNumberEntities(const std::string& text) const;
-    /**
-     * @brief TBD: Describe extractMetricEntities.
-     * @param[in] text Input parameter.
-     * @return Return value.
-     */
     std::vector<NamedEntity> extractMetricEntities(const std::string& text) const;
-    /**
-     * @brief TBD: Describe computeIntentConfidence.
-     * @param[in] text Input parameter.
-     * @param[in] cat Input parameter.
-     * @return Return value.
-     */
     float computeIntentConfidence(const std::string& text, IntentCategory cat) const;
     
     /// @brief Phase 3: Get current wall-clock time in milliseconds.

@@ -40,11 +40,6 @@ public:
         KEYVALUE     ///< Simple key-value store
     };
 
-    /**
-     * @brief TBD: Describe dataModelToString.
-     * @param[in] m Input parameter.
-     * @return Return value.
-     */
     static std::string dataModelToString(DataModel m);
 
     struct QueryPattern {
@@ -79,9 +74,6 @@ public:
         /**
          * @brief Flatten a relational row into a nested JSON document.
          * Nested fields are created for FK-referenced columns.
-         * @param[in] row Input parameter.
-         * @param[in] schema Input parameter.
-         * @return Return value.
          */
         json tableToDocument(const json& row,
                              const InferenceTableSchema& schema);
@@ -108,12 +100,6 @@ public:
     };
 
 private:
-    /**
-     * @brief TBD: Describe inferModelFromSchema.
-     * @param[in] schema Input parameter.
-     * @param[in] queries Input parameter.
-     * @return Return value.
-     */
     DataModel inferModelFromSchema(
         const InferenceTableSchema& schema,
         const std::vector<QueryPattern>& queries

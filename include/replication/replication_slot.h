@@ -150,16 +150,12 @@ public:
      * WAL segments beyond confirmed_lsn will be retained until the slot
      * is resumed or dropped.  Returns false if the slot is already paused
      * or has been dropped.
-     * @brief TBD: Describe pause.
-     * @return True on success.
      */
     bool pause();
 
     /**
      * Resume a paused slot.
      * Returns false if the slot is ACTIVE or DROPPED.
-     * @brief TBD: Describe resume.
-     * @return True on success.
      */
     bool resume();
 
@@ -167,8 +163,6 @@ public:
      * Drop this slot permanently.
      * WAL retention for this slot's LSN range is released.
      * After calling drop() all subsequent control calls return false.
-     * @brief TBD: Describe drop.
-     * @return True on success.
      */
     bool drop();
 
@@ -180,31 +174,17 @@ public:
      * Advance the confirmed LSN for this slot (called by the consumer on ack).
      * Persists the new LSN to the state file.
      * Returns false when the slot is paused or dropped.
-     * @brief TBD: Describe advance.
-     * @param[in] confirmed_lsn Input parameter.
-     * @return True on success.
      */
     bool advance(uint64_t confirmed_lsn);
 
-    /**
-     * @brief ----------------------------------------------------------------------- Introspection -----------------------------------------------------------------------
-     * @return Return value.
-     */
+    // -----------------------------------------------------------------------
+    // Introspection
+    // -----------------------------------------------------------------------
 
     const std::string&  name()   const;
-    /**
-     * @brief TBD: Describe status.
-     * @return Return value.
-     */
     SlotStatus          status() const;
-    /**
-     * @brief TBD: Describe state.
-     * @return Return value.
-     */
     SlotState           state()  const;
 
-     * @brief TBD: Describe lag.
-     * @return Return value.
     /** Lag in number of WAL sequences between the leader and this slot. */
     uint64_t lag() const;
 
@@ -214,18 +194,8 @@ private:
     std::shared_ptr<WALManager> wal_manager_;
     std::string                 state_file_path_;
 
-    /**
-     * @brief TBD: Describe persistState.
-     */
     void persistState() const;
-    /**
-     * @brief TBD: Describe persistStateImpl.
-     * @param[in] state Input parameter.
-     */
     void persistStateImpl(const SlotState& state) const;
-    /**
-     * @brief TBD: Describe loadState.
-     */
     void loadState();
 };
 
@@ -277,12 +247,6 @@ public:
         std::string wal_directory;  ///< Base WAL directory; slot states stored under <wal_directory>/slots/
     };
 
-    /**
-     * @brief TBD: Describe ReplicationSlotManager.
-     * @param[in] config Input parameter.
-     * @param[in] wal_manager Input parameter.
-     * @return Return value.
-     */
     explicit ReplicationSlotManager(
         const ManagerConfig&         config,
         std::shared_ptr<WALManager>  wal_manager
@@ -305,18 +269,12 @@ public:
     /**
      * Look up an existing slot by name.
      * Returns nullptr if not found.
-     * @brief TBD: Describe getSlot.
-     * @param[in] name Input parameter.
-     * @return Return value.
      */
     std::shared_ptr<ReplicationSlot> getSlot(const std::string& name) const;
 
     /**
      * Drop and remove a slot by name.
      * Returns false if the slot does not exist.
-     * @brief TBD: Describe dropSlot.
-     * @param[in] name Input parameter.
-     * @return True on success.
      */
     bool dropSlot(const std::string& name);
 
@@ -324,13 +282,9 @@ public:
     // Introspection
     // -----------------------------------------------------------------------
 
-     * @brief TBD: Describe listSlots.
-     * @return Return value.
     /** List states of all registered slots (snapshot). */
     std::vector<ReplicationSlot::SlotState> listSlots() const;
 
-     * @brief TBD: Describe slotCount.
-     * @return Return value.
     /** Number of currently registered (non-dropped) slots. */
     size_t slotCount() const;
 
@@ -338,14 +292,11 @@ public:
      * Minimum confirmed LSN across all active slots.
      * WAL segments before this LSN may be safely purged.
      * Returns 0 if there are no active slots.
-     * @brief TBD: Describe minConfirmedLsn.
-     * @return Return value.
      */
     uint64_t minConfirmedLsn() const;
 
     /**
      * Reload slot states from disk (call on startup to restore persisted slots).
-     * @brief TBD: Describe loadPersistedSlots.
      */
     void loadPersistedSlots();
 

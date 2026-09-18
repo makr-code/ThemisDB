@@ -184,12 +184,6 @@ private:
 
     static constexpr std::size_t kMaxEndpointLength = 2048;
 
-    /**
-     * @brief TBD: Describe emitIncident.
-     * @param[in] id Input parameter.
-     * @param[in] desc Input parameter.
-     * @note Exception safety: noexcept.
-     */
     void emitIncident(std::string_view id, std::string_view desc) const noexcept;
 };
 

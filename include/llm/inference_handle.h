@@ -44,11 +44,7 @@ public:
         : request_id_(request_id), future_(future),
           cancel_token_(std::move(cancel_token)) {}
     
-    /**
-     * @brief Wait for result (blocking)
-     * @return Return value.
-     * @details Implements get without additional internal calls.
-     */
+    // Wait for result (blocking)
     InferenceResponse get() { return future_.get(); }
     
     // Check if ready (non-blocking)
@@ -57,9 +53,8 @@ public:
                std::future_status::ready;
     }
     
-    /**
-     * @brief Cancel request (best effort) — sets the shared cancel token so the worker thread will stop processing at the next check point.
-     */
+    // Cancel request (best effort) — sets the shared cancel token so the
+    // worker thread will stop processing at the next check point.
     void cancel();
     
     const std::string& requestId() const { return request_id_; }

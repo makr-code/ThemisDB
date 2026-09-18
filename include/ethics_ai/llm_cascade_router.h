@@ -89,10 +89,6 @@ struct CascadeRoutingDecision {
  */
 class ILlmCascadeRouter {
 public:
-    /**
-     * @brief TBD: Describe ~ILlmCascadeRouter.
-     * @return Return value.
-     */
     virtual ~ILlmCascadeRouter() = default;
 
     /**
@@ -108,17 +104,12 @@ public:
 
     /**
      * @brief Get the token budget for a given round role.
-     * @param[in] round_role Input parameter.
-     * @return Return value.
      */
     virtual ModelTokenBudget budgetForRound(
         const std::string& round_role) const = 0;
 
     /**
      * @brief Get the assigned tier for a round role (for logging/observability).
-     * @param[in] round_role Input parameter.
-     * @return Return value.
-     * @note Exception safety: noexcept.
      */
     virtual CascadeModelTier tierForRound(
         const std::string& round_role) const noexcept = 0;
@@ -177,7 +168,6 @@ public:
      * Thread safety: call before any concurrent invoke(); the function object
      * is stored under a plain copy (not atomic) and must be set once at
      * startup before concurrent use.
-     * @param[in] fn Input parameter.
      */
     void setLlmInvokeFn(LlmInvokeFn fn);
 
@@ -199,19 +189,7 @@ private:
     CascadeRoutingConfig config_;
     LlmInvokeFn          llm_invoke_fn_;
 
-    /**
-     * @brief TBD: Describe resolveTier.
-     * @param[in] round_role Input parameter.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
     CascadeModelTier resolveTier(const std::string& round_role) const noexcept;
-    /**
-     * @brief TBD: Describe budgetForTier.
-     * @param[in] tier Input parameter.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
     ModelTokenBudget budgetForTier(CascadeModelTier tier) const noexcept;
 };
 

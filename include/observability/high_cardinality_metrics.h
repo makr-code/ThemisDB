@@ -106,7 +106,6 @@ public:
 
     /**
      * @brief Virtual destructor for safe polymorphic deletion.
-     * @return Return value.
      */
     virtual ~CardinalityFallbackStrategy() = default;
 };
@@ -162,7 +161,6 @@ public:
 
     /**
      * @brief Virtual destructor for safe polymorphic deletion.
-     * @return Return value.
      */
     virtual ~HighCardinalityMetricsTracker() = default;
 

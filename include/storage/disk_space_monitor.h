@@ -101,12 +101,6 @@ public:
     using GCCallback = std::function<void()>;
     
     DiskSpaceMonitor(const std::string& path);
-    /**
-     * @brief TBD: Describe DiskSpaceMonitor.
-     * @param[in] path Input parameter.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit DiskSpaceMonitor(const std::string& path, const Config& config);
     ~DiskSpaceMonitor();
     
@@ -141,25 +135,21 @@ public:
     
     /**
      * @brief Check if database is in read-only mode
-     * @return True on success.
      */
     bool isReadOnly() const;
     
     /**
      * @brief Get current space level
-     * @return Return value.
      */
     SpaceLevel getSpaceLevel() const;
     
     /**
      * @brief Get current space info
-     * @return Return value.
      */
     SpaceInfo getSpaceInfo() const;
     
     /**
      * @brief Get monitoring statistics
-     * @return Return value.
      */
     MonitorStats getStats() const;
     
@@ -167,7 +157,6 @@ public:
      * @brief Register callback for space alerts
      * 
      * Callback is invoked when space level changes or threshold crossed
-     * @param[in] callback Input parameter.
      */
     void setAlertCallback(AlertCallback callback);
     
@@ -175,7 +164,6 @@ public:
      * @brief Register callback for garbage collection
      * 
      * Callback is invoked when automatic GC should run
-     * @param[in] callback Input parameter.
      */
     void setGCCallback(GCCallback callback);
     
@@ -190,7 +178,6 @@ public:
      * @brief Override read-only mode
      * 
      * Use with caution - allows writes even in critical state
-     * @param[in] read_only Input parameter.
      */
     void setReadOnlyOverride(bool read_only);
     
@@ -207,7 +194,6 @@ public:
     
     /**
      * @brief Get recommended action based on space level
-     * @return Return value.
      */
     std::string getRecommendedAction() const;
     
@@ -250,46 +236,14 @@ private:
     std::vector<UsageSnapshot> usage_history_;
     static constexpr size_t max_history_size_ = 100;
     
-    /**
-     * @brief Helper methods
-     */
+    // Helper methods
     void monitoringLoop();
-    /**
-     * @brief TBD: Describe queryDiskSpace.
-     * @return Return value.
-     */
     SpaceInfo queryDiskSpace();
-    /**
-     * @brief TBD: Describe updateSpaceLevel.
-     * @param[in] info Input parameter.
-     */
     void updateSpaceLevel(const SpaceInfo& info);
-    /**
-     * @brief TBD: Describe handleSpaceLevelChange.
-     * @param[in] old_level Input parameter.
-     * @param[in] new_level Input parameter.
-     */
     void handleSpaceLevelChange(SpaceLevel old_level, SpaceLevel new_level);
-    /**
-     * @brief TBD: Describe sendAlert.
-     * @param[in] info Input parameter.
-     * @param[in] message Input parameter.
-     */
     void sendAlert(const SpaceInfo& info, const std::string& message);
-    /**
-     * @brief TBD: Describe shouldSendAlert.
-     * @return True on success.
-     */
     bool shouldSendAlert() const;
-    /**
-     * @brief TBD: Describe recordUsage.
-     * @param[in] info Input parameter.
-     */
     void recordUsage(const SpaceInfo& info);
-    /**
-     * @brief TBD: Describe calculateUsageTrend.
-     * @return Return value.
-     */
     float calculateUsageTrend() const;  // Bytes per second
 };
 
@@ -310,13 +264,11 @@ public:
     
     /**
      * @brief Check if guard acquired space successfully
-     * @return True on success.
      */
     bool isValid() const;
     
     /**
      * @brief Get error message if guard is invalid
-     * @return Return value.
      */
     std::string getError() const;
     
@@ -361,15 +313,11 @@ std::string formatBytes(size_t bytes);
 
 /**
  * @brief Check if path exists
- * @param[in] path Input parameter.
- * @return True on success.
  */
 bool pathExists(const std::string& path);
 
 /**
  * @brief Get directory of a file path
- * @param[in] path Input parameter.
- * @return Return value.
  */
 std::string getDirectory(const std::string& path);
 

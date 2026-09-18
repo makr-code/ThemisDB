@@ -128,12 +128,6 @@ public:
     }
 
 private:
-    /**
-     * @brief TBD: Describe mergeRecursive.
-     * @param[in,out] target Input/output parameter.
-     * @param[in] source Input parameter.
-     * @details Calls: begin(), end(), value(), is_object(), contains(), key().
-     */
     static void mergeRecursive(nlohmann::json& target, const nlohmann::json& source) {
         for (auto it = source.begin(); it != source.end(); ++it) {
             if (it.value().is_object() && target.contains(it.key()) && target[it.key()].is_object()) {
@@ -655,11 +649,9 @@ public:
     }
 };
 
-/**
- * @brief ============================================================================ Register Document Functions ============================================================================
- * @param[in,out] reg Input/output parameter.
- * @details Calls: registerFunction().
- */
+// ============================================================================
+// Register Document Functions
+// ============================================================================
 
 inline void registerDocumentFunctions(FunctionRegistry& reg) {
     // Document functions

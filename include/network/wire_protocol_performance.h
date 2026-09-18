@@ -106,11 +106,6 @@ public:
     // ── Configuration ────────────────────────────────────────────────────
     struct Config {
         size_t max_samples = 10'000; ///< Sliding-window size for latency samples
-        /**
-         * @brief TBD: Describe defaults.
-         * @return Return value.
-         * @details Implements defaults without additional internal calls.
-         */
         static Config defaults() { return {}; }
     };
 
@@ -126,7 +121,6 @@ public:
 
     /**
      * @brief Record raw latency in milliseconds.
-     * @param[in] ms Input parameter.
      */
     void recordLatencyMs(double ms);
 
@@ -158,7 +152,6 @@ public:
      * Latency percentiles are computed from the current sample window.
      * This involves a sort of the window copy, so it is O(n log n) where
      * n ≤ max_samples.
-     * @return Return value.
      */
     Snapshot snapshot() const;
 
@@ -199,13 +192,7 @@ private:
     std::atomic<uint64_t> parse_errors_{0};
     std::atomic<uint64_t> auth_errors_{0};
 
-    /**
-     * @brief Compute percentile from a sorted vector
-     * @param[in] sorted Input parameter.
-     * @param[in] p Input parameter.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
+    // Compute percentile from a sorted vector
     static double percentile(const std::vector<double>& sorted, double p) noexcept;
 };
 
@@ -252,10 +239,7 @@ public:
 
         explicit operator bool() const noexcept { return buf_ != nullptr; }
 
-        /**
-         * @brief Return ownership back to pool (called by destructor)
-         * @note Exception safety: noexcept.
-         */
+        // Return ownership back to pool (called by destructor)
         void release() noexcept;
 
     private:
@@ -287,44 +271,15 @@ public:
      */
     Handle acquire();
 
-    /**
-     * @brief ── Statistics ────────────────────────────────────────────────────────
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
+    // ── Statistics ────────────────────────────────────────────────────────
     size_t poolDepth()   const noexcept;   ///< Current idle slab count
-    /**
-     * @brief TBD: Describe slabSize.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
     size_t slabSize()    const noexcept;   ///< Configured slab capacity
-    /**
-     * @brief TBD: Describe hitCount.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
     uint64_t hitCount()  const noexcept;   ///< Acquisitions from pool
-    /**
-     * @brief TBD: Describe missCount.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
     uint64_t missCount() const noexcept;   ///< Fresh allocations
-    /**
-     * @brief TBD: Describe hitRate.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
     double   hitRate()   const noexcept;   ///< hits / (hits + misses)
 
 private:
     friend class Handle;
-    /**
-     * @brief TBD: Describe returnBuffer.
-     * @param[in] buf Input parameter.
-     * @note Exception safety: noexcept.
-     */
     void returnBuffer(std::unique_ptr<Buffer> buf) noexcept;
 
     const size_t slab_size_;
@@ -368,11 +323,6 @@ public:
         int    lz4_fast_x_acceleration = 3;      ///< used when latency is critical
         int    lz4_hc_level            = 4;      ///< LZ4HC_CLEVEL_DEFAULT
         bool   prefer_speed            = false;  ///< Prefer LZ4_FAST_X over LZ4_HC
-        /**
-         * @brief TBD: Describe defaults.
-         * @return Return value.
-         * @details Implements defaults without additional internal calls.
-         */
         static Config defaults() { return {}; }
     };
 
@@ -380,17 +330,12 @@ public:
 
     /**
      * @brief Advise on compression for a payload of @p size bytes.
-     * @param[in] payload_size Input parameter.
-     * @return Return value.
-     * @note Exception safety: noexcept.
      */
     Decision advise(size_t payload_size) const noexcept;
 
     /**
      * @brief Return the LZ4 acceleration parameter for a given decision.
      * @return 0 for HC decisions (use lz4_hc_level instead), else acceleration int.
-     * @param[in] d Input parameter.
-     * @note Exception safety: noexcept.
      */
     int lz4Acceleration(Decision d) const noexcept;
 

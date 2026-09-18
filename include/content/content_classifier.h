@@ -87,16 +87,10 @@ struct ContentClassificationResult {
  */
 class IContentClassifier {
 public:
-    /**
-     * @brief TBD: Describe ~IContentClassifier.
-     * @return Return value.
-     */
     virtual ~IContentClassifier() = default;
 
     /**
      * @brief Classify a single content item.
-     * @param[in] req Input parameter.
-     * @return Return value.
      */
     virtual ContentClassificationResult classify(
         const ContentClassificationRequest& req
@@ -106,8 +100,6 @@ public:
      * @brief Classify multiple content items.
      *
      * Result vector has the same size and order as @p requests.
-     * @param[in] requests Input parameter.
-     * @return Return value.
      */
     virtual std::vector<ContentClassificationResult> classifyBatch(
         const std::vector<ContentClassificationRequest>& requests

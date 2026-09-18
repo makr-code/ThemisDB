@@ -61,10 +61,6 @@ struct EntityLink {
     std::string                  created_by;     ///< "importer_v2.2" or user identifier
     json                         metadata;
 
-    /**
-     * @brief TBD: Describe toJson.
-     * @return Return value.
-     */
     json toJson() const;
 };
 
@@ -154,7 +150,6 @@ public:
 
     /**
      * @brief Return the total number of links currently stored.
-     * @return Return value.
      */
     size_t linkCount() const;
 

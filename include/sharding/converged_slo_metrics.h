@@ -203,12 +203,6 @@ struct ConvergedOperationMetrics {
         };
     }
     
-    /**
-     * @brief TBD: Describe fromJson.
-     * @param[in] j Input parameter.
-     * @return Return value.
-     * @details Calls: value(), std::chrono::milliseconds().
-     */
     static ConvergedOperationMetrics fromJson(const nlohmann::json& j) {
         ConvergedOperationMetrics metrics;
         metrics.operation_id = j.value("operation_id", "");
@@ -314,8 +308,6 @@ struct ConvergedSLOMetrics {
     // Methods
     // ========================================================================
     
-     * @param[in] metrics Input parameter.
-     * @details Calls: load(), lock(), count(), push_back(), size(), erase(), begin().
     /** @brief Record a Converged operation */
     void recordOperation(const ConvergedOperationMetrics& metrics) {
         total_operations++;
@@ -377,11 +369,7 @@ struct ConvergedSLOMetrics {
         total_bytes_written += metrics.bytes_written;
         total_gpu_memory_used += metrics.gpu_memory_used_bytes;
         
-        /**
-         * @brief Latency recording
-         * @param[in] latency_mutex Input parameter.
-         * @return Return value.
-         */
+        // Latency recording
         std::lock_guard<std::mutex> lock(latency_mutex);
         if (metrics.cross_layer_sync_time.count() > 0) {
             cross_layer_sync_latencies.push_back(metrics.cross_layer_sync_time.count());
@@ -440,20 +428,15 @@ struct ConvergedSLOMetrics {
         return total > 0 ? static_cast<double>(auditable) / total : 1.0;
     }
     
-     * @param[in] op_type Input parameter.
-     * @return Return value.
     /** @brief Get p50 latency for a specific operation type */
     double getLatencyP50(const std::string& op_type) const;
     
-     * @param[in] op_type Input parameter.
-     * @return Return value.
     /** @brief Get p99 latency for a specific operation type */
     double getLatencyP99(const std::string& op_type) const;
     
     /** @brief Reset all metrics */
     void reset();
     
-     * @return Return value.
     /** @brief Get all metrics as JSON */
     nlohmann::json toJson() const;
 };
@@ -470,11 +453,6 @@ public:
         bool enable_alerting = true;
         double alert_threshold = 0.9;  // Alert when 90% of error budget consumed
         
-        /**
-         * @brief TBD: Describe defaults.
-         * @return Return value.
-         * @details Implements defaults without additional internal calls.
-         */
         static Config defaults() { return {}; }
     };
     
@@ -482,37 +460,27 @@ public:
     explicit ConvergedSLOMonitor(const Config& config = Config::defaults());
     ~ConvergedSLOMonitor() = default;
     
-     * @param[in] metrics Input parameter.
     /** @brief Record a Converged operation */
     void recordOperation(const ConvergedOperationMetrics& metrics);
     
     /** @brief Record a specific error */
     void recordError(ConvergedErrorType error_type, const std::string& message = "");
     
-     * @param[in] shard_id Input parameter.
-     * @param[in] stale_version Input parameter.
-     * @param[in] current_version Input parameter.
     /** @brief Record cross-shard KV-stale error */
     void recordCrossShardKVStale(const std::string& shard_id, uint64_t stale_version, uint64_t current_version);
     
-     * @param[in] tokens_generated Input parameter.
-     * @param[in] tokens_lost Input parameter.
     /** @brief Record inference preemption */
     void recordInferencePreemption(uint64_t tokens_generated, uint64_t tokens_lost);
     
-     * @return True on success.
     /** @brief Check if SLO is being met */
     bool isSLOMet() const;
     
-     * @return Return value.
     /** @brief Get SLO compliance report */
     nlohmann::json getSLOReport() const;
     
-     * @return Return value.
     /** @brief Get error budget remaining */
     double getErrorBudgetRemaining() const;
     
-     * @return Return value.
     /** @brief Get current metrics */
     ConvergedSLOMetrics getCurrentMetrics() const;
     

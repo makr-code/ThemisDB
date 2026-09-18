@@ -39,8 +39,6 @@ public:
     /**
      * Optionally attach a ShardRepairEngine so that its metrics are
      * appended to the main Prometheus scrape response.
-     * @brief TBD: Describe setRepairEngine.
-     * @param[in] repair_engine Input parameter.
      */
     void setRepairEngine(std::shared_ptr<sharding::ShardRepairEngine> repair_engine);
 
@@ -48,36 +46,30 @@ public:
      * Get all sharding metrics in Prometheus format with annotations.
      * Includes repair metrics when a ShardRepairEngine has been set.
      * @return Prometheus-formatted metrics with HELP and TYPE
-     * @brief TBD: Describe getMetrics.
      */
     std::string getMetrics() const;
 
     /**
      * Get plain metrics without annotations
      * @return Plain Prometheus metrics
-     * @brief TBD: Describe getMetricsPlain.
      */
     std::string getMetricsPlain() const;
     
     /**
      * Get SLO status in JSON format
      * @return JSON with SLO compliance and error budgets
-     * @brief TBD: Describe getSLOStatus.
      */
     std::string getSLOStatus() const;
     
     /**
      * Get SLO status in Prometheus format
      * @return Prometheus-formatted SLO metrics
-     * @brief TBD: Describe getSLOMetrics.
      */
     std::string getSLOMetrics() const;
 
     /**
      * Get repair/anti-entropy metrics in Prometheus format.
      * Returns an empty string when no ShardRepairEngine is attached.
-     * @brief TBD: Describe getRepairMetrics.
-     * @return Return value.
      */
     std::string getRepairMetrics() const;
 

@@ -36,61 +36,26 @@ namespace themis::network {
  */
 class ProtobufParser {
 public:
-    /**
-     * @brief TBD: Describe ProtobufParser.
-     * @param[in] data Input parameter.
-     * @return Return value.
-     */
     explicit ProtobufParser(const std::vector<uint8_t>& data) 
         : data_(data), pos_(0) {}
     
-    /**
-     * @brief Parse varint (variable-length integer)
-     * @param[in,out] value Input/output parameter.
-     * @return True on success.
-     */
+    // Parse varint (variable-length integer)
     bool readVarint(uint64_t& value);
     
-    /**
-     * @brief Parse fixed 64-bit value
-     * @param[in,out] value Input/output parameter.
-     * @return True on success.
-     */
+    // Parse fixed 64-bit value
     bool readFixed64(uint64_t& value);
     
-    /**
-     * @brief Parse fixed 32-bit value
-     * @param[in,out] value Input/output parameter.
-     * @return True on success.
-     */
+    // Parse fixed 32-bit value
     bool readFixed32(uint32_t& value);
     
-    /**
-     * @brief Parse length-delimited field (string/bytes)
-     * @param[in,out] value Input/output parameter.
-     * @return True on success.
-     */
+    // Parse length-delimited field (string/bytes)
     bool readLengthDelimited(std::vector<uint8_t>& value);
-    /**
-     * @brief TBD: Describe readString.
-     * @param[in,out] value Input/output parameter.
-     * @return True on success.
-     */
     bool readString(std::string& value);
     
-    /**
-     * @brief Parse tag (field number + wire type)
-     * @param[in,out] field_number Input/output parameter.
-     * @param[in,out] wire_type Input/output parameter.
-     * @return True on success.
-     */
+    // Parse tag (field number + wire type)
     bool readTag(uint32_t& field_number, uint32_t& wire_type);
     
-    /**
-     * @brief Skip unknown field
-     * @param[in] wire_type Input parameter.
-     * @return True on success.
-     */
+    // Skip unknown field
     bool skipField(uint32_t wire_type);
     
     // Check if at end
@@ -111,55 +76,27 @@ class ProtobufSerializer {
 public:
     ProtobufSerializer() = default;
     
-    /**
-     * @brief Write varint
-     * @param[in] value Input parameter.
-     */
+    // Write varint
     void writeVarint(uint64_t value);
     
-    /**
-     * @brief Write fixed 64-bit
-     * @param[in] value Input parameter.
-     */
+    // Write fixed 64-bit
     void writeFixed64(uint64_t value);
     
-    /**
-     * @brief Write fixed 32-bit
-     * @param[in] value Input parameter.
-     */
+    // Write fixed 32-bit
     void writeFixed32(uint32_t value);
     
-    /**
-     * @brief Write length-delimited field
-     * @param[in] value Input parameter.
-     */
+    // Write length-delimited field
     void writeLengthDelimited(const std::vector<uint8_t>& value);
-    /**
-     * @brief TBD: Describe writeString.
-     * @param[in] value Input parameter.
-     */
     void writeString(const std::string& value);
     
-    /**
-     * @brief Write tag
-     * @param[in] field_number Input parameter.
-     * @param[in] wire_type Input parameter.
-     */
+    // Write tag
     void writeTag(uint32_t field_number, uint32_t wire_type);
     
-    /**
-     * @brief Write double (as fixed64)
-     * @param[in] value Input parameter.
-     */
+    // Write double (as fixed64)
     void writeDouble(double value);
     
     // Get serialized data
     const std::vector<uint8_t>& data() const { return data_; }
-    /**
-     * @brief TBD: Describe take.
-     * @return Return value.
-     * @details Calls: std::move().
-     */
     std::vector<uint8_t> take() { return std::move(data_); }
     
 private:
@@ -186,12 +123,7 @@ struct TimeSeriesQueryRequest {
     uint32_t aggregation = 0;  // 0=AVG, 1=SUM, 2=MIN, 3=MAX, 4=COUNT
     uint64_t bucket_size_ns = 0;
     
-    /**
-     * @brief Parse from protobuf wire format
-     * @param[in] data Input parameter.
-     * @param[in,out] request Input/output parameter.
-     * @return True on success.
-     */
+    // Parse from protobuf wire format
     static bool parse(const std::vector<uint8_t>& data, TimeSeriesQueryRequest& request);
 };
 
@@ -212,10 +144,7 @@ struct TimeSeriesBucket {
     double min = 0.0;
     double max = 0.0;
     
-    /**
-     * @brief Serialize to protobuf wire format
-     * @return Return value.
-     */
+    // Serialize to protobuf wire format
     std::vector<uint8_t> serialize() const;
 };
 
@@ -224,10 +153,7 @@ struct TimeSeriesStats {
     uint64_t buckets_returned = 0;
     double data_density = 0.0;
     
-    /**
-     * @brief Serialize to protobuf wire format
-     * @return Return value.
-     */
+    // Serialize to protobuf wire format
     std::vector<uint8_t> serialize() const;
 };
 
@@ -236,10 +162,7 @@ struct TimeSeriesQueryResponse {
     uint64_t query_time_us = 0;
     TimeSeriesStats stats;
     
-    /**
-     * @brief Serialize to protobuf wire format
-     * @return Return value.
-     */
+    // Serialize to protobuf wire format
     std::vector<uint8_t> serialize() const;
 };
 

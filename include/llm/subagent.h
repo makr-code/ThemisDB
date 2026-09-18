@@ -104,10 +104,6 @@ struct SubagentInferenceResult {
  */
 class Subagent {
 public:
-    /**
-     * @brief TBD: Describe ~Subagent.
-     * @return Return value.
-     */
     virtual ~Subagent() = default;
 
     // ========================================================================
@@ -116,13 +112,11 @@ public:
 
     /**
      * @brief Get the unique subagent ID.
-     * @return Return value.
      */
     virtual const std::string& id() const = 0;
 
     /**
      * @brief Get the subagent configuration.
-     * @return Return value.
      */
     virtual const SubagentConfig& config() const = 0;
 
@@ -132,7 +126,6 @@ public:
 
     /**
      * @brief Get current state of the subagent.
-     * @return Return value.
      */
     virtual SubagentState getState() const = 0;
 
@@ -247,7 +240,6 @@ public:
 
     /**
      * @brief Get current metrics snapshot.
-     * @return Return value.
      */
     virtual SubagentMetrics getMetrics() const = 0;
 
@@ -258,7 +250,6 @@ public:
 
     /**
      * @brief Get the last error message (if state is ERROR).
-     * @return Return value.
      */
     virtual std::string getLastError() const = 0;
 
@@ -270,7 +261,6 @@ public:
      * @brief Check if subagent is ready for inference.
      *
      * Equivalent to getState() == SubagentState::READY.
-     * @return True on success.
      */
     virtual bool isReady() const = 0;
 
@@ -297,7 +287,6 @@ public:
      * @brief Check current quota status.
      *
      * @return Quota check result (allowed, tokens_used, tokens_limit).
-     * @param[in] estimated_tokens Input parameter.
      */
     virtual QuotaCheckResult checkQuota(size_t estimated_tokens) const = 0;
 

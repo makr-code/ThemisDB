@@ -128,16 +128,7 @@ public:
 private:
     bool use_ansi_;
 
-    /**
-     * @brief TBD: Describe colorize.
-     * @param[in] tok Input parameter.
-     * @return Return value.
-     */
     std::string colorize(const AQLToken& tok) const;
-    /**
-     * @brief TBD: Describe ansiReset.
-     * @return Return value.
-     */
     std::string ansiReset() const;
 };
 

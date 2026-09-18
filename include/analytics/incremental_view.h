@@ -200,11 +200,6 @@ struct ViewQueryResult {
  */
 class IncrementalView {
 public:
-    /**
-     * @brief TBD: Describe IncrementalView.
-     * @param[in] def Input parameter.
-     * @return Return value.
-     */
     explicit IncrementalView(const ViewDefinition& def);
     ~IncrementalView();
 
@@ -219,8 +214,6 @@ public:
      * @return true  if the record was applied (passed base filters).
      * @return false if the record was filtered out or belongs to a different
      *               collection.
-     * @brief TBD: Describe applyChange.
-     * @param[in] change Input parameter.
      */
     bool applyChange(const ChangeRecord& change);
 
@@ -229,9 +222,6 @@ public:
      * Thread-safe. Processes changes in micro-batches (≤ 256 rows) to allow
      * concurrent readers to acquire the shared lock between batches.
      * Base filters are evaluated outside the write lock.
-     * @brief TBD: Describe applyChanges.
-     * @param[in] changes Input parameter.
-     * @return Return value.
      */
     int applyChanges(const std::vector<ChangeRecord>& changes);
 
@@ -255,14 +245,11 @@ public:
 
     /**
      * Discard all aggregated state. After this, the view is empty.
-     * @brief TBD: Describe clear.
      */
     void clear();
 
     /**
      * Number of groups currently tracked.
-     * @brief TBD: Describe groupCount.
-     * @return Return value.
      */
     int64_t groupCount() const;
 
@@ -274,8 +261,6 @@ public:
     /**
      * True if staleness_seconds > 0 and the last update was more than
      * staleness_seconds ago.
-     * @brief TBD: Describe isStale.
-     * @return True on success.
      */
     bool isStale() const;
 
@@ -284,10 +269,6 @@ public:
      */
     uint64_t changeCount() const { return change_count_.load(); }
 
-    /**
-     * @brief TBD: Describe lastUpdateTime.
-     * @return Return value.
-     */
     std::chrono::system_clock::time_point lastUpdateTime() const;
 
 private:
@@ -330,31 +311,13 @@ private:
     std::atomic<uint64_t> change_count_{0};
     std::atomic<int64_t>  last_update_us_{0};
 
-    /**
-     * @brief Internal helpers
-     * @param[in] row Input parameter.
-     * @return Return value.
-     */
+    // Internal helpers
     GroupKey makeGroupKey(const ChangeRecord::Row& row) const;
     std::unordered_map<std::string, std::string> parseGroupKey(const GroupKey& gk) const;
-    /**
-     * @brief TBD: Describe passesBaseFilters.
-     * @param[in] row Input parameter.
-     * @return True on success.
-     */
     bool passesBaseFilters(const ChangeRecord::Row& row) const;
     bool passesRuntimeFilters(const std::unordered_map<std::string, std::string>& gk,
                                const std::vector<ViewFilter>& filters) const;
-    /**
-     * @brief TBD: Describe applyRow.
-     * @param[in] row Input parameter.
-     * @param[in] sign Input parameter.
-     */
     void applyRow(const ChangeRecord::Row& row, int sign);
-    /**
-     * @brief TBD: Describe pruneEmptyGroup.
-     * @param[in] gk Input parameter.
-     */
     void pruneEmptyGroup(const GroupKey& gk);
 };
 
@@ -398,53 +361,36 @@ public:
     /**
      * Register a new incremental view.
      * @return false if a view with the same name already exists.
-     * @brief TBD: Describe createView.
-     * @param[in] def Input parameter.
      */
     bool createView(const ViewDefinition& def);
 
     /**
      * Remove a view by name.
-     * @brief TBD: Describe dropView.
-     * @param[in] name Input parameter.
-     * @return True on success.
      */
     bool dropView(const std::string& name);
 
     /**
      * Check if a view exists.
-     * @brief TBD: Describe hasView.
-     * @param[in] name Input parameter.
-     * @return True on success.
      */
     bool hasView(const std::string& name) const;
 
     /**
      * Get a view by name.
-     * @brief TBD: Describe getView.
-     * @param[in] name Input parameter.
-     * @return Return value.
      */
     std::shared_ptr<IncrementalView> getView(const std::string& name) const;
 
     /**
      * List all registered view names.
-     * @brief TBD: Describe listViews.
-     * @return Return value.
      */
     std::vector<std::string> listViews() const;
 
     /**
      * Apply a single change to all views that observe the change's collection.
-     * @brief TBD: Describe applyChange.
-     * @param[in] change Input parameter.
      */
     void applyChange(const ChangeRecord& change);
 
     /**
      * Apply a batch of changes to all relevant views.
-     * @brief TBD: Describe applyChanges.
-     * @param[in] changes Input parameter.
      */
     void applyChanges(const std::vector<ChangeRecord>& changes);
 
@@ -475,18 +421,11 @@ private:
 
 /**
  * Convert a FieldValue to a human-readable string.
- * @brief TBD: Describe fieldValueToStr.
- * @param[in] v Input parameter.
- * @return Return value.
  */
 std::string fieldValueToStr(const FieldValue& v);
 
 /**
  * Convert ViewAggFunc to string.
- * @brief TBD: Describe viewAggFuncToString.
- * @param[in] f Input parameter.
- * @return Pointer to the result.
- * @details Implements viewAggFuncToString without additional internal calls.
  */
 inline const char* viewAggFuncToString(ViewAggFunc f) {
     switch (f) {

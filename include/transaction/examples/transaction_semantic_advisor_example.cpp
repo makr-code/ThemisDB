@@ -50,11 +50,7 @@ struct MockTransactionBatch {
     std::vector<std::vector<WriteSetEntry>> transactions;
 };
 
-/**
- * @brief Simulate two transactions that write to overlapping key ranges
- * @return Return value.
- * @details Implements buildConflictingBatch without additional internal calls.
- */
+// Simulate two transactions that write to overlapping key ranges
 MockTransactionBatch buildConflictingBatch() {
     return MockTransactionBatch{{
         // Transaction A: writes to orders-001, orders-002
@@ -68,11 +64,6 @@ MockTransactionBatch buildConflictingBatch() {
 
 } // namespace
 
-/**
- * @brief TBD: Describe main.
- * @return Return value.
- * @details Calls: buildConflictingBatch(), size(), PLANNED(), setDeadlockPredictor(), std::chrono::high_resolution_clock::now(), analyzeBatch(), count(), assert().
- */
 int main() {
     std::cout << "=== TransactionSemanticAdvisor Example (IMPL-B5) ===\n\n";
 

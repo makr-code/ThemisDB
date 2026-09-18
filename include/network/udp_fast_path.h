@@ -160,10 +160,6 @@ public:
 
     bool isRunning() const { return running_.load(std::memory_order_acquire); }
 
-    /**
-     * @brief TBD: Describe getStats.
-     * @return Return value.
-     */
     Stats getStats() const;
 
     // ── Packet helpers (public for unit-test access) ──────────────────────────
@@ -183,8 +179,6 @@ public:
      * semantically read-only and are accepted so that clients receive a
      * specific advisory response ("use TCP") rather than the generic
      * "write operations not allowed" error.
-     * @param[in] opcode Input parameter.
-     * @return True on success.
      */
     static bool isReadOnlyOpCode(uint8_t opcode);
 
@@ -201,59 +195,24 @@ public:
                                                const std::string& payload);
 
 private:
-    /**
-     * @brief ── Internal helpers ─────────────────────────────────────────────────────
-     */
+    // ── Internal helpers ─────────────────────────────────────────────────────
 
     void doReceive();
 
-    /**
-     * @brief TBD: Describe handleDatagram.
-     * @param[in] sender Input parameter.
-     * @param[in] data Input parameter.
-     */
     void handleDatagram(const udp::endpoint&        sender,
                         const std::vector<uint8_t>& data);
 
-    /**
-     * @brief TBD: Describe checkRateLimit.
-     * @param[in] ip Input parameter.
-     * @return True on success.
-     */
     bool checkRateLimit(const std::string& ip);
 
-    /**
-     * @brief TBD: Describe dispatchGet.
-     * @param[in] request_id Input parameter.
-     * @param[in] payload_json Input parameter.
-     * @return Return value.
-     */
     std::vector<uint8_t> dispatchGet(uint32_t           request_id,
                                      const std::string& payload_json);
 
-    /**
-     * @brief TBD: Describe dispatchQuery.
-     * @param[in] request_id Input parameter.
-     * @param[in] payload_json Input parameter.
-     * @return Return value.
-     */
     std::vector<uint8_t> dispatchQuery(uint32_t           request_id,
                                        const std::string& payload_json);
 
-    /**
-     * @brief TBD: Describe dispatchVectorSearch.
-     * @param[in] request_id Input parameter.
-     * @param[in] payload_json Input parameter.
-     * @return Return value.
-     */
     std::vector<uint8_t> dispatchVectorSearch(uint32_t           request_id,
                                               const std::string& payload_json);
 
-    /**
-     * @brief TBD: Describe dispatchPing.
-     * @param[in] request_id Input parameter.
-     * @return Return value.
-     */
     std::vector<uint8_t> dispatchPing(uint32_t request_id);
 
     // ── Members ──────────────────────────────────────────────────────────────

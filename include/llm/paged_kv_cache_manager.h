@@ -342,39 +342,13 @@ private:
     size_t sequences_since_last_check_{0};
     WorkloadMetrics workload_metrics_;
     
-    /**
-     * @brief Helper methods
-     */
+    // Helper methods
     void initializeBlocks();
-    /**
-     * @brief TBD: Describe getFreeBlock.
-     * @return Return value.
-     */
     int getFreeBlock();
-    /**
-     * @brief TBD: Describe releaseBlock.
-     * @param[in] block_id Input parameter.
-     */
     void releaseBlock(int block_id);
-    /**
-     * @brief TBD: Describe calculateBlockMemorySize.
-     * @return Return value.
-     */
     size_t calculateBlockMemorySize() const;
-    /**
-     * @brief TBD: Describe updateWorkloadMetrics.
-     */
     void updateWorkloadMetrics();
-    /**
-     * @brief TBD: Describe detectWorkloadPattern.
-     * @return Return value.
-     */
     WorkloadPattern detectWorkloadPattern() const;
-    /**
-     * @brief TBD: Describe selectOptimalCacheType.
-     * @param[in] pattern Input parameter.
-     * @return Return value.
-     */
     CacheType selectOptimalCacheType(WorkloadPattern pattern) const;
 };
 

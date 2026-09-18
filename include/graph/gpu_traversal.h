@@ -102,8 +102,6 @@ public:
      * @param graph_manager  Must outlive this GPUGraphTraversal instance.
      *                       Used to enumerate vertices and their adjacency
      *                       lists during `load()`.
-     * @brief TBD: Describe GPUGraphTraversal.
-     * @return Return value.
      */
     explicit GPUGraphTraversal(GraphIndexManager& graph_manager);
     ~GPUGraphTraversal() = default;
@@ -206,11 +204,6 @@ public:
         bool   gpu_available = false;
         int    gpu_device_used = -1;
     };
-    /**
-     * @brief TBD: Describe getStats.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
     Stats getStats() const noexcept;
 
 private:
@@ -233,26 +226,10 @@ private:
     bool gpu_available_ = false;
     int  gpu_device_    = -1;
 
-    /**
-     * @brief Internal helpers
-     * @param[in] v Input parameter.
-     * @return Return value.
-     */
+    // Internal helpers
     std::optional<uint32_t> findVertexId(const std::string& v) const;
 
-    /**
-     * @brief TBD: Describe runBFS.
-     * @param[in] start_id Input parameter.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     TraversalResult runBFS(uint32_t start_id, const Config& config);
-    /**
-     * @brief TBD: Describe runDFS.
-     * @param[in] start_id Input parameter.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     TraversalResult runDFS(uint32_t start_id, const Config& config);
 };
 

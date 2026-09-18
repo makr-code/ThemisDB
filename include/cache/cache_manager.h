@@ -80,7 +80,6 @@ public:
      * 
      * @param config Manager configuration
      * @throws std::invalid_argument If config is invalid
-     * @return Return value.
      */
     explicit CacheManager(const CacheManagerConfig& config);
 
@@ -160,7 +159,6 @@ public:
      * @throws std::logic_error If called on moved-from manager
      * 
      * Policies are moved to manager for ownership.
-     * @note Exception safety: noexcept.
      */
     bool set_eviction_policy(const std::string& cache_name, 
                              CacheEvictionPolicy&& policy) noexcept;
@@ -197,7 +195,6 @@ public:
      * 
      * @param event Event to dispatch
      * @throws std::logic_error If called on moved-from manager
-     * @note Exception safety: noexcept.
      */
     void dispatch_event(const CacheEvent& event) noexcept;
 
@@ -218,11 +215,6 @@ public:
         double hit_rate = 0.0;
     };
 
-    /**
-     * @brief TBD: Describe get_cache_stats.
-     * @param[in] cache_name Input parameter.
-     * @return Return value.
-     */
     std::optional<CacheStats> get_cache_stats(const std::string& cache_name) const;
 
     /**
@@ -271,10 +263,6 @@ private:
     uint32_t next_handler_id_;
     bool is_moved_from_;
 
-    /**
-     * @brief TBD: Describe cleanup.
-     * @note Exception safety: noexcept.
-     */
     void cleanup() noexcept;
 };
 

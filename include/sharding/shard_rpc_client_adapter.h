@@ -55,7 +55,6 @@ public:
     /**
      * @brief Construct an adapter wrapping a remote shard.
      * @param config  ShardRPCClient configuration (endpoint, TLS, timeouts)
-     * @return Return value.
      */
     explicit ShardRPCClientAdapter(const ShardRPCClient::Config& config)
         : client_(config)

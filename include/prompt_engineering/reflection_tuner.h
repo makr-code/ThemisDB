@@ -152,7 +152,6 @@ struct SelfAwareContext {
     /** @brief True when at least one uncertainty marker was detected. */
     bool has_uncertain_claims = false;
 
-     * @return Return value.
     /** @brief Serialise to JSON for logging and metadata storage. */
     nlohmann::json toJson() const;
 
@@ -160,7 +159,6 @@ struct SelfAwareContext {
      * @brief Scan @p response for confidence/uncertainty markers and return
      *        the resulting `SelfAwareContext`.
      * @param response UTF-8 response text to analyse.
-     * @return Return value.
      */
     static SelfAwareContext fromResponse(const std::string& response);
 };
@@ -185,7 +183,6 @@ struct ReflectionResult {
     SelfAwareContext        self_aware_context;               ///< Context extracted from last response
     nlohmann::json          metadata = nlohmann::json::object();
 
-     * @return Return value.
     /** @brief Serialise to JSON for storage and observability. */
     nlohmann::json toJson() const;
 };
@@ -226,10 +223,6 @@ struct ReflectionResult {
  */
 class IReflectionProvider {
 public:
-    /**
-     * @brief TBD: Describe ~IReflectionProvider.
-     * @return Return value.
-     */
     virtual ~IReflectionProvider() = default;
 
     /** @brief Generate an initial response to @p prompt. */
@@ -310,9 +303,6 @@ public:
      * @brief Build a constitutional critique prompt (CONSTITUTIONAL strategy).
      *
      * Evaluates @p response against each principle in @p principles.
-     * @param[in] response Input parameter.
-     * @param[in] principles Input parameter.
-     * @return Return value.
      */
     std::string buildConstitutionalCritiquePrompt(
         const std::string& response,
@@ -323,9 +313,6 @@ public:
      *
      * Cycles through a set of probing questions; @p iteration selects the
      * question modulo the question count.
-     * @param[in] claim Input parameter.
-     * @param[in] iteration Input parameter.
-     * @return Return value.
      */
     std::string buildSocraticPrompt(
         const std::string& claim,
@@ -337,17 +324,12 @@ public:
      *
      * Returns an empty string when the context is neutral (no uncertainty
      * markers and confidence ≥ 0.7).
-     * @param[in] ctx Input parameter.
-     * @return Return value.
      */
     std::string buildSelfAwareContextHeader(const SelfAwareContext& ctx) const;
 
-     * @param[in] strategy Input parameter.
     /** @brief Replace the current strategy. */
     void setStrategy(ReflectionStrategy strategy);
 
-     * @return Return value.
-     * @note Exception safety: noexcept.
     /** @brief Return the current strategy. */
     ReflectionStrategy getStrategy() const noexcept;
 
@@ -391,8 +373,6 @@ public:
      *
      * Checks both the last step's `hallucination_suspected` flag and the
      * quality trajectory via `isDiverging()`.
-     * @param[in] steps Input parameter.
-     * @return True on success.
      */
     bool shouldHalt(const std::vector<ReflectionStep>& steps) const;
 
@@ -400,8 +380,6 @@ public:
      * @brief Scan @p response and @p critique for hallucination-indicating
      *        patterns.
      * @return true if at least one pattern is found.
-     * @param[in] response Input parameter.
-     * @param[in] critique Input parameter.
      */
     bool detectHallucinationSignals(const std::string& response,
                                     const std::string& critique) const;
@@ -412,8 +390,6 @@ public:
      *        relative to the step at `trajectory[n - window_ - 1]`.
      *
      * Returns false when `trajectory.size() < window_ + 1`.
-     * @param[in] trajectory Input parameter.
-     * @return True on success.
      */
     bool isDiverging(const std::vector<double>& trajectory) const;
 
@@ -483,8 +459,6 @@ public:
      *
      * Requires an `IReflectionProvider` to be attached for the generation step;
      * in fallback mode the original @p prompt is used as the initial response.
-     * @param[in] prompt Input parameter.
-     * @return Return value.
      */
     ReflectionResult tuneFromPrompt(const std::string& prompt);
 
@@ -492,15 +466,12 @@ public:
     // Provider management
     // -------------------------------------------------------------------------
 
-     * @param[in] provider Input parameter.
     /** @brief Attach a reflection-capable LLM provider. */
     void setReflectionProvider(std::shared_ptr<IReflectionProvider> provider);
 
     /** @brief Remove the attached provider (fall back to template/heuristic mode). */
     void clearReflectionProvider();
 
-     * @return True on success.
-     * @note Exception safety: noexcept.
     /** @brief Returns true if a provider is currently attached. */
     bool hasReflectionProvider() const noexcept;
 
@@ -508,8 +479,6 @@ public:
     // Configuration
     // -------------------------------------------------------------------------
 
-     * @return Return value.
-     * @note Exception safety: noexcept.
     /** @brief Return the current configuration. */
     const ReflectionConfig& getConfig() const noexcept;
 
@@ -518,7 +487,6 @@ public:
      *
      * Also updates the embedded `DynamicReflectionPromptBuilder` strategy and
      * `ReflectionHallucinationGuard` thresholds.
-     * @param[in] config Input parameter.
      */
     void setConfig(const ReflectionConfig& config);
 
@@ -526,13 +494,9 @@ public:
     // Sub-component access (for testing and observability)
     // -------------------------------------------------------------------------
 
-     * @return Return value.
-     * @note Exception safety: noexcept.
     /** @brief Read-only access to the embedded prompt builder. */
     const DynamicReflectionPromptBuilder& getPromptBuilder() const noexcept;
 
-     * @return Return value.
-     * @note Exception safety: noexcept.
     /** @brief Read-only access to the embedded hallucination guard. */
     const ReflectionHallucinationGuard& getHallucinationGuard() const noexcept;
 
@@ -542,42 +506,17 @@ private:
     DynamicReflectionPromptBuilder    prompt_builder_;
     ReflectionHallucinationGuard      hallucination_guard_;
 
-    /**
-     * @brief TBD: Describe runIteration.
-     * @param[in] prompt Input parameter.
-     * @param[in] current_response Input parameter.
-     * @param[in] iteration Input parameter.
-     * @param[in] ctx Input parameter.
-     * @return Return value.
-     */
     ReflectionStep runIteration(const std::string& prompt,
                                 const std::string& current_response,
                                 size_t iteration,
                                 const SelfAwareContext& ctx);
 
-    /**
-     * @brief TBD: Describe shouldConverge.
-     * @param[in] result Input parameter.
-     * @param[in] step Input parameter.
-     * @return True on success.
-     */
     bool shouldConverge(const ReflectionResult& result,
                         const ReflectionStep& step) const;
 
-    /**
-     * @brief TBD: Describe computeHeuristicScore.
-     * @param[in] prompt Input parameter.
-     * @param[in] response Input parameter.
-     * @return Return value.
-     */
     double computeHeuristicScore(const std::string& prompt,
                                  const std::string& response) const;
 
-    /**
-     * @brief TBD: Describe extractContext.
-     * @param[in] steps Input parameter.
-     * @return Return value.
-     */
     SelfAwareContext extractContext(const std::vector<ReflectionStep>& steps) const;
 };
 

@@ -259,26 +259,11 @@ struct Event {
         return std::nullopt;
     }
     
-    /**
-     * @brief TBD: Describe setField.
-     * @param[in] name Input parameter.
-     * @param[in] value Input parameter.
-     * @details Calls: std::move().
-     */
     void setField(const std::string& name, CepFieldValue value) {
         fields[name] = std::move(value);
     }
     
-    /**
-     * @brief TBD: Describe serialize.
-     * @return Return value.
-     */
     std::vector<uint8_t> serialize() const;
-    /**
-     * @brief TBD: Describe deserialize.
-     * @param[in] data Input parameter.
-     * @return Return value.
-     */
     static std::optional<Event> deserialize(const std::vector<uint8_t>& data);
 };
 
@@ -456,11 +441,6 @@ struct CEPConfig {
  */
 class EventStream {
 public:
-    /**
-     * @brief TBD: Describe EventStream.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit EventStream(const StreamConfig& config);
     ~EventStream();
     
@@ -473,26 +453,15 @@ public:
         DROPPED,            // Event dropped due to full buffer
         ERROR
     };
-    /**
-     * @brief TBD: Describe push.
-     * @param[in] event Input parameter.
-     * @return Return value.
-     */
     PushResult push(Event event);
     
     /**
      * Pull event from stream
-     * @brief TBD: Describe pull.
-     * @param[in] partition_id Input parameter.
-     * @return Return value.
      */
     std::optional<Event> pull(uint32_t partition_id);
     
     /**
      * Peek at next event without consuming
-     * @brief TBD: Describe peek.
-     * @param[in] partition_id Input parameter.
-     * @return Return value.
      */
     std::optional<Event> peek(uint32_t partition_id) const;
     
@@ -503,21 +472,12 @@ public:
     
     /**
      * Get buffer fill level (0.0 - 1.0)
-     * @brief TBD: Describe getFillLevel.
-     * @param[in] partition_id Input parameter.
-     * @return Return value.
      */
     float getFillLevel(uint32_t partition_id) const;
-    /**
-     * @brief TBD: Describe getOverallFillLevel.
-     * @return Return value.
-     */
     float getOverallFillLevel() const;
     
     /**
      * Check if under backpressure
-     * @brief TBD: Describe isUnderBackpressure.
-     * @return True on success.
      */
     bool isUnderBackpressure() const;
     
@@ -532,26 +492,13 @@ public:
         size_t current_size = 0;
         float fill_level = 0.0f;
     };
-    /**
-     * @brief TBD: Describe getStats.
-     * @return Return value.
-     */
     Stats getStats() const;
     
     /**
      * Subscribe to events
      */
     using EventCallback = std::function<void(const Event&)>;
-    /**
-     * @brief TBD: Describe subscribe.
-     * @param[in] callback Input parameter.
-     * @return Return value.
-     */
     uint64_t subscribe(EventCallback callback);
-    /**
-     * @brief TBD: Describe unsubscribe.
-     * @param[in] subscription_id Input parameter.
-     */
     void unsubscribe(uint64_t subscription_id);
 
 private:
@@ -576,16 +523,7 @@ private:
     std::atomic<uint64_t> next_subscription_id_{0};
     mutable std::shared_mutex subscribers_mutex_;
     
-    /**
-     * @brief TBD: Describe getPartitionId.
-     * @param[in] event Input parameter.
-     * @return Return value.
-     */
     uint32_t getPartitionId(const Event& event) const;
-    /**
-     * @brief TBD: Describe notifySubscribers.
-     * @param[in] event Input parameter.
-     */
     void notifySubscribers(const Event& event);
 };
 
@@ -598,19 +536,11 @@ private:
  */
 class PatternMatcher {
 public:
-    /**
-     * @brief TBD: Describe PatternMatcher.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit PatternMatcher(const PatternConfig& config);
     ~PatternMatcher();
     
     /**
      * Process event and check for matches
-     * @brief TBD: Describe processEvent.
-     * @param[in] event Input parameter.
-     * @return Return value.
      */
     std::vector<PatternMatch> processEvent(const Event& event);
     
@@ -626,14 +556,11 @@ public:
     
     /**
      * Reset state
-     * @brief TBD: Describe reset.
      */
     void reset();
     
     /**
      * Get pending partial matches
-     * @brief TBD: Describe getPendingMatchCount.
-     * @return Return value.
      */
     size_t getPendingMatchCount() const;
 
@@ -646,16 +573,12 @@ public:
      *   pm_match=<group_key_hex>|<current_state>|<age_ms>
      *   pm_ev=<event_hex>
      *   ...
-     * @brief TBD: Describe serializeState.
-     * @return Return value.
      */
     std::string serializeState() const;
 
     /**
      * Restore in-progress NFA partial match state from the string produced by
      * serializeState().  Clears existing partial matches before restoring.
-     * @brief TBD: Describe restoreState.
-     * @param[in] data Input parameter.
      */
     void restoreState(const std::string& data);
 
@@ -682,26 +605,9 @@ private:
     std::map<std::string, std::vector<PartialMatch>> partial_matches_;
     mutable std::mutex state_mutex_;
     
-    /**
-     * @brief TBD: Describe buildNFA.
-     */
     void buildNFA();
-    /**
-     * @brief TBD: Describe matchesEventType.
-     * @param[in] event Input parameter.
-     * @param[in] expected Input parameter.
-     * @return True on success.
-     */
     bool matchesEventType(const Event& event, const std::string& expected) const;
-    /**
-     * @brief TBD: Describe evaluateCondition.
-     * @param[in] event Input parameter.
-     * @return True on success.
-     */
     bool evaluateCondition(const Event& event) const;
-    /**
-     * @brief TBD: Describe pruneExpiredMatches.
-     */
     void pruneExpiredMatches();
 };
 
@@ -714,34 +620,21 @@ private:
  */
 class WindowManager {
 public:
-    /**
-     * @brief TBD: Describe WindowManager.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit WindowManager(const WindowConfig& config);
     ~WindowManager();
     
     /**
      * Add event to window
-     * @brief TBD: Describe addEvent.
-     * @param[in] event Input parameter.
      */
     void addEvent(const Event& event);
     
     /**
      * Get events in current window
-     * @brief TBD: Describe getWindowEvents.
-     * @return Return value.
      */
     std::vector<Event> getWindowEvents() const;
     
     /**
      * Get events for a specific time range
-     * @brief TBD: Describe getEvents.
-     * @param[in] start Input parameter.
-     * @param[in] end Input parameter.
-     * @return Return value.
      */
     std::vector<Event> getEvents(
         std::chrono::system_clock::time_point start,
@@ -753,16 +646,10 @@ public:
     using WindowCallback = std::function<void(const std::vector<Event>&, 
                                                std::chrono::system_clock::time_point start,
                                                std::chrono::system_clock::time_point end)>;
-    /**
-     * @brief TBD: Describe setWindowCallback.
-     * @param[in] callback Input parameter.
-     */
     void setWindowCallback(WindowCallback callback);
     
     /**
      * Advance watermark (for out-of-order events)
-     * @brief TBD: Describe advanceWatermark.
-     * @param[in] watermark Input parameter.
      */
     void advanceWatermark(std::chrono::system_clock::time_point watermark);
     
@@ -775,10 +662,6 @@ public:
         uint64_t events_in_window = 0;
         uint64_t late_events = 0;
     };
-    /**
-     * @brief TBD: Describe getStats.
-     * @return Return value.
-     */
     Stats getStats() const;
 
     /**
@@ -822,35 +705,13 @@ private:
     std::condition_variable timer_cv_;
     std::mutex timer_mutex_;
     
-    /**
-     * @brief TBD: Describe timerLoop.
-     */
     void timerLoop();
-    /**
-     * @brief Marks window closed and returns a batch for deferred dispatch (lock must be held by caller; callback is NOT invoked here).
-     * @param[in,out] window Input/output parameter.
-     * @return Return value.
-     */
+    // Marks window closed and returns a batch for deferred dispatch (lock must
+    // be held by caller; callback is NOT invoked here).
     std::optional<WindowCallbackBatch> closeWindow(Window& window);
-    /**
-     * @brief TBD: Describe handleTumblingWindow.
-     * @param[in] event Input parameter.
-     */
     void handleTumblingWindow(const Event& event);
-    /**
-     * @brief TBD: Describe handleSlidingWindow.
-     * @param[in] event Input parameter.
-     */
     void handleSlidingWindow(const Event& event);
-    /**
-     * @brief TBD: Describe handleSessionWindow.
-     * @param[in] event Input parameter.
-     */
     void handleSessionWindow(const Event& event);
-    /**
-     * @brief TBD: Describe handleCountWindow.
-     * @param[in] event Input parameter.
-     */
     void handleCountWindow(const Event& event);
 };
 
@@ -868,10 +729,6 @@ public:
     
     /**
      * Add aggregation
-     * @brief TBD: Describe addAggregation.
-     * @param[in] name Input parameter.
-     * @param[in] type Input parameter.
-     * @param[in] field Input parameter.
      */
     void addAggregation(
         const std::string& name,
@@ -880,8 +737,6 @@ public:
     
     /**
      * Process event
-     * @brief TBD: Describe processEvent.
-     * @param[in] event Input parameter.
      */
     void processEvent(const Event& event);
     
@@ -892,22 +747,16 @@ public:
     
     /**
      * Get result for specific aggregation
-     * @brief TBD: Describe getResult.
-     * @param[in] name Input parameter.
-     * @return Return value.
      */
     std::optional<AggregationResult> getResult(const std::string& name) const;
     
     /**
      * Reset all aggregations
-     * @brief TBD: Describe reset.
      */
     void reset();
     
     /**
      * Set group by fields
-     * @brief TBD: Describe setGroupBy.
-     * @param[in] fields Input parameter.
      */
     void setGroupBy(const std::vector<std::string>& fields);
 
@@ -937,23 +786,8 @@ private:
     
     mutable std::mutex mutex_;
     
-    /**
-     * @brief TBD: Describe getGroupKey.
-     * @param[in] event Input parameter.
-     * @return Return value.
-     */
     std::string getGroupKey(const Event& event) const;
-    /**
-     * @brief TBD: Describe updateAggregation.
-     * @param[in,out] state Input/output parameter.
-     * @param[in] event Input parameter.
-     */
     void updateAggregation(AggregationState& state, const Event& event);
-    /**
-     * @brief TBD: Describe computeResult.
-     * @param[in] state Input parameter.
-     * @return Return value.
-     */
     CepFieldValue computeResult(const AggregationState& state) const;
 };
 
@@ -966,58 +800,36 @@ private:
  */
 class RuleEngine {
 public:
-    /**
-     * @brief TBD: Describe RuleEngine.
-     * @param[in,out] engine Input/output parameter.
-     * @return Return value.
-     */
     explicit RuleEngine(CEPEngine* engine);
     ~RuleEngine();
     
     /**
      * Add rule
-     * @brief TBD: Describe addRule.
-     * @param[in] config Input parameter.
-     * @return True on success.
      */
     bool addRule(const RuleConfig& config);
     
     /**
      * Remove rule
-     * @brief TBD: Describe removeRule.
-     * @param[in] rule_id Input parameter.
-     * @return True on success.
      */
     bool removeRule(const std::string& rule_id);
     
     /**
      * Enable/disable rule
-     * @brief TBD: Describe setRuleEnabled.
-     * @param[in] rule_id Input parameter.
-     * @param[in] enabled Input parameter.
      */
     void setRuleEnabled(const std::string& rule_id, bool enabled);
     
     /**
      * Get rule
-     * @brief TBD: Describe getRule.
-     * @param[in] rule_id Input parameter.
-     * @return Return value.
      */
     std::optional<RuleConfig> getRule(const std::string& rule_id) const;
     
     /**
      * Get all rules
-     * @brief TBD: Describe getRules.
-     * @return Return value.
      */
     std::vector<RuleConfig> getRules() const;
     
     /**
      * Process event against all rules
-     * @brief TBD: Describe processEvent.
-     * @param[in] event Input parameter.
-     * @return Return value.
      */
     std::vector<Alert> processEvent(const Event& event);
     
@@ -1038,9 +850,6 @@ public:
      * Aggregation functions: COUNT, SUM, AVG, MIN, MAX, FIRST, LAST,
      *   STDDEV, VARIANCE, PERCENTILE, DISTINCT_COUNT, COLLECT, TOPN
      * Time units: ms, s/second(s), minute(s), hour(s), day(s)
-     * @brief TBD: Describe parseEPL.
-     * @param[in] epl Input parameter.
-     * @return Return value.
      */
     static std::optional<RuleConfig> parseEPL(const std::string& epl);
     
@@ -1054,18 +863,11 @@ public:
         uint64_t actions_triggered = 0;
         std::chrono::milliseconds avg_processing_time{0};
     };
-    /**
-     * @brief TBD: Describe getRuleStats.
-     * @param[in] rule_id Input parameter.
-     * @return Return value.
-     */
     RuleStats getRuleStats(const std::string& rule_id) const;
 
     /**
      * Serialize all pattern matcher states for use in a checkpoint.
      * Returns a multi-line string with pm_rule= / pm_rule_end blocks.
-     * @brief TBD: Describe serializeMatcherStates.
-     * @return Return value.
      */
     std::string serializeMatcherStates() const;
 
@@ -1073,8 +875,6 @@ public:
      * Restore pattern matcher states from the string produced by
      * serializeMatcherStates().  Only matchers for rules that currently exist
      * in the engine are restored; unknown rule IDs are silently skipped.
-     * @brief TBD: Describe restoreMatcherStates.
-     * @param[in] data Input parameter.
      */
     void restoreMatcherStates(const std::string& data);
 
@@ -1092,27 +892,10 @@ private:
     std::map<std::string, RuleState> rules_;
     mutable std::shared_mutex rules_mutex_;
     
-    /**
-     * @brief TBD: Describe evaluateFilter.
-     * @param[in] event Input parameter.
-     * @param[in] filter Input parameter.
-     * @return True on success.
-     */
     bool evaluateFilter(const Event& event, const std::string& filter) const;
     bool evaluateHaving(const std::map<std::string, AggregationResult>& results,
                        const std::string& having) const;
-    /**
-     * @brief TBD: Describe executeActions.
-     * @param[in] config Input parameter.
-     * @param[in] match Input parameter.
-     */
     void executeActions(const RuleConfig& config, const PatternMatch& match);
-    /**
-     * @brief TBD: Describe executeAction.
-     * @param[in] action Input parameter.
-     * @param[in] match Input parameter.
-     * @param[in] rule Input parameter.
-     */
     void executeAction(const ActionConfig& action, const PatternMatch& match,
                       const RuleConfig& rule);
 };
@@ -1126,22 +909,15 @@ private:
  */
 class CEPEngine {
 public:
-    /**
-     * @brief TBD: Describe getInstance.
-     * @return Return value.
-     */
     static CEPEngine& getInstance();
     
     /**
      * Initialize engine
-     * @brief TBD: Describe initialize.
-     * @param[in] config Input parameter.
      */
     void initialize(const CEPConfig& config);
     
     /**
      * Shutdown engine
-     * @brief TBD: Describe shutdown.
      */
     void shutdown();
     
@@ -1154,32 +930,21 @@ public:
     
     /**
      * Create event stream
-     * @brief TBD: Describe createStream.
-     * @param[in] config Input parameter.
-     * @return Return value.
      */
     std::shared_ptr<EventStream> createStream(const StreamConfig& config);
     
     /**
      * Get stream by ID
-     * @brief TBD: Describe getStream.
-     * @param[in] stream_id Input parameter.
-     * @return Return value.
      */
     std::shared_ptr<EventStream> getStream(const std::string& stream_id) const;
     
     /**
      * Get all streams
-     * @brief TBD: Describe getStreams.
-     * @return Return value.
      */
     std::vector<std::shared_ptr<EventStream>> getStreams() const;
     
     /**
      * Remove stream
-     * @brief TBD: Describe removeStream.
-     * @param[in] stream_id Input parameter.
-     * @return True on success.
      */
     bool removeStream(const std::string& stream_id);
     
@@ -1187,18 +952,11 @@ public:
     
     /**
      * Submit event for processing
-     * @brief TBD: Describe submitEvent.
-     * @param[in] event Input parameter.
-     * @return True on success.
      */
     bool submitEvent(Event event);
     
     /**
      * Submit event to specific stream
-     * @brief TBD: Describe submitEvent.
-     * @param[in] stream_id Input parameter.
-     * @param[in] event Input parameter.
-     * @return True on success.
      */
     bool submitEvent(const std::string& stream_id, Event event);
     
@@ -1215,41 +973,26 @@ public:
     
     /**
      * Add rule
-     * @brief TBD: Describe addRule.
-     * @param[in] config Input parameter.
-     * @return True on success.
      */
     bool addRule(const RuleConfig& config);
     
     /**
      * Add rule from EPL string
-     * @brief TBD: Describe addRuleFromEPL.
-     * @param[in] epl Input parameter.
-     * @return True on success.
      */
     bool addRuleFromEPL(const std::string& epl);
     
     /**
      * Remove rule
-     * @brief TBD: Describe removeRule.
-     * @param[in] rule_id Input parameter.
-     * @return True on success.
      */
     bool removeRule(const std::string& rule_id);
     
     /**
      * Get rule
-     * @brief TBD: Describe getRule.
-     * @param[in] rule_id Input parameter.
-     * @return Return value.
      */
     std::optional<RuleConfig> getRule(const std::string& rule_id) const;
     
     /**
      * Load rules from YAML file
-     * @brief TBD: Describe loadRulesFromFile.
-     * @param[in] path Input parameter.
-     * @return True on success.
      */
     bool loadRulesFromFile(const std::string& path);
     
@@ -1264,9 +1007,6 @@ public:
     
     /**
      * Acknowledge alert
-     * @brief TBD: Describe acknowledgeAlert.
-     * @param[in] alert_id Input parameter.
-     * @return True on success.
      */
     bool acknowledgeAlert(const std::string& alert_id);
     
@@ -1274,10 +1014,6 @@ public:
      * Set alert callback
      */
     using AlertCallback = std::function<void(const Alert&)>;
-    /**
-     * @brief TBD: Describe setAlertCallback.
-     * @param[in] callback Input parameter.
-     */
     void setAlertCallback(AlertCallback callback);
     
     // ========== Statistics & Metrics ==========
@@ -1299,16 +1035,10 @@ public:
         std::chrono::milliseconds avg_latency{0};
         float throughput_per_second = 0.0f;
     };
-    /**
-     * @brief TBD: Describe getStats.
-     * @return Return value.
-     */
     Stats getStats() const;
     
     /**
      * Export Prometheus metrics
-     * @brief TBD: Describe toPrometheusFormat.
-     * @return Return value.
      */
     std::string toPrometheusFormat() const;
     
@@ -1327,7 +1057,6 @@ public:
      *
      * @return true on success, false if checkpointing is disabled or an I/O error
      *         occurs.
-     * @brief TBD: Describe createCheckpoint.
      */
     bool createCheckpoint();
     
@@ -1359,14 +1088,11 @@ public:
      *                       Use listCheckpoints() to enumerate available IDs.
      * @return true on success, false if the checkpoint file does not exist or
      *         cannot be opened.
-     * @brief TBD: Describe restoreFromCheckpoint.
      */
     bool restoreFromCheckpoint(const std::string& checkpoint_id);
     
     /**
      * List checkpoints
-     * @brief TBD: Describe listCheckpoints.
-     * @return Return value.
      */
     std::vector<std::string> listCheckpoints() const;
 
@@ -1411,25 +1137,11 @@ private:
     // The ring buffer is re-created if initialize() is called again.
     std::unique_ptr<themis::analytics::detail::EventRingBuffer<
         std::pair<std::string, Event>>> event_queue_;
-    /**
-     * @brief size_approx() is used for backpressure fill-ratio checks and getStats().
-     */
+    // size_approx() is used for backpressure fill-ratio checks and getStats().
     
     void workerLoop();
-    /**
-     * @brief TBD: Describe metricsLoop.
-     */
     void metricsLoop();
-    /**
-     * @brief TBD: Describe processEvent.
-     * @param[in] stream_id Input parameter.
-     * @param[in] event Input parameter.
-     */
     void processEvent(const std::string& stream_id, const Event& event);
-    /**
-     * @brief TBD: Describe addAlert.
-     * @param[in] alert Input parameter.
-     */
     void addAlert(Alert alert);
 };
 
@@ -1439,10 +1151,6 @@ private:
 
 /**
  * Convert EventType to string
- * @brief TBD: Describe eventTypeToString.
- * @param[in] type Input parameter.
- * @return Pointer to the result.
- * @details Implements eventTypeToString without additional internal calls.
  */
 inline const char* eventTypeToString(EventType type) {
     switch (type) {
@@ -1466,10 +1174,6 @@ inline const char* eventTypeToString(EventType type) {
 
 /**
  * Convert WindowType to string
- * @brief TBD: Describe windowTypeToString.
- * @param[in] type Input parameter.
- * @return Pointer to the result.
- * @details Implements windowTypeToString without additional internal calls.
  */
 inline const char* windowTypeToString(WindowType type) {
     switch (type) {
@@ -1485,10 +1189,6 @@ inline const char* windowTypeToString(WindowType type) {
 
 /**
  * Convert AggregationType to string
- * @brief TBD: Describe aggregationTypeToString.
- * @param[in] type Input parameter.
- * @return Pointer to the result.
- * @details Implements aggregationTypeToString without additional internal calls.
  */
 inline const char* aggregationTypeToString(AggregationType type) {
     switch (type) {

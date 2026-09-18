@@ -67,10 +67,6 @@ struct OperatorStats {
     size_t cache_misses = 0;
     std::string details;
     
-    /**
-     * @brief TBD: Describe toJSON.
-     * @return Return value.
-     */
     json toJSON() const;
 };
 
@@ -105,15 +101,7 @@ struct QueryProfile {
     size_t result_rows = 0;
     size_t result_bytes = 0;
     
-    /**
-     * @brief TBD: Describe toJSON.
-     * @return Return value.
-     */
     json toJSON() const;
-    /**
-     * @brief TBD: Describe toSummary.
-     * @return Return value.
-     */
     std::string toSummary() const;
 };
 
@@ -246,13 +234,11 @@ public:
     
     /**
      * @brief Get configuration
-     * @return Return value.
      */
     QueryProfilerConfig get_config() const;
     
     /**
      * @brief Set configuration
-     * @param[in] config Input parameter.
      */
     void set_config(const QueryProfilerConfig& config);
     
@@ -268,13 +254,11 @@ public:
     
     /**
      * @brief Check if profiling is enabled
-     * @return True on success.
      */
     bool is_enabled() const;
     
     /**
      * @brief Get statistics summary
-     * @return Return value.
      */
     json get_statistics() const;
 
@@ -282,14 +266,7 @@ private:
     class Impl;
     std::unique_ptr<Impl> impl_;
     
-    /**
-     * @brief TBD: Describe cleanup_old_profiles.
-     */
     void cleanup_old_profiles();
-    /**
-     * @brief TBD: Describe log_slow_query.
-     * @param[in] profile Input parameter.
-     */
     void log_slow_query(const QueryProfile& profile);
 };
 
@@ -306,26 +283,9 @@ public:
     ScopedQueryProfile(const ScopedQueryProfile&) = delete;
     ScopedQueryProfile& operator=(const ScopedQueryProfile&) = delete;
     
-    /**
-     * @brief TBD: Describe record_phase.
-     * @param[in] phase Input parameter.
-     * @param[in] duration Input parameter.
-     */
     void record_phase(QueryPhase phase, std::chrono::microseconds duration);
-    /**
-     * @brief TBD: Describe record_operator.
-     * @param[in] stats Input parameter.
-     */
     void record_operator(const OperatorStats& stats);
-    /**
-     * @brief TBD: Describe add_hint.
-     * @param[in] hint Input parameter.
-     */
     void add_hint(const std::string& hint);
-    /**
-     * @brief TBD: Describe add_warning.
-     * @param[in] warning Input parameter.
-     */
     void add_warning(const std::string& warning);
     
 private:
@@ -346,32 +306,11 @@ public:
     ScopedOperatorProfile(const ScopedOperatorProfile&) = delete;
     ScopedOperatorProfile& operator=(const ScopedOperatorProfile&) = delete;
     
-    /**
-     * @brief TBD: Describe record_rows.
-     * @param[in] count Input parameter.
-     */
     void record_rows(size_t count);
-    /**
-     * @brief TBD: Describe record_bytes.
-     * @param[in] count Input parameter.
-     */
     void record_bytes(size_t count);
-    /**
-     * @brief TBD: Describe record_disk_read.
-     */
     void record_disk_read();
-    /**
-     * @brief TBD: Describe record_cache_hit.
-     */
     void record_cache_hit();
-    /**
-     * @brief TBD: Describe record_cache_miss.
-     */
     void record_cache_miss();
-    /**
-     * @brief TBD: Describe set_details.
-     * @param[in] details Input parameter.
-     */
     void set_details(const std::string& details);
     
 private:
@@ -381,17 +320,8 @@ private:
     std::chrono::high_resolution_clock::time_point start_;
 };
 
-/**
- * @brief Helper functions
- * @param[in] phase Input parameter.
- * @return Pointer to the result.
- */
+// Helper functions
 const char* to_string(QueryPhase phase);
-/**
- * @brief TBD: Describe to_string.
- * @param[in] type Input parameter.
- * @return Pointer to the result.
- */
 const char* to_string(OperatorType type);
 
 } // namespace observability

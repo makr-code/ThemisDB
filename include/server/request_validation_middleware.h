@@ -68,18 +68,7 @@ public:
         bool valid = true;
         std::string error_message;
 
-        /**
-         * @brief TBD: Describe OK.
-         * @return Return value.
-         * @details Implements OK without additional internal calls.
-         */
         static ValidationResult OK() { return {true, ""}; }
-        /**
-         * @brief TBD: Describe Error.
-         * @param[in] msg Input parameter.
-         * @return Return value.
-         * @details Calls: std::move().
-         */
         static ValidationResult Error(std::string msg) { return {false, std::move(msg)}; }
     };
 
@@ -219,8 +208,6 @@ public:
      * @brief Remove the schema registered for an exact (method, path) key.
      *
      * @return true if a schema was removed, false if no schema was registered.
-     * @param[in] method Input parameter.
-     * @param[in] path Input parameter.
      */
     bool removeSchema(const std::string& method, const std::string& path);
 
@@ -231,7 +218,6 @@ public:
 
     /**
      * @brief Return the number of registered schemas.
-     * @return Return value.
      */
     size_t schemaCount() const;
 
@@ -282,9 +268,6 @@ private:
      *   4. Longest-prefix match ("*", prefix)
      *
      * Caller must hold mutex_.
-     * @param[in] method Input parameter.
-     * @param[in] path Input parameter.
-     * @return Pointer to the result.
      */
     const nlohmann::json* findSchemaLocked(const std::string& method,
                                            const std::string& path) const;
@@ -295,9 +278,6 @@ private:
      * Delegates to utils::InputValidator::validateJson which is the shared
      * schema-validation engine.  Declared here as a static helper so
      * request_validation_middleware.cpp keeps the dependency encapsulated.
-     * @param[in] body Input parameter.
-     * @param[in] schema Input parameter.
-     * @return Return value.
      */
     static ValidationResult applySchema(const nlohmann::json& body,
                                         const nlohmann::json& schema);

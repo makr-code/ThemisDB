@@ -31,28 +31,12 @@ namespace themis {
 /// All algorithms operate on the graph topology managed by GraphIndexManager.
 class GraphAnalytics {
 public:
-    /**
-     * @brief TBD: Describe GraphAnalytics.
-     * @param[in,out] graphMgr Input/output parameter.
-     * @return Return value.
-     */
     explicit GraphAnalytics(GraphIndexManager& graphMgr);
 
     struct Status {
         bool ok = true;
         std::string message;
-        /**
-         * @brief TBD: Describe OK.
-         * @return Return value.
-         * @details Implements OK without additional internal calls.
-         */
         static Status OK() { return {}; }
-        /**
-         * @brief TBD: Describe Error.
-         * @param[in] msg Input parameter.
-         * @return Return value.
-         * @details Calls: std::move().
-         */
         static Status Error(std::string msg) { return Status{false, std::move(msg)}; }
     };
 

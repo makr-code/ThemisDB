@@ -136,7 +136,6 @@ public:
     /**
      * @brief Construct with default configuration.
      * @param rag  ProcessGraphRag reference (must outlive this object).
-     * @return Return value.
      */
     explicit ProcessAgenticRag(ProcessGraphRag& rag);
 
@@ -196,30 +195,38 @@ public:
     // -----------------------------------------------------------------------
 
     const ProcessAgenticConfig& config() const { return config_; }
-    /**
-     * @brief TBD: Describe setConfig.
-     * @param[in] cfg Input parameter.
-     * @details Implements setConfig without additional internal calls.
-     */
     void setConfig(const ProcessAgenticConfig& cfg) { config_ = cfg; }
 
-    /**
-     * @brief Encode a ProcessRagContext into a vector of RetrievedDocument.
-     * @param[in] ctx Input parameter.
-     * @return Return value.
-     * @details This method safely encodes all context fields (prompt, subgraph, attachments, similar cases, missing documents) into RetrievedDocument objects. Safety notes: - String concatenation using std::string::operator+ is bounds-safe (C++ standard) - std::to_string() produces valid output strings with proper bounds checking - std::move() on vectors is safe and transfers ownership without copying - JSON dump(2) produces bounded output from the JSON serializer Complexity: O(n) where n = total fields in context
-     */
+    /// Encode a ProcessRagContext into a vector of RetrievedDocument.
+    ///
+    /// This method safely encodes all context fields (prompt, subgraph, attachments,
+    /// similar cases, missing documents) into RetrievedDocument objects.
+    ///
+    /// Safety notes:
+    /// - String concatenation using std::string::operator+ is bounds-safe (C++ standard)
+    /// - std::to_string() produces valid output strings with proper bounds checking
+    /// - std::move() on vectors is safe and transfers ownership without copying
+    /// - JSON dump(2) produces bounded output from the JSON serializer
+    ///
+    /// Complexity: O(n) where n = total fields in context
     static std::vector<rag::judge::RetrievedDocument> encodeContext(
         const ProcessRagContext& ctx
     );
 
-    /**
-     * @brief Merge additional documents back into a ProcessRagContext.
-     * @param[in] ctx Input parameter.
-     * @param[in] extra_docs Input parameter.
-     * @return Return value.
-     * @details Intelligently incorporates RetrievedDocument objects back into the context, avoiding duplicates and preserving structured fields. Implementation note: Uses O(n) set-based deduplication: 1. Builds an unordered_set of existing IDs: O(n) 2. For each new document, O(1) set lookup to check if duplicate 3. Overall complexity: O(n + m) where n = existing docs, m = new docs The metadata map lookup uses std::map::find() which is O(log k) where k is the size of metadata per document (typically 4-6 fields). Safety: Uses RAII containers (vector, set, map) — no manual memory management.
-     */
+    /// Merge additional documents back into a ProcessRagContext.
+    ///
+    /// Intelligently incorporates RetrievedDocument objects back into the context,
+    /// avoiding duplicates and preserving structured fields.
+    ///
+    /// Implementation note: Uses O(n) set-based deduplication:
+    /// 1. Builds an unordered_set of existing IDs: O(n)
+    /// 2. For each new document, O(1) set lookup to check if duplicate
+    /// 3. Overall complexity: O(n + m) where n = existing docs, m = new docs
+    ///
+    /// The metadata map lookup uses std::map::find() which is O(log k) where k
+    /// is the size of metadata per document (typically 4-6 fields).
+    ///
+    /// Safety: Uses RAII containers (vector, set, map) — no manual memory management.
     static ProcessRagContext mergeDocuments(
         ProcessRagContext ctx,
         const std::vector<rag::judge::RetrievedDocument>& extra_docs

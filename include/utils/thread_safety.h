@@ -49,11 +49,6 @@ public:
      */
     template<typename Func>
     auto with_lock(Func&& func) const -> decltype(func(std::declval<const T&>())) {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         return func(value_);
     }
@@ -69,11 +64,6 @@ public:
      */
     template<typename Func>
     auto with_lock(Func&& func) -> decltype(func(std::declval<T&>())) {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         return func(value_);
     }
@@ -115,11 +105,6 @@ public:
      */
     template<typename Func>
     auto with_shared_lock(Func&& func) const -> decltype(func(std::declval<const T&>())) {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::shared_lock<std::shared_mutex> lock(mutex_);
         return func(value_);
     }
@@ -135,11 +120,6 @@ public:
      */
     template<typename Func>
     auto with_unique_lock(Func&& func) -> decltype(func(std::declval<T&>())) {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::shared_mutex> lock(mutex_);
         return func(value_);
     }

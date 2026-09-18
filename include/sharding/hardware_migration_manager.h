@@ -56,26 +56,15 @@ struct NodeIdentity {
     std::string created_at;      // ISO-8601 timestamp of original provisioning
     std::string identity_version; // Monotonically increasing version tag
 
-     * @brief TBD: Describe toJson.
-     * @return Return value.
     /** Serialise identity to JSON string (written to the identity file). */
     std::string toJson() const;
 
-     * @brief TBD: Describe fromJson.
-     * @param[in] json Input parameter.
-     * @return Return value.
     /** Deserialise identity from a JSON string; returns nullopt on parse error. */
     static std::optional<NodeIdentity> fromJson(const std::string& json);
 
-     * @brief TBD: Describe saveTo.
-     * @param[in] path Input parameter.
-     * @return True on success.
     /** Write identity to file. Returns false and logs on error. */
     bool saveTo(const std::string& path) const;
 
-     * @brief TBD: Describe loadFrom.
-     * @param[in] path Input parameter.
-     * @return Return value.
     /** Load identity from file. Returns nullopt if file absent or invalid. */
     static std::optional<NodeIdentity> loadFrom(const std::string& path);
 };
@@ -161,8 +150,6 @@ public:
     /**
      * Load the node identity from the identity file.
      * Returns nullopt if the file does not exist.
-     * @brief TBD: Describe loadIdentity.
-     * @return Return value.
      */
     std::optional<NodeIdentity> loadIdentity() const;
 
@@ -175,7 +162,6 @@ public:
      * @param token_start   Token range start.
      * @param token_end     Token range end.
      * @return The created identity, or nullopt on failure.
-     * @brief TBD: Describe createAndSaveIdentity.
      */
     std::optional<NodeIdentity> createAndSaveIdentity(
         const std::string& shard_id,
@@ -202,7 +188,6 @@ public:
      * @param shard_id     The logical shard to update.
      * @param new_endpoint New network endpoint (host:port or URL).
      * @return Result describing what happened.
-     * @brief TBD: Describe replaceEndpoint.
      */
     HardwareMigrationResult replaceEndpoint(
         const std::string& shard_id,
@@ -274,7 +259,6 @@ public:
      * Call once per new in-flight request arriving on the old endpoint during
      * the drain window.  Must be paired with `releaseInFlightRequest()`.
      * Prefer `makeRequestGuard()` to avoid mismatched calls.
-     * @param[in] shard_id Input parameter.
      */
     void addInFlightRequest(const std::string& shard_id);
 
@@ -282,14 +266,11 @@ public:
      * @brief Decrement the in-flight request counter for @p shard_id.
      *
      * Notifies `waitForDrain()` callers when the counter reaches zero.
-     * @param[in] shard_id Input parameter.
      */
     void releaseInFlightRequest(const std::string& shard_id);
 
     /**
      * @brief Return the current in-flight request count for @p shard_id.
-     * @param[in] shard_id Input parameter.
-     * @return Return value.
      */
     size_t inFlightCount(const std::string& shard_id) const;
 
@@ -297,7 +278,6 @@ public:
      * @brief Create a RAII DrainGuard that counts one in-flight request.
      *
      * @param shard_id  Shard whose counter to increment/decrement.
-     * @return Return value.
      */
     DrainGuard makeRequestGuard(const std::string& shard_id);
 

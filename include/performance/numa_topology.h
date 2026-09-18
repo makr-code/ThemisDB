@@ -63,26 +63,18 @@ class NumaTopologyDetector {
 public:
     /**
      * @brief Detect and return the system NUMA topology (cached singleton).
-     * @return Return value.
-     * @note Exception safety: noexcept.
      */
     static const NumaTopology& detect() noexcept;
 
     /**
      * @brief Force re-detection (clears cached result).
      * Only needed after hot-plug events; not required in normal operation.
-     * @note Exception safety: noexcept.
      */
     static void invalidate_cache() noexcept;
 
 private:
     NumaTopologyDetector() = delete;
 
-    /**
-     * @brief TBD: Describe detect_impl.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
     static NumaTopology detect_impl() noexcept;
 };
 
@@ -102,7 +94,6 @@ public:
      * @brief Pin the calling thread to a single CPU core.
      * @param cpu_id  Logical CPU id (0-based).
      * @return true on success.
-     * @note Exception safety: noexcept.
      */
     static bool pin_to_cpu(int cpu_id) noexcept;
 
@@ -110,7 +101,6 @@ public:
      * @brief Pin the calling thread to all CPUs of a NUMA node.
      * @param node_id  NUMA node id.
      * @return true on success.
-     * @note Exception safety: noexcept.
      */
     static bool pin_to_node(int node_id) noexcept;
 
@@ -118,28 +108,24 @@ public:
      * @brief Pin the calling thread to an explicit set of CPU ids.
      * @param cpu_ids  Non-empty list of logical CPU ids.
      * @return true on success.
-     * @note Exception safety: noexcept.
      */
     static bool pin_to_cpus(const std::vector<int>& cpu_ids) noexcept;
 
     /**
      * @brief Remove any CPU affinity restriction from the calling thread.
      * @return true on success.
-     * @note Exception safety: noexcept.
      */
     static bool unpin() noexcept;
 
     /**
      * @brief Query the current CPU affinity set of the calling thread.
      * @return List of CPU ids the thread may run on; empty on error.
-     * @note Exception safety: noexcept.
      */
     static std::vector<int> current_affinity() noexcept;
 
     /**
      * @brief Get the NUMA node of the CPU the calling thread is currently running on.
      * @return NUMA node id, or -1 if unavailable.
-     * @note Exception safety: noexcept.
      */
     static int current_node() noexcept;
 };

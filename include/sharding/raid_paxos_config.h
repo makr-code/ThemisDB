@@ -94,9 +94,6 @@ struct RAIDPaxosConfig : public ConsensusConfig {
 
 /**
  * @brief Convert RAID mode to string
- * @param[in] mode Input parameter.
- * @return Return value.
- * @details Implements raidModeToString without additional internal calls.
  */
 inline std::string raidModeToString(RAIDMode mode) {
     switch (mode) {
@@ -110,9 +107,6 @@ inline std::string raidModeToString(RAIDMode mode) {
 
 /**
  * @brief Convert string to RAID mode
- * @param[in] mode_str Input parameter.
- * @return Return value.
- * @details Implements stringToRAIDMode without additional internal calls.
  */
 inline RAIDMode stringToRAIDMode(const std::string& mode_str) {
     if (mode_str == "RAID_0" || mode_str == "STRIPE" || mode_str == "0") {

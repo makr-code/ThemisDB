@@ -78,10 +78,6 @@ struct ResultBatch {
 template<typename T>
 class ResultIterator {
 public:
-    /**
-     * @brief TBD: Describe ~ResultIterator.
-     * @return Return value.
-     */
     virtual ~ResultIterator() = default;
     
     /**
@@ -170,7 +166,6 @@ public:
     
     /**
      * @brief Set pagination cursor (for resuming from saved position)
-     * @param[in] cursor Input parameter.
      */
     void setCursor(const PaginationCursor& cursor);
     
@@ -204,20 +199,9 @@ private:
     // Statistics
     Statistics stats_;
     
-    /**
-     * @brief Helper methods
-     * @return Return value.
-     */
+    // Helper methods
     Result<void> fillBuffer();
-    /**
-     * @brief TBD: Describe shouldFillBuffer.
-     * @return True on success.
-     */
     bool shouldFillBuffer() const;
-    /**
-     * @brief TBD: Describe updateCursor.
-     * @param[in] item Input parameter.
-     */
     void updateCursor(const T& item);
 };
 

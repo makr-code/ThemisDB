@@ -79,49 +79,29 @@ public:
         std::chrono::system_clock::time_point enrolled_at;
         bool enabled = false;
         
-        /**
-         * @brief TBD: Describe to_json.
-         * @return Return value.
-         */
         nlohmann::json to_json() const;
-        /**
-         * @brief TBD: Describe from_json.
-         * @param[in] j Input parameter.
-         * @return Return value.
-         */
         static EnrollmentData from_json(const nlohmann::json& j);
     };
     
     MFAAuthenticator();
-    /**
-     * @brief TBD: Describe MFAAuthenticator.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit MFAAuthenticator(const Config& config);
     ~MFAAuthenticator() = default;
     
     /**
      * @brief Attach an AuditLogger to receive MFA events (enroll, TOTP, recovery).
      * Pass nullptr to detach.  The authenticator does NOT take ownership.
-     * @param[in,out] logger Input/output parameter.
-     * @details Implements setAuditLogger without additional internal calls.
      */
     void setAuditLogger(utils::AuditLogger* logger) { audit_logger_ = logger; }
 
     /**
      * @brief Attach an AuthAuditLogger for typed MFA audit events including drift.
      * Pass nullptr to detach.  The authenticator does NOT take ownership.
-     * @param[in,out] logger Input/output parameter.
-     * @details Implements setAuthAuditLogger without additional internal calls.
      */
     void setAuthAuditLogger(AuthAuditLogger* logger) { auth_audit_logger_ = logger; }
 
     /**
      * @brief Attach an AuthMetrics instance for TOTP drift observability.
      * Pass nullptr to detach.  The authenticator does NOT take ownership.
-     * @param[in,out] metrics Input/output parameter.
-     * @details Implements setMetrics without additional internal calls.
      */
     void setMetrics(AuthMetrics* metrics) { metrics_ = metrics; }
     
@@ -197,59 +177,31 @@ private:
     AuthAuditLogger* auth_audit_logger_ = nullptr; ///< Non-owning, optional typed logger.
     AuthMetrics* metrics_ = nullptr;               ///< Non-owning, optional metrics.
     
-    /**
-     * @brief Generate random secret for TOTP (20 bytes = 160 bits)
-     * @return Return value.
-     */
+    // Generate random secret for TOTP (20 bytes = 160 bits)
     std::string generateSecret() const;
     
-    /**
-     * @brief Generate single recovery code
-     * @return Return value.
-     */
+    // Generate single recovery code
     std::string generateRecoveryCode() const;
     
-    /**
-     * @brief Compute TOTP value for given time counter
-     * @param[in] secret Input parameter.
-     * @param[in] time_counter Input parameter.
-     * @return Return value.
-     */
+    // Compute TOTP value for given time counter
     std::string computeTOTP(
         const std::vector<uint8_t>& secret,
         uint64_t time_counter
     ) const;
     
-    /**
-     * @brief Convert Base32 string to binary
-     * @param[in] input Input parameter.
-     * @return Return value.
-     */
+    // Convert Base32 string to binary
     std::vector<uint8_t> base32Decode(const std::string& input) const;
     
-    /**
-     * @brief Convert binary to Base32 string
-     * @param[in] input Input parameter.
-     * @return Return value.
-     */
+    // Convert binary to Base32 string
     std::string base32Encode(const std::vector<uint8_t>& input) const;
     
-    /**
-     * @brief HMAC-SHA1 implementation
-     * @param[in] key Input parameter.
-     * @param[in] message Input parameter.
-     * @return Return value.
-     */
+    // HMAC-SHA1 implementation
     std::vector<uint8_t> hmacSHA1(
         const std::vector<uint8_t>& key,
         const std::vector<uint8_t>& message
     ) const;
     
-    /**
-     * @brief Get time counter from timestamp
-     * @param[in] timestamp Input parameter.
-     * @return Return value.
-     */
+    // Get time counter from timestamp
     uint64_t getTimeCounter(std::chrono::system_clock::time_point timestamp) const;
 };
 

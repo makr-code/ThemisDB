@@ -108,10 +108,6 @@ static constexpr size_t kDefaultLookaheadBytes = 256;
  */
 class IPIIDetectionEngine {
 public:
-    /**
-     * @brief TBD: Describe ~IPIIDetectionEngine.
-     * @return Return value.
-     */
     virtual ~IPIIDetectionEngine() = default;
     
     /**
@@ -355,10 +351,7 @@ public:
     /** @brief Reset state for a new document. */
     void reset();
 
-    /**
-     * @brief Total bytes processed since the last reset().
-     * @return Number of bytes consumed by the current document stream.
-     */
+    /** @brief Total bytes processed since last reset(). */
     size_t bytes_processed() const;
 
 private:

@@ -110,16 +110,7 @@ struct PolicyRule {
     // Lifecycle management (Phase 2-3)
     PolicyLifecycle lifecycle;                         // State machine and audit trail
 
-    /**
-     * @brief TBD: Describe toJson.
-     * @return Return value.
-     */
     nlohmann::json toJson() const;
-    /**
-     * @brief TBD: Describe fromJson.
-     * @param[in] j Input parameter.
-     * @return Return value.
-     */
     static PolicyRule fromJson(const nlohmann::json& j);
     
     /// Check if rule applies to a resource/action combination
@@ -185,13 +176,11 @@ public:
     /// List all policy rules
     std::vector<PolicyRule> listRules() const;
     
-    /**
-     * @brief Find applicable rules for a resource/action combination @param resource Resource identifier @param action Action identifier @param user_roles User's roles (for role-based filtering) @return Vector of applicable rules, sorted by priority (highest first)
-     * @param[in] resource Input parameter.
-     * @param[in] action Input parameter.
-     * @param[in] user_roles Input parameter.
-     * @return Return value.
-     */
+    /// Find applicable rules for a resource/action combination
+    /// @param resource Resource identifier
+    /// @param action Action identifier
+    /// @param user_roles User's roles (for role-based filtering)
+    /// @return Vector of applicable rules, sorted by priority (highest first)
     std::vector<PolicyRule> findApplicableRules(
         const std::string& resource,
         const std::string& action,
@@ -217,13 +206,6 @@ public:
         std::vector<std::string> applied_rules;        // IDs of applied rules
     };
     
-    /**
-     * @brief TBD: Describe evaluatePolicy.
-     * @param[in] resource Input parameter.
-     * @param[in] action Input parameter.
-     * @param[in] user_roles Input parameter.
-     * @return Return value.
-     */
     PolicyDecision evaluatePolicy(
         const std::string& resource,
         const std::string& action,
@@ -236,10 +218,6 @@ public:
         std::vector<std::string> errors;
         std::vector<std::string> warnings;
     };
-    /**
-     * @brief TBD: Describe validateRules.
-     * @return Return value.
-     */
     ValidationResult validateRules() const;
     
     /// Get policy statistics
@@ -249,10 +227,6 @@ public:
         int disabled_rules = 0;
         std::unordered_map<std::string, int> rules_by_classification;
     };
-    /**
-     * @brief TBD: Describe getStats.
-     * @return Return value.
-     */
     PolicyStats getStats() const;
     
     /// Export rules as JSON
@@ -360,11 +334,8 @@ public:
     /// @return       true on success, false on load or validation failure.
     bool reloadPolicies(const std::string& path, std::string* err = nullptr);
 
-    /**
-     * @brief @return The version hash of the currently active PolicySet.
-     * @return Return value.
-     * @details Empty string if no policy set has been promoted via reloadPolicies().
-     */
+    /// @return The version hash of the currently active PolicySet.
+    ///         Empty string if no policy set has been promoted via reloadPolicies().
     std::string activePolicyVersion() const;
     
 private:

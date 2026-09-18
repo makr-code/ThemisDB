@@ -447,28 +447,15 @@ public:
     bool isLastRollbackIdempotent() const;
 
 private:
-    /**
-     * @brief TBD: Describe isValidTransition.
-     * @param[in] from Input parameter.
-     * @param[in] to Input parameter.
-     * @return True on success.
-     */
     bool isValidTransition(UpdateState from, UpdateState to) const;
-    /**
-     * @brief TBD: Describe appendLogEntry.
-     * @param[in] entry Input parameter.
-     */
     void appendLogEntry(const UpdateTransactionEntry& entry);
     
-    /**
-     * @brief Persist a single checkpoint to the checkpoints log file Error Code: 7401 - Checkpoint file write failed
-     * @param[in] cp Input parameter.
-     */
+    /// Persist a single checkpoint to the checkpoints log file
+    /// Error Code: 7401 - Checkpoint file write failed
     void persistCheckpoint(const Checkpoint& cp);
     
-    /**
-     * @brief Load all checkpoints from the checkpoints log file at startup Error Code: 7402 - Checkpoint file read failed
-     */
+    /// Load all checkpoints from the checkpoints log file at startup
+    /// Error Code: 7402 - Checkpoint file read failed
     void loadCheckpoints();
 
     mutable std::mutex mutex_;

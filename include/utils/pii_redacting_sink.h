@@ -27,7 +27,6 @@ public:
     /**
      * @brief Construct a PII-redacting wrapper around @p wrapped.
      * @param wrapped  The real destination sink (e.g. stdout_color_sink_mt, file_sink).
-     * @return Return value.
      */
     explicit PIIRedactingSink(spdlog::sink_ptr wrapped)
         : wrapped_(std::move(wrapped)) {}

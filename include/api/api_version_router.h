@@ -124,10 +124,6 @@ using HandlerSet = std::vector<RouteEntry>;
  */
 class IAPIVersionRouter {
 public:
-    /**
-     * @brief TBD: Describe ~IAPIVersionRouter.
-     * @return Return value.
-     */
     virtual ~IAPIVersionRouter() = default;
 
     /**
@@ -162,7 +158,6 @@ public:
 
     /**
      * @brief Return the list of registered `VersionDescriptor`s in registration order.
-     * @return Return value.
      */
     virtual std::vector<VersionDescriptor> registeredVersions() const = 0;
 };

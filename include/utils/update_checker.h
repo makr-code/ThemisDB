@@ -40,14 +40,11 @@ struct Version {
     
     /**
      * @brief Parse version string (e.g., "1.2.3", "1.2.3-beta", "v1.2.3")
-     * @param[in] version_str Input parameter.
-     * @return Return value.
      */
     static std::optional<Version> parse(const std::string& version_str);
     
     /**
      * @brief Convert to string representation
-     * @return Return value.
      */
     std::string toString() const;
     
@@ -78,14 +75,11 @@ struct ReleaseInfo {
     
     /**
      * @brief Check if this release contains critical security patches
-     * @return True on success.
      */
     bool isCritical() const;
     
     /**
      * @brief Parse from GitHub API JSON response
-     * @param[in] j Input parameter.
-     * @return Return value.
      */
     static std::optional<ReleaseInfo> fromJson(const json& j);
 };
@@ -115,7 +109,6 @@ struct UpdateCheckResult {
     
     /**
      * @brief Convert to JSON for HTTP API
-     * @return Return value.
      */
     json toJson() const;
 };
@@ -144,14 +137,11 @@ struct UpdateCheckerConfig {
     
     /**
      * @brief Load from JSON
-     * @param[in] j Input parameter.
-     * @return Return value.
      */
     static UpdateCheckerConfig fromJson(const json& j);
     
     /**
      * @brief Convert to JSON
-     * @return Return value.
      */
     json toJson() const;
 };
@@ -172,8 +162,6 @@ class UpdateChecker {
 public:
     /**
      * @brief Construct update checker with configuration
-     * @param[in] config Input parameter.
-     * @return Return value.
      */
     explicit UpdateChecker(const UpdateCheckerConfig& config);
     
@@ -204,25 +192,21 @@ public:
     
     /**
      * @brief Get last check result
-     * @return Return value.
      */
     UpdateCheckResult getLastResult() const;
     
     /**
      * @brief Get configuration
-     * @return Return value.
      */
     UpdateCheckerConfig getConfig() const;
     
     /**
      * @brief Update configuration (stops and restarts if running)
-     * @param[in] config Input parameter.
      */
     void updateConfig(const UpdateCheckerConfig& config);
     
     /**
      * @brief Check if checker is running
-     * @return True on success.
      */
     bool isRunning() const;
     
@@ -261,8 +245,6 @@ private:
     
     /**
      * @brief Compare current version with releases
-     * @param[in] releases Input parameter.
-     * @return Return value.
      */
     UpdateCheckResult analyzeReleases(const std::vector<ReleaseInfo>& releases);
 };

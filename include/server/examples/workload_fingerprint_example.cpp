@@ -49,11 +49,6 @@ struct QueryMetric {
     // NOTE: no query text — GDPR guard ensures content-free fingerprinting
 };
 
-/**
- * @brief TBD: Describe simulateVectorSearchWindow.
- * @return Return value.
- * @details Calls: reserve(), push_back().
- */
 std::vector<QueryMetric> simulateVectorSearchWindow() {
     // 1 000 queries — 75 % vector search
     std::vector<QueryMetric> window;
@@ -67,11 +62,6 @@ std::vector<QueryMetric> simulateVectorSearchWindow() {
     return window;
 }
 
-/**
- * @brief TBD: Describe simulateOltpWriteHeavyWindow.
- * @return Return value.
- * @details Calls: reserve(), push_back().
- */
 std::vector<QueryMetric> simulateOltpWriteHeavyWindow() {
     std::vector<QueryMetric> window;
     window.reserve(1000);
@@ -82,14 +72,7 @@ std::vector<QueryMetric> simulateOltpWriteHeavyWindow() {
     return window;
 }
 
-/**
- * @brief Simulated deterministic fingerprint hash (IMPL-B8 spec)
- * @param[in] vec_frac Input parameter.
- * @param[in] rw_ratio Input parameter.
- * @param[in] qps Input parameter.
- * @return Return value.
- * @details Implements mockFingerprintHash without additional internal calls.
- */
+// Simulated deterministic fingerprint hash (IMPL-B8 spec)
 uint64_t mockFingerprintHash(double vec_frac, double rw_ratio, uint64_t qps) {
     // Deterministic: same input → same hash
     return static_cast<uint64_t>(vec_frac * 1000) * 7919ULL
@@ -97,13 +80,6 @@ uint64_t mockFingerprintHash(double vec_frac, double rw_ratio, uint64_t qps) {
          + qps;
 }
 
-/**
- * @brief TBD: Describe jaccardDistance.
- * @param[in] h1 Input parameter.
- * @param[in] h2 Input parameter.
- * @return Return value.
- * @details Calls: __builtin_popcountll().
- */
 double jaccardDistance(uint64_t h1, uint64_t h2) {
     if (h1 == h2) {
       return 0.0;
@@ -116,11 +92,6 @@ double jaccardDistance(uint64_t h1, uint64_t h2) {
 
 } // namespace
 
-/**
- * @brief TBD: Describe main.
- * @return Return value.
- * @details Calls: simulateVectorSearchWindow(), PLANNED(), std::chrono::high_resolution_clock::now(), computeFingerprint(), count(), assert(), pattern_str(), mockFingerprintHash().
- */
 int main() {
     std::cout << "=== WorkloadFingerprintEngine Example (IMPL-B8) ===\n\n";
 

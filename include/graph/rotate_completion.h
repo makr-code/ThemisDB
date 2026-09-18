@@ -92,14 +92,12 @@ public:
     /**
      * @brief Register a new entity.  Ignored if already registered.
      * @return Internal numeric index assigned to the entity.
-     * @param[in] id Input parameter.
      */
     size_t addEntity(const std::string& id);
 
     /**
      * @brief Register a new relation type.  Ignored if already registered.
      * @return Internal numeric index assigned to the relation.
-     * @param[in] id Input parameter.
      */
     size_t addRelation(const std::string& id);
 
@@ -147,7 +145,6 @@ public:
 
     /**
      * @brief Return true if the model has been trained (train() called at least once).
-     * @return True on success.
      */
     bool isTrained() const;
 
@@ -158,23 +155,18 @@ public:
     /**
      * @brief Export entity embedding (real + imaginary parts interleaved).
      * @return Vector of length 2 × embedding_dim, or empty if not trained.
-     * @param[in] id Input parameter.
      */
     std::vector<float> entityEmbedding(const std::string& id) const;
 
     /**
      * @brief Export relation phase embedding.
      * @return Vector of length embedding_dim, or empty if not trained.
-     * @param[in] id Input parameter.
      */
     std::vector<float> relationPhase(const std::string& id) const;
 
     /**
      * @brief Rank all entities as tail predictions for (head, relation, ?).
      * @return Sorted (ascending score) list of all entities.
-     * @param[in] head Input parameter.
-     * @param[in] relation Input parameter.
-     * @param[in] top_k Input parameter.
      */
     std::vector<LinkPrediction> rankTail(const std::string& head,
                                           const std::string& relation,
@@ -183,9 +175,6 @@ public:
     /**
      * @brief Rank all entities as head predictions for (?, relation, tail).
      * @return Sorted (ascending score) list of all entities.
-     * @param[in] relation Input parameter.
-     * @param[in] tail Input parameter.
-     * @param[in] top_k Input parameter.
      */
     std::vector<LinkPrediction> rankHead(const std::string& relation,
                                           const std::string& tail,
@@ -206,11 +195,6 @@ private:
  */
 class LinkPredictionHead {
 public:
-    /**
-     * @brief TBD: Describe LinkPredictionHead.
-     * @param[in,out] model Input/output parameter.
-     * @return Return value.
-     */
     explicit LinkPredictionHead(RotatEModel& model);
 
     /**
@@ -281,7 +265,6 @@ public:
     /**
      * @brief Train the RotatE model on the supplied triples.
      * @param triples Positive (h, r, t) training triples.
-     * @return Return value.
      */
     RotatETrainResult train(const std::vector<KGTriple>& triples);
 

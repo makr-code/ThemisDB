@@ -36,13 +36,9 @@ enum class ExperimentVariant {
     TREATMENT   ///< Candidate (new) template version.
 };
 
- * @param[in] v Input parameter.
- * @return Return value.
 /** @brief Convert ExperimentVariant to string ("control" / "treatment"). */
 std::string variantToString(ExperimentVariant v);
 
- * @param[in] s Input parameter.
- * @return Return value.
 /** @brief Parse ExperimentVariant from string; returns nullopt on unknown. */
 std::optional<ExperimentVariant> stringToVariant(const std::string& s);
 
@@ -74,8 +70,6 @@ enum class ExperimentStatus {
     COMPLETED          ///< Manually stopped; winner already promoted.
 };
 
- * @param[in] s Input parameter.
- * @return Return value.
 /** @brief Convert ExperimentStatus to string. */
 std::string statusToString(ExperimentStatus s);
 
@@ -110,12 +104,9 @@ struct PromptExperiment {
 
     ExperimentStatus status = ExperimentStatus::RUNNING;
 
-     * @return Return value.
     /** @brief Serialise to JSON. */
     nlohmann::json toJson() const;
 
-     * @param[in] j Input parameter.
-     * @return Return value.
     /** @brief Deserialise from JSON. */
     static PromptExperiment fromJson(const nlohmann::json& j);
 };
@@ -132,7 +123,6 @@ struct ExperimentOutcome {
     std::string request_id;    ///< Originating request ID.
     std::chrono::system_clock::time_point timestamp;
 
-     * @return Return value.
     /** @brief Serialise to JSON. */
     nlohmann::json toJson() const;
 };
@@ -153,7 +143,6 @@ struct ExperimentSummary {
     bool   significant            = false;
     std::string winner_version_id; ///< Non-empty once a winner is determined.
 
-     * @return Return value.
     /** @brief Serialise to JSON. */
     nlohmann::json toJson() const;
 };
@@ -231,14 +220,12 @@ public:
     /**
      * @brief Get the experiment descriptor.
      * @return Experiment, or `nullopt` if not found.
-     * @param[in] experiment_id Input parameter.
      */
     std::optional<PromptExperiment> getExperiment(
         const std::string& experiment_id) const;
 
     /**
      * @brief Return all registered experiments (running and completed).
-     * @return Return value.
      */
     std::vector<PromptExperiment> listExperiments() const;
 
@@ -312,15 +299,12 @@ public:
 
     /**
      * @brief Get the current status of an experiment.
-     * @param[in] experiment_id Input parameter.
-     * @return Return value.
      */
     ExperimentStatus getStatus(const std::string& experiment_id) const;
 
     /**
      * @brief Build a full summary for an experiment.
      * @return Summary, or an empty optional if not found.
-     * @param[in] experiment_id Input parameter.
      */
     std::optional<ExperimentSummary> getSummary(
         const std::string& experiment_id) const;
@@ -363,26 +347,18 @@ private:
     // Internals
     // -------------------------------------------------------------------------
 
-     * @return Return value.
     /** @brief Generate a unique experiment ID. */
     static std::string generateId();
 
     /**
      * @brief 32-bit MurmurHash3 of an ASCII string.
      * Seed: 0x9747b28c (chosen to produce a uniform bucket distribution).
-     * @param[in] key Input parameter.
-     * @return Return value.
-     * @note Exception safety: noexcept.
      */
     static std::uint32_t murmur3_32(const std::string& key) noexcept;
 
     /**
      * @brief Welch two-sample t-test; returns p-value in [0, 1].
      * Returns 1.0 when either sample is too small (< 2 elements).
-     * @param[in] a Input parameter.
-     * @param[in] b Input parameter.
-     * @return Return value.
-     * @note Exception safety: noexcept.
      */
     static double welchPValue(const std::vector<double>& a,
                                const std::vector<double>& b) noexcept;
@@ -390,15 +366,9 @@ private:
     /**
      * @brief Two-tailed p-value from t-statistic and degrees of freedom.
      * Uses a rational approximation to the Student-t CDF.
-     * @param[in] t Input parameter.
-     * @param[in] df Input parameter.
-     * @return Return value.
-     * @note Exception safety: noexcept.
      */
     static double tDistCdf(double t, double df) noexcept;
 
-     * @param[in] experiment_id Input parameter.
-     * @return True on success.
     /** @brief checkSignificance() body called while holding mutex_. */
     bool checkSignificanceLocked(const std::string& experiment_id);
 };
@@ -456,10 +426,6 @@ struct ExperimentDescriptor {
  */
 class IPromptABFramework {
 public:
-    /**
-     * @brief TBD: Describe ~IPromptABFramework.
-     * @return Return value.
-     */
     virtual ~IPromptABFramework() = default;
 
     /**

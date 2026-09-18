@@ -85,18 +85,7 @@ public:
     struct Status {
         bool ok = true;
         std::string message;
-        /**
-         * @brief TBD: Describe OK.
-         * @return Return value.
-         * @details Implements OK without additional internal calls.
-         */
         static Status OK() { return {}; }
-        /**
-         * @brief TBD: Describe Error.
-         * @param[in] msg Input parameter.
-         * @return Return value.
-         * @details Calls: std::move().
-         */
         static Status Error(std::string msg) { return Status{false, std::move(msg)}; }
     };
 
@@ -104,7 +93,6 @@ public:
      * @brief Construct a new Product Quantizer
      * @param dimension Vector dimension (must be divisible by num_subquantizers)
      * @param config Configuration parameters
-     * @return Return value.
      */
     explicit ProductQuantizer(int dimension, const Config& config);
     
@@ -162,7 +150,6 @@ public:
 
     /**
      * @brief Get memory usage in bytes
-     * @return Return value.
      */
     size_t getMemoryUsage() const;
 
@@ -194,30 +181,14 @@ private:
 #endif
 
 #ifndef THEMIS_HAS_FAISS
-    /**
-     * @brief Fallback implementations used when FAISS is not available
-     * @param[in] subvector_data Input parameter.
-     * @return Return value.
-     */
+    // Fallback implementations used when FAISS is not available
     std::vector<std::vector<float>> runKMeans(
         const std::vector<std::vector<float>>& subvector_data) const;
     
-    /**
-     * @brief TBD: Describe findNearestCentroid.
-     * @param[in] subvector Input parameter.
-     * @param[in] centroids Input parameter.
-     * @return Return value.
-     */
     uint8_t findNearestCentroid(
         const std::vector<float>& subvector,
         const std::vector<std::vector<float>>& centroids) const;
     
-    /**
-     * @brief TBD: Describe l2Distance.
-     * @param[in] a Input parameter.
-     * @param[in] b Input parameter.
-     * @return Return value.
-     */
     static float l2Distance(const std::vector<float>& a, const std::vector<float>& b);
 #endif
 };

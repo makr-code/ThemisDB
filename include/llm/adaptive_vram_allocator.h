@@ -103,9 +103,6 @@ public:
      * - Inference requirements (batch size, sequence length)
      * 
      * @return Detailed allocation plan with recommendations
-     * @param[in] model Input parameter.
-     * @param[in] hw Input parameter.
-     * @param[in] config Input parameter.
      */
     AllocationPlan calculateOptimalAllocation(
         const ModelConfig& model,
@@ -140,14 +137,6 @@ public:
         int    draft_precision_bytes = 0; ///< Effective bytes per parameter for draft (0 = INT4 = 0.5).
     };
 
-    /**
-     * @brief TBD: Describe calculateDualModelAllocation.
-     * @param[in] target_config Input parameter.
-     * @param[in] draft_config Input parameter.
-     * @param[in] hw Input parameter.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     DualModelAllocationPlan calculateDualModelAllocation(
         const ModelConfig&   target_config,
         const ModelConfig&   draft_config,
@@ -164,7 +153,6 @@ public:
      * @param bytes Number of bytes to allocate
      * @param ptr Output pointer to allocated memory
      * @return true if allocation succeeded
-     * @note Exception safety: noexcept.
      */
     bool allocateWithFragmentation(size_t bytes, void** ptr) noexcept;
 
@@ -177,7 +165,6 @@ public:
      * - Spilling to CPU memory if necessary
      * 
      * @return true if recovery succeeded
-     * @note Exception safety: noexcept.
      */
     bool handleOutOfMemory() noexcept;
 
@@ -188,7 +175,6 @@ public:
      * 
      * @param model Model configuration
      * @return Bytes per token for KV cache
-     * @note Exception safety: noexcept.
      */
     static size_t calculateKVCacheSizePerToken(const ModelConfig& model) noexcept;
 
@@ -198,7 +184,6 @@ public:
      * @param num_parameters Number of model parameters
      * @param precision_bytes Bytes per parameter (2=FP16, 4=FP32, 1=INT8, 0.5=Q4)
      * @return Total model size in bytes
-     * @note Exception safety: noexcept.
      */
     static size_t calculateModelSize(size_t num_parameters, float precision_bytes) noexcept;
 
@@ -209,7 +194,6 @@ public:
      * @param batch_size Batch size
      * @param seq_length Sequence length
      * @return Estimated activation memory in bytes
-     * @note Exception safety: noexcept.
      */
     static size_t estimateActivationMemory(
         const ModelConfig& model,

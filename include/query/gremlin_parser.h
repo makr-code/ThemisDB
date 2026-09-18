@@ -145,7 +145,6 @@ public:
      * Example:
      *   GremlinParser p;
      *   auto ast = p.parse("g.V().hasLabel('User').has('age', P.gt(18))");
-     * @brief TBD: Describe parse.
      */
     Result<GremlinASTNode> parse(const std::string& gremlin);
 
@@ -180,23 +179,11 @@ public:
      *
      * @param ast  The parsed Gremlin AST.
      * @return     Result<std::string> – the AQL string on success.
-     * @brief TBD: Describe transpile.
      */
     Result<std::string> transpile(const GremlinASTNode& ast);
 
 private:
-    /**
-     * @brief TBD: Describe valueToAQL.
-     * @param[in] val Input parameter.
-     * @return Return value.
-     */
     static std::string valueToAQL(const GremlinValue& val);
-    /**
-     * @brief TBD: Describe predicateToAQL.
-     * @param[in] pred Input parameter.
-     * @param[in] lhs Input parameter.
-     * @return Return value.
-     */
     static std::string predicateToAQL(const GremlinPredicate& pred,
                                       const std::string& lhs);
 };

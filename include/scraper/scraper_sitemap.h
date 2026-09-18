@@ -78,7 +78,6 @@ public:
     /**
      * @brief Set the HTTP fetch function.
      * @param fn  Function matching FetchFn; called for each sitemap URL.
-     * @details Calls: std::move().
      */
     void setFetchFn(FetchFn fn) { fetch_fn_ = std::move(fn); }
 

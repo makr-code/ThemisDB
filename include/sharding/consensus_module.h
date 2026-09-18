@@ -137,10 +137,6 @@ struct ConsensusStats {
  */
 class ConsensusModule {
 public:
-    /**
-     * @brief TBD: Describe ~ConsensusModule.
-     * @return Return value.
-     */
     virtual ~ConsensusModule() = default;
     
     /**

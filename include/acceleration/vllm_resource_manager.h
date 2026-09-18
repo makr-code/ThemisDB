@@ -114,8 +114,6 @@ public:
     
     /**
      * @brief Construct resource manager with configuration
-     * @param[in] config Input parameter.
-     * @return Return value.
      */
     explicit VLLMResourceManager(const Config& config);
     ~VLLMResourceManager();
@@ -181,7 +179,6 @@ public:
     
     /**
      * @brief Get current resource usage statistics
-     * @return Return value.
      */
     Stats getStats() const;
     
@@ -192,7 +189,6 @@ public:
     
     /**
      * @brief Update configuration (requires reinitialization)
-     * @param[in] config Input parameter.
      */
     void setConfig(const Config& config);
     
@@ -244,7 +240,6 @@ private:
     
     /**
      * @brief Initialize NVML for GPU monitoring
-     * @return True on success.
      */
     bool initializeNVML();
     
@@ -258,7 +253,6 @@ private:
      *
      * When multiple devices are monitored (gpu_device_indices), returns the
      * maximum utilization across all of them.
-     * @return Return value.
      */
     std::optional<double> queryGPUUtilization();
 };

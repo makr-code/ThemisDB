@@ -145,7 +145,6 @@ public:
      *
      * Called automatically by ScopedRegistration.  Safe to call even if the
      * ID was never registered.
-     * @param[in] request_id Input parameter.
      */
     void unregisterQuery(const std::string& request_id);
 

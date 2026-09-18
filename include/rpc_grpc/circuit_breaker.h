@@ -240,10 +240,6 @@ public:
         std::function<void(CircuitState, CircuitState, const std::string&)> cb);
 
 private:
-    /**
-     * @brief TBD: Describe transitionTo.
-     * @param[in] next_state Input parameter.
-     */
     void transitionTo(CircuitState next_state);  ///< Caller must hold mutex_.
 
     CircuitBreakerConfig config_;

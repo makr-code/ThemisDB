@@ -104,10 +104,7 @@ struct HotSpareConfig {
     bool enable_alerts = true;
     std::function<void(const std::string&)> alert_callback;
     
-    /**
-     * @brief Validate configuration
-     * @return True on success.
-     */
+    // Validate configuration
     bool validate() const;
 };
 
@@ -226,13 +223,6 @@ public:
     
     using DocumentIterator = std::function<std::vector<std::string>(const std::string& shard_id)>;
     
-    /**
-     * @brief TBD: Describe HotSpareManager.
-     * @param[in] config Input parameter.
-     * @param[in,out] strategy Input/output parameter.
-     * @param[in,out] topology Input/output parameter.
-     * @return Return value.
-     */
     explicit HotSpareManager(
         const HotSpareConfig& config,
         RedundancyStrategy& strategy,
@@ -241,50 +231,18 @@ public:
     
     ~HotSpareManager();
     
-    /**
-     * @brief Lifecycle
-     */
+    // Lifecycle
     void start();
-    /**
-     * @brief TBD: Describe stop.
-     */
     void stop();
-    /**
-     * @brief TBD: Describe isRunning.
-     * @return True on success.
-     */
     bool isRunning() const;
     
-    /**
-     * @brief Spare pool management
-     * @param[in] shard_id Input parameter.
-     */
+    // Spare pool management
     void addSpare(const std::string& shard_id);
-    /**
-     * @brief TBD: Describe removeSpare.
-     * @param[in] shard_id Input parameter.
-     */
     void removeSpare(const std::string& shard_id);
-    /**
-     * @brief TBD: Describe getAvailableSpares.
-     * @return Return value.
-     */
     std::vector<std::string> getAvailableSpares() const;
-    /**
-     * @brief TBD: Describe getAllSpares.
-     * @return Return value.
-     */
     std::vector<SpareShardInfo> getAllSpares() const;
     
-    /**
-     * @brief Failover operations
-     * @param[in] failed_shard_id Input parameter.
-     * @param[in,out] ring Input/output parameter.
-     * @param[in] read_handler Input parameter.
-     * @param[in] write_handler Input parameter.
-     * @param[in] doc_iterator Input parameter.
-     * @return True on success.
-     */
+    // Failover operations
     bool activateSpare(
         const std::string& failed_shard_id,
         ConsistentHashRing& ring,
@@ -293,46 +251,19 @@ public:
         DocumentIterator doc_iterator
     );
     
-    /**
-     * @brief Manual operations
-     * @param[in] spare_shard_id Input parameter.
-     */
+    // Manual operations
     void triggerRebuild(const std::string& spare_shard_id);
-    /**
-     * @brief TBD: Describe pauseRebuild.
-     * @param[in] spare_shard_id Input parameter.
-     */
     void pauseRebuild(const std::string& spare_shard_id);
-    /**
-     * @brief TBD: Describe resumeRebuild.
-     * @param[in] spare_shard_id Input parameter.
-     */
     void resumeRebuild(const std::string& spare_shard_id);
-    /**
-     * @brief TBD: Describe cancelRebuild.
-     * @param[in] spare_shard_id Input parameter.
-     */
     void cancelRebuild(const std::string& spare_shard_id);
     
-    /**
-     * @brief Status
-     * @return Return value.
-     */
+    // Status
     RebuildStatus getRebuildStatus() const;
-    /**
-     * @brief TBD: Describe getSpareInfo.
-     * @param[in] shard_id Input parameter.
-     * @return Return value.
-     */
     std::optional<SpareShardInfo> getSpareInfo(const std::string& shard_id) const;
     std::vector<HotSpareFailoverEvent> getFailoverHistory(size_t max_count = 100) const;
     
     // Configuration
     const HotSpareConfig& getConfig() const { return config_; }
-    /**
-     * @brief TBD: Describe updateConfig.
-     * @param[in] config Input parameter.
-     */
     void updateConfig(const HotSpareConfig& config);
     
     // Statistics
@@ -350,46 +281,25 @@ public:
         std::chrono::milliseconds avg_rebuild_time{0};
     };
     
-    /**
-     * @brief TBD: Describe getStats.
-     * @return Return value.
-     */
     Stats getStats() const;
     
-    /**
-     * @brief Prometheus metrics
-     * @return Return value.
-     */
+    // Prometheus metrics
     std::string exportPrometheusMetrics() const;
 
     /**
      * Attach a ShardRepairEngine so that after a successful failover,
      * the spare shard is automatically scheduled for full data rebuild
      * via ShardRepairEngine::triggerRepair(spare_shard_id).
-     * @brief TBD: Describe setRepairEngine.
-     * @param[in] engine Input parameter.
      */
     void setRepairEngine(std::shared_ptr<themis::sharding::ShardRepairEngine> engine);
     
 private:
-    /**
-     * @brief Background threads
-     */
+    // Background threads
     void healthCheckLoop();
-    /**
-     * @brief TBD: Describe rebuildLoop.
-     */
     void rebuildLoop();
     
-    /**
-     * @brief Health monitoring
-     * @param[in,out] spare Input/output parameter.
-     */
+    // Health monitoring
     void checkSpareHealth(SpareShardInfo& spare);
-    /**
-     * @brief TBD: Describe handleShardFailure.
-     * @param[in] shard_id Input parameter.
-     */
     void handleShardFailure(const std::string& shard_id);
     
     // Rebuild operations
@@ -406,23 +316,12 @@ private:
         WriteHandler write_handler;
     };
     
-    /**
-     * @brief TBD: Describe rebuildShard.
-     * @param[in,out] task Input/output parameter.
-     * @return True on success.
-     */
     bool rebuildShard(RebuildTask& task);
     
-    /**
-     * @brief Spare selection
-     * @return Return value.
-     */
+    // Spare selection
     std::optional<std::string> selectBestSpare() const;
     
-    /**
-     * @brief Alerting
-     * @param[in] message Input parameter.
-     */
+    // Alerting
     void sendAlert(const std::string& message);
     
     // Configuration and state

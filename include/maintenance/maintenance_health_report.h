@@ -20,12 +20,6 @@ enum class ModuleHealthStatus {
     UNKNOWN,  ///< Module did not respond or is not registered
 };
 
-/**
- * @brief TBD: Describe moduleHealthStatusToString.
- * @param[in] s Input parameter.
- * @return Return value.
- * @details Implements moduleHealthStatusToString without additional internal calls.
- */
 inline std::string moduleHealthStatusToString(ModuleHealthStatus s) {
     switch (s) {
         case ModuleHealthStatus::OK:       return "ok";
@@ -77,12 +71,6 @@ enum class DispatchOutcomeType {
     FAILED_DISPATCH,     ///< Task handler returned a failure
 };
 
-/**
- * @brief TBD: Describe dispatchOutcomeTypeToString.
- * @param[in] t Input parameter.
- * @return Return value.
- * @details Implements dispatchOutcomeTypeToString without additional internal calls.
- */
 inline std::string dispatchOutcomeTypeToString(DispatchOutcomeType t) {
     switch (t) {
         case DispatchOutcomeType::SUCCESS:            return "success";

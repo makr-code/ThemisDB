@@ -87,11 +87,6 @@ public:
         int read_timeout_ms = 5000;
     };
     
-    /**
-     * @brief TBD: Describe JWKSSecurityConfig.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit JWKSSecurityConfig(const Config& config);
     
     /**
@@ -172,11 +167,6 @@ private:
  */
 class JWKSSecureFetcher {
 public:
-    /**
-     * @brief TBD: Describe JWKSSecureFetcher.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit JWKSSecureFetcher(const JWKSSecurityConfig::Config& config);
     ~JWKSSecureFetcher();
     
@@ -220,26 +210,16 @@ public:
         bool mtls_used;
     };
     
-    /**
-     * @brief TBD: Describe getLastFetchStats.
-     * @return Return value.
-     */
     FetchStats getLastFetchStats() const;
 
 private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
     
-    /**
-     * @brief Compute SPKI hash from certificate
-     * @param[in] cert_data Input parameter.
-     * @return Return value.
-     */
+    // Compute SPKI hash from certificate
     std::string computeSPKIHash(const std::string& cert_data);
     
-    /**
-     * @brief Setup TLS context with config
-     */
+    // Setup TLS context with config
     void setupTLSContext();
 };
 
@@ -292,11 +272,6 @@ public:
         std::string signature_algorithm;
     };
     
-    /**
-     * @brief TBD: Describe getCertificateInfo.
-     * @param[in] cert_path Input parameter.
-     * @return Return value.
-     */
     static CertInfo getCertificateInfo(const std::string& cert_path);
 };
 

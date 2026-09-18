@@ -95,14 +95,12 @@ public:
     /**
      * Start the buffer binary protocol handler
      * Initializes AutoBuffer instances and starts background flush threads
-     * @brief TBD: Describe start.
      */
     void start();
     
     /**
      * Stop the buffer binary protocol handler
      * Flushes all remaining data and stops background threads
-     * @brief TBD: Describe stop.
      */
     void stop();
     
@@ -112,7 +110,6 @@ public:
      * @param opcode Message opcode (0x70-0x78)
      * @param payload Message payload (MessagePack encoded)
      * @return Response message (status + optional payload)
-     * @brief TBD: Describe handleMessage.
      */
     std::vector<uint8_t> handleMessage(uint8_t opcode, const std::vector<uint8_t>& payload);
     
@@ -130,69 +127,19 @@ private:
     // Running state
     bool running_;
     
-    /**
-     * @brief Opcode handlers
-     * @param[in] payload Input parameter.
-     * @return Return value.
-     */
+    // Opcode handlers
     std::vector<uint8_t> handleTSPutBuffered(const std::vector<uint8_t>& payload);
-    /**
-     * @brief TBD: Describe handleTSPutBufferedBatch.
-     * @param[in] payload Input parameter.
-     * @return Return value.
-     */
     std::vector<uint8_t> handleTSPutBufferedBatch(const std::vector<uint8_t>& payload);
-    /**
-     * @brief TBD: Describe handleVectorAddBuffered.
-     * @param[in] payload Input parameter.
-     * @return Return value.
-     */
     std::vector<uint8_t> handleVectorAddBuffered(const std::vector<uint8_t>& payload);
-    /**
-     * @brief TBD: Describe handleVectorUpdateBuffered.
-     * @param[in] payload Input parameter.
-     * @return Return value.
-     */
     std::vector<uint8_t> handleVectorUpdateBuffered(const std::vector<uint8_t>& payload);
-    /**
-     * @brief TBD: Describe handleVectorRemoveBuffered.
-     * @param[in] payload Input parameter.
-     * @return Return value.
-     */
     std::vector<uint8_t> handleVectorRemoveBuffered(const std::vector<uint8_t>& payload);
-    /**
-     * @brief TBD: Describe handleGraphNodeBuffered.
-     * @param[in] payload Input parameter.
-     * @return Return value.
-     */
     std::vector<uint8_t> handleGraphNodeBuffered(const std::vector<uint8_t>& payload);
-    /**
-     * @brief TBD: Describe handleGraphEdgeBuffered.
-     * @param[in] payload Input parameter.
-     * @return Return value.
-     */
     std::vector<uint8_t> handleGraphEdgeBuffered(const std::vector<uint8_t>& payload);
-    /**
-     * @brief TBD: Describe handleBufferStats.
-     * @param[in] payload Input parameter.
-     * @return Return value.
-     */
     std::vector<uint8_t> handleBufferStats(const std::vector<uint8_t>& payload);
-    /**
-     * @brief TBD: Describe handleBufferFlush.
-     * @param[in] payload Input parameter.
-     * @return Return value.
-     */
     std::vector<uint8_t> handleBufferFlush(const std::vector<uint8_t>& payload);
     
     // Helper methods
     std::vector<uint8_t> createResponse(uint8_t status, const std::vector<uint8_t>& payload = {});
-    /**
-     * @brief TBD: Describe createErrorResponse.
-     * @param[in] status Input parameter.
-     * @param[in] error_message Input parameter.
-     * @return Return value.
-     */
     std::vector<uint8_t> createErrorResponse(uint8_t status, const std::string& error_message);
 };
 

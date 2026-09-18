@@ -93,34 +93,11 @@ public:
     explicit VoiceTTSCustomizer(const TTSCustomizerConfig& config = {});
     ~VoiceTTSCustomizer() = default;
 
-    /**
-     * @brief Voice profile management
-     * @param[in] profile Input parameter.
-     * @return True on success.
-     */
+    // Voice profile management
     bool registerVoiceProfile(const VoiceProfile& profile);
-    /**
-     * @brief TBD: Describe hasProfile.
-     * @param[in] voice_id Input parameter.
-     * @return True on success.
-     */
     bool hasProfile(const std::string& voice_id) const;
-    /**
-     * @brief TBD: Describe getProfile.
-     * @param[in] voice_id Input parameter.
-     * @return Return value.
-     */
     std::optional<VoiceProfile> getProfile(const std::string& voice_id) const;
-    /**
-     * @brief TBD: Describe listProfiles.
-     * @return Return value.
-     */
     std::vector<VoiceProfile> listProfiles() const;
-    /**
-     * @brief TBD: Describe getProfilesForLanguage.
-     * @param[in] lang Input parameter.
-     * @return Return value.
-     */
     std::vector<VoiceProfile> getProfilesForLanguage(const std::string& lang) const;
 
     // Prosody control – merge custom prosody on top of profile defaults
@@ -129,71 +106,31 @@ public:
         const ProsodyConfig& overrides = {}
     ) const;
 
-    /**
-     * @brief Clamp all prosody values to valid ranges
-     * @param[in] p Input parameter.
-     * @return Return value.
-     */
+    // Clamp all prosody values to valid ranges
     ProsodyConfig validateProsody(const ProsodyConfig& p) const;
 
-    /**
-     * @brief SSML processing: strip tags, extract prosody hints
-     * @param[in] ssml_text Input parameter.
-     * @return Return value.
-     */
+    // SSML processing: strip tags, extract prosody hints
     SSMLResult parseSSML(const std::string& ssml_text) const;
 
-    /**
-     * @brief SSML injection prevention: validate tags against allowlist and strip disallowed content; returns the sanitized SSML and a flag indicating whether an injection attempt was detected.
-     * @param[in] ssml_input Input parameter.
-     * @return Return value.
-     */
+    // SSML injection prevention: validate tags against allowlist and strip
+    // disallowed content; returns the sanitized SSML and a flag indicating
+    // whether an injection attempt was detected.
     SSMLSanitizeResult sanitizeSSML(const std::string& ssml_input) const;
 
-    /**
-     * @brief Returns true if ssml_input contains only allowlisted tags/attributes.
-     * @param[in] ssml_input Input parameter.
-     * @return True on success.
-     */
+    // Returns true if ssml_input contains only allowlisted tags/attributes.
     bool isSSMLSafe(const std::string& ssml_input) const;
 
     // Quality metrics
     MOSMetrics estimateMOS(const std::vector<uint8_t>& audio_data, int sample_rate = 22050) const;
-    /**
-     * @brief TBD: Describe estimateMOSFromText.
-     * @param[in] input_text Input parameter.
-     * @param[in] output_text Input parameter.
-     * @return Return value.
-     */
     MOSMetrics estimateMOSFromText(const std::string& input_text, const std::string& output_text) const;
 
-    /**
-     * @brief Multi-language synthesis support
-     * @param[in] lv Input parameter.
-     */
+    // Multi-language synthesis support
     void registerLanguageVoice(const LanguageVoice& lv);
-    /**
-     * @brief TBD: Describe getSupportedLanguages.
-     * @return Return value.
-     */
     std::vector<LanguageVoice> getSupportedLanguages() const;
-    /**
-     * @brief TBD: Describe getBestVoiceForLanguage.
-     * @param[in] lang_code Input parameter.
-     * @return Return value.
-     */
     std::string getBestVoiceForLanguage(const std::string& lang_code) const;
-    /**
-     * @brief TBD: Describe supportsLanguage.
-     * @param[in] lang_code Input parameter.
-     * @return True on success.
-     */
     bool supportsLanguage(const std::string& lang_code) const;
 
-    /**
-     * @brief Statistics
-     * @return Return value.
-     */
+    // Statistics
     json getStatistics() const;
 
 private:
@@ -201,34 +138,11 @@ private:
     std::map<std::string, VoiceProfile> profiles_;
     std::map<std::string, LanguageVoice> language_voices_;
 
-    /**
-     * @brief TBD: Describe loadDefaultProfiles.
-     */
     void loadDefaultProfiles();
-    /**
-     * @brief TBD: Describe loadDefaultLanguageVoices.
-     */
     void loadDefaultLanguageVoices();
 
-    /**
-     * @brief TBD: Describe computeSignalEnergy.
-     * @param[in] audio Input parameter.
-     * @param[in] sample_rate Input parameter.
-     * @return Return value.
-     */
     float computeSignalEnergy(const std::vector<uint8_t>& audio, int sample_rate) const;
-    /**
-     * @brief TBD: Describe computeSpeechRhythm.
-     * @param[in] audio Input parameter.
-     * @param[in] sample_rate Input parameter.
-     * @return Return value.
-     */
     float computeSpeechRhythm(const std::vector<uint8_t>& audio, int sample_rate) const;
-    /**
-     * @brief TBD: Describe classifyMOS.
-     * @param[in] mos Input parameter.
-     * @return Return value.
-     */
     std::string classifyMOS(float mos) const;
 };
 

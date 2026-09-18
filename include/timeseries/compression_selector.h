@@ -86,23 +86,15 @@ SeriesProfile profileSeries(const std::vector<TSStore::DataPoint>& points);
  */
 class ICompressionSelector {
 public:
-    /**
-     * @brief TBD: Describe ~ICompressionSelector.
-     * @return Return value.
-     */
     virtual ~ICompressionSelector() = default;
 
     /**
      * @brief Select a compression strategy from a pre-computed profile.
-     * @param[in] profile Input parameter.
-     * @return Return value.
      */
     virtual CompressionStrategy select(const SeriesProfile& profile) const = 0;
 
     /**
      * @brief Convenience overload: profile the points internally and select.
-     * @param[in] points Input parameter.
-     * @return Return value.
      */
     virtual CompressionStrategy selectForPoints(
         const std::vector<TSStore::DataPoint>& points) const = 0;
@@ -139,11 +131,6 @@ public:
     };
 
     HeuristicCompressionSelector();
-    /**
-     * @brief TBD: Describe HeuristicCompressionSelector.
-     * @param[in] cfg Input parameter.
-     * @return Return value.
-     */
     explicit HeuristicCompressionSelector(Config cfg);
 
     CompressionStrategy select(const SeriesProfile& profile) const override;
@@ -181,11 +168,6 @@ public:
     using SeriesKey = std::string;  ///< "metric:entity"
 
     PerSeriesCompressionRegistry();
-    /**
-     * @brief TBD: Describe PerSeriesCompressionRegistry.
-     * @param[in] selector Input parameter.
-     * @return Return value.
-     */
     explicit PerSeriesCompressionRegistry(
         std::unique_ptr<ICompressionSelector> selector);
 
@@ -194,7 +176,6 @@ public:
      *
      * Clears the strategy cache so that subsequent strategyFor() calls use
      * the new selector.  Pinned entries are not affected.
-     * @param[in] selector Input parameter.
      */
     void setSelector(std::unique_ptr<ICompressionSelector> selector);
 
@@ -209,7 +190,6 @@ public:
      *                when no pinned or cached entry exists.  May be empty;
      *                in that case the selector receives an empty sample and
      *                will typically return None.
-     * @return Return value.
      */
     CompressionStrategy strategyFor(const std::string& metric,
                                     const std::string& entity,
@@ -217,9 +197,6 @@ public:
 
     /**
      * @brief Force a specific strategy for a series, overriding selection.
-     * @param[in] metric Input parameter.
-     * @param[in] entity Input parameter.
-     * @param[in] strategy Input parameter.
      */
     void pinStrategy(const std::string& metric,
                      const std::string& entity,
@@ -229,8 +206,6 @@ public:
      * @brief Remove a previously pinned strategy.
      *
      * After removal the next strategyFor() call will re-run the selector.
-     * @param[in] metric Input parameter.
-     * @param[in] entity Input parameter.
      */
     void clearPin(const std::string& metric, const std::string& entity);
 
@@ -241,7 +216,6 @@ public:
 
     /**
      * @brief Total number of entries (pinned + cached).
-     * @return Return value.
      */
     size_t registrySize() const;
 
@@ -255,12 +229,6 @@ private:
     std::unordered_map<SeriesKey, CompressionStrategy> pinned_;
     std::unordered_map<SeriesKey, CompressionStrategy> cached_;
 
-    /**
-     * @brief TBD: Describe makeKey.
-     * @param[in] metric Input parameter.
-     * @param[in] entity Input parameter.
-     * @return Return value.
-     */
     static SeriesKey makeKey(const std::string& metric, const std::string& entity);
 };
 

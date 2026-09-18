@@ -300,11 +300,6 @@ public:
         size_t chunk_size_bytes = kDefaultChunkSizeBytes;  ///< Per-chunk transfer size
     };
 
-    /**
-     * @brief TBD: Describe RaftSnapshotManager.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit RaftSnapshotManager(const Config& config);
     ~RaftSnapshotManager() = default;
 
@@ -384,17 +379,12 @@ private:
     Config config_;
     mutable std::mutex mutex_;
 
-     * @param[in] snapshot_index Input parameter.
-     * @return Return value.
     /** @brief Build file path for a snapshot index. */
     std::string snapshotPath(uint64_t snapshot_index) const;
 
     /** @brief Remove snapshots beyond configured retention. */
     void cleanupOldSnapshots();
 
-     * @param[in] data Input parameter.
-     * @param[in] size Input parameter.
-     * @return Return value.
     /** @brief Compute lowercase SHA-256 checksum for input bytes. */
     static std::string computeChecksum(const uint8_t* data, size_t size);
 };

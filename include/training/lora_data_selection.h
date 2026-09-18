@@ -171,7 +171,6 @@ struct SelectionAuditEntry {
      * Produces one compact JSON object per call, suitable for appending to a
      * `.jsonl` file.  Uses a self-contained serializer – no external JSON
      * library dependency.
-     * @return Return value.
      */
     std::string toJSONL() const;
 };
@@ -282,8 +281,6 @@ class DataSelectionPipeline {
 public:
     /**
      * @brief Construct pipeline with the given configuration.
-     * @param[in] config Input parameter.
-     * @return Return value.
      */
     explicit DataSelectionPipeline(const LoRADataSelectionConfig& config);
     ~DataSelectionPipeline();
@@ -309,7 +306,6 @@ public:
      * (fail-closed). Allowed samples continue with sanitized control-token
      * redaction applied to their text.
      * @return Samples that pass all quality filters.
-     * @param[in] samples Input parameter.
      */
     std::vector<DataSample> filterByQuality(
         const std::vector<DataSample>& samples) const;
@@ -317,7 +313,6 @@ public:
     /**
      * @brief Run only Stage 2: MinHash deduplication.
      * @return Samples with duplicates removed.
-     * @param[in] samples Input parameter.
      */
     std::vector<DataSample> deduplicate(
         const std::vector<DataSample>& samples) const;
@@ -335,7 +330,6 @@ public:
     /**
      * @brief Run only Stage 4: quality/difficulty scoring.
      * Modifies quality_score and difficulty_score in-place.
-     * @param[in,out] samples Input/output parameter.
      */
     void scoreQualityAndDifficulty(std::vector<DataSample>& samples) const;
 
@@ -351,13 +345,11 @@ public:
 
     /**
      * @brief Update the pipeline configuration (live reload support).
-     * @param[in] config Input parameter.
      */
     void setConfig(const LoRADataSelectionConfig& config);
 
     /**
      * @brief Get the current pipeline configuration.
-     * @return Return value.
      */
     const LoRADataSelectionConfig& getConfig() const;
 
@@ -469,11 +461,6 @@ struct SelfImprovementConfig {
  */
 class SelfImprovementModule {
 public:
-    /**
-     * @brief TBD: Describe SelfImprovementModule.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit SelfImprovementModule(const SelfImprovementConfig& config);
     ~SelfImprovementModule();
 
@@ -499,7 +486,6 @@ public:
     /**
      * @brief Return how many rules were triggered on the last call to
      *        `applyAdaptiveRules()`.
-     * @return Return value.
      */
     size_t lastTriggeredRuleCount() const;
 
@@ -517,7 +503,6 @@ public:
      * Always returns false when `enabled` is false.
      *
      * @param metrics  Current monitoring snapshot.
-     * @return True on success.
      */
     bool needsRollback(const DataSelectionMetrics& metrics) const;
 
@@ -528,20 +513,17 @@ public:
      * have elapsed since @p last_selection_time.
      *
      * @param last_selection_time  Time-point of the most recent pipeline run.
-     * @return True on success.
      */
     bool needsReselection(
         std::chrono::system_clock::time_point last_selection_time) const;
 
     /**
      * @brief Update the self-improvement configuration (live reload).
-     * @param[in] config Input parameter.
      */
     void setConfig(const SelfImprovementConfig& config);
 
     /**
      * @brief Get the current self-improvement configuration.
-     * @return Return value.
      */
     const SelfImprovementConfig& getConfig() const;
 

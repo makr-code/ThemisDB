@@ -115,11 +115,6 @@ public:
         bool check_expiry{true};        ///< Reject keys whose expiry has passed
         size_t max_key_id_length{128};  ///< Maximum allowed key_id length
         size_t max_secret_length{512};  ///< Maximum allowed secret length
-        /**
-         * @brief TBD: Describe defaults.
-         * @return Return value.
-         * @details Implements defaults without additional internal calls.
-         */
         static Config defaults() { return {}; }
     };
 
@@ -131,8 +126,6 @@ public:
     /**
      * @brief Attach an AuditLogger to receive LOGIN_SUCCESS / LOGIN_FAILED events.
      * Pass nullptr to detach.  The authenticator does NOT take ownership.
-     * @param[in,out] logger Input/output parameter.
-     * @details Implements setAuditLogger without additional internal calls.
      */
     void setAuditLogger(utils::AuditLogger* logger) { audit_logger_ = logger; }
 
@@ -163,7 +156,6 @@ public:
 
     /**
      * @brief Return the number of stored credentials.
-     * @return Return value.
      */
     size_t credentialCount() const;
 
@@ -245,26 +237,9 @@ private:
     std::unordered_map<std::string, ApiKeyCredential> credentials_;
     utils::AuditLogger* audit_logger_{nullptr};  ///< Non-owning; may be nullptr.
 
-    /**
-     * @brief TBD: Describe constantTimeEqual.
-     * @param[in] a Input parameter.
-     * @param[in] b Input parameter.
-     * @return True on success.
-     */
     static bool constantTimeEqual(const std::string& a, const std::string& b);
-    /**
-     * @brief TBD: Describe hexEncode.
-     * @param[in] data Input parameter.
-     * @param[in] len Input parameter.
-     * @return Return value.
-     */
     static std::string hexEncode(const unsigned char* data, size_t len);
 
-    /**
-     * @brief TBD: Describe claimsFromCredential.
-     * @param[in] cred Input parameter.
-     * @return Return value.
-     */
     ApiKeyClaims claimsFromCredential(const ApiKeyCredential& cred) const;
 };
 

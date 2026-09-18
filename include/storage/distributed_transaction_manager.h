@@ -80,10 +80,6 @@ struct DistributedOperation {
  */
 class IDistributedShardParticipant {
 public:
-    /**
-     * @brief TBD: Describe ~IDistributedShardParticipant.
-     * @return Return value.
-     */
     virtual ~IDistributedShardParticipant() = default;
 
     /**
@@ -268,11 +264,9 @@ public:
     /** @return Unique transaction identifier. */
     const std::string& id() const { return txn_id_; }
 
-     * @brief TBD: Describe participatingShards.
     /** @return Shards that have operations buffered in this transaction. */
     std::vector<std::string> participatingShards() const;
 
-     * @brief TBD: Describe operationCount.
     /** @return Number of buffered write operations. */
     size_t operationCount() const;
 
@@ -403,16 +397,12 @@ public:
      * safely before releasing the reference.
      *
      * @return true if the shard was found and removed.
-     * @param[in] shard_id Input parameter.
      */
     bool unregisterShard(const std::string& shard_id);
 
-     * @brief TBD: Describe shardCount.
     /** @return Number of registered shards. */
     size_t shardCount() const;
 
-     * @brief TBD: Describe hasShard.
-     * @param[in] shard_id Input parameter.
     /** @return true if the given shard_id is registered. */
     bool hasShard(const std::string& shard_id) const;
 
@@ -433,7 +423,6 @@ public:
      * Counters are updated with relaxed ordering and may not reflect the very
      * latest completed transactions on all cores.  Suitable for monitoring;
      * not suitable for synchronization.
-     * @brief TBD: Describe statistics.
      */
     Statistics statistics() const;
 
@@ -441,10 +430,6 @@ private:
     DistributedTxnConfig                config_;
     std::shared_ptr<ManagerSharedState> state_;
 
-    /**
-     * @brief TBD: Describe generateTransactionId.
-     * @return Return value.
-     */
     std::string generateTransactionId();
 };
 

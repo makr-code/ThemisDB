@@ -121,39 +121,21 @@ public:
 
     // ─── Route handlers (public for testing) ────────────────────────────────
 
-     * @brief TBD: Describe handleGetKey.
-     * @param[in] req Input parameter.
-     * @param[in,out] res Input/output parameter.
     /** GET /api/v1/mvcc/keys/{key}[?timestamp={ts}] */
     void handleGetKey(const httplib::Request& req, httplib::Response& res);
 
-     * @brief TBD: Describe handlePutKey.
-     * @param[in] req Input parameter.
-     * @param[in,out] res Input/output parameter.
     /** POST /api/v1/mvcc/keys/{key} */
     void handlePutKey(const httplib::Request& req, httplib::Response& res);
 
-     * @brief TBD: Describe handleListVersions.
-     * @param[in] req Input parameter.
-     * @param[in,out] res Input/output parameter.
     /** GET /api/v1/mvcc/keys/{key}/versions */
     void handleListVersions(const httplib::Request& req, httplib::Response& res);
 
-     * @brief TBD: Describe handleGcVersions.
-     * @param[in] req Input parameter.
-     * @param[in,out] res Input/output parameter.
     /** DELETE /api/v1/mvcc/keys/{key}/versions */
     void handleGcVersions(const httplib::Request& req, httplib::Response& res);
 
-     * @brief TBD: Describe handleGetClock.
-     * @param[in] req Input parameter.
-     * @param[in,out] res Input/output parameter.
     /** GET /api/v1/mvcc/clock */
     void handleGetClock(const httplib::Request& req, httplib::Response& res);
 
-     * @brief TBD: Describe handleGetStats.
-     * @param[in] req Input parameter.
-     * @param[in,out] res Input/output parameter.
     /** GET /api/v1/mvcc/stats */
     void handleGetStats(const httplib::Request& req, httplib::Response& res);
 
@@ -168,32 +150,18 @@ private:
     std::atomic<uint64_t> gc_runs_total_{0};
     std::atomic<uint64_t> gc_versions_deleted_total_{0};
 
-    /**
-     * @brief ─── Helpers ─────────────────────────────────────────────────────────
-     * @param[in,out] res Input/output parameter.
-     * @param[in] status_code Input parameter.
-     * @param[in] message Input parameter.
-     */
+    // ─── Helpers ─────────────────────────────────────────────────────────
     void sendError(httplib::Response& res, int status_code,
                    const std::string& message) const;
     void sendJson(httplib::Response& res, const json& data,
                   int status_code = 200) const;
 
-     * @brief TBD: Describe extractKey.
-     * @param[in] req Input parameter.
-     * @return Return value.
     /** Extract the URL-decoded key from req.matches[1]. */
     static std::string extractKey(const httplib::Request& req);
 
-     * @brief TBD: Describe valueToString.
-     * @param[in] v Input parameter.
-     * @return Return value.
     /** Convert a std::vector<uint8_t> to a std::string for JSON embedding. */
     static std::string valueToString(const std::vector<uint8_t>& v);
 
-     * @brief TBD: Describe stringToValue.
-     * @param[in] s Input parameter.
-     * @return Return value.
     /** Convert a std::string to a std::vector<uint8_t>. */
     static std::vector<uint8_t> stringToValue(const std::string& s);
 };

@@ -119,17 +119,10 @@ struct WALEntry {
     std::string data;               // JSON payload
     std::string checksum;           // SHA-256 integrity check
     
-    /**
-     * @brief Serialize to binary format
-     * @return Return value.
-     */
+    // Serialize to binary format
     std::vector<uint8_t> serialize() const;
     
-    /**
-     * @brief Deserialize from binary format
-     * @param[in] data Input parameter.
-     * @return Return value.
-     */
+    // Deserialize from binary format
     static std::optional<WALEntry> deserialize(const std::vector<uint8_t>& data);
 };
 
@@ -162,17 +155,8 @@ struct ReplicaInfo {
         return elapsed < static_cast<int64_t>(timeout_ms);
     }
     
-    /**
-     * @brief TBD: Describe replicationLagMs.
-     * @return Return value.
-     */
     int64_t replicationLagMs() const;
      
-    /**
-     * @brief TBD: Describe updateHealthStatus.
-     * @param[in] heartbeat_timeout_ms Input parameter.
-     * @param[in] degraded_lag_threshold_ms Input parameter.
-     */
     void updateHealthStatus(uint32_t heartbeat_timeout_ms, uint32_t degraded_lag_threshold_ms);
 };
 
@@ -286,11 +270,6 @@ public:
     };
 
     LagBasedReadRouter();  ///< Uses default RouterConfig (lag_threshold_ms = 10000)
-    /**
-     * @brief TBD: Describe LagBasedReadRouter.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit LagBasedReadRouter(const RouterConfig& config);
 
     /**
@@ -300,7 +279,6 @@ public:
      * @param replicas        Current snapshot of all replica infos.
      * @param primary_node_id Node ID of the current primary.
      * @return RoutingDecision describing which node to use and why.
-     * @brief TBD: Describe selectReplica.
      */
     RoutingDecision selectReplica(
         ReadPreference preference,
@@ -314,10 +292,6 @@ public:
     std::string exportPrometheusMetrics(
         const std::vector<ReplicaInfo>& replicas) const;
 
-    /**
-     * @brief TBD: Describe setConfig.
-     * @param[in] config Input parameter.
-     */
     void setConfig(const RouterConfig& config);
     const RouterConfig& getConfig() const { return config_; }
 
@@ -344,10 +318,7 @@ struct ReplicationStats {
     mutable std::atomic<uint64_t> lease_reads_served{0};
     mutable std::atomic<uint64_t> lease_reads_rejected{0};
     
-    /**
-     * @brief Prometheus metrics export
-     * @return Return value.
-     */
+    // Prometheus metrics export
     std::string toPrometheusFormat() const;
 };
 
@@ -356,10 +327,6 @@ struct ReplicationStats {
  */
 class IConflictResolver {
 public:
-    /**
-     * @brief TBD: Describe ~IConflictResolver.
-     * @return Return value.
-     */
     virtual ~IConflictResolver() = default;
     
     /**
@@ -391,12 +358,8 @@ public:
     ) override;
 
 private:
-    /**
-     * @brief Extract "updated_at" timestamp from a minimal JSON string.
-     * @param[in] json_doc Input parameter.
-     * @return Return value.
-     * @details Returns -1 if the field is absent or unparsable.
-     */
+    // Extract "updated_at" timestamp from a minimal JSON string.
+    // Returns -1 if the field is absent or unparsable.
     static int64_t extractTimestamp(const std::string& json_doc);
 };
 
@@ -420,73 +383,20 @@ public:
  */
 class IReplicationListener {
 public:
-    /**
-     * @brief TBD: Describe ~IReplicationListener.
-     * @return Return value.
-     */
     virtual ~IReplicationListener() = default;
     
-    /**
-     * @brief TBD: Describe onRoleChange.
-     * @param[in] old_role Input parameter.
-     * @param[in] new_role Input parameter.
-     */
     virtual void onRoleChange(ReplicationRole old_role, ReplicationRole new_role) = 0;
-    /**
-     * @brief TBD: Describe onLeaderElected.
-     * @param[in] leader_id Input parameter.
-     */
     virtual void onLeaderElected(const std::string& leader_id) = 0;
-    /**
-     * @brief TBD: Describe onReplicaAdded.
-     * @param[in] replica Input parameter.
-     */
     virtual void onReplicaAdded(const ReplicaInfo& replica) = 0;
-    /**
-     * @brief TBD: Describe onReplicaRemoved.
-     * @param[in] node_id Input parameter.
-     */
     virtual void onReplicaRemoved(const std::string& node_id) = 0;
-    /**
-     * @brief TBD: Describe onConflictDetected.
-     * @param[in] document_id Input parameter.
-     */
     virtual void onConflictDetected(const std::string& document_id) = 0;
-    /**
-     * @brief TBD: Describe onReplicationLagWarning.
-     * @param[in] lag_ms Input parameter.
-     */
     virtual void onReplicationLagWarning(int64_t lag_ms) = 0;
-    /**
-     * @brief TBD: Describe onReplicaHealthChanged.
-     * @param[in] node_id Input parameter.
-     * @param[in] old_status Input parameter.
-     * @param[in] new_status Input parameter.
-     */
     virtual void onReplicaHealthChanged(const std::string& node_id, HealthStatus old_status, HealthStatus new_status) = 0;
-    /**
-     * @brief TBD: Describe onFailoverStarted.
-     * @param[in] failed_leader_id Input parameter.
-     * @param[in] new_leader_id Input parameter.
-     */
     virtual void onFailoverStarted(const std::string& failed_leader_id, const std::string& new_leader_id) = 0;
-    /**
-     * @brief TBD: Describe onFailoverCompleted.
-     * @param[in] new_leader_id Input parameter.
-     * @param[in] success Input parameter.
-     */
     virtual void onFailoverCompleted(const std::string& new_leader_id, bool success) = 0;
-    /**
-     * @brief TBD: Describe onNetworkPartitionDetected.
-     * @param[in] unreachable_nodes Input parameter.
-     */
     virtual void onNetworkPartitionDetected(const std::vector<std::string>& unreachable_nodes) = 0;
 
-    /**
-     * @brief Called each time a WAL entry is successfully replicated (used by CDC)
-     * @param[in] param Input parameter.
-     * @details Implements onWALEntryApplied without additional internal calls.
-     */
+    // Called each time a WAL entry is successfully replicated (used by CDC)
     virtual void onWALEntryApplied(const WALEntry& /*entry*/) {}
 };
 
@@ -495,19 +405,10 @@ public:
  */
 class WALManager {
 public:
-    /**
-     * @brief TBD: Describe WALManager.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit WALManager(const ReplicationConfig& config);
     ~WALManager();
     
-    /**
-     * @brief Append entry to WAL
-     * @param[in] entry Input parameter.
-     * @return Return value.
-     */
+    // Append entry to WAL
     uint64_t append(const WALEntry& entry);
     
     // Read entries starting from sequence number
@@ -519,34 +420,20 @@ public:
     // Get current term
     uint64_t getCurrentTerm() const { return current_term_.load(); }
     
-    /**
-     * @brief Increment term (for leader election)
-     * @return Return value.
-     */
+    // Increment term (for leader election)
     uint64_t incrementTerm();
     
-    /**
-     * @brief Truncate WAL up to sequence (for compaction)
-     * @param[in] sequence Input parameter.
-     */
+    // Truncate WAL up to sequence (for compaction)
     void truncateBefore(uint64_t sequence);
     
-    /**
-     * @brief Sync WAL to disk
-     */
+    // Sync WAL to disk
     void sync();
     
-    /**
-     * @brief Get WAL size in bytes
-     * @return Return value.
-     */
+    // Get WAL size in bytes
     uint64_t getSize() const;
     
-    /**
-     * @brief Get the internal WAL mutex for external synchronization (used by ReplicationStream for atomic read operations)
-     * @return Return value.
-     * @details Implements getMutex without additional internal calls.
-     */
+    // Get the internal WAL mutex for external synchronization
+    // (used by ReplicationStream for atomic read operations)
     std::mutex& getMutex() { return wal_mutex_; }
 
 private:
@@ -555,13 +442,8 @@ private:
     std::atomic<uint64_t> current_term_{0};
     std::mutex wal_mutex_;
     
-    /**
-     * @brief Internal file handling
-     */
+    // Internal file handling
     void rotateSegment();
-    /**
-     * @brief TBD: Describe loadFromDisk.
-     */
     void loadFromDisk();
 };
 
@@ -570,13 +452,6 @@ private:
  */
 class LeaderElection {
 public:
-    /**
-     * @brief TBD: Describe LeaderElection.
-     * @param[in] node_id Input parameter.
-     * @param[in] config Input parameter.
-     * @param[in] wal Input parameter.
-     * @return Return value.
-     */
     explicit LeaderElection(
         const std::string& node_id,
         const ReplicationConfig& config,
@@ -584,19 +459,10 @@ public:
     );
     ~LeaderElection();
     
-    /**
-     * @brief Start election process
-     */
+    // Start election process
     void startElection();
     
-    /**
-     * @brief Request vote from this node
-     * @param[in] term Input parameter.
-     * @param[in] candidate_id Input parameter.
-     * @param[in] last_log_sequence Input parameter.
-     * @param[in] last_log_term Input parameter.
-     * @return True on success.
-     */
+    // Request vote from this node
     bool requestVote(
         uint64_t term,
         const std::string& candidate_id,
@@ -604,12 +470,7 @@ public:
         uint64_t last_log_term
     );
     
-    /**
-     * @brief Receive heartbeat from leader
-     * @param[in] term Input parameter.
-     * @param[in] leader_id Input parameter.
-     * @param[in] leader_commit Input parameter.
-     */
+    // Receive heartbeat from leader
     void receiveHeartbeat(
         uint64_t term,
         const std::string& leader_id,
@@ -619,31 +480,20 @@ public:
     // Get current role
     ReplicationRole getRole() const { return role_.load(); }
     
-    /**
-     * @brief Get current leader ID
-     * @return Return value.
-     */
+    // Get current leader ID
     std::string getLeaderId() const;
     
     // Is this node the leader?
     bool isLeader() const { return role_.load() == ReplicationRole::LEADER; }
     
-    /**
-     * @brief Inform the election module of the current cluster size (for quorum calculation)
-     * @param[in] size Input parameter.
-     * @details Calls: store().
-     */
+    // Inform the election module of the current cluster size (for quorum calculation)
     void setClusterSize(uint32_t size) { cluster_size_.store(size); }
     
-    /**
-     * @brief Record an incoming vote grant for the current term (called by ReplicationManager when a peer replies positively to our RequestVote RPC simulation)
-     * @param[in] term Input parameter.
-     */
+    // Record an incoming vote grant for the current term (called by ReplicationManager
+    // when a peer replies positively to our RequestVote RPC simulation)
     void grantVote(uint64_t term);
     
-    /**
-     * @brief Start the background election-timeout loop
-     */
+    // Start the background election-timeout loop
     void start();
     
     // Get current term
@@ -662,8 +512,6 @@ public:
      * Renew the leader lease for `duration_ms` milliseconds from now.
      * Must only be called by the leader after successfully broadcasting a
      * heartbeat to the quorum.
-     * @brief TBD: Describe renewLease.
-     * @param[in] duration_ms Input parameter.
      */
     void renewLease(uint32_t duration_ms);
 
@@ -671,16 +519,12 @@ public:
      * Returns true if this node holds a valid (non-expired) leader lease.
      * A valid lease guarantees that no other node can have been elected
      * leader since the lease was last renewed.
-     * @brief TBD: Describe hasValidLease.
-     * @return True on success.
      */
     bool hasValidLease() const;
 
     /**
      * Returns the absolute time at which the current lease expires.
      * Returns a past time-point when no lease is held.
-     * @brief TBD: Describe leaseExpiresAt.
-     * @return Return value.
      */
     std::chrono::steady_clock::time_point leaseExpiresAt() const;
 
@@ -707,19 +551,8 @@ private:
     std::thread election_thread_;
     std::atomic<bool> running_{false};
     
-    /**
-     * @brief TBD: Describe electionLoop.
-     */
     void electionLoop();
-    /**
-     * @brief TBD: Describe becomeLeader.
-     */
     void becomeLeader();
-    /**
-     * @brief TBD: Describe becomeFollower.
-     * @param[in] term Input parameter.
-     * @param[in] leader_id Input parameter.
-     */
     void becomeFollower(uint64_t term, const std::string& leader_id);
 };
 
@@ -735,14 +568,10 @@ public:
     );
     ~ReplicationStream();
     
-    /**
-     * @brief Start streaming
-     */
+    // Start streaming
     void start();
     
-    /**
-     * @brief Stop streaming
-     */
+    // Stop streaming
     void stop();
     
     // Get follower info
@@ -751,10 +580,7 @@ public:
     // Get last acknowledged sequence
     uint64_t getLastAckedSequence() const { return last_acked_sequence_.load(); }
     
-    /**
-     * @brief Check if stream is healthy
-     * @return True on success.
-     */
+    // Check if stream is healthy
     bool isHealthy() const;
     
     // Get current consecutive send failure count
@@ -781,20 +607,8 @@ private:
     // Compressed WAL transport (Zstd/LZ4/Snappy, configured via ReplicationConfig)
     std::unique_ptr<CompressedReplicationStream> compressed_stream_;
 
-    /**
-     * @brief TBD: Describe streamLoop.
-     */
     void streamLoop();
-    /**
-     * @brief TBD: Describe sendBatch.
-     * @param[in] entries Input parameter.
-     * @return True on success.
-     */
     bool sendBatch(const std::vector<WALEntry>& entries);
-    /**
-     * @brief TBD: Describe computeBackoffMs.
-     * @return Return value.
-     */
     uint32_t computeBackoffMs() const;
 };
 
@@ -810,8 +624,6 @@ public:
      *        (mode, failover settings, WAL, conflict resolution, etc.)
      * 
      * @post Object is not yet active; call initialize() to start replication threads.
-     * @brief TBD: Describe ReplicationManager.
-     * @return Return value.
      */
     explicit ReplicationManager(const ReplicationConfig& config);
     
@@ -828,7 +640,6 @@ public:
      *
      * @post On success, background replication threads are running and this node
      *       has joined the configured replica group.
-     * @brief TBD: Describe initialize.
      */
     bool initialize();
     
@@ -840,7 +651,6 @@ public:
      *
      * @note Blocking; may take up to heartbeat_interval_ms + election_timeout_max_ms
      *       to complete in worst case (if leader election is in progress).
-     * @brief TBD: Describe shutdown.
      */
     void shutdown();
     
@@ -858,7 +668,6 @@ public:
      * @note In ASYNC mode, returns true immediately without waiting for replicas.
      *       In SEMI_SYNC mode, waits for min_sync_replicas to acknowledge.
      *       In SYNC mode, waits for all voting replicas.
-     * @brief TBD: Describe replicate.
      */
     bool replicate(const WALEntry& entry);
     
@@ -884,7 +693,6 @@ public:
      *
      * @return ReplicationRole::LEADER if this node is the leader; otherwise
      *         FOLLOWER, CANDIDATE, OBSERVER, or WITNESS.
-     * @brief TBD: Describe getRole.
      */
     ReplicationRole getRole() const;
     
@@ -893,7 +701,6 @@ public:
      *
      * @return Empty string if this node is the leader; otherwise the
      *         "hostname:port" endpoint of the current leader.
-     * @brief TBD: Describe getLeaderEndpoint.
      */
     std::string getLeaderEndpoint() const;
     
@@ -902,7 +709,6 @@ public:
      *
      * @return Vector of ReplicaInfo structs for all known replicas,
      *         including role, health status, and replication lag.
-     * @brief TBD: Describe getReplicas.
      */
     std::vector<ReplicaInfo> getReplicas() const;
     
@@ -925,7 +731,6 @@ public:
      * @throws std::invalid_argument if node_id or endpoint is empty.
      * @note Rejects empty node_id or endpoint fail-closed to prevent silent
      *       replica registration failures.
-     * @brief TBD: Describe addReplica.
      */
     void addReplica(const ReplicaInfo& replica);
     
@@ -937,7 +742,6 @@ public:
      *
      * @param node_id Unique identifier of the replica to remove.
      * @note If the removed replica is the current leader, failover is triggered.
-     * @brief TBD: Describe removeReplica.
      */
     void removeReplica(const std::string& node_id);
 
@@ -951,7 +755,6 @@ public:
      *
      * @param node_id   Unique identifier for the witness node.
      * @param endpoint  Network address (hostname:port) of the witness node.
-     * @brief TBD: Describe addWitnessNode.
      */
     void addWitnessNode(const std::string& node_id, const std::string& endpoint);
     
@@ -966,7 +769,6 @@ public:
      *
      * @note This is only meaningful in multi-master (CRDT) replication mode.
      *       In leader-follower mode, write ordering prevents most conflicts.
-     * @brief TBD: Describe setConflictResolver.
      */
     void setConflictResolver(std::shared_ptr<IConflictResolver> resolver);
     
@@ -979,7 +781,6 @@ public:
      * @param listener Shared pointer to an IReplicationListener implementation.
      * @note Listeners must not block for more than 1 ms or spawn I/O.
      * @note Multiple listeners can be registered; all are called for each event.
-     * @brief TBD: Describe addListener.
      */
     void addListener(std::shared_ptr<IReplicationListener> listener);
     
@@ -997,7 +798,6 @@ public:
      * @note Blocking; may take up to election_timeout_max_ms to complete.
      * @note If this node is not the current leader, the call is relayed to
      *       the leader for execution.
-     * @brief TBD: Describe triggerFailover.
      */
     bool triggerFailover(const std::string& target_node_id);
     
@@ -1009,7 +809,6 @@ public:
      *         unable to communicate with other replicas, or the quorum
      *         is not achieved.
      * @note Blocking; may take up to election_timeout_max_ms to complete.
-     * @brief TBD: Describe promoteToLeader.
      */
     bool promoteToLeader();
     
@@ -1021,7 +820,6 @@ public:
      *
      * @return true on success; false if this node is not the leader or
      *         if the new leader cannot be elected.
-     * @brief TBD: Describe demoteToFollower.
      */
     bool demoteToFollower();
     
@@ -1030,7 +828,6 @@ public:
      * @param region_id: Identifier for this region
      * @param peer_regions: List of peer region endpoints
      * @return true on success
-     * @brief TBD: Describe enableMultiRegion.
      */
     bool enableMultiRegion(const std::string& region_id,
                           const std::vector<std::string>& peer_regions);
@@ -1039,7 +836,6 @@ public:
      * Promote a read replica to primary
      * @param replica_id: Node ID of replica to promote
      * @return true on success
-     * @brief TBD: Describe promoteReplica.
      */
     bool promoteReplica(const std::string& replica_id);
     
@@ -1048,7 +844,6 @@ public:
      * @param source_replica: Source replica node ID
      * @param target_replicas: Target replica node IDs
      * @return true on success
-     * @brief TBD: Describe setupCascadingReplication.
      */
     bool setupCascadingReplication(const std::string& source_replica,
                                    const std::vector<std::string>& target_replicas);
@@ -1057,7 +852,6 @@ public:
      * Get replication lag for specific replica
      * @param replica_id: Node ID of replica
      * @return Lag in milliseconds
-     * @brief TBD: Describe getReplicationLag.
      */
     int64_t getReplicationLag(const std::string& replica_id) const;
     
@@ -1070,7 +864,6 @@ public:
     /**
      * Export metrics in Prometheus format
      * @return Prometheus-formatted metrics string
-     * @brief TBD: Describe exportPrometheusMetrics.
      */
     std::string exportPrometheusMetrics() const;
     /**
@@ -1091,7 +884,6 @@ public:
      * @return true if quorum is achieved; false if partition or insufficient
      *         healthy replicas.
      * @note This check is fast (O(1)) as quorum state is maintained continuously.
-     * @brief TBD: Describe hasQuorum.
      */
     bool hasQuorum() const;
     
@@ -1104,7 +896,6 @@ public:
      *
      * @note Non-blocking; results are available via getReplicaHealthStatus()
      *       after heartbeat_interval_ms or on next check call.
-     * @brief TBD: Describe performHealthCheck.
      */
     void performHealthCheck();
     
@@ -1122,7 +913,6 @@ public:
      * @note In leader mode: leader remains available for writes if it has quorum.
      * @note In follower mode: no writes allowed; read traffic routed to healthy
      *       replicas or primary.
-     * @brief TBD: Describe detectNetworkPartition.
      */
     bool detectNetworkPartition() const;
     
@@ -1141,7 +931,6 @@ public:
      *
      * @note Changes take effect immediately for new read requests.
      *       In-flight reads are not affected.
-     * @brief TBD: Describe setReadPreference.
      */
     void setReadPreference(ReadPreference preference);
 
@@ -1186,7 +975,6 @@ public:
      *                    lookup within this module).
      * @param document_id Document identifier (informational).
      * @return LeaseReadResult describing whether the read was served and how.
-     * @brief TBD: Describe leaseRead.
      */
     LeaseReadResult leaseRead(const std::string& collection,
                               const std::string& document_id) const;
@@ -1195,8 +983,6 @@ public:
      * Returns true when this node is the leader AND its leader lease is
      * currently valid.  Can be used by routing layers to decide whether to
      * serve a read locally.
-     * @brief TBD: Describe hasLeaderLease.
-     * @return True on success.
      */
     bool hasLeaderLease() const;
 
@@ -1216,7 +1002,6 @@ public:
      *        An empty constraints object disables geographic placement policy.
      *
      * @see include/replication/geo_placement.h — PlacementConstraints
-     * @brief TBD: Describe setPlacementPolicy.
      */
     void setPlacementPolicy(const PlacementConstraints& constraints);
 
@@ -1225,7 +1010,6 @@ public:
      *
      * @return Reference to the active PlacementConstraints, or empty constraints
      *         if no policy is set.
-     * @brief TBD: Describe getPlacementPolicy.
      */
     const PlacementConstraints& getPlacementPolicy() const;
 
@@ -1235,7 +1019,6 @@ public:
      *
      * @return PlacementValidationResult with any violations or recommendations.
      *         An empty violations list means the topology satisfies the policy.
-     * @brief TBD: Describe validatePlacementPolicy.
      */
     PlacementValidationResult validatePlacementPolicy() const;
 
@@ -1269,38 +1052,13 @@ private:
     std::unique_ptr<PlacementConstraints> active_placement_policy_;
     std::unique_ptr<GeoReplicaPlacementManager> placement_manager_;
      
-    /**
-     * @brief TBD: Describe validateConfig.
-     * @return True on success.
-     */
     bool validateConfig();
-    /**
-     * @brief TBD: Describe heartbeatLoop.
-     */
     void heartbeatLoop();
-    /**
-     * @brief TBD: Describe compactionLoop.
-     */
     void compactionLoop();
-    /**
-     * @brief TBD: Describe healthMonitorLoop.
-     */
     void healthMonitorLoop();
     void notifyListeners(std::function<void(IReplicationListener&)> callback);
-    /**
-     * @brief TBD: Describe attemptAutomaticFailover.
-     * @param[in] failed_node_id Input parameter.
-     */
     void attemptAutomaticFailover(const std::string& failed_node_id);
-    /**
-     * @brief TBD: Describe electNewLeader.
-     * @return True on success.
-     */
     bool electNewLeader();
-    /**
-     * @brief TBD: Describe updateReplicaHealth.
-     * @param[in,out] replica Input/output parameter.
-     */
     void updateReplicaHealth(ReplicaInfo& replica);
 };
 
@@ -1336,29 +1094,15 @@ public:
         double   parallelism_factor;  // average concurrent entries per batch
     };
 
-    /**
-     * @brief TBD: Describe ParallelReplicationWorker.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit ParallelReplicationWorker(const ParallelConfig& config);
     ~ParallelReplicationWorker();
 
-    /**
-     * @brief Submit a WAL entry for parallel application (non-blocking)
-     * @param[in] entry Input parameter.
-     */
+    // Submit a WAL entry for parallel application (non-blocking)
     void submit(const WALEntry& entry);
 
-    /**
-     * @brief Block until all previously submitted entries have been applied
-     */
+    // Block until all previously submitted entries have been applied
     void sync();
 
-    /**
-     * @brief TBD: Describe getStats.
-     * @return Return value.
-     */
     Stats getStats() const;
 
 private:
@@ -1394,9 +1138,6 @@ private:
     std::atomic<uint64_t> stats_batches_{0};
     std::atomic<uint64_t> stats_total_latency_us_{0};  // Sum of per-entry latencies
 
-    /**
-     * @brief TBD: Describe workerLoop.
-     */
     void workerLoop();
 };
 
@@ -1429,12 +1170,6 @@ public:
         std::string session_token;         ///< Opaque token for session consistency
     };
 
-    /**
-     * @brief TBD: Describe QuorumReadManager.
-     * @param[in] config Input parameter.
-     * @param[in] replicas Input parameter.
-     * @return Return value.
-     */
     explicit QuorumReadManager(
         const QuorumReadConfig& config,
         const std::vector<ReplicaInfo>& replicas
@@ -1447,10 +1182,7 @@ public:
         const std::string& session_token = ""   // opaque token for session consistency
     );
 
-    /**
-     * @brief Update the replica list (called when topology changes)
-     * @param[in] replicas Input parameter.
-     */
+    // Update the replica list (called when topology changes)
     void setReplicas(const std::vector<ReplicaInfo>& replicas);
 
     /// Callback type for fetching a document from a specific replica.
@@ -1462,11 +1194,10 @@ public:
                     const std::string& /*collection*/,
                     const std::string& /*document_id*/)>;
 
-    /**
-     * @brief Inject a data-fetch function so that queryReplica() can return real document content.
-     * @param[in] fn Input parameter.
-     * @details The storage / RPC layer sets this at startup; tests inject a local-memory lookup. Without a callback the data field of every ReplicaResponse remains empty (original behaviour).
-     */
+    /// Inject a data-fetch function so that queryReplica() can return real
+    /// document content.  The storage / RPC layer sets this at startup; tests
+    /// inject a local-memory lookup.  Without a callback the data field of
+    /// every ReplicaResponse remains empty (original behaviour).
     void setDocumentFetchCallback(DocumentFetchFn fn);
 
     /// Callback type for fetching a document from the local storage engine
@@ -1481,11 +1212,9 @@ public:
         std::pair<std::string, uint64_t>(const std::string& /*collection*/,
                                          const std::string& /*document_id*/)>;
 
-    /**
-     * @brief Inject a local-storage read function used by read() when the replica list is empty (single-node deployments).
-     * @param[in] fn Input parameter.
-     * @details Without a callback the data field remains empty and version=0 (original behaviour).
-     */
+    /// Inject a local-storage read function used by read() when the replica
+    /// list is empty (single-node deployments).  Without a callback the
+    /// data field remains empty and version=0 (original behaviour).
     void setLocalDocumentFetchFn(LocalDocumentFetchFn fn);
 
 private:
@@ -1503,13 +1232,6 @@ private:
         std::string endpoint;
     };
 
-    /**
-     * @brief TBD: Describe queryReplica.
-     * @param[in] replica Input parameter.
-     * @param[in] collection Input parameter.
-     * @param[in] document_id Input parameter.
-     * @return Return value.
-     */
     ReplicaResponse queryReplica(
         const ReplicaInfo& replica,
         const std::string& collection,
@@ -1544,36 +1266,18 @@ public:
         std::chrono::system_clock::time_point persisted_at;
     };
 
-    /**
-     * @brief TBD: Describe PersistentReplicationState.
-     * @param[in] state_file_path Input parameter.
-     * @return Return value.
-     */
     explicit PersistentReplicationState(const std::string& state_file_path);
 
-    /**
-     * @brief Persist current state to disk (fsync)
-     * @param[in] state Input parameter.
-     * @return True on success.
-     */
+    // Persist current state to disk (fsync)
     bool persist(const State& state);
 
-    /**
-     * @brief Load state from disk; returns default-constructed State on first run
-     * @return Return value.
-     */
+    // Load state from disk; returns default-constructed State on first run
     State load() const;
 
-    /**
-     * @brief Check whether a persisted state file exists
-     * @return True on success.
-     */
+    // Check whether a persisted state file exists
     bool exists() const;
 
-    /**
-     * @brief Delete the state file (e.
-     * @details g., on clean shutdown or reset)
-     */
+    // Delete the state file (e.g., on clean shutdown or reset)
     void remove();
 
 private:
@@ -1621,39 +1325,20 @@ public:
         const CompressionConfig& config
     );
 
-    /**
-     * @brief Construct with default compression config
-     * @param[in] endpoint Input parameter.
-     * @return Return value.
-     */
+    // Construct with default compression config
     explicit CompressedReplicationStream(const std::string& endpoint);
-    /**
-     * @brief Compress entries and (in production) send over network.
-     * @param[in] entries Input parameter.
-     * @return True on success.
-     * @details Returns true on success; false on compression error.
-     */
+    // Compress entries and (in production) send over network.
+    // Returns true on success; false on compression error.
     bool sendBatch(const std::vector<WALEntry>& entries);
 
-    /**
-     * @brief Decompress a byte buffer received from the network.
-     * @param[in] compressed Input parameter.
-     * @param[in] algo Input parameter.
-     * @return Return value.
-     * @details Returns the decompressed bytes on success or an empty vector on error.
-     */
+    // Decompress a byte buffer received from the network.
+    // Returns the decompressed bytes on success or an empty vector on error.
     std::vector<uint8_t> decompress(const std::vector<uint8_t>& compressed,
                                     CompressionAlgorithm algo) const;
 
-    /**
-     * @brief TBD: Describe getStats.
-     * @return Return value.
-     */
     CompressionStats getStats() const;
 
-    /**
-     * @brief Reset accumulated statistics
-     */
+    // Reset accumulated statistics
     void resetStats();
 
 private:
@@ -1663,34 +1348,16 @@ private:
     mutable std::mutex stats_mutex_;
     CompressionStats   stats_;
 
-    /**
-     * @brief Serialize WAL entries to a flat byte buffer
-     * @param[in] entries Input parameter.
-     * @return Return value.
-     */
+    // Serialize WAL entries to a flat byte buffer
     std::vector<uint8_t> serializeEntries(const std::vector<WALEntry>& entries) const;
 
-    /**
-     * @brief Compress a byte buffer using the configured algorithm
-     * @param[in] data Input parameter.
-     * @param[in] algo Input parameter.
-     * @return Return value.
-     */
+    // Compress a byte buffer using the configured algorithm
     std::vector<uint8_t> compress(const std::vector<uint8_t>& data,
                                    CompressionAlgorithm algo) const;
 
-    /**
-     * @brief Select algorithm for a given payload size (used in AUTO mode)
-     * @param[in] payload_bytes Input parameter.
-     * @return Return value.
-     */
+    // Select algorithm for a given payload size (used in AUTO mode)
     CompressionAlgorithm selectAlgorithm(size_t payload_bytes) const;
 
-    /**
-     * @brief TBD: Describe algorithmName.
-     * @param[in] algo Input parameter.
-     * @return Return value.
-     */
     static std::string algorithmName(CompressionAlgorithm algo);
 };
 
@@ -1722,34 +1389,18 @@ public:
         std::chrono::system_clock::time_point created_at;
     };
 
-    /**
-     * @brief TBD: Describe BatchedAckTracker.
-     * @return Return value.
-     */
     explicit BatchedAckTracker();
-    /**
-     * @brief TBD: Describe BatchedAckTracker.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit BatchedAckTracker(const AckBatchConfig& config);
     ~BatchedAckTracker();
 
-    /**
-     * @brief Called by the follower when a WAL entry has been applied
-     * @param[in] sequence_number Input parameter.
-     */
+    // Called by the follower when a WAL entry has been applied
     void recordApplied(uint64_t sequence_number);
 
-    /**
-     * @brief Dequeue the next pending ACK batch (called by the network sender) Returns nullopt when no batch is ready
-     * @return Return value.
-     */
+    // Dequeue the next pending ACK batch (called by the network sender)
+    // Returns nullopt when no batch is ready
     std::optional<AckBatch> dequeuePendingAcks();
 
-    /**
-     * @brief Force an immediate flush of whatever is buffered (called on shutdown)
-     */
+    // Force an immediate flush of whatever is buffered (called on shutdown)
     void forceFlush();
 
     // Get the highest sequence number ACK'd so far
@@ -1760,10 +1411,6 @@ public:
         uint64_t total_batches_sent;
         double   avg_batch_size;
     };
-    /**
-     * @brief TBD: Describe getStats.
-     * @return Return value.
-     */
     Stats getStats() const;
 
 private:
@@ -1784,13 +1431,7 @@ private:
     std::atomic<uint64_t> stats_total_acks_{0};
     std::atomic<uint64_t> stats_total_batches_{0};
 
-    /**
-     * @brief TBD: Describe flushLoop.
-     */
     void flushLoop();
-    /**
-     * @brief TBD: Describe flushPending.
-     */
     void flushPending();  // Called with pending_mutex_ held
 };
 
@@ -1837,38 +1478,20 @@ public:
 
     ReplicationAnalytics();
 
-    /**
-     * @brief Record a lag observation for a replica (call periodically)
-     * @param[in] replica_id Input parameter.
-     * @param[in] lag_ms Input parameter.
-     */
+    // Record a lag observation for a replica (call periodically)
     void recordLag(const std::string& replica_id, int64_t lag_ms);
 
-    /**
-     * @brief Get current insights (refreshed on each call)
-     * @return Return value.
-     */
+    // Get current insights (refreshed on each call)
     std::vector<Insight> getInsights() const;
 
-    /**
-     * @brief Get lag history for a replica over the last `duration`
-     * @param[in] replica_id Input parameter.
-     * @param[in] duration Input parameter.
-     * @return Return value.
-     */
+    // Get lag history for a replica over the last `duration`
     LagHistory getLagHistory(const std::string& replica_id,
                               std::chrono::hours duration) const;
 
-    /**
-     * @brief Detect bottlenecks across all replicas
-     * @return Return value.
-     */
+    // Detect bottlenecks across all replicas
     std::vector<Bottleneck> detectBottlenecks() const;
 
-    /**
-     * @brief Export summary to Prometheus text format
-     * @return Return value.
-     */
+    // Export summary to Prometheus text format
     std::string exportPrometheusMetrics() const;
 
     // Configuration
@@ -1877,10 +1500,6 @@ public:
         int64_t  slow_replica_avg_ms     = 2000;  // avg lag > this = SLOW_REPLICA
         size_t   max_history_per_replica = 10000; // rolling window
     };
-    /**
-     * @brief TBD: Describe setConfig.
-     * @param[in] config Input parameter.
-     */
     void setConfig(const AnalyticsConfig& config);
 
 private:
@@ -1890,12 +1509,7 @@ private:
     // Per-replica rolling lag history
     std::map<std::string, std::deque<LagDataPoint>> lag_history_;
 
-    /**
-     * @brief Compute percentile from a sorted vector
-     * @param[in] sorted Input parameter.
-     * @param[in] p Input parameter.
-     * @return Return value.
-     */
+    // Compute percentile from a sorted vector
     static int64_t percentile(const std::vector<int64_t>& sorted, double p);
 };
 
@@ -1930,32 +1544,14 @@ public:
         uint64_t  bytes_written;
     };
 
-    /**
-     * @brief TBD: Describe ReplicationBenchmark.
-     * @param[in] wal Input parameter.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit ReplicationBenchmark(std::shared_ptr<WALManager> wal,
                                    const BenchmarkConfig& config);
-    /**
-     * @brief TBD: Describe ReplicationBenchmark.
-     * @param[in] wal Input parameter.
-     * @return Return value.
-     */
     explicit ReplicationBenchmark(std::shared_ptr<WALManager> wal);
 
-    /**
-     * @brief Run the benchmark; blocks until complete
-     * @return Return value.
-     */
+    // Run the benchmark; blocks until complete
     BenchmarkResult run();
 
-    /**
-     * @brief Format result as human-readable string
-     * @param[in] result Input parameter.
-     * @return Return value.
-     */
+    // Format result as human-readable string
     static std::string format(const BenchmarkResult& result);
 
 private:
@@ -1986,24 +1582,13 @@ public:
 
     CDCManager() = default;
 
-    /**
-     * @brief Subscribe to all collections ("" = wildcard for every collection)
-     * @param[in] collection Input parameter.
-     * @param[in] callback Input parameter.
-     * @return Return value.
-     */
+    // Subscribe to all collections ("" = wildcard for every collection)
     uint64_t subscribe(const std::string& collection, CDCCallback callback);
 
-    /**
-     * @brief Unsubscribe a previously registered handler
-     * @param[in] subscription_id Input parameter.
-     */
+    // Unsubscribe a previously registered handler
     void unsubscribe(uint64_t subscription_id);
 
-    /**
-     * @brief Number of active subscriptions
-     * @return Return value.
-     */
+    // Number of active subscriptions
     size_t subscriptionCount() const;
 
     // -------------------------------------------------------------------
@@ -2049,11 +1634,7 @@ struct PublicationFilter {
     std::vector<std::string> include_collections;  // empty = all collections
     std::vector<std::string> include_operations;   // empty = all operations
 
-    /**
-     * @brief Returns true when `entry` satisfies all active filter criteria.
-     * @param[in] entry Input parameter.
-     * @return True on success.
-     */
+    // Returns true when `entry` satisfies all active filter criteria.
     bool matches(const WALEntry& entry) const;
 };
 
@@ -2075,65 +1656,31 @@ class CrossClusterPublication : public IReplicationListener {
 public:
     using RemoteSubscriberCallback = std::function<void(const WALEntry&)>;
 
-    /**
-     * @brief TBD: Describe CrossClusterPublication.
-     * @param[in] name Input parameter.
-     * @return Return value.
-     */
     explicit CrossClusterPublication(const std::string& name);
 
-    /**
-     * @brief Publication name
-     * @return Return value.
-     */
+    // Publication name
     const std::string& name() const;
 
-    /**
-     * @brief Set / get the publication filter (thread-safe)
-     * @param[in] filter Input parameter.
-     */
+    // Set / get the publication filter (thread-safe)
     void setFilter(const PublicationFilter& filter);
-    /**
-     * @brief TBD: Describe getFilter.
-     * @return Return value.
-     */
     PublicationFilter getFilter() const;
 
-    /**
-     * @brief Add a remote subscriber; returns an opaque subscriber ID
-     * @param[in] callback Input parameter.
-     * @return Return value.
-     */
+    // Add a remote subscriber; returns an opaque subscriber ID
     uint64_t addRemoteSubscriber(RemoteSubscriberCallback callback);
 
-    /**
-     * @brief Remove a remote subscriber by the ID returned from addRemoteSubscriber()
-     * @param[in] subscriber_id Input parameter.
-     */
+    // Remove a remote subscriber by the ID returned from addRemoteSubscriber()
     void removeRemoteSubscriber(uint64_t subscriber_id);
 
-    /**
-     * @brief Number of currently active remote subscribers
-     * @return Return value.
-     */
+    // Number of currently active remote subscribers
     size_t subscriberCount() const;
 
-    /**
-     * @brief Total WAL entries that passed the filter and were delivered
-     * @return Return value.
-     */
+    // Total WAL entries that passed the filter and were delivered
     uint64_t publishedCount() const;
 
-    /**
-     * @brief Apply filter and deliver `entry` to all remote subscribers
-     * @param[in] entry Input parameter.
-     */
+    // Apply filter and deliver `entry` to all remote subscribers
     void publish(const WALEntry& entry);
 
-    /**
-     * @brief Export Prometheus text-format metrics
-     * @return Return value.
-     */
+    // Export Prometheus text-format metrics
     std::string exportPrometheusMetrics() const;
 
     // -----------------------------------------------------------------------
@@ -2191,50 +1738,28 @@ public:
     // Automatically unregisters from the publication on destruction
     ~CrossClusterSubscription();
 
-    /**
-     * @brief Subscription name
-     * @return Return value.
-     */
+    // Subscription name
     const std::string& name() const;
 
-    /**
-     * @brief Register with the publication (idempotent)
-     */
+    // Register with the publication (idempotent)
     void enable();
 
-    /**
-     * @brief Unregister from the publication (idempotent)
-     */
+    // Unregister from the publication (idempotent)
     void disable();
 
-    /**
-     * @brief Whether the subscription is currently active
-     * @return True on success.
-     */
+    // Whether the subscription is currently active
     bool isEnabled() const;
 
-    /**
-     * @brief Count of entries successfully applied (no exception thrown)
-     * @return Return value.
-     */
+    // Count of entries successfully applied (no exception thrown)
     uint64_t appliedCount() const;
 
-    /**
-     * @brief Highest sequence number successfully applied
-     * @return Return value.
-     */
+    // Highest sequence number successfully applied
     uint64_t lastAppliedSequence() const;
 
-    /**
-     * @brief Count of apply-callback exceptions caught
-     * @return Return value.
-     */
+    // Count of apply-callback exceptions caught
     uint64_t errorCount() const;
 
-    /**
-     * @brief Export Prometheus text-format metrics
-     * @return Return value.
-     */
+    // Export Prometheus text-format metrics
     std::string exportPrometheusMetrics() const;
 
 private:
@@ -2264,10 +1789,6 @@ private:
  */
 class IArchivalBackend {
 public:
-    /**
-     * @brief TBD: Describe ~IArchivalBackend.
-     * @return Return value.
-     */
     virtual ~IArchivalBackend() = default;
 
     // Write a segment payload to the backend.  Returns true on success.
@@ -2281,12 +1802,8 @@ public:
     // Remove an object from the backend.
     [[nodiscard]] virtual bool deleteObject(const std::string& key) = 0;
 
-    /**
-     * @brief Transition an object to a colder storage tier (e.
-     * @param[in] key Input parameter.
-     * @param[in] tier Input parameter.
-     * @details g. "cold", "glacier"). A no-op on backends that do not support tiering.
-     */
+    // Transition an object to a colder storage tier (e.g. "cold", "glacier").
+    // A no-op on backends that do not support tiering.
     virtual void setStorageTier(const std::string& key,
                                 const std::string& tier) = 0;
 };
@@ -2352,44 +1869,26 @@ public:
     explicit WALArchivalManager(const ArchivalConfig& config,
                                 std::shared_ptr<IArchivalBackend> backend = nullptr);
 
-    /**
-     * @brief Archive the given WAL segment files (paths relative to wal_directory).
-     * @param[in] segment_paths Input parameter.
-     * @return Return value.
-     * @details Returns number of segments successfully archived.
-     */
+    // Archive the given WAL segment files (paths relative to wal_directory).
+    // Returns number of segments successfully archived.
     uint32_t archiveSegments(const std::vector<std::string>& segment_paths);
 
-    /**
-     * @brief Retrieve an archived segment by ID; returns the original raw bytes (decrypted and decompressed as required).
-     * @param[in] segment_id Input parameter.
-     * @return Return value.
-     */
+    // Retrieve an archived segment by ID; returns the original raw bytes
+    // (decrypted and decompressed as required).
     std::optional<std::vector<uint8_t>> retrieveSegment(uint64_t segment_id) const;
 
-    /**
-     * @brief List all archived segments (sorted by segment_id ascending).
-     * @return Return value.
-     */
+    // List all archived segments (sorted by segment_id ascending).
     std::vector<ArchivedSegment> listArchived() const;
 
-    /**
-     * @brief Purge archived segments older than delete_after_days.
-     * @return Return value.
-     */
+    // Purge archived segments older than delete_after_days.
     uint32_t purgeExpired();
 
-    /**
-     * @brief Apply lifecycle transitions: promote segments to colder storage tiers based on their age relative to transition_to_cold_after_days.
-     * @return Return value.
-     * @details Returns the number of segments whose tier was updated.
-     */
+    // Apply lifecycle transitions: promote segments to colder storage tiers
+    // based on their age relative to transition_to_cold_after_days.
+    // Returns the number of segments whose tier was updated.
     uint32_t transitionStorageTiers();
 
-    /**
-     * @brief Background archival: scan wal_directory, archive old segments, return count.
-     * @return Return value.
-     */
+    // Background archival: scan wal_directory, archive old segments, return count.
     uint32_t runArchivalCycle();
 
 private:
@@ -2398,50 +1897,19 @@ private:
     mutable std::mutex archive_mutex_;
     std::vector<ArchivedSegment> index_;  // in-memory index; persisted via index.txt side-car
 
-    /**
-     * @brief Returns the archive destination key/path for a segment_id.
-     * @param[in] segment_id Input parameter.
-     * @return Return value.
-     * @details When backend_ is set, returns the cloud object key (prefix + filename). When backend_ is null, returns the local filesystem path.
-     */
+    // Returns the archive destination key/path for a segment_id.
+    // When backend_ is set, returns the cloud object key (prefix + filename).
+    // When backend_ is null, returns the local filesystem path.
     std::string archivePath(uint64_t segment_id) const;
-    /**
-     * @brief TBD: Describe saveIndex.
-     */
     void saveIndex() const;
-    /**
-     * @brief TBD: Describe loadIndex.
-     */
     void loadIndex();
-    /**
-     * @brief TBD: Describe compressData.
-     * @param[in] data Input parameter.
-     * @return Return value.
-     */
     static std::vector<uint8_t> compressData(const std::vector<uint8_t>& data);
-    /**
-     * @brief AES-256-GCM encryption helpers.
-     * @param[in] data Input parameter.
-     * @param[in] key Input parameter.
-     * @return Return value.
-     * @details Format: IV(12) || Tag(16) || Ciphertext.
-     */
+    // AES-256-GCM encryption helpers. Format: IV(12) || Tag(16) || Ciphertext.
     static std::vector<uint8_t> encryptAesGcm(const std::vector<uint8_t>& data,
                                                const std::vector<uint8_t>& key);
-    /**
-     * @brief TBD: Describe decryptAesGcm.
-     * @param[in] data Input parameter.
-     * @param[in] key Input parameter.
-     * @return Return value.
-     */
     static std::optional<std::vector<uint8_t>> decryptAesGcm(
         const std::vector<uint8_t>& data,
         const std::vector<uint8_t>& key);
-    /**
-     * @brief TBD: Describe hexToBytes.
-     * @param[in] hex Input parameter.
-     * @return Return value.
-     */
     static std::vector<uint8_t> hexToBytes(const std::string& hex);
 };
 
@@ -2589,11 +2057,6 @@ public:
         ConsistencyLevel served_at = ConsistencyLevel::EVENTUAL;
     };
 
-    /**
-     * @brief TBD: Describe MultiRegionActiveActiveManager.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit MultiRegionActiveActiveManager(const MultiRegionActiveActiveConfig& config);
 
     /**
@@ -2656,18 +2119,12 @@ public:
      * Create a new session token embedding the current local sequence.
      * The token is an opaque string that encodes the sequence number and an
      * expiry timestamp; it is intentionally human-readable for debuggability.
-     * @brief TBD: Describe createSessionToken.
-     * @return Return value.
      */
     std::string createSessionToken() const;
 
     /**
      * Validate a session token and check whether the local replica has applied
      * at least required_sequence.  Returns false for malformed or expired tokens.
-     * @brief TBD: Describe validateSessionToken.
-     * @param[in] token Input parameter.
-     * @param[in] required_sequence Input parameter.
-     * @return True on success.
      */
     bool validateSessionToken(const std::string& token,
                               uint64_t required_sequence) const;
@@ -2675,41 +2132,27 @@ public:
     /**
      * Return the current estimated staleness for a given region.
      * Returns max duration when the region is unknown.
-     * @brief TBD: Describe getStaleness.
-     * @param[in] region_id Input parameter.
-     * @return Return value.
      */
     std::chrono::milliseconds getStaleness(const std::string& region_id) const;
 
     /**
      * Returns true when the local region's staleness is within max_staleness_ms.
-     * @brief TBD: Describe isWithinStalenessBound.
-     * @param[in] region_id Input parameter.
-     * @return True on success.
      */
     bool isWithinStalenessBound(const std::string& region_id) const;
 
     /**
      * Snapshot of staleness for every tracked region.
-     * @brief TBD: Describe getAllRegionStaleness.
-     * @return Return value.
      */
     std::vector<RegionStalenessInfo> getAllRegionStaleness() const;
 
     /**
      * Called by the replication layer whenever new WAL progress is learned
      * for a remote region (e.g. on heartbeat or WAL ACK).
-     * @brief TBD: Describe updateRegionStaleness.
-     * @param[in] region_id Input parameter.
-     * @param[in] staleness_ms Input parameter.
-     * @param[in] last_applied_sequence Input parameter.
      */
     void updateRegionStaleness(const std::string& region_id,
                                int64_t staleness_ms,
                                uint64_t last_applied_sequence);
 
-     * @brief TBD: Describe exportPrometheusMetrics.
-     * @return Return value.
     /** Prometheus-format metrics snapshot. */
     std::string exportPrometheusMetrics() const;
 
@@ -2760,23 +2203,8 @@ private:
     std::atomic<uint64_t> eventual_reads_{0};
     std::atomic<uint64_t> leader_write_rejections_{0}; ///< STRONG writes rejected because local is not the leader
 
-    /**
-     * @brief TBD: Describe generateWriteId.
-     * @param[in] sequence Input parameter.
-     * @return Return value.
-     */
     std::string generateWriteId(uint64_t sequence) const;
-    /**
-     * @brief TBD: Describe generateSessionToken.
-     * @param[in] sequence Input parameter.
-     * @return Return value.
-     */
     std::string generateSessionToken(uint64_t sequence) const;
-    /**
-     * @brief TBD: Describe parseSessionToken.
-     * @param[in] token Input parameter.
-     * @return Return value.
-     */
     uint64_t    parseSessionToken(const std::string& token) const;   ///< Returns 0 on error
 };
 
@@ -2880,11 +2308,7 @@ public:
         bool     is_running         = false; ///< True while start() is active
     };
 
-    /**
-     * @brief ── Lifecycle ─────────────────────────────────────────────────────────────
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
+    // ── Lifecycle ─────────────────────────────────────────────────────────────
 
     explicit BidirectionalReplicationManager(const BidiConfig& config);
     ~BidirectionalReplicationManager();
@@ -2897,15 +2321,12 @@ public:
      * Activate bidirectional replication.
      * Returns true on success, false when the manager is already running or the
      * configuration is invalid (e.g. local_node_id == remote_node_id).
-     * @brief TBD: Describe start.
-     * @return True on success.
      */
     bool start();
 
     /**
      * Gracefully stop replication and release all resources.
      * Safe to call even if start() was never called.
-     * @brief TBD: Describe stop.
      */
     void stop();
 
@@ -2944,32 +2365,23 @@ public:
     *   sequence for the same document) are rejected.
      *
      * Returns true when the entry was accepted and applied.
-     * @brief TBD: Describe applyRemoteWrite.
-     * @param[in] entry Input parameter.
-     * @return True on success.
      */
     bool applyRemoteWrite(const BidiWriteEntry& entry);
 
     // ── Status & metrics ──────────────────────────────────────────────────────
 
-     * @brief TBD: Describe getSyncStatus.
-     * @return Return value.
     /** Current synchronisation status snapshot. */
     SyncStatus getSyncStatus() const;
 
     /**
      * Return all conflict records (both auto-resolved and pending manual
      * resolution).
-     * @brief TBD: Describe getConflictHistory.
-     * @return Return value.
      */
     std::vector<BidiConflictRecord> getConflictHistory() const;
 
     /**
      * Return only the conflict records that are awaiting manual resolution
      * (i.e. strategy == CUSTOM and no manual resolution has been applied yet).
-     * @brief TBD: Describe getPendingConflicts.
-     * @return Return value.
      */
     std::vector<BidiConflictRecord> getPendingConflicts() const;
 
@@ -2983,26 +2395,16 @@ public:
      * node's write.  winner_node must be either local_node_id or remote_node_id.
      *
      * Returns true when a matching unresolved conflict was found and resolved.
-     * @brief TBD: Describe resolveConflict.
-     * @param[in] document_id Input parameter.
-     * @param[in] winner_node Input parameter.
-     * @return True on success.
      */
     bool resolveConflict(const std::string& document_id,
                          const std::string& winner_node);
 
     // ── Configuration helpers ─────────────────────────────────────────────────
 
-     * @brief TBD: Describe setCollectionStrategy.
-     * @param[in] collection Input parameter.
-     * @param[in] strategy Input parameter.
     /** Update the conflict resolution strategy for a specific collection. */
     void setCollectionStrategy(const std::string& collection,
                                ConflictResolution strategy);
 
-     * @brief TBD: Describe getEffectiveStrategy.
-     * @param[in] collection Input parameter.
-     * @return Return value.
     /** Read back the effective strategy for a collection. */
     ConflictResolution getEffectiveStrategy(const std::string& collection) const;
 
@@ -3017,11 +2419,6 @@ public:
     /**
      * Simulate an incoming DDL event from the peer.  Delegates to
      * applyRemoteWrite() with is_ddl=true.
-     * @brief TBD: Describe applyRemoteDDL.
-     * @param[in] ddl_statement Input parameter.
-     * @param[in] schema_version Input parameter.
-     * @param[in] origin_seq Input parameter.
-     * @return True on success.
      */
     bool applyRemoteDDL(const std::string& ddl_statement,
                         const std::string& schema_version,
@@ -3035,27 +2432,12 @@ private:
         std::chrono::system_clock::time_point origin_timestamp;
     };
 
-    /**
-     * @brief TBD: Describe getOrigin.
-     * @param[in] document_id Input parameter.
-     * @return Return value.
-     */
     OriginInfo getOrigin(const std::string& document_id) const;
-    /**
-     * @brief TBD: Describe isLocalOrigin.
-     * @param[in] origin Input parameter.
-     * @return True on success.
-     */
     bool       isLocalOrigin(const OriginInfo& origin) const;
 
     // ── Conflict helpers ──────────────────────────────────────────────────────
     /**
      * Apply the configured resolution strategy and return the winning entry.
-     * @brief TBD: Describe resolveWrite.
-     * @param[in] local Input parameter.
-     * @param[in] remote Input parameter.
-     * @param[in] strategy Input parameter.
-     * @return Return value.
      */
     BidiWriteEntry resolveWrite(const BidiWriteEntry& local,
                                 const BidiWriteEntry& remote,
@@ -3066,20 +2448,12 @@ private:
      * constitute a conflict.  Two writes conflict when both have been submitted
      * since the last known-good sync point (i.e. their sequence numbers are
      * both ahead of the last acknowledged remote sequence).
-     * @brief TBD: Describe detectConflict.
-     * @param[in] incoming Input parameter.
-     * @param[in] existing Input parameter.
-     * @return True on success.
      */
     bool detectConflict(const BidiWriteEntry& incoming,
                         const BidiWriteEntry& existing) const;
 
     /**
      * Record a conflict and apply the configured strategy.
-     * @brief TBD: Describe handleConflict.
-     * @param[in] local_write Input parameter.
-     * @param[in] remote_write Input parameter.
-     * @param[in] is_ddl Input parameter.
      */
     void handleConflict(const BidiWriteEntry& local_write,
                         const BidiWriteEntry& remote_write,
@@ -3108,12 +2482,6 @@ private:
     mutable std::mutex                  origin_mutex_;
     std::map<std::string, OriginInfo>   origin_map_;
 
-    /**
-     * @brief TBD: Describe makeDocKey.
-     * @param[in] collection Input parameter.
-     * @param[in] document_id Input parameter.
-     * @return Return value.
-     */
     std::string makeDocKey(const std::string& collection,
                            const std::string& document_id) const;
 };
@@ -3163,11 +2531,6 @@ public:
         uint32_t session_token_ttl_ms = 30000;                   ///< Session token TTL (ms)
     };
 
-    /**
-     * @brief TBD: Describe GeoReplicationManager.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit GeoReplicationManager(const GeoConfig& config);
 
     /**
@@ -3206,17 +2569,12 @@ public:
      * Return a fresh session token embedding the current local sequence.
      * Pass this token to subsequent read() calls to obtain read-your-writes
      * (SESSION consistency).
-     * @brief TBD: Describe getSessionToken.
-     * @return Return value.
      */
     std::string getSessionToken() const;
 
     /**
      * Return the estimated replication lag for a given region.
      * Returns chrono::milliseconds::max() for unknown regions.
-     * @brief TBD: Describe getStaleness.
-     * @param[in] region Input parameter.
-     * @return Return value.
      */
     std::chrono::milliseconds getStaleness(const std::string& region) const;
 
@@ -3240,14 +2598,9 @@ public:
     /**
      * Validate a session token and return the sequence it encodes.
      * Returns 0 for malformed or expired tokens.
-     * @brief TBD: Describe parseSessionToken.
-     * @param[in] token Input parameter.
-     * @return Return value.
      */
     uint64_t parseSessionToken(const std::string& token) const;
 
-     * @brief TBD: Describe exportPrometheusMetrics.
-     * @return Return value.
     /** Prometheus-format metrics snapshot. */
     std::string exportPrometheusMetrics() const;
 
@@ -3270,11 +2623,6 @@ private:
     std::atomic<uint64_t> session_reads_{0};
     std::atomic<uint64_t> eventual_reads_{0};
 
-    /**
-     * @brief TBD: Describe generateSessionToken.
-     * @param[in] sequence Input parameter.
-     * @return Return value.
-     */
     std::string generateSessionToken(uint64_t sequence) const;
 };
 

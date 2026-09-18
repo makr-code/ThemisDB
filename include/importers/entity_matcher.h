@@ -198,8 +198,6 @@ public:
      * @brief Normalise a full name to a canonical lower-case form.
      *
      * Handles "Alice SMITH", "Smith, Alice", "alice smith" → "alice smith".
-     * @param[in] name Input parameter.
-     * @return Return value.
      */
     static std::string normalizeFullName(const std::string& name);
 
@@ -207,16 +205,11 @@ public:
      * @brief Soundex-based phonetic match score for two name strings.
      *
      * @return 1.0 if phonetic codes are equal, 0.5 for partial match, 0.0 otherwise.
-     * @param[in] name1 Input parameter.
-     * @param[in] name2 Input parameter.
      */
     static double soundexMatch(const std::string& name1, const std::string& name2);
 
     /**
      * @brief Score two name strings considering first/last-name reordering.
-     * @param[in] n1 Input parameter.
-     * @param[in] n2 Input parameter.
-     * @return Return value.
      */
     static double scoreNameVariations(const std::string& n1, const std::string& n2);
 
@@ -225,9 +218,6 @@ public:
      *
      * Applies local-part similarity and requires identical domains for a
      * non-zero score.
-     * @param[in] e1 Input parameter.
-     * @param[in] e2 Input parameter.
-     * @return Return value.
      */
     static double scoreEmailPair(const std::string& e1, const std::string& e2);
 
@@ -235,9 +225,6 @@ public:
      * @brief Determine whether two emails are likely to be a typo of each other.
      *
      * Returns true when Levenshtein edit distance ≤ 2 and domains are equal.
-     * @param[in] e1 Input parameter.
-     * @param[in] e2 Input parameter.
-     * @return True on success.
      */
     static bool isLikelyEmailTypo(const std::string& e1, const std::string& e2);
 
@@ -245,16 +232,11 @@ public:
      * @brief Normalise a phone number to E.164-style digits only.
      *
      * Strips spaces, dashes, parentheses, and leading "+" / country codes.
-     * @param[in] phone Input parameter.
-     * @return Return value.
      */
     static std::string normalizePhoneNumber(const std::string& phone);
 
     /**
      * @brief Score two phone number strings after normalisation.
-     * @param[in] p1 Input parameter.
-     * @param[in] p2 Input parameter.
-     * @return Return value.
      */
     static double scorePhonePair(const std::string& p1, const std::string& p2);
 
@@ -317,25 +299,8 @@ public:
     ) const;
 
 private:
-    /**
-     * @brief TBD: Describe computeSoundex.
-     * @param[in] name Input parameter.
-     * @return Return value.
-     */
     static std::string computeSoundex(const std::string& name);
-    /**
-     * @brief TBD: Describe levenshteinDistance.
-     * @param[in] s1 Input parameter.
-     * @param[in] s2 Input parameter.
-     * @return Return value.
-     */
     static size_t      levenshteinDistance(const std::string& s1, const std::string& s2);
-    /**
-     * @brief TBD: Describe jaroSimilarity.
-     * @param[in] s1 Input parameter.
-     * @param[in] s2 Input parameter.
-     * @return Return value.
-     */
     static double      jaroSimilarity(const std::string& s1, const std::string& s2);
 };
 

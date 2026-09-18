@@ -156,7 +156,6 @@ enum class SearchErrorCode : uint32_t {
  * @brief Convert SearchErrorCode to human-readable string.
  * @param code Error code to convert.
  * @return Descriptive string for the error code.
- * @details Calls: find(), end(), std::to_string().
  */
 inline std::string searchErrorCodeToString(SearchErrorCode code) {
     static const std::unordered_map<uint32_t, std::string> kErrorMap{

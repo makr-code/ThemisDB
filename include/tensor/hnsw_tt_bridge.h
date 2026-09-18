@@ -128,21 +128,12 @@ private:
     float ttCosineSimilarity(const storage::TTTrain& a,
                              const storage::TTTrain& b) const;
 
-    /**
-     * @brief ----------------------------------------------------------------------- Static TT arithmetic helpers (shared with tensor_index.
-     * @param[in] A Input parameter.
-     * @param[in] B Input parameter.
-     * @return Return value.
-     * @details cpp logic) -----------------------------------------------------------------------
-     */
+    // -----------------------------------------------------------------------
+    // Static TT arithmetic helpers (shared with tensor_index.cpp logic)
+    // -----------------------------------------------------------------------
 
     static float ttInnerProductFromTrains(const storage::TTTrain& A,
                                            const storage::TTTrain& B);
-    /**
-     * @brief TBD: Describe ttNormFromTrain.
-     * @param[in] T Input parameter.
-     * @return Return value.
-     */
     static float ttNormFromTrain(const storage::TTTrain& T);
 
     // -----------------------------------------------------------------------

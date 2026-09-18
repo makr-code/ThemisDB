@@ -133,8 +133,6 @@ public:
      * @param config    Scaling parameters.
      * @param provider  Callable returning the current active-connection count.
      *                  Must remain valid for the lifetime of the scaler.
-     * @brief TBD: Describe AdaptiveIOScaler.
-     * @return Return value.
      */
     explicit AdaptiveIOScaler(const Config& config,
                               ConnectionCountProvider provider);
@@ -173,7 +171,6 @@ public:
      *
      * Pass nullptr to clear an existing callback.  Can be called before or
      * after start().
-     * @param[in] cb Input parameter.
      */
     void setScaleCallback(ScaleCallback cb);
 
@@ -197,13 +194,11 @@ public:
 
     /**
      * @brief Return the current recommended thread count.
-     * @return Return value.
      */
     size_t getCurrentThreadCount() const;
 
     /**
      * @brief Return a snapshot of scaling statistics.
-     * @return Return value.
      */
     Stats getStats() const;
 
@@ -230,9 +225,6 @@ private:
     std::thread        monitor_thread_;
     std::atomic<bool>  running_{false};
 
-    /**
-     * @brief TBD: Describe monitorLoop.
-     */
     void monitorLoop();
 };
 

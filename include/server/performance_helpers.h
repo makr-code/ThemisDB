@@ -96,11 +96,6 @@ public:
     std::optional<std::unique_ptr<Connection>> acquire(
         std::chrono::milliseconds timeout = std::chrono::seconds(5)
     ) {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] pool_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(pool_mutex_);
         
         // Fast path: connection available
@@ -131,18 +126,12 @@ public:
      * @param conn Connection to release
      * 
      * Impact: Enables connection reuse without reallocation
-     * @details Calls: lock(), size(), push_back(), std::move(), reset().
      */
     void release(std::unique_ptr<Connection> conn) {
         if (!conn) {
           return;
         }
         
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] pool_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(pool_mutex_);
         
         // Return to available pool if not at capacity
@@ -159,11 +148,6 @@ public:
      * @return {available, total, max}
      */
     std::tuple<size_t, size_t, size_t> getStats() const {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] pool_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(pool_mutex_);
         return std::make_tuple(
             available_connections_.size(),
@@ -208,7 +192,6 @@ public:
      * @brief Construct guard with connection and pool reference
      * @param conn Connection to guard
      * @param pool Pool to return connection to
-     * @return Return value.
      */
     explicit ConnectionGuard(std::unique_ptr<Connection> conn, Pool* pool)
         : conn_(std::move(conn))
@@ -226,11 +209,6 @@ public:
     // Smart pointer semantics
     Connection& operator*() { return *conn_; }
     Connection* operator->() { return conn_.get(); }
-    /**
-     * @brief TBD: Describe get.
-     * @return Pointer to the result.
-     * @details Implements get without additional internal calls.
-     */
     Connection* get() { return conn_.get(); }
     
     // Move semantics (allow transfer)
@@ -290,7 +268,6 @@ public:
      * @param len Length of data
      * 
      * Impact: Avoids repeated reallocation through exponential growth
-     * @details Calls: size(), capacity(), reserve(), insert(), end().
      */
     void append(const void* data, size_t len) {
         if (!data || len == 0) {
@@ -318,8 +295,6 @@ public:
     
     /**
      * @brief Append string_view
-     * @param[in] sv Input parameter.
-     * @details Calls: data(), size().
      */
     void append(std::string_view sv) {
         append(sv.data(), sv.size());
@@ -328,7 +303,6 @@ public:
     /**
      * @brief Pre-reserve capacity (for known-size allocations)
      * @param size Expected final size
-     * @details Calls: std::max().
      */
     void reserve(size_t size) {
         buffer_.reserve(std::max(size, INITIAL_CAPACITY));
@@ -336,22 +310,17 @@ public:
     
     /**
      * @brief Get mutable buffer data
-     * @return Return value.
-     * @details Implements data without additional internal calls.
      */
     std::vector<uint8_t>& data() { return buffer_; }
     const std::vector<uint8_t>& data() const { return buffer_; }
     
     /**
      * @brief Clear buffer (keep capacity)
-     * @details Implements clear without additional internal calls.
      */
     void clear() { buffer_.clear(); }
     
     /**
      * @brief Extract buffer and clear (move semantics)
-     * @return Return value.
-     * @details Calls: std::move().
      */
     std::vector<uint8_t> extract() { return std::move(buffer_); }
     
@@ -403,7 +372,6 @@ public:
      * @param len Length of data
      * 
      * Impact: Reduces reallocation frequency through exponential growth
-     * @details Calls: std::chrono::high_resolution_clock::now(), size(), capacity(), reserve(), insert(), end().
      */
     void append(const uint8_t* data, size_t len) {
         if (!data || len == 0) {
@@ -436,8 +404,6 @@ public:
      * @param payload Frame payload data
      * 
      * Impact: Single allocation for entire frame instead of separate operations
-     * @param[in] payload_len Input parameter.
-     * @details Calls: size(), capacity(), reserve(), insert(), end(), std::chrono::high_resolution_clock::now().
      */
     void appendFrame(const uint8_t* header, const uint8_t* payload, size_t payload_len) {
         // Frame = 9-byte header + payload
@@ -470,14 +436,11 @@ public:
     
     /**
      * @brief Clear buffer (keep capacity)
-     * @details Implements clear without additional internal calls.
      */
     void clear() { buffer_.clear(); }
     
     /**
      * @brief Extract buffer data (move semantics)
-     * @return Return value.
-     * @details Calls: std::chrono::high_resolution_clock::now(), std::move().
      */
     std::vector<uint8_t> extract() {
         last_access_time_ = std::chrono::high_resolution_clock::now();
@@ -488,11 +451,6 @@ public:
      * @brief Get buffer data
      */
     const std::vector<uint8_t>& data() const { return buffer_; }
-    /**
-     * @brief TBD: Describe data.
-     * @return Return value.
-     * @details Implements data without additional internal calls.
-     */
     std::vector<uint8_t>& data() { return buffer_; }
     
     /**
@@ -557,18 +515,12 @@ public:
      * @return true if write successful, false if backpressure active
      * 
      * Impact: Prevents buffer exhaustion during large exports
-     * @details Calls: lock(), size(), insert(), end(), flushLocked().
      */
     bool write(const uint8_t* data, size_t len) {
         if (!data || len == 0) {
           return true;
         }
         
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] buffer_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(buffer_mutex_);
         
         // Check backpressure condition
@@ -594,11 +546,6 @@ public:
      * @return true if successful
      */
     bool flush(std::chrono::milliseconds timeout = std::chrono::seconds(5)) {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] buffer_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(buffer_mutex_);
         return flushLocked();
     }
@@ -607,22 +554,12 @@ public:
      * @brief Check if backpressure is active
      */
     bool isBackpressureActive() const {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] buffer_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(buffer_mutex_);
         double utilization = static_cast<double>(buffer_.size()) / max_size_;
         return utilization >= BACKPRESSURE_THRESHOLD;
     }
 
 private:
-    /**
-     * @brief TBD: Describe flushLocked.
-     * @return True on success.
-     * @details Calls: empty(), write_fn_(), clear().
-     */
     bool flushLocked() {
         if (buffer_.empty()) {
           return true;
@@ -671,11 +608,6 @@ public:
      * @return Cached frame or nullopt if not found
      */
     std::optional<std::vector<uint8_t>> get(std::string_view key) const {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] cache_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::shared_lock<std::shared_mutex> lock(cache_mutex_);
         auto it = cache_.find(std::string(key));
         if (it != cache_.end()) {
@@ -688,14 +620,8 @@ public:
      * @brief Store frame in cache
      * @param key Frame key
      * @param frame Serialized frame data
-     * @details Calls: lock(), size(), clear(), std::string().
      */
     void put(std::string_view key, const std::vector<uint8_t>& frame) {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] cache_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::shared_mutex> lock(cache_mutex_);
         
         // Simple LRU: if at capacity, clear cache
@@ -708,14 +634,8 @@ public:
     
     /**
      * @brief Clear cache
-     * @details Calls: lock().
      */
     void clear() {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] cache_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::shared_mutex> lock(cache_mutex_);
         cache_.clear();
     }

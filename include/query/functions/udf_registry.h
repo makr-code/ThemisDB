@@ -103,11 +103,6 @@ struct UdfDefinition {
  */
 class UdfFunction final : public IFunction {
 public:
-    /**
-     * @brief TBD: Describe UdfFunction.
-     * @param[in] def Input parameter.
-     * @return Return value.
-     */
     explicit UdfFunction(UdfDefinition def);
 
     FunctionSignature signature() const override;
@@ -146,11 +141,6 @@ private:
  */
 class UdfRegistry {
 public:
-    /**
-     * @brief TBD: Describe instance.
-     * @return Return value.
-     * @details Implements instance without additional internal calls.
-     */
     static UdfRegistry& instance() {
         static UdfRegistry reg;
         return reg;
@@ -160,23 +150,17 @@ public:
      * @brief Register a new UDF.  Overwrites any existing UDF with the same name.
      * @throws std::runtime_error if name conflicts with a built-in function
      *         that was NOT previously registered as a UDF.
-     * @param[in] def Input parameter.
      */
     void registerUdf(UdfDefinition def);
 
     /**
      * @brief Remove a UDF and deregister it from the FunctionRegistry.
      * @throws std::runtime_error if the name is unknown or is a built-in.
-     * @param[in] name Input parameter.
      */
     void unregisterUdf(const std::string& name);
 
-    /**
-     * @brief Return definition for a registered UDF.
-     * @param[in] name Input parameter.
-     * @return Return value.
-     * @details @throws std::runtime_error if not found.
-     */
+    /// Return definition for a registered UDF.
+    /// @throws std::runtime_error if not found.
     UdfDefinition getUdf(const std::string& name) const;
 
     /// True if name is a registered UDF (not a built-in).

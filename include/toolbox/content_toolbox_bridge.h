@@ -188,26 +188,13 @@ public:
         const std::string& collection = "default"
     );
 
-    /**
-     * @brief ───────────────────────────────────────────────────────────────────────── Accessors ─────────────────────────────────────────────────────────────────────────
-     * @return Return value.
-     */
+    // ─────────────────────────────────────────────────────────────────────────
+    // Accessors
+    // ─────────────────────────────────────────────────────────────────────────
 
     std::shared_ptr<IngestionToolbox>        toolbox()        const;
-    /**
-     * @brief TBD: Describe contentManager.
-     * @return Return value.
-     */
     std::shared_ptr<content::ContentManager> contentManager() const;
-    /**
-     * @brief TBD: Describe graphWriter.
-     * @return Return value.
-     */
     std::shared_ptr<ingestion::IGraphWriter> graphWriter()    const;
-    /**
-     * @brief TBD: Describe vectorWriter.
-     * @return Return value.
-     */
     std::shared_ptr<ingestion::IVectorWriter> vectorWriter()  const;
 
     // ─────────────────────────────────────────────────────────────────────────
@@ -221,8 +208,6 @@ public:
      * Incremented on ContentManager failures, null checks, or other
      * bridge-level errors. Does not count individual sink write failures
      * (those are tracked separately).
-     * @return Return value.
-     * @note Exception safety: noexcept.
      */
     uint64_t failuresTotal() const noexcept;
 
@@ -232,8 +217,6 @@ public:
      * Used for Prometheus metric `toolbox_bridge_graph_write_failures_total`.
      * Incremented when an entity write to the graph sink fails, but the
      * bridge continues processing (soft-fail behavior).
-     * @return Return value.
-     * @note Exception safety: noexcept.
      */
     uint64_t graphWriteFailuresTotal() const noexcept;
 
@@ -243,8 +226,6 @@ public:
      * Used for Prometheus metric `toolbox_bridge_vector_write_failures_total`.
      * Incremented when a vector record write to the vector sink fails, but the
      * bridge continues processing (soft-fail behavior).
-     * @return Return value.
-     * @note Exception safety: noexcept.
      */
     uint64_t vectorWriteFailuresTotal() const noexcept;
 
@@ -253,7 +234,6 @@ public:
      *
      * Returns empty string if no operations have been recorded yet.
      * Includes failure counters and latency histogram buckets.
-     * @return Return value.
      */
     std::string getMetricsText() const;
 
@@ -266,7 +246,6 @@ private:
      *
      * Used internally by ingest() and enrichExisting() to populate latency buckets.
      * @param latency_ms Operation latency in milliseconds
-     * @note Exception safety: noexcept.
      */
     void recordLatency(uint64_t latency_ms) noexcept;
 };

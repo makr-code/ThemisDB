@@ -34,7 +34,6 @@ namespace themis::importers {
  * @param max_bytes  Maximum bytes per line (0 = unlimited)
  * @param truncated  Output flag: set to true if line was truncated
  * @return false only at EOF with no bytes read
- * @details Calls: clear(), std::getline(), get().
  */
 inline bool streamReadLine(std::istream& file,
                            std::string& line,
@@ -78,7 +77,6 @@ inline bool streamReadLine(std::istream& file,
  *
  * @param s Input string
  * @return Lower-case copy of input
- * @details Calls: std::tolower().
  */
 inline std::string toLower(const std::string& s) {
     std::string result = s;

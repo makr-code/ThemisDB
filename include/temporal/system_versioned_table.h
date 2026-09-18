@@ -118,10 +118,6 @@ public:
         Config              config,
         const std::string&  source_node  = "local");
 
-     * @brief TBD: Describe createVersionedTable.
-     * @param[in] table_name Input parameter.
-     * @param[in] schema Input parameter.
-     * @return Return value.
     /** Overload with default Config. */
     static SystemVersionedTable createVersionedTable(
         const std::string&  table_name,
@@ -129,10 +125,6 @@ public:
 
     // ── DML ──────────────────────────────────────────────────────────────────
 
-     * @brief TBD: Describe insert.
-     * @param[in] key Input parameter.
-     * @param[in] doc Input parameter.
-     * @return True on success.
     /** Insert a new row.  Fails (returns false) if the key already exists. */
     bool insert(const std::string& key, const Document& doc);
 
@@ -140,10 +132,6 @@ public:
      * Update an existing current row.
      * The previous version is closed (sys_end set to now) and a new version is
      * opened.  Returns false if no current row exists for the key.
-     * @brief TBD: Describe update.
-     * @param[in] key Input parameter.
-     * @param[in] updates Input parameter.
-     * @return True on success.
      */
     bool update(const std::string& key, const Document& updates);
 
@@ -153,49 +141,29 @@ public:
      * otherwise a fresh row is inserted.
      *
      * @return true if an insert was performed, false if an update was performed.
-     * @brief TBD: Describe upsert.
-     * @param[in] key Input parameter.
-     * @param[in] doc Input parameter.
      */
     bool upsert(const std::string& key, const Document& doc);
 
     /**
      * Logically delete the current row (closes its sys_time period).
      * Returns false if no current row exists for the key.
-     * @brief TBD: Describe deleteRow.
-     * @param[in] key Input parameter.
-     * @return True on success.
      */
     bool deleteRow(const std::string& key);
 
     // ── Queries ───────────────────────────────────────────────────────────────
 
-     * @brief TBD: Describe getCurrent.
-     * @param[in] key Input parameter.
-     * @return Return value.
     /** Return the current version of a row, if it exists. */
     std::optional<VersionedDocument> getCurrent(const std::string& key) const;
 
-     * @brief TBD: Describe getAsOf.
-     * @param[in] key Input parameter.
-     * @param[in] as_of Input parameter.
-     * @return Return value.
     /** Return the version that was current at the given timestamp. */
     std::optional<VersionedDocument> getAsOf(const std::string& key,
                                              Timestamp as_of) const;
 
-     * @brief TBD: Describe getHistory.
-     * @param[in] key Input parameter.
-     * @return Return value.
     /** Return all historical versions of a row. */
     std::vector<VersionedDocument> getHistory(const std::string& key) const;
 
     /**
      * Return all versions of a row whose sys_time overlaps the given range.
-     * @brief TBD: Describe getHistoryInRange.
-     * @param[in] key Input parameter.
-     * @param[in] range Input parameter.
-     * @return Return value.
      */
     std::vector<VersionedDocument> getHistoryInRange(const std::string& key,
                                                      const TimeRange& range) const;
@@ -210,8 +178,6 @@ public:
      * Return all known keys (including keys whose rows have all been deleted).
      * This allows callers (e.g. RetentionManager) to enumerate every key that
      * ever had data, not just keys with a currently-alive row.
-     * @brief TBD: Describe getAllKeys.
-     * @return Return value.
      */
     std::vector<std::string> getAllKeys() const;
 
@@ -238,7 +204,6 @@ public:
      * @param key           Row key.
      * @param keep_latest_n Number of historical versions to retain.
      * @return              Number of versions physically removed.
-     * @brief TBD: Describe purgeHistoricalVersionsKeepLatestN.
      */
     size_t purgeHistoricalVersionsKeepLatestN(const std::string& key,
                                               size_t keep_latest_n);
@@ -266,7 +231,6 @@ public:
      * @param sys_start  sys_time.start of the target version.
      * @param new_data   Replacement payload (may be compressed).
      * @return           true if the version was found and replaced.
-     * @brief TBD: Describe replaceHistoricalPayload.
      */
     bool replaceHistoricalPayload(const std::string& key,
                                   Timestamp sys_start,
@@ -282,7 +246,6 @@ public:
      * The current (open-ended) version is never removed.
      *
      * @return Number of historical versions physically removed.
-     * @brief TBD: Describe enforceRetentionPolicy.
      */
     size_t enforceRetentionPolicy();
 
@@ -293,18 +256,12 @@ public:
     /** Returns the active Config for this table. */
     const Config& getConfig() const noexcept { return config_; }
 
-     * @brief TBD: Describe keyCount.
-     * @return Return value.
     /** Number of distinct keys (including deleted ones). */
     size_t keyCount() const;
 
-     * @brief TBD: Describe versionCount.
-     * @return Return value.
     /** Total number of row versions stored (current + historical). */
     size_t versionCount() const;
 
-     * @brief TBD: Describe getStatistics.
-     * @return Return value.
     /** JSON statistics for monitoring. */
     nlohmann::json getStatistics() const;
 
@@ -320,21 +277,10 @@ private:
 
     mutable std::mutex mutex_;
 
-    /**
-     * @brief Close the current (open-ended) version for a key.
-     * @param[in,out] versions Input/output parameter.
-     * @param[in] close_time Input parameter.
-     * @details Caller must hold lock.
-     */
+    // Close the current (open-ended) version for a key.  Caller must hold lock.
     void closeCurrentVersion(VersionList& versions, Timestamp close_time);
 
-    /**
-     * @brief Build a VersionedDocument for a new (or replacement) row version.
-     * @param[in] key Input parameter.
-     * @param[in] data Input parameter.
-     * @param[in] ts Input parameter.
-     * @return Return value.
-     */
+    // Build a VersionedDocument for a new (or replacement) row version.
     VersionedDocument makeVersion(const std::string& key,
                                   Document data,
                                   Timestamp ts) const;

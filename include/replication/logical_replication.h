@@ -107,8 +107,6 @@ public:
      * @param wal Shared pointer to the WAL manager; may be nullptr (WAL-dependent
      *            operations such as restart_lsn will default to 0).
      * @post Persisted slots are loaded from the configured wal_directory (if set).
-     * @brief TBD: Describe LogicalReplicationManager.
-     * @return Return value.
      */
     explicit LogicalReplicationManager(std::shared_ptr<WALManager> wal);
     
@@ -139,7 +137,6 @@ public:
      * @throws std::runtime_error if a slot with slot_name already exists.
      *
      * @note Default filter allows all collections and operations.
-     * @brief TBD: Describe createSlot.
      */
     LogicalReplicationSlot createSlot(
         const std::string& slot_name,
@@ -152,7 +149,6 @@ public:
      * @param output_plugin Plugin name for change decoding.
      * @param filter Filtering rules (collections, DDL/DML, row predicates).
      * @return LogicalReplicationSlot configured with the given filter.
-     * @brief TBD: Describe createSlot.
      */
     LogicalReplicationSlot createSlot(
         const std::string& slot_name,
@@ -169,7 +165,6 @@ public:
      *                             at slot creation; if false, slot starts at
      *                             current WAL position.
      * @return LogicalReplicationSlot with initial sync pending if requested.
-     * @brief TBD: Describe createSlot.
      */
     LogicalReplicationSlot createSlot(
         const std::string& slot_name,
@@ -189,7 +184,6 @@ public:
      * @param perform_initial_sync If true, initial_snapshot changes are delivered first.
      * @param initial_snapshot LogicalChange list to deliver before starting incremental.
      * @return LogicalReplicationSlot with custom snapshot enqueued.
-     * @brief TBD: Describe createSlot.
      */
     LogicalReplicationSlot createSlot(
         const std::string& slot_name,
@@ -209,7 +203,6 @@ public:
      *
      * @note Silently returns if slot does not exist or if lsn is less than
      *       the current confirmed_flush_lsn (backwards LSN is ignored).
-     * @brief TBD: Describe advanceSlot.
      */
     void advanceSlot(const std::string& slot_name, uint64_t lsn);
     
@@ -218,7 +211,6 @@ public:
      *
      * @return Vector of LogicalReplicationSlot structures for all slots
      *         in the manager.
-     * @brief TBD: Describe listSlots.
      */
     std::vector<LogicalReplicationSlot> listSlots() const;
     
@@ -227,7 +219,6 @@ public:
      *
      * @param slot_name Slot identifier.
      * @return true if slot exists; false otherwise.
-     * @brief TBD: Describe hasSlot.
      */
     bool hasSlot(const std::string& slot_name) const;
 
@@ -354,10 +345,6 @@ public:
     void onNetworkPartitionDetected(const std::vector<std::string>& unreachable_nodes) override;
     void onWALEntryApplied(const WALEntry& entry) override;
 
-    /**
-     * @brief TBD: Describe getStats.
-     * @return Return value.
-     */
     Stats getStats() const;
 
 private:
@@ -379,60 +366,18 @@ private:
     Stats stats_;
     mutable std::atomic<bool> missing_seq_warned_{false};
 
-    /**
-     * @brief Persistence helpers
-     */
+    // Persistence helpers
     void loadPersistedSlots();
-    /**
-     * @brief TBD: Describe persistSlot.
-     * @param[in] slot Input parameter.
-     */
     void persistSlot(const SlotRuntime& slot) const;
-    /**
-     * @brief TBD: Describe slotStatePath.
-     * @param[in] slot_name Input parameter.
-     * @return Return value.
-     */
     std::string slotStatePath(const std::string& slot_name) const;
 
-    /**
-     * @brief Filtering and transformation helpers
-     * @param[in] change Input parameter.
-     * @param[in] filter Input parameter.
-     * @return True on success.
-     */
+    // Filtering and transformation helpers
     bool matchesFilter(const LogicalChange& change, const ReplicationFilter& filter) const;
-    /**
-     * @brief TBD: Describe evaluateRowFilter.
-     * @param[in] expression Input parameter.
-     * @param[in] payload Input parameter.
-     * @return True on success.
-     */
     bool evaluateRowFilter(const std::string& expression, const nlohmann::json& payload) const;
-    /**
-     * @brief TBD: Describe makeLogicalChange.
-     * @param[in] entry Input parameter.
-     * @return Return value.
-     */
     LogicalChange makeLogicalChange(const WALEntry& entry) const;
-    /**
-     * @brief TBD: Describe applyTransform.
-     * @param[in,out] change Input/output parameter.
-     */
     void applyTransform(LogicalChange& change) const;
-    /**
-     * @brief TBD: Describe documentIdFromChange.
-     * @param[in] change Input parameter.
-     * @return Return value.
-     */
     std::string documentIdFromChange(const LogicalChange& change) const;
 
-    /**
-     * @brief TBD: Describe collectionKey.
-     * @param[in] collection Input parameter.
-     * @param[in] document_id Input parameter.
-     * @return Return value.
-     */
     static std::string collectionKey(const std::string& collection, const std::string& document_id);
 };
 

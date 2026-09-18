@@ -45,12 +45,6 @@ struct LosslessCompressionConfig {
     float sparse_threshold = 0.95f;
     bool fallback_to_sq8 = true;
     
-    /**
-     * @brief TBD: Describe load.
-     * @param[in,out] db Input/output parameter.
-     * @return Return value.
-     * @details Calls: get(), s(), begin(), end(), nlohmann::json::parse(), value(), std::string(), THEMIS_WARN().
-     */
     static LosslessCompressionConfig load(RocksDBWrapper& db) {
         LosslessCompressionConfig config;
         
@@ -75,14 +69,8 @@ struct LosslessCompressionConfig {
 /** @brief Vector compression helper. */
 class VectorCompressionHelper {
 public:
-    /**
-     * @brief Try to compress vector using lossless methods Returns serialized entity with compressed embedding, or nullopt if not applicable
-     * @param[in] e Input parameter.
-     * @param[in] vec Input parameter.
-     * @param[in,out] db Input/output parameter.
-     * @return Return value.
-     * @details Calls: LosslessCompressionConfig::load(), AdaptiveCompressor::selectMethod(), getAllFields(), erase(), SparseVectorCodec::compress(), serialize(), std::string(), THEMIS_DEBUG().
-     */
+    // Try to compress vector using lossless methods
+    // Returns serialized entity with compressed embedding, or nullopt if not applicable
     static std::optional<std::vector<uint8_t>> tryLosslessCompression(
         const BaseEntity& e,
         const std::vector<float>& vec,
@@ -199,12 +187,7 @@ public:
         }
     }
     
-    /**
-     * @brief Decompress vector from entity
-     * @param[in] e Input parameter.
-     * @return Return value.
-     * @details Calls: getAllFields(), find(), end(), SparseVectorCSR::deserialize(), SparseVectorCodec::decompress(), VarIntCodec::decompress_delta(), reserve(), size().
-     */
+    // Decompress vector from entity
     static std::optional<std::vector<float>> decompressVector(const BaseEntity& e) {
         auto fields = e.getAllFields();
         
@@ -256,21 +239,11 @@ public:
                 
                 // Reconstruct dictionary
                 size_t dict_size = dict_bytes.size() / sizeof(float);
-                /**
-                 * @brief TBD: Describe dictionary.
-                 * @param[in] dict_size Input parameter.
-                 * @return Return value.
-                 */
                 std::vector<float> dictionary(dict_size);
                 std::memcpy(dictionary.data(), dict_bytes.data(), dict_bytes.size());
                 
                 // Reconstruct indices
                 size_t indices_count = indices_bytes.size() / sizeof(uint32_t);
-                /**
-                 * @brief TBD: Describe indices.
-                 * @param[in] indices_count Input parameter.
-                 * @return Return value.
-                 */
                 std::vector<uint32_t> indices(indices_count);
                 std::memcpy(indices.data(), indices_bytes.data(), indices_bytes.size());
                 

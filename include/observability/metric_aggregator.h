@@ -188,7 +188,6 @@ public:
      *
      * Snapshots are accumulated until `aggregateHistograms()` or `reset()` is
      * called.  Multiple snapshots with the same metric_name are merged.
-     * @param[in] snapshot Input parameter.
      */
     void addHistogramSnapshot(const HistogramSnapshot& snapshot);
 
@@ -217,7 +216,6 @@ public:
      * @brief Register an aggregation rule.
      *
      * Duplicate rules (same metric_name + type combination) are replaced.
-     * @param[in] rule Input parameter.
      */
     void addAggregationRule(const AggregationRule& rule);
 
@@ -231,7 +229,6 @@ public:
 
     /**
      * @brief Return a copy of all registered rules.
-     * @return Return value.
      */
     std::vector<AggregationRule> getRules() const;
 
@@ -287,23 +284,18 @@ public:
      * sets are rejected (cardinality overflow is counted).
      *
      * Set to 0 to disable the limit for that metric.
-     * @param[in] metric_name Input parameter.
-     * @param[in] limit Input parameter.
      */
     void setMetricCardinalityLimit(const std::string& metric_name, size_t limit);
 
     /**
      * @brief Return the number of distinct label-set series tracked for @p
      *        metric_name.
-     * @param[in] metric_name Input parameter.
-     * @return Return value.
      */
     size_t getSeriesCount(const std::string& metric_name) const;
 
     /**
      * @brief Return the total number of snapshot insertions rejected due to
      *        cardinality overflow.
-     * @return Return value.
      */
     int64_t getDroppedSnapshotCount() const;
 

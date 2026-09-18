@@ -176,11 +176,6 @@ public:
     // Construction / destruction
 
     TenantUpdateScheduler();
-    /**
-     * @brief TBD: Describe TenantUpdateScheduler.
-     * @param[in] clock_fn Input parameter.
-     * @return Return value.
-     */
     explicit TenantUpdateScheduler(ClockFn clock_fn);
     ~TenantUpdateScheduler() = default;
 
@@ -204,7 +199,6 @@ public:
      * After removal, `canUpdateNow()` returns false for the tenant unless
      * the CRITICAL bypass applies (`critical_auto_update` is true and the
      * update priority is CRITICAL).
-     * @param[in] tenant_id Input parameter.
      */
     void removeMaintenanceWindow(const std::string& tenant_id);
 
@@ -232,8 +226,6 @@ public:
     /**
      * @brief Remove a specific blackout period by its `id`.
      * @return true if the period was found and removed.
-     * @param[in] tenant_id Input parameter.
-     * @param[in] blackout_id Input parameter.
      */
     bool removeBlackoutPeriod(const std::string& tenant_id,
                               const std::string& blackout_id);
@@ -251,8 +243,6 @@ public:
 
     /**
      * @brief Set the update policy for a tenant.
-     * @param[in] tenant_id Input parameter.
-     * @param[in] policy Input parameter.
      */
     void setUpdatePolicy(const std::string& tenant_id,
                          const UpdatePolicy& policy);
@@ -260,7 +250,6 @@ public:
     /**
      * @brief Get the update policy for a tenant.
      * @return Default policy if none has been explicitly set.
-     * @param[in] tenant_id Input parameter.
      */
     UpdatePolicy getUpdatePolicy(const std::string& tenant_id) const;
 
@@ -292,14 +281,11 @@ public:
 
     /**
      * @brief Revoke previously granted consent (e.g., tenant changed mind).
-     * @param[in] tenant_id Input parameter.
      */
     void revokeConsent(const std::string& tenant_id);
 
     /**
      * @brief Check whether consent is currently granted for a tenant.
-     * @param[in] tenant_id Input parameter.
-     * @return True on success.
      */
     bool hasConsent(const std::string& tenant_id) const;
 
@@ -330,7 +316,6 @@ public:
      *
      * @return ISO-8601 UTC datetime string (e.g., "2026-03-14T02:00:00Z")
      *         or an empty string when no window can be found.
-     * @param[in] tenant_id Input parameter.
      */
     std::string getNextMaintenanceWindow(const std::string& tenant_id) const;
 
@@ -379,13 +364,11 @@ public:
 
     /**
      * @brief Return status snapshots for all known tenants.
-     * @return Return value.
      */
     std::vector<TenantUpdateStatus> getAllTenantStatuses() const;
 
     /**
      * @brief Remove all state for a tenant (de-provisioning).
-     * @param[in] tenant_id Input parameter.
      */
     void removeTenant(const std::string& tenant_id);
 
@@ -402,37 +385,18 @@ private:
         std::optional<std::chrono::system_clock::time_point> notification_time;
     };
 
-    /**
-     * @brief Parse "HH:MM" → minutes since midnight.
-     * @param[in] hhmm Input parameter.
-     * @return Return value.
-     * @details Returns -1 on parse error.
-     */
+    // Parse "HH:MM" → minutes since midnight.  Returns -1 on parse error.
     static int parseMinutes(const std::string& hhmm);
 
-    /**
-     * @brief Return true when the given UTC time falls within the window.
-     * @param[in] win Input parameter.
-     * @param[in] tp Input parameter.
-     * @return True on success.
-     */
+    // Return true when the given UTC time falls within the window.
     static bool isInWindow(const MaintenanceWindow& win,
                            std::chrono::system_clock::time_point tp);
 
-    /**
-     * @brief Return true when tp falls inside any active blackout period.
-     * @param[in] blackouts Input parameter.
-     * @param[in] tp Input parameter.
-     * @return True on success.
-     */
+    // Return true when tp falls inside any active blackout period.
     static bool isInBlackout(const std::vector<BlackoutPeriod>& blackouts,
                              std::chrono::system_clock::time_point tp);
 
-    /**
-     * @brief Format a time_point as "YYYY-MM-DDTHH:MM:SSZ".
-     * @param[in] tp Input parameter.
-     * @return Return value.
-     */
+    // Format a time_point as "YYYY-MM-DDTHH:MM:SSZ".
     static std::string formatUtc(std::chrono::system_clock::time_point tp);
 
     mutable std::mutex mutex_;

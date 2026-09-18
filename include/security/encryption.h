@@ -29,11 +29,6 @@ namespace themis {
  */
 class EncryptionException : public std::runtime_error {
 public:
-    /**
-     * @brief TBD: Describe EncryptionException.
-     * @param[in] message Input parameter.
-     * @return Return value.
-     */
     explicit EncryptionException(const std::string& message)
         : std::runtime_error("Encryption failed: " + message)
     {}
@@ -44,11 +39,6 @@ public:
  */
 class DecryptionException : public std::runtime_error {
 public:
-    /**
-     * @brief TBD: Describe DecryptionException.
-     * @param[in] message Input parameter.
-     * @return Return value.
-     */
     explicit DecryptionException(const std::string& message)
         : std::runtime_error("Decryption failed: " + message)
     {}
@@ -188,7 +178,6 @@ public:
      * 
      * @param key_provider Key management provider
      * @throws std::invalid_argument if key_provider is null
-     * @return Return value.
      */
     explicit FieldEncryption(std::shared_ptr<KeyProvider> key_provider);
     
@@ -309,7 +298,6 @@ public:
      * @return Decrypted plaintext
      * @throws DecryptionException if decryption fails or authentication fails
      * @throws KeyNotFoundException if key version does not exist
-     * @details Calls: decryptToString().
      */
     std::string decrypt(const EncryptedBlob& blob) { 
         return decryptToString(blob); 
@@ -448,38 +436,16 @@ private:
     EncryptionConfig config_;
     mutable Metrics metrics_;  // Thread-safe atomic counters
     
-    /**
-     * @brief Internal helpers
-     * @return Return value.
-     */
+    // Internal helpers
     std::vector<uint8_t> generateIV() const;
     
-    /**
-     * @brief TBD: Describe getKeyIdForField.
-     * @param[in] field_name Input parameter.
-     * @return Return value.
-     */
     std::string getKeyIdForField(const std::string& field_name) const;
     
-    /**
-     * @brief TBD: Describe encryptInternal.
-     * @param[in] plaintext Input parameter.
-     * @param[in] key_id Input parameter.
-     * @param[in] key_version Input parameter.
-     * @param[in] key Input parameter.
-     * @return Return value.
-     */
     EncryptedBlob encryptInternal(const std::vector<uint8_t>& plaintext,
                                    const std::string& key_id,
                                    uint32_t key_version,
                                    const std::vector<uint8_t>& key);
     
-    /**
-     * @brief TBD: Describe decryptInternal.
-     * @param[in] blob Input parameter.
-     * @param[in] key Input parameter.
-     * @return Return value.
-     */
     std::vector<uint8_t> decryptInternal(const EncryptedBlob& blob,
                                           const std::vector<uint8_t>& key);
 };
@@ -548,7 +514,6 @@ public:
      * @brief Construct from encrypted blob
      * 
      * @param blob Pre-encrypted data
-     * @return Return value.
      */
     explicit EncryptedField(const EncryptedBlob& blob);
     
@@ -623,17 +588,8 @@ private:
     EncryptedBlob blob_;
     static std::shared_ptr<FieldEncryption> field_encryption_;
     
-    /**
-     * @brief Type-specific serialization helpers
-     * @param[in] value Input parameter.
-     * @return Return value.
-     */
+    // Type-specific serialization helpers
     static std::string serialize(const T& value);
-    /**
-     * @brief TBD: Describe deserialize.
-     * @param[in] str Input parameter.
-     * @return Return value.
-     */
     static T deserialize(const std::string& str);
 };
 

@@ -116,8 +116,6 @@ public:
      * @brief Construct from configuration.
      *
      * @throws auth::AuthException (AUTH_CONFIG_INVALID) if required fields are empty.
-     * @param[in] config Input parameter.
-     * @return Return value.
      */
     explicit OAuth2Provider(const Config& config);
 
@@ -224,7 +222,6 @@ public:
      * @brief Inject a mock OIDC discovery document (bypasses HTTP fetch).
      *
      * Forwarded to the underlying OIDCProvider; for unit tests only.
-     * @param[in] doc Input parameter.
      */
     void setDiscoveryDocumentForTesting(const auth::OIDCDiscoveryDocument& doc);
 
@@ -254,7 +251,6 @@ public:
      *
      * Enables wiring a concrete revocation endpoint integration without changing
      * the logout endpoint contract.
-     * @param[in] fn Input parameter.
      */
     void setRefreshTokenRevocationFn(RefreshTokenRevocationFn fn);
 
@@ -316,13 +312,8 @@ private:
                                    const std::string& code_verifier,
                                    const std::string& redirect_uri_override = "");
 
-    /**
-     * @brief Perform a raw HTTP POST to the token endpoint with the given URL-encoded form body.
-     * @param[in] url Input parameter.
-     * @param[in] body Input parameter.
-     * @return Return value.
-     * @details Uses http_post_fn_ if set, otherwise real curl.
-     */
+    /// Perform a raw HTTP POST to the token endpoint with the given
+    /// URL-encoded form body.  Uses http_post_fn_ if set, otherwise real curl.
     std::string httpPost(const std::string& url, const std::string& body) const;
 
     // -----------------------------------------------------------------------

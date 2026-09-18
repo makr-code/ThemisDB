@@ -132,10 +132,6 @@ public:
      */
     virtual ~DiagnosticRecord() = default;
 
-    /**
-     * @brief TBD: Describe toFormattedMessage.
-     * @return Return value.
-     */
     virtual std::string toFormattedMessage() const;
 
     /**

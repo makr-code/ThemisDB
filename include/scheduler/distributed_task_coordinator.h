@@ -79,7 +79,6 @@ public:
      *                    election.  Must not be null.
      *
      * @throws std::invalid_argument if either scheduler or coordinator is null.
-     * @return Return value.
      */
     explicit DistributedTaskCoordinator(
       TaskScheduler* scheduler,
@@ -139,20 +138,17 @@ public:
     /**
      * @return true if this node is currently the cluster leader and is
      *         actively scheduling tasks.
-     * @brief TBD: Describe isLeader.
      */
     bool isLeader() const;
 
     /**
      * @return the node-id of the current cluster leader, or std::nullopt when
      *         no leader has been elected yet.
-     * @brief TBD: Describe getCurrentLeader.
      */
     std::optional<std::string> getCurrentLeader() const;
 
     /**
      * @return the local node-id as reported by the DistributedCoordinator.
-     * @brief TBD: Describe getLocalNodeId.
      */
     std::string getLocalNodeId() const;
 
@@ -180,7 +176,6 @@ public:
      */
     void deactivateScheduler();
 
-     * @brief TBD: Describe isSchedulerActive.
     /** @return true if the local TaskScheduler is currently running. */
     bool isSchedulerActive() const;
 
@@ -202,7 +197,6 @@ public:
      *
      * Removes the task from the local registry and, if this node is the leader,
      * from the active TaskScheduler as well.
-     * @param[in] task_id Input parameter.
      */
     void unregisterTask(const std::string& task_id);
 
@@ -211,7 +205,6 @@ public:
      *
      * Updates the local registry.  If this node is the leader, also enables
      * the task in the active TaskScheduler.
-     * @param[in] task_id Input parameter.
      */
     void enableTask(const std::string& task_id);
 
@@ -220,20 +213,17 @@ public:
      *
      * Updates the local registry.  If this node is the leader, also disables
      * the task in the active TaskScheduler.
-     * @param[in] task_id Input parameter.
      */
     void disableTask(const std::string& task_id);
 
     /**
      * @brief Return all tasks in the local registry.
-     * @return Return value.
      */
     std::vector<ScheduledTask> listTasks() const;
 
     /**
      * @brief Return a specific task from the local registry.
      * @return Shared pointer to the task, or nullptr if not found.
-     * @param[in] task_id Input parameter.
      */
     std::shared_ptr<ScheduledTask> getTask(const std::string& task_id) const;
 
@@ -255,10 +245,6 @@ public:
         size_t leadership_lost     = 0; ///< Number of times this node lost leadership
     };
 
-    /**
-     * @brief TBD: Describe getStats.
-     * @return Return value.
-     */
     Stats getStats() const;
 
     // ── Leadership notification ──────────────────────────────────────────────
@@ -368,17 +354,10 @@ private:
     std::atomic<std::chrono::milliseconds> last_heartbeat_ms_{std::chrono::milliseconds(0)};
     std::atomic<size_t>                 coordination_failures_{0};
 
-    /**
-     * @brief Generate a task ID for tasks without one (mirrors TaskScheduler logic).
-     * @param[in] task Input parameter.
-     * @return Return value.
-     */
+    // Generate a task ID for tasks without one (mirrors TaskScheduler logic).
     static std::string generateId(const ScheduledTask& task);
 
-    /**
-     * @brief Helper: runs heartbeat monitoring in a background thread
-     * @param[in] interval_ms Input parameter.
-     */
+    // Helper: runs heartbeat monitoring in a background thread
     void heartbeatMonitorThread(std::chrono::milliseconds interval_ms);
 };
 

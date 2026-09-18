@@ -115,72 +115,21 @@ private:
     uint64_t error_count_      = 0;
     std::string model_path_;
 
-    /**
-     * @brief Internal helper: run generate without locking (caller holds generate_mutex_)
-     * @param[in] prompt Input parameter.
-     * @param[in] cfg Input parameter.
-     * @return Return value.
-     */
+    // Internal helper: run generate without locking (caller holds generate_mutex_)
     GeneratedImage generateLocked(const std::string& prompt,
                                    const SDGenerationConfig& cfg);
-    /**
-     * @brief TBD: Describe generateImg2ImgLocked.
-     * @param[in] prompt Input parameter.
-     * @param[in] cfg Input parameter.
-     * @return Return value.
-     */
     GeneratedImage generateImg2ImgLocked(const std::string& prompt,
                                          const Img2ImgConfig& cfg);
-    /**
-     * @brief TBD: Describe validateGenerationDimensions.
-     * @param[in] width Input parameter.
-     * @param[in] height Input parameter.
-     * @param[in,out] error_out Input/output parameter.
-     * @return True on success.
-     */
     static bool validateGenerationDimensions(int width, int height, std::string& error_out);
-    /**
-     * @brief TBD: Describe validateRgbBufferShape.
-     * @param[in] rgb Input parameter.
-     * @param[in] width Input parameter.
-     * @param[in] height Input parameter.
-     * @param[in,out] error_out Input/output parameter.
-     * @return True on success.
-     */
     static bool validateRgbBufferShape(const std::vector<uint8_t>& rgb,
                                        int width,
                                        int height,
                                        std::string& error_out);
-    /**
-     * @brief TBD: Describe normalizeLowerHex.
-     * @param[in] hex Input parameter.
-     * @return Return value.
-     */
     static std::string normalizeLowerHex(const std::string& hex);
 
-    /**
-     * @brief TBD: Describe sha256Hex.
-     * @param[in] input Input parameter.
-     * @return Return value.
-     */
     static std::string sha256Hex(const std::string& input);
-    /**
-     * @brief TBD: Describe computePerceptualHash.
-     * @param[in] rgb Input parameter.
-     * @param[in] width Input parameter.
-     * @param[in] height Input parameter.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
     static std::optional<std::string> computePerceptualHash(const std::vector<uint8_t>& rgb,
                                                             int width, int height) noexcept;
-    /**
-     * @brief TBD: Describe encodeMinimalPng.
-     * @param[in] rgb Input parameter.
-     * @param[in] width Input parameter.
-     * @param[in] height Input parameter.
-     * @return Return value.
-     */
     static std::vector<uint8_t> encodeMinimalPng(const std::vector<uint8_t>& rgb,
                                                   int width, int height);
 };

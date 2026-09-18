@@ -84,11 +84,6 @@ public:
      * @brief Construct evaluator with configuration
      */
     RubricEvaluator();
-    /**
-     * @brief TBD: Describe RubricEvaluator.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit RubricEvaluator(const Config& config);
     
     /**

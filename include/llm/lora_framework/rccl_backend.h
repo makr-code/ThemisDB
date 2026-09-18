@@ -107,13 +107,11 @@ public:
     
     /**
      * @brief Check if RCCL is available on this system
-     * @return True on success.
      */
     static bool is_available();
     
     /**
      * @brief Get RCCL version
-     * @return Return value.
      */
     static std::string get_version();
     
@@ -131,14 +129,7 @@ private:
 #endif
 #endif
     
-    /**
-     * @brief TBD: Describe initialize_rccl.
-     * @return True on success.
-     */
     bool initialize_rccl();
-    /**
-     * @brief TBD: Describe cleanup_rccl.
-     */
     void cleanup_rccl();
 };
 

@@ -217,10 +217,9 @@ public:
 
     ~QUICServer();
 
-    /**
-     * @brief Bind the UDP socket, initialise TLS context, and start I/O threads.
-     * @details Logs an error and returns without starting if cert/key are missing or the TLS context cannot be created.
-     */
+    /// Bind the UDP socket, initialise TLS context, and start I/O threads.
+    /// Logs an error and returns without starting if cert/key are missing or
+    /// the TLS context cannot be created.
     void start();
 
     /// Gracefully close all connections and join all I/O threads.
@@ -248,7 +247,6 @@ public:
     /**
      * @brief Validate @p algo as a known congestion control name.
      * @return true for "bbr" or "cubic" (case-insensitive); false otherwise.
-     * @param[in] algo Input parameter.
      */
     static bool isValidCongestionControl(const std::string& algo);
 
@@ -258,8 +256,6 @@ public:
      * Rejects 0, 80, 443 and known ThemisDB transport ports that QUICServer
      * must not shadow: 8766 (TCP wire), 8770 (QuicTransport), 8771 (gRPC),
      * 8772 (DPDK), 8773 (io_uring), 8774 (Raft).
-     * @param[in] port Input parameter.
-     * @return True on success.
      */
     static bool isValidPort(uint16_t port);
 
@@ -287,23 +283,10 @@ private:
     using SslCtxOwner = std::unique_ptr<SSL_CTX, SslCtxDeleter>;
     using QuicConnOwner = std::unique_ptr<ngtcp2_conn, QuicConnDeleter>;
 
-    /**
-     * @brief TBD: Describe doReceive.
-     */
     void doReceive();
-    /**
-     * @brief TBD: Describe handlePacket.
-     * @param[in] sender Input parameter.
-     * @param[in] data Input parameter.
-     * @param[in] len Input parameter.
-     */
     void handlePacket(const udp::endpoint& sender,
                       const uint8_t*       data,
                       std::size_t          len);
-    /**
-     * @brief TBD: Describe checkConnectionLimit.
-     * @return True on success.
-     */
     bool checkConnectionLimit();
 
     Config                          config_;
@@ -373,12 +356,6 @@ public:
      */
     class Stream {
     public:
-        /**
-         * @brief TBD: Describe Stream.
-         * @param[in] stream_id Input parameter.
-         * @param[in,out] owner Input/output parameter.
-         * @return Return value.
-         */
         explicit Stream(int64_t stream_id, QUICClient* owner);
         ~Stream();
 
@@ -432,10 +409,10 @@ public:
 
     ~QUICClient();
 
-    /**
-     * @brief Establish a QUIC connection to the target URL.
-     * @details Performs a full 1-RTT handshake (or 0-RTT if a session ticket exists and enable_0rtt is true). Throws std::runtime_error on connection failure or timeout.
-     */
+    /// Establish a QUIC connection to the target URL.
+    /// Performs a full 1-RTT handshake (or 0-RTT if a session ticket exists
+    /// and enable_0rtt is true).
+    /// Throws std::runtime_error on connection failure or timeout.
     void connect();
 
     /// Gracefully close the QUIC connection (GOAWAY + CONNECTION_CLOSE).
@@ -444,11 +421,8 @@ public:
     /// Returns true after connect() succeeds and before disconnect().
     bool isConnected() const { return connected_.load(std::memory_order_acquire); }
 
-    /**
-     * @brief Open a new bidirectional QUIC stream.
-     * @return Return value.
-     * @details Throws std::runtime_error if not connected or stream limit exceeded.
-     */
+    /// Open a new bidirectional QUIC stream.
+    /// Throws std::runtime_error if not connected or stream limit exceeded.
     std::unique_ptr<Stream> openStream();
 
     // ── Static helpers ────────────────────────────────────────────────────────

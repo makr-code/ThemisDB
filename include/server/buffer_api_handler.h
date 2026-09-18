@@ -77,8 +77,6 @@ public:
      *   "timestamp": number,
      *   "value": number
      * }
-     * @param[in] req Input parameter.
-     * @return Return value.
      */
     http::response<http::string_body> handleTSPutBuffered(
         const http::request<http::string_body>& req);
@@ -91,8 +89,6 @@ public:
      *   "embedding": [float...],
      *   "metadata": {...}
      * }
-     * @param[in] req Input parameter.
-     * @return Return value.
      */
     http::response<http::string_body> handleVectorAddBuffered(
         const http::request<http::string_body>& req);
@@ -106,8 +102,6 @@ public:
      *   "pk": "string",
      *   "properties": {...}
      * }
-     * @param[in] req Input parameter.
-     * @return Return value.
      */
     http::response<http::string_body> handleGraphAddBuffered(
         const http::request<http::string_body>& req);
@@ -120,8 +114,6 @@ public:
      *   "vector_buffer": {...},
      *   "graph_buffer": {...}
      * }
-     * @param[in] req Input parameter.
-     * @return Return value.
      */
     http::response<http::string_body> handleBufferStats(
         const http::request<http::string_body>& req);
@@ -132,8 +124,6 @@ public:
      * Body: {
      *   "buffer": "all" | "ts" | "vector" | "graph"
      * }
-     * @param[in] req Input parameter.
-     * @return Return value.
      */
     http::response<http::string_body> handleBufferFlush(
         const http::request<http::string_body>& req);
@@ -149,25 +139,12 @@ private:
     std::unique_ptr<VectorAutoBuffer> vector_buffer_;
     std::unique_ptr<GraphAutoBuffer> graph_buffer_;
     
-    /**
-     * @brief Helper methods
-     * @param[in] status Input parameter.
-     * @param[in] body Input parameter.
-     * @param[in] req Input parameter.
-     * @return Return value.
-     */
+    // Helper methods
     http::response<http::string_body> makeResponse(
         http::status status,
         const json& body,
         const http::request<http::string_body>& req);
     
-    /**
-     * @brief TBD: Describe makeErrorResponse.
-     * @param[in] status Input parameter.
-     * @param[in] message Input parameter.
-     * @param[in] req Input parameter.
-     * @return Return value.
-     */
     http::response<http::string_body> makeErrorResponse(
         http::status status,
         const std::string& message,

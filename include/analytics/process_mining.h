@@ -291,26 +291,10 @@ public:
     struct Status {
         bool ok = true;
         std::string message;
-        /**
-         * @brief TBD: Describe OK.
-         * @return Return value.
-         * @details Implements OK without additional internal calls.
-         */
         static Status OK() { return {}; }
-        /**
-         * @brief TBD: Describe Error.
-         * @param[in] msg Input parameter.
-         * @return Return value.
-         * @details Calls: std::move().
-         */
         static Status Error(std::string msg) { return Status{false, std::move(msg)}; }
     };
 
-    /**
-     * @brief TBD: Describe ProcessMining.
-     * @param[in,out] db Input/output parameter.
-     * @return Return value.
-     */
     explicit ProcessMining(RocksDBWrapper& db);
     
     // ===== Event Log Extraktion =====
@@ -489,9 +473,6 @@ public:
      * @brief Speichert als ThemisDB Prozess-Definition
      * 
      * Erstellt Einträge in _process_definitions, _process_nodes, _process_edges
-     * @param[in] model Input parameter.
-     * @param[in] process_id Input parameter.
-     * @return Return value.
      */
     Status saveAsProcessDefinition(
         const DiscoveredProcess& model,
@@ -553,39 +534,13 @@ public:
 private:
     RocksDBWrapper& db_;
     
-    /**
-     * @brief Mining-Algorithmus-Implementierungen
-     * @param[in] log Input parameter.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
+    // Mining-Algorithmus-Implementierungen
     DiscoveredProcess runAlphaMiner(const EventLog& log, const MiningConfig& config);
-    /**
-     * @brief TBD: Describe runHeuristicMiner.
-     * @param[in] log Input parameter.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     DiscoveredProcess runHeuristicMiner(const EventLog& log, const MiningConfig& config);
-    /**
-     * @brief TBD: Describe runInductiveMiner.
-     * @param[in] log Input parameter.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     DiscoveredProcess runInductiveMiner(const EventLog& log, const MiningConfig& config);
     
-    /**
-     * @brief Hilfsfunktionen
-     * @param[in] activities Input parameter.
-     * @return Return value.
-     */
+    // Hilfsfunktionen
     std::string computeVariantSignature(const std::vector<std::string>& activities);
-    /**
-     * @brief TBD: Describe embedActivities.
-     * @param[in] activities Input parameter.
-     * @return Return value.
-     */
     std::vector<float> embedActivities(const std::vector<std::string>& activities);
 };
 

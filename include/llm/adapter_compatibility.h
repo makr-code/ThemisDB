@@ -26,10 +26,6 @@ namespace llm {
 /// Validates LoRA adapter compatibility with base models
 class AdapterCompatibilityValidator {
 public:
-    /**
-     * @brief TBD: Describe ~AdapterCompatibilityValidator.
-     * @return Return value.
-     */
     virtual ~AdapterCompatibilityValidator() = default;
     /// Validation level
     enum class ValidationLevel {
@@ -54,10 +50,6 @@ public:
         std::string message;
         bool is_critical = true;  // If true, failure blocks deployment
         
-        /**
-         * @brief TBD: Describe toString.
-         * @return Return value.
-         */
         std::string toString() const;
     };
     
@@ -74,15 +66,7 @@ public:
         size_t passed_checks = 0;
         size_t failed_critical_checks = 0;
         
-        /**
-         * @brief TBD: Describe toFormattedString.
-         * @return Return value.
-         */
         std::string toFormattedString() const;
-        /**
-         * @brief TBD: Describe toJson.
-         * @return Return value.
-         */
         nlohmann::json toJson() const;
     };
     
@@ -103,13 +87,10 @@ public:
         const std::string& base_model_version = ""
     );
     
-    /**
-     * @brief Quick check: Can adapter be used with base model?
-     * @param[in] adapter Input parameter.
-     * @param[in] base_model_name Input parameter.
-     * @return True on success.
-     * @details @param adapter Adapter metadata @param base_model_name Base model name @return true if compatible (fast check)
-     */
+    /// Quick check: Can adapter be used with base model?
+    /// @param adapter Adapter metadata
+    /// @param base_model_name Base model name
+    /// @return true if compatible (fast check)
     bool isCompatible(
         const AdapterMetadata& adapter,
         const std::string& base_model_name
@@ -131,10 +112,6 @@ public:
         std::vector<std::string> supported_versions;
         std::string tokenizer_type;
         
-        /**
-         * @brief TBD: Describe toJson.
-         * @return Return value.
-         */
         nlohmann::json toJson() const;
     };
     
@@ -163,82 +140,41 @@ private:
     std::map<CompatibilityCheck::CheckType, bool> enabled_checks_;
     std::map<std::string, ModelSpec> known_models_;
     
-    /**
-     * @brief Individual check implementations
-     * @param[in] adapter Input parameter.
-     * @param[in] base_model_name Input parameter.
-     * @return Return value.
-     */
+    // Individual check implementations
     CompatibilityCheck checkModelNameMatch(
         const AdapterMetadata& adapter,
         const std::string& base_model_name
     );
     
-    /**
-     * @brief TBD: Describe checkArchitectureMatch.
-     * @param[in] adapter Input parameter.
-     * @param[in] base_model_name Input parameter.
-     * @return Return value.
-     */
     CompatibilityCheck checkArchitectureMatch(
         const AdapterMetadata& adapter,
         const std::string& base_model_name
     );
     
-    /**
-     * @brief TBD: Describe checkDimensionCompatibility.
-     * @param[in] adapter Input parameter.
-     * @param[in] base_model_name Input parameter.
-     * @return Return value.
-     */
     CompatibilityCheck checkDimensionCompatibility(
         const AdapterMetadata& adapter,
         const std::string& base_model_name
     );
     
-    /**
-     * @brief TBD: Describe checkTokenizerCompatibility.
-     * @param[in] adapter Input parameter.
-     * @param[in] base_model_name Input parameter.
-     * @return Return value.
-     */
     CompatibilityCheck checkTokenizerCompatibility(
         const AdapterMetadata& adapter,
         const std::string& base_model_name
     );
     
-    /**
-     * @brief TBD: Describe checkVersionCompatibility.
-     * @param[in] adapter Input parameter.
-     * @param[in] base_model_version Input parameter.
-     * @return Return value.
-     */
     CompatibilityCheck checkVersionCompatibility(
         const AdapterMetadata& adapter,
         const std::string& base_model_version
     );
     
-    /**
-     * @brief TBD: Describe checkQuantizationCompatibility.
-     * @param[in] adapter Input parameter.
-     * @param[in] base_model_name Input parameter.
-     * @return Return value.
-     */
     CompatibilityCheck checkQuantizationCompatibility(
         const AdapterMetadata& adapter,
         const std::string& base_model_name
     );
     
-    /**
-     * @brief Helper: Initialize known model database
-     */
+    // Helper: Initialize known model database
     void initializeKnownModels();
     
-    /**
-     * @brief Helper: Normalize model name (handle variations)
-     * @param[in] model_name Input parameter.
-     * @return Return value.
-     */
+    // Helper: Normalize model name (handle variations)
     std::string normalizeModelName(const std::string& model_name) const;
     
     // Helper: Parse version string
@@ -249,18 +185,7 @@ private:
         std::string variant;  // e.g., "instruct", "chat"
     };
     
-    /**
-     * @brief TBD: Describe parseVersion.
-     * @param[in] version_str Input parameter.
-     * @return Return value.
-     */
     VersionParts parseVersion(const std::string& version_str) const;
-    /**
-     * @brief TBD: Describe areVersionsCompatible.
-     * @param[in] v1 Input parameter.
-     * @param[in] v2 Input parameter.
-     * @return True on success.
-     */
     bool areVersionsCompatible(const VersionParts& v1, const VersionParts& v2) const;
 };
 
@@ -284,20 +209,14 @@ public:
         double estimated_effort = 0.0;  // 0.0-1.0 (training time ratio)
         std::string recommendation;
         
-        /**
-         * @brief TBD: Describe toJson.
-         * @return Return value.
-         */
         nlohmann::json toJson() const;
     };
     
-    /**
-     * @brief Analyze migration from source to target model @param adapter Current adapter metadata @param source_model Current base model @param target_model Target base model @return Migration plan
-     * @param[in] adapter Input parameter.
-     * @param[in] source_model Input parameter.
-     * @param[in] target_model Input parameter.
-     * @return Return value.
-     */
+    /// Analyze migration from source to target model
+    /// @param adapter Current adapter metadata
+    /// @param source_model Current base model
+    /// @param target_model Target base model
+    /// @return Migration plan
     static MigrationPlan analyzeMigration(
         const AdapterMetadata& adapter,
         const std::string& source_model,

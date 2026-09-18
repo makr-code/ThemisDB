@@ -203,11 +203,6 @@ public:
     };
 
     LearningMetrics();
-    /**
-     * @brief TBD: Describe LearningMetrics.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit LearningMetrics(const Config& config);
     ~LearningMetrics();
 
@@ -239,24 +234,8 @@ private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
 
-    /**
-     * @brief TBD: Describe computeMean.
-     * @param[in] data Input parameter.
-     * @return Return value.
-     */
     double computeMean(const std::deque<double>& data) const;
-    /**
-     * @brief TBD: Describe computeStdDev.
-     * @param[in] data Input parameter.
-     * @param[in] mean Input parameter.
-     * @return Return value.
-     */
     double computeStdDev(const std::deque<double>& data, double mean) const;
-    /**
-     * @brief TBD: Describe computeTrend.
-     * @param[in] data Input parameter.
-     * @return Return value.
-     */
     double computeTrend(const std::deque<double>& data) const;
 };
 

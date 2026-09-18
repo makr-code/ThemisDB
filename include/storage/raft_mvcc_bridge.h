@@ -189,7 +189,6 @@ public:
 
     // ─── Accessors ────────────────────────────────────────────────────────────
 
-     * @brief TBD: Describe isLeader.
     /** @return Whether this node is the current Raft leader. */
     bool isLeader() const;
 

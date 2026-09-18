@@ -102,10 +102,6 @@ public:
                  std::function<bool(const uint8_t*, size_t)> callback) const;
 
 private:
-    /**
-     * @brief TBD: Describe releaseResources.
-     * @note Exception safety: noexcept.
-     */
     void releaseResources() noexcept;
 
     void*    mapping_ = nullptr;  // raw mmap pointer (MAP_FAILED → nullptr)

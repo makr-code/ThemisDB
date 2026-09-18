@@ -115,8 +115,6 @@ public:
      *
      * @throws AuthException (AUTH_CONFIG_INVALID) if verify_chain is true and
      *         ca_cert_pem is empty.
-     * @param[in] config Input parameter.
-     * @return Return value.
      */
     explicit MTLSAuthenticator(const Config& config);
 
@@ -188,13 +186,11 @@ public:
      * @brief Return true if a given serial number is in the runtime revocation set.
      *
      * @param serial_hex  Hex-encoded serial number to query.
-     * @return True on success.
      */
     bool isRevoked(const std::string& serial_hex) const;
 
     /**
      * @brief Return the number of entries in the runtime revocation set.
-     * @return Return value.
      */
     size_t revokedCount() const;
 
@@ -223,7 +219,6 @@ public:
     /**
      * @brief Attach an AuthAuditLogger that receives mTLS success/failure events.
      * @param logger Non-owning pointer; may be nullptr (disables audit logging).
-     * @details Implements setAuditLogger without additional internal calls.
      */
     void setAuditLogger(AuthAuditLogger* logger) { audit_logger_ = logger; }
 
@@ -237,41 +232,12 @@ private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
 
-    /**
-     * @brief TBD: Describe initCAStore.
-     * @return True on success.
-     */
     bool initCAStore();
-    /**
-     * @brief TBD: Describe initCRL.
-     * @return True on success.
-     */
     bool initCRL();
 
-    /**
-     * @brief TBD: Describe x509NameToString.
-     * @param[in,out] name Input/output parameter.
-     * @return Return value.
-     */
     static std::string x509NameToString(void* name);
-    /**
-     * @brief TBD: Describe serialToHex.
-     * @param[in,out] serial Input/output parameter.
-     * @return Return value.
-     */
     static std::string serialToHex(void* serial);
-    /**
-     * @brief TBD: Describe computeFingerprint.
-     * @param[in,out] x509 Input/output parameter.
-     * @return Return value.
-     */
     static std::string computeFingerprint(void* x509);
-    /**
-     * @brief TBD: Describe extractSANs.
-     * @param[in,out] x509 Input/output parameter.
-     * @param[in] san_type Input parameter.
-     * @return Return value.
-     */
     static std::vector<std::string> extractSANs(void* x509, int san_type);
 };
 

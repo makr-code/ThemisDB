@@ -37,7 +37,6 @@ namespace auth_scope_mapper {
  * 
  * @param required_role The role name (e.g., "admin", "operator")
  * @return The corresponding policy scope
- * @details Implements mapPolicyRoleToScope without additional internal calls.
  */
 inline std::string mapPolicyRoleToScope(const std::string& required_role) {
     if (required_role == "admin") {
@@ -59,7 +58,6 @@ inline std::string mapPolicyRoleToScope(const std::string& required_role) {
  * 
  * @param required_role The role name (e.g., "admin", "operator")
  * @return The corresponding audit scope
- * @details Implements mapAuditRoleToScope without additional internal calls.
  */
 inline std::string mapAuditRoleToScope(const std::string& required_role) {
     if (required_role == "admin") {

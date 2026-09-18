@@ -93,10 +93,6 @@ struct ExportResult {
  */
 class IAnalyticsExporter {
 public:
-    /**
-     * @brief TBD: Describe ~IAnalyticsExporter.
-     * @return Return value.
-     */
     virtual ~IAnalyticsExporter() = default;
 
     /// @brief Move constructor for polymorphic analytics exporter base.

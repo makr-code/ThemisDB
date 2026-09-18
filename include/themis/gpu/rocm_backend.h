@@ -89,11 +89,9 @@ public:
         bool is_valid() const noexcept { return device_ptr != 0; }
     };
 
-    /**
-     * @brief ----------------------------------------------------------------------- Singleton -----------------------------------------------------------------------
-     * @return Return value.
-     * @details Implements GetInstance without additional internal calls.
-     */
+    // -----------------------------------------------------------------------
+    // Singleton
+    // -----------------------------------------------------------------------
     static ROCmBackend& GetInstance() {
         static ROCmBackend instance;
         return instance;
@@ -108,13 +106,11 @@ public:
      *
      * Returns 0 when `THEMIS_ENABLE_HIP` is not defined or when no device is
      * detected at runtime.
-     * @return Return value.
      */
     int deviceCount() const;
 
     /**
      * @brief True when at least one HIP device is available and responsive.
-     * @return True on success.
      */
     bool isAvailable() const;
 
@@ -160,7 +156,6 @@ public:
      *
      * Calls `hipStreamDestroy` when `THEMIS_ENABLE_HIP` is active.
      * @return ok == false when no stream with @p name exists.
-     * @param[in] name Input parameter.
      */
     Result destroyStream(const std::string& name);
 
@@ -170,21 +165,15 @@ public:
      * Calls `hipStreamSynchronize` when `THEMIS_ENABLE_HIP` is active.
      * @return ok == false when the stream does not exist or synchronization
      *         fails.
-     * @param[in] name Input parameter.
      */
     Result synchronizeStream(const std::string& name);
 
-     * @param[in] name Input parameter.
-     * @return Return value.
     /** @brief Return the handle for a named stream (invalid if not found). */
     StreamHandle getStream(const std::string& name) const;
 
-     * @param[in] name Input parameter.
-     * @return True on success.
     /** @brief True when a stream with @p name has been created. */
     bool hasStream(const std::string& name) const;
 
-     * @return Return value.
     /** @brief Return all registered stream names. */
     std::vector<std::string> streamNames() const;
 
@@ -209,8 +198,6 @@ public:
      *
      * Calls `hipFree` on the stored pointer; safe to call with an invalid
      * record.  Clears @p rec on success.
-     * @param[in,out] rec Input/output parameter.
-     * @return Return value.
      */
     Result deallocate(AllocationRecord& rec);
 
@@ -222,7 +209,6 @@ public:
      *
      * @param device_ptr  Device pointer (hipMalloc result cast to uintptr_t).
      * @param size_bytes  Bytes to zero.
-     * @return Return value.
      */
     Result zeroMemory(uintptr_t device_ptr, size_t size_bytes);
 
@@ -237,10 +223,6 @@ public:
         size_t bytes_allocated    = 0;  ///< Current live device bytes
     };
 
-    /**
-     * @brief TBD: Describe getStats.
-     * @return Return value.
-     */
     Stats getStats() const;
 
     /**

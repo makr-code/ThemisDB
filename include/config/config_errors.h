@@ -48,13 +48,6 @@ private:
     std::string requested_path_ = {};
     std::vector<std::string> attempted_paths_;
     
-    /**
-     * @brief TBD: Describe buildMessage.
-     * @param[in] path Input parameter.
-     * @param[in] attempted Input parameter.
-     * @return Return value.
-     * @details Calls: empty().
-     */
     static std::string buildMessage(const std::string& path,
                                     const std::vector<std::string>& attempted) {
         std::string msg = "Config file not found: " + path;
@@ -73,11 +66,6 @@ private:
  */
 class MappingNotFoundException : public ConfigException {
 public:
-    /**
-     * @brief TBD: Describe MappingNotFoundException.
-     * @param[in] path Input parameter.
-     * @return Return value.
-     */
     explicit MappingNotFoundException(const std::string& path)
         : ConfigException("No mapping found for legacy path: " + path),
           legacy_path_(path) {}
@@ -111,11 +99,6 @@ private:
  */
 class ConfigPermissionException : public ConfigException {
 public:
-    /**
-     * @brief TBD: Describe ConfigPermissionException.
-     * @param[in] path Input parameter.
-     * @return Return value.
-     */
     explicit ConfigPermissionException(const std::string& path)
         : ConfigException("Permission denied accessing config: " + path),
           config_path_(path) {}

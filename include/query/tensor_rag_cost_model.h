@@ -152,10 +152,6 @@ struct RagCostBreakdown {
         return WorkloadType::VECTOR_SEARCH;  // TENSOR_RAG maps to VECTOR_SEARCH for now
     }
 
-    /**
-     * @brief TBD: Describe summary.
-     * @return Return value.
-     */
     std::string summary() const;
 };
 
@@ -316,33 +312,9 @@ public:
         out.path = path;
 
         switch (path) {
-            /**
-             * @brief TBD: Describe estimateHnswFlat.
-             * @param[in] p Input parameter.
-             * @param[in] out Input parameter.
-             * @return Return value.
-             */
             case RagRetrievalPath::HNSW_FLAT:    estimateHnswFlat(p, out);    break;
-            /**
-             * @brief TBD: Describe estimateFaissIvfPq.
-             * @param[in] p Input parameter.
-             * @param[in] out Input parameter.
-             * @return Return value.
-             */
             case RagRetrievalPath::FAISS_IVF_PQ: estimateFaissIvfPq(p, out); break;
-            /**
-             * @brief TBD: Describe estimateTtHybrid.
-             * @param[in] p Input parameter.
-             * @param[in] out Input parameter.
-             * @return Return value.
-             */
             case RagRetrievalPath::TT_HYBRID:    estimateTtHybrid(p, out);    break;
-            /**
-             * @brief TBD: Describe estimateTtZeroCopy.
-             * @param[in] p Input parameter.
-             * @param[in] out Input parameter.
-             * @return Return value.
-             */
             case RagRetrievalPath::TT_ZERO_COPY: estimateTtZeroCopy(p, out);  break;
         }
         return out;

@@ -69,9 +69,6 @@ enum class TierClassification {
 
 /**
  * @brief Get tier classification from level.
- * @param[in] level Input parameter.
- * @return Return value.
- * @details Calls: THEMIS_UNREACHABLE().
  */
 constexpr TierClassification classifyTier(TierLevel level) {
     switch (level) {
@@ -90,9 +87,6 @@ constexpr TierClassification classifyTier(TierLevel level) {
 
 /**
  * @brief String representation of tier level.
- * @param[in] level Input parameter.
- * @return Return value.
- * @details Implements tierLevelName without additional internal calls.
  */
 constexpr std::string_view tierLevelName(TierLevel level) {
     switch (level) {
@@ -237,10 +231,6 @@ struct TierPromotionResult {
  */
 class AccessTier {
 public:
-    /**
-     * @brief TBD: Describe ~AccessTier.
-     * @return Return value.
-     */
     virtual ~AccessTier() = default;
 
     /// ────────────────────────────────────────────────────────────────────
@@ -292,26 +282,21 @@ public:
 
     /**
      * @brief Get the tier level this instance represents.
-     * @return Return value.
      */
     virtual TierLevel getTierLevel() const = 0;
 
     /**
      * @brief Get human-readable tier name.
-     * @return Return value.
      */
     virtual std::string getTierName() const = 0;
 
     /**
      * @brief Check if a key exists in this tier.
-     * @param[in] key Input parameter.
-     * @return True on success.
      */
     virtual bool hasKey(std::string_view key) const = 0;
 
     /**
      * @brief Get current size in bytes of all data in this tier.
-     * @return Return value.
      */
     virtual std::size_t getCurrentSizeBytes() const = 0;
 
@@ -319,13 +304,11 @@ public:
      * @brief Get maximum capacity in bytes for this tier.
      *
      * Return 0 or kMaxTierCapacity for unlimited capacity.
-     * @return Return value.
      */
     virtual std::size_t getMaxCapacityBytes() const = 0;
 
     /**
      * @brief Get number of entries in this tier.
-     * @return Return value.
      */
     virtual std::size_t getEntryCount() const = 0;
 
@@ -342,13 +325,11 @@ public:
 
     /**
      * @brief Get average latency for get operations in microseconds.
-     * @return Return value.
      */
     virtual std::chrono::microseconds getAverageGetLatency() const = 0;
 
     /**
      * @brief Get average latency for put operations in microseconds.
-     * @return Return value.
      */
     virtual std::chrono::microseconds getAveragePutLatency() const = 0;
 
@@ -356,7 +337,6 @@ public:
      * @brief Get access count for a specific key.
      *
      * @return Access count, or 0 if key not found or not tracked
-     * @param[in] key Input parameter.
      */
     virtual uint64_t getAccessCount(std::string_view key) const = 0;
 
@@ -364,7 +344,6 @@ public:
      * @brief Get age of a key in this tier (time since write).
      *
      * @return Age in seconds, or -1 if key not found or not tracked
-     * @param[in] key Input parameter.
      */
     virtual std::chrono::seconds getKeyAge(std::string_view key) const = 0;
 
@@ -420,7 +399,6 @@ public:
 
     /**
      * @brief Check if this tier is currently healthy (operational).
-     * @return True on success.
      */
     virtual bool isHealthy() const = 0;
 };
@@ -441,9 +419,6 @@ public:
      *
      * Implementations should notify the `AccessCoordinator` to consider
      * promoting data to a higher-tier storage level.
-     * @param[in] key Input parameter.
-     * @param[in] size_bytes Input parameter.
-     * @param[in] access_count Input parameter.
      */
     virtual void notifyEviction(std::string_view key, std::size_t size_bytes,
                                uint64_t access_count) = 0;
@@ -461,9 +436,6 @@ public:
      *
      * Implementations should notify the `AccessCoordinator` to consider
      * promoting data to a higher-tier cache level.
-     * @param[in] key Input parameter.
-     * @param[in] access_count Input parameter.
-     * @param[in] access_window Input parameter.
      */
     virtual void notifyHotAccess(std::string_view key, uint64_t access_count,
                                 std::chrono::seconds access_window) = 0;

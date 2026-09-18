@@ -166,10 +166,6 @@ public:
      */
     using MockHttpFn = std::function<std::string(const std::string& url,
                                                   const std::string& body)>;
-    /**
-     * @brief TBD: Describe setMockHttpForTesting.
-     * @param[in] fn Input parameter.
-     */
     void setMockHttpForTesting(MockHttpFn fn);
 
 private:
@@ -191,13 +187,8 @@ private:
     /// Sanitises a connection URL: replaces password in userinfo with "***".
     static std::string sanitiseUrl(const std::string& url);
 
-    /**
-     * @brief Performs a single scroll-page request; returns parsed document array.
-     * @param[in] scroll_id Input parameter.
-     * @param[in,out] error_out Input/output parameter.
-     * @return Return value.
-     * @details Returns empty vector on error; sets @p error_out on failure.
-     */
+    /// Performs a single scroll-page request; returns parsed document array.
+    /// Returns empty vector on error; sets @p error_out on failure.
     std::vector<json> fetchScrollPage(const std::string& scroll_id,
                                       std::string& error_out);
 

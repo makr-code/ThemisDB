@@ -70,15 +70,7 @@ public:
     GraphTruthValidator() = default;
     ~GraphTruthValidator() = default;
 
-    /**
-     * @brief TBD: Describe setOntologyRetriever.
-     * @param[in] retriever Input parameter.
-     */
     void setOntologyRetriever(std::shared_ptr<OntologyAwareRetriever> retriever);
-    /**
-     * @brief TBD: Describe setKnowledgeGraphRetriever.
-     * @param[in] retriever Input parameter.
-     */
     void setKnowledgeGraphRetriever(std::shared_ptr<kg::KnowledgeGraphRetriever> retriever);
 
     [[nodiscard]] GraphTruthValidationResult validate(

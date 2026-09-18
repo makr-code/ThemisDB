@@ -118,12 +118,6 @@ public:
         }
     };
 
-    /**
-     * @brief TBD: Describe LLMResponseCache.
-     * @param[in] cache_name Input parameter.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit LLMResponseCache(const std::string& cache_name, const Config& config);
     ~LLMResponseCache();  // Must be defined in .cpp where VectorIndexManager is complete
 
@@ -167,14 +161,12 @@ public:
 
     /**
      * @brief Get cache statistics
-     * @return Return value.
      */
     CacheStatistics getStatistics() const;
 
     /**
      * @brief Set metrics collector for recording cache metrics
      * @param collector Pointer to metrics collector (optional)
-     * @details Implements setMetricsCollector without additional internal calls.
      */
     void setMetricsCollector(monitoring::LLMMetricsCollector* collector) {
         metrics_collector_ = collector;
@@ -219,15 +211,11 @@ private:
     /**
      * @brief Generate simple feature-based embedding (fallback)
      * Used when no LLM is available
-     * @param[in] prompt Input parameter.
-     * @return Return value.
      */
     std::vector<float> generateSimpleEmbedding(const std::string& prompt) const;
 
     /**
      * @brief Check if entry has expired based on TTL
-     * @param[in] entry Input parameter.
-     * @return True on success.
      */
     bool isExpired(const CachedEntry& entry) const;
 };

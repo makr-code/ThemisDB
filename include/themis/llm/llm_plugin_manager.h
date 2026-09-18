@@ -11,21 +11,8 @@ namespace llm {
 
 class ILLMPluginManager {
 public:
-    /**
-     * @brief TBD: Describe ~ILLMPluginManager.
-     * @return Return value.
-     */
     virtual ~ILLMPluginManager() = default;
-    /**
-     * @brief TBD: Describe generate.
-     * @param[in] req Input parameter.
-     * @return Return value.
-     */
     virtual InferenceResponse generate(const InferenceRequest& req) = 0;
-    /**
-     * @brief TBD: Describe pluginVersion.
-     * @return Return value.
-     */
     virtual std::string pluginVersion() const = 0;
 };
 

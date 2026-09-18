@@ -48,10 +48,6 @@ namespace auth {
  */
 class IRateLimiterBackend {
 public:
-    /**
-     * @brief TBD: Describe ~IRateLimiterBackend.
-     * @return Return value.
-     */
     virtual ~IRateLimiterBackend() = default;
 
     /**
@@ -172,11 +168,6 @@ public:
         /// Connection timeout in milliseconds.
         int connect_timeout_ms = 200;
 
-        /**
-         * @brief TBD: Describe defaults.
-         * @return Return value.
-         * @details Implements defaults without additional internal calls.
-         */
         static Config defaults() { return {}; }
     };
 
@@ -220,7 +211,6 @@ public:
     // Connectivity
     // -----------------------------------------------------------------------
 
-     * @brief TBD: Describe isConnected.
     /** @return true if the Redis connection is currently alive. */
     bool isConnected() const;
 
@@ -230,30 +220,10 @@ public:
      */
     bool reconnect();
 
-    /**
-     * @brief TBD: Describe setIncrementFn.
-     * @param[in] fn Input parameter.
-     */
     static void setIncrementFn(IncrementFn fn);
-    /**
-     * @brief TBD: Describe setGetCountFn.
-     * @param[in] fn Input parameter.
-     */
     static void setGetCountFn(GetCountFn fn);
-    /**
-     * @brief TBD: Describe setResetFn.
-     * @param[in] fn Input parameter.
-     */
     static void setResetFn(ResetFn fn);
-    /**
-     * @brief TBD: Describe setIsConnectedFn.
-     * @param[in] fn Input parameter.
-     */
     static void setIsConnectedFn(IsConnectedFn fn);
-    /**
-     * @brief TBD: Describe setReconnectFn.
-     * @param[in] fn Input parameter.
-     */
     static void setReconnectFn(ReconnectFn fn);
 
 private:
@@ -286,20 +256,8 @@ private:
     mutable std::mutex mutex_;
     redisContext*      ctx_{nullptr};
 
-    /**
-     * @brief TBD: Describe connect.
-     * @return True on success.
-     */
     bool        connect();
-    /**
-     * @brief TBD: Describe disconnect.
-     */
     void        disconnect();
-    /**
-     * @brief TBD: Describe makeKey.
-     * @param[in] key Input parameter.
-     * @return Return value.
-     */
     std::string makeKey(const std::string& key) const;
 
     // Global counter appended to each sorted-set member to guarantee uniqueness

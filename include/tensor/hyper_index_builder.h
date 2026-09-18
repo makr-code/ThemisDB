@@ -182,12 +182,8 @@ public:
 
     /**
      * @brief Thread-safe bridge management for custom bucket assignment.
-     * @param[in] fn Input parameter.
      */
     static void setBucketAssignmentFn(BucketAssignmentFn fn);
-    /**
-     * @brief TBD: Describe clearBucketAssignmentFn.
-     */
     static void clearBucketAssignmentFn();
     [[nodiscard]] static BucketAssignmentFn getBucketAssignmentFn();
 };

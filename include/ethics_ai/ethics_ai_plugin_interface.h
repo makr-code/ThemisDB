@@ -36,10 +36,6 @@ namespace ethics {
  */
 class IEthicsAIPlugin : public IThemisPlugin {
 public:
-    /**
-     * @brief TBD: Describe ~IEthicsAIPlugin.
-     * @return Return value.
-     */
     virtual ~IEthicsAIPlugin() = default;
     
     // ========== Debate Initialization ==========

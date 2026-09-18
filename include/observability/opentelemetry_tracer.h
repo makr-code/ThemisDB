@@ -258,8 +258,6 @@ public:
      *
      * Common keys: `"tenant-id"`, `"user-id"`, `"session-id"`.
      * Items are automatically propagated by `injectContext()`.
-     * @param[in] key Input parameter.
-     * @param[in] value Input parameter.
      */
     static void setBaggageItem(const std::string& key,
                                const std::string& value);
@@ -267,13 +265,11 @@ public:
     /**
      * @brief Get a W3C Baggage item from the current thread's store.
      * @return The value, or an empty string if not present.
-     * @param[in] key Input parameter.
      */
     static std::string getBaggageItem(const std::string& key);
 
     /**
      * @brief Remove a W3C Baggage item from the current thread's store.
-     * @param[in] key Input parameter.
      */
     static void removeBaggageItem(const std::string& key);
 
@@ -293,18 +289,15 @@ public:
     // Diagnostics
     // -----------------------------------------------------------------------
 
-     * @return Return value.
     /** @brief Return a snapshot of span counters (total / active / dropped). */
     TracerStats stats() const;
 
-     * @return Return value.
     /** @brief Return a copy of the in-process completed-span ring buffer. */
     std::vector<SpanRecord> completedSpans() const;
 
     /** @brief Clear the in-process ring buffer. */
     void clearCompletedSpans();
 
-     * @return Return value.
     /** @brief Return the active configuration. */
     OTelConfig getConfig() const;
 
@@ -314,23 +307,18 @@ public:
      *
      * Returns 0 when no OTLP exporter is configured or when the exporter has
      * not yet flushed its first batch.
-     * @return Return value.
-     * @note Exception safety: noexcept.
      */
     uint64_t otlpExportedSpanCount() const noexcept;
 
     /**
      * @brief Return the number of spans dropped by the OTLP queue (due to
      *        back-pressure) since the tracer was constructed.
-     * @return Return value.
-     * @note Exception safety: noexcept.
      */
     uint64_t otlpDroppedSpanCount() const noexcept;
 
     /**
      * @brief Return the list of configured exporter names (e.g. "otlp",
      *        "jaeger", "zipkin").
-     * @return Return value.
      */
     std::vector<std::string> activeExporters() const;
 

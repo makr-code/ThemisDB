@@ -42,14 +42,11 @@ struct PromptVersion {
     
     /**
      * @brief Convert to JSON
-     * @return Return value.
      */
     nlohmann::json toJson() const;
     
     /**
      * @brief Parse from JSON
-     * @param[in] j Input parameter.
-     * @return Return value.
      */
     static PromptVersion fromJson(const nlohmann::json& j);
 };
@@ -69,7 +66,6 @@ struct PromptDiff {
     
     /**
      * @brief Convert to JSON
-     * @return Return value.
      */
     nlohmann::json toJson() const;
 };
@@ -87,7 +83,6 @@ struct BranchInfo {
     
     /**
      * @brief Convert to JSON
-     * @return Return value.
      */
     nlohmann::json toJson() const;
 };
@@ -104,7 +99,6 @@ struct MergeResult {
     
     /**
      * @brief Convert to JSON
-     * @return Return value.
      */
     nlohmann::json toJson() const;
 };
@@ -330,10 +324,6 @@ private:
     
     /**
      * @brief Generate unique version ID (SHA-like hash)
-     * @param[in] prompt_id Input parameter.
-     * @param[in] content Input parameter.
-     * @param[in] parent Input parameter.
-     * @return Return value.
      */
     std::string generateVersionId(
         const std::string& prompt_id,
@@ -343,14 +333,11 @@ private:
     
     /**
      * @brief Persist version to RocksDB
-     * @param[in] version Input parameter.
      */
     void persistVersion(const PromptVersion& version);
     
     /**
      * @brief Persist branch info to RocksDB
-     * @param[in] prompt_id Input parameter.
-     * @param[in] branch Input parameter.
      */
     void persistBranch(const std::string& prompt_id, const BranchInfo& branch);
     
@@ -361,11 +348,6 @@ private:
     
     /**
      * @brief Compute diff between two strings
-     * @param[in] version_a_id Input parameter.
-     * @param[in] content_a Input parameter.
-     * @param[in] version_b_id Input parameter.
-     * @param[in] content_b Input parameter.
-     * @return Return value.
      */
     PromptDiff computeDiff(
         const std::string& version_a_id,
@@ -376,10 +358,6 @@ private:
     
     /**
      * @brief Attempt automatic merge
-     * @param[in] base Input parameter.
-     * @param[in] source Input parameter.
-     * @param[in] target Input parameter.
-     * @return Return value.
      */
     MergeResult autoMerge(
         const PromptVersion& base,

@@ -42,11 +42,6 @@ namespace themis::security {
 /// Exception thrown when a move operation violates safety constraints
 class MoveViolationException : public std::logic_error {
  public:
-  /**
-   * @brief TBD: Describe MoveViolationException.
-   * @param[in] msg Input parameter.
-   * @return Return value.
-   */
   explicit MoveViolationException(const std::string& msg) 
       : std::logic_error(msg) {}
 };
@@ -87,11 +82,9 @@ class MoveSourceNotCleared : public MoveViolationException {
 template<typename T>
 class MoveValidator {
  public:
-  /**
-   * @brief Validates object is safe to move from @param obj Object to validate @throws MoveViolationException if validation fails
-   * @param[in] obj Input parameter.
-   * @details Calls: constexpr().
-   */
+  /// Validates object is safe to move from
+  /// @param obj Object to validate
+  /// @throws MoveViolationException if validation fails
   static void validatePreMove(const T& obj) {
     // Base implementation: check object is constructed
     // Specializations can override for specific types
@@ -100,11 +93,9 @@ class MoveValidator {
     }
   }
 
-  /**
-   * @brief Validates object state after being moved from @param obj Object to validate @throws MoveSourceNotCleared if validation fails
-   * @param[in] obj Input parameter.
-   * @details Calls: constexpr(), requires(), empty().
-   */
+  /// Validates object state after being moved from
+  /// @param obj Object to validate
+  /// @throws MoveSourceNotCleared if validation fails
   static void validatePostMove(const T& obj) {
     // Base implementation: empty check if applicable
     // Specializations can override for specific types
@@ -113,11 +104,9 @@ class MoveValidator {
     }
   }
 
-  /**
-   * @brief Validates move destination received valid moved data @param dest Destination object after move assignment @throws MoveViolationException if validation fails
-   * @param[in] dest Input parameter.
-   * @details Implements validateMoveDestination without additional internal calls.
-   */
+  /// Validates move destination received valid moved data
+  /// @param dest Destination object after move assignment
+  /// @throws MoveViolationException if validation fails
   static void validateMoveDestination(const T& dest) {
     // Base implementation: just check constructed
     // Specializations can override
@@ -188,10 +177,6 @@ class MoveGuard {
   /// @throws UseAfterMoveException if object was moved from
   bool checkNotMovedFrom() const {
     if (moved_from_.load()) {
-      /**
-       * @brief TBD: Describe UseAfterMoveException.
-       * @return Return value.
-       */
       throw UseAfterMoveException();
     }
     return true;
@@ -241,12 +226,9 @@ class MoveGuard {
 template<typename T>
 class SafeMove {
  public:
-  /**
-   * @brief Creates a safe move wrapper from an rvalue reference @param value Object to wrap (must be rvalue reference) @returns SafeMove instance
-   * @param[in] value Input parameter.
-   * @return Return value.
-   * @details Calls: validatePreMove(), SafeMove(), std::move().
-   */
+  /// Creates a safe move wrapper from an rvalue reference
+  /// @param value Object to wrap (must be rvalue reference)
+  /// @returns SafeMove instance
   static SafeMove create(T&& value) {
     MoveValidator<T>::validatePreMove(value);
     return SafeMove(std::move(value));
@@ -305,11 +287,8 @@ struct MoveChainTracker {
   /// Flag indicating chain error state
   std::atomic<bool> error_state{false};
 
-  /**
-   * @brief Increments chain depth on move start @throws MoveViolationException if chain depth exceeds limit
-   * @throws MoveViolationException if an error occurs.
-   * @details Calls: load(), store().
-   */
+  /// Increments chain depth on move start
+  /// @throws MoveViolationException if chain depth exceeds limit
   void onMoveBegin() {
     int current = depth.load();
     if (current >= MAX_CHAIN_DEPTH) {
@@ -386,30 +365,15 @@ struct MoveChainTracker {
 template<typename T>
 class MoveValidator<std::vector<T>> {
  public:
-  /**
-   * @brief TBD: Describe validatePreMove.
-   * @param[in] vec Input parameter.
-   * @details Implements validatePreMove without additional internal calls.
-   */
   static void validatePreMove(const std::vector<T>& vec) {
     // Can move any vector (even empty ones)
   }
 
-  /**
-   * @brief TBD: Describe validatePostMove.
-   * @param[in] vec Input parameter.
-   * @details Implements validatePostMove without additional internal calls.
-   */
   static void validatePostMove(const std::vector<T>& vec) {
     // After move, vector should be empty or moved from
     // This is guaranteed by std::vector move semantics
   }
 
-  /**
-   * @brief TBD: Describe validateMoveDestination.
-   * @param[in] vec Input parameter.
-   * @details Implements validateMoveDestination without additional internal calls.
-   */
   static void validateMoveDestination(const std::vector<T>& vec) {
     // Destination can be any vector state
   }
@@ -424,37 +388,17 @@ class MoveValidator<std::vector<T>> {
 template<typename T>
 class MoveValidator<std::unique_ptr<T>> {
  public:
-  /**
-   * @brief TBD: Describe validatePreMove.
-   * @param[in] ptr Input parameter.
-   * @details Implements validatePreMove without additional internal calls.
-   */
   static void validatePreMove(const std::unique_ptr<T>& ptr) {
     // Can move any unique_ptr (even null)
   }
 
-  /**
-   * @brief TBD: Describe validatePostMove.
-   * @param[in] ptr Input parameter.
-   * @throws MoveSourceNotCleared if an error occurs.
-   * @details Implements validatePostMove without additional internal calls.
-   */
   static void validatePostMove(const std::unique_ptr<T>& ptr) {
     // After move from, source should be null
     if (ptr != nullptr) {
-      /**
-       * @brief TBD: Describe MoveSourceNotCleared.
-       * @return Return value.
-       */
       throw MoveSourceNotCleared();
     }
   }
 
-  /**
-   * @brief TBD: Describe validateMoveDestination.
-   * @param[in] ptr Input parameter.
-   * @details Implements validateMoveDestination without additional internal calls.
-   */
   static void validateMoveDestination(const std::unique_ptr<T>& ptr) {
     // Destination becomes owner, state doesn't matter
   }
@@ -469,37 +413,17 @@ class MoveValidator<std::unique_ptr<T>> {
 template<typename T>
 class MoveValidator<std::shared_ptr<T>> {
  public:
-  /**
-   * @brief TBD: Describe validatePreMove.
-   * @param[in] ptr Input parameter.
-   * @details Implements validatePreMove without additional internal calls.
-   */
   static void validatePreMove(const std::shared_ptr<T>& ptr) {
     // Can move any shared_ptr
   }
 
-  /**
-   * @brief TBD: Describe validatePostMove.
-   * @param[in] ptr Input parameter.
-   * @throws MoveSourceNotCleared if an error occurs.
-   * @details Implements validatePostMove without additional internal calls.
-   */
   static void validatePostMove(const std::shared_ptr<T>& ptr) {
     // After move from, source should be null
     if (ptr != nullptr) {
-      /**
-       * @brief TBD: Describe MoveSourceNotCleared.
-       * @return Return value.
-       */
       throw MoveSourceNotCleared();
     }
   }
 
-  /**
-   * @brief TBD: Describe validateMoveDestination.
-   * @param[in] ptr Input parameter.
-   * @details Implements validateMoveDestination without additional internal calls.
-   */
   static void validateMoveDestination(const std::shared_ptr<T>& ptr) {
     // Destination becomes owner
   }

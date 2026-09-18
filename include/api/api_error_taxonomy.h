@@ -147,11 +147,6 @@ public:
      */
     [[nodiscard]] static std::string toMessage(TransportFailureClass fc,
                                                std::string_view adapter_name) {
-        /**
-         * @brief TBD: Describe prefix.
-         * @param[in] adapter_name Input parameter.
-         * @return Return value.
-         */
         std::string prefix(adapter_name);
         prefix += ": ";
         switch (fc) {

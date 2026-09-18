@@ -119,7 +119,6 @@ public:
      * @brief Construct a FederatedSearch engine.
      *
      * @throws std::invalid_argument on invalid config values.
-     * @return Return value.
      */
     explicit FederatedSearch();
     /**
@@ -127,7 +126,6 @@ public:
      *
      * @param config  Engine configuration.
      * @throws std::invalid_argument on invalid config values.
-     * @return Return value.
      */
     explicit FederatedSearch(const Config& config);
 
@@ -171,8 +169,6 @@ public:
 
     /**
      * @brief Return the weight associated with a tenant (default 1.0).
-     * @param[in] tenant_id Input parameter.
-     * @return Return value.
      */
     double getTenantWeight(const std::string& tenant_id) const;
 
@@ -223,10 +219,6 @@ public:
     // -----------------------------------------------------------------------
 
     const Config& getConfig() const { return config_; }
-    /**
-     * @brief TBD: Describe setConfig.
-     * @param[in] config Input parameter.
-     */
     void setConfig(const Config& config);
 
 private:

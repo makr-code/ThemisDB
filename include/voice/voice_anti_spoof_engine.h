@@ -99,11 +99,8 @@ public:
     /// @brief Construct engine with default config
     VoiceAntiSpoofEngine() = default;
 
-    /**
-     * @brief @brief Construct engine with custom config @param config Anti-spoofing configuration
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
+    /// @brief Construct engine with custom config
+    /// @param config Anti-spoofing configuration
     explicit VoiceAntiSpoofEngine(const Config& config);
 
     /// @brief Destructor

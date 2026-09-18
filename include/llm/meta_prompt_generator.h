@@ -107,8 +107,6 @@ public:
     
     /**
      * @brief Update configuration
-     * @param[in] config Input parameter.
-     * @details Implements setConfig without additional internal calls.
      */
     void setConfig(const MetaPromptConfig& config) { config_ = config; }
 
@@ -117,9 +115,6 @@ private:
     
     /**
      * @brief Build improvement instructions based on feedback
-     * @param[in] feedback Input parameter.
-     * @param[in] score Input parameter.
-     * @return Return value.
      */
     std::string buildImprovementInstructions(
         const std::string& feedback,
@@ -128,14 +123,11 @@ private:
     
     /**
      * @brief Generate constraint clauses
-     * @return Return value.
      */
     std::string buildConstraints() const;
     
     /**
      * @brief Generate example section for meta-prompt
-     * @param[in] original_prompt Input parameter.
-     * @return Return value.
      */
     std::string buildExampleSection(
         const std::string& original_prompt
@@ -143,8 +135,6 @@ private:
     
     /**
      * @brief Analyze prompt structure
-     * @param[in] prompt Input parameter.
-     * @return Return value.
      */
     nlohmann::json analyzePromptStructure(const std::string& prompt) const;
 };

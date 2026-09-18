@@ -62,24 +62,8 @@ public:
         LockStatus status{LockStatus::GRANTED};
         std::string message;
 
-        /**
-         * @brief TBD: Describe Granted.
-         * @return Return value.
-         * @details Implements Granted without additional internal calls.
-         */
         static LockResult Granted() { return {LockStatus::GRANTED, ""}; }
-        /**
-         * @brief TBD: Describe Timeout.
-         * @return Return value.
-         * @details Implements Timeout without additional internal calls.
-         */
         static LockResult Timeout() { return {LockStatus::TIMEOUT, "lock wait timeout"}; }
-        /**
-         * @brief TBD: Describe Denied.
-         * @param[in] msg Input parameter.
-         * @return Return value.
-         * @details Calls: std::move().
-         */
         static LockResult Denied(std::string msg) { return {LockStatus::DENIED, std::move(msg)}; }
     };
 
@@ -147,52 +131,58 @@ public:
 
     // ── Predicate Locking for SSI (Serializable Snapshot Isolation) ──────────
 
-    /**
-     * @brief Acquire a predicate (range) lock for SERIALIZABLE isolation.
-     * @param[in] txn_id Input parameter.
-     * @param[in] start_key Input parameter.
-     * @param[in] end_key Input parameter.
-     * @return True on success.
-     * @details Records that @p txn_id has read all keys in [@p start_key, @p end_key] (inclusive on both ends). Any other transaction that subsequently writes a key in this range will be detected as a serialization conflict when it calls checkPredicateConflict(). @param txn_id Owning transaction. @param start_key Lower bound of the predicate range (inclusive). @param end_key Upper bound of the predicate range (inclusive; may equal @p start_key for a single-key predicate). @return true when the lock was recorded; false when the global limit set by setMaxPredicateLocks() has been reached (the lock is silently dropped in that case – the false-positive abort rate may increase but correctness is preserved).
-     */
+    /// Acquire a predicate (range) lock for SERIALIZABLE isolation.
+    ///
+    /// Records that @p txn_id has read all keys in [@p start_key, @p end_key]
+    /// (inclusive on both ends). Any other transaction that subsequently writes
+    /// a key in this range will be detected as a serialization conflict when
+    /// it calls checkPredicateConflict().
+    ///
+    /// @param txn_id     Owning transaction.
+    /// @param start_key  Lower bound of the predicate range (inclusive).
+    /// @param end_key    Upper bound of the predicate range (inclusive; may
+    ///                   equal @p start_key for a single-key predicate).
+    /// @return true when the lock was recorded; false when the global limit
+    ///         set by setMaxPredicateLocks() has been reached (the lock is
+    ///         silently dropped in that case – the false-positive abort rate
+    ///         may increase but correctness is preserved).
     bool acquirePredicateLock(TransactionId txn_id,
                               const std::string& start_key,
                               const std::string& end_key);
 
-    /**
-     * @brief Set the maximum total number of predicate locks that may be held simultaneously across all active transactions.
-     * @param[in] max_locks Input parameter.
-     * @details Once the limit is reached, acquirePredicateLock() returns false and does not record the lock. Pass 0 to disable the limit (default). Thread-safe.
-     */
+    /// Set the maximum total number of predicate locks that may be held
+    /// simultaneously across all active transactions.
+    ///
+    /// Once the limit is reached, acquirePredicateLock() returns false and
+    /// does not record the lock.  Pass 0 to disable the limit (default).
+    ///
+    /// Thread-safe.
     void setMaxPredicateLocks(size_t max_locks);
 
     /// Return the current maximum predicate-lock limit (0 = unlimited).
     size_t getMaxPredicateLocks() const;
 
-    /**
-     * @brief Enable or disable predicate-lock tracking globally.
-     * @param[in] enabled Input parameter.
-     * @details When disabled, acquirePredicateLock() is a no-op (returns false) and checkPredicateConflict() always returns 0. Thread-safe.
-     */
+    /// Enable or disable predicate-lock tracking globally.
+    ///
+    /// When disabled, acquirePredicateLock() is a no-op (returns false) and
+    /// checkPredicateConflict() always returns 0.
+    ///
+    /// Thread-safe.
     void setPredicateLockingEnabled(bool enabled);
 
     /// Return whether predicate-lock tracking is currently enabled.
     bool isPredicateLockingEnabled() const;
 
-    /**
-     * @brief Release all predicate locks held by @p txn_id.
-     * @param[in] txn_id Input parameter.
-     * @details Must be called when a SERIALIZABLE transaction commits or rolls back.
-     */
+    /// Release all predicate locks held by @p txn_id.
+    ///
+    /// Must be called when a SERIALIZABLE transaction commits or rolls back.
     void releasePredicateLocks(TransactionId txn_id);
 
-    /**
-     * @brief Check whether writing @p key by @p writing_txn_id conflicts with a predicate lock held by another active transaction.
-     * @param[in] writing_txn_id Input parameter.
-     * @param[in] key Input parameter.
-     * @return Return value.
-     * @details Returns the TransactionId of the first conflicting holder, or 0 if no conflict exists.
-     */
+    /// Check whether writing @p key by @p writing_txn_id conflicts with a
+    /// predicate lock held by another active transaction.
+    ///
+    /// Returns the TransactionId of the first conflicting holder, or 0 if
+    /// no conflict exists.
     TransactionId checkPredicateConflict(TransactionId writing_txn_id,
                                          const std::string& key) const;
 
@@ -232,38 +222,20 @@ private:
         std::list<std::shared_ptr<LockRequest>>         waiters;
     };
 
-    /**
-     * @brief Compatibility matrix: returns true when @p requested can be granted alongside an already-held lock of type @p held.
-     * @param[in] held Input parameter.
-     * @param[in] requested Input parameter.
-     * @return True on success.
-     * @note Exception safety: noexcept.
-     */
+    /// Compatibility matrix: returns true when @p requested can be granted
+    /// alongside an already-held lock of type @p held.
     static bool compatible(LockType held, LockType requested) noexcept;
 
-    /**
-     * @brief Try to immediately grant the lock; returns true on success.
-     * @param[in] key Input parameter.
-     * @param[in] txn_id Input parameter.
-     * @param[in] type Input parameter.
-     * @return True on success.
-     * @details Precondition: mutex_ is held.
-     */
+    /// Try to immediately grant the lock; returns true on success.
+    /// Precondition: mutex_ is held.
     bool tryGrantLock(const std::string& key, TransactionId txn_id, LockType type);
 
-    /**
-     * @brief Wake all waiters for @p key and try to grant their requests.
-     * @param[in] key Input parameter.
-     * @details Precondition: mutex_ is held.
-     */
+    /// Wake all waiters for @p key and try to grant their requests.
+    /// Precondition: mutex_ is held.
     void processWaiters(const std::string& key);
 
-    /**
-     * @brief Escalate row-level locks to a table lock when the threshold is exceeded.
-     * @param[in] txn_id Input parameter.
-     * @param[in] key Input parameter.
-     * @details Precondition: mutex_ is held.
-     */
+    /// Escalate row-level locks to a table lock when the threshold is exceeded.
+    /// Precondition: mutex_ is held.
     void checkEscalation(TransactionId txn_id, const std::string& key);
 
     mutable std::mutex mutex_;

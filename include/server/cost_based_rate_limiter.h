@@ -48,9 +48,6 @@ enum class OperationType {
  *
  * For OperationType::CUSTOM the function returns 1; the caller must supply
  * the real cost directly to CostBasedRateLimiter::allowRequest().
- * @param[in] op Input parameter.
- * @return Return value.
- * @details Implements defaultCostFor without additional internal calls.
  */
 inline size_t defaultCostFor(OperationType op) {
     switch (op) {
@@ -117,11 +114,6 @@ public:
         size_t max_clients = 10000;
     };
 
-    /**
-     * @brief TBD: Describe CostBasedRateLimiter.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit CostBasedRateLimiter(const Config& config);
 
     /**
@@ -150,14 +142,11 @@ public:
      * @brief Return the remaining budget for @c client_id in the current window.
      *
      * Returns @c budget_per_window for unknown clients (full budget).
-     * @param[in] client_id Input parameter.
-     * @return Return value.
      */
     size_t getRemainingBudget(const std::string& client_id) const;
 
     /**
      * @brief Return the total number of actively tracked clients.
-     * @return Return value.
      */
     size_t getActiveClients() const;
 
@@ -199,22 +188,15 @@ private:
         size_t remaining = 0;
         std::chrono::steady_clock::time_point window_start;
 
-        /**
-         * @brief TBD: Describe ClientBudget.
-         * @param[in] budget Input parameter.
-         * @return Return value.
-         */
         explicit ClientBudget(size_t budget)
             : remaining(budget)
             , window_start(std::chrono::steady_clock::now())
         {}
     };
 
-    /**
-     * @brief Ensure @p budget is current for the active window; reset if expired.
-     * @param[in,out] budget Input/output parameter.
-     * @details Note: modifies budget in-place; callers in const context must use computeEffectiveRemaining() instead.
-     */
+    /// Ensure @p budget is current for the active window; reset if expired.
+    /// Note: modifies budget in-place; callers in const context must use
+    /// computeEffectiveRemaining() instead.
     void refreshWindow(ClientBudget& budget) const;
 
     /// Return the effective remaining budget without modifying @p budget state.

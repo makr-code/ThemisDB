@@ -202,12 +202,6 @@ public:
      * @return `std::nullopt` if the phase or metric is not found.
      */
     [[nodiscard]]
-    /**
-     * @brief TBD: Describe getMetric.
-     * @param[in] phase_name Input parameter.
-     * @param[in] metric_key Input parameter.
-     * @return Return value.
-     */
     std::optional<float> getMetric(const std::string& phase_name,
                                    const std::string& metric_key) const;
 
@@ -224,11 +218,6 @@ public:
      * @return `GateStatus::PENDING` if the phase is not registered.
      */
     [[nodiscard]]
-    /**
-     * @brief TBD: Describe gateStatus.
-     * @param[in] phase_name Input parameter.
-     * @return Return value.
-     */
     GateStatus gateStatus(const std::string& phase_name) const;
 
     /**
@@ -240,11 +229,6 @@ public:
      *         not registered.
      */
     [[nodiscard]]
-    /**
-     * @brief TBD: Describe gaps.
-     * @param[in] phase_name Input parameter.
-     * @return Return value.
-     */
     PhaseGapReport gaps(const std::string& phase_name) const;
 
     /**
@@ -253,10 +237,6 @@ public:
      * @return Vector of gap reports (may be empty if all phases have PASSED).
      */
     [[nodiscard]]
-    /**
-     * @brief TBD: Describe allGaps.
-     * @return Return value.
-     */
     std::vector<PhaseGapReport> allGaps() const;
 
     // -----------------------------------------------------------------------
@@ -267,31 +247,18 @@ public:
      * @brief Return all registered phase names.
      */
     [[nodiscard]]
-    /**
-     * @brief TBD: Describe phaseNames.
-     * @return Return value.
-     */
     std::vector<std::string> phaseNames() const;
 
     /**
      * @brief Return the number of registered phases.
      */
     [[nodiscard]]
-    /**
-     * @brief TBD: Describe phaseCount.
-     * @return Return value.
-     */
     std::size_t phaseCount() const;
 
     /**
      * @brief Check whether a phase name is registered.
      */
     [[nodiscard]]
-    /**
-     * @brief TBD: Describe hasPhase.
-     * @param[in] phase_name Input parameter.
-     * @return True on success.
-     */
     bool hasPhase(const std::string& phase_name) const;
 
     /**
@@ -300,11 +267,6 @@ public:
      * @return Empty vector if the phase is not found or has no prerequisites.
      */
     [[nodiscard]]
-    /**
-     * @brief TBD: Describe prerequisites.
-     * @param[in] phase_name Input parameter.
-     * @return Return value.
-     */
     std::vector<std::string> prerequisites(const std::string& phase_name) const;
 
     /**
@@ -321,20 +283,12 @@ public:
      *         scheduling outcome.
      */
     [[nodiscard]]
-    /**
-     * @brief TBD: Describe topologicalOrder.
-     * @return Return value.
-     */
     std::vector<std::string> topologicalOrder() const;
 
     /**
      * @brief Return the count of phases whose gate currently has status PASS.
      */
     [[nodiscard]]
-    /**
-     * @brief TBD: Describe passedPhaseCount.
-     * @return Return value.
-     */
     std::size_t passedPhaseCount() const;
 
     /**
@@ -343,10 +297,6 @@ public:
      * Returns 0.0 when no phases are registered.
      */
     [[nodiscard]]
-    /**
-     * @brief TBD: Describe completionRatio.
-     * @return Return value.
-     */
     float completionRatio() const;
 
 private:
@@ -364,36 +314,22 @@ private:
     // Helpers (called under the mutex)
     // -----------------------------------------------------------------------
 
-    /**
-     * @brief @brief DFS cycle check starting from `start`, treating `visited` as the already-visited set.
-     * @param[in] start Input parameter.
-     * @param[in,out] visited Input/output parameter.
-     * @param[in,out] rec_stack Input/output parameter.
-     * @return True on success.
-     * @details Returns `true` if a cycle is found.
-     */
+    /// @brief DFS cycle check starting from `start`, treating `visited` as
+    ///        the already-visited set.  Returns `true` if a cycle is found.
     bool hasCycleDFS(const std::string&              start,
                      std::unordered_set<std::string>& visited,
                      std::unordered_set<std::string>& rec_stack) const;
 
-    /**
-     * @brief @brief Internal gate evaluation (no locking — caller holds at minimum a shared lock).
-     * @param[in] phase_name Input parameter.
-     * @param[in,out] visiting Input/output parameter.
-     * @return Return value.
-     */
+    /// @brief Internal gate evaluation (no locking — caller holds at minimum
+    ///        a shared lock).
     GateStatus evaluateGate(const std::string&              phase_name,
                             std::unordered_set<std::string>& visiting) const;
 
     /// @brief Internal gap computation (no locking).
     PhaseGapReport computeGaps(const std::string& phase_name) const;
 
-    /**
-     * @brief @brief Transfer phase state from another instance while the caller holds the required exclusive lock(s).
-     * @param[in,out] other Input/output parameter.
-     * @note Exception safety: noexcept.
-     * @details Leaves `other` valid and empty.
-     */
+    /// @brief Transfer phase state from another instance while the caller holds
+    ///        the required exclusive lock(s). Leaves `other` valid and empty.
     void transferFrom(GraphPhaseGateOrchestrator& other) noexcept;
 
     // -----------------------------------------------------------------------

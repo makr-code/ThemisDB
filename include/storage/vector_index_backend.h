@@ -95,10 +95,6 @@ struct KnnResult {
  */
 class IVectorIndexBackend {
 public:
-    /**
-     * @brief TBD: Describe ~IVectorIndexBackend.
-     * @return Return value.
-     */
     virtual ~IVectorIndexBackend() = default;
 
     /**
@@ -167,7 +163,6 @@ public:
      * @brief Construct an in-memory index.
      * @param cfg Configuration; `cfg.dim` must be > 0.
      * @throws std::invalid_argument if `cfg.dim == 0`.
-     * @return Return value.
      */
     explicit InMemoryVectorIndex(const VectorIndexConfig& cfg);
 

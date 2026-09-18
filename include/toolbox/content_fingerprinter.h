@@ -109,11 +109,6 @@ public:
  */
 
 #pragma once
-/**
- * @brief TBD: Describe fingerprint.
- * @param[in] text Input parameter.
- * @return Return value.
- */
 ContentFingerprint fingerprint(std::string_view text);
 
 } // namespace toolbox

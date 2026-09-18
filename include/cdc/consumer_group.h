@@ -69,12 +69,6 @@ struct ConsumerGroupConfig {
         return {{"group_id", group_id}, {"consumer_count", consumer_count}};
     }
 
-    /**
-     * @brief TBD: Describe fromJson.
-     * @param[in] j Input parameter.
-     * @return Return value.
-     * @details Calls: value().
-     */
     static ConsumerGroupConfig fromJson(const nlohmann::json& j) {
         ConsumerGroupConfig cfg;
         cfg.group_id       = j.value("group_id", "");
@@ -159,7 +153,6 @@ public:
      *
      * @throws CDCException (INVALID_ARGUMENT) if group_id is empty or
      *         consumer_count is zero.
-     * @param[in] config Input parameter.
      */
     void createGroup(const ConsumerGroupConfig& config);
 
@@ -167,14 +160,11 @@ public:
      * @brief Delete a consumer group and its persisted offset.
      *
      * @throws CDCException (INVALID_ARGUMENT) if group_id is empty.
-     * @param[in] group_id Input parameter.
      */
     void deleteGroup(const std::string& group_id);
 
     /**
      * @brief Return true if a group with @p group_id exists.
-     * @param[in] group_id Input parameter.
-     * @return True on success.
      */
     bool groupExists(const std::string& group_id) const;
 
@@ -182,8 +172,6 @@ public:
      * @brief Return the configuration for an existing group.
      *
      * @throws CDCException (INVALID_ARGUMENT) if the group does not exist.
-     * @param[in] group_id Input parameter.
-     * @return Return value.
      */
     ConsumerGroupConfig getGroupConfig(const std::string& group_id) const;
 
@@ -191,14 +179,11 @@ public:
      * @brief Return runtime information (config + committed offset) for a group.
      *
      * @throws CDCException (INVALID_ARGUMENT) if the group does not exist.
-     * @param[in] group_id Input parameter.
-     * @return Return value.
      */
     ConsumerGroupInfo getGroupInfo(const std::string& group_id) const;
 
     /**
      * @brief List all known group IDs.
-     * @return Return value.
      */
     std::vector<std::string> listGroups() const;
 
@@ -212,8 +197,6 @@ public:
      * Returns 0 if no offset has been committed yet.
      *
      * @throws CDCException (INVALID_ARGUMENT) if the group does not exist.
-     * @param[in] group_id Input parameter.
-     * @return Return value.
      */
     uint64_t getCommittedOffset(const std::string& group_id) const;
 
@@ -225,8 +208,6 @@ public:
      *
      * @throws CDCException (INVALID_ARGUMENT) if group_id is empty.
      * @throws CDCException (DB_WRITE_FAILED) on RocksDB write failure.
-     * @param[in] group_id Input parameter.
-     * @param[in] sequence Input parameter.
      */
     void commitOffset(const std::string& group_id, uint64_t sequence);
 
@@ -242,9 +223,6 @@ public:
      *   partition = fnv1a32(consumer_id) % consumer_count
      *
      * @throws CDCException (INVALID_ARGUMENT) if the group does not exist.
-     * @param[in] group_id Input parameter.
-     * @param[in] consumer_id Input parameter.
-     * @return Return value.
      */
     uint32_t getConsumerPartition(const std::string& group_id,
                                    const std::string& consumer_id) const;
@@ -254,10 +232,6 @@ public:
      *        change event with key @p event_key in @p group_id.
      *
      * @throws CDCException (INVALID_ARGUMENT) if the group does not exist.
-     * @param[in] group_id Input parameter.
-     * @param[in] consumer_id Input parameter.
-     * @param[in] event_key Input parameter.
-     * @return True on success.
      */
     bool consumerHandlesKey(const std::string& group_id,
                              const std::string& consumer_id,
@@ -269,9 +243,6 @@ public:
      * Partition = fnv1a32(key) % consumer_count
      *
      * @throws CDCException (INVALID_ARGUMENT) if the group does not exist.
-     * @param[in] group_id Input parameter.
-     * @param[in] key Input parameter.
-     * @return Return value.
      */
     uint32_t getPartitionForKey(const std::string& group_id,
                                  const std::string& key) const;
@@ -378,25 +349,17 @@ public:
 
     /**
      * @brief FNV-1a 32-bit hash of a string.
-     * @param[in] s Input parameter.
-     * @return Return value.
      */
     static uint32_t fnv1a32(const std::string& s);
 
     /**
      * @brief Derive partition index for a key given a partition count.
-     * @param[in] key Input parameter.
-     * @param[in] partition_count Input parameter.
-     * @return Return value.
      */
     static uint32_t partitionForKey(const std::string& key,
                                      uint32_t partition_count);
 
     /**
      * @brief Derive partition index for a consumer_id given a partition count.
-     * @param[in] consumer_id Input parameter.
-     * @param[in] partition_count Input parameter.
-     * @return Return value.
      */
     static uint32_t partitionForConsumer(const std::string& consumer_id,
                                           uint32_t partition_count);
@@ -410,41 +373,13 @@ private:
     static constexpr const char* CONFIG_SUFFIX     = ":config";
     static constexpr const char* OFFSET_SUFFIX     = ":offset";
 
-    /**
-     * @brief TBD: Describe makeConfigKey.
-     * @param[in] group_id Input parameter.
-     * @return Return value.
-     */
     std::string makeConfigKey(const std::string& group_id) const;
-    /**
-     * @brief TBD: Describe makeOffsetKey.
-     * @param[in] group_id Input parameter.
-     * @return Return value.
-     */
     std::string makeOffsetKey(const std::string& group_id) const;
 
-    /**
-     * @brief Internal helpers (caller must hold mutex_)
-     * @param[in] group_id Input parameter.
-     * @return Return value.
-     */
+    // Internal helpers (caller must hold mutex_)
     ConsumerGroupConfig readConfigLocked(const std::string& group_id) const;
-    /**
-     * @brief TBD: Describe readOffsetLocked.
-     * @param[in] group_id Input parameter.
-     * @return Return value.
-     */
     uint64_t            readOffsetLocked(const std::string& group_id) const;
-    /**
-     * @brief TBD: Describe writeConfigLocked.
-     * @param[in] config Input parameter.
-     */
     void                writeConfigLocked(const ConsumerGroupConfig& config);
-    /**
-     * @brief TBD: Describe writeOffsetLocked.
-     * @param[in] group_id Input parameter.
-     * @param[in] sequence Input parameter.
-     */
     void                writeOffsetLocked(const std::string& group_id, uint64_t sequence);
 
     // --------------------------------------------------------

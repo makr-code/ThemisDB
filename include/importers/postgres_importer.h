@@ -317,185 +317,71 @@ private:
     std::unordered_map<std::string, std::string> custom_type_map_;  ///< Types from CREATE TYPE
     ImportConflictResolver conflict_resolver_;  ///< In-session conflict tracker
     
-    /**
-     * @brief Parsing methods
-     * @param[in] file_path Input parameter.
-     * @param[in] options Input parameter.
-     * @param[in,out] stats Input/output parameter.
-     * @param[in,out] callback Input/output parameter.
-     * @return True on success.
-     */
+    // Parsing methods
     bool parseDumpFile(const std::string& file_path, const ImportOptions& options, ImportStats& stats,
                        ProgressCallback& callback);
-    /**
-     * @brief TBD: Describe parseCreateTable.
-     * @param[in] sql Input parameter.
-     * @param[in,out] schema Input/output parameter.
-     * @return True on success.
-     */
     bool parseCreateTable(const std::string& sql, TableSchema& schema);
-    /**
-     * @brief TBD: Describe parseInsert.
-     * @param[in] sql Input parameter.
-     * @param[in] options Input parameter.
-     * @param[in,out] stats Input/output parameter.
-     * @param[in] line_number Input parameter.
-     * @return True on success.
-     */
     bool parseInsert(const std::string& sql, const ImportOptions& options, ImportStats& stats,
                      size_t line_number);
-    /**
-     * @brief TBD: Describe parseCopy.
-     * @param[in,out] file Input/output parameter.
-     * @param[in] table_name Input parameter.
-     * @param[in] columns Input parameter.
-     * @param[in] options Input parameter.
-     * @param[in,out] stats Input/output parameter.
-     * @param[in,out] delta_hashes Input/output parameter.
-     * @return True on success.
-     */
     bool parseCopy(std::ifstream& file, const std::string& table_name,
                    const std::vector<std::string>& columns,
                    const ImportOptions& options, ImportStats& stats,
                    std::unordered_set<uint64_t>& delta_hashes);
 
     // v2.0: Foreign Key helpers
-    /**
-     * @brief Parse a single FOREIGN KEY constraint clause (table-level) and append to schema.
-     * @param[in] constraint_def Input parameter.
-     * @param[in,out] schema Input/output parameter.
-     * @return True on success.
-     * @details @param constraint_def The trimmed constraint definition, e.g. "CONSTRAINT fk_x FOREIGN KEY (col) REFERENCES tbl(id) ON DELETE CASCADE" or bare "FOREIGN KEY (col) REFERENCES tbl(id)" @return true if a valid FK was parsed and appended.
-     */
+    /// Parse a single FOREIGN KEY constraint clause (table-level) and append to schema.
+    /// @param constraint_def  The trimmed constraint definition, e.g.
+    ///   "CONSTRAINT fk_x FOREIGN KEY (col) REFERENCES tbl(id) ON DELETE CASCADE"
+    ///   or bare "FOREIGN KEY (col) REFERENCES tbl(id)"
+    /// @return true if a valid FK was parsed and appended.
     bool parseForeignKeyConstraint(const std::string& constraint_def,
                                    TableSchema& schema) const;
 
-    /**
-     * @brief Parse an inline column-level REFERENCES clause and append a FK to schema.
-     * @param[in] col_name Input parameter.
-     * @param[in] col_def Input parameter.
-     * @param[in,out] schema Input/output parameter.
-     * @return True on success.
-     * @details @param col_name The column owning the reference. @param col_def Full column definition string, e.g. "user_id integer NOT NULL REFERENCES users(id) ON DELETE CASCADE" @return true if a REFERENCES clause was found and a FK was appended.
-     */
+    /// Parse an inline column-level REFERENCES clause and append a FK to schema.
+    /// @param col_name   The column owning the reference.
+    /// @param col_def    Full column definition string, e.g.
+    ///   "user_id integer NOT NULL REFERENCES users(id) ON DELETE CASCADE"
+    /// @return true if a REFERENCES clause was found and a FK was appended.
     bool parseInlineReference(const std::string& col_name,
                               const std::string& col_def,
                               TableSchema& schema) const;
 
-    /**
-     * @brief Parse a standalone ALTER TABLE … ADD CONSTRAINT … FOREIGN KEY statement and update the corresponding cached schema entry.
-     * @param[in] sql Input parameter.
-     * @param[in] options Input parameter.
-     * @param[in,out] stats Input/output parameter.
-     */
+    /// Parse a standalone ALTER TABLE … ADD CONSTRAINT … FOREIGN KEY statement
+    /// and update the corresponding cached schema entry.
     void parseAlterTableAddFk(const std::string& sql,
                                const ImportOptions& options,
                                ImportStats& stats);
-    /**
-     * @brief v2.
-     * @param[in] constraint_def Input parameter.
-     * @param[in,out] fk Input/output parameter.
-     * @return True on success.
-     * @details 0 parser methods
-     */
+    // v2.0 parser methods
     bool parseForeignKeyConstraint(const std::string& constraint_def,
                                    ForeignKeyConstraint& fk);
-    /**
-     * @brief TBD: Describe parseCreateIndex.
-     * @param[in] sql Input parameter.
-     * @param[in] table_name Input parameter.
-     * @param[in,out] index Input/output parameter.
-     * @return True on success.
-     */
     bool parseCreateIndex(const std::string& sql,
                           const std::string& table_name,
                           IndexMetadata& index);
-    /**
-     * @brief TBD: Describe parseAlterTableForeignKey.
-     * @param[in] sql Input parameter.
-     * @param[in,out] out_table Input/output parameter.
-     * @param[in,out] fk Input/output parameter.
-     * @return True on success.
-     */
     bool parseAlterTableForeignKey(const std::string& sql,
                                    std::string& out_table,
                                    ForeignKeyConstraint& fk);
-    /**
-     * @brief TBD: Describe validateForeignKeyReferences.
-     * @param[in] options Input parameter.
-     * @param[in,out] stats Input/output parameter.
-     * @return True on success.
-     */
     bool validateForeignKeyReferences(const ImportOptions& options,
                                       ImportStats& stats);
 
-    /**
-     * @brief v2.
-     * @param[in] constraint_def Input parameter.
-     * @param[in,out] ck Input/output parameter.
-     * @return True on success.
-     * @details 1 parser methods
-     */
+    // v2.1 parser methods
     bool parseCheckConstraint(const std::string& constraint_def, CheckConstraint& ck);
-    /**
-     * @brief TBD: Describe parseExcludeConstraint.
-     * @param[in] constraint_def Input parameter.
-     * @param[in,out] excl Input/output parameter.
-     * @return True on success.
-     */
     bool parseExcludeConstraint(const std::string& constraint_def, ExcludeConstraint& excl);
-    /**
-     * @brief TBD: Describe parseGeneratedColumn.
-     * @param[in] col_def Input parameter.
-     * @param[in] col_name Input parameter.
-     * @param[in,out] gen Input/output parameter.
-     * @return True on success.
-     */
     bool parseGeneratedColumn(const std::string& col_def, const std::string& col_name,
                               GeneratedColumnInfo& gen);
     
-    /**
-     * @brief Schema mapping
-     * @param[in] pg_type Input parameter.
-     * @param[in] options Input parameter.
-     * @return Return value.
-     */
+    // Schema mapping
     std::string mapPostgreSQLTypeToThemis(const std::string& pg_type,
                                           const ImportOptions& options) const;
-    /**
-     * @brief TBD: Describe shouldImportTable.
-     * @param[in] table_name Input parameter.
-     * @param[in] options Input parameter.
-     * @return True on success.
-     */
     bool shouldImportTable(const std::string& table_name, const ImportOptions& options);
     
-    /**
-     * @brief Data conversion
-     * @param[in] schema Input parameter.
-     * @param[in] values Input parameter.
-     * @return Return value.
-     */
+    // Data conversion
     json convertRowToEntity(const TableSchema& schema, const std::vector<std::string>& values);
 
-    /**
-     * @brief COPY row helpers
-     * @param[in] line Input parameter.
-     * @return Return value.
-     */
+    // COPY row helpers
     std::vector<std::string> parseCopyRow(const std::string& line) const;
-    /**
-     * @brief TBD: Describe unescapeCopyValue.
-     * @param[in] val Input parameter.
-     * @return Return value.
-     */
     std::string unescapeCopyValue(const std::string& val) const;
 
-    /**
-     * @brief INSERT helpers
-     * @param[in] values_clause Input parameter.
-     * @return Return value.
-     */
+    // INSERT helpers
     std::vector<std::string> parseInsertValues(const std::string& values_clause) const;
     
     // Error helpers
@@ -520,76 +406,31 @@ private:
                   const std::map<std::string, std::string>& attributes,
                   double duration_seconds) const;
 
-    /**
-     * @brief UTF-8 validation helper
-     * @param[in] s Input parameter.
-     * @return True on success.
-     */
+    // UTF-8 validation helper
     static bool isValidUtf8(const std::string& s);
 
-    /**
-     * @brief Checkpoint helpers
-     * @param[in] checkpoint_file Input parameter.
-     * @param[in,out] offset Input/output parameter.
-     * @param[in,out] accumulated_stats Input/output parameter.
-     * @return True on success.
-     */
+    // Checkpoint helpers
     bool loadCheckpoint(const std::string& checkpoint_file, std::streampos& offset,
                         ImportStats& accumulated_stats) const;
-    /**
-     * @brief TBD: Describe saveCheckpoint.
-     * @param[in] checkpoint_file Input parameter.
-     * @param[in] offset Input parameter.
-     * @param[in] stats Input parameter.
-     */
     void saveCheckpoint(const std::string& checkpoint_file, std::streampos offset,
                         const ImportStats& stats) const;
 
-    /**
-     * @brief Quarantine helpers
-     * @param[in] quarantine_file Input parameter.
-     * @param[in] table_name Input parameter.
-     * @param[in] raw_row Input parameter.
-     * @param[in] error Input parameter.
-     */
+    // Quarantine helpers
     void writeQuarantineRow(const std::string& quarantine_file,
                             const std::string& table_name,
                             const std::string& raw_row,
                             const ImportError& error) const;
 
-    /**
-     * @brief Delta / incremental import helpers
-     * @param[in] raw_row Input parameter.
-     * @param[in] values Input parameter.
-     * @param[in] key_columns Input parameter.
-     * @param[in] schema_columns Input parameter.
-     * @return Return value.
-     */
+    // Delta / incremental import helpers
     static uint64_t computeRowHash(const std::string& raw_row,
                                    const std::vector<std::string>& values,
                                    const std::vector<std::string>& key_columns,
                                    const std::vector<std::string>& schema_columns);
-    /**
-     * @brief TBD: Describe loadDeltaHashes.
-     * @param[in] delta_hash_file Input parameter.
-     * @return Return value.
-     */
     static std::unordered_set<uint64_t> loadDeltaHashes(const std::string& delta_hash_file);
-    /**
-     * @brief TBD: Describe saveDeltaHashes.
-     * @param[in] delta_hash_file Input parameter.
-     * @param[in] hashes Input parameter.
-     */
     static void saveDeltaHashes(const std::string& delta_hash_file,
                                 const std::unordered_set<uint64_t>& hashes);
 
-    /**
-     * @brief Progress reporting
-     * @param[in,out] callback Input/output parameter.
-     * @param[in] stage Input parameter.
-     * @param[in] current Input parameter.
-     * @param[in] total Input parameter.
-     */
+    // Progress reporting
     void reportProgress(ProgressCallback& callback, const std::string& stage, size_t current, size_t total);
 };
 

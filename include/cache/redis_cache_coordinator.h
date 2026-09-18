@@ -118,7 +118,6 @@ public:
      * non-blocking and never throws even if Redis is unavailable.
      *
      * @param config  Coordinator configuration.
-     * @return Return value.
      */
     explicit RedisCacheCoordinator(const Config& config);
 
@@ -248,28 +247,18 @@ private:
     /// Serialise a ReplicationMessage to a JSON string for PUBLISH.
     std::string serializeMessage(const ReplicationMessage& msg) const;
 
-    /**
-     * @brief Deserialise a JSON string back to a ReplicationMessage.
-     * @param[in] data Input parameter.
-     * @return Return value.
-     * @details Returns nullopt on parse failure.
-     */
+    /// Deserialise a JSON string back to a ReplicationMessage.
+    /// Returns nullopt on parse failure.
     std::optional<ReplicationMessage> deserializeMessage(const std::string& data) const;
 
-    /**
-     * @brief Compute HMAC-SHA256(config_.
-     * @param[in] payload Input parameter.
-     * @return Return value.
-     * @details hmac_secret, payload) and return hex string. Returns empty string when hmac_secret is empty.
-     */
+    /// Compute HMAC-SHA256(config_.hmac_secret, payload) and return hex string.
+    /// Returns empty string when hmac_secret is empty.
     std::string computeHmac(const std::string& payload) const;
 
-    /**
-     * @brief Verify that the "sig" field in the JSON object matches the expected HMAC.
-     * @param[in] j Input parameter.
-     * @return True on success.
-     * @details Returns true when hmac_secret is empty (signing disabled) or when the signature matches. Returns false on mismatch or when signing is enabled but the field is absent.
-     */
+    /// Verify that the "sig" field in the JSON object matches the expected HMAC.
+    /// Returns true when hmac_secret is empty (signing disabled) or when the
+    /// signature matches.  Returns false on mismatch or when signing is enabled
+    /// but the field is absent.
     bool verifyHmac(const nlohmann::json& j) const;
 
   public:
@@ -282,11 +271,10 @@ private:
     using RedisPublishFn = std::function<bool(const std::string& channel,
                                               const std::string& payload)>;
 
-    /**
-     * @brief Register a publish function used by `publishEntry()` and `publishInvalidation()` in non-hiredis builds.
-     * @param[in] fn Input parameter.
-     * @details Pass an empty `std::function` to clear and revert to the no-op fallback. Thread-safe (guarded by a static mutex).
-     */
+    /// Register a publish function used by `publishEntry()` and
+    /// `publishInvalidation()` in non-hiredis builds.
+    /// Pass an empty `std::function` to clear and revert to the no-op fallback.
+    /// Thread-safe (guarded by a static mutex).
     static void setRedisPublishFn(RedisPublishFn fn);
 };
 

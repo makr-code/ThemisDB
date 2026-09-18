@@ -218,8 +218,6 @@ public:
      * If cfg.gpu_device_id == -1 the least-loaded available GPU is selected.
      * If no GPU is available the allocator falls back to CPU simulation mode
      * (useful for CI / test environments without hardware).
-     * @param[in] cfg Input parameter.
-     * @return Return value.
      */
     explicit ActiveVRAMAllocator(const Config& cfg);
 
@@ -274,7 +272,6 @@ public:
      * Sets handle.valid = false on success.
      *
      * @return true if the memory was freed successfully.
-     * @param[in,out] handle Input/output parameter.
      */
     bool free(AllocationHandle& handle);
 
@@ -283,7 +280,6 @@ public:
      *
      * Call this whenever an allocation is actively used so LRU eviction
      * does not consider it a stale candidate.
-     * @param[in,out] handle Input/output parameter.
      */
     void touch(AllocationHandle& handle);
 
@@ -315,7 +311,6 @@ public:
      * @brief Evict all allocations belonging to `owner_id`.
      *
      * @return Bytes freed.
-     * @param[in] owner_id Input parameter.
      */
     size_t evictOwner(const std::string& owner_id);
 
@@ -343,7 +338,6 @@ public:
      * @brief Restore a previously spilled allocation back to VRAM.
      *
      * @return true if the allocation was successfully restored to GPU memory.
-     * @param[in,out] handle Input/output parameter.
      */
     bool restoreFromCPU(AllocationHandle& handle);
 

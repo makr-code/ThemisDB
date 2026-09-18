@@ -30,10 +30,6 @@ namespace prompt_engineering {
  */
 class IEmbeddingProvider {
 public:
-    /**
-     * @brief TBD: Describe ~IEmbeddingProvider.
-     * @return Return value.
-     */
     virtual ~IEmbeddingProvider() = default;
 
     /**
@@ -197,8 +193,6 @@ public:
     
     /**
      * @brief Update configuration
-     * @param[in] config Input parameter.
-     * @details Implements setConfig without additional internal calls.
      */
     void setConfig(const EvaluatorConfig& config) { config_ = config; }
 
@@ -214,28 +208,16 @@ public:
      * overlap for the semantic similarity metric.
      *
      * @param provider Shared pointer to an IEmbeddingProvider implementation
-     * @details Calls: lock(), std::move().
      */
     void setEmbeddingProvider(std::shared_ptr<IEmbeddingProvider> provider) {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] embedding_provider_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(embedding_provider_mutex_);
         embedding_provider_ = std::move(provider);
     }
 
     /**
      * @brief Remove the attached embedding provider (fall back to Jaccard)
-     * @details Calls: lock(), reset().
      */
     void clearEmbeddingProvider() {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] embedding_provider_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(embedding_provider_mutex_);
         embedding_provider_.reset();
     }
@@ -244,11 +226,6 @@ public:
      * @brief Returns true if a live embedding provider is attached
      */
     bool hasEmbeddingProvider() const {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] embedding_provider_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(embedding_provider_mutex_);
         return embedding_provider_ != nullptr;
     }
@@ -288,13 +265,6 @@ private:
 
     [[nodiscard]] std::shared_ptr<IEmbeddingProvider> getEmbeddingProviderSnapshot() const;
 
-    /**
-     * @brief TBD: Describe computeEmbeddingSimilarity.
-     * @param[in] s1 Input parameter.
-     * @param[in] s2 Input parameter.
-     * @param[in] provider Input parameter.
-     * @return Return value.
-     */
     double computeEmbeddingSimilarity(
         const std::string& s1,
         const std::string& s2,
@@ -303,30 +273,21 @@ private:
     
     /**
      * @brief Compute weighted score from individual metrics
-     * @param[in] metrics Input parameter.
-     * @return Return value.
      */
     double computeWeightedScore(const EvaluationMetrics& metrics) const;
     
     /**
      * @brief Normalize string for comparison
-     * @param[in] s Input parameter.
-     * @return Return value.
      */
     static std::string normalizeString(const std::string& s);
     
     /**
      * @brief Tokenize string into words
-     * @param[in] s Input parameter.
-     * @return Return value.
      */
     static std::vector<std::string> tokenize(const std::string& s);
     
     /**
      * @brief Compute Levenshtein distance
-     * @param[in] s1 Input parameter.
-     * @param[in] s2 Input parameter.
-     * @return Return value.
      */
     static size_t levenshteinDistance(const std::string& s1, const std::string& s2);
 };

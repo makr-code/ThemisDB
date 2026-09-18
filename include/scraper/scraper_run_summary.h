@@ -139,15 +139,9 @@ public:
      * before destruction).
      *
      * @param sink  The sink whose events should be counted.
-     * @details Calls: addListener(), lk().
      */
     void attach(ListeningScraperDiagnosticSink& sink) {
         sink.addListener([this](const ScraperDiagnosticEvent& e) {
-            /**
-             * @brief TBD: Describe lk.
-             * @param[in] mu_ Input parameter.
-             * @return Return value.
-             */
             std::lock_guard<std::mutex> lk(mu_);
             switch (e.fault_class) {
                 case ScraperFaultClass::kFetchPath:
@@ -186,11 +180,6 @@ public:
      * @param pages  Number of metadata records written for this URL (default 1).
      */
     void recordSuccess(uint32_t pages = 1) noexcept {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mu_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(mu_);
         ++succeeded_;
         pages_written_ += pages;
@@ -203,11 +192,6 @@ public:
      * @param run_duration_ms Wall-clock run duration in milliseconds.
      */
     void setRunStats(uint32_t total_urls, uint64_t run_duration_ms) noexcept {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mu_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(mu_);
         total_urls_      = total_urls;
         run_duration_ms_ = run_duration_ms;
@@ -220,11 +204,6 @@ public:
      * internal mutex; it will not change after return.
      */
     [[nodiscard]] ScraperRunSummary summary() const noexcept {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mu_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(mu_);
         ScraperRunSummary s;
         s.total_urls      = total_urls_;
@@ -241,11 +220,6 @@ public:
 
     /// Reset all counters to zero.
     void reset() noexcept {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mu_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(mu_);
         total_urls_      = 0;
         succeeded_       = 0;

@@ -71,8 +71,6 @@ struct MetricAnomaly {
     /// Human-readable explanation.
     std::string description;
 
-     * @brief TBD: Describe toJson.
-     * @return Return value.
     /** Serialize to JSON. */
     json toJson() const;
 };
@@ -219,7 +217,6 @@ public:
      *
      * Accumulated history and the trained model are discarded.
      * No-op if the name is not registered.
-     * @param[in] metric_name Input parameter.
      */
     void unmonitor(const std::string& metric_name);
 
@@ -245,14 +242,11 @@ public:
      *        started (or since the last @c clearAnomalies() call).
      *
      * @throws std::out_of_range if the metric name is not registered.
-     * @param[in] metric_name Input parameter.
-     * @return Return value.
      */
     std::vector<MetricAnomaly> getAnomalies(const std::string& metric_name) const;
 
     /**
      * @brief Return anomalies across all registered metrics.
-     * @return Return value.
      */
     std::vector<MetricAnomaly> getAllAnomalies() const;
 
@@ -260,7 +254,6 @@ public:
      * @brief Clear stored anomaly history for a single metric.
      *
      * @throws std::out_of_range if the metric name is not registered.
-     * @param[in] metric_name Input parameter.
      */
     void clearAnomalies(const std::string& metric_name);
 
@@ -288,25 +281,21 @@ public:
 
     /**
      * @brief Generate a human-readable anomaly summary report.
-     * @return Return value.
      */
     std::string generateReport() const;
 
     /**
      * @brief Generate a JSON anomaly summary report.
-     * @return Return value.
      */
     json generateReportJson() const;
 
     /**
      * @brief Return the number of registered metric streams.
-     * @return Return value.
      */
     size_t monitoredCount() const;
 
     /**
      * @brief Return the names of all registered metric streams.
-     * @return Return value.
      */
     std::vector<std::string> monitoredNames() const;
 
@@ -321,20 +310,12 @@ private:
         std::vector<MetricAnomaly>                anomalies;
         size_t                                    points_seen{0};
 
-        /**
-         * @brief TBD: Describe StreamState.
-         * @param[in] cfg Input parameter.
-         * @return Return value.
-         */
         explicit StreamState(const MonitoredMetric& cfg);
     };
 
-    /**
-     * @brief ------------------------------------------------------------------ Helpers ------------------------------------------------------------------
-     * @param[in] score Input parameter.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
+    // ------------------------------------------------------------------
+    // Helpers
+    // ------------------------------------------------------------------
 
     static std::string scoreSeverity(double score) noexcept;
 

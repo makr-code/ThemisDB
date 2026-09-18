@@ -127,10 +127,6 @@ struct ScraperDiagnosticEvent {
  */
 class IScraperDiagnosticSink {
 public:
-    /**
-     * @brief TBD: Describe ~IScraperDiagnosticSink.
-     * @return Return value.
-     */
     virtual ~IScraperDiagnosticSink() = default;
 
     /**
@@ -140,7 +136,6 @@ public:
      *
      * Implementations MUST NOT throw.  Any internal error during emit should
      * be swallowed and counted (not propagated to the scraper pipeline).
-     * @note Exception safety: noexcept.
      */
     virtual void emit(const ScraperDiagnosticEvent& event) noexcept = 0;
 };
@@ -176,15 +171,8 @@ public:
      * Listeners are called outside the internal mutex, so they may safely
      * call back into the sink (e.g., @c snapshot(), @c size()).  Keep them
      * short to minimise emit latency.
-     * @param[in] fn Input parameter.
-     * @details Calls: lk(), push_back(), std::move().
      */
     void addListener(Listener fn) {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mu_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(mu_);
         listeners_.push_back(std::move(fn));
     }
@@ -195,11 +183,6 @@ public:
         // the sink (e.g., calls snapshot(), size(), or addListener()).
         std::vector<Listener> local_listeners;
         {
-            /**
-             * @brief TBD: Describe lk.
-             * @param[in] mu_ Input parameter.
-             * @return Return value.
-             */
             std::lock_guard<std::mutex> lk(mu_);
             events_.push_back(event);
             local_listeners = listeners_;
@@ -211,33 +194,18 @@ public:
 
     /// Return a snapshot of all recorded events (thread-safe copy).
     std::vector<ScraperDiagnosticEvent> snapshot() const {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mu_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(mu_);
         return events_;
     }
 
     /// Number of events recorded.
     std::size_t size() const {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mu_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(mu_);
         return events_.size();
     }
 
     /// Clear all recorded events (registered listeners are preserved).
     void clear() {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mu_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(mu_);
         events_.clear();
     }

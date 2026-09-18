@@ -154,13 +154,11 @@ public:
 
     /**
      * @brief Return the backing `IngestionToolbox`.
-     * @return Return value.
      */
     std::shared_ptr<toolbox::IngestionToolbox> toolbox() const;
 
     /**
      * @brief Return the configured graph-writer sink (may be null).
-     * @return Return value.
      */
     std::shared_ptr<ingestion::IGraphWriter> graphWriter() const;
 

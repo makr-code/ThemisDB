@@ -71,15 +71,11 @@ public:
 
     /**
      * @brief Return the registered routes (for inspection / testing).
-     * @return Return value.
-     * @note Exception safety: noexcept.
      */
     const std::vector<Route>& routes() const noexcept;
 
     /**
      * @brief Return the fallback toolbox (may be null).
-     * @return Return value.
-     * @note Exception safety: noexcept.
      */
     std::shared_ptr<IngestionToolbox> fallback() const noexcept;
 
@@ -87,8 +83,6 @@ public:
      * @brief Look up the toolbox that would be used for @p mime.
      *
      * Returns `nullptr` when no route and no fallback match.
-     * @param[in] mime Input parameter.
-     * @return Return value.
      */
     std::shared_ptr<IngestionToolbox> resolve(const std::string& mime) const;
 
@@ -127,7 +121,6 @@ public:
      *                     `"text/plain"`, `"text/html"`, …
      * @param toolbox      Toolbox to use when the prefix matches.  Must not
      *                     be null.
-     * @return Return value.
      */
     ToolboxCompositeBuilder& addRoute(
         std::string                       mime_prefix,
@@ -137,7 +130,6 @@ public:
      * @brief Set the fallback toolbox used when no route matches.
      *
      * @param toolbox  May be null (disables the fallback).
-     * @return Return value.
      */
     ToolboxCompositeBuilder& setFallback(
         std::shared_ptr<IngestionToolbox> toolbox);
@@ -149,10 +141,6 @@ public:
      */
 
 #pragma once
-    /**
-     * @brief TBD: Describe build.
-     * @return Return value.
-     */
     std::unique_ptr<ToolboxComposite> build();
 
 private:

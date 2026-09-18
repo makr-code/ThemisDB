@@ -251,11 +251,6 @@ public:
     // =========================================================================
 
     QueryCompiler();
-    /**
-     * @brief TBD: Describe QueryCompiler.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit QueryCompiler(const Config& config);
     ~QueryCompiler();
 
@@ -335,15 +330,12 @@ public:
     /**
      * @brief Returns true when the query identified by @p key has a
      *        compiled specialisation ready.
-     * @param[in] key Input parameter.
-     * @return True on success.
      */
     bool isCompiled(const std::string& key) const;
 
     /**
      * @brief Returns the total call count for the given @p key.
      * @return 0 when the key is unknown.
-     * @param[in] key Input parameter.
      */
     size_t callCount(const std::string& key) const;
 
@@ -352,8 +344,6 @@ public:
      *
      * The key is a 16-character FNV-1a hex digest, deterministic
      * across process restarts.
-     * @param[in] query_text Input parameter.
-     * @return Return value.
      */
     static std::string makeKey(const std::string& query_text);
 
@@ -374,20 +364,15 @@ public:
     // Statistics
     // =========================================================================
 
-     * @return Return value.
-     * @note Exception safety: noexcept.
     /** @brief Return a snapshot of the current statistics. */
     const Stats& stats() const noexcept;
 
-     * @note Exception safety: noexcept.
     /** @brief Reset statistics counters (does not invalidate compiled code). */
     void resetStats() noexcept;
 
-    /**
-     * @brief ========================================================================= Config accessor =========================================================================
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
+    // =========================================================================
+    // Config accessor
+    // =========================================================================
 
     const Config& config() const noexcept;
 
@@ -404,8 +389,6 @@ public:
      * This flag is never reset (restart the engine to recover).
      *
      * [WAVE3B-FIX: catch_all_swallow — query_compiler.cpp]
-     * @return True on success.
-     * @note Exception safety: noexcept.
      */
     bool isJitStateCorrupted() const noexcept;
 

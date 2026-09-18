@@ -319,13 +319,11 @@ public:
     
     /**
      * @brief Export metrics as JSON
-     * @return Return value.
      */
     json toJson() const;
     
     /**
      * @brief Export metrics in Prometheus text format
-     * @return Return value.
      */
     std::string toPrometheusFormat() const;
     
@@ -398,18 +396,8 @@ private:
     };
     std::map<std::string, LatencyStats> latency_stats_;
     
-    /**
-     * @brief Helper methods
-     * @param[in] operation Input parameter.
-     * @param[in] latency_ms Input parameter.
-     */
+    // Helper methods
     void recordLatencyInternal(const std::string& operation, double latency_ms);
-    /**
-     * @brief TBD: Describe calculatePercentile.
-     * @param[in] sorted_samples Input parameter.
-     * @param[in] percentile Input parameter.
-     * @return Return value.
-     */
     double calculatePercentile(const std::vector<double>& sorted_samples, double percentile) const;
 };
 

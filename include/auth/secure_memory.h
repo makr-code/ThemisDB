@@ -107,24 +107,12 @@ class SecureString {
 public:
     SecureString() noexcept = default;
 
-    /**
-     * @brief TBD: Describe SecureString.
-     * @param[in] s Input parameter.
-     * @return Return value.
-     * @details Calls: assign(), std::strlen().
-     */
     explicit SecureString(const char* s) {
         if (s) {
           assign(s, std::strlen(s));
         }
     }
 
-    /**
-     * @brief TBD: Describe SecureString.
-     * @param[in] s Input parameter.
-     * @return Return value.
-     * @details Calls: assign(), data(), size().
-     */
     explicit SecureString(const std::string& s) {
         assign(s.data(), s.size());
     }
@@ -212,12 +200,6 @@ private:
     char*       data_ = nullptr;
     std::size_t size_ = 0;
 
-    /**
-     * @brief TBD: Describe assign.
-     * @param[in] src Input parameter.
-     * @param[in] len Input parameter.
-     * @details Calls: std::memcpy(), detail::secure_mlock().
-     */
     void assign(const char* src, std::size_t len) {
         if (len == 0) {
           return;
@@ -343,12 +325,6 @@ private:
     T*          data_ = nullptr;
     std::size_t size_ = 0;
 
-    /**
-     * @brief TBD: Describe assign.
-     * @param[in] src Input parameter.
-     * @param[in] n Input parameter.
-     * @details Calls: std::memcpy(), detail::secure_mlock().
-     */
     void assign(const T* src, std::size_t n) {
         if (n == 0) {
           return;

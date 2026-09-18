@@ -133,27 +133,14 @@ private:
     bool initialized_ = false;
     bool p2p_enabled_ = false;
     
-    /**
-     * @brief Ring all-reduce implementation
-     * @param[in,out] tensor Input/output parameter.
-     * @param[in] average Input parameter.
-     * @return True on success.
-     */
+    // Ring all-reduce implementation
     bool ring_allreduce(GPUTensor& tensor, bool average);
     
-    /**
-     * @brief Helper: Transfer data between GPUs
-     * @param[in] src Input parameter.
-     * @param[in,out] dst Input/output parameter.
-     * @param[in] offset Input parameter.
-     * @param[in] count Input parameter.
-     */
+    // Helper: Transfer data between GPUs
     void gpu_to_gpu_copy(const GPUTensor& src, GPUTensor& dst, 
                          size_t offset, size_t count);
     
-    /**
-     * @brief Helper: Enable P2P access if supported
-     */
+    // Helper: Enable P2P access if supported
     void enable_p2p_access();
 
     std::optional<RingAllreduceFn> ring_allreduce_fn_;

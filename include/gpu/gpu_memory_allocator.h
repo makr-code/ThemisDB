@@ -83,7 +83,6 @@ public:
      * @param config Allocator configuration
      * @throws std::runtime_error If GPU initialization fails
      * @throws std::invalid_argument If device_id is invalid
-     * @return Return value.
      */
     explicit GPUMemoryAllocator(const Config& config);
 
@@ -161,7 +160,6 @@ public:
      * as warning but does not throw.
      * 
      * @pre !is_moved_from()
-     * @note Exception safety: noexcept.
      */
     void deallocate(const MemoryAllocation& alloc) noexcept;
 
@@ -210,7 +208,6 @@ public:
      * @brief Check if allocator is in moved-from state
      * 
      * @return true if all resources have been moved out
-     * @note Exception safety: noexcept.
      */
     bool is_moved_from() const noexcept;
 
@@ -218,7 +215,6 @@ public:
      * @brief Check if allocator is initialized
      * 
      * @return true if GPU device is ready for allocation
-     * @note Exception safety: noexcept.
      */
     bool is_initialized() const noexcept;
 
@@ -226,7 +222,6 @@ public:
      * @brief Get allocator configuration
      * 
      * @return Current Config
-     * @note Exception safety: noexcept.
      */
     const Config& get_config() const noexcept;
 
@@ -242,7 +237,6 @@ public:
      * @brief Query allocated GPU memory
      * 
      * @return Currently allocated GPU memory in bytes
-     * @note Exception safety: noexcept.
      */
     size_t allocated_memory() const noexcept;
 
@@ -250,15 +244,10 @@ public:
      * @brief Get number of active allocations
      * 
      * @return Count of non-freed allocations
-     * @note Exception safety: noexcept.
      */
     size_t allocation_count() const noexcept;
 
 private:
-    /**
-     * @brief TBD: Describe cleanup.
-     * @note Exception safety: noexcept.
-     */
     void cleanup() noexcept;
 
     Config config_;
@@ -303,21 +292,14 @@ public:
      * @brief Get GPU device pointer
      * 
      * @return GPU pointer, or nullptr if moved-from
-     * @note Exception safety: noexcept.
      */
     void* device_ptr() noexcept;
-    /**
-     * @brief TBD: Describe device_ptr.
-     * @return Pointer to the result.
-     * @note Exception safety: noexcept.
-     */
     const void* device_ptr() const noexcept;
 
     /**
      * @brief Get CPU mirror pointer (if available)
      * 
      * @return CPU pointer, or nullptr if unavailable or moved-from
-     * @note Exception safety: noexcept.
      */
     void* host_ptr() noexcept;
 
@@ -325,7 +307,6 @@ public:
      * @brief Get region size in bytes
      * 
      * @return Size, or 0 if moved-from
-     * @note Exception safety: noexcept.
      */
     size_t size() const noexcept;
 
@@ -333,7 +314,6 @@ public:
      * @brief Check if region is valid
      * 
      * @return true if GPU memory is allocated
-     * @note Exception safety: noexcept.
      */
     bool is_valid() const noexcept;
 

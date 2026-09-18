@@ -82,15 +82,6 @@ void cpu_fused_lora_backward(
  * @brief CPU fused LoRA forward pass with OpenMP parallelization
  * 
  * Parallelized version for better CPU performance
- * @param[in] input Input parameter.
- * @param[in] B Input parameter.
- * @param[in] A Input parameter.
- * @param[in,out] output Input/output parameter.
- * @param[in] batch_size Input parameter.
- * @param[in] in_dim Input parameter.
- * @param[in] rank Input parameter.
- * @param[in] out_dim Input parameter.
- * @param[in] scaling Input parameter.
  */
 void cpu_fused_lora_forward_parallel(
     const float* input,

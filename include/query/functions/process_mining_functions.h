@@ -618,14 +618,7 @@ public:
      * @param fn  Provider callable, or `nullptr` to revert to null-placeholder.
      */
     using PredictEndFn = std::function<nlohmann::json(const std::string& case_id)>;
-    /**
-     * @brief TBD: Describe setPredictEndFn.
-     * @param[in] fn Input parameter.
-     */
     static void setPredictEndFn(PredictEndFn fn);
-    /**
-     * @brief TBD: Describe clearPredictEndFn.
-     */
     static void clearPredictEndFn();
 
     FunctionSignature signature() const override {
@@ -690,8 +683,6 @@ public:
 
 /**
  * @brief Register all process mining functions with the registry
- * @param[in,out] registry Input/output parameter.
- * @details Calls: registerFunction().
  */
 inline void registerProcessMiningFunctions(FunctionRegistry& registry) {
     // Pattern matching (NEW)

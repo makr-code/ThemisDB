@@ -217,11 +217,6 @@ public:
      */
     void setLLMGenerateFn(LLMGenerateFn fn);
     
-    /**
-     * @brief TBD: Describe AIPluginGenerator.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit AIPluginGenerator(const Config& config);
     ~AIPluginGenerator();
     
@@ -252,17 +247,7 @@ public:
      */
     void setLlmHttpPostFn(LlmHttpPostFn fn);
 
-    /**
-     * @brief TBD: Describe generatePlugin.
-     * @param[in] prompt Input parameter.
-     * @return Return value.
-     */
     Result<GeneratedPlugin> generatePlugin(const PluginGenerationPrompt& prompt);
-    /**
-     * @brief TBD: Describe validatePrompt.
-     * @param[in] prompt Input parameter.
-     * @return Return value.
-     */
     Result<void> validatePrompt(const PluginGenerationPrompt& prompt);
     
     // ─── HttpPost bridge (stub #282) ──────────────────────────────────────────

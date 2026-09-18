@@ -105,10 +105,6 @@ struct CompressionResult {
  */
 class ICompressionStrategy {
 public:
-    /**
-     * @brief TBD: Describe ~ICompressionStrategy.
-     * @return Return value.
-     */
     virtual ~ICompressionStrategy() = default;
 
     /**

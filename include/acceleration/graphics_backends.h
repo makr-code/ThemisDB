@@ -75,112 +75,60 @@ public:
         bool useL2 = true
     ) override;
 
-    /**
-     * @brief Register a non-DirectX availability bridge for stub builds.
-     * @param[in] fn Input parameter.
-     * @details Thread-safe setter; passing empty function restores fail-closed default. Calls: lk(), availabilityFnMutex(), availabilityFnStorage(), std::move().
-     */
+    /// Register a non-DirectX availability bridge for stub builds.
+    /// Thread-safe setter; passing empty function restores fail-closed default.
     static void setAvailabilityFn(AvailabilityFn fn) {
         std::lock_guard<std::mutex> lk(availabilityFnMutex());
         availabilityFnStorage() = std::move(fn);
     }
-    /**
-     * @brief Register a non-DirectX initialization bridge for stub builds.
-     * @param[in] fn Input parameter.
-     * @details Thread-safe setter; passing empty function restores fail-closed default. Calls: lk(), initializeFnMutex(), initializeFnStorage(), std::move().
-     */
+    /// Register a non-DirectX initialization bridge for stub builds.
+    /// Thread-safe setter; passing empty function restores fail-closed default.
     static void setInitializeFn(InitializeFn fn) {
         std::lock_guard<std::mutex> lk(initializeFnMutex());
         initializeFnStorage() = std::move(fn);
     }
-    /**
-     * @brief Register a non-DirectX distance-compute bridge for stub builds.
-     * @param[in] fn Input parameter.
-     * @details Thread-safe setter; passing empty function restores fail-closed default. Calls: lk(), computeDistancesFnMutex(), computeDistancesFnStorage(), std::move().
-     */
+    /// Register a non-DirectX distance-compute bridge for stub builds.
+    /// Thread-safe setter; passing empty function restores fail-closed default.
     static void setComputeDistancesFn(ComputeDistancesFn fn) {
         std::lock_guard<std::mutex> lk(computeDistancesFnMutex());
         computeDistancesFnStorage() = std::move(fn);
     }
-    /**
-     * @brief Register a non-DirectX batch-KNN bridge for stub builds.
-     * @param[in] fn Input parameter.
-     * @details Thread-safe setter; passing empty function restores fail-closed default. Calls: lk(), batchKnnSearchFnMutex(), batchKnnSearchFnStorage(), std::move().
-     */
+    /// Register a non-DirectX batch-KNN bridge for stub builds.
+    /// Thread-safe setter; passing empty function restores fail-closed default.
     static void setBatchKnnSearchFn(BatchKnnSearchFn fn) {
         std::lock_guard<std::mutex> lk(batchKnnSearchFnMutex());
         batchKnnSearchFnStorage() = std::move(fn);
     }
 
 private:
-    /**
-     * @brief TBD: Describe availabilityFnMutex.
-     * @return Return value.
-     * @details Implements availabilityFnMutex without additional internal calls.
-     */
     static std::mutex& availabilityFnMutex() {
         static std::mutex m;
         return m;
     }
-    /**
-     * @brief TBD: Describe availabilityFnStorage.
-     * @return Return value.
-     * @details Implements availabilityFnStorage without additional internal calls.
-     */
     static AvailabilityFn& availabilityFnStorage() {
         static AvailabilityFn fn;
         return fn;
     }
-    /**
-     * @brief TBD: Describe initializeFnMutex.
-     * @return Return value.
-     * @details Implements initializeFnMutex without additional internal calls.
-     */
     static std::mutex& initializeFnMutex() {
         static std::mutex m;
         return m;
     }
-    /**
-     * @brief TBD: Describe initializeFnStorage.
-     * @return Return value.
-     * @details Implements initializeFnStorage without additional internal calls.
-     */
     static InitializeFn& initializeFnStorage() {
         static InitializeFn fn;
         return fn;
     }
-    /**
-     * @brief TBD: Describe computeDistancesFnMutex.
-     * @return Return value.
-     * @details Implements computeDistancesFnMutex without additional internal calls.
-     */
     static std::mutex& computeDistancesFnMutex() {
         static std::mutex m;
         return m;
     }
-    /**
-     * @brief TBD: Describe computeDistancesFnStorage.
-     * @return Return value.
-     * @details Implements computeDistancesFnStorage without additional internal calls.
-     */
     static ComputeDistancesFn& computeDistancesFnStorage() {
         static ComputeDistancesFn fn;
         return fn;
     }
-    /**
-     * @brief TBD: Describe batchKnnSearchFnMutex.
-     * @return Return value.
-     * @details Implements batchKnnSearchFnMutex without additional internal calls.
-     */
     static std::mutex& batchKnnSearchFnMutex() {
         static std::mutex m;
         return m;
     }
-    /**
-     * @brief TBD: Describe batchKnnSearchFnStorage.
-     * @return Return value.
-     * @details Implements batchKnnSearchFnStorage without additional internal calls.
-     */
     static BatchKnnSearchFn& batchKnnSearchFnStorage() {
         static BatchKnnSearchFn fn;
         return fn;
@@ -248,37 +196,24 @@ public:
 
     // ---- Vulkan-specific introspection --------------------------------
 
-    /**
-     * @brief Returns true when the selected physical device advertises VK_KHR_buffer_device_address (required for advanced buffer aliasing and bindless GPU pointer operations).
-     * @return True on success.
-     * @note Exception safety: noexcept.
-     * @details On Apple Silicon via MoltenVK this may return false even if Vulkan is otherwise functional. Only meaningful after a successful initialize().
-     */
+    // Returns true when the selected physical device advertises
+    // VK_KHR_buffer_device_address (required for advanced buffer aliasing
+    // and bindless GPU pointer operations).  On Apple Silicon via MoltenVK
+    // this may return false even if Vulkan is otherwise functional.
+    // Only meaningful after a successful initialize().
     bool hasBufferDeviceAddress() const noexcept;
 
-    /**
-     * @brief Tunable workgroup dimensions for SPIR-V specialization constants.
-     * @param[in] wgX Input parameter.
-     * @param[in] wgY Input parameter.
-     * @note Exception safety: noexcept.
-     * @details Must be called before initialize() to take effect. Calls after initialize() are silently ignored; zero values are rejected. setWorkgroupSizeBatchSearch() additionally rejects values > 256 because batch_search.comp declares shared float sharedQuery[256].
-     */
+    // Tunable workgroup dimensions for SPIR-V specialization constants.
+    // Must be called before initialize() to take effect.
+    // Calls after initialize() are silently ignored; zero values are rejected.
+    // setWorkgroupSizeBatchSearch() additionally rejects values > 256 because
+    // batch_search.comp declares shared float sharedQuery[256].
     void setWorkgroupSizeL2(uint32_t wgX, uint32_t wgY) noexcept;
-    /**
-     * @brief TBD: Describe setWorkgroupSizeBatchSearch.
-     * @param[in] wgX Input parameter.
-     * @note Exception safety: noexcept.
-     */
     void setWorkgroupSizeBatchSearch(uint32_t wgX) noexcept;
 
     // Inspect current (pending or baked) workgroup sizes for testing/debugging.
     // Returns {wgX, wgY} for the L2 pipeline; {batchX, 1} for batch-search.
     std::pair<uint32_t, uint32_t> getWorkgroupSizeL2() const noexcept;
-    /**
-     * @brief TBD: Describe getWorkgroupSizeBatchSearch.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
     uint32_t getWorkgroupSizeBatchSearch() const noexcept;
 
     /// Register a non-Vulkan availability bridge for stub builds.
@@ -313,82 +248,40 @@ public:
         std::vector<uint32_t>(const std::string& /*glsl_source*/,
                               const std::string& /*shader_type*/)>;
 
-    /**
-     * @brief Inject (or remove) a runtime GLSL→SPIR-V compiler.
-     * @param[in] fn Input parameter.
-     * @details Pass nullptr / empty fn to restore the stub path (returns empty SPIR-V). Thread-safe.
-     */
+    /// Inject (or remove) a runtime GLSL→SPIR-V compiler.  Pass nullptr /
+    /// empty fn to restore the stub path (returns empty SPIR-V).
+    /// Thread-safe.
     static void setCompileGLSLFn(CompileGLSLFn fn);
 
 private:
-    /**
-     * @brief TBD: Describe availabilityFnMutex.
-     * @return Return value.
-     * @details Implements availabilityFnMutex without additional internal calls.
-     */
     static std::mutex& availabilityFnMutex() {
         static std::mutex m;
         return m;
     }
-    /**
-     * @brief TBD: Describe availabilityFnStorage.
-     * @return Return value.
-     * @details Implements availabilityFnStorage without additional internal calls.
-     */
     static AvailabilityFn& availabilityFnStorage() {
         static AvailabilityFn fn;
         return fn;
     }
-    /**
-     * @brief TBD: Describe initializeFnMutex.
-     * @return Return value.
-     * @details Implements initializeFnMutex without additional internal calls.
-     */
     static std::mutex& initializeFnMutex() {
         static std::mutex m;
         return m;
     }
-    /**
-     * @brief TBD: Describe initializeFnStorage.
-     * @return Return value.
-     * @details Implements initializeFnStorage without additional internal calls.
-     */
     static InitializeFn& initializeFnStorage() {
         static InitializeFn fn;
         return fn;
     }
-    /**
-     * @brief TBD: Describe computeDistancesFnMutex.
-     * @return Return value.
-     * @details Implements computeDistancesFnMutex without additional internal calls.
-     */
     static std::mutex& computeDistancesFnMutex() {
         static std::mutex m;
         return m;
     }
-    /**
-     * @brief TBD: Describe computeDistancesFnStorage.
-     * @return Return value.
-     * @details Implements computeDistancesFnStorage without additional internal calls.
-     */
     static ComputeDistancesFn& computeDistancesFnStorage() {
         static ComputeDistancesFn fn;
         return fn;
     }
-    /**
-     * @brief TBD: Describe batchKnnSearchFnMutex.
-     * @return Return value.
-     * @details Implements batchKnnSearchFnMutex without additional internal calls.
-     */
     static std::mutex& batchKnnSearchFnMutex() {
         static std::mutex m;
         return m;
     }
-    /**
-     * @brief TBD: Describe batchKnnSearchFnStorage.
-     * @return Return value.
-     * @details Implements batchKnnSearchFnStorage without additional internal calls.
-     */
     static BatchKnnSearchFn& batchKnnSearchFnStorage() {
         static BatchKnnSearchFn fn;
         return fn;
@@ -497,112 +390,60 @@ public:
         bool useL2 = true
     ) override;
 
-    /**
-     * @brief Register a non-OpenGL availability bridge for stub builds.
-     * @param[in] fn Input parameter.
-     * @details Thread-safe setter; passing empty function restores fail-closed default. Calls: lk(), availabilityFnMutex(), availabilityFnStorage(), std::move().
-     */
+    /// Register a non-OpenGL availability bridge for stub builds.
+    /// Thread-safe setter; passing empty function restores fail-closed default.
     static void setAvailabilityFn(AvailabilityFn fn) {
         std::lock_guard<std::mutex> lk(availabilityFnMutex());
         availabilityFnStorage() = std::move(fn);
     }
-    /**
-     * @brief Register a non-OpenGL initialization bridge for stub builds.
-     * @param[in] fn Input parameter.
-     * @details Thread-safe setter; passing empty function restores fail-closed default. Calls: lk(), initializeFnMutex(), initializeFnStorage(), std::move().
-     */
+    /// Register a non-OpenGL initialization bridge for stub builds.
+    /// Thread-safe setter; passing empty function restores fail-closed default.
     static void setInitializeFn(InitializeFn fn) {
         std::lock_guard<std::mutex> lk(initializeFnMutex());
         initializeFnStorage() = std::move(fn);
     }
-    /**
-     * @brief Register a non-OpenGL distance-compute bridge for stub builds.
-     * @param[in] fn Input parameter.
-     * @details Thread-safe setter; passing empty function restores fail-closed default. Calls: lk(), computeDistancesFnMutex(), computeDistancesFnStorage(), std::move().
-     */
+    /// Register a non-OpenGL distance-compute bridge for stub builds.
+    /// Thread-safe setter; passing empty function restores fail-closed default.
     static void setComputeDistancesFn(ComputeDistancesFn fn) {
         std::lock_guard<std::mutex> lk(computeDistancesFnMutex());
         computeDistancesFnStorage() = std::move(fn);
     }
-    /**
-     * @brief Register a non-OpenGL batch-KNN bridge for stub builds.
-     * @param[in] fn Input parameter.
-     * @details Thread-safe setter; passing empty function restores fail-closed default. Calls: lk(), batchKnnSearchFnMutex(), batchKnnSearchFnStorage(), std::move().
-     */
+    /// Register a non-OpenGL batch-KNN bridge for stub builds.
+    /// Thread-safe setter; passing empty function restores fail-closed default.
     static void setBatchKnnSearchFn(BatchKnnSearchFn fn) {
         std::lock_guard<std::mutex> lk(batchKnnSearchFnMutex());
         batchKnnSearchFnStorage() = std::move(fn);
     }
 
 private:
-    /**
-     * @brief TBD: Describe availabilityFnMutex.
-     * @return Return value.
-     * @details Implements availabilityFnMutex without additional internal calls.
-     */
     static std::mutex& availabilityFnMutex() {
         static std::mutex m;
         return m;
     }
-    /**
-     * @brief TBD: Describe availabilityFnStorage.
-     * @return Return value.
-     * @details Implements availabilityFnStorage without additional internal calls.
-     */
     static AvailabilityFn& availabilityFnStorage() {
         static AvailabilityFn fn;
         return fn;
     }
-    /**
-     * @brief TBD: Describe initializeFnMutex.
-     * @return Return value.
-     * @details Implements initializeFnMutex without additional internal calls.
-     */
     static std::mutex& initializeFnMutex() {
         static std::mutex m;
         return m;
     }
-    /**
-     * @brief TBD: Describe initializeFnStorage.
-     * @return Return value.
-     * @details Implements initializeFnStorage without additional internal calls.
-     */
     static InitializeFn& initializeFnStorage() {
         static InitializeFn fn;
         return fn;
     }
-    /**
-     * @brief TBD: Describe computeDistancesFnMutex.
-     * @return Return value.
-     * @details Implements computeDistancesFnMutex without additional internal calls.
-     */
     static std::mutex& computeDistancesFnMutex() {
         static std::mutex m;
         return m;
     }
-    /**
-     * @brief TBD: Describe computeDistancesFnStorage.
-     * @return Return value.
-     * @details Implements computeDistancesFnStorage without additional internal calls.
-     */
     static ComputeDistancesFn& computeDistancesFnStorage() {
         static ComputeDistancesFn fn;
         return fn;
     }
-    /**
-     * @brief TBD: Describe batchKnnSearchFnMutex.
-     * @return Return value.
-     * @details Implements batchKnnSearchFnMutex without additional internal calls.
-     */
     static std::mutex& batchKnnSearchFnMutex() {
         static std::mutex m;
         return m;
     }
-    /**
-     * @brief TBD: Describe batchKnnSearchFnStorage.
-     * @return Return value.
-     * @details Implements batchKnnSearchFnStorage without additional internal calls.
-     */
     static BatchKnnSearchFn& batchKnnSearchFnStorage() {
         static BatchKnnSearchFn fn;
         return fn;
@@ -743,8 +584,6 @@ using GlslCompilerFn = std::function<
  * revert to the stub.  Thread-safe.
  *
  * Roadmap ref: src/acceleration/FUTURE_ENHANCEMENTS.md §Vulkan GLSL Compiler.
- * @param[in] fn Input parameter.
- * @return Return value.
  */
 THEMIS_BASE_API void setVulkanGlslCompilerFn(GlslCompilerFn fn);
 

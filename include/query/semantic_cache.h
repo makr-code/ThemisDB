@@ -118,18 +118,7 @@ public:
         bool ok = false;
         std::string message;
         
-        /**
-         * @brief TBD: Describe OK.
-         * @return Return value.
-         * @details Implements OK without additional internal calls.
-         */
         static Status OK() { return Status{true, ""}; }
-        /**
-         * @brief TBD: Describe Error.
-         * @param[in] msg Input parameter.
-         * @return Return value.
-         * @details Calls: std::move().
-         */
         static Status Error(std::string msg) { return Status{false, std::move(msg)}; }
     };
 
@@ -146,112 +135,36 @@ public:
     
     /// @cwe CWE-457: Mutex and member references are non-moveable, so move operations explicitly deleted
     
-    /**
-     * @brief Cache operations
-     * @param[in] query Input parameter.
-     * @param[in] result_json Input parameter.
-     * @return Return value.
-     */
+    // Cache operations
     Status put(std::string_view query, std::string_view result_json);
-    /**
-     * @brief TBD: Describe get.
-     * @param[in] query Input parameter.
-     * @return Return value.
-     */
     LookupResult get(std::string_view query);
-    /**
-     * @brief TBD: Describe remove.
-     * @param[in] query Input parameter.
-     * @return Return value.
-     */
     Status remove(std::string_view query);
-    /**
-     * @brief TBD: Describe clear.
-     * @return Return value.
-     */
     Status clear();
     
-    /**
-     * @brief Statistics
-     * @return Return value.
-     */
+    // Statistics
     CacheStats getStats() const;
-    /**
-     * @brief TBD: Describe resetStats.
-     */
     void resetStats();
     
-    /**
-     * @brief Configuration
-     * @param[in] config Input parameter.
-     */
+    // Configuration
     void setConfig(const Config& config);
-    /**
-     * @brief TBD: Describe getConfig.
-     * @return Return value.
-     */
     Config getConfig() const;
     
-    /**
-     * @brief Maintenance
-     * @return Return value.
-     */
+    // Maintenance
     Status evictExpired();                       // Remove expired entries
     Status evictLRU(size_t count = 1);          // Evict least recently used
     
 private:
-    /**
-     * @brief Helper methods
-     * @param[in] query Input parameter.
-     * @return Return value.
-     */
+    // Helper methods
     std::vector<float> computeQueryEmbedding_(std::string_view query) const;
-    /**
-     * @brief TBD: Describe makeExactMatchKey_.
-     * @param[in] query Input parameter.
-     * @return Return value.
-     */
     std::string makeExactMatchKey_(std::string_view query) const;
-    /**
-     * @brief TBD: Describe makeCacheEntryKey_.
-     * @param[in] query Input parameter.
-     * @return Return value.
-     */
     std::string makeCacheEntryKey_(std::string_view query) const;
-    /**
-     * @brief TBD: Describe loadCacheEntry_.
-     * @param[in] query Input parameter.
-     * @return Return value.
-     */
     std::optional<CacheEntry> loadCacheEntry_(std::string_view query) const;
-    /**
-     * @brief TBD: Describe saveCacheEntry_.
-     * @param[in] entry Input parameter.
-     * @return Return value.
-     */
     Status saveCacheEntry_(const CacheEntry& entry);
-    /**
-     * @brief TBD: Describe removeInternal_.
-     * @param[in] query Input parameter.
-     * @return Return value.
-     */
     Status removeInternal_(std::string_view query);  // Internal remove (assumes lock held)
-    /**
-     * @brief TBD: Describe updateLRU_.
-     * @param[in] query Input parameter.
-     */
     void updateLRU_(std::string_view query);
-    /**
-     * @brief TBD: Describe evictOne_.
-     * @return Return value.
-     */
     Status evictOne_();
     
-    /**
-     * @brief Feature extraction for query embedding
-     * @param[in] query Input parameter.
-     * @return Return value.
-     */
+    // Feature extraction for query embedding
     std::vector<std::string> tokenizeQuery_(std::string_view query) const;
     std::map<std::string, float> extractQueryFeatures_(std::string_view query) const;
     

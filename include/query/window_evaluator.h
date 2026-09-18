@@ -88,49 +88,22 @@ struct WindowFrameBound {
     BoundType type;
     int64_t offset = 0;  // For PRECEDING/FOLLOWING
     
-    /**
-     * @brief TBD: Describe unboundedPreceding.
-     * @return Return value.
-     * @details Implements unboundedPreceding without additional internal calls.
-     */
     static WindowFrameBound unboundedPreceding() {
         return {BoundType::UNBOUNDED_PRECEDING, 0};
     }
     
-    /**
-     * @brief TBD: Describe unboundedFollowing.
-     * @return Return value.
-     * @details Implements unboundedFollowing without additional internal calls.
-     */
     static WindowFrameBound unboundedFollowing() {
         return {BoundType::UNBOUNDED_FOLLOWING, 0};
     }
     
-    /**
-     * @brief TBD: Describe currentRow.
-     * @return Return value.
-     * @details Implements currentRow without additional internal calls.
-     */
     static WindowFrameBound currentRow() {
         return {BoundType::CURRENT_ROW, 0};
     }
     
-    /**
-     * @brief TBD: Describe preceding.
-     * @param[in] n Input parameter.
-     * @return Return value.
-     * @details Implements preceding without additional internal calls.
-     */
     static WindowFrameBound preceding(int64_t n) {
         return {BoundType::PRECEDING, n};
     }
     
-    /**
-     * @brief TBD: Describe following.
-     * @param[in] n Input parameter.
-     * @return Return value.
-     * @details Implements following without additional internal calls.
-     */
     static WindowFrameBound following(int64_t n) {
         return {BoundType::FOLLOWING, n};
     }
@@ -160,10 +133,6 @@ struct WindowEvalSpec {
     std::vector<SortSpec> orderBy;                         // ORDER BY specifications
     WindowFrame frame;                                     // Frame definition
     
-    /**
-     * @brief TBD: Describe toJSON.
-     * @return Return value.
-     */
     nlohmann::json toJSON() const;
 };
 
@@ -177,10 +146,6 @@ struct WindowFunctionCall {
     std::shared_ptr<Expression> defaultValue;  // Default when out of bounds
     std::string windowName;                // Reference to named window (e.g., "w")
     
-    /**
-     * @brief TBD: Describe toJSON.
-     * @return Return value.
-     */
     nlohmann::json toJSON() const;
 };
 

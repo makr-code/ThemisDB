@@ -259,11 +259,6 @@ public:
         bool require_model_integrity = true;
     };
     
-    /**
-     * @brief TBD: Describe LlamaWrapper.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit LlamaWrapper(const Config& config);
     ~LlamaWrapper() override;
     
@@ -271,11 +266,7 @@ public:
     LlamaWrapper(const LlamaWrapper&) = delete;
     LlamaWrapper& operator=(const LlamaWrapper&) = delete;
     
-    /**
-     * @brief Set metrics collector (optional)
-     * @param[in,out] collector Input/output parameter.
-     * @details Implements setMetricsCollector without additional internal calls.
-     */
+    // Set metrics collector (optional)
     void setMetricsCollector(monitoring::LLMMetricsCollector* collector) {
         metrics_collector_ = collector;
         
@@ -473,8 +464,6 @@ public:
 #ifdef THEMIS_ENABLE_VISION
     /**
      * @brief Generate response with vision support (multi-modal)
-     * @param[in] vision_request Input parameter.
-     * @return Return value.
      */
     VisionResponse generateVision(const VisionRequest& vision_request);
 #endif
@@ -503,7 +492,6 @@ public:
     
     /**
      * @brief Get state as human-readable string
-     * @return Return value.
      */
     std::string stateString() const;
     
@@ -559,10 +547,6 @@ public:
         double avg_speedup = 0.0;
     };
     
-    /**
-     * @brief TBD: Describe getSpeculativeStats.
-     * @return Return value.
-     */
     std::optional<SpeculativeDecodingStats> getSpeculativeStats() const;
     
     /**
@@ -578,7 +562,6 @@ public:
     
     /**
      * @brief Check if batch mode is active
-     * @return True on success.
      */
     bool isBatchModeActive() const;
     
@@ -675,142 +658,49 @@ private:
     // Thread safety
     mutable std::mutex mutex_;
     
-    /**
-     * @brief Helper methods
-     * @param[in] config Input parameter.
-     */
+    // Helper methods
     void validateConfig(const Config& config);
     
-    /**
-     * @brief TBD: Describe formatPromptForRAG.
-     * @param[in] rag_context Input parameter.
-     * @param[in] request Input parameter.
-     * @return Return value.
-     */
     std::string formatPromptForRAG(
         const RAGContext& rag_context,
         const InferenceRequest& request
     );
     
-    /**
-     * @brief TBD: Describe updateStatistics.
-     * @param[in] response Input parameter.
-     */
     void updateStatistics(const InferenceResponse& response);
     
-    /**
-     * @brief TBD: Describe extractModelId.
-     * @param[in] model_path Input parameter.
-     * @return Return value.
-     */
     std::string extractModelId(const std::string& model_path);
     
-    /**
-     * @brief State machine helpers (Production Readiness)
-     * @param[in] new_state Input parameter.
-     * @param[in] reason Input parameter.
-     */
+    // State machine helpers (Production Readiness)
     void transitionToState(WrapperState new_state, const std::string& reason);
-    /**
-     * @brief TBD: Describe stateToString.
-     * @param[in] state Input parameter.
-     * @return Return value.
-     */
     static std::string stateToString(WrapperState state);
     
-    /**
-     * @brief Grammar-related helpers (Phase 3.
-     * @details 2)
-     */
+    // Grammar-related helpers (Phase 3.2)
     void initializeBuiltinGrammars();
-    /**
-     * @brief TBD: Describe getOrCreateGrammar.
-     * @param[in] request Input parameter.
-     * @return Return value.
-     */
     std::shared_ptr<Grammar> getOrCreateGrammar(const InferenceRequest& request);
-    /**
-     * @brief TBD: Describe loadGrammarFile.
-     * @param[in] grammar_name Input parameter.
-     * @return Return value.
-     */
     std::string loadGrammarFile(const std::string& grammar_name);
     
-    /**
-     * @brief Speculative Decoding helpers
-     * @param[in] draft_path Input parameter.
-     * @return True on success.
-     */
+    // Speculative Decoding helpers
     bool loadDraftModel(const std::string& draft_path);
-    /**
-     * @brief TBD: Describe unloadDraftModel.
-     */
     void unloadDraftModel();
-    /**
-     * @brief TBD: Describe generateSpeculative.
-     * @param[in] request Input parameter.
-     * @return Return value.
-     */
     InferenceResponse generateSpeculative(const InferenceRequest& request);
-    /**
-     * @brief TBD: Describe generateRegular.
-     * @param[in] request Input parameter.
-     * @return Return value.
-     */
     InferenceResponse generateRegular(const InferenceRequest& request);
-    /**
-     * @brief TBD: Describe getProbability.
-     * @param[in,out] logits Input/output parameter.
-     * @param[in] token Input parameter.
-     * @param[in] n_vocab Input parameter.
-     * @return Return value.
-     */
     float getProbability(float* logits, llama_token token, int32_t n_vocab);
-    /**
-     * @brief TBD: Describe synchronizeDraftToTarget.
-     * @param[in] accepted_tokens Input parameter.
-     */
     void synchronizeDraftToTarget(const std::vector<llama_token>& accepted_tokens);
     
     // Vision support helpers
 #ifdef THEMIS_ENABLE_VISION
-    /**
-     * @brief TBD: Describe initializeVisionEncoder.
-     * @return True on success.
-     */
     bool initializeVisionEncoder();
-    /**
-     * @brief TBD: Describe shutdownVisionEncoder.
-     */
     void shutdownVisionEncoder();
-    /**
-     * @brief TBD: Describe buildVisionPrompt.
-     * @param[in] request Input parameter.
-     * @return Return value.
-     */
     std::string buildVisionPrompt(const VisionRequest& request);
 #endif
     
-    /**
-     * @brief Internal llama.
-     * @param[in,out] model Input/output parameter.
-     * @param[in] text Input parameter.
-     * @param[in] add_bos Input parameter.
-     * @return Return value.
-     * @details cpp helper functions
-     */
+    // Internal llama.cpp helper functions
     std::vector<llama_token> tokenizeInternal(
         llama_model* model,
         const std::string& text,
         bool add_bos
     );
     
-    /**
-     * @brief TBD: Describe detokenizeInternal.
-     * @param[in,out] ctx Input/output parameter.
-     * @param[in] tokens Input parameter.
-     * @return Return value.
-     */
     std::string detokenizeInternal(
         llama_context* ctx,
         const std::vector<llama_token>& tokens
@@ -826,29 +716,10 @@ private:
         llama_grammar* grammar = nullptr
     );
     
-    /**
-     * @brief Chat formatting helpers (implementation details)
-     * @param[in] messages Input parameter.
-     * @return Return value.
-     */
+    // Chat formatting helpers (implementation details)
     std::string formatChatML(const std::vector<ChatMessage>& messages);
-    /**
-     * @brief TBD: Describe formatLlama2.
-     * @param[in] messages Input parameter.
-     * @return Return value.
-     */
     std::string formatLlama2(const std::vector<ChatMessage>& messages);
-    /**
-     * @brief TBD: Describe formatVicuna.
-     * @param[in] messages Input parameter.
-     * @return Return value.
-     */
     std::string formatVicuna(const std::vector<ChatMessage>& messages);
-    /**
-     * @brief TBD: Describe formatAlpaca.
-     * @param[in] messages Input parameter.
-     * @return Return value.
-     */
     std::string formatAlpaca(const std::vector<ChatMessage>& messages);
     
 public:
@@ -859,24 +730,18 @@ public:
     /**
      * @brief Format response as JSON for MCP protocol
      * Converts InferenceResponse to MCP-compatible JSON format
-     * @param[in] response Input parameter.
-     * @return Return value.
      */
     static json formatAsMCPResponse(const InferenceResponse& response);
     
     /**
      * @brief Format response as SSE (Server-Sent Events) data
      * Returns SSE-formatted string: "data: {...}\n\n"
-     * @param[in] response Input parameter.
-     * @return Return value.
      */
     static std::string formatAsSSE(const InferenceResponse& response);
     
     /**
      * @brief Format response as JSON with embedded markdown
      * Useful for rich text responses with code blocks
-     * @param[in] response Input parameter.
-     * @return Return value.
      */
     static json formatAsJsonMarkdown(const InferenceResponse& response);
     

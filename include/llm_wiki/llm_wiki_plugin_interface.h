@@ -286,7 +286,6 @@ public:
      *
      * Must be called before the shared library is unloaded or the plugin
      * pointer is released.
-     * @note Exception safety: noexcept.
      */
     virtual void shutdown() noexcept = 0;
 

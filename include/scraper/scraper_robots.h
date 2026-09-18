@@ -93,7 +93,6 @@ public:
     /**
      * @brief Construct with a custom fetch function.
      * @param fetch_fn  HTTP GET implementation (default: libcurl via ScraperPlugin).
-     * @return Return value.
      */
     explicit RobotsTxtCache(FetchFn fetch_fn);
 

@@ -176,10 +176,6 @@ public:
      */
     using MockCommandFn = std::function<std::string(
         const std::vector<std::string>& cmd)>;
-    /**
-     * @brief TBD: Describe setMockCommandForTesting.
-     * @param[in] fn Input parameter.
-     */
     void setMockCommandForTesting(MockCommandFn fn);
 
 private:

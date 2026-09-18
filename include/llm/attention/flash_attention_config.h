@@ -92,10 +92,6 @@ struct FlashAttentionConfig {
  * @brief Memory statistics for attention operations
  */
 struct AttentionMemoryStats {
-    /**
-     * @brief TBD: Describe ~AttentionMemoryStats.
-     * @return Return value.
-     */
     virtual ~AttentionMemoryStats() = default;
     // Total VRAM bytes used by attention (including buffers, KV cache, temps)
     size_t vram_used = 0;

@@ -116,7 +116,6 @@ public:
      *
      * Always returns a 36-character string in the form
      * `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`.
-     * @return Return value.
      */
     std::string toString() const;
 
@@ -143,11 +142,9 @@ private:
     std::array<uint8_t, kByteSize> bytes_;
 };
 
-/**
- * @brief --------------------------------------------------------------------------- CorrelationId inline implementation ---------------------------------------------------------------------------
- * @param[in] s Input parameter.
- * @return Return value.
- */
+// ---------------------------------------------------------------------------
+// CorrelationId inline implementation
+// ---------------------------------------------------------------------------
 
 inline CorrelationId CorrelationId::parse(std::string_view s)
 {
@@ -258,10 +255,6 @@ namespace api {
  */
 class ICorrelationIDProvider {
 public:
-    /**
-     * @brief TBD: Describe ~ICorrelationIDProvider.
-     * @return Return value.
-     */
     virtual ~ICorrelationIDProvider() = default;
 
     /// Header name used for inbound and outbound correlation ID propagation.
@@ -294,9 +287,6 @@ public:
      *        suitable for placing in the `X-Correlation-ID` response header.
      *
      * Equivalent to `id.toString()`.
-     * @param[in] id Input parameter.
-     * @return Return value.
-     * @details Calls: toString().
      */
     static std::string serialize(const CorrelationId& id) { return id.toString(); }
 };

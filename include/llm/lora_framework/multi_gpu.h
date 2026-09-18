@@ -90,11 +90,6 @@ private:
     DeviceType gpu_type_;
     bool is_homogeneous_ = false;
     
-    /**
-     * @brief TBD: Describe detect_gpus.
-     * @param[in] num_gpus Input parameter.
-     * @param[in] gpu_ids Input parameter.
-     */
     void detect_gpus(int num_gpus, const std::vector<int>& gpu_ids);
 };
 
@@ -102,10 +97,6 @@ private:
  * @brief GPU topology information for optimized communication
  */
 struct GPUTopology {
-    /**
-     * @brief TBD: Describe ~GPUTopology.
-     * @return Return value.
-     */
     virtual ~GPUTopology() = default;
     int num_gpus = 0;
     bool has_nvlink = false;
@@ -114,8 +105,6 @@ struct GPUTopology {
     
     /**
      * @brief Detect GPU topology
-     * @param[in] devices Input parameter.
-     * @return Return value.
      */
     static GPUTopology detect(const std::vector<Device>& devices);
 };

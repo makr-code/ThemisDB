@@ -145,10 +145,6 @@ struct MetadataSnapshot {
  */
 class IMetadataSnapshotStore {
 public:
-    /**
-     * @brief TBD: Describe ~IMetadataSnapshotStore.
-     * @return Return value.
-     */
     virtual ~IMetadataSnapshotStore() = default;
 
     /**
@@ -232,11 +228,6 @@ public:
             throw MetadataSnapshotException(
                 "", "snapshot_id must not be empty");
         }
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::mutex> lk(mutex_);
         snapshots_[snapshot.snapshot_id] = snapshot;
         return snapshot.snapshot_id;
@@ -248,11 +239,6 @@ public:
      * @return The snapshot, or std::nullopt if not found.
      */
     std::optional<MetadataSnapshot> load(std::string_view id) override {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::mutex> lk(mutex_);
         auto it = snapshots_.find(std::string(id));
         if (it == snapshots_.end()) {
@@ -265,11 +251,6 @@ public:
      * @brief Return all snapshot IDs in ascending lexicographic order.
      */
     std::vector<std::string> listSnapshotIds() override {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::mutex> lk(mutex_);
         std::vector<std::string> ids = {};
 
@@ -287,22 +268,12 @@ public:
      * @return true if the snapshot was found and removed; false otherwise.
      */
     bool remove(std::string_view id) override {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::mutex> lk(mutex_);
         return snapshots_.erase(std::string(id)) > 0;
     }
 
     /** @return Number of snapshots currently held. */
     size_t size() override {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::mutex> lk(mutex_);
         return snapshots_.size();
     }
@@ -313,14 +284,8 @@ public:
      * @brief Remove all snapshots from the store.
      *
      * Useful for resetting state between unit-test cases.
-     * @details Calls: lk().
      */
     void clear() {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::mutex> lk(mutex_);
         snapshots_.clear();
     }

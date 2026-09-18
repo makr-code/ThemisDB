@@ -81,10 +81,6 @@ struct LanguageDetectionResult {
  */
 class IAudioBackend {
 public:
-    /**
-     * @brief TBD: Describe ~IAudioBackend.
-     * @return Return value.
-     */
     virtual ~IAudioBackend() = default;
 
     /**
@@ -95,17 +91,12 @@ public:
      */
     virtual bool initialize(const std::string& model_path, const json& config) = 0;
 
-    /**
-     * @brief TBD: Describe isInitialized.
-     * @return True on success.
-     */
     virtual bool isInitialized() const = 0;
 
     /**
      * @brief Transcribe raw PCM float32 samples.
      * @param pcm_samples  Mono float32 audio data.
      * @param sample_rate  Sample rate of the audio (e.g. 16000.0f).
-     * @return Return value.
      */
     virtual TranscriptionResult transcribe(const std::vector<float>& pcm_samples,
                                            float sample_rate) = 0;
@@ -113,7 +104,6 @@ public:
     /**
      * @brief Transcribe an audio file from disk.
      * @param path  Absolute or relative path to a WAV/FLAC file.
-     * @return Return value.
      */
     virtual TranscriptionResult transcribeFile(const std::string& path) = 0;
 
@@ -131,7 +121,6 @@ public:
      * @param sample_rate  Sample rate (e.g. 16000.0f).
      * @param callback     Invoked once per token; must not block.
      * @return Final TranscriptionResult (aggregated full text + provenance).
-     * @details Calls: transcribe(), callback().
      */
     virtual TranscriptionResult transcribeStream(const std::vector<float>& pcm_samples,
                                                  float sample_rate,
@@ -153,27 +142,12 @@ public:
 
     /**
      * @brief Detect the spoken language in PCM samples.
-     * @param[in] pcm_samples Input parameter.
-     * @param[in] sample_rate Input parameter.
-     * @return Return value.
      */
     virtual LanguageDetectionResult detectLanguage(const std::vector<float>& pcm_samples,
                                                    float sample_rate) = 0;
 
-    /**
-     * @brief TBD: Describe getModelId.
-     * @return Return value.
-     */
     virtual std::string getModelId() const = 0;
-    /**
-     * @brief TBD: Describe getPluginVersion.
-     * @return Return value.
-     */
     virtual std::string getPluginVersion() const = 0;
-    /**
-     * @brief TBD: Describe getStatistics.
-     * @return Return value.
-     */
     virtual json        getStatistics() const = 0;
 };
 
@@ -189,14 +163,6 @@ public:
  */
 #define THEMIS_AUDIO_PLUGIN()                                                         \
     extern "C" THEMIS_PLUGIN_EXPORT                                                   \
-        /**
-         * @brief TBD: Describe themis_audio_create.
-         * @return Pointer to the result.
-         */
         themis::audio::IAudioBackend* themis_audio_create();                          \
     extern "C" THEMIS_PLUGIN_EXPORT                                                   \
-        /**
-         * @brief TBD: Describe themis_audio_destroy.
-         * @param[in,out] p Input/output parameter.
-         */
         void themis_audio_destroy(themis::audio::IAudioBackend* p)

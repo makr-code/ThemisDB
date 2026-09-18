@@ -124,7 +124,6 @@ public:
     /**
      * @brief Construct reranker with custom configuration
      * @param config Reranker configuration
-     * @return Return value.
      */
     explicit CrossEncoderReranker(const CrossEncoderConfig& config);
 
@@ -212,7 +211,6 @@ public:
 
     /**
      * @brief Return current configuration
-     * @return Return value.
      */
     const CrossEncoderConfig& getConfig() const;
 
@@ -237,7 +235,6 @@ class CrossEncoderFactory {
 public:
     /**
      * @brief Fast heuristic reranker (no model required, <5 ms / 100 docs)
-     * @return Return value.
      */
     static std::unique_ptr<CrossEncoderReranker> createFast();
 

@@ -73,26 +73,14 @@ public:
     /** @brief Construct empty replica-topology manager. */
     ReplicaTopology() = default;
     
-     * @param[in] replica_set Input parameter.
-     * @details Calls: lock().
     /** @brief Insert or replace replica-set mapping for one shard id. */
     void defineReplicaSet(const ShardReplicaSet& replica_set) {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         replica_sets_[replica_set.shard_id] = replica_set;
     }
     
     /** @brief Return replica-set snapshot for shard id, or nullptr if unknown. */
     std::shared_ptr<const ShardReplicaSet> getReplicaSet(const std::string& shard_id) const {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = replica_sets_.find(shard_id);
         if (it != replica_sets_.end()) {
@@ -103,11 +91,6 @@ public:
     
     /** @brief Return all shard ids containing the provided replica id. */
     std::vector<std::string> findShardsByReplica(const std::string& replica_id) const {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         std::vector<std::string> shards = {};
 
@@ -121,11 +104,6 @@ public:
     
     /** @brief Return all known shard identifiers. */
     std::vector<std::string> getAllShards() const {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         std::vector<std::string> shards = {};
 
@@ -138,16 +116,8 @@ public:
     /**
      * @brief Update health state for replica membership.
      * @note Current implementation marks shard health only when primary status changes.
-     * @param[in] shard_id Input parameter.
-     * @param[in] replica_id Input parameter.
-     * @param[in] is_healthy Input parameter.
      */
     void setReplicaHealth(const std::string& shard_id, const std::string& replica_id, bool is_healthy) {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = replica_sets_.find(shard_id);
         if (it != replica_sets_.end()) {
@@ -160,11 +130,6 @@ public:
     
     /** @brief Return number of shard mappings currently tracked. */
     size_t getShardCount() const {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         return replica_sets_.size();
     }
@@ -175,11 +140,6 @@ public:
      * @return Vector of matching ShardReplicaSet values
      */
     std::vector<ShardReplicaSet> getReplicaSetsInRegion(const std::string& region) const {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         std::vector<ShardReplicaSet> result = {};
 
@@ -196,11 +156,6 @@ public:
      * @return Sorted list of unique region names
      */
     std::vector<std::string> getRegions() const {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         std::unordered_set<std::string> seen = {};
 

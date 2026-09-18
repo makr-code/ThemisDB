@@ -36,9 +36,6 @@ enum class SecurityLevel {
 
 /**
  * @brief Convert SecurityLevel to string
- * @param[in] level Input parameter.
- * @return Return value.
- * @details Implements securityLevelToString without additional internal calls.
  */
 inline std::string securityLevelToString(SecurityLevel level) {
     switch (level) {
@@ -52,10 +49,6 @@ inline std::string securityLevelToString(SecurityLevel level) {
 
 /**
  * @brief Parse SecurityLevel from string
- * @param[in] str Input parameter.
- * @return Return value.
- * @throws std::invalid_argument if an error occurs.
- * @details Implements stringToSecurityLevel without additional internal calls.
  */
 inline SecurityLevel stringToSecurityLevel(const std::string& str) {
     if (str == "offen") {

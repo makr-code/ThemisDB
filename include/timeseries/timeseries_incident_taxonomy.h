@@ -595,7 +595,6 @@ using IncidentHandler = void (*)(const Incident& incident) noexcept;
  * Only one handler is active at a time; registering a new handler replaces the old one.
  *
  * @param handler Callback function, or nullptr to disable incident reporting.
- * @note Exception safety: noexcept.
  */
 void setIncidentHandler(IncidentHandler handler) noexcept;
 
@@ -613,7 +612,6 @@ void setIncidentHandler(IncidentHandler handler) noexcept;
  * from any path (ingest, query, lifecycle, integration).
  *
  * @param incident The incident to emit.
- * @note Exception safety: noexcept.
  */
 void emitIncident(const Incident& incident) noexcept;
 

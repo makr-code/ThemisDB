@@ -126,25 +126,13 @@ private:
     ParquetExportConfig config_;
     std::shared_ptr<ExporterMetrics> metrics_;
 
-    /**
-     * @brief Decide which include/exclude columns apply for this export
-     * @param[in] entities Input parameter.
-     * @param[in] options Input parameter.
-     * @return Return value.
-     */
+    // Decide which include/exclude columns apply for this export
     std::vector<std::string> resolveColumns(
         const std::vector<BaseEntity>& entities,
         const ExportOptions& options
     ) const;
 
 #ifdef ARROW_ENABLED
-    /**
-     * @brief TBD: Describe exportWithArrow.
-     * @param[in] entities Input parameter.
-     * @param[in] options Input parameter.
-     * @param[in] columns Input parameter.
-     * @return Return value.
-     */
     ExportStats exportWithArrow(
         const std::vector<BaseEntity>& entities,
         const ExportOptions& options,
@@ -152,13 +140,6 @@ private:
     );
 #endif
 
-    /**
-     * @brief TBD: Describe exportFallback.
-     * @param[in] entities Input parameter.
-     * @param[in] options Input parameter.
-     * @param[in] columns Input parameter.
-     * @return Return value.
-     */
     ExportStats exportFallback(
         const std::vector<BaseEntity>& entities,
         const ExportOptions& options,

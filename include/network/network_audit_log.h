@@ -234,14 +234,11 @@ public:
 
     /**
      * @brief Return all events matching the given type.
-     * @param[in] type Input parameter.
-     * @return Return value.
      */
     std::vector<AuditEvent> getEventsByType(AuditEventType type) const;
 
     /**
      * @brief Return a snapshot of counters.
-     * @return Return value.
      */
     Stats getStats() const;
 
@@ -260,8 +257,6 @@ public:
      * Returns the first 8 bytes of the SHA-256 digest of @p input,
      * encoded as lower-case hexadecimal.  Returns an empty string when
      * @p input is empty.
-     * @param[in] input Input parameter.
-     * @return Return value.
      */
     static std::string truncatedSha256Hex(const std::string& input);
 
@@ -281,10 +276,6 @@ private:
     uint64_t auth_failures_     = 0;
     uint64_t rate_limited_      = 0;
 
-    /**
-     * @brief TBD: Describe updateCounters.
-     * @param[in] type Input parameter.
-     */
     void updateCounters(AuditEventType type);
 };
 

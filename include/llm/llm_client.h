@@ -74,10 +74,6 @@ struct GenerationResult {
  */
 class LLMClient {
 public:
-    /**
-     * @brief TBD: Describe ~LLMClient.
-     * @return Return value.
-     */
     virtual ~LLMClient() = default;
     
     /**
@@ -124,7 +120,6 @@ public:
     
     /**
      * @brief Get provider name (e.g., "openai", "ollama", "mock")
-     * @return Return value.
      */
     virtual std::string getProviderName() const = 0;
     

@@ -110,13 +110,6 @@ struct FailurePrediction {
 /** @brief Predictive Failure Detector. */
 class PredictiveFailureDetector {
 public:
-    /**
-     * @brief TBD: Describe PredictiveFailureDetector.
-     * @param[in] config Input parameter.
-     * @param[in,out] strategy Input/output parameter.
-     * @param[in,out] topology Input/output parameter.
-     * @return Return value.
-     */
     explicit PredictiveFailureDetector(
         const PredictiveConfig& config,
         RedundancyStrategy& strategy,
@@ -125,48 +118,18 @@ public:
     
     ~PredictiveFailureDetector();
     
-    /**
-     * @brief Lifecycle
-     */
+    // Lifecycle
     void start();
-    /**
-     * @brief TBD: Describe stop.
-     */
     void stop();
-    /**
-     * @brief TBD: Describe isRunning.
-     * @return True on success.
-     */
     bool isRunning() const;
     
-    /**
-     * @brief Prediction interface
-     * @return Return value.
-     */
+    // Prediction interface
     std::vector<FailurePrediction> getPredictions();
-    /**
-     * @brief TBD: Describe getHighRiskShards.
-     * @return Return value.
-     */
     std::vector<FailurePrediction> getHighRiskShards();
-    /**
-     * @brief TBD: Describe predictShard.
-     * @param[in] shard_id Input parameter.
-     * @return Return value.
-     */
     FailurePrediction predictShard(const std::string& shard_id);
     
-    /**
-     * @brief Metrics collection
-     * @param[in] metrics Input parameter.
-     */
+    // Metrics collection
     void recordMetrics(const PredictiveShardMetrics& metrics);
-    /**
-     * @brief TBD: Describe getMetricsHistory.
-     * @param[in] shard_id Input parameter.
-     * @param[in] lookback Input parameter.
-     * @return Return value.
-     */
     std::vector<PredictiveShardMetrics> getMetricsHistory(const std::string& shard_id, 
                                                  std::chrono::hours lookback) const;
     
@@ -190,14 +153,7 @@ public:
         }
     };
     
-    /**
-     * @brief TBD: Describe getStats.
-     * @return Return value.
-     */
     Stats getStats() const;
-    /**
-     * @brief TBD: Describe resetStats.
-     */
     void resetStats();
 
     // ─── ONNX model prediction injection (stub #251) ─────────────────────────
@@ -230,47 +186,20 @@ public:
     void setPredictFn(PredictFn fn);
     
 private:
-    /**
-     * @brief Background monitoring
-     */
+    // Background monitoring
     void monitoringLoop();
-    /**
-     * @brief TBD: Describe checkAllShards.
-     */
     void checkAllShards();
     
-    /**
-     * @brief Feature extraction
-     * @param[in] shard_id Input parameter.
-     * @return Return value.
-     */
+    // Feature extraction
     std::vector<float> extractFeatures(const std::string& shard_id);
-    /**
-     * @brief TBD: Describe computeStatisticalFeatures.
-     * @param[in] history Input parameter.
-     * @return Return value.
-     */
     std::vector<float> computeStatisticalFeatures(const std::vector<PredictiveShardMetrics>& history);
     
-    /**
-     * @brief ML inference
-     * @param[in] shard_id Input parameter.
-     * @param[in] features Input parameter.
-     * @return Return value.
-     */
+    // ML inference
     FailurePrediction runInference(const std::string& shard_id, 
                                    const std::vector<float>& features);
-    /**
-     * @brief TBD: Describe loadModel.
-     * @param[in] model_path Input parameter.
-     * @return True on success.
-     */
     bool loadModel(const std::string& model_path);
     
-    /**
-     * @brief Alerting
-     * @param[in] prediction Input parameter.
-     */
+    // Alerting
     void sendAlert(const FailurePrediction& prediction);
     
     // Configuration and dependencies

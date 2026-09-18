@@ -201,13 +201,11 @@ public:
     /**
      * @brief Remove a network policy by id
      * @return true if a policy was removed, false if not found
-     * @param[in] policy_id Input parameter.
      */
     bool removeNetworkPolicy(const std::string& policy_id);
 
     /**
      * @brief Retrieve all currently registered policies (snapshot)
-     * @return Return value.
      */
     std::vector<NetworkPolicy> getNetworkPolicies() const;
 
@@ -271,9 +269,6 @@ public:
      *
      * Returns `false` (deny) when no TokenVerifier is configured unless
      * `setAllowUnverifiedToken(true)` has been called explicitly.
-     * @param[in] token Input parameter.
-     * @param[in] user_id Input parameter.
-     * @return True on success.
      */
     bool verifyToken(const std::string& token, const std::string& user_id) const;
 
@@ -301,9 +296,6 @@ public:
      *   - session_risk_score deducted from the final score
      *
      * @return Score in [0.0, 1.0]
-     * @param[in] context Input parameter.
-     * @param[in] identity_verified Input parameter.
-     * @param[in] network_ok Input parameter.
      */
     double computeTrustScore(const ZeroTrustContext& context,
                              bool identity_verified,
@@ -327,49 +319,29 @@ private:
     /// Check if a single IPv4 address falls within a CIDR block
     static bool ipMatchesCidr(const std::string& ip, const std::string& cidr);
 
-    /**
-     * @brief Convert dotted-decimal IPv4 string to 32-bit host-byte-order integer Returns false on parse error
-     * @param[in] ip Input parameter.
-     * @param[in,out] out Input/output parameter.
-     * @return True on success.
-     */
+    /// Convert dotted-decimal IPv4 string to 32-bit host-byte-order integer
+    /// Returns false on parse error
     static bool parseIpv4(const std::string& ip, uint32_t& out);
 
     /// Parse an IPv6 address string (colon-hex notation, including :: abbreviation)
     /// into a 16-byte big-endian array.  Returns false on parse error.
     static bool parseIpv6(const std::string& ip, std::array<uint8_t, 16>& out);
 
-    /**
-     * @brief Check if a single IPv6 address falls within an IPv6 CIDR block.
-     * @param[in] ip Input parameter.
-     * @param[in] cidr Input parameter.
-     * @return True on success.
-     * @details The CIDR string must be in "addr/prefix" notation.
-     */
+    /// Check if a single IPv6 address falls within an IPv6 CIDR block.
+    /// The CIDR string must be in "addr/prefix" notation.
     static bool ipv6MatchesCidr(const std::string& ip, const std::string& cidr);
 
-    /**
-     * @brief Attempt to normalise an IPv4-mapped IPv6 address (::ffff:a.
-     * @param[in] ip Input parameter.
-     * @return Return value.
-     * @details b.c.d) to its IPv4 form. Returns the original string unchanged if it is not IPv4-mapped.
-     */
+    /// Attempt to normalise an IPv4-mapped IPv6 address (::ffff:a.b.c.d) to
+    /// its IPv4 form.  Returns the original string unchanged if it is not
+    /// IPv4-mapped.
     static std::string normaliseIpv4MappedIpv6(const std::string& ip);
 
-    /**
-     * @brief Dispatch to the correct CIDR-matching implementation based on whether the CIDR (and address) look like IPv6 or IPv4.
-     * @param[in] ip Input parameter.
-     * @param[in] cidr Input parameter.
-     * @return True on success.
-     */
+    /// Dispatch to the correct CIDR-matching implementation based on whether
+    /// the CIDR (and address) look like IPv6 or IPv4.
     static bool ipMatchesCidrAny(const std::string& ip, const std::string& cidr);
 
-    /**
-     * @brief Find the first policy that applies to the given identity (by user_id).
-     * @param[in] identity Input parameter.
-     * @return Pointer to the result.
-     * @details Returns nullptr if no policy is registered for this identity.
-     */
+    /// Find the first policy that applies to the given identity (by user_id).
+    /// Returns nullptr if no policy is registered for this identity.
     const NetworkPolicy* findPolicyForIdentity(const std::string& identity) const;
 
     mutable std::mutex mutex_;

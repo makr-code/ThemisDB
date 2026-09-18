@@ -259,9 +259,6 @@ public:
      *   - 201 Created  – binary validated and handler registered.
      *   - 200 OK       – existing handler re-uploaded (version incremented).
      *   - 400 Bad Request – invalid .wasm binary or missing body.
-     * @param[in] req Input parameter.
-     * @param[in] id Input parameter.
-     * @return Return value.
      */
     http::response<http::string_body> handleUpload(
         const http::request<http::string_body>& req,
@@ -273,8 +270,6 @@ public:
      * Optional query parameter: `?tenant_id=<id>` to filter by tenant.
      *
      * Response: 200 OK with JSON array of handler metadata objects.
-     * @param[in] req Input parameter.
-     * @return Return value.
      */
     http::response<http::string_body> handleList(
         const http::request<http::string_body>& req);
@@ -283,9 +278,6 @@ public:
      * @brief Handle GET /api/v1/functions/{id}/wasm – get handler metadata.
      *
      * Response: 200 OK with handler metadata, or 404 if not found.
-     * @param[in] req Input parameter.
-     * @param[in] id Input parameter.
-     * @return Return value.
      */
     http::response<http::string_body> handleGet(
         const http::request<http::string_body>& req,
@@ -295,9 +287,6 @@ public:
      * @brief Handle DELETE /api/v1/functions/{id}/wasm – remove a handler.
      *
      * Response: 204 No Content on success, 404 if not found.
-     * @param[in] req Input parameter.
-     * @param[in] id Input parameter.
-     * @return Return value.
      */
     http::response<http::string_body> handleDelete(
         const http::request<http::string_body>& req,
@@ -314,9 +303,6 @@ public:
      *   - 400 Bad Request   – invalid input JSON.
      *   - 504 Gateway Timeout – CPU time limit exceeded.
      *   - 500 Internal Server Error – memory overflow or runtime trap.
-     * @param[in] req Input parameter.
-     * @param[in] id Input parameter.
-     * @return Return value.
      */
     http::response<http::string_body> handleInvoke(
         const http::request<http::string_body>& req,
@@ -347,7 +333,6 @@ public:
     /**
      * @brief Remove a registered handler.
      * @return true if it existed and was removed; false if not found.
-     * @param[in] id Input parameter.
      */
     bool unregisterHandler(const std::string& id);
 
@@ -379,26 +364,13 @@ private:
     mutable std::shared_mutex registry_mutex_;
     std::unordered_map<std::string, WasmHandlerEntry> registry_;
 
-    /**
-     * @brief ── HTTP helpers ──────────────────────────────────────────────────────────
-     * @param[in] status Input parameter.
-     * @param[in] body Input parameter.
-     * @param[in] req Input parameter.
-     * @return Return value.
-     */
+    // ── HTTP helpers ──────────────────────────────────────────────────────────
 
     http::response<http::string_body> makeJsonResponse(
         http::status                            status,
         const nlohmann::json&                   body,
         const http::request<http::string_body>& req) const;
 
-    /**
-     * @brief TBD: Describe makeErrorResponse.
-     * @param[in] status Input parameter.
-     * @param[in] message Input parameter.
-     * @param[in] req Input parameter.
-     * @return Return value.
-     */
     http::response<http::string_body> makeErrorResponse(
         http::status                            status,
         const std::string&                      message,

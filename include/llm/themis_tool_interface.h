@@ -101,7 +101,6 @@ public:
      *
      * @param input  Parsed JSON arguments.
      * @return Future resolving to the tool result.
-     * @details Calls: std::async(), execute().
      */
     virtual std::future<json> executeAsync(const json& input) {
         return std::async(std::launch::async,
@@ -122,20 +121,9 @@ public:
  */
 #define THEMIS_TOOL_IMPL(ToolClass) \
     extern "C" { \
-        /**
-         * @brief TBD: Describe createPlugin.
-         * @return Pointer to the result.
-         * @details Calls: ToolClass().
-         */
         THEMIS_PLUGIN_EXPORT themis::plugins::IThemisPlugin* createPlugin() { \
             return new ToolClass(); \
         } \
-        /**
-         * @brief TBD: Describe destroyPlugin.
-         * @param[in,out] p Input/output parameter.
-         * @return Return value.
-         * @details Implements destroyPlugin without additional internal calls.
-         */
         THEMIS_PLUGIN_EXPORT void destroyPlugin(themis::plugins::IThemisPlugin* p) { \
             delete p; \
         } \

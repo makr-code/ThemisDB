@@ -280,11 +280,6 @@ public:
     // =========================================================================
 
     HardwareAccelerator();
-    /**
-     * @brief TBD: Describe HardwareAccelerator.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit HardwareAccelerator(Config config);
     ~HardwareAccelerator() = default;
 
@@ -313,8 +308,6 @@ public:
 
     /**
      * @brief Execute using the default AcceleratorConfig.
-     * @param[in] op Input parameter.
-     * @return Return value.
      */
     ExecutionResult execute(const QueryOperator& op);
 
@@ -326,9 +319,6 @@ public:
      * HashJoin, SortMergeJoin, Aggregate, Filter, Sort, PatternMatch, and
      * VectorOp regardless of row count — the size-based dispatch decision is
      * made inside execute().
-     * @param[in] op Input parameter.
-     * @return True on success.
-     * @note Exception safety: noexcept.
      */
     bool can_accelerate(const QueryOperator& op) const noexcept;
 
@@ -349,7 +339,6 @@ public:
     // Statistics
     // =========================================================================
 
-     * @return Return value.
     /** @brief Return a snapshot of current execution statistics. */
     Stats getStats() const;
 
@@ -364,61 +353,20 @@ public:
     const Config& config() const noexcept { return config_; }
 
 private:
-    /**
-     * @brief ── Internal dispatch helpers ─────────────────────────────────────────
-     * @param[in] op Input parameter.
-     * @param[in] cfg Input parameter.
-     * @return Return value.
-     */
+    // ── Internal dispatch helpers ─────────────────────────────────────────
 
     ExecutionResult dispatchHashJoin(const QueryOperator&    op,
                                      const AcceleratorConfig& cfg) const;
-    /**
-     * @brief TBD: Describe dispatchSortMergeJoin.
-     * @param[in] op Input parameter.
-     * @param[in] cfg Input parameter.
-     * @return Return value.
-     */
     ExecutionResult dispatchSortMergeJoin(const QueryOperator&    op,
                                           const AcceleratorConfig& cfg) const;
-    /**
-     * @brief TBD: Describe dispatchAggregate.
-     * @param[in] op Input parameter.
-     * @param[in] cfg Input parameter.
-     * @return Return value.
-     */
     ExecutionResult dispatchAggregate(const QueryOperator&    op,
                                       const AcceleratorConfig& cfg) const;
-    /**
-     * @brief TBD: Describe dispatchFilter.
-     * @param[in] op Input parameter.
-     * @param[in] cfg Input parameter.
-     * @return Return value.
-     */
     ExecutionResult dispatchFilter(const QueryOperator&    op,
                                    const AcceleratorConfig& cfg) const;
-    /**
-     * @brief TBD: Describe dispatchSort.
-     * @param[in] op Input parameter.
-     * @param[in] cfg Input parameter.
-     * @return Return value.
-     */
     ExecutionResult dispatchSort(const QueryOperator&    op,
                                  const AcceleratorConfig& cfg) const;
-    /**
-     * @brief TBD: Describe dispatchPatternMatch.
-     * @param[in] op Input parameter.
-     * @param[in] cfg Input parameter.
-     * @return Return value.
-     */
     ExecutionResult dispatchPatternMatch(const QueryOperator&    op,
                                          const AcceleratorConfig& cfg) const;
-    /**
-     * @brief TBD: Describe dispatchVectorOp.
-     * @param[in] op Input parameter.
-     * @param[in] cfg Input parameter.
-     * @return Return value.
-     */
     ExecutionResult dispatchVectorOp(const QueryOperator&    op,
                                      const AcceleratorConfig& cfg) const;
 

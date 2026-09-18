@@ -106,11 +106,6 @@ public:
      * @endcode
      */
     template <typename Fn>
-    /**
-     * @brief TBD: Describe propagate.
-     * @param[in] fn Input parameter.
-     * @return Return value.
-     */
     static auto propagate(Fn&& fn) -> std::future<std::invoke_result_t<Fn>>;
 
     // Non-instantiable static utility class.
@@ -194,11 +189,6 @@ private:
 // ---------------------------------------------------------------------------
 
 template <typename Fn>
-/**
- * @brief TBD: Describe propagate.
- * @param[in] fn Input parameter.
- * @return Return value.
- */
 auto ContextPropagation::propagate(Fn&& fn)
     -> std::future<std::invoke_result_t<Fn>>
 {
@@ -211,11 +201,7 @@ auto ContextPropagation::propagate(Fn&& fn)
         [ctx = std::move(child), f = std::forward<Fn>(fn)]() mutable
             -> std::invoke_result_t<Fn>
         {
-            /**
-             * @brief Install the propagated context for the duration of this task.
-             * @param[in] ctx Input parameter.
-             * @return Return value.
-             */
+            // Install the propagated context for the duration of this task.
             ContextScope scope(ctx);
             return f();
         });

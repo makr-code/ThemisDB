@@ -24,12 +24,6 @@
 
 namespace {
 
-/**
- * @brief TBD: Describe normalizePromptForSafety.
- * @param[in] text Input parameter.
- * @return Return value.
- * @details Calls: reserve(), size(), std::isalnum(), push_back(), std::tolower(), std::isspace().
- */
 inline std::string normalizePromptForSafety(std::string_view text) {
     std::string normalized = {};
     normalized.reserve(text.size());
@@ -46,12 +40,6 @@ inline std::string normalizePromptForSafety(std::string_view text) {
     return normalized;
 }
 
-/**
- * @brief TBD: Describe containsBlockedInstructionPattern.
- * @param[in] text Input parameter.
- * @return True on success.
- * @details Calls: normalizePromptForSafety(), find().
- */
 inline bool containsBlockedInstructionPattern(std::string_view text) {
     const std::string normalized = normalizePromptForSafety(text);
     return normalized.find("ignore all previous instructions") != std::string::npos ||
@@ -60,13 +48,6 @@ inline bool containsBlockedInstructionPattern(std::string_view text) {
            normalized.find("disregard previous instructions") != std::string::npos;
 }
 
-/**
- * @brief TBD: Describe redactLiteralToken.
- * @param[in,out] text Input/output parameter.
- * @param[in] token Input parameter.
- * @param[in] replacement Input parameter.
- * @details Calls: find(), data(), size(), replace().
- */
 inline void redactLiteralToken(std::string& text, std::string_view token,
                               std::string_view replacement) {
     std::size_t pos = 0;
@@ -76,11 +57,6 @@ inline void redactLiteralToken(std::string& text, std::string_view token,
     }
 }
 
-/**
- * @brief TBD: Describe redactControlTokens.
- * @param[in,out] text Input/output parameter.
- * @details Calls: redactLiteralToken().
- */
 inline void redactControlTokens(std::string& text) {
     redactLiteralToken(text, "<|im_start|>", "[CONTROL_TOKEN]");
     redactLiteralToken(text, "<|im_end|>", "[CONTROL_TOKEN]");
@@ -99,8 +75,6 @@ namespace themis::llm::prompt_safety {
  *
  * The policy is initialized once and reused to ensure consistent rule behavior
  * for blocking and control-token redaction.
- * @return Return value.
- * @details Calls: addBlockRule(), addRedactRule().
  */
 inline PromptPolicy& sharedPromptSafetyPolicy() {
     static PromptPolicy policy = [] {

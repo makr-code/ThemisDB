@@ -67,7 +67,6 @@ public:
      * @brief Validate @p templateJson against the built-in field rules.
      * @return `TemplateValidationResult` with zero errors when the document is
      *         structurally valid.
-     * @param[in] templateJson Input parameter.
      */
     TemplateValidationResult validate(const nlohmann::json& templateJson) const;
 
@@ -75,8 +74,6 @@ public:
      * @brief Convenience overload — parse @p json_str before validating.
      *
      * Returns an invalid result with a single error entry on parse failure.
-     * @param[in] json_str Input parameter.
-     * @return Return value.
      */
     TemplateValidationResult validate(const std::string& json_str) const;
 
@@ -102,32 +99,24 @@ private:
     /**
      * Check for SQL injection patterns in the given string.
      * @return true if SQL injection pattern detected
-     * @brief TBD: Describe hasSQLInjectionPattern.
-     * @param[in] content Input parameter.
      */
     bool hasSQLInjectionPattern(const std::string& content) const;
 
     /**
      * Check for command injection patterns.
      * @return true if command injection pattern detected
-     * @brief TBD: Describe hasCommandInjectionPattern.
-     * @param[in] content Input parameter.
      */
     bool hasCommandInjectionPattern(const std::string& content) const;
 
     /**
      * Check for path traversal patterns.
      * @return true if path traversal pattern detected
-     * @brief TBD: Describe hasPathTraversalPattern.
-     * @param[in] content Input parameter.
      */
     bool hasPathTraversalPattern(const std::string& content) const;
 
     /**
      * Check for template injection patterns.
      * @return true if template injection pattern detected
-     * @brief TBD: Describe hasTemplateInjectionPattern.
-     * @param[in] content Input parameter.
      */
     bool hasTemplateInjectionPattern(const std::string& content) const;
 };

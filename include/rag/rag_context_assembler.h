@@ -207,16 +207,9 @@ public:
         const ContextWindowBudget& budget,
         int                        user_max = 0);
 
-    /**
-     * @brief ── Configuration ────────────────────────────────────────────────────────
-     * @return Return value.
-     */
+    // ── Configuration ────────────────────────────────────────────────────────
 
     const RAGContextAssemblerConfig& getConfig() const;
-    /**
-     * @brief TBD: Describe setConfig.
-     * @param[in] cfg Input parameter.
-     */
     void setConfig(const RAGContextAssemblerConfig& cfg);
 
 private:

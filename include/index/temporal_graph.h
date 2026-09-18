@@ -75,8 +75,6 @@ struct TemporalFilter {
     
     /**
      * @brief Create filter for current time
-     * @return Return value.
-     * @details Calls: time_since_epoch(), count().
      */
     static TemporalFilter now() {
         auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -87,9 +85,6 @@ struct TemporalFilter {
     
     /**
      * @brief Create filter for specific timestamp
-     * @param[in] timestamp_ms Input parameter.
-     * @return Return value.
-     * @details Implements at without additional internal calls.
      */
     static TemporalFilter at(int64_t timestamp_ms) {
         return TemporalFilter{timestamp_ms};
@@ -97,8 +92,6 @@ struct TemporalFilter {
     
     /**
      * @brief Create filter that includes all edges (no temporal filtering)
-     * @return Return value.
-     * @details Implements all without additional internal calls.
      */
     static TemporalFilter all() {
         return TemporalFilter{std::nullopt};
@@ -167,10 +160,6 @@ struct TimeRangeFilter {
     
     /**
      * @brief Create filter for time range
-     * @param[in] start_ms Input parameter.
-     * @param[in] end_ms Input parameter.
-     * @return Return value.
-     * @details Implements between without additional internal calls.
      */
     static TimeRangeFilter between(int64_t start_ms, int64_t end_ms) {
         return TimeRangeFilter{start_ms, end_ms};
@@ -178,9 +167,6 @@ struct TimeRangeFilter {
     
     /**
      * @brief Create filter for time range from start to unbounded future
-     * @param[in] start_ms Input parameter.
-     * @return Return value.
-     * @details Implements since without additional internal calls.
      */
     static TimeRangeFilter since(int64_t start_ms) {
         return TimeRangeFilter{start_ms, std::nullopt};
@@ -188,9 +174,6 @@ struct TimeRangeFilter {
     
     /**
      * @brief Create filter for time range from unbounded past to end
-     * @param[in] end_ms Input parameter.
-     * @return Return value.
-     * @details Implements until without additional internal calls.
      */
     static TimeRangeFilter until(int64_t end_ms) {
         return TimeRangeFilter{std::nullopt, end_ms};
@@ -198,8 +181,6 @@ struct TimeRangeFilter {
     
     /**
      * @brief Create filter that includes all edges (no filtering)
-     * @return Return value.
-     * @details Implements all without additional internal calls.
      */
     static TimeRangeFilter all() {
         return TimeRangeFilter{std::nullopt, std::nullopt};
@@ -228,7 +209,6 @@ struct TemporalStats {
     
     /**
      * @brief Pretty-print statistics
-     * @return Return value.
      */
     std::string toString() const;
 };

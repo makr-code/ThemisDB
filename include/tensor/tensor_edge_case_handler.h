@@ -475,7 +475,6 @@ public:
      * stack traces and context snapshots.
      *
      * @param enable If true, enable diagnostics; if false, use minimal logging.
-     * @note Exception safety: noexcept.
      */
     void setDetailedDiagnostics(bool enable) noexcept;
 

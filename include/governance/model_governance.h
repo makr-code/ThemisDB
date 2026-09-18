@@ -81,21 +81,15 @@ class ModelGovernancePolicy {
 public:
     ModelGovernancePolicy() = default;
 
-    /**
-     * @brief Attach an audit logger.
-     * @param[in] logger Input parameter.
-     * @details Every call to checkExportPermission() will write a decision entry regardless of the allow/deny outcome.
-     */
+    /// Attach an audit logger.  Every call to checkExportPermission() will
+    /// write a decision entry regardless of the allow/deny outcome.
     void setAuditLogger(std::shared_ptr<themis::utils::AuditLogger> logger);
 
     /// Attach the lineage tracker used to record approved exports.
     void setLineageTracker(std::shared_ptr<DataLineageTracker> tracker);
 
-    /**
-     * @brief Restrict a collection from being used as model-training data.
-     * @param[in] collection_id Input parameter.
-     * @details Thread-safe; may be called at any time.
-     */
+    /// Restrict a collection from being used as model-training data.
+    /// Thread-safe; may be called at any time.
     void addRestrictedCollection(const std::string& collection_id);
 
     /// Remove a collection from the restricted list.

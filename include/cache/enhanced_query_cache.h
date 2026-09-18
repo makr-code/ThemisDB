@@ -57,11 +57,6 @@ public:
         size_t max_memory_mb = 512;                     ///< Max memory usage (MB)
     };
     
-    /**
-     * @brief TBD: Describe EnhancedQueryCache.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit EnhancedQueryCache(const Config& config);
     ~EnhancedQueryCache() = default;
     
@@ -119,10 +114,6 @@ public:
         double avg_entry_age_seconds = 0.0;
     };
     
-    /**
-     * @brief TBD: Describe getStats.
-     * @return Return value.
-     */
     Stats getStats() const;
     
     /**
@@ -172,10 +163,6 @@ private:
             return std::chrono::steady_clock::now() >= expiry;
         }
         
-        /**
-         * @brief TBD: Describe touch.
-         * @details Calls: fetch_add(), store(), std::chrono::steady_clock::now(), time_since_epoch(), count().
-         */
         void touch() {
             access_count.fetch_add(1);
             last_access.store(std::chrono::steady_clock::now().time_since_epoch().count());
@@ -189,8 +176,6 @@ private:
     
     /**
      * @brief Estimate memory usage of entry
-     * @param[in] value Input parameter.
-     * @return Return value.
      */
     size_t estimateEntrySize(const ValueType& value) const;
     

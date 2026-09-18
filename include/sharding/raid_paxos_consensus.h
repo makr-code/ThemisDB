@@ -40,7 +40,6 @@ public:
      * @brief Construct RAID-aware Paxos consensus
      * 
      * @param raid_config RAID-specific configuration
-     * @return Return value.
      */
     explicit RAIDPaxosConsensus(const RAIDPaxosConfig& raid_config);
     
@@ -75,8 +74,6 @@ public:
      * 
      * For RAID modes, quorum is calculated based on the RAID configuration
      * rather than simple majority.
-     * @param[in] responses Input parameter.
-     * @return True on success.
      */
     bool hasQuorum(const std::set<std::string>& responses) const;
     
@@ -135,13 +132,11 @@ public:
     
     /**
      * @brief Get maximum number of shards that can fail
-     * @return Return value.
      */
     int getMaxTolerableFailures() const;
     
     /**
      * @brief Calculate RAID-specific quorum size
-     * @return Return value.
      */
     int calculateRAIDQuorumSize() const;
     
@@ -208,10 +203,6 @@ public:
      */
     using ParityReconstructionFn = std::function<std::optional<std::vector<uint8_t>>(
         const std::vector<std::vector<uint8_t>>&, int)>;
-    /**
-     * @brief TBD: Describe setParityReconstructionCallback.
-     * @param[in] fn Input parameter.
-     */
     void setParityReconstructionCallback(ParityReconstructionFn fn);
     
     /**
@@ -222,10 +213,6 @@ public:
      * @param fn Callback function for mirror selection
      */
     using MirrorSelectionFn = std::function<int(int /*stripe_index*/, const std::vector<int>& /*available_mirrors*/)>;
-    /**
-     * @brief TBD: Describe setMirrorSelectionCallback.
-     * @param[in] fn Input parameter.
-     */
     void setMirrorSelectionCallback(MirrorSelectionFn fn);
     
     // ========================================================================
@@ -248,7 +235,6 @@ public:
     
     /**
      * @brief Get current failed shards
-     * @return Return value.
      */
     std::vector<int> getFailedShards() const;
     
@@ -286,13 +272,11 @@ private:
     
     /**
      * @brief Initialize RAID-specific state
-     * @return True on success.
      */
     bool initializeRAIDState();
     
     /**
      * @brief Validate RAID configuration
-     * @return True on success.
      */
     bool validateRAIDConfiguration() const;
     
@@ -300,14 +284,11 @@ private:
      * @brief Get maximum tolerable failures (internal implementation)
      * 
      * Calculates based on cluster node count and RAID configuration.
-     * @return Return value.
      */
     int getMaxTolerableFailuresInternal() const;
     
     /**
      * @brief Calculate RAID-specific timeout based on RAID mode
-     * @param[in] base_timeout Input parameter.
-     * @return Return value.
      */
     std::chrono::milliseconds calculateRAIDTimeout(
         std::chrono::milliseconds base_timeout

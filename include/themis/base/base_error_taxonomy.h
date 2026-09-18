@@ -92,7 +92,6 @@ struct BASE_LOADER_PATH_NOT_FOUND {
      * @param module_name  Logical module name.
      * @param path         Filesystem path that was not found.
      * @return Formatted diagnostic string.
-     * @details Calls: std::to_string().
      */
     static std::string format(const std::string& module_name,
                               const std::string& path) {
@@ -123,8 +122,6 @@ struct BASE_LOADER_SIGNATURE_REJECTED {
      * @brief Build a formatted diagnostic message.
      * @param module_name  Logical module name.
      * @param reason       Human-readable rejection reason.
-     * @return Return value.
-     * @details Calls: std::to_string().
      */
     static std::string format(const std::string& module_name,
                               const std::string& reason) {
@@ -156,8 +153,6 @@ struct BASE_LOADER_ABI_MISMATCH {
      * @param module_name   Logical module name.
      * @param module_abi    ABI version string reported by the module.
      * @param host_abi      ABI version string required by the host.
-     * @return Return value.
-     * @details Calls: std::to_string().
      */
     static std::string format(const std::string& module_name,
                               const std::string& module_abi,
@@ -191,9 +186,6 @@ struct BASE_LOADER_LOAD_FAILED {
      * @param module_name  Logical module name.
      * @param path         Path attempted.
      * @param os_error     dlerror() / GetLastError() message.
-     * @brief TBD: Describe format.
-     * @return Return value.
-     * @details Calls: std::to_string().
      */
     static std::string format(const std::string& module_name,
                               const std::string& path,
@@ -227,9 +219,6 @@ struct BASE_LOADER_INIT_FAILED {
      * @param module_name   Logical module name.
      * @param init_symbol   Name of the init symbol that was called.
      * @param return_code   Return value from the init function.
-     * @brief TBD: Describe format.
-     * @return Return value.
-     * @details Calls: std::to_string().
      */
     static std::string format(const std::string& module_name,
                               const std::string& init_symbol,
@@ -263,9 +252,6 @@ struct BASE_LOADER_HEALTH_CHECK_FAILED {
      * @param module_name   Logical module name.
      * @param check_name    Name of the health check that failed.
      * @param detail        Diagnostic detail from the health check.
-     * @brief TBD: Describe format.
-     * @return Return value.
-     * @details Calls: std::to_string().
      */
     static std::string format(const std::string& module_name,
                               const std::string& check_name,
@@ -302,9 +288,6 @@ struct BASE_SANDBOX_LAUNCH_FAILED {
     /**
      * @param module_name  Name of the module being sandboxed.
      * @param last_error   ModuleSandbox::lastError() string.
-     * @brief TBD: Describe format.
-     * @return Return value.
-     * @details Calls: std::to_string().
      */
     static std::string format(const std::string& module_name,
                               const std::string& last_error) {
@@ -338,9 +321,6 @@ struct BASE_SANDBOX_RESOURCE_LIMIT {
      * @param resource      "memory" or "cpu".
      * @param limit_value   Configured limit (e.g. "256 MB").
      * @param measured      Observed value.
-     * @brief TBD: Describe format.
-     * @return Return value.
-     * @details Calls: std::to_string().
      */
     static std::string format(const std::string& module_name,
                               const std::string& resource,
@@ -374,9 +354,6 @@ struct BASE_SANDBOX_TIMEOUT {
     /**
      * @param module_name     Module name.
      * @param timeout_seconds Configured timeout value.
-     * @brief TBD: Describe format.
-     * @return Return value.
-     * @details Calls: std::to_string().
      */
     static std::string format(const std::string& module_name,
                               unsigned int timeout_seconds) {
@@ -408,9 +385,6 @@ struct BASE_SANDBOX_DEGRADED {
     /**
      * @param module_name   Module name.
      * @param warnings      Comma-separated list of launchWarnings().
-     * @brief TBD: Describe format.
-     * @return Return value.
-     * @details Calls: std::to_string().
      */
     static std::string format(const std::string& module_name,
                               const std::string& warnings) {
@@ -440,9 +414,6 @@ struct BASE_SANDBOX_INACTIVE_STATS {
 
     /**
      * @param module_name  Module name.
-     * @brief TBD: Describe format.
-     * @return Return value.
-     * @details Calls: std::to_string().
      */
     static std::string format(const std::string& module_name) {
         return "[BASE_SANDBOX_INACTIVE_STATS:" + std::to_string(code) + "] "
@@ -476,9 +447,6 @@ struct BASE_RELOAD_NO_BACKUP {
 
     /**
      * @param module_name  Module name.
-     * @brief TBD: Describe format.
-     * @return Return value.
-     * @details Calls: std::to_string().
      */
     static std::string format(const std::string& module_name) {
         return "[BASE_RELOAD_NO_BACKUP:" + std::to_string(code) + "] "
@@ -509,9 +477,6 @@ struct BASE_RELOAD_ROLLBACK_FAILED {
      * @param module_name   Module name.
      * @param backup_path   Path to the backup binary.
      * @param reason        Failure reason.
-     * @brief TBD: Describe format.
-     * @return Return value.
-     * @details Calls: std::to_string().
      */
     static std::string format(const std::string& module_name,
                               const std::string& backup_path,
@@ -545,9 +510,6 @@ struct BASE_RELOAD_CANDIDATE_LOAD_FAILED {
      * @param module_name  Module name.
      * @param new_path     Path to the candidate binary.
      * @param reason       Load failure reason.
-     * @brief TBD: Describe format.
-     * @return Return value.
-     * @details Calls: std::to_string().
      */
     static std::string format(const std::string& module_name,
                               const std::string& new_path,
@@ -579,9 +541,6 @@ struct BASE_RELOAD_STATE_RESTORE_FAILED {
 
     /**
      * @param module_name  Module name.
-     * @brief TBD: Describe format.
-     * @return Return value.
-     * @details Calls: std::to_string().
      */
     static std::string format(const std::string& module_name) {
         return "[BASE_RELOAD_STATE_RESTORE_FAILED:" + std::to_string(code) + "] "
@@ -610,9 +569,6 @@ struct BASE_RELOAD_NOT_REGISTERED {
 
     /**
      * @param module_name  Module name that was not found.
-     * @brief TBD: Describe format.
-     * @return Return value.
-     * @details Calls: std::to_string().
      */
     static std::string format(const std::string& module_name) {
         return "[BASE_RELOAD_NOT_REGISTERED:" + std::to_string(code) + "] "
@@ -648,9 +604,6 @@ struct BASE_DEPENDENCY_CONFLICT {
      * @param dep_name   Name of the shared dependency.
      * @param mod_a      First requiring module and its constraint.
      * @param mod_b      Second requiring module and its constraint.
-     * @brief TBD: Describe format.
-     * @return Return value.
-     * @details Calls: std::to_string().
      */
     static std::string format(const std::string& dep_name,
                               const std::string& mod_a,
@@ -682,9 +635,6 @@ struct BASE_DEPENDENCY_CYCLE {
 
     /**
      * @param cycle_str  Human-readable cycle description, e.g. "A→B→C→A".
-     * @brief TBD: Describe format.
-     * @return Return value.
-     * @details Calls: std::to_string().
      */
     static std::string format(const std::string& cycle_str) {
         return "[BASE_DEPENDENCY_CYCLE:" + std::to_string(code) + "] "
@@ -713,9 +663,6 @@ struct BASE_DEPENDENCY_MISSING_REQUIRED {
     /**
      * @param module_name  Module that has the unsatisfied dependency.
      * @param dep_name     Name of the missing required dependency.
-     * @brief TBD: Describe format.
-     * @return Return value.
-     * @details Calls: std::to_string().
      */
     static std::string format(const std::string& module_name,
                               const std::string& dep_name) {
@@ -749,9 +696,6 @@ struct BASE_DEPENDENCY_VERSION_RANGE_MISMATCH {
      * @param have         Registered version.
      * @param need_min     Required minimum version.
      * @param need_max     Required maximum version (empty = unconstrained).
-     * @brief TBD: Describe format.
-     * @return Return value.
-     * @details Calls: std::to_string().
      */
     static std::string format(const std::string& module_name,
                               const std::string& dep_name,
@@ -792,9 +736,6 @@ struct BASE_REGISTRY_NETWORK_ERROR {
      * @param registry_url  URL of the registry.
      * @param http_status   HTTP status code (0 if no response received).
      * @param curl_error    cURL error string or OS-level error description.
-     * @brief TBD: Describe format.
-     * @return Return value.
-     * @details Calls: std::to_string().
      */
     static std::string format(const std::string& registry_url,
                               int http_status,
@@ -827,9 +768,6 @@ struct BASE_REGISTRY_AUTH_FAILURE {
     /**
      * @param registry_url  URL of the registry.
      * @param http_status   HTTP status code (typically 401 or 403).
-     * @brief TBD: Describe format.
-     * @return Return value.
-     * @details Calls: std::to_string().
      */
     static std::string format(const std::string& registry_url,
                               int http_status) {
@@ -862,9 +800,6 @@ struct BASE_REGISTRY_CHECKSUM_MISMATCH {
      * @param plugin_name     Plugin name.
      * @param expected_sha256 Expected SHA-256 from the registry manifest.
      * @param actual_sha256   Computed SHA-256 of the downloaded file.
-     * @brief TBD: Describe format.
-     * @return Return value.
-     * @details Calls: std::to_string().
      */
     static std::string format(const std::string& plugin_name,
                               const std::string& expected_sha256,
@@ -899,9 +834,6 @@ struct BASE_REGISTRY_DOWNLOAD_FAILED {
      * @param plugin_name   Plugin name.
      * @param download_url  Full download URL.
      * @param reason        I/O or file-system error description.
-     * @brief TBD: Describe format.
-     * @return Return value.
-     * @details Calls: std::to_string().
      */
     static std::string format(const std::string& plugin_name,
                               const std::string& download_url,
@@ -927,125 +859,34 @@ struct BASE_REGISTRY_DOWNLOAD_FAILED {
  */
 inline std::string_view resolveDescription(int error_code) noexcept {
     switch (error_code) {
-        /**
-         * @brief Loader
-         * @return Return value.
-         */
+        // Loader
         case BASE_LOADER_PATH_NOT_FOUND::code:         return BASE_LOADER_PATH_NOT_FOUND::description();
-        /**
-         * @brief TBD: Describe description.
-         * @return Return value.
-         */
         case BASE_LOADER_SIGNATURE_REJECTED::code:     return BASE_LOADER_SIGNATURE_REJECTED::description();
-        /**
-         * @brief TBD: Describe description.
-         * @return Return value.
-         */
         case BASE_LOADER_ABI_MISMATCH::code:           return BASE_LOADER_ABI_MISMATCH::description();
-        /**
-         * @brief TBD: Describe description.
-         * @return Return value.
-         */
         case BASE_LOADER_LOAD_FAILED::code:            return BASE_LOADER_LOAD_FAILED::description();
-        /**
-         * @brief TBD: Describe description.
-         * @return Return value.
-         */
         case BASE_LOADER_INIT_FAILED::code:            return BASE_LOADER_INIT_FAILED::description();
-        /**
-         * @brief TBD: Describe description.
-         * @return Return value.
-         */
         case BASE_LOADER_HEALTH_CHECK_FAILED::code:    return BASE_LOADER_HEALTH_CHECK_FAILED::description();
-        /**
-         * @brief Sandbox
-         * @return Return value.
-         */
+        // Sandbox
         case BASE_SANDBOX_LAUNCH_FAILED::code:         return BASE_SANDBOX_LAUNCH_FAILED::description();
-        /**
-         * @brief TBD: Describe description.
-         * @return Return value.
-         */
         case BASE_SANDBOX_RESOURCE_LIMIT::code:        return BASE_SANDBOX_RESOURCE_LIMIT::description();
-        /**
-         * @brief TBD: Describe description.
-         * @return Return value.
-         */
         case BASE_SANDBOX_TIMEOUT::code:               return BASE_SANDBOX_TIMEOUT::description();
-        /**
-         * @brief TBD: Describe description.
-         * @return Return value.
-         */
         case BASE_SANDBOX_DEGRADED::code:              return BASE_SANDBOX_DEGRADED::description();
-        /**
-         * @brief TBD: Describe description.
-         * @return Return value.
-         */
         case BASE_SANDBOX_INACTIVE_STATS::code:        return BASE_SANDBOX_INACTIVE_STATS::description();
-        /**
-         * @brief Reload
-         * @return Return value.
-         */
+        // Reload
         case BASE_RELOAD_NO_BACKUP::code:              return BASE_RELOAD_NO_BACKUP::description();
-        /**
-         * @brief TBD: Describe description.
-         * @return Return value.
-         */
         case BASE_RELOAD_ROLLBACK_FAILED::code:        return BASE_RELOAD_ROLLBACK_FAILED::description();
-        /**
-         * @brief TBD: Describe description.
-         * @return Return value.
-         */
         case BASE_RELOAD_CANDIDATE_LOAD_FAILED::code:  return BASE_RELOAD_CANDIDATE_LOAD_FAILED::description();
-        /**
-         * @brief TBD: Describe description.
-         * @return Return value.
-         */
         case BASE_RELOAD_STATE_RESTORE_FAILED::code:   return BASE_RELOAD_STATE_RESTORE_FAILED::description();
-        /**
-         * @brief TBD: Describe description.
-         * @return Return value.
-         */
         case BASE_RELOAD_NOT_REGISTERED::code:         return BASE_RELOAD_NOT_REGISTERED::description();
-        /**
-         * @brief Dependency
-         * @return Return value.
-         */
+        // Dependency
         case BASE_DEPENDENCY_CONFLICT::code:           return BASE_DEPENDENCY_CONFLICT::description();
-        /**
-         * @brief TBD: Describe description.
-         * @return Return value.
-         */
         case BASE_DEPENDENCY_CYCLE::code:              return BASE_DEPENDENCY_CYCLE::description();
-        /**
-         * @brief TBD: Describe description.
-         * @return Return value.
-         */
         case BASE_DEPENDENCY_MISSING_REQUIRED::code:   return BASE_DEPENDENCY_MISSING_REQUIRED::description();
-        /**
-         * @brief TBD: Describe description.
-         * @return Return value.
-         */
         case BASE_DEPENDENCY_VERSION_RANGE_MISMATCH::code: return BASE_DEPENDENCY_VERSION_RANGE_MISMATCH::description();
-        /**
-         * @brief Registry
-         * @return Return value.
-         */
+        // Registry
         case BASE_REGISTRY_NETWORK_ERROR::code:        return BASE_REGISTRY_NETWORK_ERROR::description();
-        /**
-         * @brief TBD: Describe description.
-         * @return Return value.
-         */
         case BASE_REGISTRY_AUTH_FAILURE::code:         return BASE_REGISTRY_AUTH_FAILURE::description();
-        /**
-         * @brief TBD: Describe description.
-         * @return Return value.
-         */
         case BASE_REGISTRY_CHECKSUM_MISMATCH::code:    return BASE_REGISTRY_CHECKSUM_MISMATCH::description();
-        /**
-         * @brief TBD: Describe description.
-         * @return Return value.
-         */
         case BASE_REGISTRY_DOWNLOAD_FAILED::code:      return BASE_REGISTRY_DOWNLOAD_FAILED::description();
         default:                                       return "unknown error code";
     }
@@ -1062,125 +903,34 @@ inline std::string_view resolveDescription(int error_code) noexcept {
  */
 inline std::string_view resolveRemediationHint(int error_code) noexcept {
     switch (error_code) {
-        /**
-         * @brief Loader
-         * @return Return value.
-         */
+        // Loader
         case BASE_LOADER_PATH_NOT_FOUND::code:         return BASE_LOADER_PATH_NOT_FOUND::remediationHint();
-        /**
-         * @brief TBD: Describe remediationHint.
-         * @return Return value.
-         */
         case BASE_LOADER_SIGNATURE_REJECTED::code:     return BASE_LOADER_SIGNATURE_REJECTED::remediationHint();
-        /**
-         * @brief TBD: Describe remediationHint.
-         * @return Return value.
-         */
         case BASE_LOADER_ABI_MISMATCH::code:           return BASE_LOADER_ABI_MISMATCH::remediationHint();
-        /**
-         * @brief TBD: Describe remediationHint.
-         * @return Return value.
-         */
         case BASE_LOADER_LOAD_FAILED::code:            return BASE_LOADER_LOAD_FAILED::remediationHint();
-        /**
-         * @brief TBD: Describe remediationHint.
-         * @return Return value.
-         */
         case BASE_LOADER_INIT_FAILED::code:            return BASE_LOADER_INIT_FAILED::remediationHint();
-        /**
-         * @brief TBD: Describe remediationHint.
-         * @return Return value.
-         */
         case BASE_LOADER_HEALTH_CHECK_FAILED::code:    return BASE_LOADER_HEALTH_CHECK_FAILED::remediationHint();
-        /**
-         * @brief Sandbox
-         * @return Return value.
-         */
+        // Sandbox
         case BASE_SANDBOX_LAUNCH_FAILED::code:         return BASE_SANDBOX_LAUNCH_FAILED::remediationHint();
-        /**
-         * @brief TBD: Describe remediationHint.
-         * @return Return value.
-         */
         case BASE_SANDBOX_RESOURCE_LIMIT::code:        return BASE_SANDBOX_RESOURCE_LIMIT::remediationHint();
-        /**
-         * @brief TBD: Describe remediationHint.
-         * @return Return value.
-         */
         case BASE_SANDBOX_TIMEOUT::code:               return BASE_SANDBOX_TIMEOUT::remediationHint();
-        /**
-         * @brief TBD: Describe remediationHint.
-         * @return Return value.
-         */
         case BASE_SANDBOX_DEGRADED::code:              return BASE_SANDBOX_DEGRADED::remediationHint();
-        /**
-         * @brief TBD: Describe remediationHint.
-         * @return Return value.
-         */
         case BASE_SANDBOX_INACTIVE_STATS::code:        return BASE_SANDBOX_INACTIVE_STATS::remediationHint();
-        /**
-         * @brief Reload
-         * @return Return value.
-         */
+        // Reload
         case BASE_RELOAD_NO_BACKUP::code:              return BASE_RELOAD_NO_BACKUP::remediationHint();
-        /**
-         * @brief TBD: Describe remediationHint.
-         * @return Return value.
-         */
         case BASE_RELOAD_ROLLBACK_FAILED::code:        return BASE_RELOAD_ROLLBACK_FAILED::remediationHint();
-        /**
-         * @brief TBD: Describe remediationHint.
-         * @return Return value.
-         */
         case BASE_RELOAD_CANDIDATE_LOAD_FAILED::code:  return BASE_RELOAD_CANDIDATE_LOAD_FAILED::remediationHint();
-        /**
-         * @brief TBD: Describe remediationHint.
-         * @return Return value.
-         */
         case BASE_RELOAD_STATE_RESTORE_FAILED::code:   return BASE_RELOAD_STATE_RESTORE_FAILED::remediationHint();
-        /**
-         * @brief TBD: Describe remediationHint.
-         * @return Return value.
-         */
         case BASE_RELOAD_NOT_REGISTERED::code:         return BASE_RELOAD_NOT_REGISTERED::remediationHint();
-        /**
-         * @brief Dependency
-         * @return Return value.
-         */
+        // Dependency
         case BASE_DEPENDENCY_CONFLICT::code:           return BASE_DEPENDENCY_CONFLICT::remediationHint();
-        /**
-         * @brief TBD: Describe remediationHint.
-         * @return Return value.
-         */
         case BASE_DEPENDENCY_CYCLE::code:              return BASE_DEPENDENCY_CYCLE::remediationHint();
-        /**
-         * @brief TBD: Describe remediationHint.
-         * @return Return value.
-         */
         case BASE_DEPENDENCY_MISSING_REQUIRED::code:   return BASE_DEPENDENCY_MISSING_REQUIRED::remediationHint();
-        /**
-         * @brief TBD: Describe remediationHint.
-         * @return Return value.
-         */
         case BASE_DEPENDENCY_VERSION_RANGE_MISMATCH::code: return BASE_DEPENDENCY_VERSION_RANGE_MISMATCH::remediationHint();
-        /**
-         * @brief Registry
-         * @return Return value.
-         */
+        // Registry
         case BASE_REGISTRY_NETWORK_ERROR::code:        return BASE_REGISTRY_NETWORK_ERROR::remediationHint();
-        /**
-         * @brief TBD: Describe remediationHint.
-         * @return Return value.
-         */
         case BASE_REGISTRY_AUTH_FAILURE::code:         return BASE_REGISTRY_AUTH_FAILURE::remediationHint();
-        /**
-         * @brief TBD: Describe remediationHint.
-         * @return Return value.
-         */
         case BASE_REGISTRY_CHECKSUM_MISMATCH::code:    return BASE_REGISTRY_CHECKSUM_MISMATCH::remediationHint();
-        /**
-         * @brief TBD: Describe remediationHint.
-         * @return Return value.
-         */
         case BASE_REGISTRY_DOWNLOAD_FAILED::code:      return BASE_REGISTRY_DOWNLOAD_FAILED::remediationHint();
         default:                                       return "no remediation hint available";
     }

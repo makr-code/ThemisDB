@@ -237,10 +237,6 @@ public:
     static SubagentResult<std::unique_ptr<SubagentCoordinator>> create(
         std::shared_ptr<SubagentFactory> factory);
 
-    /**
-     * @brief TBD: Describe ~SubagentCoordinator.
-     * @return Return value.
-     */
     virtual ~SubagentCoordinator() = default;
 
     // Non-copyable
@@ -310,7 +306,6 @@ public:
 
     /**
      * @brief Get diagnostics from last coordination operation.
-     * @return Return value.
      */
     virtual CoordinationDiagnostics getLastDiagnostics() = 0;
 
@@ -332,7 +327,6 @@ public:
 
     /**
      * @brief Get coordinator statistics.
-     * @return Return value.
      */
     virtual CoordinatorStats getStats() = 0;
 

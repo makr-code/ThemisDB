@@ -70,7 +70,6 @@ public:
     
     /**
      * @brief Memory usage in bytes
-     * @return Return value.
      */
     size_t memory_bytes() const;
     
@@ -93,11 +92,6 @@ private:
 class QuantizedModel {
 public:
     QuantizedModel() = default;
-    /**
-     * @brief TBD: Describe QuantizedModel.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit QuantizedModel(const QuantizedModelConfig& config);
     
     /**
@@ -135,13 +129,11 @@ public:
     
     /**
      * @brief Get all layer names
-     * @return Return value.
      */
     std::vector<std::string> layer_names() const;
     
     /**
      * @brief Total memory usage in bytes
-     * @return Return value.
      */
     size_t memory_bytes() const;
     
@@ -200,7 +192,6 @@ public:
     
     /**
      * @brief Set quantized base weights
-     * @param[in] base_weights Input parameter.
      */
     void set_base_weights(std::shared_ptr<QuantizedLayerWeights> base_weights);
     
@@ -208,11 +199,6 @@ public:
      * @brief Get LoRA weights (for checkpointing)
      */
     std::pair<Tensor, Tensor> get_lora_weights() const;
-    /**
-     * @brief TBD: Describe set_lora_weights.
-     * @param[in] B Input parameter.
-     * @param[in] A Input parameter.
-     */
     void set_lora_weights(const Tensor& B, const Tensor& A);
     
 private:

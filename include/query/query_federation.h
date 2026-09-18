@@ -158,7 +158,6 @@ public:
      *
      * When set, `executeFederatedRAGQuery()` uses this merger to combine
      * per-shard retrieval results via Reciprocal Rank Fusion.
-     * @param[in] merger Input parameter.
      */
     void setRAGMerger(
         std::shared_ptr<distributed_knowledge::FederatedRAGMerger> merger);

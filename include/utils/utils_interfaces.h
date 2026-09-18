@@ -92,10 +92,6 @@ struct SanitisedChunk {
  */
 class IStreamingPIIDetector {
 public:
-    /**
-     * @brief TBD: Describe ~IStreamingPIIDetector.
-     * @return Return value.
-     */
     virtual ~IStreamingPIIDetector() = default;
 
     /**
@@ -184,10 +180,6 @@ struct AuditQuery {
  */
 class IHashChainAuditLog {
 public:
-    /**
-     * @brief TBD: Describe ~IHashChainAuditLog.
-     * @return Return value.
-     */
     virtual ~IHashChainAuditLog() = default;
 
     /**
@@ -306,10 +298,6 @@ private:
  */
 class IHKDFKeyCache {
 public:
-    /**
-     * @brief TBD: Describe ~IHKDFKeyCache.
-     * @return Return value.
-     */
     virtual ~IHKDFKeyCache() = default;
 
     /**
@@ -328,7 +316,6 @@ public:
      * @brief Explicitly invalidate the cache entry for @p ctx.
      *
      * A no-op when no entry exists.
-     * @param[in] ctx Input parameter.
      */
     virtual void evict(const KeyContext& ctx) = 0;
 
@@ -393,10 +380,6 @@ struct LogEntry {
  */
 class IStructuredLogSampler {
 public:
-    /**
-     * @brief TBD: Describe ~IStructuredLogSampler.
-     * @return Return value.
-     */
     virtual ~IStructuredLogSampler() = default;
 
     /**
@@ -417,9 +400,6 @@ public:
      * Adaptive rate-limiting implementations use this to adjust future rates.
      *
      * noexcept: never throws; must not abort the caller.
-     * @param[in] entry Input parameter.
-     * @param[in] sampled Input parameter.
-     * @note Exception safety: noexcept.
      */
     virtual void recordDecision(const LogEntry& entry, bool sampled) noexcept = 0;
 
@@ -434,8 +414,6 @@ public:
      * @brief Request a new target sampling rate (fraction in [0.0, 1.0]).
      *
      * noexcept.
-     * @param[in] rate Input parameter.
-     * @note Exception safety: noexcept.
      */
     virtual void setTargetRate(double rate) noexcept = 0;
 
@@ -504,10 +482,6 @@ struct SAGALogEntry {
  */
 class ReplayIterator {
 public:
-    /**
-     * @brief TBD: Describe ~ReplayIterator.
-     * @return Return value.
-     */
     virtual ~ReplayIterator() = default;
 
     /** @brief true when at least one more entry is available. */
@@ -535,10 +509,6 @@ public:
  */
 class ISAGALogCompactor {
 public:
-    /**
-     * @brief TBD: Describe ~ISAGALogCompactor.
-     * @return Return value.
-     */
     virtual ~ISAGALogCompactor() = default;
 
     /**
@@ -580,10 +550,6 @@ struct PipelineResult {
  */
 class IUtilsStage {
 public:
-    /**
-     * @brief TBD: Describe ~IUtilsStage.
-     * @return Return value.
-     */
     virtual ~IUtilsStage() = default;
 
     /** @brief Human-readable stage name (for logging/diagnostics). */
@@ -600,7 +566,6 @@ public:
      * @brief Called by the pipeline during shutdown to release resources.
      *
      * Implementations must not throw.
-     * @note Exception safety: noexcept.
      */
     virtual void teardown() noexcept = 0;
 };
@@ -613,10 +578,6 @@ public:
  */
 class IUtilsPipeline {
 public:
-    /**
-     * @brief TBD: Describe ~IUtilsPipeline.
-     * @return Return value.
-     */
     virtual ~IUtilsPipeline() = default;
 
     /**
@@ -639,7 +600,6 @@ public:
      * @brief Tear down all registered stages (reverse registration order).
      *
      * Must not throw.
-     * @note Exception safety: noexcept.
      */
     virtual void shutdown() noexcept = 0;
 };

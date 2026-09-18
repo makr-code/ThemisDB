@@ -131,21 +131,15 @@ public:
         const float* query, size_t query_count, size_t dim,
         const float* db, size_t db_count, bool use_l2)>;
 
-    /**
-     * @brief Inject a computeDistances implementation for the non-OpenCL stub path.
-     * @param[in] fn Input parameter.
-     * @details Pass empty fn to restore fail-closed stub default (returns {}).
-     */
+    /// Inject a computeDistances implementation for the non-OpenCL stub path.
+    /// Pass empty fn to restore fail-closed stub default (returns {}).
     static void setComputeDistancesFn(ComputeDistancesFn fn);
 };
 
 #endif // THEMIS_ENABLE_OPENCL
 
-/**
- * @brief Factory function — creates an OpenCLVectorBackend instance.
- * @return Return value.
- * @details Returns a stub (isAvailable() == false) when OpenCL is not compiled in.
- */
+// Factory function — creates an OpenCLVectorBackend instance.
+// Returns a stub (isAvailable() == false) when OpenCL is not compiled in.
 std::unique_ptr<IVectorBackend> createOpenCLBackend();
 
 } // namespace acceleration

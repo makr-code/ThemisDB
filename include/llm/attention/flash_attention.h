@@ -40,10 +40,6 @@ enum class Status {
  * @brief Tensor wrapper for attention operations
  */
 struct Tensor {
-    /**
-     * @brief TBD: Describe ~Tensor.
-     * @return Return value.
-     */
     virtual ~Tensor() = default;
     Tensor() = default;
     Tensor(size_t n, float init_value) {
@@ -89,10 +85,6 @@ enum class Backend {
  */
 class IFlashAttention {
 public:
-    /**
-     * @brief TBD: Describe ~IFlashAttention.
-     * @return Return value.
-     */
     virtual ~IFlashAttention() = default;
     
     /**
@@ -108,11 +100,6 @@ public:
     
     /**
      * @brief Backward pass (for training)
-     * @param[in] dO Input parameter.
-     * @param[in,out] dQ Input/output parameter.
-     * @param[in,out] dK Input/output parameter.
-     * @param[in,out] dV Input/output parameter.
-     * @return Return value.
      */
     virtual Status backward(
         const Tensor& dO,
@@ -123,13 +110,11 @@ public:
     
     /**
      * @brief Get backend name
-     * @return Return value.
      */
     virtual std::string getBackendName() const = 0;
     
     /**
      * @brief Get memory statistics
-     * @return Return value.
      */
     virtual AttentionMemoryStats getMemoryStats() const = 0;
 };
@@ -208,7 +193,6 @@ public:
     
     /**
      * @brief Get backend name
-     * @return Return value.
      */
     std::string getBackendName() const;
     
@@ -219,13 +203,11 @@ public:
     
     /**
      * @brief Get memory statistics
-     * @return Return value.
      */
     AttentionMemoryStats getMemoryStats() const;
     
     /**
      * @brief Get expected speedup for this backend vs standard attention
-     * @return Return value.
      */
     double getExpectedSpeedup() const;
     
@@ -234,41 +216,22 @@ private:
     FlashAttentionConfig config_;
     std::unique_ptr<IFlashAttention> impl_;
     
-    /**
-     * @brief Backend detection helpers
-     * @return Return value.
-     */
+    // Backend detection helpers
     static Backend detectCUDABackend();
-    /**
-     * @brief TBD: Describe detectVulkanBackend.
-     * @return Return value.
-     */
     static Backend detectVulkanBackend();
-    /**
-     * @brief TBD: Describe detectHIPBackend.
-     * @return Return value.
-     */
     static Backend detectHIPBackend();
     
-    /**
-     * @brief Backend factory
-     * @param[in] backend Input parameter.
-     * @return Return value.
-     */
+    // Backend factory
     std::unique_ptr<IFlashAttention> createBackend(Backend backend);
 };
 
 /**
  * @brief Get human-readable backend name
- * @param[in] backend Input parameter.
- * @return Pointer to the result.
  */
 const char* getBackendName(Backend backend);
 
 /**
  * @brief Get status message
- * @param[in] status Input parameter.
- * @return Pointer to the result.
  */
 const char* getStatusMessage(Status status);
 

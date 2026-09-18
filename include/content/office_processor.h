@@ -136,11 +136,6 @@ public:
     };
 
     OfficeProcessor();
-    /**
-     * @brief TBD: Describe OfficeProcessor.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit OfficeProcessor(Config config);
     ~OfficeProcessor() override = default;
 
@@ -192,7 +187,6 @@ public:
 
     /**
      * @brief Check if Office processing is available
-     * @return True on success.
      */
     static bool isAvailable();
 
@@ -207,91 +201,30 @@ public:
 private:
     Config config_;
 
-    /**
-     * @brief Type-specific extractors
-     * @param[in] blob Input parameter.
-     * @return Return value.
-     */
+    // Type-specific extractors
     ExtractionResult extractDOCX(const std::string& blob);
-    /**
-     * @brief TBD: Describe extractXLSX.
-     * @param[in] blob Input parameter.
-     * @return Return value.
-     */
     ExtractionResult extractXLSX(const std::string& blob);
-    /**
-     * @brief TBD: Describe extractPPTX.
-     * @param[in] blob Input parameter.
-     * @return Return value.
-     */
     ExtractionResult extractPPTX(const std::string& blob);
-    /**
-     * @brief TBD: Describe extractODF.
-     * @param[in] blob Input parameter.
-     * @param[in] type Input parameter.
-     * @return Return value.
-     */
     ExtractionResult extractODF(const std::string& blob, OfficeDocumentType type);
 
-    /**
-     * @brief LibreOffice headless fallback for legacy OLE formats (DOC/XLS/PPT) Spawns soffice --headless via posix_spawn with a configurable timeout.
-     * @param[in] blob Input parameter.
-     * @param[in] doc_type Input parameter.
-     * @return Return value.
-     */
+    // LibreOffice headless fallback for legacy OLE formats (DOC/XLS/PPT)
+    // Spawns soffice --headless via posix_spawn with a configurable timeout.
     ExtractionResult extractLegacyViaLibreOffice(const std::string& blob, OfficeDocumentType doc_type);
 
-    /**
-     * @brief OOXML helpers
-     * @param[in] zip_blob Input parameter.
-     * @param[in] entry_path Input parameter.
-     * @return Return value.
-     */
+    // OOXML helpers
     std::string readZipEntry(const std::string& zip_blob, const std::string& entry_path);
-    /**
-     * @brief TBD: Describe extractOOXMLMetadata.
-     * @param[in] zip_blob Input parameter.
-     * @return Return value.
-     */
     OfficeMetadata extractOOXMLMetadata(const std::string& zip_blob);
-    /**
-     * @brief TBD: Describe listZipEntries.
-     * @param[in] zip_blob Input parameter.
-     * @return Return value.
-     */
     std::vector<std::string> listZipEntries(const std::string& zip_blob);
 
-    /**
-     * @brief XML text extraction
-     * @param[in] xml_content Input parameter.
-     * @return Return value.
-     */
+    // XML text extraction
     std::string extractTextFromXML(const std::string& xml_content);
-    /**
-     * @brief TBD: Describe extractParagraphsFromXML.
-     * @param[in] xml_content Input parameter.
-     * @return Return value.
-     */
     std::vector<std::string> extractParagraphsFromXML(const std::string& xml_content);
 
-    /**
-     * @brief Token counting
-     * @param[in] text Input parameter.
-     * @return Return value.
-     */
+    // Token counting
     int countTokens(const std::string& text);
 
-    /**
-     * @brief Validate ZIP/OOXML structure
-     * @param[in] blob Input parameter.
-     * @return True on success.
-     */
+    // Validate ZIP/OOXML structure
     bool isValidOOXML(const std::string& blob);
-    /**
-     * @brief TBD: Describe isValidODF.
-     * @param[in] blob Input parameter.
-     * @return True on success.
-     */
     bool isValidODF(const std::string& blob);
 };
 

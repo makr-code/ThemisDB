@@ -24,10 +24,6 @@ namespace llm {
  * @brief Single routing rule that maps a set of match criteria to a model.
  */
 struct RoutingRule {
-    /**
-     * @brief TBD: Describe ~RoutingRule.
-     * @return Return value.
-     */
     virtual ~RoutingRule() = default;
     /// Unique identifier for the rule (used by removeRule()).
     std::string id;
@@ -102,7 +98,6 @@ public:
 
     /**
      * @brief Return a snapshot of all registered rules in priority order.
-     * @return Return value.
      */
     std::vector<RoutingRule> getRules() const;
 
@@ -128,7 +123,6 @@ public:
 
     /**
      * @brief Return the number of registered rules.
-     * @return Return value.
      */
     size_t ruleCount() const;
 
@@ -138,11 +132,8 @@ private:
         std::vector<std::regex> compiled_patterns;
     };
 
-    /**
-     * @brief Compile regex patterns from a RoutingRule; throws std::invalid_argument on invalid regex syntax.
-     * @param[in] rule Input parameter.
-     * @return Return value.
-     */
+    /// Compile regex patterns from a RoutingRule; throws std::invalid_argument
+    /// on invalid regex syntax.
     static std::vector<std::regex> compilePatterns(const RoutingRule& rule);
 
     /// Evaluate a single compiled rule.

@@ -81,7 +81,6 @@ public:
      * @brief Construct a new Learned Quantizer
      * @param dimension Vector dimension
      * @param config Configuration parameters
-     * @return Return value.
      */
     explicit LearnedQuantizer(int dimension, const Config& config);
 

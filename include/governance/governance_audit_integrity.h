@@ -52,16 +52,7 @@ struct SignatureInfo {
     std::string previous_entry_hash;          // Chain-of-custody: hash of previous entry
     std::string entry_hash;                   // SHA-256 hash of this entry content
     
-    /**
-     * @brief TBD: Describe toJson.
-     * @return Return value.
-     */
     nlohmann::json toJson() const;
-    /**
-     * @brief TBD: Describe fromJson.
-     * @param[in] j Input parameter.
-     * @return Return value.
-     */
     static SignatureInfo fromJson(const nlohmann::json& j);
 };
 
@@ -85,16 +76,7 @@ struct ImmutableAuditEntry {
     int64_t archive_timestamp_ms = 0;        // When archived
     std::string archive_hash;                 // Hash of archive (if archived)
     
-    /**
-     * @brief TBD: Describe toJson.
-     * @return Return value.
-     */
     nlohmann::json toJson() const;
-    /**
-     * @brief TBD: Describe fromJson.
-     * @param[in] j Input parameter.
-     * @return Return value.
-     */
     static ImmutableAuditEntry fromJson(const nlohmann::json& j);
     
     /**
@@ -165,7 +147,6 @@ public:
     
     /**
      * @brief Get the algorithm name
-     * @return Return value.
      */
     std::string getAlgorithmName() const;
     
@@ -176,30 +157,21 @@ private:
     
     /**
      * @brief Compute SHA-256 hash of content
-     * @param[in] content Input parameter.
-     * @return Return value.
      */
     std::string computeSha256Hash(const std::string& content) const;
     
     /**
      * @brief Compute HMAC-SHA256
-     * @param[in] content Input parameter.
-     * @return Return value.
      */
     std::string computeHmacSha256(const std::string& content) const;
     
     /**
      * @brief Compute RSA-SHA256 signature
-     * @param[in] content Input parameter.
-     * @return Return value.
      */
     std::string computeRsaSha256(const std::string& content) const;
     
     /**
      * @brief Verify HMAC-SHA256 signature
-     * @param[in] content Input parameter.
-     * @param[in] signature Input parameter.
-     * @return True on success.
      */
     bool verifyHmacSha256(
         const std::string& content,
@@ -208,9 +180,6 @@ private:
     
     /**
      * @brief Verify RSA-SHA256 signature
-     * @param[in] content Input parameter.
-     * @param[in] signature Input parameter.
-     * @return True on success.
      */
     bool verifyRsaSha256(
         const std::string& content,
@@ -246,16 +215,7 @@ struct TamperIncident {
     int64_t affected_entry_count = 0;        // Number of affected entries
     bool is_critical = false;                 // True if core audit trail corrupted
     
-    /**
-     * @brief TBD: Describe toJson.
-     * @return Return value.
-     */
     nlohmann::json toJson() const;
-    /**
-     * @brief TBD: Describe fromJson.
-     * @param[in] j Input parameter.
-     * @return Return value.
-     */
     static TamperIncident fromJson(const nlohmann::json& j);
 };
 
@@ -323,9 +283,6 @@ public:
 private:
     /**
      * @brief Check if signature is valid
-     * @param[in] entry Input parameter.
-     * @param[in] signer Input parameter.
-     * @return Return value.
      */
     std::optional<TamperIncident> checkSignatureValidity(
         const ImmutableAuditEntry& entry,
@@ -334,9 +291,6 @@ private:
     
     /**
      * @brief Check if chain-of-custody is maintained
-     * @param[in] entry Input parameter.
-     * @param[in] previous_entry Input parameter.
-     * @return Return value.
      */
     std::optional<TamperIncident> checkChainOfCustody(
         const ImmutableAuditEntry& entry,
@@ -345,9 +299,6 @@ private:
     
     /**
      * @brief Check if sequence is valid
-     * @param[in] entry Input parameter.
-     * @param[in] previous_entry Input parameter.
-     * @return Return value.
      */
     std::optional<TamperIncident> checkSequenceValidity(
         const ImmutableAuditEntry& entry,
@@ -356,9 +307,6 @@ private:
     
     /**
      * @brief Check timestamp consistency
-     * @param[in] entry Input parameter.
-     * @param[in] previous_entry Input parameter.
-     * @return Return value.
      */
     std::optional<TamperIncident> checkTimestampValidity(
         const ImmutableAuditEntry& entry,
@@ -385,16 +333,7 @@ struct AuditRetentionPolicy {
     int64_t modified_at_ms = 0;              // Last modification time
     nlohmann::json metadata;                  // Additional metadata
     
-    /**
-     * @brief TBD: Describe toJson.
-     * @return Return value.
-     */
     nlohmann::json toJson() const;
-    /**
-     * @brief TBD: Describe fromJson.
-     * @param[in] j Input parameter.
-     * @return Return value.
-     */
     static AuditRetentionPolicy fromJson(const nlohmann::json& j);
 };
 
@@ -411,16 +350,7 @@ struct LegalHold {
     std::string reason;                       // Reason for legal hold
     std::string status;                       // "active", "released", "expired"
     
-    /**
-     * @brief TBD: Describe toJson.
-     * @return Return value.
-     */
     nlohmann::json toJson() const;
-    /**
-     * @brief TBD: Describe fromJson.
-     * @param[in] j Input parameter.
-     * @return Return value.
-     */
     static LegalHold fromJson(const nlohmann::json& j);
 };
 
@@ -433,7 +363,6 @@ public:
     /**
      * @brief Create retention manager
      * @param default_policy Default retention policy
-     * @return Return value.
      */
     explicit AuditRetentionManager(const AuditRetentionPolicy& default_policy);
     
@@ -657,13 +586,11 @@ private:
     
     /**
      * @brief Get next sequence number
-     * @return Return value.
      */
     int64_t getNextSequenceNumber() const;
     
     /**
      * @brief Get previous entry hash
-     * @return Return value.
      */
     std::string getPreviousEntryHash() const;
 };

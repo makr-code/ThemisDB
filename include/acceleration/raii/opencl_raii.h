@@ -98,14 +98,11 @@ public:
         destroy();
     }
     
-    /**
-     * @brief @brief Create a new OpenCL context from devices.
-     * @param[in] properties Input parameter.
-     * @param[in] numDevices Input parameter.
-     * @param[in] devices Input parameter.
-     * @throws std::runtime_error if an error occurs.
-     * @details @param properties Optional context properties (platform, etc.); nullptr for defaults. @param numDevices Number of devices in the @p devices array. @param devices Array of device IDs to include in the context. @throws std::runtime_error if context creation fails. Calls: destroy(), clCreateContext(), std::string(), std::to_string().
-     */
+    /// @brief Create a new OpenCL context from devices.
+    /// @param properties Optional context properties (platform, etc.); nullptr for defaults.
+    /// @param numDevices Number of devices in the @p devices array.
+    /// @param devices Array of device IDs to include in the context.
+    /// @throws std::runtime_error if context creation fails.
     void create(const cl_context_properties* properties,
                 cl_uint numDevices,
                 const cl_device_id* devices) {
@@ -132,11 +129,9 @@ public:
     /// @return The cl_context handle; nullptr if not initialized.
     cl_context get() const { return context_; }
     
-    /**
-     * @brief @brief Release ownership of the context without releasing it.
-     * @return Return value.
-     * @details @return The OpenCL context handle. @note After calling release(), the caller is responsible for calling clReleaseContext(). Implements release without additional internal calls.
-     */
+    /// @brief Release ownership of the context without releasing it.
+    /// @return The OpenCL context handle.
+    /// @note After calling release(), the caller is responsible for calling clReleaseContext().
     cl_context release() {
         owned_ = false;
         cl_context tmp = context_;
@@ -145,10 +140,6 @@ public:
     }
     
 private:
-    /**
-     * @brief TBD: Describe destroy.
-     * @details Calls: clReleaseContext().
-     */
     void destroy() {
         if (context_ && owned_) {
             clReleaseContext(context_);
@@ -252,11 +243,9 @@ public:
         owned_ = true;
     }
     
-    /**
-     * @brief @brief Block until all queued commands complete.
-     * @throws std::runtime_error if an error occurs.
-     * @details @throws std::runtime_error if synchronization fails. @note This is a blocking call; it waits for all pending operations. Calls: clFinish(), std::string(), std::to_string().
-     */
+    /// @brief Block until all queued commands complete.
+    /// @throws std::runtime_error if synchronization fails.
+    /// @note This is a blocking call; it waits for all pending operations.
     void finish() {
         if (queue_) {
             cl_int err = clFinish(queue_);
@@ -277,11 +266,9 @@ public:
     /// @return The cl_command_queue handle; nullptr if not initialized.
     cl_command_queue get() const { return queue_; }
     
-    /**
-     * @brief @brief Release ownership of the queue without releasing it.
-     * @return Return value.
-     * @details @return The OpenCL queue handle. @note After calling release(), the caller is responsible for calling clReleaseCommandQueue(). Implements release without additional internal calls.
-     */
+    /// @brief Release ownership of the queue without releasing it.
+    /// @return The OpenCL queue handle.
+    /// @note After calling release(), the caller is responsible for calling clReleaseCommandQueue().
     cl_command_queue release() {
         owned_ = false;
         cl_command_queue tmp = queue_;
@@ -290,10 +277,6 @@ public:
     }
     
 private:
-    /**
-     * @brief TBD: Describe destroy.
-     * @details Calls: clReleaseCommandQueue().
-     */
     void destroy() {
         if (queue_ && owned_) {
             clReleaseCommandQueue(queue_);
@@ -375,13 +358,10 @@ public:
         destroy();
     }
     
-    /**
-     * @brief @brief Create a program from source code.
-     * @param[in] context Input parameter.
-     * @param[in] source Input parameter.
-     * @throws std::runtime_error if an error occurs.
-     * @details @param context The OpenCL context. @param source Null-terminated C string containing the kernel source. @throws std::runtime_error if program creation fails. Calls: destroy(), strlen(), clCreateProgramWithSource(), std::string(), std::to_string().
-     */
+    /// @brief Create a program from source code.
+    /// @param context The OpenCL context.
+    /// @param source Null-terminated C string containing the kernel source.
+    /// @throws std::runtime_error if program creation fails.
     void createWithSource(cl_context context, const char* source) {
         if (program_) {
             destroy();
@@ -426,11 +406,9 @@ public:
     /// @return The cl_program handle; nullptr if not initialized.
     cl_program get() const { return program_; }
     
-    /**
-     * @brief @brief Release ownership of the program without releasing it.
-     * @return Return value.
-     * @details @return The OpenCL program handle. @note After calling release(), the caller is responsible for calling clReleaseProgram(). Implements release without additional internal calls.
-     */
+    /// @brief Release ownership of the program without releasing it.
+    /// @return The OpenCL program handle.
+    /// @note After calling release(), the caller is responsible for calling clReleaseProgram().
     cl_program release() {
         owned_ = false;
         cl_program tmp = program_;
@@ -439,10 +417,6 @@ public:
     }
     
 private:
-    /**
-     * @brief TBD: Describe destroy.
-     * @details Calls: clReleaseProgram().
-     */
     void destroy() {
         if (program_ && owned_) {
             clReleaseProgram(program_);
@@ -522,13 +496,10 @@ public:
         destroy();
     }
     
-    /**
-     * @brief @brief Create a kernel from a compiled program.
-     * @param[in] program Input parameter.
-     * @param[in] kernelName Input parameter.
-     * @throws std::runtime_error if an error occurs.
-     * @details @param program The OpenCL program (must be compiled/linked). @param kernelName The name of the kernel function (null-terminated). @throws std::runtime_error if the kernel is not found or creation fails. Calls: destroy(), clCreateKernel(), std::string(), std::to_string().
-     */
+    /// @brief Create a kernel from a compiled program.
+    /// @param program The OpenCL program (must be compiled/linked).
+    /// @param kernelName The name of the kernel function (null-terminated).
+    /// @throws std::runtime_error if the kernel is not found or creation fails.
     void create(cl_program program, const char* kernelName) {
         if (kernel_) {
             destroy();
@@ -553,11 +524,9 @@ public:
     /// @return The cl_kernel handle; nullptr if not initialized.
     cl_kernel get() const { return kernel_; }
     
-    /**
-     * @brief @brief Release ownership of the kernel without releasing it.
-     * @return Return value.
-     * @details @return The OpenCL kernel handle. @note After calling release(), the caller is responsible for calling clReleaseKernel(). Implements release without additional internal calls.
-     */
+    /// @brief Release ownership of the kernel without releasing it.
+    /// @return The OpenCL kernel handle.
+    /// @note After calling release(), the caller is responsible for calling clReleaseKernel().
     cl_kernel release() {
         owned_ = false;
         cl_kernel tmp = kernel_;
@@ -566,10 +535,6 @@ public:
     }
     
 private:
-    /**
-     * @brief TBD: Describe destroy.
-     * @details Calls: clReleaseKernel().
-     */
     void destroy() {
         if (kernel_ && owned_) {
             clReleaseKernel(kernel_);
@@ -694,11 +659,9 @@ public:
     /// @return The size of the buffer; 0 if unallocated.
     size_t size() const { return size_; }
     
-    /**
-     * @brief @brief Release ownership of the buffer without releasing it.
-     * @return Return value.
-     * @details @return The OpenCL buffer handle. @note After calling release(), the caller is responsible for calling clReleaseMemObject(). Implements release without additional internal calls.
-     */
+    /// @brief Release ownership of the buffer without releasing it.
+    /// @return The OpenCL buffer handle.
+    /// @note After calling release(), the caller is responsible for calling clReleaseMemObject().
     cl_mem release() {
         owned_ = false;
         cl_mem tmp = buffer_;
@@ -708,10 +671,6 @@ public:
     }
     
 private:
-    /**
-     * @brief TBD: Describe destroy.
-     * @details Calls: clReleaseMemObject().
-     */
     void destroy() {
         if (buffer_ && owned_) {
             clReleaseMemObject(buffer_);

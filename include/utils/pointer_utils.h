@@ -40,11 +40,6 @@ template<typename T>
 T* require_non_null(T* ptr, const char* message = "Null pointer") {
     if (!ptr) {
         spdlog::error("Null pointer check failed: {}", message);
-        /**
-         * @brief TBD: Describe runtime_error.
-         * @param[in] message Input parameter.
-         * @return Return value.
-         */
         throw std::runtime_error(message);
     }
     return ptr;
@@ -87,12 +82,6 @@ std::optional<T*> as_optional(T* ptr) noexcept {
  * }
  */
 template<typename T, typename Func>
-/**
- * @brief TBD: Describe safe_invoke.
- * @param[in,out] ptr Input/output parameter.
- * @param[in] func Input parameter.
- * @return Return value.
- */
 auto safe_invoke(T* ptr, Func&& func)
     -> std::optional<std::conditional_t<std::is_void_v<decltype(func(*ptr))>, std::monostate, decltype(func(*ptr))>> {
     using ResultType = decltype(func(*ptr));
@@ -203,12 +192,6 @@ std::optional<std::shared_ptr<T>> safe_lock(
  * }
  */
 template<typename Container, typename Key>
-/**
- * @brief TBD: Describe safe_at.
- * @param[in] container Input parameter.
- * @param[in] key Input parameter.
- * @return Return value.
- */
 auto safe_at(const Container& container, const Key& key) 
     -> std::optional<typename Container::mapped_type> {
     auto it = container.find(key);

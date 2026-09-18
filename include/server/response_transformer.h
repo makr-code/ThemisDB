@@ -146,14 +146,11 @@ public:
 
     /**
      * @brief Check whether a transform is registered for the given version.
-     * @param[in] version Input parameter.
-     * @return True on success.
      */
     bool hasVersion(const APIVersion& version) const;
 
     /**
      * @brief Return all registered version keys.
-     * @return Return value.
      */
     std::vector<std::string> registeredVersions() const;
 
@@ -172,15 +169,11 @@ private:
      *
      * Tries "v{major}.{minor}.{patch}", "v{major}.{minor}", "v{major}" in order.
      * Returns std::nullopt when no key matches.
-     * @param[in] version Input parameter.
-     * @return Return value.
      */
     std::optional<std::string> resolveKey(const APIVersion& version) const;
 
     /**
      * @brief Apply field renames and default values for a version key in-place.
-     * @param[in,out] obj Input/output parameter.
-     * @param[in] version_key Input parameter.
      */
     void applyFieldMappings(nlohmann::json& obj, const std::string& version_key) const;
 };

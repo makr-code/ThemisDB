@@ -103,7 +103,6 @@ public:
     /**
      * @brief Construct WAL applier with replica-side apply policy.
      * @param config WAL apply configuration.
-     * @return Return value.
      */
     explicit WALApplier(const WALApplierConfig& config);
 
@@ -124,15 +123,12 @@ public:
      */
     ApplyResult applyBatch(const std::vector<WALEntry>& entries);
     
-     * @return Return value.
     /** @brief Return current replica LSN cursor. */
     LSN getCurrentLSN() const;
     
-     * @param[in] lsn Input parameter.
     /** @brief Set current replica LSN (e.g. bootstrap/recovery initialization). */
     void setCurrentLSN(const LSN& lsn);
     
-     * @return Return value.
     /** @brief Return WAL applier statistics snapshot. */
     WALApplierStats getStatistics() const;
     
@@ -150,19 +146,12 @@ private:
     mutable std::mutex stats_mutex_;
     WALApplierStats stats_;
     
-     * @param[in] entry Input parameter.
-     * @return True on success.
     /** @brief Apply one WAL entry with retry policy. */
     bool applyEntry(const WALEntry& entry);
     
-     * @param[in] expected Input parameter.
-     * @param[in] actual Input parameter.
-     * @return True on success.
     /** @brief Validate expected-to-actual LSN sequence continuity. */
     bool validateLSN(const LSN& expected, const LSN& actual);
     
-     * @param[in] entry Input parameter.
-     * @return True on success.
     /** @brief Handle conflict-detection accounting/decision for one entry. */
     bool handleConflict(const WALEntry& entry);
 };

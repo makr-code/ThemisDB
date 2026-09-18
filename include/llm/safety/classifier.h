@@ -40,33 +40,15 @@ public:
 
     explicit SafetyClassifier(InferenceFn inference_fn = nullptr);
 
-    /**
-     * @brief TBD: Describe setInferenceFn.
-     * @param[in] inference_fn Input parameter.
-     */
     void setInferenceFn(InferenceFn inference_fn);
-    /**
-     * @brief TBD: Describe hasInferenceFn.
-     * @return True on success.
-     */
     bool hasInferenceFn() const;
 
-    /**
-     * @brief TBD: Describe classify.
-     * @param[in] text Input parameter.
-     * @return Return value.
-     */
     SafetyClassification classify(std::string_view text) const;
     std::vector<SafetyClassification> classifyBatch(
         const std::vector<std::string>& texts,
         std::size_t max_parallelism = 0) const;
 
 private:
-    /**
-     * @brief TBD: Describe fallbackClassify.
-     * @param[in] text Input parameter.
-     * @return Return value.
-     */
     SafetyClassification fallbackClassify(std::string_view text) const;
 
     InferenceFn inference_fn_;

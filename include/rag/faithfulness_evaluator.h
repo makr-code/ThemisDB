@@ -85,11 +85,6 @@ public:
      * @brief Construct evaluator with configuration
      */
     FaithfulnessEvaluator();
-    /**
-     * @brief TBD: Describe FaithfulnessEvaluator.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit FaithfulnessEvaluator(const Config& config);
     
     /**

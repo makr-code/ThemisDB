@@ -57,11 +57,6 @@ public:
     };
 
     SharedWorkerPool();
-    /**
-     * @brief TBD: Describe SharedWorkerPool.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit SharedWorkerPool(const Config& config);
     ~SharedWorkerPool();
 
@@ -92,10 +87,6 @@ public:
 
     /// Graceful shutdown — stops accepting new tasks and joins workers.
     void shutdown();
-    /**
-     * @brief TBD: Describe isRunning.
-     * @return True on success.
-     */
     bool isRunning() const;
 
 private:
@@ -129,17 +120,7 @@ private:
 
     Config config_;
 
-    /**
-     * @brief TBD: Describe workerLoop.
-     * @param[in] thread_id Input parameter.
-     */
     void workerLoop(size_t thread_id);
-    /**
-     * @brief TBD: Describe trySteal.
-     * @param[in] thread_id Input parameter.
-     * @param[in,out] out_task Input/output parameter.
-     * @return True on success.
-     */
     bool trySteal(size_t thread_id, Task& out_task);
 };
 

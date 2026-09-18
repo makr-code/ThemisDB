@@ -121,14 +121,11 @@ struct THEMIS_SECURITY_API OperationalEvent {
     
     /**
      * @brief Serialize to JSON
-     * @return Return value.
      */
     nlohmann::json toJson() const;
     
     /**
      * @brief Deserialize from JSON
-     * @param[in] j Input parameter.
-     * @return Return value.
      */
     static OperationalEvent fromJson(const nlohmann::json& j);
 };
@@ -162,14 +159,11 @@ struct THEMIS_SECURITY_API ComplianceEvidence {
     
     /**
      * @brief Serialize to JSON
-     * @return Return value.
      */
     nlohmann::json toJson() const;
     
     /**
      * @brief Deserialize from JSON
-     * @param[in] j Input parameter.
-     * @return Return value.
      */
     static ComplianceEvidence fromJson(const nlohmann::json& j);
 };
@@ -420,7 +414,6 @@ public:
     
     /**
      * @brief Get total event count
-     * @return Return value.
      */
     size_t getTotalEventCount() const;
     
@@ -447,13 +440,11 @@ private:
     
     /**
      * @brief Generate unique event ID (UUID)
-     * @return Return value.
      */
     std::string generateEventId() const;
     
     /**
      * @brief Get next sequence number
-     * @return Return value.
      */
     int64_t getNextSequenceNumber() const;
 };
@@ -475,7 +466,6 @@ struct THEMIS_SECURITY_API CorrelationGroup {
     
     /**
      * @brief Serialize to JSON
-     * @return Return value.
      */
     nlohmann::json toJson() const;
 };
@@ -496,7 +486,6 @@ public:
     /**
      * @brief Create correlation engine
      * @param audit_logger Audit logger to correlate
-     * @return Return value.
      */
     explicit EventCorrelationEngine(
         std::shared_ptr<OperationalAuditLogger> audit_logger
@@ -596,7 +585,6 @@ private:
     
     /**
      * @brief Generate correlation ID (UUID)
-     * @return Return value.
      */
     std::string generateCorrelationId() const;
 };
@@ -621,7 +609,6 @@ public:
     /**
      * @brief Create evidence collector
      * @param audit_logger Audit logger to collect evidence from
-     * @return Return value.
      */
     explicit ComplianceEvidenceCollector(
         std::shared_ptr<OperationalAuditLogger> audit_logger
@@ -749,7 +736,6 @@ public:
     
     /**
      * @brief Get total evidence count
-     * @return Return value.
      */
     size_t getTotalEvidenceCount() const;
     
@@ -771,33 +757,27 @@ private:
     
     /**
      * @brief Generate evidence ID (UUID)
-     * @return Return value.
      */
     std::string generateEvidenceId() const;
     
     /**
      * @brief Compute fingerprint of evidence for integrity
-     * @param[in] content Input parameter.
-     * @return Return value.
      */
     std::string computeEvidenceFingerprint(const std::string& content) const;
 };
 
 /**
  * @brief Get process-global operational audit logger
- * @return Return value.
  */
 THEMIS_SECURITY_API OperationalAuditLogger& getGlobalAuditLogger();
 
 /**
  * @brief Get process-global event correlation engine
- * @return Return value.
  */
 THEMIS_SECURITY_API EventCorrelationEngine& getGlobalCorrelationEngine();
 
 /**
  * @brief Get process-global evidence collector
- * @return Return value.
  */
 THEMIS_SECURITY_API ComplianceEvidenceCollector& getGlobalEvidenceCollector();
 

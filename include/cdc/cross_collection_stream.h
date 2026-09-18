@@ -34,7 +34,6 @@ struct AggregatedEvent {
 
     /**
      * @brief Serialize to JSON, adding a top-level "collection" field.
-     * @return Return value.
      */
     nlohmann::json toJson() const;
 };
@@ -105,11 +104,6 @@ public:
          */
         std::set<std::string> collections;
 
-        /**
-         * @brief TBD: Describe defaults.
-         * @return Return value.
-         * @details Implements defaults without additional internal calls.
-         */
         static StreamOptions defaults() { return {}; }
     };
 
@@ -140,26 +134,21 @@ public:
 
     /**
      * @brief Unregister a collection.  No-op if @p name is not registered.
-     * @param[in] name Input parameter.
      */
     void removeCollection(const std::string& name);
 
     /**
      * @brief Return true if a collection with @p name is registered.
-     * @param[in] name Input parameter.
-     * @return True on success.
      */
     bool hasCollection(const std::string& name) const;
 
     /**
      * @brief Return the number of registered collections.
-     * @return Return value.
      */
     size_t collectionCount() const;
 
     /**
      * @brief Return the names of all registered collections (unordered).
-     * @return Return value.
      */
     std::vector<std::string> listCollections() const;
 

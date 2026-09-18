@@ -99,21 +99,18 @@ bool initializeGCSProvider(const std::string &project_id, const std::string &buc
 /**
  * Check if S3 provider is available (AWS SDK linked)
  * @return true if AWS SDK for C++ is compiled in
- * @brief TBD: Describe isS3ProviderAvailable.
  */
 bool isS3ProviderAvailable();
 
 /**
  * Check if Azure provider is available (Azure SDK linked)
  * @return true if Azure Storage Blobs SDK for C++ is compiled in
- * @brief TBD: Describe isAzureProviderAvailable.
  */
 bool isAzureProviderAvailable();
 
 /**
  * Check if GCS provider is available (GCS SDK linked)
  * @return true if Google Cloud C++ Client Libraries are compiled in
- * @brief TBD: Describe isGCSProviderAvailable.
  */
 bool isGCSProviderAvailable();
 

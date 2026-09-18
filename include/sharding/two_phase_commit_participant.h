@@ -267,9 +267,6 @@ private:
 
     // ── Internal helpers ────────────────────────────────────────────────────
 
-     * @param[in] type Input parameter.
-     * @param[in] txn_id Input parameter.
-     * @param[in] data Input parameter.
     /** @brief Persist participant phase/state event to WAL if enabled. */
     void logToWAL(WALEntryType type,
                   const std::string& txn_id,

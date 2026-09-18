@@ -61,232 +61,65 @@ public:
         bool enable_histograms = true;
     };
     
-    /**
-     * @brief TBD: Describe LoRAMetricsCollector.
-     * @param[in] registry Input parameter.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit LoRAMetricsCollector(std::shared_ptr<prometheus::Registry> registry,
                                  const Config& config);
-    /**
-     * @brief TBD: Describe LoRAMetricsCollector.
-     * @param[in] registry Input parameter.
-     * @return Return value.
-     */
     explicit LoRAMetricsCollector(std::shared_ptr<prometheus::Registry> registry);
     
-    /**
-     * @brief Adapter Lifecycle Metrics
-     * @param[in] adapter_id Input parameter.
-     * @param[in] duration_ms Input parameter.
-     */
+    // Adapter Lifecycle Metrics
     void recordAdapterLoad(const std::string& adapter_id, double duration_ms);
-    /**
-     * @brief TBD: Describe recordAdapterUnload.
-     * @param[in] adapter_id Input parameter.
-     */
     void recordAdapterUnload(const std::string& adapter_id);
-    /**
-     * @brief TBD: Describe recordAdapterSwitch.
-     * @param[in] from_id Input parameter.
-     * @param[in] to_id Input parameter.
-     * @param[in] duration_ms Input parameter.
-     */
     void recordAdapterSwitch(const std::string& from_id, const std::string& to_id, double duration_ms);
-    /**
-     * @brief TBD: Describe recordAdapterLoadError.
-     * @param[in] adapter_id Input parameter.
-     * @param[in] error Input parameter.
-     */
     void recordAdapterLoadError(const std::string& adapter_id, const std::string& error);
     
-    /**
-     * @brief Cache Metrics
-     * @param[in] adapter_id Input parameter.
-     */
+    // Cache Metrics
     void recordCacheHit(const std::string& adapter_id);
-    /**
-     * @brief TBD: Describe recordCacheMiss.
-     * @param[in] adapter_id Input parameter.
-     */
     void recordCacheMiss(const std::string& adapter_id);
-    /**
-     * @brief TBD: Describe recordCacheEviction.
-     * @param[in] adapter_id Input parameter.
-     */
     void recordCacheEviction(const std::string& adapter_id);
-    /**
-     * @brief TBD: Describe updateCacheSize.
-     * @param[in] size Input parameter.
-     */
     void updateCacheSize(size_t size);
-    /**
-     * @brief TBD: Describe updateCacheMemoryUsage.
-     * @param[in] bytes Input parameter.
-     */
     void updateCacheMemoryUsage(size_t bytes);
     
-    /**
-     * @brief Training Metrics
-     * @param[in] adapter_id Input parameter.
-     * @param[in] mode Input parameter.
-     */
+    // Training Metrics
     void recordTrainingStart(const std::string& adapter_id, const std::string& mode);
-    /**
-     * @brief TBD: Describe recordTrainingComplete.
-     * @param[in] adapter_id Input parameter.
-     * @param[in] mode Input parameter.
-     * @param[in] duration_seconds Input parameter.
-     * @param[in] success Input parameter.
-     */
     void recordTrainingComplete(const std::string& adapter_id, const std::string& mode, 
                                double duration_seconds, bool success);
-    /**
-     * @brief TBD: Describe recordTrainingSamples.
-     * @param[in] adapter_id Input parameter.
-     * @param[in] num_samples Input parameter.
-     */
     void recordTrainingSamples(const std::string& adapter_id, size_t num_samples);
-    /**
-     * @brief TBD: Describe updateTrainingLoss.
-     * @param[in] adapter_id Input parameter.
-     * @param[in] loss Input parameter.
-     */
     void updateTrainingLoss(const std::string& adapter_id, double loss);
-    /**
-     * @brief TBD: Describe updateValidationAccuracy.
-     * @param[in] adapter_id Input parameter.
-     * @param[in] accuracy Input parameter.
-     */
     void updateValidationAccuracy(const std::string& adapter_id, double accuracy);
     
-    /**
-     * @brief Storage Metrics
-     * @param[in] adapter_id Input parameter.
-     * @param[in] duration_ms Input parameter.
-     * @param[in] bytes Input parameter.
-     */
+    // Storage Metrics
     void recordStorageRead(const std::string& adapter_id, double duration_ms, size_t bytes);
-    /**
-     * @brief TBD: Describe recordStorageWrite.
-     * @param[in] adapter_id Input parameter.
-     * @param[in] duration_ms Input parameter.
-     * @param[in] bytes Input parameter.
-     */
     void recordStorageWrite(const std::string& adapter_id, double duration_ms, size_t bytes);
-    /**
-     * @brief TBD: Describe recordStorageDelete.
-     * @param[in] adapter_id Input parameter.
-     */
     void recordStorageDelete(const std::string& adapter_id);
-    /**
-     * @brief TBD: Describe recordStorageError.
-     * @param[in] operation Input parameter.
-     * @param[in] error Input parameter.
-     */
     void recordStorageError(const std::string& operation, const std::string& error);
     
-    /**
-     * @brief Versioning Metrics
-     * @param[in] adapter_id Input parameter.
-     * @param[in] version Input parameter.
-     */
+    // Versioning Metrics
     void recordVersionCreate(const std::string& adapter_id, const std::string& version);
-    /**
-     * @brief TBD: Describe recordVersionRollback.
-     * @param[in] adapter_id Input parameter.
-     * @param[in] from_version Input parameter.
-     * @param[in] to_version Input parameter.
-     */
     void recordVersionRollback(const std::string& adapter_id, const std::string& from_version,
                               const std::string& to_version);
-    /**
-     * @brief TBD: Describe updateVersionCount.
-     * @param[in] adapter_id Input parameter.
-     * @param[in] count Input parameter.
-     */
     void updateVersionCount(const std::string& adapter_id, size_t count);
     
-    /**
-     * @brief Inference Metrics
-     * @param[in] adapter_id Input parameter.
-     * @param[in] duration_ms Input parameter.
-     * @param[in] input_tokens Input parameter.
-     * @param[in] output_tokens Input parameter.
-     */
+    // Inference Metrics
     void recordInference(const std::string& adapter_id, double duration_ms, 
                         size_t input_tokens, size_t output_tokens);
-    /**
-     * @brief TBD: Describe recordInferenceError.
-     * @param[in] adapter_id Input parameter.
-     * @param[in] error Input parameter.
-     */
     void recordInferenceError(const std::string& adapter_id, const std::string& error);
-    /**
-     * @brief TBD: Describe updateInferenceQueueSize.
-     * @param[in] size Input parameter.
-     */
     void updateInferenceQueueSize(size_t size);
     
-    /**
-     * @brief Audit Metrics
-     * @param[in] duration_ms Input parameter.
-     * @param[in] bytes Input parameter.
-     */
+    // Audit Metrics
     void recordAuditLogWrite(double duration_ms, size_t bytes);
-    /**
-     * @brief TBD: Describe recordAuditQuery.
-     * @param[in] duration_ms Input parameter.
-     * @param[in] results Input parameter.
-     */
     void recordAuditQuery(double duration_ms, size_t results);
-    /**
-     * @brief TBD: Describe updateAuditLogSize.
-     * @param[in] entries Input parameter.
-     */
     void updateAuditLogSize(size_t entries);
     
-    /**
-     * @brief Resource Usage Metrics
-     * @param[in] category Input parameter.
-     * @param[in] bytes Input parameter.
-     */
+    // Resource Usage Metrics
     void updateMemoryUsage(const std::string& category, size_t bytes);
-    /**
-     * @brief TBD: Describe updateGPUVRAMUsage.
-     * @param[in] adapter_id Input parameter.
-     * @param[in] bytes Input parameter.
-     */
     void updateGPUVRAMUsage(const std::string& adapter_id, size_t bytes);
-    /**
-     * @brief TBD: Describe updateCPUUsage.
-     * @param[in] percentage Input parameter.
-     */
     void updateCPUUsage(double percentage);
     
-    /**
-     * @brief Orchestrator Metrics
-     * @param[in] operation Input parameter.
-     * @param[in] duration_ms Input parameter.
-     * @param[in] success Input parameter.
-     */
+    // Orchestrator Metrics
     void recordOrchestratorOperation(const std::string& operation, double duration_ms, bool success);
-    /**
-     * @brief TBD: Describe updateActiveAdapters.
-     * @param[in] count Input parameter.
-     */
     void updateActiveAdapters(size_t count);
-    /**
-     * @brief TBD: Describe updateTotalAdapters.
-     * @param[in] count Input parameter.
-     */
     void updateTotalAdapters(size_t count);
     
-    /**
-     * @brief Get metrics in Prometheus format
-     * @return Return value.
-     */
+    // Get metrics in Prometheus format
     std::string getMetrics() const;
     
 private:
@@ -402,12 +235,6 @@ private:
 
 // Helper function to create scoped metrics
 template<typename Func>
-/**
- * @brief TBD: Describe makeScopedMetric.
- * @param[in] func Input parameter.
- * @return Return value.
- * @details Calls: std::move().
- */
 ScopedMetric<Func> makeScopedMetric(Func func) {
     return ScopedMetric<Func>(std::move(func));
 }

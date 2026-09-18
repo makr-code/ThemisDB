@@ -150,58 +150,26 @@ public:
     
     ~HybridRetentionManager() noexcept;
     
-    /**
-     * @brief Lifecycle
-     */
+    // Lifecycle
     void start();
-    /**
-     * @brief TBD: Describe stop.
-     */
     void stop();
     bool isRunning() const { return running_; }
     
-    /**
-     * @brief Configuration
-     * @param[in] config Input parameter.
-     */
+    // Configuration
     void updateConfig(const HybridRetentionConfig& config);
-    /**
-     * @brief TBD: Describe getConfig.
-     * @return Return value.
-     */
     HybridRetentionConfig getConfig() const;
     
-    /**
-     * @brief Manual execution
-     */
+    // Manual execution
     void executeStage1();  // Run Gorilla compression now
-    /**
-     * @brief TBD: Describe executeStage2.
-     */
     void executeStage2();  // Run adaptive retention now
-    /**
-     * @brief TBD: Describe executeStage3.
-     */
     void executeStage3();  // Run time-based retention now
-    /**
-     * @brief TBD: Describe executeAll.
-     */
     void executeAll();     // Run all stages now
     
-    /**
-     * @brief Statistics
-     * @return Return value.
-     */
+    // Statistics
     HybridRetentionStats getStats() const;
-    /**
-     * @brief TBD: Describe resetStats.
-     */
     void resetStats();
     
-    /**
-     * @brief Monitoring
-     * @return Return value.
-     */
+    // Monitoring
     nlohmann::json getStatusReport() const;
     
 private:
@@ -222,54 +190,18 @@ private:
     // Statistics
     HybridRetentionStats stats_;
     
-    /**
-     * @brief Stage implementations
-     */
+    // Stage implementations
     void setupStage1Tasks();
-    /**
-     * @brief TBD: Describe setupStage2Tasks.
-     */
     void setupStage2Tasks();
-    /**
-     * @brief TBD: Describe setupStage3Tasks.
-     */
     void setupStage3Tasks();
-    /**
-     * @brief TBD: Describe setupCleanupTasks.
-     */
     void setupCleanupTasks();
     
-    /**
-     * @brief Helper methods
-     * @param[in] params Input parameter.
-     * @return Return value.
-     */
+    // Helper methods
     nlohmann::json compressWithGorilla(const nlohmann::json& params);
-    /**
-     * @brief TBD: Describe applyAdaptiveRetention.
-     * @param[in] params Input parameter.
-     * @return Return value.
-     */
     nlohmann::json applyAdaptiveRetention(const nlohmann::json& params);
-    /**
-     * @brief TBD: Describe applyTimeBasedRetention.
-     * @param[in] params Input parameter.
-     * @return Return value.
-     */
     nlohmann::json applyTimeBasedRetention(const nlohmann::json& params);
-    /**
-     * @brief TBD: Describe cleanupOriginalData.
-     * @param[in] params Input parameter.
-     * @return Return value.
-     */
     nlohmann::json cleanupOriginalData(const nlohmann::json& params);
     
-    /**
-     * @brief TBD: Describe updateStats.
-     * @param[in] stage Input parameter.
-     * @param[in] success Input parameter.
-     * @param[in] result Input parameter.
-     */
     void updateStats(int stage, bool success, const nlohmann::json& result);
 };
 

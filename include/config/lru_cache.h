@@ -54,11 +54,6 @@ public:
      */
     void put(const Key& key, const Value& value, 
              std::optional<int> ttl_seconds = std::nullopt) {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         auto now = std::chrono::steady_clock::now();
@@ -90,15 +85,8 @@ public:
      * 
      * @param key The cache key
      * @return The cached value if found and not expired, std::nullopt otherwise
-     * @brief TBD: Describe get.
-     * @details Calls: lock(), find(), end(), std::chrono::steady_clock::now(), erase(), splice(), begin().
      */
     std::optional<Value> get(const Key& key) {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         auto it = map_.find(key);
@@ -130,15 +118,8 @@ public:
      * 
      * @param key The cache key to remove
      * @return true if the entry was found and removed
-     * @brief TBD: Describe invalidate.
-     * @details Calls: lock(), find(), end(), erase().
      */
     bool invalidate(const Key& key) {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         auto it = map_.find(key);
@@ -153,15 +134,8 @@ public:
     
     /**
      * Clear all entries from the cache.
-     * @brief TBD: Describe clear.
-     * @details Calls: lock().
      */
     void clear() {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         list_.clear();
         map_.clear();
@@ -171,11 +145,6 @@ public:
      * Get current cache size.
      */
     size_t size() const {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         return map_.size();
     }
@@ -184,11 +153,6 @@ public:
      * Check if cache is empty.
      */
     bool empty() const {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         return map_.empty();
     }
@@ -207,11 +171,6 @@ public:
     };
     
     Stats stats() const {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         uint64_t total = hits_ + misses_;
         double hit_rate = total > 0 ? static_cast<double>(hits_) / total : 0.0;
@@ -235,15 +194,8 @@ public:
      * Note: This iterates from the back of the LRU list (least recently used).
      * Due to varying custom TTLs, expired entries may be scattered throughout
      * the list, so this may not catch all expired entries in a single pass.
-     * @brief TBD: Describe removeExpired.
-     * @details Calls: lock(), std::chrono::steady_clock::now(), rbegin(), rend(), erase(), std::next(), base().
      */
     void removeExpired() {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         auto now = std::chrono::steady_clock::now();
@@ -275,10 +227,6 @@ private:
         typename std::list<ListEntry>::iterator list_it;
     };
     
-    /**
-     * @brief TBD: Describe evictLRU.
-     * @details Calls: empty(), back(), erase(), pop_back().
-     */
     void evictLRU() {
         if (list_.empty()) {
             return;

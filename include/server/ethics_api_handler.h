@@ -69,9 +69,6 @@ public:
 
     /**
      * @brief Dispatch ethics API requests by path and method.
-     * @param[in] req Input parameter.
-     * @param[in] target Input parameter.
-     * @return Return value.
      */
     http::response<http::string_body> handle(
         const http::request<http::string_body>& req,
@@ -93,8 +90,6 @@ public:
      *   "status": "initialized",
      *   "created_at": 1234567890
      * }
-     * @param[in] req Input parameter.
-     * @return Return value.
      */
     http::response<http::string_body> handleDebateInit(
         const http::request<http::string_body>& req);
@@ -118,8 +113,6 @@ public:
      *   "confidence": 0.85,
      *   "consensus_level": 0.78
      * }
-     * @param[in] req Input parameter.
-     * @return Return value.
      */
     http::response<http::string_body> handleMakeDecision(
         const http::request<http::string_body>& req);
@@ -142,8 +135,6 @@ public:
      *   "alignment_score": 0.81,
      *   "transparency_score": 0.77
      * }
-     * @param[in] req Input parameter.
-     * @return Return value.
      */
     http::response<http::string_body> handleEvaluation(
         const http::request<http::string_body>& req);
@@ -166,8 +157,6 @@ public:
      *     "strength": "strong"
      *   }
      * ]
-     * @param[in] req Input parameter.
-     * @return Return value.
      */
     http::response<http::string_body> handleGetArguments(
         const http::request<http::string_body>& req);
@@ -192,8 +181,6 @@ public:
      *     "philosophy_school": "kant"
      *   }
      * ]
-     * @param[in] req Input parameter.
-     * @return Return value.
      */
     http::response<http::string_body> handleSearchArguments(
         const http::request<http::string_body>& req);
@@ -211,8 +198,6 @@ public:
      *   },
      *   ...
      * ]
-     * @param[in] req Input parameter.
-     * @return Return value.
      */
     http::response<http::string_body> handleListPhilosophies(
         const http::request<http::string_body>& req);
@@ -230,9 +215,6 @@ public:
      *   "main_thesis": "...",
      *   "decision_framework": {...}
      * }
-     * @param[in] req Input parameter.
-     * @param[in] school Input parameter.
-     * @return Return value.
      */
     http::response<http::string_body> handleGetPhilosophy(
         const http::request<http::string_body>& req,
@@ -256,8 +238,6 @@ public:
      *   "recent_debates": [...],
      *   "consensus_decisions": [...]
      * }
-     * @param[in] req Input parameter.
-     * @return Return value.
      */
     http::response<http::string_body> handleBuildContext(
         const http::request<http::string_body>& req);
@@ -281,8 +261,6 @@ public:
      * # TYPE ethics_decisions_total counter
      * ethics_decisions_total 1234
      * ...
-     * @param[in] req Input parameter.
-     * @return Return value.
      */
     http::response<http::string_body> handleGetMetrics(
         const http::request<http::string_body>& req);
@@ -292,25 +270,12 @@ private:
     std::shared_ptr<QueryEngine> query_engine_;
     std::shared_ptr<themis::AuthMiddleware> auth_;
 
-    /**
-     * @brief Helper methods
-     * @param[in] status Input parameter.
-     * @param[in] message Input parameter.
-     * @param[in] req Input parameter.
-     * @return Return value.
-     */
+    // Helper methods
     http::response<http::string_body> makeErrorResponse(
         http::status status, 
         const std::string& message, 
         const http::request<http::string_body>& req);
         
-    /**
-     * @brief TBD: Describe makeResponse.
-     * @param[in] status Input parameter.
-     * @param[in] body Input parameter.
-     * @param[in] req Input parameter.
-     * @return Return value.
-     */
     http::response<http::string_body> makeResponse(
         http::status status, 
         const std::string& body, 
@@ -320,12 +285,6 @@ private:
         const std::string& aql_query,
         const nlohmann::json& bind_vars = nlohmann::json::object());
         
-    /**
-     * @brief TBD: Describe extractQueryParam.
-     * @param[in] target Input parameter.
-     * @param[in] param Input parameter.
-     * @return Return value.
-     */
     std::string extractQueryParam(
         const std::string& target,
         const std::string& param) const;

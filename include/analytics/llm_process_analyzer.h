@@ -193,11 +193,6 @@ struct LLMResponse {
 /** @brief Llm process analyzer component. */
 class LLMProcessAnalyzer {
 public:
-    /**
-     * @brief TBD: Describe LLMProcessAnalyzer.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit LLMProcessAnalyzer(const LLMConfig& config);
     ~LLMProcessAnalyzer();
     
@@ -252,10 +247,6 @@ public:
             return (hits + misses) > 0 ? static_cast<double>(hits) / (hits + misses) : 0.0;
         }
     };
-    /**
-     * @brief TBD: Describe getCacheStats.
-     * @return Return value.
-     */
     CacheStats getCacheStats() const;
     
     /**
@@ -270,11 +261,6 @@ private:
     // Internal helpers
     std::string callLLM(const std::string& prompt, const std::map<std::string, std::string>& params);
     nlohmann::json parseResponse(const std::string& raw_response, [[maybe_unused]] TaskType task_type);
-    /**
-     * @brief TBD: Describe getCacheKey.
-     * @param[in] request Input parameter.
-     * @return Return value.
-     */
     std::string getCacheKey(const LLMRequest& request) const;
 };
 

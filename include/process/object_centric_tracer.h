@@ -78,8 +78,6 @@ public:
     /**
      * @param linker         ProcessLinker to retrieve attachments.
      * @param model_manager  ProcessModelManager to load model definitions.
-     * @brief TBD: Describe ObjectCentricTracer.
-     * @return Return value.
      */
     explicit ObjectCentricTracer(
         ProcessLinker&       linker,

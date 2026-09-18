@@ -134,8 +134,6 @@ public:
      * @param db                  RocksDB instance used to resolve instance→model_id.
      * @param graph_rag           Existing GraphRAG engine (LOCAL retrieval).
      * @param community_detector  Community detector (GLOBAL retrieval).
-     * @brief TBD: Describe ProcessLightRetriever.
-     * @return Return value.
      */
     explicit ProcessLightRetriever(
         RocksDBWrapper&           db,

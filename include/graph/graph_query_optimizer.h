@@ -390,41 +390,17 @@ public:
 
         std::vector<Change> changes;
 
-        /**
-         * @brief TBD: Describe addEdgeAdded.
-         * @param[in] id Input parameter.
-         * @param[in] from Input parameter.
-         * @param[in] to Input parameter.
-         * @details Calls: push_back(), std::move().
-         */
         void addEdgeAdded(std::string id, std::string from, std::string to) {
             changes.push_back({ChangeType::EDGE_ADDED, std::move(id),
                                std::move(from), std::move(to)});
         }
-        /**
-         * @brief TBD: Describe addEdgeRemoved.
-         * @param[in] id Input parameter.
-         * @param[in] from Input parameter.
-         * @param[in] to Input parameter.
-         * @details Calls: push_back(), std::move().
-         */
         void addEdgeRemoved(std::string id, std::string from, std::string to) {
             changes.push_back({ChangeType::EDGE_REMOVED, std::move(id),
                                std::move(from), std::move(to)});
         }
-        /**
-         * @brief TBD: Describe addVertexAdded.
-         * @param[in] id Input parameter.
-         * @details Calls: push_back(), std::move().
-         */
         void addVertexAdded(std::string id) {
             changes.push_back({ChangeType::VERTEX_ADDED, std::move(id), {}, {}});
         }
-        /**
-         * @brief TBD: Describe addVertexRemoved.
-         * @param[in] id Input parameter.
-         * @details Calls: push_back(), std::move().
-         */
         void addVertexRemoved(std::string id) {
             changes.push_back({ChangeType::VERTEX_REMOVED, std::move(id), {}, {}});
         }
@@ -521,32 +497,16 @@ public:
         double execution_time_ms = 0.0;
     };
 
-    /**
-     * @brief TBD: Describe GraphQueryOptimizer.
-     * @param[in,out] graph_manager Input/output parameter.
-     * @return Return value.
-     */
     explicit GraphQueryOptimizer(GraphIndexManager& graph_manager);
 
     /**
      * Generate optimized plan for shortest path query
-     * @brief TBD: Describe optimizeShortestPath.
-     * @param[in] start_vertex Input parameter.
-     * @param[in] target_vertex Input parameter.
-     * @return Return value.
      */
     Result<OptimizationPlan> optimizeShortestPath(
         std::string_view start_vertex,
         std::string_view target_vertex
     );
     
-    /**
-     * @brief TBD: Describe optimizeShortestPath.
-     * @param[in] start_vertex Input parameter.
-     * @param[in] target_vertex Input parameter.
-     * @param[in] constraints Input parameter.
-     * @return Return value.
-     */
     Result<OptimizationPlan> optimizeShortestPath(
         std::string_view start_vertex,
         std::string_view target_vertex,
@@ -555,23 +515,12 @@ public:
 
     /**
      * Generate optimized plan for k-hop neighborhood query
-     * @brief TBD: Describe optimizeKHopNeighborhood.
-     * @param[in] start_vertex Input parameter.
-     * @param[in] k Input parameter.
-     * @return Return value.
      */
     Result<OptimizationPlan> optimizeKHopNeighborhood(
         std::string_view start_vertex,
         int k
     );
 
-    /**
-     * @brief TBD: Describe optimizeKHopNeighborhood.
-     * @param[in] start_vertex Input parameter.
-     * @param[in] k Input parameter.
-     * @param[in] constraints Input parameter.
-     * @return Return value.
-     */
     Result<OptimizationPlan> optimizeKHopNeighborhood(
         std::string_view start_vertex,
         int k,
@@ -594,23 +543,12 @@ public:
 
     /**
      * Generate optimized plan for reachability check
-     * @brief TBD: Describe optimizeReachability.
-     * @param[in] start_vertex Input parameter.
-     * @param[in] target_vertex Input parameter.
-     * @return Return value.
      */
     Result<OptimizationPlan> optimizeReachability(
         std::string_view start_vertex,
         std::string_view target_vertex
     );
 
-    /**
-     * @brief TBD: Describe optimizeReachability.
-     * @param[in] start_vertex Input parameter.
-     * @param[in] target_vertex Input parameter.
-     * @param[in] constraints Input parameter.
-     * @return Return value.
-     */
     Result<OptimizationPlan> optimizeReachability(
         std::string_view start_vertex,
         std::string_view target_vertex,
@@ -904,25 +842,16 @@ public:
 
     /**
      * Estimate selectivity for edge type
-     * @brief TBD: Describe estimateEdgeTypeSelectivity.
-     * @param[in] edge_type Input parameter.
-     * @return Return value.
      */
     double estimateEdgeTypeSelectivity(std::string_view edge_type) const;
 
     /**
      * Generate query execution plan explanation
-     * @brief TBD: Describe explainPlan.
-     * @param[in] plan Input parameter.
-     * @return Return value.
      */
     std::string explainPlan(const OptimizationPlan& plan) const;
 
     /**
      * Enable/disable plan caching
-     * @brief TBD: Describe setPlanCachingEnabled.
-     * @param[in] enabled Input parameter.
-     * @details Implements setPlanCachingEnabled without additional internal calls.
      */
     void setPlanCachingEnabled(bool enabled) { plan_caching_enabled_ = enabled; }
 
@@ -931,9 +860,6 @@ public:
      * When the cache reaches this limit, the least recently used entry is
      * evicted before a new one is inserted.  Set to 0 for unlimited size.
      * Default: 0 (unlimited).
-     * @brief TBD: Describe setPlanCacheMaxSize.
-     * @param[in] max_size Input parameter.
-     * @details Implements setPlanCacheMaxSize without additional internal calls.
      */
     void setPlanCacheMaxSize(size_t max_size) { plan_cache_max_size_ = max_size; }
 
@@ -945,9 +871,6 @@ public:
      * Cached entries older than `ttl` are treated as expired on the next lookup
      * and will be evicted lazily.  Set to zero duration to disable TTL.
      * Default: 0 (no TTL).
-     * @brief TBD: Describe setPlanCacheTTL.
-     * @param[in] ttl Input parameter.
-     * @details Implements setPlanCacheTTL without additional internal calls.
      */
     void setPlanCacheTTL(std::chrono::milliseconds ttl) { plan_cache_ttl_ = ttl; }
 
@@ -956,18 +879,12 @@ public:
 
     /// Returns the current number of entries in the plan cache.  Thread-safe.
     size_t getPlanCacheSize() const {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] plan_cache_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(plan_cache_mutex_);
         return plan_cache_.size();
     }
 
     /**
      * Clear plan cache
-     * @brief TBD: Describe clearPlanCache.
      */
     void clearPlanCache();
 
@@ -1027,8 +944,6 @@ public:
      * cost is then blended into `estimateCost` proportional to its confidence
      * level so that initial plans are still theory-driven, but converge towards
      * actual observed behaviour over time.
-     * @param[in] enable Input parameter.
-     * @details Implements enableAdaptiveLearning without additional internal calls.
      */
     void enableAdaptiveLearning(bool enable) { adaptive_learning_enabled_ = enable; }
 
@@ -1154,7 +1069,6 @@ public:
      * return `ERR_GRAPH_RATE_LIMIT_EXCEEDED` (6406) immediately.
      *
      * @param max_qps Maximum queries per second (0 = no limit, the default).
-     * @details Implements setMaxQueriesPerSecond without additional internal calls.
      */
     void setMaxQueriesPerSecond(uint32_t max_qps) { rate_limiter_.max_qps = max_qps; }
 
@@ -1357,20 +1271,13 @@ private:
                        std::pair<PlanCacheEntry, std::list<std::string>::iterator>>
         plan_cache_;
 
-    /**
-     * @brief Insert or update a plan in the cache, enforcing LRU size limit.
-     * @param[in] key Input parameter.
-     * @param[in] plan Input parameter.
-     * @details Thread-safe: acquires plan_cache_mutex_ internally.
-     */
+    /// Insert or update a plan in the cache, enforcing LRU size limit.
+    /// Thread-safe: acquires plan_cache_mutex_ internally.
     void planCacheInsert(const std::string& key, const OptimizationPlan& plan);
 
-    /**
-     * @brief Look up a plan in the cache.
-     * @param[in] key Input parameter.
-     * @return Return value.
-     * @details Returns the cached plan by value (empty optional when not found or expired). Thread-safe: acquires plan_cache_mutex_ internally, so callers receive a safe copy.
-     */
+    /// Look up a plan in the cache.  Returns the cached plan by value (empty
+    /// optional when not found or expired).  Thread-safe: acquires
+    /// plan_cache_mutex_ internally, so callers receive a safe copy.
     std::optional<OptimizationPlan> planCacheLookup(const std::string& key);
     
     // Execution history for adaptive optimization
@@ -1406,11 +1313,6 @@ private:
 
     /**
      * Estimate cost for traversal algorithm
-     * @brief TBD: Describe estimateCost.
-     * @param[in] algorithm Input parameter.
-     * @param[in] estimated_depth Input parameter.
-     * @param[in] constraints Input parameter.
-     * @return Return value.
      */
     double estimateCost(
         TraversalAlgorithm algorithm,
@@ -1420,11 +1322,6 @@ private:
 
     /**
      * Select best algorithm based on query pattern and statistics
-     * @brief TBD: Describe selectAlgorithm.
-     * @param[in] pattern Input parameter.
-     * @param[in] estimated_depth Input parameter.
-     * @param[in] constraints Input parameter.
-     * @return Return value.
      */
     TraversalAlgorithm selectAlgorithm(
         QueryPattern pattern,
@@ -1434,10 +1331,6 @@ private:
 
     /**
      * Estimate depth for query
-     * @brief TBD: Describe estimateDepth.
-     * @param[in] pattern Input parameter.
-     * @param[in] constraints Input parameter.
-     * @return Return value.
      */
     size_t estimateDepth(
         QueryPattern pattern,
@@ -1446,12 +1339,6 @@ private:
 
     /**
      * Generate cache key for plan (exact: includes vertex IDs)
-     * @brief TBD: Describe generatePlanCacheKey.
-     * @param[in] pattern Input parameter.
-     * @param[in] start Input parameter.
-     * @param[in] target Input parameter.
-     * @param[in] constraints Input parameter.
-     * @return Return value.
      */
     std::string generatePlanCacheKey(
         QueryPattern pattern,
@@ -1485,10 +1372,6 @@ private:
 
     /**
      * Check if parallel execution is beneficial
-     * @brief TBD: Describe shouldUseParallel.
-     * @param[in] algorithm Input parameter.
-     * @param[in] estimated_nodes Input parameter.
-     * @return True on success.
      */
     bool shouldUseParallel(
         TraversalAlgorithm algorithm,
@@ -1497,8 +1380,6 @@ private:
 
     /**
      * Record execution statistics
-     * @brief TBD: Describe recordExecution.
-     * @param[in] stats Input parameter.
      */
     void recordExecution(const ExecutionStats& stats);
 };

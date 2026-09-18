@@ -96,42 +96,13 @@ private:
     
     bool initialized_ = false;
     
-    /**
-     * @brief Internal methods
-     * @param[in] blob Input parameter.
-     * @return Return value.
-     */
+    // Internal methods
     json extractExifMetadata(const std::vector<uint8_t>& blob);
-    /**
-     * @brief TBD: Describe extractXmpMetadata.
-     * @param[in] blob Input parameter.
-     * @return Return value.
-     */
     json extractXmpMetadata(const std::vector<uint8_t>& blob);
-    /**
-     * @brief TBD: Describe generateThumbnail.
-     * @param[in] blob Input parameter.
-     * @return Return value.
-     */
     std::vector<uint8_t> generateThumbnail(const std::vector<uint8_t>& blob);
-    /**
-     * @brief TBD: Describe performOCR.
-     * @param[in] blob Input parameter.
-     * @return Return value.
-     */
     std::string performOCR(const std::vector<uint8_t>& blob);
     std::vector<std::array<uint8_t, 3>> extractDominantColors(const std::vector<uint8_t>& blob);
-    /**
-     * @brief TBD: Describe detectFaces.
-     * @param[in] blob Input parameter.
-     * @return Return value.
-     */
     json detectFaces(const std::vector<uint8_t>& blob);
-    /**
-     * @brief TBD: Describe detectObjects.
-     * @param[in] blob Input parameter.
-     * @return Return value.
-     */
     json detectObjects(const std::vector<uint8_t>& blob);
 };
 

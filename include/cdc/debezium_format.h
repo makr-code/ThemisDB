@@ -75,9 +75,6 @@ enum class DebeziumOp {
 
 /**
  * @brief Returns the single-character Debezium "op" string for an op code.
- * @param[in] op Input parameter.
- * @return Return value.
- * @details Calls: std::string().
  */
 inline std::string debeziumOpString(DebeziumOp op) {
     return std::string(1, static_cast<char>(op));
@@ -164,10 +161,6 @@ private:
      * construction time.  Consumers that need full schema registry support
      * should extract the actual document schema from the ThemisDB metadata
      * API and register it separately.
-     * @param[in] server_name Input parameter.
-     * @param[in] table Input parameter.
-     * @return Return value.
-     * @details Calls: nlohmann::json::array(), makeValueField().
      */
     static nlohmann::json buildSchema(const std::string& server_name,
                                       const std::string& table) {
@@ -243,10 +236,6 @@ public:
         std::string version     = "1.5.0-dev"; ///< Connector version string
     };
 
-    /**
-     * @brief TBD: Describe DebeziumFormatter.
-     * @return Return value.
-     */
     explicit DebeziumFormatter() = default;
     explicit DebeziumFormatter(Config cfg) : cfg_(std::move(cfg)) {}
 
@@ -328,9 +317,6 @@ private:
      *  - EVENT_PUT, has before_snapshot → UPDATE ('u')
      *  - EVENT_DELETE                   → DELETE ('d')
      *  - anything else                  → READ   ('r')
-     * @param[in] event Input parameter.
-     * @return Return value.
-     * @details Calls: has_value().
      */
     static DebeziumOp opFromEvent(const Changefeed::ChangeEvent& event) {
         switch (event.type) {
@@ -351,9 +337,6 @@ private:
      * ThemisDB keys follow the convention "{collection}:{id}", e.g.
      * "orders:42" → "orders".  If the key contains no ':' the full
      * key string is returned as the collection name.
-     * @param[in] key Input parameter.
-     * @return Return value.
-     * @details Calls: find(), substr().
      */
     static std::string collectionFromKey(const std::string& key) {
         const auto pos = key.find(':');
@@ -366,9 +349,6 @@ private:
      * Attempts to parse @p s as a JSON value.  On parse failure the
      * string is returned as-is under a `"_raw"` key to preserve the
      * original data without throwing.
-     * @param[in] s Input parameter.
-     * @return Return value.
-     * @details Calls: nlohmann::json::parse().
      */
     static nlohmann::json parseDocument(const std::string& s) {
         try {

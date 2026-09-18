@@ -46,10 +46,6 @@ public:
     ) : callback_(std::move(callback)), priority_(priority), name_(std::move(name)),
         created_at_(std::chrono::steady_clock::now()) {}
     
-    /**
-     * @brief TBD: Describe execute.
-     * @details Calls: std::chrono::steady_clock::now(), callback_().
-     */
     void execute() {
         auto start = std::chrono::steady_clock::now();
         callback_();
@@ -81,11 +77,6 @@ public:
         std::string name;                // Pool name for logging
     };
     
-    /**
-     * @brief TBD: Describe ThreadPool.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit ThreadPool(const Config& config);
     ~ThreadPool();
      
@@ -148,23 +139,14 @@ public:
         size_t total_failed;
         double average_task_latency_ms;
     };
-    /**
-     * @brief TBD: Describe getStatistics.
-     * @return Return value.
-     */
     Statistics getStatistics() const;
     
-    /**
-     * @brief Graceful shutdown
-     */
+    // Graceful shutdown
     void shutdown();
     
     bool isRunning() const { return running_.load(); }
     
 private:
-    /**
-     * @brief TBD: Describe workerLoop.
-     */
     void workerLoop();
 
     // Priority comparator: higher priority value → dequeued first.
@@ -224,11 +206,6 @@ public:
     };
     
     ThreadPoolManager();
-    /**
-     * @brief TBD: Describe ThreadPoolManager.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit ThreadPoolManager(const Config& config);
     ~ThreadPoolManager();
     
@@ -250,11 +227,7 @@ public:
         return submit(pool, task);
     }
     
-    /**
-     * @brief Get statistics for specific pool
-     * @param[in] pool Input parameter.
-     * @return Return value.
-     */
+    // Get statistics for specific pool
     ThreadPool::Statistics getPoolStatistics(PoolType pool) const;
     
     // Get combined statistics
@@ -264,15 +237,9 @@ public:
         ThreadPool::Statistics blocking_stats;
         std::chrono::steady_clock::time_point snapshot_time;
     };
-    /**
-     * @brief TBD: Describe getStatistics.
-     * @return Return value.
-     */
     GlobalStatistics getStatistics() const;
     
-    /**
-     * @brief Graceful shutdown of all pools
-     */
+    // Graceful shutdown of all pools
     void shutdown();
     
 private:
@@ -284,16 +251,10 @@ private:
     std::thread metrics_thread_;
     std::atomic<bool> running_{false};
     
-    /**
-     * @brief TBD: Describe metricsLoop.
-     */
     void metricsLoop();
 };
 
-/**
- * @brief Global singleton
- * @return Return value.
- */
+// Global singleton
 ThreadPoolManager& getThreadPoolManager();
 
 } // namespace themis::utils

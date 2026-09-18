@@ -39,10 +39,6 @@ struct BiasFieldStats {
     /// lower values indicate stronger skew.
     double demographic_parity_score = 0.0;
 
-    /**
-     * @brief TBD: Describe toJson.
-     * @return Return value.
-     */
     nlohmann::json toJson() const;
 };
 
@@ -65,10 +61,6 @@ struct BiasAuditReport {
 
     std::vector<std::string> recommendations; ///< Actionable remediation advice
 
-    /**
-     * @brief TBD: Describe toJson.
-     * @return Return value.
-     */
     nlohmann::json toJson() const;
 };
 
@@ -81,10 +73,6 @@ struct CoverageAnalysis {
     std::vector<std::string> uncovered_resources;
     std::vector<std::string> overlapping_rules;  // Rules that overlap
     
-    /**
-     * @brief TBD: Describe toJson.
-     * @return Return value.
-     */
     nlohmann::json toJson() const;
 };
 
@@ -96,10 +84,6 @@ struct ComplianceGap {
     std::vector<std::string> affected_resources;
     std::vector<std::string> recommendations;
     
-    /**
-     * @brief TBD: Describe toJson.
-     * @return Return value.
-     */
     nlohmann::json toJson() const;
 };
 
@@ -121,10 +105,6 @@ struct ComplianceReport {
     // Additional data
     nlohmann::json details;
     
-    /**
-     * @brief TBD: Describe toJson.
-     * @return Return value.
-     */
     nlohmann::json toJson() const;
 };
 
@@ -141,12 +121,8 @@ struct RuleEvaluationEntry {
     bool        export_allowed             = true;
     std::string user_id;                           ///< Optional requesting user
 
-    /**
-     * @brief Populate from a JSON audit-log record produced by PolicyEngine::evaluate().
-     * @param[in] j Input parameter.
-     * @return Return value.
-     * @details Unknown or missing fields are silently ignored.
-     */
+    /// Populate from a JSON audit-log record produced by PolicyEngine::evaluate().
+    /// Unknown or missing fields are silently ignored.
     static RuleEvaluationEntry fromJson(const nlohmann::json& j);
 };
 
@@ -176,15 +152,7 @@ struct TimeWindowReport {
     double compliance_score = 0.0;         ///< 0–100
     std::vector<ComplianceGap> gaps;
 
-    /**
-     * @brief TBD: Describe toJson.
-     * @return Return value.
-     */
     nlohmann::json toJson() const;
-    /**
-     * @brief TBD: Describe toCSV.
-     * @return Return value.
-     */
     std::string toCSV() const;
 };
 
@@ -193,27 +161,21 @@ class ComplianceReporter {
 public:
     ComplianceReporter(std::shared_ptr<PolicyManager> policy_manager);
     
-    /**
-     * @brief Analyze policy coverage @param resources List of resources to analyze @return Coverage analysis result
-     * @param[in] resources Input parameter.
-     * @return Return value.
-     */
+    /// Analyze policy coverage
+    /// @param resources List of resources to analyze
+    /// @return Coverage analysis result
     CoverageAnalysis analyzeCoverage(const std::vector<std::string>& resources) const;
     
     /// Detect overlapping rules
     /// @return List of rule IDs that have overlapping conditions
     std::vector<std::pair<std::string, std::string>> detectOverlappingRules() const;
     
-    /**
-     * @brief Detect compliance gaps @return List of compliance gaps
-     * @return Return value.
-     */
+    /// Detect compliance gaps
+    /// @return List of compliance gaps
     std::vector<ComplianceGap> detectGaps() const;
     
-    /**
-     * @brief Generate summary report @return Compliance report with summary statistics
-     * @return Return value.
-     */
+    /// Generate summary report
+    /// @return Compliance report with summary statistics
     ComplianceReport generateSummaryReport() const;
     
     /// Generate compliance status report
@@ -252,16 +214,12 @@ public:
               std::unordered_map<std::string, size_t>>& field_stats
     ) const;
     
-    /**
-     * @brief Generate access control matrix @return JSON representation of access control matrix
-     * @return Return value.
-     */
+    /// Generate access control matrix
+    /// @return JSON representation of access control matrix
     nlohmann::json generateAccessControlMatrix() const;
     
-    /**
-     * @brief Generate risk assessment report @return Compliance report focused on risk
-     * @return Return value.
-     */
+    /// Generate risk assessment report
+    /// @return Compliance report focused on risk
     ComplianceReport generateRiskAssessmentReport() const;
 
     /// Generate a compliance summary for a specific time window.
@@ -288,12 +246,10 @@ public:
         int64_t window_end_ms   = INT64_MAX,
         const std::string& framework = "") const;
 
-    /**
-     * @brief Export report in specified format @param report Report to export @param format Export format ("json", "csv") @return Exported data as string
-     * @param[in] report Input parameter.
-     * @param[in] format Input parameter.
-     * @return Return value.
-     */
+    /// Export report in specified format
+    /// @param report Report to export
+    /// @param format Export format ("json", "csv")
+    /// @return Exported data as string
     std::string exportReport(const ComplianceReport& report, const std::string& format) const;
     
 private:

@@ -69,11 +69,6 @@ public:
         GPUTemperatureProviderFn temperature_provider_fn;  // Optional temperature callback
     };
     
-    /**
-     * @brief TBD: Describe GPUMemoryManager.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit GPUMemoryManager(const Config& config);
     ~GPUMemoryManager();
 
@@ -185,16 +180,7 @@ public:
     [[nodiscard]] GPUHealth getGPUHealth(int gpu_device_id) const;
     [[nodiscard]] std::vector<GPUHealth> getAllGPUHealth() const;
     [[nodiscard]] bool isGPUHealthy(int gpu_device_id) const;
-    /**
-     * @brief TBD: Describe markGPUUnhealthy.
-     * @param[in] gpu_device_id Input parameter.
-     * @param[in] reason Input parameter.
-     */
     void markGPUUnhealthy(int gpu_device_id, const std::string& reason);
-    /**
-     * @brief TBD: Describe markGPUHealthy.
-     * @param[in] gpu_device_id Input parameter.
-     */
     void markGPUHealthy(int gpu_device_id);
     
     // Load balancing queries
@@ -253,42 +239,14 @@ private:
     std::unordered_map<int, std::vector<std::string>> gpu_adapters_;  // Adapters per GPU
     std::unordered_map<int, std::vector<std::string>> gpu_models_;    // Models per GPU
     
-    /**
-     * @brief TBD: Describe initializeGPU.
-     */
     void initializeGPU();
-    /**
-     * @brief TBD: Describe shutdownGPU.
-     */
     void shutdownGPU();
-    /**
-     * @brief TBD: Describe updateMemoryStats.
-     */
     void updateMemoryStats();
-    /**
-     * @brief TBD: Describe updateGPUHealth.
-     * @param[in] gpu_device_id Input parameter.
-     */
     void updateGPUHealth(int gpu_device_id);  // Update health metrics
-    /**
-     * @brief TBD: Describe checkGPUHealth.
-     * @param[in] gpu_device_id Input parameter.
-     */
     void checkGPUHealth(int gpu_device_id);   // Perform health check
     
-    /**
-     * @brief Defragmentation helper methods
-     * @param[in] model_id Input parameter.
-     * @param[in] gpu_allocs Input parameter.
-     * @return True on success.
-     */
+    // Defragmentation helper methods
     bool defragmentModelGPU(const std::string& model_id, const std::vector<MemoryAllocation>& gpu_allocs);
-    /**
-     * @brief TBD: Describe defragmentModelCPU.
-     * @param[in] model_id Input parameter.
-     * @param[in] cpu_allocs Input parameter.
-     * @return True on success.
-     */
     bool defragmentModelCPU(const std::string& model_id, const std::vector<MemoryAllocation>& cpu_allocs);
 
 };

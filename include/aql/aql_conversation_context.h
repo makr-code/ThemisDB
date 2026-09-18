@@ -146,7 +146,6 @@ public:
      * @brief Construct a context with a handler (default configuration)
      * @param handler   Reference to an LLMAQLHandler instance.
      *                  The handler must outlive this context.
-     * @return Return value.
      */
     explicit AQLConversationContext(LLMAQLHandler& handler);
     
@@ -173,7 +172,6 @@ public:
      * @param compressor  Optional IHistoryCompressor for episodic compression (L2 rotation).
      *                    If nullptr and enable_episodic_compaction is true, compression
      *                    will be silently skipped. The compressor must outlive this context.
-     * @return Return value.
      */
     explicit AQLConversationContext(
       LLMAQLHandler& handler,
@@ -198,11 +196,9 @@ public:
      *
      * Should describe available collections and their fields so the LLM can
      * produce more accurate AQL.  Can be updated between calls.
-     * @param[in] schema Input parameter.
      */
     void setSchemaContext(const std::string& schema);
 
-     * @return Return value.
     /** @brief Return the current schema context string. */
     std::string getSchemaContext() const;
 
@@ -264,15 +260,12 @@ public:
     // Inspection
     // =========================================================================
 
-     * @return Return value.
     /** @brief Number of user turns currently retained in history (≤ Config::max_turns). */
     std::size_t turnCount() const;
 
-     * @return Return value.
     /** @brief Estimated total token count of the current conversation history. */
     std::size_t tokenCount() const;
 
-     * @return Return value.
     /** @brief Return the last AQL query generated, or empty string if none. */
     std::string lastQuery() const;
 

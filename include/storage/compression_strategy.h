@@ -153,10 +153,6 @@ public:
     
     /**
      * @brief Select optimal compression method for given data
-     * @param[in] data Input parameter.
-     * @param[in] size Input parameter.
-     * @param[in] type Input parameter.
-     * @return Return value.
      */
     CompressionMethod select_method(
         const uint8_t* data,
@@ -166,7 +162,6 @@ public:
     
     /**
      * @brief Get compression metrics
-     * @return Return value.
      */
     std::string get_metrics() const;
     
@@ -177,8 +172,6 @@ public:
     
     /**
      * @brief Update configuration
-     * @param[in] config Input parameter.
-     * @details Implements set_config without additional internal calls.
      */
     void set_config(const CompressionConfig& config) {
         config_ = config;
@@ -193,140 +186,43 @@ public:
     
     /**
      * @brief Convert method enum to string
-     * @param[in] method Input parameter.
-     * @return Return value.
      */
     static std::string method_to_string(CompressionMethod method);
     
     /**
      * @brief Convert string to method enum
-     * @param[in] str Input parameter.
-     * @return Return value.
      */
     static std::optional<CompressionMethod> string_to_method(const std::string& str);
     
 private:
-    /**
-     * @brief Compression method implementations
-     * @param[in] data Input parameter.
-     * @param[in] size Input parameter.
-     * @return Return value.
-     */
+    // Compression method implementations
     CompressionResult compress_zstd(const uint8_t* data, size_t size);
-    /**
-     * @brief TBD: Describe compress_rle.
-     * @param[in] data Input parameter.
-     * @param[in] size Input parameter.
-     * @return Return value.
-     */
     CompressionResult compress_rle(const uint8_t* data, size_t size);
-    /**
-     * @brief TBD: Describe compress_delta.
-     * @param[in] data Input parameter.
-     * @param[in] size Input parameter.
-     * @return Return value.
-     */
     CompressionResult compress_delta(const uint8_t* data, size_t size);
-    /**
-     * @brief TBD: Describe compress_dictionary.
-     * @param[in] data Input parameter.
-     * @param[in] size Input parameter.
-     * @return Return value.
-     */
     CompressionResult compress_dictionary(const uint8_t* data, size_t size);
 
-    /**
-     * @brief GPU-accelerated compression implementations
-     * @param[in] data Input parameter.
-     * @param[in] size Input parameter.
-     * @return Return value.
-     */
+    // GPU-accelerated compression implementations
     CompressionResult compress_gpu_zstd(const uint8_t* data, size_t size);
-    /**
-     * @brief TBD: Describe compress_gpu_snappy.
-     * @param[in] data Input parameter.
-     * @param[in] size Input parameter.
-     * @return Return value.
-     */
     CompressionResult compress_gpu_snappy(const uint8_t* data, size_t size);
-    /**
-     * @brief TBD: Describe compress_gpu_lz4.
-     * @param[in] data Input parameter.
-     * @param[in] size Input parameter.
-     * @return Return value.
-     */
     CompressionResult compress_gpu_lz4(const uint8_t* data, size_t size);
     
-    /**
-     * @brief Decompression method implementations
-     * @param[in] data Input parameter.
-     * @return Return value.
-     */
+    // Decompression method implementations
     std::vector<uint8_t> decompress_zstd(const std::vector<uint8_t>& data);
-    /**
-     * @brief TBD: Describe decompress_rle.
-     * @param[in] data Input parameter.
-     * @return Return value.
-     */
     std::vector<uint8_t> decompress_rle(const std::vector<uint8_t>& data);
-    /**
-     * @brief TBD: Describe decompress_delta.
-     * @param[in] data Input parameter.
-     * @return Return value.
-     */
     std::vector<uint8_t> decompress_delta(const std::vector<uint8_t>& data);
-    /**
-     * @brief TBD: Describe decompress_dictionary.
-     * @param[in] data Input parameter.
-     * @return Return value.
-     */
     std::vector<uint8_t> decompress_dictionary(const std::vector<uint8_t>& data);
 
-    /**
-     * @brief GPU-accelerated decompression implementations
-     * @param[in] data Input parameter.
-     * @return Return value.
-     */
+    // GPU-accelerated decompression implementations
     std::vector<uint8_t> decompress_gpu_zstd(const std::vector<uint8_t>& data);
-    /**
-     * @brief TBD: Describe decompress_gpu_snappy.
-     * @param[in] data Input parameter.
-     * @return Return value.
-     */
     std::vector<uint8_t> decompress_gpu_snappy(const std::vector<uint8_t>& data);
-    /**
-     * @brief TBD: Describe decompress_gpu_lz4.
-     * @param[in] data Input parameter.
-     * @return Return value.
-     */
     std::vector<uint8_t> decompress_gpu_lz4(const std::vector<uint8_t>& data);
     
-    /**
-     * @brief Helper functions
-     * @param[in] data Input parameter.
-     * @param[in] size Input parameter.
-     * @return Return value.
-     */
+    // Helper functions
     DataType detect_data_type(const uint8_t* data, size_t size);
-    /**
-     * @brief TBD: Describe is_mostly_text.
-     * @param[in] data Input parameter.
-     * @param[in] size Input parameter.
-     * @return True on success.
-     */
     bool is_mostly_text(const uint8_t* data, size_t size);
-    /**
-     * @brief TBD: Describe is_sparse_data.
-     * @param[in] data Input parameter.
-     * @param[in] size Input parameter.
-     * @return True on success.
-     */
     bool is_sparse_data(const uint8_t* data, size_t size);
 
-    /**
-     * @brief Lazy-init GPU compression manager (created on first GPU method call)
-     * @return Return value.
-     */
+    // Lazy-init GPU compression manager (created on first GPU method call)
     themis::storage::GpuCompressionManager& gpu_manager();
     
     CompressionConfig config_;
@@ -343,31 +239,16 @@ public:
      * 
      * Format: [count:varint][value:byte]...
      * Efficient for data with long runs of repeated bytes
-     * @param[in] data Input parameter.
-     * @param[in] size Input parameter.
-     * @return Return value.
      */
     static std::vector<uint8_t> compress(const uint8_t* data, size_t size);
     
     /**
      * @brief Decompress RLE data
-     * @param[in] data Input parameter.
-     * @return Return value.
      */
     static std::vector<uint8_t> decompress(const std::vector<uint8_t>& data);
     
 private:
-    /**
-     * @brief TBD: Describe encode_varint.
-     * @param[in,out] output Input/output parameter.
-     * @param[in] value Input parameter.
-     */
     static void encode_varint(std::vector<uint8_t>& output, uint32_t value);
-    /**
-     * @brief TBD: Describe decode_varint.
-     * @param[in] ptr Input parameter.
-     * @return Return value.
-     */
     static uint32_t decode_varint(const uint8_t*& ptr);
 };
 
@@ -381,16 +262,11 @@ public:
      * 
      * Stores first value, then differences between consecutive values.
      * Efficient for monotonic or slowly-changing sequences.
-     * @param[in] data Input parameter.
-     * @param[in] size Input parameter.
-     * @return Return value.
      */
     static std::vector<uint8_t> compress(const uint8_t* data, size_t size);
     
     /**
      * @brief Decompress delta-encoded data
-     * @param[in] data Input parameter.
-     * @return Return value.
      */
     static std::vector<uint8_t> decompress(const std::vector<uint8_t>& data);
 };
@@ -405,16 +281,11 @@ public:
      * 
      * Efficient for data with repeated patterns/blocks.
      * Format: [dict_size:4][dict_entries...][indices...]
-     * @param[in] data Input parameter.
-     * @param[in] size Input parameter.
-     * @return Return value.
      */
     static std::vector<uint8_t> compress(const uint8_t* data, size_t size);
     
     /**
      * @brief Decompress dictionary-encoded data
-     * @param[in] data Input parameter.
-     * @return Return value.
      */
     static std::vector<uint8_t> decompress(const std::vector<uint8_t>& data);
 };

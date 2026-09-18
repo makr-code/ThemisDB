@@ -89,8 +89,6 @@ public:
 
     /**
      * @brief Import a CMMN 1.1 XML file from disk.
-     * @param[in] file_path Input parameter.
-     * @return Return value.
      */
     static ImportResult importFile(std::string_view file_path);
 
@@ -118,11 +116,6 @@ public:
         const std::vector<ProcessEdgeInfo>& edges);
 
 private:
-    /**
-     * @brief TBD: Describe escapeXml_.
-     * @param[in] s Input parameter.
-     * @return Return value.
-     */
     static std::string escapeXml_(std::string_view s);
 };
 

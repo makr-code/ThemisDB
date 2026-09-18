@@ -87,8 +87,6 @@ public:
 
     /**
      * @brief Parse an EPK JSON array (nodes + edges format).
-     * @param[in] epk_json Input parameter.
-     * @return Return value.
      */
     static ImportResult importJson(const nlohmann::json& epk_json);
 
@@ -98,10 +96,6 @@ public:
 
     /**
      * @brief Export EPK nodes and edges to the simple text notation.
-     * @param[in] process_name Input parameter.
-     * @param[in] nodes Input parameter.
-     * @param[in] edges Input parameter.
-     * @return Return value.
      */
     static std::string exportText(
         std::string_view                    process_name,
@@ -113,11 +107,6 @@ public:
      * @brief Export EPK to a structured JSON representation.
      *
      * Useful for programmatic processing and LLM context generation.
-     * @param[in] process_id Input parameter.
-     * @param[in] process_name Input parameter.
-     * @param[in] nodes Input parameter.
-     * @param[in] edges Input parameter.
-     * @return Return value.
      */
     static nlohmann::json exportJson(
         std::string_view                    process_id,
@@ -127,17 +116,7 @@ public:
     );
 
 private:
-    /**
-     * @brief TBD: Describe epkNodeTypeToLabel_.
-     * @param[in] t Input parameter.
-     * @return Return value.
-     */
     static std::string epkNodeTypeToLabel_(EPKNodeType t);
-    /**
-     * @brief TBD: Describe labelToEpkNodeType_.
-     * @param[in] label Input parameter.
-     * @return Return value.
-     */
     static EPKNodeType labelToEpkNodeType_(std::string_view label);
 };
 

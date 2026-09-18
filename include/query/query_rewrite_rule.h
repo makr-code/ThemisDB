@@ -62,10 +62,6 @@ struct RewriteStats {
  */
 class IQueryRewriteRule {
 public:
-    /**
-     * @brief TBD: Describe ~IQueryRewriteRule.
-     * @return Return value.
-     */
     virtual ~IQueryRewriteRule() = default;
 
     /// Human-readable identifier, e.g. "PredicatePushdown".
@@ -217,7 +213,6 @@ public:
 
     /**
      * @brief Convenience: create a pipeline with all built-in rules.
-     * @return Return value.
      */
     static QueryRewritePipeline createDefault();
 

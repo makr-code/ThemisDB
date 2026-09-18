@@ -35,10 +35,6 @@ using IIndexManagerPtr = std::shared_ptr<IIndexManager>;
  */
 class IStorageEngine {
 public:
-    /**
-     * @brief TBD: Describe ~IStorageEngine.
-     * @return Return value.
-     */
     virtual ~IStorageEngine() = default;
     
     /**
@@ -176,10 +172,6 @@ using IStorageEnginePtr = std::shared_ptr<IStorageEngine>;
  */
 class IStorageEngineFactory {
 public:
-    /**
-     * @brief TBD: Describe ~IStorageEngineFactory.
-     * @return Return value.
-     */
     virtual ~IStorageEngineFactory() = default;
     
     /**

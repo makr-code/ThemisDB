@@ -49,12 +49,9 @@ struct PromptLibraryBundle {
     std::string checksum;                     ///< FNV-1a hex; computed by `PromptLibraryIO`.
     std::vector<PromptManager::PromptTemplate> templates;
 
-     * @return Return value.
     /** @brief Serialise to JSON (does NOT recompute checksum). */
     nlohmann::json toJson() const;
 
-     * @param[in] j Input parameter.
-     * @return Return value.
     /** @brief Deserialise from JSON. */
     static PromptLibraryBundle fromJson(const nlohmann::json& j);
 };
@@ -166,7 +163,6 @@ public:
      * @brief Parse a bundle from a JSON string.
      * @return `nullopt` if parsing fails (empty string, malformed JSON, missing
      *         required fields).
-     * @param[in] json_str Input parameter.
      */
     static std::optional<PromptLibraryBundle> importFromJson(
         const std::string& json_str);
@@ -174,7 +170,6 @@ public:
     /**
      * @brief Parse a bundle from a YAML string (via yaml-cpp).
      * @return `nullopt` if parsing fails.
-     * @param[in] yaml_str Input parameter.
      */
     static std::optional<PromptLibraryBundle> importFromYaml(
         const std::string& yaml_str);
@@ -208,26 +203,19 @@ public:
      *  4. Return as a zero-padded 16-character lowercase hex string.
      *
      * @return 16-character lowercase hex string.
-     * @param[in] bundle Input parameter.
      */
     static std::string computeChecksum(const PromptLibraryBundle& bundle);
 
     /**
      * @brief Verify that `bundle.checksum == computeChecksum(bundle)`.
      * @return `true` iff the stored checksum matches the freshly computed one.
-     * @param[in] bundle Input parameter.
      */
     static bool verifyChecksum(const PromptLibraryBundle& bundle);
 
 private:
-     * @param[in] path Input parameter.
-     * @return True on success.
-     * @note Exception safety: noexcept.
     /** @brief Detect YAML format from file extension. */
     static bool isYamlPath(const std::string& path) noexcept;
 
-     * @param[in] node_ptr Input parameter.
-     * @return Return value.
     /** @brief Parse a single PromptTemplate from a YAML::Node. */
     static PromptManager::PromptTemplate templateFromYamlNode(
         const void* node_ptr);

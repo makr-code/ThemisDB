@@ -74,8 +74,6 @@ public:
      *
      * Returns false once the last DataPoint has been consumed or after
      * close() has been called.
-     * @return True on success.
-     * @note Exception safety: noexcept.
      */
     bool valid() const noexcept;
 
@@ -87,8 +85,6 @@ public:
      * The reference is valid until the next advance() call that crosses a
      * page boundary (i.e. until the internal page buffer is refilled).
      * Copy the DataPoint if you need to retain it across advance() calls.
-     * @return Return value.
-     * @note Exception safety: noexcept.
      */
     const TSStore::DataPoint& current() const noexcept;
 
@@ -108,21 +104,14 @@ public:
      * @brief Release all resources and mark the cursor as exhausted.
      *
      * After close(), valid() returns false.  The cursor may not be re-opened.
-     * @note Exception safety: noexcept.
      */
     void close() noexcept;
 
     // ── Observability ─────────────────────────────────────────────────────
 
-     * @brief TBD: Describe rowsConsumed.
-     * @return Return value.
-     * @note Exception safety: noexcept.
     /** Total number of DataPoints returned by current() so far. */
     uint64_t rowsConsumed() const noexcept;
 
-     * @brief TBD: Describe pagesFetched.
-     * @return Return value.
-     * @note Exception safety: noexcept.
     /** Total number of backend fetch operations issued. */
     uint64_t pagesFetched() const noexcept;
 
@@ -135,21 +124,10 @@ public:
     TsStreamCursor& operator=(TsStreamCursor&&)      noexcept = default;
 
 private:
-    /**
-     * @brief TBD: Describe TsStreamCursor.
-     * @param[in,out] store Input/output parameter.
-     * @param[in] options Input parameter.
-     * @param[in] cfg Input parameter.
-     * @return Return value.
-     */
     explicit TsStreamCursor(TSStore& store,
                              TSStore::QueryOptions options,
                              Config cfg);
 
-    /**
-     * @brief TBD: Describe fetchNextPage.
-     * @return Return value.
-     */
     Result<void> fetchNextPage();
 
     TSStore*                        store_;

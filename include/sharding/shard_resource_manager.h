@@ -56,11 +56,8 @@ public:
         
         std::chrono::system_clock::time_point timestamp;
         
-         * @return Return value.
         /** @brief Serialize snapshot into JSON for gossip transport/storage. */
         nlohmann::json toJson() const;
-         * @param[in] j Input parameter.
-         * @return Return value.
         /** @brief Deserialize snapshot from JSON payload. */
         static ResourceSnapshot fromJson(const nlohmann::json& j);
     };
@@ -98,10 +95,6 @@ public:
         std::chrono::milliseconds estimated_duration{0};
     };
     
-     * @param[in] local_shard_id Input parameter.
-     * @param[in] gossip_manager Input parameter.
-     * @param[in] config Input parameter.
-     * @return Return value.
     /** @brief Construct manager with explicit runtime configuration. */
     explicit ShardResourceManager(
         const std::string& local_shard_id,
@@ -109,9 +102,6 @@ public:
         const Config& config
     );
 
-     * @param[in] local_shard_id Input parameter.
-     * @param[in] gossip_manager Input parameter.
-     * @return Return value.
     /** @brief Construct manager with default configuration. */
     explicit ShardResourceManager(
         const std::string& local_shard_id,
@@ -129,16 +119,10 @@ public:
     bool isRunning() const { return running_.load(); }
     
     // Local resource management
-     * @return Return value.
     /** @brief Return latest locally sampled resource snapshot. */
     ResourceSnapshot getCurrentSnapshot() const;
-     * @param[in] spec Input parameter.
-     * @return True on success.
     /** @brief Evaluate whether query can be admitted under current local load. */
     bool canAcceptQuery(const QuerySpec& spec) const;
-     * @param[in] active Input parameter.
-     * @param[in] pending Input parameter.
-     * @param[in] avg_latency_ms Input parameter.
     /** @brief Update local query queue/latency metrics used for health scoring. */
     void updateQueryMetrics(uint32_t active, uint32_t pending, float avg_latency_ms);
     /** @brief Apply emergency throttling side effects when critical load is reached. */
@@ -165,15 +149,12 @@ public:
      *
      * When this returns false the caller should use the CPU/OpenCL path
      * (`gpu_erasure_coder_opencl.cpp`).
-     * @return True on success.
      */
     bool isGPUErasureCodingEnabled() const;
 
     // Gossip integration
     /** @brief Publish local resource snapshot through gossip manager. */
     void broadcastResourceUpdate();
-     * @param[in] shard_id Input parameter.
-     * @param[in] snapshot Input parameter.
     /** @brief Ingest peer snapshot update into local peer cache. */
     void receiveResourceUpdate(const std::string& shard_id, 
                                 const ResourceSnapshot& snapshot);
@@ -181,18 +162,14 @@ public:
     // Peer awareness (YARN-inspired)
     /** @brief Return complete peer snapshot cache keyed by shard id. */
     std::map<std::string, ResourceSnapshot> getPeerResources() const;
-     * @param[in] shard_id Input parameter.
-     * @return Return value.
     /** @brief Return one peer snapshot when available in cache. */
     std::optional<ResourceSnapshot> getPeerResource(const std::string& shard_id) const;
-     * @return Return value.
     /** @brief Return peer ids whose health score is above healthy threshold. */
     std::vector<std::string> getHealthyPeers() const;
     /** @brief Return peer ids whose max(cpu,ram) load exceeds threshold. */
     std::vector<std::string> getOverloadedPeers(float threshold = 0.85f) const;
     
     // Health scoring
-     * @return Return value.
     /** @brief Compute current local shard health score in range [0,100]. */
     float calculateHealthScore() const;
     
@@ -236,7 +213,6 @@ private:
     void cleanupStaleSnapshots();
     
     // Platform-specific helpers
-     * @return Return value.
     /** @brief Sample host CPU utilization percentage. */
     float getCpuUsage() const;
     /** @brief Sample RAM usage as {used,total} bytes. */
@@ -248,11 +224,7 @@ private:
     /** @brief Sample network usage counters/rates as {in,out}. */
     std::pair<uint64_t, uint64_t> getNetworkUsage() const;
     
-    /**
-     * @brief Internal helper for health score calculation (no lock acquisition)
-     * @param[in] snapshot Input parameter.
-     * @return Return value.
-     */
+    // Internal helper for health score calculation (no lock acquisition)
     float calculateHealthScoreInternal(const ResourceSnapshot& snapshot) const;
 };
 

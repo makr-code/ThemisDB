@@ -90,11 +90,8 @@ public:
     std::string getName() const override { return "incremental_exporter"; }
     std::string getVersion() const override { return "1.0.0"; }
 
-    /**
-     * @brief Read the current watermark value.
-     * @return Return value.
-     * @details Returns std::numeric_limits<int64_t>::min() when no watermark file exists or the path is empty (full-export mode).
-     */
+    /// Read the current watermark value.  Returns std::numeric_limits<int64_t>::min() when no
+    /// watermark file exists or the path is empty (full-export mode).
     int64_t readWatermark() const;
 
     /// Write the watermark atomically.  Exposed for testing.
@@ -109,12 +106,8 @@ private:
     IncrementalExportConfig config_;
     std::shared_ptr<ExporterMetrics> metrics_;
 
-    /**
-     * @brief Extract the sequence value from an entity.
-     * @param[in] entity Input parameter.
-     * @return Return value.
-     * @details Returns std::numeric_limits<int64_t>::min() if the field is absent or unparseable.
-     */
+    /// Extract the sequence value from an entity.  Returns std::numeric_limits<int64_t>::min()
+    /// if the field is absent or unparseable.
     int64_t extractSequence(const BaseEntity& entity) const;
 
     /// Serialize a single entity to a JSONL line with field filtering applied.

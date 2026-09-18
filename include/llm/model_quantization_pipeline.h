@@ -37,10 +37,6 @@ enum class ModelFormat {
  * Most fields are inferred from the model's config.json if not specified.
  */
 struct QuantizationPipelineConfig {
-    /**
-     * @brief TBD: Describe ~QuantizationPipelineConfig.
-     * @return Return value.
-     */
     virtual ~QuantizationPipelineConfig() = default;
     /// Target internal quantization type (inferred if NONE)
     lora::QuantizationType target_type = lora::QuantizationType::NONE;
@@ -81,10 +77,6 @@ struct QuantizationPipelineConfig {
  */
 class ModelQuantizationPipeline {
 public:
-    /**
-     * @brief TBD: Describe ~ModelQuantizationPipeline.
-     * @return Return value.
-     */
     virtual ~ModelQuantizationPipeline() = default;
     /**
      * @brief Load a pre-quantized model
@@ -115,39 +107,20 @@ public:
 
     /**
      * @brief Return a human-readable name for a format enum value
-     * @param[in] fmt Input parameter.
-     * @return Pointer to the result.
      */
     static const char* format_name(ModelFormat fmt);
 
 private:
-    /**
-     * @brief ---- Format-specific loaders ----------------------------------------
-     * @param[in] path Input parameter.
-     * @param[in] cfg Input parameter.
-     * @return Return value.
-     */
+    // ---- Format-specific loaders ----------------------------------------
 
     static lora::QuantizedModel load_gguf(
         const std::string& path,
         const QuantizationPipelineConfig& cfg);
 
-    /**
-     * @brief TBD: Describe load_awq.
-     * @param[in] dir Input parameter.
-     * @param[in] cfg Input parameter.
-     * @return Return value.
-     */
     static lora::QuantizedModel load_awq(
         const std::string& dir,
         const QuantizationPipelineConfig& cfg);
 
-    /**
-     * @brief TBD: Describe load_gptq.
-     * @param[in] dir Input parameter.
-     * @param[in] cfg Input parameter.
-     * @return Return value.
-     */
     static lora::QuantizedModel load_gptq(
         const std::string& dir,
         const QuantizationPipelineConfig& cfg);
@@ -185,8 +158,6 @@ private:
      * @brief Collect all .safetensors shard paths in a directory
      *
      * Searches for `*.safetensors` files in `dir`.
-     * @param[in] dir Input parameter.
-     * @return Return value.
      */
     static std::vector<std::string> find_safetensor_shards(
         const std::string& dir);
@@ -214,7 +185,6 @@ private:
      *
      * @param fp16_data  Pointer to raw FP16 (uint16_t) data
      * @param n          Number of elements
-     * @return Return value.
      */
     static std::vector<float> fp16_to_fp32_array(
         const void* fp16_data,
@@ -239,7 +209,6 @@ private:
      * @param out_features    Output feature dimension
      * @param group_size      Quantization group size (along in_features)
      * @param bits            Bits per weight (4 or 8)
-     * @return Return value.
      */
     static std::vector<float> dequantize_awq_layer(
         const void* qweight_packed,
@@ -263,7 +232,6 @@ private:
      * @param out_features    Output feature dimension
      * @param group_size      Quantization group size
      * @param bits            Bits per weight (4 or 8)
-     * @return Return value.
      */
     static std::vector<float> dequantize_gptq_layer(
         const void* qweight_packed,

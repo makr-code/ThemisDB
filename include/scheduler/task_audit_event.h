@@ -251,15 +251,11 @@ std::string maskSensitiveData(const std::string& data, const std::string& mask_t
 
 /**
  * @brief Convert event type to string
- * @param[in] type Input parameter.
- * @return Return value.
  */
 std::string taskEventTypeToString(TaskEventType type);
 
 /**
  * @brief Convert security event type to string
- * @param[in] type Input parameter.
- * @return Return value.
  */
 std::string taskSecurityEventTypeToString(TaskSecurityEventType type);
 

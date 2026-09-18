@@ -120,13 +120,8 @@ public:
     
     ~TaskAnomalyDetector();
     
-    /**
-     * @brief Lifecycle (GAP 2 FIX: background thread management)
-     */
+    // Lifecycle (GAP 2 FIX: background thread management)
     void start();
-    /**
-     * @brief TBD: Describe stop.
-     */
     void stop();
     
     /**
@@ -185,25 +180,21 @@ public:
     
     /**
      * @brief Get current configuration
-     * @return Return value.
      */
     AnomalyDetectorConfig getConfig() const;
     
     /**
      * @brief Update configuration
-     * @param[in] config Input parameter.
      */
     void updateConfig(const AnomalyDetectorConfig& config);
     
     /**
      * @brief Export statistics to JSON (for persistence/analysis)
-     * @return Return value.
      */
     nlohmann::json exportStatistics() const;
     
     /**
      * @brief Import statistics from JSON (for restoration)
-     * @param[in] data Input parameter.
      */
     void importStatistics(const nlohmann::json& data);
 
@@ -221,78 +212,29 @@ private:
     std::mutex queue_mutex_;
     std::condition_variable queue_cv_;
     
-    /**
-     * @brief Background callback processor
-     */
+    // Background callback processor
     void anomalyCallbackWorker();
     
-    /**
-     * @brief Anomaly detection methods
-     * @param[in] task_id Input parameter.
-     * @param[in] now Input parameter.
-     * @return Return value.
-     */
+    // Anomaly detection methods
     double detectFrequencyAnomaly(const std::string& task_id, 
                                   const std::chrono::system_clock::time_point& now) const;
     
-    /**
-     * @brief TBD: Describe detectPatternAnomaly.
-     * @param[in] task_id Input parameter.
-     * @param[in] now Input parameter.
-     * @return Return value.
-     */
     double detectPatternAnomaly(const std::string& task_id,
                                 const std::chrono::system_clock::time_point& now) const;
     
-    /**
-     * @brief TBD: Describe detectResourceAnomaly.
-     * @param[in] task_id Input parameter.
-     * @param[in] resource_usage Input parameter.
-     * @return Return value.
-     */
     double detectResourceAnomaly(const std::string& task_id,
                                  const TaskResourceUsage& resource_usage) const;
     
-    /**
-     * @brief TBD: Describe detectFailureRateAnomaly.
-     * @param[in] task_id Input parameter.
-     * @param[in] success Input parameter.
-     * @return Return value.
-     */
     double detectFailureRateAnomaly(const std::string& task_id,
                                     bool success) const;
     
-    /**
-     * @brief Statistical helpers
-     * @param[in] task_id Input parameter.
-     * @param[in] event Input parameter.
-     */
+    // Statistical helpers
     void updateStatistics(const std::string& task_id, const TaskAuditEvent& event);
-    /**
-     * @brief TBD: Describe calculateMean.
-     * @param[in] values Input parameter.
-     * @return Return value.
-     */
     double calculateMean(const std::deque<double>& values) const;
-    /**
-     * @brief TBD: Describe calculateStdDev.
-     * @param[in] values Input parameter.
-     * @param[in] mean Input parameter.
-     * @return Return value.
-     */
     double calculateStdDev(const std::deque<double>& values, double mean) const;
-    /**
-     * @brief TBD: Describe calculatePercentile.
-     * @param[in] values Input parameter.
-     * @param[in] percentile Input parameter.
-     * @return Return value.
-     */
     double calculatePercentile(const std::deque<double>& values, double percentile) const;
     
-    /**
-     * @brief Cleanup old data
-     * @param[in,out] stats Input/output parameter.
-     */
+    // Cleanup old data
     void cleanupOldData(TaskStatistics& stats);
 };
 

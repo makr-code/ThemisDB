@@ -55,10 +55,6 @@ namespace functions {
 
 /**
  * @brief Helper to detect and parse JSON strings
- * @param[in] str Input parameter.
- * @param[in,out] out Input/output parameter.
- * @return True on success.
- * @details Calls: empty(), nlohmann::json::parse().
  */
 inline bool tryParseJson(const std::string& str, nlohmann::json& out) {
     if (str.empty()) {
@@ -1237,12 +1233,6 @@ public:
     
     void validateArgs(const std::vector<nlohmann::json>&) const override {}
     
-    /**
-     * @brief TBD: Describe isTruthy.
-     * @param[in] val Input parameter.
-     * @return True on success.
-     * @details Calls: is_null(), is_boolean(), is_number(), is_string(), empty(), is_array(), is_object().
-     */
     static bool isTruthy(const nlohmann::json& val) {
         if (val.is_null()) {
           return false;
@@ -2099,11 +2089,9 @@ public:
     }
 };
 
-/**
- * @brief ============================================================================ Register Collection Functions ============================================================================
- * @param[in,out] reg Input/output parameter.
- * @details Calls: registerFunction().
- */
+// ============================================================================
+// Register Collection Functions
+// ============================================================================
 
 inline void registerCollectionFunctions(FunctionRegistry& reg) {
     // Array/Collection constructors

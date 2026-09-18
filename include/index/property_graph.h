@@ -83,18 +83,7 @@ public:
     struct Status {
         bool ok = true;
         std::string message;
-        /**
-         * @brief TBD: Describe OK.
-         * @return Return value.
-         * @details Implements OK without additional internal calls.
-         */
         static Status OK() { return {}; }
-        /**
-         * @brief TBD: Describe Error.
-         * @param[in] msg Input parameter.
-         * @return Return value.
-         * @details Calls: std::move().
-         */
         static Status Error(std::string msg) { return Status{false, std::move(msg)}; }
     };
 
@@ -118,11 +107,6 @@ public:
         std::string pattern_type;   // "node" or "edge"
     };
 
-    /**
-     * @brief TBD: Describe PropertyGraphManager.
-     * @param[in,out] db Input/output parameter.
-     * @return Return value.
-     */
     explicit PropertyGraphManager(RocksDBWrapper& db);
 
     // ===== Node Label Operations =====
@@ -312,70 +296,28 @@ private:
      */
     static void clearStringArrayFn();
 
-    /**
-     * @brief Helper: Extract labels from node entity
-     * @param[in] node Input parameter.
-     * @return Return value.
-     */
+    // Helper: Extract labels from node entity
     std::vector<std::string> extractLabels_(const BaseEntity& node) const;
 
-    /**
-     * @brief Helper: Extract type from edge entity
-     * @param[in] edge Input parameter.
-     * @return Return value.
-     */
+    // Helper: Extract type from edge entity
     std::optional<std::string> extractType_(const BaseEntity& edge) const;
 
-    /**
-     * @brief Helper: Build label index key
-     * @param[in] graph_id Input parameter.
-     * @param[in] label Input parameter.
-     * @param[in] pk Input parameter.
-     * @return Return value.
-     */
+    // Helper: Build label index key
     std::string makeLabelIndexKey_(std::string_view graph_id, std::string_view label, std::string_view pk) const;
 
-    /**
-     * @brief Helper: Build type index key
-     * @param[in] graph_id Input parameter.
-     * @param[in] type Input parameter.
-     * @param[in] edgeId Input parameter.
-     * @return Return value.
-     */
+    // Helper: Build type index key
     std::string makeTypeIndexKey_(std::string_view graph_id, std::string_view type, std::string_view edgeId) const;
 
-    /**
-     * @brief Helper: Build node key
-     * @param[in] graph_id Input parameter.
-     * @param[in] pk Input parameter.
-     * @return Return value.
-     */
+    // Helper: Build node key
     std::string makeNodeKey_(std::string_view graph_id, std::string_view pk) const;
 
-    /**
-     * @brief Helper: Build edge key
-     * @param[in] graph_id Input parameter.
-     * @param[in] edgeId Input parameter.
-     * @return Return value.
-     */
+    // Helper: Build edge key
     std::string makeEdgeKey_(std::string_view graph_id, std::string_view edgeId) const;
 
-    /**
-     * @brief Helper: Build graph outdex key
-     * @param[in] graph_id Input parameter.
-     * @param[in] fromPk Input parameter.
-     * @param[in] edgeId Input parameter.
-     * @return Return value.
-     */
+    // Helper: Build graph outdex key
     std::string makeGraphOutdexKey_(std::string_view graph_id, std::string_view fromPk, std::string_view edgeId) const;
 
-    /**
-     * @brief Helper: Build graph indeg key
-     * @param[in] graph_id Input parameter.
-     * @param[in] toPk Input parameter.
-     * @param[in] edgeId Input parameter.
-     * @return Return value.
-     */
+    // Helper: Build graph indeg key
     std::string makeGraphIndegKey_(std::string_view graph_id, std::string_view toPk, std::string_view edgeId) const;
 };
 

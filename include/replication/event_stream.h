@@ -140,8 +140,6 @@ public:
         Subscription(const Subscription&)            = delete;
         Subscription& operator=(const Subscription&) = delete;
 
-         * @brief TBD: Describe cancel.
-         * @details Calls: lock(), unsubscribe(), reset().
         /** Manually cancel this subscription before destruction. */
         void cancel() {
             if (auto s = stream_.lock()) {
@@ -182,24 +180,18 @@ public:
      *
      * @param type     Only events of this type are delivered to callback.
      * @param callback Invoked synchronously on the emitting thread; must not block.
-     * @brief TBD: Describe subscribe.
-     * @return Return value.
      */
     Subscription subscribe(EventType type, EventCallback callback);
 
     /**
      * Subscribe to all event types.
      * @param callback Invoked for every event regardless of type.
-     * @brief TBD: Describe subscribeAll.
-     * @return Return value.
      */
     Subscription subscribeAll(EventCallback callback);
 
     /**
      * Manually unsubscribe a previously registered handler.
      * Safe to call after the stream is destroyed (no-op).
-     * @brief TBD: Describe unsubscribe.
-     * @param[in] subscription_id Input parameter.
      */
     void unsubscribe(uint64_t subscription_id);
 
@@ -218,8 +210,6 @@ public:
         std::optional<EventType>              filter = std::nullopt
     ) const;
 
-     * @brief TBD: Describe bufferedEventCount.
-     * @return Return value.
     /** Number of events currently held in the ring buffer. */
     size_t bufferedEventCount() const;
 
@@ -260,8 +250,6 @@ private:
     mutable std::mutex               buffer_mutex_;
     std::deque<Event>                buffer_;
 
-     * @brief TBD: Describe emit.
-     * @param[in] ev Input parameter.
     /** Emit an event: append to ring buffer and invoke matching callbacks. */
     void emit(Event ev);
 };

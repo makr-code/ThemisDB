@@ -57,7 +57,6 @@ public:
      * @brief Construct DistributedTimeCoordinator
      * @param consensus Shared pointer to consensus module
      * @param config Configuration settings
-     * @return Return value.
      */
     explicit DistributedTimeCoordinator(
         std::shared_ptr<ConsensusModule> consensus,
@@ -67,7 +66,6 @@ public:
     /**
      * @brief Construct coordinator with default configuration.
      * @param consensus Shared consensus module instance.
-     * @return Return value.
      */
     explicit DistributedTimeCoordinator(
         std::shared_ptr<ConsensusModule> consensus

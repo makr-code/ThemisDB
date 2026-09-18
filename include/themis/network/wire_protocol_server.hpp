@@ -299,10 +299,6 @@ using WireGraphTraversalFn = std::function<std::string(
  *             Protobuf fallback hook.
  */
 [[deprecated("Use WireProtocolServer::setAqlQueryFn() or WireProtocolSession::setQueryAqlFn() instead.")]]
-/**
- * @brief TBD: Describe setWireAqlExecFn.
- * @param[in] fn Input parameter.
- */
 void setWireAqlExecFn(WireAqlExecFn fn);
 
 /**
@@ -311,10 +307,6 @@ void setWireAqlExecFn(WireAqlExecFn fn);
  * @deprecated Use WireProtocolServer::setCursorNextFn() instead.
  */
 [[deprecated("Use WireProtocolServer::setCursorNextFn() instead.")]]
-/**
- * @brief TBD: Describe setWireCursorNextFn.
- * @param[in] fn Input parameter.
- */
 void setWireCursorNextFn(WireCursorNextFn fn);
 
 /**
@@ -323,10 +315,6 @@ void setWireCursorNextFn(WireCursorNextFn fn);
  * @deprecated Use WireProtocolServer::setCursorCloseFn() instead.
  */
 [[deprecated("Use WireProtocolServer::setCursorCloseFn() instead.")]]
-/**
- * @brief TBD: Describe setWireCursorCloseFn.
- * @param[in] fn Input parameter.
- */
 void setWireCursorCloseFn(WireCursorCloseFn fn);
 
 /**
@@ -337,10 +325,6 @@ void setWireCursorCloseFn(WireCursorCloseFn fn);
  *             Protobuf fallback hook.
  */
 [[deprecated("Use WireProtocolServer::setGeoQueryFn() or WireProtocolSession::setGeoQueryFn() instead.")]]
-/**
- * @brief TBD: Describe setWireGeoQueryFn.
- * @param[in] fn Input parameter.
- */
 void setWireGeoQueryFn(WireGeoQueryFn fn);
 
 /**
@@ -351,10 +335,6 @@ void setWireGeoQueryFn(WireGeoQueryFn fn);
  *             process-global Protobuf fallback hook.
  */
 [[deprecated("Use WireProtocolServer::setTimeseriesQueryFn() or WireProtocolSession::setTimeseriesQueryFn() instead.")]]
-/**
- * @brief TBD: Describe setWireTSQueryFn.
- * @param[in] fn Input parameter.
- */
 void setWireTSQueryFn(WireTSQueryFn fn);
 
 /**
@@ -365,10 +345,6 @@ void setWireTSQueryFn(WireTSQueryFn fn);
  *             process-global Protobuf fallback hook.
  */
 [[deprecated("Use WireProtocolServer::setGraphTraverseFn() or WireProtocolSession::setGraphTraverseFn() instead.")]]
-/**
- * @brief TBD: Describe setWireGraphTraversalFn.
- * @param[in] fn Input parameter.
- */
 void setWireGraphTraversalFn(WireGraphTraversalFn fn);
 
 /** @brief Wire protocol session object. */
@@ -411,17 +387,9 @@ public:
     using GraphTraverseFn = std::function<std::string()>;
 #endif
     
-    /**
-     * @brief TBD: Describe WireProtocolSession.
-     * @param[in] socket Input parameter.
-     * @return Return value.
-     */
     explicit WireProtocolSession(socket_t socket);
     ~WireProtocolSession();
     
-    /**
-     * @brief TBD: Describe start.
-     */
     void start();
     void close(const std::string& reason = "");
     void set_disconnect_callback(std::function<void(const std::string&)> callback);
@@ -485,19 +453,16 @@ public:
      * Must be called before the first client connection executes a QUERY_AQL
      * request.  The callback is invoked from session handler threads; it must
      * be thread-safe.
-     * @param[in] fn Input parameter.
      */
     static void setQueryAqlFn(AqlQueryFn fn);
 
     /**
      * @brief Install the geospatial executor callback (thread-safe, process-global).
-     * @param[in] fn Input parameter.
      */
     static void setGeoQueryFn(GeoQueryFn fn);
 
     /**
      * @brief Install the time-series executor callback (thread-safe, process-global).
-     * @param[in] fn Input parameter.
      */
     static void setTimeseriesQueryFn(TimeseriesQueryFn fn);
 
@@ -507,7 +472,6 @@ public:
      * Resolves stub #281: after this call, OP_GRAPH_TRAVERSE frames are dispatched to
      * the injected callback instead of returning HTTP 501.  The callback receives the
      * raw payload bytes and must return serialised response bytes.
-     * @param[in] fn Input parameter.
      */
     static void setGraphTraverseFn(GraphTraverseFn fn);
 #endif  // THEMIS_WIRE_V1_PB_HEADER_FOUND
@@ -515,167 +479,42 @@ public:
 private:
     friend class WireProtocolServer;
 
-    /**
-     * @brief Async read/write operations
-     */
+    // Async read/write operations
     void async_read_header();
-    /**
-     * @brief TBD: Describe async_read_payload.
-     * @param[in] header Input parameter.
-     */
     void async_read_payload(const WireFrameHeader& header);
-    /**
-     * @brief TBD: Describe async_write_response.
-     * @param[in] opcode Input parameter.
-     * @param[in] message Input parameter.
-     */
     void async_write_response(OpCode opcode, const google::protobuf::Message& message);
     
-    /**
-     * @brief Message handlers
-     * @param[in] req Input parameter.
-     */
+    // Message handlers
     void handle_hello(const v1::HelloRequest& req);
-    /**
-     * @brief TBD: Describe handle_auth_response.
-     * @param[in] req Input parameter.
-     */
     void handle_auth_response(const v1::AuthResponse& req);
-    /**
-     * @brief TBD: Describe handle_get.
-     * @param[in] req Input parameter.
-     */
     void handle_get(const v1::GetRequest& req);
-    /**
-     * @brief TBD: Describe handle_put.
-     * @param[in] req Input parameter.
-     */
     void handle_put(const v1::PutRequest& req);
-    /**
-     * @brief TBD: Describe handle_delete.
-     * @param[in] req Input parameter.
-     */
     void handle_delete(const v1::DeleteRequest& req);
-    /**
-     * @brief TBD: Describe handle_batch_get.
-     * @param[in] req Input parameter.
-     */
     void handle_batch_get(const v1::BatchGetRequest& req);
-    /**
-     * @brief TBD: Describe handle_batch_put.
-     * @param[in] req Input parameter.
-     */
     void handle_batch_put(const v1::BatchPutRequest& req);
-    /**
-     * @brief TBD: Describe handle_query_aql.
-     * @param[in] req Input parameter.
-     */
     void handle_query_aql(const v1::QueryRequest& req);
-    /**
-     * @brief TBD: Describe handle_cursor_next.
-     * @param[in] req Input parameter.
-     */
     void handle_cursor_next(const v1::CursorNextRequest& req);
-    /**
-     * @brief TBD: Describe handle_cursor_close.
-     * @param[in] req Input parameter.
-     */
     void handle_cursor_close(const v1::CursorCloseRequest& req);
-    /**
-     * @brief TBD: Describe handle_transaction_begin.
-     * @param[in] req Input parameter.
-     */
     void handle_transaction_begin(const v1::TransactionBeginRequest& req);
-    /**
-     * @brief TBD: Describe handle_transaction_commit.
-     * @param[in] req Input parameter.
-     */
     void handle_transaction_commit(const v1::TransactionCommitRequest& req);
-    /**
-     * @brief TBD: Describe handle_transaction_abort.
-     * @param[in] req Input parameter.
-     */
     void handle_transaction_abort(const v1::TransactionAbortRequest& req);
-    /**
-     * @brief TBD: Describe handle_vector_search.
-     * @param[in] req Input parameter.
-     */
     void handle_vector_search(const v1::VectorSearchRequest& req);
-    /**
-     * @brief TBD: Describe handle_graph_traverse.
-     * @param[in] raw_payload Input parameter.
-     */
     void handle_graph_traverse(std::string_view raw_payload);
-    /**
-     * @brief TBD: Describe handle_geo_query.
-     * @param[in] req Input parameter.
-     */
     void handle_geo_query(const v1::GeoQueryRequest& req);
-    /**
-     * @brief TBD: Describe handle_timeseries_query.
-     * @param[in] req Input parameter.
-     */
     void handle_timeseries_query(const v1::TimeSeriesQueryRequest& req);
-    /**
-     * @brief TBD: Describe handle_bpmn_start.
-     * @param[in] req Input parameter.
-     */
     void handle_bpmn_start(const v1::BpmnStartProcessRequest& req);
-    /**
-     * @brief TBD: Describe handle_bpmn_task_complete.
-     * @param[in] req Input parameter.
-     */
     void handle_bpmn_task_complete(const v1::BpmnTaskCompleteRequest& req);
-    /**
-     * @brief TBD: Describe handle_bpmn_query_instance.
-     * @param[in] req Input parameter.
-     */
     void handle_bpmn_query_instance(const v1::BpmnQueryInstanceRequest& req);
-    /**
-     * @brief TBD: Describe handle_ping.
-     * @param[in] req Input parameter.
-     */
     void handle_ping(const v1::PingRequest& req);
-    /**
-     * @brief TBD: Describe handle_close.
-     * @param[in] req Input parameter.
-     */
     void handle_close(const v1::CloseRequest& req);
     
-    /**
-     * @brief Utility methods
-     * @param[in] error_code Input parameter.
-     * @param[in] message Input parameter.
-     */
+    // Utility methods
     void send_error(uint32_t error_code, const std::string& message);
     void send_ok(const std::string& message = "");
-    /**
-     * @brief TBD: Describe compute_checksum.
-     * @param[in] header Input parameter.
-     * @param[in] payload Input parameter.
-     * @return Return value.
-     */
     uint32_t compute_checksum(const WireFrameHeader& header, const std::vector<uint8_t>& payload);
-    /**
-     * @brief TBD: Describe verify_checksum.
-     * @param[in] header Input parameter.
-     * @param[in] payload Input parameter.
-     * @param[in] checksum Input parameter.
-     * @return True on success.
-     */
     bool verify_checksum(const WireFrameHeader& header, const std::vector<uint8_t>& payload, uint32_t checksum);
     
-    /**
-     * @brief TBD: Describe decompress_lz4.
-     * @param[in] compressed Input parameter.
-     * @return Return value.
-     */
     std::vector<uint8_t> decompress_lz4(const std::vector<uint8_t>& compressed);
-    /**
-     * @brief TBD: Describe compress_lz4.
-     * @param[in] data Input parameter.
-     * @return Return value.
-     */
     std::vector<uint8_t> compress_lz4(const std::vector<uint8_t>& data);
     
     socket_t socket_;
@@ -742,29 +581,12 @@ public:
 
     ~WireProtocolServer();
     
-    /**
-     * @brief TBD: Describe start.
-     */
     void start();
-    /**
-     * @brief TBD: Describe stop.
-     */
     void stop();
     
-    /**
-     * @brief Statistics
-     * @return Return value.
-     */
+    // Statistics
     size_t active_sessions() const;
-    /**
-     * @brief TBD: Describe total_connections.
-     * @return Return value.
-     */
     uint64_t total_connections() const;
-    /**
-     * @brief TBD: Describe total_messages.
-     * @return Return value.
-     */
     uint64_t total_messages() const;
 
     // -------------------------------------------------------------------------
@@ -773,40 +595,22 @@ public:
     // copied into newly accepted WireProtocolSession objects.
     // -------------------------------------------------------------------------
 
-     * @param[in] fn Input parameter.
     /** @brief Inject AQL query executor into all new sessions. */
     void setAqlQueryFn(WireProtocolSession::AqlQueryFn fn);
-     * @param[in] fn Input parameter.
     /** @brief Inject cursor-next executor into all new sessions. */
     void setCursorNextFn(WireProtocolSession::CursorNextFn fn);
-     * @param[in] fn Input parameter.
     /** @brief Inject cursor-close executor into all new sessions. */
     void setCursorCloseFn(WireProtocolSession::CursorCloseFn fn);
-     * @param[in] fn Input parameter.
     /** @brief Inject geospatial query executor into all new sessions. */
     void setGeoQueryFn(WireProtocolSession::GeoQueryFn fn);
-     * @param[in] fn Input parameter.
     /** @brief Inject time-series query executor into all new sessions. */
     void setTimeseriesQueryFn(WireProtocolSession::TimeseriesQueryFn fn);
-     * @param[in] fn Input parameter.
     /** @brief Inject graph traversal executor into all new sessions. */
     void setGraphTraverseFn(WireProtocolSession::GraphTraverseFn fn);
     
 private:
-    /**
-     * @brief TBD: Describe async_accept.
-     */
     void async_accept();
-    /**
-     * @brief TBD: Describe handle_accept.
-     * @param[in] session Input parameter.
-     * @param[in] error Input parameter.
-     */
     void handle_accept(std::shared_ptr<WireProtocolSession> session, const boost::system::error_code& error);
-    /**
-     * @brief TBD: Describe bindSessionCallbacksLocked.
-     * @param[in,out] session Input/output parameter.
-     */
     void bindSessionCallbacksLocked(WireProtocolSession& session) const;
     
     boost::asio::io_context& io_context_;
@@ -838,18 +642,7 @@ class MessageDispatcher {
 public:
     using handler_fn = std::function<void(WireProtocolSession&, const std::vector<uint8_t>&)>;
     
-    /**
-     * @brief TBD: Describe register_handler.
-     * @param[in] opcode Input parameter.
-     * @param[in] handler Input parameter.
-     */
     void register_handler(OpCode opcode, handler_fn handler);
-    /**
-     * @brief TBD: Describe dispatch.
-     * @param[in,out] session Input/output parameter.
-     * @param[in] opcode Input parameter.
-     * @param[in] payload Input parameter.
-     */
     void dispatch(WireProtocolSession& session, OpCode opcode, const std::vector<uint8_t>& payload);
     
 private:

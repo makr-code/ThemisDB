@@ -119,29 +119,15 @@ struct ColdStoreStats {
  */
 class IColdStoreBackend {
 public:
-    /**
-     * @brief TBD: Describe ~IColdStoreBackend.
-     * @return Return value.
-     */
     virtual ~IColdStoreBackend() = default;
 
-     * @brief TBD: Describe put.
-     * @param[in] composite_key Input parameter.
-     * @param[in] json_value Input parameter.
-     * @return True on success.
     /** Persist key→value.  Returns false on I/O failure. */
     virtual bool put(const std::string& composite_key,
                      const std::string& json_value) = 0;
 
-     * @brief TBD: Describe get.
-     * @param[in] composite_key Input parameter.
-     * @return Return value.
     /** Retrieve value for key.  Returns empty string if not found. */
     virtual std::string get(const std::string& composite_key) const = 0;
 
-     * @brief TBD: Describe del.
-     * @param[in] composite_key Input parameter.
-     * @return True on success.
     /** Delete key.  Returns true if the key existed. */
     virtual bool del(const std::string& composite_key) = 0;
 
@@ -152,13 +138,9 @@ public:
     virtual std::vector<std::string>
     listKeysWithPrefix(const std::string& prefix) const = 0;
 
-     * @brief TBD: Describe deletePrefix.
-     * @param[in] prefix Input parameter.
-     * @return Return value.
     /** Remove all keys that start with prefix. */
     virtual size_t deletePrefix(const std::string& prefix) = 0;
 
-     * @brief TBD: Describe clearAll.
     /** Remove all entries.  */
     virtual void clearAll() = 0;
 };
@@ -234,8 +216,6 @@ public:
     /**
      * @param base_dir  Root directory for cold-tier data files.
      *                  Created automatically if it does not exist.
-     * @brief TBD: Describe FileSystemBackend.
-     * @return Return value.
      */
     explicit FileSystemBackend(std::filesystem::path base_dir);
 
@@ -327,19 +307,15 @@ public:
     /**
      * @brief Remove all cold-tier versions for (table_name, doc_key).
      * @return Number of versions removed.
-     * @param[in] table_name Input parameter.
-     * @param[in] doc_key Input parameter.
      */
     size_t remove(const std::string& table_name, const std::string& doc_key);
 
     /**
      * @brief Remove all cold-tier versions for table_name.
      * @return Number of versions removed.
-     * @param[in] table_name Input parameter.
      */
     size_t removeTable(const std::string& table_name);
 
-     * @brief TBD: Describe clear.
     /** Remove everything (index + backend). */
     void clear();
 
@@ -353,9 +329,6 @@ public:
      * — then issues at most O(1) backend reads in the common case.
      *
      * @return nullopt if no matching cold-tier version exists.
-     * @param[in] table_name Input parameter.
-     * @param[in] doc_key Input parameter.
-     * @param[in] as_of Input parameter.
      */
     std::optional<VersionedDocument> getAsOf(const std::string& table_name,
                                              const std::string& doc_key,
@@ -364,9 +337,6 @@ public:
     /**
      * @brief Return all cold-tier versions for (table_name, doc_key),
      *        sorted ascending by sys_start.
-     * @param[in] table_name Input parameter.
-     * @param[in] doc_key Input parameter.
-     * @return Return value.
      */
     std::vector<VersionedDocument> getAll(const std::string& table_name,
                                           const std::string& doc_key) const;
@@ -374,10 +344,6 @@ public:
     /**
      * @brief Return cold-tier versions whose sys_time overlaps range,
      *        sorted ascending by sys_start.
-     * @param[in] table_name Input parameter.
-     * @param[in] doc_key Input parameter.
-     * @param[in] range Input parameter.
-     * @return Return value.
      */
     std::vector<VersionedDocument> getRange(const std::string& table_name,
                                             const std::string& doc_key,
@@ -385,22 +351,13 @@ public:
 
     // ── Metadata ─────────────────────────────────────────────────────────────
 
-     * @brief TBD: Describe versionCount.
-     * @param[in] table_name Input parameter.
-     * @param[in] doc_key Input parameter.
-     * @return Return value.
     /** Number of cold-tier versions for (table_name, doc_key). O(log N + k). */
     size_t versionCount(const std::string& table_name,
                         const std::string& doc_key) const;
 
-     * @brief TBD: Describe totalVersionCount.
-     * @return Return value.
-     * @note Exception safety: noexcept.
     /** Total versions in the RAM index. O(1). */
     size_t totalVersionCount() const noexcept;
 
-     * @brief TBD: Describe stats.
-     * @return Return value.
     /** Snapshot of cumulative statistics. */
     ColdStoreStats stats() const;
 
@@ -429,26 +386,15 @@ public:
      *        composite key.
      *
      * Format: `<table>\x01<doc_key>\x01<016llx biased timestamp>`
-     * @param[in] table_name Input parameter.
-     * @param[in] doc_key Input parameter.
-     * @param[in] sys_start Input parameter.
-     * @return Return value.
      */
     static std::string encodeKey(const std::string& table_name,
                                   const std::string& doc_key,
                                   Timestamp sys_start);
 
-     * @brief TBD: Describe keyPrefix.
-     * @param[in] table_name Input parameter.
-     * @param[in] doc_key Input parameter.
-     * @return Return value.
     /** Prefix for all versions of (table_name, doc_key): `<table>\x01<key>\x01` */
     static std::string keyPrefix(const std::string& table_name,
                                   const std::string& doc_key);
 
-     * @brief TBD: Describe tablePrefix.
-     * @param[in] table_name Input parameter.
-     * @return Return value.
     /** Prefix for all versions of table_name: `<table>\x01` */
     static std::string tablePrefix(const std::string& table_name);
 
@@ -456,12 +402,6 @@ private:
     static constexpr uint64_t kTimestampBias =
         static_cast<uint64_t>(std::numeric_limits<int64_t>::max()) + 1ULL;
 
-    /**
-     * @brief TBD: Describe biasedTimestamp.
-     * @param[in] t Input parameter.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
     static uint64_t biasedTimestamp(Timestamp t) noexcept;
 
     /// Deserialise a JSON string into a VersionedDocument.

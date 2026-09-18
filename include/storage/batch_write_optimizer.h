@@ -72,11 +72,6 @@ public:
     };
     
     BatchWriteOptimizer();
-    /**
-     * @brief TBD: Describe BatchWriteOptimizer.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit BatchWriteOptimizer(const Config& config);
     ~BatchWriteOptimizer();
     
@@ -99,29 +94,20 @@ public:
         double throughput_items_per_sec = 0.0;
     };
     
-    /**
-     * @brief TBD: Describe getStats.
-     * @return Return value.
-     */
     Stats getStats() const;
     
     /**
      * @brief Record batch write for statistics
-     * @param[in] items Input parameter.
-     * @param[in] latency_ms Input parameter.
      */
     void recordBatchWrite(size_t items, double latency_ms);
     
     /**
      * @brief Create recommended configuration for use case
-     * @param[in] use_case Input parameter.
-     * @return Return value.
      */
     static Config recommendedConfigForUseCase(const std::string& use_case);
     
     /**
      * @brief Validate configuration and warn about dangerous settings
-     * @param[in] config Input parameter.
      */
     static void validateConfig(const Config& config);
     

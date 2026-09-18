@@ -118,7 +118,6 @@ public:
 
     /**
      * @brief Configure retry behaviour for this connector.
-     * @param[in] config Input parameter.
      */
     void setRetryConfig(const RetryConfig& config);
 
@@ -137,7 +136,6 @@ public:
      * When set, every HTTP GET that would normally be performed via libcurl
      * is replaced by a call to @p fn.  Pass an empty `HttpFetchFn{}` to
      * restore the real libcurl implementation.
-     * @param[in] fn Input parameter.
      */
     void setHttpFetchForTesting(HttpFetchFn fn);
 

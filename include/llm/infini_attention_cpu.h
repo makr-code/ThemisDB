@@ -56,25 +56,18 @@ public:
         bool use_fp64 = false;
     };
 
-    /**
-     * @brief TBD: Describe InfiniAttentionCPU.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit InfiniAttentionCPU(const Config& config);
     ~InfiniAttentionCPU() = default;
 
     /// Initialize attention engine
     bool initialize();
 
-    /**
-     * @brief Forward pass: compute attention scores and update compressive memory @param Q Query tensor (seq_len, hidden_dim) @param K Key tensor (seq_len, hidden_dim) @param V Value tensor (seq_len, hidden_dim) @param output Output tensor (seq_len, hidden_dim) @return true on success, false on error
-     * @param[in] Q Input parameter.
-     * @param[in] K Input parameter.
-     * @param[in] V Input parameter.
-     * @param[in,out] output Input/output parameter.
-     * @return True on success.
-     */
+    /// Forward pass: compute attention scores and update compressive memory
+    /// @param Q Query tensor (seq_len, hidden_dim)
+    /// @param K Key tensor (seq_len, hidden_dim)
+    /// @param V Value tensor (seq_len, hidden_dim)
+    /// @param output Output tensor (seq_len, hidden_dim)
+    /// @return true on success, false on error
     bool forward(const Eigen::MatrixXf& Q, const Eigen::MatrixXf& K,
                  const Eigen::MatrixXf& V, Eigen::MatrixXf& output);
 
@@ -98,10 +91,6 @@ public:
         size_t total_bytes;
     };
 
-    /**
-     * @brief TBD: Describe getMemoryStats.
-     * @return Return value.
-     */
     MemStats getMemoryStats() const;
 
 private:
@@ -147,11 +136,6 @@ private:
 // Minimal inline implementation to satisfy focused tests (Phase 1 stub)
 namespace themis::llm::attention {
 
-/**
- * @brief TBD: Describe InfiniAttentionCPU.
- * @param[in] cfg Input parameter.
- * @return Return value.
- */
 inline InfiniAttentionCPU::InfiniAttentionCPU(const Config& cfg)
     : config_(cfg) {
     memory_matrix_.resize(config_.hidden_dim, config_.memory_size);
@@ -160,25 +144,11 @@ inline InfiniAttentionCPU::InfiniAttentionCPU(const Config& cfg)
     temp_kv_product_.setZero();
 }
 
-/**
- * @brief TBD: Describe initialize.
- * @return True on success.
- * @details Implements initialize without additional internal calls.
- */
 inline bool InfiniAttentionCPU::initialize() {
     initialized_ = true;
     return true;
 }
 
-/**
- * @brief TBD: Describe forward.
- * @param[in] Q Input parameter.
- * @param[in] K Input parameter.
- * @param[in] V Input parameter.
- * @param[in,out] output Input/output parameter.
- * @return True on success.
- * @details Calls: std::min(), rows(), cols(), output(), Q(), V().
- */
 inline bool InfiniAttentionCPU::forward(const Eigen::MatrixXf& Q, const Eigen::MatrixXf& K,
                                        const Eigen::MatrixXf& V, Eigen::MatrixXf& output) {
     if (!initialized_) {
@@ -193,15 +163,6 @@ inline bool InfiniAttentionCPU::forward(const Eigen::MatrixXf& Q, const Eigen::M
     return true;
 }
 
-/**
- * @brief TBD: Describe forward64.
- * @param[in] Q Input parameter.
- * @param[in] K Input parameter.
- * @param[in] V Input parameter.
- * @param[in,out] output Input/output parameter.
- * @return True on success.
- * @details Calls: std::min(), rows(), cols(), output(), Q(), V().
- */
 inline bool InfiniAttentionCPU::forward64(const Eigen::MatrixXd& Q, const Eigen::MatrixXd& K,
                                          const Eigen::MatrixXd& V, Eigen::MatrixXd& output) {
     if (!initialized_) {
@@ -224,12 +185,6 @@ inline std::vector<float> InfiniAttentionCPU::getMemorySnapshot() const {
     return out;
 }
 
-/**
- * @brief TBD: Describe restoreMemory.
- * @param[in] snapshot Input parameter.
- * @return True on success.
- * @details Calls: size(), memory_matrix_().
- */
 inline bool InfiniAttentionCPU::restoreMemory(const std::vector<float>& snapshot) {
     if (snapshot.size() != static_cast<size_t>(config_.hidden_dim) * static_cast<size_t>(config_.memory_size)) {
       return false;
@@ -240,10 +195,6 @@ inline bool InfiniAttentionCPU::restoreMemory(const std::vector<float>& snapshot
     return true;
 }
 
-/**
- * @brief TBD: Describe resetMemory.
- * @details Calls: setZero().
- */
 inline void InfiniAttentionCPU::resetMemory() {
     memory_matrix_.setZero();
 }
@@ -256,15 +207,6 @@ inline InfiniAttentionCPU::MemStats InfiniAttentionCPU::getMemoryStats() const {
     return s;
 }
 
-/**
- * @brief TBD: Describe computeAttentionFP32.
- * @param[in] Q Input parameter.
- * @param[in] K Input parameter.
- * @param[in] V Input parameter.
- * @param[in,out] output Input/output parameter.
- * @return True on success.
- * @details Calls: forward().
- */
 inline bool InfiniAttentionCPU::computeAttentionFP32(const Eigen::MatrixXf& Q,
                                                     const Eigen::MatrixXf& K,
                                                     const Eigen::MatrixXf& V,
@@ -272,15 +214,6 @@ inline bool InfiniAttentionCPU::computeAttentionFP32(const Eigen::MatrixXf& Q,
     return forward(Q, K, V, output);
 }
 
-/**
- * @brief TBD: Describe computeAttentionFP64.
- * @param[in] Q Input parameter.
- * @param[in] K Input parameter.
- * @param[in] V Input parameter.
- * @param[in,out] output Input/output parameter.
- * @return True on success.
- * @details Calls: forward64().
- */
 inline bool InfiniAttentionCPU::computeAttentionFP64(const Eigen::MatrixXd& Q,
                                                     const Eigen::MatrixXd& K,
                                                     const Eigen::MatrixXd& V,
@@ -288,22 +221,10 @@ inline bool InfiniAttentionCPU::computeAttentionFP64(const Eigen::MatrixXd& Q,
     return forward64(Q, K, V, output);
 }
 
-/**
- * @brief TBD: Describe updateMemory.
- * @param[in] K Input parameter.
- * @param[in] V Input parameter.
- * @details Implements updateMemory without additional internal calls.
- */
 inline void InfiniAttentionCPU::updateMemory(const Eigen::MatrixXf& K, const Eigen::MatrixXf& V) {
     // No-op minimal
 }
 
-/**
- * @brief TBD: Describe updateMemoryFP64.
- * @param[in] K Input parameter.
- * @param[in] V Input parameter.
- * @details Implements updateMemoryFP64 without additional internal calls.
- */
 inline void InfiniAttentionCPU::updateMemoryFP64(const Eigen::MatrixXd& K, const Eigen::MatrixXd& V) {
     // No-op minimal
 }

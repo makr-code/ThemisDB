@@ -138,7 +138,6 @@ private:
 
     /**
      * @brief Store episode in LLMInteractionStore if available.
-     * @param[in] result Input parameter.
      */
     void storeEpisode(const CompressionResult& result);
 
@@ -151,7 +150,6 @@ private:
 
     /**
      * @brief Generate a UUID v4 for episode identification.
-     * @return Return value.
      */
     std::string generateUUID();
 };

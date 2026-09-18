@@ -33,7 +33,6 @@ public:
      * 
      * @param input Raw string that may contain HTML
      * @return HTML-safe encoded string
-     * @details Calls: reserve(), size().
      */
     static std::string encodeHTML(std::string_view input) {
         std::string output = {};
@@ -61,7 +60,6 @@ public:
      * 
      * @param input Raw string
      * @return JavaScript-safe encoded string
-     * @details Calls: reserve(), size(), snprintf().
      */
     static std::string encodeJavaScript(std::string_view input) {
         std::string output = {};
@@ -102,7 +100,6 @@ public:
      * 
      * @param input Raw string
      * @return URL-encoded string
-     * @details Calls: reserve(), size(), isAlphaNumeric().
      */
     static std::string encodeURL(std::string_view input) {
         std::string output = {};
@@ -130,7 +127,6 @@ public:
      * 
      * @param input Raw string
      * @return JSON-safe encoded string
-     * @details Calls: reserve(), size(), snprintf().
      */
     static std::string encodeJSON(std::string_view input) {
         std::string output = {};
@@ -168,7 +164,6 @@ public:
      * 
      * @param input Raw string
      * @return Sanitized string safe for HTML attributes
-     * @details Calls: reserve(), size().
      */
     static std::string sanitizeAttribute(std::string_view input) {
         std::string output = {};
@@ -186,12 +181,6 @@ public:
     }
     
 private:
-    /**
-     * @brief TBD: Describe isAlphaNumeric.
-     * @param[in] c Input parameter.
-     * @return True on success.
-     * @details Implements isAlphaNumeric without additional internal calls.
-     */
     static bool isAlphaNumeric(unsigned char c) {
         return ((c >= 'A' && c <= 'Z') ||
                 (c >= 'a' && c <= 'z') ||
@@ -210,9 +199,6 @@ public:
     
     /**
      * @brief Set default-src directive
-     * @param[in] value Input parameter.
-     * @return Return value.
-     * @details Implements defaultSrc without additional internal calls.
      */
     CSPBuilder& defaultSrc(const std::string& value) {
         directives_["default-src"] = value;
@@ -221,9 +207,6 @@ public:
     
     /**
      * @brief Set script-src directive
-     * @param[in] value Input parameter.
-     * @return Return value.
-     * @details Implements scriptSrc without additional internal calls.
      */
     CSPBuilder& scriptSrc(const std::string& value) {
         directives_["script-src"] = value;
@@ -232,9 +215,6 @@ public:
     
     /**
      * @brief Set style-src directive
-     * @param[in] value Input parameter.
-     * @return Return value.
-     * @details Implements styleSrc without additional internal calls.
      */
     CSPBuilder& styleSrc(const std::string& value) {
         directives_["style-src"] = value;
@@ -243,9 +223,6 @@ public:
     
     /**
      * @brief Set img-src directive
-     * @param[in] value Input parameter.
-     * @return Return value.
-     * @details Implements imgSrc without additional internal calls.
      */
     CSPBuilder& imgSrc(const std::string& value) {
         directives_["img-src"] = value;
@@ -254,9 +231,6 @@ public:
     
     /**
      * @brief Set connect-src directive
-     * @param[in] value Input parameter.
-     * @return Return value.
-     * @details Implements connectSrc without additional internal calls.
      */
     CSPBuilder& connectSrc(const std::string& value) {
         directives_["connect-src"] = value;
@@ -283,8 +257,6 @@ public:
     
     /**
      * @brief Create a strict CSP for API endpoints
-     * @return Return value.
-     * @details Calls: CSPBuilder(), defaultSrc(), build().
      */
     static std::string strictAPI() {
         return CSPBuilder()
@@ -294,8 +266,6 @@ public:
     
     /**
      * @brief Create a standard CSP for web applications
-     * @return Return value.
-     * @details Calls: CSPBuilder(), defaultSrc(), scriptSrc(), styleSrc(), imgSrc(), connectSrc(), build().
      */
     static std::string standard() {
         return CSPBuilder()

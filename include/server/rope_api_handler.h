@@ -165,45 +165,19 @@ private:
     AuthorizeFn authorizeFn_;
     StatsQueryFn statsQueryFn_;
 
-    /**
-     * @brief Helper methods
-     * @param[in] status Input parameter.
-     * @param[in] message Input parameter.
-     * @param[in] req Input parameter.
-     * @return Return value.
-     */
+    // Helper methods
     http::response<http::string_body> makeErrorResponse(
         http::status status, const std::string& message, const http::request<http::string_body>& req);
-    /**
-     * @brief TBD: Describe makeResponse.
-     * @param[in] status Input parameter.
-     * @param[in] body Input parameter.
-     * @param[in] req Input parameter.
-     * @return Return value.
-     */
     http::response<http::string_body> makeResponse(
         http::status status, const std::string& body, const http::request<http::string_body>& req);
     
-    /**
-     * @brief TBD: Describe requireAccess.
-     * @param[in] req Input parameter.
-     * @param[in] permission Input parameter.
-     * @param[in] resource Input parameter.
-     * @param[in] path Input parameter.
-     * @return Return value.
-     */
     std::optional<http::response<http::string_body>> requireAccess(
         const http::request<http::string_body>& req,
         const std::string& permission,
         const std::string& resource,
         const std::string& path);
     
-    /**
-     * @brief Extract index_name from path like /api/v1/vector-index/{index_name}/rope/.
-     * @param[in] path Input parameter.
-     * @return Return value.
-     * @details ..
-     */
+    // Extract index_name from path like /api/v1/vector-index/{index_name}/rope/...
     std::optional<std::string> extractIndexName(const std::string& path);
 };
 

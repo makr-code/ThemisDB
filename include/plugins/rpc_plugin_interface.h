@@ -37,9 +37,6 @@ enum class RPCProtocol {
 
 /**
  * @brief Convert RPCProtocol to string
- * @param[in] protocol Input parameter.
- * @return Pointer to the result.
- * @details Implements rpcProtocolToString without additional internal calls.
  */
 inline const char* rpcProtocolToString(RPCProtocol protocol) {
     switch (protocol) {
@@ -129,10 +126,6 @@ struct RPCServerStats {
  */
 class IRPCServer {
 public:
-    /**
-     * @brief TBD: Describe ~IRPCServer.
-     * @return Return value.
-     */
     virtual ~IRPCServer() = default;
     
     /**
@@ -242,10 +235,6 @@ public:
  */
 class IRPCMethodHandler {
 public:
-    /**
-     * @brief TBD: Describe ~IRPCMethodHandler.
-     * @return Return value.
-     */
     virtual ~IRPCMethodHandler() = default;
     
     /**
@@ -293,7 +282,6 @@ public:
     
     /**
      * @brief Get singleton instance
-     * @return Return value.
      */
     static RPCServiceRegistry& instance();
     
@@ -312,20 +300,9 @@ private:
  */
 #define THEMIS_RPC_PLUGIN_IMPL(PluginClass) \
     extern "C" { \
-        /**
-         * @brief TBD: Describe createPlugin.
-         * @return Pointer to the result.
-         * @details Calls: PluginClass().
-         */
         THEMIS_PLUGIN_EXPORT themis::plugins::IThemisPlugin* createPlugin() { \
             return new PluginClass(); \
         } \
-        /**
-         * @brief TBD: Describe destroyPlugin.
-         * @param[in,out] plugin Input/output parameter.
-         * @return Return value.
-         * @details Implements destroyPlugin without additional internal calls.
-         */
         THEMIS_PLUGIN_EXPORT void destroyPlugin(themis::plugins::IThemisPlugin* plugin) { \
             delete plugin; \
         } \
@@ -394,9 +371,6 @@ enum class RPCErrorCode {
 
 /**
  * @brief Convert RPC error code to string
- * @param[in] code Input parameter.
- * @return Pointer to the result.
- * @details Implements rpcErrorCodeToString without additional internal calls.
  */
 inline const char* rpcErrorCodeToString(RPCErrorCode code) {
     switch (code) {

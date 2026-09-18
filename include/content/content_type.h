@@ -67,16 +67,7 @@ struct ContentType {
         bool multimodal = false;      // Multiple data types (e.g., video = audio + images)
     } features{};
     
-    /**
-     * @brief TBD: Describe toJson.
-     * @return Return value.
-     */
     json toJson() const;
-    /**
-     * @brief TBD: Describe fromJson.
-     * @param[in] j Input parameter.
-     * @return Return value.
-     */
     static ContentType fromJson(const json& j);
 };
 
@@ -88,57 +79,43 @@ struct ContentType {
  */
 class ContentTypeRegistry {
 public:
-    /**
-     * @brief TBD: Describe instance.
-     * @return Return value.
-     */
     static ContentTypeRegistry& instance();
     
     /**
      * @brief Register a content type
-     * @param[in] type Input parameter.
      */
     void registerType(const ContentType& type);
     
     /**
      * @brief Lookup content type by MIME type
      * @return Optional containing ContentType if found, nullopt otherwise
-     * @param[in] mime_type Input parameter.
      */
     std::optional<ContentType> getByMimeType(const std::string& mime_type) const;
     
     /**
      * @brief Lookup content type by file extension
      * @return Optional containing ContentType if found, nullopt otherwise
-     * @param[in] extension Input parameter.
      */
     std::optional<ContentType> getByExtension(const std::string& extension) const;
     
     /**
      * @brief Detect content type from blob (magic bytes)
      * @return Optional containing ContentType if detected, nullopt otherwise
-     * @param[in] blob Input parameter.
      */
     std::optional<ContentType> detectFromBlob(const std::string& blob) const;
     
     /**
      * @brief Get all types in a category
-     * @param[in] category Input parameter.
-     * @return Return value.
      */
     std::vector<const ContentType*> getByCategory(ContentCategory category) const;
     
     /**
      * @brief List all registered types
-     * @return Return value.
      */
     std::vector<const ContentType*> getAllTypes() const;
 
 private:
     ContentTypeRegistry();
-    /**
-     * @brief TBD: Describe registerDefaultTypes.
-     */
     void registerDefaultTypes();
     
     std::vector<ContentType> types_;

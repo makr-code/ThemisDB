@@ -177,8 +177,6 @@ public:
      * @brief Construct with Service Provider configuration
      * @throws std::invalid_argument if required config fields are empty
      * @throws std::runtime_error if the IdP certificate cannot be parsed
-     * @param[in] config Input parameter.
-     * @return Return value.
      */
     explicit SAMLAuthenticator(const SAMLConfig& config);
 
@@ -258,8 +256,6 @@ public:
     /**
      * @brief Attach an AuditLogger to receive LOGIN_SUCCESS / LOGIN_FAILED events.
      * Pass nullptr to detach.  The authenticator does NOT take ownership.
-     * @param[in,out] logger Input/output parameter.
-     * @details Implements setAuditLogger without additional internal calls.
      */
     void setAuditLogger(utils::AuditLogger* logger) { audit_logger_ = logger; }
 
@@ -291,16 +287,13 @@ private:
     /// Standard Base64 decode (for SAMLResponse body)
     static std::vector<uint8_t> base64Decode(const std::string& input);
 
-    /**
-     * @brief Verify an enveloped XML signature using the IdP public key @param reference_xml Raw XML of the signed element @param signature_value_b64 Base64-encoded signature bytes @param signed_info_c14n Canonicalized SignedInfo XML for digest verification @param digest_value_b64 Base64-encoded digest value from Reference @param digest_algorithm_uri URI identifying digest algorithm @param sig_algorithm_uri URI identifying signature algorithm
-     * @param[in] reference_xml Input parameter.
-     * @param[in] signature_value_b64 Input parameter.
-     * @param[in] signed_info_c14n Input parameter.
-     * @param[in] digest_value_b64 Input parameter.
-     * @param[in] digest_algorithm_uri Input parameter.
-     * @param[in] sig_algorithm_uri Input parameter.
-     * @return True on success.
-     */
+    /// Verify an enveloped XML signature using the IdP public key
+    /// @param reference_xml  Raw XML of the signed element
+    /// @param signature_value_b64  Base64-encoded signature bytes
+    /// @param signed_info_c14n  Canonicalized SignedInfo XML for digest verification
+    /// @param digest_value_b64 Base64-encoded digest value from Reference
+    /// @param digest_algorithm_uri URI identifying digest algorithm
+    /// @param sig_algorithm_uri    URI identifying signature algorithm
     bool verifyXmlSignature(const std::string& reference_xml,
                             const std::string& signature_value_b64,
                             const std::string& signed_info_c14n,
@@ -321,12 +314,13 @@ private:
     SAMLClaims processResponseImpl(const std::string& saml_response_b64,
                                    const std::string& in_response_to) const;
 
-    /**
-     * @brief Decrypt an EncryptedAssertion element using the SP private key loaded via SAMLConfig::sp_private_key_loader.
-     * @param[in] encrypted_assertion_node Input parameter.
-     * @return Return value.
-     * @details Supports AES-128-CBC and AES-256-CBC data encryption with RSA-OAEP (default) or RSA-PKCS1-v1.5 key transport. @param encrypted_assertion_node The <EncryptedAssertion>lt;EncryptedAssertion<EncryptedAssertion>gt; pugixml node @return Decrypted assertion XML as a UTF-8 string @throws AuthException (SAML_DECRYPTION_FAILED) on any failure
-     */
+    /// Decrypt an EncryptedAssertion element using the SP private key loaded via
+    /// SAMLConfig::sp_private_key_loader.  Supports AES-128-CBC and AES-256-CBC
+    /// data encryption with RSA-OAEP (default) or RSA-PKCS1-v1.5 key transport.
+    ///
+    /// @param encrypted_assertion_node  The <EncryptedAssertion>lt;EncryptedAssertion<EncryptedAssertion>gt; pugixml node
+    /// @return Decrypted assertion XML as a UTF-8 string
+    /// @throws AuthException (SAML_DECRYPTION_FAILED) on any failure
     std::string decryptAssertion(const pugi::xml_node& encrypted_assertion_node) const;
 };
 

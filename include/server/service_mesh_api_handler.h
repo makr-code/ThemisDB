@@ -139,23 +139,13 @@ private:
     // avoid including the conditionally-compiled network header here).
     std::shared_ptr<void> smi_;
 
-    /**
-     * @brief Build a simple JSON HTTP response.
-     * @param[in] status Input parameter.
-     * @param[in] body Input parameter.
-     * @param[in] req Input parameter.
-     * @return Return value.
-     */
+    // Build a simple JSON HTTP response.
     http::response<http::string_body> makeJson(
         http::status status,
         const std::string& body,
         const http::request<http::string_body>& req) const;
 
-    /**
-     * @brief Build a "feature disabled" response.
-     * @param[in] req Input parameter.
-     * @return Return value.
-     */
+    // Build a "feature disabled" response.
     http::response<http::string_body> makeDisabled(
         const http::request<http::string_body>& req) const;
 };

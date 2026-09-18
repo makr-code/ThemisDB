@@ -41,20 +41,15 @@ class ResultQueue {
 public:
     explicit ResultQueue(size_t capacity = kDefaultResultQueueCapacity);
 
-     * @brief TBD: Describe push.
-     * @param[in] item Input parameter.
     /** Push item; drops oldest if capacity is exceeded. */
     void push(CQResult item);
 
     /**
      * @brief Pop next item, blocking up to `timeout`.
      * @return item, or empty on timeout or after cancel().
-     * @param[in] timeout Input parameter.
      */
     std::optional<CQResult> pop(std::chrono::milliseconds timeout);
 
-     * @brief TBD: Describe cancel.
-     * @note Exception safety: noexcept.
     /** Signal all blocked pop() callers to return immediately. */
     void cancel() noexcept;
 
@@ -77,11 +72,6 @@ private:
 class CQResultStreamImpl : public CQResultStream {
 public:
     ~CQResultStreamImpl() override = default;
-    /**
-     * @brief TBD: Describe CQResultStreamImpl.
-     * @param[in] queue Input parameter.
-     * @return Return value.
-     */
     explicit CQResultStreamImpl(std::shared_ptr<ResultQueue> queue);
 
     bool hasMore() const noexcept override;
@@ -133,17 +123,8 @@ public:
                      int64_t            event_ts) override;
 
 private:
-    /**
-     * @brief TBD: Describe startLoop.
-     */
     void startLoop();
-    /**
-     * @brief TBD: Describe stopLoop.
-     */
     void stopLoop();
-    /**
-     * @brief TBD: Describe tickOnce.
-     */
     void tickOnce();
 
     ContinuousQueryPlanner planner_;

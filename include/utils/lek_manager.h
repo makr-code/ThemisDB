@@ -279,8 +279,6 @@ public:
 
     /**
      * @brief Returns true when the auto-rotation worker is active.
-     * @return True on success.
-     * @note Exception safety: noexcept.
      */
     bool isAutoRotationRunning() const noexcept;
 
@@ -399,34 +397,12 @@ public:
     bool migrateKey(const std::string& old_date, const std::string& new_date);
 
 private:
-    /**
-     * @brief TBD: Describe ensureLEKExists.
-     * @param[in] date_str Input parameter.
-     */
     void ensureLEKExists(const std::string& date_str);
-    /**
-     * @brief TBD: Describe deriveKEK.
-     * @return Return value.
-     */
     std::vector<uint8_t> deriveKEK();
-    /**
-     * @brief TBD: Describe lekKeyId.
-     * @param[in] date_str Input parameter.
-     * @return Return value.
-     */
     std::string lekKeyId(const std::string& date_str) const;
-    /**
-     * @brief TBD: Describe dbKey.
-     * @param[in] date_str Input parameter.
-     * @return Return value.
-     */
     std::string dbKey(const std::string& date_str) const;
 
-    /**
-     * @brief Background auto-rotation worker implementation
-     * @param[in] check_interval Input parameter.
-     * @param[in] max_age_days Input parameter.
-     */
+    // Background auto-rotation worker implementation
     void autoRotationLoop(std::chrono::seconds check_interval, int max_age_days);
     
     std::shared_ptr<themis::RocksDBWrapper> db_;

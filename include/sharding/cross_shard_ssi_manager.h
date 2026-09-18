@@ -134,7 +134,6 @@ public:
     /**
      * @brief Construct the manager with the supplied configuration.
      * @param config Initial SSI tuning parameters.
-     * @return Return value.
      */
     explicit CrossShardSSIManager(const Config& config);
 

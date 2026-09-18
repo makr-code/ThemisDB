@@ -206,10 +206,6 @@ struct XDOMEAExportResult {
  */
 class IXDOMEAConnector {
 public:
-    /**
-     * @brief TBD: Describe ~IXDOMEAConnector.
-     * @return Return value.
-     */
     virtual ~IXDOMEAConnector() = default;
 
     /**
@@ -241,7 +237,6 @@ public:
      * @throws std::invalid_argument  if doc.id is empty.
      * @throws std::runtime_error     if a document with the same ID is already
      *                                stored.
-     * @param[in] doc Input parameter.
      */
     virtual void storeDocument(const XDOMEADocument& doc) = 0;
 
@@ -249,7 +244,6 @@ public:
      * @brief Retrieve a document by ID.
      *
      * @return The document, or std::nullopt if not found.
-     * @param[in] id Input parameter.
      */
     virtual std::optional<XDOMEADocument> getDocument(std::string_view id) const = 0;
 
@@ -273,13 +267,11 @@ public:
 
     /**
      * @brief Remove a document from the repository.  No-op if not found.
-     * @param[in] id Input parameter.
      */
     virtual void removeDocument(std::string_view id) = 0;
 
     /**
      * @brief Return the total number of stored documents.
-     * @return Return value.
      */
     virtual std::size_t count() const = 0;
 };
@@ -307,11 +299,6 @@ public:
             return result;
         }
 
-        /**
-         * @brief TBD: Describe xml.
-         * @param[in] xml_content Input parameter.
-         * @return Return value.
-         */
         const std::string xml(xml_content);
         std::size_t pos = 0;
 
@@ -391,11 +378,6 @@ public:
 
         // Persist.
         {
-            /**
-             * @brief TBD: Describe lk.
-             * @param[in] mutex_ Input parameter.
-             * @return Return value.
-             */
             std::unique_lock<std::mutex> lk(mutex_);
             for (const auto& d : result.documents) {
               store_[d.id] = d;
@@ -444,11 +426,6 @@ public:
         if (doc.id.empty()) {
             throw std::invalid_argument("XDOMEADocument::id must not be empty");
         }
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::mutex> lk(mutex_);
         if (store_.count(doc.id)) {
             throw std::runtime_error("Document already stored: " + doc.id);
@@ -457,11 +434,6 @@ public:
     }
 
     std::optional<XDOMEADocument> getDocument(std::string_view id) const override {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::mutex> lk(mutex_);
         auto it = store_.find(std::string(id));
         if (it == store_.end()) {
@@ -471,11 +443,6 @@ public:
     }
 
     std::vector<XDOMEADocument> listByType(XDOMEAObjectType type) const override {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::mutex> lk(mutex_);
         std::vector<XDOMEADocument> result = {};
 
@@ -489,11 +456,6 @@ public:
 
     std::vector<XDOMEADocument>
     listByRetention(XDOMEARetentionCategory retention) const override {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::mutex> lk(mutex_);
         std::vector<XDOMEADocument> result = {};
 
@@ -507,18 +469,8 @@ public:
 
     std::vector<XDOMEADocument>
     listChildren(std::string_view parent_id) const override {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::mutex> lk(mutex_);
         std::vector<XDOMEADocument> result;
-        /**
-         * @brief TBD: Describe pid.
-         * @param[in] parent_id Input parameter.
-         * @return Return value.
-         */
         const std::string pid(parent_id);
         for (const auto& [id, d] : store_) {
             if (d.parent_id && *d.parent_id == pid) {
@@ -529,33 +481,17 @@ public:
     }
 
     void removeDocument(std::string_view id) override {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::mutex> lk(mutex_);
         store_.erase(std::string(id));
     }
 
     std::size_t count() const override {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::mutex> lk(mutex_);
         return store_.size();
     }
 
 private:
-    /**
-     * @brief ── Helpers ───────────────────────────────────────────────────────────────
-     * @param[in] fragment Input parameter.
-     * @param[in] tag Input parameter.
-     * @param[in,out] out Input/output parameter.
-     * @details Calls: find(), size(), substr().
-     */
+    // ── Helpers ───────────────────────────────────────────────────────────────
 
     static void extractField_(const std::string& fragment,
                                const std::string& tag,
@@ -573,12 +509,6 @@ private:
         out = fragment.substr(s + open.size(), e - s - open.size());
     }
 
-    /**
-     * @brief TBD: Describe escapeXML_.
-     * @param[in] s Input parameter.
-     * @return Return value.
-     * @details Calls: reserve(), size().
-     */
     static std::string escapeXML_(const std::string& s) {
         std::string out = {};
         out.reserve(s.size());
@@ -595,12 +525,6 @@ private:
         return out;
     }
 
-    /**
-     * @brief TBD: Describe objectTypeTag_.
-     * @param[in] t Input parameter.
-     * @return Return value.
-     * @details Implements objectTypeTag_ without additional internal calls.
-     */
     static std::string objectTypeTag_(XDOMEAObjectType t) {
         switch (t) {
             case XDOMEAObjectType::AKTE:      return "akte";
@@ -613,12 +537,6 @@ private:
         }
     }
 
-    /**
-     * @brief TBD: Describe messageTypeCode_.
-     * @param[in] t Input parameter.
-     * @return Return value.
-     * @details Implements messageTypeCode_ without additional internal calls.
-     */
     static std::string messageTypeCode_(XDOMEAMessageType t) {
         switch (t) {
             case XDOMEAMessageType::ANBIETUNG:      return "0201";

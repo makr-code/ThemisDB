@@ -371,12 +371,8 @@ public:
                          themisdb::analytics::CEPEngine& cep,
                          SlaAlertCallback on_alert = nullptr);
 
-    /**
-     * @brief Deregister the SLA CEP rules for @p instance_id.
-     * @param[in] instance_id Input parameter.
-     * @param[in,out] cep Input/output parameter.
-     * @details Safe to call if no rule was registered.
-     */
+    /// Deregister the SLA CEP rules for @p instance_id.
+    /// Safe to call if no rule was registered.
     void deregisterSlaRule(std::string_view instance_id,
                            themisdb::analytics::CEPEngine& cep);
 
@@ -391,14 +387,12 @@ public:
         size_t sample_count{0};
     };
 
-    /**
-     * @brief Record the completion of a node to update the cross-case aggregate.
-     * @param[in] model_id Input parameter.
-     * @param[in] node_id Input parameter.
-     * @param[in] node_name Input parameter.
-     * @param[in] dwell_ms Input parameter.
-     * @details Call this after each task/activity completes in an instance. @param model_id Process model identifier. @param node_id Node identifier within the model. @param node_name Human-readable node name (for display). @param dwell_ms Time spent at this node in milliseconds.
-     */
+    /// Record the completion of a node to update the cross-case aggregate.
+    /// Call this after each task/activity completes in an instance.
+    /// @param model_id   Process model identifier.
+    /// @param node_id    Node identifier within the model.
+    /// @param node_name  Human-readable node name (for display).
+    /// @param dwell_ms   Time spent at this node in milliseconds.
     void recordNodeCompletion(std::string_view model_id,
                               std::string_view node_id,
                               std::string_view node_name,
@@ -427,15 +421,8 @@ private:
     mutable std::mutex sla_rules_mutex_;
     std::map<std::string, SlaRuleEntry> sla_rules_;
 
-    /**
-     * @brief Fire an SLA alert to the registered callback (if any) for @p instance_id.
-     * @param[in] instance_id Input parameter.
-     * @param[in] process_name Input parameter.
-     * @param[in] sla_ms Input parameter.
-     * @param[in] elapsed_ms Input parameter.
-     * @param[in] status Input parameter.
-     * @details Exceptions from the callback are caught and logged.
-     */
+    /// Fire an SLA alert to the registered callback (if any) for @p instance_id.
+    /// Exceptions from the callback are caught and logged.
     void fireSlaAlert_(const std::string& instance_id,
                        const std::string& process_name,
                        int64_t sla_ms,

@@ -192,7 +192,6 @@ public:
      * @param algorithm  Algorithm to activate.
      * @return true on success; false on error (errno set) or if the algorithm
      *         is not supported by the kernel.
-     * @note Exception safety: noexcept.
      */
     bool setCongestionAlgorithm(CongestionAlgorithm algorithm) noexcept;
 
@@ -204,7 +203,6 @@ public:
      *
      * @param cfg  Parameter overrides. Default-constructed = kernel defaults.
      * @return true if all non-zero parameters were accepted by the kernel.
-     * @note Exception safety: noexcept.
      */
     bool applyConfig(const BbrConfig& cfg) noexcept;
 
@@ -217,8 +215,6 @@ public:
      *
      * Reads TCP_INFO and TCP_CC_INFO (where available). Fields not populated
      * by the kernel are zero-initialised.
-     * @return Return value.
-     * @note Exception safety: noexcept.
      */
     CongestionDiagnostics getDiagnostics() const noexcept;
 
@@ -227,8 +223,6 @@ public:
      *
      * Reads the TCP_CONGESTION socket option.
      * Returns an empty string on non-Linux platforms.
-     * @return Return value.
-     * @note Exception safety: noexcept.
      */
     std::string getActiveAlgorithmName() const noexcept;
 
@@ -240,15 +234,11 @@ public:
      * @brief Return true if BBRv2 is available on the running system.
      *
      * Performs a lightweight probe via a temporary socket and TCP_CONGESTION.
-     * @return True on success.
-     * @note Exception safety: noexcept.
      */
     static bool isBBRv2Available() noexcept;
 
     /**
      * @brief Return true if BBRv1 is available on the running system.
-     * @return True on success.
-     * @note Exception safety: noexcept.
      */
     static bool isBBRv1Available() noexcept;
 
@@ -256,9 +246,6 @@ public:
      * @brief Convert a @c CongestionAlgorithm to its kernel name string.
      *
      * Returns the TCP_CONGESTION string for use in setsockopt (e.g., "bbr2").
-     * @param[in] algorithm Input parameter.
-     * @return Pointer to the result.
-     * @note Exception safety: noexcept.
      */
     static const char* algorithmToKernelName(CongestionAlgorithm algorithm) noexcept;
 

@@ -230,7 +230,6 @@ public:
     /**
      * @brief Construct with custom configuration.
      * @param config  Configuration for retrieval and fusion.
-     * @return Return value.
      */
     explicit MultiModalRAG(const MultiModalRAGConfig& config);
 
@@ -311,7 +310,6 @@ public:
 
     /**
      * @brief Return a copy of the current configuration.
-     * @return Return value.
      */
     MultiModalRAGConfig getConfig() const;
 
@@ -340,7 +338,6 @@ public:
      *
      * Suitable as a drop-in for standard RAG pipelines that need
      * multi-modal support in the future.
-     * @return Return value.
      */
     static std::unique_ptr<MultiModalRAG> createTextOnly();
 
@@ -348,7 +345,6 @@ public:
      * @brief Text + image retriever with equal modality weights.
      *
      * Suitable for document corpora that mix text passages and images.
-     * @return Return value.
      */
     static std::unique_ptr<MultiModalRAG> createTextAndImage();
 
@@ -357,7 +353,6 @@ public:
      *
      * All flags enabled; callers must supply the appropriate retrieval
      * functions before calling query().
-     * @return Return value.
      */
     static std::unique_ptr<MultiModalRAG> createFull();
 };

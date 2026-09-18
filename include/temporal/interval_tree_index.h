@@ -103,11 +103,6 @@ struct IntervalTreeStats {
  */
 class IntervalTreeIndex {
 public:
-    /**
-     * @brief TBD: Describe IntervalTreeIndex.
-     * @param[in] name Input parameter.
-     * @return Return value.
-     */
     explicit IntervalTreeIndex(std::string name);
 
     // Non-copyable; movable
@@ -123,27 +118,18 @@ public:
     /**
      * Insert an entry into the tree.
      * Amortised O(log n).
-     * @brief TBD: Describe insert.
-     * @param[in] entry Input parameter.
      */
     void insert(const IntervalEntry& entry);
 
     /**
      * Remove all entries matching both key and range exactly.
      * Returns the number of entries removed.  O(log n) expected.
-     * @brief TBD: Describe remove.
-     * @param[in] key Input parameter.
-     * @param[in] range Input parameter.
-     * @return Return value.
      */
     size_t remove(const std::string& key, const TimeRange& range);
 
     /**
      * Remove all entries for the given key regardless of range.
      * O(n) worst-case due to multiple hits with the same key.
-     * @brief TBD: Describe removeKey.
-     * @param[in] key Input parameter.
-     * @return Return value.
      */
     size_t removeKey(const std::string& key);
 
@@ -175,7 +161,6 @@ public:
      */
     size_t erase(const std::string& key);
 
-     * @brief TBD: Describe clear.
     /** Remove all entries. O(n). */
     void clear();
 
@@ -185,9 +170,6 @@ public:
      * Return all entries whose interval contains timestamp t,
      * i.e. entry.range.start <= t < entry.range.end.
      * O(log n + k).
-     * @brief TBD: Describe queryPoint.
-     * @param[in] t Input parameter.
-     * @return Return value.
      */
     std::vector<IntervalEntry> queryPoint(Timestamp t) const;
 
@@ -195,19 +177,12 @@ public:
      * Return all entries whose interval overlaps [from, to).
      * An interval [a, b) overlaps [from, to) iff a < to && from < b.
      * O(log n + k).
-     * @brief TBD: Describe queryOverlap.
-     * @param[in] from Input parameter.
-     * @param[in] to Input parameter.
-     * @return Return value.
      */
     std::vector<IntervalEntry> queryOverlap(Timestamp from, Timestamp to) const;
 
     /**
      * Return all entries whose interval overlaps the given range.
      * Convenience overload for queryOverlap(range.start, range.end).
-     * @brief TBD: Describe queryOverlap.
-     * @param[in] range Input parameter.
-     * @return Return value.
      */
     std::vector<IntervalEntry> queryOverlap(const TimeRange& range) const;
 
@@ -223,16 +198,9 @@ public:
 
     const std::string& name() const noexcept { return name_; }
 
-     * @brief TBD: Describe size.
-     * @return Return value.
-     * @note Exception safety: noexcept.
     /** O(1) — maintained as an atomic counter. */
     size_t size() const noexcept;
 
-    /**
-     * @brief TBD: Describe stats.
-     * @return Return value.
-     */
     IntervalTreeStats stats() const;
 
 private:
@@ -250,99 +218,32 @@ private:
         std::unique_ptr<Node> left;
         std::unique_ptr<Node> right;
 
-        /**
-         * @brief TBD: Describe Node.
-         * @param[in] e Input parameter.
-         * @return Return value.
-         */
         explicit Node(IntervalEntry e)
             : entry(std::move(e)),
               subtree_max_end(entry.range.end) {}
     };
 
-    /**
-     * @brief ── Internal helpers ─────────────────────────────────────────────────────
-     * @param[in] n Input parameter.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
+    // ── Internal helpers ─────────────────────────────────────────────────────
 
     static Timestamp nodeMaxEnd(const Node* n) noexcept;
-    /**
-     * @brief TBD: Describe updateSubtreeMax.
-     * @param[in,out] n Input/output parameter.
-     * @note Exception safety: noexcept.
-     */
     static void      updateSubtreeMax(Node* n) noexcept;
 
-    /**
-     * @brief AVL helpers
-     * @param[in] n Input parameter.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
+    // AVL helpers
     static int  nodeHeight(const Node* n) noexcept;
-    /**
-     * @brief TBD: Describe balanceFactor.
-     * @param[in] n Input parameter.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
     static int  balanceFactor(const Node* n) noexcept;
-    /**
-     * @brief TBD: Describe updateHeight.
-     * @param[in,out] n Input/output parameter.
-     * @note Exception safety: noexcept.
-     */
     static void updateHeight(Node* n) noexcept;
-    /**
-     * @brief TBD: Describe rotateRight.
-     * @param[in] y Input parameter.
-     * @return Return value.
-     */
     static std::unique_ptr<Node> rotateRight(std::unique_ptr<Node> y);
-    /**
-     * @brief TBD: Describe rotateLeft.
-     * @param[in] x Input parameter.
-     * @return Return value.
-     */
     static std::unique_ptr<Node> rotateLeft(std::unique_ptr<Node> x);
-    /**
-     * @brief TBD: Describe balance.
-     * @param[in] n Input parameter.
-     * @return Return value.
-     */
     static std::unique_ptr<Node> balance(std::unique_ptr<Node> n);
 
-    /**
-     * @brief TBD: Describe insertNode.
-     * @param[in] root Input parameter.
-     * @param[in] entry Input parameter.
-     * @return Return value.
-     */
     static std::unique_ptr<Node> insertNode(std::unique_ptr<Node> root,
                                             const IntervalEntry& entry);
 
-    /**
-     * @brief TBD: Describe removeNode.
-     * @param[in] root Input parameter.
-     * @param[in] key Input parameter.
-     * @param[in] range Input parameter.
-     * @param[in,out] removed_count Input/output parameter.
-     * @return Return value.
-     */
     static std::unique_ptr<Node> removeNode(std::unique_ptr<Node> root,
                                             const std::string& key,
                                             const TimeRange& range,
                                             size_t& removed_count);
 
-    /**
-     * @brief TBD: Describe removeKeyNode.
-     * @param[in] root Input parameter.
-     * @param[in] key Input parameter.
-     * @param[in,out] removed_count Input/output parameter.
-     * @return Return value.
-     */
     static std::unique_ptr<Node> removeKeyNode(std::unique_ptr<Node> root,
                                                const std::string& key,
                                                size_t& removed_count);
@@ -354,33 +255,13 @@ private:
     static std::unique_ptr<Node> detachMin(std::unique_ptr<Node> root,
                                            std::unique_ptr<Node>& out_node);
 
-    /**
-     * @brief TBD: Describe collectOverlap.
-     * @param[in] n Input parameter.
-     * @param[in] from Input parameter.
-     * @param[in] to Input parameter.
-     * @param[in,out] out Input/output parameter.
-     */
     void collectOverlap(const Node* n, Timestamp from, Timestamp to,
                         std::vector<IntervalEntry>& out) const;
 
-    /**
-     * @brief TBD: Describe collectKey.
-     * @param[in] n Input parameter.
-     * @param[in] key Input parameter.
-     * @param[in] range Input parameter.
-     * @param[in,out] out Input/output parameter.
-     */
     void collectKey(const Node* n, const std::string& key,
                     std::optional<TimeRange> range,
                     std::vector<IntervalEntry>& out) const;
 
-    /**
-     * @brief TBD: Describe treeHeight.
-     * @param[in] n Input parameter.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
     static size_t treeHeight(const Node* n) noexcept;
 
     // ── State ─────────────────────────────────────────────────────────────────

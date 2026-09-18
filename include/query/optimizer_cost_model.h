@@ -231,26 +231,10 @@ public:
     // =============================
     
     OptimizerCostModel();
-    /**
-     * @brief TBD: Describe OptimizerCostModel.
-     * @param[in] constants Input parameter.
-     * @return Return value.
-     */
     explicit OptimizerCostModel(const CostConstants& constants);
     
-    /**
-     * @brief Cost estimation methods
-     * @param[in] table Input parameter.
-     * @return Return value.
-     */
+    // Cost estimation methods
     ScanCost estimateTableScan(const TableStatistics& table) const;
-    /**
-     * @brief TBD: Describe estimateIndexScan.
-     * @param[in] table Input parameter.
-     * @param[in] index Input parameter.
-     * @param[in] selectivity Input parameter.
-     * @return Return value.
-     */
     ScanCost estimateIndexScan(const TableStatistics& table, 
                                const IndexStatistics& index,
                                double selectivity) const;
@@ -259,73 +243,30 @@ public:
                              const std::vector<std::string>& predicates,
                              const std::map<std::string, ColumnStatistics>& columnStats) const;
     
-    /**
-     * @brief TBD: Describe estimateNestedLoopJoin.
-     * @param[in] leftRows Input parameter.
-     * @param[in] rightRows Input parameter.
-     * @param[in] selectivity Input parameter.
-     * @return Return value.
-     */
     JoinCost estimateNestedLoopJoin(size_t leftRows, size_t rightRows, 
                                     double selectivity) const;
     JoinCost estimateHashJoin(size_t leftRows, size_t rightRows, 
                              double selectivity,
                              size_t hashKeySize = 8) const;
-    /**
-     * @brief TBD: Describe estimateSortMergeJoin.
-     * @param[in] leftRows Input parameter.
-     * @param[in] rightRows Input parameter.
-     * @param[in] selectivity Input parameter.
-     * @return Return value.
-     */
     JoinCost estimateSortMergeJoin(size_t leftRows, size_t rightRows,
                                    double selectivity) const;
     
-    /**
-     * @brief TBD: Describe estimateAggregation.
-     * @param[in] inputRows Input parameter.
-     * @param[in] estimatedGroups Input parameter.
-     * @param[in] numAggregates Input parameter.
-     * @return Return value.
-     */
     AggregationCost estimateAggregation(size_t inputRows, 
                                        size_t estimatedGroups,
                                        size_t numAggregates) const;
     
-    /**
-     * @brief TBD: Describe estimateSort.
-     * @param[in] rowCount Input parameter.
-     * @param[in] rowSize Input parameter.
-     * @return Return value.
-     */
     SortCost estimateSort(size_t rowCount, size_t rowSize) const;
     
     NetworkCost estimateNetworkTransfer(size_t dataSize, size_t numHops = 1) const;
     
-    /**
-     * @brief Selectivity estimation
-     * @param[in] predicate Input parameter.
-     * @param[in] columnStats Input parameter.
-     * @return Return value.
-     */
+    // Selectivity estimation
     double estimateSelectivity(const std::string& predicate,
                               const ColumnStatistics& columnStats) const;
-    /**
-     * @brief TBD: Describe estimateJoinSelectivity.
-     * @param[in] leftCol Input parameter.
-     * @param[in] rightCol Input parameter.
-     * @return Return value.
-     */
     double estimateJoinSelectivity(const ColumnStatistics& leftCol,
                                   const ColumnStatistics& rightCol) const;
     
     // Cost calibration
     void calibrateCosts(const std::map<std::string, double>& measurements);
-    /**
-     * @brief TBD: Describe updateConstant.
-     * @param[in] name Input parameter.
-     * @param[in] value Input parameter.
-     */
     void updateConstant(const std::string& name, double value);
 
     /**
@@ -380,43 +321,16 @@ public:
     
     // Accessors
     const CostConstants& getConstants() const { return constants_; }
-    /**
-     * @brief TBD: Describe setConstants.
-     * @param[in] constants Input parameter.
-     * @details Implements setConstants without additional internal calls.
-     */
     void setConstants(const CostConstants& constants) { constants_ = constants; }
 
 private:
     CostConstants constants_;
     
-    /**
-     * @brief Helper methods
-     * @param[in] rowsProcessed Input parameter.
-     * @param[in] costPerRow Input parameter.
-     * @return Return value.
-     */
+    // Helper methods
     double calculateCpuCost(size_t rowsProcessed, double costPerRow) const;
     double calculateIoCost(size_t pagesRead, bool sequential = true) const;
-    /**
-     * @brief TBD: Describe calculateMemoryCost.
-     * @param[in] memoryUsed Input parameter.
-     * @return Return value.
-     */
     double calculateMemoryCost(size_t memoryUsed) const;
-    /**
-     * @brief TBD: Describe estimateCardinality.
-     * @param[in] baseRows Input parameter.
-     * @param[in] selectivity Input parameter.
-     * @return Return value.
-     */
     double estimateCardinality(size_t baseRows, double selectivity) const;
-    /**
-     * @brief TBD: Describe needsExternalSort.
-     * @param[in] rowCount Input parameter.
-     * @param[in] rowSize Input parameter.
-     * @return True on success.
-     */
     bool needsExternalSort(size_t rowCount, size_t rowSize) const;
 };
 
@@ -447,11 +361,9 @@ public:
 
     StatisticsManager() = default;
 
-    /**
-     * @brief Inject a real table-statistics provider (e.
-     * @param[in] fn Input parameter.
-     * @details g. from RocksDB property queries). Once set, collectTableStatistics() calls this provider instead of returning zero-initialised defaults. Calls: std::move().
-     */
+    /// Inject a real table-statistics provider (e.g. from RocksDB property queries).
+    /// Once set, collectTableStatistics() calls this provider instead of returning
+    /// zero-initialised defaults.
     void setTableScanProvider(TableScanProvider fn) { table_scan_provider_ = std::move(fn); }
 
     /// Inject a real column-statistics provider (e.g. from sampled storage scans).
@@ -460,72 +372,27 @@ public:
     /// Inject a real index-statistics provider (e.g. from index-subsystem metadata).
     void setIndexScanProvider(IndexScanProvider fn) { index_scan_provider_ = std::move(fn); }
 
-    /**
-     * @brief Statistics collection
-     * @param[in] tableName Input parameter.
-     */
+    // Statistics collection
     void collectTableStatistics(const std::string& tableName);
-    /**
-     * @brief TBD: Describe collectColumnStatistics.
-     * @param[in] tableName Input parameter.
-     * @param[in] columnName Input parameter.
-     */
     void collectColumnStatistics(const std::string& tableName, 
                                 const std::string& columnName);
-    /**
-     * @brief TBD: Describe collectIndexStatistics.
-     * @param[in] indexName Input parameter.
-     */
     void collectIndexStatistics(const std::string& indexName);
     
-    /**
-     * @brief Statistics refresh
-     */
+    // Statistics refresh
     void refreshAllStatistics();
-    /**
-     * @brief TBD: Describe refreshStaleStatistics.
-     */
     void refreshStaleStatistics();
     
-    /**
-     * @brief Statistics retrieval
-     * @param[in] tableName Input parameter.
-     * @return Return value.
-     */
+    // Statistics retrieval
     OptimizerCostModel::TableStatistics getTableStatistics(const std::string& tableName) const;
-    /**
-     * @brief TBD: Describe getColumnStatistics.
-     * @param[in] tableName Input parameter.
-     * @param[in] columnName Input parameter.
-     * @return Return value.
-     */
     OptimizerCostModel::ColumnStatistics getColumnStatistics(const std::string& tableName,
                                                             const std::string& columnName) const;
-    /**
-     * @brief TBD: Describe getIndexStatistics.
-     * @param[in] indexName Input parameter.
-     * @return Return value.
-     */
     OptimizerCostModel::IndexStatistics getIndexStatistics(const std::string& indexName) const;
     
-    /**
-     * @brief Statistics management
-     * @param[in] tableName Input parameter.
-     */
+    // Statistics management
     void invalidateStatistics(const std::string& tableName);
-    /**
-     * @brief TBD: Describe areStatisticsStale.
-     * @param[in] tableName Input parameter.
-     * @param[in] threshold Input parameter.
-     * @return True on success.
-     */
     bool areStatisticsStale(const std::string& tableName, int64_t threshold) const;
     
-    /**
-     * @brief Manual update
-     * @param[in] tableName Input parameter.
-     * @param[in] stats Input parameter.
-     */
+    // Manual update
     void updateTableStatistics(const std::string& tableName,
                               const OptimizerCostModel::TableStatistics& stats);
     
@@ -538,10 +405,6 @@ private:
     std::optional<ColumnScanProvider> column_scan_provider_;
     std::optional<IndexScanProvider>  index_scan_provider_;
 
-    /**
-     * @brief TBD: Describe getCurrentTimestamp.
-     * @return Return value.
-     */
     int64_t getCurrentTimestamp() const;
 };
 

@@ -102,7 +102,6 @@ public:
      * @param exporter  Non-owning pointer to an OtlpExporter that has been
      *                  started by the caller.  May be nullptr to disable span
      *                  export while keeping correlation-ID propagation.
-     * @return Return value.
      */
     explicit TracingMiddleware(OtlpExporter* exporter);
 
@@ -150,8 +149,6 @@ public:
      *
      * Returns an empty string if processRequest() has not been called on this thread,
      * or after clearContext() has been called.
-     * @return Return value.
-     * @note Exception safety: noexcept.
      */
     static const std::string& currentCorrelationId() noexcept;
 
@@ -161,7 +158,6 @@ public:
      * Must be called after the response is sent so that the next request processed
      * by the same thread starts with a clean context.  Typically invoked via a
      * RAII guard at the start of routeRequest().
-     * @note Exception safety: noexcept.
      */
     static void clearContext() noexcept;
 
@@ -170,7 +166,6 @@ public:
      *
      * Uses a per-thread random_generator backed by a secure PRNG.
      * Thread-safe; each call returns a unique 36-character hex string.
-     * @return Return value.
      */
     static std::string generateUuidV4();
 

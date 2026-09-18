@@ -84,9 +84,6 @@ public:
     /**
      * Construct with an explicit erasure coding configuration.
      * @throws std::invalid_argument if data_shards < 2 or parity_shards < 1.
-     * @brief TBD: Describe ErasureCodingBackend.
-     * @param[in] config Input parameter.
-     * @return Return value.
      */
     explicit ErasureCodingBackend(const ErasureCodingConfig& config);
 
@@ -113,7 +110,6 @@ public:
      * @param blob_id   Identifier used only for logging.
      * @param data      Raw blob bytes to encode.
      * @return          Vector of (data_shards + parity_shards) shards.
-     * @brief TBD: Describe encode.
      */
     std::vector<EncodedShard> encode(
         const std::string&          blob_id,
@@ -150,9 +146,6 @@ public:
      * Encode @p data and store all shards in the internal shard store.
      *
      * Any previously stored shards for @p blob_id are replaced.
-     * @brief TBD: Describe put.
-     * @param[in] blob_id Input parameter.
-     * @param[in] data Input parameter.
      */
     void put(const std::string& blob_id, const std::vector<uint8_t>& data);
 
@@ -161,16 +154,11 @@ public:
      *
      * Returns std::nullopt if the blob is unknown or if too many shards are
      * missing for reconstruction (more than parity_shards failures).
-     * @brief TBD: Describe get.
-     * @param[in] blob_id Input parameter.
-     * @return Return value.
      */
     std::optional<std::vector<uint8_t>> get(const std::string& blob_id) const;
 
     /**
      * Remove all shards for @p blob_id from the internal shard store.
-     * @brief TBD: Describe remove.
-     * @param[in] blob_id Input parameter.
      */
     void remove(const std::string& blob_id);
 
@@ -182,16 +170,12 @@ public:
      * @param blob_id     Target blob.
      * @param shard_index Index of the shard to drop (0 … total_shards-1).
      * @return            true if the shard was present and removed.
-     * @brief TBD: Describe dropShard.
      */
     bool dropShard(const std::string& blob_id, uint32_t shard_index);
 
     /**
      * Return the number of healthy (available) shards for @p blob_id in
      * the internal store, or 0 if the blob is not known.
-     * @brief TBD: Describe availableShardCount.
-     * @param[in] blob_id Input parameter.
-     * @return Return value.
      */
     uint32_t availableShardCount(const std::string& blob_id) const;
 

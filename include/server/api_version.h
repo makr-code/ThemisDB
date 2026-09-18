@@ -34,13 +34,11 @@ struct APIVersion {
     /**
      * @brief Parse version string (e.g., "v1.3.0", "1.3", "1")
      * @return Parsed version or std::nullopt if invalid
-     * @param[in] version_str Input parameter.
      */
     static std::optional<APIVersion> parse(const std::string& version_str);
     
     /**
      * @brief Convert to string format (e.g., "v1.3.0")
-     * @return Return value.
      */
     std::string toString() const;
     
@@ -81,14 +79,11 @@ struct APIVersionRange {
     /**
      * @brief Parse a version range string (e.g., "1.0-2.0", "1.2.0-1.4.0")
      * @return Parsed range or std::nullopt if the string is not a valid range
-     * @param[in] range_str Input parameter.
      */
     static std::optional<APIVersionRange> parse(const std::string& range_str);
 
     /**
      * @brief Check whether @p version falls within this range (inclusive)
-     * @param[in] version Input parameter.
-     * @return True on success.
      */
     bool contains(const APIVersion& version) const;
 };
@@ -125,8 +120,6 @@ public:
     
     /**
      * @brief Check if a version is supported
-     * @param[in] version Input parameter.
-     * @return True on success.
      */
     bool isVersionSupported(const APIVersion& version) const;
     
@@ -150,8 +143,6 @@ public:
     
     /**
      * @brief Register a deprecated endpoint
-     * @param[in] endpoint Input parameter.
-     * @param[in] info Input parameter.
      */
     void registerDeprecation(
         const std::string& endpoint,
@@ -160,7 +151,6 @@ public:
     
     /**
      * @brief Get all supported versions
-     * @return Return value.
      */
     std::vector<APIVersion> getSupportedVersions() const;
 

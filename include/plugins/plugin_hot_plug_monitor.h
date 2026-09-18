@@ -117,19 +117,10 @@ private:
      * @brief Platform-specific monitoring implementations
      */
 #ifdef _WIN32
-    /**
-     * @brief TBD: Describe watchDirectoryWindows.
-     */
     void watchDirectoryWindows();
 #elif defined(__APPLE__)
-    /**
-     * @brief TBD: Describe watchDirectoryMacOS.
-     */
     void watchDirectoryMacOS();
 #else
-    /**
-     * @brief TBD: Describe watchDirectoryLinux.
-     */
     void watchDirectoryLinux();
 #endif
     

@@ -111,7 +111,6 @@ public:
     /**
      * @brief Construct with a reference to the graph storage backend.
      * @param graph_manager Must outlive this ParallelTraversal instance.
-     * @return Return value.
      */
     explicit ParallelTraversal(GraphIndexManager& graph_manager);
 

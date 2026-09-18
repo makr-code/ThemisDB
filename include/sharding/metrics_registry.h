@@ -26,11 +26,6 @@ class PrometheusMetrics;
  */
 class ShardingMetricsRegistry {
 public:
-    /**
-     * @brief TBD: Describe instance.
-     * @return Return value.
-     * @details Implements instance without additional internal calls.
-     */
     static ShardingMetricsRegistry& instance() {
         static ShardingMetricsRegistry instance;
         return instance;
@@ -39,21 +34,18 @@ public:
     /**
      * Register sharding metrics instance
      * @param metrics Shared pointer to PrometheusMetrics
-     * @brief TBD: Describe registerMetrics.
      */
     void registerMetrics(std::shared_ptr<PrometheusMetrics> metrics);
 
     /**
      * Get registered metrics
      * @return Shared pointer to PrometheusMetrics, or nullptr if not registered
-     * @brief TBD: Describe getMetrics.
      */
     std::shared_ptr<PrometheusMetrics> getMetrics() const;
 
     /**
      * Get metrics in Prometheus format
      * @return Prometheus-formatted metrics string, or empty if no metrics registered
-     * @brief TBD: Describe getMetricsString.
      */
     std::string getMetricsString() const;
 

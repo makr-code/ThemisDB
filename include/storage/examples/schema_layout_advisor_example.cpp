@@ -54,11 +54,6 @@ struct FieldAccessStats {
     bool        gdpr_tagged;
 };
 
-/**
- * @brief TBD: Describe simulateCollectionStats.
- * @return Return value.
- * @details Implements simulateCollectionStats without additional internal calls.
- */
 std::vector<FieldAccessStats> simulateCollectionStats() {
     return {
         { "order_status",       125000, 3400, 98000, false },  // heavily used
@@ -81,11 +76,6 @@ struct CollectionProfile {
 
 } // namespace
 
-/**
- * @brief TBD: Describe main.
- * @return Return value.
- * @details Calls: simulateCollectionStats(), PLANNED(), setRollingWindowDays(), analyzeCollection(), recommendation_str(), assert(), getCandidate(), adviseLayout().
- */
 int main() {
     std::cout << "=== SchemaDeadWeightDetector + StorageLayoutAdvisor Example ===\n"
               << "    (IMPL-B6 + IMPL-B10)\n\n";

@@ -653,11 +653,6 @@ class LouvainCommunitiesExtFunction : public IFunction {
 private:
     static constexpr int MAX_LOUVAIN_ITERATIONS = 100;
 
-    /**
-     * @brief TBD: Describe emptyResult.
-     * @return Return value.
-     * @details Calls: nlohmann::json::array().
-     */
     static nlohmann::json emptyResult() {
         nlohmann::json r;
         r["communities"] = nlohmann::json::array();
@@ -891,11 +886,6 @@ public:
  */
 class LabelPropagationCommunitiesExtFunction : public IFunction {
 private:
-    /**
-     * @brief TBD: Describe emptyResult.
-     * @return Return value.
-     * @details Calls: nlohmann::json::array().
-     */
     static nlohmann::json emptyResult() {
         nlohmann::json r;
         r["communities"] = nlohmann::json::array();
@@ -1026,11 +1016,9 @@ public:
     }
 };
 
-/**
- * @brief ============================================================================ Registration ============================================================================
- * @param[in,out] registry Input/output parameter.
- * @details Calls: registerFunction().
- */
+// ============================================================================
+// Registration
+// ============================================================================
 
 inline void registerGraphExtensions(FunctionRegistry& registry) {
     // Advanced centrality: Betweenness (Brandes algorithm)

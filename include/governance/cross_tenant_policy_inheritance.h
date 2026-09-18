@@ -62,7 +62,6 @@ public:
      * When set, `evaluateEffectivePolicy()` writes a governance event for every
      * policy decision, following the same pattern as `PolicyEngine::evaluate()`.
      * Thread-safe; atomically replaces the previous logger.
-     * @param[in] logger Input parameter.
      */
     void setAuditLogger(std::shared_ptr<themis::utils::AuditLogger> logger);
 
@@ -88,7 +87,6 @@ public:
      *
      * Any child tenants that referenced this tenant as their parent are
      * promoted to root tenants (their parent_id is cleared).
-     * @param[in] tenant_id Input parameter.
      */
     void unregisterTenant(const std::string& tenant_id);
 
@@ -97,8 +95,6 @@ public:
      *
      * Replaces any previously attached PolicyManager for the same tenant.
      * Passing a null pointer detaches the policy manager.
-     * @param[in] tenant_id Input parameter.
-     * @param[in] policy_manager Input parameter.
      */
     void setTenantPolicyManager(const std::string& tenant_id,
                                  std::shared_ptr<PolicyManager> policy_manager);
@@ -107,8 +103,6 @@ public:
      * @brief Retrieve the PolicyManager directly associated with a tenant.
      *
      * Returns nullptr if no PolicyManager has been attached.
-     * @param[in] tenant_id Input parameter.
-     * @return Return value.
      */
     std::shared_ptr<PolicyManager> getTenantPolicyManager(
         const std::string& tenant_id) const;
@@ -125,8 +119,6 @@ public:
      *        the given tenant.
      *
      * Example: root → A → B → child  →  returns {"root", "A", "B"}
-     * @param[in] tenant_id Input parameter.
-     * @return Return value.
      */
     std::vector<std::string> getAncestors(const std::string& tenant_id) const;
 
@@ -168,8 +160,6 @@ public:
      * Rules are ordered from most-distant ancestor to tenant-local (top-down).
      * Each rule's `created_by` field is set to the source tenant_id when it
      * is empty in the original rule; otherwise the original value is preserved.
-     * @param[in] tenant_id Input parameter.
-     * @return Return value.
      */
     std::vector<PolicyRule> resolveEffectiveRules(
         const std::string& tenant_id) const;

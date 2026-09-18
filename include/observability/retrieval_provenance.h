@@ -72,7 +72,6 @@ struct RetrievalProvenanceRecord {
  * exactly one JSON line with event type "retrieval_provenance_record".
  *
  * @param r  Populated provenance record.
- * @details Calls: nlohmann::json::object(), std::string(), THEMIS_INFO(), dump().
  */
 inline void emitProvenanceLog(const RetrievalProvenanceRecord& r) {
     nlohmann::json j = nlohmann::json::object();

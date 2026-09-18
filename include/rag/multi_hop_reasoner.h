@@ -197,8 +197,6 @@ public:
 
     /**
      * @brief Construct with explicit configuration.
-     * @param[in] config Input parameter.
-     * @return Return value.
      */
     explicit MultiHopReasoner(const MultiHopConfig& config);
 
@@ -287,19 +285,16 @@ private:
 struct MultiHopReasonerFactory {
     /**
      * @brief Single-hop configuration (equivalent to simple RAG; 1 hop max).
-     * @return Return value.
      */
     static std::unique_ptr<MultiHopReasoner> createSingleHop();
 
     /**
      * @brief Balanced configuration (3 hops, 5 docs/hop).
-     * @return Return value.
      */
     static std::unique_ptr<MultiHopReasoner> createBalanced();
 
     /**
      * @brief Deep-reasoning configuration (5 hops, 8 docs/hop).
-     * @return Return value.
      */
     static std::unique_ptr<MultiHopReasoner> createDeepReasoning();
 };

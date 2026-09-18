@@ -32,16 +32,7 @@ struct TemplateParameter {
     bool required = true;                              // Whether parameter is required
     std::vector<std::string> allowed_values;           // Allowed values (optional constraint)
 
-    /**
-     * @brief TBD: Describe toJson.
-     * @return Return value.
-     */
     nlohmann::json toJson() const;
-    /**
-     * @brief TBD: Describe fromJson.
-     * @param[in] j Input parameter.
-     * @return Return value.
-     */
     static TemplateParameter fromJson(const nlohmann::json& j);
 };
 
@@ -80,10 +71,6 @@ public:
         const std::string& rule_id
     ) const;
 
-    /**
-     * @brief TBD: Describe toJson.
-     * @return Return value.
-     */
     nlohmann::json toJson() const;
 
 protected:

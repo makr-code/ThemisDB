@@ -30,16 +30,7 @@ struct WhisperConfig {
     float quality_threshold = 0.0f;             // minimum transcription confidence to accept (0 = accept all)
     float language_confidence_threshold = 0.0f; // minimum detectLanguage confidence to accept (0 = accept all)
 
-    /**
-     * @brief TBD: Describe fromJson.
-     * @param[in] j Input parameter.
-     * @return Return value.
-     */
     static WhisperConfig fromJson(const json& j);
-    /**
-     * @brief TBD: Describe toJson.
-     * @return Return value.
-     */
     json toJson() const;
 };
 

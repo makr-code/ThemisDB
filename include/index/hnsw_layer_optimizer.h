@@ -75,7 +75,6 @@ public:
          * @brief Fold one more layer-observation sample into this aggregate.
          * @param candidates Number of candidates discovered in the sampled search.
          * @param search_time_ms Time spent in the layer during the sampled search.
-         * @details Implements update without additional internal calls.
          */
         void update(int64_t candidates, double search_time_ms) {
             access_count++;
@@ -97,11 +96,6 @@ public:
         std::chrono::steady_clock::time_point timestamp;
     };
 
-    /**
-     * @brief TBD: Describe HnswLayerOptimizer.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit HnswLayerOptimizer(const HnswOptimizationConfig& config);
     ~HnswLayerOptimizer() = default;
     
@@ -133,17 +127,13 @@ public:
     void recordQueryStats(int entry_layer, int ef_used, int layers_traversed, 
                          size_t k, double total_time_ms);
     
-    /**
-     * @brief Get optimal entry layer based on statistics @return Recommended entry layer, or -1 to use default
-     * @return Return value.
-     */
+    /// Get optimal entry layer based on statistics
+    /// @return Recommended entry layer, or -1 to use default
     int getOptimalEntryLayer() const;
     
-    /**
-     * @brief Get optimal ef parameter for given k @param k Number of neighbors to search for @return Recommended ef parameter, or -1 to use default
-     * @param[in] k Input parameter.
-     * @return Return value.
-     */
+    /// Get optimal ef parameter for given k
+    /// @param k Number of neighbors to search for
+    /// @return Recommended ef parameter, or -1 to use default
     int getOptimalEf(size_t k) const;
     
     /**
@@ -179,12 +169,7 @@ private:
     // Recent query statistics for adaptive optimization
     std::deque<QueryStats> recent_queries_;
     
-    /**
-     * @brief Helper: Calculate efficiency score for adaptive selection
-     * @param[in] entry_layer Input parameter.
-     * @param[in] ef Input parameter.
-     * @return Return value.
-     */
+    // Helper: Calculate efficiency score for adaptive selection
     double calculateAdaptiveScore_(int entry_layer, int ef) const;
 };
 

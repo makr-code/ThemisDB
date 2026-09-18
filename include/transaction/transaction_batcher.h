@@ -94,18 +94,7 @@ public:
         bool        ok{true};
         std::string message;
 
-        /**
-         * @brief TBD: Describe OK.
-         * @return Return value.
-         * @details Implements OK without additional internal calls.
-         */
         static Status OK()                   { return {}; }
-        /**
-         * @brief TBD: Describe Error.
-         * @param[in] msg Input parameter.
-         * @return Return value.
-         * @details Calls: std::move().
-         */
         static Status Error(std::string msg) { return {false, std::move(msg)}; }
     };
 
@@ -199,7 +188,6 @@ public:
      *
      * The new configuration takes effect on the next flush cycle.
      * window is clamped to [1 ms, 100 ms]; size values are clamped to >= 1.
-     * @param[in] config Input parameter.
      */
     void setBatchConfig(const BatchConfig& config);
 
@@ -218,7 +206,6 @@ public:
      * @brief Retrieve the policy registered for @p table.
      *
      * @return The registered BatchPolicy, or a zero-valued policy if none is set.
-     * @param[in] table Input parameter.
      */
     BatchPolicy getTablePolicy(const std::string& table) const;
 
@@ -275,24 +262,14 @@ private:
         size_t                    max_batch_size;
         size_t                    min_batch_size;
     };
-    /**
-     * @brief TBD: Describe effectivePolicyFor.
-     * @param[in] table Input parameter.
-     * @return Return value.
-     */
     EffectivePolicy effectivePolicyFor(const std::string& table) const;
 
-    /**
-     * @brief ── Background thread ─────────────────────────────────────────────────────
-     */
+    // ── Background thread ─────────────────────────────────────────────────────
 
     void flushLoop();
 
-    /**
-     * @brief Drain @p batch: invoke each commit_fn and resolve the associated promise.
-     * @param[in,out] batch Input/output parameter.
-     * @details Updates stats atomically.
-     */
+    /// Drain @p batch: invoke each commit_fn and resolve the associated promise.
+    /// Updates stats atomically.
     void executeBatch(std::vector<PendingEntry>& batch);
 
     /// Possibly widen or narrow the adaptive window based on recent throughput.

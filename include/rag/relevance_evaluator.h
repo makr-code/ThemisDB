@@ -65,11 +65,6 @@ public:
      * @brief Construct evaluator with configuration
      */
     RelevanceEvaluator();
-    /**
-     * @brief TBD: Describe RelevanceEvaluator.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit RelevanceEvaluator(const Config& config);
     
     /**

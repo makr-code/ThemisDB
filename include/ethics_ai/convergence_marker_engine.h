@@ -95,19 +95,10 @@ public:
 
     /**
      * @brief Convert ConvergenceType enum to human-readable label.
-     * @param[in] type Input parameter.
-     * @return Return value.
-     * @note Exception safety: noexcept.
      */
     static std::string convergenceTypeLabel(ConvergenceType type) noexcept;
 
 private:
-    /**
-     * @brief TBD: Describe countTokens.
-     * @param[in] text Input parameter.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
     static int countTokens(const std::string& text) noexcept;
 };
 

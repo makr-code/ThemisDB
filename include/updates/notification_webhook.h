@@ -170,7 +170,6 @@ public:
      * When not set the default implementation uses libcurl (when
      * THEMIS_ENABLE_CURL is defined) or logs a warning and returns
      * @c false.
-     * @param[in] fn Input parameter.
      */
     void setHttpSender(HttpSendFunc fn);
 
@@ -191,31 +190,17 @@ public:
 
     /**
      * @brief Build the JSON body for a Slack Incoming Webhook message.
-     * @param[in] payload Input parameter.
-     * @return Return value.
      */
     std::string buildSlackPayload(const UpdateEventPayload& payload) const;
 
     /**
      * @brief Build the JSON body for a PagerDuty Events API v2 request.
-     * @param[in] payload Input parameter.
-     * @return Return value.
      */
     std::string buildPagerDutyPayload(
         const UpdateEventPayload& payload) const;
 
 private:
-    /**
-     * @brief TBD: Describe sendSlack.
-     * @param[in] payload Input parameter.
-     * @return True on success.
-     */
     bool sendSlack(const UpdateEventPayload& payload);
-    /**
-     * @brief TBD: Describe sendPagerDuty.
-     * @param[in] payload Input parameter.
-     * @return True on success.
-     */
     bool sendPagerDuty(const UpdateEventPayload& payload);
 
     /// Human-readable label for an event (e.g. "Update Successful").

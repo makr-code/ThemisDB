@@ -82,28 +82,14 @@ public:
     MappedTTTensor(MappedTTTensor&&)                 noexcept;
     MappedTTTensor& operator=(MappedTTTensor&&)      noexcept;
 
-    /**
-     * @brief Access the ggml_tensor* to inject into the inference graph.
-     * @return Pointer to the result.
-     * @note Exception safety: noexcept.
-     * @details Returns nullptr if mapping failed or bridge is not compiled in.
-     */
+    /// Access the ggml_tensor* to inject into the inference graph.
+    /// Returns nullptr if mapping failed or bridge is not compiled in.
     ggml_tensor* ggmlTensor() const noexcept;
 
     /// Logical TT-train metadata (available without decompression).
     const TTTrain*       train()      const noexcept;
-    /**
-     * @brief TBD: Describe fieldKey.
-     * @return Pointer to the result.
-     * @note Exception safety: noexcept.
-     */
     const TensorFieldKey* fieldKey()  const noexcept;
 
-    /**
-     * @brief TBD: Describe valid.
-     * @return True on success.
-     * @note Exception safety: noexcept.
-     */
     bool valid() const noexcept;
 
 private:
@@ -230,11 +216,6 @@ public:
         double      avg_map_latency_us = 0.0;
     };
 
-    /**
-     * @brief TBD: Describe stats.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
     BridgeStats stats() const noexcept;
 
     // ─── GgmlAllocFn bridge (STUB #263a) ──────────────────────────────────

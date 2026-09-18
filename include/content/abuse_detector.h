@@ -32,9 +32,6 @@ enum class AbuseAction {
 
 /**
  * @brief Convert AbuseAction to a human-readable string.
- * @param[in] action Input parameter.
- * @return Return value.
- * @details Implements abuseActionToString without additional internal calls.
  */
 inline std::string abuseActionToString(AbuseAction action) {
     switch (action) {
@@ -78,10 +75,6 @@ struct AbuseDetectorMetadata {
  */
 class IAbuseDetector {
 public:
-    /**
-     * @brief TBD: Describe ~IAbuseDetector.
-     * @return Return value.
-     */
     virtual ~IAbuseDetector() = default;
 
     /**
@@ -164,9 +157,6 @@ public:
 
     /**
      * @brief Hamming distance between two 64-bit hashes.
-     * @param[in] a Input parameter.
-     * @param[in] b Input parameter.
-     * @return Return value.
      */
     static int hammingDistance(uint64_t a, uint64_t b);
 
@@ -213,8 +203,6 @@ public:
      * @brief Construct with an explicit list of already-compiled patterns.
      *
      * Prefer loadFromYAML() for production use.
-     * @param[in] patterns Input parameter.
-     * @return Return value.
      */
     explicit TextAbuseDetector(std::vector<Pattern> patterns);
 

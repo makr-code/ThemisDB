@@ -200,7 +200,6 @@ public:
 
     /**
      * @brief Reset liveness checker state (for new stream).
-     * @note Exception safety: noexcept.
      */
     void reset() noexcept;
 

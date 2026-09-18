@@ -95,7 +95,6 @@ public:
     /**
      * Set TrueTime instance for distributed transactions
      * @param truetime TrueTime instance
-     * @brief TBD: Describe setTrueTime.
      */
     void setTrueTime(std::shared_ptr<TrueTime> truetime);
     
@@ -121,7 +120,6 @@ public:
      * @param urn URN to update
      * @param data Data to store
      * @return true if successful
-     * @brief TBD: Describe put.
      */
     bool put(const URN& urn, const nlohmann::json& data);
     
@@ -129,7 +127,6 @@ public:
      * Route DELETE request by URN
      * @param urn URN to delete
      * @return true if successful
-     * @brief TBD: Describe del.
      */
     bool del(const URN& urn);
     
@@ -146,7 +143,6 @@ public:
      * Analyzes query to determine which shards to involve
      * @param query Query string
      * @return Routing strategy
-     * @brief TBD: Describe analyzeQuery.
      */
     RoutingStrategy analyzeQuery(const std::string& query) const;
     
@@ -155,7 +151,6 @@ public:
      * Sends query to all shards and merges results
      * @param query Query to execute
      * @return Merged results from all shards
-     * @brief TBD: Describe scatterGather.
      */
     virtual std::vector<ShardResult> scatterGather(const std::string& query);
 
@@ -169,7 +164,6 @@ public:
      * @param query     AQL query string
      * @param shard_ids Shard identifiers to target
      * @return Results from the targeted shards (success + failure entries)
-     * @brief TBD: Describe executeOnShards.
      */
     virtual std::vector<ShardResult> executeOnShards(
         const std::string& query,
@@ -179,7 +173,6 @@ public:
     /**
      * @brief Access the resolver used for key-to-shard lookup decisions.
      * @return Mutable reference to the configured resolver.
-     * @details Implements getResolver without additional internal calls.
      */
     URNResolver& getResolver() { return *resolver_; }
 
@@ -197,7 +190,6 @@ public:
      * @param join_field Field to join on
      * @return Joined results with monotonic mergeVersion/version_token metadata so
      *         callers can detect stale merged snapshots across shards.
-     * @brief TBD: Describe executeCrossShardJoin.
      */
     nlohmann::json executeCrossShardJoin(
         const std::string& query,
@@ -300,7 +292,6 @@ private:
      * @param results Results from shards
      * @return Merged result with mergeVersion/version_token metadata derived from
      *         shard payload versions or a local monotonic clock fallback.
-     * @brief TBD: Describe mergeResults.
      */
     nlohmann::json mergeResults(const std::vector<ShardResult>& results);
     
@@ -311,7 +302,6 @@ private:
      * @param offset Offset to apply
      * @param limit Limit to apply
      * @return Paginated results
-     * @brief TBD: Describe applyPagination.
      */
     nlohmann::json applyPagination(
         const nlohmann::json& merged,
@@ -324,7 +314,6 @@ private:
      * Simple pattern matching for URN-based queries
      * @param query Query string
      * @return URN if found
-     * @brief TBD: Describe extractURN.
      */
     std::optional<URN> extractURN(const std::string& query) const;
     
@@ -332,7 +321,6 @@ private:
      * Extract namespace from query (if present)
      * @param query Query string
      * @return Namespace if found
-     * @brief TBD: Describe extractNamespace.
      */
     std::optional<std::string> extractNamespace(const std::string& query) const;
 };

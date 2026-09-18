@@ -103,7 +103,6 @@ public:
     
     /**
      * @brief Get list of supported consensus types
-     * @return Return value.
      */
     static std::vector<ConsensusType> getSupportedTypes();
 };

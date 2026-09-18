@@ -121,76 +121,24 @@ private:
     std::set<int> weekdays_;  // 0-6 (Sunday=0)
     std::set<int> years_;     // empty = any year; non-empty = specific years (1970-2199)
     
-    /**
-     * @brief Helper methods for parsing
-     * @param[in] field Input parameter.
-     * @param[in] min_value Input parameter.
-     * @param[in] max_value Input parameter.
-     * @return Return value.
-     */
+    // Helper methods for parsing
     static std::optional<std::set<int>> parseField(
         const std::string& field, int min_value, int max_value);
-    /**
-     * @brief TBD: Describe parseWildcard.
-     * @param[in] min_value Input parameter.
-     * @param[in] max_value Input parameter.
-     * @return Return value.
-     */
     static std::optional<std::set<int>> parseWildcard(int min_value, int max_value);
-    /**
-     * @brief TBD: Describe parseRange.
-     * @param[in] range Input parameter.
-     * @param[in] min_value Input parameter.
-     * @param[in] max_value Input parameter.
-     * @return Return value.
-     */
     static std::optional<std::set<int>> parseRange(
         const std::string& range, int min_value, int max_value);
-    /**
-     * @brief TBD: Describe parseList.
-     * @param[in] list Input parameter.
-     * @param[in] min_value Input parameter.
-     * @param[in] max_value Input parameter.
-     * @return Return value.
-     */
     static std::optional<std::set<int>> parseList(
         const std::string& list, int min_value, int max_value);
-    /**
-     * @brief TBD: Describe parseStep.
-     * @param[in] step Input parameter.
-     * @param[in] min_value Input parameter.
-     * @param[in] max_value Input parameter.
-     * @return Return value.
-     */
     static std::optional<std::set<int>> parseStep(
         const std::string& step, int min_value, int max_value);
     
-    /**
-     * @brief Helper for next execution calculation
-     * @param[in] time Input parameter.
-     * @return Return value.
-     */
+    // Helper for next execution calculation
     static std::chrono::system_clock::time_point advanceToNextMinute(
         const std::chrono::system_clock::time_point& time);
-    /**
-     * @brief TBD: Describe advanceToNextHour.
-     * @param[in] time Input parameter.
-     * @return Return value.
-     */
     static std::chrono::system_clock::time_point advanceToNextHour(
         const std::chrono::system_clock::time_point& time);
-    /**
-     * @brief TBD: Describe advanceToNextDay.
-     * @param[in] time Input parameter.
-     * @return Return value.
-     */
     static std::chrono::system_clock::time_point advanceToNextDay(
         const std::chrono::system_clock::time_point& time);
-    /**
-     * @brief TBD: Describe advanceToNextMonth.
-     * @param[in] time Input parameter.
-     * @return Return value.
-     */
     static std::chrono::system_clock::time_point advanceToNextMonth(
         const std::chrono::system_clock::time_point& time);
 };

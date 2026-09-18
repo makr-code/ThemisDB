@@ -108,9 +108,6 @@ public:
      * if (logger.shouldLog(ILogger::Level::DEBUG))
      *     logger.debugSV(computeExpensiveString());
      * ```
-     * @param[in] level Input parameter.
-     * @return True on success.
-     * @note Exception safety: noexcept.
      */
     bool shouldLog(Level level) const noexcept;
 
@@ -215,12 +212,6 @@ private:
     std::atomic<bool> json_mode_;
     std::size_t buffer_capacity_;
 
-    /**
-     * @brief TBD: Describe toSpdlogLevel.
-     * @param[in] level Input parameter.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
     static spdlog::level::level_enum toSpdlogLevel(Level level) noexcept;
 
     /// Return the thread-local format buffer, reserving capacity on first use.
@@ -229,13 +220,12 @@ private:
     /// Append a JSON-escaped version of @p s into @p out.
     static void jsonEscapeInto(std::string& out, std::string_view s);
 
-    /**
-     * @brief Return true if @p key names a PII-sensitive field.
-     * @param[in] key Input parameter.
-     * @return True on success.
-     * @note Exception safety: noexcept.
-     * @details @note Keys longer than 128 bytes are scanned only up to the first 128 bytes. In practice, structured log field names should not exceed this length; if they do, PII detection for those keys may produce false negatives.
-     */
+    /// Return true if @p key names a PII-sensitive field.
+    ///
+    /// @note Keys longer than 128 bytes are scanned only up to the first 128
+    ///       bytes. In practice, structured log field names should not exceed
+    ///       this length; if they do, PII detection for those keys may produce
+    ///       false negatives.
     static bool isPiiKey(std::string_view key) noexcept;
 
     /// Build a JSON log line into @p buf (does not allocate on hot path).

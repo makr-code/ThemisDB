@@ -66,12 +66,9 @@ struct ProfileSnapshot {
     /**
      * @brief Load a previously saved snapshot from @p filename.
      * @throws std::runtime_error if the file cannot be opened.
-     * @param[in] filename Input parameter.
-     * @return Return value.
      */
     static ProfileSnapshot loadFromFile(const std::string& filename);
 
-     * @return Return value.
     /** @brief Serialize to JSON (metadata only; data is base64-encoded). */
     json toJSON() const;
 };
@@ -86,7 +83,6 @@ struct ProfileDiff {
     std::vector<std::string> removed_hotspots; ///< Frames absent from current
     std::vector<std::string> changed_hotspots; ///< Frames whose sample count changed significantly
 
-     * @return Return value.
     /** @brief Serialize to JSON. */
     json toJSON() const;
 };
@@ -187,10 +183,6 @@ public:
 
     /**
      * @brief Retrieve all snapshots of @p type within [@p from, @p to).
-     * @param[in] type Input parameter.
-     * @param[in] from Input parameter.
-     * @param[in] to Input parameter.
-     * @return Return value.
      */
     std::vector<ProfileSnapshot> getSnapshots(
         ProfileType type,
@@ -199,9 +191,6 @@ public:
 
     /**
      * @brief Compare two snapshots and return a differential report.
-     * @param[in] baseline Input parameter.
-     * @param[in] current Input parameter.
-     * @return Return value.
      */
     ProfileDiff compare(const ProfileSnapshot& baseline,
                         const ProfileSnapshot& current) const;
@@ -218,17 +207,9 @@ public:
 
     /** @brief Dynamically enable/disable profiling without restarting. */
     void enable();
-    /**
-     * @brief TBD: Describe disable.
-     */
     void disable();
-    /**
-     * @brief TBD: Describe isEnabled.
-     * @return True on success.
-     */
     bool isEnabled() const;
 
-     * @return Return value.
     /** @brief Retrieve the active configuration. */
     ContinuousProfilerConfig getConfig() const;
 

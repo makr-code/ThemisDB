@@ -138,7 +138,6 @@ public:
     /**
      * @brief Construct verifier with custom config
      * @param config Verifier configuration
-     * @return Return value.
      */
     explicit NLIFaithfulnessVerifier(const Config& config);
     

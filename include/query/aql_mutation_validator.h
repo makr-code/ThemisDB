@@ -28,21 +28,15 @@ struct MutationValidationResult {
     std::vector<std::string> errors;       ///< Error messages (empty when valid).
     std::vector<std::string> warnings;     ///< Non-blocking warnings.
 
-    /**
-     * @brief @brief Record a blocking error and mark the result invalid.
-     * @param[in] msg Input parameter.
-     * @details @param msg Human-readable error description. Calls: push_back(), std::move().
-     */
+    /// @brief Record a blocking error and mark the result invalid.
+    /// @param msg  Human-readable error description.
     void addError(std::string msg) {
         valid = false;
         errors.push_back(std::move(msg));
     }
 
-    /**
-     * @brief @brief Record a non-blocking warning.
-     * @param[in] msg Input parameter.
-     * @details @param msg Human-readable warning description. Calls: push_back(), std::move().
-     */
+    /// @brief Record a non-blocking warning.
+    /// @param msg  Human-readable warning description.
     void addWarning(std::string msg) {
         warnings.push_back(std::move(msg));
     }

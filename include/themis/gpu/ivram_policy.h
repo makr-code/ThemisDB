@@ -33,10 +33,6 @@ namespace gpu {
  */
 class IVRAMPolicy {
 public:
-    /**
-     * @brief TBD: Describe ~IVRAMPolicy.
-     * @return Return value.
-     */
     virtual ~IVRAMPolicy() = default;
 
     // Non-copyable, non-movable by default.

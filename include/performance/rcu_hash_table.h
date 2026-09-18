@@ -103,14 +103,8 @@ public:
      * 
      * @param key Key to insert/update
      * @param value Value to store
-     * @details Calls: lock(), load(), hash(), HashNode(), rcu_defer_delete(), fetch_add().
      */
     void insert(const Key& key, const Value& value) {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] writer_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(writer_mutex_);
         
         auto* old_table = table_.load(std::memory_order_acquire);
@@ -157,14 +151,8 @@ public:
      * 
      * @param key Key to remove
      * @return true if key was found and removed
-     * @details Calls: lock(), load(), hash(), rcu_defer_delete(), fetch_sub().
      */
     bool remove(const Key& key) {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] writer_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(writer_mutex_);
         
         auto* table = table_.load(std::memory_order_acquire);

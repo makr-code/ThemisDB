@@ -42,54 +42,25 @@ public:
         std::shared_ptr<themis::AuthMiddleware> auth
     );
     
-    /**
-     * @brief TBD: Describe handleListPendingReviews.
-     * @param[in] req Input parameter.
-     * @return Return value.
-     */
     http::response<http::string_body> handleListPendingReviews(
         const http::request<http::string_body>& req
     );
     
-    /**
-     * @brief TBD: Describe handleCreateReview.
-     * @param[in] req Input parameter.
-     * @param[in] rule_id Input parameter.
-     * @return Return value.
-     */
     http::response<http::string_body> handleCreateReview(
         const http::request<http::string_body>& req,
         const std::string& rule_id
     );
     
-    /**
-     * @brief TBD: Describe handleApproveReview.
-     * @param[in] req Input parameter.
-     * @param[in] review_id Input parameter.
-     * @return Return value.
-     */
     http::response<http::string_body> handleApproveReview(
         const http::request<http::string_body>& req,
         const std::string& review_id
     );
     
-    /**
-     * @brief TBD: Describe handleRejectReview.
-     * @param[in] req Input parameter.
-     * @param[in] review_id Input parameter.
-     * @return Return value.
-     */
     http::response<http::string_body> handleRejectReview(
         const http::request<http::string_body>& req,
         const std::string& review_id
     );
     
-    /**
-     * @brief TBD: Describe handleGetExpiration.
-     * @param[in] req Input parameter.
-     * @param[in] rule_id Input parameter.
-     * @return Return value.
-     */
     http::response<http::string_body> handleGetExpiration(
         const http::request<http::string_body>& req,
         const std::string& rule_id
@@ -99,34 +70,14 @@ private:
     std::shared_ptr<themis::governance::ReviewScheduler> scheduler_;
     std::shared_ptr<themis::AuthMiddleware> auth_;
     
-    /**
-     * @brief TBD: Describe checkAuth.
-     * @param[in] req Input parameter.
-     * @param[in] required_role Input parameter.
-     * @return True on success.
-     */
     bool checkAuth(const http::request<http::string_body>& req, const std::string& required_role) const;
     
-    /**
-     * @brief TBD: Describe makeResponse.
-     * @param[in] status Input parameter.
-     * @param[in] body Input parameter.
-     * @param[in] req Input parameter.
-     * @return Return value.
-     */
     http::response<http::string_body> makeResponse(
         http::status status,
         const std::string& body,
         const http::request<http::string_body>& req
     ) const;
     
-    /**
-     * @brief TBD: Describe makeErrorResponse.
-     * @param[in] status Input parameter.
-     * @param[in] message Input parameter.
-     * @param[in] req Input parameter.
-     * @return Return value.
-     */
     http::response<http::string_body> makeErrorResponse(
         http::status status,
         const std::string& message,

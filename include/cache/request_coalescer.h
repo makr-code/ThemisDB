@@ -67,24 +67,12 @@ public:
      *         All concurrent callers for the same key receive the same pointer.
      */
     template<typename Fn>
-    /**
-     * @brief TBD: Describe Do.
-     * @param[in] key Input parameter.
-     * @param[in] fn Input parameter.
-     * @return Return value.
-     * @details Calls: lk(), find(), end(), get_future(), share(), emplace(), get(), fn().
-     */
     std::shared_ptr<Result> Do(const std::string& key, Fn&& fn) {
         std::shared_future<std::shared_ptr<Result>> fut;
         std::shared_ptr<std::promise<std::shared_ptr<Result>>> prom;
         bool is_owner = false;
 
         {
-            /**
-             * @brief TBD: Describe lk.
-             * @param[in] mu_ Input parameter.
-             * @return Return value.
-             */
             std::lock_guard<std::mutex> lk(mu_);
             auto it = inflight_.find(key);
             if (it != inflight_.end()) {
@@ -125,11 +113,6 @@ public:
 
         // Remove flight entry so future calls for the same key start fresh.
         {
-            /**
-             * @brief TBD: Describe lk.
-             * @param[in] mu_ Input parameter.
-             * @return Return value.
-             */
             std::lock_guard<std::mutex> lk(mu_);
             inflight_.erase(key);
         }
@@ -144,11 +127,6 @@ public:
      * multi-threaded contexts.
      */
     size_t inflight_count() const {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mu_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(mu_);
         return inflight_.size();
     }

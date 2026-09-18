@@ -165,8 +165,6 @@ public:
 
     /**
      * @brief Construct with the given configuration.
-     * @param[in] config Input parameter.
-     * @return Return value.
      */
     explicit AdaptiveCircuitBreaker(const Config& config);
 
@@ -231,13 +229,11 @@ public:
 
     /**
      * @brief Return the current circuit state (lock-free read).
-     * @return Return value.
      */
     CircuitState getState() const;
 
     /**
      * @brief Return a consistent statistics snapshot.
-     * @return Return value.
      */
     Stats getStats() const;
 
@@ -265,8 +261,6 @@ public:
 
     /**
      * @brief Convert a CircuitState to its human-readable name.
-     * @param[in] state Input parameter.
-     * @return Return value.
      */
     static std::string stateToString(CircuitState state);
 
@@ -308,7 +302,6 @@ private:
 
     /**
      * @brief Transition to @p new_state, invoke callback, record timestamp.
-     * @param[in] new_state Input parameter.
      */
     void transitionTo(CircuitState new_state);
 

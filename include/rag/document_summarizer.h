@@ -139,7 +139,6 @@ public:
     /**
      * @brief Construct with a custom configuration
      * @param config Summarization configuration
-     * @return Return value.
      */
     explicit DocumentSummarizer(const DocumentSummarizerConfig& config);
 
@@ -205,11 +204,9 @@ public:
     // Configuration
     // -----------------------------------------------------------------------
 
-     * @return Return value.
     /** @brief Return the active configuration */
     const DocumentSummarizerConfig& getConfig() const;
 
-     * @param[in] config Input parameter.
     /** @brief Replace the active configuration */
     void setConfig(const DocumentSummarizerConfig& config);
 
@@ -243,7 +240,6 @@ public:
 
     /**
      * @brief Auto-selecting summarizer (abstractive when LLM is available)
-     * @return Return value.
      */
     static std::unique_ptr<DocumentSummarizer> createAuto();
 };

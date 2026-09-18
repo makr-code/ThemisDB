@@ -69,7 +69,6 @@ public:
      *   After:  FILTER ST_CONTAINS(loc, poly) AND a > 5
      * 
      * @return true if rule applied and plan was modified
-     * @param[in,out] plan Input/output parameter.
      */
     static RewriteResult applyIndexPathReordering(ExecutionPlan& plan);
     
@@ -85,7 +84,6 @@ public:
      *   After:  Use R-tree nearest-neighbor scan + pre-sorted results
      * 
      * @return true if rule applied
-     * @param[in,out] plan Input/output parameter.
      */
     static RewriteResult applyDistanceOrderingOptimization(ExecutionPlan& plan);
     
@@ -101,7 +99,6 @@ public:
      *           AND ST_INTERSECTS_REFINED(doc.geom, queryGeom)
      * 
      * @return true if rule applied
-     * @param[in,out] plan Input/output parameter.
      */
     static RewriteResult applyIntersectionOptimization(ExecutionPlan& plan);
     
@@ -117,7 +114,6 @@ public:
      *   After:  ST_CONTAINS(doc.loc, bigPoly)  (if bigPoly contains all points within 10km)
      * 
      * @return true if rule applied
-     * @param[in,out] plan Input/output parameter.
      */
     static RewriteResult applyRedundantPredicateElimination(ExecutionPlan& plan);
     
@@ -134,7 +130,6 @@ public:
      *           docs.filtered JOIN other_docs ON ...
      * 
      * @return true if rule applied
-     * @param[in,out] plan Input/output parameter.
      */
     static RewriteResult applyPredicatePushdown(ExecutionPlan& plan);
     
@@ -147,8 +142,6 @@ public:
      * - Equivalent join conditions
      * 
      * @return true if plan is semantically equivalent
-     * @param[in] originalPlan Input parameter.
-     * @param[in] transformedPlan Input parameter.
      */
     static bool validatePlanEquivalence(
         const ExecutionPlan& originalPlan,
@@ -157,17 +150,11 @@ public:
 private:
     /**
      * @brief Check if a predicate can be indexed
-     * @param[in] predicateType Input parameter.
-     * @return True on success.
      */
     static bool canBeIndexed(const std::string& predicateType);
     
     /**
      * @brief Estimate cost reduction for a transformation
-     * @param[in] transformation Input parameter.
-     * @param[in] affectedRows Input parameter.
-     * @param[in] costBefore Input parameter.
-     * @return Return value.
      */
     static double estimateCostReduction(
         const std::string& transformation,
@@ -176,17 +163,12 @@ private:
     
     /**
      * @brief Extract spatial predicates from plan
-     * @param[in] plan Input parameter.
-     * @return Return value.
      */
     static std::vector<std::string> extractSpatialPredicates(
         const ExecutionPlan& plan);
     
     /**
      * @brief Reorder predicates in filter
-     * @param[in,out] plan Input/output parameter.
-     * @param[in] newOrder Input parameter.
-     * @return True on success.
      */
     static bool reorderFilterPredicates(
         ExecutionPlan& plan,

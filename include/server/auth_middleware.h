@@ -55,12 +55,6 @@ public:
         static AuthResult OK(std::string_view uid, std::string_view tid = "", std::vector<std::string> grps = {}) { 
             return {true, std::string(uid), std::string(tid), std::move(grps), ""}; 
         }
-        /**
-         * @brief TBD: Describe Denied.
-         * @param[in] msg Input parameter.
-         * @return Return value.
-         * @details Calls: std::move().
-         */
         static AuthResult Denied(std::string msg) { return {false, "", "", {}, std::move(msg)}; }
     };
 
@@ -91,11 +85,6 @@ public:
         bool check_expiry{true};        ///< Reject keys whose expiry has passed
         size_t max_key_id_length{128};  ///< Maximum allowed key_id length
         size_t max_secret_length{512};  ///< Maximum allowed secret length
-        /**
-         * @brief TBD: Describe defaults.
-         * @return Return value.
-         * @details Implements defaults without additional internal calls.
-         */
         static ApiKeyConfig defaults() { return {}; }
     };
 
@@ -108,17 +97,14 @@ public:
     /// Enable JWT validation
     void enableJWT(const JWTConfig& config);
     
-    /**
-     * @brief Enable Kerberos/GSSAPI authentication @param config Kerberos configuration
-     * @param[in] config Input parameter.
-     */
+    /// Enable Kerberos/GSSAPI authentication
+    /// @param config Kerberos configuration
     void enableKerberos(const auth::KerberosConfig& config);
 
-    /**
-     * @brief Enable certificate-based mutual TLS (mTLS) authentication When enabled, PEM-encoded X.
-     * @param[in] config Input parameter.
-     * @details 509 client certificates may be passed as tokens and will be validated against the configured CA. @param config mTLS configuration (CA certificate, subject mappings, etc.)
-     */
+    /// Enable certificate-based mutual TLS (mTLS) authentication
+    /// When enabled, PEM-encoded X.509 client certificates may be passed as
+    /// tokens and will be validated against the configured CA.
+    /// @param config mTLS configuration (CA certificate, subject mappings, etc.)
     void enableMTLS(const auth::MTLSAuthenticator::Config& config);
 
     /// Enable API key (static key + secret) authentication.
@@ -127,18 +113,15 @@ public:
     /// @param config API key authenticator configuration
     void enableApiKeyAuth(const ApiKeyConfig& config = ApiKeyConfig::defaults());
 
-    /**
-     * @brief Add an API key credential to the store.
-     * @param[in] credential Input parameter.
-     * @details Use auth::ApiKeyAuthenticator::createCredential() to construct the credential. Thread-safe. @param credential Credential with hashed secret (see ApiKeyAuthenticator::createCredential)
-     */
+    /// Add an API key credential to the store.
+    /// Use auth::ApiKeyAuthenticator::createCredential() to construct the credential.
+    /// Thread-safe.
+    /// @param credential Credential with hashed secret (see ApiKeyAuthenticator::createCredential)
     void addApiKeyCredential(const auth::ApiKeyCredential& credential);
 
-    /**
-     * @brief Remove an API key credential by key_id.
-     * @param[in] key_id Input parameter.
-     * @details Thread-safe. No-op if the key_id is not found. @param key_id Key identifier to remove
-     */
+    /// Remove an API key credential by key_id.
+    /// Thread-safe. No-op if the key_id is not found.
+    /// @param key_id Key identifier to remove
     void removeApiKeyCredential(const std::string& key_id);
 
     /// Enable USB-based admin authentication
@@ -152,14 +135,7 @@ public:
 
     /// Configure allowed tokens (typically loaded from config file)
     void addToken(const TokenConfig& config);
-    /**
-     * @brief TBD: Describe removeToken.
-     * @param[in] token Input parameter.
-     */
     void removeToken(std::string_view token);
-    /**
-     * @brief TBD: Describe clearTokens.
-     */
     void clearTokens();
 
     /// Configure a role-to-scope mapping used by JWT and Kerberos authorization.
@@ -175,13 +151,9 @@ public:
     void setRoleScopeMapping(
         std::unordered_map<std::string, std::vector<std::string>> mapping);
 
-    /**
-     * @brief Check if token has required scope @param token Bearer token from Authorization header @param required_scope Required scope (e.
-     * @param[in] token Input parameter.
-     * @param[in] required_scope Input parameter.
-     * @return Return value.
-     * @details g., "admin", "config:write", "cdc:read", "metrics:read")
-     */
+    /// Check if token has required scope
+    /// @param token Bearer token from Authorization header
+    /// @param required_scope Required scope (e.g., "admin", "config:write", "cdc:read", "metrics:read")
     AuthResult authorize(std::string_view token, std::string_view required_scope) const;
 
     /**
@@ -236,19 +208,14 @@ public:
 
     const Metrics& getMetrics() const { return metrics_; }
 
-    /**
-     * @brief Returns true if at least one token is configured or JWT is enabled
-     * @return True on success.
-     */
+    // Returns true if at least one token is configured or JWT is enabled
     bool isEnabled() const;
     
     /// Check if USB admin authentication is enabled and USB is present
     bool isUSBAdminReady() const;
 
-    /**
-     * @brief testing helper – injects a pre-built JWKS into the JWT validator so tests can verify scope enforcement without a live JWKS endpoint.
-     * @param[in] jwks Input parameter.
-     */
+    // testing helper – injects a pre-built JWKS into the JWT validator so tests
+    // can verify scope enforcement without a live JWKS endpoint.
     void setJWKSForTesting(const nlohmann::json& jwks);
 
 private:
@@ -284,54 +251,27 @@ private:
     std::unordered_map<std::string, std::vector<std::string>> role_scope_map_;
     bool role_scope_map_loaded_ = false;  // true once a load attempt has been made
 
-    /**
-     * @brief Helper: check if scope is an admin scope requiring USB
-     * @param[in] scope Input parameter.
-     * @return True on success.
-     */
+    // Helper: check if scope is an admin scope requiring USB
     bool isAdminScope(std::string_view scope) const;
 
     /// Returns true if @p required_scope is granted by any role in @p roles via role_scope_map_.
     bool roleGrantsScope(const std::vector<std::string>& roles,
                          std::string_view required_scope) const;
 
-    /**
-     * @brief Helper: try to authorize via JWT
-     * @param[in] token Input parameter.
-     * @param[in] required_scope Input parameter.
-     * @return Return value.
-     */
+    // Helper: try to authorize via JWT
     AuthResult authorizeViaJWT(std::string_view token, std::string_view required_scope) const;
     
-    /**
-     * @brief Helper: try to authorize via Kerberos
-     * @param[in] token Input parameter.
-     * @param[in] required_scope Input parameter.
-     * @return Return value.
-     */
+    // Helper: try to authorize via Kerberos
     AuthResult authorizeViaKerberos(std::string_view token, std::string_view required_scope) const;
 
-    /**
-     * @brief Helper: try to authorize via mTLS client certificate
-     * @param[in] cert_pem Input parameter.
-     * @param[in] required_scope Input parameter.
-     * @return Return value.
-     */
+    // Helper: try to authorize via mTLS client certificate
     AuthResult authorizeViaMTLS(std::string_view cert_pem, std::string_view required_scope) const;
 
-    /**
-     * @brief Helper: try to authorize via API key (combined "key_id.
-     * @param[in] combined_token Input parameter.
-     * @param[in] required_scope Input parameter.
-     * @return Return value.
-     * @details secret" format)
-     */
+    // Helper: try to authorize via API key (combined "key_id.secret" format)
     AuthResult authorizeViaApiKey(std::string_view combined_token, std::string_view required_scope) const;
 
-    /**
-     * @brief Helper: load role-to-scope mapping from config/security/rbac_roles.
-     * @details yaml. Must be called with mutex_ held.
-     */
+    // Helper: load role-to-scope mapping from config/security/rbac_roles.yaml.
+    // Must be called with mutex_ held.
     void loadRoleScopeMapping();
 };
 

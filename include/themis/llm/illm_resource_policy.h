@@ -44,10 +44,6 @@ namespace llm {
  */
 class ILLMResourcePolicy {
 public:
-    /**
-     * @brief TBD: Describe ~ILLMResourcePolicy.
-     * @return Return value.
-     */
     virtual ~ILLMResourcePolicy() = default;
 
     // Non-copyable, non-movable by default.

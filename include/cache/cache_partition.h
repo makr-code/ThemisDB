@@ -53,10 +53,6 @@ struct PartitionStats {
  * Thread-safety: all public methods are thread-safe.
  */
 struct ICachePartition {
-    /**
-     * @brief TBD: Describe ~ICachePartition.
-     * @return Return value.
-     */
     virtual ~ICachePartition() = default;
 
     // -----------------------------------------------------------------------

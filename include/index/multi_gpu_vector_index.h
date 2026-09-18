@@ -156,150 +156,46 @@ public:
 
     // Constructor & Destructor
     MultiGPUVectorIndex();
-    /**
-     * @brief TBD: Describe MultiGPUVectorIndex.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit MultiGPUVectorIndex(const Config& config);
     ~MultiGPUVectorIndex();
 
-    /**
-     * @brief Initialization
-     * @param[in] dimension Input parameter.
-     * @return True on success.
-     */
+    // Initialization
     bool initialize(int dimension);
-    /**
-     * @brief TBD: Describe shutdown.
-     */
     void shutdown();
 
-    /**
-     * @brief Vector operations
-     * @param[in] id Input parameter.
-     * @param[in] vector Input parameter.
-     * @return True on success.
-     */
+    // Vector operations
     bool addVector(const std::string& id, const std::vector<float>& vector);
-    /**
-     * @brief TBD: Describe addVectorBatch.
-     * @param[in] ids Input parameter.
-     * @param[in] vectors Input parameter.
-     * @return True on success.
-     */
     bool addVectorBatch(const std::vector<std::string>& ids, 
                        const std::vector<std::vector<float>>& vectors);
-    /**
-     * @brief TBD: Describe removeVector.
-     * @param[in] id Input parameter.
-     * @return True on success.
-     */
     bool removeVector(const std::string& id);
-    /**
-     * @brief TBD: Describe updateVector.
-     * @param[in] id Input parameter.
-     * @param[in] vector Input parameter.
-     * @return True on success.
-     */
     bool updateVector(const std::string& id, const std::vector<float>& vector);
 
-    /**
-     * @brief Search operations
-     * @param[in] query Input parameter.
-     * @param[in] k Input parameter.
-     * @return Return value.
-     */
+    // Search operations
     std::vector<SearchResult> search(const std::vector<float>& query, size_t k);
-    /**
-     * @brief TBD: Describe searchBatch.
-     * @param[in] queries Input parameter.
-     * @param[in] k Input parameter.
-     * @return Return value.
-     */
     std::vector<std::vector<SearchResult>> searchBatch(
         const std::vector<std::vector<float>>& queries, size_t k);
 
-    /**
-     * @brief Multi-GPU control
-     * @param[in] deviceId Input parameter.
-     * @return True on success.
-     */
+    // Multi-GPU control
     bool addGPU(int deviceId);
-    /**
-     * @brief TBD: Describe removeGPU.
-     * @param[in] deviceId Input parameter.
-     * @return True on success.
-     */
     bool removeGPU(int deviceId);
-    /**
-     * @brief TBD: Describe rebalance.
-     * @return True on success.
-     */
     bool rebalance();
     
-    /**
-     * @brief Statistics and monitoring
-     * @return Return value.
-     */
+    // Statistics and monitoring
     Statistics getStatistics() const;
-    /**
-     * @brief TBD: Describe getActiveGPUs.
-     * @return Return value.
-     */
     std::vector<int> getActiveGPUs() const;
-    /**
-     * @brief TBD: Describe getFailedGPUs.
-     * @return Return value.
-     */
     std::vector<int> getFailedGPUs() const;
     
-    /**
-     * @brief Configuration
-     * @param[in] strategy Input parameter.
-     */
+    // Configuration
     void setPartitionStrategy(PartitionStrategy strategy);
-    /**
-     * @brief TBD: Describe setLoadBalancingMode.
-     * @param[in] mode Input parameter.
-     */
     void setLoadBalancingMode(LoadBalancingMode mode);
-    /**
-     * @brief TBD: Describe setEfSearch.
-     * @param[in] ef Input parameter.
-     */
     void setEfSearch(int ef);
-    /**
-     * @brief TBD: Describe getPartitionStrategy.
-     * @return Return value.
-     */
     PartitionStrategy getPartitionStrategy() const;
     
-    /**
-     * @brief Communication backend control (v2.
-     * @return Return value.
-     * @details 5+)
-     */
+    // Communication backend control (v2.5+)
     CommBackend getCommBackend() const;
-    /**
-     * @brief TBD: Describe isCollectiveOpsAvailable.
-     * @return True on success.
-     */
     bool isCollectiveOpsAvailable() const;
-    /**
-     * @brief TBD: Describe isP2PTransferAvailable.
-     * @return True on success.
-     */
     bool isP2PTransferAvailable() const;
-    /**
-     * @brief TBD: Describe isNVLinkAvailable.
-     * @return True on success.
-     */
     bool isNVLinkAvailable() const;
-    /**
-     * @brief TBD: Describe isXGMIAvailable.
-     * @return True on success.
-     */
     bool isXGMIAvailable() const;
 
 private:

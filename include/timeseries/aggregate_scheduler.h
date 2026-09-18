@@ -82,22 +82,12 @@ public:
         size_t max_catch_up_windows = 100;  // Max windows to catch up
     };
     
-    /**
-     * @brief TBD: Describe AggregateScheduler.
-     * @param[in,out] store Input/output parameter.
-     * @return Return value.
-     */
     explicit AggregateScheduler(TSStore* store);
     AggregateScheduler(TSStore* store, const Config& config);
     ~AggregateScheduler();
     
-    /**
-     * @brief Lifecycle
-     */
+    // Lifecycle
     void start();
-    /**
-     * @brief TBD: Describe stop.
-     */
     void stop();
     bool isRunning() const { return running_.load(); }
     
@@ -105,7 +95,6 @@ public:
     /**
      * Register a continuous aggregate for automatic refresh
      * @param agg Scheduled aggregate configuration
-     * @brief TBD: Describe registerAggregate.
      */
     void registerAggregate(const ScheduledAggregate& agg);
     
@@ -117,30 +106,12 @@ public:
      */
     std::string registerAggregate(const AggConfig& config, std::chrono::milliseconds refresh_interval = std::chrono::minutes(5));
     
-    /**
-     * @brief TBD: Describe unregisterAggregate.
-     * @param[in] id Input parameter.
-     */
     void unregisterAggregate(const std::string& id);
-    /**
-     * @brief TBD: Describe enableAggregate.
-     * @param[in] id Input parameter.
-     */
     void enableAggregate(const std::string& id);
-    /**
-     * @brief TBD: Describe disableAggregate.
-     * @param[in] id Input parameter.
-     */
     void disableAggregate(const std::string& id);
     
-    /**
-     * @brief Manual operations
-     * @param[in] id Input parameter.
-     */
+    // Manual operations
     void refreshNow(const std::string& id);  // Force refresh immediately
-    /**
-     * @brief TBD: Describe refreshAll.
-     */
     void refreshAll();  // Force refresh all aggregates
     
     // Statistics
@@ -153,15 +124,7 @@ public:
         std::chrono::system_clock::time_point next_run;
     };
     
-    /**
-     * @brief TBD: Describe getStats.
-     * @return Return value.
-     */
     Stats getStats() const;
-    /**
-     * @brief TBD: Describe listAggregates.
-     * @return Return value.
-     */
     std::vector<ScheduledAggregate> listAggregates() const;
 
     /**
@@ -208,39 +171,14 @@ private:
     std::atomic<size_t> failed_refreshes_{0};
     std::chrono::system_clock::time_point last_run_;
     
-    /**
-     * @brief Scheduler loop
-     */
+    // Scheduler loop
     void schedulerLoop();
-    /**
-     * @brief TBD: Describe refreshAggregate.
-     * @param[in,out] agg Input/output parameter.
-     */
     void refreshAggregate(ScheduledAggregate& agg);
-    /**
-     * @brief TBD: Describe needsRefresh.
-     * @param[in] agg Input parameter.
-     * @param[in] current_time_ms Input parameter.
-     * @return True on success.
-     */
     bool needsRefresh(const ScheduledAggregate& agg, int64_t current_time_ms) const;
-    /**
-     * @brief TBD: Describe catchUpMissedWindows.
-     * @param[in,out] agg Input/output parameter.
-     * @param[in] current_time_ms Input parameter.
-     */
     void catchUpMissedWindows(ScheduledAggregate& agg, int64_t current_time_ms);
     
-    /**
-     * @brief Helpers
-     * @return Return value.
-     */
+    // Helpers
     int64_t getCurrentTimeMs() const;
-    /**
-     * @brief TBD: Describe generateAggregateId.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     std::string generateAggregateId(const AggConfig& config) const;
 };
 

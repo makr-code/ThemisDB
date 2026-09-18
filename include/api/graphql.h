@@ -89,21 +89,11 @@ struct Value {
         ValueMap
     > data = nullptr;
     
-    /**
-     * @brief Convenience constructors
-     * @return Return value.
-     * @details Implements null without additional internal calls.
-     */
+    // Convenience constructors
     static std::shared_ptr<Value> null() {
         return std::make_shared<Value>();
     }
     
-    /**
-     * @brief TBD: Describe boolean.
-     * @param[in] v Input parameter.
-     * @return Return value.
-     * @details Implements boolean without additional internal calls.
-     */
     static std::shared_ptr<Value> boolean(bool v) {
         auto val = std::make_shared<Value>();
         val->type = Type::Boolean;
@@ -111,12 +101,6 @@ struct Value {
         return val;
     }
     
-    /**
-     * @brief TBD: Describe integer.
-     * @param[in] v Input parameter.
-     * @return Return value.
-     * @details Implements integer without additional internal calls.
-     */
     static std::shared_ptr<Value> integer(int64_t v) {
         auto val = std::make_shared<Value>();
         val->type = Type::Int;
@@ -124,12 +108,6 @@ struct Value {
         return val;
     }
     
-    /**
-     * @brief TBD: Describe floating.
-     * @param[in] v Input parameter.
-     * @return Return value.
-     * @details Implements floating without additional internal calls.
-     */
     static std::shared_ptr<Value> floating(double v) {
         auto val = std::make_shared<Value>();
         val->type = Type::Float;
@@ -137,12 +115,6 @@ struct Value {
         return val;
     }
     
-    /**
-     * @brief TBD: Describe string.
-     * @param[in] v Input parameter.
-     * @return Return value.
-     * @details Calls: std::move().
-     */
     static std::shared_ptr<Value> string(std::string v) {
         auto val = std::make_shared<Value>();
         val->type = Type::String;
@@ -150,12 +122,6 @@ struct Value {
         return val;
     }
     
-    /**
-     * @brief TBD: Describe enumValue.
-     * @param[in] v Input parameter.
-     * @return Return value.
-     * @details Calls: std::move().
-     */
     static std::shared_ptr<Value> enumValue(std::string v) {
         auto val = std::make_shared<Value>();
         val->type = Type::Enum;
@@ -163,12 +129,6 @@ struct Value {
         return val;
     }
     
-    /**
-     * @brief TBD: Describe list.
-     * @param[in] v Input parameter.
-     * @return Return value.
-     * @details Calls: std::move().
-     */
     static std::shared_ptr<Value> list(ValueList v) {
         auto val = std::make_shared<Value>();
         val->type = Type::List;
@@ -176,12 +136,6 @@ struct Value {
         return val;
     }
     
-    /**
-     * @brief TBD: Describe object.
-     * @param[in] v Input parameter.
-     * @return Return value.
-     * @details Calls: std::move().
-     */
     static std::shared_ptr<Value> object(ValueMap v) {
         auto val = std::make_shared<Value>();
         val->type = Type::Object;
@@ -189,12 +143,8 @@ struct Value {
         return val;
     }
     
-    /**
-     * @brief Create a variable-reference value.
-     * @param[in] name Input parameter.
-     * @return Return value.
-     * @details @p name must be the bare variable name WITHOUT the leading '$' (e.g. "id", not "$id"). Calls: std::move().
-     */
+    /// Create a variable-reference value.  @p name must be the bare variable
+    /// name WITHOUT the leading '$' (e.g. "id", not "$id").
     static std::shared_ptr<Value> variableRef(std::string name) {
         auto val = std::make_shared<Value>();
         val->type = Type::VariableRef;
@@ -324,20 +274,12 @@ struct QueryLimits {
     /// clients while leaving query execution and mutation paths unaffected.
     bool allow_introspection = true;
 
-    /**
-     * @brief Default safe limits (development / trusted context)
-     * @return Return value.
-     * @details Implements defaults without additional internal calls.
-     */
+    // Default safe limits (development / trusted context)
     static QueryLimits defaults() {
         return QueryLimits{};
     }
     
-    /**
-     * @brief More permissive limits for trusted contexts
-     * @return Return value.
-     * @details Implements permissive without additional internal calls.
-     */
+    // More permissive limits for trusted contexts
     static QueryLimits permissive() {
         return QueryLimits{
             .max_query_size_bytes = 1000000,
@@ -349,11 +291,8 @@ struct QueryLimits {
         };
     }
 
-    /**
-     * @brief Hardened limits for production deployments.
-     * @return Return value.
-     * @details Disables introspection to prevent schema leakage by untrusted clients. Implements production without additional internal calls.
-     */
+    /// Hardened limits for production deployments.
+    /// Disables introspection to prevent schema leakage by untrusted clients.
     static QueryLimits production() {
         QueryLimits l;
         l.allow_introspection = false;
@@ -392,7 +331,6 @@ public:
      * Parse a GraphQL query string with default limits
      * @param query The GraphQL query string to parse
      * @return Result containing the parsed document or errors
-     * @brief TBD: Describe parse.
      */
     static Result parse(std::string_view query);
     
@@ -401,137 +339,45 @@ public:
      * @param query The GraphQL query string to parse
      * @param limits Query limits to enforce
      * @return Result containing the parsed document or errors
-     * @brief TBD: Describe parse.
      */
     static Result parse(std::string_view query, const QueryLimits& limits);
     
 private:
     Parser(std::string_view query, const QueryLimits& limits);
     
-    /**
-     * @brief TBD: Describe parseDocument.
-     * @return Return value.
-     */
     Result parseDocument();
-    /**
-     * @brief TBD: Describe parseOperation.
-     * @return Return value.
-     */
     themis::Result<Operation> parseOperation();
     themis::Result<Field> parseField(size_t depth = 0);
-    /**
-     * @brief TBD: Describe parseValue.
-     * @return Return value.
-     */
     themis::Result<std::shared_ptr<Value>> parseValue();
-    /**
-     * @brief TBD: Describe parseVariableDefinition.
-     * @return Return value.
-     */
     themis::Result<VariableDefinition> parseVariableDefinition();
     
-    /**
-     * @brief Validation helpers
-     * @return True on success.
-     */
+    // Validation helpers
     bool checkQuerySize();
-    /**
-     * @brief TBD: Describe checkDepthLimit.
-     * @param[in] depth Input parameter.
-     * @return True on success.
-     */
     bool checkDepthLimit(size_t depth);
-    /**
-     * @brief TBD: Describe checkFieldLimit.
-     * @return True on success.
-     */
     bool checkFieldLimit();
-    /**
-     * @brief TBD: Describe checkASTNodeLimit.
-     * @return True on success.
-     */
     bool checkASTNodeLimit();
-    /**
-     * @brief Return true if @p field_name is a GraphQL introspection field (`__schema`, `__type`, or `__typename`).
-     * @param[in] field_name Input parameter.
-     * @return True on success.
-     * @note Exception safety: noexcept.
-     */
+    /// Return true if @p field_name is a GraphQL introspection field
+    /// (`__schema`, `__type`, or `__typename`).
     static bool isIntrospectionFieldName(std::string_view field_name) noexcept;
-    /**
-     * @brief TBD: Describe incrementFieldCount.
-     * @details Implements incrementFieldCount without additional internal calls.
-     */
     void incrementFieldCount() { field_count_++; }
-    /**
-     * @brief TBD: Describe incrementASTNodeCount.
-     * @details Implements incrementASTNodeCount without additional internal calls.
-     */
     void incrementASTNodeCount() { ast_node_count_++; }
     
-    /**
-     * @brief Tokenization helpers
-     */
+    // Tokenization helpers
     void skipWhitespace();
-    /**
-     * @brief TBD: Describe skipComment.
-     */
     void skipComment();
-    /**
-     * @brief TBD: Describe match.
-     * @param[in] c Input parameter.
-     * @return True on success.
-     */
     bool match(char c);
-    /**
-     * @brief TBD: Describe match.
-     * @param[in] s Input parameter.
-     * @return True on success.
-     */
     bool match(std::string_view s);
-    /**
-     * @brief TBD: Describe peek.
-     * @param[in] c Input parameter.
-     * @return True on success.
-     */
     bool peek(char c) const;
-    /**
-     * @brief TBD: Describe parseName.
-     * @return Return value.
-     */
     themis::Result<std::string> parseName();
-    /**
-     * @brief TBD: Describe parseString.
-     * @return Return value.
-     */
     themis::Result<std::string> parseString();
-    /**
-     * @brief TBD: Describe parseInt.
-     * @return Return value.
-     */
     themis::Result<int64_t> parseInt();
-    /**
-     * @brief TBD: Describe parseFloat.
-     * @return Return value.
-     */
     themis::Result<double> parseFloat();
     
-    /**
-     * @brief Helper methods
-     * @return Return value.
-     */
+    // Helper methods
     std::string getLocationContext() const;
-    /**
-     * @brief TBD: Describe convertToParseError.
-     * @param[in] error Input parameter.
-     * @return Return value.
-     */
     ParseError convertToParseError(const themis::Error& error);
     
-    /**
-     * @brief Deprecated: Use Result<T> return types instead of error() method
-     * @param[in] message Input parameter.
-     */
+    // Deprecated: Use Result<T> return types instead of error() method
     void error(std::string message);
     
     std::string_view source_;
@@ -645,50 +491,26 @@ public:
     );
     
 private:
-    /**
-     * @brief TBD: Describe executeOperation.
-     * @param[in] operation Input parameter.
-     * @param[in] context Input parameter.
-     * @return Return value.
-     */
     std::shared_ptr<Value> executeOperation(
         const Operation& operation,
         const ExecutionContext& context
     );
     
-    /**
-     * @brief TBD: Describe executeSelections.
-     * @param[in] selections Input parameter.
-     * @param[in] parent Input parameter.
-     * @param[in] context Input parameter.
-     * @return Return value.
-     */
     std::shared_ptr<Value> executeSelections(
         const std::vector<Field>& selections,
         const std::shared_ptr<Value>& parent,
         const ExecutionContext& context
     );
     
-    /**
-     * @brief TBD: Describe executeField.
-     * @param[in] field Input parameter.
-     * @param[in] parent Input parameter.
-     * @param[in] context Input parameter.
-     * @return Return value.
-     */
     std::shared_ptr<Value> executeField(
         const Field& field,
         const std::shared_ptr<Value>& parent,
         const ExecutionContext& context
     );
 
-    /**
-     * @brief Resolve a single argument value: if it is a VariableRef, look it up in @p context.
-     * @param[in] value Input parameter.
-     * @param[in] context Input parameter.
-     * @return Return value.
-     * @details variables and return the bound value (or null when unbound). All other value types are returned unchanged.
-     */
+    /// Resolve a single argument value: if it is a VariableRef, look it up in
+    /// @p context.variables and return the bound value (or null when unbound).
+    /// All other value types are returned unchanged.
     static std::shared_ptr<Value> resolveValue(
         const std::shared_ptr<Value>& value,
         const ExecutionContext& context
@@ -745,60 +567,25 @@ class Schema {
 public:
     Schema();
     
-    /**
-     * @brief TBD: Describe addType.
-     * @param[in] type Input parameter.
-     */
     void addType(TypeDefinition type);
-    /**
-     * @brief TBD: Describe getType.
-     * @param[in] name Input parameter.
-     * @return Pointer to the result.
-     */
     const TypeDefinition* getType(std::string_view name) const;
     
-    /**
-     * @brief TBD: Describe setQueryType.
-     * @param[in] name Input parameter.
-     * @details Implements setQueryType without additional internal calls.
-     */
     void setQueryType(std::string_view name) { query_type_ = name; }
-    /**
-     * @brief TBD: Describe setMutationType.
-     * @param[in] name Input parameter.
-     * @details Implements setMutationType without additional internal calls.
-     */
     void setMutationType(std::string_view name) { mutation_type_ = name; }
-    /**
-     * @brief TBD: Describe setSubscriptionType.
-     * @param[in] name Input parameter.
-     * @details Implements setSubscriptionType without additional internal calls.
-     */
     void setSubscriptionType(std::string_view name) { subscription_type_ = name; }
     
     const std::string& queryType() const { return query_type_; }
     const std::string& mutationType() const { return mutation_type_; }
     const std::string& subscriptionType() const { return subscription_type_; }
     
-    /**
-     * @brief Introspection policy
-     * @param[in] enabled Input parameter.
-     * @details Implements setIntrospectionEnabled without additional internal calls.
-     */
+    // Introspection policy
     void setIntrospectionEnabled(bool enabled) { introspection_enabled_ = enabled; }
     bool isIntrospectionEnabled() const { return introspection_enabled_; }
     
-    /**
-     * @brief Generate SDL (Schema Definition Language)
-     * @return Return value.
-     */
+    // Generate SDL (Schema Definition Language)
     std::string toSDL() const;
     
-    /**
-     * @brief Introspection support (respects introspection policy)
-     * @param[in] field Input parameter.
-     * @return Return value.
-     */
+    // Introspection support (respects introspection policy)
     std::shared_ptr<Value> introspect(const Field& field) const;
     
 private:
@@ -816,52 +603,16 @@ private:
  */
 class ThemisSchemaBuilder {
 public:
-    /**
-     * @brief TBD: Describe build.
-     * @return Return value.
-     */
     static Schema build();
     
 private:
-    /**
-     * @brief TBD: Describe addGeoScalarTypes.
-     * @param[in,out] schema Input/output parameter.
-     */
     static void addGeoScalarTypes(Schema& schema);
-    /**
-     * @brief TBD: Describe addDocumentTypes.
-     * @param[in,out] schema Input/output parameter.
-     */
     static void addDocumentTypes(Schema& schema);
-    /**
-     * @brief TBD: Describe addGraphTypes.
-     * @param[in,out] schema Input/output parameter.
-     */
     static void addGraphTypes(Schema& schema);
-    /**
-     * @brief TBD: Describe addVectorTypes.
-     * @param[in,out] schema Input/output parameter.
-     */
     static void addVectorTypes(Schema& schema);
-    /**
-     * @brief TBD: Describe addTimeseriesTypes.
-     * @param[in,out] schema Input/output parameter.
-     */
     static void addTimeseriesTypes(Schema& schema);
-    /**
-     * @brief TBD: Describe addQueryType.
-     * @param[in,out] schema Input/output parameter.
-     */
     static void addQueryType(Schema& schema);
-    /**
-     * @brief TBD: Describe addMutationType.
-     * @param[in,out] schema Input/output parameter.
-     */
     static void addMutationType(Schema& schema);
-    /**
-     * @brief TBD: Describe addSubscriptionType.
-     * @param[in,out] schema Input/output parameter.
-     */
     static void addSubscriptionType(Schema& schema);
 };
 

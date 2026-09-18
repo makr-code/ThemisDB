@@ -119,10 +119,6 @@ struct RasterResult {
  */
 class IRasterQueryInterface {
 public:
-    /**
-     * @brief TBD: Describe ~IRasterQueryInterface.
-     * @return Return value.
-     */
     virtual ~IRasterQueryInterface() = default;
 
     /**

@@ -37,21 +37,11 @@ public:
         size_t max_file_size = 0;  // 0 = unlimited
     };
     
-    /**
-     * @brief TBD: Describe StreamWriter.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit StreamWriter(const Config& config);
     ~StreamWriter();
     
     /// Write data to stream
     void write(const std::string& data);
-    /**
-     * @brief TBD: Describe write.
-     * @param[in] data Input parameter.
-     * @param[in] size Input parameter.
-     */
     void write(const char* data, size_t size);
     
     /// Flush buffered data
@@ -82,18 +72,9 @@ private:
     // Compression state
     void* compression_state_ = nullptr;  // zstd stream state
     
-    /**
-     * @brief TBD: Describe initCompression.
-     */
     void initCompression();
-    /**
-     * @brief TBD: Describe writeBuffer.
-     */
     void writeBuffer();
     void compressAndWrite([[maybe_unused]] const char* data, [[maybe_unused]] size_t size);
-    /**
-     * @brief TBD: Describe finalizeCompression.
-     */
     void finalizeCompression();
 };
 

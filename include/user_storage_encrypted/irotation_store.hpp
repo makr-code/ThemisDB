@@ -36,10 +36,6 @@ namespace user_storage {
  */
 class IRotationStore {
 public:
-    /**
-     * @brief TBD: Describe ~IRotationStore.
-     * @return Return value.
-     */
     virtual ~IRotationStore() = default;
 
     /**
@@ -53,8 +49,6 @@ public:
     /**
      * @brief Write a key-value pair.
      * @return true on success
-     * @param[in] key Input parameter.
-     * @param[in] value Input parameter.
      */
     virtual bool put(const std::string& key, const std::string& value) = 0;
 
@@ -121,11 +115,6 @@ public:
     explicit FileRotationStore(std::string path) : path_(std::move(path)) {}
 
     bool get(const std::string& key, std::string& out) const override {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mtx_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(mtx_);
         const auto j = load_json();
         if (!j.is_object() || !j.contains(key)) {
@@ -136,22 +125,12 @@ public:
     }
 
     bool put(const std::string& key, const std::string& value) override {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mtx_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(mtx_);
         auto j = load_json();
         if (!j.is_object()) {
             j = nlohmann::json::object();
         }
         j[key] = value;
-        /**
-         * @brief TBD: Describe f.
-         * @param[in] path_ Input parameter.
-         * @return Return value.
-         */
         std::ofstream f(path_);
         if (!f) {
             return false;
@@ -162,11 +141,6 @@ public:
 
 private:
     nlohmann::json load_json() const {
-        /**
-         * @brief TBD: Describe f.
-         * @param[in] path_ Input parameter.
-         * @return Return value.
-         */
         std::ifstream f(path_);
         if (!f) {
             return nlohmann::json::object();

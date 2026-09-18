@@ -35,21 +35,8 @@ struct USBAdminLicense {
     std::vector<std::string> admin_scopes; // Allowed admin scopes
     std::string signature;             // RSA signature to prevent tampering
     
-    /**
-     * @brief TBD: Describe isValid.
-     * @return True on success.
-     */
     bool isValid() const;
-    /**
-     * @brief TBD: Describe isExpired.
-     * @return True on success.
-     */
     bool isExpired() const;
-    /**
-     * @brief TBD: Describe matchesHardware.
-     * @param[in] current_hw_id Input parameter.
-     * @return True on success.
-     */
     bool matchesHardware(const std::string& current_hw_id) const;
 };
 
@@ -100,11 +87,6 @@ struct USBAdminConfig {
 /// Validates that an encrypted USB with proper license is present before allowing admin operations
 class USBAdminAuthenticator {
 public:
-    /**
-     * @brief TBD: Describe USBAdminAuthenticator.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit USBAdminAuthenticator(const USBAdminConfig& config);
     ~USBAdminAuthenticator();
     
@@ -117,19 +99,14 @@ public:
     /// Initialize and perform initial USB detection
     bool initialize();
     
-    /**
-     * @brief Check if USB with valid admin license is present Returns true if admin operations are allowed
-     * @return True on success.
-     */
+    /// Check if USB with valid admin license is present
+    /// Returns true if admin operations are allowed
     bool isAdminUSBPresent() const;
     
-    /**
-     * @brief Validate admin operation is allowed @param scope Admin scope being requested (e.
-     * @param[in] scope Input parameter.
-     * @param[in] user_id Input parameter.
-     * @return True on success.
-     * @details g., "admin", "config:write") @param user_id User attempting operation (for audit) @return true if operation is allowed
-     */
+    /// Validate admin operation is allowed
+    /// @param scope Admin scope being requested (e.g., "admin", "config:write")
+    /// @param user_id User attempting operation (for audit)
+    /// @return true if operation is allowed
     bool validateAdminOperation(const std::string& scope, const std::string& user_id);
     
     /// Get current USB license (if present)
@@ -156,10 +133,6 @@ public:
         std::chrono::system_clock::time_point last_valid_check;
     };
     
-    /**
-     * @brief TBD: Describe getMetrics.
-     * @return Return value.
-     */
     Metrics getMetrics() const;
 
     /**

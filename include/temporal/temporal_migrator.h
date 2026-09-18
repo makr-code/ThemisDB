@@ -148,10 +148,6 @@ struct MigrationPlan {
     /** Whether any source document was found to be empty ({}). */
     bool has_empty_documents{false};
 
-    /**
-     * @brief TBD: Describe toJson.
-     * @return Return value.
-     */
     nlohmann::json toJson() const;
 };
 
@@ -170,10 +166,6 @@ struct MigrationStats {
     /** Non-fatal warnings / error messages accumulated during migration. */
     std::vector<std::string> errors;
 
-    /**
-     * @brief TBD: Describe toJson.
-     * @return Return value.
-     */
     nlohmann::json toJson() const;
 };
 
@@ -207,15 +199,9 @@ struct MigrationReport {
     MigrationStats                stats;
     std::vector<ValidationResult> checks;
 
-     * @brief TBD: Describe failedCheckCount.
-     * @return Return value.
     /** Aggregate: number of checks that failed. */
     size_t failedCheckCount() const;
 
-    /**
-     * @brief TBD: Describe toJson.
-     * @return Return value.
-     */
     nlohmann::json toJson() const;
 };
 
@@ -262,8 +248,6 @@ public:
      * Register a callback that is invoked on every MigrationStatus transition.
      *
      * Pass nullptr to remove any previously registered callback.
-     * @brief TBD: Describe setProgressCallback.
-     * @param[in] cb Input parameter.
      */
     void setProgressCallback(ProgressCallback cb);
 
@@ -316,7 +300,6 @@ public:
      * @param table            Target SystemVersionedTable (already migrated).
      * @param history_entries  Audit-log snapshots to backfill.
      * @return                 Number of historical versions successfully inserted.
-     * @brief TBD: Describe backfillHistory.
      */
     size_t backfillHistory(
         SystemVersionedTable& table,
@@ -337,7 +320,6 @@ public:
      *
      * @param table        The migrated SystemVersionedTable to verify.
      * @return             MigrationReport with all check results and aggregated stats.
-     * @brief TBD: Describe verifyMigration.
      */
     MigrationReport verifyMigration(const SystemVersionedTable& table);
 
@@ -358,9 +340,6 @@ public:
 
     // ── Static helpers ────────────────────────────────────────────────────────
 
-     * @brief TBD: Describe statusName.
-     * @param[in] s Input parameter.
-     * @return Return value.
     /** Convert MigrationStatus to a human-readable string. */
     static std::string statusName(MigrationStatus s);
 
@@ -377,9 +356,6 @@ private:
     static std::vector<ColumnInfo> inferColumns(
         const std::unordered_map<std::string, Document>& docs);
 
-     * @brief TBD: Describe inferType.
-     * @param[in] value Input parameter.
-     * @return Return value.
     /** Extract the inferred JSON type name for a single value. */
     static std::string inferType(const nlohmann::json& value);
 };

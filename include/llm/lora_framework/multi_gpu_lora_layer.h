@@ -100,7 +100,6 @@ public:
      * 
      * Must be called after backward() and before optimizer step.
      * Averages gradients across all GPUs so each GPU has identical gradients.
-     * @return True on success.
      */
     bool synchronize_gradients();
     
@@ -112,13 +111,11 @@ public:
     /**
      * @brief Get layer on specific GPU rank
      * @param rank GPU rank (0 to num_gpus-1)
-     * @return Return value.
      */
     GPULoRALayer& get_layer(int rank);
     
     /**
      * @brief Get all layers
-     * @return Return value.
      */
     std::vector<GPULoRALayer*> get_layers();
     
@@ -147,7 +144,6 @@ public:
      * 
      * Ensures all GPUs start with identical parameters.
      * Call this after initialization or loading checkpoint.
-     * @return True on success.
      */
     bool broadcast_parameters();
     
@@ -166,10 +162,6 @@ public:
     };
     
     Stats get_stats() const { return stats_; }
-    /**
-     * @brief TBD: Describe reset_stats.
-     * @details Implements reset_stats without additional internal calls.
-     */
     void reset_stats() { stats_ = Stats{}; }
     
 private:
@@ -184,15 +176,7 @@ private:
     bool gradients_synced_ = false;
     Stats stats_;
     
-    /**
-     * @brief TBD: Describe initialize_backend.
-     * @param[in] backend Input parameter.
-     */
     void initialize_backend(CommBackend backend);
-    /**
-     * @brief TBD: Describe allreduce_gradients.
-     * @return True on success.
-     */
     bool allreduce_gradients();
 };
 

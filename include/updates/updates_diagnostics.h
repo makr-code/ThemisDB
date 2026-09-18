@@ -151,23 +151,17 @@ struct ErrorContext {
     
     /**
      * @brief Convert to JSON for structured logging
-     * @return Return value.
      */
     json toJson() const;
     
     /**
      * @brief Construct from JSON
-     * @param[in] j Input parameter.
-     * @return Return value.
      */
     static std::optional<ErrorContext> fromJson(const json& j);
 };
 
 /**
  * @brief Map diagnostic error code to severity
- * @param[in] code Input parameter.
- * @return Return value.
- * @details Implements severityForErrorCode without additional internal calls.
  */
 inline DiagnosticSeverity severityForErrorCode(DiagnosticErrorCode code) {
     uint16_t c = static_cast<uint16_t>(code);
@@ -183,9 +177,6 @@ inline DiagnosticSeverity severityForErrorCode(DiagnosticErrorCode code) {
 
 /**
  * @brief Map error code to root cause
- * @param[in] code Input parameter.
- * @return Return value.
- * @details Implements rootCauseForErrorCode without additional internal calls.
  */
 inline RootCauseClass rootCauseForErrorCode(DiagnosticErrorCode code) {
     switch (code) {
@@ -221,9 +212,6 @@ inline RootCauseClass rootCauseForErrorCode(DiagnosticErrorCode code) {
 
 /**
  * @brief Human-readable name for a diagnostic severity
- * @param[in] s Input parameter.
- * @return Return value.
- * @details Implements severityName without additional internal calls.
  */
 inline std::string severityName(DiagnosticSeverity s) {
     switch (s) {
@@ -237,9 +225,6 @@ inline std::string severityName(DiagnosticSeverity s) {
 
 /**
  * @brief Human-readable name for an error code
- * @param[in] code Input parameter.
- * @return Return value.
- * @details Implements errorCodeName without additional internal calls.
  */
 inline std::string errorCodeName(DiagnosticErrorCode code) {
     switch (code) {
@@ -289,10 +274,6 @@ inline std::string errorCodeName(DiagnosticErrorCode code) {
  */
 class UpdateIncident {
 public:
-    /**
-     * @brief TBD: Describe ~UpdateIncident.
-     * @return Return value.
-     */
     virtual ~UpdateIncident() = default;
     
     /// Get the primary error code

@@ -152,7 +152,6 @@ public:
      * @brief Get reference to loaded model
      * @return Reference to model
      * @throws std::logic_error if model is invalid
-     * @details Implements Get without additional internal calls.
      */
     ModelT& Get() {
         if (!model_) {
@@ -207,7 +206,6 @@ private:
      * @brief Internal model loading implementation
      * @return Pointer to loaded model or nullptr
      * @throws std::exception on load failure
-     * @details Implements LoadModelInternal without additional internal calls.
      */
     ModelT* LoadModelInternal() {
         // Virtual method to be implemented by specializations
@@ -265,7 +263,6 @@ public:
      * @param model_id Model identifier
      * @throws std::invalid_argument if parameters invalid
      * @throws std::runtime_error if load fails
-     * @return Return value.
      */
     explicit LLMModelGuard(ILLMPlugin* plugin, const std::string& model_id);
     
@@ -291,7 +288,6 @@ public:
     
     /**
      * @brief Get model info
-     * @return Return value.
      */
     std::optional<ModelInfo> GetModelInfo() const;
 

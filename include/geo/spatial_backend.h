@@ -43,10 +43,6 @@ struct SpatialBatchResults {
 /** @brief I spatial compute backend implementation. */
 class ISpatialComputeBackend {
 public:
-    /**
-     * @brief TBD: Describe ~ISpatialComputeBackend.
-     * @return Return value.
-     */
     virtual ~ISpatialComputeBackend() = default;
     [[nodiscard]] virtual const char* name() const noexcept = 0;
     [[nodiscard]] virtual bool isAvailable() const noexcept = 0;
@@ -106,15 +102,7 @@ public:
 /** @brief Registry for dynamically loaded plugins. */
 class IGeoRegistry {
 public:
-    /**
-     * @brief TBD: Describe ~IGeoRegistry.
-     * @return Return value.
-     */
     virtual ~IGeoRegistry() = default;
-    /**
-     * @brief TBD: Describe registerBackend.
-     * @param[in] backend Input parameter.
-     */
     virtual void registerBackend(std::unique_ptr<ISpatialComputeBackend> backend) = 0;
 };
 
@@ -131,30 +119,18 @@ enum class GeoPrecisionMode {
     Approximate  // MBR-based fast approximation; safe for pre-filtering.
 };
 
-/**
- * @brief Get the Boost CPU backend (if available)
- * @return Pointer to the result.
- */
+// Get the Boost CPU backend (if available)
 ISpatialComputeBackend* getBoostCpuBackend();
 
-/**
- * @brief Get the built-in CPU exact backend (always available, no Boost dependency)
- * @return Pointer to the result.
- */
+// Get the built-in CPU exact backend (always available, no Boost dependency)
 ISpatialComputeBackend* getCpuExactBackend();
 
-/**
- * @brief Get the built-in CPU approximate backend (always available).
- * @return Pointer to the result.
- * @details Uses MBR overlap checks for fast conservative spatial tests.
- */
+// Get the built-in CPU approximate backend (always available).
+// Uses MBR overlap checks for fast conservative spatial tests.
 ISpatialComputeBackend* getCpuApproximateBackend();
 
-/**
- * @brief Get the global geo backend registry.
- * @return Pointer to the result.
- * @details Backends self-register at startup so they are discoverable at runtime.
- */
+// Get the global geo backend registry.
+// Backends self-register at startup so they are discoverable at runtime.
 IGeoRegistry* getGeoBackendRegistry();
 
 /**
@@ -183,24 +159,15 @@ using GeoContainmentFn = std::function<bool(double px, double py,
  */
 void setCpuExactContainmentFn(GeoContainmentFn fn);
 
-/**
- * @brief Get a backend for the requested precision mode.
- * @param[in] mode Input parameter.
- * @return Pointer to the result.
- * @details Exact → getCpuExactBackend() Approximate → getCpuApproximateBackend()
- */
+// Get a backend for the requested precision mode.
+// Exact   → getCpuExactBackend()
+// Approximate → getCpuApproximateBackend()
 ISpatialComputeBackend* getBackendForPrecision(GeoPrecisionMode mode);
 
-/**
- * @brief Get the GPU spatial backend (falls back to CPU when no GPU is present)
- * @return Pointer to the result.
- */
+// Get the GPU spatial backend (falls back to CPU when no GPU is present)
 ISpatialComputeBackend* getGpuSpatialBackend();
 
-/**
- * @brief Get the production GPU backend (CUDA/OpenCL/CPU-parallel with automatic fallback)
- * @return Pointer to the result.
- */
+// Get the production GPU backend (CUDA/OpenCL/CPU-parallel with automatic fallback)
 ISpatialComputeBackend* getProductionGpuBackend();
 
 /**
@@ -214,7 +181,6 @@ ISpatialComputeBackend* getProductionGpuBackend();
  *
  * This free function surfaces the `GpuBatchBackend::Stats` struct without
  * exposing the concrete class to callers.
- * @return Return value.
  */
 std::string getGpuSpatialBackendStatsJson();
 
@@ -230,7 +196,6 @@ std::string getGpuSpatialBackendStatsJson();
  *   has_suitable_device, devices[]{index, name, backend,
  *   total_vram_mb, free_vram_mb, compute_capability, is_healthy,
  *   suitable_for_geo, reason}
- * @return Return value.
  */
 std::string getGeoDeviceReportJson();
 

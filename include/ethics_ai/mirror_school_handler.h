@@ -81,7 +81,6 @@ public:
      * @brief Set per-school LLM timeout.
      *
      * @param timeout_ms  Timeout in milliseconds.  Default: 1000 ms.
-     * @note Exception safety: noexcept.
      */
     void setSchoolTimeoutMs(int timeout_ms) noexcept;
 

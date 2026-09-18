@@ -96,41 +96,15 @@ public:
     NCCLVectorBackend();
     ~NCCLVectorBackend();
 
-    /**
-     * @brief Initialization
-     * @param[in] config Input parameter.
-     * @return True on success.
-     */
+    // Initialization
     bool initialize(const Config& config);
-    /**
-     * @brief TBD: Describe shutdown.
-     */
     void shutdown();
-    /**
-     * @brief TBD: Describe isInitialized.
-     * @return True on success.
-     */
     bool isInitialized() const;
 
-    /**
-     * @brief Device management
-     * @return Return value.
-     */
+    // Device management
     int getRank() const;
-    /**
-     * @brief TBD: Describe getWorldSize.
-     * @return Return value.
-     */
     int getWorldSize() const;
-    /**
-     * @brief TBD: Describe getDeviceIds.
-     * @return Return value.
-     */
     std::vector<int> getDeviceIds() const;
-    /**
-     * @brief TBD: Describe isP2PEnabled.
-     * @return True on success.
-     */
     bool isP2PEnabled() const;
 
     // Collective operations
@@ -211,19 +185,11 @@ public:
 
     /**
      * Enable P2P access between two GPUs
-     * @brief TBD: Describe enableP2PAccess.
-     * @param[in] deviceId1 Input parameter.
-     * @param[in] deviceId2 Input parameter.
-     * @return True on success.
      */
     bool enableP2PAccess(int deviceId1, int deviceId2);
 
     /**
      * Check if P2P is available between two GPUs
-     * @brief TBD: Describe canAccessPeer.
-     * @param[in] deviceId1 Input parameter.
-     * @param[in] deviceId2 Input parameter.
-     * @return True on success.
      */
     bool canAccessPeer(int deviceId1, int deviceId2);
 
@@ -235,8 +201,6 @@ public:
 
     /**
      * Wait for all pending operations to complete
-     * @brief TBD: Describe waitAll.
-     * @return True on success.
      */
     bool waitAll();
 
@@ -270,36 +234,13 @@ public:
         int numNVLinks = 0;
     };
 
-    /**
-     * @brief TBD: Describe getStatistics.
-     * @return Return value.
-     */
     Statistics getStatistics() const;
-    /**
-     * @brief TBD: Describe resetStatistics.
-     */
     void resetStatistics();
 
-    /**
-     * @brief Capability detection
-     * @return True on success.
-     */
+    // Capability detection
     static bool isNCCLAvailable();
-    /**
-     * @brief TBD: Describe getNCCLVersion.
-     * @return Return value.
-     */
     static int getNCCLVersion();
-    /**
-     * @brief TBD: Describe getNCCLVersionString.
-     * @return Return value.
-     */
     static std::string getNCCLVersionString();
-    /**
-     * @brief TBD: Describe checkNVLinkSupport.
-     * @param[in] deviceIds Input parameter.
-     * @return True on success.
-     */
     static bool checkNVLinkSupport(const std::vector<int>& deviceIds);
 
 #ifndef THEMIS_ENABLE_NCCL
@@ -309,11 +250,8 @@ public:
     using AllReduceFn = std::function<bool(
         const float* send, float* recv, size_t count, ReductionOp op, void* stream)>;
 
-    /**
-     * @brief Inject an allReduce implementation for the non-NCCL stub path.
-     * @param[in] fn Input parameter.
-     * @details Pass empty fn to restore fail-closed stub default.
-     */
+    /// Inject an allReduce implementation for the non-NCCL stub path.
+    /// Pass empty fn to restore fail-closed stub default.
     static void setAllReduceFn(AllReduceFn fn);
 #endif // !THEMIS_ENABLE_NCCL
 

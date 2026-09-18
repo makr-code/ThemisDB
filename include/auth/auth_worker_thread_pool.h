@@ -117,11 +117,6 @@ public:
         std::future<ReturnType> fut = task->get_future();
 
         {
-            /**
-             * @brief TBD: Describe lock.
-             * @param[in] queue_mutex_ Input parameter.
-             * @return Return value.
-             */
             std::lock_guard<std::mutex> lock(queue_mutex_);
             if (stop_) {
                 throw std::runtime_error(
@@ -143,11 +138,6 @@ public:
      */
     void shutdown() noexcept {
         {
-            /**
-             * @brief TBD: Describe lock.
-             * @param[in] queue_mutex_ Input parameter.
-             * @return Return value.
-             */
             std::lock_guard<std::mutex> lock(queue_mutex_);
             if (stop_) {
               return;
@@ -165,11 +155,6 @@ public:
 
     /// Return the current number of live worker threads.
     size_t threadCount() const noexcept {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] queue_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(queue_mutex_);
         return workers_.size();
     }
@@ -183,20 +168,12 @@ private:
     mutable std::mutex              queue_mutex_;
     std::condition_variable         cv_ = {};
 
-    /**
-     * @brief Spawn one new worker thread.
-     * @details Must be called with queue_mutex_ held. Calls: emplace_back(), void(), lock(), wait(), empty(), std::move(), front(), pop().
-     */
+    // Spawn one new worker thread. Must be called with queue_mutex_ held.
     void spawnWorker() {
         workers_.emplace_back([this] {
             for (;;) {
                 std::function<void()> task;
                 {
-                    /**
-                     * @brief TBD: Describe lock.
-                     * @param[in] queue_mutex_ Input parameter.
-                     * @return Return value.
-                     */
                     std::unique_lock<std::mutex> lock(queue_mutex_);
                     ++idle_count_;
                     cv_.wait(lock, [this] { return stop_ || !tasks_.empty(); });
@@ -212,10 +189,8 @@ private:
         });
     }
 
-    /**
-     * @brief Grow the pool by one thread if every current worker is busy and we haven't hit max_threads_.
-     * @details Must be called with queue_mutex_ held. Calls: size(), spawnWorker().
-     */
+    // Grow the pool by one thread if every current worker is busy and we
+    // haven't hit max_threads_.  Must be called with queue_mutex_ held.
     void tryGrow() {
         if (idle_count_ == 0 && workers_.size() < max_threads_) {
             spawnWorker();

@@ -218,10 +218,6 @@ private:
  */
 class SemanticRewriteRule : public IRewriteRule {
 public:
-    /**
-     * @brief TBD: Describe ~SemanticRewriteRule.
-     * @return Return value.
-     */
     virtual ~SemanticRewriteRule() = default;
 
     std::string rule_id() const override;
@@ -239,36 +235,26 @@ public:
 
     /**
      * @brief Subclasses override this to provide custom rule ID.
-     * @return Return value.
      */
     virtual std::string get_rule_id() const = 0;
 
     /**
      * @brief Subclasses override this to provide custom priority.
-     * @return Return value.
      */
     virtual uint8_t get_priority() const = 0;
 
     /**
      * @brief Subclasses override this to provide custom phase.
-     * @return Return value.
      */
     virtual RewritePhase get_phase() const = 0;
 
     /**
      * @brief Subclasses override this for custom matching logic.
-     * @param[in] doc Input parameter.
-     * @param[in] ctx Input parameter.
-     * @return True on success.
      */
     virtual bool match_impl(const RewriteDocument& doc, const RewriteContext& ctx) const = 0;
 
     /**
      * @brief Subclasses override this for custom transformation logic.
-     * @param[in,out] doc Input/output parameter.
-     * @param[in] ctx Input parameter.
-     * @param[in,out] trace Input/output parameter.
-     * @return Return value.
      */
     virtual RewriteResult apply_impl(
         RewriteDocument& doc,
@@ -284,7 +270,6 @@ public:
 
     /**
      * @brief Subclasses override this for description.
-     * @return Return value.
      */
     virtual std::string get_description() const = 0;
 

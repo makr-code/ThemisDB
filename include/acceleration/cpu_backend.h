@@ -73,21 +73,8 @@ public:
     ANNKernelDispatch populateANNDispatch() const override;
     
 protected:
-    /**
-     * @brief Allow derived classes to call these helper methods
-     * @param[in] a Input parameter.
-     * @param[in] b Input parameter.
-     * @param[in] dim Input parameter.
-     * @return Return value.
-     */
+    // Allow derived classes to call these helper methods
     float computeL2Distance(const float* a, const float* b, size_t dim) const;
-    /**
-     * @brief TBD: Describe computeCosineDistance.
-     * @param[in] a Input parameter.
-     * @param[in] b Input parameter.
-     * @param[in] dim Input parameter.
-     * @return Return value.
-     */
     float computeCosineDistance(const float* a, const float* b, size_t dim) const;
 };
 
@@ -193,23 +180,7 @@ public:
     GeoKernelDispatch populateGeoDispatch() const override;
 
 protected:
-    /**
-     * @brief TBD: Describe haversineDistance.
-     * @param[in] lat1 Input parameter.
-     * @param[in] lon1 Input parameter.
-     * @param[in] lat2 Input parameter.
-     * @param[in] lon2 Input parameter.
-     * @return Return value.
-     */
     double haversineDistance(double lat1, double lon1, double lat2, double lon2) const;
-    /**
-     * @brief TBD: Describe vincentyDistance.
-     * @param[in] lat1 Input parameter.
-     * @param[in] lon1 Input parameter.
-     * @param[in] lat2 Input parameter.
-     * @param[in] lon2 Input parameter.
-     * @return Return value.
-     */
     double vincentyDistance(double lat1, double lon1, double lat2, double lon2) const;
 };
 

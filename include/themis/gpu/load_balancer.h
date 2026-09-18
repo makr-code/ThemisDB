@@ -68,7 +68,6 @@ public:
 
     /**
      * @brief Replace the device list (e.g. after re-enumeration).
-     * @param[in] devices Input parameter.
      */
     void updateDevices(const std::vector<DeviceInfo>& devices);
 
@@ -81,7 +80,6 @@ public:
 
     /**
      * @brief Restore a previously failed device to the eligible pool.
-     * @param[in] device_index Input parameter.
      */
     void resetDevice(int device_index);
 
@@ -117,28 +115,19 @@ public:
     /**
      * @brief Notify the balancer that @p bytes were allocated on
      *        @p device_index so it can update internal load tracking.
-     * @param[in] device_index Input parameter.
-     * @param[in] bytes Input parameter.
      */
     void recordAllocation(int device_index, uint64_t bytes);
 
     /**
      * @brief Notify the balancer that @p bytes were freed from
      *        @p device_index.
-     * @param[in] device_index Input parameter.
-     * @param[in] bytes Input parameter.
      */
     void recordDeallocation(int device_index, uint64_t bytes);
 
-    /**
-     * @brief ----------------------------------------------------------------------- Queries -----------------------------------------------------------------------
-     * @return Return value.
-     */
+    // -----------------------------------------------------------------------
+    // Queries
+    // -----------------------------------------------------------------------
     size_t totalDevices()   const;
-    /**
-     * @brief TBD: Describe healthyDevices.
-     * @return Return value.
-     */
     size_t healthyDevices() const;
     Strategy strategy()     const { return strategy_; }
 
@@ -155,10 +144,6 @@ public:
         std::string failure_reason;
     };
 
-    /**
-     * @brief TBD: Describe getDeviceLoads.
-     * @return Return value.
-     */
     std::vector<DeviceLoad> getDeviceLoads() const;
 
 private:
@@ -175,36 +160,11 @@ private:
     std::vector<DeviceEntry> devices_;
     size_t round_robin_cursor_ = 0;
 
-    /**
-     * @brief Internal helpers — called under mutex_.
-     * @param[in] required_vram Input parameter.
-     * @return Pointer to the result.
-     */
+    // Internal helpers — called under mutex_.
     DeviceEntry* selectRoundRobin(uint64_t required_vram);
-    /**
-     * @brief TBD: Describe selectLeastLoaded.
-     * @param[in] required_vram Input parameter.
-     * @return Pointer to the result.
-     */
     DeviceEntry* selectLeastLoaded(uint64_t required_vram);
-    /**
-     * @brief TBD: Describe selectFirstHealthy.
-     * @param[in] required_vram Input parameter.
-     * @return Pointer to the result.
-     */
     DeviceEntry* selectFirstHealthy(uint64_t required_vram);
-    /**
-     * @brief TBD: Describe selectTopologyAware.
-     * @param[in] required_vram Input parameter.
-     * @return Pointer to the result.
-     */
     DeviceEntry* selectTopologyAware(uint64_t required_vram);
-    /**
-     * @brief TBD: Describe isEligible.
-     * @param[in] e Input parameter.
-     * @param[in] required_vram Input parameter.
-     * @return True on success.
-     */
     bool isEligible(const DeviceEntry& e, uint64_t required_vram) const;
 
     GPUClusterTopology topology_;

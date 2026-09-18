@@ -33,10 +33,6 @@ struct EvaluationMetrics {
  * @brief Aggregated evaluation results
  */
 struct AggregatedMetrics {
-    /**
-     * @brief TBD: Describe ~AggregatedMetrics.
-     * @return Return value.
-     */
     virtual ~AggregatedMetrics() = default;
     double overall_score = 0.0;        ///< Overall weighted score
     double mean_similarity = 0.0;      ///< Mean semantic similarity
@@ -170,8 +166,6 @@ public:
     
     /**
      * @brief Update configuration
-     * @param[in] config Input parameter.
-     * @details Implements setConfig without additional internal calls.
      */
     void setConfig(const EvaluatorConfig& config) { config_ = config; }
 
@@ -180,30 +174,21 @@ private:
     
     /**
      * @brief Compute weighted score from individual metrics
-     * @param[in] metrics Input parameter.
-     * @return Return value.
      */
     double computeWeightedScore(const EvaluationMetrics& metrics) const;
     
     /**
      * @brief Normalize string for comparison
-     * @param[in] s Input parameter.
-     * @return Return value.
      */
     static std::string normalizeString(const std::string& s);
     
     /**
      * @brief Tokenize string into words
-     * @param[in] s Input parameter.
-     * @return Return value.
      */
     static std::vector<std::string> tokenize(const std::string& s);
     
     /**
      * @brief Compute Levenshtein distance
-     * @param[in] s1 Input parameter.
-     * @param[in] s2 Input parameter.
-     * @return Return value.
      */
     static size_t levenshteinDistance(const std::string& s1, const std::string& s2);
 };

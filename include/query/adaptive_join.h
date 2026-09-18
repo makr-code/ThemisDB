@@ -42,9 +42,6 @@ enum class JoinAlgorithm {
 
 /**
  * @brief Return a human-readable name for a JoinAlgorithm value.
- * @param[in] algo Input parameter.
- * @return Pointer to the result.
- * @note Exception safety: noexcept.
  */
 const char* joinAlgorithmName(JoinAlgorithm algo) noexcept;
 
@@ -241,80 +238,32 @@ public:
     void setConfig(AdaptiveJoinConfig cfg) noexcept { config_ = std::move(cfg); }
 
 private:
-    /**
-     * @brief ---- Individual algorithm implementations ----
-     * @param[in] spec Input parameter.
-     * @param[in] left Input parameter.
-     * @param[in] right Input parameter.
-     * @return Return value.
-     */
+    // ---- Individual algorithm implementations ----
 
     JoinResult executeHashJoin(const JoinSpec& spec,
                                const Table& left,
                                const Table& right) const;
 
-    /**
-     * @brief TBD: Describe executeMergeJoin.
-     * @param[in] spec Input parameter.
-     * @param[in] left Input parameter.
-     * @param[in] right Input parameter.
-     * @return Return value.
-     */
     JoinResult executeMergeJoin(const JoinSpec& spec,
                                 const Table& left,
                                 const Table& right) const;
 
-    /**
-     * @brief TBD: Describe executeNestedLoopJoin.
-     * @param[in] spec Input parameter.
-     * @param[in] left Input parameter.
-     * @param[in] right Input parameter.
-     * @return Return value.
-     */
     JoinResult executeNestedLoopJoin(const JoinSpec& spec,
                                      const Table& left,
                                      const Table& right) const;
 
-    /**
-     * @brief TBD: Describe executeIndexNestedLoopJoin.
-     * @param[in] spec Input parameter.
-     * @param[in] left Input parameter.
-     * @param[in] right Input parameter.
-     * @return Return value.
-     */
     JoinResult executeIndexNestedLoopJoin(const JoinSpec& spec,
                                           const Table& left,
                                           const Table& right) const;
 
-    /**
-     * @brief TBD: Describe executeGraceHashJoin.
-     * @param[in] spec Input parameter.
-     * @param[in] left Input parameter.
-     * @param[in] right Input parameter.
-     * @return Return value.
-     */
     JoinResult executeGraceHashJoin(const JoinSpec& spec,
                                     const Table& left,
                                     const Table& right) const;
 
-    /**
-     * @brief TBD: Describe executeBroadcastJoin.
-     * @param[in] spec Input parameter.
-     * @param[in] left Input parameter.
-     * @param[in] right Input parameter.
-     * @return Return value.
-     */
     JoinResult executeBroadcastJoin(const JoinSpec& spec,
                                     const Table& left,
                                     const Table& right) const;
 
-    /**
-     * @brief TBD: Describe executeShuffleJoin.
-     * @param[in] spec Input parameter.
-     * @param[in] left Input parameter.
-     * @param[in] right Input parameter.
-     * @return Return value.
-     */
     JoinResult executeShuffleJoin(const JoinSpec& spec,
                                   const Table& left,
                                   const Table& right) const;

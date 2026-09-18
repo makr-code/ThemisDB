@@ -112,11 +112,6 @@ public:
      * Typically called between crawl runs to reset rate-limit state.
      */
     void reset() noexcept {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] refill_mu_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(refill_mu_);
         current_tokens_.store(max_tokens_, std::memory_order_release);
         last_refill_ = std::chrono::steady_clock::now();
@@ -142,11 +137,6 @@ private:
 
         const auto now = std::chrono::steady_clock::now();
 
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] refill_mu_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(refill_mu_);
         const double elapsed_sec =
             std::chrono::duration<double>(now - last_refill_).count();

@@ -86,10 +86,6 @@ struct GGUFSTConfig {
 
 /// GGUF-ST Section Header
 struct SectionHeader {
-    /**
-     * @brief TBD: Describe ~SectionHeader.
-     * @return Return value.
-     */
     virtual ~SectionHeader() = default;
 
     /// @brief Move constructor — transfers magic, version, data_size, flags, and reserved fields.
@@ -115,10 +111,6 @@ struct SectionHeader {
 /// Extends BlobStorageManager for storage operations
 class GGUFSTAdapter {
 public:
-    /**
-     * @brief TBD: Describe ~GGUFSTAdapter.
-     * @return Return value.
-     */
     virtual ~GGUFSTAdapter() = default;
 
     /// @brief Move constructor — transfers storage shared_ptr and config; source config reset to defaults.
@@ -147,12 +139,10 @@ public:
         AdapterMetadata metadata;                     // Complete metadata
     };
     
-    /**
-     * @brief Write adapter to storage @param adapter_id Unique adapter identifier @param components Adapter components to write @return Storage reference or nullopt on failure
-     * @param[in] adapter_id Input parameter.
-     * @param[in] components Input parameter.
-     * @return Return value.
-     */
+    /// Write adapter to storage
+    /// @param adapter_id Unique adapter identifier
+    /// @param components Adapter components to write
+    /// @return Storage reference or nullopt on failure
     std::optional<storage::BlobRef> writeAdapter(
         const std::string& adapter_id,
         const AdapterComponents& components
@@ -160,25 +150,19 @@ public:
     
     // Read Operations
     
-    /**
-     * @brief Read adapter from storage @param ref Blob storage reference @return Adapter components or nullopt if not found/invalid
-     * @param[in] ref Input parameter.
-     * @return Return value.
-     */
+    /// Read adapter from storage
+    /// @param ref Blob storage reference
+    /// @return Adapter components or nullopt if not found/invalid
     std::optional<AdapterComponents> readAdapter(const storage::BlobRef& ref);
     
-    /**
-     * @brief Read only metadata (fast, for registry queries) @param ref Blob storage reference @return Adapter metadata or nullopt
-     * @param[in] ref Input parameter.
-     * @return Return value.
-     */
+    /// Read only metadata (fast, for registry queries)
+    /// @param ref Blob storage reference
+    /// @return Adapter metadata or nullopt
     std::optional<AdapterMetadata> readMetadata(const storage::BlobRef& ref);
     
-    /**
-     * @brief Read only signature (for verification without loading full adapter) @param ref Blob storage reference @return Adapter signature or nullopt
-     * @param[in] ref Input parameter.
-     * @return Return value.
-     */
+    /// Read only signature (for verification without loading full adapter)
+    /// @param ref Blob storage reference
+    /// @return Adapter signature or nullopt
     std::optional<AdapterSignature> readSignature(const storage::BlobRef& ref);
     
     // Verification Operations
@@ -191,18 +175,9 @@ public:
         bool manifest_valid = false;
         std::vector<std::string> errors;
         
-        /**
-         * @brief TBD: Describe toString.
-         * @return Return value.
-         */
         std::string toString() const;
     };
     
-    /**
-     * @brief TBD: Describe verifyAdapter.
-     * @param[in] ref Input parameter.
-     * @return Return value.
-     */
     VerificationResult verifyAdapter(const storage::BlobRef& ref);
     
     // Utility Operations
@@ -220,18 +195,9 @@ public:
         size_t manifest_size_bytes = 0;
         size_t total_size_bytes = 0;
         
-        /**
-         * @brief TBD: Describe toJson.
-         * @return Return value.
-         */
         nlohmann::json toJson() const;
     };
     
-    /**
-     * @brief TBD: Describe getFormatInfo.
-     * @param[in] ref Input parameter.
-     * @return Return value.
-     */
     FormatInfo getFormatInfo(const storage::BlobRef& ref);
     
     /// Extract SafeTensors from GGUF-ST file (for HuggingFace compatibility)
@@ -251,18 +217,9 @@ public:
         double compression_ratio = 0.0;  // compressed / uncompressed
         double space_saved_percent = 0.0;
         
-        /**
-         * @brief TBD: Describe toJson.
-         * @return Return value.
-         */
         nlohmann::json toJson() const;
     };
     
-    /**
-     * @brief TBD: Describe getCompressionStats.
-     * @param[in] ref Input parameter.
-     * @return Return value.
-     */
     CompressionStats getCompressionStats(const storage::BlobRef& ref);
     
     /// Get current configuration
@@ -275,59 +232,17 @@ private:
     std::shared_ptr<storage::BlobStorageManager> storage_;
     GGUFSTConfig config_;
     
-    /**
-     * @brief Internal helpers
-     * @param[in] data Input parameter.
-     * @param[in] level Input parameter.
-     * @return Return value.
-     */
+    // Internal helpers
     std::vector<uint8_t> compressData(const std::vector<uint8_t>& data, int level);
-    /**
-     * @brief TBD: Describe decompressData.
-     * @param[in] compressed_data Input parameter.
-     * @return Return value.
-     */
     std::vector<uint8_t> decompressData(const std::vector<uint8_t>& compressed_data);
     
-    /**
-     * @brief TBD: Describe writeSectionHeader.
-     * @param[in,out] buffer Input/output parameter.
-     * @param[in] header Input parameter.
-     * @return True on success.
-     */
     bool writeSectionHeader(std::vector<uint8_t>& buffer, const SectionHeader& header);
-    /**
-     * @brief TBD: Describe readSectionHeader.
-     * @param[in] data Input parameter.
-     * @param[in] offset Input parameter.
-     * @return Return value.
-     */
     std::optional<SectionHeader> readSectionHeader(const std::vector<uint8_t>& data, size_t offset);
     
-    /**
-     * @brief TBD: Describe serializeMetadata.
-     * @param[in] metadata Input parameter.
-     * @return Return value.
-     */
     std::vector<uint8_t> serializeMetadata(const AdapterMetadata& metadata);
-    /**
-     * @brief TBD: Describe deserializeMetadata.
-     * @param[in] data Input parameter.
-     * @return Return value.
-     */
     std::optional<AdapterMetadata> deserializeMetadata(const std::vector<uint8_t>& data);
     
-    /**
-     * @brief TBD: Describe serializeSignature.
-     * @param[in] signature Input parameter.
-     * @return Return value.
-     */
     std::vector<uint8_t> serializeSignature(const AdapterSignature& signature);
-    /**
-     * @brief TBD: Describe deserializeSignature.
-     * @param[in] data Input parameter.
-     * @return Return value.
-     */
     std::optional<AdapterSignature> deserializeSignature(const std::vector<uint8_t>& data);
     
     // Section magic constants (4 bytes, not null-terminated)

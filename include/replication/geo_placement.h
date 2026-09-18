@@ -248,10 +248,6 @@ private:
     /**
      * Rank score for a candidate given its DC's position in the preference
      * list.  Lower index → higher score.  DC not in list → lowest score.
-     * @brief TBD: Describe dcPreferenceScore.
-     * @param[in] datacenter Input parameter.
-     * @param[in] constraints Input parameter.
-     * @return Return value.
      */
     int dcPreferenceScore(const std::string&          datacenter,
                           const PlacementConstraints& constraints) const;

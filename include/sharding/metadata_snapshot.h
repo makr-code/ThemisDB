@@ -77,9 +77,6 @@ struct MetadataSnapshot {
         return j;
     }
     
-     * @param[in] j Input parameter.
-     * @return Return value.
-     * @details Calls: LSN(), contains(), items(), std::stoi().
     /** @brief Deserialize snapshot payload from JSON representation. */
     static MetadataSnapshot fromJson(const nlohmann::json& j) {
         MetadataSnapshot snapshot;
@@ -110,7 +107,6 @@ struct MetadataSnapshot {
         return snapshot;
     }
     
-     * @return Return value.
     /** @brief Compute checksum over current snapshot payload content. */
     std::string calculateChecksum() const;
     
@@ -150,12 +146,9 @@ public:
         const std::map<MetadataPartitionKey, std::map<std::string, MetadataEntry>>& storage
     );
     
-     * @return Return value.
     /** @brief Load newest available snapshot from disk. */
     std::optional<MetadataSnapshot> loadLatestSnapshot();
     
-     * @param[in] snapshot_id Input parameter.
-     * @return Return value.
     /** @brief Load specific snapshot by id and verify checksum. */
     std::optional<MetadataSnapshot> loadSnapshot(uint64_t snapshot_id);
     
@@ -168,14 +161,10 @@ public:
     /** @brief Delete oldest snapshots when retention exceeds max_snapshots. */
     void cleanupOldSnapshots();
     
-     * @param[in] snapshot_id Input parameter.
-     * @return True on success.
     /** @brief Delete one snapshot file by id. */
     bool deleteSnapshot(uint64_t snapshot_id);
     
 private:
-     * @param[in] snapshot_id Input parameter.
-     * @return Return value.
     /** @brief Build full filesystem path for snapshot id. */
     std::string getSnapshotPath(uint64_t snapshot_id) const;
     

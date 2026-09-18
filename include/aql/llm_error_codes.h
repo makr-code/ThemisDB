@@ -104,9 +104,6 @@ public:
     
     /**
      * @brief Get error code as string
-     * @param[in] code Input parameter.
-     * @return Return value.
-     * @details Implements getErrorCodeString without additional internal calls.
      */
     static std::string getErrorCodeString(LLMErrorCode code) {
         switch (code) {
@@ -266,8 +263,6 @@ public:
     /**
      * @brief Validate prompt length
      * @throws LLMException if validation fails
-     * @param[in] prompt Input parameter.
-     * @details Calls: empty(), length(), std::to_string().
      */
     static void validatePrompt(const std::string& prompt) {
         if (prompt.empty()) {
@@ -310,8 +305,6 @@ public:
     /**
      * @brief Validate collection name
      * @throws LLMException if validation fails
-     * @param[in] collection Input parameter.
-     * @details Calls: empty(), length(), std::to_string().
      */
     static void validateCollection(const std::string& collection) {
         if (collection.empty()) {
@@ -326,8 +319,6 @@ public:
     /**
      * @brief Validate RAG top_k parameter
      * @throws LLMException if validation fails
-     * @param[in] top_k Input parameter.
-     * @details Calls: std::to_string().
      */
     static void validateTopK(int top_k) {
         if (top_k < ValidationLimits::MIN_RAG_TOP_K || top_k > ValidationLimits::MAX_RAG_TOP_K) {

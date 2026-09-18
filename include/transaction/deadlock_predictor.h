@@ -98,69 +98,62 @@ public:
     // ── Construction / configuration ─────────────────────────────────────────
 
     DeadlockPredictor() = default;
-    /**
-     * @brief TBD: Describe DeadlockPredictor.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit DeadlockPredictor(Config config);
 
     /// Replace the current configuration.  Thread-safe.
     void setConfig(Config config);
-    /**
-     * @brief TBD: Describe getConfig.
-     * @return Return value.
-     */
     Config getConfig() const;
 
     // ── Training API ──────────────────────────────────────────────────────────
 
-    /**
-     * @brief Record a completed transaction's lock-acquisition history.
-     * @param[in] txn_id Input parameter.
-     * @param[in] locks_acquired Input parameter.
-     * @param[in] duration Input parameter.
-     * @details @param txn_id Identifier of the completed transaction. @param locks_acquired Ordered list of keys that were locked. @param duration Total time the transaction held its locks.
-     */
+    /// Record a completed transaction's lock-acquisition history.
+    ///
+    /// @param txn_id           Identifier of the completed transaction.
+    /// @param locks_acquired   Ordered list of keys that were locked.
+    /// @param duration         Total time the transaction held its locks.
     void recordTransaction(TransactionId txn_id,
                            const std::vector<std::string>& locks_acquired,
                            std::chrono::microseconds duration);
 
-    /**
-     * @brief Record that @p keys were involved in a deadlock cycle.
-     * @param[in] keys Input parameter.
-     * @details This increases the conflict weight for every pair in @p keys. @param keys Keys that were part of the deadlock cycle.
-     */
+    /// Record that @p keys were involved in a deadlock cycle.
+    /// This increases the conflict weight for every pair in @p keys.
+    ///
+    /// @param keys  Keys that were part of the deadlock cycle.
     void recordDeadlock(const std::vector<std::string>& keys);
 
     // ── Prediction API ────────────────────────────────────────────────────────
 
-    /**
-     * @brief Estimate the probability [0.
-     * @param[in] proposed_locks Input parameter.
-     * @param[in] active_transactions Input parameter.
-     * @return Return value.
-     * @details 0, 1.0] that acquiring @p proposed_locks while @p active_transactions are running will result in a deadlock. Returns 0.0 when fewer than Config::min_samples_for_prediction events have been recorded. @param proposed_locks Keys the caller intends to lock. @param active_transactions IDs of transactions currently in flight (used for active-load scaling).
-     */
+    /// Estimate the probability [0.0, 1.0] that acquiring @p proposed_locks
+    /// while @p active_transactions are running will result in a deadlock.
+    ///
+    /// Returns 0.0 when fewer than Config::min_samples_for_prediction events
+    /// have been recorded.
+    ///
+    /// @param proposed_locks       Keys the caller intends to lock.
+    /// @param active_transactions  IDs of transactions currently in flight
+    ///                             (used for active-load scaling).
     double predictDeadlockProbability(
         const std::vector<std::string>& proposed_locks,
         const std::set<TransactionId>&  active_transactions) const;
 
-    /**
-     * @brief Return the recommended key acquisition order for @p keys.
-     * @param[in] keys Input parameter.
-     * @return Return value.
-     * @details Keys are sorted by ascending aggregate conflict weight (danger score): a key's danger score is the sum of all pair-conflict weights it shares with other keys in the input set. Keys with lower danger scores are placed first (safer to acquire earlier). Ties are broken lexicographically for determinism. If no historical data is available the keys are returned in lexicographic order.
-     */
+    /// Return the recommended key acquisition order for @p keys.
+    ///
+    /// Keys are sorted by ascending aggregate conflict weight (danger score):
+    /// a key's danger score is the sum of all pair-conflict weights it shares
+    /// with other keys in the input set.  Keys with lower danger scores are
+    /// placed first (safer to acquire earlier).  Ties are broken lexicographically
+    /// for determinism.
+    ///
+    /// If no historical data is available the keys are returned in lexicographic
+    /// order.
     std::vector<std::string> recommendLockOrder(
         const std::vector<std::string>& keys) const;
 
-    /**
-     * @brief Suggest a transaction timeout calibrated to the observed hold times of the given @p keys, clamped to [Config::min_recommended_timeout, Config::max_recommended_timeout].
-     * @param[in] keys Input parameter.
-     * @return Return value.
-     * @details Falls back to Config::min_recommended_timeout when no data is available.
-     */
+    /// Suggest a transaction timeout calibrated to the observed hold times of
+    /// the given @p keys, clamped to [Config::min_recommended_timeout,
+    /// Config::max_recommended_timeout].
+    ///
+    /// Falls back to Config::min_recommended_timeout when no data is available.
     std::chrono::milliseconds recommendTimeout(
         const std::vector<std::string>& keys) const;
 

@@ -91,11 +91,6 @@ public:
     uint64_t submit(std::string label,
                     Priority priority,
                     std::function<void()> work) {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         if (max_queue_depth_ > 0 && queue_.size() >= max_queue_depth_) {
             throw std::overflow_error("GraphQueryScheduler: queue capacity exceeded");
@@ -116,11 +111,6 @@ public:
      * @return The task, or std::nullopt if the queue is empty (non-blocking mode).
      */
     std::optional<QueryTask> next(bool block = false) {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::mutex> lock(mutex_);
         if (block) {
             cv_.wait(lock, [this] { return !queue_.empty() || stopped_; });
@@ -157,11 +147,6 @@ public:
      * @return Pending task count.
      */
     size_t pending() const {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         return queue_.size();
     }
@@ -192,15 +177,9 @@ public:
 
     /**
      * @brief Signal scheduler to stop (unblocks any waiting next() calls).
-     * @details Calls: lock(), notify_all().
      */
     void stop() {
         {
-            /**
-             * @brief TBD: Describe lock.
-             * @param[in] mutex_ Input parameter.
-             * @return Return value.
-             */
             std::lock_guard<std::mutex> lock(mutex_);
             stopped_ = true;
         }
@@ -210,14 +189,8 @@ public:
     /**
      * @brief Clear all pending tasks without executing them.
      * @return Number of tasks cleared.
-     * @details Calls: lock(), size(), empty(), pop().
      */
     size_t clearPending() {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         size_t count = queue_.size();
         while (!queue_.empty()) {
@@ -285,7 +258,6 @@ public:
         /**
          * @brief Update EMA latency with a new observation.
          * @param latency_ms Observed query latency in milliseconds.
-         * @details Implements recordLatency without additional internal calls.
          */
         void recordLatency(double latency_ms) {
             static constexpr double kAlpha = 0.15;
@@ -302,18 +274,12 @@ public:
      *
      * @param strategy   Shard selection strategy.
      * @param shard_ids  List of shard identifiers to balance across.
-     * @return Return value.
      */
     explicit GraphShardBalancer(Strategy strategy,
                                  std::vector<std::string> shard_ids)
         : strategy_(strategy) {
         if (shard_ids.empty())
             throw std::invalid_argument("GraphShardBalancer: shard list must not be empty");
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         for (auto& id : shard_ids) {
             shard_order_.push_back(id);
@@ -325,14 +291,8 @@ public:
      * @brief Select the best shard for the next query.
      *
      * @return Selected shard ID, or empty string if all shards are unhealthy.
-     * @details Calls: lock(), empty(), selectRoundRobin(), selectLeastLoaded(), selectLatencyAware().
      */
     std::string selectShard() {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         if (shard_order_.empty()) return {};
 
@@ -351,14 +311,8 @@ public:
      * @brief Record that a query was routed to a shard (increments in-flight).
      *
      * @param shard_id Target shard.
-     * @details Calls: lock(), find(), end().
      */
     void onQueryStarted(const std::string& shard_id) {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = stats_.find(shard_id);
         if (it == stats_.end()) {
@@ -375,14 +329,8 @@ public:
      *
      * @param shard_id   Target shard.
      * @param latency_ms Observed query latency in milliseconds.
-     * @details Calls: lock(), find(), end(), recordLatency().
      */
     void onQueryCompleted(const std::string& shard_id, double latency_ms) {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = stats_.find(shard_id);
         if (it == stats_.end()) {
@@ -401,14 +349,8 @@ public:
      *
      * @param shard_id Shard identifier.
      * @param healthy  true to mark healthy; false to mark unhealthy.
-     * @details Calls: lock(), find(), end().
      */
     void setShardHealth(const std::string& shard_id, bool healthy) {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = stats_.find(shard_id);
         if (it != stats_.end()) {
@@ -420,14 +362,8 @@ public:
      * @brief Add a new shard to the balancer.
      *
      * @param shard_id New shard identifier.
-     * @details Calls: lock(), count(), push_back().
      */
     void addShard(const std::string& shard_id) {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         if (stats_.count(shard_id)) {
           return;
@@ -441,14 +377,8 @@ public:
      *
      * @param shard_id Shard identifier to remove.
      * @return true if the shard was present and removed.
-     * @details Calls: lock(), find(), end(), erase(), std::remove(), begin(), size().
      */
     bool removeShard(const std::string& shard_id) {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = stats_.find(shard_id);
         if (it == stats_.end()) {
@@ -470,11 +400,6 @@ public:
      * @return Vector of ShardStats, one per registered shard.
      */
     std::vector<ShardStats> allStats() const {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         std::vector<ShardStats> out = {};
 
@@ -495,11 +420,6 @@ public:
      * @return ShardStats, or std::nullopt if the shard is unknown.
      */
     std::optional<ShardStats> shardStats(const std::string& shard_id) const {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = stats_.find(shard_id);
         if (it == stats_.end()) {
@@ -517,7 +437,6 @@ public:
     /**
      * @brief Update the selection strategy at runtime.
      * @param strategy New strategy.
-     * @details Implements setStrategy without additional internal calls.
      */
     void setStrategy(Strategy strategy) { strategy_ = strategy; }
 
@@ -526,21 +445,12 @@ public:
      * @return Shard count.
      */
     size_t shardCount() const {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         return shard_order_.size();
     }
 
 private:
-    /**
-     * @brief All three selectors must be called under mutex_.
-     * @return Return value.
-     * @details Calls: size(), at().
-     */
+    // All three selectors must be called under mutex_.
 
     std::string selectRoundRobin() {
         for (size_t i = 0; i < shard_order_.size(); ++i) {
@@ -554,11 +464,6 @@ private:
         return {};
     }
 
-    /**
-     * @brief TBD: Describe selectLeastLoaded.
-     * @return Return value.
-     * @details Calls: at().
-     */
     std::string selectLeastLoaded() {
         std::string best = {};
         uint64_t    min_load = UINT64_MAX;
@@ -575,11 +480,6 @@ private:
         return best;
     }
 
-    /**
-     * @brief TBD: Describe selectLatencyAware.
-     * @return Return value.
-     * @details Calls: max(), at().
-     */
     std::string selectLatencyAware() {
         std::string best = {};
         double      min_latency = std::numeric_limits<double>::max();

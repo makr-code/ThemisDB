@@ -180,12 +180,6 @@ public:
     /**
      * Query all row versions for a specific key whose sys_time overlaps
      * [from, to).
-     * @brief TBD: Describe queryKeyFromTo.
-     * @param[in] table Input parameter.
-     * @param[in] key Input parameter.
-     * @param[in] from Input parameter.
-     * @param[in] to Input parameter.
-     * @return Return value.
      */
     static std::vector<VersionedDocument> queryKeyFromTo(
         const SystemVersionedTable& table,
@@ -200,8 +194,6 @@ public:
      * @param lhs Left-hand period
      * @param rhs Right-hand period
      * @return    true if the predicate holds
-     * @brief TBD: Describe evaluatePredicate.
-     * @note Exception safety: noexcept.
      */
     static bool evaluatePredicate(TemporalOperator op,
                                   const TimeRange& lhs,
@@ -348,11 +340,6 @@ public:
     /**
      * Compute the overlap intersection of two time ranges.
      * Returns an empty range (start==end) when there is no overlap.
-     * @brief TBD: Describe intersect.
-     * @param[in] a Input parameter.
-     * @param[in] b Input parameter.
-     * @return Return value.
-     * @note Exception safety: noexcept.
      */
     static TimeRange intersect(const TimeRange& a, const TimeRange& b) noexcept;
 
@@ -361,10 +348,6 @@ public:
      * Returns true only when the document satisfies every filter.
      * Accessible as a public helper so that code outside the class (e.g.
      * detail::queryAsOfCached) can reuse the same filter logic.
-     * @brief TBD: Describe matchesFilters.
-     * @param[in] doc Input parameter.
-     * @param[in] filters Input parameter.
-     * @return True on success.
      */
     static bool matchesFilters(const VersionedDocument& doc,
                                const std::vector<RowFilter>& filters);
@@ -510,36 +493,21 @@ public:
      * Returns a copy of the cached vector, or std::nullopt on cache miss.
      * Returning by value avoids returning a pointer into internal storage
      * that can be invalidated by a concurrent put/invalidate/clear call.
-     * @brief TBD: Describe get.
-     * @param[in] table_name Input parameter.
-     * @param[in] as_of Input parameter.
-     * @return Return value.
      */
     std::optional<std::vector<VersionedDocument>> get(const std::string& table_name,
                                                       Timestamp as_of) const;
 
-     * @brief TBD: Describe put.
-     * @param[in] table_name Input parameter.
-     * @param[in] as_of Input parameter.
-     * @param[in] result Input parameter.
     /** Store a result in the cache, evicting LRU entry if necessary. */
     void put(const std::string& table_name,
              Timestamp as_of,
              std::vector<VersionedDocument> result);
 
-     * @brief TBD: Describe invalidate.
-     * @param[in] table_name Input parameter.
     /** Invalidate all entries for the given table (e.g. after a write). */
     void invalidate(const std::string& table_name);
 
-     * @brief TBD: Describe clear.
     /** Discard all cached entries. */
     void clear();
 
-    /**
-     * @brief TBD: Describe size.
-     * @return Return value.
-     */
     size_t size() const;
 
 private:

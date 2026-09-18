@@ -60,13 +60,9 @@ enum class ProcessLinkType {
     EVIDENCE_FOR,       ///< Document is evidence for a process decision
 };
 
- * @param[in] t Input parameter.
- * @return Return value.
 /** @brief Human-readable name for @p t. */
 std::string_view toString(ProcessLinkType t);
 
- * @param[in] s Input parameter.
- * @return Return value.
 /** @brief Parse a ProcessLinkType from its string representation. */
 ProcessLinkType processLinkTypeFromString(std::string_view s);
 
@@ -96,11 +92,6 @@ struct ProcessAttachment {
     nlohmann::json metadata;         ///< Additional link metadata
 
     [[nodiscard]] nlohmann::json toDocument() const;
-    /**
-     * @brief TBD: Describe fromDocument.
-     * @param[in] doc Input parameter.
-     * @return Return value.
-     */
     static ProcessAttachment fromDocument(const nlohmann::json& doc);
 };
 
@@ -123,11 +114,6 @@ struct ProcessLink {
     int64_t created_at_ms{0};
 
     [[nodiscard]] nlohmann::json toDocument() const;
-    /**
-     * @brief TBD: Describe fromDocument.
-     * @param[in] doc Input parameter.
-     * @return Return value.
-     */
     static ProcessLink fromDocument(const nlohmann::json& doc);
 };
 
@@ -190,7 +176,6 @@ public:
      *
      * @see attachObject() for how to create and manage links
      * @see detectStaleLinkAtReadTime() for stale link detection
-     * @return Return value.
      */
     explicit ProcessLinker(RocksDBWrapper& db);
 
@@ -223,7 +208,6 @@ public:
     /**
      * @brief Detach an object from a process instance by attachment ID.
      * @return true if the attachment existed and was removed.
-     * @param[in] attachment_id Input parameter.
      */
     bool detachObject(std::string_view attachment_id);
 
@@ -461,15 +445,7 @@ private:
               failed_(false) {}
         ~LinkOperationGuard();
         
-        /**
-         * @brief TBD: Describe recordModification.
-         * @param[in] key Input parameter.
-         */
         void recordModification(std::string_view key);
-        /**
-         * @brief TBD: Describe markFailed.
-         * @details Implements markFailed without additional internal calls.
-         */
         void markFailed() { failed_ = true; }
         uint64_t getOperationId() const { return operation_id_; }
         
@@ -485,41 +461,16 @@ private:
         bool failed_;
     };
 
-    /**
-     * @brief TBD: Describe makeAttachKey_.
-     * @param[in] instance_id Input parameter.
-     * @param[in] object_id Input parameter.
-     * @return Return value.
-     */
     std::string makeAttachKey_(std::string_view instance_id,
                                std::string_view object_id) const;
-    /**
-     * @brief Reverse-lookup key for findInstancesWithObject(): proc:obj_idx:<object_id>:<collection>:<instance_id>
-     * @param[in] object_id Input parameter.
-     * @param[in] collection Input parameter.
-     * @param[in] instance_id Input parameter.
-     * @return Return value.
-     */
+    /// Reverse-lookup key for findInstancesWithObject():
+    ///   proc:obj_idx:<object_id>:<collection>:<instance_id>
     std::string makeObjIdxKey_(std::string_view object_id,
                                std::string_view collection,
                                std::string_view instance_id) const;
-    /**
-     * @brief TBD: Describe makeLinkKey_.
-     * @param[in] source_id Input parameter.
-     * @param[in] target_id Input parameter.
-     * @param[in] link_type Input parameter.
-     * @return Return value.
-     */
     std::string makeLinkKey_(std::string_view source_id,
                              std::string_view target_id,
                              ProcessLinkType  link_type) const;
-    /**
-     * @brief TBD: Describe makeReqDocKey_.
-     * @param[in] model_id Input parameter.
-     * @param[in] node_id Input parameter.
-     * @param[in] doc_type Input parameter.
-     * @return Return value.
-     */
     std::string makeReqDocKey_(std::string_view model_id,
                                std::string_view node_id,
                                std::string_view doc_type) const;

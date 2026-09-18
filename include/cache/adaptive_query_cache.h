@@ -192,11 +192,6 @@ public:
         }
     };
     
-    /**
-     * @brief TBD: Describe AdaptiveQueryCache.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit AdaptiveQueryCache(const Config& config);
     ~AdaptiveQueryCache();
     
@@ -313,7 +308,6 @@ public:
     
     /**
      * @brief Get cache statistics
-     * @return Return value.
      */
     CacheStats getStats() const;
     
@@ -326,7 +320,6 @@ public:
     
     /**
      * @brief Get detailed cache information (for monitoring)
-     * @return Return value.
      */
     nlohmann::json getDetailedInfo() const;
     
@@ -428,7 +421,6 @@ public:
      *   - state: "CLOSED" | "OPEN" | "HALF_OPEN"
      *   - failure_count: uint32
      *   - enabled: bool (false when circuit breaker is not configured)
-     * @return Return value.
      */
     nlohmann::json getCircuitBreakerStatus() const;
 
@@ -464,7 +456,6 @@ public:
     /**
      * @brief Return replication coordinator statistics, or an empty JSON object
      *        when no coordinator is registered.
-     * @return Return value.
      */
     nlohmann::json getReplicationStats() const;
 
@@ -568,7 +559,6 @@ public:
      *
      * Returns {"enabled": false} when `config_.enable_predictive_prefetch` is
      * false.
-     * @return Return value.
      */
     nlohmann::json getPrefetchStats() const;
 
@@ -646,7 +636,6 @@ public:
      *
      * @see include/access_model/access_coordinator.h
      * @see docs/architecture/UNIFIED_ACCESS_MODEL.md
-     * @note Exception safety: noexcept.
      */
     void setEvictionListener(access_model::EvictionListener* listener) noexcept;
 
@@ -708,15 +697,9 @@ private:
     };
     std::shared_ptr<AliveGuard> alive_guard_{std::make_shared<AliveGuard>()};
 
-    /**
-     * @brief Internal: apply a replicated entry received from a peer
-     * @param[in] msg Input parameter.
-     */
+    // Internal: apply a replicated entry received from a peer
     void applyReplicatedEntry(const cache::ReplicationMessage& msg);
-    /**
-     * @brief Internal: apply a replicated invalidation received from a peer
-     * @param[in] msg Input parameter.
-     */
+    // Internal: apply a replicated invalidation received from a peer
     void applyReplicatedInvalidation(const cache::ReplicationMessage& msg);
     
     // Phase 3: Per-tenant cache statistics (hits, misses, evictions, bytes)
@@ -768,106 +751,31 @@ private:
     std::shared_ptr<cache::ICacheReplicationListener> replication_listener_;
     mutable std::mutex replication_mutex_;
     
-    /**
-     * @brief Internal helper methods
-     * @return Return value.
-     */
+    // Internal helper methods
     int64_t getCurrentTimeMs() const;
-    /**
-     * @brief TBD: Describe isExpired.
-     * @param[in] created_at_ms Input parameter.
-     * @param[in] ttl_seconds Input parameter.
-     * @return True on success.
-     */
     bool isExpired(int64_t created_at_ms, int ttl_seconds) const;
-    /**
-     * @brief TBD: Describe calculateAdaptiveTTL.
-     * @param[in] access_count Input parameter.
-     * @return Return value.
-     */
     int calculateAdaptiveTTL(int64_t access_count) const;
-    /**
-     * @brief TBD: Describe selectCacheLevel.
-     * @param[in] result_size Input parameter.
-     * @return Return value.
-     */
     CacheLevel selectCacheLevel(size_t result_size) const;
-    /**
-     * @brief TBD: Describe promoteEntry.
-     * @param[in] fingerprint Input parameter.
-     * @param[in] entry Input parameter.
-     */
     void promoteEntry(const std::string& fingerprint, const CacheEntry& entry);
-    /**
-     * @brief TBD: Describe evictLRU.
-     * @param[in] level Input parameter.
-     */
     void evictLRU(CacheLevel level);
-    /**
-     * @brief TBD: Describe calculateLRUScore.
-     * @param[in] last_accessed_ms Input parameter.
-     * @param[in] access_count Input parameter.
-     * @return Return value.
-     */
     double calculateLRUScore(int64_t last_accessed_ms, int64_t access_count) const;
     
-    /**
-     * @brief Phase 5: BLOCK 2 Cache Integration — Emit eviction events to coordinator
-     * @param[in] key Input parameter.
-     * @param[in] tier Input parameter.
-     * @param[in] size_bytes Input parameter.
-     * @param[in] access_count Input parameter.
-     * @param[in] last_access_ms Input parameter.
-     * @param[in] reason Input parameter.
-     */
+    // Phase 5: BLOCK 2 Cache Integration — Emit eviction events to coordinator
     void emitEvictionEvent(const std::string& key, access_model::TierLevel tier, 
                           std::size_t size_bytes, uint64_t access_count,
                           int64_t last_access_ms, std::string_view reason);
     
-    /**
-     * @brief Phase 1: Size validation and security
-     * @param[in] size Input parameter.
-     * @param[in] level Input parameter.
-     * @return True on success.
-     */
+    // Phase 1: Size validation and security
     bool validateEntrySize(size_t size, CacheLevel level) const;
-    /**
-     * @brief TBD: Describe isWithinSizeLimit.
-     * @param[in] size Input parameter.
-     * @return True on success.
-     */
     bool isWithinSizeLimit(size_t size) const;
     
-    /**
-     * @brief Phase 2: Tenant isolation helpers
-     * @param[in] fingerprint Input parameter.
-     * @param[in] tenant_id Input parameter.
-     * @return Return value.
-     */
+    // Phase 2: Tenant isolation helpers
     std::string makeTenantKey(const std::string& fingerprint, const std::string& tenant_id) const;
-    /**
-     * @brief TBD: Describe checkTenantQuota.
-     * @param[in] tenant_id Input parameter.
-     * @param[in] additional_bytes Input parameter.
-     * @return True on success.
-     */
     bool checkTenantQuota(const std::string& tenant_id, size_t additional_bytes);
-    /**
-     * @brief Returns the effective quota for a tenant (override if set, else global default)
-     * @param[in] tenant_id Input parameter.
-     * @return Return value.
-     */
+    // Returns the effective quota for a tenant (override if set, else global default)
     size_t getEffectiveTenantQuota(const std::string& tenant_id) const;
 
-    /**
-     * @brief Phase 4: Write-through helper - persist a result to L3 without modifying L1/L2
-     * @param[in] fingerprint Input parameter.
-     * @param[in] query_params Input parameter.
-     * @param[in] result Input parameter.
-     * @param[in] now_ms Input parameter.
-     * @param[in] ttl_seconds Input parameter.
-     * @return True on success.
-     */
+    // Phase 4: Write-through helper - persist a result to L3 without modifying L1/L2
     bool writeThroughToL3(const std::string& fingerprint,
                           const nlohmann::json& query_params,
                           const nlohmann::json& result,

@@ -62,31 +62,23 @@ public:
     GPUMemoryPool(GPUMemoryPool&&) noexcept = default;
     GPUMemoryPool& operator=(GPUMemoryPool&&) noexcept = default;
 
-    /**
-     * @brief @brief Allocate memory from pool @param size Number of bytes to allocate @return Device pointer if successful; nullptr if failed @throws std::runtime_error on allocation failure
-     * @param[in] size Input parameter.
-     * @return Pointer to the result.
-     */
+    /// @brief Allocate memory from pool
+    /// @param size Number of bytes to allocate
+    /// @return Device pointer if successful; nullptr if failed
+    /// @throws std::runtime_error on allocation failure
     void* allocate(size_t size);
 
-    /**
-     * @brief @brief Deallocate memory back to pool @param ptr Device pointer to deallocate @return true if deallocation succeeded; false if pointer not found
-     * @param[in,out] ptr Input/output parameter.
-     * @return True on success.
-     */
+    /// @brief Deallocate memory back to pool
+    /// @param ptr Device pointer to deallocate
+    /// @return true if deallocation succeeded; false if pointer not found
     bool deallocate(void* ptr);
 
-    /**
-     * @brief @brief Get fragmentation ratio @return Ratio of fragmented free space to total free space (0.
-     * @return Return value.
-     * @details 0-1.0)
-     */
+    /// @brief Get fragmentation ratio
+    /// @return Ratio of fragmented free space to total free space (0.0-1.0)
     double getFragmentationRatio() const;
 
-    /**
-     * @brief @brief Force defragmentation of pool @return Number of blocks coalesced
-     * @return Return value.
-     */
+    /// @brief Force defragmentation of pool
+    /// @return Number of blocks coalesced
     size_t defragment();
 
     /// @brief Get current statistics
@@ -99,16 +91,12 @@ public:
         double fragmentation_ratio = 0.0;
     };
 
-    /**
-     * @brief @brief Get pool statistics @return Current statistics
-     * @return Return value.
-     */
+    /// @brief Get pool statistics
+    /// @return Current statistics
     Statistics getStatistics() const;
 
-    /**
-     * @brief @brief Check for memory leaks @return Number of potentially leaked blocks
-     * @return Return value.
-     */
+    /// @brief Check for memory leaks
+    /// @return Number of potentially leaked blocks
     size_t checkForLeaks() const;
 
 private:
@@ -127,20 +115,8 @@ private:
     size_t total_freed_ = 0;
     int64_t next_allocation_id_ = 1;
 
-    /**
-     * @brief TBD: Describe findBlock.
-     * @param[in,out] ptr Input/output parameter.
-     * @return Pointer to the result.
-     */
     Block* findBlock(void* ptr);
-    /**
-     * @brief TBD: Describe coalesceAdjacentBlocks.
-     */
     void coalesceAdjacentBlocks();
-    /**
-     * @brief TBD: Describe computeFragmentedSize.
-     * @return Return value.
-     */
     size_t computeFragmentedSize() const;
 };
 

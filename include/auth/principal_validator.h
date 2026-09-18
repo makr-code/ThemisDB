@@ -128,11 +128,6 @@ public:
         // Principal-to-role mapping rules
         std::vector<MappingRule> mapping_rules;
 
-        /**
-         * @brief TBD: Describe defaults.
-         * @return Return value.
-         * @details Implements defaults without additional internal calls.
-         */
         static Config defaults() { return {}; }
     };
     
@@ -141,8 +136,6 @@ public:
     /**
      * @brief Attach an AuditLogger to receive PERMISSION_DENIED / LOGIN_SUCCESS events.
      * Pass nullptr to detach.  The validator does NOT take ownership.
-     * @param[in,out] logger Input/output parameter.
-     * @details Implements setAuditLogger without additional internal calls.
      */
     void setAuditLogger(utils::AuditLogger* logger) { audit_logger_ = logger; }
 
@@ -152,8 +145,6 @@ public:
      * When set, validate() evaluates ABAC policies after the RBAC check passes.
      * A RBAC deny always wins; ABAC is only evaluated when RBAC allows.
      * Pass nullptr to detach.  The validator does NOT take ownership.
-     * @param[in,out] engine Input/output parameter.
-     * @details Implements setAbacEngine without additional internal calls.
      */
     void setAbacEngine(PolicyEngine* engine) { abac_engine_ = engine; }
 
@@ -217,10 +208,6 @@ public:
         uint64_t default_deny = 0;
     };
     
-    /**
-     * @brief TBD: Describe getStatistics.
-     * @return Return value.
-     */
     Statistics getStatistics() const;
 
 private:
@@ -229,44 +216,20 @@ private:
     utils::AuditLogger* audit_logger_{nullptr};  ///< Non-owning, optional.
     PolicyEngine*       abac_engine_{nullptr};   ///< Non-owning, optional ABAC engine.
     
-    /**
-     * @brief Check if principal matches a rule
-     * @param[in] principal Input parameter.
-     * @param[in] rule Input parameter.
-     * @return True on success.
-     */
+    // Check if principal matches a rule
     bool matchesRule(const std::string& principal, const Rule& rule) const;
     
-    /**
-     * @brief Check if principal matches a mapping rule
-     * @param[in] principal Input parameter.
-     * @param[in] rule Input parameter.
-     * @return True on success.
-     */
+    // Check if principal matches a mapping rule
     bool matchesMappingRule(const std::string& principal, const MappingRule& rule) const;
     
-    /**
-     * @brief Apply mapping rules to get roles
-     * @param[in] principal Input parameter.
-     * @return Return value.
-     */
+    // Apply mapping rules to get roles
     std::vector<std::string> applyMappingRules(const std::string& principal) const;
     
-    /**
-     * @brief Log audit trail
-     * @param[in] result Input parameter.
-     */
+    // Log audit trail
     void logAudit(const ValidationResult& result) const;
     
-    /**
-     * @brief Compile regex for a rule
-     * @param[in] rule Input parameter.
-     */
+    // Compile regex for a rule
     void compileRegex(const Rule& rule) const;
-    /**
-     * @brief TBD: Describe compileRegex.
-     * @param[in] rule Input parameter.
-     */
     void compileRegex(const MappingRule& rule) const;
 };
 

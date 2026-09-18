@@ -196,7 +196,6 @@ public:
 
     /**
      * @brief Return a snapshot of current transport statistics.
-     * @return Return value.
      */
     Stats getStats() const;
 
@@ -235,9 +234,6 @@ private:
     std::atomic<uint64_t> total_overflow_closes_{0};
     std::atomic<uint64_t> total_poll_cycles_{0};
 
-    /**
-     * @brief TBD: Describe scheduleNextPoll.
-     */
     void scheduleNextPoll();
 };
 

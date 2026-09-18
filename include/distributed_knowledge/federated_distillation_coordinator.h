@@ -179,11 +179,6 @@ struct DistillationConfig {
  */
 class IFederatedDistillationCoordinator {
 public:
-    /**
-     * @brief TBD: Describe ~IFederatedDistillationCoordinator.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
     virtual ~IFederatedDistillationCoordinator() noexcept = default;
 
     /**
@@ -350,7 +345,6 @@ public:
      * @brief Inject a policy gate callback.
      *
      * Called in `broadcastToStudents()`.  Pass `nullptr` to clear (allow all).
-     * @param[in] gate Input parameter.
      */
     void setPolicyGate(PolicyGate gate);
 

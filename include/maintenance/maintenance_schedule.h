@@ -36,12 +36,6 @@ enum class ScheduleFrequency {
     CUSTOM,     ///< Use cron_expression verbatim
 };
 
-/**
- * @brief TBD: Describe frequencyToString.
- * @param[in] f Input parameter.
- * @return Return value.
- * @details Implements frequencyToString without additional internal calls.
- */
 inline std::string frequencyToString(ScheduleFrequency f) {
     switch (f) {
         case ScheduleFrequency::DAILY:     return "daily";
@@ -53,12 +47,6 @@ inline std::string frequencyToString(ScheduleFrequency f) {
     }
 }
 
-/**
- * @brief TBD: Describe frequencyFromString.
- * @param[in] s Input parameter.
- * @return Return value.
- * @details Implements frequencyFromString without additional internal calls.
- */
 inline ScheduleFrequency frequencyFromString(const std::string& s) {
     if (s == "daily") {
       return ScheduleFrequency::DAILY;
@@ -123,13 +111,6 @@ struct MaintenanceTaskDependency {
         return j;
     }
 
-    /**
-     * @brief TBD: Describe fromJson.
-     * @param[in] j Input parameter.
-     * @return Return value.
-     * @throws std::invalid_argument if an error occurs.
-     * @details Calls: contains(), is_string(), taskTypeFromString(), is_array(), push_back().
-     */
     static MaintenanceTaskDependency fromJson(const nlohmann::json& j) {
         if (!j.contains("task_type") || !j["task_type"].is_string()) {
             throw std::invalid_argument(
@@ -283,12 +264,6 @@ struct MaintenanceScheduleEntry {
         return j;
     }
 
-    /**
-     * @brief TBD: Describe fromJson.
-     * @param[in] j Input parameter.
-     * @return Return value.
-     * @details Calls: contains(), frequencyFromString(), push_back(), taskTypeFromString().
-     */
     static MaintenanceScheduleEntry fromJson(const nlohmann::json& j) {
         MaintenanceScheduleEntry e = {};
         if (j.contains("id")) {

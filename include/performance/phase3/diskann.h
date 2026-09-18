@@ -50,19 +50,7 @@ class LRUCache {
 public:
     explicit LRUCache(size_t capacity) : capacity_(capacity) {}
     
-    /**
-     * @brief TBD: Describe get.
-     * @param[in] key Input parameter.
-     * @param[in,out] value Input/output parameter.
-     * @return True on success.
-     * @details Calls: lock(), find(), end().
-     */
     bool get(const Key& key, Value& value) {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = cache_.find(key);
         if (it == cache_.end()) {
@@ -72,18 +60,7 @@ public:
         return true;
     }
     
-    /**
-     * @brief TBD: Describe put.
-     * @param[in] key Input parameter.
-     * @param[in] value Input parameter.
-     * @details Calls: lock(), size(), erase(), begin().
-     */
     void put(const Key& key, const Value& value) {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         cache_[key] = value;
         if (cache_.size() > capacity_) {
@@ -93,11 +70,6 @@ public:
     }
     
     size_t size() const { 
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         return cache_.size(); 
     }
@@ -120,11 +92,7 @@ public:
     // Build index from vectors
     void build(const std::vector<std::pair<VectorID, std::vector<float>>>& vectors);
     
-    /**
-     * @brief Add vector to existing index
-     * @param[in] id Input parameter.
-     * @param[in] vector Input parameter.
-     */
+    // Add vector to existing index
     void add(VectorID id, const std::vector<float>& vector);
     
     // Greedy search on disk-resident graph
@@ -142,31 +110,17 @@ public:
         size_t cache_misses;
         size_t disk_reads;
     };
-    /**
-     * @brief TBD: Describe get_stats.
-     * @return Return value.
-     */
     Stats get_stats() const;
     
-    /**
-     * @brief Flush graph file and save metadata sidecar (call after build/add)
-     */
+    // Flush graph file and save metadata sidecar (call after build/add)
     void flush();
 
-    /**
-     * @brief Persist metadata (vector_offsets_, edge count) to a sidecar file.
-     * @param[in] path Input parameter.
-     * @return True on success.
-     * @details Returns true on success. The sidecar path is index_path + ".meta".
-     */
+    // Persist metadata (vector_offsets_, edge count) to a sidecar file.
+    // Returns true on success.  The sidecar path is index_path + ".meta".
     bool save(const std::string& path) const;
 
-    /**
-     * @brief Reload metadata from a previously saved sidecar file.
-     * @param[in] path Input parameter.
-     * @return True on success.
-     * @details Returns true on success.
-     */
+    // Reload metadata from a previously saved sidecar file.
+    // Returns true on success.
     bool load(const std::string& path);
 
 private:
@@ -192,35 +146,16 @@ private:
     std::unique_ptr<std::fstream> graph_file_;
     mutable std::mutex file_mutex_;
     
-    /**
-     * @brief Helper: Load node from disk
-     * @param[in] id Input parameter.
-     * @return Return value.
-     */
+    // Helper: Load node from disk
     DiskANNNode load_node(VectorID id);
     
-    /**
-     * @brief Helper: Save node to disk
-     * @param[in] node Input parameter.
-     */
+    // Helper: Save node to disk
     void save_node(const DiskANNNode& node);
     
-    /**
-     * @brief Helper: Compute L2 distance
-     * @param[in] a Input parameter.
-     * @param[in] b Input parameter.
-     * @return Return value.
-     */
+    // Helper: Compute L2 distance
     float compute_distance(const std::vector<float>& a, const std::vector<float>& b) const;
     
-    /**
-     * @brief Helper: Greedy search from entry point
-     * @param[in] query Input parameter.
-     * @param[in] entry_point Input parameter.
-     * @param[in] beam_width Input parameter.
-     * @param[in] k Input parameter.
-     * @return Return value.
-     */
+    // Helper: Greedy search from entry point
     std::vector<VectorID> greedy_search_internal(
         const std::vector<float>& query,
         VectorID entry_point,
@@ -228,17 +163,8 @@ private:
         int k
     );
 
-    /**
-     * @brief Helper: Persist/reload vector_offsets_ and edge count to a sidecar file
-     * @param[in] meta_path Input parameter.
-     * @return True on success.
-     */
+    // Helper: Persist/reload vector_offsets_ and edge count to a sidecar file
     bool save_metadata(const std::string& meta_path) const;
-    /**
-     * @brief TBD: Describe load_metadata.
-     * @param[in] meta_path Input parameter.
-     * @return True on success.
-     */
     bool load_metadata(const std::string& meta_path);
 };
 
@@ -247,11 +173,7 @@ class VantagePointTree {
 public:
     VantagePointTree(const std::vector<std::pair<VectorID, std::vector<float>>>& vectors);
     
-    /**
-     * @brief Find best entry point for query
-     * @param[in] query Input parameter.
-     * @return Return value.
-     */
+    // Find best entry point for query
     VectorID find_entry_point(const std::vector<float>& query) const;
 
 private:
@@ -271,12 +193,6 @@ private:
         size_t end
     );
     
-    /**
-     * @brief TBD: Describe compute_distance.
-     * @param[in] a Input parameter.
-     * @param[in] b Input parameter.
-     * @return Return value.
-     */
     float compute_distance(const std::vector<float>& a, const std::vector<float>& b) const;
 };
 

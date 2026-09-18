@@ -42,19 +42,8 @@ void fusedLayerNormLinearResidual(
     float epsilon = 1e-5f
 );
 
-/**
- * @brief Fused Attention QKV projection Projects input to Q, K, V in single kernel
- * @param[in,out] query Input/output parameter.
- * @param[in,out] key Input/output parameter.
- * @param[in,out] value Input/output parameter.
- * @param[in] input Input parameter.
- * @param[in] qkv_weight Input parameter.
- * @param[in] qkv_bias Input parameter.
- * @param[in] batch_size Input parameter.
- * @param[in] seq_len Input parameter.
- * @param[in] hidden_dim Input parameter.
- * @param[in] num_heads Input parameter.
- */
+// Fused Attention QKV projection
+// Projects input to Q, K, V in single kernel
 void fusedAttentionQKV(
     float* query,               // Output Q
     float* key,                 // Output K
@@ -100,18 +89,8 @@ void fusedSoftmaxDropoutAttention(
     bool is_causal = true
 );
 
-/**
- * @brief Fused FFN (Feed-Forward Network) gate_proj * silu(up_proj) in single kernel
- * @param[in,out] output Input/output parameter.
- * @param[in] input Input parameter.
- * @param[in] gate_weight Input parameter.
- * @param[in] up_weight Input parameter.
- * @param[in] down_weight Input parameter.
- * @param[in] batch_size Input parameter.
- * @param[in] seq_len Input parameter.
- * @param[in] hidden_dim Input parameter.
- * @param[in] intermediate_dim Input parameter.
- */
+// Fused FFN (Feed-Forward Network)
+// gate_proj * silu(up_proj) in single kernel
 void fusedGatedFFN(
     float* output,              // Output tensor
     const float* input,         // Input tensor
@@ -144,10 +123,6 @@ void fusedRMSNormLinear(
  */
 class KernelFusionManager {
 public:
-    /**
-     * @brief TBD: Describe ~KernelFusionManager.
-     * @return Return value.
-     */
     virtual ~KernelFusionManager() = default;
     struct Config {
         bool enable_fusion = true;
@@ -161,20 +136,9 @@ public:
         size_t auto_tune_iterations = 100;
     };
     
-    /**
-     * @brief TBD: Describe KernelFusionManager.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit KernelFusionManager(const Config& config);
     
-    /**
-     * @brief Check if fusion is beneficial for given dimensions
-     * @param[in] batch Input parameter.
-     * @param[in] seq_len Input parameter.
-     * @param[in] hidden_dim Input parameter.
-     * @return True on success.
-     */
+    // Check if fusion is beneficial for given dimensions
     bool shouldFuseLayerNormLinear(int batch, int seq_len, int hidden_dim) const;
     bool shouldFuseQKV([[maybe_unused]] int batch, [[maybe_unused]] int seq_len,
                        [[maybe_unused]] int hidden_dim) const;
@@ -197,10 +161,6 @@ public:
         double avg_speedup = 0.0;
     };
     
-    /**
-     * @brief TBD: Describe getStats.
-     * @return Return value.
-     */
     FusionStats getStats() const;
     
 private:

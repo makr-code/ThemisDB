@@ -88,7 +88,6 @@ public:
     /**
      * @brief Construct partition detector with runtime settings.
      * @param config Monitoring cadence and threshold configuration.
-     * @return Return value.
      */
     explicit PartitionDetector(const PartitionDetectorConfig& config);
 

@@ -129,14 +129,7 @@ public:
     );
 
 private:
-    /**
-     * @brief Helper methods for different formats
-     * @param[in] query Input parameter.
-     * @param[in] response Input parameter.
-     * @param[in] reasoning_steps Input parameter.
-     * @param[in] key_factors Input parameter.
-     * @return Return value.
-     */
+    // Helper methods for different formats
     std::string formatUserFriendly(
         const std::string& query,
         const std::string& response,
@@ -144,14 +137,6 @@ private:
         const json& key_factors
     );
     
-    /**
-     * @brief TBD: Describe formatTechnical.
-     * @param[in] query Input parameter.
-     * @param[in] response Input parameter.
-     * @param[in] reasoning_steps Input parameter.
-     * @param[in] key_factors Input parameter.
-     * @return Return value.
-     */
     std::string formatTechnical(
         const std::string& query,
         const std::string& response,
@@ -159,14 +144,6 @@ private:
         const json& key_factors
     );
     
-    /**
-     * @brief TBD: Describe formatCompliance.
-     * @param[in] query Input parameter.
-     * @param[in] response Input parameter.
-     * @param[in] reasoning_steps Input parameter.
-     * @param[in] key_factors Input parameter.
-     * @return Return value.
-     */
     std::string formatCompliance(
         const std::string& query,
         const std::string& response,
@@ -174,14 +151,6 @@ private:
         const json& key_factors
     );
     
-    /**
-     * @brief TBD: Describe formatJson.
-     * @param[in] query Input parameter.
-     * @param[in] response Input parameter.
-     * @param[in] reasoning_steps Input parameter.
-     * @param[in] key_factors Input parameter.
-     * @return Return value.
-     */
     std::string formatJson(
         const std::string& query,
         const std::string& response,
@@ -189,19 +158,10 @@ private:
         const json& key_factors
     );
     
-    /**
-     * @brief Helper to extract keywords from text
-     * @param[in] text Input parameter.
-     * @return Return value.
-     */
+    // Helper to extract keywords from text
     std::vector<std::string> extractKeywords(const std::string& text);
     
-    /**
-     * @brief Helper to calculate text similarity (simple word overlap)
-     * @param[in] text1 Input parameter.
-     * @param[in] text2 Input parameter.
-     * @return Return value.
-     */
+    // Helper to calculate text similarity (simple word overlap)
     float calculateSimilarity(const std::string& text1, const std::string& text2);
 };
 

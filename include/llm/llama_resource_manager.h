@@ -36,10 +36,6 @@ namespace llm {
  * and persistent pinning support.
  */
 struct GPUBackendConfig {
-    /**
-     * @brief TBD: Describe ~GPUBackendConfig.
-     * @return Return value.
-     */
     virtual ~GPUBackendConfig() = default;
     // Backend Selection (Vulkan prioritized)
     acceleration::BackendType preferred_backend = acceleration::BackendType::VULKAN;
@@ -113,12 +109,6 @@ struct GPUBackendConfig {
  */
 class LlamaModelHandle {
 public:
-    /**
-     * @brief TBD: Describe LlamaModelHandle.
-     * @param[in] model_path Input parameter.
-     * @param[in] params Input parameter.
-     * @return Return value.
-     */
     explicit LlamaModelHandle(const std::string& model_path, 
                              const llama_model_params& params);
     ~LlamaModelHandle() noexcept;
@@ -132,20 +122,9 @@ public:
     llama_model* get() const noexcept { return model_.get(); }
     explicit operator bool() const noexcept { return model_ != nullptr; }
     
-    /**
-     * @brief Metadata queries
-     * @return Return value.
-     */
+    // Metadata queries
     size_t n_vocab() const;
-    /**
-     * @brief TBD: Describe n_embd.
-     * @return Return value.
-     */
     size_t n_embd() const;
-    /**
-     * @brief TBD: Describe model_type.
-     * @return Return value.
-     */
     std::string model_type() const;
 
 private:
@@ -161,12 +140,6 @@ private:
  */
 class LlamaContextHandle {
 public:
-    /**
-     * @brief TBD: Describe LlamaContextHandle.
-     * @param[in,out] model Input/output parameter.
-     * @param[in] params Input parameter.
-     * @return Return value.
-     */
     explicit LlamaContextHandle(llama_model* model,
                                const llama_context_params& params);
     ~LlamaContextHandle() noexcept;
@@ -179,14 +152,8 @@ public:
     llama_context* get() const noexcept { return context_.get(); }
     explicit operator bool() const noexcept { return context_ != nullptr; }
     
-    /**
-     * @brief KV-Cache Management
-     */
+    // KV-Cache Management
     void clear_kv_cache();
-    /**
-     * @brief TBD: Describe kv_cache_token_count.
-     * @return Return value.
-     */
     size_t kv_cache_token_count() const;
 
 private:
@@ -205,13 +172,6 @@ private:
  */
 class BackendAwareLlamaModelHandle {
 public:
-    /**
-     * @brief TBD: Describe BackendAwareLlamaModelHandle.
-     * @param[in] model_path Input parameter.
-     * @param[in] params Input parameter.
-     * @param[in] gpu_config Input parameter.
-     * @return Return value.
-     */
     explicit BackendAwareLlamaModelHandle(
         const std::string& model_path,
         const llama_model_params& params,
@@ -230,26 +190,14 @@ public:
     
     // Backend Information
     acceleration::BackendType active_backend() const { return active_backend_; }
-    /**
-     * @brief TBD: Describe backend_name.
-     * @return Return value.
-     */
     std::string backend_name() const;
     
     // GPU Memory Information
     size_t vram_usage() const { return vram_allocated_; }
     std::vector<int> gpu_devices() const { return gpu_devices_; }
     
-    /**
-     * @brief Memory Transfer (for Multi-GPU)
-     * @param[in] target_gpu_id Input parameter.
-     * @return True on success.
-     */
+    // Memory Transfer (for Multi-GPU)
     bool transferToGPU(int target_gpu_id);
-    /**
-     * @brief TBD: Describe prefetchToGPU.
-     * @return True on success.
-     */
     bool prefetchToGPU();
 
 private:
@@ -268,27 +216,10 @@ private:
     std::vector<int> gpu_devices_;
     size_t vram_allocated_ = 0;
     
-    /**
-     * @brief Helper methods
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
+    // Helper methods
     acceleration::BackendType selectBestBackend(const GPUBackendConfig& config);
-    /**
-     * @brief TBD: Describe determineOptimalGPULayers.
-     * @param[in] config Input parameter.
-     * @param[in] model_size Input parameter.
-     * @return Return value.
-     */
     int determineOptimalGPULayers(const GPUBackendConfig& config, size_t model_size);
-    /**
-     * @brief TBD: Describe allocateGPUMemory.
-     * @param[in] config Input parameter.
-     */
     void allocateGPUMemory(const GPUBackendConfig& config);
-    /**
-     * @brief TBD: Describe configureBackendSpecificFeatures.
-     */
     void configureBackendSpecificFeatures();
 };
 

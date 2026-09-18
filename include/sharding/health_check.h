@@ -114,17 +114,11 @@ public:
     /** @brief Callback signature for periodic cluster-health updates. */
     using HealthCheckCallback = std::function<void(const ClusterHealthInfo&)>;
 
-     * @param[in] config Input parameter.
-     * @return Return value.
     /** @brief Construct health-check system with provided runtime config. */
     explicit HealthCheckSystem(const Config& config);
     /** @brief Destructor stops periodic checks and joins worker thread. */
     ~HealthCheckSystem();
 
-     * @param[in] shard_id Input parameter.
-     * @param[in] endpoint Input parameter.
-     * @param[in] cert_path Input parameter.
-     * @return Return value.
     /** @brief Perform one full health check for a specific shard endpoint. */
     ShardHealthInfo checkShardHealth(const std::string& shard_id, 
                                       const std::string& endpoint,
@@ -133,7 +127,6 @@ public:
     /** @brief Perform health checks for all shards and aggregate cluster status. */
     ClusterHealthInfo checkClusterHealth(const std::map<std::string, std::string>& shard_endpoints);
 
-     * @param[in] callback Input parameter.
     /** @brief Register callback invoked after each periodic cluster check. */
     void registerCallback(HealthCheckCallback callback);
 
@@ -143,7 +136,6 @@ public:
     /** @brief Stop background periodic health-check loop. */
     void stopPeriodicChecks();
 
-     * @return Return value.
     /** @brief Return latest cluster health snapshot from periodic checks. */
     ClusterHealthInfo getCurrentHealth() const;
 
@@ -158,29 +150,15 @@ private:
     mutable std::mutex cv_mutex_;
     std::condition_variable cv_;
 
-     * @param[in] cert_path Input parameter.
-     * @param[in,out] seconds_until_expiry Input/output parameter.
-     * @return True on success.
     /** @brief Validate certificate file and compute remaining lifetime. */
     bool checkCertificateValidity(const std::string& cert_path, int64_t& seconds_until_expiry);
-     * @param[in] endpoint Input parameter.
-     * @param[in,out] usage_percent Input/output parameter.
-     * @return True on success.
     /** @brief Probe storage usage for a shard endpoint. */
     bool checkStorageCapacity(const std::string& endpoint, double& usage_percent);
-     * @param[in] endpoint Input parameter.
-     * @param[in,out] response_time_ms Input/output parameter.
-     * @return True on success.
     /** @brief Probe network connectivity and measure response latency. */
     bool checkNetworkConnectivity(const std::string& endpoint, double& response_time_ms);
     
-     * @param[in] shard_health Input parameter.
-     * @return Return value.
     /** @brief Aggregate per-shard statuses into one cluster-level status. */
     HealthStatus aggregateHealth(const std::vector<ShardHealthInfo>& shard_health);
-     * @param[in] healthy_shards Input parameter.
-     * @param[in] total_shards Input parameter.
-     * @return True on success.
     /** @brief Evaluate strict-majority quorum condition. */
     bool hasQuorum(int healthy_shards, int total_shards);
 };

@@ -35,27 +35,16 @@ public:
     GunrockProcessor();
     ~GunrockProcessor();
     
-    /**
-     * @brief Load graph to GPU
-     * @param[in] adj_list Input parameter.
-     */
+    // Load graph to GPU
     void load_graph(const std::vector<std::vector<NodeID>>& adj_list);
     
-    /**
-     * @brief GPU-accelerated BFS
-     * @param[in] start_vertex Input parameter.
-     * @return Return value.
-     */
+    // GPU-accelerated BFS
     std::vector<int> gpu_bfs(NodeID start_vertex);
     
     // GPU-accelerated PageRank
     std::vector<double> gpu_pagerank(int num_iterations = 10, double damping = 0.85);
     
-    /**
-     * @brief GPU-accelerated SSSP (Single-Source Shortest Path)
-     * @param[in] start_vertex Input parameter.
-     * @return Return value.
-     */
+    // GPU-accelerated SSSP (Single-Source Shortest Path)
     std::vector<double> gpu_sssp(NodeID start_vertex);
     
     // Get statistics
@@ -65,10 +54,6 @@ public:
         bool gpu_available;
         size_t gpu_memory_mb;
     };
-    /**
-     * @brief TBD: Describe get_stats.
-     * @return Return value.
-     */
     Stats get_stats() const;
 
 private:

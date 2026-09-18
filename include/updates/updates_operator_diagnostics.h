@@ -173,7 +173,6 @@ class OperatorDiagnostics {
 public:
     /**
      * @brief Construct diagnostics module
-     * @return Return value.
      */
     explicit OperatorDiagnostics();
 
@@ -331,62 +330,18 @@ public:
     json exportAlertingRulesAsJson() const;
 
 private:
-    /**
-     * @brief Internal helper methods
-     * @param[in] context Input parameter.
-     * @return Return value.
-     */
+    // Internal helper methods
     FailureScenario detectCoordinatorScenario(const ErrorContext& context) const;
-    /**
-     * @brief TBD: Describe detectMigrationScenario.
-     * @param[in] context Input parameter.
-     * @return Return value.
-     */
     FailureScenario detectMigrationScenario(const ErrorContext& context) const;
-    /**
-     * @brief TBD: Describe detectCanaryScenario.
-     * @param[in] context Input parameter.
-     * @return Return value.
-     */
     FailureScenario detectCanaryScenario(const ErrorContext& context) const;
-    /**
-     * @brief TBD: Describe detectRollbackScenario.
-     * @param[in] context Input parameter.
-     * @return Return value.
-     */
     FailureScenario detectRollbackScenario(const ErrorContext& context) const;
-    /**
-     * @brief TBD: Describe detectResourceScenario.
-     * @param[in] context Input parameter.
-     * @return Return value.
-     */
     FailureScenario detectResourceScenario(const ErrorContext& context) const;
-    /**
-     * @brief TBD: Describe detectManifestScenario.
-     * @param[in] context Input parameter.
-     * @return Return value.
-     */
     FailureScenario detectManifestScenario(const ErrorContext& context) const;
-    /**
-     * @brief TBD: Describe detectPartitionScenario.
-     * @param[in] context Input parameter.
-     * @return Return value.
-     */
     FailureScenario detectPartitionScenario(const ErrorContext& context) const;
-    /**
-     * @brief TBD: Describe detectDeadlockScenario.
-     * @param[in] context Input parameter.
-     * @return Return value.
-     */
     FailureScenario detectDeadlockScenario(const ErrorContext& context) const;
 
-    /**
-     * @brief Initialize recovery procedures and alerting rules
-     */
+    // Initialize recovery procedures and alerting rules
     void initializeRecoveryProcedures();
-    /**
-     * @brief TBD: Describe initializeAlertingRules.
-     */
     void initializeAlertingRules();
 };
 

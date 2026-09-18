@@ -95,9 +95,6 @@ public:
     
     /**
      * @brief Create advanced vector index
-     * @param[in] dimension Input parameter.
-     * @param[in] config Input parameter.
-     * @return Return value.
      */
     explicit AdvancedVectorIndex(size_t dimension, const Config& config);
     ~AdvancedVectorIndex() noexcept;
@@ -112,43 +109,26 @@ public:
      * @brief Train index on sample data
      * 
      * Required for IVF-based indexes before adding vectors
-     * @param[in] vectors Input parameter.
-     * @param[in] count Input parameter.
-     * @return True on success.
      */
     bool train(const float* vectors, size_t count);
     
     /**
      * @brief Add vectors to index
-     * @param[in] vectors Input parameter.
-     * @param[in] count Input parameter.
-     * @return True on success.
      */
     bool add(const float* vectors, size_t count);
     
     /**
      * @brief Add vectors with IDs
-     * @param[in] vectors Input parameter.
-     * @param[in] ids Input parameter.
-     * @param[in] count Input parameter.
-     * @return True on success.
      */
     bool addWithIds(const float* vectors, const int64_t* ids, size_t count);
     
     /**
      * @brief Search for k nearest neighbors
-     * @param[in] query Input parameter.
-     * @param[in] k Input parameter.
-     * @return Return value.
      */
     SearchResult search(const float* query, size_t k);
     
     /**
      * @brief Batch search for multiple queries
-     * @param[in] queries Input parameter.
-     * @param[in] num_queries Input parameter.
-     * @param[in] k Input parameter.
-     * @return Return value.
      */
     std::vector<SearchResult> searchBatch(const float* queries, size_t num_queries, size_t k);
     
@@ -164,10 +144,6 @@ public:
         bool is_gpu = false;
     };
     
-    /**
-     * @brief TBD: Describe getStats.
-     * @return Return value.
-     */
     Stats getStats() const;
 
     /**
@@ -188,11 +164,8 @@ public:
         std::function<bool(const std::string& path)> load;
     };
 
-    /**
-     * @brief Register non-FAISS bridge callbacks for this process.
-     * @param[in] callbacks Input parameter.
-     * @details Thread-safe; pass a default-constructed StubCallbacks to clear all hooks. Calls: lk(), stubCallbacksMutex(), stubCallbacksStorage(), std::move().
-     */
+    /// Register non-FAISS bridge callbacks for this process.
+    /// Thread-safe; pass a default-constructed StubCallbacks to clear all hooks.
     static void setStubCallbacks(StubCallbacks callbacks) {
         std::lock_guard<std::mutex> lk(stubCallbacksMutex());
         stubCallbacksStorage() = std::move(callbacks);
@@ -200,15 +173,11 @@ public:
     
     /**
      * @brief Save index to disk
-     * @param[in] path Input parameter.
-     * @return True on success.
      */
     bool save(const std::string& path);
     
     /**
      * @brief Load index from disk
-     * @param[in] path Input parameter.
-     * @return True on success.
      */
     bool load(const std::string& path);
     
@@ -230,20 +199,10 @@ public:
         WorkloadType workload);
 
 private:
-    /**
-     * @brief TBD: Describe stubCallbacksMutex.
-     * @return Return value.
-     * @details Implements stubCallbacksMutex without additional internal calls.
-     */
     static std::mutex& stubCallbacksMutex() {
         static std::mutex m;
         return m;
     }
-    /**
-     * @brief TBD: Describe stubCallbacksStorage.
-     * @return Return value.
-     * @details Implements stubCallbacksStorage without additional internal calls.
-     */
     static StubCallbacks& stubCallbacksStorage() {
         static StubCallbacks callbacks;
         return callbacks;
@@ -255,7 +214,6 @@ private:
     
     /**
      * @brief Initialize FAISS index based on config
-     * @return True on success.
      */
     bool initializeIndex();
 };

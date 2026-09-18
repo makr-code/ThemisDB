@@ -194,7 +194,6 @@ public:
      *                are considered.
      * @param config  Algorithm and tuning parameters.
      * @return        Aggregated statistics for the compression pass.
-     * @brief TBD: Describe compressHistory.
      */
     CompressionStats compressHistory(SystemVersionedTable& table,
                                      const TimeRange& range,
@@ -204,47 +203,24 @@ public:
      * Decompress a payload that was previously compressed by this class.
      * Returns the original JSON document on success, or the input unchanged
      * if it is not a compressed payload.
-     * @brief TBD: Describe decompress.
-     * @param[in] compressed Input parameter.
-     * @return Return value.
      */
     static nlohmann::json decompress(const nlohmann::json& compressed);
 
     // ── Utility ───────────────────────────────────────────────────────────────
 
-     * @brief TBD: Describe algorithmName.
-     * @param[in] algo Input parameter.
-     * @return Return value.
     /** Return the algorithm name as a string. */
     static std::string algorithmName(CompressionAlgorithm algo);
 
 private:
-    /**
-     * @brief ── Per-algorithm compressors ─────────────────────────────────────────────
-     * @param[in] base Input parameter.
-     * @param[in] current Input parameter.
-     * @param[in] base_ref Input parameter.
-     * @return Return value.
-     */
+    // ── Per-algorithm compressors ─────────────────────────────────────────────
 
     static nlohmann::json applyDelta(const nlohmann::json& base,
                                       const nlohmann::json& current,
                                       const std::string& base_ref);
 
-    /**
-     * @brief TBD: Describe applyZstd.
-     * @param[in] doc Input parameter.
-     * @param[in] level Input parameter.
-     * @return Return value.
-     */
     static nlohmann::json applyZstd(const nlohmann::json& doc,
                                      int level);
 
-    /**
-     * @brief TBD: Describe decompressZstd.
-     * @param[in] doc Input parameter.
-     * @return Return value.
-     */
     static nlohmann::json decompressZstd(const nlohmann::json& doc);
 
     /// Compress a JSON document with LZ4 block format.
@@ -262,31 +238,12 @@ private:
         const nlohmann::json& doc,
         std::unordered_map<std::string, std::unordered_map<std::string, int>>& dicts);
 
-    /**
-     * @brief ── Helpers ───────────────────────────────────────────────────────────────
-     * @param[in] input Input parameter.
-     * @return Return value.
-     */
+    // ── Helpers ───────────────────────────────────────────────────────────────
 
     static std::string base64Encode(const std::string& input);
-    /**
-     * @brief TBD: Describe base64Decode.
-     * @param[in] input Input parameter.
-     * @return Return value.
-     */
     static std::string base64Decode(const std::string& input);
 
-    /**
-     * @brief TBD: Describe rlEncode.
-     * @param[in] input Input parameter.
-     * @return Return value.
-     */
     static std::string rlEncode(const std::string& input);
-    /**
-     * @brief TBD: Describe rlDecode.
-     * @param[in] input Input parameter.
-     * @return Return value.
-     */
     static std::string rlDecode(const std::string& input);
 
     mutable std::mutex mutex_;

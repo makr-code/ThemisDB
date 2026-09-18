@@ -30,10 +30,6 @@ namespace llm {
  */
 class ISamplingStrategy {
 public:
-    /**
-     * @brief TBD: Describe ~ISamplingStrategy.
-     * @return Return value.
-     */
     virtual ~ISamplingStrategy() = default;
     
     [[nodiscard]] virtual llama_token sample(

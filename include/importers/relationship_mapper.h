@@ -106,7 +106,6 @@ public:
      * @param mappings  Forward mappings (produced by mapFromForeignKeys()).
      * @return          Additional inverse-direction mappings (does NOT include
      *                  the forward ones).
-     * @details Calls: push_back(), std::move().
      */
     static std::vector<RelationshipMapping> generateInverseEdges(
             const std::vector<RelationshipMapping>& mappings) {
@@ -216,14 +215,6 @@ public:
      * @return true if all mappings are valid, false if any error was found.
      */
     template <typename TableSchemaMap>
-    /**
-     * @brief TBD: Describe validateMappings.
-     * @param[in] mappings Input parameter.
-     * @param[in] schemas Input parameter.
-     * @param[in,out] errors Input/output parameter.
-     * @return True on success.
-     * @details Calls: count(), push_back(), at(), splitColumns(), std::find(), begin(), end().
-     */
     static bool validateMappings(
             const std::vector<RelationshipMapping>& mappings,
             const TableSchemaMap& schemas,
@@ -265,13 +256,6 @@ public:
      * @return true if at least one cycle is found.
      */
     template <typename TableSchemaMap>
-    /**
-     * @brief TBD: Describe detectCircularReferences.
-     * @param[in] schemas Input parameter.
-     * @param[in,out] cycles Input/output parameter.
-     * @return True on success.
-     * @details Calls: empty(), insert(), count(), dfsCycle().
-     */
     static bool detectCircularReferences(
             const TableSchemaMap& schemas,
             std::vector<std::string>& cycles) {
@@ -299,12 +283,9 @@ public:
         return found_cycle;
     }
 
-    /**
-     * @brief ------------------------------------------------------------------------- Helpers (public for unit-testing) -------------------------------------------------------------------------
-     * @param[in] cols Input parameter.
-     * @return Return value.
-     * @details Calls: trimStr(), empty(), push_back(), clear().
-     */
+    // -------------------------------------------------------------------------
+    // Helpers (public for unit-testing)
+    // -------------------------------------------------------------------------
 
     static std::vector<std::string> splitColumns(const std::string& cols) {
         std::vector<std::string> result;
@@ -328,12 +309,6 @@ public:
     }
 
 private:
-    /**
-     * @brief TBD: Describe trimStr.
-     * @param[in] s Input parameter.
-     * @return Return value.
-     * @details Calls: find_first_not_of(), find_last_not_of(), substr().
-     */
     static std::string trimStr(const std::string& s) {
         size_t l = s.find_first_not_of(" \t\r\n");
         size_t r = s.find_last_not_of(" \t\r\n");
@@ -349,14 +324,6 @@ private:
      * @param schemas Full schema map to check the target table's primary keys.
      */
     template <typename SourceSchema, typename FKConstraint, typename TableSchemaMap>
-    /**
-     * @brief TBD: Describe detectCardinalityImpl.
-     * @param[in] source Input parameter.
-     * @param[in] fk Input parameter.
-     * @param[in] schemas Input parameter.
-     * @return Return value.
-     * @details Calls: splitColumns(), empty(), size(), std::find(), begin(), end(), find().
-     */
     static std::string detectCardinalityImpl(
             const SourceSchema& source,
             const FKConstraint& fk,

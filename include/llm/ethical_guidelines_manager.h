@@ -211,7 +211,6 @@ public:
     
     /**
      * @brief Update configuration
-     * @param[in] config Input parameter.
      */
     void setConfig(const Config& config);
     
@@ -222,7 +221,6 @@ public:
     
     /**
      * @brief Enable/disable system
-     * @param[in] enabled Input parameter.
      */
     void setEnabled(bool enabled);
     
@@ -252,14 +250,7 @@ public:
         std::unordered_map<std::string, uint64_t> domain_counts;
     };
     
-    /**
-     * @brief TBD: Describe getStatistics.
-     * @return Return value.
-     */
     Statistics getStatistics() const;
-    /**
-     * @brief TBD: Describe resetStatistics.
-     */
     void resetStatistics();
     
     // ═══════════════════════════════════════════════════════════
@@ -338,41 +329,12 @@ private:
     // Thread safety
     mutable std::mutex mutex_;
     
-    /**
-     * @brief Helper methods
-     * @param[in] yaml_content Input parameter.
-     * @return True on success.
-     */
+    // Helper methods
     bool loadFromYAML(const std::string& yaml_content);
-    /**
-     * @brief TBD: Describe calculateConfidence.
-     * @param[in] detected_keywords Input parameter.
-     * @return Return value.
-     */
     float calculateConfidence(const std::vector<std::string>& detected_keywords) const;
-    /**
-     * @brief TBD: Describe detectLanguage.
-     * @param[in] text Input parameter.
-     * @return Return value.
-     */
     std::string detectLanguage(const std::string& text) const;
-    /**
-     * @brief TBD: Describe detectDomains.
-     * @param[in] text Input parameter.
-     * @return Return value.
-     */
     std::vector<std::string> detectDomains(const std::string& text) const;
-    /**
-     * @brief TBD: Describe selectAugmentation.
-     * @param[in] result Input parameter.
-     * @return Return value.
-     */
     std::string selectAugmentation(const DetectionResult& result) const;
-    /**
-     * @brief TBD: Describe logDetection.
-     * @param[in] result Input parameter.
-     * @param[in] context Input parameter.
-     */
     void logDetection(const DetectionResult& result, const std::string& context) const;
 };
 

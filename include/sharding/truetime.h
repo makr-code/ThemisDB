@@ -123,7 +123,6 @@ public:
     /**
      * @brief Construct TrueTime with configuration
      * @param config TrueTime configuration
-     * @return Return value.
      */
     explicit TrueTime(const Config& config);
     
@@ -181,7 +180,6 @@ public:
      */
     bool syncNow();
     
-     * @return Return value.
     /** @brief Return JSON statistics for sync/uncertainty state. */
     std::string getStats() const;
     

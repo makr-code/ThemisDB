@@ -69,10 +69,6 @@ struct ThreatScore {
  */
 class IAnomalyDetector {
 public:
-    /**
-     * @brief TBD: Describe ~IAnomalyDetector.
-     * @return Return value.
-     */
     virtual ~IAnomalyDetector() = default;
 
     /**
@@ -87,7 +83,6 @@ public:
 
     /**
      * @brief Discard all state for a given session (e.g. on logout).
-     * @param[in] session_id Input parameter.
      */
     virtual void clearSession(const std::string& session_id) = 0;
 };
@@ -173,8 +168,6 @@ public:
 
     /**
      * @brief Return the number of events currently buffered for a session.
-     * @param[in] session_id Input parameter.
-     * @return Return value.
      */
     size_t sessionEventCount(const std::string& session_id) const;
 
@@ -191,50 +184,16 @@ private:
     mutable std::mutex mutex_;
     std::unordered_map<std::string, SessionState> sessions_;
 
-    /**
-     * @brief ── Heuristic evaluators ───────────────────────────────────────────────
-     * @param[in] state Input parameter.
-     * @param[in] event Input parameter.
-     * @return Return value.
-     */
+    // ── Heuristic evaluators ───────────────────────────────────────────────
     ThreatScore checkBurstRate(const SessionState& state,
                                 const AccessEvent& event) const;
-    /**
-     * @brief TBD: Describe checkOffHours.
-     * @param[in] event Input parameter.
-     * @return Return value.
-     */
     ThreatScore checkOffHours(const AccessEvent& event) const;
-    /**
-     * @brief TBD: Describe checkPrivilegeEscalation.
-     * @param[in] state Input parameter.
-     * @param[in] event Input parameter.
-     * @return Return value.
-     */
     ThreatScore checkPrivilegeEscalation(const SessionState& state,
                                           const AccessEvent& event) const;
-    /**
-     * @brief TBD: Describe checkUnusualResource.
-     * @param[in] state Input parameter.
-     * @param[in] event Input parameter.
-     * @return Return value.
-     */
     ThreatScore checkUnusualResource(const SessionState& state,
                                       const AccessEvent& event) const;
 
-    /**
-     * @brief TBD: Describe maxScore.
-     * @param[in] a Input parameter.
-     * @param[in] b Input parameter.
-     * @return Return value.
-     */
     static ThreatScore maxScore(const ThreatScore& a, const ThreatScore& b);
-    /**
-     * @brief TBD: Describe levelToScore.
-     * @param[in] lvl Input parameter.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
     static double levelToScore(ThreatLevel lvl) noexcept;
 };
 

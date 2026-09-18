@@ -84,25 +84,13 @@ public:
 private:
     std::shared_ptr<vcc::RetentionManager> retention_manager_;
 
-    /**
-     * @brief Helper: convert RetentionPolicy to JSON
-     * @param[in] policy Input parameter.
-     * @return Return value.
-     */
+    // Helper: convert RetentionPolicy to JSON
     nlohmann::json policyToJson(const vcc::RetentionManager::RetentionPolicy& policy);
 
-    /**
-     * @brief Helper: parse JSON to RetentionPolicy
-     * @param[in] j Input parameter.
-     * @return Return value.
-     */
+    // Helper: parse JSON to RetentionPolicy
     vcc::RetentionManager::RetentionPolicy jsonToPolicy(const nlohmann::json& j);
 
-    /**
-     * @brief Helper: convert RetentionAction to JSON
-     * @param[in] action Input parameter.
-     * @return Return value.
-     */
+    // Helper: convert RetentionAction to JSON
     nlohmann::json actionToJson(const vcc::RetentionManager::RetentionAction& action);
 };
 

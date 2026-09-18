@@ -334,8 +334,6 @@ public:
                                const std::string& school_id,
                                double dc_score);
 
-     * @brief TBD: Describe config.
-     * @return Return value.
     /** Access current configuration. */
     const RouterConfig& config() const;
 

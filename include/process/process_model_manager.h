@@ -119,8 +119,6 @@ struct ProcessModelRecord {
 
     /**
      * @brief Deserialize a JSON document back into a ProcessModelRecord.
-     * @param[in] doc Input parameter.
-     * @return Return value.
      */
     static ProcessModelRecord fromDocument(const nlohmann::json& doc);
 };
@@ -138,11 +136,6 @@ struct ProcessModelResult {
     std::string model_id; ///< Populated on successful write operations
 
     static ProcessModelResult success(std::string_view id = "");
-    /**
-     * @brief TBD: Describe failure.
-     * @param[in] msg Input parameter.
-     * @return Return value.
-     */
     static ProcessModelResult failure(std::string_view msg);
 };
 
@@ -277,8 +270,6 @@ public:
      *
      * If a record with the same `id` already exists, a new revision is written
      * and the old one is kept under its versioned key (audit trail).
-     * @param[in] record Input parameter.
-     * @return Return value.
      */
     ProcessModelResult save(const ProcessModelRecord& record);
 
@@ -292,8 +283,6 @@ public:
 
     /**
      * @brief Delete a process model (soft-delete: marks state as ARCHIVED).
-     * @param[in] model_id Input parameter.
-     * @return Return value.
      */
     ProcessModelResult remove(std::string_view model_id);
 
@@ -349,14 +338,11 @@ public:
      * @brief Export a stored model to BPMN 2.0 XML.
      *
      * @return BPMN XML string, or empty on failure.
-     * @param[in] model_id Input parameter.
      */
     std::string exportBpmn(std::string_view model_id) const;
 
     /**
      * @brief Export a stored model to EPK text format.
-     * @param[in] model_id Input parameter.
-     * @return Return value.
      */
     std::string exportEpk(std::string_view model_id) const;
 
@@ -366,8 +352,6 @@ public:
      * The descriptor is designed to be injected into an LLM system prompt or
      * RAG context.  It includes structured node/edge descriptions, compliance
      * tags, SLA information, and a natural-language summary.
-     * @param[in] model_id Input parameter.
-     * @return Return value.
      */
     nlohmann::json generateLlmDescriptor(std::string_view model_id) const;
 
@@ -383,7 +367,6 @@ public:
      *
      * @param model_id  The model to deploy.
      * @param engine    Target execution engine.
-     * @return Return value.
      */
     ProcessModelResult deployToEngine(
         std::string_view      model_id,
@@ -392,9 +375,6 @@ public:
 
     /**
      * @brief Undeploy (unregister) a model from the execution engine.
-     * @param[in] model_id Input parameter.
-     * @param[in,out] engine Input/output parameter.
-     * @return Return value.
      */
     ProcessModelResult undeployFromEngine(
         std::string_view     model_id,
@@ -513,10 +493,6 @@ private:
             : manager_(mgr), context_(ctx), failed_(false) {}
         ~TransactionGuard();
         
-        /**
-         * @brief TBD: Describe markFailed.
-         * @details Implements markFailed without additional internal calls.
-         */
         void markFailed() { failed_ = true; }
         const TransactionContext& getContext() const { return context_; }
         
@@ -530,27 +506,11 @@ private:
         bool failed_;
     };
 
-    /**
-     * @brief Helpers
-     * @param[in] model_id Input parameter.
-     * @return Return value.
-     */
+    // Helpers
     std::string makeKey_(std::string_view model_id) const;
-    /**
-     * @brief TBD: Describe makeVersionedKey_.
-     * @param[in] model_id Input parameter.
-     * @param[in] revision Input parameter.
-     * @return Return value.
-     */
     std::string makeVersionedKey_(std::string_view model_id, int revision) const;
 
-    /**
-     * @brief Internal: build normalised JSON from a raw import
-     * @param[in] nodes Input parameter.
-     * @param[in] edges Input parameter.
-     * @param[in] meta Input parameter.
-     * @return Return value.
-     */
+    // Internal: build normalised JSON from a raw import
     static nlohmann::json buildNormalizedGraph_(
         const std::vector<ProcessNodeInfo>&  nodes,
         const std::vector<ProcessEdgeInfo>&  edges,
@@ -580,43 +540,16 @@ private:
     TransactionContext createTransaction_(std::string_view model_id);
 };
 
-/**
- * @brief --------------------------------------------------------------------------- Helper: human-readable names for enums ---------------------------------------------------------------------------
- * @param[in] n Input parameter.
- * @return Return value.
- */
+// ---------------------------------------------------------------------------
+// Helper: human-readable names for enums
+// ---------------------------------------------------------------------------
 
 std::string_view toString(ProcessNotation n);
-/**
- * @brief TBD: Describe toString.
- * @param[in] d Input parameter.
- * @return Return value.
- */
 std::string_view toString(ProcessDomain   d);
-/**
- * @brief TBD: Describe toString.
- * @param[in] s Input parameter.
- * @return Return value.
- */
 std::string_view toString(ProcessModelState s);
 
-/**
- * @brief TBD: Describe notationFromString.
- * @param[in] s Input parameter.
- * @return Return value.
- */
 ProcessNotation   notationFromString(std::string_view s);
-/**
- * @brief TBD: Describe domainFromString.
- * @param[in] s Input parameter.
- * @return Return value.
- */
 ProcessDomain     domainFromString(std::string_view s);
-/**
- * @brief TBD: Describe stateFromString.
- * @param[in] s Input parameter.
- * @return Return value.
- */
 ProcessModelState stateFromString(std::string_view s);
 
 } // namespace process

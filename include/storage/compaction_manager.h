@@ -100,7 +100,6 @@ public:
      *
      * @param db  Shared ownership of the underlying RocksDB instance.
      *            Must already be open.
-     * @return Return value.
      */
     explicit CompactionManager(std::shared_ptr<RocksDBWrapper> db);
 
@@ -126,9 +125,6 @@ public:
      * @brief Compact a specific key range [start_key, end_key).
      *
      * Blocks until RocksDB finishes the compaction.
-     * @param[in] start_key Input parameter.
-     * @param[in] end_key Input parameter.
-     * @return Return value.
      */
     Result<void> compactRange(std::string_view start_key, std::string_view end_key);
 
@@ -136,7 +132,6 @@ public:
      * @brief Compact the entire keyspace.
      *
      * This is an expensive operation – prefer compactRange() in production.
-     * @return Return value.
      */
     Result<void> compactAll();
 
@@ -176,8 +171,6 @@ public:
      */
     void stopBackgroundGC();
 
-     * @brief TBD: Describe isBackgroundGCRunning.
-     * @return True on success.
     /** Return true if the background GC thread is currently running. */
     bool isBackgroundGCRunning() const;
 
@@ -194,22 +187,15 @@ public:
      */
     void setConfig(const Config& config);
 
-     * @brief TBD: Describe getConfig.
-     * @return Return value.
     /** Return the active configuration. */
     Config getConfig() const;
 
     // ── Metrics ───────────────────────────────────────────────────────────
 
-     * @brief TBD: Describe stats.
-     * @return Return value.
     /** Return a snapshot of current compaction statistics. */
     Stats stats() const;
 
 private:
-    /**
-     * @brief TBD: Describe backgroundLoop.
-     */
     void backgroundLoop();
 
     std::shared_ptr<RocksDBWrapper> db_;

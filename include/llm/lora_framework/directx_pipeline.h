@@ -56,7 +56,6 @@ public:
     
     /**
      * @brief Create pipeline state object
-     * @return True on success.
      */
     bool create();
     
@@ -105,15 +104,7 @@ public:
     bool is_created() const { return pipeline_state_ != nullptr; }
 
 private:
-    /**
-     * @brief TBD: Describe create_root_signature.
-     * @return True on success.
-     */
     bool create_root_signature();
-    /**
-     * @brief TBD: Describe create_pipeline_state.
-     * @return True on success.
-     */
     bool create_pipeline_state();
     
     DirectXContext* context_;

@@ -96,7 +96,6 @@ public:
      * @brief Construct scheduler with a scoring callback.
      * @param scoring_fn Eviction urgency scorer; must not be null.
      * @throws std::invalid_argument if `scoring_fn` is null.
-     * @return Return value.
      */
     explicit EvictionScheduler(EvictionScoringFn scoring_fn);
 
@@ -149,22 +148,16 @@ public:
 
     /**
      * @brief LRU scoring: score = -last_access_ns (least-recently-used first).
-     * @return Return value.
-     * @note Exception safety: noexcept.
      */
     static EvictionScoringFn lru_policy() noexcept;
 
     /**
      * @brief LFU scoring: score = 1.0 / (access_count + 1).
-     * @return Return value.
-     * @note Exception safety: noexcept.
      */
     static EvictionScoringFn lfu_policy() noexcept;
 
     /**
      * @brief Size-aware LRU: combines recency and size for memory pressure.
-     * @return Return value.
-     * @note Exception safety: noexcept.
      */
     static EvictionScoringFn size_aware_lru_policy() noexcept;
 

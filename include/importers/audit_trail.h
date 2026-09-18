@@ -157,11 +157,6 @@ public:
         ERROR_OCCURRED
     };
 
-    /**
-     * @brief TBD: Describe eventTypeToString.
-     * @param[in] t Input parameter.
-     * @return Return value.
-     */
     static std::string eventTypeToString(EventType t);
 
     // ------------------------------------------------------------------
@@ -190,7 +185,6 @@ public:
     /** @brief Immutable audit log (Merkle-chained, Phase 2 T2.3.3 extended). */
     class ImmutableAuditLog {
     public:
-         * @param[in] event Input parameter.
         /** @brief Append an event to the chain. Thread-safe. */
         void recordEvent(const AuditEvent& event);
 
@@ -206,11 +200,9 @@ public:
          */
         json exportForSIEM(const std::string& format = "raw") const;
 
-         * @return Return value.
         /** @brief Number of events recorded so far. */
         size_t size() const;
 
-         * @return Return value.
         /** @brief Return all events (read-only). */
         const std::vector<AuditEvent>& events() const;
 
@@ -269,12 +261,6 @@ public:
         std::vector<std::string> chain_hashes_; ///< SHA-256 per event
         mutable std::string current_root_;      ///< Running root hash
 
-        /**
-         * @brief TBD: Describe computeEventHash.
-         * @param[in] event Input parameter.
-         * @param[in] prev_hash Input parameter.
-         * @return Return value.
-         */
         std::string computeEventHash(const AuditEvent& event,
                                      const std::string& prev_hash) const;
     };

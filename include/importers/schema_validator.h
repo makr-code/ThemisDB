@@ -263,7 +263,6 @@ public:
     /**
      * @brief Return the schema inferred from all rows fed so far.
      * @param table_name  Logical table name to embed in the result.
-     * @return Return value.
      */
     DetectedSchema getSchema(const std::string& table_name) const;
 
@@ -280,8 +279,6 @@ public:
      * @brief Infer the DetectedFieldType of a single string value.
      *
      * Empty string returns STRING (cannot determine type from empty input).
-     * @param[in] value Input parameter.
-     * @return Return value.
      */
     static DetectedFieldType inferType(const std::string& value);
 
@@ -289,9 +286,6 @@ public:
      * @brief Return the wider of two types.
      *
      * Widening order: BOOLEAN < INTEGER < DOUBLE < STRING.
-     * @param[in] a Input parameter.
-     * @param[in] b Input parameter.
-     * @return Return value.
      */
     static DetectedFieldType widenType(DetectedFieldType a, DetectedFieldType b);
 
@@ -299,8 +293,6 @@ public:
      * @brief Convert a DetectedFieldType to its lowercase name string.
      *
      * Returns "boolean", "integer", "double", or "string".
-     * @param[in] t Input parameter.
-     * @return Return value.
      */
     static std::string typeName(DetectedFieldType t);
 
@@ -309,8 +301,6 @@ public:
      *
      * Accepts "boolean", "integer", "double", "float", "string".
      * Unknown values map to STRING.
-     * @param[in] name Input parameter.
-     * @return Return value.
      */
     static DetectedFieldType parseTypeName(const std::string& name);
 
@@ -326,8 +316,6 @@ public:
      *     "primary_keys": []
      *   }
      * @endcode
-     * @param[in] schema Input parameter.
-     * @return Return value.
      */
     static json schemaToJson(const DetectedSchema& schema);
 

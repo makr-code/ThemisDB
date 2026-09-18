@@ -37,35 +37,19 @@ public:
     
     ~BlockTable();
 
-    /**
-     * @brief Allocate blocks for this sequence
-     * @param[in] num_blocks Input parameter.
-     * @return Return value.
-     */
+    // Allocate blocks for this sequence
     std::vector<int> allocateBlocks(size_t num_blocks);
     
-    /**
-     * @brief Release all blocks for this sequence
-     */
+    // Release all blocks for this sequence
     void releaseBlocks();
     
-    /**
-     * @brief Share prefix blocks from parent sequence (Copy-on-Write)
-     * @param[in] parent_sequence_id Input parameter.
-     * @param[in] prefix_length Input parameter.
-     */
+    // Share prefix blocks from parent sequence (Copy-on-Write)
     void sharePrefix(uint64_t parent_sequence_id, size_t prefix_length);
     
-    /**
-     * @brief Get block mapping for attention computation
-     * @return Return value.
-     */
+    // Get block mapping for attention computation
     std::vector<int> getBlockMapping() const;
     
-    /**
-     * @brief Get number of tokens stored
-     * @return Return value.
-     */
+    // Get number of tokens stored
     size_t getNumTokens() const;
     
     // Get statistics
@@ -75,10 +59,6 @@ public:
         size_t num_cow_blocks = 0;
         double sharing_ratio = 0.0;
     };
-    /**
-     * @brief TBD: Describe getStats.
-     * @return Return value.
-     */
     Stats getStats() const;
 
 private:

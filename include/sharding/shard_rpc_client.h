@@ -112,8 +112,6 @@ public:
         PrometheusMetrics*  prometheus_metrics  = nullptr;
     };
     
-     * @param[in] config Input parameter.
-     * @return Return value.
     /** @brief Construct RPC client using provided transport/runtime configuration. */
     explicit ShardRPCClient(const Config& config);
     /** @brief Destroy client and release internal connection/circuit-breaker state. */
@@ -197,7 +195,6 @@ public:
     
     /**
      * @brief Check if shard is available
-     * @return True on success.
      */
     bool ping();
 
@@ -247,10 +244,6 @@ public:
         std::function<nlohmann::json(std::string /*method*/,
                                      nlohmann::json /*params*/)>;
 
-    /**
-     * @brief TBD: Describe setInProcessResponseHandler.
-     * @param[in] handler Input parameter.
-     */
     void setInProcessResponseHandler(InProcessResponseHandler handler);
 
 private:
@@ -260,9 +253,6 @@ private:
     /**
      * @brief Send RPC request with retry logic
      * Routes to either gRPC or in-process implementation
-     * @param[in] method Input parameter.
-     * @param[in] params Input parameter.
-     * @return Return value.
      */
     nlohmann::json sendRequest(
         const std::string& method,
@@ -271,9 +261,6 @@ private:
     
     /**
      * @brief Send request using in-process simulation (for single-node)
-     * @param[in] method Input parameter.
-     * @param[in] params Input parameter.
-     * @return Return value.
      */
     nlohmann::json sendRequestInProcess(
         const std::string& method,
@@ -283,9 +270,6 @@ private:
 #ifdef THEMIS_ENABLE_GRPC
     /**
      * @brief Send request using gRPC (for multi-node)
-     * @param[in] method Input parameter.
-     * @param[in] params Input parameter.
-     * @return Return value.
      */
     nlohmann::json sendRequestGrpc(
         const std::string& method,
@@ -294,9 +278,6 @@ private:
     
     /**
      * @brief Handle gRPC prepare transaction request
-     * @param[in,out] context Input/output parameter.
-     * @param[in] params Input parameter.
-     * @return Return value.
      */
     nlohmann::json handlePrepareGrpc(
         grpc::ClientContext& context,
@@ -305,9 +286,6 @@ private:
     
     /**
      * @brief Handle gRPC commit transaction request
-     * @param[in,out] context Input/output parameter.
-     * @param[in] params Input parameter.
-     * @return Return value.
      */
     nlohmann::json handleCommitGrpc(
         grpc::ClientContext& context,
@@ -316,9 +294,6 @@ private:
     
     /**
      * @brief Handle gRPC abort transaction request
-     * @param[in,out] context Input/output parameter.
-     * @param[in] params Input parameter.
-     * @return Return value.
      */
     nlohmann::json handleAbortGrpc(
         grpc::ClientContext& context,
@@ -327,9 +302,6 @@ private:
     
     /**
      * @brief Handle gRPC snapshot read request
-     * @param[in,out] context Input/output parameter.
-     * @param[in] params Input parameter.
-     * @return Return value.
      */
     nlohmann::json handleSnapshotReadGrpc(
         grpc::ClientContext& context,
@@ -338,9 +310,6 @@ private:
     
     /**
      * @brief Handle gRPC write-entity request (ReplicateData RPC)
-     * @param[in,out] context Input/output parameter.
-     * @param[in] params Input parameter.
-     * @return Return value.
      */
     nlohmann::json handleWriteEntityGrpc(
         grpc::ClientContext& context,
@@ -349,26 +318,17 @@ private:
     
     /**
      * @brief Handle gRPC healthcheck request
-     * @param[in,out] context Input/output parameter.
-     * @return Return value.
      */
     nlohmann::json handleHealthCheckGrpc(
         grpc::ClientContext& context
     );
 
-    /**
-     * @brief TBD: Describe handleCollectWaitForEdgesGrpc.
-     * @param[in,out] context Input/output parameter.
-     * @return Return value.
-     */
     nlohmann::json handleCollectWaitForEdgesGrpc(
         grpc::ClientContext& context
     );
     
     /**
      * @brief Determine if a gRPC error is retryable
-     * @param[in] code Input parameter.
-     * @return True on success.
      */
     bool isRetryableError(grpc::StatusCode code);
 #endif

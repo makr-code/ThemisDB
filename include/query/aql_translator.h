@@ -137,12 +137,6 @@ public:
         };
         std::vector<CTEExecution> ctes;                // CTEs to execute before main query
         
-        /**
-         * @brief TBD: Describe Success.
-         * @param[in] q Input parameter.
-         * @return Return value.
-         * @details Calls: std::move().
-         */
         static TranslationResult Success(ConjunctiveQuery q) {
             TranslationResult r;
             r.success = true;
@@ -150,12 +144,6 @@ public:
             return r;
         }
         
-        /**
-         * @brief TBD: Describe SuccessDisjunctive.
-         * @param[in] d Input parameter.
-         * @return Return value.
-         * @details Calls: std::move().
-         */
         static TranslationResult SuccessDisjunctive(DisjunctiveQuery d) {
             TranslationResult r;
             r.success = true;
@@ -163,12 +151,6 @@ public:
             return r;
         }
         
-        /**
-         * @brief TBD: Describe SuccessJoin.
-         * @param[in] j Input parameter.
-         * @return Return value.
-         * @details Calls: std::move().
-         */
         static TranslationResult SuccessJoin(JoinQuery j) {
             TranslationResult r;
             r.success = true;
@@ -176,12 +158,6 @@ public:
             return r;
         }
 
-        /**
-         * @brief TBD: Describe SuccessSpatialJoin.
-         * @param[in] sj Input parameter.
-         * @return Return value.
-         * @details Calls: std::move().
-         */
         static TranslationResult SuccessSpatialJoin(SpatialJoinQuery sj) {
             TranslationResult r;
             r.success = true;
@@ -189,12 +165,6 @@ public:
             return r;
         }
         
-        /**
-         * @brief TBD: Describe SuccessTraversal.
-         * @param[in] t Input parameter.
-         * @return Return value.
-         * @details Calls: std::move().
-         */
         static TranslationResult SuccessTraversal(TraversalQuery t) {
             TranslationResult r;
             r.success = true;
@@ -202,33 +172,15 @@ public:
             return r;
         }
 
-        /**
-         * @brief TBD: Describe SuccessVectorGeo.
-         * @param[in] v Input parameter.
-         * @return Return value.
-         * @details Calls: std::move().
-         */
         static TranslationResult SuccessVectorGeo(VectorGeoQuery v) {
             TranslationResult r;
             r.success = true;
             r.vector_geo = std::move(v);
             return r;
         }
-        /**
-         * @brief TBD: Describe SuccessContentGeo.
-         * @param[in] c Input parameter.
-         * @return Return value.
-         * @details Calls: std::move().
-         */
         static TranslationResult SuccessContentGeo(ContentGeoQuery c) {
             TranslationResult r; r.success = true; r.content_geo = std::move(c); return r; }
         
-        /**
-         * @brief TBD: Describe Error.
-         * @param[in] msg Input parameter.
-         * @return Return value.
-         * @details Calls: std::move().
-         */
         static TranslationResult Error(std::string msg) {
             TranslationResult r;
             r.success = false;
@@ -247,9 +199,6 @@ public:
      * 
      * Limitations:
      * - Functions in FILTER limited (FULLTEXT supported)
-     * @brief TBD: Describe translate.
-     * @param[in] ast Input parameter.
-     * @return Return value.
      */
     static TranslationResult translate(const std::shared_ptr<Query>& ast);
 
@@ -258,12 +207,6 @@ private:
      * Extract predicates from FILTER conditions
      * Supports AND/OR and converts to Disjunctive Normal Form (DNF)
      * Returns false if unsupported expression found
-     * @brief TBD: Describe extractPredicates.
-     * @param[in] expr Input parameter.
-     * @param[in,out] eqPredicates Input/output parameter.
-     * @param[in,out] rangePredicates Input/output parameter.
-     * @param[in,out] error Input/output parameter.
-     * @return True on success.
      */
     static bool extractPredicates(
         const std::shared_ptr<Expression>& expr,
@@ -274,9 +217,6 @@ private:
     
     /**
      * Check if expression contains OR operator (requires DisjunctiveQuery)
-     * @brief TBD: Describe containsOr.
-     * @param[in] expr Input parameter.
-     * @return True on success.
      */
     static bool containsOr(const std::shared_ptr<Expression>& expr);
     
@@ -284,11 +224,6 @@ private:
      * Convert expression to Disjunctive Normal Form (DNF)
      * Returns list of conjunctive clauses (disjuncts)
      * Example: (A AND B) OR (C AND D) -> [[A,B], [C,D]]
-     * @brief TBD: Describe convertToDNF.
-     * @param[in] expr Input parameter.
-     * @param[in] table Input parameter.
-     * @param[in,out] error Input/output parameter.
-     * @return Return value.
      */
     static std::vector<ConjunctiveQuery> convertToDNF(
         const std::shared_ptr<Expression>& expr,
@@ -299,26 +234,16 @@ private:
     /**
      * Extract column name from field access expression
      * E.g., "user.age" -> "age"
-     * @brief TBD: Describe extractColumnName.
-     * @param[in] expr Input parameter.
-     * @return Return value.
      */
     static std::string extractColumnName(const std::shared_ptr<Expression>& expr);
     
     /**
      * Convert literal value to string for query engine
-     * @brief TBD: Describe literalToString.
-     * @param[in] value Input parameter.
-     * @return Return value.
      */
     static std::string literalToString(const LiteralValue& value);
     
     /**
      * Extract ORDER BY from SORT clause
-     * @brief TBD: Describe extractOrderBy.
-     * @param[in] sort Input parameter.
-     * @param[in] limit Input parameter.
-     * @return Return value.
      */
     static std::optional<OrderBy> extractOrderBy(
         const std::shared_ptr<SortNode>& sort,
@@ -328,10 +253,6 @@ private:
     /**
      * Count CTE references in AST (Phase 4.1)
      * Scans FOR nodes to see how many times a CTE name appears as collection
-     * @brief TBD: Describe countCTEReferences.
-     * @param[in] ast Input parameter.
-     * @param[in] cte_name Input parameter.
-     * @return Return value.
      */
     static size_t countCTEReferences(
         const std::shared_ptr<Query>& ast,
@@ -341,10 +262,6 @@ private:
     /**
      * Count CTE references recursively in expressions (Phase 4.1)
      * Used for subqueries in FILTER, LET, etc.
-     * @brief TBD: Describe countCTEReferencesInExpr.
-     * @param[in] expr Input parameter.
-     * @param[in] cte_name Input parameter.
-     * @return Return value.
      */
     static size_t countCTEReferencesInExpr(
         const std::shared_ptr<Expression>& expr,
@@ -354,9 +271,6 @@ private:
     /**
      * Attach CTE execution metadata to translation result (Phase 4.1)
      * Helper to avoid duplicating CTE attachment logic across all return paths
-     * @brief TBD: Describe attachCTEs.
-     * @param[in,out] result Input/output parameter.
-     * @param[in] ctes Input parameter.
      */
     static void attachCTEs(
         TranslationResult& result,

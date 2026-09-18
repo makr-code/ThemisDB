@@ -131,13 +131,8 @@ public:
 
     /**
      * @brief Return the effective channel names in use.
-     * @return Return value.
      */
     std::string entryChannel()        const;
-    /**
-     * @brief TBD: Describe invalidationChannel.
-     * @return Return value.
-     */
     std::string invalidationChannel() const;
 
 private:
@@ -158,13 +153,8 @@ private:
     /// Send all bytes in buf; returns false on error.
     static bool sendAll(SocketFd fd, const std::string& buf);
 
-    /**
-     * @brief Read a complete RESP simple-string or bulk-string reply line.
-     * @param[in] fd Input parameter.
-     * @param[in,out] line_out Input/output parameter.
-     * @return True on success.
-     * @details Returns true on success; on error or "-ERR …" sets err_out.
-     */
+    /// Read a complete RESP simple-string or bulk-string reply line.
+    /// Returns true on success; on error or "-ERR …" sets err_out.
     static bool readLine(SocketFd fd, std::string& line_out);
 
     /// Perform AUTH + SELECT handshake on a freshly connected socket.
@@ -190,21 +180,13 @@ private:
     /// Entry point for the subscriber background thread.
     void subscriberLoop();
 
-    /**
-     * @brief Connect subscriber socket, send SUBSCRIBE, then pump messages.
-     * @param[in] fd Input parameter.
-     * @details Returns when the connection drops or stop_ is set.
-     */
+    /// Connect subscriber socket, send SUBSCRIBE, then pump messages.
+    /// Returns when the connection drops or stop_ is set.
     void subscriberSession(SocketFd fd);
 
-    /**
-     * @brief Parse one pub/sub message frame from the subscriber socket.
-     * @param[in] fd Input parameter.
-     * @param[in,out] channel_out Input/output parameter.
-     * @param[in,out] payload_out Input/output parameter.
-     * @return True on success.
-     * @details Returns true and populates channel/payload when a complete message has been received. Returns false on connection error.
-     */
+    /// Parse one pub/sub message frame from the subscriber socket.
+    /// Returns true and populates channel/payload when a complete message
+    /// has been received.  Returns false on connection error.
     static bool readPubSubMessage(SocketFd fd,
                                   std::string& channel_out,
                                   std::string& payload_out);
@@ -213,20 +195,13 @@ private:
     void dispatchMessage(const std::string& channel,
                          const std::string& payload);
 
-    /**
-     * @brief Compute HMAC-SHA256(config_.
-     * @param[in] payload Input parameter.
-     * @return Return value.
-     * @details hmac_secret, payload) and return hex string. Returns empty string when hmac_secret is empty.
-     */
+    /// Compute HMAC-SHA256(config_.hmac_secret, payload) and return hex string.
+    /// Returns empty string when hmac_secret is empty.
     std::string computeHmac(const std::string& payload) const;
 
-    /**
-     * @brief Verify the "sig" field in parsed JSON against the unsigned payload.
-     * @param[in] j Input parameter.
-     * @return True on success.
-     * @details Returns true when hmac_secret is empty (signing disabled) or when the signature matches. Returns false on mismatch or absent sig field.
-     */
+    /// Verify the "sig" field in parsed JSON against the unsigned payload.
+    /// Returns true when hmac_secret is empty (signing disabled) or when the
+    /// signature matches.  Returns false on mismatch or absent sig field.
     bool verifyHmac(const nlohmann::json& j) const;
 
     // -----------------------------------------------------------------------
@@ -275,11 +250,10 @@ public:
     using RedisPublishBridgeFn = std::function<bool(const std::string& channel,
                                                     const std::string& payload)>;
 
-    /**
-     * @brief Register a publish bridge used by `publishEntry()` and `publishInvalidation()` on non-POSIX builds.
-     * @param[in] fn Input parameter.
-     * @details Pass an empty `std::function` to clear and revert to the no-op fallback. Thread-safe (guarded by a static mutex).
-     */
+    /// Register a publish bridge used by `publishEntry()` and
+    /// `publishInvalidation()` on non-POSIX builds.
+    /// Pass an empty `std::function` to clear and revert to the no-op fallback.
+    /// Thread-safe (guarded by a static mutex).
     static void setRedisPublishBridgeFn(RedisPublishBridgeFn fn);
 };
 

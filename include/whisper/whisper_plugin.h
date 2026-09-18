@@ -84,10 +84,6 @@ public:
      *
      * Uses the transcriber's optional diarize() capability and always applies
      * plugin-side provenance fields on the returned result.
-     * @param[in] pcm_samples Input parameter.
-     * @param[in] sample_rate Input parameter.
-     * @param[in] cfg Input parameter.
-     * @return Return value.
      */
     DiarisationResult transcribeWithDiarisation(const std::vector<float>& pcm_samples,
                                                 float sample_rate,
@@ -97,10 +93,6 @@ public:
     std::string getPluginVersion() const override { return "2.3.0"; }
     nlohmann::json getStatistics() const override;
 
-    /**
-     * @brief TBD: Describe setStubTranscriberFactoryFn.
-     * @param[in] fn Input parameter.
-     */
     static void setStubTranscriberFactoryFn(StubTranscriberFactoryFn fn);
 
     // ── VAD injection ──────────────────────────────────────────────────────
@@ -115,12 +107,7 @@ public:
                                   const VadConfig& cfg = {});
 
 private:
-    /**
-     * @brief Applies VAD: returns only speech samples if a VAD is installed, otherwise pcm unchanged.
-     * @param[in] pcm Input parameter.
-     * @param[in] sample_rate Input parameter.
-     * @return Return value.
-     */
+    // Applies VAD: returns only speech samples if a VAD is installed, otherwise pcm unchanged.
     std::vector<float> applyVad(const std::vector<float>& pcm, float sample_rate) const;
 
     std::unique_ptr<IWhisperTranscriber> transcriber_;

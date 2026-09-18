@@ -27,10 +27,6 @@ namespace llm {
 
 /// Semantic versioning for adapters
 struct AdapterVersion {
-    /**
-     * @brief TBD: Describe ~AdapterVersion.
-     * @return Return value.
-     */
     virtual ~AdapterVersion() = default;
     int major = 1;
     int minor = 0;
@@ -47,11 +43,6 @@ struct AdapterVersion {
         return version;
     }
     
-    /**
-     * @brief TBD: Describe fromString.
-     * @param[in] version_str Input parameter.
-     * @return Return value.
-     */
     static AdapterVersion fromString(const std::string& version_str);
     
     bool operator<(const AdapterVersion& other) const {
@@ -80,16 +71,7 @@ struct AdapterSignature {
     std::string signing_timestamp;  // ISO 8601 timestamp
     std::string parent_adapter_signature;  // Chain of trust for incremental training
     
-    /**
-     * @brief TBD: Describe toJson.
-     * @return Return value.
-     */
     nlohmann::json toJson() const;
-    /**
-     * @brief TBD: Describe fromJson.
-     * @param[in] j Input parameter.
-     * @return Return value.
-     */
     static AdapterSignature fromJson(const nlohmann::json& j);
 };
 
@@ -103,25 +85,12 @@ struct AdapterProvenance {
     std::string parent_adapter_id;   // For incremental/continual training
     std::map<std::string, std::string> custom_metadata;
     
-    /**
-     * @brief TBD: Describe toJson.
-     * @return Return value.
-     */
     nlohmann::json toJson() const;
-    /**
-     * @brief TBD: Describe fromJson.
-     * @param[in] j Input parameter.
-     * @return Return value.
-     */
     static AdapterProvenance fromJson(const nlohmann::json& j);
 };
 
 /// Training configuration
 struct TrainingConfig {
-    /**
-     * @brief TBD: Describe ~TrainingConfig.
-     * @return Return value.
-     */
     virtual ~TrainingConfig() = default;
     std::string dataset_name;
     size_t num_samples = 0;
@@ -138,25 +107,12 @@ struct TrainingConfig {
     double warmup_ratio = 0.03;
     std::string lr_scheduler = "cosine";
     
-    /**
-     * @brief TBD: Describe toJson.
-     * @return Return value.
-     */
     nlohmann::json toJson() const;
-    /**
-     * @brief TBD: Describe fromJson.
-     * @param[in] j Input parameter.
-     * @return Return value.
-     */
     static TrainingConfig fromJson(const nlohmann::json& j);
 };
 
 /// Quality metrics from training
 struct QualityMetrics {
-    /**
-     * @brief TBD: Describe ~QualityMetrics.
-     * @return Return value.
-     */
     virtual ~QualityMetrics() = default;
     double final_loss = 0.0;
     double perplexity = 0.0;
@@ -166,16 +122,7 @@ struct QualityMetrics {
     size_t validation_samples = 0;
     std::string metrics_json;  // Full metrics as JSON
     
-    /**
-     * @brief TBD: Describe toJson.
-     * @return Return value.
-     */
     nlohmann::json toJson() const;
-    /**
-     * @brief TBD: Describe fromJson.
-     * @param[in] j Input parameter.
-     * @return Return value.
-     */
     static QualityMetrics fromJson(const nlohmann::json& j);
 };
 
@@ -192,10 +139,6 @@ enum class AdapterRole {
 
 /// Adapter metadata - Complete information about a LoRA adapter
 struct AdapterMetadata {
-    /**
-     * @brief TBD: Describe ~AdapterMetadata.
-     * @return Return value.
-     */
     virtual ~AdapterMetadata() = default;
     // Identification
     std::string adapter_id;          // Unique identifier (includes base_model)
@@ -245,24 +188,10 @@ struct AdapterMetadata {
     std::string created_at;          // ISO 8601 timestamp
     std::string updated_at;          // ISO 8601 timestamp
     
-    /**
-     * @brief Validation
-     * @param[in] base_model Input parameter.
-     * @param[in] model_version Input parameter.
-     * @return True on success.
-     */
+    // Validation
     bool isCompatibleWith(const std::string& base_model, const std::string& model_version) const;
     
-    /**
-     * @brief TBD: Describe toJson.
-     * @return Return value.
-     */
     nlohmann::json toJson() const;
-    /**
-     * @brief TBD: Describe fromJson.
-     * @param[in] j Input parameter.
-     * @return Return value.
-     */
     static AdapterMetadata fromJson(const nlohmann::json& j);
 };
 
@@ -270,11 +199,6 @@ struct AdapterMetadata {
 /// Extends SecuritySignatureManager for cryptographic signing
 class AdapterRegistry {
 public:
-    /**
-     * @brief TBD: Describe AdapterRegistry.
-     * @param[in] sig_manager Input parameter.
-     * @return Return value.
-     */
     explicit AdapterRegistry(std::shared_ptr<storage::SecuritySignatureManager> sig_manager);
     ~AdapterRegistry();
     
@@ -301,20 +225,24 @@ public:
     /// List adapters for a specific domain
     std::vector<AdapterMetadata> listAdaptersByDomain(const std::string& domain);
 
-    /**
-     * @brief List all adapters with a specific role.
-     * @param[in] role Input parameter.
-     * @return Return value.
-     * @details Useful for discovering registered DRAFT adapters: @code auto drafts = registry.listAdaptersByRole(AdapterRole::DRAFT); @endcode
-     */
+    /// List all adapters with a specific role.
+    ///
+    /// Useful for discovering registered DRAFT adapters:
+    /// @code
+    ///   auto drafts = registry.listAdaptersByRole(AdapterRole::DRAFT);
+    /// @endcode
     std::vector<AdapterMetadata> listAdaptersByRole(AdapterRole role);
 
-    /**
-     * @brief Find the best DRAFT adapter for a given model family (architecture).
-     * @param[in] model_family Input parameter.
-     * @return Return value.
-     * @details Searches adapters whose role == DRAFT and whose `architecture` field contains @p model_family (case-insensitive substring match). Among multiple candidates the adapter in DEPLOYED status is preferred; ties are broken by the highest version number. @param model_family Model family string, e.g. "llama", "mistral". @return Matching DRAFT adapter metadata, or std::nullopt when no DRAFT adapter for the family is registered.
-     */
+    /// Find the best DRAFT adapter for a given model family (architecture).
+    ///
+    /// Searches adapters whose role == DRAFT and whose `architecture` field
+    /// contains @p model_family (case-insensitive substring match).  Among
+    /// multiple candidates the adapter in DEPLOYED status is preferred; ties
+    /// are broken by the highest version number.
+    ///
+    /// @param model_family  Model family string, e.g. "llama", "mistral".
+    /// @return              Matching DRAFT adapter metadata, or std::nullopt
+    ///                      when no DRAFT adapter for the family is registered.
     std::optional<AdapterMetadata> findDraftAdapterForFamily(
         const std::string& model_family);
     
@@ -326,20 +254,9 @@ public:
         std::vector<std::string> errors;
         std::vector<std::string> warnings;
         
-        /**
-         * @brief TBD: Describe toString.
-         * @return Return value.
-         */
         std::string toString() const;
     };
     
-    /**
-     * @brief TBD: Describe validateCompatibility.
-     * @param[in] adapter_id Input parameter.
-     * @param[in] base_model Input parameter.
-     * @param[in] model_version Input parameter.
-     * @return Return value.
-     */
     ValidationResult validateCompatibility(
         const std::string& adapter_id,
         const std::string& base_model,
@@ -379,11 +296,6 @@ public:
         std::optional<AdapterMetadata::Status> status;
     };
     
-    /**
-     * @brief TBD: Describe searchAdapters.
-     * @param[in] criteria Input parameter.
-     * @return Return value.
-     */
     std::vector<AdapterMetadata> searchAdapters(const SearchCriteria& criteria);
     
     // Statistics
@@ -396,17 +308,9 @@ public:
         size_t signed_adapters = 0;
         size_t deployed_adapters = 0;
         
-        /**
-         * @brief TBD: Describe toJson.
-         * @return Return value.
-         */
         nlohmann::json toJson() const;
     };
     
-    /**
-     * @brief TBD: Describe getStats.
-     * @return Return value.
-     */
     RegistryStats getStats() const;
 
     // Hot-Loading Interface
@@ -437,22 +341,18 @@ public:
                  const AdapterMetadata& metadata,
                  float scale = 1.0f);
 
-    /**
-     * @brief Register an observer callback that is invoked whenever hotLoad() is called successfully.
-     * @param[in] callback Input parameter.
-     * @details Callbacks are dispatched in registration order. Thread-safe: protected by the registry mutex. @param callback Observer to register; must be non-null.
-     */
+    /// Register an observer callback that is invoked whenever hotLoad() is
+    /// called successfully.  Callbacks are dispatched in registration order.
+    ///
+    /// Thread-safe: protected by the registry mutex.
+    ///
+    /// @param callback Observer to register; must be non-null.
     void addHotLoadObserver(HotLoadCallback callback);
 
     // Provenance Integration
     
-    /**
-     * @brief Attach a cryptographic provenance record to a registered adapter.
-     * @param[in] adapter_id Input parameter.
-     * @param[in] record Input parameter.
-     * @return True on success.
-     * @details Returns false if the adapter does not exist.
-     */
+    /// Attach a cryptographic provenance record to a registered adapter.
+    /// Returns false if the adapter does not exist.
     bool attachProvenance(const std::string& adapter_id,
                           const lora::LoRAProvenanceRecord& record);
 
@@ -460,13 +360,8 @@ public:
     std::optional<lora::LoRAProvenanceRecord> getProvenanceRecord(
         const std::string& adapter_id) const;
 
-    /**
-     * @brief Record one inference event in the Merkle-chained audit log for an adapter.
-     * @param[in] adapter_id Input parameter.
-     * @param[in] entry Input parameter.
-     * @return Return value.
-     * @details Populates entry_id, timestamp, previous_hash and entry_hash automatically.
-     */
+    /// Record one inference event in the Merkle-chained audit log for an adapter.
+    /// Populates entry_id, timestamp, previous_hash and entry_hash automatically.
     lora::InferenceAuditEntry recordInferenceAudit(
         const std::string& adapter_id,
         lora::InferenceAuditEntry entry);
@@ -491,23 +386,8 @@ private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
 
-    /**
-     * @brief TBD: Describe makeAdapterKey.
-     * @param[in] adapter_id Input parameter.
-     * @return Return value.
-     */
     std::string makeAdapterKey(const std::string& adapter_id) const;
-    /**
-     * @brief TBD: Describe makeBaseModelIndexKey.
-     * @param[in] base_model Input parameter.
-     * @return Return value.
-     */
     std::string makeBaseModelIndexKey(const std::string& base_model) const;
-    /**
-     * @brief TBD: Describe makeDomainIndexKey.
-     * @param[in] domain Input parameter.
-     * @return Return value.
-     */
     std::string makeDomainIndexKey(const std::string& domain) const;
 
     // Helper: Update indices when adapter is registered/updated/deleted

@@ -53,7 +53,6 @@ public:
      *
      * @param config Configuration parameters
      * @throws std::runtime_error if HIP device unavailable or memory allocation fails
-     * @return Return value.
      */
     explicit InfiniAttentionHIP(const Config& config);
 

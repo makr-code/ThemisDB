@@ -20,36 +20,13 @@ public:
         int max_tokens = 256;
         float temperature = 0.0f;
         double min_score_threshold = 0.0;
-        /**
-         * @brief TBD: Describe defaults.
-         * @return Return value.
-         * @details Implements defaults without additional internal calls.
-         */
         static Config defaults() { return {}; }
     };
 
-    /**
-     * @brief TBD: Describe ~ILlmReranker.
-     * @return Return value.
-     */
     virtual ~ILlmReranker() = default;
-    /**
-     * @brief TBD: Describe setBackend.
-     * @param[in] backend Input parameter.
-     */
     virtual void setBackend(LlmBackend backend) = 0;
-    /**
-     * @brief TBD: Describe rerank.
-     * @param[in] query Input parameter.
-     * @param[in] candidates Input parameter.
-     * @return Return value.
-     */
     virtual std::vector<LlmRerankResult> rerank(const std::string& query,
                                                 const std::vector<LlmRerankCandidate>& candidates) const = 0;
-    /**
-     * @brief TBD: Describe getConfig.
-     * @return Return value.
-     */
     virtual const Config& getConfig() const = 0;
 };
 

@@ -40,10 +40,6 @@ public:
         float network_score;      // 0.0-1.0 (1.0 = same datacenter)
         float combined_score;     // Weighted sum
         
-        /**
-         * @brief TBD: Describe toJson.
-         * @return Return value.
-         */
         nlohmann::json toJson() const;
     };
     
@@ -96,14 +92,6 @@ public:
         }
     };
     
-    /**
-     * @brief TBD: Describe LocalityAwareRouter.
-     * @param[in] local_shard_id Input parameter.
-     * @param[in] topology Input parameter.
-     * @param[in] resource_mgr Input parameter.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit LocalityAwareRouter(
         const std::string& local_shard_id,
         std::shared_ptr<ShardTopology> topology,
@@ -111,13 +99,6 @@ public:
         const Config& config
     );
 
-    /**
-     * @brief TBD: Describe LocalityAwareRouter.
-     * @param[in] local_shard_id Input parameter.
-     * @param[in] topology Input parameter.
-     * @param[in] resource_mgr Input parameter.
-     * @return Return value.
-     */
     explicit LocalityAwareRouter(
         const std::string& local_shard_id,
         std::shared_ptr<ShardTopology> topology,
@@ -126,78 +107,31 @@ public:
     
     ~LocalityAwareRouter();
     
-    /**
-     * @brief Main routing interface
-     * @param[in] spec Input parameter.
-     * @return Return value.
-     */
+    // Main routing interface
     std::string routeQuery(const QuerySpec& spec);
-    /**
-     * @brief TBD: Describe routeMultiShardQuery.
-     * @param[in] spec Input parameter.
-     * @return Return value.
-     */
     std::vector<std::string> routeMultiShardQuery(const QuerySpec& spec);
     
-    /**
-     * @brief Affinity calculation
-     * @param[in] spec Input parameter.
-     * @return Return value.
-     */
+    // Affinity calculation
     std::vector<ShardAffinity> computeAffinity(const QuerySpec& spec);
-    /**
-     * @brief TBD: Describe computeShardAffinity.
-     * @param[in] shard_id Input parameter.
-     * @param[in] spec Input parameter.
-     * @return Return value.
-     */
     ShardAffinity computeShardAffinity(const std::string& shard_id, 
                                         const QuerySpec& spec);
     
-    /**
-     * @brief Data placement tracking
-     * @param[in] collection Input parameter.
-     * @param[in] key Input parameter.
-     * @param[in] shard_id Input parameter.
-     */
+    // Data placement tracking
     void updateDataPlacement(const std::string& collection,
                              const std::string& key,
                              const std::string& shard_id);
-    /**
-     * @brief TBD: Describe removeDataPlacement.
-     * @param[in] collection Input parameter.
-     * @param[in] key Input parameter.
-     */
     void removeDataPlacement(const std::string& collection,
                              const std::string& key);
-    /**
-     * @brief TBD: Describe hasData.
-     * @param[in] shard_id Input parameter.
-     * @param[in] collection Input parameter.
-     * @param[in] key Input parameter.
-     * @return True on success.
-     */
     bool hasData(const std::string& shard_id,
                  const std::string& collection,
                  const std::string& key) const;
     
-    /**
-     * @brief Optimization hints
-     * @param[in] collections Input parameter.
-     * @return Return value.
-     */
+    // Optimization hints
     std::vector<std::string> suggestCoLocation(
         const std::vector<std::string>& collections);
     
-    /**
-     * @brief Statistics
-     * @return Return value.
-     */
+    // Statistics
     Statistics getStatistics() const;
-    /**
-     * @brief TBD: Describe getStatisticsJson.
-     * @return Return value.
-     */
     nlohmann::json getStatisticsJson() const;
     
     /**
@@ -268,57 +202,22 @@ private:
     // Statistics
     Statistics stats_;
     
-    /**
-     * @brief Scoring helpers
-     * @param[in] shard_id Input parameter.
-     * @param[in] spec Input parameter.
-     * @return Return value.
-     */
+    // Scoring helpers
     float calculateLocalityScore(const std::string& shard_id,
                                  const QuerySpec& spec) const;
-    /**
-     * @brief TBD: Describe calculateLoadScore.
-     * @param[in] shard_id Input parameter.
-     * @return Return value.
-     */
     float calculateLoadScore(const std::string& shard_id) const;
-    /**
-     * @brief TBD: Describe calculateNetworkScore.
-     * @param[in] shard_id Input parameter.
-     * @return Return value.
-     */
     float calculateNetworkScore(const std::string& shard_id) const;
     
-    /**
-     * @brief Latency helpers
-     * @param[in] replica_id Input parameter.
-     * @param[in] datacenter_id Input parameter.
-     * @return Return value.
-     */
+    // Latency helpers
     uint64_t getReplicaLatency(const std::string& replica_id,
                              const std::string& datacenter_id) const;
-    /**
-     * @brief TBD: Describe isLatencyStale.
-     * @param[in] replica_id Input parameter.
-     * @param[in] datacenter_id Input parameter.
-     * @param[in] max_age_ms Input parameter.
-     * @return True on success.
-     */
     bool isLatencyStale(const std::string& replica_id,
                        const std::string& datacenter_id,
                        uint64_t max_age_ms) const;
     
-    /**
-     * @brief Cache helpers
-     * @param[in] collection Input parameter.
-     * @param[in] key Input parameter.
-     * @return Return value.
-     */
+    // Cache helpers
     std::string makeCacheKey(const std::string& collection,
                              const std::string& key) const;
-    /**
-     * @brief TBD: Describe cleanupStaleEntries.
-     */
     void cleanupStaleEntries();
 };
 

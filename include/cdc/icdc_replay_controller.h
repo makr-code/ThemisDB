@@ -98,10 +98,6 @@ enum class ReplaySessionState {
  */
 class IReplaySession {
 public:
-    /**
-     * @brief TBD: Describe ~IReplaySession.
-     * @return Return value.
-     */
     virtual ~IReplaySession() = default;
 
     /**
@@ -146,10 +142,6 @@ public:
  */
 class ICDCReplayController {
 public:
-    /**
-     * @brief TBD: Describe ~ICDCReplayController.
-     * @return Return value.
-     */
     virtual ~ICDCReplayController() = default;
 
     /**
@@ -209,11 +201,6 @@ public:
     {}
 
     std::vector<Changefeed::ChangeEvent> nextBatch() override {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::mutex> lk(mutex_);
         if (state_ != ReplaySessionState::Active) return {};
 
@@ -237,41 +224,21 @@ public:
     }
 
     bool done() const override {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::mutex> lk(mutex_);
         return state_ != ReplaySessionState::Active;
     }
 
     void cancel() override {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::mutex> lk(mutex_);
         state_ = ReplaySessionState::Cancelled;
     }
 
     ReplaySessionState state() const override {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::mutex> lk(mutex_);
         return state_;
     }
 
     std::size_t deliveredCount() const override {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::mutex> lk(mutex_);
         return delivered_;
     }
@@ -301,8 +268,6 @@ public:
     /**
      * @param feed  Non-owning pointer to the Changefeed to replay from.
      *              Must outlive this controller.
-     * @brief TBD: Describe InMemoryReplayController.
-     * @return Return value.
      */
     explicit InMemoryReplayController(Changefeed* feed)
         : feed_(feed), sessions_created_(0) {}

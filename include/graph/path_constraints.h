@@ -107,50 +107,41 @@ public:
     
     /**
      * @brief Construct with GraphIndexManager for path finding
-     * @param[in,out] graph_mgr Input/output parameter.
-     * @return Return value.
      */
     explicit PathConstraints(GraphIndexManager* graph_mgr);
     
     /**
      * @brief Set GraphIndexManager for path finding operations
-     * @param[in,out] graph_mgr Input/output parameter.
      */
     void setGraphManager(GraphIndexManager* graph_mgr);
 
     /**
      * @brief Add a minimum path length constraint
-     * @param[in] min_length Input parameter.
      */
     void addMinLength(int min_length);
 
     /**
      * @brief Add a maximum path length constraint
-     * @param[in] max_length Input parameter.
      */
     void addMaxLength(int max_length);
 
     /**
      * @brief Add a forbidden node constraint
-     * @param[in] node_id Input parameter.
      */
     void addForbiddenNode(std::string_view node_id);
 
     /**
      * @brief Add a required node constraint
-     * @param[in] node_id Input parameter.
      */
     void addRequiredNode(std::string_view node_id);
 
     /**
      * @brief Add a forbidden edge constraint
-     * @param[in] edge_id Input parameter.
      */
     void addForbiddenEdge(std::string_view edge_id);
 
     /**
      * @brief Add a required edge constraint
-     * @param[in] edge_id Input parameter.
      */
     void addRequiredEdge(std::string_view edge_id);
 
@@ -338,7 +329,6 @@ public:
 
     /**
      * @brief Get human-readable description of constraints
-     * @return Return value.
      */
     std::string describeConstraints() const;
 
@@ -378,9 +368,6 @@ private:
      * Accepts identifiers that are non-empty, do not contain null bytes, and
      * do not exceed MAX_ID_LENGTH bytes.  Returns true when the identifier is
      * safe to use as a constraint value.
-     * @param[in] s Input parameter.
-     * @return True on success.
-     * @note Exception safety: noexcept.
      */
     static bool isValidIdentifier(std::string_view s) noexcept;
 
@@ -391,9 +378,6 @@ private:
      * alphanumeric characters, underscores, hyphens, or dots
      * (pattern: [A-Za-z0-9_.\-]+) and must not exceed MAX_FIELD_NAME_LENGTH
      * bytes.  This prevents injection of arbitrary storage keys.
-     * @param[in] s Input parameter.
-     * @return True on success.
-     * @note Exception safety: noexcept.
      */
     static bool isValidFieldName(std::string_view s) noexcept;
 };

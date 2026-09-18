@@ -248,11 +248,6 @@ struct EIDAuthResult {
         bool has_value() const { return value_.has_value(); }
         explicit operator bool() const { return value_.has_value(); }
 
-        /**
-         * @brief TBD: Describe value.
-         * @return Return value.
-         * @details Implements value without additional internal calls.
-         */
         EIDIdentity& value() { return value_.value(); }
         const EIDIdentity& value() const { return value_.value(); }
 
@@ -294,12 +289,6 @@ struct EIDAuthResult {
         return identity.operator->();
     }
 
-    /**
-     * @brief TBD: Describe Success.
-     * @param[in] id Input parameter.
-     * @return Return value.
-     * @details Calls: std::move().
-     */
     static EIDAuthResult Success(EIDIdentity id) {
         EIDAuthResult r;
         r.success  = true;
@@ -307,13 +296,6 @@ struct EIDAuthResult {
         return r;
     }
 
-    /**
-     * @brief TBD: Describe Failure.
-     * @param[in] code Input parameter.
-     * @param[in] msg Input parameter.
-     * @return Return value.
-     * @details Calls: std::move().
-     */
     static EIDAuthResult Failure(EIDAuthErrorCode code, std::string msg) {
         EIDAuthResult r;
         r.success       = false;
@@ -352,10 +334,6 @@ struct EIDAuthSession {
  */
 class IEIDAuthenticator {
 public:
-    /**
-     * @brief TBD: Describe ~IEIDAuthenticator.
-     * @return Return value.
-     */
     virtual ~IEIDAuthenticator() = default;
 
     /**
@@ -398,7 +376,6 @@ public:
 
     /**
      * @brief Revoke / invalidate an active authentication session.
-     * @param[in] session_id Input parameter.
      */
     virtual void revokeSession(std::string_view session_id) = 0;
 
@@ -435,45 +412,24 @@ public:
      *
      * When completeAuthSession() is called with @p session_id, the authenticator
      * returns a successful result with this identity.
-     * @param[in] session_id Input parameter.
-     * @param[in] identity Input parameter.
-     * @details Calls: lk(), std::string().
      */
     void registerTestIdentity(std::string_view session_id,
                                const EIDIdentity& identity) {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::mutex> lk(mutex_);
         test_identities_[std::string(session_id)] = identity;
     }
 
-    /**
-     * @brief Legacy helper name kept for compatibility with older tests.
-     * @param[in] identity Input parameter.
-     * @details Calls: registerTestIdentity().
-     */
+    // Legacy helper name kept for compatibility with older tests.
     void storeIdentity(const EIDIdentity& identity) {
         registerTestIdentity(identity.transaction_id, identity);
     }
 
     /**
      * @brief Pre-configure a failure result for a given session.
-     * @param[in] session_id Input parameter.
-     * @param[in] code Input parameter.
-     * @param[in] message Input parameter.
-     * @details Calls: lk(), std::string(), std::move().
      */
     void registerTestFailure(std::string_view session_id,
                              EIDAuthErrorCode code,
                              std::string message) {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::mutex> lk(mutex_);
         test_failures_[std::string(session_id)] = {code, std::move(message)};
     }
@@ -490,11 +446,6 @@ public:
         if (config.terminal_certificate.empty()) {
           return false;
         }
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::mutex> lk(mutex_);
         config_      = config;
         initialized_ = true;
@@ -502,41 +453,21 @@ public:
     }
 
     bool isInitialized() const override {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::mutex> lk(mutex_);
         return initialized_;
     }
 
     std::string beginAuthSession(std::string_view session_id) override {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::mutex> lk(mutex_);
         if (!initialized_) {
             return "";
         }
-        /**
-         * @brief TBD: Describe sid.
-         * @param[in] session_id Input parameter.
-         * @return Return value.
-         */
         const std::string sid(session_id);
         active_sessions_.insert(sid);
         return config_.eid_server_url + "?sessionId=" + sid;
     }
 
-    /**
-     * @brief Legacy overload used by older tests.
-     * @param[in] request Input parameter.
-     * @return Return value.
-     * @details Calls: empty().
-     */
+    // Legacy overload used by older tests.
     EIDAuthSession beginAuthSession(const EIDAuthRequest& request) {
         EIDAuthSession session;
         session.session_id = request.transaction_id;
@@ -549,21 +480,11 @@ public:
 
     EIDAuthResult completeAuthSession(std::string_view session_id,
                                       std::string_view saml_response) override {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::mutex> lk(mutex_);
         if (!initialized_) {
             return EIDAuthResult::Failure(EIDAuthErrorCode::INVALID_CONFIGURATION,
                                          "Authenticator not initialized");
         }
-        /**
-         * @brief TBD: Describe sid.
-         * @param[in] session_id Input parameter.
-         * @return Return value.
-         */
         const std::string sid(session_id);
         if (!active_sessions_.count(sid)) {
             return EIDAuthResult::Failure(EIDAuthErrorCode::SESSION_TIMEOUT,
@@ -597,31 +518,16 @@ public:
     }
 
     void revokeSession(std::string_view session_id) override {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::mutex> lk(mutex_);
         active_sessions_.erase(std::string(session_id));
     }
 
     std::vector<std::string> activeSessions() const override {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::mutex> lk(mutex_);
         return {active_sessions_.begin(), active_sessions_.end()};
     }
 
     EIDAuthConfig config() const override {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::mutex> lk(mutex_);
         return config_;
     }

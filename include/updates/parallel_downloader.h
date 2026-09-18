@@ -144,14 +144,8 @@ public:
     /**
      * @brief Set the maximum number of simultaneous downloads (≥ 1)
      * @throws std::invalid_argument if n == 0
-     * @param[in] n Input parameter.
      */
     void setConcurrency(size_t n);
-    /**
-     * @brief TBD: Describe getConcurrency.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
     size_t getConcurrency() const noexcept;
 
     /**
@@ -163,22 +157,15 @@ public:
      * @param bytes_per_second 0 = unlimited (default)
      */
     void setBandwidthLimit(uint64_t bytes_per_second);
-    /**
-     * @brief TBD: Describe getBandwidthLimit.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
     uint64_t getBandwidthLimit() const noexcept;
 
     /**
      * @brief Override the HTTP connect timeout (default: 10 s)
-     * @param[in] seconds Input parameter.
      */
     void setConnectTimeoutSeconds(long seconds);
 
     /**
      * @brief Override the HTTP transfer timeout per chunk (default: 30 s)
-     * @param[in] seconds Input parameter.
      */
     void setTransferTimeoutSeconds(long seconds);
 
@@ -198,8 +185,6 @@ public:
 
     /**
      * @brief Retrieve aggregate statistics from the most recent downloadAll() call
-     * @return Return value.
-     * @note Exception safety: noexcept.
      */
     DownloadBatchStats lastBatchStats() const noexcept;
 
@@ -247,10 +232,6 @@ public:
         uint64_t* out_total,
         std::string* out_error)>;
 
-    /**
-     * @brief TBD: Describe setFetchFunction.
-     * @param[in] fn Input parameter.
-     */
     void setFetchFunction(FetchFn fn);
 
 private:
@@ -268,49 +249,14 @@ private:
     mutable std::atomic<uint64_t> token_bucket_{0};
     mutable std::atomic<int64_t>  last_refill_ms_{0};
 
-    /**
-     * @brief Helpers
-     * @param[in] task_index Input parameter.
-     * @param[in] task Input parameter.
-     * @return Return value.
-     */
+    // Helpers
     DownloadResult executeTask(size_t task_index, const DownloadTask& task);
-    /**
-     * @brief TBD: Describe resumeOffset.
-     * @param[in] dest Input parameter.
-     * @return Return value.
-     */
     uint64_t       resumeOffset(const std::string& dest) const;
 
-    /**
-     * @brief TBD: Describe consumeBandwidth.
-     * @param[in] bytes Input parameter.
-     */
     void   consumeBandwidth(uint64_t bytes) const;
-    /**
-     * @brief TBD: Describe refillTokens.
-     * @param[in] bytes_needed Input parameter.
-     */
     void   refillTokens(uint64_t bytes_needed) const;
 
-    /**
-     * @brief TBD: Describe computeSha256.
-     * @param[in] path Input parameter.
-     * @return Return value.
-     */
     static std::string computeSha256(const std::string& path);
-    /**
-     * @brief TBD: Describe defaultFetch.
-     * @param[in] url Input parameter.
-     * @param[in] dest Input parameter.
-     * @param[in] resume_offset Input parameter.
-     * @param[in] connect_timeout_s Input parameter.
-     * @param[in] transfer_timeout_s Input parameter.
-     * @param[in,out] out_bytes Input/output parameter.
-     * @param[in,out] out_total Input/output parameter.
-     * @param[in,out] out_error Input/output parameter.
-     * @return True on success.
-     */
     static bool        defaultFetch(
         const std::string& url,
         const std::string& dest,

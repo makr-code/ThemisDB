@@ -45,11 +45,6 @@ public:
      * @param func The function/lambda to run in the thread
      */
     template<typename Func>
-    /**
-     * @brief TBD: Describe ThreadGuard.
-     * @param[in] func Input parameter.
-     * @return Return value.
-     */
     explicit ThreadGuard(Func&& func)
         : thread_(std::forward<Func>(func)) {}
 
@@ -99,8 +94,6 @@ public:
     /**
      * Wait for the thread to finish.
      * Can be called multiple times safely (second call is no-op).
-     * @brief TBD: Describe join.
-     * @details Calls: joinable().
      */
     void join() {
         if (thread_.joinable()) {

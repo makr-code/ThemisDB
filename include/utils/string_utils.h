@@ -78,7 +78,6 @@ inline std::string rtrim(const std::string& s, std::string_view ws = " \t\r\n") 
  * @param str The string to search in
  * @param substr The substring to search for
  * @return true if substr is found in str (case-insensitive), false otherwise
- * @details Calls: std::search(), begin(), end(), std::tolower().
  */
 inline bool containsCaseInsensitive(const std::string& str, const std::string& substr) {
     auto it = std::search(
@@ -93,7 +92,6 @@ inline bool containsCaseInsensitive(const std::string& str, const std::string& s
  * @brief Convert string to lowercase
  * @param str Input string
  * @return Lowercase version of the string
- * @details Calls: std::transform(), begin(), end().
  */
 inline std::string toLower(const std::string& str) {
     std::string result = str;
@@ -106,7 +104,6 @@ inline std::string toLower(const std::string& str) {
  * @param str1 First string
  * @param str2 Second string
  * @return true if strings are equal (case-insensitive), false otherwise
- * @details Calls: size(), std::equal(), begin(), end(), std::tolower().
  */
 inline bool equalsCaseInsensitive(const std::string& str1, const std::string& str2) {
     if (str1.size() != str2.size()) {

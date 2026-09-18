@@ -25,10 +25,6 @@ namespace llm {
  * @brief Prefix cache entry storing common prompt prefixes
  */
 struct PrefixCacheEntry {
-    /**
-     * @brief TBD: Describe ~PrefixCacheEntry.
-     * @return Return value.
-     */
     virtual ~PrefixCacheEntry() = default;
     std::string prefix;
     std::vector<float> embedding;
@@ -49,10 +45,6 @@ struct PrefixCacheEntry {
  * @brief Statistics for prefix cache
  */
 struct PrefixCacheStatistics {
-    /**
-     * @brief TBD: Describe ~PrefixCacheStatistics.
-     * @return Return value.
-     */
     virtual ~PrefixCacheStatistics() = default;
     size_t hits = 0;
     size_t misses = 0;
@@ -101,12 +93,6 @@ public:
         std::string cache_dir;
     };
     
-    /**
-     * @brief TBD: Describe LLMPrefixCache.
-     * @param[in] cache_name Input parameter.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit LLMPrefixCache(const std::string& cache_name, const Config& config);
     ~LLMPrefixCache();
     
@@ -144,13 +130,11 @@ public:
     
     /**
      * @brief Update usage statistics for a prefix
-     * @param[in] prefix Input parameter.
      */
     void touch(const std::string& prefix);
     
     /**
      * @brief Invalidate prefixes by pattern
-     * @param[in] pattern Input parameter.
      */
     void invalidateByPattern(const std::string& pattern);
     
@@ -161,7 +145,6 @@ public:
     
     /**
      * @brief Get cache statistics
-     * @return Return value.
      */
     PrefixCacheStatistics getStatistics() const;
     

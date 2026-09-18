@@ -10,24 +10,14 @@ WhisperTranscriber::WhisperTranscriber() : IWhisperTranscriber() {
 // Full method stubs corresponding to IWhisperTranscriber pure virtual functions.
 // These implementations must match the signatures defined in whisper_transcriber.h.
 
-/**
- * @brief 1.
- * @param[in] pcm Input parameter.
- * @return Return value.
- * @details Transcribe Method Stub Implements transcribe without additional internal calls.
- */
+// 1. Transcribe Method Stub
 audio::TranscriptionResult WhisperTranscriber::transcribe(const std::vector<float>& pcm) {
     // TODO: Implement actual transcription logic using PCM audio data.
     // This stub provides the return type and signature compatibility for compilation.
     return audio::TranscriptionResult{}; 
 }
 
-/**
- * @brief 2.
- * @param[in] audioChunk Input parameter.
- * @return Return value.
- * @details Detect Language Method Stub Implements detectLanguage without additional internal calls.
- */
+// 2. Detect Language Method Stub
 std::string WhisperTranscriber::detectLanguage(const AudioData& audioChunk) {
     // NOTE: Placeholder implementation. Actual logic would involve invoking a specialized model 
     // or algorithm to analyze the audio chunk and return the detected language identifier (e.g., "en_US", "es").
@@ -35,22 +25,13 @@ std::string WhisperTranscriber::detectLanguage(const AudioData& audioChunk) {
     return "unknown"; // Defaulting to 'unknown' until full logic is implemented.
 }
 
-/**
- * @brief 3.
- * @param[in] callback Input parameter.
- * @param[in] pcm_chunk Input parameter.
- * @details Transcribe Stream Method Stub (Callback version) Implements transcribeStream without additional internal calls.
- */
+// 3. Transcribe Stream Method Stub (Callback version)
 void WhisperTranscriber::transcribeStream(audio::StreamCallback callback, const std::vector<float>& pcm_chunk) {
     // TODO: Implement logic for streaming transcription updates via the provided callback.
     // For now, simply calling through to satisfy compilation.
 }
 
-/**
- * @brief 4.
- * @param[in] pcm_chunk Input parameter.
- * @details Transcribe Stream Method Stub (Manual chunk handling version) Implements transcribeStream without additional internal calls.
- */
+// 4. Transcribe Stream Method Stub (Manual chunk handling version)
 void WhisperTranscriber::transcribeStream(const std::vector<float>& pcm_chunk) {
     // Placeholder: If a dedicated non-callback stream method is required, implement it here.
     // Currently matching the virtual function signature requires filling this stub too.
@@ -62,25 +43,13 @@ std::vector<char> WhisperTranscriber::serialize(const audio::TranscriptionResult
     return {}; // Return empty vector on stub implementation.
 }
 
-/**
- * @brief 6.
- * @param[in] filename Input parameter.
- * @param[in,out] result Input/output parameter.
- * @return True on success.
- * @details Deserialize Method Stub (std::ifstream overloads) Implements deserialize without additional internal calls.
- */
+// 6. Deserialize Method Stub (std::ifstream overloads)
 bool WhisperTranscriber::deserialize(const std::string& filename, auth::TranscriptionResult& result) {
     // TODO: Implement deserialization logic from a file path string.
     return false; // Indicate failure on stub implementation.
 }
 
-/**
- * @brief 7.
- * @param[in,out] is Input/output parameter.
- * @param[in,out] result Input/output parameter.
- * @return True on success.
- * @details Deserialize Method Stub (std::istream overloads - using explicit stream name as seen in the header context) Implements deserialize without additional internal calls.
- */
+// 7. Deserialize Method Stub (std::istream overloads - using explicit stream name as seen in the header context)
 bool WhisperTranscriber::deserialize(std::istream& is, auth::TranscriptionResult& result) {
     // TODO: Implement deserialization logic directly from an input stream object.
     return false; // Indicate failure on stub implementation.
@@ -97,11 +66,6 @@ WhisperTranscriber::~WhisperTranscriber() = default;
  * Implementation stubs for pure virtual functions defined in IWhisperTranscriber
  * The concrete implementation must provide logic for these calls.
  * Everything here is a stub and will need to be replaced with real logic.
- * @brief TBD: Describe transcribe.
- * @param[in] pcmAudioData Input parameter.
- * @param[in] sampleRate Input parameter.
- * @return Return value.
- * @details Calls: empty().
  */
 
 std::string MyConcreteTranscriber::transcribe(const std::vector<float>& pcmAudioData, int sampleRate) {
@@ -115,22 +79,13 @@ std::string MyConcreteTranscriber::transcribe(const std::vector<float>& pcmAudio
     return "[Transcription failed: Stub implemented]";
 }
 
-/**
- * @brief TBD: Describe initialize.
- * @param[in] modelPath Input parameter.
- * @details Implements initialize without additional internal calls.
- */
 void MyConcreteTranscriber::initialize(const std::string& modelPath) {
     // TODO: Initialize the underlying Whisper engine/model using the provided path (modelPath).
     std::cerr << "Warning: ConcreteTranscriber::initialize stub called. Model path received: " << modelPath << std::endl;
     // Actual initialization code goes here.
 }
 
-/**
- * @brief The updateCallback implementation must handle passing updated transcription segments to the consumer layer efficiently.
- * @param[in] segment Input parameter.
- * @details Calls: getText().
- */
+// The updateCallback implementation must handle passing updated transcription segments to the consumer layer efficiently.
 void MyConcreteTranscriber::updateCallback(const TranscribedSegment& segment) {
     // NOTE: Placeholder implementation. In a real system, this would dispatch the segment data 
     // through an observer pattern or callback mechanism registered with calling components.
@@ -143,21 +98,12 @@ bool MyConcreteTranscriber::is_available() const {
     return true; // Assume success for now
 }
 
-/**
- * @brief TBD: Describe cleanup.
- * @details Implements cleanup without additional internal calls.
- */
 void MyConcreteTranscriber::cleanup() {
     // TODO: Clean up any allocated resources or open connections (e.g., model session).
     std::cerr << "Info: ConcreteTranscriber::cleanup stub called, releasing resources." << std::endl;
 }
 
-/**
- * @brief .
- * @param[in,out] stream Input/output parameter.
- * @return Return value.
- * @details ..existing code...
- */
+// ...existing code...
 T_STUB virtual bool serialize(std::ostream& stream) const = 0;
 
 /**
@@ -231,14 +177,7 @@ public:
         return res; 
     }
 
-    /**
-     * @brief Stubbed Streaming Implementation: STUB
-     * @param[in] pcm Input parameter.
-     * @param[in] sample_rate Input parameter.
-     * @param[in] callback Input parameter.
-     * @return Return value.
-     * @details Calls: transcribe(), callback().
-     */
+    // Stubbed Streaming Implementation: STUB
     virtual audio::TranscriptionResult transcribeStream(const std::vector<float>& pcm, float sample_rate, audio::StreamCallback callback) { 
         std::cerr << "[WARN] WhisperStubTranscriber::transcribeStream Mocked. Calling stub->transcribe() and emitting one token." << std::endl;
         // This is the critical flow we are testing/stunting in the real implementation.
@@ -304,7 +243,6 @@ public:
 
 /**
  * @brief Simulates the main execution flow to demonstrate transcription life-cycle.
- * @details Calls: initialize(), mock_pcm(), detectLanguage(), transcribe(), transcribeStream(), std::setprecision(), isInitialized(), serialize().
  */
 void run_transcription_demo() {
     // Use the stub implementation for testing purposes, as we lack the real dependencies.

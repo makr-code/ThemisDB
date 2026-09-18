@@ -151,18 +151,7 @@ public:
     struct Status {
         bool ok = true;
         std::string message;
-        /**
-         * @brief TBD: Describe OK.
-         * @return Return value.
-         * @details Implements OK without additional internal calls.
-         */
         static Status OK() { return {}; }
-        /**
-         * @brief TBD: Describe Error.
-         * @param[in] msg Input parameter.
-         * @return Return value.
-         * @details Calls: std::move().
-         */
         static Status Error(std::string msg) { 
             return Status{false, std::move(msg)}; 
         }
@@ -503,23 +492,16 @@ private:
     
     /**
      * @brief Extract keywords from decision for relational storage
-     * @param[in] decision Input parameter.
-     * @return Return value.
      */
     std::vector<std::string> extractKeywords(const EthicalDecision& decision);
     
     /**
      * @brief Add scenario node to graph
-     * @param[in] scenario Input parameter.
-     * @return Return value.
      */
     Status addScenarioNode(const EthicalScenario& scenario);
     
     /**
      * @brief Add stakeholder nodes and connect to scenario
-     * @param[in] scenario Input parameter.
-     * @param[in] scenario_node_id Input parameter.
-     * @return Return value.
      */
     Status addStakeholderNodes(
         const EthicalScenario& scenario,
@@ -528,10 +510,6 @@ private:
     
     /**
      * @brief Add principle nodes from guidelines
-     * @param[in] scenario Input parameter.
-     * @param[in] scenario_node_id Input parameter.
-     * @param[in] philosophy Input parameter.
-     * @return Return value.
      */
     Status addPrincipleNodes(
         const EthicalScenario& scenario,
@@ -541,9 +519,6 @@ private:
     
     /**
      * @brief Add action nodes for possible choices
-     * @param[in] scenario Input parameter.
-     * @param[in] scenario_node_id Input parameter.
-     * @return Return value.
      */
     Status addActionNodes(
         const EthicalScenario& scenario,
@@ -552,9 +527,6 @@ private:
     
     /**
      * @brief Add outcome nodes for predicted consequences
-     * @param[in] action_id Input parameter.
-     * @param[in] outcomes Input parameter.
-     * @return Return value.
      */
     Status addOutcomeNodes(
         const std::string& action_id,
@@ -563,9 +535,6 @@ private:
     
     /**
      * @brief Add argument nodes for ethical reasoning
-     * @param[in] action_id Input parameter.
-     * @param[in] arguments Input parameter.
-     * @return Return value.
      */
     Status addArgumentNodes(
         const std::string& action_id,
@@ -574,10 +543,6 @@ private:
     
     /**
      * @brief Traverse graph to find reasoning path
-     * @param[in] scenario_id Input parameter.
-     * @param[in] action_id Input parameter.
-     * @param[in] philosophy Input parameter.
-     * @return Return value.
      */
     ReasoningPath traverseReasoningPath(
         const std::string& scenario_id,
@@ -587,8 +552,6 @@ private:
     
     /**
      * @brief Load principles for philosophy from guidelines
-     * @param[in] philosophy Input parameter.
-     * @return Return value.
      */
     std::vector<std::string> loadPrinciplesForPhilosophy(
         const std::string& philosophy
@@ -596,10 +559,6 @@ private:
     
     /**
      * @brief Score action based on principle adherence
-     * @param[in] action Input parameter.
-     * @param[in] principles Input parameter.
-     * @param[in] philosophy Input parameter.
-     * @return Return value.
      */
     double scoreActionByPrinciples(
         const std::string& action,
@@ -617,8 +576,6 @@ private:
     
     /**
      * @brief Format decision as structured text
-     * @param[in] decision Input parameter.
-     * @return Return value.
      */
     std::string formatDecisionText(
         const EthicalDecision& decision
@@ -626,8 +583,6 @@ private:
     
     /**
      * @brief Validate scenario structure
-     * @param[in] scenario Input parameter.
-     * @return True on success.
      */
     bool validateScenario(const EthicalScenario& scenario);
 };

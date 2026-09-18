@@ -30,10 +30,6 @@ namespace llm {
  */
 class SpeculativeDecoder {
 public:
-    /**
-     * @brief TBD: Describe ~SpeculativeDecoder.
-     * @return Return value.
-     */
     virtual ~SpeculativeDecoder() = default;
     // ── Configuration ────────────────────────────────────────────────
 
@@ -102,11 +98,6 @@ public:
     // ── Lifecycle ────────────────────────────────────────────────────
 
     SpeculativeDecoder();
-    /**
-     * @brief TBD: Describe SpeculativeDecoder.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit SpeculativeDecoder(const Config& config);
 
     /// Read-only access to the active configuration.

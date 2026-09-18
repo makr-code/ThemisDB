@@ -34,16 +34,7 @@ struct PolicyRuleVersion {
     std::string change_description;                    // Description of changes
     nlohmann::json rule_snapshot;                      // Full rule state at this version (JSON)
     
-    /**
-     * @brief TBD: Describe toJson.
-     * @return Return value.
-     */
     nlohmann::json toJson() const;
-    /**
-     * @brief TBD: Describe fromJson.
-     * @param[in] j Input parameter.
-     * @return Return value.
-     */
     static PolicyRuleVersion fromJson(const nlohmann::json& j);
 };
 
@@ -57,16 +48,7 @@ struct AuditLogEntry {
     std::string new_version;                           // New version (for update/create)
     nlohmann::json details;                            // Additional details
     
-    /**
-     * @brief TBD: Describe toJson.
-     * @return Return value.
-     */
     nlohmann::json toJson() const;
-    /**
-     * @brief TBD: Describe fromJson.
-     * @param[in] j Input parameter.
-     * @return Return value.
-     */
     static AuditLogEntry fromJson(const nlohmann::json& j);
 };
 
@@ -78,10 +60,6 @@ struct VersionDiff {
     std::vector<std::string> changes;                  // List of changed fields
     nlohmann::json details;                            // Detailed differences
     
-    /**
-     * @brief TBD: Describe toJson.
-     * @return Return value.
-     */
     nlohmann::json toJson() const;
 };
 
@@ -90,14 +68,12 @@ class PolicyVersionHistory {
 public:
     PolicyVersionHistory();
     
-    /**
-     * @brief Record a new version of a rule @param rule_id Rule identifier @param rule Current rule state @param author User creating this version @param change_description Description of changes @return New version number
-     * @param[in] rule_id Input parameter.
-     * @param[in] rule Input parameter.
-     * @param[in] author Input parameter.
-     * @param[in] change_description Input parameter.
-     * @return Return value.
-     */
+    /// Record a new version of a rule
+    /// @param rule_id Rule identifier
+    /// @param rule Current rule state
+    /// @param author User creating this version
+    /// @param change_description Description of changes
+    /// @return New version number
     std::string recordVersion(
         const std::string& rule_id,
         const PolicyRule& rule,
@@ -105,72 +81,54 @@ public:
         const std::string& change_description
     );
     
-    /**
-     * @brief Get all versions of a rule @param rule_id Rule identifier @return Vector of all versions, ordered newest first
-     * @param[in] rule_id Input parameter.
-     * @return Return value.
-     */
+    /// Get all versions of a rule
+    /// @param rule_id Rule identifier
+    /// @return Vector of all versions, ordered newest first
     std::vector<PolicyRuleVersion> getVersions(const std::string& rule_id) const;
     
-    /**
-     * @brief Get a specific version of a rule @param rule_id Rule identifier @param version Version number @return Rule version if found
-     * @param[in] rule_id Input parameter.
-     * @param[in] version Input parameter.
-     * @return Return value.
-     */
+    /// Get a specific version of a rule
+    /// @param rule_id Rule identifier
+    /// @param version Version number
+    /// @return Rule version if found
     std::optional<PolicyRuleVersion> getVersion(
         const std::string& rule_id,
         const std::string& version
     ) const;
     
-    /**
-     * @brief Get the latest version number for a rule @param rule_id Rule identifier @return Latest version number or "0.
-     * @param[in] rule_id Input parameter.
-     * @return Return value.
-     * @details 0.0" if no versions exist
-     */
+    /// Get the latest version number for a rule
+    /// @param rule_id Rule identifier
+    /// @return Latest version number or "0.0.0" if no versions exist
     std::string getLatestVersion(const std::string& rule_id) const;
     
-    /**
-     * @brief Get the previous version number for a rule @param rule_id Rule identifier @return Previous version number or empty if no previous version
-     * @param[in] rule_id Input parameter.
-     * @return Return value.
-     */
+    /// Get the previous version number for a rule
+    /// @param rule_id Rule identifier
+    /// @return Previous version number or empty if no previous version
     std::optional<std::string> getPreviousVersion(const std::string& rule_id) const;
 
-    /**
-     * @brief Get the last recorded version number (most recent entry in history) @param rule_id Rule identifier @return Last recorded version string, or empty string if no history
-     * @param[in] rule_id Input parameter.
-     * @return Return value.
-     */
+    /// Get the last recorded version number (most recent entry in history)
+    /// @param rule_id Rule identifier
+    /// @return Last recorded version string, or empty string if no history
     std::string getLastRecordedVersion(const std::string& rule_id) const;
     
-    /**
-     * @brief Compare two versions of a rule @param rule_id Rule identifier @param version1 First version @param version2 Second version @return Differences between versions
-     * @param[in] rule_id Input parameter.
-     * @param[in] version1 Input parameter.
-     * @param[in] version2 Input parameter.
-     * @return Return value.
-     */
+    /// Compare two versions of a rule
+    /// @param rule_id Rule identifier
+    /// @param version1 First version
+    /// @param version2 Second version
+    /// @return Differences between versions
     VersionDiff compareVersions(
         const std::string& rule_id,
         const std::string& version1,
         const std::string& version2
     ) const;
 
-    /**
-     * @brief Compare two PolicyRule objects directly and return field-level differences.
-     * @param[in] rule1 Input parameter.
-     * @param[in] rule2 Input parameter.
-     * @return Return value.
-     * @details @param rule1 First rule @param rule2 Second rule @return VersionDiff populated with rule_id, versions, and changed field names
-     */
+    /// Compare two PolicyRule objects directly and return field-level differences.
+    /// @param rule1 First rule
+    /// @param rule2 Second rule
+    /// @return VersionDiff populated with rule_id, versions, and changed field names
     VersionDiff compareRules(const PolicyRule& rule1, const PolicyRule& rule2) const;
     
-    /**
-     * @brief Record an audit log entry @param entry Audit log entry
-     * @param[in] entry Input parameter.
-     */
+    /// Record an audit log entry
+    /// @param entry Audit log entry
     void recordAudit(const AuditLogEntry& entry);
     
     /// Query audit log
@@ -186,10 +144,8 @@ public:
         const std::optional<std::int64_t>& end_time = std::nullopt
     ) const;
     
-    /**
-     * @brief Delete all versions of a rule (for cleanup) @param rule_id Rule identifier
-     * @param[in] rule_id Input parameter.
-     */
+    /// Delete all versions of a rule (for cleanup)
+    /// @param rule_id Rule identifier
     void deleteVersionHistory(const std::string& rule_id);
     
     /// Export version history as JSON

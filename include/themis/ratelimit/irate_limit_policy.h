@@ -50,10 +50,6 @@ namespace ratelimit {
  */
 class IRateLimitPolicy {
 public:
-    /**
-     * @brief TBD: Describe ~IRateLimitPolicy.
-     * @return Return value.
-     */
     virtual ~IRateLimitPolicy() = default;
 
     // Non-copyable, non-movable by default.

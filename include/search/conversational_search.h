@@ -112,7 +112,6 @@ public:
      * @param hybrid_search  Non-owning pointer to an underlying HybridSearch
      *                       instance.  May be null; all searches return empty.
      * @throws std::invalid_argument on invalid config values.
-     * @return Return value.
      */
     explicit ConversationalSearch(HybridSearch* hybrid_search);
     /**
@@ -179,10 +178,6 @@ public:
     // -----------------------------------------------------------------------
 
     const Config& getConfig() const { return config_; }
-    /**
-     * @brief TBD: Describe setConfig.
-     * @param[in] config Input parameter.
-     */
     void setConfig(const Config& config);
 
 private:

@@ -56,11 +56,6 @@ public:
      * @brief Construct evaluator with configuration
      */
     CoherenceEvaluator();
-    /**
-     * @brief TBD: Describe CoherenceEvaluator.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit CoherenceEvaluator(const Config& config);
     
     /**

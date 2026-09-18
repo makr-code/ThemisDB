@@ -123,7 +123,6 @@ public:
 
     /**
      * @brief Remove a previously declared explicit field.
-     * @param[in] field_name Input parameter.
      */
     void undeclareField(const std::string& field_name);
 
@@ -163,26 +162,21 @@ public:
 
     /**
      * @brief Check whether the policy is currently enabled.
-     * @return True on success.
      */
     bool isEnabled() const;
 
     /**
      * @brief Enable or disable masking at runtime (e.g. during tests).
-     * @param[in] enabled Input parameter.
      */
     void setEnabled(bool enabled);
 
     /**
      * @brief Return true if the given role list bypasses masking.
-     * @param[in] user_roles Input parameter.
-     * @return True on success.
      */
     bool isPrivileged(const std::vector<std::string>& user_roles) const;
 
     /**
      * @brief Access the underlying Config.
-     * @return Return value.
      */
     const Config& config() const;
 
@@ -202,7 +196,6 @@ private:
      * @param node      JSON node to process.
      * @param key       The JSON key that owns this node (empty for root).
      * @param snapshot  Immutable snapshot of declared_fields_ for this call.
-     * @return Return value.
      */
     nlohmann::json maskNode(
         const nlohmann::json& node,

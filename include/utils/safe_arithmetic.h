@@ -249,14 +249,6 @@ inline bool safe_greater_than(int signed_val, size_t unsigned_val) noexcept {
  * @endcode
  */
 template<typename Container, typename Func>
-/**
- * @brief TBD: Describe safe_iterate.
- * @param[in] container Input parameter.
- * @param[in] start_index Input parameter.
- * @param[in] callback Input parameter.
- * @return True on success.
- * @details Calls: in_range(), size(), callback().
- */
 inline bool safe_iterate(const Container& container, int start_index, Func&& callback) {
     if (!in_range(start_index, container.size())) {
         return false;

@@ -112,8 +112,6 @@ public:
     /** @brief Construct with default configuration. */
     RateLimitingMiddleware();
 
-     * @param[in] config Input parameter.
-     * @return Return value.
     /** @brief Construct with a custom configuration. */
     explicit RateLimitingMiddleware(const Config& config);
 
@@ -134,11 +132,9 @@ public:
      *
      * Existing per-client bucket state is cleared so all clients start fresh
      * under the new limits.
-     * @param[in] config Input parameter.
      */
     void updateConfig(const Config& config);
 
-     * @return Return value.
     /** @brief Return a copy of the current configuration. */
     Config getConfig() const;
 
@@ -152,10 +148,6 @@ public:
         size_t   active_clients    = 0;
     };
 
-    /**
-     * @brief TBD: Describe getStats.
-     * @return Return value.
-     */
     Stats getStats() const;
 
     /**
@@ -167,22 +159,17 @@ public:
     void reset();
 
 private:
-    /**
-     * @brief Find the index of the most-specific matching endpoint override for `path`.
-     * @param[in] path Input parameter.
-     * @return Return value.
-     * @details Returns config_.endpoint_overrides.size() (sentinel) when no override matches. config_mutex_ must be held by the caller.
-     */
+    /// Find the index of the most-specific matching endpoint override for `path`.
+    /// Returns config_.endpoint_overrides.size() (sentinel) when no override matches.
+    /// config_mutex_ must be held by the caller.
     std::size_t findOverrideIndex(const std::string& path) const;
 
     /// Return the effective (capacity, refill_rate) for the given request path.
     /// config_mutex_ must be held by the caller.
     std::pair<size_t, double> limitForPath(const std::string& path) const;
 
-    /**
-     * @brief Rebuild per-endpoint PerClientRateLimiter instances from config_.
-     * @details Must be called with config_mutex_ held.
-     */
+    /// Rebuild per-endpoint PerClientRateLimiter instances from config_.
+    /// Must be called with config_mutex_ held.
     void rebuildLimiters();
 
     // ── State ────────────────────────────────────────────────────────────

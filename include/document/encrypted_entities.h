@@ -119,9 +119,6 @@ struct User {
      * 
      * Loads encrypted fields as-is (encrypted state).
      * Call decrypt() on individual fields to access plain values.
-     * @param[in] j Input parameter.
-     * @return Return value.
-     * @details Calls: value(), contains(), fromBase64().
      */
     static User fromJson(const nlohmann::json& j) {
         User user;
@@ -207,12 +204,6 @@ struct Customer {
         return j;
     }
     
-    /**
-     * @brief TBD: Describe fromJson.
-     * @param[in] j Input parameter.
-     * @return Return value.
-     * @details Calls: value(), contains(), fromBase64().
-     */
     static Customer fromJson(const nlohmann::json& j) {
         Customer customer;
         customer.customer_id = j.value("customer_id", "");
@@ -271,12 +262,6 @@ struct SecureDocument {
         return j;
     }
     
-    /**
-     * @brief TBD: Describe fromJson.
-     * @param[in] j Input parameter.
-     * @return Return value.
-     * @details Calls: value(), contains(), fromBase64().
-     */
     static SecureDocument fromJson(const nlohmann::json& j) {
         SecureDocument doc;
         doc.id = j.value("id", "");

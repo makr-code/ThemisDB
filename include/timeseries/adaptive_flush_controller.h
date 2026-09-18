@@ -201,7 +201,6 @@ public:
 
     // ── Query API ─────────────────────────────────────────────────────────────
 
-     * @return Return value.
     /** @brief Return a snapshot of all statistics. */
     AdaptiveFlushControllerStats getStats() const;
 
@@ -210,8 +209,6 @@ public:
      *
      * This is a lock-free, instantaneous check.  Use it to poll backpressure
      * state without blocking.
-     * @return True on success.
-     * @note Exception safety: noexcept.
      */
     bool isBackpressured() const noexcept;
 
@@ -224,11 +221,8 @@ private:
     /// Background flush loop (runs in flush_thread_).
     void flushThread();
 
-    /**
-     * @brief Perform one flush cycle: drain up to flush_batch_size points per call.
-     * @return Return value.
-     * @details @return number of points written to TSStore.
-     */
+    /// Perform one flush cycle: drain up to flush_batch_size points per call.
+    /// @return number of points written to TSStore.
     size_t flushInternal();
 
     /// Watermark threshold in absolute point count.

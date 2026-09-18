@@ -116,7 +116,6 @@ public:
      *
      * Transitions through all phases in order.  Returns only after the
      * teardown phase completes.
-     * @note Exception safety: noexcept.
      */
     void run() noexcept;
 
@@ -142,32 +141,11 @@ public:
     }
 
 private:
-    /**
-     * @brief TBD: Describe enterDraining.
-     * @note Exception safety: noexcept.
-     */
     void enterDraining()   noexcept;
-    /**
-     * @brief TBD: Describe enterForceClose.
-     * @note Exception safety: noexcept.
-     */
     void enterForceClose() noexcept;
-    /**
-     * @brief TBD: Describe enterTeardown.
-     * @note Exception safety: noexcept.
-     */
     void enterTeardown()   noexcept;
-    /**
-     * @brief TBD: Describe enterDone.
-     * @note Exception safety: noexcept.
-     */
     void enterDone()       noexcept;
 
-    /**
-     * @brief TBD: Describe advanceTo.
-     * @param[in] next Input parameter.
-     * @note Exception safety: noexcept.
-     */
     void advanceTo(ShutdownPhase next) noexcept;
 
     uint32_t                  drain_timeout_ms_;

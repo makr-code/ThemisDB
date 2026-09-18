@@ -101,11 +101,6 @@ public:
     // -----------------------------------------------------------------------
 
     RequestCoalescingManager();
-    /**
-     * @brief TBD: Describe RequestCoalescingManager.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit RequestCoalescingManager(const Config& config);
 
     // Non-copyable, movable
@@ -140,7 +135,6 @@ public:
 
     /**
      * @brief Return a copy of current statistics.
-     * @return Return value.
      */
     Stats getStats() const;
 
@@ -151,7 +145,6 @@ public:
 
     /**
      * @brief Return the number of requests currently in-flight (being coalesced).
-     * @return Return value.
      */
     std::size_t inFlightCount() const;
 
@@ -181,16 +174,11 @@ private:
      *
      * For GET/HEAD the key is "<METHOD>|<path>" (query-string excluded so that
      * minor query variations still share the same backend call).
-     * @param[in] req Input parameter.
-     * @return Return value.
      */
     static std::string makeKey(const http::request<http::string_body>& req);
 
     /**
      * @brief Return true if the request method is eligible for coalescing.
-     * @param[in] req Input parameter.
-     * @return True on success.
-     * @note Exception safety: noexcept.
      */
     static bool isCoalescible(const http::request<http::string_body>& req) noexcept;
 

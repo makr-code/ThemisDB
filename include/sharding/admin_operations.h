@@ -47,7 +47,6 @@ public:
     /**
      * @brief Constructor
      * @param config Admin operations configuration
-     * @return Return value.
      */
     explicit AdminOperations(const Config& config);
     
@@ -118,15 +117,11 @@ public:
     
     /**
      * @brief Get admin API instance
-     * @return Return value.
-     * @details Implements getAdminAPI without additional internal calls.
      */
     AdminAPI& getAdminAPI() { return admin_api_; }
     
     /**
      * @brief Get operational metrics instance
-     * @return Return value.
-     * @details Implements getMetrics without additional internal calls.
      */
     themisdb::sharding::OperationalMetrics& getMetrics() { return *metrics_; }
 
@@ -151,29 +146,21 @@ private:
     
     /**
      * @brief Handle topology requests
-     * @param[in] body Input parameter.
-     * @return Return value.
      */
     nlohmann::json handleTopologyRequest(const nlohmann::json& body);
     
     /**
      * @brief Handle rebalance requests
-     * @param[in] body Input parameter.
-     * @return Return value.
      */
     nlohmann::json handleRebalanceRequest(const nlohmann::json& body);
     
     /**
      * @brief Handle health check requests
-     * @param[in] body Input parameter.
-     * @return Return value.
      */
     nlohmann::json handleHealthRequest(const nlohmann::json& body);
     
     /**
      * @brief Handle statistics requests
-     * @param[in] body Input parameter.
-     * @return Return value.
      */
     nlohmann::json handleStatsRequest(const nlohmann::json& body);
 };

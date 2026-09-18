@@ -106,18 +106,7 @@ public:
 
     BloomFilter() : BloomFilter(64) {}
 
-    /**
-     * @brief TBD: Describe add.
-     * @param[in] value Input parameter.
-     * @note Exception safety: noexcept.
-     */
     void add(int64_t value) noexcept;
-    /**
-     * @brief TBD: Describe mightContain.
-     * @param[in] value Input parameter.
-     * @return True on success.
-     * @note Exception safety: noexcept.
-     */
     bool mightContain(int64_t value) const noexcept;
 
     size_t bitCount() const noexcept { return num_bits_; }
@@ -126,40 +115,11 @@ private:
     std::vector<uint64_t> bits_;
     size_t num_bits_;
 
-    /**
-     * @brief TBD: Describe h1.
-     * @param[in] x Input parameter.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
     static uint64_t h1(uint64_t x) noexcept;
-    /**
-     * @brief TBD: Describe h2.
-     * @param[in] x Input parameter.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
     static uint64_t h2(uint64_t x) noexcept;
-    /**
-     * @brief TBD: Describe h3.
-     * @param[in] x Input parameter.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
     static uint64_t h3(uint64_t x) noexcept;
 
-    /**
-     * @brief TBD: Describe setBit.
-     * @param[in] idx Input parameter.
-     * @note Exception safety: noexcept.
-     */
     void setBit(size_t idx) noexcept;
-    /**
-     * @brief TBD: Describe testBit.
-     * @param[in] idx Input parameter.
-     * @return True on success.
-     * @note Exception safety: noexcept.
-     */
     bool testBit(size_t idx) const noexcept;
 };
 
@@ -307,12 +267,8 @@ struct TierPolicy {
      */
     std::function<TierDecision(const TierDecisionContext&)> decision_fn;
 
-    /**
-     * @brief Built-in threshold-based evaluation.
-     * @param[in] ctx Input parameter.
-     * @return Return value.
-     * @details Called by evaluate() when decision_fn is nullptr.
-     */
+    /// Built-in threshold-based evaluation.  Called by evaluate() when
+    /// decision_fn is nullptr.
     TierDecision evaluate(const TierDecisionContext& ctx) const;
 };
 
@@ -382,8 +338,6 @@ public:
      *
      * @return false if doc.isCurrent() is true (current versions belong
      *         to the live table, not the history tiers).
-     * @param[in] table_name Input parameter.
-     * @param[in] doc Input parameter.
      */
     bool insert(const std::string& table_name, const VersionedDocument& doc);
 
@@ -393,10 +347,6 @@ public:
      * @brief Return the version valid at timestamp as_of.
      *
      * Queries hot → warm → cold in order, returning the first match.
-     * @param[in] table_name Input parameter.
-     * @param[in] doc_key Input parameter.
-     * @param[in] as_of Input parameter.
-     * @return Return value.
      */
     std::optional<VersionedDocument> getAsOf(const std::string& table_name,
                                              const std::string& doc_key,
@@ -406,9 +356,6 @@ public:
      * @brief Return all stored historical versions, sorted by sys_start.
      *
      * Merges hot + warm + cold tiers.
-     * @param[in] table_name Input parameter.
-     * @param[in] doc_key Input parameter.
-     * @return Return value.
      */
     std::vector<VersionedDocument> getHistory(const std::string& table_name,
                                               const std::string& doc_key) const;
@@ -416,10 +363,6 @@ public:
     /**
      * @brief Return versions whose sys_time overlaps range,
      *        sorted by sys_start.
-     * @param[in] table_name Input parameter.
-     * @param[in] doc_key Input parameter.
-     * @param[in] range Input parameter.
-     * @return Return value.
      */
     std::vector<VersionedDocument> getHistoryInRange(
         const std::string& table_name,
@@ -436,8 +379,6 @@ public:
      * the warm tier.
      *
      * @return Number of versions moved.
-     * @param[in] table_name Input parameter.
-     * @param[in] doc_key Input parameter.
      */
     size_t flushHotToWarm(const std::string& table_name,
                           const std::string& doc_key);
@@ -448,8 +389,6 @@ public:
      * Moves versions from the oldest warm block(s) into TemporalColdStore.
      *
      * @return Number of versions moved.
-     * @param[in] table_name Input parameter.
-     * @param[in] doc_key Input parameter.
      */
     size_t flushWarmToCold(const std::string& table_name,
                            const std::string& doc_key);
@@ -457,14 +396,10 @@ public:
     /**
      * @brief Compact all keys in table_name according to current policy.
      * @return Total versions moved across all tiers.
-     * @param[in] table_name Input parameter.
      */
     size_t compactTable(const std::string& table_name);
 
-    /**
-     * @brief ── Policy ────────────────────────────────────────────────────────────
-     * @param[in] policy Input parameter.
-     */
+    // ── Policy ────────────────────────────────────────────────────────────
 
     void setPolicy(const TierPolicy& policy);
     const TierPolicy& policy() const noexcept { return policy_; }
@@ -488,12 +423,6 @@ public:
         size_t   cold_versions{0};
     };
 
-    /**
-     * @brief TBD: Describe keyStats.
-     * @param[in] table_name Input parameter.
-     * @param[in] doc_key Input parameter.
-     * @return Return value.
-     */
     KeyTierStats keyStats(const std::string& table_name,
                           const std::string& doc_key) const;
 
@@ -508,18 +437,8 @@ public:
         size_t   flush_warm_to_cold_count{0};
     };
 
-    /**
-     * @brief TBD: Describe tableStats.
-     * @param[in] table_name Input parameter.
-     * @return Return value.
-     */
     TableTierStats tableStats(const std::string& table_name) const;
 
-    /**
-     * @brief TBD: Describe statsJson.
-     * @param[in] table_name Input parameter.
-     * @return Return value.
-     */
     nlohmann::json statsJson(const std::string& table_name) const;
 
 private:
@@ -550,9 +469,6 @@ private:
     std::mutex              compact_cv_mutex_ = {};
     std::condition_variable compact_cv_ = {};
 
-    /**
-     * @brief TBD: Describe compactionLoop.
-     */
     void compactionLoop();
 
     // ── Internal helpers (caller must hold appropriate lock) ──────────────

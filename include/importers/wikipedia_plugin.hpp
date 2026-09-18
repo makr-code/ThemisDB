@@ -66,13 +66,7 @@ public:
     [[nodiscard]] const WikipediaIngestionPipeline& pipeline() const;
     [[nodiscard]] WikipediaIngestionPipeline& pipeline();
 
-    /**
-     * @brief TBD: Describe registerPlugin.
-     */
     static void registerPlugin();
-    /**
-     * @brief TBD: Describe unregisterPlugin.
-     */
     static void unregisterPlugin();
 
 private:

@@ -115,7 +115,6 @@ public:
      *
      * If a service callback was registered via setServiceFn(), its return
      * value is used for non-proto builds.
-     * @return Pointer to the result.
      */
     void* service();
 
@@ -128,7 +127,6 @@ public:
      * cause the service pointer to remain null (fail-closed).
      *
      * Pass an empty function to remove a previously registered callback.
-     * @param[in] fn Input parameter.
      */
     static void setServiceFn(ServiceFn fn);
 

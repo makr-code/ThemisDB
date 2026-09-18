@@ -104,7 +104,6 @@ struct GPUConfig {
      * - If max_vram_bytes is non-zero, min_free_vram_bytes must be < max_vram_bytes
      * - If pool is enabled and pool_num_slabs is 0, max_vram_bytes must be set
      *   so it can be derived (warns if not)
-     * @return Return value.
      */
     ValidationResult validate() const;
 

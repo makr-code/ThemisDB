@@ -63,15 +63,9 @@ public:
      * @brief Construct multi-GPU trainer
      * @param ctx Multi-GPU context
      * @param config Training configuration
-     * @return Return value.
      */
     explicit MultiGPULoRATrainer(const MultiGPUContext& ctx, 
                                  const Config& config);
-    /**
-     * @brief TBD: Describe MultiGPULoRATrainer.
-     * @param[in] ctx Input parameter.
-     * @return Return value.
-     */
     explicit MultiGPULoRATrainer(const MultiGPUContext& ctx);
     
     ~MultiGPULoRATrainer() = default;
@@ -98,10 +92,6 @@ public:
     
     /**
      * @brief Evaluation step (no gradient update)
-     * @param[in,out] layer Input/output parameter.
-     * @param[in] inputs Input parameter.
-     * @param[in] targets Input parameter.
-     * @return Return value.
      */
     float eval_step(
         MultiGPULoRALayer& layer,
@@ -123,8 +113,6 @@ public:
     
     /**
      * @brief Gather results from all GPUs to CPU
-     * @param[in] tensors Input parameter.
-     * @return Return value.
      */
     static GPUTensor gather_to_cpu(const std::vector<GPUTensor>& tensors);
     
@@ -132,10 +120,6 @@ public:
      * @brief Save checkpoint (distributed)
      * 
      * Saves model parameters from rank 0 GPU only.
-     * @param[in,out] layer Input/output parameter.
-     * @param[in] path Input parameter.
-     * @param[in] step Input parameter.
-     * @return True on success.
      */
     bool save_checkpoint(
         MultiGPULoRALayer& layer,
@@ -144,9 +128,6 @@ public:
     
     /**
      * @brief Load checkpoint (broadcast to all GPUs)
-     * @param[in,out] layer Input/output parameter.
-     * @param[in] path Input parameter.
-     * @return True on success.
      */
     bool load_checkpoint(
         MultiGPULoRALayer& layer,
@@ -168,9 +149,6 @@ public:
     };
     
     Stats get_stats() const { return stats_; }
-    /**
-     * @brief TBD: Describe reset_stats.
-     */
     void reset_stats();
     
     /**
@@ -186,18 +164,10 @@ private:
     int current_step_ = 0;
     int accumulation_counter_ = 0;
     
-    /**
-     * @brief Compute loss (MSE)
-     * @param[in] output Input parameter.
-     * @param[in] target Input parameter.
-     * @return Return value.
-     */
+    // Compute loss (MSE)
     float compute_loss(const GPUTensor& output, const GPUTensor& target);
     
-    /**
-     * @brief Gradient descent step
-     * @param[in,out] layer Input/output parameter.
-     */
+    // Gradient descent step
     void update_parameters(MultiGPULoRALayer& layer);
 };
 

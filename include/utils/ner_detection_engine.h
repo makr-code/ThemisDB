@@ -140,19 +140,9 @@ private:
     // Redaction modes per PIIType
     std::unordered_map<PIIType, std::string> redaction_modes_;
 
-    /**
-     * @brief Internal helpers
-     */
+    // Internal helpers
     void loadDefaults();
-    /**
-     * @brief TBD: Describe loadFromConfig.
-     * @param[in] config Input parameter.
-     * @return True on success.
-     */
     bool loadFromConfig(const nlohmann::json& config);
-    /**
-     * @brief TBD: Describe rebuildFieldHints.
-     */
     void rebuildFieldHints();
 
     // Tokeniser: splits text into (token, start_offset) pairs
@@ -160,62 +150,24 @@ private:
         std::string text = {};
         size_t offset;
     };
-    /**
-     * @brief TBD: Describe tokenise.
-     * @param[in] text Input parameter.
-     * @return Return value.
-     */
     static std::vector<Token> tokenise(const std::string& text);
 
-    /**
-     * @brief Per-entity detection passes
-     * @param[in] tokens Input parameter.
-     * @param[in,out] out Input/output parameter.
-     */
+    // Per-entity detection passes
     void detectPersonNames(
         const std::vector<Token>& tokens,
         std::vector<PIIFinding>& out) const;
-    /**
-     * @brief TBD: Describe detectOrganizations.
-     * @param[in] tokens Input parameter.
-     * @param[in,out] out Input/output parameter.
-     */
     void detectOrganizations(
         const std::vector<Token>& tokens,
         std::vector<PIIFinding>& out) const;
-    /**
-     * @brief TBD: Describe detectLocations.
-     * @param[in] tokens Input parameter.
-     * @param[in,out] out Input/output parameter.
-     */
     void detectLocations(
         const std::vector<Token>& tokens,
         std::vector<PIIFinding>& out) const;
 
-    /**
-     * @brief Capitalisation helpers
-     * @param[in] word Input parameter.
-     * @return True on success.
-     */
+    // Capitalisation helpers
     static bool isCapitalized(const std::string& word);
-    /**
-     * @brief TBD: Describe toLower.
-     * @param[in] s Input parameter.
-     * @return Return value.
-     */
     static std::string toLower(const std::string& s);
 
-    /**
-     * @brief Build a PIIFinding spanning tokens[first.
-     * @param[in] tokens Input parameter.
-     * @param[in] first Input parameter.
-     * @param[in] last Input parameter.
-     * @param[in] type Input parameter.
-     * @param[in] confidence Input parameter.
-     * @param[in] pattern_name Input parameter.
-     * @return Return value.
-     * @details .last] (inclusive)
-     */
+    // Build a PIIFinding spanning tokens[first..last] (inclusive)
     static PIIFinding makeSpan(
         const std::vector<Token>& tokens,
         size_t first,

@@ -242,7 +242,6 @@ public:
     /**
      * @brief Construct with custom configuration.
      * @param config Agentic loop configuration.
-     * @return Return value.
      */
     explicit AgenticRAG(const AgenticRAGConfig& config);
 
@@ -304,7 +303,6 @@ public:
 
     /**
      * @brief Return a copy of the current configuration.
-     * @return Return value.
      */
     AgenticRAGConfig getConfig() const;
 
@@ -350,19 +348,16 @@ class AgenticRAGFactory {
 public:
     /**
      * @brief Aggressive agent: up to 8 iterations, 0.85 quality threshold.
-     * @return Return value.
      */
     static std::unique_ptr<AgenticRAG> createAggressive();
 
     /**
      * @brief Balanced agent: up to 5 iterations, 0.75 quality threshold (default).
-     * @return Return value.
      */
     static std::unique_ptr<AgenticRAG> createBalanced();
 
     /**
      * @brief Conservative agent: up to 3 iterations, 0.65 quality threshold.
-     * @return Return value.
      */
     static std::unique_ptr<AgenticRAG> createConservative();
 };

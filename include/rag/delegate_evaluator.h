@@ -72,10 +72,6 @@ using ReconstructionScore = double;
  */
 class IDomainEvaluator {
 public:
-    /**
-     * @brief TBD: Describe ~IDomainEvaluator.
-     * @return Return value.
-     */
     virtual ~IDomainEvaluator() = default;
 
     /**
@@ -90,7 +86,6 @@ public:
 
     /**
      * @brief Domain identifier for logging and diagnostics.
-     * @return Return value.
      */
     virtual DomainType domain() const = 0;
 };
@@ -282,7 +277,6 @@ public:
     /**
      * @brief Construct with custom configuration.
      * @param config  Simulator configuration.
-     * @return Return value.
      */
     explicit RoundTripSimulator(const DelegateEvaluatorConfig& config);
 
@@ -325,7 +319,6 @@ public:
 
     /**
      * @brief Return the current configuration.
-     * @return Return value.
      */
     DelegateEvaluatorConfig getConfig() const;
 
@@ -342,7 +335,6 @@ public:
      * through this editor. Ownership remains with the caller.
      *
      * @param editor Non-owning pointer (may be nullptr to disable persistence).
-     * @note Exception safety: noexcept.
      */
     void setRoundTripEditor(themis::document::IRoundTripEditor* editor) noexcept;
 

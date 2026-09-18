@@ -98,10 +98,6 @@ struct ConflictResolutionResult {
  */
 class IImportConflictResolver {
 public:
-    /**
-     * @brief TBD: Describe ~IImportConflictResolver.
-     * @return Return value.
-     */
     virtual ~IImportConflictResolver() = default;
 
     /**
@@ -181,10 +177,6 @@ struct SchemaDetectionResult {
  */
 class IFlatFileSchemaDetector {
 public:
-    /**
-     * @brief TBD: Describe ~IFlatFileSchemaDetector.
-     * @return Return value.
-     */
     virtual ~IFlatFileSchemaDetector() = default;
 
     /**
@@ -283,10 +275,6 @@ enum class KafkaError {
  */
 class IKafkaConsumerSource {
 public:
-    /**
-     * @brief TBD: Describe ~IKafkaConsumerSource.
-     * @return Return value.
-     */
     virtual ~IKafkaConsumerSource() = default;
 
     /**
@@ -417,10 +405,6 @@ struct ImportBatch {
  */
 class IIncrementalImportCursor {
 public:
-    /**
-     * @brief TBD: Describe ~IIncrementalImportCursor.
-     * @return Return value.
-     */
     virtual ~IIncrementalImportCursor() = default;
 
     /**
@@ -542,10 +526,6 @@ struct ImportConfig {
  */
 class IImporterPlugin {
 public:
-    /**
-     * @brief TBD: Describe ~IImporterPlugin.
-     * @return Return value.
-     */
     virtual ~IImporterPlugin() = default;
 
     /// Unique identifier for this plugin (snake_case recommended).
@@ -588,14 +568,9 @@ class IImporterPluginRegistry {
 public:
     /**
      * @brief Process-wide singleton.
-     * @return Return value.
      */
     static IImporterPluginRegistry& instance();
 
-    /**
-     * @brief TBD: Describe ~IImporterPluginRegistry.
-     * @return Return value.
-     */
     virtual ~IImporterPluginRegistry() = default;
 
     /**
@@ -647,11 +622,6 @@ public:
  */
 class ImporterSchemeRegistry final : public IImporterPluginRegistry {
 public:
-    /**
-     * @brief TBD: Describe instance.
-     * @return Return value.
-     * @details Implements instance without additional internal calls.
-     */
     static ImporterSchemeRegistry& instance() {
         static ImporterSchemeRegistry reg;
         return reg;
@@ -661,11 +631,6 @@ public:
         if (!plugin) {
           return;
         }
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::shared_mutex> lk(mutex_);
         for (const auto& scheme : plugin->supportedSchemes()) {
             schemes_[scheme] = plugin;
@@ -673,11 +638,6 @@ public:
         // Store unique plugin IDs for listPluginIds()
         const char* pid = plugin->pluginId();
         if (pid) {
-            /**
-             * @brief TBD: Describe id.
-             * @param[in] pid Input parameter.
-             * @return Return value.
-             */
             std::string id(pid);
             if (std::find(plugin_ids_.begin(), plugin_ids_.end(), id)
                     == plugin_ids_.end()) {
@@ -690,22 +650,12 @@ public:
     ///       concurrently from multiple threads.
     IImporterPlugin* resolve(const std::string& source_uri) const override {
         const std::string scheme = extractScheme(source_uri);
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::shared_lock<std::shared_mutex> lk(mutex_);
         auto it = schemes_.find(scheme);
         return (it != schemes_.end()) ? it->second : nullptr;
     }
 
     std::vector<std::string> listPluginIds() const override {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::shared_lock<std::shared_mutex> lk(mutex_);
         return plugin_ids_;
     }
@@ -713,12 +663,6 @@ public:
 private:
     ImporterSchemeRegistry() = default;
 
-    /**
-     * @brief TBD: Describe extractScheme.
-     * @param[in] uri Input parameter.
-     * @return Return value.
-     * @details Calls: find(), substr().
-     */
     static std::string extractScheme(const std::string& uri) {
         const auto pos = uri.find("://");
         return (pos == std::string::npos) ? uri : uri.substr(0, pos);
@@ -729,11 +673,7 @@ private:
     std::vector<std::string> plugin_ids_;
 };
 
-/**
- * @brief IImporterPluginRegistry::instance() delegates to ImporterSchemeRegistry
- * @return Return value.
- * @details Implements instance without additional internal calls.
- */
+// IImporterPluginRegistry::instance() delegates to ImporterSchemeRegistry
 inline IImporterPluginRegistry& IImporterPluginRegistry::instance() {
     return ImporterSchemeRegistry::instance();
 }

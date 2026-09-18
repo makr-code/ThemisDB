@@ -69,10 +69,6 @@ enum class PauseReason {
  */
 class ICDCPauseControl {
 public:
-    /**
-     * @brief TBD: Describe ~ICDCPauseControl.
-     * @return Return value.
-     */
     virtual ~ICDCPauseControl() = default;
 
     /**
@@ -143,11 +139,6 @@ public:
     // ── ICDCPauseControl ─────────────────────────────────────────────────────
 
     bool pause(PauseReason reason = PauseReason::AdminRequest) override {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::mutex> lk(mutex_);
         if (paused_.load(std::memory_order_relaxed)) {
             return true; // already paused — no-op
@@ -158,11 +149,6 @@ public:
     }
 
     bool resume() override {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::mutex> lk(mutex_);
         if (!paused_.load(std::memory_order_relaxed)) {
             return true; // already running — no-op
@@ -178,21 +164,11 @@ public:
     }
 
     PauseReason pauseReason() const override {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::mutex> lk(mutex_);
         return reason_;
     }
 
     std::size_t bufferedEventCount() const override {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::mutex> lk(mutex_);
         return buffer_.size();
     }
@@ -204,15 +180,8 @@ public:
      *
      * @return true if the event was buffered; false if the buffer is full
      *         (max_buffer_bytes exceeded) or the stream is not paused.
-     * @param[in] event Input parameter.
-     * @details Calls: lk(), load(), toJson(), dump(), size(), push_back().
      */
     bool bufferEvent(const Changefeed::ChangeEvent& event) {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::mutex> lk(mutex_);
         if (!paused_.load(std::memory_order_relaxed)) {
             return false;
@@ -231,15 +200,8 @@ public:
      *
      * Clears the internal buffer.  Should be called after resume() to
      * replay buffered events to subscribers.
-     * @return Return value.
-     * @details Calls: lk(), swap().
      */
     std::deque<Changefeed::ChangeEvent> drainBuffer() {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::mutex> lk(mutex_);
         std::deque<Changefeed::ChangeEvent> out;
         out.swap(buffer_);
@@ -251,15 +213,8 @@ public:
      * @brief Block until the stream is resumed or the timeout elapses.
      *
      * @return true if the stream was resumed; false on timeout.
-     * @param[in] timeout Input parameter.
-     * @details Calls: lk(), wait_for(), load().
      */
     bool waitForResume(std::chrono::milliseconds timeout) {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::mutex> lk(mutex_);
         return cv_.wait_for(lk, timeout,
             [this] { return !paused_.load(std::memory_order_relaxed); });

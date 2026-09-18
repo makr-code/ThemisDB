@@ -37,10 +37,6 @@ enum class IngestionJobType;
  */
 class IngestionPlugin {
 public:
-    /**
-     * @brief TBD: Describe ~IngestionPlugin.
-     * @return Return value.
-     */
     virtual ~IngestionPlugin() = default;
     
     /**
@@ -86,7 +82,6 @@ public:
     
     /**
      * @brief Set plugin configuration
-     * @param[in] config Input parameter.
      */
     virtual void setConfig(const json& config) = 0;
 };
@@ -109,14 +104,11 @@ struct IngestionSource {
     
     /**
      * @brief Serialize to JSON
-     * @return Return value.
      */
     json toJson() const;
     
     /**
      * @brief Deserialize from JSON
-     * @param[in] j Input parameter.
-     * @return Return value.
      */
     static IngestionSource fromJson(const json& j);
 };

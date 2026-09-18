@@ -30,11 +30,6 @@ namespace phase3 {
 /// Allows runtime toggling of optimizations without recompilation
 class Phase3FeatureFlags {
 public:
-    /**
-     * @brief TBD: Describe instance.
-     * @return Return value.
-     * @details Implements instance without additional internal calls.
-     */
     static Phase3FeatureFlags& instance() {
         static Phase3FeatureFlags instance;
         return instance;
@@ -43,72 +38,37 @@ public:
     // DiskANN: Billion-scale Vector Search (NeurIPS'19)
     // Expected gain: +300-400% vector search throughput for >100M vectors
     bool diskann_enabled() const { return diskann_enabled_.load(std::memory_order_relaxed); }
-    /**
-     * @brief TBD: Describe set_diskann_enabled.
-     * @param[in] enabled Input parameter.
-     * @details Calls: store().
-     */
     void set_diskann_enabled(bool enabled) { diskann_enabled_.store(enabled, std::memory_order_relaxed); }
 
     // Bw-Tree: Lock-Free Index (ICDE'13)
     // Expected gain: +100-200% index update throughput
     bool bwtree_enabled() const { return bwtree_enabled_.load(std::memory_order_relaxed); }
-    /**
-     * @brief TBD: Describe set_bwtree_enabled.
-     * @param[in] enabled Input parameter.
-     * @details Calls: store().
-     */
     void set_bwtree_enabled(bool enabled) { bwtree_enabled_.store(enabled, std::memory_order_relaxed); }
 
     // SplinterDB: Concurrent Compaction (OSDI'20)
     // Expected gain: -70% P99 latency
     bool splinterdb_enabled() const { return splinterdb_enabled_.load(std::memory_order_relaxed); }
-    /**
-     * @brief TBD: Describe set_splinterdb_enabled.
-     * @param[in] enabled Input parameter.
-     * @details Calls: store().
-     */
     void set_splinterdb_enabled(bool enabled) { splinterdb_enabled_.store(enabled, std::memory_order_relaxed); }
 
     // Gunrock: GPU Graph Analytics (PPoPP'16)
     // Expected gain: +1000-3000% graph analytics on GPU
     bool gunrock_enabled() const { return gunrock_enabled_.load(std::memory_order_relaxed); }
-    /**
-     * @brief TBD: Describe set_gunrock_enabled.
-     * @param[in] enabled Input parameter.
-     * @details Calls: store().
-     */
     void set_gunrock_enabled(bool enabled) { gunrock_enabled_.store(enabled, std::memory_order_relaxed); }
 
     // Bao: ML-based Query Optimizer (SIGMOD'21)
     // Expected gain: +30-70% query performance
     bool bao_enabled() const { return bao_enabled_.load(std::memory_order_relaxed); }
-    /**
-     * @brief TBD: Describe set_bao_enabled.
-     * @param[in] enabled Input parameter.
-     * @details Calls: store().
-     */
     void set_bao_enabled(bool enabled) { bao_enabled_.store(enabled, std::memory_order_relaxed); }
 
     // Per-query cost model integration with query optimizer (Phase 3, Issue #2419)
     // Calibrates OptimizerCostModel constants from actual hardware cycle measurements.
     // Expected gain: ~10-30% better plan selection accuracy on repeat queries.
     bool per_query_cost_model_enabled() const { return per_query_cost_model_enabled_.load(std::memory_order_relaxed); }
-    /**
-     * @brief TBD: Describe set_per_query_cost_model_enabled.
-     * @param[in] enabled Input parameter.
-     * @details Calls: store().
-     */
     void set_per_query_cost_model_enabled(bool enabled) { per_query_cost_model_enabled_.store(enabled, std::memory_order_relaxed); }
     // Memory Pressure Monitoring with Automatic Cache Eviction
     // Monitors system RAM usage and triggers registered eviction callbacks
     // when configurable thresholds are exceeded.
     bool memory_pressure_enabled() const { return memory_pressure_enabled_.load(std::memory_order_relaxed); }
-    /**
-     * @brief TBD: Describe set_memory_pressure_enabled.
-     * @param[in] enabled Input parameter.
-     * @details Calls: store().
-     */
     void set_memory_pressure_enabled(bool enabled) { memory_pressure_enabled_.store(enabled, std::memory_order_relaxed); }
 
     // AVX-512 SIMD path for vector distance computations (Phase 3, Issue #1964)
@@ -117,11 +77,6 @@ public:
     // the target CPU does not support AVX-512.
     // Expected gain: +200-400% throughput for high-dimensional (>=256D) vector search.
     bool avx512_distance_enabled() const { return avx512_distance_enabled_.load(std::memory_order_relaxed); }
-    /**
-     * @brief TBD: Describe set_avx512_distance_enabled.
-     * @param[in] enabled Input parameter.
-     * @details Calls: store().
-     */
     void set_avx512_distance_enabled(bool enabled) { avx512_distance_enabled_.store(enabled, std::memory_order_relaxed); }
 
     // Adaptive batch size tuning for LLM inference (Phase 3, Issue #1996)
@@ -129,17 +84,9 @@ public:
     // throughput and latency using hardware cycle counters.
     // Expected gain: +15-40% throughput for variable-length LLM inference workloads.
     bool adaptive_batch_tuner_enabled() const { return adaptive_batch_tuner_enabled_.load(std::memory_order_relaxed); }
-    /**
-     * @brief TBD: Describe set_adaptive_batch_tuner_enabled.
-     * @param[in] enabled Input parameter.
-     * @details Calls: store().
-     */
     void set_adaptive_batch_tuner_enabled(bool enabled) { adaptive_batch_tuner_enabled_.store(enabled, std::memory_order_relaxed); }
 
-    /**
-     * @brief Load configuration from JSON file
-     * @param[in] config_path Input parameter.
-     */
+    // Load configuration from JSON file
     void load_from_config(const std::string& config_path);
 
 private:

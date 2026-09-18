@@ -88,7 +88,6 @@ struct OptimizationResult {
     
     /**
      * @brief Convert result to JSON
-     * @return Return value.
      */
     nlohmann::json toJson() const;
 };
@@ -112,7 +111,6 @@ struct ABTest {
     
     /**
      * @brief Convert test to JSON
-     * @return Return value.
      */
     nlohmann::json toJson() const;
 };
@@ -239,7 +237,6 @@ public:
     
     /**
      * @brief Update configuration
-     * @param[in] config Input parameter.
      */
     void setConfig(const ImprovementConfig& config);
 
@@ -251,14 +248,8 @@ public:
      * that have no externally supplied test cases.
      *
      * @param collector Shared pointer to the FeedbackCollector instance
-     * @details Calls: lock(), std::move().
      */
     void setFeedbackCollector(std::shared_ptr<FeedbackCollector> collector) {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         feedback_collector_ = std::move(collector);
     }
@@ -291,27 +282,21 @@ private:
     
     /**
      * @brief Generate unique test ID
-     * @return Return value.
      */
     std::string generateTestId() const;
     
     /**
      * @brief Check if enough time has passed since last optimization
-     * @param[in] prompt_id Input parameter.
-     * @return True on success.
      */
     bool canReoptimize(const std::string& prompt_id) const;
     
     /**
      * @brief Perform statistical analysis on A/B test results
-     * @param[in,out] test Input/output parameter.
      */
     void analyzeABTest(ABTest& test);
     
     /**
      * @brief Deploy optimized prompt version
-     * @param[in] prompt_id Input parameter.
-     * @param[in] version Input parameter.
      */
     void deployOptimizedVersion(const std::string& prompt_id, const std::string& version);
 

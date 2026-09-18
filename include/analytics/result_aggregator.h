@@ -86,8 +86,6 @@ public:
      *
      * @param pool Shared connection pool (must outlive aggregator)
      * @throws std::invalid_argument if pool is null
-     * @brief TBD: Describe ResultAggregator.
-     * @return Return value.
      */
     explicit ResultAggregator(std::shared_ptr<ConnectionPool> pool);
 
@@ -122,7 +120,6 @@ public:
      *
      * @throws std::runtime_error if connection pool exhausted
      * @throws std::exception if write operation fails (after rollback)
-     * @brief TBD: Describe WriteResults.
      */
     WriteResult WriteResults(const ResultBatch& batch);
 
@@ -135,7 +132,6 @@ public:
      * @return Write result
      *
      * @throws std::runtime_error if flush fails
-     * @brief TBD: Describe FlushBuffer.
      */
     WriteResult FlushBuffer();
 
@@ -146,7 +142,6 @@ public:
      * Phase 2 A-2-20: Error recovery paths
      *
      * @return true if cleanup successful
-     * @brief TBD: Describe CloseConnection.
      */
     bool CloseConnection();
 
@@ -160,8 +155,6 @@ public:
      * Phase 2 A-2-16: Connection health check before use
      *
      * @return true if connection pool is healthy
-     * @brief TBD: Describe IsConnectionHealthy.
-     * @note Exception safety: noexcept.
      */
     bool IsConnectionHealthy() const noexcept;
 
@@ -176,17 +169,10 @@ public:
         int64_t peak_batch_size{0};
         int error_count{0};
     };
-    /**
-     * @brief TBD: Describe GetStats.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
     Stats GetStats() const noexcept;
 
     /**
      * Reset statistics counters.
-     * @brief TBD: Describe ResetStats.
-     * @note Exception safety: noexcept.
      */
     void ResetStats() noexcept;
 
@@ -220,7 +206,6 @@ private:
      *
      * @param connection_id Connection ID
      * @throws std::runtime_error if transaction cannot start
-     * @brief TBD: Describe BeginTransaction.
      */
     void BeginTransaction(int connection_id);
 
@@ -229,7 +214,6 @@ private:
      *
      * @param connection_id Connection ID
      * @throws std::runtime_error if commit fails
-     * @brief TBD: Describe CommitTransaction.
      */
     void CommitTransaction(int connection_id);
 
@@ -238,8 +222,6 @@ private:
      *
      * @param connection_id Connection ID
      * @note No-throw guarantee
-     * @brief TBD: Describe RollbackTransaction.
-     * @note Exception safety: noexcept.
      */
     void RollbackTransaction(int connection_id) noexcept;
 
@@ -249,7 +231,6 @@ private:
      * @param connection_id Connection ID
      * @param record Record to write
      * @throws std::runtime_error if write fails
-     * @brief TBD: Describe WriteRecord.
      */
     void WriteRecord(int connection_id, const ResultRecord& record);
 
@@ -257,7 +238,6 @@ private:
      * Log aggregator diagnostics.
      *
      * @param error Error message
-     * @brief TBD: Describe LogDiagnostics.
      */
     void LogDiagnostics(const std::string& error) const;
 

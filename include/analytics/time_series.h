@@ -123,7 +123,6 @@ public:
      * @brief Construct a named time series.
      * @param name Series identifier (non-empty).
      * @throws std::invalid_argument if `name` is empty.
-     * @return Return value.
      */
     explicit TimeSeries(std::string name);
 

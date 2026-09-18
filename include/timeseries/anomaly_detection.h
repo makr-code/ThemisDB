@@ -67,10 +67,6 @@ struct AnomalyConfig {
  */
 class IAnomalyDetector {
 public:
-    /**
-     * @brief TBD: Describe ~IAnomalyDetector.
-     * @return Return value.
-     */
     virtual ~IAnomalyDetector() = default;
 
     /**
@@ -164,8 +160,6 @@ public:
 
     /**
      * @brief Detect anomalies using the stored configuration.
-     * @param[in] points Input parameter.
-     * @return Return value.
      */
     std::vector<AnomalyPoint> detect(
         const std::vector<TSStore::DataPoint>& points) const;
@@ -177,11 +171,6 @@ public:
         const std::vector<TSStore::DataPoint>& points,
         const AnomalyConfig& cfg) const override;
 
-    /**
-     * @brief TBD: Describe setConfig.
-     * @param[in] cfg Input parameter.
-     * @details Implements setConfig without additional internal calls.
-     */
     void setConfig(const AnomalyConfig& cfg) { config_ = cfg; }
     const AnomalyConfig& config() const { return config_; }
 

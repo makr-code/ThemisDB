@@ -58,16 +58,7 @@ struct AuditBatchCheckpoint {
     std::string state;                         // "pending", "flushed", "verified", "failed"
     std::string error_message;                 // Error info if state == "failed"
     
-    /**
-     * @brief TBD: Describe toJson.
-     * @return Return value.
-     */
     nlohmann::json toJson() const;
-    /**
-     * @brief TBD: Describe fromJson.
-     * @param[in] j Input parameter.
-     * @return Return value.
-     */
     static AuditBatchCheckpoint fromJson(const nlohmann::json& j);
 };
 
@@ -81,16 +72,7 @@ struct IdempotencyToken {
     int64_t submitted_at_ms = 0;              // When token was first submitted
     std::string state;                         // "pending", "committed", "failed"
     
-    /**
-     * @brief TBD: Describe toJson.
-     * @return Return value.
-     */
     nlohmann::json toJson() const;
-    /**
-     * @brief TBD: Describe fromJson.
-     * @param[in] j Input parameter.
-     * @return Return value.
-     */
     static IdempotencyToken fromJson(const nlohmann::json& j);
 };
 
@@ -314,41 +296,15 @@ private:
     /// Used to compute p95 / p99 in recordMetrics().  Protected by metrics_mutex_.
     std::vector<double> latency_samples_us_;
     
-    /**
-     * @brief Internal methods
-     */
+    // Internal methods
     void flushThread();
-    /**
-     * @brief TBD: Describe flushBatch.
-     * @param[in] batch Input parameter.
-     * @return Return value.
-     */
     WriteResult flushBatch(const std::vector<ImmutableAuditEntry>& batch);
-    /**
-     * @brief TBD: Describe computeBatchHash.
-     * @param[in] batch Input parameter.
-     * @return Return value.
-     */
     std::string computeBatchHash(const std::vector<ImmutableAuditEntry>& batch) const;
-    /**
-     * @brief TBD: Describe createCheckpoint.
-     * @param[in] batch Input parameter.
-     * @param[in] state Input parameter.
-     * @return Return value.
-     */
     AuditBatchCheckpoint createCheckpoint(
         const std::vector<ImmutableAuditEntry>& batch,
         const std::string& state
     );
-    /**
-     * @brief TBD: Describe persistCheckpoint.
-     * @param[in] checkpoint Input parameter.
-     */
     void persistCheckpoint(const AuditBatchCheckpoint& checkpoint);
-    /**
-     * @brief TBD: Describe recordMetrics.
-     * @param[in] submission_latency_us Input parameter.
-     */
     void recordMetrics(int64_t submission_latency_us);
 };
 

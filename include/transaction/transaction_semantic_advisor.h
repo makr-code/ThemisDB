@@ -109,11 +109,6 @@ public:
     // ─── Lifecycle ─────────────────────────────────────────────────────────
 
     TransactionSemanticAdvisor();
-    /**
-     * @brief TBD: Describe TransactionSemanticAdvisor.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit TransactionSemanticAdvisor(Config config);
     ~TransactionSemanticAdvisor() = default;
 
@@ -157,7 +152,6 @@ public:
      *
      * @param tx             The transaction to advise on.
      * @param concurrent_txs Snapshot of concurrently executing transactions.
-     * @return Return value.
      */
     std::chrono::milliseconds suggestDeferral(
         const TransactionContext& tx,
@@ -175,11 +169,6 @@ private:
     static bool hasWriteConflict(const TransactionContext& a,
                                  const TransactionContext& b);
 
-    /**
-     * @brief TBD: Describe emitDecisionRecord.
-     * @param[in] hint_count Input parameter.
-     * @param[in] tx_count Input parameter.
-     */
     void emitDecisionRecord(size_t hint_count, size_t tx_count) const;
 };
 

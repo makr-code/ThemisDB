@@ -83,47 +83,13 @@ struct DocumentLifecycleEvent {
  */
 class IDocumentLifecycleHook {
 public:
-    /**
-     * @brief TBD: Describe ~IDocumentLifecycleHook.
-     * @return Return value.
-     */
     virtual ~IDocumentLifecycleHook() = default;
 
-    /**
-     * @brief TBD: Describe beforeCreate.
-     * @param[in] evt Input parameter.
-     * @note Exception safety: noexcept.
-     */
     virtual void beforeCreate(const DocumentLifecycleEvent& evt) noexcept = 0;
-    /**
-     * @brief TBD: Describe afterCreate.
-     * @param[in] evt Input parameter.
-     * @note Exception safety: noexcept.
-     */
     virtual void afterCreate (const DocumentLifecycleEvent& evt) noexcept = 0;
-    /**
-     * @brief TBD: Describe beforeUpdate.
-     * @param[in] evt Input parameter.
-     * @note Exception safety: noexcept.
-     */
     virtual void beforeUpdate(const DocumentLifecycleEvent& evt) noexcept = 0;
-    /**
-     * @brief TBD: Describe afterUpdate.
-     * @param[in] evt Input parameter.
-     * @note Exception safety: noexcept.
-     */
     virtual void afterUpdate (const DocumentLifecycleEvent& evt) noexcept = 0;
-    /**
-     * @brief TBD: Describe beforeDelete.
-     * @param[in] evt Input parameter.
-     * @note Exception safety: noexcept.
-     */
     virtual void beforeDelete(const DocumentLifecycleEvent& evt) noexcept = 0;
-    /**
-     * @brief TBD: Describe afterDelete.
-     * @param[in] evt Input parameter.
-     * @note Exception safety: noexcept.
-     */
     virtual void afterDelete (const DocumentLifecycleEvent& evt) noexcept = 0;
 };
 

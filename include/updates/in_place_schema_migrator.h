@@ -128,11 +128,6 @@ public:
     };
 
     InPlaceSchemaMigrator();
-    /**
-     * @brief TBD: Describe InPlaceSchemaMigrator.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit InPlaceSchemaMigrator(const Config& config);
     ~InPlaceSchemaMigrator() = default;
 

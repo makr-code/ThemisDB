@@ -64,10 +64,6 @@ struct ReplicationMessage {
  */
 class ICacheCoordinator {
 public:
-    /**
-     * @brief TBD: Describe ~ICacheCoordinator.
-     * @return Return value.
-     */
     virtual ~ICacheCoordinator() = default;
 
     // -----------------------------------------------------------------
@@ -111,7 +107,6 @@ public:
      *
      * Only one callback is supported per coordinator instance; subsequent
      * calls overwrite the previous registration.
-     * @param[in] callback Input parameter.
      */
     virtual void subscribeEntries(EntryCallback callback) = 0;
 
@@ -120,7 +115,6 @@ public:
      *
      * Only one callback is supported per coordinator instance; subsequent
      * calls overwrite the previous registration.
-     * @param[in] callback Input parameter.
      */
     virtual void subscribeInvalidations(InvalidationCallback callback) = 0;
 
@@ -128,15 +122,12 @@ public:
     // Health / diagnostics
     // -----------------------------------------------------------------
 
-     * @brief TBD: Describe isConnected.
     /** @return true if the coordinator channel is operational. */
     virtual bool isConnected() const = 0;
 
-     * @brief TBD: Describe name.
     /** @return Coordinator name / transport description for logging. */
     virtual std::string name() const = 0;
 
-     * @brief TBD: Describe getStats.
     /** @return JSON snapshot of coordinator metrics (messages sent/received). */
     virtual nlohmann::json getStats() const = 0;
 };
@@ -173,32 +164,12 @@ public:
         std::mutex                              mutex = {};
         std::vector<InProcessCacheCoordinator*> peers;
 
-        /**
-         * @brief TBD: Describe addPeer.
-         * @param[in,out] peer Input/output parameter.
-         * @details Calls: lk(), push_back().
-         */
         void addPeer(InProcessCacheCoordinator* peer) {
-            /**
-             * @brief TBD: Describe lk.
-             * @param[in] mutex Input parameter.
-             * @return Return value.
-             */
             std::lock_guard<std::mutex> lk(mutex);
             peers.push_back(peer);
         }
 
-        /**
-         * @brief TBD: Describe removePeer.
-         * @param[in,out] peer Input/output parameter.
-         * @details Calls: lk(), erase(), std::remove(), begin(), end().
-         */
         void removePeer(InProcessCacheCoordinator* peer) {
-            /**
-             * @brief TBD: Describe lk.
-             * @param[in] mutex Input parameter.
-             * @return Return value.
-             */
             std::lock_guard<std::mutex> lk(mutex);
             peers.erase(std::remove(peers.begin(), peers.end(), peer), peers.end());
         }
@@ -235,7 +206,6 @@ public:
      *
      * Called by sibling coordinators on the same bus; not intended for
      * external callers.
-     * @param[in] msg Input parameter.
      */
     void deliver(const ReplicationMessage& msg);
 
@@ -263,10 +233,6 @@ private:
  */
 class IRemoteCachePeer {
 public:
-    /**
-     * @brief TBD: Describe ~IRemoteCachePeer.
-     * @return Return value.
-     */
     virtual ~IRemoteCachePeer() = default;
 
     /**
@@ -285,11 +251,9 @@ public:
      */
     virtual void invalidateTenant(const std::string& tenant_id) = 0;
 
-     * @brief TBD: Describe address.
     /** @return Human-readable address/identifier of this peer (for logging). */
     virtual std::string address() const = 0;
 
-     * @brief TBD: Describe isHealthy.
     /** @return true when the peer connection is believed to be healthy. */
     virtual bool isHealthy() const = 0;
 };
@@ -307,10 +271,6 @@ public:
  */
 class IClusterView {
 public:
-    /**
-     * @brief TBD: Describe ~IClusterView.
-     * @return Return value.
-     */
     virtual ~IClusterView() = default;
 
     /**
@@ -318,7 +278,6 @@ public:
      *
      * Addresses are in "host:port" format compatible with the gRPC channel API.
      * The local node's own address should NOT be included.
-     * @return Return value.
      */
     virtual std::vector<std::string> getPeerAddresses() const = 0;
 };
@@ -429,14 +388,7 @@ private:
         }
     };
 
-    /**
-     * @brief TBD: Describe fanoutWorker.
-     */
     void fanoutWorker();
-    /**
-     * @brief TBD: Describe enqueueFanout.
-     * @param[in] item Input parameter.
-     */
     void enqueueFanout(FanoutItem item);
 
     // ── Members ───────────────────────────────────────────────────────────────

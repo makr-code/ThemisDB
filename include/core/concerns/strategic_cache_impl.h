@@ -60,11 +60,6 @@ public:
 
     std::optional<CacheEntry> get(std::string_view key) const override {
         auto start = std::chrono::steady_clock::now();
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         auto it = cache_.find(std::string(key));
@@ -98,18 +93,8 @@ public:
 
     bool put(std::string_view key, const CacheEntry& entry, uint64_t ttl_ms = 0) override {
         auto start = std::chrono::steady_clock::now();
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         
-        /**
-         * @brief TBD: Describe key_str.
-         * @param[in] key Input parameter.
-         * @return Return value.
-         */
         std::string key_str(key);
         
         // Check if key already exists
@@ -142,11 +127,6 @@ public:
     }
 
     void invalidate(std::string_view key) override {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         auto it = cache_.find(std::string(key));
@@ -158,11 +138,6 @@ public:
     }
 
     void clear() override {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         cache_.clear();
         strategy_->clear();
@@ -171,11 +146,6 @@ public:
     }
 
     void invalidatePattern(std::string_view pattern) override {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         try {
@@ -196,11 +166,6 @@ public:
     }
 
     size_t size() const override {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         return cache_.size();
     }
@@ -219,11 +184,6 @@ public:
     }
 
     void setMaxSize(size_t maxSize) override {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         maxSize_ = maxSize;
         metrics_.max_size = maxSize;
@@ -253,14 +213,8 @@ public:
      * the current key set. Passing nullptr is invalid.
      *
      * @param strategy New strategy (takes ownership), must not be nullptr.
-     * @details Calls: lock(), clear(), std::move(), onInsert().
      */
     void setEvictionStrategy(std::unique_ptr<IEvictionStrategy> strategy) {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         // Clear old strategy tracking

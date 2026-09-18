@@ -151,7 +151,6 @@ public:
      * @brief Construct a coordinator.
      *
      * @param coordinator_id  Unique identifier for this coordinator instance
-     * @return Return value.
      */
     explicit TwoPhaseCommitCoordinator(
         const std::string& coordinator_id
@@ -162,7 +161,6 @@ public:
      *
      * @param coordinator_id  Unique identifier for this coordinator instance
      * @param config          Configuration (WAL, timeouts, …)
-     * @return Return value.
      */
     explicit TwoPhaseCommitCoordinator(
         const std::string& coordinator_id,
@@ -209,13 +207,11 @@ public:
     /**
      * @brief Unregister a previously registered participant.
      * @return true if the shard was found and removed
-     * @param[in] shard_id Input parameter.
      */
     bool unregisterParticipant(const std::string& shard_id);
 
     /**
      * @brief Return the number of registered participants.
-     * @return Return value.
      */
     size_t participantCount() const;
 
@@ -277,8 +273,6 @@ public:
 
     /**
      * @brief Return the current state of a transaction, if tracked.
-     * @param[in] transaction_id Input parameter.
-     * @return Return value.
      */
     std::optional<CoordinatorTxnState> getTransactionState(
         const std::string& transaction_id
@@ -286,7 +280,6 @@ public:
 
     /**
      * @brief Return coordinator statistics as a JSON object.
-     * @return Return value.
      */
     nlohmann::json getStatistics() const;
 
@@ -317,39 +310,25 @@ private:
 
     // ── Internal helpers ──────────────────────────────────────────────────────
 
-    /**
-     * @brief Run Phase 1: send PREPARE to all participants; return true if all agreed.
-     * @param[in,out] rec Input/output parameter.
-     * @param[in,out] lock Input/output parameter.
-     * @return True on success.
-     * @details @param lock A held unique_lock on mutex_. It is briefly released around each blocking RPC call and re-acquired before returning (2PC-1 fix: avoid holding mutex_ during network I/O).
-     */
+    /// Run Phase 1: send PREPARE to all participants; return true if all agreed.
+    /// @param lock  A held unique_lock on mutex_. It is briefly released around
+    ///              each blocking RPC call and re-acquired before returning
+    ///              (2PC-1 fix: avoid holding mutex_ during network I/O).
     bool runPhase1(CoordinatorTxnRecord& rec, std::unique_lock<std::timed_mutex>& lock);
 
-    /**
-     * @brief Run Phase 2: broadcast COMMIT or ABORT to all participants.
-     * @param[in,out] rec Input/output parameter.
-     * @param[in] commit Input parameter.
-     * @param[in,out] lock Input/output parameter.
-     * @details @param lock Same as runPhase1 — released around each RPC, re-acquired.
-     */
+    /// Run Phase 2: broadcast COMMIT or ABORT to all participants.
+    /// @param lock  Same as runPhase1 — released around each RPC, re-acquired.
     void runPhase2(CoordinatorTxnRecord& rec, bool commit, std::unique_lock<std::timed_mutex>& lock);
 
-    /**
-     * @brief Build the serialised payload for a single shard.
-     * @param[in] ops Input parameter.
-     * @return Return value.
-     * @details @param ops JSON-Operationen fuer einen Teilnehmer. @return Transportpayload fuer onPrepare().
-     */
+    /// Build the serialised payload for a single shard.
+    /// @param ops JSON-Operationen fuer einen Teilnehmer.
+    /// @return Transportpayload fuer onPrepare().
     static std::string buildPayload(const nlohmann::json& ops);
 
-    /**
-     * @brief Persist a coordinator WAL entry.
-     * @param[in] type Input parameter.
-     * @param[in] txn_id Input parameter.
-     * @param[in] data Input parameter.
-     * @details @param type WAL-Eintragstyp. @param txn_id Betroffene Transaktions-ID. @param data Zusaetzliche WAL-Nutzdaten.
-     */
+    /// Persist a coordinator WAL entry.
+    /// @param type WAL-Eintragstyp.
+    /// @param txn_id Betroffene Transaktions-ID.
+    /// @param data Zusaetzliche WAL-Nutzdaten.
     void logToWAL(WALEntryType type,
                   const std::string& txn_id,
                   const nlohmann::json& data);

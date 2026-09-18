@@ -43,7 +43,6 @@ public:
     /**
      * @brief Construct orphan detector with static configuration.
      * @param config Timeout and state-filter configuration.
-     * @return Return value.
      */
     explicit OrphanDetector(const Config& config);
 
@@ -66,7 +65,6 @@ public:
      * Detect orphaned transactions in the coordinator
      * @param coordinator The transaction coordinator to check
      * @return List of orphaned transaction IDs
-     * @brief TBD: Describe detectOrphans.
      */
     std::vector<std::string> detectOrphans(
         const std::shared_ptr<themisdb::sharding::CrossShardTransactionCoordinator>& coordinator
@@ -77,7 +75,6 @@ public:
      * @param transaction_id Transaction to check
      * @param coordinator The transaction coordinator
      * @return true if orphaned, false otherwise
-     * @brief TBD: Describe isOrphaned.
      */
     bool isOrphaned(
         const std::string& transaction_id,
@@ -94,7 +91,6 @@ public:
      *
      * @param coordinator  The cross-shard coordinator to scan and clean.
      * @return             Number of stale Percolator locks reclaimed.
-     * @brief TBD: Describe cleanPercolatorLocks.
      */
     size_t cleanPercolatorLocks(
         const std::shared_ptr<themisdb::sharding::CrossShardTransactionCoordinator>& coordinator

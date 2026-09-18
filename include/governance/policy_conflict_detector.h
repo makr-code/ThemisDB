@@ -84,8 +84,6 @@ struct PolicyConflict {
     
     /**
      * Convert conflict to JSON for API responses and logging
-     * @brief TBD: Describe toJson.
-     * @return Return value.
      */
     nlohmann::json toJson() const;
 };
@@ -101,10 +99,6 @@ struct PrecedenceEvaluation {
     std::vector<std::string> overridden_by;   ///< Rules that override this one
     std::string rationale;                    ///< Explanation of priority decision
     
-    /**
-     * @brief TBD: Describe toJson.
-     * @return Return value.
-     */
     nlohmann::json toJson() const;
 };
 
@@ -347,7 +341,6 @@ public:
      * and reused for identical policy sets. Default: enabled.
      * 
      * @param enabled Whether to cache results
-     * @details Implements setCachingEnabled without additional internal calls.
      */
     void setCachingEnabled(bool enabled) { caching_enabled_ = enabled; }
 
@@ -365,25 +358,16 @@ private:
      * @brief Check if two rules match on resource and action patterns
      * 
      * @return true if rules apply to same resource/action combinations
-     * @param[in] rule1 Input parameter.
-     * @param[in] rule2 Input parameter.
      */
     bool rulesMatch(const PolicyRule& rule1, const PolicyRule& rule2) const;
 
     /**
      * @brief Check if rules have same scope specificity
-     * @param[in] rule1 Input parameter.
-     * @param[in] rule2 Input parameter.
-     * @return True on success.
      */
     bool hasSameScope(const PolicyRule& rule1, const PolicyRule& rule2) const;
 
     /**
      * @brief Compute conflict severity based on conflict type and effects
-     * @param[in] rule1 Input parameter.
-     * @param[in] rule2 Input parameter.
-     * @param[in] conflict_type Input parameter.
-     * @return Return value.
      */
     ConflictSeverity computeSeverity(
         const PolicyRule& rule1,
@@ -393,9 +377,6 @@ private:
 
     /**
      * @brief Generate unique conflict ID
-     * @param[in] rule_ids Input parameter.
-     * @param[in] conflict_type Input parameter.
-     * @return Return value.
      */
     std::string generateConflictId(
         const std::vector<std::string>& rule_ids,
@@ -404,11 +385,6 @@ private:
 
     /**
      * @brief Check for circular dependencies using depth-first search
-     * @param[in] rule_id Input parameter.
-     * @param[in,out] visited Input/output parameter.
-     * @param[in,out] rec_stack Input/output parameter.
-     * @param[in] policy_mgr Input parameter.
-     * @return True on success.
      */
     bool hasCircularDependency(
         const std::string& rule_id,

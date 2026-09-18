@@ -91,7 +91,6 @@ public:
     /**
      * @brief Construct evaluation cache.
      * @param config Cache configuration.
-     * @return Return value.
      */
     explicit EvaluationCache(const CacheConfig& config);
     
@@ -193,32 +192,11 @@ private:
     // Callbacks
     std::function<void(InvalidationTrigger, size_t)> invalidation_callback_;
     
-    /**
-     * @brief Helper methods
-     * @param[in] query Input parameter.
-     * @param[in] answer Input parameter.
-     * @return Return value.
-     */
+    // Helper methods
     CacheKey computeKey(const std::string& query, const std::string& answer);
-    /**
-     * @brief TBD: Describe isExpired.
-     * @param[in] entry Input parameter.
-     * @return True on success.
-     */
     bool isExpired(const CacheEntry& entry) const;
-    /**
-     * @brief TBD: Describe evictLRU.
-     */
     void evictLRU();
-    /**
-     * @brief TBD: Describe updateLRU.
-     * @param[in] key Input parameter.
-     */
     void updateLRU(const CacheKey& key);
-    /**
-     * @brief TBD: Describe removeFromLRU.
-     * @param[in] key Input parameter.
-     */
     void removeFromLRU(const CacheKey& key);
 };
 

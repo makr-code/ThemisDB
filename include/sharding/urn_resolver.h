@@ -81,7 +81,6 @@ public:
      * @param key         Partition key value (e.g. document _key; non-empty required)
      * @return Shard ID, or empty string if the ring is empty or key is empty
      * @note Rejects empty keys fail-closed, returns empty string without processing
-     * @brief TBD: Describe getShardForKey.
      */
     std::string getShardForKey(const std::string& collection, const std::string& key) const;
 
@@ -96,7 +95,6 @@ public:
      * @param min_key     Inclusive lower bound of the key range
      * @param max_key     Inclusive upper bound of the key range
      * @return Deduplicated list of shard IDs; never empty if the ring is not empty
-     * @brief TBD: Describe getShardsForKeyRange.
      */
     std::vector<std::string> getShardsForKeyRange(
         const std::string& collection,
@@ -104,11 +102,9 @@ public:
         const std::string& max_key
     ) const;
     
-     * @return Return value.
     /** @brief Return all shards currently known in topology. */
     std::vector<ShardInfo> getAllShards() const;
     
-     * @return Return value.
     /** @brief Return currently healthy shards from topology state. */
     std::vector<ShardInfo> getHealthyShards() const;
     
@@ -120,7 +116,6 @@ public:
     /**
      * @brief Update local shard identifier used by isLocal.
      * @param shard_id This node's shard identifier.
-     * @details Implements setLocalShardId without additional internal calls.
      */
     void setLocalShardId(const std::string& shard_id) {
         local_shard_id_ = shard_id;

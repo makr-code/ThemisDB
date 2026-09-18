@@ -141,11 +141,9 @@ struct MultiModalInput {
         }
     }
 
-    /**
-     * @brief ------------------------------------------------------------------------- Allowlist accessors (static so tests can inspect them) -------------------------------------------------------------------------
-     * @return Return value.
-     * @details Implements imageMimeTypes without additional internal calls.
-     */
+    // -------------------------------------------------------------------------
+    // Allowlist accessors (static so tests can inspect them)
+    // -------------------------------------------------------------------------
 
     static const std::unordered_set<std::string>& imageMimeTypes() {
         static const std::unordered_set<std::string> kTypes = {
@@ -155,11 +153,6 @@ struct MultiModalInput {
         return kTypes;
     }
 
-    /**
-     * @brief TBD: Describe audioMimeTypes.
-     * @return Return value.
-     * @details Implements audioMimeTypes without additional internal calls.
-     */
     static const std::unordered_set<std::string>& audioMimeTypes() {
         static const std::unordered_set<std::string> kTypes = {
             "audio/wav", "audio/mpeg", "audio/ogg",
@@ -168,11 +161,6 @@ struct MultiModalInput {
         return kTypes;
     }
 
-    /**
-     * @brief TBD: Describe videoMimeTypes.
-     * @return Return value.
-     * @details Implements videoMimeTypes without additional internal calls.
-     */
     static const std::unordered_set<std::string>& videoMimeTypes() {
         static const std::unordered_set<std::string> kTypes = {
             "video/mp4", "video/webm", "video/avi",
@@ -264,7 +252,6 @@ struct MultiModalInferRequest : public llm::InferenceRequest {
      *
      * @param input  Input to append. validate() is called before appending.
      * @throws std::invalid_argument if @p input fails validation.
-     * @details Calls: validate(), push_back().
      */
     void addInput(const MultiModalInput& input) {
         input.validate();

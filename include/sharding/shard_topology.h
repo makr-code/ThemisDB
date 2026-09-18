@@ -88,8 +88,6 @@ public:
     /**
      * Construct ShardTopology with configuration
      * @param config Configuration parameters
-     * @brief TBD: Describe ShardTopology.
-     * @return Return value.
      */
     explicit ShardTopology(const Config& config);
 
@@ -99,14 +97,12 @@ public:
     /**
      * Add or update shard information
      * @param shard Shard information
-     * @brief TBD: Describe addShard.
      */
     void addShard(const ShardInfo& shard);
     
     /**
      * Remove shard from topology
      * @param shard_id Shard identifier
-     * @brief TBD: Describe removeShard.
      */
     void removeShard(const std::string& shard_id);
     
@@ -114,21 +110,18 @@ public:
      * Get shard information by ID
      * @param shard_id Shard identifier
      * @return ShardInfo if found, nullopt otherwise
-     * @brief TBD: Describe getShard.
      */
     std::optional<ShardInfo> getShard(const std::string& shard_id) const;
     
     /**
      * Get all shards in the cluster
      * @return Vector of all shard information
-     * @brief TBD: Describe getAllShards.
      */
     std::vector<ShardInfo> getAllShards() const;
     
     /**
      * Get healthy shards only
      * @return Vector of healthy shards
-     * @brief TBD: Describe getHealthyShards.
      */
     std::vector<ShardInfo> getHealthyShards() const;
     
@@ -136,54 +129,35 @@ public:
      * Update shard health status
      * @param shard_id Shard identifier
      * @param is_healthy Health status
-     * @brief TBD: Describe updateHealth.
      */
     void updateHealth(const std::string& shard_id, bool is_healthy);
     
     /**
      * Refresh topology from metadata store
      * Loads latest shard configuration from etcd
-     * @brief TBD: Describe refresh.
      */
     void refresh();
     
     /**
      * Save topology to metadata store
      * Persists current topology to etcd
-     * @brief TBD: Describe save.
      */
     void save();
     
     /** @brief Return total shard count. */
     size_t getShardCount() const {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         return shards_.size();
     }
     
     /** @brief Return whether shard id is present in topology map. */
     bool hasShard(const std::string& shard_id) const {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         return shards_.find(shard_id) != shards_.end();
     }
     
-     * @details Calls: lock().
     /** @brief Remove all shard entries (test helper). */
     void clear() {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         shards_.clear();
     }
@@ -196,7 +170,6 @@ public:
      * @param commit_index Raft commit index
      * @param leader_id Current leader shard ID
      * @param has_quorum Does shard have quorum?
-     * @brief TBD: Describe updateRaftStatus.
      */
     void updateRaftStatus(const std::string& shard_id,
                          const std::string& role,
@@ -208,7 +181,6 @@ public:
     /**
      * Get shards that are Raft leaders
      * @return Vector of shard IDs that are leaders
-     * @brief TBD: Describe getRaftLeaders.
      */
     std::vector<std::string> getRaftLeaders() const;
 
@@ -216,7 +188,6 @@ public:
      * Get shards in a specific region
      * @param region Region name (e.g. "us-east", "eu-west")
      * @return Vector of ShardInfo for all shards in that region
-     * @brief TBD: Describe getShardsInRegion.
      */
     std::vector<ShardInfo> getShardsInRegion(const std::string& region) const;
 
@@ -224,14 +195,12 @@ public:
      * Get healthy shards in a specific region
      * @param region Region name
      * @return Vector of healthy ShardInfo for that region
-     * @brief TBD: Describe getHealthyShardsInRegion.
      */
     std::vector<ShardInfo> getHealthyShardsInRegion(const std::string& region) const;
 
     /**
      * Get all distinct regions present in the topology
      * @return Sorted list of unique region names
-     * @brief TBD: Describe getRegions.
      */
     std::vector<std::string> getRegions() const;
 
@@ -240,7 +209,6 @@ public:
      * @param region Region name
      * @param required Minimum number of healthy shards required
      * @return true if region meets quorum
-     * @brief TBD: Describe regionHasQuorum.
      */
     bool regionHasQuorum(const std::string& region, uint32_t required) const;
 

@@ -186,10 +186,8 @@ public:
     /// Probe TTL: re-probe hardware if the cache is older than this.
     static constexpr auto kCacheTTL = std::chrono::seconds(120);
 
-    /**
-     * @brief @brief Singleton accessor @return Reference to global AiHardwareDispatcher instance
-     * @return Return value.
-     */
+    /// @brief Singleton accessor
+    /// @return Reference to global AiHardwareDispatcher instance
     static AiHardwareDispatcher& instance();
 
     /// @brief Probe all AI hardware backends and build the priority chain
@@ -201,66 +199,52 @@ public:
     /// @param force  Re-probe all backends even if cache is still valid; default false
     void initialize(bool force = false);
 
-    /**
-     * @brief @brief Get capability snapshot for every probed backend in priority order @return Vector of AiHardwareCapability structs ordered by priority (best first)
-     * @return Return value.
-     */
+    /// @brief Get capability snapshot for every probed backend in priority order
+    /// @return Vector of AiHardwareCapability structs ordered by priority (best first)
     std::vector<AiHardwareCapability> probeCapabilities();
 
-    /**
-     * @brief @brief Get the highest-priority available backend type @return BackendType of the best available accelerator (CPU if no GPU/NPU available) @note Does not throw; always returns a valid type
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
+    /// @brief Get the highest-priority available backend type
+    /// @return BackendType of the best available accelerator (CPU if no GPU/NPU available)
+    /// @note Does not throw; always returns a valid type
     BackendType bestBackend() const noexcept;
 
-    /**
-     * @brief @brief Get ONNX Runtime execution provider for best backend @return ONNX Runtime EP name (e.
-     * @return Return value.
-     * @details g., "CudaExecutionProvider"); empty string if not available
-     */
+    /// @brief Get ONNX Runtime execution provider for best backend
+    /// @return ONNX Runtime EP name (e.g., "CudaExecutionProvider"); empty string if not available
     std::string bestOnnxEP() const;
 
-    /**
-     * @brief @brief Check if at least one non-CPU AI accelerator is available @return true if GPU, NPU, or other dedicated accelerator is present and working
-     * @return True on success.
-     * @note Exception safety: noexcept.
-     */
+    /// @brief Check if at least one non-CPU AI accelerator is available
+    /// @return true if GPU, NPU, or other dedicated accelerator is present and working
     bool hasAccelerator() const noexcept;
 
-    /**
-     * @brief @brief Check if a dedicated NPU (Apple ANE / Intel / Qualcomm / ARM) is available @return true if specialized neural processing unit is detected and functional
-     * @return True on success.
-     * @note Exception safety: noexcept.
-     */
+    /// @brief Check if a dedicated NPU (Apple ANE / Intel / Qualcomm / ARM) is available
+    /// @return true if specialized neural processing unit is detected and functional
     bool hasNPU() const noexcept;
 
-    /**
-     * @brief @brief Run AI inference via the best available backend Routes the request through the priority chain and falls back automatically on any error.
-     * @param[in,out] req Input/output parameter.
-     * @return Return value.
-     * @details Sets the `chosen_backend` and `chosen_ep` fields of the request before dispatch. @param req Inference request (input data, model path, task tag) @return Result struct containing output, latency, backend used, and success status
-     */
+    /// @brief Run AI inference via the best available backend
+    ///
+    /// Routes the request through the priority chain and falls back automatically
+    /// on any error. Sets the `chosen_backend` and `chosen_ep` fields of the request
+    /// before dispatch.
+    ///
+    /// @param req Inference request (input data, model path, task tag)
+    /// @return Result struct containing output, latency, backend used, and success status
     AiInferenceResult run(AiInferenceRequest& req);
 
-    /**
-     * @brief @brief Attempt inference on specific backend without fallback Does not attempt fallback if the requested backend fails.
-     * @param[in] backend Input parameter.
-     * @param[in,out] req Input/output parameter.
-     * @return Return value.
-     * @details @param backend Specific backend to execute on (GPU, NPU, CPU, etc.) @param req Inference request to execute @return Result with success == false and error message if backend unavailable or fails
-     */
+    /// @brief Attempt inference on specific backend without fallback
+    ///
+    /// Does not attempt fallback if the requested backend fails.
+    ///
+    /// @param backend Specific backend to execute on (GPU, NPU, CPU, etc.)
+    /// @param req Inference request to execute
+    /// @return Result with success == false and error message if backend unavailable or fails
     AiInferenceResult runOn(BackendType backend, AiInferenceRequest& req);
 
-    /**
-     * @brief @brief Log a structured summary of all probed backends @note Output is written to ThemisDB logger at INFO level
-     */
+    /// @brief Log a structured summary of all probed backends
+    /// @note Output is written to ThemisDB logger at INFO level
     void logCapabilities() const;
 
-    /**
-     * @brief @brief Register custom dispatch function for Apple Neural Engine @param fn Function to call for Apple ANE inference dispatch
-     * @param[in] fn Input parameter.
-     */
+    /// @brief Register custom dispatch function for Apple Neural Engine
+    /// @param fn Function to call for Apple ANE inference dispatch
     static void setAppleANEDispatchFn(AppleANEDispatchFn fn);
 
 private:

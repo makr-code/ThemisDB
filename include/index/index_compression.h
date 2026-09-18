@@ -86,16 +86,7 @@ public:
         size_t min_frequency    = 2;     ///< Minimum occurrences to enter dictionary
     };
 
-    /**
-     * @brief TBD: Describe DictionaryCodec.
-     * @return Return value.
-     */
     explicit DictionaryCodec();
-    /**
-     * @brief TBD: Describe DictionaryCodec.
-     * @param[in] cfg Input parameter.
-     * @return Return value.
-     */
     explicit DictionaryCodec(const Config& cfg);
 
     /// Build (or rebuild) the dictionary from a corpus of strings.
@@ -104,12 +95,8 @@ public:
     /// Encode a string to its dictionary code, or kMissCode when not present.
     uint32_t encode(std::string_view value) const;
 
-    /**
-     * @brief Decode a code back to the original string.
-     * @param[in] code Input parameter.
-     * @return Return value.
-     * @details Returns empty string for kMissCode or unknown codes.
-     */
+    /// Decode a code back to the original string.
+    /// Returns empty string for kMissCode or unknown codes.
     std::string decode(uint32_t code) const;
 
     /// True if the dictionary contains at least one entry.
@@ -225,12 +212,8 @@ public:
     /// Decode a RunLengthBlock back to the original sequence.
     static std::vector<std::string> decode(const RunLengthBlock& block);
 
-    /**
-     * @brief Return the compression ratio: decoded_size / encoded_size.
-     * @param[in] values Input parameter.
-     * @return Return value.
-     * @details Values > 1 indicate savings; 1 = no savings.
-     */
+    /// Return the compression ratio: decoded_size / encoded_size.
+    /// Values > 1 indicate savings; 1 = no savings.
     static double compressionRatio(const std::vector<std::string>& values);
 };
 
@@ -289,16 +272,7 @@ public:
         uint64_t prefix_bytes_saved{0};  ///< Bytes saved by prefix compression
     };
 
-    /**
-     * @brief TBD: Describe IndexCompressionCodec.
-     * @return Return value.
-     */
     explicit IndexCompressionCodec();
-    /**
-     * @brief TBD: Describe IndexCompressionCodec.
-     * @param[in] cfg Input parameter.
-     * @return Return value.
-     */
     explicit IndexCompressionCodec(const Config& cfg);
 
     // -- Configuration -------------------------------------------------------
@@ -331,12 +305,8 @@ public:
 
     // -- Key compression -----------------------------------------------------
 
-    /**
-     * @brief Compress a sorted list of index keys into prefix-compressed blocks.
-     * @param[in] sorted_keys Input parameter.
-     * @return Return value.
-     * @details Also updates Bloom filter and stats.
-     */
+    /// Compress a sorted list of index keys into prefix-compressed blocks.
+    /// Also updates Bloom filter and stats.
     std::vector<PrefixBlock> compressKeys(
         const std::vector<std::string>& sorted_keys);
 
@@ -363,10 +333,6 @@ public:
     // -- Statistics ----------------------------------------------------------
 
     const Stats& stats() const { return stats_; }
-    /**
-     * @brief TBD: Describe resetStats.
-     * @details Implements resetStats without additional internal calls.
-     */
     void         resetStats()  { stats_ = {}; }
 
 private:

@@ -102,10 +102,6 @@ enum class RecoveryAction {
  */
 class ISelfHealingPlugin {
 public:
-    /**
-     * @brief TBD: Describe ~ISelfHealingPlugin.
-     * @return Return value.
-     */
     virtual ~ISelfHealingPlugin() = default;
     
     /**

@@ -85,11 +85,6 @@ public:
         
         /**
          * @brief Create a successful import result.
-         * @param[in] pid Input parameter.
-         * @param[in] pname Input parameter.
-         * @param[in] n Input parameter.
-         * @param[in] e Input parameter.
-         * @return Return value.
          */
         static ImportResult success(
             std::string_view pid,
@@ -190,23 +185,9 @@ public:
     );
 
 private:
-    /**
-     * @brief XML helpers
-     * @param[in] s Input parameter.
-     * @return Return value.
-     */
+    // XML helpers
     static std::string escapeXml_(std::string_view s);
-    /**
-     * @brief TBD: Describe nodeTypeToXmlTag_.
-     * @param[in] t Input parameter.
-     * @return Return value.
-     */
     static std::string nodeTypeToXmlTag_(BPMNNodeType t);
-    /**
-     * @brief TBD: Describe xmlTagToNodeType_.
-     * @param[in] tag Input parameter.
-     * @return Return value.
-     */
     static BPMNNodeType xmlTagToNodeType_(std::string_view tag);
 };
 

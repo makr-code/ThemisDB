@@ -51,7 +51,6 @@ public:
     /**
      * @brief Construct GPU utilization monitor
      * @param device Target GPU device to monitor
-     * @return Return value.
      */
     explicit GPUUtilizationMonitor(const Device& device);
     
@@ -97,7 +96,6 @@ public:
     
     /**
      * @brief Get device information
-     * @return Return value.
      */
     std::string getDeviceInfo() const;
     
@@ -121,69 +119,25 @@ private:
     void* rocm_device_ = nullptr;  // Fallback when HIP not available
 #endif
     
-    /**
-     * @brief Initialization
-     * @return True on success.
-     */
+    // Initialization
     bool initializeNVML();
-    /**
-     * @brief TBD: Describe initializeROCm.
-     * @return True on success.
-     */
     bool initializeROCm();
-    /**
-     * @brief TBD: Describe initializeVulkan.
-     * @return True on success.
-     */
     bool initializeVulkan();
-    /**
-     * @brief TBD: Describe initializeDirectX.
-     * @return True on success.
-     */
     bool initializeDirectX();
     
-    /**
-     * @brief Cleanup
-     */
+    // Cleanup
     void shutdownNVML();
-    /**
-     * @brief TBD: Describe shutdownROCm.
-     */
     void shutdownROCm();
-    /**
-     * @brief TBD: Describe shutdownVulkan.
-     */
     void shutdownVulkan();
-    /**
-     * @brief TBD: Describe shutdownDirectX.
-     */
     void shutdownDirectX();
     
-    /**
-     * @brief Query methods
-     * @return Return value.
-     */
+    // Query methods
     Metrics queryNVML();
-    /**
-     * @brief TBD: Describe queryROCm.
-     * @return Return value.
-     */
     Metrics queryROCm();
-    /**
-     * @brief TBD: Describe queryVulkan.
-     * @return Return value.
-     */
     Metrics queryVulkan();
-    /**
-     * @brief TBD: Describe queryDirectX.
-     * @return Return value.
-     */
     Metrics queryDirectX();
     
-    /**
-     * @brief Fallback when monitoring not available
-     * @return Return value.
-     */
+    // Fallback when monitoring not available
     Metrics getFallbackMetrics() const;
 };
 

@@ -166,11 +166,6 @@ struct LockoutInfo {
  */
 class AccountLockoutManager {
 public:
-    /**
-     * @brief TBD: Describe AccountLockoutManager.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit AccountLockoutManager(const AuthRateLimitConfig& config);
     
     /**
@@ -215,7 +210,6 @@ public:
     
     /**
      * @brief Get number of currently locked accounts
-     * @return Return value.
      */
     size_t getLockedAccountCount() const;
 
@@ -241,17 +235,7 @@ public:
     void reset();
 
 private:
-    /**
-     * @brief TBD: Describe lockAccount.
-     * @param[in] user_id Input parameter.
-     * @param[in] info Input parameter.
-     */
     void lockAccount(const std::string& user_id, const LockoutInfo& info);
-    /**
-     * @brief TBD: Describe shouldLockAccount.
-     * @param[in] info Input parameter.
-     * @return True on success.
-     */
     bool shouldLockAccount(const LockoutInfo& info) const;
     
     AuthRateLimitConfig config_;
@@ -346,8 +330,6 @@ public:
     
     /**
      * @brief Check if IP is whitelisted
-     * @param[in] ip_address Input parameter.
-     * @return True on success.
      */
     bool isWhitelisted(const std::string& ip_address) const;
 
@@ -363,7 +345,6 @@ public:
      *   - BRUTE_FORCE_DETECTED       – same IP responsible for locking an account
      *   - CREDENTIAL_STUFFING_SUSPECTED – one IP tried many distinct usernames
      *     (cs_outcome field carries the escalation level for the targeted user)
-     * @param[in] callback Input parameter.
      */
     void setAnomalyCallback(AuthAnomalyCallback callback);
 
@@ -373,7 +354,6 @@ public:
      * When set, every anomaly event (brute-force, credential stuffing, account
      * lockout) is forwarded to the audit logger in addition to the anomaly
      * callback.  Pass nullptr to detach.  Does not take ownership.
-     * @param[in,out] logger Input/output parameter.
      */
     void setAuditLogger(utils::AuditLogger* logger);
 
@@ -392,7 +372,6 @@ public:
      * - Pass nullptr to revert to the default in-process token-bucket behaviour.
      *
      * Typically called once during initialisation before any concurrent access.
-     * @param[in] backend Input parameter.
      */
     void setBackend(std::shared_ptr<IRateLimiterBackend> backend);
 
@@ -402,13 +381,11 @@ public:
      * When set, every credential-stuffing detection event calls
      * AuthMetrics::recordCredentialStuffingAttempt().  Pass nullptr to detach.
      * Does not take ownership.
-     * @param[in,out] metrics Input/output parameter.
      */
     void setMetrics(AuthMetrics* metrics);
     
     /**
      * @brief Update configuration at runtime
-     * @param[in] config Input parameter.
      */
     void updateConfig(const AuthRateLimitConfig& config);
     
@@ -425,10 +402,6 @@ public:
         size_t currently_locked_accounts = 0;
     };
     
-    /**
-     * @brief TBD: Describe getStatistics.
-     * @return Return value.
-     */
     Statistics getStatistics() const;
     
     /**
@@ -480,47 +453,30 @@ private:
                          CredentialStuffingOutcome cs_outcome
                              = CredentialStuffingOutcome::ALLOWED) const;
 
-    /**
-     * @brief Track credential-stuffing for a given (ip, user_id) pair.
-     * @param[in] ip Input parameter.
-     * @param[in] user_id Input parameter.
-     * @param[in] cfg Input parameter.
-     * @return True on success.
-     * @details Returns true if the credential-stuffing alert threshold was just crossed. Must be called with stuffing_mutex_ held.
-     */
+    // Track credential-stuffing for a given (ip, user_id) pair.
+    // Returns true if the credential-stuffing alert threshold was just crossed.
+    // Must be called with stuffing_mutex_ held.
     bool trackCredentialStuffing(const std::string& ip, const std::string& user_id,
                                   const AuthRateLimitConfig& cfg);
 
-    /**
-     * @brief ── Per-user persistent breach-count tracking ──────────────────────── Build the Redis/in-memory key for a user on the current UTC day.
-     * @param[in] user_id Input parameter.
-     * @return Return value.
-     * @details Format: "cs:{user_id}:{YYYYMMDD}"
-     */
+    // ── Per-user persistent breach-count tracking ────────────────────────
+    // Build the Redis/in-memory key for a user on the current UTC day.
+    // Format: "cs:{user_id}:{YYYYMMDD}"
     static std::string csBreachKey(const std::string& user_id);
 
-    /**
-     * @brief Atomically increment the daily breach counter for user_id and return the new count.
-     * @param[in] user_id Input parameter.
-     * @return Return value.
-     * @details Uses Redis when available; otherwise falls back to the in-process map. Must NOT be called with stats_mutex_ held (may block on network I/O).
-     */
+    // Atomically increment the daily breach counter for user_id and return
+    // the new count.  Uses Redis when available; otherwise falls back to the
+    // in-process map.  Must NOT be called with stats_mutex_ held (may block
+    // on network I/O).
     uint32_t incrementAndGetBreachCount(const std::string& user_id);
 
-    /**
-     * @brief Determine the escalation outcome from a raw breach count.
-     * @param[in] count Input parameter.
-     * @return Return value.
-     */
+    // Determine the escalation outcome from a raw breach count.
     static CredentialStuffingOutcome outcomeFromBreachCount(uint32_t count);
 
-    /**
-     * @brief Called after the IP-level stuffing threshold fires.
-     * @param[in] user_id Input parameter.
-     * @param[in] ip Input parameter.
-     * @return Return value.
-     * @details Increments the per-user daily breach counter and fires the appropriate escalation response (CAPTCHA / OTP / 24h lock). Returns the outcome. Must NOT be called with stats_mutex_ held.
-     */
+    // Called after the IP-level stuffing threshold fires.  Increments the
+    // per-user daily breach counter and fires the appropriate escalation
+    // response (CAPTCHA / OTP / 24h lock).  Returns the outcome.
+    // Must NOT be called with stats_mutex_ held.
     CredentialStuffingOutcome escalateCredentialStuffing(const std::string& user_id,
                                                          const std::string& ip);
 
@@ -534,10 +490,6 @@ private:
     // Guarded by cs_redis_mutex_.
     struct redisContext* cs_redis_ctx_ = nullptr;
     mutable std::mutex   cs_redis_mutex_;
-    /**
-     * @brief TBD: Describe connectCsRedis.
-     * @return True on success.
-     */
     bool connectCsRedis();
 #endif
 

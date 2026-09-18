@@ -38,19 +38,10 @@ class Frontier {
 public:
     Frontier() : dense_mode_(false), num_vertices_(0) {}
     
-    /**
-     * @brief TBD: Describe Frontier.
-     * @param[in] num_vertices Input parameter.
-     * @return Return value.
-     */
     explicit Frontier(size_t num_vertices) 
         : dense_mode_(false), num_vertices_(num_vertices) {}
     
-    /**
-     * @brief Add vertex to frontier
-     * @param[in] vertex Input parameter.
-     * @details Calls: insert().
-     */
+    // Add vertex to frontier
     void add(NodeID vertex) {
         if (dense_mode_) {
             dense_set_[vertex] = true;
@@ -83,10 +74,7 @@ public:
         }
     }
     
-    /**
-     * @brief Switch to dense mode (for large frontiers)
-     * @details Calls: resize(), clear().
-     */
+    // Switch to dense mode (for large frontiers)
     void switch_to_dense() {
         if (!dense_mode_) {
             dense_set_.resize(num_vertices_, false);
@@ -98,10 +86,7 @@ public:
         }
     }
     
-    /**
-     * @brief Switch to sparse mode (for small frontiers)
-     * @details Calls: clear(), size(), insert().
-     */
+    // Switch to sparse mode (for small frontiers)
     void switch_to_sparse() {
         if (dense_mode_) {
             sparse_set_.clear();
@@ -123,10 +108,6 @@ public:
     
     bool is_dense_mode() const { return dense_mode_; }
     
-    /**
-     * @brief TBD: Describe clear.
-     * @details Implements clear without additional internal calls.
-     */
     void clear() {
         sparse_set_.clear();
         dense_set_.clear();
@@ -157,34 +138,17 @@ public:
     
     // Process frontier with vertex function
     using VertexFunc = std::function<void(NodeID)>;
-    /**
-     * @brief TBD: Describe process_vertices.
-     * @param[in] frontier Input parameter.
-     * @param[in] func Input parameter.
-     */
     void process_vertices(const Frontier& frontier, const VertexFunc& func);
     
     // Process edges from frontier (edgemap operation)
     using EdgeFunc = std::function<bool(NodeID src, NodeID dst)>;
-    /**
-     * @brief TBD: Describe process_edges.
-     * @param[in] frontier Input parameter.
-     * @param[in] adj_list Input parameter.
-     * @param[in] func Input parameter.
-     * @return Return value.
-     */
     Frontier process_edges(
         const Frontier& frontier,
         const std::vector<std::vector<NodeID>>& adj_list,
         const EdgeFunc& func
     );
     
-    /**
-     * @brief Parallel BFS example using Ligra
-     * @param[in] start_vertex Input parameter.
-     * @param[in] adj_list Input parameter.
-     * @return Return value.
-     */
+    // Parallel BFS example using Ligra
     std::vector<int> parallel_bfs(
         NodeID start_vertex,
         const std::vector<std::vector<NodeID>>& adj_list
@@ -201,18 +165,10 @@ private:
     size_t num_vertices_;
     size_t num_threads_;
     
-    /**
-     * @brief Helper: Process frontier in sparse mode
-     * @param[in] frontier Input parameter.
-     * @param[in] func Input parameter.
-     */
+    // Helper: Process frontier in sparse mode
     void process_sparse(const Frontier& frontier, const VertexFunc& func);
     
-    /**
-     * @brief Helper: Process frontier in dense mode
-     * @param[in] frontier Input parameter.
-     * @param[in] func Input parameter.
-     */
+    // Helper: Process frontier in dense mode
     void process_dense(const Frontier& frontier, const VertexFunc& func);
     
     // Helper: Determine if frontier should use dense mode
@@ -230,10 +186,6 @@ public:
     bool try_pop(std::function<void()>& task);
     bool try_steal(std::function<void()>& task);
     
-    /**
-     * @brief TBD: Describe empty.
-     * @return True on success.
-     */
     bool empty() const;
 
 private:

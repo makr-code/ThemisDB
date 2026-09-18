@@ -32,10 +32,6 @@ namespace concerns {
  */
 class IEvictionStrategy {
 public:
-    /**
-     * @brief TBD: Describe ~IEvictionStrategy.
-     * @return Return value.
-     */
     virtual ~IEvictionStrategy() = default;
 
     /**

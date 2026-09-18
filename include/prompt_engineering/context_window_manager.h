@@ -81,10 +81,6 @@ private:
  */
 class ITokenCounter {
 public:
-    /**
-     * @brief TBD: Describe ~ITokenCounter.
-     * @return Return value.
-     */
     virtual ~ITokenCounter() = default;
 
     /**
@@ -225,12 +221,9 @@ public:
     // Configuration
     // -------------------------------------------------------------------------
 
-     * @param[in] budget Input parameter.
     /** @brief Replace the current model budget descriptor. */
     void setModel(const ModelTokenBudget& budget);
 
-     * @return Return value.
-     * @note Exception safety: noexcept.
     /** @brief Return the current model budget descriptor. */
     const ModelTokenBudget& getModel() const noexcept;
 
@@ -248,8 +241,6 @@ public:
      * @brief Return the estimated token count for @p text.
      *
      * Delegates to the currently active `ITokenCounter`.
-     * @param[in] text Input parameter.
-     * @return Return value.
      */
     size_t countTokens(const std::string& text) const;
 
@@ -317,9 +308,6 @@ public:
      *
      * @throws PromptBudgetExceededError  When total > model budget.
      * @return `BudgetAllocation` (always fits when returned without throwing).
-     * @param[in] system_prompt Input parameter.
-     * @param[in] query Input parameter.
-     * @param[in] chunks Input parameter.
      */
     BudgetAllocation computeAndCheck(
         const std::string& system_prompt,

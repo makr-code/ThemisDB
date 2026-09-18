@@ -61,8 +61,6 @@ struct ShardCertificateInfo {
     
     /**
      * Check if certificate is currently valid (time-based)
-     * @brief TBD: Describe isValidNow.
-     * @return True on success.
      */
     bool isValidNow() const;
 };
@@ -79,7 +77,6 @@ public:
      * Parse certificate from PEM file
      * @param cert_path Path to PEM-encoded certificate
      * @return Certificate info if successful, nullopt otherwise
-     * @brief TBD: Describe parseCertificate.
      */
     static std::optional<ShardCertificateInfo> parseCertificate(const std::string& cert_path);
     
@@ -87,7 +84,6 @@ public:
      * Parse certificate from PEM string
      * @param pem_data PEM-encoded certificate data
      * @return Certificate info if successful, nullopt otherwise
-     * @brief TBD: Describe parseCertificatePEM.
      */
     static std::optional<ShardCertificateInfo> parseCertificatePEM(const std::string& pem_data);
     
@@ -96,7 +92,6 @@ public:
      * @param cert_path Path to certificate to verify
      * @param ca_cert_path Path to CA certificate
      * @return true if certificate is valid and trusted
-     * @brief TBD: Describe verifyCertificate.
      */
     static bool verifyCertificate(const std::string& cert_path, const std::string& ca_cert_path);
     
@@ -105,7 +100,6 @@ public:
      * @param serial_number Certificate serial number
      * @param crl_path Path to CRL file (PEM)
      * @return true if certificate is revoked
-     * @brief TBD: Describe isRevoked.
      */
     static bool isRevoked(const std::string& serial_number, const std::string& crl_path);
     
@@ -114,7 +108,6 @@ public:
      * Convenience method for quick shard ID lookup
      * @param cert_path Path to certificate
      * @return Shard ID if found, nullopt otherwise
-     * @brief TBD: Describe getShardId.
      */
     static std::optional<std::string> getShardId(const std::string& cert_path);
     
@@ -128,7 +121,6 @@ public:
      * 
      * @param info Certificate info to validate
      * @return true if certificate is valid for shard use
-     * @brief TBD: Describe validateShardCertificate.
      */
     static bool validateShardCertificate(const ShardCertificateInfo& info);
 
@@ -136,20 +128,12 @@ private:
     /**
      * Parse custom X.509 extensions
      * Internal helper to extract shard-specific extensions
-     * @brief TBD: Describe parseCustomExtensions.
-     * @param[in,out] x509_cert Input/output parameter.
-     * @param[in,out] info Input/output parameter.
-     * @return True on success.
      */
     static bool parseCustomExtensions(void* x509_cert, ShardCertificateInfo& info);
     
     /**
      * Parse Subject Alternative Names
      * Internal helper to extract SANs
-     * @brief TBD: Describe parseSAN.
-     * @param[in,out] x509_cert Input/output parameter.
-     * @param[in,out] info Input/output parameter.
-     * @return True on success.
      */
     static bool parseSAN(void* x509_cert, ShardCertificateInfo& info);
 };

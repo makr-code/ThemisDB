@@ -67,11 +67,6 @@ public:
     using SignHashFn = std::function<SignatureResult(const std::vector<uint8_t>& hash_bytes)>;
     using VerifyHashFn = std::function<bool(const std::vector<uint8_t>& hash_bytes, const SignatureResult& sig)>;
 
-    /**
-     * @brief TBD: Describe VCCPKIClient.
-     * @param[in] cfg Input parameter.
-     * @return Return value.
-     */
     explicit VCCPKIClient(PKIConfig cfg);
 
     // Sign a precomputed hash (e.g. SHA-256 over ciphertext batch)
@@ -110,72 +105,37 @@ public:
 
     const PKIConfig& config() const { return cfg_; }
 
-    /**
-     * @brief Return certificate serial (hex) if a certificate path is configured and readable.
-     * @return Return value.
-     * @details Returns empty optional when no cert is available or parsing fails.
-     */
+    // Return certificate serial (hex) if a certificate path is configured and readable.
+    // Returns empty optional when no cert is available or parsing fails.
     std::optional<std::string> getCertSerial() const;
 
-    /**
-     * @brief Generate a PKCS#10 CSR (PEM-encoded) using the configured key and service_id.
-     * @return Return value.
-     * @details Returns the PEM string on success, or empty string on failure. Requires key_path to be set in the configuration.
-     */
+    // Generate a PKCS#10 CSR (PEM-encoded) using the configured key and service_id.
+    // Returns the PEM string on success, or empty string on failure.
+    // Requires key_path to be set in the configuration.
     std::string generateCSR() const;
 
-    /**
-     * @brief TBD: Describe setSignHashFn.
-     * @param[in] fn Input parameter.
-     * @details Calls: lock(), signHashFnMutex(), signHashFnStorage(), std::move().
-     */
     static void setSignHashFn(SignHashFn fn) {
         std::lock_guard<std::mutex> lock(signHashFnMutex());
         signHashFnStorage() = std::move(fn);
     }
-    /**
-     * @brief TBD: Describe setVerifyHashFn.
-     * @param[in] fn Input parameter.
-     * @details Calls: lock(), verifyHashFnMutex(), verifyHashFnStorage(), std::move().
-     */
     static void setVerifyHashFn(VerifyHashFn fn) {
         std::lock_guard<std::mutex> lock(verifyHashFnMutex());
         verifyHashFnStorage() = std::move(fn);
     }
 
 private:
-    /**
-     * @brief TBD: Describe signHashFnMutex.
-     * @return Return value.
-     * @details Implements signHashFnMutex without additional internal calls.
-     */
     static std::mutex& signHashFnMutex() {
         static std::mutex m;
         return m;
     }
-    /**
-     * @brief TBD: Describe signHashFnStorage.
-     * @return Return value.
-     * @details Implements signHashFnStorage without additional internal calls.
-     */
     static SignHashFn& signHashFnStorage() {
         static SignHashFn fn;
         return fn;
     }
-    /**
-     * @brief TBD: Describe verifyHashFnMutex.
-     * @return Return value.
-     * @details Implements verifyHashFnMutex without additional internal calls.
-     */
     static std::mutex& verifyHashFnMutex() {
         static std::mutex m;
         return m;
     }
-    /**
-     * @brief TBD: Describe verifyHashFnStorage.
-     * @return Return value.
-     * @details Implements verifyHashFnStorage without additional internal calls.
-     */
     static VerifyHashFn& verifyHashFnStorage() {
         static VerifyHashFn fn;
         return fn;

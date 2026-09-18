@@ -155,7 +155,6 @@ public:
      *
      * @param incident_id  Incident identifier.
      * @param description  Human-readable description.
-     * @note Exception safety: noexcept.
      */
     void recordFromCallback(std::string_view incident_id,
                             std::string_view description) noexcept;
@@ -221,7 +220,6 @@ public:
      *
      * Should only be used after incidents have been persisted to an external
      * store or after operator sign-off.
-     * @note Exception safety: noexcept.
      */
     void clearIncidents() noexcept;
 
@@ -230,25 +228,8 @@ private:
     std::vector<GeoIncident>    incidents_;   ///< Ring buffer (newest at back)
     uint64_t                    total_count_{0};
 
-    /**
-     * @brief TBD: Describe nowNs.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
     static int64_t nowNs() noexcept;
-    /**
-     * @brief TBD: Describe severityFromId.
-     * @param[in] id Input parameter.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
     static GeoIncidentSeverity severityFromId(std::string_view id) noexcept;
-    /**
-     * @brief TBD: Describe remediationForId.
-     * @param[in] id Input parameter.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
     static std::string remediationForId(std::string_view id) noexcept;
 };
 

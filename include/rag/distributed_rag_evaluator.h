@@ -149,25 +149,21 @@ public:
 
     /**
      * @brief Set (or replace) the aggregation strategy at runtime.
-     * @param[in] strategy Input parameter.
      */
     void setAggregationStrategy(AggregationStrategy strategy);
 
     /**
      * @brief Return the current configuration.
-     * @return Return value.
      */
     DistributedEvaluatorConfig getConfig() const;
 
     /**
      * @brief Return the number of configured judge workers.
-     * @return Return value.
      */
     size_t judgeCount() const;
 
     /**
      * @brief Total evaluations completed since construction.
-     * @return Return value.
      */
     uint64_t totalEvaluations() const;
 
@@ -210,7 +206,6 @@ public:
      *
      * The fast judge receives weight 0.4, the thorough judge weight 0.6 in
      * WEIGHTED_MEAN aggregation.
-     * @return Return value.
      */
     static std::unique_ptr<DistributedRAGEvaluator> createFastThorough();
 };

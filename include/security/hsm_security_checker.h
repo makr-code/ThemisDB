@@ -30,18 +30,11 @@ public:
     /**
      * Check if running in production mode
      * @return true if production mode is active
-     * @brief TBD: Describe isProductionMode.
-     * @details Calls: std::getenv(), mode(), environment().
      */
     static bool isProductionMode() {
         // Check environment variable
         const char* env_mode = std::getenv("THEMIS_PRODUCTION_MODE");
         if (env_mode) {
-            /**
-             * @brief TBD: Describe mode.
-             * @param[in] env_mode Input parameter.
-             * @return Return value.
-             */
             std::string mode(env_mode);
             return mode == "true" || mode == "1" || mode == "production";
         }
@@ -49,11 +42,6 @@ public:
         // Check another common env var
         const char* env = std::getenv("THEMIS_ENVIRONMENT");
         if (env) {
-            /**
-             * @brief TBD: Describe environment.
-             * @param[in] env Input parameter.
-             * @return Return value.
-             */
             std::string environment(env);
             return environment == "production" || environment == "prod";
         }
@@ -67,8 +55,6 @@ public:
      * @param argc: Command-line argument count
      * @param argv: Command-line arguments
      * @return true if --allow-stub-hsm flag is present
-     * @brief TBD: Describe hasAllowStubFlag.
-     * @details Calls: std::string().
      */
     static bool hasAllowStubFlag(int argc, char* argv[]) {
         for (int i = 1; i < argc; ++i) {
@@ -89,8 +75,6 @@ public:
      * @param argc: Command-line argument count
      * @param argv: Command-line arguments
      * @return true if configuration is safe, false if should exit
-     * @brief TBD: Describe validateProductionSafety.
-     * @details Calls: isProductionMode(), isStubProvider(), hasAllowStubFlag(), THEMIS_WARN(), THEMIS_CRITICAL().
      */
     static bool validateProductionSafety(const HSMProvider& hsm, int argc, char* argv[]) {
         // Not production mode - allow everything
@@ -156,8 +140,6 @@ public:
      * Get warning message for periodic security checks
      * @param hsm: HSM provider instance
      * @return Warning message or empty string if no warning needed
-     * @brief TBD: Describe getPeriodicWarning.
-     * @details Calls: isProductionMode(), isStubProvider().
      */
     static std::string getPeriodicWarning(const HSMProvider& hsm) {
         if (!isProductionMode()) {

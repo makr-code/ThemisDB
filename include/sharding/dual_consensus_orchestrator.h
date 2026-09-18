@@ -88,9 +88,6 @@ struct CrossLayerVersionToken {
     
     /**
      * @brief Create from JSON
-     * @param[in] j Input parameter.
-     * @return Return value.
-     * @details Calls: value(), std::chrono::system_clock::time_point(), std::chrono::milliseconds().
      */
     static CrossLayerVersionToken fromJson(const nlohmann::json& j) {
         CrossLayerVersionToken token;
@@ -222,7 +219,6 @@ public:
     
     /**
      * @brief Get latest storage version
-     * @return Return value.
      */
     uint64_t getStorageVersion() const;
     
@@ -232,9 +228,6 @@ public:
     
     /**
      * @brief Propose an operation to the cache layer
-     * @param[in] operation Input parameter.
-     * @param[in] data Input parameter.
-     * @return Return value.
      */
     std::optional<uint64_t> proposeToCache(
         const std::string& operation,
@@ -251,7 +244,6 @@ public:
     
     /**
      * @brief Get latest cache version
-     * @return Return value.
      */
     uint64_t getCacheVersion() const;
     
@@ -362,7 +354,6 @@ public:
     
     /**
      * @brief Get all inconsistent keys
-     * @return Return value.
      */
     std::vector<std::string> getInconsistentKeys() const;
     
@@ -414,19 +405,16 @@ public:
     
     /**
      * @brief Set synchronization callback
-     * @param[in] callback Input parameter.
      */
     void setSyncCallback(SyncCallback callback);
     
     /**
      * @brief Set conflict resolver
-     * @param[in] resolver Input parameter.
      */
     void setConflictResolver(ConflictResolver resolver);
     
     /**
      * @brief Set consistency state change callback
-     * @param[in] callback Input parameter.
      */
     void setConsistencyCallback(ConsistencyCallback callback);
     
@@ -484,7 +472,6 @@ public:
     
     /**
      * @brief Get dual-consensus metrics
-     * @return Return value.
      */
     nlohmann::json getMetrics() const;
     
@@ -509,13 +496,11 @@ public:
     
     /**
      * @brief Check if both layers are operational
-     * @return True on success.
      */
     bool isFullyOperational() const;
     
     /**
      * @brief Check if in degraded mode (one layer down)
-     * @return True on success.
      */
     bool isDegraded() const;
 
@@ -574,25 +559,17 @@ private:
     /**
      * @brief Check and update consistency state for a key.
      * @note Caller must NOT hold state_mutex_ — acquires it internally.
-     * @param[in] key Input parameter.
      */
     void updateConsistencyState(const std::string& key);
 
     /**
      * @brief Check and update consistency state for a key (lock-free variant).
      * @note Caller MUST already hold state_mutex_.
-     * @param[in] key Input parameter.
      */
     void updateConsistencyStateLocked(const std::string& key);
     
     /**
      * @brief Default conflict resolver (storage wins)
-     * @param[in] key Input parameter.
-     * @param[in] cache_value Input parameter.
-     * @param[in] storage_value Input parameter.
-     * @param[in] cache_token Input parameter.
-     * @param[in] storage_token Input parameter.
-     * @return Return value.
      */
     nlohmann::json defaultConflictResolver(
         const std::string& key,
@@ -604,9 +581,6 @@ private:
     
     /**
      * @brief Notify consistency callback if state changed
-     * @param[in] key Input parameter.
-     * @param[in] old_state Input parameter.
-     * @param[in] new_state Input parameter.
      */
     void notifyConsistencyChange(
         const std::string& key,

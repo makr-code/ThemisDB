@@ -80,10 +80,6 @@ struct FeedbackData {
  */
 class IFeedbackPlugin {
 public:
-    /**
-     * @brief TBD: Describe ~IFeedbackPlugin.
-     * @return Return value.
-     */
     virtual ~IFeedbackPlugin() = default;
     
     /**
@@ -232,17 +228,7 @@ private:
     size_t validation_count_ = 0;
     size_t rejected_count_ = 0;
     
-    /**
-     * @brief TBD: Describe containsSpamKeywords.
-     * @param[in] text Input parameter.
-     * @return True on success.
-     */
     bool containsSpamKeywords(const std::string& text) const;
-    /**
-     * @brief TBD: Describe isLowQuality.
-     * @param[in] feedback Input parameter.
-     * @return True on success.
-     */
     bool isLowQuality(const FeedbackData& feedback) const;
 };
 

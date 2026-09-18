@@ -90,7 +90,6 @@ public:
      * @param base_manifest Manifest of base version
      * @param target_manifest Manifest of target version
      * @return Delta result with chunks to transfer
-     * @brief TBD: Describe ComputeDelta.
      */
     DeltaResult ComputeDelta(
         const std::vector<ChunkInfo>& base_manifest,
@@ -108,7 +107,6 @@ public:
      * 
      * @param metadata Blob metadata
      * @return Recommended differential mode
-     * @brief TBD: Describe SelectStrategy.
      */
     themis::sharding::proto::DifferentialMode SelectStrategy(
         const BlobMetadata& metadata

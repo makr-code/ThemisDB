@@ -60,10 +60,6 @@ struct KafkaStreamStats {
 /** @brief I kafka change stream exporter component. */
 class IKafkaChangeStreamExporter {
 public:
-    /**
-     * @brief TBD: Describe ~IKafkaChangeStreamExporter.
-     * @return Return value.
-     */
     virtual ~IKafkaChangeStreamExporter() = default;
     [[nodiscard]] virtual bool configure(const KafkaChangeStreamConfig& config) = 0;
     [[nodiscard]] virtual bool start() = 0;

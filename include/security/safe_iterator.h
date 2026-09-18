@@ -127,7 +127,6 @@ public:
      * @return true if modification detected, false otherwise.
      * 
      * **Usage:** Call periodically during iteration or before critical operations.
-     * @details Calls: load().
      */
     bool check() {
         if (!container_ptr_) {
@@ -142,8 +141,6 @@ public:
     /**
      * @brief Explicitly mark modification as detected.
      * @param detected true to mark container as modified.
-     * @throws std::runtime_error if an error occurs.
-     * @details Calls: store(), spdlog::warn().
      */
     void set_modification_detected(bool detected) {
         modification_detected_.store(detected, std::memory_order_release);
@@ -159,7 +156,6 @@ public:
 
     /**
      * @brief Reset modification detection flag.
-     * @details Calls: store().
      */
     void reset() {
         modification_detected_.store(false, std::memory_order_release);
@@ -213,15 +209,6 @@ public:
      * - Throws exception and does not modify iterator on invalid advance.
      */
     template<typename Iterator>
-    /**
-     * @brief TBD: Describe advance.
-     * @param[in,out] it Input/output parameter.
-     * @param[in] distance Input parameter.
-     * @param[in] begin Input parameter.
-     * @param[in] end Input parameter.
-     * @throws std::out_of_range if an error occurs.
-     * @details Calls: constexpr(), std::distance(), std::to_string(), spdlog::debug().
-     */
     static void advance(Iterator& it, typename std::iterator_traits<Iterator>::difference_type distance,
                        const Iterator& begin, const Iterator& end) {
         if (distance == 0) {
@@ -340,7 +327,6 @@ public:
      * **Behavior:**
      * - Random-access: validates begin <= end in O(1).
      * - Other types: defers validation to first dereference.
-     * @return Return value.
      */
     explicit RangeValidator(const Iterator& begin, const Iterator& end)
         : begin_(begin), end_(end), validated_(false) {
@@ -433,14 +419,6 @@ public:
      * - Iterator is not before begin()
      */
     template<typename Iterator>
-    /**
-     * @brief TBD: Describe check_dereference.
-     * @param[in] it Input parameter.
-     * @param[in] begin Input parameter.
-     * @param[in] end Input parameter.
-     * @throws std::out_of_range if an error occurs.
-     * @details Calls: constexpr(), std::distance(), spdlog::debug().
-     */
     static void check_dereference(const Iterator& it, const Iterator& begin, const Iterator& end) {
         // For random-access iterators, we can do O(1) bounds checking
         if constexpr (std::is_same_v<typename std::iterator_traits<Iterator>::iterator_category,
@@ -471,14 +449,6 @@ public:
      * **Usage:** For operations that allow end() but not beyond.
      */
     template<typename Iterator>
-    /**
-     * @brief TBD: Describe check_access.
-     * @param[in] it Input parameter.
-     * @param[in] begin Input parameter.
-     * @param[in] end Input parameter.
-     * @throws std::out_of_range if an error occurs.
-     * @details Calls: constexpr(), std::distance(), spdlog::debug().
-     */
     static void check_access(const Iterator& it, const Iterator& begin, const Iterator& end) {
         if constexpr (std::is_same_v<typename std::iterator_traits<Iterator>::iterator_category,
                                      std::random_access_iterator_tag>) {

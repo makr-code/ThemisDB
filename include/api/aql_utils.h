@@ -25,12 +25,8 @@
 
 namespace themis::api {
 
-/**
- * @brief Escape a string for safe embedding inside an AQL single-quoted literal.
- * @param[in] raw Input parameter.
- * @return Return value.
- * @details Replaces `\` and `'` to prevent AQL string-literal injection. Calls: reserve(), size().
- */
+/// Escape a string for safe embedding inside an AQL single-quoted literal.
+/// Replaces `\` and `'` to prevent AQL string-literal injection.
 inline std::string aqlEscapeLiteral(const std::string& raw) {
     std::string out = {};
     out.reserve(raw.size() + 4);
@@ -42,12 +38,15 @@ inline std::string aqlEscapeLiteral(const std::string& raw) {
     return out;
 }
 
-/**
- * @brief Validate a name that will be used as an AQL collection identifier (i.
- * @param[in] name Input parameter.
- * @return True on success.
- * @details e. directly after `FOR doc IN <name>` or `INSERT ... INTO <name>`). AQL identifiers must: - not be empty - start with a letter (`a-z`, `A-Z`) or underscore (`_`) - contain only letters, digits (`0-9`), or underscores Returns `true` if the name is safe to embed as a bare AQL identifier. Calls: empty(), std::isalpha(), std::isalnum().
- */
+/// Validate a name that will be used as an AQL collection identifier
+/// (i.e. directly after `FOR doc IN <name>` or `INSERT ... INTO <name>`).
+///
+/// AQL identifiers must:
+///   - not be empty
+///   - start with a letter (`a-z`, `A-Z`) or underscore (`_`)
+///   - contain only letters, digits (`0-9`), or underscores
+///
+/// Returns `true` if the name is safe to embed as a bare AQL identifier.
 inline bool isValidAqlIdentifier(const std::string& name) {
     if (name.empty()) {
       return false;

@@ -69,11 +69,6 @@ public:
         size_t count = 0;                    // Number of windows
     };
     
-    /**
-     * @brief TBD: Describe TimeSeriesAggregates.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit TimeSeriesAggregates(const Config& config);
     ~TimeSeriesAggregates();
     
@@ -104,12 +99,6 @@ public:
      * @brief Resample time series to different interval
      * 
      * Downsampling example: 1-second data → 1-minute aggregates
-     * @param[in] timestamps Input parameter.
-     * @param[in] values Input parameter.
-     * @param[in] count Input parameter.
-     * @param[in] new_interval_seconds Input parameter.
-     * @param[in] func Input parameter.
-     * @return Return value.
      */
     AggregateResult resample(
         const int64_t* timestamps,
@@ -123,12 +112,6 @@ public:
      * @brief Rolling window aggregates
      * 
      * Example: 5-minute moving average
-     * @param[in] timestamps Input parameter.
-     * @param[in] values Input parameter.
-     * @param[in] count Input parameter.
-     * @param[in] window_size_seconds Input parameter.
-     * @param[in] func Input parameter.
-     * @return Return value.
      */
     AggregateResult rollingWindow(
         const int64_t* timestamps,
@@ -148,19 +131,11 @@ private:
     
     /**
      * @brief Apply aggregate function to window
-     * @param[in] values Input parameter.
-     * @param[in] count Input parameter.
-     * @param[in] func Input parameter.
-     * @return Return value.
      */
     double applyAggregate(const double* values, size_t count, AggregateFunction func);
     
     /**
      * @brief Compute percentile
-     * @param[in] values Input parameter.
-     * @param[in] count Input parameter.
-     * @param[in] percentile Input parameter.
-     * @return Return value.
      */
     double computePercentile(const double* values, size_t count, double percentile);
 };

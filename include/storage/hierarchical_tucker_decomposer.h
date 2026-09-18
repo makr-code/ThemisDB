@@ -95,15 +95,6 @@ private:
      * sigma[r] < delta (or r = max_rank if the threshold is never reached).
      *
      * Uses the shared `TensorTrainDecomposer::truncatedSVD()` backend.
-     * @param[in] mat Input parameter.
-     * @param[in] m Input parameter.
-     * @param[in] n Input parameter.
-     * @param[in] delta Input parameter.
-     * @param[in] max_rank_cap Input parameter.
-     * @param[in,out] U_out Input/output parameter.
-     * @param[in,out] S_out Input/output parameter.
-     * @param[in,out] Vt_out Input/output parameter.
-     * @param[in,out] rank_out Input/output parameter.
      */
     static void truncatedSVD(
         const std::vector<float>&  mat,
@@ -116,17 +107,8 @@ private:
         std::vector<float>&        Vt_out,
         std::size_t&               rank_out);
 
-    /**
-     * @brief Mode-k product: applies U^T (r × n_k) to mode k of tensor `data`.
-     * @param[in] data Input parameter.
-     * @param[in] shape Input parameter.
-     * @param[in] mode_k Input parameter.
-     * @param[in] U Input parameter.
-     * @param[in] n_k Input parameter.
-     * @param[in] r Input parameter.
-     * @return Return value.
-     * @details Returns a tensor with shape[k] replaced by r.
-     */
+    /// Mode-k product: applies U^T (r × n_k) to mode k of tensor `data`.
+    /// Returns a tensor with shape[k] replaced by r.
     static std::vector<float> modeKProduct(
         const std::vector<float>&        data,
         const std::vector<std::size_t>&  shape,
@@ -144,8 +126,6 @@ private:
      * @param L, R       Mode range [L, R) covered by this subtree.
      * @param U_cache    HOSVD leaf bases indexed by physical mode.
      * @param T_shape    Original tensor shape (for leaf n_k).
-     * @param[in] R Input parameter.
-     * @return Return value.
      */
     std::unique_ptr<tensor::HTNode> buildHTNode(
         const std::vector<float>&              core,

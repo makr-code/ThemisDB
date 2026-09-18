@@ -116,7 +116,6 @@ public:
      * @brief Check if connection is valid
      *
      * @return true if connection was acquired and is valid
-     * @note Exception safety: noexcept.
      */
     bool isValid() const noexcept;
 
@@ -129,7 +128,6 @@ public:
      * @param error_desc Error description for logging
      *
      * **Thread Safety**: Safe to call from any thread
-     * @note Exception safety: noexcept.
      */
     void markError(std::string_view error_desc) noexcept;
 
@@ -140,7 +138,6 @@ public:
      * guard destruction. Subsequent calls have no effect.
      *
      * **Thread Safety**: Safe to call from any thread
-     * @note Exception safety: noexcept.
      */
     void release() noexcept;
 
@@ -148,7 +145,6 @@ public:
      * @brief Check if connection has been released
      *
      * @return true if connection has been released (manually or via destructor)
-     * @note Exception safety: noexcept.
      */
     bool isReleased() const noexcept;
 
@@ -182,7 +178,6 @@ public:
 
     /**
      * @brief Record operation completion
-     * @note Exception safety: noexcept.
      */
     void recordSuccess() noexcept;
 
@@ -190,14 +185,11 @@ public:
      * @brief Record operation failure
      *
      * @param error_msg Error description
-     * @note Exception safety: noexcept.
      */
     void recordFailure(std::string_view error_msg) noexcept;
 
     /**
      * @brief Get operation duration in milliseconds
-     * @return Return value.
-     * @note Exception safety: noexcept.
      */
     uint64_t getDurationMs() const noexcept;
 
@@ -243,7 +235,6 @@ public:
      *
      * @param txn_id Transaction ID for logging
      * @param manager Reference to DatabaseConnectionManager
-     * @return Return value.
      */
     explicit TransactionConnectionGuard(
         uint64_t txn_id,
@@ -273,7 +264,6 @@ public:
      * @brief Record successful operation
      *
      * @param operation_name Name of the operation
-     * @note Exception safety: noexcept.
      */
     void recordSuccess(std::string_view operation_name) noexcept;
 
@@ -282,7 +272,6 @@ public:
      *
      * @param operation_name Name of the operation
      * @param error_msg Error description
-     * @note Exception safety: noexcept.
      */
     void recordFailure(
         std::string_view operation_name,
@@ -293,28 +282,21 @@ public:
      * @brief Get accumulated connection time
      *
      * @return Total time spent in connection operations (milliseconds)
-     * @note Exception safety: noexcept.
      */
     uint64_t getConnectionTimeMs() const noexcept;
 
     /**
      * @brief Get number of connections used
-     * @return Return value.
-     * @note Exception safety: noexcept.
      */
     size_t getConnectionCount() const noexcept;
 
     /**
      * @brief Get number of successful operations
-     * @return Return value.
-     * @note Exception safety: noexcept.
      */
     size_t getSuccessCount() const noexcept;
 
     /**
      * @brief Get number of failed operations
-     * @return Return value.
-     * @note Exception safety: noexcept.
      */
     size_t getFailureCount() const noexcept;
 
@@ -323,7 +305,6 @@ public:
      *
      * Releases all acquired connections and resets state.
      * Called automatically on destruction.
-     * @note Exception safety: noexcept.
      */
     void releaseAllConnections() noexcept;
 
@@ -369,11 +350,6 @@ bool executeWithConnection(
     Func&& operation,
     std::string_view operation_name = "operation"
 ) noexcept {
-    /**
-     * @brief TBD: Describe guard.
-     * @param[in] manager Input parameter.
-     * @return Return value.
-     */
     ConnectionGuard guard(manager);
     auto conn = guard.getConnection();
     

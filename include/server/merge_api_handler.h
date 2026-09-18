@@ -47,7 +47,6 @@ public:
      * @brief Construct MergeApiHandler
      * @param merge_engine Reference to MergeEngine instance
      * @param snapshot_manager Reference to SnapshotManager for tag resolution
-     * @return Return value.
      */
     explicit MergeApiHandler(
         transaction::MergeEngine& merge_engine,
@@ -81,8 +80,6 @@ public:
      *   "fail_on_conflict": false,
      *   "manual_resolutions": [...]
      * }
-     * @param[in] req Input parameter.
-     * @param[in,out] res Input/output parameter.
      */
     void handleMerge(const httplib::Request& req, httplib::Response& res);
 
@@ -95,8 +92,6 @@ public:
      *   "source_sequence": 150,
      *   "target_sequence": 200
      * }
-     * @param[in] req Input parameter.
-     * @param[in,out] res Input/output parameter.
      */
     void handleMergePreview(const httplib::Request& req, httplib::Response& res);
 
@@ -112,8 +107,6 @@ public:
      *   "fail_on_conflict": false,
      *   "manual_resolutions": [...]
      * }
-     * @param[in] req Input parameter.
-     * @param[in,out] res Input/output parameter.
      */
     void handleMergeByTag(const httplib::Request& req, httplib::Response& res);
 
@@ -124,8 +117,6 @@ public:
      * - base_sequence: Base sequence number
      * - source_sequence: Source sequence number
      * - target_sequence: Target sequence number
-     * @param[in] req Input parameter.
-     * @param[in,out] res Input/output parameter.
      */
     void handleCanFastForward(const httplib::Request& req, httplib::Response& res);
 #endif
@@ -137,16 +128,11 @@ private:
 #ifdef THEMIS_ENABLE_HTTP_SERVER
     /**
      * @brief Parse merge options from request body
-     * @param[in] body Input parameter.
-     * @return Return value.
      */
     transaction::MergeEngine::MergeOptions parseMergeOptions(const json& body) const;
 
     /**
      * @brief Create error response
-     * @param[in,out] res Input/output parameter.
-     * @param[in] status_code Input parameter.
-     * @param[in] message Input parameter.
      */
     void sendError(httplib::Response& res, int status_code, const std::string& message) const;
 

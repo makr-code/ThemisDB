@@ -120,11 +120,6 @@ public:
     // ----------------------------------------------------------------
 
     CrossClusterFederator();
-    /**
-     * @brief TBD: Describe CrossClusterFederator.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit CrossClusterFederator(const Config& config);
 
     // ----------------------------------------------------------------
@@ -135,7 +130,6 @@ public:
      * @brief Register a remote cluster endpoint.
      *
      * Replaces any existing registration with the same `cluster_id`.
-     * @param[in] endpoint Input parameter.
      */
     void registerCluster(const ClusterEndpoint& endpoint);
 
@@ -143,13 +137,11 @@ public:
      * @brief Remove a previously registered cluster.
      *
      * No-op if the cluster_id is unknown.
-     * @param[in] cluster_id Input parameter.
      */
     void unregisterCluster(const std::string& cluster_id);
 
     /**
      * @brief Return all currently registered endpoints.
-     * @return Return value.
      */
     std::vector<ClusterEndpoint> listClusters() const;
 
@@ -176,8 +168,6 @@ public:
      * @brief Build an execution plan for `query` using the cost model.
      *
      * Applies cost-based pruning when `Config::cost_pruning_factor > 0`.
-     * @param[in] query Input parameter.
-     * @return Return value.
      */
     ExecutionPlan createExecutionPlan(const std::string& query) const;
 
@@ -215,7 +205,6 @@ public:
      * @brief Replace the real libcurl transport with a test double.
      *
      * Pass an empty `HttpPostFn{}` to restore the production implementation.
-     * @param[in] fn Input parameter.
      */
     void setHttpPostForTesting(HttpPostFn fn);
 
@@ -238,20 +227,12 @@ private:
 
     /**
      * @brief Merge result arrays from multiple clusters into a single array.
-     * @param[in] shard_results Input parameter.
-     * @return Return value.
      */
     static nlohmann::json mergeResults(
         const std::vector<nlohmann::json>& shard_results);
 
     /**
      * @brief Execute the real HTTP POST via libcurl.
-     * @param[in] url Input parameter.
-     * @param[in] body Input parameter.
-     * @param[in] auth_header Input parameter.
-     * @param[in] timeout_ms Input parameter.
-     * @param[in,out] response Input/output parameter.
-     * @return Return value.
      */
     static int curlHttpPost(const std::string& url,
                             const std::string& body,

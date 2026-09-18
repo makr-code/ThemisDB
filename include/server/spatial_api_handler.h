@@ -97,32 +97,14 @@ private:
     std::shared_ptr<index::SpatialIndexManager> spatial_index_;
     std::shared_ptr<themis::AuthMiddleware> auth_;
 
-    /**
-     * @brief Helper methods
-     * @param[in] status Input parameter.
-     * @param[in] message Input parameter.
-     * @param[in] req Input parameter.
-     * @return Return value.
-     */
+    // Helper methods
     http::response<http::string_body> makeErrorResponse(
         http::status status, const std::string& message, const http::request<http::string_body>& req);
-    /**
-     * @brief TBD: Describe makeResponse.
-     * @param[in] status Input parameter.
-     * @param[in] body Input parameter.
-     * @param[in] req Input parameter.
-     * @return Return value.
-     */
     http::response<http::string_body> makeResponse(
         http::status status, const std::string& body, const http::request<http::string_body>& req);
     
     // Query parameter parsing
     std::unordered_map<std::string, std::string> parseQuery(const std::string& target);
-    /**
-     * @brief TBD: Describe urlDecode.
-     * @param[in] str Input parameter.
-     * @return Return value.
-     */
     std::string urlDecode(const std::string& str);
 };
 

@@ -58,16 +58,10 @@ public:
      *
      * Returns per-tier status (L1/L2/L3) and circuit breaker state.
      * Responds with HTTP 200 when healthy, 503 when degraded/unavailable.
-     * @brief TBD: Describe handleHealth.
-     * @param[in] req Input parameter.
-     * @return Return value.
      */
     http::response<http::string_body> handleHealth(
         const http::request<http::string_body>& req);
 
-     * @brief TBD: Describe handleStats.
-     * @param[in] req Input parameter.
-     * @return Return value.
     /** GET /v1/admin/cache/stats */
     http::response<http::string_body> handleStats(
         const http::request<http::string_body>& req);
@@ -79,30 +73,18 @@ public:
      * fingerprint of the query as returned by
      * AdaptiveQueryCache::generateFingerprint().  Entries for all tenants
      * sharing that fingerprint are evicted.
-     * @brief TBD: Describe handleEvictKey.
-     * @param[in] req Input parameter.
-     * @return Return value.
      */
     http::response<http::string_body> handleEvictKey(
         const http::request<http::string_body>& req);
 
-     * @brief TBD: Describe handleEvictTenant.
-     * @param[in] req Input parameter.
-     * @return Return value.
     /** DELETE /v1/admin/cache/tenant/{tenant_id} */
     http::response<http::string_body> handleEvictTenant(
         const http::request<http::string_body>& req);
 
-     * @brief TBD: Describe handleCircuitBreakerReset.
-     * @param[in] req Input parameter.
-     * @return Return value.
     /** POST /v1/admin/cache/circuit-breaker/reset */
     http::response<http::string_body> handleCircuitBreakerReset(
         const http::request<http::string_body>& req);
 
-     * @brief TBD: Describe handleCircuitBreakerStatus.
-     * @param[in] req Input parameter.
-     * @return Return value.
     /** GET /v1/admin/cache/circuit-breaker */
     http::response<http::string_body> handleCircuitBreakerStatus(
         const http::request<http::string_body>& req);
@@ -114,9 +96,6 @@ public:
      *
      * Loads cache entries from the NDJSON log at log_path.
      * Returns a JSON summary of the load operation.
-     * @brief TBD: Describe handleWarmup.
-     * @param[in] req Input parameter.
-     * @return Return value.
      */
     http::response<http::string_body> handleWarmup(
         const http::request<http::string_body>& req);
@@ -128,9 +107,6 @@ public:
      *
      * Exports all live L1/L2 entries to the specified NDJSON file.
      * Returns a JSON summary of the export operation.
-     * @brief TBD: Describe handleSnapshot.
-     * @param[in] req Input parameter.
-     * @return Return value.
      */
     http::response<http::string_body> handleSnapshot(
         const http::request<http::string_body>& req);
@@ -141,9 +117,6 @@ public:
      * Returns an array of all known tenants with aggregated statistics
      * (bytes_used, quota, utilization, hits, misses, hit_rate, evictions).
      * Requires "admin:cache:read" scope.
-     * @brief TBD: Describe handleListTenants.
-     * @param[in] req Input parameter.
-     * @return Return value.
      */
     http::response<http::string_body> handleListTenants(
         const http::request<http::string_body>& req);
@@ -154,9 +127,6 @@ public:
      * Returns per-tenant statistics for the given tenant_id.
      * Requires "admin:cache:read" scope.
      * Returns 404 when the tenant has no recorded cache activity.
-     * @brief TBD: Describe handleTenantStats.
-     * @param[in] req Input parameter.
-     * @return Return value.
      */
     http::response<http::string_body> handleTenantStats(
         const http::request<http::string_body>& req);
@@ -170,9 +140,6 @@ public:
      * A quota_bytes value of 0 resets the tenant to the global default quota.
      * Requires "admin:cache:write" scope.
      * Returns 404 when tenant isolation is disabled.
-     * @brief TBD: Describe handleUpdateTenantQuota.
-     * @param[in] req Input parameter.
-     * @return Return value.
      */
     http::response<http::string_body> handleUpdateTenantQuota(
         const http::request<http::string_body>& req);
@@ -187,9 +154,6 @@ public:
      * Requires "admin:cache:write" scope.
      * Returns 200 with {"evicted": <count>, "pii_uuid": "<uuid>"} on success.
      * Returns 400 when pii_uuid is missing or empty.
-     * @brief TBD: Describe handlePiiEvict.
-     * @param[in] req Input parameter.
-     * @return Return value.
      */
     http::response<http::string_body> handlePiiEvict(
         const http::request<http::string_body>& req);
@@ -200,7 +164,6 @@ public:
      *
      * May be nullptr (default) to omit the "slo" block from the response.
      * Thread-safe: updates are synchronized with request-time reads.
-     * @param[in] monitor Input parameter.
      */
     void setSloMonitor(std::shared_ptr<themis::cache::CacheHitRateSloMonitor> monitor);
 
@@ -210,53 +173,24 @@ private:
     mutable std::mutex slo_monitor_mutex_;
     std::shared_ptr<themis::cache::CacheHitRateSloMonitor> slo_monitor_;
 
-    /**
-     * @brief Returns false and fills `out` with a 401/403 response if auth fails.
-     * @param[in] req Input parameter.
-     * @param[in] required_scope Input parameter.
-     * @param[in,out] out Input/output parameter.
-     * @return True on success.
-     */
+    // Returns false and fills `out` with a 401/403 response if auth fails.
     bool checkAuth(const http::request<http::string_body>& req,
                    const std::string& required_scope,
                    http::response<http::string_body>& out);
 
-    /**
-     * @brief Extract the trailing path segment after `prefix` from req.
-     * @param[in] target Input parameter.
-     * @param[in] prefix Input parameter.
-     * @return Return value.
-     * @details target(). Returns empty string if the target does not start with prefix.
-     */
+    // Extract the trailing path segment after `prefix` from req.target().
+    // Returns empty string if the target does not start with prefix.
     static std::string extractPathParam(std::string_view target,
                                         std::string_view prefix);
 
-    /**
-     * @brief Minimal base64 URL-safe decode (RFC 4648 §5, no padding required).
-     * @param[in] input Input parameter.
-     * @return Return value.
-     */
+    // Minimal base64 URL-safe decode (RFC 4648 §5, no padding required).
     static std::string base64Decode(const std::string& input);
 
-    /**
-     * @brief TBD: Describe makeResponse.
-     * @param[in] status Input parameter.
-     * @param[in] body Input parameter.
-     * @param[in] req Input parameter.
-     * @return Return value.
-     */
     http::response<http::string_body> makeResponse(
         http::status status,
         const std::string& body,
         const http::request<http::string_body>& req);
 
-    /**
-     * @brief TBD: Describe makeErrorResponse.
-     * @param[in] status Input parameter.
-     * @param[in] message Input parameter.
-     * @param[in] req Input parameter.
-     * @return Return value.
-     */
     http::response<http::string_body> makeErrorResponse(
         http::status status,
         const std::string& message,

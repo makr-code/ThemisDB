@@ -40,11 +40,6 @@ public:
         size_t success_threshold = 2;
     };
 
-    /**
-     * @brief TBD: Describe OpenTelemetryTracerAdapter.
-     * @param[in] cb_config Input parameter.
-     * @return Return value.
-     */
     explicit OpenTelemetryTracerAdapter(
         const CircuitBreakerConfig& cb_config)
     {
@@ -61,11 +56,6 @@ public:
     /** @brief Otel span adapter component. */
     class OtelSpanAdapter : public ISpan {
     public:
-        /**
-         * @brief TBD: Describe OtelSpanAdapter.
-         * @param[in] span Input parameter.
-         * @return Return value.
-         */
         explicit OtelSpanAdapter(themis::Tracer::Span span)
             : span_(std::move(span)) {}
 
@@ -104,11 +94,6 @@ public:
         /// Explicitly end the span on destruction (RAII guarantee).
         ~OtelSpanAdapter() override { span_.end(); }
 
-        /**
-         * @brief TBD: Describe getSpan.
-         * @return Return value.
-         * @details Implements getSpan without additional internal calls.
-         */
         themis::Tracer::Span& getSpan() { return span_; }
         const themis::Tracer::Span& getSpan() const { return span_; }
 

@@ -25,10 +25,6 @@ namespace themis {
  */
 class SigningProvider : public virtual KeyProvider {
 public:
-    /**
-     * @brief TBD: Describe ~SigningProvider.
-     * @return Return value.
-     */
     virtual ~SigningProvider() = default;
 
     // Sign data using the key identified by key_id. Returns a SigningResult

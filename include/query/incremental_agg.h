@@ -41,15 +41,8 @@ enum class AggOp { SUM, COUNT, AVG, MIN, MAX };
  */
 class IncrementalAgg {
 public:
-    /**
-     * @brief TBD: Describe IncrementalAgg.
-     * @param[in] op Input parameter.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
     explicit IncrementalAgg(AggOp op) noexcept;
 
-     * @param[in] value Input parameter.
     /** @brief Add a value to the running aggregate. */
     void add(double value);
 
@@ -59,7 +52,6 @@ public:
      * For MIN/MAX a re-scan hint is set when `value` equals the current
      * extremum; the caller must invoke rescan() with the current window values
      * before querying result().
-     * @param[in] value Input parameter.
      */
     void remove(double value);
 
@@ -86,8 +78,6 @@ public:
     /** @return Number of values currently tracked. */
     [[nodiscard]] int64_t count() const noexcept { return count_; }
 
-     * @brief TBD: Describe reset.
-     * @note Exception safety: noexcept.
     /** Reset state (used when a new window starts). */
     void reset() noexcept;
 

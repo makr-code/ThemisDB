@@ -112,13 +112,6 @@ private:
     ) const;
 
 #ifdef ARROW_ENABLED
-    /**
-     * @brief TBD: Describe exportWithArrow.
-     * @param[in] entities Input parameter.
-     * @param[in] options Input parameter.
-     * @param[in] columns Input parameter.
-     * @return Return value.
-     */
     ExportStats exportWithArrow(
         const std::vector<BaseEntity>& entities,
         const ExportOptions& options,
@@ -126,13 +119,6 @@ private:
     );
 #endif
 
-    /**
-     * @brief TBD: Describe exportFallback.
-     * @param[in] entities Input parameter.
-     * @param[in] options Input parameter.
-     * @param[in] columns Input parameter.
-     * @return Return value.
-     */
     ExportStats exportFallback(
         const std::vector<BaseEntity>& entities,
         const ExportOptions& options,

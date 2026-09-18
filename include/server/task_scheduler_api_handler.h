@@ -46,62 +46,19 @@ namespace server {
  */
 class TaskSchedulerApiHandler {
 public:
-    /**
-     * @brief TBD: Describe TaskSchedulerApiHandler.
-     * @param[in,out] scheduler Input/output parameter.
-     * @return Return value.
-     */
     explicit TaskSchedulerApiHandler(TaskScheduler* scheduler)
         : scheduler_(scheduler) {}
     
-    /**
-     * @brief Task registration and management
-     * @param[in] request Input parameter.
-     * @return Return value.
-     */
+    // Task registration and management
     nlohmann::json registerTask(const nlohmann::json& request);
-    /**
-     * @brief TBD: Describe listTasks.
-     * @return Return value.
-     */
     nlohmann::json listTasks();
-    /**
-     * @brief TBD: Describe getTask.
-     * @param[in] task_id Input parameter.
-     * @return Return value.
-     */
     nlohmann::json getTask(const std::string& task_id);
-    /**
-     * @brief TBD: Describe updateTask.
-     * @param[in] task_id Input parameter.
-     * @param[in] request Input parameter.
-     * @return Return value.
-     */
     nlohmann::json updateTask(const std::string& task_id, const nlohmann::json& request);
-    /**
-     * @brief TBD: Describe unregisterTask.
-     * @param[in] task_id Input parameter.
-     * @return Return value.
-     */
     nlohmann::json unregisterTask(const std::string& task_id);
     
-    /**
-     * @brief Task control
-     * @param[in] task_id Input parameter.
-     * @return Return value.
-     */
+    // Task control
     nlohmann::json enableTask(const std::string& task_id);
-    /**
-     * @brief TBD: Describe disableTask.
-     * @param[in] task_id Input parameter.
-     * @return Return value.
-     */
     nlohmann::json disableTask(const std::string& task_id);
-    /**
-     * @brief TBD: Describe executeTask.
-     * @param[in] task_id Input parameter.
-     * @return Return value.
-     */
     nlohmann::json executeTask(const std::string& task_id);
 
     /**
@@ -126,15 +83,10 @@ public:
      * @endcode
      *
      * ⚠️ SECURITY: This method MUST be protected by authentication and authorization.
-     * @param[in] request Input parameter.
-     * @return Return value.
      */
     nlohmann::json executeDAG(const nlohmann::json& request);
     
-    /**
-     * @brief Statistics
-     * @return Return value.
-     */
+    // Statistics
     nlohmann::json getStats();
 
     /**
@@ -155,7 +107,6 @@ public:
      * Returns the latest stored result or a not-found object if none exists.
      *
      * @param task_id  Task identifier.
-     * @return Return value.
      */
     nlohmann::json getLatestTaskResult(const std::string& task_id);
     // Audit history
@@ -263,18 +214,10 @@ public:
 private:
     TaskScheduler* scheduler_;
     
-    /**
-     * @brief Helper to convert ScheduledTask to JSON
-     * @param[in] task Input parameter.
-     * @return Return value.
-     */
+    // Helper to convert ScheduledTask to JSON
     nlohmann::json taskToJson(const ScheduledTask& task);
     
-    /**
-     * @brief Helper to parse task from JSON request
-     * @param[in] json Input parameter.
-     * @return Return value.
-     */
+    // Helper to parse task from JSON request
     ScheduledTask parseTaskFromJson(const nlohmann::json& json);
 };
 

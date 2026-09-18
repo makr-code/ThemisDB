@@ -47,10 +47,6 @@ namespace ingestion {
  */
 class ISharedCheckpointStore {
 public:
-    /**
-     * @brief TBD: Describe ~ISharedCheckpointStore.
-     * @return Return value.
-     */
     virtual ~ISharedCheckpointStore() = default;
 
     /**
@@ -120,7 +116,6 @@ public:
     bool clear(const std::string& source_id) override;
     bool exists(const std::string& source_id) const override;
 
-     * @brief TBD: Describe size.
     /** @return Number of checkpoints currently held in memory. */
     size_t size() const;
 
@@ -158,10 +153,6 @@ struct NodeInfo {
  */
 class IIngestionWorkerNode {
 public:
-    /**
-     * @brief TBD: Describe ~IIngestionWorkerNode.
-     * @return Return value.
-     */
     virtual ~IIngestionWorkerNode() = default;
 
     /// Return this node's unique identifier.
@@ -223,10 +214,6 @@ struct LeaderLease {
  */
 class ILeaderElection {
 public:
-    /**
-     * @brief TBD: Describe ~ILeaderElection.
-     * @return Return value.
-     */
     virtual ~ILeaderElection() = default;
 
     /**
@@ -246,7 +233,6 @@ public:
      * @brief Voluntarily release the lease held by `node_id`.
      *
      * A no-op when `node_id` does not currently hold the lease.
-     * @param[in] node_id Input parameter.
      */
     virtual void revokeLease(const std::string& node_id) = 0;
 };
@@ -300,18 +286,15 @@ public:
 
     explicit ConsistentHashRing(size_t virtual_nodes_per_node = kDefaultVirtualNodes);
 
-     * @param[in] node_id Input parameter.
     /** @brief Add a node to the ring. */
     void addNode(const std::string& node_id);
 
-     * @param[in] node_id Input parameter.
     /** @brief Remove a node from the ring (no-op if node is not present). */
     void removeNode(const std::string& node_id);
 
     /**
      * @brief Look up the node responsible for `key`.
      * @return Node ID, or empty string when the ring is empty.
-     * @param[in] key Input parameter.
      */
     std::string getNode(const std::string& key) const;
 
@@ -326,11 +309,6 @@ private:
     std::map<uint64_t, std::string> ring_;  ///< hash → node_id
     std::vector<std::string> node_ids_;     ///< distinct physical nodes
 
-    /**
-     * @brief TBD: Describe hashKey.
-     * @param[in] key Input parameter.
-     * @return Return value.
-     */
     uint64_t hashKey(const std::string& key) const;
 };
 
@@ -603,7 +581,6 @@ public:
 
     /**
      * @brief Return descriptive information for all registered nodes.
-     * @return Return value.
      */
     std::vector<NodeInfo> getNodes() const;
 
@@ -651,7 +628,6 @@ public:
 
     // ── Metrics ──────────────────────────────────────────────────────────────
 
-     * @brief TBD: Describe getMetrics.
     /** @return Snapshot of coordinator runtime metrics. */
     CoordinatorMetrics getMetrics() const;
 
@@ -666,7 +642,6 @@ public:
      * database-backed implementation before starting the coordinator.
      *
      * @throws std::logic_error if called while the coordinator is running.
-     * @param[in] store Input parameter.
      */
     void setSharedCheckpointStore(std::shared_ptr<ISharedCheckpointStore> store);
 
@@ -675,7 +650,6 @@ public:
      *
      * Useful for test assertions (e.g. verifying a checkpoint was written
      * after ingestion).
-     * @return Return value.
      */
     std::shared_ptr<ISharedCheckpointStore> getSharedCheckpointStore() const;
 
@@ -685,7 +659,6 @@ public:
      * @brief Inject a custom leader election backend (testing / simulation only).
      *
      * Must be called before `start()`.
-     * @param[in] election Input parameter.
      */
     void setLeaderElectionForTesting(std::shared_ptr<ILeaderElection> election);
 
@@ -696,7 +669,6 @@ public:
      * so that existing test code continues to compile.
      *
      * @throws std::logic_error if called while the coordinator is running.
-     * @param[in] store Input parameter.
      */
     void setSharedCheckpointStoreForTesting(
         std::shared_ptr<ISharedCheckpointStore> store);
@@ -727,15 +699,7 @@ private:
     std::mutex lease_renewal_cv_mutex_;
     std::condition_variable lease_renewal_cv_;
 
-    /**
-     * @brief TBD: Describe leaseRenewalLoop.
-     */
     void leaseRenewalLoop();
-    /**
-     * @brief TBD: Describe aggregateReports.
-     * @param[in] partial Input parameter.
-     * @return Return value.
-     */
     IngestionReport aggregateReports(
         const std::vector<IngestionReport>& partial) const;
 };

@@ -77,7 +77,6 @@ public:
      * new segment so the previous segments remain immutable.
      *
      * @return Result<unique_ptr<StorageAuditLogger>> on success, Error on failure.
-     * @param[in] config Input parameter.
      */
     static Result<std::unique_ptr<StorageAuditLogger>> open(const Config& config);
 
@@ -112,75 +111,32 @@ public:
 
     // ── Accessors ─────────────────────────────────────────────────────────
 
-     * @brief TBD: Describe lastSequence.
-     * @return Return value.
     /** Return the sequence number of the last logged entry (0 if none). */
     uint64_t lastSequence() const;
 
-     * @brief TBD: Describe segmentCount.
-     * @return Return value.
     /** Return the number of log segment files currently on disk. */
     size_t segmentCount() const;
 
-     * @brief TBD: Describe flush.
-     * @return Return value.
     /** Flush buffered writes to the OS. */
     Result<void> flush();
 
     // ── Helpers (public for testing) ──────────────────────────────────────
 
-     * @brief TBD: Describe segmentName.
-     * @param[in] segment_id Input parameter.
-     * @return Return value.
     /** Build the segment file name for a given segment ID. */
     static std::string segmentName(uint64_t segment_id);
 
-     * @brief TBD: Describe eventName.
-     * @param[in] e Input parameter.
-     * @return Return value.
     /** Convert an Event enum to its string token (e.g. Event::PUT → "PUT"). */
     static std::string_view eventName(Event e);
 
 private:
-    /**
-     * @brief TBD: Describe StorageAuditLogger.
-     * @param[in] cfg Input parameter.
-     * @return Return value.
-     */
     explicit StorageAuditLogger(const Config& cfg);
 
-    /**
-     * @brief TBD: Describe openOrCreate.
-     * @return Return value.
-     */
     Result<void> openOrCreate();
-    /**
-     * @brief TBD: Describe rotateIfNeeded.
-     * @return Return value.
-     */
     Result<void> rotateIfNeeded();
-    /**
-     * @brief TBD: Describe openNewSegment.
-     * @return Return value.
-     */
     Result<void> openNewSegment();
-    /**
-     * @brief TBD: Describe writeEntry.
-     * @param[in] event Input parameter.
-     * @param[in] key Input parameter.
-     * @param[in] extra Input parameter.
-     * @return Return value.
-     */
     Result<void> writeEntry(Event event, std::string_view key, std::string_view extra);
-    /**
-     * @brief TBD: Describe syncIfRequired.
-     */
     void syncIfRequired();
 
-    /**
-     * @brief TBD: Describe currentTimestamp.
-     * @return Return value.
-     */
     static std::string currentTimestamp();
 
     Config             config_;

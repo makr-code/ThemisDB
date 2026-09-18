@@ -130,7 +130,6 @@ public:
      * @param data_shards Number of data chunks per block
      * @param parity_shards Number of parity chunks per block
      * @return Vector of encoded chunk vectors (one per input block)
-     * @brief TBD: Describe batchEncode.
      */
     std::vector<std::vector<std::vector<uint8_t>>> batchEncode(
         const std::vector<std::vector<uint8_t>>& data_blocks,
@@ -140,15 +139,11 @@ public:
     
     /**
      * Check if GPU acceleration is available and initialized
-     * @brief TBD: Describe isGPUAvailable.
-     * @return True on success.
      */
     bool isGPUAvailable() const;
     
     /**
      * Get current acceleration type being used
-     * @brief TBD: Describe getAccelerationType.
-     * @return Return value.
      */
     AccelerationType getAccelerationType() const;
     
@@ -159,8 +154,6 @@ public:
     
     /**
      * Force CPU fallback (for testing/debugging)
-     * @brief TBD: Describe forceCPUFallback.
-     * @param[in] enable Input parameter.
      */
     void forceCPUFallback(bool enable);
     
@@ -182,17 +175,9 @@ public:
     };
     
     PerformanceStats getStats() const {
-        /**
-         * @brief TBD: Describe lk.
-         * @param[in] stats_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(stats_mutex_);
         return stats_;
     }
-    /**
-     * @brief TBD: Describe resetStats.
-     */
     void resetStats();
 
 private:
@@ -214,17 +199,10 @@ private:
     mutable std::mutex stats_mutex_;
     mutable PerformanceStats stats_;
     
-    /**
-     * @brief Initialize GPU implementation
-     * @return True on success.
-     */
+    // Initialize GPU implementation
     bool initializeGPU();
     
-    /**
-     * @brief Determine if we should use GPU for given data size
-     * @param[in] data_size Input parameter.
-     * @return True on success.
-     */
+    // Determine if we should use GPU for given data size
     bool shouldUseGPU(size_t data_size) const;
 };
 
@@ -234,16 +212,9 @@ private:
  */
 class GPUErasureCoderImpl {
 public:
-    /**
-     * @brief TBD: Describe ~GPUErasureCoderImpl.
-     * @return Return value.
-     */
     virtual ~GPUErasureCoderImpl() = default;
     
     [[nodiscard]] virtual bool initialize(const GPUConfig& config) = 0;
-    /**
-     * @brief TBD: Describe shutdown.
-     */
     virtual void shutdown() = 0;
     
     [[nodiscard]] virtual std::vector<std::vector<uint8_t>> encode(

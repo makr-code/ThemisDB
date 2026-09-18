@@ -146,8 +146,6 @@ struct ShardMetrics {
     
     /**
      * @brief Set health status
-     * @param[in] status Input parameter.
-     * @details Calls: store().
      */
     void setHealthStatus(HealthStatus status) {
         health_status.store(static_cast<int>(status));
@@ -155,7 +153,6 @@ struct ShardMetrics {
     
     /**
      * @brief Reset all metrics
-     * @details Calls: store(), std::chrono::system_clock::now().
      */
     void reset() {
         total_requests.store(0);
@@ -221,7 +218,6 @@ public:
     
     /**
      * @brief Get all shard IDs
-     * @return Return value.
      */
     std::vector<std::string> getShardIds() const;
     
@@ -246,7 +242,6 @@ public:
     /**
      * @brief Get cluster-wide health status
      * Based on individual shard health
-     * @return Return value.
      */
     HealthStatus getClusterHealth() const;
     
@@ -372,8 +367,6 @@ public:
     /**
      * @brief Convert health status to string
      * Utility method for converting HealthStatus enum to string representation
-     * @param[in] status Input parameter.
-     * @return Return value.
      */
     static std::string healthStatusToString(HealthStatus status);
 

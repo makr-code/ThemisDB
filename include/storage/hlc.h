@@ -75,11 +75,6 @@ struct HLCTimestamp {
     uint64_t getPhysicalTime() const { return physical(); }
     uint32_t getLogicalCounter() const { return logical(); }
 
-     * @brief TBD: Describe from.
-     * @param[in] physical_ms Input parameter.
-     * @param[in] logical_counter Input parameter.
-     * @return Return value.
-     * @details Implements from without additional internal calls.
     /** Build an HLCTimestamp from physical and logical components */
     static HLCTimestamp from(uint64_t physical_ms, uint32_t logical_counter) {
         HLCTimestamp t;
@@ -110,10 +105,6 @@ struct HLCTimestamp {
         }
     }
 
-     * @brief TBD: Describe decodeFromBytes.
-     * @param[in] in Input parameter.
-     * @return Return value.
-     * @details Calls: HLCTimestamp().
     /** Decode 8 big-endian bytes back into an HLCTimestamp. */
     static HLCTimestamp decodeFromBytes(const uint8_t in[8]) {
         uint64_t v = 0;
@@ -139,10 +130,6 @@ struct HLCTimestamp {
         return s;
     }
 
-     * @brief TBD: Describe decodeFromString.
-     * @param[in] s Input parameter.
-     * @return Return value.
-     * @details Calls: size(), HLCTimestamp().
     /** Decode from an 8-byte string produced by encodeToString(). */
     static HLCTimestamp decodeFromString(const std::string& s) {
         if (s.size() < 8) return HLCTimestamp{};
@@ -153,8 +140,6 @@ struct HLCTimestamp {
         return HLCTimestamp(v);
     }
 
-     * @brief TBD: Describe toString.
-     * @return Return value.
     /** Human-readable representation: "<physical_ms>.<logical>" */
     std::string toString() const;
 };
@@ -179,7 +164,6 @@ public:
      * @brief Generate a new timestamp for a local event.
      *
      * Guarantees: returned value > every previous value returned by this instance.
-     * @return Return value.
      */
     HLCTimestamp now();
 
@@ -188,8 +172,6 @@ public:
      *
      * Updates the clock to be strictly greater than both the local clock and
      * the received timestamp, then returns the new local timestamp.
-     * @param[in] received Input parameter.
-     * @return Return value.
      */
     HLCTimestamp update(HLCTimestamp received);
 
@@ -197,7 +179,6 @@ public:
      * @brief Read the current timestamp without advancing it.
      *
      * The returned value reflects the last call to now() or update().
-     * @return Return value.
      */
     HLCTimestamp peek() const;
 
@@ -209,16 +190,7 @@ private:
     // eliminating the mutex and allowing lock-free reads via peek().
     std::atomic<uint64_t> state_{0};
 
-    /**
-     * @brief TBD: Describe wallClockMs.
-     * @return Return value.
-     */
     static uint64_t wallClockMs();
-    /**
-     * @brief TBD: Describe advanceTo.
-     * @param[in] phys_ms Input parameter.
-     * @return Return value.
-     */
     HLCTimestamp advanceTo(uint64_t phys_ms);
 };
 

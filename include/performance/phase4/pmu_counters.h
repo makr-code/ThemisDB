@@ -68,14 +68,10 @@ public:
     PmuCounter(PmuCounter&& other) noexcept;
     PmuCounter& operator=(PmuCounter&& other) noexcept;
 
-    /**
-     * @brief Open a perf event counter.
-     * @param[in] type Input parameter.
-     * @param[in] config Input parameter.
-     * @return True on success.
-     * @note Exception safety: noexcept.
-     * @details @param type perf_event_attr.type (e.g. PERF_TYPE_HARDWARE) @param config perf_event_attr.config (e.g. PERF_COUNT_HW_CACHE_MISSES) @return true on success
-     */
+    /// Open a perf event counter.
+    /// @param type   perf_event_attr.type  (e.g. PERF_TYPE_HARDWARE)
+    /// @param config perf_event_attr.config (e.g. PERF_COUNT_HW_CACHE_MISSES)
+    /// @return true on success
     bool open(uint32_t type, uint64_t config) noexcept;
 
     /// Reset and enable the counter.
@@ -84,12 +80,8 @@ public:
     /// Disable the counter (stops counting).
     void disable() noexcept;
 
-    /**
-     * @brief Read the current counter value.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     * @details Returns 0 on error or if not opened.
-     */
+    /// Read the current counter value.
+    /// Returns 0 on error or if not opened.
     uint64_t read() const noexcept;
 
     /// Close the file descriptor.
@@ -98,15 +90,7 @@ public:
     /// Returns true if the counter was successfully opened.
     bool is_open() const noexcept { return fd_ >= 0; }
 
-    /**
-     * @brief TBD: Describe setOpenFn.
-     * @param[in] fn Input parameter.
-     */
     static void setOpenFn(OpenFn fn);
-    /**
-     * @brief TBD: Describe setReadFn.
-     * @param[in] fn Input parameter.
-     */
     static void setReadFn(ReadFn fn);
 
 private:
@@ -151,15 +135,7 @@ public:
     /// Static convenience check (tries to open a test counter).
     static bool pmu_accessible() noexcept;
 
-    /**
-     * @brief TBD: Describe setStopFn.
-     * @param[in] fn Input parameter.
-     */
     static void setStopFn(StopFn fn);
-    /**
-     * @brief TBD: Describe setProbeFn.
-     * @param[in] fn Input parameter.
-     */
     static void setProbeFn(ProbeFn fn);
 
 private:

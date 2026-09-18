@@ -245,18 +245,16 @@ public:
         return d;
     }
 
-    /**
-     * @brief @brief Launch L2 distance kernel with automatic fallback and retry.
-     * @param[in] q Input parameter.
-     * @param[in] v Input parameter.
-     * @param[in,out] d Input/output parameter.
-     * @param[in] nq Input parameter.
-     * @param[in] nv Input parameter.
-     * @param[in] dim Input parameter.
-     * @param[in,out] stream Input/output parameter.
-     * @return Return value.
-     * @details @param q Query matrix [numQueries × dim] (row-major) @param v Vector/corpus matrix [numVectors × dim] (row-major) @param d Output distance matrix [numQueries × numVectors] (caller-allocated) @param nq Number of queries @param nv Number of vectors @param dim Vector dimensionality @param stream Backend-specific stream handle (cudaStream_t, VkCommandBuffer, etc.) @return 0 on success, non-zero error code on failure Calls: detail::invokeWithFallback().
-     */
+    /// @brief Launch L2 distance kernel with automatic fallback and retry.
+    ///
+    /// @param q        Query matrix [numQueries × dim] (row-major)
+    /// @param v        Vector/corpus matrix [numVectors × dim] (row-major)
+    /// @param d        Output distance matrix [numQueries × numVectors] (caller-allocated)
+    /// @param nq       Number of queries
+    /// @param nv       Number of vectors
+    /// @param dim      Vector dimensionality
+    /// @param stream   Backend-specific stream handle (cudaStream_t, VkCommandBuffer, etc.)
+    /// @return 0 on success, non-zero error code on failure
     int launchL2Distance(const float* q, const float* v, float* d,
                          int nq, int nv, int dim, void* stream) {
         return detail::invokeWithFallback(
@@ -264,18 +262,8 @@ public:
             q, v, d, nq, nv, dim, stream);
     }
 
-    /**
-     * @brief @brief Launch cosine distance kernel with automatic fallback and retry.
-     * @param[in] q Input parameter.
-     * @param[in] v Input parameter.
-     * @param[in,out] d Input/output parameter.
-     * @param[in] nq Input parameter.
-     * @param[in] nv Input parameter.
-     * @param[in] dim Input parameter.
-     * @param[in,out] stream Input/output parameter.
-     * @return Return value.
-     * @details @copydetails launchL2Distance Calls: detail::invokeWithFallback().
-     */
+    /// @brief Launch cosine distance kernel with automatic fallback and retry.
+    /// @copydetails launchL2Distance
     int launchCosine(const float* q, const float* v, float* d,
                      int nq, int nv, int dim, void* stream) {
         return detail::invokeWithFallback(
@@ -283,18 +271,8 @@ public:
             q, v, d, nq, nv, dim, stream);
     }
 
-    /**
-     * @brief @brief Launch inner-product distance kernel with automatic fallback and retry.
-     * @param[in] q Input parameter.
-     * @param[in] v Input parameter.
-     * @param[in,out] d Input/output parameter.
-     * @param[in] nq Input parameter.
-     * @param[in] nv Input parameter.
-     * @param[in] dim Input parameter.
-     * @param[in,out] stream Input/output parameter.
-     * @return Return value.
-     * @details @copydetails launchL2Distance Calls: detail::invokeWithFallback().
-     */
+    /// @brief Launch inner-product distance kernel with automatic fallback and retry.
+    /// @copydetails launchL2Distance
     int launchInnerProduct(const float* q, const float* v, float* d,
                            int nq, int nv, int dim, void* stream) {
         return detail::invokeWithFallback(
@@ -302,18 +280,16 @@ public:
             q, v, d, nq, nv, dim, stream);
     }
 
-    /**
-     * @brief @brief Launch top-k selection kernel with automatic fallback and retry.
-     * @param[in] d_dists Input parameter.
-     * @param[in,out] idx Input/output parameter.
-     * @param[in,out] out_dists Input/output parameter.
-     * @param[in] nq Input parameter.
-     * @param[in] nv Input parameter.
-     * @param[in] topK Input parameter.
-     * @param[in,out] stream Input/output parameter.
-     * @return Return value.
-     * @details @param d_dists Input distance matrix [numQueries × numVectors] @param idx Output indices [numQueries × topK] (caller-allocated) @param out_dists Output distances [numQueries × topK] (caller-allocated) @param nq Number of queries @param nv Number of vectors @param topK Number of top matches to select @param stream Backend-specific stream handle @return 0 on success, non-zero error code on failure Calls: detail::invokeWithFallback().
-     */
+    /// @brief Launch top-k selection kernel with automatic fallback and retry.
+    ///
+    /// @param d_dists      Input distance matrix [numQueries × numVectors]
+    /// @param idx          Output indices [numQueries × topK] (caller-allocated)
+    /// @param out_dists    Output distances [numQueries × topK] (caller-allocated)
+    /// @param nq           Number of queries
+    /// @param nv           Number of vectors
+    /// @param topK         Number of top matches to select
+    /// @param stream       Backend-specific stream handle
+    /// @return 0 on success, non-zero error code on failure
     int launchTopK(const float* d_dists, uint32_t* idx, float* out_dists,
                    int nq, int nv, int topK, void* stream) {
         return detail::invokeWithFallback(
@@ -392,19 +368,20 @@ public:
         return d;
     }
 
-    /**
-     * @brief @brief Launch distance calculation kernel with automatic fallback and retry.
-     * @param[in] lats1 Input parameter.
-     * @param[in] lons1 Input parameter.
-     * @param[in] lats2 Input parameter.
-     * @param[in] lons2 Input parameter.
-     * @param[in,out] out Input/output parameter.
-     * @param[in] count Input parameter.
-     * @param[in] formula Input parameter.
-     * @param[in,out] stream Input/output parameter.
-     * @return Return value.
-     * @details Computes geodesic distances between latitude/longitude pairs using Haversine or Vincenty formula. Supports automatic GPU fallback and transient error retry. @param lats1 First set of latitudes (degrees, WGS84) [count] @param lons1 First set of longitudes (degrees, WGS84) [count] @param lats2 Second set of latitudes (degrees, WGS84) [count] @param lons2 Second set of longitudes (degrees, WGS84) [count] @param out Output distance array [count] in kilometers (caller-allocated) @param count Number of point pairs @param formula Distance formula: HAVERSINE (default, fast) or VINCENTY (precise) @param stream Backend-specific stream handle (cudaStream_t, VkCommandBuffer, etc.) @return 0 on success, non-zero error code on failure Calls: detail::invokeWithFallback().
-     */
+    /// @brief Launch distance calculation kernel with automatic fallback and retry.
+    ///
+    /// Computes geodesic distances between latitude/longitude pairs using Haversine
+    /// or Vincenty formula. Supports automatic GPU fallback and transient error retry.
+    ///
+    /// @param lats1        First set of latitudes (degrees, WGS84) [count]
+    /// @param lons1        First set of longitudes (degrees, WGS84) [count]
+    /// @param lats2        Second set of latitudes (degrees, WGS84) [count]
+    /// @param lons2        Second set of longitudes (degrees, WGS84) [count]
+    /// @param out          Output distance array [count] in kilometers (caller-allocated)
+    /// @param count        Number of point pairs
+    /// @param formula      Distance formula: HAVERSINE (default, fast) or VINCENTY (precise)
+    /// @param stream       Backend-specific stream handle (cudaStream_t, VkCommandBuffer, etc.)
+    /// @return 0 on success, non-zero error code on failure
     int launchDistance(const double* lats1, const double* lons1,
                        const double* lats2, const double* lons2,
                        float* out, int count,
@@ -414,18 +391,19 @@ public:
             lats1, lons1, lats2, lons2, out, count, formula, stream);
     }
 
-    /**
-     * @brief @brief Launch point-in-polygon test kernel with automatic fallback and retry.
-     * @param[in] pLats Input parameter.
-     * @param[in] pLons Input parameter.
-     * @param[in] numPoints Input parameter.
-     * @param[in] polygon Input parameter.
-     * @param[in] numVertices Input parameter.
-     * @param[in,out] results Input/output parameter.
-     * @param[in,out] stream Input/output parameter.
-     * @return Return value.
-     * @details Tests whether each point is inside the given polygon using ray-casting. Supports automatic GPU fallback and transient error retry. @param pLats Test point latitudes (degrees, WGS84) [numPoints] @param pLons Test point longitudes (degrees, WGS84) [numPoints] @param numPoints Number of test points @param polygon Interleaved polygon vertices [lat0, lon0, lat1, lon1, ...] [numVertices × 2] @param numVertices Number of polygon vertices (must be >= 3) @param results Output containment flags [numPoints] (caller-allocated, non-zero=inside) @param stream Backend-specific stream handle @return 0 on success, non-zero error code on failure Calls: detail::invokeWithFallback().
-     */
+    /// @brief Launch point-in-polygon test kernel with automatic fallback and retry.
+    ///
+    /// Tests whether each point is inside the given polygon using ray-casting.
+    /// Supports automatic GPU fallback and transient error retry.
+    ///
+    /// @param pLats        Test point latitudes (degrees, WGS84) [numPoints]
+    /// @param pLons        Test point longitudes (degrees, WGS84) [numPoints]
+    /// @param numPoints    Number of test points
+    /// @param polygon      Interleaved polygon vertices [lat0, lon0, lat1, lon1, ...] [numVertices × 2]
+    /// @param numVertices  Number of polygon vertices (must be >= 3)
+    /// @param results      Output containment flags [numPoints] (caller-allocated, non-zero=inside)
+    /// @param stream       Backend-specific stream handle
+    /// @return 0 on success, non-zero error code on failure
     int launchContainment(const double* pLats, const double* pLons,
                           int numPoints,
                           const double* polygon, int numVertices,

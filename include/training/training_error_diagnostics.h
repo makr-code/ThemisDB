@@ -58,9 +58,6 @@ public:
 
     /**
      * @brief Set the operation name (e.g., "checkpoint_save", "training_step").
-     * @param[in] op Input parameter.
-     * @return Return value.
-     * @details Implements operation without additional internal calls.
      */
     TrainingDiagnostics& operation(const std::string& op) {
         operation_ = op;
@@ -72,8 +69,6 @@ public:
      *
      * @param key Parameter name.
      * @param value Parameter value (as string).
-     * @return Return value.
-     * @details Calls: push_back().
      */
     TrainingDiagnostics& input(const std::string& key, const std::string& value) {
         inputs_.push_back({key, value});
@@ -82,10 +77,6 @@ public:
 
     /**
      * @brief Add a numeric input parameter.
-     * @param[in] key Input parameter.
-     * @param[in] value Input parameter.
-     * @return Return value.
-     * @details Calls: std::to_string().
      */
     TrainingDiagnostics& input(const std::string& key, int64_t value) {
         return input(key, std::to_string(value));
@@ -93,10 +84,6 @@ public:
 
     /**
      * @brief Add a numeric input parameter.
-     * @param[in] key Input parameter.
-     * @param[in] value Input parameter.
-     * @return Return value.
-     * @details Calls: str().
      */
     TrainingDiagnostics& input(const std::string& key, double value) {
         std::ostringstream oss = {};
@@ -106,10 +93,6 @@ public:
 
     /**
      * @brief Add a boolean input parameter.
-     * @param[in] key Input parameter.
-     * @param[in] value Input parameter.
-     * @return Return value.
-     * @details Implements input without additional internal calls.
      */
     TrainingDiagnostics& input(const std::string& key, bool value) {
         return input(key, value ? "true" : "false");
@@ -119,8 +102,6 @@ public:
      * @brief Add a diagnostic note or observation.
      *
      * @param note Human-readable note describing the failure or observed state.
-     * @return Return value.
-     * @details Calls: push_back().
      */
     TrainingDiagnostics& add_note(const std::string& note) {
         notes_.push_back(note);
@@ -129,9 +110,6 @@ public:
 
     /**
      * @brief Set error code.
-     * @param[in] code Input parameter.
-     * @return Return value.
-     * @details Implements error_code without additional internal calls.
      */
     TrainingDiagnostics& error_code(TrainingErrorCode code) {
         error_code_ = code;
@@ -140,9 +118,6 @@ public:
 
     /**
      * @brief Set whether error is recoverable.
-     * @param[in] is_recoverable Input parameter.
-     * @return Return value.
-     * @details Implements recoverable without additional internal calls.
      */
     TrainingDiagnostics& recoverable(bool is_recoverable) {
         recoverable_ = is_recoverable;

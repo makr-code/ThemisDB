@@ -79,10 +79,6 @@ namespace themis::transaction {
  */
 class IDistributedParticipantCallback {
 public:
-    /**
-     * @brief TBD: Describe ~IDistributedParticipantCallback.
-     * @return Return value.
-     */
     virtual ~IDistributedParticipantCallback() = default;
 
     /**
@@ -203,11 +199,6 @@ struct DistributedTxnStatus {
         themis::utils::RetryTimeoutSource::NONE;
     std::string correlation_id;
 
-    /**
-     * @brief TBD: Describe OK.
-     * @return Return value.
-     * @details Implements OK without additional internal calls.
-     */
     static DistributedTxnStatus OK() { return {}; }
     static DistributedTxnStatus Error(
         std::string msg,
@@ -623,17 +614,9 @@ public:
 
     // ── Remote phase-2 transport bridge ──────────────────────────────────────
 
-    /**
-     * @brief Inject a transport function for delivering phase-2 decisions to remote participants (resolves stub #279).
-     * @param[in] fn Input parameter.
-     * @details Calls: lock(), std::move().
-     */
+    /// Inject a transport function for delivering phase-2 decisions to remote
+    /// participants (resolves stub #279).
     void setRemotePhase2Fn(RemotePhase2Fn fn) {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         remote_phase2_fn_ = std::move(fn);
     }
@@ -667,20 +650,16 @@ public:
 
     /**
      * @brief Return a copy of the transaction record, or std::nullopt if not found.
-     * @param[in] txn_id Input parameter.
-     * @return Return value.
      */
     std::optional<DistributedTransaction> getTransaction(const TransactionId& txn_id) const;
 
     /**
      * @brief Return approximate coordinator statistics.
-     * @return Return value.
      */
     Statistics getStatistics() const;
 
     /**
      * @brief Return the number of currently active (non-terminal) transactions.
-     * @return Return value.
      */
     size_t activeTransactionCount() const;
 
@@ -769,14 +748,8 @@ private:
     /// Run Phase 1: send PREPARE to all participants (mutex NOT held).
     bool runPhase1Unlocked(const TransactionId& txn_id);
 
-    /**
-     * @brief Run Phase 2: send COMMIT or ABORT to all participants (mutex NOT held).
-     * @param[in] txn_id Input parameter.
-     * @param[in] parts Input parameter.
-     * @param[in] do_commit Input parameter.
-     * @return True on success.
-     * @details @return true when all participants were reached before deadline; false otherwise.
-     */
+    /// Run Phase 2: send COMMIT or ABORT to all participants (mutex NOT held).
+    /// @return true when all participants were reached before deadline; false otherwise.
     bool runPhase2Unlocked(
         const TransactionId&            txn_id,
         const std::vector<Participant>& parts,
@@ -785,11 +758,6 @@ private:
 
     /// Find a transaction record; returns nullptr if not found (caller must hold mutex_).
     DistributedTransaction* findTransaction(const TransactionId& txn_id);
-    /**
-     * @brief TBD: Describe findTransaction.
-     * @param[in] txn_id Input parameter.
-     * @return Pointer to the result.
-     */
     const DistributedTransaction* findTransaction(const TransactionId& txn_id) const;
 
     // ── Thread pool (PERF-D4) ─────────────────────────────────────────────────
@@ -806,11 +774,6 @@ private:
         auto task_ptr = std::make_shared<std::packaged_task<R()>>(std::forward<F>(f));
         std::future<R> fut = task_ptr->get_future();
         {
-            /**
-             * @brief TBD: Describe lock.
-             * @param[in] pool_mutex_ Input parameter.
-             * @return Return value.
-             */
             std::lock_guard<std::mutex> lock(pool_mutex_);
             if (!pool_stop_) {
                 task_queue_.push([task_ptr]() { (*task_ptr)(); });

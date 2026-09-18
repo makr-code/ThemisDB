@@ -124,7 +124,6 @@ public:
     /**
      * @brief Constructs the scheduler.
      * @param cfg  Configuration.
-     * @return Return value.
      */
     explicit QueryScheduler(const Config& cfg);
 

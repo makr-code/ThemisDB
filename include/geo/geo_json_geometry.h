@@ -124,10 +124,6 @@ private:
  */
 class IGeoJSONGeometry {
 public:
-    /**
-     * @brief TBD: Describe ~IGeoJSONGeometry.
-     * @return Return value.
-     */
     virtual ~IGeoJSONGeometry() = default;
 
     /// @return RFC 7946 geometry type string, e.g. "Point", "Polygon".
@@ -315,12 +311,6 @@ private:
  */
 class GeoMultiPolygon final : public IGeoJSONGeometry {
 public:
-    /**
-     * @brief TBD: Describe GeoMultiPolygon.
-     * @param[in] polygons Input parameter.
-     * @param[in] crs Input parameter.
-     * @return Return value.
-     */
     explicit GeoMultiPolygon(std::vector<GeoPolygon> polygons, CrsId crs)
         : polygons_(std::move(polygons)), crs_(crs) {}
 
@@ -355,12 +345,6 @@ private:
  */
 class GeoGeometryCollection final : public IGeoJSONGeometry {
 public:
-    /**
-     * @brief TBD: Describe GeoGeometryCollection.
-     * @param[in] members Input parameter.
-     * @param[in] crs Input parameter.
-     * @return Return value.
-     */
     explicit GeoGeometryCollection(
             std::vector<std::shared_ptr<IGeoJSONGeometry>> members, CrsId crs)
         : members_(std::move(members)), crs_(crs) {}

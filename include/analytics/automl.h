@@ -151,10 +151,6 @@ struct EvalMetrics {
     double mae        = 0.0;
     double mape       = 0.0;
 
-     * @brief TBD: Describe primary.
-     * @param[in] m Input parameter.
-     * @return Return value.
-     * @note Exception safety: noexcept.
     /** Return the value of the requested primary metric. */
     double primary(AutoMLMetric m) const noexcept;
 };
@@ -232,17 +228,11 @@ public:
      * Returns one string per input point:
      *   – Classification: the class label.
      *   – Regression:     std::to_string(value).
-     * @brief TBD: Describe predict.
-     * @param[in] data Input parameter.
-     * @return Return value.
      */
     std::vector<std::string> predict(const std::vector<DataPoint>& data) const;
 
     /**
      * Predict a single DataPoint.
-     * @brief TBD: Describe predictOne.
-     * @param[in] point Input parameter.
-     * @return Return value.
      */
     std::string predictOne(const DataPoint& point) const;
 
@@ -258,64 +248,29 @@ public:
 
     /**
      * Compute per-sample SHAP-approximated feature contributions.
-     * @brief TBD: Describe explain.
-     * @param[in] data Input parameter.
-     * @return Return value.
      */
     std::vector<ModelExplanation> explain(const std::vector<DataPoint>& data) const;
 
     /**
      * Explain a single data point.
-     * @brief TBD: Describe explainOne.
-     * @param[in] point Input parameter.
-     * @return Return value.
      */
     ModelExplanation explainOne(const DataPoint& point) const;
 
-    /**
-     * @brief ---- Metadata ----
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
+    // ---- Metadata ----
 
     AutoMLTask     task()      const noexcept;
-    /**
-     * @brief TBD: Describe algorithm.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
     ModelAlgorithm algorithm() const noexcept;
-    /**
-     * @brief TBD: Describe name.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
     std::string    name()      const noexcept;
-    /**
-     * @brief TBD: Describe metrics.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
     EvalMetrics    metrics()   const noexcept;
 
-     * @brief TBD: Describe candidateModels.
-     * @return Return value.
     /** List of candidate models evaluated during search (sorted by cv_score desc). */
     std::vector<CandidateModelInfo> candidateModels() const;
 
     /** Feature importance (sum of |SHAP| over training set, normalised to [0,1]). */
     std::map<std::string, double> featureImportance() const;
 
-    /**
-     * @brief ---- Serialisation ----
-     * @return Return value.
-     */
+    // ---- Serialisation ----
     std::string   serialize()   const;
-    /**
-     * @brief TBD: Describe deserialize.
-     * @param[in] data Input parameter.
-     * @return Return value.
-     */
     static AutoMLModel deserialize(const std::string& data);
 
     /**
@@ -333,7 +288,6 @@ public:
      * @param path  Absolute or relative file-system path for the output file.
      * @return      Empty string on success; error message on failure.
      * @throws      std::invalid_argument if the model is not fitted.
-     * @brief TBD: Describe exportONNX.
      */
     std::string exportONNX(const std::string& path) const;
 
@@ -494,7 +448,6 @@ public:
      *       EnsembleMethod::STACKING
      *   });
      * @endcode
-     * @note Exception safety: noexcept.
      */
     ModelAlgorithm selectEnsembleMethod(
         const std::vector<EvalMetrics>& candidate_metrics) const noexcept;

@@ -72,29 +72,10 @@ private:
     
     bool initialized_ = false;
     
-    /**
-     * @brief Internal methods
-     * @param[in] blob Input parameter.
-     * @return Return value.
-     */
+    // Internal methods
     MediaExtractionData extractMetadata(const std::vector<uint8_t>& blob);
-    /**
-     * @brief TBD: Describe extractTags.
-     * @param[in] blob Input parameter.
-     * @return Return value.
-     */
     json extractTags(const std::vector<uint8_t>& blob);
-    /**
-     * @brief TBD: Describe extractWaveform.
-     * @param[in] blob Input parameter.
-     * @return Return value.
-     */
     std::vector<float> extractWaveform(const std::vector<uint8_t>& blob);
-    /**
-     * @brief TBD: Describe transcribe.
-     * @param[in] blob Input parameter.
-     * @return Return value.
-     */
     std::string transcribe(const std::vector<uint8_t>& blob);
 
     // STT processor for audio transcription

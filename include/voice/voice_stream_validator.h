@@ -52,14 +52,6 @@ private:
     size_t chunk_size_;
     int line_;
 
-    /**
-     * @brief TBD: Describe build_message.
-     * @param[in] reason Input parameter.
-     * @param[in] chunk_size Input parameter.
-     * @param[in] line Input parameter.
-     * @return Return value.
-     * @details Calls: std::to_string().
-     */
     static std::string build_message(const std::string& reason, size_t chunk_size, int line) {
         return "Stream validation failed at line " + std::to_string(line) + 
                ": " + reason + " (chunk_size=" + std::to_string(chunk_size) + ")";
@@ -148,7 +140,6 @@ public:
      * @param expected_bit_depth Expected audio bit depth
      * 
      * @throws std::invalid_argument if parameters are invalid
-     * @return Return value.
      */
     explicit VoiceStreamValidator(const std::string& session_id,
                                   uint32_t expected_sample_rate,
@@ -224,7 +215,6 @@ public:
 
     /**
      * @brief Reset validator state (for testing or stream restart).
-     * @note Exception safety: noexcept.
      */
     void reset() noexcept;
 
@@ -239,20 +229,9 @@ private:
     uint32_t last_sequence_num_;
     bool stream_complete_;
     
-    /**
-     * @brief Helpers
-     * @param[in] chunk_size Input parameter.
-     */
+    // Helpers
     void validate_size(size_t chunk_size);
-    /**
-     * @brief TBD: Describe validate_sequence.
-     * @param[in] sequence_num Input parameter.
-     */
     void validate_sequence(uint32_t sequence_num);
-    /**
-     * @brief TBD: Describe validate_duration.
-     * @param[in] timestamp_ms Input parameter.
-     */
     void validate_duration(uint64_t timestamp_ms);
 };
 

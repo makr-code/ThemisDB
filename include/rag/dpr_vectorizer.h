@@ -66,7 +66,6 @@ public:
      * @brief Construct a DPR vectorizer with configuration.
      *
      * @param config Configuration specifying model paths and inference settings.
-     * @return Return value.
      */
     explicit DPRVectorizer(const DPRVectorizerConfig& config);
 

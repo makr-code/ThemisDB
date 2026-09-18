@@ -68,10 +68,6 @@ enum class GGUFValueType : uint32_t {
 
 // GGUF tensor metadata
 struct TensorMetadata {
-    /**
-     * @brief TBD: Describe ~TensorMetadata.
-     * @return Return value.
-     */
     virtual ~TensorMetadata() = default;
     std::string name;
     std::vector<int64_t> shape;
@@ -79,19 +75,12 @@ struct TensorMetadata {
     size_t offset = 0;      // Offset in GGUF file
     size_t size = 0;        // Size in bytes
     
-    /**
-     * @brief Helper to get type as string
-     * @return Return value.
-     */
+    // Helper to get type as string
     std::string type_string() const;
 };
 
 // GGUF file metadata
 struct GGUFMetadata {
-    /**
-     * @brief TBD: Describe ~GGUFMetadata.
-     * @return Return value.
-     */
     virtual ~GGUFMetadata() = default;
     uint32_t version = 0;
     std::string architecture;  // "llama", "mistral", etc.
@@ -106,20 +95,12 @@ struct GGUFMetadata {
 class GGUFLoader {
 public:
     GGUFLoader();
-    /**
-     * @brief TBD: Describe GGUFLoader.
-     * @param[in,out] db Input/output parameter.
-     * @return Return value.
-     */
     explicit GGUFLoader(RocksDBWrapper* db);
     ~GGUFLoader() noexcept;
 
-    /**
-     * @brief Parse GGUF file header and metadata.
-     * @param[in] filepath Input parameter.
-     * @return True on success.
-     * @details Returns false and sets getLastError() on failure (including unsupported quantization formats).
-     */
+    // Parse GGUF file header and metadata.
+    // Returns false and sets getLastError() on failure (including unsupported
+    // quantization formats).
     bool parseFile(const std::string& filepath);
     
     // Get parsed metadata
@@ -128,38 +109,19 @@ public:
     // Returns a human-readable error description when parseFile() returns false.
     const std::string& getLastError() const { return last_error_; }
     
-    /**
-     * @brief Load tensor data into ThemisDB Blob Store Returns URN of stored model: urn:themis:model:{model_name}:v1 Requires RocksDBWrapper to be set (via constructor or setDatabase)
-     * @param[in] model_name Input parameter.
-     * @return Return value.
-     */
+    // Load tensor data into ThemisDB Blob Store
+    // Returns URN of stored model: urn:themis:model:{model_name}:v1
+    // Requires RocksDBWrapper to be set (via constructor or setDatabase)
     std::string loadToThemisDB(const std::string& model_name);
     
-    /**
-     * @brief Set the database instance (if not provided in constructor)
-     * @param[in,out] db Input/output parameter.
-     * @details Implements setDatabase without additional internal calls.
-     */
+    // Set the database instance (if not provided in constructor)
     void setDatabase(RocksDBWrapper* db) { db_ = db; }
     
-    /**
-     * @brief Memory-mapped loading for zero-copy access
-     * @param[in] tensor_name Input parameter.
-     * @return Pointer to the result.
-     */
+    // Memory-mapped loading for zero-copy access
     void* mmapTensor(const std::string& tensor_name);
-    /**
-     * @brief TBD: Describe unmapTensor.
-     * @param[in,out] ptr Input/output parameter.
-     * @note Exception safety: noexcept.
-     */
     void unmapTensor(void* ptr) noexcept;
     
-    /**
-     * @brief Extract specific tensor data
-     * @param[in] tensor_name Input parameter.
-     * @return Return value.
-     */
+    // Extract specific tensor data
     std::vector<uint8_t> getTensorData(const std::string& tensor_name);
     
     /**
@@ -184,8 +146,6 @@ public:
      *
      * Supported: F32, F16, Q4_K (Q4_K_M), Q8_0
      * Not supported: Q4_0, Q4_1, Q5_0, Q5_1, Q8_1, Q5_K, Q6_K, Q2_K, Q3_K
-     * @param[in] type Input parameter.
-     * @return True on success.
      */
     static bool isFormatSupported(GGMLType type);
     
@@ -199,65 +159,25 @@ private:
     std::vector<uint8_t> file_buffer_; // Windows fallback buffer
     RocksDBWrapper* db_ = nullptr;  // Not owned
     
-    /**
-     * @brief Internal parsing helpers
-     * @return True on success.
-     */
+    // Internal parsing helpers
     bool parseHeader();
-    /**
-     * @brief TBD: Describe parseMetadataKV.
-     * @return True on success.
-     */
     bool parseMetadataKV();
-    /**
-     * @brief TBD: Describe parseTensorInfo.
-     * @return True on success.
-     */
     bool parseTensorInfo();
     
-    /**
-     * @brief RAII resource cleanup — safe to call multiple times (idempotent).
-     * @note Exception safety: noexcept.
-     * @details Used by destructor and at the top of parseFile() to prevent fd/mmap leaks when parseFile() is called more than once on the same object.
-     */
+    // RAII resource cleanup — safe to call multiple times (idempotent).
+    // Used by destructor and at the top of parseFile() to prevent fd/mmap
+    // leaks when parseFile() is called more than once on the same object.
     void releaseResources() noexcept;
     
-    /**
-     * @brief Type size helpers
-     * @param[in] dtype Input parameter.
-     * @return Return value.
-     */
+    // Type size helpers
     size_t getDtypeSize(const std::string& dtype) const;
-    /**
-     * @brief TBD: Describe getGGMLTypeSize.
-     * @param[in] type Input parameter.
-     * @return Return value.
-     */
     size_t getGGMLTypeSize(GGMLType type) const;
     
-    /**
-     * @brief Metadata parsing helpers
-     * @param[in,out] offset Input/output parameter.
-     * @param[in,out] out Input/output parameter.
-     * @return True on success.
-     */
+    // Metadata parsing helpers
     bool readString(size_t& offset, std::string& out);
-    /**
-     * @brief TBD: Describe readMetadataValue.
-     * @param[in,out] offset Input/output parameter.
-     * @param[in] type Input parameter.
-     * @param[in,out] out Input/output parameter.
-     * @return True on success.
-     */
     bool readMetadataValue(size_t& offset, GGUFValueType type, std::string& out);
     
-    /**
-     * @brief Helper to store tensor data in chunks
-     * @param[in] model_name Input parameter.
-     * @param[in] tensor Input parameter.
-     * @param[in] chunk_size Input parameter.
-     * @return True on success.
-     */
+    // Helper to store tensor data in chunks
     bool storeTensorInChunks(const std::string& model_name, 
                             const TensorMetadata& tensor,
                             size_t chunk_size);

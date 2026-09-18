@@ -110,7 +110,6 @@ public:
 
     /**
      * @brief Check if worker is running
-     * @return True on success.
      */
     bool is_running() const;
 
@@ -119,11 +118,6 @@ private:
     mutable std::mutex job_map_mutex_;
     std::unordered_map<std::string, std::string> content_to_job_map_;  // content_id -> job_id
     
-    /**
-     * @brief TBD: Describe map_job_status.
-     * @param[in] status Input parameter.
-     * @return Return value.
-     */
     UploadStatus map_job_status(themis::content::IngestionJobStatus status) const;
 };
 

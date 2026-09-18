@@ -84,10 +84,6 @@ struct L3EncryptionConfig {
  */
 class IL3CacheEncryptionManager {
 public:
-    /**
-     * @brief TBD: Describe ~IL3CacheEncryptionManager.
-     * @return Return value.
-     */
     virtual ~IL3CacheEncryptionManager() = default;
 
     /**
@@ -95,7 +91,6 @@ public:
      *
      * @return `true` on success; `false` if the key_provider_id cannot be
      *         resolved or the configuration is otherwise invalid.
-     * @param[in] config Input parameter.
      */
     virtual bool configure(const L3EncryptionConfig& config) = 0;
 
@@ -103,8 +98,6 @@ public:
      * @brief Encrypt @p value, binding it to @p key as AAD.
      *
      * @return Ciphertext (includes nonce and authentication tag).
-     * @param[in] key Input parameter.
-     * @param[in] value Input parameter.
      */
     virtual std::vector<uint8_t> encrypt(
         const std::string&         key,
@@ -116,8 +109,6 @@ public:
      *
      * @return Plaintext on success; empty vector if decryption or tag
      *         verification fails.
-     * @param[in] key Input parameter.
-     * @param[in] ciphertext Input parameter.
      */
     virtual std::vector<uint8_t> decrypt(
         const std::string&         key,

@@ -53,12 +53,6 @@ struct SimulatedAlert {
     std::string evidence_snippet;  // must be <= 128 chars
 };
 
-/**
- * @brief TBD: Describe classifyQuery.
- * @param[in] ctx Input parameter.
- * @return Return value.
- * @details Calls: find(), substr(), size().
- */
 SimulatedAlert classifyQuery(const QueryContext& ctx) {
     const std::string& q = ctx.query_text;
     SimulatedAlert alert;
@@ -85,11 +79,6 @@ SimulatedAlert classifyQuery(const QueryContext& ctx) {
 
 } // namespace
 
-/**
- * @brief TBD: Describe main.
- * @return Return value.
- * @details Calls: PLANNED(), setAnomalyDetector(), classify(), assert(), size(), classifyQuery(), substr(), evaluate().
- */
 int main() {
     std::cout << "=== IntentClassifier Example (IMPL-B7) ===\n\n";
 

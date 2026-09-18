@@ -245,11 +245,9 @@ public:
         std::string backend_address_;
     };
 
-    /**
-     * @brief ------------------------------------------------------------------------- Construction / Destruction -------------------------------------------------------------------------
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
+    // -------------------------------------------------------------------------
+    // Construction / Destruction
+    // -------------------------------------------------------------------------
 
     explicit RaftLoadBalancer(const Config& config);
     ~RaftLoadBalancer();
@@ -307,7 +305,6 @@ public:
      *
      * Atomics in the returned structs reflect the latest counts at the time of
      * the snapshot.  The values should be treated as approximate.
-     * @return Return value.
      */
     std::vector<Backend*> getBackends() const;
 
@@ -358,15 +355,12 @@ public:
     // Raft State
     // -------------------------------------------------------------------------
 
-     * @return True on success.
     /** @brief Return true if this node is the current Raft leader. */
     bool isLeader() const;
 
-     * @return Return value.
     /** @brief Return the current Raft role. */
     RaftRole getRole() const;
 
-     * @return Return value.
     /** @brief Return the current Raft term. */
     uint64_t getCurrentTerm() const;
 
@@ -374,7 +368,6 @@ public:
     // Observability
     // -------------------------------------------------------------------------
 
-     * @return Return value.
     /** @brief Return aggregate load-balancer statistics. */
     Stats getStats() const;
 
@@ -409,8 +402,6 @@ public:
      * Returns false on timeout, connection refused, or invalid address.
      *
      * Public so that callers can use it directly or wrap it in a custom fn.
-     * @param[in] backend Input parameter.
-     * @return True on success.
      */
     static bool defaultHealthCheck(const Backend& backend);
 
@@ -437,11 +428,8 @@ private:
     /// Select via consistent hashing (caller must hold backends_mutex_).
     std::string selectConsistentHash(const std::string& key);
 
-    /**
-     * @brief Filter to healthy backends in the preferred datacenter (or all if none).
-     * @return Return value.
-     * @details Caller must hold backends_mutex_.
-     */
+    /// Filter to healthy backends in the preferred datacenter (or all if none).
+    /// Caller must hold backends_mutex_.
     std::vector<Backend*> healthyBackends() const;
 
     /// Run one round of health checks (called from health_check_thread_).
@@ -453,10 +441,8 @@ private:
     /// Background Raft heartbeat / election loop.
     void raftLoop();
 
-    /**
-     * @brief Trigger dynamic weight rebalancing if load imbalance exceeds threshold.
-     * @details Called from the health-check thread.
-     */
+    /// Trigger dynamic weight rebalancing if load imbalance exceeds threshold.
+    /// Called from the health-check thread.
     void maybeRebalance();
 
     // -------------------------------------------------------------------------

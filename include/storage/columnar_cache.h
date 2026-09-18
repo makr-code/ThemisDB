@@ -143,7 +143,6 @@ public:
     /** @brief Access the pinned segment. UB if !*this. */
     const ColumnSegment& segment() const noexcept { return *segment_; }
 
-     * @note Exception safety: noexcept.
     /** @brief Manually release the pin. After release operator bool() is false. */
     void release() noexcept;
 
@@ -183,11 +182,9 @@ public:
         Config() = default;
     };
 
-    /**
-     * @brief ----------------------------------------------------------------------- Construction -----------------------------------------------------------------------
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
+    // -----------------------------------------------------------------------
+    // Construction
+    // -----------------------------------------------------------------------
 
     explicit ColumnarCache(Config config);
 
@@ -229,9 +226,6 @@ public:
      * @brief Returns `true` if the key is present in the cache.
      *
      * Does **not** update the LRU order or pin count.
-     * @param[in] key Input parameter.
-     * @return True on success.
-     * @note Exception safety: noexcept.
      */
     bool contains(const SegmentKey& key) const noexcept;
 
@@ -240,7 +234,6 @@ public:
      *
      * Silently ignored if the segment is pinned or not present.
      * @return `true` if the segment was evicted, `false` otherwise.
-     * @param[in] key Input parameter.
      */
     bool evict(const SegmentKey& key);
 
@@ -253,53 +246,31 @@ public:
     // Stats / introspection
     // -----------------------------------------------------------------------
 
-     * @brief TBD: Describe size.
-     * @return Return value.
-     * @note Exception safety: noexcept.
     /** Total segments currently in the cache (pinned + unpinned). */
     size_t size() const noexcept;
 
-     * @brief TBD: Describe pinnedCount.
-     * @return Return value.
-     * @note Exception safety: noexcept.
     /** Number of pinned segments. */
     size_t pinnedCount() const noexcept;
 
-     * @brief TBD: Describe bytesUsed.
-     * @return Return value.
-     * @note Exception safety: noexcept.
     /** Total bytes currently used by cached segments. */
     size_t bytesUsed() const noexcept;
 
     /** Maximum bytes allowed by configuration. */
     size_t maxBytes() const noexcept { return cfg_.max_bytes; }
 
-     * @brief TBD: Describe hitCount.
-     * @return Return value.
-     * @note Exception safety: noexcept.
     /** Cache hit count since construction. */
     uint64_t hitCount() const noexcept;
 
-     * @brief TBD: Describe missCount.
-     * @return Return value.
-     * @note Exception safety: noexcept.
     /** Cache miss count since construction. */
     uint64_t missCount() const noexcept;
 
 private:
     friend class PinGuard;
 
-    /**
-     * @brief TBD: Describe decrementPin.
-     * @param[in] key Input parameter.
-     * @note Exception safety: noexcept.
-     */
     void decrementPin(const SegmentKey& key) noexcept;
 
-    /**
-     * @brief Evict unpinned LRU segments until `bytes_used_ <= cfg_.
-     * @details max_bytes`. Must be called under mu_.
-     */
+    // Evict unpinned LRU segments until `bytes_used_ <= cfg_.max_bytes`.
+    // Must be called under mu_.
     void evictLRU();
 
     // -----------------------------------------------------------------------

@@ -124,8 +124,6 @@ public:
         std::shared_ptr<RocksDBWrapper> db,
         Config cfg = {});
 
-     * @brief TBD: Describe start.
-     * @return Return value.
     /** Start the background flush thread. */
     Result<void> start();
 
@@ -134,7 +132,6 @@ public:
      *
      * Blocks until the queue is drained.  After stop() the manager may not
      * be restarted.
-     * @return Return value.
      */
     Result<void> stop();
 
@@ -151,8 +148,6 @@ public:
      *
      * @return Success, or ERR_STORAGE_LOG_FULL if the buffer is full and
      *         the backpressure timeout expired.
-     * @param[in] key Input parameter.
-     * @param[in] value Input parameter.
      */
     Result<void> ingest(std::string_view key, std::string_view value);
 
@@ -164,7 +159,6 @@ public:
      *
      * @return Number of events successfully enqueued.  If back-pressure
      *         triggers, the returned count may be less than `events.size()`.
-     * @param[in] events Input parameter.
      */
     Result<size_t> ingestBatch(std::vector<Event> events);
 
@@ -173,15 +167,11 @@ public:
      *
      * Blocks until the flush is complete.  Useful for testing and graceful
      * shutdown scenarios.
-     * @return Return value.
      */
     Result<void> flush();
 
     // ── Observability ─────────────────────────────────────────────────────
 
-     * @brief TBD: Describe stats.
-     * @return Return value.
-     * @note Exception safety: noexcept.
     /** Return a snapshot of current statistics. */
     Stats stats() const noexcept;
 
@@ -191,23 +181,9 @@ public:
     StreamingIngestManager& operator=(const StreamingIngestManager&) = delete;
 
 private:
-    /**
-     * @brief TBD: Describe StreamingIngestManager.
-     * @param[in] db Input parameter.
-     * @param[in] cfg Input parameter.
-     * @return Return value.
-     */
     explicit StreamingIngestManager(std::shared_ptr<RocksDBWrapper> db, Config cfg);
 
-    /**
-     * @brief TBD: Describe flushLoop.
-     */
     void flushLoop();
-    /**
-     * @brief TBD: Describe flushOnce.
-     * @param[in,out] lock Input/output parameter.
-     * @return Return value.
-     */
     Result<void> flushOnce(std::unique_lock<std::mutex>& lock);
 
     std::shared_ptr<RocksDBWrapper> db_;

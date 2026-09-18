@@ -219,68 +219,18 @@ private:
         std::string error;
     };
 
-    /**
-     * @brief TBD: Describe fetchRawRows.
-     * @param[in] request Input parameter.
-     * @return Return value.
-     */
     std::vector<json> fetchRawRows(const HuggingFaceImportRequest& request) const;
-    /**
-     * @brief TBD: Describe fetchRawRows.
-     * @param[in] request Input parameter.
-     * @return Return value.
-     */
     std::vector<json> fetchRawRows(const HuggingFaceUpdateRequest& request) const;
-    /**
-     * @brief TBD: Describe normalizeLegalRecord.
-     * @param[in] row Input parameter.
-     * @param[in] dataset_name Input parameter.
-     * @param[in] split Input parameter.
-     * @param[in] row_index Input parameter.
-     * @return Return value.
-     */
     NormalizationResult normalizeLegalRecord(
         const json& row,
         std::string_view dataset_name,
         std::string_view split,
         std::size_t row_index) const;
-    /**
-     * @brief TBD: Describe computeQualityScore.
-     * @param[in] raw_row Input parameter.
-     * @param[in] document Input parameter.
-     * @return Return value.
-     */
     double computeQualityScore(const json& raw_row, const LegalDocument& document) const;
-    /**
-     * @brief TBD: Describe buildLeakageSensitiveSplit.
-     * @param[in] document Input parameter.
-     * @return Return value.
-     */
     std::string buildLeakageSensitiveSplit(const LegalDocument& document) const;
-    /**
-     * @brief TBD: Describe projectDocument.
-     * @param[in] document Input parameter.
-     * @param[in] annotations Input parameter.
-     */
     void projectDocument(const LegalDocument& document, const std::vector<LegalAnnotation>& annotations);
-    /**
-     * @brief TBD: Describe upsertCanonical.
-     * @param[in] normalized Input parameter.
-     * @param[in] split Input parameter.
-     * @param[in,out] inserted Input/output parameter.
-     * @return Return value.
-     */
     std::size_t upsertCanonical(const NormalizationResult& normalized, const std::string& split, bool* inserted);
-    /**
-     * @brief TBD: Describe updateCheckpoint.
-     * @param[in] processed_records Input parameter.
-     */
     void updateCheckpoint(std::size_t processed_records);
-    /**
-     * @brief TBD: Describe isDuplicate.
-     * @param[in] document Input parameter.
-     * @return True on success.
-     */
     bool isDuplicate(const LegalDocument& document) const;
 
     HuggingFaceIngestConfig config_;

@@ -194,7 +194,6 @@ public:
     // ── Providers ────────────────────────────────────────────────────────────
 
     /// Inject a function that lists document IDs for a given shard.
-     * @param[in] provider Input parameter.
     /** @brief Install callback that enumerates document ids for a shard. */
     void setDocumentListProvider(DocumentListProvider provider);
 
@@ -203,8 +202,6 @@ public:
      * forwards repair events (scans, operation results, shard health) into
      * the centralized metrics registry.  Optional — if not set, repair events
      * are only visible through exportPrometheusMetrics().
-     * @brief TBD: Describe setPrometheusMetrics.
-     * @param[in] prom_metrics Input parameter.
      */
     void setPrometheusMetrics(std::shared_ptr<PrometheusMetrics> prom_metrics);
 
@@ -212,8 +209,6 @@ public:
      * Attach an SLOMonitor so that scan and repair progress is reported for
      * operator-visible time-to-full-repair tracking.  Optional — if not set,
      * progress is only available through getRepairMetrics().
-     * @brief TBD: Describe setSLOMonitor.
-     * @param[in] slo_monitor Input parameter.
      */
     void setSLOMonitor(std::shared_ptr<SLOMonitor> slo_monitor);
 
@@ -223,8 +218,6 @@ public:
      * erasure-coding feature flag (`isGPUErasureCodingEnabled`).  Optional —
      * if not set, the engine runs without I/O throttling and always uses the
      * CPU erasure-coding path.
-     * @brief TBD: Describe setResourceManager.
-     * @param[in] resource_manager Input parameter.
      */
     void setResourceManager(std::shared_ptr<ShardResourceManager> resource_manager);
 
@@ -239,8 +232,6 @@ public:
     /**
      * Enqueue a full cluster-wide anti-entropy scan + repair.
      * Returns the job ID.
-     * @brief TBD: Describe triggerFullScan.
-     * @return Return value.
      */
     std::string triggerFullScan();
 
@@ -256,18 +247,13 @@ public:
 
     // ── Status / reporting ────────────────────────────────────────────────────
 
-     * @param[in] job_id Input parameter.
-     * @return Return value.
     /** @brief Return current status for one repair job id. */
     RepairJob getJobStatus(const std::string& job_id) const;
-     * @return Return value.
     /** @brief Return all currently active (not yet completed) repair jobs. */
     std::vector<RepairJob> getActiveJobs() const;
-     * @return Return value.
     /** @brief Return latest cached shard health reports. */
     std::vector<ShardHealthReport> getShardHealthReports() const;
 
-     * @return Return value.
     /** @brief Return aggregate repair engine counters and timing metrics. */
     RepairMetrics getRepairMetrics() const;
 
@@ -317,29 +303,19 @@ private:
 
     /** @brief Run one anti-entropy scan pass over configured shard set. */
     void performAntiEntropyScan();
-     * @param[in] band Input parameter.
-     * @param[in] scan_job_id Input parameter.
-     * @param[in] total_shards Input parameter.
     /** @brief Scan one shard band (worker partition) and update reports/progress. */
     void scanShardBand(const std::vector<ShardInfo>& band,
                        const std::string& scan_job_id,
                        uint64_t total_shards);
-     * @param[in,out] job Input/output parameter.
     /** @brief Execute one queued repair job and update job/report/metric state. */
     void executeRepairJob(RepairJob& job);
-     * @param[in] doc_id Input parameter.
-     * @param[in] collection Input parameter.
-     * @return True on success.
     /** @brief Attempt repair of one document in target collection. */
     bool repairDocument(const std::string& doc_id, const std::string& collection);
 
     // ── Helpers ───────────────────────────────────────────────────────────────
 
-     * @return Return value.
     /** @brief Generate unique repair job identifier string. */
     std::string generateJobId() const;
-     * @param[in] success Input parameter.
-     * @param[in] duration Input parameter.
     /** @brief Update aggregate repair metrics after one repair attempt. */
     void updateMetricsAfterRepair(bool success, std::chrono::milliseconds duration);
 

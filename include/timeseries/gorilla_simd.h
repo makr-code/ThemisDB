@@ -18,20 +18,12 @@
 
 namespace themis {
 
-/**
- * @brief Returns true if AVX2 is available on this CPU at runtime (x86-64 only).
- * @return True on success.
- * @note Exception safety: noexcept.
- * @details On all other platforms this always returns false.
- */
+/// Returns true if AVX2 is available on this CPU at runtime (x86-64 only).
+/// On all other platforms this always returns false.
 bool gorilla_simd_has_avx2() noexcept;
 
-/**
- * @brief Returns true if NEON is available at runtime.
- * @return True on success.
- * @note Exception safety: noexcept.
- * @details On ARM64 targets this always returns true; on all other platforms false.
- */
+/// Returns true if NEON is available at runtime.
+/// On ARM64 targets this always returns true; on all other platforms false.
 bool gorilla_simd_has_neon() noexcept;
 
 /**
@@ -62,11 +54,6 @@ bool gorilla_simd_has_neon() noexcept;
  */
 class GorillaSIMDDecoder {
 public:
-    /**
-     * @brief TBD: Describe GorillaSIMDDecoder.
-     * @param[in] data Input parameter.
-     * @return Return value.
-     */
     explicit GorillaSIMDDecoder(std::vector<uint8_t> data);
 
     /**

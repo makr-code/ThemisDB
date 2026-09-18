@@ -55,7 +55,6 @@ public:
     /**
      * @brief Begin a joint-consensus transition to add @p node_id.
      * @throws std::runtime_error if a membership change is already in flight.
-     * @param[in] node_id Input parameter.
      */
     void beginAddMember(const std::string& node_id);
 
@@ -63,7 +62,6 @@ public:
      * @brief Begin a joint-consensus transition to remove @p node_id.
      * @throws std::runtime_error if a membership change is already in flight
      *         or if the resulting cluster would have fewer than 1 member.
-     * @param[in] node_id Input parameter.
      */
     void beginRemoveMember(const std::string& node_id);
 
@@ -81,30 +79,24 @@ public:
 
     // ── Queries ─────────────────────────────────────────────────────────────
 
-     * @return True on success.
     /** @brief True while a joint-consensus transition is in flight. */
     bool isInJointConsensus() const;
 
     /**
      * @brief Returns true if @p node_id is a voting member in either
      *        C_old or C_new (or both).
-     * @param[in] node_id Input parameter.
-     * @return True on success.
      */
     bool isMember(const std::string& node_id) const;
 
     /**
      * @brief Returns the union of old and new members during joint consensus,
      *        or the single active set otherwise.
-     * @return Return value.
      */
     std::set<std::string> getAllMembers() const;
 
-     * @return Return value.
     /** @brief Current (new/target) member set. */
     std::set<std::string> getNewMembers() const;
 
-     * @return Return value.
     /** @brief Previous member set (empty when not in transition). */
     std::set<std::string> getOldMembers() const;
 
@@ -113,15 +105,12 @@ public:
      *
      * During joint consensus both C_old and C_new must separately have
      * majority votes.  Outside joint consensus only C_new is checked.
-     * @param[in] votes Input parameter.
-     * @return True on success.
      */
     bool hasQuorum(const std::set<std::string>& votes) const;
 
     /**
      * @brief Minimum number of votes required for a simple-majority quorum
      *        in the current (non-transitional) configuration.
-     * @return Return value.
      */
     size_t quorumSize() const;
 
@@ -131,12 +120,6 @@ private:
     std::set<std::string> new_members_;
     bool in_joint_consensus_{false};
 
-    /**
-     * @brief TBD: Describe majority.
-     * @param[in] n Input parameter.
-     * @return Return value.
-     * @details Implements majority without additional internal calls.
-     */
     static size_t majority(size_t n) { return (n / 2) + 1; }
 };
 
@@ -230,8 +213,6 @@ public:
      * acknowledged it.
      *
      * @throws std::runtime_error if a change is already in progress.
-     * @param[in] node_id Input parameter.
-     * @return Return value.
      */
     MembershipChangeEntry proposeAdd(const std::string& node_id);
 
@@ -242,8 +223,6 @@ public:
      *
      * @throws std::runtime_error if a change is already in progress or the
      *         resulting cluster would be empty.
-     * @param[in] node_id Input parameter.
-     * @return Return value.
      */
     MembershipChangeEntry proposeRemove(const std::string& node_id);
 
@@ -254,7 +233,6 @@ public:
      *        committed (majority of both C_old and C_new have acked it).
      *
      * Writes the COMMIT-phase entry to the WAL.
-     * @param[in] log_index Input parameter.
      */
     void onJointCommitted(uint64_t log_index);
 
@@ -271,25 +249,21 @@ public:
      *
      * Followers must apply configuration entries as soon as they are
      * *written* to the local log (not only after commit), per Raft §4.1.
-     * @param[in] entry Input parameter.
      */
     void applyEntry(const MembershipChangeEntry& entry);
 
     // ── Status ──────────────────────────────────────────────────────────────
 
-     * @return True on success.
     /** @brief True while a membership change is in flight. */
     bool isChangeInProgress() const;
 
     /**
      * @brief Returns the pending change entry, if any.
-     * @return Return value.
      */
     std::optional<MembershipChangeEntry> pendingEntry() const;
 
     /**
      * @brief Returns the current cluster configuration (read-only view).
-     * @return Return value.
      */
     std::shared_ptr<const RaftV2ClusterConfig> currentConfig() const;
 
@@ -300,13 +274,6 @@ private:
     std::shared_ptr<WALManager> wal_;
     std::optional<MembershipChangeEntry> pending_;
 
-    /**
-     * @brief TBD: Describe writeEntry.
-     * @param[in] phase Input parameter.
-     * @param[in] old_members Input parameter.
-     * @param[in] new_members Input parameter.
-     * @return Return value.
-     */
     MembershipChangeEntry writeEntry(
         MembershipChangeEntry::Phase phase,
         const std::set<std::string>& old_members,

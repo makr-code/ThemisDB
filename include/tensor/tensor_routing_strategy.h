@@ -83,10 +83,6 @@ struct RoutingDecision {
  */
 class IPrioritizationStrategy {
 public:
-    /**
-     * @brief TBD: Describe ~IPrioritizationStrategy.
-     * @return Return value.
-     */
     virtual ~IPrioritizationStrategy() = default;
 
     /**
@@ -206,10 +202,6 @@ public:
  */
 class IRoutingStrategy {
 public:
-    /**
-     * @brief TBD: Describe ~IRoutingStrategy.
-     * @return Return value.
-     */
     virtual ~IRoutingStrategy() = default;
 
     /**
@@ -342,7 +334,6 @@ public:
      * @param decision      The routing decision made.
      * @param success       Whether the downstream processing succeeded.
      * @param latency_ms    Observed latency in milliseconds.
-     * @note Exception safety: noexcept.
      */
     void recordOutcome(
         const RoutingDecision& decision,

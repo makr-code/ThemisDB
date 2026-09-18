@@ -87,8 +87,6 @@ public:
     
     /**
      * @brief Get singleton instance
-     * @return Return value.
-     * @details Implements instance without additional internal calls.
      */
     static HolidayProvider& instance() {
         static HolidayProvider provider;
@@ -99,14 +97,8 @@ public:
      * @brief Initialize with built-in calendars
      * 
      * Called automatically on first access.
-     * @details Calls: lock(), registerBuiltinCalendars().
      */
     void initialize() {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         if (initialized_) {
           return;
@@ -125,14 +117,8 @@ public:
      * @param name Calendar name (e.g., "DE_2024", "US_FEDERAL_2024")
      * @return Set of holiday timestamps
      * @throws std::runtime_error if calendar not found
-     * @details Calls: lock(), registerBuiltinCalendars(), validateName(), toUpperCase(), find(), end().
      */
     std::set<int64_t> getHolidays(const std::string& name) {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         if (!initialized_) {
@@ -163,7 +149,6 @@ public:
      * 
      * @param names List of calendar names
      * @return Combined set of holidays
-     * @details Calls: getHolidays(), insert(), begin(), end().
      */
     std::set<int64_t> getMergedHolidays(const std::vector<std::string>& names) {
         std::set<int64_t> result;
@@ -178,15 +163,8 @@ public:
     
     /**
      * @brief List all available calendar names (AQL-safe)
-     * @return Return value.
-     * @details Calls: lock(), registerBuiltinCalendars(), reserve(), size(), push_back(), std::sort(), begin(), end().
      */
     std::vector<std::string> listCalendars() {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         if (!initialized_) {
@@ -208,16 +186,8 @@ public:
     
     /**
      * @brief Get calendar metadata (AQL-safe)
-     * @param[in] name Input parameter.
-     * @return Return value.
-     * @details Calls: lock(), toUpperCase(), find(), end().
      */
     std::optional<Calendar> getCalendarInfo(const std::string& name) {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         std::string upperName = toUpperCase(name);
@@ -250,11 +220,6 @@ public:
                           int year,
                           const std::set<int64_t>& holidays,
                           const std::string& description = "") {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         std::string upperName = toUpperCase(name);
@@ -279,14 +244,9 @@ public:
      * @param name Calendar name to register under
      * @param filePath Path to JSON file
      * @throws std::runtime_error if file invalid
-     * @details Calls: file(), is_open(), rdbuf(), str(), close(), nlohmann::json::parse(), std::string(), what().
      */
     void loadCalendarFromFile(const std::string& name, const std::string& filePath) {
-        /**
-         * @brief Read file
-         * @param[in] filePath Input parameter.
-         * @return Return value.
-         */
+        // Read file
         std::ifstream file(filePath);
         if (!file.is_open()) {
             throw std::runtime_error("Cannot open calendar file: " + filePath);
@@ -346,14 +306,8 @@ public:
      * @brief Clear all custom calendars (Admin API)
      * 
      * Removes all non-builtin calendars.
-     * @details Calls: lock(), begin(), end(), erase().
      */
     void clearCustomCalendars() {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         for (auto it = calendars_.begin(); it != calendars_.end(); ) {
@@ -371,9 +325,6 @@ public:
     
     /**
      * @brief Convert holidays set to JSON array
-     * @param[in] holidays Input parameter.
-     * @return Return value.
-     * @details Calls: nlohmann::json::array(), push_back().
      */
     static nlohmann::json toJsonArray(const std::set<int64_t>& holidays) {
         nlohmann::json arr = nlohmann::json::array();
@@ -387,21 +338,12 @@ public:
      * @brief Parse date string to timestamp
      * 
      * Supports: YYYY-MM-DD, YYYY/MM/DD, DD.MM.YYYY
-     * @param[in] dateStr Input parameter.
-     * @return Return value.
-     * @throws std::runtime_error if an error occurs.
-     * @details Calls: std::regex_match(), std::regex(), ss(), std::get_time(), fail(), tmToMs(), std::stoll().
      */
     static int64_t parseDateToTimestamp(const std::string& dateStr) {
         std::tm tm = {};
         
         // Try YYYY-MM-DD
         if (std::regex_match(dateStr, std::regex(R"(\d{4}-\d{2}-\d{2})"))) {
-            /**
-             * @brief TBD: Describe ss.
-             * @param[in] dateStr Input parameter.
-             * @return Return value.
-             */
             std::istringstream ss(dateStr);
             ss >> std::get_time(&tm, "%Y-%m-%d");
             if (!ss.fail()) {
@@ -411,11 +353,6 @@ public:
         
         // Try YYYY/MM/DD
         if (std::regex_match(dateStr, std::regex(R"(\d{4}/\d{2}/\d{2})"))) {
-            /**
-             * @brief TBD: Describe ss.
-             * @param[in] dateStr Input parameter.
-             * @return Return value.
-             */
             std::istringstream ss(dateStr);
             ss >> std::get_time(&tm, "%Y/%m/%d");
             if (!ss.fail()) {
@@ -425,11 +362,6 @@ public:
         
         // Try DD.MM.YYYY (German format)
         if (std::regex_match(dateStr, std::regex(R"(\d{2}\.\d{2}\.\d{4})"))) {
-            /**
-             * @brief TBD: Describe ss.
-             * @param[in] dateStr Input parameter.
-             * @return Return value.
-             */
             std::istringstream ss(dateStr);
             ss >> std::get_time(&tm, "%d.%m.%Y");
             if (!ss.fail()) {
@@ -447,11 +379,6 @@ public:
     
     /**
      * @brief Create timestamp from date components
-     * @param[in] year Input parameter.
-     * @param[in] month Input parameter.
-     * @param[in] day Input parameter.
-     * @return Return value.
-     * @details Calls: tmToMs().
      */
     static int64_t makeDate(int year, int month, int day) {
         std::tm tm = {};
@@ -473,7 +400,6 @@ private:
     
     /**
      * @brief Register all built-in calendars
-     * @details Calls: registerBuiltinCalendar(), makeDate().
      */
     void registerBuiltinCalendars() {
         // Germany 2024
@@ -595,15 +521,6 @@ private:
         registerBuiltinCalendar("WEEKENDS_ONLY", "", 0, "Only weekends, no public holidays", {});
     }
     
-    /**
-     * @brief TBD: Describe registerBuiltinCalendar.
-     * @param[in] name Input parameter.
-     * @param[in] region Input parameter.
-     * @param[in] year Input parameter.
-     * @param[in] description Input parameter.
-     * @param[in] holidays Input parameter.
-     * @details Implements registerBuiltinCalendar without additional internal calls.
-     */
     void registerBuiltinCalendar(const std::string& name,
                                   const std::string& region,
                                   int year,
@@ -622,9 +539,6 @@ private:
     
     /**
      * @brief Validate calendar name (injection protection)
-     * @param[in] name Input parameter.
-     * @throws std::runtime_error if an error occurs.
-     * @details Calls: empty(), length(), validName(), std::regex_match().
      */
     void validateName(const std::string& name) {
         if (name.empty()) {
@@ -643,24 +557,12 @@ private:
         }
     }
     
-    /**
-     * @brief TBD: Describe toUpperCase.
-     * @param[in] str Input parameter.
-     * @return Return value.
-     * @details Calls: std::transform(), begin(), end().
-     */
     static std::string toUpperCase(const std::string& str) {
         std::string result = str;
         std::transform(result.begin(), result.end(), result.begin(), ::toupper);
         return result;
     }
     
-    /**
-     * @brief TBD: Describe tmToMs.
-     * @param[in] tm Input parameter.
-     * @return Return value.
-     * @details Calls: _mkgmtime(), timegm().
-     */
     static int64_t tmToMs(const std::tm& tm) {
         std::tm copy = tm;
         copy.tm_hour = 0;

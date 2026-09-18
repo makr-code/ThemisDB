@@ -105,7 +105,6 @@ public:
      * is ignored by the caller before passing the path here).
      *
      * @param path URL path without query string.
-     * @return True on success.
      */
     static bool isChangeStreamPath(std::string_view path);
 

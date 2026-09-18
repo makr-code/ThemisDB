@@ -155,26 +155,24 @@ public:
     
     // ===== Core rotation operations with LoRA =====
     
-    /**
-     * @brief Rotate embedding using a specific LoRA adapter Applies base rotation followed by additional LoRA-modified rotation The LoRA adapter modifies the rotation angles through low-rank transformation @param embedding Input embedding vector @param position Position index for rotation @param adapter_name Name of registered adapter to use @return Rotated embedding with LoRA modification
-     * @param[in] embedding Input parameter.
-     * @param[in] position Input parameter.
-     * @param[in] adapter_name Input parameter.
-     * @return Return value.
-     */
+    /// Rotate embedding using a specific LoRA adapter
+    /// Applies base rotation followed by additional LoRA-modified rotation
+    /// The LoRA adapter modifies the rotation angles through low-rank transformation
+    /// @param embedding Input embedding vector
+    /// @param position Position index for rotation
+    /// @param adapter_name Name of registered adapter to use
+    /// @return Rotated embedding with LoRA modification
     std::vector<float> rotateWithAdapter(
         const std::vector<float>& embedding,
         size_t position,
         const std::string& adapter_name
     ) const;
     
-    /**
-     * @brief Rotate batch of embeddings with adapter @param embeddings Input embedding vectors @param positions Position indices for each embedding @param adapter_name Name of registered adapter to use @return Rotated embeddings with LoRA modification
-     * @param[in] embeddings Input parameter.
-     * @param[in] positions Input parameter.
-     * @param[in] adapter_name Input parameter.
-     * @return Return value.
-     */
+    /// Rotate batch of embeddings with adapter
+    /// @param embeddings Input embedding vectors
+    /// @param positions Position indices for each embedding
+    /// @param adapter_name Name of registered adapter to use
+    /// @return Rotated embeddings with LoRA modification
     std::vector<std::vector<float>> rotateBatchWithAdapter(
         const std::vector<std::vector<float>>& embeddings,
         const std::vector<size_t>& positions,
@@ -183,22 +181,18 @@ public:
     
     // ===== Adapter Management =====
     
-    /**
-     * @brief Register a LoRA adapter for RoPE @param name Unique adapter name @param adapter LoRA adapter configuration @return True if registered successfully
-     * @param[in] name Input parameter.
-     * @param[in] adapter Input parameter.
-     * @return True on success.
-     */
+    /// Register a LoRA adapter for RoPE
+    /// @param name Unique adapter name
+    /// @param adapter LoRA adapter configuration
+    /// @return True if registered successfully
     bool registerAdapter(
         const std::string& name,
         const LoRARopeAdapter& adapter
     );
     
-    /**
-     * @brief Unregister an adapter @param name Adapter name @return True if unregistered successfully
-     * @param[in] name Input parameter.
-     * @return True on success.
-     */
+    /// Unregister an adapter
+    /// @param name Adapter name
+    /// @return True if unregistered successfully
     bool unregisterAdapter(const std::string& name);
     
     /// Get list of registered adapters
@@ -217,15 +211,13 @@ public:
     
     // ===== Adapter Composition =====
     
-    /**
-     * @brief Rotate with multiple adapters (weighted combination) Applies multiple adapters with specified weights and combines results @param embedding Input embedding vector @param position Position index for rotation @param adapter_names Names of adapters to apply @param weights Weights for each adapter (must sum to 1.
-     * @param[in] embedding Input parameter.
-     * @param[in] position Input parameter.
-     * @param[in] adapter_names Input parameter.
-     * @param[in] weights Input parameter.
-     * @return Return value.
-     * @details 0 or will be normalized) @return Rotated embedding with combined LoRA modifications
-     */
+    /// Rotate with multiple adapters (weighted combination)
+    /// Applies multiple adapters with specified weights and combines results
+    /// @param embedding Input embedding vector
+    /// @param position Position index for rotation
+    /// @param adapter_names Names of adapters to apply
+    /// @param weights Weights for each adapter (must sum to 1.0 or will be normalized)
+    /// @return Rotated embedding with combined LoRA modifications
     std::vector<float> rotateWithAdapterBlend(
         const std::vector<float>& embedding,
         size_t position,
@@ -238,11 +230,10 @@ private:
     
     // ===== Internal helpers =====
     
-    /**
-     * @brief Extract rotation features for LoRA input Creates a feature vector from position that can be transformed by LoRA matrices @param position Position index @return Feature vector (size = num_rotation_pairs)
-     * @param[in] position Input parameter.
-     * @return Return value.
-     */
+    /// Extract rotation features for LoRA input
+    /// Creates a feature vector from position that can be transformed by LoRA matrices
+    /// @param position Position index
+    /// @return Feature vector (size = num_rotation_pairs)
     std::vector<double> extractRotationFeatures(size_t position) const;
 };
 

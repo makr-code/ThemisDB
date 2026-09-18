@@ -189,10 +189,6 @@ struct CoordinatorLifecycleLog {
  */
 class AccessModelLogger {
 public:
-    /**
-     * @brief TBD: Describe ~AccessModelLogger.
-     * @return Return value.
-     */
     virtual ~AccessModelLogger() = default;
     
     /**

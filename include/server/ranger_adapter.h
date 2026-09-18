@@ -40,30 +40,16 @@ struct RangerClientConfig {
 /** @brief Ranger client component. */
 class RangerClient {
 public:
-    /**
-     * @brief TBD: Describe RangerClient.
-     * @param[in] cfg Input parameter.
-     * @return Return value.
-     */
     explicit RangerClient(RangerClientConfig cfg);
 
     // Fetch policies for configured service from Ranger REST API
     // Returns parsed JSON array/object on success.
     std::optional<nlohmann::json> fetchPolicies(std::string* err = nullptr) const;
 
-    /**
-     * @brief Convert Ranger policies JSON to internal PolicyEngine::Policy vector
-     * @param[in] rangerJson Input parameter.
-     * @return Return value.
-     */
+    // Convert Ranger policies JSON to internal PolicyEngine::Policy vector
     static std::vector<themis::PolicyEngine::Policy> convertFromRanger(const nlohmann::json& rangerJson);
 
-    /**
-     * @brief Convert internal policies to a minimal Ranger-like JSON
-     * @param[in] policies Input parameter.
-     * @param[in] service_name Input parameter.
-     * @return Return value.
-     */
+    // Convert internal policies to a minimal Ranger-like JSON
     static nlohmann::json convertToRanger(const std::vector<themis::PolicyEngine::Policy>& policies,
                                           const std::string& service_name);
 

@@ -158,7 +158,6 @@ public:
 
     /**
      * @brief Returns true when the tracer is actively collecting events.
-     * @return True on success.
      */
     bool isEnabled() const;
 
@@ -170,15 +169,11 @@ public:
      * the collected data intact.
      */
     void enable();
-    /**
-     * @brief TBD: Describe disable.
-     */
     void disable();
 
     /**
      * @brief Return the cumulative statistics since the last @c reset() or
      *        construction.
-     * @return Return value.
      */
     EbpfTracerStats getStats() const;
 
@@ -187,7 +182,6 @@ public:
      *
      * Events are ordered oldest-first.  The buffer size is bounded by
      * @c EbpfTracerConfig::max_events_retained.
-     * @return Return value.
      */
     std::vector<KernelEvent> getRecentEvents() const;
 
@@ -210,7 +204,6 @@ public:
 
     /**
      * @brief Retrieve the active configuration.
-     * @return Return value.
      */
     EbpfTracerConfig getConfig() const;
 
@@ -220,8 +213,6 @@ public:
      *
      * On non-Linux platforms this always returns false and the tracer
      * operates in no-op mode.
-     * @return True on success.
-     * @note Exception safety: noexcept.
      */
     static bool isPlatformSupported() noexcept;
 

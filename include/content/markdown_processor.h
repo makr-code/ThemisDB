@@ -44,11 +44,6 @@ public:
     };
 
     MarkdownProcessor();
-    /**
-     * @brief TBD: Describe MarkdownProcessor.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit MarkdownProcessor(Config config);
     ~MarkdownProcessor() override = default;
 
@@ -137,18 +132,10 @@ public:
 private:
     Config config_;
 
-    /**
-     * @brief Collapse runs of whitespace to a single space / newline
-     * @param[in] text Input parameter.
-     * @return Return value.
-     */
+    // Collapse runs of whitespace to a single space / newline
     static std::string normalizeWhitespace(const std::string& text);
 
-    /**
-     * @brief Count whitespace-delimited tokens
-     * @param[in] text Input parameter.
-     * @return Return value.
-     */
+    // Count whitespace-delimited tokens
     static int countTokens(const std::string& text);
 };
 

@@ -82,7 +82,6 @@ public:
      * @param registry  Non-owning pointer to the profile registry.
      *                  Must remain valid for the lifetime of this object.
      * @param config    Router configuration (copied).
-     * @return Return value.
      */
     explicit DiscourseOrchestrator(IEthicsProfileRegistry* registry,
                                    const RouterConfig&     config);
@@ -113,7 +112,6 @@ public:
      * `timed_out=true` and `ldm_verdict=ABSTAIN`.
      *
      * @param timeout_ms  Timeout in milliseconds.  Default: 1000 ms.
-     * @note Exception safety: noexcept.
      */
     void setSchoolTimeoutMs(int timeout_ms) noexcept;
 

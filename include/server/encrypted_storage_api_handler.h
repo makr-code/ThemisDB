@@ -91,43 +91,18 @@ public:
         const std::string&                      target);
 
 private:
-    /**
-     * @brief @name Route handlers @{
-     * @param[in] req Input parameter.
-     * @return Return value.
-     */
+    /// @name Route handlers
+    /// @{
     http::response<http::string_body> handleStore(
         const http::request<http::string_body>& req);
-    /**
-     * @brief TBD: Describe handleRetrieve.
-     * @param[in] req Input parameter.
-     * @param[in] key Input parameter.
-     * @return Return value.
-     */
     http::response<http::string_body> handleRetrieve(
         const http::request<http::string_body>& req,
         const std::string&                      key);
-    /**
-     * @brief TBD: Describe handleDelete.
-     * @param[in] req Input parameter.
-     * @param[in] key Input parameter.
-     * @return Return value.
-     */
     http::response<http::string_body> handleDelete(
         const http::request<http::string_body>& req,
         const std::string&                      key);
-    /**
-     * @brief TBD: Describe handleList.
-     * @param[in] req Input parameter.
-     * @return Return value.
-     */
     http::response<http::string_body> handleList(
         const http::request<http::string_body>& req);
-    /**
-     * @brief TBD: Describe handleRotate.
-     * @param[in] req Input parameter.
-     * @return Return value.
-     */
     http::response<http::string_body> handleRotate(
         const http::request<http::string_body>& req);
     /// @}

@@ -36,10 +36,6 @@ namespace query {
  */
 class IApproximateAggregator {
 public:
-    /**
-     * @brief TBD: Describe ~IApproximateAggregator.
-     * @return Return value.
-     */
     virtual ~IApproximateAggregator() = default;
 
     /**
@@ -53,7 +49,6 @@ public:
      *
      * After merging, `this` represents the union of both streams.
      * Throws `std::invalid_argument` if `other` is of an incompatible type.
-     * @param[in] other Input parameter.
      */
     virtual void merge(const IApproximateAggregator& other) = 0;
 
@@ -64,7 +59,6 @@ public:
      * - `ApproximateCountDistinct` → integer (estimated distinct count)
      * - `ApproximatePercentile`    → number  (estimated quantile value)
      * - `SamplingAggregator`       → number  (estimated aggregate over sample)
-     * @return Return value.
      */
     virtual nlohmann::json estimate() const = 0;
 
@@ -166,9 +160,6 @@ private:
         double weight = 0.0;
     };
 
-    /**
-     * @brief TBD: Describe compress.
-     */
     void compress();
 
     double quantile_ = 0.5;
@@ -223,10 +214,6 @@ private:
     std::vector<double> reservoir_;
     uint64_t rng_state_ = 0x123456789abcdefULL;
 
-    /**
-     * @brief TBD: Describe nextRng.
-     * @return Return value.
-     */
     uint64_t nextRng();
 };
 

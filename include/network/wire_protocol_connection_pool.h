@@ -46,10 +46,6 @@ using tcp = net::ip::tcp;
  */
 class IPoolingStrategy {
 public:
-    /**
-     * @brief TBD: Describe ~IPoolingStrategy.
-     * @return Return value.
-     */
     virtual ~IPoolingStrategy() = default;
 
     /**
@@ -71,7 +67,6 @@ public:
      * @param current_count   Current total connections
      * @param max_count       Configured maximum
      * @param available_count Idle connections available for immediate use
-     * @return True on success.
      */
     virtual bool shouldCreateConnection(
         size_t current_count,
@@ -85,7 +80,6 @@ public:
      * @param min_count       Configured minimum
      * @param available_count Idle connections available
      * @param idle_time       Time the oldest idle connection has been idle
-     * @return True on success.
      */
     virtual bool shouldRemoveConnection(
         size_t current_count,
@@ -120,11 +114,6 @@ public:
         std::chrono::seconds min_idle_time{300};
     };
 
-    /**
-     * @brief TBD: Describe AdaptivePoolingStrategy.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit AdaptivePoolingStrategy(const Config& config);
     AdaptivePoolingStrategy();
 
@@ -158,31 +147,14 @@ public:
     SocketWrapper(std::shared_ptr<tcp::socket> plain_socket);
     SocketWrapper(std::shared_ptr<ssl::stream<tcp::socket>> ssl_socket);
     
-    /**
-     * @brief TBD: Describe is_open.
-     * @return True on success.
-     */
     bool is_open() const;
-    /**
-     * @brief TBD: Describe close.
-     * @param[in,out] ec Input/output parameter.
-     */
     void close(boost::system::error_code& ec);
     
     // Check if this is an SSL socket
     bool is_ssl() const { return ssl_socket_ != nullptr; }
     
-    /**
-     * @brief Get the plain or SSL socket
-     * @return Pointer to the result.
-     * @details Calls: get().
-     */
+    // Get the plain or SSL socket
     tcp::socket* plain_socket() { return plain_socket_.get(); }
-    /**
-     * @brief TBD: Describe ssl_socket.
-     * @return Pointer to the result.
-     * @details Calls: get().
-     */
     ssl::stream<tcp::socket>* ssl_socket() { return ssl_socket_.get(); }
     
 private:
@@ -234,11 +206,6 @@ public:
         std::shared_ptr<IPoolingStrategy> adaptive_strategy;
     };
     
-    /**
-     * @brief TBD: Describe WireProtocolConnectionPool.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit WireProtocolConnectionPool(const Config& config);
     WireProtocolConnectionPool();
     ~WireProtocolConnectionPool();
@@ -269,12 +236,8 @@ public:
         ConnectionHandle(ConnectionHandle&& other) noexcept;
         ConnectionHandle& operator=(ConnectionHandle&& other) noexcept;
         
-        /**
-         * @brief Backward-compatible accessor returning the underlying TCP socket Only works for plain (non-SSL) sockets
-         * @return Return value.
-         * @throws std::runtime_error if an error occurs.
-         * @details Calls: is_ssl(), plain_socket().
-         */
+        // Backward-compatible accessor returning the underlying TCP socket
+        // Only works for plain (non-SSL) sockets
         tcp::socket& socket() { 
             if (!socket_->is_ssl() && socket_->plain_socket()) {
                 return *socket_->plain_socket();
@@ -282,11 +245,7 @@ public:
             throw std::runtime_error("socket() accessor not available for SSL connections; use socketWrapper() instead");
         }
         
-        /**
-         * @brief Access to the SocketWrapper for advanced usage (SSL vs plain)
-         * @return Return value.
-         * @details Implements socketWrapper without additional internal calls.
-         */
+        // Access to the SocketWrapper for advanced usage (SSL vs plain)
         SocketWrapper& socketWrapper() { return *socket_; }
         
         bool isValid() const { return socket_ && socket_->is_open(); }
@@ -335,16 +294,11 @@ public:
         }
     };
     
-    /**
-     * @brief TBD: Describe getStats.
-     * @return Return value.
-     */
     Stats getStats() const;
     
     /**
      * @brief Warm up pool for target
      * Creates minimum number of connections in advance
-     * @param[in] target Input parameter.
      */
     void warmup(const std::string& target);
     
@@ -397,29 +351,21 @@ private:
     
     /**
      * @brief Create new connection for target
-     * @param[in] target Input parameter.
-     * @return Return value.
      */
     std::shared_ptr<SocketWrapper> createConnection(const std::string& target);
     
     /**
      * @brief Release connection back to pool
-     * @param[in] target Input parameter.
-     * @param[in] socket Input parameter.
      */
     void releaseConnection(const std::string& target, std::shared_ptr<SocketWrapper> socket);
     
     /**
      * @brief Get or create target pool
-     * @param[in] target Input parameter.
-     * @return Return value.
      */
     std::shared_ptr<TargetPool> getOrCreateTargetPool(const std::string& target);
     
     /**
      * @brief Perform connection health check
-     * @param[in,out] socket Input/output parameter.
-     * @return True on success.
      */
     bool performHealthCheck(SocketWrapper& socket);
     

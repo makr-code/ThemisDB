@@ -54,13 +54,9 @@ public:
         int                error_code = 0;     ///< non-zero CUDA error on failure
     };
 
-    /**
-     * @brief @param dispatch_table GeoKernelDispatch table populated by GeoAccelerationBridge::populateGeoDispatch().
-     * @param[in] dispatch_table Input parameter.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     * @details Null entries disable the corresponding GPU path (dispatch() returns dispatched=false).
-     */
+    /// @param dispatch_table  GeoKernelDispatch table populated by
+    ///   GeoAccelerationBridge::populateGeoDispatch().  Null entries disable
+    ///   the corresponding GPU path (dispatch() returns dispatched=false).
     explicit GpuKernelDispatcher(
         const themis::acceleration::GeoKernelDispatch& dispatch_table) noexcept;
 
@@ -130,15 +126,7 @@ public:
                                                             int,
                                                             themis::acceleration::GeoDistanceFormula)>;
 
-    /**
-     * @brief TBD: Describe setContainmentDispatchFn.
-     * @param[in] fn Input parameter.
-     */
     static void setContainmentDispatchFn(ContainmentDispatchFn fn);
-    /**
-     * @brief TBD: Describe setDistanceDispatchFn.
-     * @param[in] fn Input parameter.
-     */
     static void setDistanceDispatchFn(DistanceDispatchFn fn);
 #endif
 

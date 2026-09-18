@@ -82,11 +82,6 @@ public:
         /// baseline.  The split is deterministic: hash(tenant_id) % 2.
         bool enable_ab_test = false;
 
-        /**
-         * @brief TBD: Describe defaults.
-         * @return Return value.
-         * @details Implements defaults without additional internal calls.
-         */
         static Config defaults() { return {}; }
     };
 
@@ -188,7 +183,6 @@ public:
 
     /**
      * @brief Get operational statistics as JSON.
-     * @return Return value.
      */
     nlohmann::json getStats() const;
 
@@ -226,12 +220,9 @@ private:
     mutable uint64_t ab_baseline_generated_ = 0;
 
     // Internal helpers
-    /**
-     * @brief Returns true if ToD weighting should be applied for this tenant.
-     * @param[in] tenant_id Input parameter.
-     * @return True on success.
-     * @details When enable_ab_test is true: group 0 (fnv1a(tenant_id) % 2 == 0) uses Markov + ToD; group 1 uses raw Markov frequency without ToD weighting.
-     */
+    /// Returns true if ToD weighting should be applied for this tenant.
+    /// When enable_ab_test is true: group 0 (fnv1a(tenant_id) % 2 == 0) uses
+    /// Markov + ToD; group 1 uses raw Markov frequency without ToD weighting.
     bool useToDWeighting(const std::string& tenant_id) const;
 
     /// Stable FNV-1a hash of a string – used for deterministic A/B routing.

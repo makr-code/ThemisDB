@@ -40,7 +40,6 @@ public:
     /**
      * @brief Create a timeout manager with specified duration
      * @param timeout Duration until timeout occurs
-     * @return Return value.
      */
     explicit CommandTimeoutManager(std::chrono::milliseconds timeout)
         : timeout_(timeout),
@@ -92,7 +91,6 @@ public:
      * 
      * @param pid Process ID to terminate
      * @return Exit status from waitpid, or -1 if error
-     * @details Calls: OpenProcess(), WaitForSingleObject(), TerminateProcess(), GetExitCodeProcess(), CloseHandle(), kill(), grace(), std::chrono::steady_clock::now().
      */
     static int terminateProcess(int pid) {
 #ifdef _WIN32

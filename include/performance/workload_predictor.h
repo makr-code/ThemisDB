@@ -150,11 +150,8 @@ public:
     /// Construct a predictor with the given configuration.
     explicit WorkloadPredictor(const Config& config);
 
-    /**
-     * @brief Record a new workload snapshot.
-     * @param[in] snapshot Input parameter.
-     * @details If the sliding window is full the oldest snapshot is evicted.
-     */
+    /// Record a new workload snapshot.
+    /// If the sliding window is full the oldest snapshot is evicted.
     void record(const WorkloadSnapshot& snapshot);
 
     /**
@@ -210,9 +207,6 @@ private:
      *
      * Low CV (stable signal)  → confidence near 1.
      * High CV (noisy signal)  → confidence near 0.
-     * @param[in] values Input parameter.
-     * @return Return value.
-     * @note Exception safety: noexcept.
      */
     double compute_confidence(const std::vector<double>& values) const noexcept;
 

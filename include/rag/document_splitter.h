@@ -121,7 +121,6 @@ public:
      * @param config Splitting configuration.
      * @throws std::invalid_argument if @c config.overlap >= @c config.chunk_size
      *         or @c config.chunk_size == 0 or @c config.chars_per_token <= 0.
-     * @return Return value.
      */
     explicit DocumentSplitter(const DocumentSplitterConfig& config);
 
@@ -164,14 +163,12 @@ public:
 
     /**
      * @brief Return the active configuration.
-     * @return Return value.
      */
     const DocumentSplitterConfig& getConfig() const;
 
     /**
      * @brief Replace the active configuration.
      * @throws std::invalid_argument on invalid parameters (same as constructor).
-     * @param[in] config Input parameter.
      */
     void setConfig(const DocumentSplitterConfig& config);
 
@@ -193,7 +190,6 @@ public:
      * @brief Sentence-boundary splitter with typical RAG defaults.
      *
      * chunk_size=512, overlap=64, strategy=Sentence.
-     * @return Return value.
      */
     static std::unique_ptr<DocumentSplitter> createDefault();
 
@@ -202,7 +198,6 @@ public:
      *        input windows.
      *
      * chunk_size=256, overlap=32, strategy=Fixed.
-     * @return Return value.
      */
     static std::unique_ptr<DocumentSplitter> createSmall();
 
@@ -210,7 +205,6 @@ public:
      * @brief Sliding-window splitter suitable for long-context models.
      *
      * chunk_size=1024, overlap=128, strategy=Sliding.
-     * @return Return value.
      */
     static std::unique_ptr<DocumentSplitter> createLarge();
 

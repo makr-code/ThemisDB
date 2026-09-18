@@ -173,11 +173,6 @@ public:
      */
     class ScopedFullEntropyFnOverride {
     public:
-        /**
-         * @brief TBD: Describe ScopedFullEntropyFnOverride.
-         * @param[in] fn Input parameter.
-         * @return Return value.
-         */
         explicit ScopedFullEntropyFnOverride(FullEntropyFn fn);
         ~ScopedFullEntropyFnOverride();
 

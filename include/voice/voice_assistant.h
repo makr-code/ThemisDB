@@ -144,7 +144,6 @@ public:
      * implementation at startup; unit tests inject a scripted converter.
      *
      * @param fn  Callable(audio_data, target_format) → converted bytes.
-     * @details Calls: std::move().
      */
     void setAudioConvertFn(AudioConvertFn fn) { audio_convert_fn_ = std::move(fn); }
 
@@ -171,7 +170,6 @@ public:
     
     /**
      * @brief Initialize voice assistant
-     * @return True on success.
      */
     bool initialize();
     
@@ -340,26 +338,16 @@ public:
      *
      * The manager is always available (it is constructed alongside
      * VoiceAssistant and does not require initialize()).
-     * @return Return value.
      */
     VoiceMacroManager& macroManager();
-    /**
-     * @brief TBD: Describe macroManager.
-     * @return Return value.
-     */
     const VoiceMacroManager& macroManager() const;
 
     /**
      * @brief Access the embedded VoiceAudioStorage for recording playback and transcript search.
      *
      * The storage is always available (it is constructed alongside VoiceAssistant).
-     * @return Return value.
      */
     VoiceAudioStorage& audioStorage();
-    /**
-     * @brief TBD: Describe audioStorage.
-     * @return Return value.
-     */
     const VoiceAudioStorage& audioStorage() const;
 
     /**
@@ -414,15 +402,11 @@ public:
     
     /**
      * @brief Get or create session
-     * @param[in] session_id Input parameter.
-     * @return Return value.
      */
     VoiceSession getSession(const std::string& session_id);
     
     /**
      * @brief Update session context
-     * @param[in] session_id Input parameter.
-     * @param[in] context Input parameter.
      */
     void updateSession(const std::string& session_id, const json& context);
 
@@ -451,19 +435,16 @@ public:
 
     /**
      * @brief Return the list of available TTS voices.
-     * @return Return value.
      */
     json getAvailableVoices() const;
 
     /**
      * @brief Return the list of supported TTS language codes.
-     * @return Return value.
      */
     std::vector<std::string> getSupportedLanguages() const;
     
     /**
      * @brief Get statistics
-     * @return Return value.
      */
     json getStatistics() const;
 
@@ -523,45 +504,16 @@ private:
         const VoiceSession& session
     );
     
-    /**
-     * @brief TBD: Describe generateSummary.
-     * @param[in] transcript Input parameter.
-     * @return Return value.
-     */
     json generateSummary(const std::string& transcript);
-    /**
-     * @brief TBD: Describe extractKeyPoints.
-     * @param[in] transcript Input parameter.
-     * @return Return value.
-     */
     json extractKeyPoints(const std::string& transcript);
-    /**
-     * @brief TBD: Describe extractActionItems.
-     * @param[in] transcript Input parameter.
-     * @return Return value.
-     */
     json extractActionItems(const std::string& transcript);
     
-    /**
-     * @brief TBD: Describe createRevisionEntry.
-     * @param[in] entity_id Input parameter.
-     * @param[in] data Input parameter.
-     * @param[in] metadata Input parameter.
-     * @return Return value.
-     */
     std::string createRevisionEntry(
         const std::string& entity_id,
         const std::vector<uint8_t>& data,
         const json& metadata
     );
 
-    /**
-     * @brief TBD: Describe logVoiceAuthenticationAudit.
-     * @param[in] user_id Input parameter.
-     * @param[in] session_id Input parameter.
-     * @param[in] action Input parameter.
-     * @param[in] result Input parameter.
-     */
     void logVoiceAuthenticationAudit(
         const std::string& user_id,
         const std::string& session_id,

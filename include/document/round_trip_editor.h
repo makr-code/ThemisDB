@@ -51,10 +51,6 @@ struct RoundTripSnapshot {
  */
 class IRoundTripEditor {
 public:
-    /**
-     * @brief TBD: Describe ~IRoundTripEditor.
-     * @return Return value.
-     */
     virtual ~IRoundTripEditor() = default;
 
     /**

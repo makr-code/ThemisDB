@@ -46,24 +46,16 @@ public:
     /// Singleton accessor.
     static DeviceManager& instance();
 
-    /**
-     * @brief Enumerate all available compute devices.
-     * @return Return value.
-     * @details Returns cached results if the cache is valid and within kCacheTTL.
-     */
+    /// Enumerate all available compute devices.
+    /// Returns cached results if the cache is valid and within kCacheTTL.
     std::vector<DeviceCapabilityInfo> probeDevices();
 
-    /**
-     * @brief Force a fresh hardware probe, ignoring the cache.
-     * @return Return value.
-     * @details Equivalent to invalidating the cache and calling probeDevices().
-     */
+    /// Force a fresh hardware probe, ignoring the cache.
+    /// Equivalent to invalidating the cache and calling probeDevices().
     std::vector<DeviceCapabilityInfo> refresh();
 
-    /**
-     * @brief Return the best available device (highest free VRAM among healthy GPU devices, or CPU fallback when no real GPU is present).
-     * @return Return value.
-     */
+    /// Return the best available device (highest free VRAM among healthy
+    /// GPU devices, or CPU fallback when no real GPU is present).
     DeviceCapabilityInfo getBestDevice();
 
     /// True when at least one healthy real (non-CPU) device is present.
@@ -72,10 +64,8 @@ public:
     /// BackendType of the best available device.
     BackendType bestBackendType();
 
-    /**
-     * @brief Emit a structured log line (to std::cout) listing all probed devices and the selected best device.
-     * @details Intended for startup observability.
-     */
+    /// Emit a structured log line (to std::cout) listing all probed devices
+    /// and the selected best device.  Intended for startup observability.
     void logDeviceInfo();
 
     /**

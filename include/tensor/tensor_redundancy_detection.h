@@ -59,10 +59,6 @@ struct RedundancyMetrics {
  */
 class IRedundancyDetector {
 public:
-    /**
-     * @brief TBD: Describe ~IRedundancyDetector.
-     * @return Return value.
-     */
     virtual ~IRedundancyDetector() = default;
 
     /**

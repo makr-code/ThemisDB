@@ -43,15 +43,7 @@ public:
         return "Synthetic SSM stub for Phase 1 dataflow validation (THEMIS_SSM_STUB_MODE)";
     }
 
-    /**
-     * @brief TBD: Describe initialize.
-     * @return True on success.
-     */
     bool initialize();
-    /**
-     * @brief TBD: Describe deinitialize.
-     * @return True on success.
-     */
     bool deinitialize();
     bool isAvailable() const { return initialized_; }
 
@@ -109,18 +101,9 @@ private:
 // Inline implementations to avoid separate TU and satisfy unity builds
 namespace themis::llm {
 
-/**
- * @brief TBD: Describe SyntheticSSMStub.
- * @return Return value.
- */
 inline SyntheticSSMStub::SyntheticSSMStub()
     : hidden_state_(HIDDEN_DIM, 0.0f), rng_(STUB_SEED), fingerprint_("synthetic-ssm-v0") {}
 
-/**
- * @brief TBD: Describe initialize.
- * @return True on success.
- * @details Calls: std::fill(), begin(), end().
- */
 inline bool SyntheticSSMStub::initialize() {
     initialized_ = true;
     token_count_ = 0;
@@ -128,12 +111,6 @@ inline bool SyntheticSSMStub::initialize() {
     return true;
 }
 
-/**
- * @brief TBD: Describe updateState.
- * @param[in] tokens Input parameter.
- * @return True on success.
- * @details Implements updateState without additional internal calls.
- */
 inline bool SyntheticSSMStub::updateState(const std::vector<int32_t>& tokens) {
     if (!initialized_) {
       return false;
@@ -147,12 +124,6 @@ inline bool SyntheticSSMStub::updateState(const std::vector<int32_t>& tokens) {
     return true;
 }
 
-/**
- * @brief TBD: Describe getStateSnapshot.
- * @param[in] snapshot_ts Input parameter.
- * @return Return value.
- * @details Calls: resize().
- */
 inline SSMStateSnapshot SyntheticSSMStub::getStateSnapshot(core::HLCTimestamp snapshot_ts) {
     SSMStateSnapshot snap;
     snap.snapshot_ts = snapshot_ts;
@@ -165,12 +136,6 @@ inline SSMStateSnapshot SyntheticSSMStub::getStateSnapshot(core::HLCTimestamp sn
     return snap;
 }
 
-/**
- * @brief TBD: Describe restoreState.
- * @param[in] snapshot Input parameter.
- * @return True on success.
- * @details Calls: size().
- */
 inline bool SyntheticSSMStub::restoreState(const SSMStateSnapshot& snapshot) {
     if (snapshot.state_fingerprint != fingerprint_) {
       return false;
@@ -185,10 +150,6 @@ inline bool SyntheticSSMStub::restoreState(const SSMStateSnapshot& snapshot) {
     return true;
 }
 
-/**
- * @brief TBD: Describe resetState.
- * @details Calls: std::fill(), begin(), end().
- */
 inline void SyntheticSSMStub::resetState() {
     token_count_ = 0;
     std::fill(hidden_state_.begin(), hidden_state_.end(), 0.0f);

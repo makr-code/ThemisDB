@@ -120,7 +120,6 @@ public:
     /**
      * @brief Construct client with configuration.
      * @param config Client configuration.
-     * @return Return value.
      */
     explicit ContinuousLearningClient(const Config& config);
     
@@ -168,10 +167,6 @@ public:
         size_t batch_count = 0;
         std::chrono::system_clock::time_point last_flush;
     };
-    /**
-     * @brief TBD: Describe getStatistics.
-     * @return Return value.
-     */
     Statistics getStatistics() const;
     
     /**
@@ -186,23 +181,9 @@ private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
     
-    /**
-     * @brief Internal methods
-     * @param[in] metrics Input parameter.
-     */
+    // Internal methods
     void sendMetrics(const std::vector<QualityMetric>& metrics);
-    /**
-     * @brief TBD: Describe evaluateTriggers.
-     */
     void evaluateTriggers();
-    /**
-     * @brief TBD: Describe createTrigger.
-     * @param[in] type Input parameter.
-     * @param[in] threshold Input parameter.
-     * @param[in] current_value Input parameter.
-     * @param[in] recommendation Input parameter.
-     * @return Return value.
-     */
     OptimizationTrigger createTrigger(
         const std::string& type,
         double threshold,

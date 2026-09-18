@@ -109,19 +109,16 @@ public:
 private:
     /**
      * @brief Create the buffer and allocate memory
-     * @return True on success.
      */
     bool create_buffer();
     
     /**
      * @brief Get Vulkan buffer usage flags for our Usage enum
-     * @return Return value.
      */
     VkBufferUsageFlags get_usage_flags() const;
     
     /**
      * @brief Get Vulkan memory property flags for our Usage enum
-     * @return Return value.
      */
     VkMemoryPropertyFlags get_memory_properties() const;
     
@@ -152,43 +149,11 @@ public:
     VulkanBuffer(VulkanContext*, size_t, Usage) {}
     ~VulkanBuffer() = default;
     
-    /**
-     * @brief TBD: Describe initialize.
-     * @return True on success.
-     * @details Implements initialize without additional internal calls.
-     */
     bool initialize() { return false; }
-    /**
-     * @brief TBD: Describe cleanup.
-     * @details Implements cleanup without additional internal calls.
-     */
     void cleanup() {}
-    /**
-     * @brief TBD: Describe upload.
-     * @param[in] param Input parameter.
-     * @param[in] size_t Input parameter.
-     * @return True on success.
-     * @details Implements upload without additional internal calls.
-     */
     bool upload(const void*, size_t) { return false; }
-    /**
-     * @brief TBD: Describe download.
-     * @param[in,out] param Input/output parameter.
-     * @param[in] size_t Input parameter.
-     * @return True on success.
-     * @details Implements download without additional internal calls.
-     */
     bool download(void*, size_t) { return false; }
-    /**
-     * @brief TBD: Describe map.
-     * @return Pointer to the result.
-     * @details Implements map without additional internal calls.
-     */
     void* map() { return nullptr; }
-    /**
-     * @brief TBD: Describe unmap.
-     * @details Implements unmap without additional internal calls.
-     */
     void unmap() {}
     bool is_mapped() const { return false; }
     size_t size() const { return 0; }

@@ -215,10 +215,6 @@ struct WikiIndexConfig {
  */
 class IWikiIndexReader {
 public:
-    /**
-     * @brief TBD: Describe ~IWikiIndexReader.
-     * @return Return value.
-     */
     virtual ~IWikiIndexReader() = default;
 
     /**
@@ -250,10 +246,6 @@ public:
  */
 class IWikiIndexWriter {
 public:
-    /**
-     * @brief TBD: Describe ~IWikiIndexWriter.
-     * @return Return value.
-     */
     virtual ~IWikiIndexWriter() = default;
 
     /**
@@ -429,7 +421,6 @@ public:
      *
      * Clears recall@k running means, MRR running mean, eval query count,
      * total query count, and the latency ring buffer.  Thread-safe.
-     * @note Exception safety: noexcept.
      */
     void resetEvaluationStats() noexcept;
 
@@ -437,13 +428,6 @@ private:
     /// @brief Convert a WikiChunk to a storage-compatible BaseEntity for index ingestion.
     [[nodiscard]] static themis::BaseEntity toEntity(const WikiChunk& chunk);
     [[nodiscard]] static std::string makeEmbeddingCacheKey(const WikiChunk& chunk);
-    /**
-     * @brief TBD: Describe estimateEmbeddingBytes.
-     * @param[in] cache_key Input parameter.
-     * @param[in] embedding Input parameter.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
     static std::size_t estimateEmbeddingBytes(const std::string& cache_key,
                                               const std::vector<float>& embedding) noexcept;
 
@@ -495,75 +479,35 @@ private:
     std::string                 emb_cache_table_;
     std::string                 legacy_emb_cache_table_;
 
-    /**
-     * @brief Load persisted embeddings from RocksDB into embed_cache_.
-     * @details Called during construction when config_.enable_persistent_cache is true.
-     */
+    /// Load persisted embeddings from RocksDB into embed_cache_.
+    /// Called during construction when config_.enable_persistent_cache is true.
     void loadPersistentEmbedCache();
 
-    /**
-     * @brief Persist a single embedding entry to RocksDB.
-     * @param[in] cache_key Input parameter.
-     * @param[in] chunk_id Input parameter.
-     * @param[in] embedding Input parameter.
-     * @details No-op when config_.enable_persistent_cache is false.
-     */
+    /// Persist a single embedding entry to RocksDB.
+    /// No-op when config_.enable_persistent_cache is false.
     void persistEmbedding(const std::string& cache_key,
                           const std::string& chunk_id,
                           const std::vector<float>& embedding);
 
-    /**
-     * @brief Attempt to load a single embedding from RocksDB by hash cache key.
-     * @param[in] cache_key Input parameter.
-     * @return Return value.
-     * @details Returns empty optional if not found or persistent cache is disabled.
-     */
+    /// Attempt to load a single embedding from RocksDB by hash cache key.
+    /// Returns empty optional if not found or persistent cache is disabled.
     std::optional<std::vector<float>> fetchPersistedEmbedding(
         const std::string& cache_key) const;
-    /**
-     * @brief TBD: Describe fetchLegacyPersistedEmbeddingByChunkId.
-     * @param[in] chunk_id Input parameter.
-     * @return Return value.
-     */
     std::optional<std::vector<float>> fetchLegacyPersistedEmbeddingByChunkId(
         const std::string& chunk_id) const;
 
-    /**
-     * @brief TBD: Describe touchEmbeddingCacheEntry.
-     * @param[in] cache_key Input parameter.
-     */
     void touchEmbeddingCacheEntry(const std::string& cache_key) const;
-    /**
-     * @brief TBD: Describe upsertEmbeddingCacheEntry.
-     * @param[in] cache_key Input parameter.
-     * @param[in] embedding Input parameter.
-     */
     void upsertEmbeddingCacheEntry(const std::string& cache_key,
                                    const std::vector<float>& embedding) const;
-    /**
-     * @brief TBD: Describe enforceEmbeddingCacheLimit.
-     */
     void enforceEmbeddingCacheLimit() const;
-    /**
-     * @brief TBD: Describe tryResolveEmbeddingFromCaches.
-     * @param[in] chunk Input parameter.
-     * @param[in,out] out_embedding Input/output parameter.
-     * @return True on success.
-     */
     bool tryResolveEmbeddingFromCaches(const WikiChunk& chunk,
                                        std::vector<float>* out_embedding);
-    /**
-     * @brief TBD: Describe migrateLegacyEntryIfNeeded.
-     * @param[in] chunk Input parameter.
-     * @param[in] embedding Input parameter.
-     */
     void migrateLegacyEntryIfNeeded(const WikiChunk& chunk,
                                     const std::vector<float>& embedding);
 
-    /**
-     * @brief Probe the LLM to determine the actual embedding dimensionality.
-     * @details Re-initialises the vector index if the probed dim differs from config_. Idempotent: subsequent calls are no-ops once dim_probed_ is set.
-     */
+    /// Probe the LLM to determine the actual embedding dimensionality.
+    /// Re-initialises the vector index if the probed dim differs from config_.
+    /// Idempotent: subsequent calls are no-ops once dim_probed_ is set.
     void probeEmbeddingDim();
 
     // -----------------------------------------------------------------------
@@ -593,12 +537,8 @@ private:
     mutable double              eval_mrr_{0.0};
     mutable std::size_t         eval_query_count_{0};
 
-    /**
-     * @brief Record a single query latency sample into the ring buffer.
-     * @param[in] latency_ms Input parameter.
-     * @note Exception safety: noexcept.
-     * @details Not thread-safe; caller must hold eval_mutex_.
-     */
+    /// Record a single query latency sample into the ring buffer.
+    /// Not thread-safe; caller must hold eval_mutex_.
     void recordLatencyLocked(double latency_ms) const noexcept;
 };
 

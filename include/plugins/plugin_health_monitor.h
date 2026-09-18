@@ -237,10 +237,6 @@ public:
         size_t recovering_plugins_count;
     };
     
-    /**
-     * @brief TBD: Describe getGlobalStats.
-     * @return Return value.
-     */
     GlobalStats getGlobalStats() const;
     
     /**
@@ -290,7 +286,6 @@ public:
     
     /**
      * @brief Get singleton instance
-     * @return Return value.
      */
     static PluginHealthMonitor& instance();
     
@@ -302,35 +297,26 @@ private:
     
     /**
      * @brief Check health of a single plugin
-     * @param[in,out] plugin Input/output parameter.
      */
     void checkPlugin(MonitoredPlugin& plugin);
     
     /**
      * @brief Handle unhealthy plugin
-     * @param[in,out] plugin Input/output parameter.
      */
     void handleUnhealthyPlugin(MonitoredPlugin& plugin);
     
     /**
      * @brief Attempt recovery with backoff
-     * @param[in,out] plugin Input/output parameter.
-     * @return Return value.
      */
     RecoveryResult attemptRecoveryWithBackoff(MonitoredPlugin& plugin);
     
     /**
      * @brief Calculate backoff duration
-     * @param[in] attempt_count Input parameter.
-     * @return Return value.
      */
     std::chrono::seconds calculateBackoff(uint32_t attempt_count) const;
     
     /**
      * @brief Notify administrators
-     * @param[in] plugin_name Input parameter.
-     * @param[in] diagnostics Input parameter.
-     * @param[in] message Input parameter.
      */
     void notifyAdministrators(
         const std::string& plugin_name,
@@ -340,14 +326,11 @@ private:
     
     /**
      * @brief Emit monitoring event
-     * @param[in] event Input parameter.
      */
     void emitEvent(const MonitoringEventData& event);
     
     /**
      * @brief Disable plugin after max failures
-     * @param[in,out] plugin Input/output parameter.
-     * @param[in] reason Input parameter.
      */
     void disablePlugin(MonitoredPlugin& plugin, const std::string& reason);
 
@@ -359,17 +342,12 @@ private:
      *   DEGRADED  → 0.7 − (error_rate × 0.2)
      *   UNHEALTHY → 0.3 − (error_rate × 0.2)
      *   CRITICAL / RECOVERING → max(0.0, 0.1 − error_rate × 0.1)
-     * @param[in] diag Input parameter.
-     * @return Return value.
-     * @note Exception safety: noexcept.
      */
     static double computeHealthScore(const PluginDiagnostics& diag) noexcept;
 
     /**
      * @brief Publish plugin_health_score gauge to metrics_sink_ (if attached).
      *  Must be called with mutex_ held.
-     * @param[in] plugin Input parameter.
-     * @note Exception safety: noexcept.
      */
     void publishHealthScore(const MonitoredPlugin& plugin) noexcept;
 };

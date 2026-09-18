@@ -59,10 +59,6 @@ namespace distributed_knowledge {
  */
 class IDKDiagnosticListener {
 public:
-    /**
-     * @brief TBD: Describe ~IDKDiagnosticListener.
-     * @return Return value.
-     */
     virtual ~IDKDiagnosticListener() = default;
 
     /**
@@ -119,29 +115,17 @@ public:
      * Listeners are called in registration order.  A null pointer is ignored.
      *
      * @param listener  Shared pointer to the listener implementation.
-     * @details Calls: lock(), push_back(), std::move().
      */
     void addListener(std::shared_ptr<IDKDiagnosticListener> listener) {
         if (!listener) { return; }
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         listeners_.push_back(std::move(listener));
     }
 
     /**
      * @brief Remove all registered listeners.
-     * @details Calls: lock(), clear().
      */
     void clearListeners() {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         listeners_.clear();
     }
@@ -150,11 +134,6 @@ public:
      * @brief Return the number of currently registered listeners.
      */
     [[nodiscard]] std::size_t listenerCount() const noexcept {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         return listeners_.size();
     }
@@ -172,14 +151,8 @@ public:
      * listeners still receive the event.
      *
      * @param event  Diagnostic event to broadcast (copied internally).
-     * @details Calls: lock(), empty(), utcNow(), onEvent().
      */
     void emit(DKDiagnosticEvent event) {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         if (event.timestamp_utc.empty()) {
             event.timestamp_utc = utcNow();
@@ -222,7 +195,6 @@ public:
      * @param shard_id       Shard that produced the duplicate entry.
      * @param operation_id   Operation identifier.
      * @param duplicate_key  The duplicated doc_id or summary_id.
-     * @details Calls: emit(), std::move().
      */
     void emitDedupCollision(const std::string& shard_id,
                             const std::string& operation_id,
@@ -243,7 +215,6 @@ public:
      * @param shard_id       Shard whose announcement was rejected.
      * @param operation_id   Operation identifier.
      * @param cause          Reason for rejection.
-     * @details Calls: emit(), std::move().
      */
     void emitTrustGateReject(const std::string& shard_id,
                              const std::string& operation_id,
@@ -263,7 +234,6 @@ public:
      * @param operation_id       Merge operation identifier.
      * @param responding_shards  Number of shards that responded.
      * @param total_shards       Total number of shards contacted.
-     * @details Calls: std::to_string(), emit(), std::move().
      */
     void emitPartialShardMerge(const std::string& operation_id,
                                std::size_t responding_shards,

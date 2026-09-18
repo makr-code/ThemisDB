@@ -99,16 +99,12 @@ public:
      * @param feature_name  One of: "enterprise_plugins", "multi_master",
      *                      "field_encryption", "rbac", "hsm", or any unknown
      *                      feature name (unknown → always allowed).
-     * @return True on success.
      */
     bool isFeatureAvailable(std::string_view feature_name) const;
 
     /**
      * @brief Like isFeatureAvailable() but also populates @p error_out with a
      *        human-readable explanation when returning false.
-     * @param[in] feature_name Input parameter.
-     * @param[in,out] error_out Input/output parameter.
-     * @return True on success.
      */
     bool isFeatureAvailable(std::string_view feature_name,
                             std::string& error_out) const;
@@ -126,7 +122,6 @@ public:
      *
      * @param requested_nodes  Number of shard nodes the caller wants to use.
      * @param error_out        Populated with an error string on failure.
-     * @return True on success.
      */
     bool checkNodeLimit(int requested_nodes, std::string& error_out) const;
 
@@ -139,7 +134,6 @@ public:
      *
      * @param requested_vram_gb  VRAM to allocate in gigabytes.
      * @param error_out          Populated with an error string on failure.
-     * @return True on success.
      */
     bool checkVRAMLimit(int requested_vram_gb, std::string& error_out) const;
 
@@ -166,14 +160,12 @@ public:
     /**
      * @brief Returns the names of all known gated features that are currently
      *        available (both compile-time ON and runtime license valid).
-     * @return Return value.
      */
     std::vector<std::string> getAvailableFeatures() const;
 
     /**
      * @brief Returns the names of all known gated features that are currently
      *        unavailable (compile-time OFF or runtime license invalid).
-     * @return Return value.
      */
     std::vector<std::string> getUnavailableFeatures() const;
 
@@ -186,8 +178,6 @@ public:
      *
      * The message explains which edition supports the feature and how to
      * obtain it.  Returns an empty string if the feature is already available.
-     * @param[in] feature_name Input parameter.
-     * @return Return value.
      */
     std::string getUpgradeMessage(std::string_view feature_name) const;
 
@@ -453,7 +443,6 @@ public:
      * exists for @p feature_name.
      *
      * Thread-safe.
-     * @param[in] feature_name Input parameter.
      */
     void clearFeatureOverride(std::string_view feature_name);
 
@@ -474,8 +463,6 @@ public:
      * @c isFeatureAvailable() for that.
      *
      * Thread-safe.
-     * @param[in] feature_name Input parameter.
-     * @return True on success.
      */
     bool hasFeatureOverride(std::string_view feature_name) const;
 
@@ -486,7 +473,6 @@ public:
      *         when an override has been set via @c setFeatureOverride().
      *
      * Thread-safe.
-     * @param[in] feature_name Input parameter.
      */
     std::optional<bool> getFeatureOverride(std::string_view feature_name) const;
 

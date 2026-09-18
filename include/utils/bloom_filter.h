@@ -43,14 +43,12 @@ public:
 
     /**
      * @brief Insert a key into the filter.
-     * @param[in] key Input parameter.
      */
     void insert(const std::string& key);
 
     /**
      * @brief Test membership.
      * @return false → definitely not in set. true → probably in set.
-     * @param[in] key Input parameter.
      */
     bool contains(const std::string& key) const;
 
@@ -61,19 +59,16 @@ public:
 
     /**
      * @brief Approximate number of elements inserted since last clear().
-     * @return Return value.
      */
     size_t size() const;
 
     /**
      * @brief Total number of bits in the underlying bit array.
-     * @return Return value.
      */
     size_t bitset_size() const;
 
     /**
      * @brief Configured target false-positive rate.
-     * @return Return value.
      */
     double false_positive_rate() const;
 

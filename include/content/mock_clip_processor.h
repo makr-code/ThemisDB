@@ -32,11 +32,6 @@ public:
 
 private:
     int dim_ = 512;
-    /**
-     * @brief TBD: Describe computeMockEmbedding_.
-     * @param[in] data Input parameter.
-     * @return Return value.
-     */
     std::vector<float> computeMockEmbedding_(const std::string& data) const;
 };
 

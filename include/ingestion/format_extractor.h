@@ -86,10 +86,6 @@ struct FormatExtractResult {
  */
 class IFormatExtractor {
 public:
-    /**
-     * @brief TBD: Describe ~IFormatExtractor.
-     * @return Return value.
-     */
     virtual ~IFormatExtractor() = default;
 
     /**
@@ -152,10 +148,6 @@ public:
  */
 class IFormatExtractorFactory {
 public:
-    /**
-     * @brief TBD: Describe ~IFormatExtractorFactory.
-     * @return Return value.
-     */
     virtual ~IFormatExtractorFactory() = default;
 
     /**

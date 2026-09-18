@@ -91,7 +91,6 @@ public:
      * ownership inside the pool.
      *
      * @param factory  Callable(endpoint) → optional<unique_ptr<SSL>>.
-     * @details Calls: std::move().
      */
     void setConnectionFactory(ConnectionFactory factory) {
         connection_factory_ = std::move(factory);
@@ -101,7 +100,6 @@ public:
      * @brief Construct endpoint connection pool
      * @param endpoint Target endpoint (e.g., "localhost:50051")
      * @param config Pool configuration
-     * @return Return value.
      */
     explicit EndpointConnectionPool(
         const std::string& endpoint,
@@ -123,7 +121,6 @@ public:
      *        outlive the pool.  If all captured state is captured by
      *        value (or via shared_ptr), there is no additional lifetime
      *        constraint beyond the pool itself.
-     * @return Return value.
      */
     explicit EndpointConnectionPool(
         const std::string& endpoint,
@@ -193,25 +190,9 @@ private:
     
     // Connection lifecycle management
     std::optional<std::unique_ptr<SSL, SSLDeleter>> createNewConnection();
-    /**
-     * @brief TBD: Describe validateConnection.
-     * @param[in,out] conn Input/output parameter.
-     * @return True on success.
-     */
     bool validateConnection(SSL* conn);
-    /**
-     * @brief TBD: Describe isConnectionExpired.
-     * @param[in] pooled Input parameter.
-     * @return True on success.
-     */
     bool isConnectionExpired(const PooledConnection& pooled);
-    /**
-     * @brief TBD: Describe cleanupExpiredConnections.
-     */
     void cleanupExpiredConnections();
-    /**
-     * @brief TBD: Describe cleanupLoop.
-     */
     void cleanupLoop();
     
     std::string endpoint_;
@@ -268,7 +249,6 @@ public:
     /**
      * @brief Construct pool manager with configuration
      * @param config Manager configuration
-     * @return Return value.
      */
     explicit MTLSConnectionPoolManager(const Config& config);
     MTLSConnectionPoolManager();

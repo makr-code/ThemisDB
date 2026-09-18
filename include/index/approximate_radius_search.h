@@ -92,11 +92,6 @@ public:
         bool truncated = false;            // True if max_results limit reached
     };
 
-    /**
-     * @brief TBD: Describe ApproximateRadiusSearch.
-     * @param[in,out] vector_manager Input/output parameter.
-     * @return Return value.
-     */
     explicit ApproximateRadiusSearch(VectorIndexManager& vector_manager);
 
     /**
@@ -115,9 +110,6 @@ public:
      * @brief Search for vectors within radius using vector ID
      * 
      * Convenience method that looks up the query vector by ID.
-     * @param[in] query_id Input parameter.
-     * @param[in] config Input parameter.
-     * @return Return value.
      */
     Result<SearchResult> searchById(
         std::string_view query_id,
@@ -126,9 +118,6 @@ public:
 
     /**
      * @brief Batch radius search for multiple query vectors
-     * @param[in] query_vectors Input parameter.
-     * @param[in] config Input parameter.
-     * @return Return value.
      */
     Result<std::vector<SearchResult>> batchSearch(
         const std::vector<std::vector<float>>& query_vectors,
@@ -140,10 +129,6 @@ public:
      * 
      * Automatically adjusts radius to return approximately target_count results
      * using binary search optimization.
-     * @param[in] query_vector Input parameter.
-     * @param[in] target_count Input parameter.
-     * @param[in] config Input parameter.
-     * @return Return value.
      */
     Result<SearchResult> searchWithTargetCount(
         const std::vector<float>& query_vector,
@@ -174,9 +159,6 @@ public:
     };
 
     const Statistics& getStatistics() const { return stats_; }
-    /**
-     * @brief TBD: Describe resetStatistics.
-     */
     void resetStatistics();
 
 private:

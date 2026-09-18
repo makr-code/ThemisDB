@@ -155,10 +155,6 @@ public:
         const std::string& version = "1.5.0");
 
 private:
-    /**
-     * @brief TBD: Describe generateId.
-     * @return Return value.
-     */
     std::string generateId() const;
 
     // v1.1.0: Lock-free concurrent hash map (2-3x throughput)

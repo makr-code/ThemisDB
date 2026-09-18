@@ -79,12 +79,7 @@ struct SparseVectorCSR {
         return result;
     }
     
-    /**
-     * @brief Deserialize from bytes
-     * @param[in] data Input parameter.
-     * @return Return value.
-     * @details Calls: size(), data(), resize(), std::memcpy().
-     */
+    // Deserialize from bytes
     static SparseVectorCSR deserialize(const std::vector<uint8_t>& data) {
         SparseVectorCSR result = {};
         if (data.size() < 12) {
@@ -139,12 +134,7 @@ public:
         return result;
     }
     
-    /**
-     * @brief Decompress CSR to dense vector
-     * @param[in] sparse Input parameter.
-     * @return Return value.
-     * @details Calls: vec(), size().
-     */
+    // Decompress CSR to dense vector
     static std::vector<float> decompress(const SparseVectorCSR& sparse) {
         std::vector<float> vec(sparse.dimension, 0.0f);
         
@@ -166,13 +156,8 @@ public:
         return static_cast<float>(zero_count) / vec.size();
     }
 
-    /**
-     * @brief Compute dot product between a sparse CSR vector and a dense vector.
-     * @param[in] sparse Input parameter.
-     * @param[in] dense Input parameter.
-     * @return Return value.
-     * @details Iterates only over non-zero entries for O(nnz) complexity instead of O(d). Calls: size().
-     */
+    // Compute dot product between a sparse CSR vector and a dense vector.
+    // Iterates only over non-zero entries for O(nnz) complexity instead of O(d).
     static float dot_product_sparse_dense(
         const SparseVectorCSR& sparse,
         const std::vector<float>& dense
@@ -195,34 +180,18 @@ public:
 /** @brief Quality: 100% lossless. */
 class VarIntCodec {
 public:
-    /**
-     * @brief Zigzag encoding for signed integers
-     * @param[in] n Input parameter.
-     * @return Return value.
-     * @details Implements zigzag_encode without additional internal calls.
-     */
+    // Zigzag encoding for signed integers
     static uint32_t zigzag_encode(int32_t n) {
         return (static_cast<uint32_t>(n) << 1) ^ (n >> 31);
     }
     
-    /**
-     * @brief TBD: Describe zigzag_decode.
-     * @param[in] n Input parameter.
-     * @return Return value.
-     * @details Implements zigzag_decode without additional internal calls.
-     */
     static int32_t zigzag_decode(uint32_t n) {
         // Avoid unary minus on unsigned to keep MSVC warning-free
         const int32_t sign = static_cast<int32_t>(-(static_cast<int32_t>(n & 1)));
         return static_cast<int32_t>((n >> 1) ^ sign);
     }
     
-    /**
-     * @brief Variable-length integer encoding
-     * @param[in,out] output Input/output parameter.
-     * @param[in] value Input parameter.
-     * @details Calls: push_back().
-     */
+    // Variable-length integer encoding
     static void encode(std::vector<uint8_t>& output, uint32_t value) {
         while (value >= 0x80) {
             output.push_back(static_cast<uint8_t>(value | 0x80));
@@ -231,12 +200,6 @@ public:
         output.push_back(static_cast<uint8_t>(value));
     }
     
-    /**
-     * @brief TBD: Describe decode.
-     * @param[in] ptr Input parameter.
-     * @return Return value.
-     * @details Implements decode without additional internal calls.
-     */
     static uint32_t decode(const uint8_t*& ptr) {
         uint32_t result = 0;
         int shift = 0;
@@ -253,12 +216,7 @@ public:
         return result;
     }
     
-    /**
-     * @brief Delta + VarInt compression for integer vectors
-     * @param[in] values Input parameter.
-     * @return Return value.
-     * @details Calls: empty(), encode(), zigzag_encode(), size().
-     */
+    // Delta + VarInt compression for integer vectors
     static std::vector<uint8_t> compress_delta(const std::vector<int32_t>& values) {
         std::vector<uint8_t> result;
         
@@ -278,12 +236,6 @@ public:
         return result;
     }
     
-    /**
-     * @brief TBD: Describe decompress_delta.
-     * @param[in] data Input parameter.
-     * @return Return value.
-     * @details Calls: empty(), data(), size(), zigzag_decode(), decode(), push_back().
-     */
     static std::vector<int32_t> decompress_delta(const std::vector<uint8_t>& data) {
         std::vector<int32_t> result;
         
@@ -333,12 +285,6 @@ template<typename T>
 /** @brief Dictionary codec component. */
 class DictionaryCodec {
 public:
-    /**
-     * @brief TBD: Describe compress.
-     * @param[in] vec Input parameter.
-     * @return Return value.
-     * @details Calls: size(), find(), end(), push_back().
-     */
     static DictionaryCompressed<T> compress(const std::vector<T>& vec) {
         DictionaryCompressed<T> result;
         result.original_size = vec.size();
@@ -360,12 +306,6 @@ public:
         return result;
     }
     
-    /**
-     * @brief TBD: Describe decompress.
-     * @param[in] compressed Input parameter.
-     * @return Return value.
-     * @details Calls: reserve(), push_back().
-     */
     static std::vector<T> decompress(const DictionaryCompressed<T>& compressed) {
         std::vector<T> result;
         result.reserve(compressed.original_size);
@@ -424,12 +364,6 @@ public:
         return LosslessCompressionMethod::NONE;
     }
     
-    /**
-     * @brief TBD: Describe method_name.
-     * @param[in] method Input parameter.
-     * @return Return value.
-     * @details Implements method_name without additional internal calls.
-     */
     static std::string method_name(LosslessCompressionMethod method) {
         switch (method) {
             case LosslessCompressionMethod::SPARSE_CSR: return "sparse_csr";

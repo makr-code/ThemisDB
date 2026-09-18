@@ -109,9 +109,6 @@ public:
      *
      * Accepts both top-level (`/v1/`, `/v2/`) and nested (`/api/v1/`, `/api/v2/`)
      * prefixes.
-     * @param[in] path Input parameter.
-     * @return True on success.
-     * @note Exception safety: noexcept.
      */
     static bool isVersioned(std::string_view path) noexcept;
 
@@ -124,9 +121,6 @@ public:
      *   `/v1/documents`   → 1
      *   `/v2/query/stream` → 2
      *   `/documents`      → 0
-     * @param[in] path Input parameter.
-     * @return Return value.
-     * @note Exception safety: noexcept.
      */
     static int extractVersion(std::string_view path) noexcept;
 
@@ -139,19 +133,11 @@ public:
      *   `/v1/documents/abc` → `/documents/abc`
      *   `/v2/query/stream`  → `/query/stream`
      *   `/documents`        → `/documents`
-     * @param[in] path Input parameter.
-     * @return Return value.
-     * @note Exception safety: noexcept.
      */
     static std::string_view stripVersionPrefix(std::string_view path) noexcept;
 
 private:
-    /**
-     * @brief Paths that start with these prefixes are never redirected.
-     * @param[in] path Input parameter.
-     * @return True on success.
-     * @note Exception safety: noexcept.
-     */
+    // Paths that start with these prefixes are never redirected.
     static bool isExemptFromRedirect(std::string_view path) noexcept;
 };
 

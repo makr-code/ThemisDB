@@ -93,7 +93,6 @@ public:
      * @param hsm Initialized HSM provider
      * @param config Adapter configuration
      * @throws std::invalid_argument if hsm is null or not initialized
-     * @return Return value.
      */
     explicit HSMKeyProviderAdapter(
         std::shared_ptr<HSMProvider> hsm,
@@ -246,7 +245,6 @@ public:
      * Pass an empty function to clear the override (default).
      *
      * Thread-safe.
-     * @param[in] fn Input parameter.
      */
     static void setWrapDEKFn(WrapDEKFn fn);
 
@@ -257,7 +255,6 @@ public:
      * Pass an empty function to clear the override (default).
      *
      * Thread-safe.
-     * @param[in] fn Input parameter.
      */
     static void setUnwrapDEKFn(UnwrapDEKFn fn);
 
@@ -302,64 +299,16 @@ private:
     std::map<std::string, std::map<uint32_t, KeyVersionData>> key_store_;
     mutable std::mutex store_mutex_;
     
-    /**
-     * @brief Helper methods
-     * @return Return value.
-     */
+    // Helper methods
     std::vector<uint8_t> generateRandomDEK() const;
-    /**
-     * @brief TBD: Describe wrapDEK.
-     * @param[in] dek Input parameter.
-     * @return Return value.
-     */
     std::vector<uint8_t> wrapDEK(const std::vector<uint8_t>& dek);
-    /**
-     * @brief TBD: Describe unwrapDEK.
-     * @param[in] encrypted_dek Input parameter.
-     * @return Return value.
-     */
     std::vector<uint8_t> unwrapDEK(const std::vector<uint8_t>& encrypted_dek);
-    /**
-     * @brief TBD: Describe makeCacheKey.
-     * @param[in] key_id Input parameter.
-     * @param[in] version Input parameter.
-     * @return Return value.
-     */
     std::string makeCacheKey(const std::string& key_id, uint32_t version) const;
-    /**
-     * @brief TBD: Describe makeStoreKey.
-     * @param[in] key_id Input parameter.
-     * @param[in] version Input parameter.
-     * @return Return value.
-     */
     std::string makeStoreKey(const std::string& key_id, uint32_t version) const;
-    /**
-     * @brief TBD: Describe getCachedDEK.
-     * @param[in] cache_key Input parameter.
-     * @param[in,out] out_dek Input/output parameter.
-     * @return True on success.
-     */
     bool getCachedDEK(const std::string& cache_key, std::vector<uint8_t>& out_dek);
-    /**
-     * @brief TBD: Describe putCachedDEK.
-     * @param[in] cache_key Input parameter.
-     * @param[in] dek Input parameter.
-     */
     void putCachedDEK(const std::string& cache_key, const std::vector<uint8_t>& dek);
-    /**
-     * @brief TBD: Describe evictExpiredCache.
-     */
     void evictExpiredCache();
-    /**
-     * @brief TBD: Describe getLatestVersion.
-     * @param[in] key_id Input parameter.
-     * @return Return value.
-     */
     uint32_t getLatestVersion(const std::string& key_id) const;
-    /**
-     * @brief TBD: Describe getCurrentTimeMs.
-     * @return Return value.
-     */
     int64_t getCurrentTimeMs() const;
 };
 

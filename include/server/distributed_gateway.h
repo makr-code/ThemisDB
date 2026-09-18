@@ -103,16 +103,7 @@ struct GatewayNode {
     bool        circuit_breaker_enabled{true};
     uint32_t    circuit_breaker_failure_threshold{5};
 
-    /**
-     * @brief TBD: Describe toJson.
-     * @return Return value.
-     */
     nlohmann::json toJson() const;
-    /**
-     * @brief TBD: Describe fromJson.
-     * @param[in] j Input parameter.
-     * @return Return value.
-     */
     static GatewayRouteConfig fromJson(const nlohmann::json& j);
 };
 
@@ -162,16 +153,7 @@ struct GatewayNode {
     std::string updated_by;                           ///< Node that committed this version
     std::chrono::system_clock::time_point updated_at;
 
-    /**
-     * @brief TBD: Describe toJson.
-     * @return Return value.
-     */
     nlohmann::json toJson() const;
-    /**
-     * @brief TBD: Describe fromJson.
-     * @param[in] j Input parameter.
-     * @return Return value.
-     */
     static ClusterGatewayConfig fromJson(const nlohmann::json& j);
 };
 
@@ -238,7 +220,6 @@ public:
 
     /**
      * @brief Return the current number of physical nodes in the ring.
-     * @return Return value.
      */
     std::size_t nodeCount() const;
 
@@ -248,12 +229,6 @@ private:
     std::map<uint64_t, GatewayNode> ring_;
     mutable std::shared_mutex mutex_;
 
-    /**
-     * @brief TBD: Describe hash.
-     * @param[in] key Input parameter.
-     * @param[in] replica Input parameter.
-     * @return Return value.
-     */
     static uint64_t hash(const std::string& key, uint32_t replica);
 };
 
@@ -395,7 +370,6 @@ public:
 
     /**
      * @brief Return the currently active (last-committed) configuration.
-     * @return Return value.
      */
     ClusterGatewayConfig getCurrentConfig() const;
 
@@ -439,13 +413,11 @@ public:
 
     /**
      * @brief Check whether this node is the current Raft leader.
-     * @return True on success.
      */
     bool isLeader() const;
 
     /**
      * @brief Check whether the cluster currently has a quorum.
-     * @return True on success.
      */
     bool hasQuorum() const;
 
@@ -453,13 +425,11 @@ public:
      * @brief Return the node ID of the current Raft leader.
      *
      * Returns an empty string when no leader has been elected yet.
-     * @return Return value.
      */
     std::string getLeaderId() const;
 
     /**
      * @brief Return a JSON status snapshot for monitoring/admin endpoints.
-     * @return Return value.
      */
     nlohmann::json getClusterStatus() const;
 
@@ -482,9 +452,6 @@ public:
      *        trigger a retry (HTTP 429, 500, 502, 503, 504).
      *
      * Exposed publicly for unit tests.
-     * @param[in] status Input parameter.
-     * @return True on success.
-     * @note Exception safety: noexcept.
      */
     static bool isTransientError(unsigned status) noexcept;
 
@@ -492,11 +459,6 @@ public:
      * @brief Compute the exponential-backoff delay for a given retry attempt.
      *
      * Exposed publicly for unit tests.
-     * @param[in] attempt Input parameter.
-     * @param[in] base_ms Input parameter.
-     * @param[in] max_ms Input parameter.
-     * @return Return value.
-     * @note Exception safety: noexcept.
      */
     static std::chrono::milliseconds retryDelay(uint32_t attempt,
                                                 uint32_t base_ms,
@@ -526,7 +488,6 @@ private:
 
     /**
      * @brief Build a RaftConsensus::Config from our own config.
-     * @return Return value.
      */
     themisdb::sharding::RaftConsensus::Config buildRaftConfig() const;
 
@@ -537,16 +498,12 @@ private:
 
     /**
      * @brief Return the session key for a request (used for affinity).
-     * @param[in] req Input parameter.
-     * @return Return value.
      */
     std::string sessionKey(const http::request<http::string_body>& req) const;
 
     /**
      * @brief Return true if the request requires session affinity
      *        (WebSocket upgrade or SSE Accept header).
-     * @param[in] req Input parameter.
-     * @return True on success.
      */
     bool needsSessionAffinity(const http::request<http::string_body>& req) const;
 

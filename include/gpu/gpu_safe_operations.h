@@ -143,15 +143,6 @@ public:
 private:
     cudaError_t error_code_;
 
-    /**
-     * @brief TBD: Describe build_message.
-     * @param[in] call_str Input parameter.
-     * @param[in] err Input parameter.
-     * @param[in] file Input parameter.
-     * @param[in] line Input parameter.
-     * @return Return value.
-     * @details Calls: std::to_string(), cudaGetErrorString().
-     */
     static std::string build_message(const char* call_str, cudaError_t err, 
                                      const char* file, int line) {
         std::string msg = "CUDA error at ";
@@ -345,7 +336,6 @@ public:
      * @brief Synchronize this stream (wait for all enqueued work to complete).
      * 
      * @throws CudaError if synchronization fails
-     * @details Calls: CUDA_CHECK(), cudaStreamSynchronize().
      */
     void synchronize() {
         if (stream_) {

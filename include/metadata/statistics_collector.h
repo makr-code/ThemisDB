@@ -43,10 +43,6 @@ struct HistogramBucket {
     double upper_bound;     ///< Upper bound (exclusive)
     size_t frequency;       ///< Number of values in this bucket
 
-    /**
-     * @brief TBD: Describe toJSON.
-     * @return Return value.
-     */
     json toJSON() const;
 };
 
@@ -69,10 +65,6 @@ struct ColumnStats {
     std::optional<double> min_value;                ///< Minimum numeric value (if numeric)
     std::optional<double> max_value;                ///< Maximum numeric value (if numeric)
 
-    /**
-     * @brief TBD: Describe toJSON.
-     * @return Return value.
-     */
     json toJSON() const;
 
     /// Estimate selectivity for a range predicate [low, high] using the histogram.
@@ -128,10 +120,6 @@ struct IndexStats {
     std::string additional_info;                    ///< Type-specific info (e.g., "sorted", "geohash", "ttl_seconds=3600")
     std::chrono::system_clock::time_point last_updated; ///< Timestamp of last export
 
-    /**
-     * @brief TBD: Describe toJSON.
-     * @return Return value.
-     */
     json toJSON() const;
 };
 
@@ -145,10 +133,6 @@ struct TableStats {
     std::chrono::system_clock::time_point last_updated; ///< When statistics were last refreshed
     size_t sample_size = 0;                         ///< Number of rows sampled during collection
 
-    /**
-     * @brief TBD: Describe toJSON.
-     * @return Return value.
-     */
     json toJSON() const;
 };
 
@@ -170,12 +154,6 @@ struct StatsResult {
     StatsErrorCode error = StatsErrorCode::OK;
     std::string error_message;
 
-    /**
-     * @brief TBD: Describe success.
-     * @param[in] v Input parameter.
-     * @return Return value.
-     * @details Calls: std::move().
-     */
     static StatsResult<T> success(T v) {
         StatsResult<T> r;
         r.ok = true;
@@ -183,13 +161,6 @@ struct StatsResult {
         return r;
     }
 
-    /**
-     * @brief TBD: Describe failure.
-     * @param[in] code Input parameter.
-     * @param[in] msg Input parameter.
-     * @return Return value.
-     * @details Calls: std::move().
-     */
     static StatsResult<T> failure(StatsErrorCode code, std::string msg) {
         StatsResult<T> r;
         r.ok = false;
@@ -237,20 +208,13 @@ public:
     ///   - `themis_stats_cache_hits_total`          – in-memory cache hits
     ///   - `themis_stats_errors_total`              – collection errors
     struct IMetricsHook {
-        /**
-         * @brief TBD: Describe ~IMetricsHook.
-         * @return Return value.
-         */
         virtual ~IMetricsHook() = default;
 
-        /**
-         * @brief Called after a successful or failed stats collection attempt.
-         * @param[in] table_name Input parameter.
-         * @param[in] duration_ms Input parameter.
-         * @param[in] rows_sampled Input parameter.
-         * @param[in] success Input parameter.
-         * @details @param table_name Affected table @param duration_ms Wall-clock duration in milliseconds @param rows_sampled Number of rows actually scanned @param success Whether collection succeeded
-         */
+        /// Called after a successful or failed stats collection attempt.
+        /// @param table_name   Affected table
+        /// @param duration_ms  Wall-clock duration in milliseconds
+        /// @param rows_sampled Number of rows actually scanned
+        /// @param success      Whether collection succeeded
         virtual void onCollect(std::string_view table_name,
                                double duration_ms,
                                size_t rows_sampled,
@@ -262,12 +226,8 @@ public:
         /// Called whenever getStats() results in a cache miss (loads from RocksDB or re-collects).
         virtual void onCacheMiss(std::string_view table_name) = 0;
 
-        /**
-         * @brief Called on any internal error (iterator failure, parse error, etc.
-         * @param[in] table_name Input parameter.
-         * @param[in] error_code Input parameter.
-         * @details ). @param error_code StatsErrorCode cast to int
-         */
+        /// Called on any internal error (iterator failure, parse error, etc.).
+        /// @param error_code  StatsErrorCode cast to int
         virtual void onError(std::string_view table_name, int error_code) = 0;
     };
 
@@ -275,11 +235,8 @@ public:
     /// Pass nullptr to remove the hook.
     void setMetricsHook(IMetricsHook* hook) noexcept { metrics_hook_ = hook; }
 
-    /**
-     * @brief Constructor @param db RocksDB wrapper for key scanning and persisting statistics
-     * @param[in,out] db Input/output parameter.
-     * @return Return value.
-     */
+    /// Constructor
+    /// @param db RocksDB wrapper for key scanning and persisting statistics
     explicit StatisticsCollector(RocksDBWrapper& db);
 
     /// Destructor – stops the background refresh thread if running.
@@ -295,18 +252,21 @@ public:
     // Auto-refresh
     // ========================================================================
 
-    /**
-     * @brief Configure the background auto-refresh interval.
-     * @param[in] interval Input parameter.
-     * @details When @p interval > 0, a background thread wakes every @p interval seconds and calls collectStats() for every table that has already been sampled at least once. Calling this again updates the interval live. Passing std::chrono::seconds(0) (the default) stops the background thread. The background thread does NOT block the caller; it runs at low priority and skips a table if collectStats() is already running for it. Thread-safety: safe to call from any thread.
-     */
+    /// Configure the background auto-refresh interval.
+    ///
+    /// When @p interval > 0, a background thread wakes every @p interval seconds
+    /// and calls collectStats() for every table that has already been sampled at
+    /// least once.  Calling this again updates the interval live.
+    /// Passing std::chrono::seconds(0) (the default) stops the background thread.
+    ///
+    /// The background thread does NOT block the caller; it runs at low priority
+    /// and skips a table if collectStats() is already running for it.
+    ///
+    /// Thread-safety: safe to call from any thread.
     void setRefreshInterval(std::chrono::seconds interval);
 
-    /**
-     * @brief Stop the background refresh thread immediately (blocking until it exits).
-     * @note Exception safety: noexcept.
-     * @details Called automatically by the destructor.
-     */
+    /// Stop the background refresh thread immediately (blocking until it exits).
+    /// Called automatically by the destructor.
     void stopRefresh() noexcept;
 
     // ========================================================================
@@ -322,56 +282,37 @@ public:
         size_t sample_size = 0
     );
 
-    /**
-     * @brief Retrieve cached statistics for a table (no re-scan).
-     * @param[in] table_name Input parameter.
-     * @return Return value.
-     * @details Loads from RocksDB persistence if not already in memory. @param table_name Table/collection name
-     */
+    /// Retrieve cached statistics for a table (no re-scan).
+    /// Loads from RocksDB persistence if not already in memory.
+    /// @param table_name  Table/collection name
     StatsResult<TableStats> getStats(std::string_view table_name);
 
-    /**
-     * @brief Force a fresh collection pass and update persisted statistics.
-     * @param[in] table_name Input parameter.
-     * @return Return value.
-     * @details Equivalent to collectStats() but returns only a success/failure bool. @param table_name Table/collection name
-     */
+    /// Force a fresh collection pass and update persisted statistics.
+    /// Equivalent to collectStats() but returns only a success/failure bool.
+    /// @param table_name  Table/collection name
     StatsResult<bool> updateStats(std::string_view table_name);
 
-    /**
-     * @brief Remove cached and persisted statistics for a table.
-     * @param[in] table_name Input parameter.
-     * @return Return value.
-     * @details @param table_name Table/collection name
-     */
+    /// Remove cached and persisted statistics for a table.
+    /// @param table_name  Table/collection name
     StatsResult<bool> clearStats(std::string_view table_name);
 
-    /**
-     * @brief Import index statistics for a table exported from the index module.
-     * @param[in] table_name Input parameter.
-     * @param[in] stats Input parameter.
-     * @return Return value.
-     * @details Stores the stats in-memory and persists them to RocksDB under "idxstats:<table_name>". @param table_name Table/collection name @param stats Index stats to import (replaces any previously cached stats)
-     */
+    /// Import index statistics for a table exported from the index module.
+    /// Stores the stats in-memory and persists them to RocksDB under
+    /// "idxstats:<table_name>".
+    /// @param table_name  Table/collection name
+    /// @param stats       Index stats to import (replaces any previously cached stats)
     StatsResult<bool> importIndexStats(
         std::string_view table_name,
         const std::vector<IndexStats>& stats
     );
 
-    /**
-     * @brief Retrieve cached index statistics for a table.
-     * @param[in] table_name Input parameter.
-     * @return Return value.
-     * @details Loads from RocksDB persistence if not already in memory. @param table_name Table/collection name
-     */
+    /// Retrieve cached index statistics for a table.
+    /// Loads from RocksDB persistence if not already in memory.
+    /// @param table_name  Table/collection name
     StatsResult<std::vector<IndexStats>> getIndexStats(std::string_view table_name);
 
-    /**
-     * @brief Remove cached and persisted index statistics for a table.
-     * @param[in] table_name Input parameter.
-     * @return Return value.
-     * @details @param table_name Table/collection name
-     */
+    /// Remove cached and persisted index statistics for a table.
+    /// @param table_name  Table/collection name
     StatsResult<bool> clearIndexStats(std::string_view table_name);
 
     /// Export all cached statistics as a JSON object.

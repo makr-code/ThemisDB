@@ -155,16 +155,8 @@ public:
         nlohmann::json tags;          // Tags for filtering (e.g., {"region": "us-east", "env": "prod"})
         nlohmann::json metadata;      // Additional metadata
         
-        /**
-         * @brief Serialization
-         * @return Return value.
-         */
+        // Serialization
         nlohmann::json toJson() const;
-        /**
-         * @brief TBD: Describe fromJson.
-         * @param[in] j Input parameter.
-         * @return Return value.
-         */
         static DataPoint fromJson(const nlohmann::json& j);
     };
     
@@ -209,13 +201,7 @@ public:
      * @param cf Optional column family handle (nullptr = default CF)
      * @param config Compression and storage configuration
      */
-    /**
-     * @brief Main constructor (explicit): accepts DB, optional CF and Config
-     * @param[in,out] db Input/output parameter.
-     * @param[in,out] cf Input/output parameter.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
+    // Main constructor (explicit): accepts DB, optional CF and Config
     explicit TSStore(rocksdb::TransactionDB* db, 
                      rocksdb::ColumnFamilyHandle* cf,
                      Config config);
@@ -232,7 +218,6 @@ public:
     /**
      * @brief Update compression configuration
      * @note Changes only affect new data points; existing data remains unchanged
-     * @param[in] config Input parameter.
      */
     void setConfig(const Config& config) { config_ = config; }
     
@@ -407,7 +392,6 @@ public:
 
     /**
      * @brief Returns the currently attached EncryptedChunkStore (may be null).
-     * @return Return value.
      */
     std::shared_ptr<EncryptedChunkStore> getEncryptedChunkStore() const;
 
@@ -430,7 +414,6 @@ public:
      *
      * @param buf  Pointer to a TSAutoBuffer (not owned, must outlive this TSStore).
      *             Pass nullptr to disable buffering and fall back to direct writes.
-     * @details Implements setAutoBuffer without additional internal calls.
      */
     void setAutoBuffer(TSAutoBuffer* buf) { auto_buffer_ = buf; }
 
@@ -492,13 +475,7 @@ private:
     static constexpr const char* GORILLA_CHUNK_PREFIX = "tsc:";
     static constexpr const char* SYS_META_PREFIX = "sys:";
     
-    /**
-     * @brief Key format: "ts:{metric}:{entity}:{timestamp_ms}"
-     * @param[in] metric Input parameter.
-     * @param[in] entity Input parameter.
-     * @param[in] timestamp_ms Input parameter.
-     * @return Return value.
-     */
+    // Key format: "ts:{metric}:{entity}:{timestamp_ms}"
     std::string makeKey(const std::string& metric, 
                        const std::string& entity, 
                        int64_t timestamp_ms) const;
@@ -509,35 +486,24 @@ private:
         std::string entity;
         int64_t timestamp_ms;
     };
-    /**
-     * @brief Internal helper that returns std::optional for compatibility
-     * @param[in] key Input parameter.
-     * @return Return value.
-     */
+    // Internal helper that returns std::optional for compatibility
     std::optional<KeyComponents> parseKeyInternal(const std::string& key) const;
     
-    /**
-     * @brief Public Result-based API
-     * @param[in] key Input parameter.
-     * @return Return value.
-     */
+    // Public Result-based API
     Result<KeyComponents> parseKey(const std::string& key) const;
     
-    /**
-     * @brief Check if data point matches tag filter
-     * @param[in] point Input parameter.
-     * @param[in] tag_filter Input parameter.
-     * @return True on success.
-     */
+    // Check if data point matches tag filter
     bool matchesTagFilter(const DataPoint& point, const nlohmann::json& tag_filter) const;
 
-    /**
-     * @brief Late-arrival enforcement helper.
-     * @param[in] wm_key Input parameter.
-     * @param[in] timestamp_ms Input parameter.
-     * @return Return value.
-     * @details Checks `timestamp_ms` against the per-series watermark identified by `wm_key` (format: "{metric}:{entity}") and updates the watermark when the point is newer. Must be called with `watermark_mutex_` held. Returns: -1 data point is too old (outside the late-arrival window) – caller must reject 0 data point is in-order or first write – accepted, watermark updated 1 data point is out-of-order but within window – accepted, watermark NOT updated
-     */
+    // Late-arrival enforcement helper.
+    // Checks `timestamp_ms` against the per-series watermark identified by `wm_key`
+    // (format: "{metric}:{entity}") and updates the watermark when the point is
+    // newer.  Must be called with `watermark_mutex_` held.
+    //
+    // Returns:
+    //  -1  data point is too old (outside the late-arrival window) – caller must reject
+    //   0  data point is in-order or first write – accepted, watermark updated
+    //   1  data point is out-of-order but within window – accepted, watermark NOT updated
     int checkAndUpdateWatermarkLocked(const std::string& wm_key, int64_t timestamp_ms);
 };
 

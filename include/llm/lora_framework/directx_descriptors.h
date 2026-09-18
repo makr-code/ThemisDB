@@ -48,7 +48,6 @@ public:
     
     /**
      * @brief Initialize descriptor heap
-     * @return True on success.
      */
     bool initialize();
     
@@ -73,14 +72,12 @@ public:
     /**
      * @brief Get CPU descriptor handle
      * @param index Descriptor index
-     * @return Return value.
      */
     D3D12_CPU_DESCRIPTOR_HANDLE get_cpu_handle(uint32_t index) const;
     
     /**
      * @brief Get GPU descriptor handle
      * @param index Descriptor index
-     * @return Return value.
      */
     D3D12_GPU_DESCRIPTOR_HANDLE get_gpu_handle(uint32_t index) const;
     

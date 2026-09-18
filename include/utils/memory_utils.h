@@ -106,7 +106,6 @@ public:
      * 
      * @param count Number of elements to allocate
      * @throws std::runtime_error if cudaMallocHost fails
-     * @return Return value.
      */
     explicit PinnedMemory(size_t count) 
         : ptr_(nullptr), count_(count) {
@@ -183,7 +182,6 @@ public:
      * 
      * @param bytes Number of bytes to allocate
      * @throws std::runtime_error if cudaMalloc fails
-     * @return Return value.
      */
     explicit CudaBuffer(size_t bytes) 
         : ptr_(nullptr), size_(bytes) {
@@ -257,7 +255,6 @@ private:
  * @param bytes Number of bytes to allocate
  * @return CudaBuffer RAII wrapper managing the buffer
  * @throws std::runtime_error if cudaMalloc fails
- * @details Calls: CudaBuffer().
  */
 inline CudaBuffer make_cuda_buffer(size_t bytes) {
     return CudaBuffer(bytes);
@@ -285,11 +282,6 @@ struct CpuDeleter {
  */
 class CudaBuffer {
 public:
-    /**
-     * @brief TBD: Describe CudaBuffer.
-     * @param[in] bytes Input parameter.
-     * @return Return value.
-     */
     explicit CudaBuffer(size_t bytes) 
         : ptr_(nullptr), size_(bytes) {
         void* raw_ptr = std::malloc(bytes);
@@ -340,12 +332,6 @@ private:
     size_t size_ = {};
 };
 
-/**
- * @brief TBD: Describe make_cuda_buffer.
- * @param[in] bytes Input parameter.
- * @return Return value.
- * @details Calls: CudaBuffer().
- */
 inline CudaBuffer make_cuda_buffer(size_t bytes) {
     return CudaBuffer(bytes);
 }

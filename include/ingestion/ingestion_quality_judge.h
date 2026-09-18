@@ -148,10 +148,6 @@ struct IngestionQualityReport {
  */
 class IIngestionQualityObserver {
 public:
-    /**
-     * @brief TBD: Describe ~IIngestionQualityObserver.
-     * @return Return value.
-     */
     virtual ~IIngestionQualityObserver() = default;
 
     /**
@@ -159,7 +155,6 @@ public:
      *
      * @param doc_id  Source URI or generated document identifier.
      * @param report  Full quality report for this pass.
-     * @note Exception safety: noexcept.
      */
     virtual void onQualityEvaluated(const std::string&            doc_id,
                                     const IngestionQualityReport& report) noexcept = 0;
@@ -170,7 +165,6 @@ public:
      * @param doc_id   Document being re-ingested.
      * @param attempt  1-based attempt counter.
      * @param reasons  Which dimension thresholds were not met.
-     * @note Exception safety: noexcept.
      */
     virtual void onReIngestionTriggered(
         const std::string&              doc_id,
@@ -184,7 +178,6 @@ public:
      * @param attempt  1-based attempt counter.
      * @param improved True when the overall_score improved compared to the
      *                 previous pass; false when score stayed the same or fell.
-     * @note Exception safety: noexcept.
      */
     virtual void onReIngestionComplete(const std::string& doc_id,
                                        int                attempt,
@@ -257,73 +250,31 @@ public:
     IngestionQualityReport evaluate(const ::themis::ingestion::ExtractionContext& ctx,
                                     const std::string&       source_text) const;
 
-    /**
-     * @brief ---- Configuration ----------------------------------------------------
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
+    // ---- Configuration ----------------------------------------------------
 
     const IngestionJudgeConfig& config() const noexcept;
-    /**
-     * @brief TBD: Describe setConfig.
-     * @param[in] cfg Input parameter.
-     */
     void setConfig(const IngestionJudgeConfig& cfg);
 
-    /**
-     * @brief ---- Observers --------------------------------------------------------
-     * @param[in] observer Input parameter.
-     */
+    // ---- Observers --------------------------------------------------------
 
     void addObserver(std::shared_ptr<IIngestionQualityObserver> observer);
-    /**
-     * @brief TBD: Describe removeObserver.
-     * @param[in] observer Input parameter.
-     */
     void removeObserver(const IIngestionQualityObserver* observer);
 
 private:
-    /**
-     * @brief ---- Prompt builders --------------------------------------------------
-     * @param[in] ctx Input parameter.
-     * @param[in] source Input parameter.
-     * @return Return value.
-     */
+    // ---- Prompt builders --------------------------------------------------
 
     std::string buildCompletenessPrompt(const ::themis::ingestion::ExtractionContext& ctx,
                                         const std::string&       source) const;
-    /**
-     * @brief TBD: Describe buildGroundednessPrompt.
-     * @param[in] ctx Input parameter.
-     * @param[in] source Input parameter.
-     * @return Return value.
-     */
     std::string buildGroundednessPrompt(const ::themis::ingestion::ExtractionContext& ctx,
                                         const std::string&       source) const;
-    /**
-     * @brief TBD: Describe buildEntityCoveragePrompt.
-     * @param[in] ctx Input parameter.
-     * @param[in] source Input parameter.
-     * @return Return value.
-     */
     std::string buildEntityCoveragePrompt(const ::themis::ingestion::ExtractionContext& ctx,
                                           const std::string&       source) const;
-    /**
-     * @brief TBD: Describe buildRelationCoherencePrompt.
-     * @param[in] ctx Input parameter.
-     * @return Return value.
-     */
     std::string buildRelationCoherencePrompt(const ::themis::ingestion::ExtractionContext& ctx) const;
 
     // ---- Response parsers -------------------------------------------------
 
-    /**
-     * @brief Extract a float score from a line like "SCORE: 0.
-     * @param[in] response Input parameter.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     * @details 82" in @p response. Returns -1.0 when no parseable score is found.
-     */
+    /// Extract a float score from a line like "SCORE: 0.82" in @p response.
+    /// Returns -1.0 when no parseable score is found.
     static double parseScore(const std::string& response) noexcept;
 
     /// Extract a rationale sentence after "RATIONALE:" in @p response.
@@ -334,35 +285,14 @@ private:
         const std::string& response,
         const std::string& section_tag) noexcept;
 
-    /**
-     * @brief ---- Aggregation ------------------------------------------------------
-     * @param[in] r Input parameter.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
+    // ---- Aggregation ------------------------------------------------------
 
     double computeOverallScore(const IngestionQualityReport& r) const noexcept;
-    /**
-     * @brief TBD: Describe checkThresholds.
-     * @param[in] r Input parameter.
-     * @return True on success.
-     * @note Exception safety: noexcept.
-     */
     bool   checkThresholds(const IngestionQualityReport& r) const noexcept;
-    /**
-     * @brief TBD: Describe computeRecommendedSteps.
-     * @param[in] r Input parameter.
-     * @return Return value.
-     */
     std::vector<std::string> computeRecommendedSteps(
         const IngestionQualityReport& r) const;
 
-    /**
-     * @brief ---- Observer dispatch ------------------------------------------------
-     * @param[in] doc_id Input parameter.
-     * @param[in] report Input parameter.
-     * @note Exception safety: noexcept.
-     */
+    // ---- Observer dispatch ------------------------------------------------
 
     void notifyEvaluated(const std::string&            doc_id,
                          const IngestionQualityReport& report) const noexcept;
@@ -464,16 +394,9 @@ public:
      */
     void setReIngestionProfile(const std::string& profile_name);
 
-    /**
-     * @brief ---- Observers --------------------------------------------------------
-     * @param[in] observer Input parameter.
-     */
+    // ---- Observers --------------------------------------------------------
 
     void addObserver(std::shared_ptr<IIngestionQualityObserver> observer);
-    /**
-     * @brief TBD: Describe removeObserver.
-     * @param[in] observer Input parameter.
-     */
     void removeObserver(const IIngestionQualityObserver* observer);
 
 private:
@@ -487,23 +410,9 @@ private:
     static bool isImprovement(const IngestionQualityReport& a,
                                const IngestionQualityReport& b) noexcept;
 
-    /**
-     * @brief TBD: Describe notifyTriggered.
-     * @param[in] doc_id Input parameter.
-     * @param[in] attempt Input parameter.
-     * @param[in] reasons Input parameter.
-     * @note Exception safety: noexcept.
-     */
     void notifyTriggered(const std::string&              doc_id,
                          int                             attempt,
                          const std::vector<std::string>& reasons) noexcept;
-    /**
-     * @brief TBD: Describe notifyComplete.
-     * @param[in] doc_id Input parameter.
-     * @param[in] attempt Input parameter.
-     * @param[in] improved Input parameter.
-     * @note Exception safety: noexcept.
-     */
     void notifyComplete(const std::string& doc_id,
                         int                attempt,
                         bool               improved) noexcept;

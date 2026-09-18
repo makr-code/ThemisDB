@@ -84,18 +84,11 @@ public:
         }
     };
 
-    /**
-     * @brief Get cached metadata für Tabelle Returns: IndexMetadata if cached, std::nullopt if cache miss
-     * @param[in] table Input parameter.
-     * @return Return value.
-     * @details Calls: lock(), find(), std::string(), end(), std::chrono::steady_clock::now().
-     */
+    /// Get cached metadata für Tabelle
+    /// Returns: IndexMetadata if cached, std::nullopt if cache miss
     std::optional<IndexMetadata> get(std::string_view table) {
-        /**
-         * @brief get() updates cache statistics; therefore it must not run under a shared/read lock while mutating stats_.
-         * @param[in] cache_mutex_ Input parameter.
-         * @return Return value.
-         */
+        // get() updates cache statistics; therefore it must not run under a
+        // shared/read lock while mutating stats_.
         std::unique_lock<std::shared_mutex> lock(cache_mutex_);
         
         stats_.total_lookups++;
@@ -116,11 +109,6 @@ public:
 
     /// Set cached metadata für Tabelle
     void set(std::string_view table, const IndexMetadata& metadata) {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] cache_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::shared_mutex> lock(cache_mutex_);
         
         CacheEntry entry;
@@ -132,22 +120,12 @@ public:
 
     /// Invalidate cache für Tabelle (z.B. nach createIndex/dropIndex)
     void invalidate(std::string_view table) {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] cache_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::shared_mutex> lock(cache_mutex_);
         metadata_cache_.erase(std::string(table));
     }
 
     /// Clear entire cache
     void clear() {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] cache_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::shared_mutex> lock(cache_mutex_);
         metadata_cache_.clear();
         stats_.total_lookups = 0;
@@ -157,11 +135,6 @@ public:
 
     /// Get cache statistics
     CacheStats get_stats() const {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] cache_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::shared_lock<std::shared_mutex> lock(cache_mutex_);
         return stats_;
     }

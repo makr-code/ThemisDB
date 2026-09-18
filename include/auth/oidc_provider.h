@@ -96,7 +96,6 @@ public:
      * (lazy discovery) unless explicitly called via discover().
      *
      * @param config Provider configuration
-     * @return Return value.
      */
     explicit OIDCProvider(const OIDCProviderConfig& config);
 
@@ -156,7 +155,6 @@ public:
      * @brief Access the underlying JWTValidator for advanced use.
      *
      * Calls discover() if not yet fetched.
-     * @return Return value.
      */
     JWTValidator& validator();
 
@@ -173,7 +171,6 @@ public:
      * @throws AuthException(AUTH_CONFIG_INVALID) if the provider does not
      *         advertise a device_authorization_endpoint
      * @throws AuthException(AUTH_INTERNAL_ERROR) if discovery fails
-     * @return Return value.
      */
     OAuthDeviceFlow createDeviceFlow();
 
@@ -202,7 +199,6 @@ public:
      *
      * For unit tests only.  Subsequent calls to discover() are no-ops until
      * clearDiscoveryDocumentForTesting() is called.
-     * @param[in] doc Input parameter.
      */
     void setDiscoveryDocumentForTesting(const OIDCDiscoveryDocument& doc);
 
@@ -228,24 +224,13 @@ private:
     // Test injection hook
     std::function<std::string(const std::string& url)> http_get_fn_;
 
-    /**
-     * @brief Fetch a URL and return the raw body (uses libcurl unless overridden)
-     * @param[in] url Input parameter.
-     * @return Return value.
-     */
+    // Fetch a URL and return the raw body (uses libcurl unless overridden)
     std::string httpGet(const std::string& url) const;
 
-    /**
-     * @brief Parse raw JSON into OIDCDiscoveryDocument
-     * @param[in] json_body Input parameter.
-     * @return Return value.
-     */
+    // Parse raw JSON into OIDCDiscoveryDocument
     static OIDCDiscoveryDocument parseDiscovery(const std::string& json_body);
 
-    /**
-     * @brief Build JWTValidatorConfig from the discovery document and provider config
-     * @return Return value.
-     */
+    // Build JWTValidatorConfig from the discovery document and provider config
     JWTValidatorConfig buildValidatorConfig() const;
 };
 

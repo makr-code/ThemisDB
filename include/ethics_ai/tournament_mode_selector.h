@@ -96,18 +96,7 @@ public:
         const TournamentConfig&                                      config = TournamentConfig{}) const;
 
 private:
-    /**
-     * @brief TBD: Describe countTokens.
-     * @param[in] text Input parameter.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
     static int         countTokens(const std::string& text) noexcept;
-    /**
-     * @brief TBD: Describe buildHeadline.
-     * @param[in] arg Input parameter.
-     * @return Return value.
-     */
     static std::string buildHeadline(const EthicalArgument& arg);
 };
 

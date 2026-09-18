@@ -74,10 +74,6 @@ namespace nf4_constants {
  * to improve quantization accuracy. Typical block size: 64-128 elements.
  */
 struct QuantizationBlock {
-    /**
-     * @brief TBD: Describe ~QuantizationBlock.
-     * @return Return value.
-     */
     virtual ~QuantizationBlock() = default;
     float scale = 0.0f;      // Scaling factor for dequantization
     float zero_point = 0.0f; // Zero point offset
@@ -95,10 +91,6 @@ struct QuantizationBlock {
  */
 class QuantizedTensor {
 public:
-    /**
-     * @brief TBD: Describe ~QuantizedTensor.
-     * @return Return value.
-     */
     virtual ~QuantizedTensor() = default;
     QuantizedTensor() = default;
     
@@ -117,34 +109,17 @@ public:
     const std::vector<size_t>& shape() const { return shape_; }
     size_t block_size() const { return block_size_; }
     size_t num_blocks() const { return blocks_.size(); }
-    /**
-     * @brief TBD: Describe total_elements.
-     * @return Return value.
-     */
     size_t total_elements() const;
     
     // Quantized data access
     const std::vector<uint8_t>& data() const { return quantized_data_; }
-    /**
-     * @brief TBD: Describe data.
-     * @return Return value.
-     * @details Implements data without additional internal calls.
-     */
     std::vector<uint8_t>& data() { return quantized_data_; }
     
     // Block parameters access
     const std::vector<QuantizationBlock>& blocks() const { return blocks_; }
-    /**
-     * @brief TBD: Describe blocks.
-     * @return Return value.
-     * @details Implements blocks without additional internal calls.
-     */
     std::vector<QuantizationBlock>& blocks() { return blocks_; }
     
-    /**
-     * @brief Memory usage
-     * @return Return value.
-     */
+    // Memory usage
     size_t memory_bytes() const;
     
 private:
@@ -173,7 +148,6 @@ namespace quantization {
      *
      * This is primarily used by `THEMIS_NO_SPDLOG` builds so debug-level
      * quantization diagnostics remain observable without linking spdlog.
-     * @param[in] fn Input parameter.
      */
     void setDebugLogFn(DebugLogFn fn);
 

@@ -92,16 +92,11 @@ public:
     
     /**
      * @brief Get M parameter based on dataset size
-     * @param[in] dataset_size Input parameter.
-     * @return Return value.
      */
     static int getRecommendedM(size_t dataset_size);
     
     /**
      * @brief Get ef_construction based on M and dataset size
-     * @param[in] M Input parameter.
-     * @param[in] dataset_size Input parameter.
-     * @return Return value.
      */
     static int getRecommendedEfConstruction(int M, size_t dataset_size);
     
@@ -128,18 +123,12 @@ public:
     
     /**
      * @brief Validate parameters and warn about suboptimal configurations
-     * @param[in] params Input parameter.
-     * @param[in] dataset_size Input parameter.
-     * @return True on success.
      */
     static bool validateParams(const HnswParams& params, size_t dataset_size);
     
     /**
      * @brief Get memory estimate for index
      * @return Estimated memory usage in bytes
-     * @param[in] params Input parameter.
-     * @param[in] dataset_size Input parameter.
-     * @param[in] dimension Input parameter.
      */
     static size_t estimateMemoryUsage(
         const HnswParams& params,
@@ -149,9 +138,6 @@ public:
     /**
      * @brief Get build time estimate
      * @return Estimated build time in seconds
-     * @param[in] params Input parameter.
-     * @param[in] dataset_size Input parameter.
-     * @param[in] dimension Input parameter.
      */
     static double estimateBuildTime(
         const HnswParams& params,

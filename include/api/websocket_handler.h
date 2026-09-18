@@ -96,22 +96,10 @@ struct WebSocketFrame {
     Type        type    = Type::Text;
     std::string payload;
 
-    /**
-     * @brief TBD: Describe text.
-     * @param[in] data Input parameter.
-     * @return Return value.
-     * @details Calls: std::move().
-     */
     static WebSocketFrame text(std::string data) {
         return {Type::Text, std::move(data)};
     }
 
-    /**
-     * @brief TBD: Describe binary.
-     * @param[in] data Input parameter.
-     * @return Return value.
-     * @details Calls: std::move().
-     */
     static WebSocketFrame binary(std::string data) {
         return {Type::Binary, std::move(data)};
     }
@@ -133,10 +121,6 @@ struct WebSocketFrame {
  */
 class IWebSocketFrameCallback {
 public:
-    /**
-     * @brief TBD: Describe ~IWebSocketFrameCallback.
-     * @return Return value.
-     */
     virtual ~IWebSocketFrameCallback() = default;
 
     /**
@@ -144,7 +128,6 @@ public:
      *
      * @param session  The session that received the frame (non-owning reference).
      * @param frame    The received frame (text, binary, ping, pong).
-     * @note Exception safety: noexcept.
      */
     virtual void onFrame(WebSocketSession& session, const WebSocketFrame& frame) noexcept = 0;
 
@@ -155,7 +138,6 @@ public:
      *                 call `send()` after this point).
      * @param code     The RFC 6455 close code.
      * @param reason   Optional UTF-8 close reason string.
-     * @note Exception safety: noexcept.
      */
     virtual void onClose(WebSocketSession& session,
                          WebSocketCloseCode code,
@@ -181,10 +163,6 @@ public:
  */
 class WebSocketSession {
 public:
-    /**
-     * @brief TBD: Describe ~WebSocketSession.
-     * @return Return value.
-     */
     virtual ~WebSocketSession() = default;
 
     WebSocketSession(const WebSocketSession&) = delete;
@@ -255,10 +233,6 @@ protected:
  */
 class IWebSocketHandler {
 public:
-    /**
-     * @brief TBD: Describe ~IWebSocketHandler.
-     * @return Return value.
-     */
     virtual ~IWebSocketHandler() = default;
 
     /**

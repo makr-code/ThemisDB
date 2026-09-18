@@ -63,16 +63,7 @@ struct Change {
     int64_t     timestamp;   ///< Unix timestamp (seconds)
     std::string actor;       ///< User who made the change
 
-    /**
-     * @brief TBD: Describe toJson.
-     * @return Return value.
-     */
     json toJson() const;
-    /**
-     * @brief TBD: Describe fromJson.
-     * @param[in] j Input parameter.
-     * @return Return value.
-     */
     static Change fromJson(const json& j);
 };
 
@@ -112,11 +103,6 @@ using ProjectEventCallback = std::function<void(const Change&)>;
  */
 class CollaborationManager {
 public:
-    /**
-     * @brief TBD: Describe CollaborationManager.
-     * @param[in] storage Input parameter.
-     * @return Return value.
-     */
     explicit CollaborationManager(std::shared_ptr<RocksDBWrapper> storage);
     ~CollaborationManager() = default;
 
@@ -131,7 +117,6 @@ public:
      * @param project_id  Project UUID.
      * @param users       Users to grant access to.
      * @param permission  Access level granted to all listed users.
-     * @return Return value.
      */
     Status shareProject(
         const std::string&        project_id,
@@ -144,7 +129,6 @@ public:
      *
      * @param project_id  Project UUID.
      * @param user_id     User whose access should be revoked.
-     * @return Return value.
      */
     Status revokeAccess(
         const std::string& project_id,
@@ -154,8 +138,6 @@ public:
     /**
      * @brief Return the permission level of a user for a project.
      * @return Permission level if the user has access, std::nullopt otherwise.
-     * @param[in] project_id Input parameter.
-     * @param[in] user_id Input parameter.
      */
     std::optional<Permission> getUserPermission(
         const std::string& project_id,
@@ -217,7 +199,6 @@ public:
      *
      * @param project_id  Project UUID.
      * @param object_name Object key to query.
-     * @return True on success.
      */
     bool isLocked(
         const std::string& project_id,
@@ -233,7 +214,6 @@ public:
      * every change event.  Pass `nullptr` to disable.
      *
      * Thread-safe.
-     * @param[in] log Input parameter.
      */
     void setAuditLog(std::shared_ptr<IProjectAuditLog> log);
 
@@ -252,7 +232,6 @@ public:
      * Pass `nullptr` to disable.
      *
      * Thread-safe.
-     * @param[in] metrics Input parameter.
      */
     void setMetrics(std::shared_ptr<ProjectMetrics> metrics);
 
@@ -266,7 +245,6 @@ public:
      *
      * @param project_id      Project UUID.
      * @param since_timestamp Unix timestamp (seconds); 0 returns all entries.
-     * @return Return value.
      */
     std::vector<Change> getChanges(
         const std::string& project_id,
@@ -308,19 +286,7 @@ private:
     static constexpr const char* kPermissionWrite = "write";
     static constexpr const char* kPermissionAdmin = "admin";
 
-    /**
-     * @brief TBD: Describe permissionToString.
-     * @param[in] p Input parameter.
-     * @return Pointer to the result.
-     * @note Exception safety: noexcept.
-     */
     static const char* permissionToString(Permission p) noexcept;
-    /**
-     * @brief TBD: Describe permissionFromString.
-     * @param[in] s Input parameter.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
     static std::optional<Permission> permissionFromString(
         const std::string& s) noexcept;
 };

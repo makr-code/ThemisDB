@@ -35,12 +35,6 @@ namespace examples {
 /** @brief Based on: "Mimalloc: Free List Sharding in Action" (ISMM'19). */
 class AllocatorExample {
 public:
-    /**
-     * @brief TBD: Describe allocate.
-     * @param[in] size Input parameter.
-     * @return Pointer to the result.
-     * @details Calls: THEMIS_PERF_MIMALLOC_ENABLED(), mi_malloc(), std::malloc().
-     */
     static void* allocate(size_t size) {
         if (THEMIS_PERF_MIMALLOC_ENABLED()) {
             // Use mimalloc if enabled
@@ -56,11 +50,6 @@ public:
         }
     }
     
-    /**
-     * @brief TBD: Describe deallocate.
-     * @param[in,out] ptr Input/output parameter.
-     * @details Calls: THEMIS_PERF_MIMALLOC_ENABLED(), mi_free(), std::free().
-     */
     static void deallocate(void* ptr) {
         if (THEMIS_PERF_MIMALLOC_ENABLED()) {
             #ifdef THEMIS_ENABLE_MIMALLOC
@@ -80,12 +69,6 @@ template<typename Key, typename Value>
 /** @brief Cache usage example. */
 class CacheExample {
 public:
-    /**
-     * @brief TBD: Describe put.
-     * @param[in] key Input parameter.
-     * @param[in] value Input parameter.
-     * @details Calls: THEMIS_PERF_LIRS_CACHE_ENABLED(), put_lirs(), put_lru().
-     */
     void put(const Key& key, const Value& value) {
         if (THEMIS_PERF_LIRS_CACHE_ENABLED()) {
             // Use LIRS cache replacement policy
@@ -96,12 +79,6 @@ public:
         }
     }
     
-    /**
-     * @brief TBD: Describe get.
-     * @param[in] key Input parameter.
-     * @return Return value.
-     * @details Calls: THEMIS_PERF_LIRS_CACHE_ENABLED(), get_lirs(), get_lru().
-     */
     Value get(const Key& key) {
         if (THEMIS_PERF_LIRS_CACHE_ENABLED()) {
             return get_lirs(key);
@@ -111,46 +88,22 @@ public:
     }
 
 private:
-    /**
-     * @brief TBD: Describe put_lru.
-     * @param[in] key Input parameter.
-     * @param[in] value Input parameter.
-     * @details Implements put_lru without additional internal calls.
-     */
     void put_lru(const Key& key, const Value& value) {
         // Standard LRU implementation
         // ...
     }
     
-    /**
-     * @brief TBD: Describe put_lirs.
-     * @param[in] key Input parameter.
-     * @param[in] value Input parameter.
-     * @details Implements put_lirs without additional internal calls.
-     */
     void put_lirs(const Key& key, const Value& value) {
         // LIRS implementation (when available)
         // Better cache hit rate for database workloads
         // ...
     }
     
-    /**
-     * @brief TBD: Describe get_lru.
-     * @param[in] key Input parameter.
-     * @return Return value.
-     * @details Implements get_lru without additional internal calls.
-     */
     Value get_lru(const Key& key) {
         // Standard LRU get
         return Value{};
     }
     
-    /**
-     * @brief TBD: Describe get_lirs.
-     * @param[in] key Input parameter.
-     * @return Return value.
-     * @details Implements get_lirs without additional internal calls.
-     */
     Value get_lirs(const Key& key) {
         // LIRS get
         return Value{};
@@ -163,12 +116,6 @@ template<typename Key, typename Value>
 /** @brief Index usage example. */
 class IndexExample {
 public:
-    /**
-     * @brief TBD: Describe lookup.
-     * @param[in] key Input parameter.
-     * @return Return value.
-     * @details Calls: THEMIS_PERF_RCU_INDEX_ENABLED(), lookup_rcu(), lookup_locked().
-     */
     Value lookup(const Key& key) {
         if (THEMIS_PERF_RCU_INDEX_ENABLED()) {
             // Use RCU for lock-free reads (ideal for read-heavy workloads)
@@ -179,12 +126,6 @@ public:
         }
     }
     
-    /**
-     * @brief TBD: Describe insert.
-     * @param[in] key Input parameter.
-     * @param[in] value Input parameter.
-     * @details Calls: THEMIS_PERF_RCU_INDEX_ENABLED(), insert_rcu(), insert_locked().
-     */
     void insert(const Key& key, const Value& value) {
         if (THEMIS_PERF_RCU_INDEX_ENABLED()) {
             insert_rcu(key, value);
@@ -194,12 +135,6 @@ public:
     }
 
 private:
-    /**
-     * @brief TBD: Describe lookup_locked.
-     * @param[in] key Input parameter.
-     * @return Return value.
-     * @details Implements lookup_locked without additional internal calls.
-     */
     Value lookup_locked(const Key& key) {
         // Traditional read-write lock
         // std::shared_lock lock(mutex_);
@@ -207,12 +142,6 @@ private:
         return Value{};
     }
     
-    /**
-     * @brief TBD: Describe lookup_rcu.
-     * @param[in] key Input parameter.
-     * @return Return value.
-     * @details Implements lookup_rcu without additional internal calls.
-     */
     Value lookup_rcu(const Key& key) {
         // RCU read-side (zero cost for readers)
         // No locks needed!
@@ -220,23 +149,11 @@ private:
         return Value{};
     }
     
-    /**
-     * @brief TBD: Describe insert_locked.
-     * @param[in] key Input parameter.
-     * @param[in] value Input parameter.
-     * @details Implements insert_locked without additional internal calls.
-     */
     void insert_locked(const Key& key, const Value& value) {
         // std::unique_lock lock(mutex_);
         // index_.insert(key, value);
     }
     
-    /**
-     * @brief TBD: Describe insert_rcu.
-     * @param[in] key Input parameter.
-     * @param[in] value Input parameter.
-     * @details Implements insert_rcu without additional internal calls.
-     */
     void insert_rcu(const Key& key, const Value& value) {
         // RCU write-side (requires synchronization)
         // auto* new_index = index_.clone();
@@ -250,12 +167,6 @@ private:
 /** @brief Based on: "WiscKey: Separating Keys from Values" (FAST'16). */
 class StorageExample {
 public:
-    /**
-     * @brief TBD: Describe write.
-     * @param[in] key Input parameter.
-     * @param[in] value Input parameter.
-     * @details Calls: THEMIS_PERF_WISCKEY_ENABLED(), size(), write_separated(), write_traditional().
-     */
     void write(const std::string& key, const std::string& value) {
         if (THEMIS_PERF_WISCKEY_ENABLED() && value.size() > 1024) {
             // Large values: use WiscKey separation
@@ -267,23 +178,11 @@ public:
     }
 
 private:
-    /**
-     * @brief TBD: Describe write_traditional.
-     * @param[in] key Input parameter.
-     * @param[in] value Input parameter.
-     * @details Implements write_traditional without additional internal calls.
-     */
     void write_traditional(const std::string& key, const std::string& value) {
         // Traditional LSM: key + value together
         // Higher write amplification but simpler
     }
     
-    /**
-     * @brief TBD: Describe write_separated.
-     * @param[in] key Input parameter.
-     * @param[in] value Input parameter.
-     * @details Implements write_separated without additional internal calls.
-     */
     void write_separated(const std::string& key, const std::string& value) {
         // WiscKey: store value in value log, only pointer in LSM
         // 1. Append value to value log
@@ -297,10 +196,6 @@ private:
 /** @brief Example 5: Feature Flag Configuration at Startup. */
 class ServerStartupExample {
 public:
-    /**
-     * @brief TBD: Describe configure_performance_flags.
-     * @details Calls: performance::PerformanceFeatureFlags::instance(), load_from_config(), get_all_flags().
-     */
     static void configure_performance_flags() {
         auto& flags = performance::PerformanceFeatureFlags::instance();
         
@@ -329,10 +224,6 @@ public:
 /** @brief Example 6: Runtime Monitoring. */
 class MonitoringExample {
 public:
-    /**
-     * @brief TBD: Describe report_feature_flags_status.
-     * @details Calls: performance::PerformanceFeatureFlags::instance(), get_all_flags().
-     */
     static void report_feature_flags_status() {
         auto& flags = performance::PerformanceFeatureFlags::instance();
         auto all_flags = flags.get_all_flags();

@@ -121,11 +121,6 @@ class GPUMemoryHandle {
         if (err != cudaSuccess) {
             std::string msg = std::string("cudaMalloc failed: ") + cudaGetErrorString(err);
             logGPUError(__FILE__, msg);
-            /**
-             * @brief TBD: Describe runtime_error.
-             * @param[in] msg Input parameter.
-             * @return Return value.
-             */
             throw std::runtime_error(msg);
         }
         size_ = bytes;
@@ -257,11 +252,6 @@ class GPUStreamHandle {
         if (err != cudaSuccess) {
             std::string msg = std::string("cudaStreamCreate failed: ") + cudaGetErrorString(err);
             logGPUError(__FILE__, msg);
-            /**
-             * @brief TBD: Describe runtime_error.
-             * @param[in] msg Input parameter.
-             * @return Return value.
-             */
             throw std::runtime_error(msg);
         }
 #endif
@@ -307,11 +297,8 @@ class GPUStreamHandle {
         return stream_ != nullptr;
     }
 
-    /**
-     * @brief Synchronize (wait for all pending operations) @throws std::runtime_error if synchronization fails
-     * @throws std::runtime_error if an error occurs.
-     * @details Calls: cudaStreamSynchronize(), std::string(), cudaGetErrorString(), logGPUError().
-     */
+    /// Synchronize (wait for all pending operations)
+    /// @throws std::runtime_error if synchronization fails
     void synchronize() {
 #if THEMIS_GPU_RAII_HAS_CUDA
         if (stream_ != nullptr) {
@@ -319,11 +306,6 @@ class GPUStreamHandle {
             if (err != cudaSuccess) {
                 std::string msg = std::string("cudaStreamSynchronize failed: ") + cudaGetErrorString(err);
                 logGPUError(__FILE__, msg);
-                /**
-                 * @brief TBD: Describe runtime_error.
-                 * @param[in] msg Input parameter.
-                 * @return Return value.
-                 */
                 throw std::runtime_error(msg);
             }
         }
@@ -397,11 +379,6 @@ class GPUEventHandle {
         if (err != cudaSuccess) {
             std::string msg = std::string("cudaEventCreate failed: ") + cudaGetErrorString(err);
             logGPUError(__FILE__, msg);
-            /**
-             * @brief TBD: Describe runtime_error.
-             * @param[in] msg Input parameter.
-             * @return Return value.
-             */
             throw std::runtime_error(msg);
         }
 #endif
@@ -453,12 +430,9 @@ class GPUEventHandle {
         return event_ != nullptr;
     }
 
-    /**
-     * @brief Record event in stream @param stream CUDA stream to record event in @throws std::runtime_error if recording fails
-     * @param[in] stream Input parameter.
-     * @throws std::runtime_error if an error occurs.
-     * @details Calls: cudaEventRecord(), std::string(), cudaGetErrorString(), logGPUError().
-     */
+    /// Record event in stream
+    /// @param stream CUDA stream to record event in
+    /// @throws std::runtime_error if recording fails
     void record(cudaStream_t stream) {
 #if THEMIS_GPU_RAII_HAS_CUDA
         if (event_ == nullptr) {
@@ -468,11 +442,6 @@ class GPUEventHandle {
         if (err != cudaSuccess) {
             std::string msg = std::string("cudaEventRecord failed: ") + cudaGetErrorString(err);
             logGPUError(__FILE__, msg);
-            /**
-             * @brief TBD: Describe runtime_error.
-             * @param[in] msg Input parameter.
-             * @return Return value.
-             */
             throw std::runtime_error(msg);
         }
 #endif
@@ -492,11 +461,8 @@ class GPUEventHandle {
 #endif
     }
 
-    /**
-     * @brief Wait for event to complete @throws std::runtime_error if wait fails
-     * @throws std::runtime_error if an error occurs.
-     * @details Calls: cudaEventSynchronize(), std::string(), cudaGetErrorString(), logGPUError().
-     */
+    /// Wait for event to complete
+    /// @throws std::runtime_error if wait fails
     void wait() {
 #if THEMIS_GPU_RAII_HAS_CUDA
         if (event_ == nullptr) {
@@ -506,11 +472,6 @@ class GPUEventHandle {
         if (err != cudaSuccess) {
             std::string msg = std::string("cudaEventSynchronize failed: ") + cudaGetErrorString(err);
             logGPUError(__FILE__, msg);
-            /**
-             * @brief TBD: Describe runtime_error.
-             * @param[in] msg Input parameter.
-             * @return Return value.
-             */
             throw std::runtime_error(msg);
         }
 #endif
@@ -544,12 +505,6 @@ class GPUEventHandle {
 /// @param count Number of elements to allocate
 /// @return GPU memory handle with automatic cleanup
 template<typename T>
-/**
- * @brief TBD: Describe makeGPUMemory.
- * @param[in] count Input parameter.
- * @return Return value.
- * @details Implements makeGPUMemory without additional internal calls.
- */
 inline GPUMemoryHandle<T> makeGPUMemory(size_t count) {
     return GPUMemoryHandle<T>(count);
 }

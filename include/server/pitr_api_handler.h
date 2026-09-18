@@ -35,9 +35,6 @@ class PITRApiHandler {
 public:
     /**
      * Construct PITRApiHandler
-     * @brief TBD: Describe PITRApiHandler.
-     * @param[in,out] pitr_manager Input/output parameter.
-     * @return Return value.
      */
     explicit PITRApiHandler(PITRManager& pitr_manager);
     
@@ -51,32 +48,21 @@ public:
 
     /**
      * Register routes with HTTP server
-     * @brief TBD: Describe registerRoutes.
-     * @param[in,out] server Input/output parameter.
      */
     void registerRoutes(httplib::Server& server);
     
     /**
      * Handle POST /api/v1/restore/pitr
-     * @brief TBD: Describe handleRestore.
-     * @param[in] req Input parameter.
-     * @param[in,out] res Input/output parameter.
      */
     void handleRestore(const httplib::Request& req, httplib::Response& res);
 
     /**
      * Handle POST /api/v1/restore/preview
-     * @brief TBD: Describe handlePreview.
-     * @param[in] req Input parameter.
-     * @param[in,out] res Input/output parameter.
      */
     void handlePreview(const httplib::Request& req, httplib::Response& res);
 
     /**
      * Handle GET /api/v1/restore/progress
-     * @brief TBD: Describe handleGetProgress.
-     * @param[in] req Input parameter.
-     * @param[in,out] res Input/output parameter.
      */
     void handleGetProgress(const httplib::Request& req, httplib::Response& res);
 
@@ -85,50 +71,31 @@ private:
 
     /**
      * Parse restore options from JSON request
-     * @brief TBD: Describe parseRestoreOptions.
-     * @param[in] options_json Input parameter.
-     * @return Return value.
      */
     PITRManager::RestoreOptions parseRestoreOptions(const json& options_json) const;
 
     /**
      * Helper: Convert progress to JSON
-     * @brief TBD: Describe progressToJson.
-     * @param[in] progress Input parameter.
-     * @return Return value.
      */
     json progressToJson(const PITRManager::RestoreProgress& progress) const;
 
     /**
      * Helper: Convert preview to JSON
-     * @brief TBD: Describe previewToJson.
-     * @param[in] preview Input parameter.
-     * @return Return value.
      */
     json previewToJson(const PITRManager::RestorePreview& preview) const;
 
     /**
      * Helper: Convert status to JSON
-     * @brief TBD: Describe statusToJson.
-     * @param[in] status Input parameter.
-     * @return Return value.
      */
     json statusToJson(const PITRManager::Status& status) const;
 
     /**
      * Helper: Convert phase enum to string
-     * @brief TBD: Describe phaseToString.
-     * @param[in] phase Input parameter.
-     * @return Return value.
      */
     std::string phaseToString(PITRManager::RestoreProgress::Phase phase) const;
 
     /**
      * Create error response
-     * @brief TBD: Describe sendError.
-     * @param[in,out] res Input/output parameter.
-     * @param[in] status_code Input parameter.
-     * @param[in] message Input parameter.
      */
     void sendError(httplib::Response& res, int status_code, const std::string& message) const;
 

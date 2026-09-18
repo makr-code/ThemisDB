@@ -83,7 +83,6 @@ public:
     
     /**
      * @brief Transition resource state
-     * @param[in] new_state Input parameter.
      */
     void transition_state(D3D12_RESOURCE_STATES new_state);
     
@@ -93,20 +92,8 @@ public:
     D3D12_RESOURCE_STATES current_state() const { return current_state_; }
 
 private:
-    /**
-     * @brief TBD: Describe create_default_buffer.
-     * @return True on success.
-     */
     bool create_default_buffer();
-    /**
-     * @brief TBD: Describe create_upload_buffer.
-     * @return True on success.
-     */
     bool create_upload_buffer();
-    /**
-     * @brief TBD: Describe create_readback_buffer.
-     * @return True on success.
-     */
     bool create_readback_buffer();
     
     DirectXContext* context_;

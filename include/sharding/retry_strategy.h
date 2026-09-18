@@ -65,12 +65,6 @@ public:
      *   .execute([this] { return tryRouteWrite(payload); });
      */
     template<typename Func>
-    /**
-     * @brief TBD: Describe execute.
-     * @param[in] func Input parameter.
-     * @return True on success.
-     * @details Calls: func(), spdlog::debug(), what(), std::this_thread::sleep_for(), std::chrono::milliseconds(), std::min(), count(), spdlog::warn().
-     */
     bool execute(Func func) {
         for (current_retry_ = 0; current_retry_ < max_retries_; ++current_retry_) {
             try {
@@ -127,7 +121,6 @@ public:
 
     /**
      * @brief Reset retry state for reuse
-     * @details Implements reset without additional internal calls.
      */
     void reset() {
         current_retry_ = 0;

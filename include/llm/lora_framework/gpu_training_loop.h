@@ -36,10 +36,6 @@ class BaseModelAdapter;
  * @brief Training metrics for GPU training
  */
 struct GPUTrainingMetrics {
-    /**
-     * @brief TBD: Describe ~GPUTrainingMetrics.
-     * @return Return value.
-     */
     virtual ~GPUTrainingMetrics() = default;
     int current_epoch = 0;
     int total_epochs = 0;
@@ -63,10 +59,6 @@ using GPUTrainingCallback = std::function<void(const GPUTrainingMetrics&)>;
  * @brief Configuration for GPU training loop
  */
 struct GPUTrainingConfig {
-    /**
-     * @brief TBD: Describe ~GPUTrainingConfig.
-     * @return Return value.
-     */
     virtual ~GPUTrainingConfig() = default;
     // Basic training parameters
     int num_epochs = 3;
@@ -132,7 +124,6 @@ public:
     /**
      * @brief Construct GPU training loop
      * @param config Training configuration
-     * @return Return value.
      */
     explicit GPUTrainingLoop(const GPUTrainingConfig& config);
     
@@ -192,7 +183,6 @@ public:
     
     /**
      * @brief Get current metrics
-     * @return Return value.
      */
     GPUTrainingMetrics getMetrics() const;
     
@@ -239,44 +229,14 @@ private:
     GPUTrainingCallback callback_;
     float final_loss_ = 0.0f;
     
-    /**
-     * @brief Helper methods
-     */
+    // Helper methods
     void initializeOptimizer();
-    /**
-     * @brief TBD: Describe initializeMemoryManagement.
-     */
     void initializeMemoryManagement();
-    /**
-     * @brief TBD: Describe initializeAdaptiveBatching.
-     */
     void initializeAdaptiveBatching();
-    /**
-     * @brief TBD: Describe initializeCheckpointing.
-     */
     void initializeCheckpointing();
-    /**
-     * @brief TBD: Describe trainEpoch.
-     * @param[in] epoch Input parameter.
-     * @return Return value.
-     */
     float trainEpoch(int epoch);
-    /**
-     * @brief TBD: Describe trainStep.
-     * @param[in] batch Input parameter.
-     * @return Return value.
-     */
     float trainStep(const GPUBatch& batch);
-    /**
-     * @brief TBD: Describe updateMetrics.
-     * @param[in] epoch Input parameter.
-     * @param[in] step Input parameter.
-     * @param[in] loss Input parameter.
-     */
     void updateMetrics(int epoch, int step, float loss);
-    /**
-     * @brief TBD: Describe checkMemoryUsage.
-     */
     void checkMemoryUsage();
 };
 

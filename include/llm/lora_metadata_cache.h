@@ -32,10 +32,6 @@ namespace llm {
  * - Unified monitoring with other ThemisDB caches
  */
 struct LoRAMetadata {
-    /**
-     * @brief TBD: Describe ~LoRAMetadata.
-     * @return Return value.
-     */
     virtual ~LoRAMetadata() = default;
     std::string lora_id;
     std::string path;
@@ -70,54 +66,41 @@ public:
     
     /**
      * @brief Store LoRA metadata
-     * @param[in] lora_id Input parameter.
-     * @param[in] metadata Input parameter.
      */
     void put(const std::string& lora_id, const LoRAMetadata& metadata);
     
     /**
      * @brief Get LoRA metadata (lock-free read)
-     * @param[in] lora_id Input parameter.
-     * @return Return value.
      */
     std::optional<LoRAMetadata> get(const std::string& lora_id) const;
     
     /**
      * @brief Update last accessed timestamp
-     * @param[in] lora_id Input parameter.
      */
     void touch(const std::string& lora_id);
     
     /**
      * @brief Mark LoRA as loaded in a specific slot
-     * @param[in] lora_id Input parameter.
-     * @param[in] slot_id Input parameter.
      */
     void markLoaded(const std::string& lora_id, int slot_id);
     
     /**
      * @brief Mark LoRA as unloaded
-     * @param[in] lora_id Input parameter.
      */
     void markUnloaded(const std::string& lora_id);
     
     /**
      * @brief Check if LoRA exists in cache
-     * @param[in] lora_id Input parameter.
-     * @return True on success.
      */
     bool contains(const std::string& lora_id) const;
     
     /**
      * @brief Remove LoRA metadata
-     * @param[in] lora_id Input parameter.
-     * @return True on success.
      */
     bool remove(const std::string& lora_id);
     
     /**
      * @brief Get cache size
-     * @return Return value.
      */
     size_t size() const;
     
@@ -136,16 +119,10 @@ public:
         uint64_t total_accesses = 0;
     };
     
-    /**
-     * @brief TBD: Describe getStats.
-     * @return Return value.
-     */
     Stats getStats() const;
     
     /**
      * @brief Direct access to underlying cache for advanced operations
-     * @return Return value.
-     * @details Implements cache without additional internal calls.
      */
     CacheType& cache() { return cache_; }
     const CacheType& cache() const { return cache_; }

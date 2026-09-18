@@ -45,62 +45,20 @@ struct ComponentModelConfig {
 /** @brief I wasm component instance. */
 class IWasmComponentInstance {
 public:
-    /**
-     * @brief TBD: Describe ~IWasmComponentInstance.
-     * @return Return value.
-     */
     virtual ~IWasmComponentInstance() = default;
-    /**
-     * @brief TBD: Describe call.
-     * @param[in] function_name Input parameter.
-     * @param[in] args Input parameter.
-     * @return Return value.
-     */
     virtual WITValue call(const std::string& function_name,
                           const std::vector<WITValue>& args) = 0;
-    /**
-     * @brief TBD: Describe hasFunction.
-     * @param[in] function_name Input parameter.
-     * @return True on success.
-     */
     virtual bool hasFunction(const std::string& function_name) const = 0;
-    /**
-     * @brief TBD: Describe exportedFunctions.
-     * @return Return value.
-     */
     virtual std::vector<std::string> exportedFunctions() const = 0;
-    /**
-     * @brief TBD: Describe isValid.
-     * @return True on success.
-     */
     virtual bool isValid() const = 0;
 };
 
 /** @brief I wasm component loader component. */
 class IWasmComponentLoader {
 public:
-    /**
-     * @brief TBD: Describe ~IWasmComponentLoader.
-     * @return Return value.
-     */
     virtual ~IWasmComponentLoader() = default;
-    /**
-     * @brief TBD: Describe load.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     virtual std::unique_ptr<IWasmComponentInstance> load(const ComponentModelConfig& config) = 0;
-    /**
-     * @brief TBD: Describe validate.
-     * @param[in] component_path Input parameter.
-     * @return True on success.
-     */
     virtual bool validate(const std::string& component_path) = 0;
-    /**
-     * @brief TBD: Describe introspect.
-     * @param[in] component_path Input parameter.
-     * @return Return value.
-     */
     virtual std::vector<WITInterface> introspect(const std::string& component_path) = 0;
 };
 

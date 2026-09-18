@@ -82,10 +82,6 @@ struct ParseResult {
  */
 class AQLParserService {
 public:
-    /**
-     * @brief TBD: Describe ~AQLParserService.
-     * @return Return value.
-     */
     virtual ~AQLParserService() = default;
     
     /**

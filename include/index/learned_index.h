@@ -67,33 +67,11 @@ namespace index {
 // Key encoding helpers
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Encode any numeric key type to a monotone double for CDF modelling.
- * @param[in] v Input parameter.
- * @return Return value.
- * @details The encoding must preserve the total order of the original type. Implements encodeKey without additional internal calls.
- */
+/// Encode any numeric key type to a monotone double for CDF modelling.
+/// The encoding must preserve the total order of the original type.
 inline double encodeKey(double v)   { return v; }
-/**
- * @brief TBD: Describe encodeKey.
- * @param[in] v Input parameter.
- * @return Return value.
- * @details Implements encodeKey without additional internal calls.
- */
 inline double encodeKey(float v)    { return static_cast<double>(v); }
-/**
- * @brief TBD: Describe encodeKey.
- * @param[in] v Input parameter.
- * @return Return value.
- * @details Implements encodeKey without additional internal calls.
- */
 inline double encodeKey(int64_t v)  { return static_cast<double>(v); }
-/**
- * @brief TBD: Describe encodeKey.
- * @param[in] v Input parameter.
- * @return Return value.
- * @details Implements encodeKey without additional internal calls.
- */
 inline double encodeKey(uint64_t v) { return static_cast<double>(v); }
 
 // ---------------------------------------------------------------------------
@@ -162,10 +140,9 @@ class LearnedIndex {
 public:
     using key_type = KeyT;
 
-    /**
-     * @brief ------------------------------------------------------------------ Construction ------------------------------------------------------------------
-     * @return Return value.
-     */
+    // ------------------------------------------------------------------
+    // Construction
+    // ------------------------------------------------------------------
 
     explicit LearnedIndex() = default;
     explicit LearnedIndex(const LearnedIndexConfig& config) : config_(config) {}
@@ -182,59 +159,32 @@ public:
         size_t  num_experts     = 0;
         std::string message = {};
 
-        /**
-         * @brief TBD: Describe Ok.
-         * @param[in] me Input parameter.
-         * @param[in] avg Input parameter.
-         * @param[in] nk Input parameter.
-         * @param[in] ne Input parameter.
-         * @return Return value.
-         * @details Implements Ok without additional internal calls.
-         */
         static TrainResult Ok(int64_t me, double avg, size_t nk, size_t ne) {
             TrainResult r;
             r.ok = true; r.max_error = me; r.mean_error = avg;
             r.num_keys = nk; r.num_experts = ne;
             return r;
         }
-        /**
-         * @brief TBD: Describe Error.
-         * @param[in] msg Input parameter.
-         * @return Return value.
-         * @details Calls: std::move().
-         */
         static TrainResult Error(std::string msg) {
             TrainResult r; r.message = std::move(msg); return r;
         }
     };
 
-    /**
-     * @brief Train the index on a sorted key array.
-     * @param[in] sorted_keys Input parameter.
-     * @return Return value.
-     * @details @param sorted_keys Must be sorted in ascending order (duplicates allowed). @returns TrainResult with measured error statistics.
-     */
+    /// Train the index on a sorted key array.
+    /// @param sorted_keys  Must be sorted in ascending order (duplicates allowed).
+    /// @returns TrainResult with measured error statistics.
     TrainResult train(const std::vector<KeyT>& sorted_keys);
 
     // ------------------------------------------------------------------
     // Lookup
     // ------------------------------------------------------------------
 
-    /**
-     * @brief Predict the array position for @p key and correct via binary search.
-     * @param[in] key Input parameter.
-     * @return Return value.
-     * @details @returns The position in the training key array, or -1 if not found.
-     */
+    /// Predict the array position for @p key and correct via binary search.
+    /// @returns The position in the training key array, or -1 if not found.
     int64_t lookup(const KeyT& key) const;
 
-    /**
-     * @brief Like lookup() but also verifies the key in @p keys.
-     * @param[in] key Input parameter.
-     * @param[in] keys Input parameter.
-     * @return Return value.
-     * @details @returns Position where keys[pos] == key, or std::nullopt if absent.
-     */
+    /// Like lookup() but also verifies the key in @p keys.
+    /// @returns Position where keys[pos] == key, or std::nullopt if absent.
     std::optional<size_t> lookupKey(const KeyT& key,
                                     const std::vector<KeyT>& keys) const;
 
@@ -268,12 +218,8 @@ public:
     /// Persist the model to a byte buffer.  Does not include the key array.
     std::vector<uint8_t> serialize()   const;
 
-    /**
-     * @brief Restore model from a byte buffer previously produced by serialize().
-     * @param[in] data Input parameter.
-     * @return True on success.
-     * @details Returns false on format mismatch.
-     */
+    /// Restore model from a byte buffer previously produced by serialize().
+    /// Returns false on format mismatch.
     bool deserialize(const std::vector<uint8_t>& data);
 
     // ------------------------------------------------------------------
@@ -289,11 +235,6 @@ public:
         bool    stale          = false;
     };
 
-    /**
-     * @brief TBD: Describe stats.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
     Stats stats() const noexcept;
 
 private:
@@ -360,20 +301,12 @@ LearnedIndex<KeyT>::train(const std::vector<KeyT>& sorted_keys) {
 
     const size_t n = sorted_keys.size();
 
-    /**
-     * @brief Encode keys to doubles for model training
-     * @param[in] n Input parameter.
-     * @return Return value.
-     */
+    // Encode keys to doubles for model training
     std::vector<double> xs(n);
     for (size_t i = 0; i < n; ++i)
         xs[i] = encodeKey(sorted_keys[i]);
 
-    /**
-     * @brief Stage-1: fit root model mapping key → CDF position in [0, n)
-     * @param[in] n Input parameter.
-     * @return Return value.
-     */
+    // Stage-1: fit root model mapping key → CDF position in [0, n)
     std::vector<double> ys(n);
     for (size_t i = 0; i < n; ++i)
         ys[i] = static_cast<double>(i);
@@ -384,11 +317,7 @@ LearnedIndex<KeyT>::train(const std::vector<KeyT>& sorted_keys) {
     const size_t num_experts = std::min(config_.num_experts, n);
     experts_.resize(num_experts);
 
-    /**
-     * @brief Assign each key to an expert based on the root model prediction
-     * @param[in] num_experts Input parameter.
-     * @return Return value.
-     */
+    // Assign each key to an expert based on the root model prediction
     std::vector<std::vector<size_t>> seg_indices(num_experts);
     for (size_t i = 0; i < n; ++i) {
         double pred = root_.predict(xs[i]);
@@ -656,11 +585,6 @@ bool LearnedIndex<KeyT>::deserialize(const std::vector<uint8_t>& data) {
     if (!need(ne * 16 + 2)) {
       return false;
     }
-    /**
-     * @brief TBD: Describe experts.
-     * @param[in] ne Input parameter.
-     * @return Return value.
-     */
     std::vector<LinearModel> experts(ne);
     for (size_t i = 0; i < ne; ++i) {
         std::memcpy(&experts[i].slope,     p, 8); p += 8;

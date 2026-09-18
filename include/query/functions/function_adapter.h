@@ -34,7 +34,6 @@ public:
      * 
      * Call this during application startup or on first use.
      * Multiple calls are safe and have no effect after the first.
-     * @details Calls: std::call_once(), registerBuiltinFunctions().
      */
     static void initialize() {
         std::call_once(init_flag_, []() {
@@ -48,7 +47,6 @@ public:
      * 
      * @param name Function name (case-sensitive)
      * @return true if function is registered
-     * @details Calls: initialize(), FunctionRegistry::instance().
      */
     static bool hasFunction(const std::string& name) {
         initialize();
@@ -63,7 +61,6 @@ public:
      * @param currentDoc Current document for context
      * @param result [out] Result if function was executed
      * @return true if function was found and executed, false to fall back
-     * @details Calls: initialize(), FunctionRegistry::instance(), hasFunction(), ctx(), call().
      */
     static bool tryCall(
         const std::string& name,
@@ -79,11 +76,6 @@ public:
         }
         
         try {
-            /**
-             * @brief TBD: Describe ctx.
-             * @param[in] currentDoc Input parameter.
-             * @return Return value.
-             */
             FunctionContext ctx(currentDoc);
             result = registry.call(name, args, ctx);
             return true;
@@ -101,7 +93,6 @@ public:
      * @param context Full execution context
      * @return Result of function execution
      * @throws std::runtime_error if function not found or execution fails
-     * @details Calls: initialize(), FunctionRegistry::instance().
      */
     static nlohmann::json call(
         const std::string& name,
@@ -123,11 +114,6 @@ public:
         const nlohmann::json& currentDoc,
         const std::unordered_map<std::string, nlohmann::json>* variables = nullptr
     ) {
-        /**
-         * @brief TBD: Describe ctx.
-         * @param[in] currentDoc Input parameter.
-         * @return Return value.
-         */
         FunctionContext ctx(currentDoc);
         if (variables) {
             for (const auto& [name, value] : *variables) {
@@ -140,7 +126,6 @@ public:
     /**
      * @brief Get all available function names
      * @return Vector of function names
-     * @details Calls: initialize(), FunctionRegistry::instance(), getAllSignatures(), push_back().
      */
     static std::vector<std::string> getAvailableFunctions() {
         initialize();
@@ -156,7 +141,6 @@ public:
      * @brief Get function signature for documentation
      * @param name Function name
      * @return Function signature or nullopt if not found
-     * @details Calls: initialize(), FunctionRegistry::instance(), hasFunction(), getFunction(), signature().
      */
     static std::optional<FunctionSignature> getSignature(const std::string& name) {
         initialize();
@@ -170,7 +154,6 @@ public:
     /**
      * @brief Check if functions have been initialized
      * @return true if registerBuiltinFunctions() has been called
-     * @details Implements isInitialized without additional internal calls.
      */
     static bool isInitialized() {
         return initialized_;

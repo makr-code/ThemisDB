@@ -29,12 +29,6 @@ struct WikipediaEmbeddingHookConfig {
         return json{{"enabled", enabled}, {"provider", provider}, {"model", model}};
     }
 
-    /**
-     * @brief TBD: Describe fromJson.
-     * @param[in] j Input parameter.
-     * @return Return value.
-     * @details Calls: value().
-     */
     static WikipediaEmbeddingHookConfig fromJson(const json& j) {
         WikipediaEmbeddingHookConfig config;
         config.enabled = j.value("enabled", false);
@@ -60,12 +54,6 @@ struct WikipediaPortableExportConfig {
         };
     }
 
-    /**
-     * @brief TBD: Describe fromJson.
-     * @param[in] j Input parameter.
-     * @return Return value.
-     * @details Calls: value().
-     */
     static WikipediaPortableExportConfig fromJson(const json& j) {
         WikipediaPortableExportConfig config;
         config.database_path = j.value("database_path", std::string{"wikipedia.db"});
@@ -118,12 +106,6 @@ struct WikipediaIngestionConfig {
         };
     }
 
-    /**
-     * @brief TBD: Describe fromJson.
-     * @param[in] j Input parameter.
-     * @return Return value.
-     * @details Calls: value(), contains(), is_object(), is_array().
-     */
     static WikipediaIngestionConfig fromJson(const json& j) {
         WikipediaIngestionConfig config;
         config.strict_mode = j.value("strict_mode", false);

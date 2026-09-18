@@ -31,17 +31,11 @@ namespace prompt_engineering {
  */
 class IReflectionScorer {
 public:
-    /**
-     * @brief TBD: Describe ~IReflectionScorer.
-     * @return Return value.
-     */
     virtual ~IReflectionScorer() = default;
 
     /**
      * @brief Evaluate the quality of @p response for @p prompt.
      * @return Quality score in [0.0, 1.0].
-     * @param[in] prompt Input parameter.
-     * @param[in] response Input parameter.
      */
     virtual double score(const std::string& prompt,
                          const std::string& response) const = 0;
@@ -119,12 +113,9 @@ public:
     // Configuration
     // -------------------------------------------------------------------------
 
-     * @param[in] strategy Input parameter.
     /** @brief Replace the reflection strategy used for prompt construction. */
     void setStrategy(ReflectionStrategy strategy);
 
-     * @return Return value.
-     * @note Exception safety: noexcept.
     /** @brief Return the current reflection strategy. */
     ReflectionStrategy getStrategy() const noexcept;
 
@@ -137,8 +128,6 @@ public:
     /** @brief Remove the custom scorer (fall back to built-in heuristic). */
     void clearScorer();
 
-     * @return True on success.
-     * @note Exception safety: noexcept.
     /** @brief Return `true` when a custom scorer is attached. */
     bool hasScorer() const noexcept;
 
@@ -147,8 +136,6 @@ private:
     DynamicReflectionPromptBuilder      builder_;
     std::shared_ptr<IReflectionScorer>  scorer_;
 
-     * @param[in] response Input parameter.
-     * @return Return value.
     /** @brief Built-in heuristic scorer (length, structure, hallucination markers). */
     double heuristicScore(const std::string& response) const;
 };

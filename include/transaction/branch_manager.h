@@ -59,16 +59,7 @@ public:
         std::string created_by;         // User/service that created the branch
         bool is_active;                 // Whether branch is currently active
         
-        /**
-         * @brief TBD: Describe toJson.
-         * @return Return value.
-         */
         json toJson() const;
-        /**
-         * @brief TBD: Describe fromJson.
-         * @param[in] j Input parameter.
-         * @return Return value.
-         */
         static Branch fromJson(const json& j);
     };
     
@@ -82,10 +73,6 @@ public:
         int64_t newest_creation_timestamp_ms = 0;
         std::string default_branch;
         
-        /**
-         * @brief TBD: Describe toJson.
-         * @return Return value.
-         */
         json toJson() const;
     };
     
@@ -117,10 +104,6 @@ public:
         std::vector<std::string> conflicts;  // Keys with conflicts
         uint64_t merged_sequence = 0;        // Sequence after merge
         
-        /**
-         * @brief TBD: Describe toJson.
-         * @return Return value.
-         */
         json toJson() const;
     };
     
@@ -352,16 +335,7 @@ public:
         int64_t     timestamp_ms{0};
         uint64_t    sequence{0};  ///< Changefeed sequence at event time
 
-        /**
-         * @brief TBD: Describe toJson.
-         * @return Return value.
-         */
         json toJson() const;
-        /**
-         * @brief TBD: Describe fromJson.
-         * @param[in] j Input parameter.
-         * @return Return value.
-         */
         static BranchHistoryEntry fromJson(const json& j);
     };
 
@@ -391,7 +365,6 @@ public:
 
     /**
      * @brief Set the GC policy used by pruneMergedBranches().
-     * @param[in] policy Input parameter.
      */
     void setBranchGCPolicy(const BranchGCPolicy& policy);
 
@@ -420,29 +393,21 @@ private:
     
     /**
      * @brief Make RocksDB key for a branch
-     * @param[in] branch_name Input parameter.
-     * @return Return value.
      */
     std::string makeKey(const std::string& branch_name) const;
     
     /**
      * @brief Extract branch name from RocksDB key
-     * @param[in] key Input parameter.
-     * @return Return value.
      */
     std::string extractBranchName(const std::string& key) const;
     
     /**
      * @brief Serialize branch to bytes
-     * @param[in] branch Input parameter.
-     * @return Return value.
      */
     std::vector<uint8_t> serialize(const Branch& branch) const;
     
     /**
      * @brief Deserialize branch from bytes
-     * @param[in] data Input parameter.
-     * @return Return value.
      */
     std::optional<Branch> deserialize(const std::vector<uint8_t>& data) const;
     
@@ -453,31 +418,22 @@ private:
     
     /**
      * @brief Save active branch to storage
-     * @param[in] branch_name Input parameter.
-     * @return True on success.
      */
     bool saveActiveBranch(const std::string& branch_name);
     
     /**
      * @brief Resolve sequence from options (tag, sequence, or timestamp)
-     * @param[in] options Input parameter.
-     * @return Return value.
      */
     std::optional<uint64_t> resolveSequence(const CreateBranchOptions& options) const;
     
     /**
      * @brief Check if branch is fully merged into another branch
-     * @param[in] branch_name Input parameter.
-     * @param[in] target_branch Input parameter.
-     * @return True on success.
      */
     bool isBranchMerged(const std::string& branch_name, const std::string& target_branch) const;
 
     /**
      * @brief Persist a marker indicating source_branch was merged into target_branch.
      * Must be called after a successful merge to enable isBranchMerged() checks.
-     * @param[in] source_branch Input parameter.
-     * @param[in] target_branch Input parameter.
      */
     void recordMergeStatus(const std::string& source_branch, const std::string& target_branch);
 
@@ -485,21 +441,16 @@ private:
      * @brief Append a history entry for @p branch_name.
      * May be called with or without mutex_ held; it does NOT acquire mutex_
      * itself (uses the underlying db_ which is thread-safe independently).
-     * @param[in] entry Input parameter.
      */
     void appendHistory(const BranchHistoryEntry& entry);
 
     /**
      * @brief Serialize a history entry to bytes.
-     * @param[in] entry Input parameter.
-     * @return Return value.
      */
     std::vector<uint8_t> serializeHistory(const BranchHistoryEntry& entry) const;
 
     /**
      * @brief Deserialize a history entry from bytes.
-     * @param[in] data Input parameter.
-     * @return Return value.
      */
     std::optional<BranchHistoryEntry> deserializeHistory(
         const std::vector<uint8_t>& data) const;

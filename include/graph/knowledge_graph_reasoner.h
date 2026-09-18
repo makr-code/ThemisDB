@@ -309,7 +309,6 @@ public:
      *
      * Non-ground triples (containing '?' variables) are rejected.
      * Duplicate facts are silently ignored.
-     * @param[in] fact Input parameter.
      */
     void addFact(Triple fact);
 
@@ -365,7 +364,6 @@ public:
      *
      * @note This method acquires an exclusive lock and may block concurrent
      *       `infer()` readers briefly.
-     * @param[in] event Input parameter.
      */
     void onCDCEvent(const CDCEvent& event);
 
@@ -397,11 +395,8 @@ public:
     using LoraScoreFn = std::function<double(std::string_view adapter_id,
                                              const InferenceEdge& edge)>;
 
-    /**
-     * @brief Inject a real LoRA scoring backend for `applyLoRAScore()`.
-     * @param[in] fn Input parameter.
-     * @details Passing a null function resets to the built-in heuristic fallback.
-     */
+    /// Inject a real LoRA scoring backend for `applyLoRAScore()`.
+    /// Passing a null function resets to the built-in heuristic fallback.
     void setLoraScoreFn(LoraScoreFn fn);
 
 #if defined(THEMIS_ENABLE_LLM)
@@ -449,11 +444,6 @@ private:
     /**
      * @brief Recursively enumerate all binding sets that satisfy every
      *        condition in @p conditions[cond_idx..] given known @p facts.
-     * @param[in] conditions Input parameter.
-     * @param[in] cond_idx Input parameter.
-     * @param[in] facts Input parameter.
-     * @param[in] bindings Input parameter.
-     * @param[in,out] out Input/output parameter.
      */
     static void matchConditions(const std::vector<Triple>& conditions,
                                 std::size_t cond_idx,
@@ -475,11 +465,7 @@ private:
                       std::vector<InferenceEdge>& derived_out,
                       int max_depth) const;
 
-    /**
-     * @brief ── Triple helpers ──────────────────────────────────────────────────────
-     * @param[in] t Input parameter.
-     * @return Return value.
-     */
+    // ── Triple helpers ──────────────────────────────────────────────────────
 
     static std::string tripleKey(const Triple& t);
 

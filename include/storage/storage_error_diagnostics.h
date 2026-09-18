@@ -232,7 +232,6 @@ struct StorageErrorContext {
  *   ctx.recovery_suggestion = "Check disk health; consider failover";
  *   emitDiagnosticEvent(ctx);
  *   // Logs to audit, metrics, and alert channels
- * @note Exception safety: noexcept.
  */
 void emitDiagnosticEvent(const StorageErrorContext& context) noexcept;
 

@@ -176,7 +176,6 @@ public:
     /**
      * @brief Construct pipeline with custom config
      * @param config Pipeline configuration
-     * @return Return value.
      */
     explicit QualityControlPipeline(const Config& config);
     
@@ -274,67 +273,31 @@ private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
     
-    /**
-     * @brief Stage implementations
-     * @param[in] query Input parameter.
-     * @param[in] answer Input parameter.
-     * @param[in] documents Input parameter.
-     * @return Return value.
-     */
+    // Stage implementations
     QualityCheckResult runFastStage(
         const std::string& query,
         const std::string& answer,
         const std::vector<RetrievedDocument>& documents
     );
     
-    /**
-     * @brief TBD: Describe runBalancedStage.
-     * @param[in] query Input parameter.
-     * @param[in] answer Input parameter.
-     * @param[in] documents Input parameter.
-     * @return Return value.
-     */
     QualityCheckResult runBalancedStage(
         const std::string& query,
         const std::string& answer,
         const std::vector<RetrievedDocument>& documents
     );
     
-    /**
-     * @brief TBD: Describe runThoroughStage.
-     * @param[in] query Input parameter.
-     * @param[in] answer Input parameter.
-     * @param[in] documents Input parameter.
-     * @return Return value.
-     */
     QualityCheckResult runThoroughStage(
         const std::string& query,
         const std::string& answer,
         const std::vector<RetrievedDocument>& documents
     );
     
-    /**
-     * @brief TBD: Describe sendLearningFeedback.
-     * @param[in] query Input parameter.
-     * @param[in] result Input parameter.
-     */
     void sendLearningFeedback(
         const std::string& query,
         const QualityCheckResult& result
     );
     
-    /**
-     * @brief TBD: Describe computeOverallScore.
-     * @param[in] scores Input parameter.
-     * @return Return value.
-     */
     double computeOverallScore(const std::vector<DimensionScore>& scores);
-    /**
-     * @brief TBD: Describe determineStatus.
-     * @param[in] score Input parameter.
-     * @param[in] stage Input parameter.
-     * @return Return value.
-     */
     QualityGateStatus determineStatus(double score, QualityStage stage);
 };
 
@@ -345,25 +308,21 @@ class QualityPipelineFactory {
 public:
     /**
      * @brief Create fast pipeline (screening only)
-     * @return Return value.
      */
     static std::unique_ptr<QualityControlPipeline> createFast();
     
     /**
      * @brief Create balanced pipeline (fast + balanced stages)
-     * @return Return value.
      */
     static std::unique_ptr<QualityControlPipeline> createBalanced();
     
     /**
      * @brief Create thorough pipeline (all stages)
-     * @return Return value.
      */
     static std::unique_ptr<QualityControlPipeline> createThorough();
     
     /**
      * @brief Create production pipeline with learning feedback
-     * @return Return value.
      */
     static std::unique_ptr<QualityControlPipeline> createProduction();
 };

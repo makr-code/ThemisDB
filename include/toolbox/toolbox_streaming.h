@@ -54,9 +54,6 @@ void extractEntitiesStream(
 
 /**
  * @brief Overload with default MIME / filename.
- * @param[in,out] toolbox Input/output parameter.
- * @param[in] text Input parameter.
- * @param[in] callback Input parameter.
  */
 inline void extractEntitiesStream(
     IngestionToolbox&     toolbox,
@@ -92,11 +89,6 @@ void extractEntitiesStream(
  */
 
 #pragma once
-/**
- * @brief TBD: Describe extractEntitiesStream.
- * @param[in] text Input parameter.
- * @param[in] callback Input parameter.
- */
 inline void extractEntitiesStream(
     const std::string&    text,
     const EntityCallback& callback)

@@ -167,7 +167,6 @@ public:
      * @brief Construct a SchemaMigrator with default configuration.
      *
      * @param schema_mgr SchemaManager instance owning the target tables.
-     * @return Return value.
      */
     explicit SchemaMigrator(SchemaManager& schema_mgr);
 
@@ -301,77 +300,30 @@ public:
 
     // ── Observation ──────────────────────────────────────────────────────────
 
-     * @brief TBD: Describe pendingOps.
-     * @note Exception safety: noexcept.
     /** @return Number of operations currently staged. */
     size_t pendingOps() const noexcept;
 
-     * @brief TBD: Describe currentPhase.
-     * @note Exception safety: noexcept.
     /** @return Current DDL phase (thread-safe). */
     OnlineDDLPhase currentPhase() const noexcept;
 
-     * @brief TBD: Describe stagedOps.
-     * @note Exception safety: noexcept.
     /** @return Read-only view of the staged operation list. */
     const std::vector<MigrationOp>& stagedOps() const noexcept;
 
 private:
-    /**
-     * @brief ── Internal helpers ─────────────────────────────────────────────────────
-     * @param[in] op Input parameter.
-     * @param[in,out] schema Input/output parameter.
-     * @return Return value.
-     */
+    // ── Internal helpers ─────────────────────────────────────────────────────
 
     MigrationResult applyAddColumn(const MigrationOp& op,
                                    SchemaManager::TableSchema& schema);
-    /**
-     * @brief TBD: Describe applyDropColumn.
-     * @param[in] op Input parameter.
-     * @param[in,out] schema Input/output parameter.
-     * @return Return value.
-     */
     MigrationResult applyDropColumn(const MigrationOp& op,
                                     SchemaManager::TableSchema& schema);
-    /**
-     * @brief TBD: Describe applyRenameColumn.
-     * @param[in] op Input parameter.
-     * @param[in,out] schema Input/output parameter.
-     * @return Return value.
-     */
     MigrationResult applyRenameColumn(const MigrationOp& op,
                                       SchemaManager::TableSchema& schema);
-    /**
-     * @brief TBD: Describe applyChangeColumnType.
-     * @param[in] op Input parameter.
-     * @param[in,out] schema Input/output parameter.
-     * @return Return value.
-     */
     MigrationResult applyChangeColumnType(const MigrationOp& op,
                                           SchemaManager::TableSchema& schema);
-    /**
-     * @brief TBD: Describe applyAddIndex.
-     * @param[in] op Input parameter.
-     * @param[in,out] schema Input/output parameter.
-     * @return Return value.
-     */
     MigrationResult applyAddIndex(const MigrationOp& op,
                                   SchemaManager::TableSchema& schema);
-    /**
-     * @brief TBD: Describe applyDropIndex.
-     * @param[in] op Input parameter.
-     * @param[in,out] schema Input/output parameter.
-     * @return Return value.
-     */
     MigrationResult applyDropIndex(const MigrationOp& op,
                                    SchemaManager::TableSchema& schema);
-    /**
-     * @brief TBD: Describe applyPartitionTable.
-     * @param[in] op Input parameter.
-     * @param[in,out] schema Input/output parameter.
-     * @return Return value.
-     */
     MigrationResult applyPartitionTable(const MigrationOp& op,
                                         SchemaManager::TableSchema& schema);
 

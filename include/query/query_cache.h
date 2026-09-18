@@ -147,7 +147,6 @@ public:
      * @brief Construct a new Query Cache
      * 
      * @param config Cache configuration
-     * @return Return value.
      */
     explicit QueryCache(const Config& config);
     
@@ -306,51 +305,16 @@ private:
     mutable CacheStats stats_;
     mutable std::mutex stats_mutex_;
     
-    /**
-     * @brief Helper methods
-     */
+    // Helper methods
     void evictLRU();
-    /**
-     * @brief TBD: Describe evictLFU.
-     */
     void evictLFU();
-    /**
-     * @brief TBD: Describe evictOne.
-     */
     void evictOne();
-    /**
-     * @brief TBD: Describe updateLRU.
-     * @param[in] fingerprint Input parameter.
-     */
     void updateLRU(const std::string& fingerprint);
-    /**
-     * @brief TBD: Describe shouldEvict.
-     * @return True on success.
-     */
     bool shouldEvict() const;
-    /**
-     * @brief TBD: Describe estimateEntrySize.
-     * @param[in] entry Input parameter.
-     * @return Return value.
-     */
     size_t estimateEntrySize(const CacheEntry& entry) const;
-    /**
-     * @brief TBD: Describe updateStats.
-     * @param[in] hit Input parameter.
-     */
     void updateStats(bool hit);
-    /**
-     * @brief TBD: Describe addToDependencyIndex.
-     * @param[in] fingerprint Input parameter.
-     * @param[in] dependencies Input parameter.
-     */
     void addToDependencyIndex(const std::string& fingerprint, 
                               const std::vector<std::string>& dependencies);
-    /**
-     * @brief TBD: Describe removeFromDependencyIndex.
-     * @param[in] fingerprint Input parameter.
-     * @param[in] dependencies Input parameter.
-     */
     void removeFromDependencyIndex(const std::string& fingerprint,
                                    const std::vector<std::string>& dependencies);
 };

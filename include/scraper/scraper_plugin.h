@@ -104,10 +104,6 @@ struct ScraperRunStats {
  */
 class IScraperPlugin {
 public:
-    /**
-     * @brief TBD: Describe ~IScraperPlugin.
-     * @return Return value.
-     */
     virtual ~IScraperPlugin() = default;
 
     /**
@@ -136,7 +132,6 @@ public:
      *
      * Includes both accepted (discarded=false) and discarded (discarded=true)
      * documents.  The vector is cleared by reset().
-     * @return Return value.
      */
     virtual const std::vector<ScrapedDocument>& getResults() const = 0;
 
@@ -150,7 +145,6 @@ public:
 
     /**
      * @brief Returns true after a successful call to initialize().
-     * @return True on success.
      */
     virtual bool isInitialized() const = 0;
 };
@@ -177,15 +171,6 @@ public:
 class ScraperPlugin : public IScraperPlugin {
 public:
     ScraperPlugin();
-    /**
-     * @brief TBD: Describe ScraperPlugin.
-     * @param[in] evaluator Input parameter.
-     * @param[in] writer Input parameter.
-     * @param[in] search_engine Input parameter.
-     * @param[in] js_renderer Input parameter.
-     * @param[in] api_client Input parameter.
-     * @return Return value.
-     */
     explicit ScraperPlugin(
         std::shared_ptr<IScraperLLMEvaluator>   evaluator,
         std::shared_ptr<IScraperMetadataWriter> writer,
@@ -218,10 +203,6 @@ public:
     /// Inject a custom HTTP fetch function (replaces libcurl in tests).
     using HttpFn = std::function<std::string(const std::string& url,
                                               const std::string& user_agent)>;
-    /**
-     * @brief TBD: Describe setHttpFetch.
-     * @param[in] fn Input parameter.
-     */
     void setHttpFetch(HttpFn fn);
     /// Inject a burst-rate controller; null disables rate limiting (default).
     void setBurstController(std::shared_ptr<BurstCrawlController> bc);

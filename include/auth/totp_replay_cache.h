@@ -49,11 +49,6 @@ public:
         
         // Maximum entries per user (prevents memory exhaustion)
         size_t max_entries_per_user = 10;
-        /**
-         * @brief TBD: Describe defaults.
-         * @return Return value.
-         * @details Implements defaults without additional internal calls.
-         */
         static Config defaults() { return {}; }
     };
     
@@ -119,10 +114,6 @@ public:
         size_t entries_expired = 0;
     };
     
-    /**
-     * @brief TBD: Describe getStatistics.
-     * @return Return value.
-     */
     Statistics getStatistics() const;
 
 private:
@@ -145,16 +136,10 @@ private:
     // Last cleanup time
     std::chrono::steady_clock::time_point last_cleanup_;
     
-    /**
-     * @brief Helper: Remove expired codes for a user
-     * @param[in] user_id Input parameter.
-     */
+    // Helper: Remove expired codes for a user
     void cleanupUser(const std::string& user_id);
     
-    /**
-     * @brief Helper: Check if cleanup is needed
-     * @return True on success.
-     */
+    // Helper: Check if cleanup is needed
     bool needsCleanup() const;
 };
 
@@ -176,11 +161,6 @@ public:
         // Replay cache config
         bool enable_replay_protection = true;
         TOTPReplayCache::Config replay_cache_config;
-        /**
-         * @brief TBD: Describe defaults.
-         * @return Return value.
-         * @details Implements defaults without additional internal calls.
-         */
         static Config defaults() { return {}; }
     };
     
@@ -210,7 +190,6 @@ public:
     
     /**
      * @brief Get replay cache statistics
-     * @return Return value.
      */
     TOTPReplayCache::Statistics getReplayStatistics() const;
 

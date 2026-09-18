@@ -29,11 +29,6 @@ namespace themis::exporters {
 /// Exception thrown when an AQL predicate expression cannot be parsed.
 class AqlPredicateFilterException : public std::runtime_error {
 public:
-    /**
-     * @brief TBD: Describe AqlPredicateFilterException.
-     * @param[in] msg Input parameter.
-     * @return Return value.
-     */
     explicit AqlPredicateFilterException(const std::string& msg)
         : std::runtime_error(msg) {}
 };
@@ -65,7 +60,6 @@ public:
      * @brief Construct and compile the predicate.
      * @param predicate AQL FILTER expression (e.g. `doc.age > 18`)
      * @throws AqlPredicateFilterException if the predicate cannot be parsed
-     * @return Return value.
      */
     explicit AqlPredicateFilter(const std::string& predicate);
 

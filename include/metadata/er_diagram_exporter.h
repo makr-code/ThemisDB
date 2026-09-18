@@ -68,37 +68,68 @@ public:
     // Export API
     // =========================================================================
 
-    /**
-     * @brief Export as Mermaid erDiagram syntax.
-     * @param[in] tables Input parameter.
-     * @param[in] relationships Input parameter.
-     * @return Return value.
-     * @details The output is a valid Mermaid `erDiagram` block that can be embedded in Markdown fences: ```mermaid erDiagram users { integer id string name } orders { integer id integer user_id } users ||--o{ orders : "has" ``` Relationship cardinality notation: - graph_edge relationships use `||--o{` (one-to-many) - when from_table == to_table the edge is rendered as `}o--o{` (many-to-many) @param tables All table/collection schemas (nodes) @param relationships All edge/relationship schemas (edges) @return Mermaid erDiagram string (UTF-8)
-     */
+    /// Export as Mermaid erDiagram syntax.
+    ///
+    /// The output is a valid Mermaid `erDiagram` block that can be embedded in
+    /// Markdown fences:
+    /// ```mermaid
+    /// erDiagram
+    ///     users {
+    ///         integer id
+    ///         string  name
+    ///     }
+    ///     orders {
+    ///         integer id
+    ///         integer user_id
+    ///     }
+    ///     users ||--o{ orders : "has"
+    /// ```
+    ///
+    /// Relationship cardinality notation:
+    /// - graph_edge relationships use `||--o{` (one-to-many)
+    /// - when from_table == to_table the edge is rendered as `}o--o{` (many-to-many)
+    ///
+    /// @param tables        All table/collection schemas (nodes)
+    /// @param relationships All edge/relationship schemas (edges)
+    /// @return Mermaid erDiagram string (UTF-8)
     std::string exportMermaid(
         const std::vector<SchemaManager::TableSchema>& tables,
         const std::vector<SchemaManager::RelationshipSchema>& relationships
     ) const;
 
-    /**
-     * @brief Export as Graphviz DOT language.
-     * @param[in] tables Input parameter.
-     * @param[in] relationships Input parameter.
-     * @return Return value.
-     * @details Produces a directed graph (`digraph schema { ... }`) with record-shaped nodes listing each entity's properties and labelled directed edges for each relationship. @param tables All table/collection schemas (nodes) @param relationships All edge/relationship schemas (edges) @return DOT language string (UTF-8)
-     */
+    /// Export as Graphviz DOT language.
+    ///
+    /// Produces a directed graph (`digraph schema { ... }`) with record-shaped
+    /// nodes listing each entity's properties and labelled directed edges for
+    /// each relationship.
+    ///
+    /// @param tables        All table/collection schemas (nodes)
+    /// @param relationships All edge/relationship schemas (edges)
+    /// @return DOT language string (UTF-8)
     std::string exportDOT(
         const std::vector<SchemaManager::TableSchema>& tables,
         const std::vector<SchemaManager::RelationshipSchema>& relationships
     ) const;
 
-    /**
-     * @brief Export as a JSON graph (nodes + edges).
-     * @param[in] tables Input parameter.
-     * @param[in] relationships Input parameter.
-     * @return Return value.
-     * @details Schema: ```json { "nodes": [ { "id": "users", "type": "relational", "properties": [ { "name": "id", "type": "integer" }, ... ] } ], "edges": [ { "from": "users", "to": "orders", "label": "placed", "properties": [] } ] } ``` @param tables All table/collection schemas (nodes) @param relationships All edge/relationship schemas (edges) @return JSON object with "nodes" and "edges" arrays
-     */
+    /// Export as a JSON graph (nodes + edges).
+    ///
+    /// Schema:
+    /// ```json
+    /// {
+    ///   "nodes": [
+    ///     { "id": "users", "type": "relational",
+    ///       "properties": [ { "name": "id", "type": "integer" }, ... ] }
+    ///   ],
+    ///   "edges": [
+    ///     { "from": "users", "to": "orders", "label": "placed",
+    ///       "properties": [] }
+    ///   ]
+    /// }
+    /// ```
+    ///
+    /// @param tables        All table/collection schemas (nodes)
+    /// @param relationships All edge/relationship schemas (edges)
+    /// @return JSON object with "nodes" and "edges" arrays
     nlohmann::json exportJSON(
         const std::vector<SchemaManager::TableSchema>& tables,
         const std::vector<SchemaManager::RelationshipSchema>& relationships

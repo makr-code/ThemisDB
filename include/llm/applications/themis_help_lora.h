@@ -33,10 +33,6 @@ using llm::FeedbackType;  // Make FeedbackType available in this namespace
  * @brief Performance metrics for ThemisHelpLoRA
  */
 struct PerformanceMetrics {
-    /**
-     * @brief TBD: Describe ~PerformanceMetrics.
-     * @return Return value.
-     */
     virtual ~PerformanceMetrics() = default;
     int64_t total_queries = 0;
     int64_t successful_queries = 0;
@@ -50,10 +46,6 @@ struct PerformanceMetrics {
  * @brief Feedback statistics
  */
 struct FeedbackStats {
-    /**
-     * @brief TBD: Describe ~FeedbackStats.
-     * @return Return value.
-     */
     virtual ~FeedbackStats() = default;
     size_t total_feedback = 0;
     size_t positive_feedback = 0;
@@ -129,11 +121,6 @@ public:
          */
     };
 
-    /**
-     * @brief TBD: Describe ThemisHelpLoRA.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit ThemisHelpLoRA(const Config& config);
     ThemisHelpLoRA();
     ~ThemisHelpLoRA();
@@ -214,25 +201,21 @@ public:
 
     /**
      * @brief Check if the adapter is currently loaded
-     * @return True on success.
      */
     bool isAdapterLoaded() const;
 
     /**
      * @brief Reload the adapter after an update
-     * @return True on success.
      */
     bool reloadAdapter();
 
     /**
      * @brief Get current adapter version
-     * @return Return value.
      */
     std::string getAdapterVersion() const;
 
     /**
      * @brief Roll back to the previous adapter version
-     * @return True on success.
      */
     bool rollbackToPreviousVersion();
     
@@ -270,8 +253,6 @@ struct FeedbackItem {
 
 /**
  * @brief Helper function to generate unique request IDs
- * @return Return value.
- * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), std::to_string().
  */
 inline std::string generateModelRequestId() {
     auto now = std::chrono::system_clock::now();

@@ -138,24 +138,14 @@ public:
 
     explicit ServiceMeshIntegration(const Config& config = Config{});
 
-    /**
-     * @brief TBD: Describe ~ServiceMeshIntegration.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
     virtual ~ServiceMeshIntegration() noexcept;
 
-    /**
-     * @brief Bind the probe TCP socket and start the accept loop thread.
-     * @return True on success.
-     * @details @return true on success, false if the port could not be bound.
-     */
+    /// Bind the probe TCP socket and start the accept loop thread.
+    /// @return true on success, false if the port could not be bound.
     bool start();
 
-    /**
-     * @brief Signal the accept loop to stop, wait for the drain timeout, then join the accept thread.
-     * @details Safe to call on a never-started instance.
-     */
+    /// Signal the accept loop to stop, wait for the drain timeout, then
+    /// join the accept thread.  Safe to call on a never-started instance.
     void stop();
 
     bool isRunning() const { return running_.load(std::memory_order_acquire); }
@@ -170,17 +160,12 @@ public:
      * @c PILOT_CERT_PROVIDER signals that the Istio agent is active.
      *
      * This is a best-effort, read-only check that never blocks.
-     * @return True on success.
      */
     bool isEnvoyPresent() const;
 
     /// Return true when TLS is delegated to the Envoy sidecar.
     bool isTLSOffloadedToSidecar() const { return config_.trust_sidecar_mtls; }
 
-    /**
-     * @brief TBD: Describe getStats.
-     * @return Return value.
-     */
     Stats getStats() const;
 
     // ── Helpers (public for unit-test access) ────────────────────────────────
@@ -190,8 +175,6 @@ public:
      *
      * Validates that the port is non-zero, not a well-known HTTP/HTTPS port,
      * and does not conflict with other ThemisDB transport ports.
-     * @param[in] port Input parameter.
-     * @return True on success.
      */
     static bool isValidPort(uint16_t port);
 

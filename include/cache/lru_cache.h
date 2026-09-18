@@ -120,12 +120,6 @@ public:
      * @pre !is_moved_from()
      */
     template<typename V>
-    /**
-     * @brief TBD: Describe insert.
-     * @param[in] key Input parameter.
-     * @param[in] value Input parameter.
-     * @return True on success.
-     */
     bool insert(const Key& key, V&& value);
 
     /**
@@ -191,7 +185,6 @@ public:
      * @brief Register hit callback (called on cache hit)
      * 
      * @param callback Function to invoke on cache hit
-     * @details Implements on_hit without additional internal calls.
      */
     void on_hit(HitCallback callback) { hit_callback_ = callback; }
 
@@ -199,7 +192,6 @@ public:
      * @brief Register miss callback (called on cache miss)
      * 
      * @param callback Function to invoke on cache miss
-     * @details Implements on_miss without additional internal calls.
      */
     void on_miss(MissCallback callback) { miss_callback_ = callback; }
 
@@ -207,7 +199,6 @@ public:
      * @brief Register eviction callback (called on entry eviction)
      * 
      * @param callback Function to invoke on eviction
-     * @details Implements on_eviction without additional internal calls.
      */
     void on_eviction(EvictionCallback callback) { eviction_callback_ = callback; }
 
@@ -217,7 +208,6 @@ public:
      * @brief Get cache size (number of entries)
      * 
      * @return Number of cached entries
-     * @note Exception safety: noexcept.
      */
     size_t size() const noexcept;
 
@@ -225,7 +215,6 @@ public:
      * @brief Get cache capacity (maximum entries)
      * 
      * @return Maximum number of entries
-     * @note Exception safety: noexcept.
      */
     size_t capacity() const noexcept;
 
@@ -247,7 +236,6 @@ public:
      * @brief Get cache hit rate
      * 
      * @return Hit rate as [0.0, 1.0]
-     * @note Exception safety: noexcept.
      */
     double hit_rate() const noexcept;
 

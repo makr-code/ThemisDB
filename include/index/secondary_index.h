@@ -46,18 +46,7 @@ public:
     struct Status {
         bool ok = true;
         std::string message;
-        /**
-         * @brief TBD: Describe OK.
-         * @return Return value.
-         * @details Implements OK without additional internal calls.
-         */
         static Status OK() { return {}; }
-        /**
-         * @brief TBD: Describe Error.
-         * @param[in] msg Input parameter.
-         * @return Return value.
-         * @details Calls: std::move().
-         */
         static Status Error(std::string msg) { return Status{false, std::move(msg)}; }
     };
 
@@ -77,85 +66,31 @@ public:
         bool enable_bloom_filter       = true;
     };
 
-    /**
-     * @brief TBD: Describe SecondaryIndexManager.
-     * @param[in,out] db Input/output parameter.
-     * @return Return value.
-     */
     explicit SecondaryIndexManager(RocksDBWrapper& db);
-    /**
-     * @brief TBD: Describe SecondaryIndexManager.
-     * @param[in,out] db Input/output parameter.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit SecondaryIndexManager(RocksDBWrapper& db, const Config& config);
     
-    /**
-     * @brief Phase 4: Set optional expression evaluator for advanced filtering
-     * @param[in] evaluator Input parameter.
-     */
+    // Phase 4: Set optional expression evaluator for advanced filtering
     void setExpressionEvaluator(std::shared_ptr<IExpressionEvaluator> evaluator);
     
-    /**
-     * @brief Get expression evaluator
-     * @return Return value.
-     */
+    // Get expression evaluator
     std::shared_ptr<IExpressionEvaluator> getExpressionEvaluator() const;
     
-    /**
-     * @brief Set optional spatial index manager for atomic geo index updates (Phase 2)
-     * @param[in,out] spatial_mgr Input/output parameter.
-     */
+    // Set optional spatial index manager for atomic geo index updates (Phase 2)
     void setSpatialIndexManager(index::SpatialIndexManager* spatial_mgr);
     
-    /**
-     * @brief Get spatial index manager
-     * @return Pointer to the result.
-     */
+    // Get spatial index manager
     index::SpatialIndexManager* getSpatialIndexManager() const;
 
     // Index-Lifecycle
     Status createIndex(std::string_view table, std::string_view column, bool unique = false);
     Status createCompositeIndex(std::string_view table, const std::vector<std::string>& columns, bool unique = false);
-    /**
-     * @brief TBD: Describe dropIndex.
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @return Return value.
-     */
     Status dropIndex(std::string_view table, std::string_view column);
-    /**
-     * @brief TBD: Describe dropCompositeIndex.
-     * @param[in] table Input parameter.
-     * @param[in] columns Input parameter.
-     * @return Return value.
-     */
     Status dropCompositeIndex(std::string_view table, const std::vector<std::string>& columns);
-    /**
-     * @brief TBD: Describe hasIndex.
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @return True on success.
-     */
     bool hasIndex(std::string_view table, std::string_view column) const;
-    /**
-     * @brief TBD: Describe hasCompositeIndex.
-     * @param[in] table Input parameter.
-     * @param[in] columns Input parameter.
-     * @return True on success.
-     */
     bool hasCompositeIndex(std::string_view table, const std::vector<std::string>& columns) const;
 
     // Backward-compatibility: Unified IndexType for simple "createIndex(..., IndexType)"
     enum class IndexType { REGULAR, RANGE, SPARSE, GEO, TTL, FULLTEXT, PARTIAL };
-    /**
-     * @brief TBD: Describe createIndex.
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @param[in] type Input parameter.
-     * @return Return value.
-     */
     Status createIndex(std::string_view table, std::string_view column, IndexType type);
 
     // Partial (filtered) index: only indexes rows satisfying the given predicate.
@@ -163,26 +98,8 @@ public:
     // Key schema: pidx:<table>:<column>:<encoded_value>:<PK>
     Status createPartialIndex(std::string_view table, std::string_view column,
                               std::string_view predicate, bool unique = false);
-    /**
-     * @brief TBD: Describe dropPartialIndex.
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @return Return value.
-     */
     Status dropPartialIndex(std::string_view table, std::string_view column);
-    /**
-     * @brief TBD: Describe hasPartialIndex.
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @return True on success.
-     */
     bool hasPartialIndex(std::string_view table, std::string_view column) const;
-    /**
-     * @brief TBD: Describe getPartialIndexPredicate.
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @return Return value.
-     */
     std::optional<std::string> getPartialIndexPredicate(std::string_view table,
                                                         std::string_view column) const;
     std::pair<Status, std::vector<std::string>> scanKeysEqualPartial(
@@ -190,88 +107,26 @@ public:
         std::string_view column,
         std::string_view value) const;
 
-    /**
-     * @brief Range-/Sort-Index (lexikografisch über String-Encoding)
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @return Return value.
-     */
+    // Range-/Sort-Index (lexikografisch über String-Encoding)
     Status createRangeIndex(std::string_view table, std::string_view column);
-    /**
-     * @brief TBD: Describe dropRangeIndex.
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @return Return value.
-     */
     Status dropRangeIndex(std::string_view table, std::string_view column);
-    /**
-     * @brief TBD: Describe hasRangeIndex.
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @return True on success.
-     */
     bool hasRangeIndex(std::string_view table, std::string_view column) const;
 
     // Sparse-Index: überspringt NULL/fehlende Werte (reduziert Index-Größe)
     Status createSparseIndex(std::string_view table, std::string_view column, bool unique = false);
-    /**
-     * @brief TBD: Describe dropSparseIndex.
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @return Return value.
-     */
     Status dropSparseIndex(std::string_view table, std::string_view column);
-    /**
-     * @brief TBD: Describe hasSparseIndex.
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @return True on success.
-     */
     bool hasSparseIndex(std::string_view table, std::string_view column) const;
 
-    /**
-     * @brief Geo-Index: GeoJSON-Punkt-Speicherung mit Bounding-Box und Radius-Queries Erwartet Felder: "lat" (double) und "lon" (double) oder GeoJSON "geometry"
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @return Return value.
-     */
+    // Geo-Index: GeoJSON-Punkt-Speicherung mit Bounding-Box und Radius-Queries
+    // Erwartet Felder: "lat" (double) und "lon" (double) oder GeoJSON "geometry"
     Status createGeoIndex(std::string_view table, std::string_view column);
-    /**
-     * @brief TBD: Describe dropGeoIndex.
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @return Return value.
-     */
     Status dropGeoIndex(std::string_view table, std::string_view column);
-    /**
-     * @brief TBD: Describe hasGeoIndex.
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @return True on success.
-     */
     bool hasGeoIndex(std::string_view table, std::string_view column) const;
 
-    /**
-     * @brief TTL-Index: Time-To-Live für automatisches Löschen nach Ablauf ttl_seconds: Lebensdauer in Sekunden
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @param[in] ttl_seconds Input parameter.
-     * @return Return value.
-     */
+    // TTL-Index: Time-To-Live für automatisches Löschen nach Ablauf
+    // ttl_seconds: Lebensdauer in Sekunden
     Status createTTLIndex(std::string_view table, std::string_view column, int64_t ttl_seconds);
-    /**
-     * @brief TBD: Describe dropTTLIndex.
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @return Return value.
-     */
     Status dropTTLIndex(std::string_view table, std::string_view column);
-    /**
-     * @brief TBD: Describe hasTTLIndex.
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @return True on success.
-     */
     bool hasTTLIndex(std::string_view table, std::string_view column) const;
     
     // TTL-Cleanup: Löscht abgelaufene Entities (periodisch aufrufen)
@@ -286,42 +141,13 @@ public:
         bool normalize_umlauts = false; // de: ä->a, ö->o, ü->u, ß->ss
     };
     
-    /**
-     * @brief Overload: use default FulltextConfig
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @return Return value.
-     */
+    // Overload: use default FulltextConfig
     Status createFulltextIndex(std::string_view table, std::string_view column);
-    /**
-     * @brief TBD: Describe createFulltextIndex.
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     Status createFulltextIndex(std::string_view table, std::string_view column, const FulltextConfig& config);
-    /**
-     * @brief TBD: Describe dropFulltextIndex.
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @return Return value.
-     */
     Status dropFulltextIndex(std::string_view table, std::string_view column);
-    /**
-     * @brief TBD: Describe hasFulltextIndex.
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @return True on success.
-     */
     bool hasFulltextIndex(std::string_view table, std::string_view column) const;
     
-    /**
-     * @brief Get fulltext index configuration
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @return Return value.
-     */
+    // Get fulltext index configuration
     std::optional<FulltextConfig> getFulltextConfig(std::string_view table, std::string_view column) const;
     
     // Fulltext-Suche: AND-Logik für alle Tokens (deprecated: use scanFulltextWithScores)
@@ -406,77 +232,22 @@ public:
         const std::optional<std::pair<std::string, std::string>>& anchor
     ) const;
 
-    /**
-     * @brief Datenpflege (atomar, inkl.
-     * @param[in] table Input parameter.
-     * @param[in] entity Input parameter.
-     * @return Return value.
-     * @details Indizes)
-     */
+    // Datenpflege (atomar, inkl. Indizes)
     Status put(std::string_view table, const BaseEntity& entity);
-    /**
-     * @brief TBD: Describe erase.
-     * @param[in] table Input parameter.
-     * @param[in] pk Input parameter.
-     * @return Return value.
-     */
     Status erase(std::string_view table, std::string_view pk);
 
-    /**
-     * @brief v1.
-     * @param[in] table Input parameter.
-     * @param[in] entities Input parameter.
-     * @return Return value.
-     * @details 3.4+: Batch Insert API - reduces commit overhead by batching inserts into configurable transaction chunks.
-     */
+    // v1.3.4+: Batch Insert API - reduces commit overhead by batching inserts into configurable transaction chunks.
     Status putBatch(std::string_view table, const std::vector<BaseEntity>& entities);
-    /**
-     * @brief TBD: Describe putBatch.
-     * @param[in] table Input parameter.
-     * @param[in] entities Input parameter.
-     * @param[in] transaction_batch_size Input parameter.
-     * @return Return value.
-     */
     Status putBatch(std::string_view table, const std::vector<BaseEntity>& entities, size_t transaction_batch_size);
-    /**
-     * @brief TBD: Describe setTransactionalPutBatchSize.
-     * @param[in] batch_size Input parameter.
-     */
     void setTransactionalPutBatchSize(size_t batch_size);
     size_t getTransactionalPutBatchSize() const { return transactional_put_batch_size_; }
 
-    /**
-     * @brief Varianten für Transaktionen: nutzen bestehende WriteBatch
-     * @param[in] table Input parameter.
-     * @param[in] entity Input parameter.
-     * @param[in,out] batch Input/output parameter.
-     * @return Return value.
-     */
+    // Varianten für Transaktionen: nutzen bestehende WriteBatch
     Status put(std::string_view table, const BaseEntity& entity, RocksDBWrapper::WriteBatchWrapper& batch);
-    /**
-     * @brief TBD: Describe erase.
-     * @param[in] table Input parameter.
-     * @param[in] pk Input parameter.
-     * @param[in,out] batch Input/output parameter.
-     * @return Return value.
-     */
     Status erase(std::string_view table, std::string_view pk, RocksDBWrapper::WriteBatchWrapper& batch);
     
-    /**
-     * @brief MVCC Transaction variants
-     * @param[in] table Input parameter.
-     * @param[in] entity Input parameter.
-     * @param[in,out] txn Input/output parameter.
-     * @return Return value.
-     */
+    // MVCC Transaction variants
     Status put(std::string_view table, const BaseEntity& entity, RocksDBWrapper::TransactionWrapper& txn);
-    /**
-     * @brief TBD: Describe erase.
-     * @param[in] table Input parameter.
-     * @param[in] pk Input parameter.
-     * @param[in,out] txn Input/output parameter.
-     * @return Return value.
-     */
     Status erase(std::string_view table, std::string_view pk, RocksDBWrapper::TransactionWrapper& txn);
 
     // Abfragen über Index = Gleichheit
@@ -528,29 +299,13 @@ public:
     static std::string encodeGeohash(double lat, double lon, int precision = 12);
     static std::pair<double, double> decodeGeohash(std::string_view geohash);
     
-    /**
-     * @brief Utility: Haversine-Distanz in Kilometern
-     * @param[in] lat1 Input parameter.
-     * @param[in] lon1 Input parameter.
-     * @param[in] lat2 Input parameter.
-     * @param[in] lon2 Input parameter.
-     * @return Return value.
-     */
+    // Utility: Haversine-Distanz in Kilometern
     static double haversineDistance(double lat1, double lon1, double lat2, double lon2);
     
-    /**
-     * @brief Utility: Fulltext-Tokenizer (Whitespace + Lowercase)
-     * @param[in] text Input parameter.
-     * @return Return value.
-     */
+    // Utility: Fulltext-Tokenizer (Whitespace + Lowercase)
     static std::vector<std::string> tokenize(std::string_view text);
     
-    /**
-     * @brief Utility: Fulltext-Tokenizer mit Stemming (Whitespace + Lowercase + Stem)
-     * @param[in] text Input parameter.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
+    // Utility: Fulltext-Tokenizer mit Stemming (Whitespace + Lowercase + Stem)
     static std::vector<std::string> tokenize(std::string_view text, const FulltextConfig& config);
 
     // Index-Statistiken und Wartung
@@ -564,26 +319,13 @@ public:
         std::string additional_info;   // Typ-spezifische Infos
     };
     
-    /**
-     * @brief Liefert Statistiken für einen bestimmten Index (erkennt Typ automatisch)
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @return Return value.
-     */
+    // Liefert Statistiken für einen bestimmten Index (erkennt Typ automatisch)
     IndexStats getIndexStats(std::string_view table, std::string_view column) const;
     
-    /**
-     * @brief Liefert Statistiken für alle Indizes einer Tabelle
-     * @param[in] table Input parameter.
-     * @return Return value.
-     */
+    // Liefert Statistiken für alle Indizes einer Tabelle
     std::vector<IndexStats> getAllIndexStats(const std::string& table);
     
-    /**
-     * @brief Rebuild eines Index (nützlich bei Inkonsistenzen)
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     */
+    // Rebuild eines Index (nützlich bei Inkonsistenzen)
     void rebuildIndex(const std::string& table, const std::string& column);
     // Rebuild mit Fortschritts-Callback: progress(done,total) -> true=weiter, false=abbrechen
     void rebuildIndex(const std::string& table, const std::string& column,
@@ -598,10 +340,7 @@ public:
                             uint32_t throttle_us = 0,
                             std::function<bool(size_t,size_t)> progress = nullptr);
     
-    /**
-     * @brief Rebuild aller Indizes einer Tabelle
-     * @param[in] table Input parameter.
-     */
+    // Rebuild aller Indizes einer Tabelle
     void reindexTable(const std::string& table);
 
     // Metriken für Rebuild-Operationen
@@ -618,28 +357,13 @@ public:
         std::atomic<uint64_t> range_scan_steps_total{0};     // Anzahl besuchter Indexeinträge bei Range-Scans
     };
     
-    /**
-     * @brief TBD: Describe getRebuildMetrics.
-     * @return Return value.
-     * @details Implements getRebuildMetrics without additional internal calls.
-     */
     RebuildMetrics& getRebuildMetrics() { return rebuild_metrics_; }
     const RebuildMetrics& getRebuildMetrics() const { return rebuild_metrics_; }
-    /**
-     * @brief TBD: Describe getQueryMetrics.
-     * @return Return value.
-     * @details Implements getQueryMetrics without additional internal calls.
-     */
     QueryMetrics& getQueryMetrics() { return query_metrics_; }
     const QueryMetrics& getQueryMetrics() const { return query_metrics_; }
 
     // Index compression (v1.7.0)
     const Config& getCompressionConfig() const { return compression_config_; }
-    /**
-     * @brief TBD: Describe getCompressionCodec.
-     * @return Return value.
-     * @details Implements getCompressionCodec without additional internal calls.
-     */
     index::IndexCompressionCodec& getCompressionCodec() { return *compression_codec_; }
     const index::IndexCompressionCodec& getCompressionCodec() const { return *compression_codec_; }
     bool isCompressionEnabled() const { return compression_config_.enable_compression; }
@@ -660,368 +384,114 @@ private:
     std::unique_ptr<index::IndexCompressionCodec> compression_codec_;
     size_t transactional_put_batch_size_ = 64;
 
-    /**
-     * @brief Meta-Key für vorhandene Indizes: idxmeta:<table>:<column> Composite: idxmeta:<table>:col1+col2+col3 Meta-Value: "unique" oder "" (leer = nicht-unique)
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @return Return value.
-     */
+    // Meta-Key für vorhandene Indizes: idxmeta:<table>:<column>
+    // Composite: idxmeta:<table>:col1+col2+col3
+    // Meta-Value: "unique" oder "" (leer = nicht-unique)
     static std::string makeIndexMetaKey(std::string_view table, std::string_view column);
-    /**
-     * @brief TBD: Describe makeCompositeIndexMetaKey.
-     * @param[in] table Input parameter.
-     * @param[in] columns Input parameter.
-     * @return Return value.
-     */
     static std::string makeCompositeIndexMetaKey(std::string_view table, const std::vector<std::string>& columns);
 
-    /**
-     * @brief Range-Index-Metadaten: ridxmeta:<table>:<column>
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @return Return value.
-     */
+    // Range-Index-Metadaten: ridxmeta:<table>:<column>
     static std::string makeRangeIndexMetaKey(std::string_view table, std::string_view column);
 
-    /**
-     * @brief Sparse-Index-Metadaten: sidxmeta:<table>:<column>
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @return Return value.
-     */
+    // Sparse-Index-Metadaten: sidxmeta:<table>:<column>
     static std::string makeSparseIndexMetaKey(std::string_view table, std::string_view column);
 
-    /**
-     * @brief Geo-Index-Metadaten: gidxmeta:<table>:<column>
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @return Return value.
-     */
+    // Geo-Index-Metadaten: gidxmeta:<table>:<column>
     static std::string makeGeoIndexMetaKey(std::string_view table, std::string_view column);
     
-    /**
-     * @brief TTL-Index-Metadaten: ttlidxmeta:<table>:<column> -> Value: TTL-Sekunden als String
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @return Return value.
-     */
+    // TTL-Index-Metadaten: ttlidxmeta:<table>:<column> -> Value: TTL-Sekunden als String
     static std::string makeTTLIndexMetaKey(std::string_view table, std::string_view column);
     
-    /**
-     * @brief Fulltext-Index-Metadaten: ftidxmeta:<table>:<column>
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @return Return value.
-     */
+    // Fulltext-Index-Metadaten: ftidxmeta:<table>:<column>
     static std::string makeFulltextIndexMetaKey(std::string_view table, std::string_view column);
     
-    /**
-     * @brief Index-Key-Builder Single: idx:table:column:value:PK Composite: idx:table:col1+col2:val1:val2:PK
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @param[in] value Input parameter.
-     * @param[in] pk Input parameter.
-     * @return Return value.
-     */
+    // Index-Key-Builder
+    // Single: idx:table:column:value:PK
+    // Composite: idx:table:col1+col2:val1:val2:PK
     static std::string makeIndexKey(std::string_view table, std::string_view column, std::string_view value, std::string_view pk);
-    /**
-     * @brief TBD: Describe makeCompositeIndexKey.
-     * @param[in] table Input parameter.
-     * @param[in] columns Input parameter.
-     * @param[in] values Input parameter.
-     * @param[in] pk Input parameter.
-     * @return Return value.
-     */
     static std::string makeCompositeIndexKey(std::string_view table, const std::vector<std::string>& columns, const std::vector<std::string>& values, std::string_view pk);
-    /**
-     * @brief TBD: Describe makeCompositeIndexPrefix.
-     * @param[in] table Input parameter.
-     * @param[in] columns Input parameter.
-     * @param[in] values Input parameter.
-     * @return Return value.
-     */
     static std::string makeCompositeIndexPrefix(std::string_view table, const std::vector<std::string>& columns, const std::vector<std::string>& values);
 
-    /**
-     * @brief Unique-Index sentinel key used for GetForUpdate locking (Concurrent-Unique-Lücke fix).
-     * @param[in] table Input parameter.
-     * @param[in] col Input parameter.
-     * @param[in] encodedVal Input parameter.
-     * @return Return value.
-     * @details Single-column: "uidx:table:col:encodedVal" Composite: "uidx:table:col1+col2:encVal1:encVal2"
-     */
+    // Unique-Index sentinel key used for GetForUpdate locking (Concurrent-Unique-Lücke fix).
+    // Single-column: "uidx:table:col:encodedVal"
+    // Composite:     "uidx:table:col1+col2:encVal1:encVal2"
     static std::string makeUniqueSentinelKey_(std::string_view table, std::string_view col, std::string_view encodedVal);
-    /**
-     * @brief TBD: Describe makeCompositeUniqueSentinelKey_.
-     * @param[in] table Input parameter.
-     * @param[in] columns Input parameter.
-     * @param[in] values Input parameter.
-     * @return Return value.
-     */
     static std::string makeCompositeUniqueSentinelKey_(std::string_view table, const std::vector<std::string>& columns, const std::vector<std::string>& values);
 
-    /**
-     * @brief Range-Index-Key-Builder: ridx:table:column:value:PK und Prefix ridx:table:column:value:
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @param[in] value Input parameter.
-     * @param[in] pk Input parameter.
-     * @return Return value.
-     */
+    // Range-Index-Key-Builder: ridx:table:column:value:PK und Prefix ridx:table:column:value:
     static std::string makeRangeIndexKey(std::string_view table, std::string_view column, std::string_view value, std::string_view pk);
-    /**
-     * @brief TBD: Describe makeRangeIndexPrefix.
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @param[in] valuePrefix Input parameter.
-     * @return Return value.
-     */
     static std::string makeRangeIndexPrefix(std::string_view table, std::string_view column, std::string_view valuePrefix);
 
-    /**
-     * @brief Sparse-Index-Key-Builder: sidx:table:column:value:PK (wie idx, aber NULL-Werte werden übersprungen)
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @param[in] value Input parameter.
-     * @param[in] pk Input parameter.
-     * @return Return value.
-     */
+    // Sparse-Index-Key-Builder: sidx:table:column:value:PK (wie idx, aber NULL-Werte werden übersprungen)
     static std::string makeSparseIndexKey(std::string_view table, std::string_view column, std::string_view value, std::string_view pk);
 
-    /**
-     * @brief Geo-Index-Key-Builder: gidx:table:column:geohash:PK Geohash: Z-Order-Curve (Morton-Code) für räumliche Lokalität
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @param[in] geohash Input parameter.
-     * @param[in] pk Input parameter.
-     * @return Return value.
-     */
+    // Geo-Index-Key-Builder: gidx:table:column:geohash:PK
+    // Geohash: Z-Order-Curve (Morton-Code) für räumliche Lokalität
     static std::string makeGeoIndexKey(std::string_view table, std::string_view column, std::string_view geohash, std::string_view pk);
-    /**
-     * @brief TBD: Describe makeGeoIndexPrefix.
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @param[in] geohashPrefix Input parameter.
-     * @return Return value.
-     */
     static std::string makeGeoIndexPrefix(std::string_view table, std::string_view column, std::string_view geohashPrefix);
 
-    /**
-     * @brief TTL-Index-Key-Builder: ttlidx:table:column:timestamp:PK timestamp: Unix-Timestamp (Sekunden) als Expire-Time
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @param[in] expireTimestamp Input parameter.
-     * @param[in] pk Input parameter.
-     * @return Return value.
-     */
+    // TTL-Index-Key-Builder: ttlidx:table:column:timestamp:PK
+    // timestamp: Unix-Timestamp (Sekunden) als Expire-Time
     static std::string makeTTLIndexKey(std::string_view table, std::string_view column, int64_t expireTimestamp, std::string_view pk);
-    /**
-     * @brief TBD: Describe makeTTLIndexPrefix.
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @return Return value.
-     */
     static std::string makeTTLIndexPrefix(std::string_view table, std::string_view column);
     
-    /**
-     * @brief Fulltext-Index-Key-Builder: ftidx:table:column:token:PK token: Einzelnes Wort aus tokenisiertem Text (lowercase)
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @param[in] token Input parameter.
-     * @param[in] pk Input parameter.
-     * @return Return value.
-     */
+    // Fulltext-Index-Key-Builder: ftidx:table:column:token:PK
+    // token: Einzelnes Wort aus tokenisiertem Text (lowercase)
     static std::string makeFulltextIndexKey(std::string_view table, std::string_view column, std::string_view token, std::string_view pk);
-    /**
-     * @brief TBD: Describe makeFulltextIndexPrefix.
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @param[in] token Input parameter.
-     * @return Return value.
-     */
     static std::string makeFulltextIndexPrefix(std::string_view table, std::string_view column, std::string_view token);
-    /**
-     * @brief Fulltext Zusatz-Schlüssel für Scoring
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @param[in] token Input parameter.
-     * @param[in] pk Input parameter.
-     * @return Return value.
-     */
+    // Fulltext Zusatz-Schlüssel für Scoring
     static std::string makeFulltextTFKey(std::string_view table, std::string_view column, std::string_view token, std::string_view pk); // fttf:table:column:token:PK
-    /**
-     * @brief TBD: Describe makeFulltextDocLenKey.
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @param[in] pk Input parameter.
-     * @return Return value.
-     */
     static std::string makeFulltextDocLenKey(std::string_view table, std::string_view column, std::string_view pk); // ftdlen:table:column:PK
-    /**
-     * @brief TBD: Describe makeFulltextDocLenPrefix.
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @return Return value.
-     */
     static std::string makeFulltextDocLenPrefix(std::string_view table, std::string_view column); // ftdlen:table:column:
 
-    /**
-     * @brief Partial-Index-Metadaten: pidxmeta:<table>:<column> -> predicate[|unique]
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @return Return value.
-     */
+    // Partial-Index-Metadaten: pidxmeta:<table>:<column> -> predicate[|unique]
     static std::string makePartialIndexMetaKey(std::string_view table, std::string_view column);
-    /**
-     * @brief Partial-Index-Key-Builder: pidx:<table>:<column>:<encoded_value>:<PK>
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @param[in] value Input parameter.
-     * @param[in] pk Input parameter.
-     * @return Return value.
-     */
+    // Partial-Index-Key-Builder: pidx:<table>:<column>:<encoded_value>:<PK>
     static std::string makePartialIndexKey(std::string_view table, std::string_view column, std::string_view value, std::string_view pk);
     static std::string makePartialIndexPrefix(std::string_view table, std::string_view column, std::string_view valuePrefix = {});
 
-    /**
-     * @brief Prüft ob Index unique ist
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @return True on success.
-     */
+    // Prüft ob Index unique ist
     bool isUniqueIndex_(std::string_view table, std::string_view column) const;
-    /**
-     * @brief TBD: Describe isUniqueCompositeIndex_.
-     * @param[in] table Input parameter.
-     * @param[in] columns Input parameter.
-     * @return True on success.
-     */
     bool isUniqueCompositeIndex_(std::string_view table, const std::vector<std::string>& columns) const;
-    /**
-     * @brief TBD: Describe isSparseIndexUnique_.
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @return True on success.
-     */
     bool isSparseIndexUnique_(std::string_view table, std::string_view column) const;
-    /**
-     * @brief TBD: Describe isPartialIndexUnique_.
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @return True on success.
-     */
     bool isPartialIndexUnique_(std::string_view table, std::string_view column) const;
 
-    /**
-     * @brief Evaluates a partial index predicate string against an entity.
-     * @param[in] entity Input parameter.
-     * @param[in] predicate Input parameter.
-     * @return True on success.
-     * @details Returns true if the entity satisfies the predicate (should be indexed).
-     */
+    // Evaluates a partial index predicate string against an entity.
+    // Returns true if the entity satisfies the predicate (should be indexed).
     static bool evaluatePartialPredicate_(const BaseEntity& entity, const std::string& predicate);
 
-    /**
-     * @brief Sichere Kodierung für Key-Komponenten (':' und '%' werden percent-encodiert)
-     * @param[in] raw Input parameter.
-     * @return Return value.
-     */
+    // Sichere Kodierung für Key-Komponenten (':' und '%' werden percent-encodiert)
     static std::string encodeKeyComponent(std::string_view raw);
 
-    /**
-     * @brief Hilfsfunktionen
-     * @param[in] table Input parameter.
-     * @param[in] pk Input parameter.
-     * @param[in] newEntity Input parameter.
-     * @param[in,out] batch Input/output parameter.
-     * @return Return value.
-     */
+    // Hilfsfunktionen
     Status updateIndexesForPut_(std::string_view table,
                                 std::string_view pk,
                                 const BaseEntity& newEntity,
                                 RocksDBWrapper::WriteBatchWrapper& batch);
-    /**
-     * @brief TBD: Describe updateIndexesForDelete_.
-     * @param[in] table Input parameter.
-     * @param[in] pk Input parameter.
-     * @param[in] oldEntityOpt Input parameter.
-     * @param[in,out] batch Input/output parameter.
-     * @return Return value.
-     */
     Status updateIndexesForDelete_(std::string_view table,
                                    std::string_view pk,
                                    const BaseEntity* oldEntityOpt,
                                    RocksDBWrapper::WriteBatchWrapper& batch);
     
-    /**
-     * @brief MVCC Transaction Varianten
-     * @param[in] table Input parameter.
-     * @param[in] pk Input parameter.
-     * @param[in] newEntity Input parameter.
-     * @param[in,out] txn Input/output parameter.
-     * @return Return value.
-     */
+    // MVCC Transaction Varianten
     Status updateIndexesForPut_(std::string_view table,
                                 std::string_view pk,
                                 const BaseEntity& newEntity,
                                 RocksDBWrapper::TransactionWrapper& txn);
-    /**
-     * @brief TBD: Describe updateIndexesForDelete_.
-     * @param[in] table Input parameter.
-     * @param[in] pk Input parameter.
-     * @param[in] oldEntityOpt Input parameter.
-     * @param[in,out] txn Input/output parameter.
-     * @return Return value.
-     */
     Status updateIndexesForDelete_(std::string_view table,
                                    std::string_view pk,
                                    const BaseEntity* oldEntityOpt,
                                    RocksDBWrapper::TransactionWrapper& txn);
     
-    /**
-     * @brief TBD: Describe loadIndexedColumns_.
-     * @param[in] table Input parameter.
-     * @return Return value.
-     */
     std::unordered_set<std::string> loadIndexedColumns_(std::string_view table) const;
-    /**
-     * @brief TBD: Describe loadRangeIndexedColumns_.
-     * @param[in] table Input parameter.
-     * @return Return value.
-     */
     std::unordered_set<std::string> loadRangeIndexedColumns_(std::string_view table) const;
-    /**
-     * @brief TBD: Describe loadSparseIndexedColumns_.
-     * @param[in] table Input parameter.
-     * @return Return value.
-     */
     std::unordered_set<std::string> loadSparseIndexedColumns_(std::string_view table) const;
-    /**
-     * @brief TBD: Describe loadGeoIndexedColumns_.
-     * @param[in] table Input parameter.
-     * @return Return value.
-     */
     std::unordered_set<std::string> loadGeoIndexedColumns_(std::string_view table) const;
-    /**
-     * @brief TBD: Describe loadTTLIndexedColumns_.
-     * @param[in] table Input parameter.
-     * @return Return value.
-     */
     std::unordered_set<std::string> loadTTLIndexedColumns_(std::string_view table) const;
-    /**
-     * @brief TBD: Describe loadFulltextIndexedColumns_.
-     * @param[in] table Input parameter.
-     * @return Return value.
-     */
     std::unordered_set<std::string> loadFulltextIndexedColumns_(std::string_view table) const;
     std::unordered_map<std::string, std::string> loadPartialIndexedColumns_(std::string_view table) const;
     
-    /**
-     * @brief TTL-Helpers
-     * @param[in] table Input parameter.
-     * @param[in] column Input parameter.
-     * @return Return value.
-     */
+    // TTL-Helpers
     int64_t getTTLSeconds_(std::string_view table, std::string_view column) const;
     
     // Fulltext-Helpers: BM25 Score Computation (internal)
@@ -1032,11 +502,7 @@ private:
         size_t limit
     ) const;
     
-    /**
-     * @brief Prüft ob Feld-Wert NULL/leer ist (für Sparse-Index)
-     * @param[in] value Input parameter.
-     * @return True on success.
-     */
+    // Prüft ob Feld-Wert NULL/leer ist (für Sparse-Index)
     static bool isNullOrEmpty_(const std::optional<std::string>& value);
 };
 

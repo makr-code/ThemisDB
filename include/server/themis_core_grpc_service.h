@@ -74,7 +74,6 @@ public:
      *
      * A missing callback, thrown callback exception, or nullptr callback result
      * causes constructor failure via std::runtime_error (fail-closed).
-     * @return Pointer to the result.
      */
     void* getServiceInstance();
 
@@ -86,7 +85,6 @@ public:
      * is invoked once during construction.
      *
      * Pass an empty function to remove a previously registered callback.
-     * @param[in] fn Input parameter.
      */
     static void setServiceInstanceFn(ServiceInstanceFn fn);
 

@@ -42,10 +42,6 @@ namespace governance {
  */
 class IComplianceValidator {
 public:
-    /**
-     * @brief TBD: Describe ~IComplianceValidator.
-     * @return Return value.
-     */
     virtual ~IComplianceValidator() = default;
     
     /// Get the framework this validator handles
@@ -100,35 +96,10 @@ public:
         const ComplianceContext& ctx) override;
 
 private:
-    /**
-     * @brief TBD: Describe validateEncryption.
-     * @param[in] ctx Input parameter.
-     * @return True on success.
-     */
     bool validateEncryption(const ComplianceContext& ctx);
-    /**
-     * @brief TBD: Describe validateAccessControl.
-     * @param[in] ctx Input parameter.
-     * @return True on success.
-     */
     bool validateAccessControl(const ComplianceContext& ctx);
-    /**
-     * @brief TBD: Describe validateAuditLogging.
-     * @param[in] ctx Input parameter.
-     * @return True on success.
-     */
     bool validateAuditLogging(const ComplianceContext& ctx);
-    /**
-     * @brief TBD: Describe validateIncidentResponse.
-     * @param[in] ctx Input parameter.
-     * @return True on success.
-     */
     bool validateIncidentResponse(const ComplianceContext& ctx);
-    /**
-     * @brief TBD: Describe validateBackupRecovery.
-     * @param[in] ctx Input parameter.
-     * @return True on success.
-     */
     bool validateBackupRecovery(const ComplianceContext& ctx);
 };
 
@@ -156,35 +127,10 @@ public:
         const ComplianceContext& ctx) override;
 
 private:
-    /**
-     * @brief TBD: Describe validateSecurityMonitoring.
-     * @param[in] ctx Input parameter.
-     * @return True on success.
-     */
     bool validateSecurityMonitoring(const ComplianceContext& ctx);
-    /**
-     * @brief TBD: Describe validateChangeManagement.
-     * @param[in] ctx Input parameter.
-     * @return True on success.
-     */
     bool validateChangeManagement(const ComplianceContext& ctx);
-    /**
-     * @brief TBD: Describe validateDataSecurity.
-     * @param[in] ctx Input parameter.
-     * @return True on success.
-     */
     bool validateDataSecurity(const ComplianceContext& ctx);
-    /**
-     * @brief TBD: Describe validateAvailability.
-     * @param[in] ctx Input parameter.
-     * @return True on success.
-     */
     bool validateAvailability(const ComplianceContext& ctx);
-    /**
-     * @brief TBD: Describe validateConfidentiality.
-     * @param[in] ctx Input parameter.
-     * @return True on success.
-     */
     bool validateConfidentiality(const ComplianceContext& ctx);
 };
 
@@ -212,35 +158,10 @@ public:
         const ComplianceContext& ctx) override;
 
 private:
-    /**
-     * @brief TBD: Describe validateConsentManagement.
-     * @param[in] ctx Input parameter.
-     * @return True on success.
-     */
     bool validateConsentManagement(const ComplianceContext& ctx);
-    /**
-     * @brief TBD: Describe validateDataMinimization.
-     * @param[in] ctx Input parameter.
-     * @return True on success.
-     */
     bool validateDataMinimization(const ComplianceContext& ctx);
-    /**
-     * @brief TBD: Describe validateSubjectRights.
-     * @param[in] ctx Input parameter.
-     * @return True on success.
-     */
     bool validateSubjectRights(const ComplianceContext& ctx);
-    /**
-     * @brief TBD: Describe validateDataRetention.
-     * @param[in] ctx Input parameter.
-     * @return True on success.
-     */
     bool validateDataRetention(const ComplianceContext& ctx);
-    /**
-     * @brief TBD: Describe validateDpia.
-     * @param[in] ctx Input parameter.
-     * @return True on success.
-     */
     bool validateDpia(const ComplianceContext& ctx);
 };
 
@@ -268,29 +189,9 @@ public:
         const ComplianceContext& ctx) override;
 
 private:
-    /**
-     * @brief TBD: Describe validateConsumerRights.
-     * @param[in] ctx Input parameter.
-     * @return True on success.
-     */
     bool validateConsumerRights(const ComplianceContext& ctx);
-    /**
-     * @brief TBD: Describe validateDataSaleOpt.
-     * @param[in] ctx Input parameter.
-     * @return True on success.
-     */
     bool validateDataSaleOpt(const ComplianceContext& ctx);
-    /**
-     * @brief TBD: Describe validatePrivacyPolicy.
-     * @param[in] ctx Input parameter.
-     * @return True on success.
-     */
     bool validatePrivacyPolicy(const ComplianceContext& ctx);
-    /**
-     * @brief TBD: Describe validateDataSecurity.
-     * @param[in] ctx Input parameter.
-     * @return True on success.
-     */
     bool validateDataSecurity(const ComplianceContext& ctx);
 };
 
@@ -318,29 +219,9 @@ public:
         const ComplianceContext& ctx) override;
 
 private:
-    /**
-     * @brief TBD: Describe validatePhiEncryption.
-     * @param[in] ctx Input parameter.
-     * @return True on success.
-     */
     bool validatePhiEncryption(const ComplianceContext& ctx);
-    /**
-     * @brief TBD: Describe validateAccessControl.
-     * @param[in] ctx Input parameter.
-     * @return True on success.
-     */
     bool validateAccessControl(const ComplianceContext& ctx);
-    /**
-     * @brief TBD: Describe validateAuditControls.
-     * @param[in] ctx Input parameter.
-     * @return True on success.
-     */
     bool validateAuditControls(const ComplianceContext& ctx);
-    /**
-     * @brief TBD: Describe validateIntegrityControls.
-     * @param[in] ctx Input parameter.
-     * @return True on success.
-     */
     bool validateIntegrityControls(const ComplianceContext& ctx);
 };
 
@@ -368,29 +249,9 @@ public:
         const ComplianceContext& ctx) override;
 
 private:
-    /**
-     * @brief TBD: Describe validateCardDataEncryption.
-     * @param[in] ctx Input parameter.
-     * @return True on success.
-     */
     bool validateCardDataEncryption(const ComplianceContext& ctx);
-    /**
-     * @brief TBD: Describe validateAccessControl.
-     * @param[in] ctx Input parameter.
-     * @return True on success.
-     */
     bool validateAccessControl(const ComplianceContext& ctx);
-    /**
-     * @brief TBD: Describe validateVulnerabilityManagement.
-     * @param[in] ctx Input parameter.
-     * @return True on success.
-     */
     bool validateVulnerabilityManagement(const ComplianceContext& ctx);
-    /**
-     * @brief TBD: Describe validateMonitoring.
-     * @param[in] ctx Input parameter.
-     * @return True on success.
-     */
     bool validateMonitoring(const ComplianceContext& ctx);
 };
 
@@ -418,29 +279,9 @@ public:
         const ComplianceContext& ctx) override;
 
 private:
-    /**
-     * @brief TBD: Describe validateRiskManagement.
-     * @param[in] ctx Input parameter.
-     * @return True on success.
-     */
     bool validateRiskManagement(const ComplianceContext& ctx);
-    /**
-     * @brief TBD: Describe validateTransparency.
-     * @param[in] ctx Input parameter.
-     * @return True on success.
-     */
     bool validateTransparency(const ComplianceContext& ctx);
-    /**
-     * @brief TBD: Describe validateMonitoring.
-     * @param[in] ctx Input parameter.
-     * @return True on success.
-     */
     bool validateMonitoring(const ComplianceContext& ctx);
-    /**
-     * @brief TBD: Describe validateHumanOversight.
-     * @param[in] ctx Input parameter.
-     * @return True on success.
-     */
     bool validateHumanOversight(const ComplianceContext& ctx);
 };
 

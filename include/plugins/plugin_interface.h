@@ -142,7 +142,6 @@ enum class PluginLifecycleState : uint8_t {
 * @brief Convert PluginLifecycleState to human-readable string.
 * @param state The lifecycle state.
 * @return String representation of the state (never nullptr).
- * @details Implements lifecycleStateToString without additional internal calls.
 */
 inline const char* lifecycleStateToString(PluginLifecycleState state) {
     switch (state) {
@@ -170,7 +169,6 @@ inline const char* lifecycleStateToString(PluginLifecycleState state) {
 * @param from_state Current state.
 * @param to_state Desired next state.
 * @return true if transition is allowed; false otherwise.
- * @details Implements isValidLifecycleTransition without additional internal calls.
 */
 inline bool isValidLifecycleTransition(PluginLifecycleState from_state,
                                       PluginLifecycleState to_state) {
@@ -256,10 +254,6 @@ struct PluginNegotiationResult {
  */
 class IThemisPlugin {
 public:
-    /**
-     * @brief TBD: Describe ~IThemisPlugin.
-     * @return Return value.
-     */
     virtual ~IThemisPlugin() = default;
     
     /**
@@ -316,10 +310,6 @@ public:
  */
 class IStatefulPlugin {
 public:
-    /**
-     * @brief TBD: Describe ~IStatefulPlugin.
-     * @return Return value.
-     */
     virtual ~IStatefulPlugin() = default;
     
     /**
@@ -484,12 +474,6 @@ public:
 private:
     using Version3 = std::tuple<int, int, int>;
 
-    /**
-     * @brief TBD: Describe parseVersion.
-     * @param[in] v Input parameter.
-     * @return Return value.
-     * @details Calls: empty(), std::sscanf(), c_str().
-     */
     static Version3 parseVersion(const std::string& v) {
         int major = 0, minor = 0, patch = 0;
         if (!v.empty()) {
@@ -676,7 +660,6 @@ public:
      *
      * @param j  Parsed JSON object representing the plugin manifest.
      * @return   ValidationResult with valid=true on success, or a list of errors.
-     * @details Calls: is_object(), push_back(), checkRequiredString(), contains(), is_string(), std::find(), begin(), end().
      */
     static ValidationResult validate(const json& j) {
         ValidationResult result = {};
@@ -894,7 +877,6 @@ public:
      *
      * @param j  Parsed JSON object.
      * @return   Populated MarketplaceManifest, or std::nullopt on parse failure.
-     * @details Calls: validate(), value(), contains(), is_object(), is_array(), is_string(), push_back(), dump().
      */
     static std::optional<MarketplaceManifest> parseMarketplaceManifest(const json& j) {
         auto result = validate(j);
@@ -999,15 +981,6 @@ public:
     }
 
 private:
-    /**
-     * @brief TBD: Describe checkRequiredString.
-     * @param[in] j Input parameter.
-     * @param[in] field Input parameter.
-     * @param[in] min_len Input parameter.
-     * @param[in] max_len Input parameter.
-     * @param[in,out] out Input/output parameter.
-     * @details Calls: contains(), is_string(), push_back(), size(), std::to_string().
-     */
     static void checkRequiredString(const json& j, const std::string& field,
                                     std::size_t min_len, std::size_t max_len,
                                     ValidationResult& out) {
@@ -1025,15 +998,6 @@ private:
         }
     }
 
-    /**
-     * @brief TBD: Describe checkOptionalString.
-     * @param[in] j Input parameter.
-     * @param[in] field Input parameter.
-     * @param[in] size_t Input parameter.
-     * @param[in] max_len Input parameter.
-     * @param[in,out] out Input/output parameter.
-     * @details Calls: contains(), is_string(), push_back(), size(), std::to_string().
-     */
     static void checkOptionalString(const json& j, const std::string& field,
                                     std::size_t /*min_len*/, std::size_t max_len,
                                     ValidationResult& out) {
@@ -1066,20 +1030,9 @@ private:
  */
 #define THEMIS_PLUGIN_IMPL(PluginClass) \
     extern "C" { \
-        /**
-         * @brief TBD: Describe createPlugin.
-         * @return Pointer to the result.
-         * @details Calls: PluginClass().
-         */
         THEMIS_PLUGIN_EXPORT themis::plugins::IThemisPlugin* createPlugin() { \
             return new PluginClass(); \
         } \
-        /**
-         * @brief TBD: Describe destroyPlugin.
-         * @param[in,out] plugin Input/output parameter.
-         * @return Return value.
-         * @details Implements destroyPlugin without additional internal calls.
-         */
         THEMIS_PLUGIN_EXPORT void destroyPlugin(themis::plugins::IThemisPlugin* plugin) { \
             delete plugin; \
         } \

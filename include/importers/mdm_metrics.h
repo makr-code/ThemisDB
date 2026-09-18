@@ -48,10 +48,6 @@ struct MDMMetricSnapshot {
     double linking_time_seconds       = 0.0;
     double resolution_time_seconds    = 0.0;
 
-    /**
-     * @brief TBD: Describe toJson.
-     * @return Return value.
-     */
     json toJson() const;
 };
 

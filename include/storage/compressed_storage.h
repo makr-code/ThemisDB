@@ -33,18 +33,10 @@ struct CompressedValue {
     compression::CompressionMethod method;
     size_t original_size = {};
     
-    /**
-     * @brief Serialize to storage format: [method:1][original_size:8][data.
-     * @return Return value.
-     * @details ..]
-     */
+    // Serialize to storage format: [method:1][original_size:8][data...]
     std::vector<uint8_t> serialize() const;
     
-    /**
-     * @brief Deserialize from storage format
-     * @param[in] bytes Input parameter.
-     * @return Return value.
-     */
+    // Deserialize from storage format
     static std::optional<CompressedValue> deserialize(const std::vector<uint8_t>& bytes);
 };
 
@@ -63,10 +55,6 @@ public:
      */
     class IStorageBackend {
     public:
-        /**
-         * @brief TBD: Describe ~IStorageBackend.
-         * @return Return value.
-         */
         virtual ~IStorageBackend() = default;
         
         [[nodiscard]] virtual bool put(const std::string& key, const std::vector<uint8_t>& value) = 0;
@@ -122,9 +110,6 @@ public:
     
     /**
      * @brief Retrieve and decompress as string
-     * @param[in] key Input parameter.
-     * @return Return value.
-     * @details Calls: get(), std::string(), begin(), end().
      */
     std::optional<std::string> get_string(const std::string& key) {
         auto bytes = get(key);
@@ -136,9 +121,6 @@ public:
     
     /**
      * @brief Delete key
-     * @param[in] key Input parameter.
-     * @return True on success.
-     * @details Implements del without additional internal calls.
      */
     bool del(const std::string& key) {
         return backend_->del(key);
@@ -146,9 +128,6 @@ public:
     
     /**
      * @brief Check if key exists
-     * @param[in] key Input parameter.
-     * @return True on success.
-     * @details Implements exists without additional internal calls.
      */
     bool exists(const std::string& key) {
         return backend_->exists(key);
@@ -163,7 +142,6 @@ public:
     
     /**
      * @brief Reset compression statistics
-     * @details Calls: reset_metrics().
      */
     void reset_compression_stats() {
         compressor_.reset_metrics();
@@ -171,8 +149,6 @@ public:
     
     /**
      * @brief Update compression configuration
-     * @param[in] config Input parameter.
-     * @details Calls: set_config().
      */
     void set_compression_config(const compression::CompressionConfig& config) {
         compressor_.set_config(config);
@@ -240,22 +216,16 @@ public:
     
     /**
      * @brief Delete key from column
-     * @param[in] column Input parameter.
-     * @param[in] key Input parameter.
-     * @return True on success.
      */
     bool del(const std::string& column, const std::string& key);
     
     /**
      * @brief Get compression statistics for all columns
-     * @return Return value.
      */
     std::string get_all_column_stats() const;
     
     /**
      * @brief Get compression statistics for specific column
-     * @param[in] column Input parameter.
-     * @return Return value.
      */
     std::string get_column_stats(const std::string& column) const;
     

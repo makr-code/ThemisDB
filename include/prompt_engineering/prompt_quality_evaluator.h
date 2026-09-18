@@ -101,10 +101,6 @@ struct QualityConfig {
  */
 class IPromptQualityEvaluator {
 public:
-    /**
-     * @brief TBD: Describe ~IPromptQualityEvaluator.
-     * @return Return value.
-     */
     virtual ~IPromptQualityEvaluator() = default;
 
     /**

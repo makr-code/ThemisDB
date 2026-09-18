@@ -51,30 +51,17 @@ struct SpatialHistogram {
     
     /**
      * @brief Get grid cell containing the point
-     * @param[in] lon Input parameter.
-     * @param[in] lat Input parameter.
-     * @return Pointer to the result.
      */
     const GridCell* getCellForPoint(double lon, double lat) const;
     
     /**
      * @brief Estimate points within a bounding box
-     * @param[in] minLon Input parameter.
-     * @param[in] maxLon Input parameter.
-     * @param[in] minLat Input parameter.
-     * @param[in] maxLat Input parameter.
-     * @return Return value.
      */
     size_t estimatePointsInBox(double minLon, double maxLon, 
                               double minLat, double maxLat) const;
     
     /**
      * @brief Estimate selectivity for spatial predicate
-     * @param[in] minLon Input parameter.
-     * @param[in] maxLon Input parameter.
-     * @param[in] minLat Input parameter.
-     * @param[in] maxLat Input parameter.
-     * @return Return value.
      */
     double estimateSpatialSelectivity(double minLon, double maxLon,
                                      double minLat, double maxLat) const;
@@ -182,10 +169,6 @@ public:
      * @brief Validate cost estimate against actual execution
      * 
      * Records estimate vs. actual for bias detection.
-     * @param[in] estimated Input parameter.
-     * @param[in] actualRows Input parameter.
-     * @param[in] actualCostUs Input parameter.
-     * @param[in] predicateType Input parameter.
      */
     static void recordActualCost(
         const CostEstimate& estimated,
@@ -195,7 +178,6 @@ public:
     
     /**
      * @brief Get cost estimation metrics
-     * @return Return value.
      */
     static const EstimateValidation& getMetrics();
     
@@ -210,9 +192,6 @@ private:
      * 
      * Using histogram: interpolate from grid cells within radius.
      * Without histogram: heuristic based on radius size.
-     * @param[in] distanceMeters Input parameter.
-     * @param[in] histogram Input parameter.
-     * @return Return value.
      */
     static double estimateDistanceSelectivity(
         double distanceMeters,
@@ -220,9 +199,6 @@ private:
     
     /**
      * @brief Estimate selectivity for containment query
-     * @param[in] polygonComplexity Input parameter.
-     * @param[in] histogram Input parameter.
-     * @return Return value.
      */
     static double estimateContainsSelectivity(
         size_t polygonComplexity,
@@ -230,9 +206,6 @@ private:
     
     /**
      * @brief Estimate selectivity for intersection query
-     * @param[in] queryGeometryComplexity Input parameter.
-     * @param[in] histogram Input parameter.
-     * @return Return value.
      */
     static double estimateIntersectsSelectivity(
         size_t queryGeometryComplexity,
@@ -242,8 +215,6 @@ private:
      * @brief R-tree traversal cost in microseconds
      * 
      * log(N) * costPerLevel where costPerLevel ≈ 10µs
-     * @param[in] totalRows Input parameter.
-     * @return Return value.
      */
     static double rtreeTraversalCost(size_t totalRows);
     
@@ -252,8 +223,6 @@ private:
      * 
      * Interior point check cost in microseconds.
      * Varies with geometry complexity (number of vertices).
-     * @param[in] complexity Input parameter.
-     * @return Return value.
      */
     static double geometryCheckCost(size_t complexity);
 };

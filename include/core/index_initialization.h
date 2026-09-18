@@ -51,7 +51,6 @@ public:
      *        downstream IndexManager constructor accepts late binding, but the
      *        resulting manager will only be usable once the dependency is set.
      * @return Reference to this builder for chaining
-     * @details Implements withEvaluator without additional internal calls.
      */
     IndexManagerBuilder& withEvaluator(IExpressionEvaluatorPtr evaluator) {
         evaluator_ = evaluator;
@@ -64,7 +63,6 @@ public:
      * @param storage Storage engine implementation. A null value leaves the
      *        storage dependency unset for deferred wiring.
      * @return Reference to this builder for chaining
-     * @details Implements withStorage without additional internal calls.
      */
     IndexManagerBuilder& withStorage(IStorageEnginePtr storage) {
         storage_ = storage;
@@ -77,7 +75,6 @@ public:
      * @param db RocksDB wrapper instance. May be null to skip attaching a
      *        database handle during build().
      * @return Reference to this builder for chaining
-     * @details Implements withRocksDB without additional internal calls.
      */
     IndexManagerBuilder& withRocksDB(std::shared_ptr<RocksDBWrapper> db) {
         db_ = db;
@@ -113,7 +110,6 @@ public:
      * intentionally stay sparse so tests can inject custom collaborators.
      * 
      * @return Builder with default implementations.
-     * @details Implements standard without additional internal calls.
      */
     static IndexManagerBuilder standard() {
         IndexManagerBuilder builder;

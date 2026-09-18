@@ -124,11 +124,6 @@ struct LDAPAuthResult {
         return r;
     }
 
-    /**
-     * @brief TBD: Describe Failed.
-     * @param[in] error Input parameter.
-     * @return Return value.
-     */
     static LDAPAuthResult Failed(const std::string& error)
     {
         LDAPAuthResult r;
@@ -173,10 +168,6 @@ public:
                                                     const std::string& dn,
                                                     const std::string& password)>;
 
-    /**
-     * @brief TBD: Describe setLdapBindFn.
-     * @param[in] fn Input parameter.
-     */
     static void setLdapBindFn(LdapBindFn fn);
 
     /**
@@ -208,8 +199,6 @@ public:
     /**
      * @brief Attach an AuditLogger to receive LOGIN_SUCCESS / LOGIN_FAILED events.
      * Pass nullptr to detach.  The authenticator does NOT take ownership.
-     * @param[in,out] logger Input/output parameter.
-     * @details Implements setAuditLogger without additional internal calls.
      */
     void setAuditLogger(utils::AuditLogger* logger) { audit_logger_ = logger; }
 
@@ -334,10 +323,6 @@ private:
      * Called by authenticate() after input validation.
      * When a connection pool is available the connection is checked out from
      * the pool; otherwise a fresh connection is opened per-call.
-     * @param[in] username Input parameter.
-     * @param[in] dn Input parameter.
-     * @param[in] password Input parameter.
-     * @return Return value.
      */
     LDAPAuthResult performBind(const std::string& username,
                                const std::string& dn,

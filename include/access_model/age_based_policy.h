@@ -175,7 +175,6 @@ struct AgeBasedPolicy {
      *        and recency.
      * @param access_count Current access count
      * @param time_since_last_access Age of the last access
-     * @return True on success.
      */
     bool shouldPromoteL1ToL2(uint64_t access_count,
                              const std::chrono::seconds& time_since_last_access) const;
@@ -183,18 +182,12 @@ struct AgeBasedPolicy {
     /**
      * @brief Check if data in L2 should migrate to L3 based on access count
      *        and recency.
-     * @param[in] access_count Input parameter.
-     * @param[in] time_since_last_access Input parameter.
-     * @return True on success.
      */
     bool shouldPromoteL2ToL3(uint64_t access_count,
                              const std::chrono::seconds& time_since_last_access) const;
 
     /**
      * @brief Check if data in L3 cache should be evicted to storage.
-     * @param[in] access_count Input parameter.
-     * @param[in] time_since_last_access Input parameter.
-     * @return True on success.
      */
     bool shouldPromoteL3ToStorage(uint64_t access_count,
                                   const std::chrono::seconds& time_since_last_access) const;
@@ -203,7 +196,6 @@ struct AgeBasedPolicy {
      * @brief Check if data in warm storage should be demoted to cold.
      * @param access_count Current access count in the warm tier
      * @param time_since_last_access Age of the last access
-     * @return True on success.
      */
     bool shouldPromoteStorageWarmToCold(
         uint64_t access_count,
@@ -211,9 +203,6 @@ struct AgeBasedPolicy {
 
     /**
      * @brief Check if cold storage data is a deletion/archival candidate.
-     * @param[in] access_count Input parameter.
-     * @param[in] time_since_last_access Input parameter.
-     * @return True on success.
      */
     bool shouldDemoteStorageCold(
         uint64_t access_count,
@@ -222,14 +211,12 @@ struct AgeBasedPolicy {
     /**
      * @brief Check if cold storage data should be promoted to warm.
      * @param access_count Observed access count in the measurement window
-     * @return True on success.
      */
     bool shouldPromoteStorageColdToWarm(uint64_t access_count) const;
 
     /**
      * @brief Check if warm storage data should be promoted to L3 cache.
      * @param access_count Observed access count in the measurement window
-     * @return True on success.
      */
     bool shouldPromoteStorageWarmToL3Cache(uint64_t access_count) const;
 
@@ -263,19 +250,16 @@ struct AgeBasedPolicy {
      *   - Any access threshold is zero
      *   - Access thresholds are not in decreasing order (L1 > L2 > L3)
      *   - Storage age thresholds are not in increasing order (hot < warm)
-     * @return True on success.
      */
     bool isValid() const;
 
     /**
      * @brief Serialize the policy to a compact JSON string.
-     * @return Return value.
      */
     std::string toJson() const;
 
     /**
      * @brief Return a human-readable description of the policy.
-     * @return Return value.
      */
     std::string describe() const;
 };

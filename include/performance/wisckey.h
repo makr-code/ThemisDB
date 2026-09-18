@@ -48,12 +48,6 @@ struct ValueAddress {
         return result;
     }
     
-    /**
-     * @brief TBD: Describe decode.
-     * @param[in] encoded Input parameter.
-     * @return Return value.
-     * @details Calls: data().
-     */
     static ValueAddress decode(const std::string& encoded) {
         ValueAddress addr;
         addr.offset = *reinterpret_cast<const uint64_t*>(encoded.data());
@@ -65,49 +59,27 @@ struct ValueAddress {
 /// Append-only value log for storing large values
 class ValueLog {
 public:
-    /**
-     * @brief TBD: Describe ValueLog.
-     * @param[in] log_path Input parameter.
-     * @return Return value.
-     */
     explicit ValueLog(const std::string& log_path);
     ~ValueLog();
 
-    /**
-     * @brief Append value to log, returns address
-     * @param[in] value Input parameter.
-     * @return Return value.
-     */
+    // Append value to log, returns address
     ValueAddress append(const std::string& value);
     
-    /**
-     * @brief Read value from log by address
-     * @param[in] addr Input parameter.
-     * @return Return value.
-     */
+    // Read value from log by address
     std::optional<std::string> read(const ValueAddress& addr);
     
     // Get current log size in bytes
     uint64_t size() const {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] rw_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::shared_lock<std::shared_mutex> lock(rw_mutex_);
         return current_offset_.load(std::memory_order_relaxed);
     }
     
-    /**
-     * @brief Sync log to disk
-     */
+    // Sync log to disk
     void sync();
     
-    /**
-     * @brief Garbage collection (optional, for future optimization) Compacts the log by copying only live values to a new log file.
-     * @param[in,out] live_addresses Input/output parameter.
-     * @details Updates the addresses vector in-place with new offsets.
-     */
+    // Garbage collection (optional, for future optimization)
+    // Compacts the log by copying only live values to a new log file.
+    // Updates the addresses vector in-place with new offsets.
     void compact(std::vector<ValueAddress>& live_addresses);
 
 private:
@@ -126,28 +98,14 @@ public:
     
     WiscKeyStorage(const std::string& value_log_path);
     
-    /**
-     * @brief Store key-value pair Returns encoded value (either inline or value address)
-     * @param[in] key Input parameter.
-     * @param[in] value Input parameter.
-     * @return Return value.
-     */
+    // Store key-value pair
+    // Returns encoded value (either inline or value address)
     std::string put(const std::string& key, const std::string& value);
     
-    /**
-     * @brief Retrieve value (handles both inline and separated values)
-     * @param[in] key Input parameter.
-     * @param[in] encoded_value Input parameter.
-     * @return Return value.
-     */
+    // Retrieve value (handles both inline and separated values)
     std::optional<std::string> get(const std::string& key, const std::string& encoded_value);
     
-    /**
-     * @brief Check if value is separated
-     * @param[in] encoded_value Input parameter.
-     * @return True on success.
-     * @details Calls: size().
-     */
+    // Check if value is separated
     static bool is_separated(const std::string& encoded_value) {
         return encoded_value.size() == ValueAddress::ENCODED_SIZE;
     }
@@ -158,10 +116,6 @@ public:
         uint64_t separated_values;
         uint64_t value_log_size;
     };
-    /**
-     * @brief TBD: Describe get_stats.
-     * @return Return value.
-     */
     Stats get_stats() const;
 
 private:

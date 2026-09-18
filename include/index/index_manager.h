@@ -63,10 +63,9 @@ public:
     /// @brief Destructor
     ~IndexManager() override;
     
-    /**
-     * @brief @brief Static factory (backward compatible) Creates default implementation @return Shared pointer to a default IndexManager instance.
-     * @return Return value.
-     */
+    /// @brief Static factory (backward compatible)
+    /// Creates default implementation
+    /// @return Shared pointer to a default IndexManager instance.
     static std::shared_ptr<IndexManager> createDefault();
     
     /// @brief Set evaluator (for late binding)
@@ -78,28 +77,20 @@ public:
     /// @brief Set RocksDB wrapper (for internal index managers)
     void setRocksDB(std::shared_ptr<RocksDBWrapper> db);
     
-    /**
-     * @brief @brief Get the expression evaluator @return Pointer to the expression evaluator (may be nullptr).
-     * @return Return value.
-     */
+    /// @brief Get the expression evaluator
+    /// @return Pointer to the expression evaluator (may be nullptr).
     IExpressionEvaluatorPtr getExpressionEvaluator() const;
     
-    /**
-     * @brief @brief Get the vector index manager @return Shared pointer to the VectorIndexManager instance.
-     * @return Return value.
-     */
+    /// @brief Get the vector index manager
+    /// @return Shared pointer to the VectorIndexManager instance.
     std::shared_ptr<VectorIndexManager> getVectorIndexManager() const;
     
-    /**
-     * @brief @brief Get the secondary index manager @return Shared pointer to the SecondaryIndexManager instance.
-     * @return Return value.
-     */
+    /// @brief Get the secondary index manager
+    /// @return Shared pointer to the SecondaryIndexManager instance.
     std::shared_ptr<SecondaryIndexManager> getSecondaryIndexManager() const;
     
-    /**
-     * @brief @brief Get the graph index manager @return Shared pointer to the GraphIndexManager instance.
-     * @return Return value.
-     */
+    /// @brief Get the graph index manager
+    /// @return Shared pointer to the GraphIndexManager instance.
     std::shared_ptr<GraphIndexManager> getGraphIndexManager() const;
     
     // IIndexManager implementation
@@ -160,13 +151,13 @@ public:
     // that data from different tenants is never accessible across boundaries.
     // -------------------------------------------------------------------------
 
-    /**
-     * @brief @brief Build the tenant-scoped RocksDB key prefix for an index.
-     * @param[in] tenant_id Input parameter.
-     * @param[in] index_name Input parameter.
-     * @return Return value.
-     * @details Format: "tenant:<tenant_id>:<index_name>" @param tenant_id Non-empty tenant identifier @param index_name Logical index name within the tenant namespace @return Prefixed index key used internally by all underlying managers
-     */
+    /// @brief Build the tenant-scoped RocksDB key prefix for an index.
+    ///
+    /// Format: "tenant:<tenant_id>:<index_name>"
+    ///
+    /// @param tenant_id  Non-empty tenant identifier
+    /// @param index_name Logical index name within the tenant namespace
+    /// @return Prefixed index key used internally by all underlying managers
     static std::string makeTenantIndexName(std::string_view tenant_id,
                                            std::string_view index_name);
 
@@ -202,20 +193,14 @@ public:
     /// @brief Drop an index scoped to a specific tenant.
     Result<void> dropIndex(std::string_view tenant_id, std::string_view name);
 
-    /**
-     * @brief @brief Drop all indexes belonging to a given tenant.
-     * @param[in] tenant_id Input parameter.
-     * @return Return value.
-     * @details Safe to call even when the tenant has no indexes (returns Ok).
-     */
+    /// @brief Drop all indexes belonging to a given tenant.
+    ///
+    /// Safe to call even when the tenant has no indexes (returns Ok).
     Result<void> dropTenantIndexes(std::string_view tenant_id);
 
-    /**
-     * @brief @brief List all index names registered for a specific tenant.
-     * @param[in] tenant_id Input parameter.
-     * @return Return value.
-     * @details Returns logical names (without the "tenant:<id>:" prefix).
-     */
+    /// @brief List all index names registered for a specific tenant.
+    ///
+    /// Returns logical names (without the "tenant:<id>:" prefix).
     std::vector<std::string> listIndexes(std::string_view tenant_id) const;
 
     /// @brief Return the type of an index scoped to a specific tenant.
@@ -243,9 +228,7 @@ private:
     std::unordered_map<std::string, std::unique_ptr<ISecondaryIndex>> owned_secondary_adapters_;
     std::unordered_map<std::string, std::unique_ptr<IVectorIndex>> owned_vector_adapters_;
     
-    /**
-     * @brief Helper method to propagate evaluator to all managers
-     */
+    // Helper method to propagate evaluator to all managers
     void propagateEvaluatorToManagers();
 };
 

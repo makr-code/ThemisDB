@@ -72,24 +72,17 @@ public:
 
     /**
      * @brief Return the number of logical CPUs visible to the process.
-     * @return Return value.
-     * @note Exception safety: noexcept.
      */
     static int logicalCpuCount() noexcept;
 
     /**
      * @brief Return the index of the CPU on which the caller is currently
      *        executing, or -1 on error.
-     * @return Return value.
-     * @note Exception safety: noexcept.
      */
     static int currentCpu() noexcept;
 
     /**
      * @brief Return all core IDs that belong to the specified NUMA node.
-     * @param[in] numa_node Input parameter.
-     * @return Return value.
-     * @note Exception safety: noexcept.
      */
     static std::vector<int> coresOnNuma(int numa_node) noexcept;
 };
@@ -128,8 +121,6 @@ public:
 
     /**
      * @brief Whether NUMA-aware allocation is available on this system.
-     * @return True on success.
-     * @note Exception safety: noexcept.
      */
     static bool isNumaAvailable() noexcept;
 };
@@ -181,58 +172,28 @@ public:
     /** @return true if the allocation succeeded. */
     bool valid() const noexcept { return data_ != nullptr; }
 
-    /**
-     * @brief TBD: Describe setNonLinuxAllocFn.
-     * @param[in] fn Input parameter.
-     * @details Calls: lock(), nonLinuxAllocFnMutex(), nonLinuxAllocFnStorage(), std::move().
-     */
     static void setNonLinuxAllocFn(NonLinuxAllocFn fn) {
         std::lock_guard<std::mutex> lock(nonLinuxAllocFnMutex());
         nonLinuxAllocFnStorage() = std::move(fn);
     }
-    /**
-     * @brief TBD: Describe setNonLinuxFreeFn.
-     * @param[in] fn Input parameter.
-     * @details Calls: lock(), nonLinuxFreeFnMutex(), nonLinuxFreeFnStorage(), std::move().
-     */
     static void setNonLinuxFreeFn(NonLinuxFreeFn fn) {
         std::lock_guard<std::mutex> lock(nonLinuxFreeFnMutex());
         nonLinuxFreeFnStorage() = std::move(fn);
     }
 
 private:
-    /**
-     * @brief TBD: Describe nonLinuxAllocFnMutex.
-     * @return Return value.
-     * @details Implements nonLinuxAllocFnMutex without additional internal calls.
-     */
     static std::mutex& nonLinuxAllocFnMutex() {
         static std::mutex m;
         return m;
     }
-    /**
-     * @brief TBD: Describe nonLinuxAllocFnStorage.
-     * @return Return value.
-     * @details Implements nonLinuxAllocFnStorage without additional internal calls.
-     */
     static NonLinuxAllocFn& nonLinuxAllocFnStorage() {
         static NonLinuxAllocFn fn;
         return fn;
     }
-    /**
-     * @brief TBD: Describe nonLinuxFreeFnMutex.
-     * @return Return value.
-     * @details Implements nonLinuxFreeFnMutex without additional internal calls.
-     */
     static std::mutex& nonLinuxFreeFnMutex() {
         static std::mutex m;
         return m;
     }
-    /**
-     * @brief TBD: Describe nonLinuxFreeFnStorage.
-     * @return Return value.
-     * @details Implements nonLinuxFreeFnStorage without additional internal calls.
-     */
     static NonLinuxFreeFn& nonLinuxFreeFnStorage() {
         static NonLinuxFreeFn fn;
         return fn;
@@ -373,8 +334,6 @@ public:
     /** @return Configuration passed at construction. */
     const Config& config() const noexcept { return config_; }
 
-     * @brief TBD: Describe stats.
-     * @note Exception safety: noexcept.
     /** @return Snapshot of current statistics. */
     Stats stats() const noexcept;
 
@@ -388,16 +347,11 @@ public:
      * @brief Whether DPDK support was compiled in.
      *
      * Equivalent to checking `THEMIS_ENABLE_DPDK` at the call site.
-     * @return True on success.
-     * @note Exception safety: noexcept.
      */
     static bool isDpdkAvailable() noexcept;
 
     /**
      * @brief Return the set of CPU cores derived from `cpu_core_mask`.
-     * @param[in] mask Input parameter.
-     * @return Return value.
-     * @note Exception safety: noexcept.
      */
     static std::vector<int> coresFromMask(uint64_t mask) noexcept;
 
@@ -415,11 +369,7 @@ private:
     // Worker threads (one per lcore derived from cpu_core_mask).
     std::vector<std::thread> workers_;
 
-    /**
-     * @brief Internal poll loop (runs per lcore thread).
-     * @param[in] core_id Input parameter.
-     * @param[in] queue_id Input parameter.
-     */
+    // Internal poll loop (runs per lcore thread).
     void pollLoop(int core_id, int queue_id);
 };
 
@@ -550,8 +500,6 @@ public:
     /** @return Configuration passed at construction. */
     const Config& config() const noexcept { return config_; }
 
-     * @brief TBD: Describe stats.
-     * @note Exception safety: noexcept.
     /** @return Snapshot of current statistics. */
     Stats stats() const noexcept;
 
@@ -565,16 +513,12 @@ public:
      * @brief Whether io_uring is supported on this host.
      *
      * Checks both the compile flag and the kernel version at runtime.
-     * @return True on success.
-     * @note Exception safety: noexcept.
      */
     static bool isIoUringAvailable() noexcept;
 
     /**
      * @brief Return the kernel io_uring API version as (major << 8 | minor),
      *        or 0 if unavailable.
-     * @return Return value.
-     * @note Exception safety: noexcept.
      */
     static uint32_t ioUringVersion() noexcept;
 
@@ -600,24 +544,10 @@ private:
     // Fixed buffer backing store for zero-copy sends.
     std::vector<std::unique_ptr<ZeroCopyDmaBuffer>> fixed_bufs_;
 
-    /**
-     * @brief Internal helpers.
-     * @return True on success.
-     */
+    // Internal helpers.
     bool setupListenSocket();
-    /**
-     * @brief TBD: Describe setupIoUring.
-     * @return True on success.
-     */
     bool setupIoUring();
-    /**
-     * @brief TBD: Describe workerLoop.
-     * @param[in] worker_id Input parameter.
-     */
     void workerLoop(int worker_id);
-    /**
-     * @brief TBD: Describe teardown.
-     */
     void teardown();
 };
 

@@ -156,11 +156,6 @@ public:
      */
     void stop();
 
-    /**
-     * @brief TBD: Describe isRunning.
-     * @return True on success.
-     * @note Exception safety: noexcept.
-     */
     bool isRunning() const noexcept;
 
     // ---- Schedule CRUD ----------------------------------------------------
@@ -188,7 +183,6 @@ public:
     /**
      * @brief Retrieve a schedule by ID.
      * @return Result with the entry or error if not found.
-     * @param[in] id Input parameter.
      */
     Result<MaintenanceScheduleEntry> getSchedule(const std::string& id) const;
 
@@ -295,7 +289,6 @@ public:
      *
      * Includes version, running state, schedule counts, active job count, and
      * the time of the most recently completed job.
-     * @return Return value.
      */
     nlohmann::json getStatus() const;
 
@@ -304,7 +297,6 @@ public:
      *
      * Calls each registered HealthProbe synchronously, combines the signals,
      * and derives the overall status.
-     * @return Return value.
      */
     MaintenanceHealthReport getHealthReport() const;
 
@@ -403,73 +395,34 @@ public:
      * position.  Throws std::invalid_argument if:
      *   - any task_type or depends_on reference is not present in entry.tasks, or
      *   - a cycle is detected.
-     * @param[in] entry Input parameter.
-     * @return Return value.
      */
     static std::vector<MaintenanceTaskType> resolveTaskExecutionOrder(
         const MaintenanceScheduleEntry& entry);
 
 private:
-    /**
-     * @brief ---- Internal helpers -------------------------------------------------
-     * @return Return value.
-     */
+    // ---- Internal helpers -------------------------------------------------
 
     std::string generateId() const;
-    /**
-     * @brief TBD: Describe nowMs.
-     * @return Return value.
-     */
     int64_t     nowMs() const;
 
-    /**
-     * @brief TBD: Describe registerWithScheduler.
-     * @param[in] entry Input parameter.
-     */
     void registerWithScheduler(const MaintenanceScheduleEntry& entry);
-    /**
-     * @brief TBD: Describe deregisterFromScheduler.
-     * @param[in] schedule_id Input parameter.
-     */
     void deregisterFromScheduler(const std::string& schedule_id);
-    /**
-     * @brief TBD: Describe schedulerTaskId.
-     * @param[in] schedule_id Input parameter.
-     * @return Return value.
-     */
     std::string schedulerTaskId(const std::string& schedule_id) const;
 
     void executeSchedule(const std::string& schedule_id, const std::string& job_id,
                          bool force = false);
-    /**
-     * @brief TBD: Describe executeTask.
-     * @param[in] task_type Input parameter.
-     * @param[in,out] job Input/output parameter.
-     */
     void executeTask(MaintenanceTaskType task_type,
                      OrchestratorJob& job);
 
-    /**
-     * @brief TBD: Describe pruneCompletedJobs.
-     */
     void pruneCompletedJobs();
 
-    /**
-     * @brief TBD: Describe validateEntry.
-     * @param[in] entry Input parameter.
-     */
     void validateEntry(const MaintenanceScheduleEntry& entry) const;
 
     /// Record a DispatchOutcome into the ring buffer (thread-safe).
     void recordDispatchOutcome(DispatchOutcome outcome);
 
-    /**
-     * @brief Check and enforce churn rate limit for a schedule.
-     * @param[in] schedule_id Input parameter.
-     * @param[in] max_changes_per_interval Input parameter.
-     * @return True on success.
-     * @details Returns true if the change is permitted; false if the limit is exceeded.
-     */
+    /// Check and enforce churn rate limit for a schedule.
+    /// Returns true if the change is permitted; false if the limit is exceeded.
     bool checkChurnLimit(const std::string& schedule_id, uint32_t max_changes_per_interval);
 
     // ---- Members ----------------------------------------------------------

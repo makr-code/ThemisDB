@@ -52,7 +52,6 @@ public:
     
     /**
      * @brief Record a query execution
-     * @param[in] exec Input parameter.
      */
     void recordExecution(const QueryExecution& exec);
     
@@ -63,8 +62,6 @@ public:
     
     /**
      * @brief Get average selectivity for a query pattern
-     * @param[in] query_hash Input parameter.
-     * @return Return value.
      */
     double getAverageSelectivity(const std::string& query_hash) const;
     
@@ -76,14 +73,12 @@ public:
     /**
      * @brief Get average actual rows across historical executions
      * @return Average actual_rows, or 0 if no history exists
-     * @param[in] query_hash Input parameter.
      */
     size_t getAverageActualRows(const std::string& query_hash) const;
 
     /**
      * @brief Get adaptive adjustment factor based on history
      * @return Multiplier for cardinality estimates (e.g., 0.5 if historically overestimated)
-     * @param[in] query_hash Input parameter.
      */
     double getAdaptiveAdjustmentFactor(const std::string& query_hash) const;
     
@@ -133,10 +128,6 @@ public:
     
     /**
      * @brief Choose plan based on cardinality estimates and historical data
-     * @param[in] alternatives Input parameter.
-     * @param[in] query_hash Input parameter.
-     * @param[in] stats Input parameter.
-     * @return Return value.
      */
     PlanChoice selectPlan(
         const std::vector<PlanChoice>& alternatives,
@@ -158,10 +149,6 @@ public:
     
     /**
      * @brief Get alternative plan for runtime switching
-     * @param[in] current_plan Input parameter.
-     * @param[in] actual_rows Input parameter.
-     * @param[in] estimated_rows Input parameter.
-     * @return Return value.
      */
     PlanChoice getAlternativePlan(
         const PlanChoice& current_plan,
@@ -192,9 +179,6 @@ public:
     
     /**
      * @brief Estimate cost for distributed query execution
-     * @param[in] involved_shards Input parameter.
-     * @param[in] estimated_result_rows Input parameter.
-     * @return Return value.
      */
     double estimateDistributedQueryCost(
         const std::vector<ShardInfo>& involved_shards,
@@ -202,11 +186,6 @@ public:
     
     /**
      * @brief Estimate cost for cross-shard join
-     * @param[in] left_shard Input parameter.
-     * @param[in] right_shard Input parameter.
-     * @param[in] left_rows Input parameter.
-     * @param[in] right_rows Input parameter.
-     * @return Return value.
      */
     CrossShardJoinCost estimateCrossShardJoinCost(
         const ShardInfo& left_shard,
@@ -216,10 +195,6 @@ public:
     
     /**
      * @brief Determine if partition pruning is beneficial
-     * @param[in] shard Input parameter.
-     * @param[in] total_shards Input parameter.
-     * @param[in] selectivity Input parameter.
-     * @return True on success.
      */
     bool shouldPrunePartition(
         const ShardInfo& shard,
@@ -228,9 +203,6 @@ public:
     
     /**
      * @brief Get optimal parallelism degree for distributed query
-     * @param[in] shards Input parameter.
-     * @param[in] available_threads Input parameter.
-     * @return Return value.
      */
     size_t getOptimalParallelism(
         const std::vector<ShardInfo>& shards,
@@ -267,9 +239,6 @@ public:
     
     /**
      * @brief Generate optimal multi-index access plan
-     * @param[in] available_indexes Input parameter.
-     * @param[in] table_size Input parameter.
-     * @return Return value.
      */
     IntersectionPlan optimizeMultiIndexAccess(
         const std::vector<IndexCandidate>& available_indexes,
@@ -277,9 +246,6 @@ public:
     
     /**
      * @brief Determine if index intersection is beneficial
-     * @param[in] candidates Input parameter.
-     * @param[in] table_size Input parameter.
-     * @return True on success.
      */
     bool shouldUseIndexIntersection(
         const std::vector<IndexCandidate>& candidates,
@@ -314,9 +280,6 @@ public:
     
     /**
      * @brief Get optimal NUMA placement for query
-     * @param[in] data_size_bytes Input parameter.
-     * @param[in] parallelism Input parameter.
-     * @return Return value.
      */
     NumaPlacement getOptimalPlacement(
         size_t data_size_bytes,
@@ -324,20 +287,16 @@ public:
     
     /**
      * @brief Check if NUMA optimizations are available
-     * @return True on success.
      */
     static bool isNumaAvailable();
     
     /**
      * @brief Get number of NUMA nodes
-     * @return Return value.
      */
     static size_t getNumaNodeCount();
     
     /**
      * @brief Pin thread to specific CPU cores
-     * @param[in] cpu_id Input parameter.
-     * @return True on success.
      */
     static bool pinThreadToCpu(int cpu_id);
 };

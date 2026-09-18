@@ -76,10 +76,6 @@ struct BatchStatistics {
  */
 class IBatchAdapter {
 public:
-    /**
-     * @brief TBD: Describe ~IBatchAdapter.
-     * @return Return value.
-     */
     virtual ~IBatchAdapter() = default;
 
     /**

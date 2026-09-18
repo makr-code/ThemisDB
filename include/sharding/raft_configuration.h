@@ -44,7 +44,6 @@ public:
     /**
      * @brief Construct stable configuration from initial member set.
      * @param members Initial active members.
-     * @return Return value.
      */
     explicit RaftConfiguration(const std::set<std::string>& members);
 
@@ -70,11 +69,9 @@ public:
     void applyConfiguration(const ConfigurationEntry& entry);
 
     // State queries
-     * @return True on success.
     /** @brief Return true while a membership transition is active. */
     bool isInTransition() const;
 
-     * @return True on success.
     /** @brief Return true when joint-consensus quorum rules are enabled. */
     bool isJointConsensus() const;
 
@@ -91,11 +88,9 @@ public:
      */
     std::set<std::string> getMembers() const;
 
-     * @return Return value.
     /** @brief Return old configuration members used in joint consensus. */
     std::set<std::string> getOldMembers() const;
 
-     * @return Return value.
     /** @brief Return new/target configuration members. */
     std::set<std::string> getNewMembers() const;
 

@@ -77,10 +77,6 @@ struct AllocationStats {
         return *this;
     }
     
-    /**
-     * @brief TBD: Describe reset.
-     * @details Calls: store().
-     */
     void reset() {
         total_allocations.store(0);
         total_deallocations.store(0);
@@ -120,10 +116,6 @@ enum class AllocationHint {
  */
 class IAllocator {
 public:
-    /**
-     * @brief TBD: Describe ~IAllocator.
-     * @return Return value.
-     */
     virtual ~IAllocator() = default;
     
     /**
@@ -193,7 +185,6 @@ public:
     
     /**
      * @brief Get fragmentation ratio (0.0 = no fragmentation, 1.0 = fully fragmented)
-     * @return Return value.
      */
     double getFragmentation() const;
     
@@ -238,13 +229,11 @@ public:
     
     /**
      * @brief Get number of active slabs
-     * @return Return value.
      */
     size_t getSlabCount() const;
     
     /**
      * @brief Get utilization ratio (0.0 = empty, 1.0 = full)
-     * @return Return value.
      */
     double getUtilization() const;
     
@@ -269,7 +258,6 @@ public:
     /**
      * @brief Construct stack allocator
      * @param capacity Maximum stack size in bytes
-     * @return Return value.
      */
     explicit StackAllocator(size_t capacity);
     ~StackAllocator() override;
@@ -282,26 +270,21 @@ public:
     
     /**
      * @brief Get current stack position
-     * @return Return value.
      */
     size_t getCurrentOffset() const;
     
     /**
      * @brief Get available space
-     * @return Return value.
      */
     size_t getAvailableSpace() const;
     
     /**
      * @brief Save current position (for nested scopes)
-     * @return Return value.
      */
     size_t savePosition() const;
     
     /**
      * @brief Restore to saved position (fast batch deallocation)
-     * @param[in] position Input parameter.
-     * @return Return value.
      */
     Result<void> restorePosition(size_t position);
     
@@ -350,11 +333,6 @@ public:
     };
     
     PoolAllocator();
-    /**
-     * @brief TBD: Describe PoolAllocator.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit PoolAllocator(const Config& config);
     ~PoolAllocator();
     
@@ -365,37 +343,23 @@ public:
     
     /**
      * @brief Deallocate memory
-     * @param[in,out] ptr Input/output parameter.
-     * @return Return value.
      */
     Result<void> deallocate(void* ptr);
     
     /**
      * @brief Get combined statistics
-     * @return Return value.
      */
     AllocationStats getCombinedStats() const;
     
     /**
      * @brief Get statistics by allocator type
-     * @return Return value.
      */
     const AllocationStats& getBuddyStats() const;
-    /**
-     * @brief TBD: Describe getSlabStats.
-     * @param[in] size Input parameter.
-     * @return Return value.
-     */
     const AllocationStats& getSlabStats(size_t size) const;
-    /**
-     * @brief TBD: Describe getStackStats.
-     * @return Return value.
-     */
     const AllocationStats& getStackStats() const;
     
     /**
      * @brief Reset all allocators
-     * @return Return value.
      */
     Result<void> reset();
     

@@ -62,12 +62,9 @@ inline std::vector<uint8_t> compressLZ4(
     return out;
 }
 
-/**
- * @brief @brief Decompress an LZ4-compressed payload (with 4-byte original-size prefix).
- * @param[in] data Input parameter.
- * @return Return value.
- * @details Returns the decompressed bytes, or an empty vector on error.
- */
+/// @brief Decompress an LZ4-compressed payload (with 4-byte original-size prefix).
+///
+/// Returns the decompressed bytes, or an empty vector on error.
 inline std::vector<uint8_t> decompressLZ4(const std::vector<uint8_t>& data)
 {
     if (data.size() < 4) return {};
@@ -119,12 +116,9 @@ inline std::vector<uint8_t> compressZstd(
     return out;
 }
 
-/**
- * @brief @brief Decompress a Zstd-compressed payload (with 4-byte original-size prefix).
- * @param[in] data Input parameter.
- * @return Return value.
- * @details Returns the decompressed bytes, or an empty vector on error.
- */
+/// @brief Decompress a Zstd-compressed payload (with 4-byte original-size prefix).
+///
+/// Returns the decompressed bytes, or an empty vector on error.
 inline std::vector<uint8_t> decompressZstd(const std::vector<uint8_t>& data)
 {
     if (data.size() < 4) return {};
@@ -133,11 +127,6 @@ inline std::vector<uint8_t> decompressZstd(const std::vector<uint8_t>& data)
     const size_t orig_size = static_cast<size_t>(orig_le);
     if (orig_size == 0 || orig_size > wire::V2_MAX_PAYLOAD) return {};
 
-    /**
-     * @brief TBD: Describe out.
-     * @param[in] orig_size Input parameter.
-     * @return Return value.
-     */
     std::vector<uint8_t> out(orig_size);
     const size_t result = ZSTD_decompress(
         out.data(), orig_size,
@@ -186,11 +175,6 @@ public:
         int    compression_level  = ZSTD_CLEVEL_DEFAULT; ///< Zstd level (1–22)
         size_t min_compress_bytes = 256;                 ///< Skip if smaller
         size_t dict_max_size      = 112 * 1024;          ///< Max dict size bytes
-        /**
-         * @brief TBD: Describe defaults.
-         * @return Return value.
-         * @details Implements defaults without additional internal calls.
-         */
         static Config defaults() { return {}; }
     };
 
@@ -224,7 +208,6 @@ public:
      * startup without re-training.
      *
      * @return true on success; false if ZSTD rejected the bytes.
-     * @param[in] dict_bytes Input parameter.
      */
     bool loadDictionary(const std::vector<uint8_t>& dict_bytes);
 
@@ -235,7 +218,6 @@ public:
      * the payload is smaller than `min_compress_bytes`.
      *
      * @return Compressed bytes with 8-byte prefix, or empty on error/skip.
-     * @param[in] data Input parameter.
      */
     std::vector<uint8_t> compress(const std::vector<uint8_t>& data) const;
 
@@ -247,7 +229,6 @@ public:
      * transparently when no dictionary is loaded.
      *
      * @return Decompressed bytes, or empty on error.
-     * @param[in] data Input parameter.
      */
     std::vector<uint8_t> decompress(const std::vector<uint8_t>& data) const;
 
@@ -286,10 +267,6 @@ private:
     /// Cached decompression context – reused across decompress() calls.
     ZSTD_DCtx*  dctx_  = nullptr;
 
-    /**
-     * @brief TBD: Describe freeDicts.
-     * @note Exception safety: noexcept.
-     */
     void freeDicts() noexcept;
 };
 

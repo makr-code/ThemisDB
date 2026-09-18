@@ -218,10 +218,6 @@ using V2RstStreamHandler = std::function<void(
  */
 class V2Session : public std::enable_shared_from_this<V2Session> {
 public:
-    /**
-     * @brief TBD: Describe ~V2Session.
-     * @return Return value.
-     */
     virtual ~V2Session() = default;
 
     /// @brief Unique connection identifier (UUID or sequential number).
@@ -268,25 +264,10 @@ public:
                                      uint8_t  weight,
                                      bool     exclusive = false) = 0;
 
-    /**
-     * @brief ── Statistics ────────────────────────────────────────────────────────
-     * @return Return value.
-     */
+    // ── Statistics ────────────────────────────────────────────────────────
     virtual uint64_t frames_received()  const = 0;
-    /**
-     * @brief TBD: Describe frames_sent.
-     * @return Return value.
-     */
     virtual uint64_t frames_sent()      const = 0;
-    /**
-     * @brief TBD: Describe bytes_received.
-     * @return Return value.
-     */
     virtual uint64_t bytes_received()   const = 0;
-    /**
-     * @brief TBD: Describe bytes_sent.
-     * @return Return value.
-     */
     virtual uint64_t bytes_sent()       const = 0;
 };
 
@@ -314,11 +295,6 @@ public:
  */
 class V2Server {
 public:
-    /**
-     * @brief TBD: Describe V2Server.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit V2Server(const V2ConnectionConfig& config);
     ~V2Server();
 
@@ -334,27 +310,12 @@ public:
     /// @brief Stop accepting connections and wait for in-flight work to finish.
     void stop();
 
-    /**
-     * @brief TBD: Describe is_running.
-     * @return True on success.
-     */
     bool is_running() const;
 
-    /**
-     * @brief ── Handler registration ──────────────────────────────────────────────
-     * @param[in] handler Input parameter.
-     */
+    // ── Handler registration ──────────────────────────────────────────────
 
     void set_data_handler(V2DataHandler handler);
-    /**
-     * @brief TBD: Describe set_headers_handler.
-     * @param[in] handler Input parameter.
-     */
     void set_headers_handler(V2HeadersHandler handler);
-    /**
-     * @brief TBD: Describe set_rst_stream_handler.
-     * @param[in] handler Input parameter.
-     */
     void set_rst_stream_handler(V2RstStreamHandler handler);
 
     // ── Server-push API ───────────────────────────────────────────────────
@@ -373,26 +334,11 @@ public:
                         const std::unordered_map<std::string, std::string>& headers,
                         const std::vector<uint8_t>& data);
 
-    /**
-     * @brief ── Statistics ────────────────────────────────────────────────────────
-     * @return Return value.
-     */
+    // ── Statistics ────────────────────────────────────────────────────────
 
     size_t   active_connections()   const;
-    /**
-     * @brief TBD: Describe total_streams_opened.
-     * @return Return value.
-     */
     uint64_t total_streams_opened() const;
-    /**
-     * @brief TBD: Describe total_frames_sent.
-     * @return Return value.
-     */
     uint64_t total_frames_sent()    const;
-    /**
-     * @brief TBD: Describe total_frames_received.
-     * @return Return value.
-     */
     uint64_t total_frames_received() const;
 
 private:

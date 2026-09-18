@@ -121,7 +121,6 @@ public:
      * @brief Remove an adapter's fingerprint from the graph.
      *
      * @return true if the key was found and removed, false otherwise.
-     * @param[in] adapter_key Input parameter.
      */
     bool removeAdapter(const std::string& adapter_key);
 
@@ -210,39 +209,19 @@ public:
     static void clearExactSimilarityFn();
 
 private:
-    /**
-     * @brief Compute column means of a TT-core data block.
-     * @param[in] data Input parameter.
-     * @param[in] n_rows Input parameter.
-     * @param[in] n_cols Input parameter.
-     * @return Return value.
-     * @details data layout: [n_rows × n_cols] row-major.
-     */
+    /// Compute column means of a TT-core data block.
+    /// data layout: [n_rows × n_cols] row-major.
     static std::vector<float> columnMeans(const std::vector<float>& data,
                                           std::size_t n_rows,
                                           std::size_t n_cols);
 
-    /**
-     * @brief Cosine similarity between two equal-length vectors.
-     * @param[in] a Input parameter.
-     * @param[in] b Input parameter.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     * @details Returns 0.0 if either vector is zero.
-     */
+    /// Cosine similarity between two equal-length vectors.
+    /// Returns 0.0 if either vector is zero.
     static float cosineSimilarity(const std::vector<float>& a,
                                    const std::vector<float>& b) noexcept;
 
-    /**
-     * @brief Cosine similarity with explicit zero-padding semantics and cached norms.
-     * @param[in] a Input parameter.
-     * @param[in] a_sq_norm Input parameter.
-     * @param[in] b Input parameter.
-     * @param[in] b_sq_norm Input parameter.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     * @details Returns 0.0 if either vector has near-zero norm.
-     */
+    /// Cosine similarity with explicit zero-padding semantics and cached norms.
+    /// Returns 0.0 if either vector has near-zero norm.
     static float cosineSimilarityZeroPadded(const std::vector<float>& a,
                                             float                    a_sq_norm,
                                             const std::vector<float>& b,

@@ -86,11 +86,6 @@ public:
     // Construction
     // -----------------------------------------------------------------------
     GPUTrainingLoop();
-    /**
-     * @brief TBD: Describe GPUTrainingLoop.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit GPUTrainingLoop(const Config& config);
 
     // -----------------------------------------------------------------------
@@ -112,30 +107,13 @@ public:
                    LossFn                    loss_fn,
                    CheckpointFn              checkpoint = nullptr);
 
-    /**
-     * @brief ----------------------------------------------------------------------- Introspection -----------------------------------------------------------------------
-     * @return Return value.
-     */
+    // -----------------------------------------------------------------------
+    // Introspection
+    // -----------------------------------------------------------------------
     size_t                  currentStep()    const;
-    /**
-     * @brief TBD: Describe lastLoss.
-     * @return Return value.
-     */
     double                  lastLoss()       const;
-    /**
-     * @brief TBD: Describe history.
-     * @return Return value.
-     */
     const std::vector<StepRecord>& history() const;
-    /**
-     * @brief TBD: Describe lastEpochStats.
-     * @return Return value.
-     */
     EpochStats              lastEpochStats() const;
-    /**
-     * @brief TBD: Describe isStopped.
-     * @return True on success.
-     */
     bool                    isStopped()      const;
 
     /// Reset step counter, loss history, and stopped flag.

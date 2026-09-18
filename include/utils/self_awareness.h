@@ -139,8 +139,6 @@ public:
         
         /**
          * Convert snapshot to JSON
-         * @brief TBD: Describe toJSON.
-         * @return Return value.
          */
         nlohmann::json toJSON() const;
     };
@@ -171,18 +169,12 @@ public:
         
         /**
          * Load configuration from YAML
-         * @brief TBD: Describe loadFromYAML.
-         * @param[in] yaml_path Input parameter.
-         * @return Return value.
          */
         static Config loadFromYAML(const std::string& yaml_path);
     };
     
     /**
      * Construct self-awareness system
-     * @brief TBD: Describe SelfAwareness.
-     * @param[in] config Input parameter.
-     * @return Return value.
      */
     explicit SelfAwareness(const Config& config);
     
@@ -207,7 +199,6 @@ public:
      * 
      * @param audit_entry The audit log entry that was signed
      * @return Snapshot created
-     * @brief TBD: Describe onAuditSigning.
      */
     Snapshot onAuditSigning(const nlohmann::json& audit_entry);
     
@@ -232,7 +223,6 @@ public:
      * Compare current state with previous snapshot
      * 
      * @return JSON describing changes
-     * @brief TBD: Describe compareWithPrevious.
      */
     nlohmann::json compareWithPrevious() const;
     
@@ -241,7 +231,6 @@ public:
      * 
      * @param snapshot Current snapshot
      * @return List of detected anomalies
-     * @brief TBD: Describe detectAnomalies.
      */
     std::vector<std::string> detectAnomalies(const Snapshot& snapshot) const;
     
@@ -250,22 +239,16 @@ public:
      * 
      * @param snapshot Current snapshot
      * @return Health status string
-     * @brief TBD: Describe assessOverallHealth.
      */
     std::string assessOverallHealth(const Snapshot& snapshot) const;
     
     /**
      * Get statistics about self-awareness system
-     * @brief TBD: Describe getStatistics.
-     * @return Return value.
      */
     nlohmann::json getStatistics() const;
     
     /**
      * Update configuration at runtime
-     * @brief TBD: Describe updateConfig.
-     * @param[in] config Input parameter.
-     * @details Implements updateConfig without additional internal calls.
      */
     void updateConfig(const Config& config) {
         config_ = config;
@@ -284,41 +267,31 @@ private:
     
     /**
      * Collect health metrics
-     * @brief TBD: Describe collectHealthMetrics.
-     * @return Return value.
      */
     HealthMetrics collectHealthMetrics() const;
     
     /**
      * Collect capability state
-     * @brief TBD: Describe collectCapabilityState.
-     * @return Return value.
      */
     CapabilityState collectCapabilityState() const;
     
     /**
      * Collect query performance metrics
-     * @brief TBD: Describe collectQueryPerformance.
-     * @return Return value.
      */
     QueryPerformance collectQueryPerformance() const;
     
     /**
      * Persist snapshot to disk
-     * @brief TBD: Describe persistSnapshot.
-     * @param[in] snapshot Input parameter.
      */
     void persistSnapshot(const Snapshot& snapshot);
     
     /**
      * Load snapshots from disk
-     * @brief TBD: Describe loadSnapshots.
      */
     void loadSnapshots();
     
     /**
      * Prune old snapshots to maintain max_snapshots_retained
-     * @brief TBD: Describe pruneSnapshots.
      */
     void pruneSnapshots();
 };

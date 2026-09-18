@@ -124,7 +124,6 @@ public:
      * @brief Log an error with full context.
      * 
      * @param context Error context to log.
-     * @note Exception safety: noexcept.
      */
     void logError(const ErrorContext& context) const noexcept;
 
@@ -335,8 +334,6 @@ public:
 
     /**
      * @brief Append a strategy to the fallback chain.
-     * @param[in] strategy Input parameter.
-     * @details Calls: push_back(), std::move().
      */
     void pushStrategy(std::shared_ptr<ICompressionStrategy> strategy) {
         strategies_.push_back(std::move(strategy));
@@ -432,7 +429,6 @@ public:
 
     /**
      * @brief Reset all metrics.
-     * @note Exception safety: noexcept.
      */
     void resetMetrics() noexcept;
 

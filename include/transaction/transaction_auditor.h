@@ -56,18 +56,7 @@ public:
     struct Status {
         bool        ok{true};
         std::string message;
-        /**
-         * @brief TBD: Describe OK.
-         * @return Return value.
-         * @details Implements OK without additional internal calls.
-         */
         static Status OK()                   { return {}; }
-        /**
-         * @brief TBD: Describe Error.
-         * @param[in] msg Input parameter.
-         * @return Return value.
-         * @details Calls: std::move().
-         */
         static Status Error(std::string msg) { return {false, std::move(msg)}; }
     };
 
@@ -192,7 +181,6 @@ public:
 
     /**
      * @brief Return the total number of audit records stored in memory.
-     * @return Return value.
      */
     size_t size() const;
 
@@ -218,18 +206,11 @@ public:
      * (NDJSON) so the caller can forward it verbatim.
      */
     struct IAuditExportTransport {
-        /**
-         * @brief TBD: Describe ~IAuditExportTransport.
-         * @return Return value.
-         */
         virtual ~IAuditExportTransport() = default;
 
         /**
          * Publish @p ndjson_payload to a Kafka @p topic.
          * @return Status::OK() on success; Status::Error(...) on failure.
-         * @brief TBD: Describe sendKafka.
-         * @param[in] topic Input parameter.
-         * @param[in] ndjson_payload Input parameter.
          */
         virtual Status sendKafka(const std::string& topic,
                                  const std::string& ndjson_payload) = 0;
@@ -238,10 +219,6 @@ public:
          * Write @p ndjson_payload to the S3-compatible object at
          * @p bucket / @p key.
          * @return Status::OK() on success; Status::Error(...) on failure.
-         * @brief TBD: Describe writeS3.
-         * @param[in] bucket Input parameter.
-         * @param[in] key Input parameter.
-         * @param[in] ndjson_payload Input parameter.
          */
         virtual Status writeS3(const std::string& bucket,
                                const std::string& key,
@@ -254,7 +231,6 @@ public:
      * The auditor holds a raw pointer — the caller is responsible for keeping
      * the transport alive for the lifetime of this auditor.  Pass nullptr to
      * remove a previously set transport.
-     * @param[in,out] transport Input/output parameter.
      */
     void setExportTransport(IAuditExportTransport* transport);
 

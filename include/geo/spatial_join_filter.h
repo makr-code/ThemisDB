@@ -30,10 +30,6 @@ namespace geo {
  */
 class ISpatialJoinFilter {
 public:
-    /**
-     * @brief TBD: Describe ~ISpatialJoinFilter.
-     * @return Return value.
-     */
     virtual ~ISpatialJoinFilter() = default;
 
     /**
@@ -171,11 +167,6 @@ private:
  */
 class NotFilter final : public ISpatialJoinFilter {
 public:
-    /**
-     * @brief TBD: Describe NotFilter.
-     * @param[in] inner Input parameter.
-     * @return Return value.
-     */
     explicit NotFilter(std::shared_ptr<ISpatialJoinFilter> inner)
         : inner_(std::move(inner)) {}
 

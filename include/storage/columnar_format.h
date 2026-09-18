@@ -67,23 +67,9 @@ struct ZoneMap {
     size_t null_count = 0;
     size_t row_count = 0;
 
-    /**
-     * @brief Check if a value can be filtered out based on zone map
-     * @param[in] value Input parameter.
-     * @return True on success.
-     */
+    // Check if a value can be filtered out based on zone map
     bool canSkipForInt(int64_t value) const;
-    /**
-     * @brief TBD: Describe canSkipForFloat.
-     * @param[in] value Input parameter.
-     * @return True on success.
-     */
     bool canSkipForFloat(double value) const;
-    /**
-     * @brief TBD: Describe canSkipForString.
-     * @param[in] value Input parameter.
-     * @return True on success.
-     */
     bool canSkipForString(const std::string& value) const;
 };
 
@@ -115,30 +101,12 @@ struct ColumnMetadata {
 /** @brief RLE (Run-Length Encoding) Codec. */
 class RLECodec {
 public:
-    /**
-     * @brief Encode integer data with RLE
-     * @param[in] data Input parameter.
-     * @return Return value.
-     */
+    // Encode integer data with RLE
     static Result<std::vector<uint8_t>> encodeInt32(const std::vector<int32_t>& data);
-    /**
-     * @brief TBD: Describe encodeInt64.
-     * @param[in] data Input parameter.
-     * @return Return value.
-     */
     static Result<std::vector<uint8_t>> encodeInt64(const std::vector<int64_t>& data);
 
-    /**
-     * @brief Decode RLE data
-     * @param[in] encoded Input parameter.
-     * @return Return value.
-     */
+    // Decode RLE data
     static Result<std::vector<int32_t>> decodeInt32(const std::vector<uint8_t>& encoded);
-    /**
-     * @brief TBD: Describe decodeInt64.
-     * @param[in] encoded Input parameter.
-     * @return Return value.
-     */
     static Result<std::vector<int64_t>> decodeInt64(const std::vector<uint8_t>& encoded);
 };
 
@@ -149,18 +117,10 @@ public:
 /** @brief Dictionary Encoding Codec. */
 class DictionaryCodec {
 public:
-    /**
-     * @brief Encode string data with dictionary
-     * @param[in] data Input parameter.
-     * @return Return value.
-     */
+    // Encode string data with dictionary
     static Result<std::vector<uint8_t>> encodeStrings(const std::vector<std::string>& data);
 
-    /**
-     * @brief Decode dictionary-encoded data
-     * @param[in] encoded Input parameter.
-     * @return Return value.
-     */
+    // Decode dictionary-encoded data
     static Result<std::vector<std::string>> decodeStrings(const std::vector<uint8_t>& encoded);
 
     // Check if dictionary encoding is beneficial
@@ -175,39 +135,16 @@ public:
 /** @brief Bit-Packing Codec. */
 class BitPackingCodec {
 public:
-    /**
-     * @brief Encode integers with minimal bits
-     * @param[in] data Input parameter.
-     * @return Return value.
-     */
+    // Encode integers with minimal bits
     static Result<std::vector<uint8_t>> encodeInt32(const std::vector<int32_t>& data);
-    /**
-     * @brief TBD: Describe encodeInt64.
-     * @param[in] data Input parameter.
-     * @return Return value.
-     */
     static Result<std::vector<uint8_t>> encodeInt64(const std::vector<int64_t>& data);
 
-    /**
-     * @brief Decode bit-packed data
-     * @param[in] encoded Input parameter.
-     * @return Return value.
-     */
+    // Decode bit-packed data
     static Result<std::vector<int32_t>> decodeInt32(const std::vector<uint8_t>& encoded);
-    /**
-     * @brief TBD: Describe decodeInt64.
-     * @param[in] encoded Input parameter.
-     * @return Return value.
-     */
     static Result<std::vector<int64_t>> decodeInt64(const std::vector<uint8_t>& encoded);
 
 private:
-    /**
-     * @brief Calculate required bits for value range
-     * @param[in] min_val Input parameter.
-     * @param[in] max_val Input parameter.
-     * @return Return value.
-     */
+    // Calculate required bits for value range
     static uint8_t calculateBitsRequired(int64_t min_val, int64_t max_val);
 };
 
@@ -218,30 +155,12 @@ private:
 /** @brief Frame-of-Reference Encoding. */
 class FrameOfReferenceCodec {
 public:
-    /**
-     * @brief Encode with frame-of-reference (subtract base value)
-     * @param[in] data Input parameter.
-     * @return Return value.
-     */
+    // Encode with frame-of-reference (subtract base value)
     static Result<std::vector<uint8_t>> encodeInt32(const std::vector<int32_t>& data);
-    /**
-     * @brief TBD: Describe encodeInt64.
-     * @param[in] data Input parameter.
-     * @return Return value.
-     */
     static Result<std::vector<uint8_t>> encodeInt64(const std::vector<int64_t>& data);
 
-    /**
-     * @brief Decode frame-of-reference data
-     * @param[in] encoded Input parameter.
-     * @return Return value.
-     */
+    // Decode frame-of-reference data
     static Result<std::vector<int32_t>> decodeInt32(const std::vector<uint8_t>& encoded);
-    /**
-     * @brief TBD: Describe decodeInt64.
-     * @param[in] encoded Input parameter.
-     * @return Return value.
-     */
     static Result<std::vector<int64_t>> decodeInt64(const std::vector<uint8_t>& encoded);
 };
 
@@ -252,30 +171,10 @@ public:
 /** @brief Generic Compression Wrapper (LZ4/Snappy). */
 class GenericCompressionCodec {
 public:
-    /**
-     * @brief TBD: Describe compressLZ4.
-     * @param[in] data Input parameter.
-     * @return Return value.
-     */
     static Result<std::vector<uint8_t>> compressLZ4(const std::vector<uint8_t>& data);
-    /**
-     * @brief TBD: Describe decompressLZ4.
-     * @param[in] compressed Input parameter.
-     * @return Return value.
-     */
     static Result<std::vector<uint8_t>> decompressLZ4(const std::vector<uint8_t>& compressed);
 
-    /**
-     * @brief TBD: Describe compressSnappy.
-     * @param[in] data Input parameter.
-     * @return Return value.
-     */
     static Result<std::vector<uint8_t>> compressSnappy(const std::vector<uint8_t>& data);
-    /**
-     * @brief TBD: Describe decompressSnappy.
-     * @param[in] compressed Input parameter.
-     * @return Return value.
-     */
     static Result<std::vector<uint8_t>> decompressSnappy(const std::vector<uint8_t>& compressed);
 };
 
@@ -295,29 +194,16 @@ public:
         CompressionCodec codec = CompressionCodec::NONE
     );
 
-    /**
-     * @brief Encode data with specified codec
-     * @return Return value.
-     */
+    // Encode data with specified codec
     Result<void> encode();
 
-    /**
-     * @brief Decode data
-     * @return Return value.
-     */
+    // Decode data
     Result<void> decode();
 
-    /**
-     * @brief Serialize to bytes for storage
-     * @return Return value.
-     */
+    // Serialize to bytes for storage
     std::vector<uint8_t> serialize() const;
 
-    /**
-     * @brief Deserialize from bytes
-     * @param[in] data Input parameter.
-     * @return Return value.
-     */
+    // Deserialize from bytes
     static Result<ColumnSegment> deserialize(const std::vector<uint8_t>& data);
 
     // Accessors
@@ -325,11 +211,7 @@ public:
     const std::vector<uint8_t>& encodedData() const { return encoded_data_; }
     const std::vector<uint8_t>& rawData() const { return raw_data_; }
 
-    /**
-     * @brief Query optimization support
-     * @param[in] filter_value Input parameter.
-     * @return True on success.
-     */
+    // Query optimization support
     bool canSkipSegment(const void* filter_value) const;
 
 private:
@@ -338,18 +220,10 @@ private:
     std::vector<uint8_t> encoded_data_;
     bool is_encoded_ = false;
 
-    /**
-     * @brief Build zone map from raw data
-     */
+    // Build zone map from raw data
     void buildZoneMap();
 
-    /**
-     * @brief Select optimal codec based on data patterns
-     * @param[in] type Input parameter.
-     * @param[in] data Input parameter.
-     * @param[in] row_count Input parameter.
-     * @return Return value.
-     */
+    // Select optimal codec based on data patterns
     static CompressionCodec selectOptimalCodec(
         ColumnType type,
         const void* data,
@@ -374,24 +248,13 @@ public:
         bool auto_select_codec = true
     );
 
-    /**
-     * @brief Column projection - read only specified columns
-     * @param[in] segments Input parameter.
-     * @param[in] column_indices Input parameter.
-     * @return Return value.
-     */
+    // Column projection - read only specified columns
     Result<std::vector<ColumnSegment>> projectColumns(
         const std::vector<ColumnSegment>& segments,
         const std::vector<size_t>& column_indices
     );
 
-    /**
-     * @brief Apply predicate filtering using zone maps
-     * @param[in] segments Input parameter.
-     * @param[in] column_index Input parameter.
-     * @param[in] filter_value Input parameter.
-     * @return Return value.
-     */
+    // Apply predicate filtering using zone maps
     Result<std::vector<size_t>> filterSegments(
         const std::vector<ColumnSegment>& segments,
         size_t column_index,
@@ -406,11 +269,6 @@ public:
         std::unordered_map<CompressionCodec, size_t> codec_usage;
     };
 
-    /**
-     * @brief TBD: Describe getCompressionStats.
-     * @param[in] segments Input parameter.
-     * @return Return value.
-     */
     CompressionStats getCompressionStats(const std::vector<ColumnSegment>& segments) const;
 };
 

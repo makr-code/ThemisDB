@@ -90,16 +90,12 @@ public:
      * @brief Extract all §-paragraphs from a text block as a flat list.
      *
      * Faster than a full hierarchy parse when only paragraph texts are needed.
-     * @param[in] text Input parameter.
-     * @return Return value.
      */
     std::vector<GesetzNode> extractParagraphs(const std::string& text) const;
 
     /**
      * @brief Convert a `GesetzHierarchy` into a flat list of `BaseEntity`s
      *        using canonical IDs (`law:<norm>:§<n>:Abs<m>`).
-     * @param[in] hierarchy Input parameter.
-     * @return Return value.
      */
     std::vector<BaseEntity> toEntities(const GesetzHierarchy& hierarchy) const;
 
@@ -166,8 +162,6 @@ public:
      *
      * Handles DD.MM.YYYY and German month names; returns input unchanged on
      * parse failure.
-     * @param[in] raw Input parameter.
-     * @return Return value.
      */
     static std::string normaliseDate(const std::string& raw);
 };
@@ -202,8 +196,6 @@ public:
 
     /**
      * @brief Register or override a norm → authority mapping.
-     * @param[in] norm Input parameter.
-     * @param[in] authority Input parameter.
      */
     void addMapping(const std::string& norm, const std::string& authority);
 
@@ -270,9 +262,6 @@ public:
      *
      * The canonical ID is `bescheid:<aktenzeichen>` when aktenzeichen is
      * non-empty, else `bescheid:<hash>`.
-     * @param[in] bescheid Input parameter.
-     * @param[in] source_doc Input parameter.
-     * @return Return value.
      */
     BaseEntity toEntity(const BescheidEntity& bescheid,
                          const std::string&    source_doc) const;
@@ -373,32 +362,10 @@ public:
                                = "https://themisdb.io/legal/") const;
 
 private:
-    /**
-     * @brief TBD: Describe escapeIriComponent.
-     * @param[in] s Input parameter.
-     * @return Return value.
-     */
     static std::string escapeIriComponent(const std::string& s);
-    /**
-     * @brief TBD: Describe escapeTurtleLiteral.
-     * @param[in] s Input parameter.
-     * @return Return value.
-     */
     static std::string escapeTurtleLiteral(const std::string& s);
-    /**
-     * @brief TBD: Describe buildTurtle.
-     * @param[in] es Input parameter.
-     * @param[in] base Input parameter.
-     * @return Return value.
-     */
     std::string buildTurtle(const BaseEntitySet& es,
                              const std::string&   base) const;
-    /**
-     * @brief TBD: Describe buildNTriples.
-     * @param[in] es Input parameter.
-     * @param[in] base Input parameter.
-     * @return Return value.
-     */
     std::string buildNTriples(const BaseEntitySet& es,
                                const std::string&   base) const;
 };

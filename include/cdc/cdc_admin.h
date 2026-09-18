@@ -200,17 +200,11 @@ class CDCAdmin {
 public:
     /**
      * Create admin interface for a changefeed
-     * @brief TBD: Describe CDCAdmin.
-     * @param[in,out] changefeed Input/output parameter.
-     * @return Return value.
      */
     explicit CDCAdmin(Changefeed* changefeed);
     
     /**
      * Create admin interface for tenant buffer manager
-     * @brief TBD: Describe CDCAdmin.
-     * @param[in,out] tenant_manager Input/output parameter.
-     * @return Return value.
      */
     explicit CDCAdmin(TenantBufferManager* tenant_manager);
     
@@ -246,8 +240,6 @@ public:
     /**
      * Purge all events from the changefeed
      * WARNING: This deletes all data!
-     * @brief TBD: Describe purgeAll.
-     * @return Return value.
      */
     PurgeResult purgeAll();
     
@@ -255,33 +247,24 @@ public:
      * Purge events in a sequence range (inclusive)
      * @param start_sequence First sequence to delete (inclusive)
      * @param end_sequence Last sequence to delete (inclusive)
-     * @brief TBD: Describe purgeBySequenceRange.
-     * @return Return value.
      */
     PurgeResult purgeBySequenceRange(uint64_t start_sequence, uint64_t end_sequence);
     
     /**
      * Purge events older than a timestamp
      * @param before_timestamp_ms Delete events with timestamp < this value
-     * @brief TBD: Describe purgeByTimestamp.
-     * @return Return value.
      */
     PurgeResult purgeByTimestamp(uint64_t before_timestamp_ms);
 
     /**
      * Purge events older than a timestamp (alias for purgeByTimestamp)
      * @param before_timestamp_ms Delete events with timestamp < this value
-     * @brief TBD: Describe purgeOlderThan.
-     * @return Return value.
      */
     PurgeResult purgeOlderThan(int64_t before_timestamp_ms);
     
     /**
      * Purge all events for a specific tenant
      * Only works with TenantBufferManager
-     * @brief TBD: Describe purgeTenant.
-     * @param[in] tenant_id Input parameter.
-     * @return Return value.
      */
     PurgeResult purgeTenant(const std::string& tenant_id);
     
@@ -308,7 +291,6 @@ public:
      * have been superseded by a newer one.  DELETE tombstones are always kept.
      *
      * @return CompactionResult with counts of scanned/deleted/retained events
-     * @brief TBD: Describe compactLog.
      */
     CompactionResult compactLog();
 
@@ -341,7 +323,6 @@ public:
     /**
      * Get current retention/compaction status information
      * @return RetentionStatus describing current log state
-     * @brief TBD: Describe getRetentionStatus.
      */
     RetentionStatus getRetentionStatus();
     
@@ -350,14 +331,12 @@ public:
     /**
      * Perform health check on CDC components
      * @return Health status with component details
-     * @brief TBD: Describe healthCheck.
      */
     HealthStatus healthCheck();
     
     /**
      * Get comprehensive diagnostics information
      * @return Complete diagnostics including metrics, watermarks, health
-     * @brief TBD: Describe getDiagnostics.
      */
     DiagnosticsInfo getDiagnostics();
     
@@ -371,18 +350,8 @@ private:
     /// Optional CDC transport for publishing Kafka tombstones after redaction.
     ICDCTransport* transport_ = nullptr;
     
-    /**
-     * @brief Helper methods
-     * @param[in] start Input parameter.
-     * @param[in] end Input parameter.
-     * @return Return value.
-     */
+    // Helper methods
     uint64_t countEventsInRange(uint64_t start, uint64_t end);
-    /**
-     * @brief TBD: Describe validateSequenceRange.
-     * @param[in] start Input parameter.
-     * @param[in] end Input parameter.
-     */
     void validateSequenceRange(uint64_t start, uint64_t end);
 };
 

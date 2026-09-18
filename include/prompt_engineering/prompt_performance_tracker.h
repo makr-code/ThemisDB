@@ -41,14 +41,11 @@ struct PromptMetrics {
     
     /**
      * @brief Convert metrics to JSON
-     * @return Return value.
      */
     nlohmann::json toJson() const;
     
     /**
      * @brief Parse metrics from JSON
-     * @param[in] j Input parameter.
-     * @return Return value.
      */
     static PromptMetrics fromJson(const nlohmann::json& j);
 };
@@ -157,8 +154,6 @@ private:
     
     /**
      * @brief Persist metrics to RocksDB
-     * @param[in] prompt_id Input parameter.
-     * @param[in] metrics Input parameter.
      */
     void persist(const std::string& prompt_id, const PromptMetrics& metrics);
     
@@ -169,10 +164,6 @@ private:
     
     /**
      * @brief Update running averages incrementally
-     * @param[in,out] metrics Input/output parameter.
-     * @param[in] success Input parameter.
-     * @param[in] latency_ms Input parameter.
-     * @param[in] user_feedback Input parameter.
      */
     void updateAverages(PromptMetrics& metrics, bool success, double latency_ms, double user_feedback);
 };

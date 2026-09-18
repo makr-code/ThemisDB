@@ -188,7 +188,6 @@ public:
      *
      * The monitor thread polls system resources and checks component
      * usage at a regular interval. Default interval: 100 ms.
-     * @details Calls: exchange().
      */
     void startMonitoring() {
         if (is_running_.exchange(true)) {
@@ -200,7 +199,6 @@ public:
 
     /**
      * @brief Stop background monitoring thread.
-     * @details Calls: store().
      */
     void stopMonitoring() {
         is_running_.store(false);
@@ -216,14 +214,8 @@ public:
     /**
      * @brief Register a callback to be invoked on resource exhaustion events.
      * @param callback Function to invoke when a resource exhaustion event occurs
-     * @details Calls: lock(), push_back().
      */
     void onResourceExhaustion(ResourceExhaustionCallback callback) {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] callback_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(callback_mutex_);
         exhaustion_callbacks_.push_back(callback);
     }
@@ -235,11 +227,6 @@ public:
      * @return Percentage of total system memory currently in use
      */
     double getSystemMemoryPercent() const {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] state_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(state_mutex_);
         return system_memory_percent_;
     }
@@ -247,14 +234,8 @@ public:
     /**
      * @brief Set the memory usage threshold that triggers exhaustion alerts.
      * @param percent_threshold Percentage (0-100) above which to alert
-     * @details Calls: lock().
      */
     void setMemoryExhaustionThreshold(double percent_threshold) {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] state_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(state_mutex_);
         memory_exhaustion_threshold_ = percent_threshold;
     }
@@ -263,11 +244,6 @@ public:
      * @brief Get the current memory exhaustion threshold.
      */
     double getMemoryExhaustionThreshold() const {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] state_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(state_mutex_);
         return memory_exhaustion_threshold_;
     }
@@ -278,15 +254,9 @@ public:
      * @brief Register a component and its initial memory usage.
      * @param component_name Logical name of the component (e.g., "api_connector")
      * @param memory_bytes    Initial memory allocation in bytes
-     * @details Calls: lock().
      */
     void registerComponentMemory(const std::string& component_name,
                                   std::size_t memory_bytes) {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] state_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(state_mutex_);
         component_memory_[component_name] = memory_bytes;
     }
@@ -295,15 +265,9 @@ public:
      * @brief Update the memory usage reported for a component.
      * @param component_name Component identifier
      * @param memory_bytes   Updated memory usage
-     * @details Calls: lock().
      */
     void updateComponentMemory(const std::string& component_name,
                                 std::size_t memory_bytes) {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] state_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(state_mutex_);
         component_memory_[component_name] = memory_bytes;
     }
@@ -315,11 +279,6 @@ public:
      */
     std::optional<std::size_t> getComponentMemory(
         const std::string& component_name) const {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] state_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(state_mutex_);
         auto it = component_memory_.find(component_name);
         if (it != component_memory_.end()) {
@@ -332,11 +291,6 @@ public:
      * @brief Get total memory usage across all registered components.
      */
     std::size_t getTotalComponentMemory() const {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] state_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(state_mutex_);
         std::size_t total = 0;
         for (const auto& kv : component_memory_) {
@@ -350,26 +304,14 @@ public:
      * @return Map of component name -> memory bytes
      */
     std::map<std::string, std::size_t> getAllComponentMemory() const {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] state_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(state_mutex_);
         return component_memory_;
     }
 
     /**
      * @brief Remove a component from memory tracking.
-     * @param[in] component_name Input parameter.
-     * @details Calls: lock(), erase().
      */
     void unregisterComponent(const std::string& component_name) {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] state_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(state_mutex_);
         component_memory_.erase(component_name);
     }
@@ -378,16 +320,9 @@ public:
 
     /**
      * @brief Set the quality check timeout configuration.
-     * @param[in] config Input parameter.
-     * @details Calls: lock().
      */
     void setQualityCheckTimeoutConfig(
         const QualityCheckTimeoutConfig& config) {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] state_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(state_mutex_);
         qc_timeout_config_ = config;
     }
@@ -396,11 +331,6 @@ public:
      * @brief Get the current quality check timeout configuration.
      */
     QualityCheckTimeoutConfig getQualityCheckTimeoutConfig() const {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] state_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(state_mutex_);
         return qc_timeout_config_;
     }
@@ -415,14 +345,8 @@ public:
      * might be adjusted to 1/3 of the cluster-wide limit.
      *
      * @param node_count Number of nodes in the cluster
-     * @details Calls: lock().
      */
     void setDistributedClusterSize(std::size_t node_count) {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] state_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(state_mutex_);
         cluster_size_ = node_count;
     }
@@ -431,11 +355,6 @@ public:
      * @brief Get the distributed cluster size.
      */
     std::size_t getDistributedClusterSize() const {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] state_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(state_mutex_);
         return cluster_size_;
     }
@@ -453,11 +372,6 @@ public:
      * @return Per-node quota (cluster_wide_limit / cluster_size)
      */
     std::size_t calculatePerNodeQuota(std::size_t cluster_wide_limit) const {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] state_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(state_mutex_);
         if (cluster_size_ == 0) {
           return cluster_wide_limit;
@@ -486,17 +400,8 @@ private:
     // Callbacks
     std::vector<ResourceExhaustionCallback> exhaustion_callbacks_;
 
-    /**
-     * @brief Helper to generate and dispatch exhaustion alert
-     * @param[in] alert Input parameter.
-     * @details Calls: lock(), cb().
-     */
+    // Helper to generate and dispatch exhaustion alert
     void alertExhaustion(const ResourceExhaustionAlert& alert) {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] callback_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(callback_mutex_);
         for (const auto& cb : exhaustion_callbacks_) {
             cb(alert);

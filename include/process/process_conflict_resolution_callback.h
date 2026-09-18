@@ -163,10 +163,6 @@ class ProcessConflictResolverCallback {
    */
   virtual std::string GetName() const { return "ProcessConflictResolverCallback"; }
 
-  /**
-   * @brief TBD: Describe ~ProcessConflictResolverCallback.
-   * @return Return value.
-   */
   virtual ~ProcessConflictResolverCallback() = default;
 };
 
@@ -215,10 +211,6 @@ class ConflictResolverManager {
    */
   virtual void UnregisterResolver() = 0;
 
-  /**
-   * @brief TBD: Describe ~ConflictResolverManager.
-   * @return Return value.
-   */
   virtual ~ConflictResolverManager() = default;
 };
 

@@ -30,27 +30,20 @@ public:
     /// Access singleton instance
     static SSMDriftMetrics& instance();
 
-    /**
-     * @brief Increment factual drift score observation @param session_id Session identifier @param drift_value Score in [0.
-     * @param[in] session_id Input parameter.
-     * @param[in] drift_value Input parameter.
-     * @details 0, 1.0]
-     */
+    /// Increment factual drift score observation
+    /// @param session_id Session identifier
+    /// @param drift_value Score in [0.0, 1.0]
     void recordFactualDriftScore(const std::string& session_id,
                                   double drift_value);
 
-    /**
-     * @brief Increment SSM state checkpoint counter @param session_id Session identifier @param snapshot_size_bytes Checkpoint size for size histogram
-     * @param[in] session_id Input parameter.
-     * @param[in] snapshot_size_bytes Input parameter.
-     */
+    /// Increment SSM state checkpoint counter
+    /// @param session_id Session identifier
+    /// @param snapshot_size_bytes Checkpoint size for size histogram
     void recordSSMStateCheckpoint(const std::string& session_id,
                                    uint64_t snapshot_size_bytes);
 
-    /**
-     * @brief Record hybrid router architecture decision @param architecture_path Selected path ("transformer" / "infini" / "ssm")
-     * @param[in] architecture_path Input parameter.
-     */
+    /// Record hybrid router architecture decision
+    /// @param architecture_path Selected path ("transformer" / "infini" / "ssm")
     void recordHybridRouterDecision(const std::string& architecture_path);
 
     /// Get current factual drift score for session (exponential moving average)
@@ -86,22 +79,11 @@ private:
 // Inline implementations
 namespace themis::llm::metrics {
 
-/**
- * @brief TBD: Describe instance.
- * @return Return value.
- * @details Implements instance without additional internal calls.
- */
 inline SSMDriftMetrics& SSMDriftMetrics::instance() {
     static SSMDriftMetrics inst;
     return inst;
 }
 
-/**
- * @brief TBD: Describe recordFactualDriftScore.
- * @param[in] param Input parameter.
- * @param[in] drift_value Input parameter.
- * @details Calls: load(), store().
- */
 inline void SSMDriftMetrics::recordFactualDriftScore(const std::string& /*session_id*/, double drift_value) {
     // simple EMA: alpha = 0.1
     double old = global_drift_ema_.load();
@@ -109,22 +91,11 @@ inline void SSMDriftMetrics::recordFactualDriftScore(const std::string& /*sessio
     global_drift_ema_.store(next);
 }
 
-/**
- * @brief TBD: Describe recordSSMStateCheckpoint.
- * @param[in] param Input parameter.
- * @param[in] snapshot_size_bytes Input parameter.
- * @details Calls: fetch_add().
- */
 inline void SSMDriftMetrics::recordSSMStateCheckpoint(const std::string& /*session_id*/, uint64_t snapshot_size_bytes) {
     total_checkpoints_.fetch_add(1);
     checkpoint_size_sum_.fetch_add(snapshot_size_bytes);
 }
 
-/**
- * @brief TBD: Describe recordHybridRouterDecision.
- * @param[in] architecture_path Input parameter.
- * @details Calls: fetch_add().
- */
 inline void SSMDriftMetrics::recordHybridRouterDecision(const std::string& architecture_path) {
     if (architecture_path == "transformer") {
       router_transformer_count_.fetch_add(1);

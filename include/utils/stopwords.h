@@ -21,19 +21,10 @@ namespace utils {
 /** @brief Stopwords. */
 class Stopwords {
 public:
-    /**
-     * @brief Returns a default stopword set for a given language code ("en", "de", "none").
-     * @param[in] language Input parameter.
-     * @return Return value.
-     */
+    // Returns a default stopword set for a given language code ("en", "de", "none").
     static std::unordered_set<std::string> defaults(const std::string& language);
     
-    /**
-     * @brief Merge default stopwords with a custom list (both assumed lowercase)
-     * @param[in] base Input parameter.
-     * @param[in] custom Input parameter.
-     * @return Return value.
-     */
+    // Merge default stopwords with a custom list (both assumed lowercase)
     static std::unordered_set<std::string> merge(const std::unordered_set<std::string>& base,
                                                  const std::vector<std::string>& custom);
 };

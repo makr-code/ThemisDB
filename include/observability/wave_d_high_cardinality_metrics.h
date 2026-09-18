@@ -75,12 +75,6 @@ public:
         double p99{0.0};
     };
 
-    /**
-     * @brief TBD: Describe getQuantiles.
-     * @param[in] shard_id Input parameter.
-     * @param[in] operation_type Input parameter.
-     * @return Return value.
-     */
     LatencyQuantiles getQuantiles(
         const std::string& shard_id,
         const std::string& operation_type) const;
@@ -139,11 +133,6 @@ public:
         double max{0.0};
     };
 
-    /**
-     * @brief TBD: Describe getQuantiles.
-     * @param[in] replica_id Input parameter.
-     * @return Return value.
-     */
     LagQuantiles getQuantiles(const std::string& replica_id) const;
 
     /**
@@ -252,21 +241,18 @@ public:
     /**
      * @brief Get the shard latency histogram.
      * @return Reference to the ShardLatencyHistogram.
-     * @details Implements shardLatencies without additional internal calls.
      */
     ShardLatencyHistogram& shardLatencies() { return shard_latencies_; }
 
     /**
      * @brief Get the replica lag tracker.
      * @return Reference to the ReplicaLagTracker.
-     * @details Implements replicaLag without additional internal calls.
      */
     ReplicaLagTracker& replicaLag() { return replica_lag_; }
 
     /**
      * @brief Get the retry counter.
      * @return Reference to the RetryCounter.
-     * @details Implements retryCounter without additional internal calls.
      */
     RetryCounter& retryCounter() { return retry_counter_; }
 

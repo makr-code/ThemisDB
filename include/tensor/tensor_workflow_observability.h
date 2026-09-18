@@ -48,49 +48,17 @@ public:
         Cancelled,
     };
 
-    /**
-     * @brief TBD: Describe recordPersistenceOp.
-     * @param[in] latency_ms Input parameter.
-     * @param[in] success Input parameter.
-     */
     void recordPersistenceOp(double latency_ms, bool success);
-    /**
-     * @brief TBD: Describe recordTrainingTransition.
-     * @param[in] state Input parameter.
-     */
     void recordTrainingTransition(TrainingState state);
-    /**
-     * @brief TBD: Describe recordTrainingLatency.
-     * @param[in] latency_ms Input parameter.
-     */
     void recordTrainingLatency(double latency_ms);
-    /**
-     * @brief TBD: Describe recordGpuDispatch.
-     * @param[in] used_gpu Input parameter.
-     * @param[in] used_fallback Input parameter.
-     * @param[in] error Input parameter.
-     */
     void recordGpuDispatch(bool used_gpu, bool used_fallback, bool error);
-    /**
-     * @brief TBD: Describe recordCompressionLatency.
-     * @param[in] latency_ms Input parameter.
-     */
     void recordCompressionLatency(double latency_ms);
-    /**
-     * @brief TBD: Describe recordRoutingLatency.
-     * @param[in] latency_ms Input parameter.
-     */
     void recordRoutingLatency(double latency_ms);
 
     [[nodiscard]] std::string exportPrometheusText() const;
     [[nodiscard]] TensorWorkflowHealthSummary evaluateSlo(const TensorWorkflowSloConfig& cfg) const;
 
 private:
-    /**
-     * @brief TBD: Describe percentile95.
-     * @param[in] values Input parameter.
-     * @return Return value.
-     */
     static double percentile95(std::vector<double> values);
 
     mutable std::mutex mutex_;

@@ -34,20 +34,15 @@ public:
     /**
      * @brief Load blocked keywords from a plain-text file (one keyword per line).
      *        Lines starting with '#' are treated as comments.
-     * @param[in] path Input parameter.
-     * @return Return value.
      */
     static SDPromptSanitizer fromFile(const std::string& path);
 
-     * @brief TBD: Describe isAllowed.
-     * @param[in] prompt Input parameter.
     /** @return false if the prompt contains any blocked keyword. */
     bool isAllowed(const std::string& prompt) const;
 
     /**
      * @brief Remove all blocked keywords from the prompt.
      * @return Sanitized prompt string.
-     * @param[in] prompt Input parameter.
      */
     std::string sanitize(const std::string& prompt) const;
 
@@ -56,11 +51,6 @@ public:
 private:
     std::vector<std::string> blocked_keywords_;  // stored lower-case
 
-    /**
-     * @brief TBD: Describe toLower.
-     * @param[in] s Input parameter.
-     * @return Return value.
-     */
     static std::string toLower(const std::string& s);
 };
 

@@ -152,8 +152,6 @@ public:
         const std::vector<SampleData>& samples
     );
 
-     * @param[in] t Input parameter.
-     * @return Return value.
     /** @brief Convert SemanticType enum to a human-readable string. */
     static std::string semanticTypeToString(SemanticType t);
 
@@ -259,26 +257,9 @@ public:
 private:
     Config config_;
 
-    /**
-     * @brief TBD: Describe columnNameSimilar.
-     * @param[in] a Input parameter.
-     * @param[in] b Input parameter.
-     * @return True on success.
-     */
     bool columnNameSimilar(const std::string& a, const std::string& b) const;
-    /**
-     * @brief TBD: Describe jaccardSimilarity.
-     * @param[in] a Input parameter.
-     * @param[in] b Input parameter.
-     * @return Return value.
-     */
     double jaccardSimilarity(const std::vector<std::string>& a,
                              const std::vector<std::string>& b) const;
-    /**
-     * @brief TBD: Describe detectSingleColumn.
-     * @param[in] values Input parameter.
-     * @return Return value.
-     */
     SemanticType detectSingleColumn(const std::vector<std::string>& values) const;
 };
 

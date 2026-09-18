@@ -67,8 +67,6 @@ public:
     /**
      * @param max_entries  Maximum number of entries.  Must be ≥ 1.
      * @throws std::invalid_argument if max_entries == 0.
-     * @brief TBD: Describe LRUCache.
-     * @return Return value.
      */
     explicit LRUCache(std::size_t max_entries)
         : max_entries_(max_entries) {
@@ -96,9 +94,6 @@ public:
      *
      * @return Pointer to the cached value, or nullptr on a miss.
      *         The pointer is valid until the next non-const operation.
-     * @brief TBD: Describe get.
-     * @param[in] key Input parameter.
-     * @details Calls: find(), end(), splice(), begin().
      */
     V* get(const K& key) {
         auto it = map_.find(key);
@@ -128,8 +123,6 @@ public:
      *
      * @param key    Cache key.
      * @param value  Value to cache (moved in).
-     * @brief TBD: Describe put.
-     * @details Calls: find(), end(), std::move(), splice(), begin(), size(), erase(), back().
      */
     void put(K key, V value) {
         auto it = map_.find(key);
@@ -153,9 +146,6 @@ public:
      * Remove the entry for @p key if it exists.
      *
      * @return true if the entry was found and removed, false otherwise.
-     * @brief TBD: Describe erase.
-     * @param[in] key Input parameter.
-     * @details Calls: find(), end().
      */
     bool erase(const K& key) {
         auto it = map_.find(key);
@@ -167,8 +157,6 @@ public:
         return true;
     }
 
-     * @brief TBD: Describe clear.
-     * @details Implements clear without additional internal calls.
     /** Remove all entries. */
     void clear() {
         list_.clear();

@@ -115,33 +115,17 @@ inline std::pair<std::string, std::string> parseIdentifier(const std::string& id
     return {id.substr(0, slashPos), id.substr(slashPos + 1)};
 }
 
-/**
- * @brief Check if a document is an edge (has _from and _to)
- * @param[in] doc Input parameter.
- * @return True on success.
- * @details Calls: is_object(), contains().
- */
+// Check if a document is an edge (has _from and _to)
 inline bool isEdge(const nlohmann::json& doc) {
     return doc.is_object() && doc.contains("_from") && doc.contains("_to");
 }
 
-/**
- * @brief Check if a document is a vertex (has _id but not _from/_to)
- * @param[in] doc Input parameter.
- * @return True on success.
- * @details Calls: is_object(), contains().
- */
+// Check if a document is a vertex (has _id but not _from/_to)
 inline bool isVertex(const nlohmann::json& doc) {
     return doc.is_object() && doc.contains("_id") && !doc.contains("_from");
 }
 
-/**
- * @brief Get the vertex ID (works for both vertices and edges)
- * @param[in] doc Input parameter.
- * @return Return value.
- * @throws std::runtime_error if an error occurs.
- * @details Calls: is_string(), is_object(), contains().
- */
+// Get the vertex ID (works for both vertices and edges)
 inline std::string getVertexId(const nlohmann::json& doc) {
     if (doc.is_string()) {
         return doc.get<std::string>();
@@ -163,11 +147,6 @@ public:
         vertices_.insert(to);
     }
     
-    /**
-     * @brief TBD: Describe addVertex.
-     * @param[in] id Input parameter.
-     * @details Calls: insert().
-     */
     void addVertex(const std::string& id) {
         vertices_.insert(id);
     }
@@ -208,12 +187,7 @@ private:
     std::unordered_set<std::string> vertices_;
 };
 
-/**
- * @brief Build graph from edge documents
- * @param[in] edges Input parameter.
- * @return Return value.
- * @details Calls: isEdge(), contains(), addEdge().
- */
+// Build graph from edge documents
 inline SimpleGraph buildGraph(const nlohmann::json& edges) {
     SimpleGraph graph;
     for (const auto& edge : edges) {
@@ -1341,8 +1315,6 @@ public:
 
 /**
  * @brief Register all Graph functions with the registry
- * @param[in,out] registry Input/output parameter.
- * @details Calls: registerFunction().
  */
 inline void registerGraphFunctions(FunctionRegistry& registry) {
     // Utility

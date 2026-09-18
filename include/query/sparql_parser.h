@@ -62,15 +62,7 @@ enum class SPARQLExprType {
 };
 
 struct SPARQLExpr {
-    /**
-     * @brief TBD: Describe ~SPARQLExpr.
-     * @return Return value.
-     */
     virtual ~SPARQLExpr() = default;
-    /**
-     * @brief TBD: Describe type.
-     * @return Return value.
-     */
     virtual SPARQLExprType type() const = 0;
 };
 
@@ -178,7 +170,6 @@ public:
      *   auto result = parser.parse(
      *     "SELECT ?s ?p ?o WHERE { ?s ?p ?o } LIMIT 10");
      *   if (result) { ... use result.value() ... }
-     * @brief TBD: Describe parse.
      */
     Result<SPARQLASTNode> parse(const std::string& sparql_query);
 
@@ -233,18 +224,12 @@ public:
      *
      * @param ast  The parsed SPARQL AST.
      * @return     Result<std::string> – AQL string on success.
-     * @brief TBD: Describe transpile.
      */
     Result<std::string> transpile(const SPARQLASTNode& ast);
 
 private:
     std::string collection_;
 
-    /**
-     * @brief TBD: Describe transpileSelect.
-     * @param[in] stmt Input parameter.
-     * @return Return value.
-     */
     std::string transpileSelect(const SPARQLSelectStatement& stmt);
 };
 

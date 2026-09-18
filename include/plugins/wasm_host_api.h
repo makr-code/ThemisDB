@@ -41,10 +41,6 @@ using WasmPluginLoadFn = std::function<std::unique_ptr<IThemisPlugin>(
     const std::string& module_name,
     std::string& error_out)>;
 
-/**
- * @brief TBD: Describe setWasmPluginLoadFn.
- * @param[in] fn Input parameter.
- */
 void setWasmPluginLoadFn(WasmPluginLoadFn fn);
 
 /**
@@ -80,8 +76,6 @@ extern "C" {
  * @brief Host import: return the plugin's null-terminated name.
  * Writes up to `buf_len - 1` bytes into @p buf and null-terminates.
  * @return Number of bytes written (excluding null terminator).
- * @param[in,out] buf Input/output parameter.
- * @param[in] buf_len Input parameter.
  */
 uint32_t themis_plugin_get_name(char* buf, uint32_t buf_len);
 
@@ -89,8 +83,6 @@ uint32_t themis_plugin_get_name(char* buf, uint32_t buf_len);
  * @brief Host import: return the plugin's null-terminated version string.
  * Writes up to `buf_len - 1` bytes into @p buf and null-terminates.
  * @return Number of bytes written (excluding null terminator).
- * @param[in,out] buf Input/output parameter.
- * @param[in] buf_len Input parameter.
  */
 uint32_t themis_plugin_get_version(char* buf, uint32_t buf_len);
 
@@ -117,8 +109,6 @@ void* themis_plugin_get_instance(int32_t capability_id);
  * @brief Host import: serialise plugin state to a JSON string.
  * Writes to @p buf; caller must supply a buffer of at least @p buf_len bytes.
  * @return Actual bytes written (0 on empty state, negative on error).
- * @param[in,out] buf Input/output parameter.
- * @param[in] buf_len Input parameter.
  */
 int32_t themis_plugin_save_state(char* buf, uint32_t buf_len);
 
@@ -157,7 +147,6 @@ public:
      *
      * @param runtime     Backend that hosts the WASM module.
      * @param module_name Human-readable name from the plugin manifest.
-     * @return Return value.
      */
     explicit WasmHostAPI(WasmPluginRuntime runtime,
                          std::string module_name);

@@ -45,12 +45,8 @@ enum class ModeId {
     Custom      ///< User-defined id
 };
 
- * @param[in] s Input parameter.
- * @return Return value.
 /** @brief Convert mode string to ModeId (case-insensitive). */
 ModeId modeIdFromString(const std::string& s);
- * @param[in] id Input parameter.
- * @return Return value.
 /** @brief Convert ModeId to canonical string. */
 std::string modeIdToString(ModeId id);
 
@@ -162,10 +158,6 @@ struct ModeSpec {
  * @brief Model entry in a ModePack.
  */
 struct ModelEntry {
-    /**
-     * @brief TBD: Describe ~ModelEntry.
-     * @return Return value.
-     */
     virtual ~ModelEntry() = default;
     std::string id;
     std::string path;
@@ -237,7 +229,6 @@ public:
     /**
      * @brief Validate an already-loaded ModePack.
      * @return ValidationResult with errors/warnings.
-     * @param[in] pack Input parameter.
      */
     static ValidationResult validate(const ModePack& pack);
 };
@@ -287,8 +278,6 @@ public:
 
     // ── Static / built-in tool registration ──────────────────────────────────
 
-     * @param[in] spec Input parameter.
-     * @param[in] handler Input parameter.
     /** @brief Register a tool handler. Overwrites any existing static registration. */
     void registerTool(const ToolSpec& spec, ToolHandler handler);
 
@@ -346,33 +335,21 @@ public:
 
     // ── Dispatch ──────────────────────────────────────────────────────────────
 
-     * @param[in] tool_name Input parameter.
-     * @param[in] args Input parameter.
-     * @param[in] mode Input parameter.
-     * @return Return value.
     /** @brief Invoke a tool if permitted by mode's allowlist/denylist. */
     json invokeTool(const std::string& tool_name,
                     const json&        args,
                     const ModeSpec&    mode) const;
 
-     * @param[in] tool_name Input parameter.
-     * @param[in] mode Input parameter.
-     * @return True on success.
     /** @brief Check if a tool is permitted for a given mode. */
     bool isAllowed(const std::string& tool_name,
                    const ModeSpec&    mode) const;
 
-     * @return Return value.
     /** @brief List all registered tool names (static + dynamic). */
     std::vector<std::string> listTools() const;
 
-     * @param[in] tool_name Input parameter.
-     * @return Return value.
     /** @brief Get spec for a named tool; nullopt if not found. */
     std::optional<ToolSpec> getSpec(const std::string& tool_name) const;
 
-     * @param[in] name Input parameter.
-     * @return True on success.
     /** @brief Returns true if the named tool was loaded from a plugin DLL. */
     bool isPluginTool(const std::string& name) const;
 
@@ -399,10 +376,6 @@ private:
  * @brief Latency breakdown for a single orchestrator run.
  */
 struct RunLatency {
-    /**
-     * @brief TBD: Describe ~RunLatency.
-     * @return Return value.
-     */
     virtual ~RunLatency() = default;
     int64_t retrieval_ms    = 0;
     int64_t llm_ms          = 0;
@@ -414,10 +387,6 @@ struct RunLatency {
  * @brief Run metadata emitted for every orchestrator execution.
  */
 struct RunMetadata {
-    /**
-     * @brief TBD: Describe ~RunMetadata.
-     * @return Return value.
-     */
     virtual ~RunMetadata() = default;
     std::string mode_id;
     std::string model_id;
@@ -550,10 +519,6 @@ using AdapterPathResolverFn = std::function<std::optional<std::string>(
  */
 class IAdapterCandidateProvider {
 public:
-    /**
-     * @brief TBD: Describe ~IAdapterCandidateProvider.
-     * @return Return value.
-     */
     virtual ~IAdapterCandidateProvider() = default;
 
     /**
@@ -568,10 +533,6 @@ public:
  */
 class IAdapterApplyService {
 public:
-    /**
-     * @brief TBD: Describe ~IAdapterApplyService.
-     * @return Return value.
-     */
     virtual ~IAdapterApplyService() = default;
 
     /**
@@ -627,10 +588,6 @@ struct RagCostEstimate {
  */
 class IRagCostModelService {
 public:
-    /**
-     * @brief TBD: Describe ~IRagCostModelService.
-     * @return Return value.
-     */
     virtual ~IRagCostModelService() = default;
 
     /**
@@ -668,11 +625,6 @@ public:
  */
 class AIOrchestrator {
 public:
-    /**
-     * @brief TBD: Describe AIOrchestrator.
-     * @param[in] pack Input parameter.
-     * @return Return value.
-     */
     explicit AIOrchestrator(const ModePack& pack);
     ~AIOrchestrator();
 
@@ -682,19 +634,15 @@ public:
 
     // ── Configuration ────────────────────────────────────────────────────────
 
-     * @param[in] plugin Input parameter.
     /** @brief Set (or replace) the LLM plugin used for inference. */
     void setLLMPlugin(std::shared_ptr<ILLMPlugin> plugin);
 
-     * @param[in] provider Input parameter.
     /** @brief Set (or clear) the optional adapter candidate provider. */
     void setAdapterCandidateProvider(std::shared_ptr<IAdapterCandidateProvider> provider);
 
-     * @param[in] service Input parameter.
     /** @brief Set (or clear) the optional adapter apply service. */
     void setAdapterApplyService(std::shared_ptr<IAdapterApplyService> service);
 
-     * @param[in] policy Input parameter.
     /** @brief Configure adapter switch policy guardrails. */
     void setAdapterSwitchPolicy(const AdapterSwitchPolicy& policy);
 
@@ -707,11 +655,9 @@ public:
      */
     void setAdapterPathResolver(AdapterPathResolverFn resolver);
 
-     * @param[in] service Input parameter.
     /** @brief Set (or clear) RAG cost model service. */
     void setRagCostModelService(std::shared_ptr<IRagCostModelService> service);
 
-     * @return Return value.
     /** @brief Expose the internal tool registry for external registrations. */
     ToolRegistry& toolRegistry();
 
@@ -731,20 +677,15 @@ public:
 
     // ── Introspection ─────────────────────────────────────────────────────────
 
-     * @return Return value.
     /** @brief Return the loaded ModePack. */
     const ModePack& modePack() const;
 
-     * @param[in] id Input parameter.
-     * @return Pointer to the result.
     /** @brief Find a mode spec by id; nullptr if not found. */
     const ModeSpec* findMode(const std::string& id) const;
 
-     * @return Pointer to the result.
     /** @brief Return the default ModeSpec (ModePack::default_mode). */
     const ModeSpec* defaultMode() const;
 
-     * @return Return value.
     /** @brief Return last-run statistics as JSON. */
     json stats() const;
 
@@ -752,49 +693,20 @@ private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
 
-    /**
-     * @brief ── Internal pipeline steps ───────────────────────────────────────────────
-     * @param[in] ctx Input parameter.
-     * @param[in] mode Input parameter.
-     * @return Return value.
-     */
+    // ── Internal pipeline steps ───────────────────────────────────────────────
 
     OrchestratorResult runAsk(const OrchestratorContext& ctx,
                                const ModeSpec&            mode) const;
 
-    /**
-     * @brief TBD: Describe runRag.
-     * @param[in] ctx Input parameter.
-     * @param[in] mode Input parameter.
-     * @return Return value.
-     */
     OrchestratorResult runRag(const OrchestratorContext& ctx,
                                const ModeSpec&            mode) const;
 
-    /**
-     * @brief TBD: Describe runAgentic.
-     * @param[in] ctx Input parameter.
-     * @param[in] mode Input parameter.
-     * @return Return value.
-     */
     OrchestratorResult runAgentic(const OrchestratorContext& ctx,
                                    const ModeSpec&            mode) const;
 
-    /**
-     * @brief TBD: Describe runEthics.
-     * @param[in] ctx Input parameter.
-     * @param[in] mode Input parameter.
-     * @return Return value.
-     */
     OrchestratorResult runEthics(const OrchestratorContext& ctx,
                                   const ModeSpec&            mode) const;
 
-    /**
-     * @brief TBD: Describe runMultiAgent.
-     * @param[in] ctx Input parameter.
-     * @param[in] mode Input parameter.
-     * @return Return value.
-     */
     OrchestratorResult runMultiAgent(const OrchestratorContext& ctx,
                                       const ModeSpec&            mode) const;
 

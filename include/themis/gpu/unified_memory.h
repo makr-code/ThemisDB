@@ -100,11 +100,9 @@ public:
         bool     hardware_unified    = false; ///< true when real CUDA/HIP managed memory is used
     };
 
-    /**
-     * @brief ----------------------------------------------------------------------- Singleton -----------------------------------------------------------------------
-     * @return Return value.
-     * @details Implements GetInstance without additional internal calls.
-     */
+    // -----------------------------------------------------------------------
+    // Singleton
+    // -----------------------------------------------------------------------
     static GPUUnifiedMemoryAllocator& GetInstance() {
         static GPUUnifiedMemoryAllocator inst;
         return inst;
@@ -139,8 +137,6 @@ public:
      * CPU-only builds: always returns false.
      *
      * The result is cached after the first call.
-     * @return True on success.
-     * @note Exception safety: noexcept.
      */
     static bool isSupported() noexcept;
 
@@ -209,11 +205,9 @@ public:
     // Diagnostics
     // -----------------------------------------------------------------------
 
-     * @return Return value.
     /** @brief Return a copy of the aggregate statistics. */
     Stats getStats() const;
 
-     * @return Return value.
     /** @brief Return a snapshot of all currently live allocations. */
     std::vector<AllocationRecord> getActiveAllocations() const;
 
@@ -221,8 +215,6 @@ public:
      * @brief Return the total bytes currently live for @p tenant_id.
      *
      * Returns 0 if the tenant has no live allocations.
-     * @param[in] tenant_id Input parameter.
-     * @return Return value.
      */
     uint64_t getTenantBytes(const std::string& tenant_id) const;
 

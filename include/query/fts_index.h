@@ -57,12 +57,9 @@ struct IndexStatistics {
 // ============================================================================
 class FtsIndex {
  public:
-  /**
-   * @brief @brief Open an existing FTS index from disk.
-   * @param[in] index_path Input parameter.
-   * @return Return value.
-   * @details @param index_path: filesystem path to index directory @return FtsIndex instance or error
-   */
+  /// @brief Open an existing FTS index from disk.
+  /// @param index_path: filesystem path to index directory
+  /// @return FtsIndex instance or error
   static std::unique_ptr<FtsIndex> open(const std::string& index_path);
   
   /// Virtual destructor
@@ -72,30 +69,24 @@ class FtsIndex {
   // Query API (Read-only operations)
   // ========================================================================
   
-  /**
-   * @brief Lookup documents containing a term @param term: search term @return posting list (doc_id + term_freq + positions) @throws if index corrupted or term invalid
-   * @param[in] term Input parameter.
-   * @return Return value.
-   */
+  /// Lookup documents containing a term
+  /// @param term: search term
+  /// @return posting list (doc_id + term_freq + positions)
+  /// @throws if index corrupted or term invalid
   virtual PostingList lookupTerm(const std::string& term) const = 0;
   
-  /**
-   * @brief Get document metadata @param doc_id: document identifier @return metadata (length, avg_tf, language) @throws if document not found
-   * @param[in] doc_id Input parameter.
-   * @return Return value.
-   */
+  /// Get document metadata
+  /// @param doc_id: document identifier
+  /// @return metadata (length, avg_tf, language)
+  /// @throws if document not found
   virtual DocumentMetadata getDocumentStats(uint64_t doc_id) const = 0;
   
-  /**
-   * @brief Get index statistics @return document count, term count, size, etc.
-   * @return Return value.
-   */
+  /// Get index statistics
+  /// @return document count, term count, size, etc.
   virtual IndexStatistics getStatistics() const = 0;
   
-  /**
-   * @brief Check index integrity @return true if index passes CRC check, false if corrupted
-   * @return True on success.
-   */
+  /// Check index integrity
+  /// @return true if index passes CRC check, false if corrupted
   virtual bool isHealthy() const = 0;
   
   // ========================================================================
@@ -108,10 +99,9 @@ class FtsIndex {
   virtual void addDocuments(
       const std::vector<std::pair<uint64_t, std::string>>& documents) = 0;
   
-  /**
-   * @brief Remove documents from index @param doc_ids: vector of document IDs to remove @throws on write error or index locked
-   * @param[in] doc_ids Input parameter.
-   */
+  /// Remove documents from index
+  /// @param doc_ids: vector of document IDs to remove
+  /// @throws on write error or index locked
   virtual void removeDocuments(
       const std::vector<uint64_t>& doc_ids) = 0;
 };

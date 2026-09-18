@@ -32,10 +32,6 @@ class Tensor;
  */
 class ITrainableLayer {
 public:
-    /**
-     * @brief TBD: Describe ~ITrainableLayer.
-     * @return Return value.
-     */
     virtual ~ITrainableLayer() = default;
     
     // Forward pass
@@ -76,11 +72,6 @@ public:
     
     // Export weights (for storage)
     std::pair<Tensor, Tensor> get_weights() const;
-    /**
-     * @brief TBD: Describe set_weights.
-     * @param[in] B Input parameter.
-     * @param[in] A Input parameter.
-     */
     void set_weights(const Tensor& B, const Tensor& A);
 
 private:
@@ -143,10 +134,6 @@ public:
     Sequential() = default;
     ~Sequential() override = default;
     
-    /**
-     * @brief TBD: Describe add.
-     * @param[in] layer Input parameter.
-     */
     void add(std::unique_ptr<ITrainableLayer> layer);
     
     Tensor forward(const Tensor& input) override;
@@ -172,11 +159,7 @@ class Tensor {
 public:
     Tensor() = default;
     
-    /**
-     * @brief Constructor with shape (allocates memory)
-     * @param[in] shape Input parameter.
-     * @return Return value.
-     */
+    // Constructor with shape (allocates memory)
     explicit Tensor(const std::vector<size_t>& shape);
     
     // Constructor with shape and initial value
@@ -184,17 +167,8 @@ public:
     
     // Getters
     const std::vector<size_t>& shape() const { return shape_; }
-    /**
-     * @brief TBD: Describe size.
-     * @return Return value.
-     */
     size_t size() const;
     const std::vector<float>& data() const { return data_; }
-    /**
-     * @brief TBD: Describe data.
-     * @return Return value.
-     * @details Implements data without additional internal calls.
-     */
     std::vector<float>& data() { return data_; }
     
     // Element access
@@ -206,32 +180,15 @@ public:
     Tensor operator-(const Tensor& other) const;
     Tensor operator*(float scalar) const;
     
-    /**
-     * @brief Matrix multiplication
-     * @param[in] other Input parameter.
-     * @return Return value.
-     */
+    // Matrix multiplication
     Tensor matmul(const Tensor& other) const;
     
-    /**
-     * @brief Transpose (for 2D tensors)
-     * @return Return value.
-     */
+    // Transpose (for 2D tensors)
     Tensor transpose() const;
     
-    /**
-     * @brief Utilities
-     * @param[in] value Input parameter.
-     */
+    // Utilities
     void fill(float value);
-    /**
-     * @brief TBD: Describe zero.
-     */
     void zero();
-    /**
-     * @brief TBD: Describe clone.
-     * @return Return value.
-     */
     Tensor clone() const;
     
     // Gradient storage (for training)
@@ -247,25 +204,11 @@ private:
 namespace tensor_utils {
     // Random initialization
     Tensor randn(const std::vector<size_t>& shape, float mean = 0.0f, float std = 1.0f);
-    /**
-     * @brief TBD: Describe xavier_uniform.
-     * @param[in] shape Input parameter.
-     * @return Return value.
-     */
     Tensor xavier_uniform(const std::vector<size_t>& shape);
     Tensor kaiming_uniform(const std::vector<size_t>& shape, float a = 0.0f);
     
-    /**
-     * @brief Zero initialization
-     * @param[in] shape Input parameter.
-     * @return Return value.
-     */
+    // Zero initialization
     Tensor zeros(const std::vector<size_t>& shape);
-    /**
-     * @brief TBD: Describe ones.
-     * @param[in] shape Input parameter.
-     * @return Return value.
-     */
     Tensor ones(const std::vector<size_t>& shape);
 } // namespace tensor_utils
 
@@ -279,29 +222,17 @@ class SGDOptimizer {
 public:
     explicit SGDOptimizer(float learning_rate = 0.001f, float momentum = 0.0f, float weight_decay = 0.0f);
     
-    /**
-     * @brief Register parameters to optimize
-     * @param[in] params Input parameter.
-     */
+    // Register parameters to optimize
     void add_parameters(const std::vector<Tensor*>& params);
     
-    /**
-     * @brief Perform optimization step (update parameters using gradients)
-     */
+    // Perform optimization step (update parameters using gradients)
     void step();
     
-    /**
-     * @brief Zero out all gradients
-     */
+    // Zero out all gradients
     void zero_grad();
     
     // Getters/Setters
     float learning_rate() const { return learning_rate_; }
-    /**
-     * @brief TBD: Describe set_learning_rate.
-     * @param[in] lr Input parameter.
-     * @details Implements set_learning_rate without additional internal calls.
-     */
     void set_learning_rate(float lr) { learning_rate_ = lr; }
 
 private:
@@ -329,10 +260,6 @@ private:
  */
 class AdamOptimizer {
 public:
-    /**
-     * @brief TBD: Describe ~AdamOptimizer.
-     * @return Return value.
-     */
     virtual ~AdamOptimizer() = default;
     /**
      * @brief Construct Adam optimizer
@@ -350,29 +277,17 @@ public:
         float weight_decay = 0.0f
     );
     
-    /**
-     * @brief Register parameters to optimize
-     * @param[in] params Input parameter.
-     */
+    // Register parameters to optimize
     void add_parameters(const std::vector<Tensor*>& params);
     
-    /**
-     * @brief Perform optimization step (update parameters using gradients)
-     */
+    // Perform optimization step (update parameters using gradients)
     void step();
     
-    /**
-     * @brief Zero out all gradients
-     */
+    // Zero out all gradients
     void zero_grad();
     
     // Getters/Setters
     float learning_rate() const { return learning_rate_; }
-    /**
-     * @brief TBD: Describe set_learning_rate.
-     * @param[in] lr Input parameter.
-     * @details Implements set_learning_rate without additional internal calls.
-     */
     void set_learning_rate(float lr) { learning_rate_ = lr; }
     int step_count() const { return step_count_; }
 
@@ -403,10 +318,6 @@ private:
  */
 class AdamWOptimizer {
 public:
-    /**
-     * @brief TBD: Describe ~AdamWOptimizer.
-     * @return Return value.
-     */
     virtual ~AdamWOptimizer() = default;
     /**
      * @brief Construct AdamW optimizer
@@ -424,29 +335,17 @@ public:
         float weight_decay = 0.01f
     );
     
-    /**
-     * @brief Register parameters to optimize
-     * @param[in] params Input parameter.
-     */
+    // Register parameters to optimize
     void add_parameters(const std::vector<Tensor*>& params);
     
-    /**
-     * @brief Perform optimization step (update parameters using gradients)
-     */
+    // Perform optimization step (update parameters using gradients)
     void step();
     
-    /**
-     * @brief Zero out all gradients
-     */
+    // Zero out all gradients
     void zero_grad();
     
     // Getters/Setters
     float learning_rate() const { return learning_rate_; }
-    /**
-     * @brief TBD: Describe set_learning_rate.
-     * @param[in] lr Input parameter.
-     * @details Implements set_learning_rate without additional internal calls.
-     */
     void set_learning_rate(float lr) { learning_rate_ = lr; }
     int step_count() const { return step_count_; }
 

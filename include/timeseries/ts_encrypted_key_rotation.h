@@ -127,9 +127,6 @@ public:
     }
 
 private:
-    /**
-     * @brief TBD: Describe rotationLoop.
-     */
     void rotationLoop();
 
     rocksdb::TransactionDB*              db_;

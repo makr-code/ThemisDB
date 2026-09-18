@@ -182,7 +182,6 @@ public:
      * 
      * @note The background worker thread is started immediately and will begin
      *       processing queued segments.
-     * @return Return value.
      */
     explicit AsyncWalShipper(WalShippingConfig config);
 

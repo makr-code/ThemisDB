@@ -161,12 +161,8 @@ private:
         const std::string& schema_context
     ) const;
 
-    /**
-     * @brief Return true when the lowercase AQL text contains a FOR keyword (i.
-     * @param[in] aql_lower Input parameter.
-     * @return True on success.
-     * @details e. "for" followed by whitespace or a parenthesis)
-     */
+    /// Return true when the lowercase AQL text contains a FOR keyword
+    /// (i.e. "for" followed by whitespace or a parenthesis)
     static bool containsFOR(const std::string& aql_lower);
 
     /// Return true when @p keyword appears as a whole word in @p aql_lower

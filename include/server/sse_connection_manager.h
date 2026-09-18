@@ -65,12 +65,6 @@ public:
         uint64_t total_dropped_events = 0;
     };
 
-    /**
-     * @brief TBD: Describe SseConnectionManager.
-     * @param[in] changefeed Input parameter.
-     * @param[in,out] ioc Input/output parameter.
-     * @return Return value.
-     */
     explicit SseConnectionManager(
         std::shared_ptr<Changefeed> changefeed,
         boost::asio::io_context& ioc
@@ -81,7 +75,6 @@ public:
      * @param changefeed Shared changefeed source used for polling events.
      * @param ioc io_context used for timer scheduling.
      * @param config Connection and backpressure policy.
-     * @return Return value.
      */
     explicit SseConnectionManager(
         std::shared_ptr<Changefeed> changefeed,
@@ -182,9 +175,6 @@ private:
         std::chrono::steady_clock::time_point window_start{std::chrono::steady_clock::now()};
     };
 
-    /**
-     * @brief TBD: Describe backgroundPollTask.
-     */
     void backgroundPollTask();
 
     std::shared_ptr<Changefeed> changefeed_;

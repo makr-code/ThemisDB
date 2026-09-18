@@ -33,12 +33,8 @@ namespace metrics {
  */
 class BackendMetrics {
 public:
-    /**
-     * @brief @brief Constructor initializing metrics for a specific backend @param backend_name Name of the backend (e.
-     * @param[in] backend_name Input parameter.
-     * @return Return value.
-     * @details g., "cuda", "hip", "opencl", "metal")
-     */
+    /// @brief Constructor initializing metrics for a specific backend
+    /// @param backend_name Name of the backend (e.g., "cuda", "hip", "opencl", "metal")
     explicit BackendMetrics(const std::string& backend_name) 
         : backend_name_(backend_name) {
         registerMetrics();
@@ -58,23 +54,17 @@ public:
         }
     }
     
-    /**
-     * @brief @brief Record backend initialization duration @param seconds Time taken for initialization in seconds (floating-point)
-     * @param[in] seconds Input parameter.
-     * @details Calls: observe().
-     */
+    /// @brief Record backend initialization duration
+    /// @param seconds Time taken for initialization in seconds (floating-point)
     void recordInitDuration(double seconds) {
         if (init_duration_) {
           init_duration_->observe(seconds);
         }
     }
     
-    /**
-     * @brief @brief Record L2 distance operation completion @param duration_seconds Time taken for the operation in seconds @param vector_count Number of vectors processed in this operation
-     * @param[in] duration_seconds Input parameter.
-     * @param[in] vector_count Input parameter.
-     * @details Calls: observe(), increment().
-     */
+    /// @brief Record L2 distance operation completion
+    /// @param duration_seconds Time taken for the operation in seconds
+    /// @param vector_count Number of vectors processed in this operation
     void recordL2DistanceOperation(double duration_seconds, size_t vector_count) {
         if (l2_distance_duration_) {
           l2_distance_duration_->observe(duration_seconds);
@@ -87,12 +77,9 @@ public:
         }
     }
     
-    /**
-     * @brief @brief Record cosine similarity operation completion @param duration_seconds Time taken for the operation in seconds @param vector_count Number of vectors processed in this operation
-     * @param[in] duration_seconds Input parameter.
-     * @param[in] vector_count Input parameter.
-     * @details Calls: observe(), increment().
-     */
+    /// @brief Record cosine similarity operation completion
+    /// @param duration_seconds Time taken for the operation in seconds
+    /// @param vector_count Number of vectors processed in this operation
     void recordCosineOperation(double duration_seconds, size_t vector_count) {
         if (cosine_duration_) {
           cosine_duration_->observe(duration_seconds);
@@ -105,33 +92,24 @@ public:
         }
     }
     
-    /**
-     * @brief @brief Update current device memory usage @param bytes Number of bytes currently in use on device
-     * @param[in] bytes Input parameter.
-     * @details Calls: set().
-     */
+    /// @brief Update current device memory usage
+    /// @param bytes Number of bytes currently in use on device
     void setDeviceMemoryUsed(double bytes) {
         if (device_memory_used_) {
           device_memory_used_->set(bytes);
         }
     }
     
-    /**
-     * @brief @brief Update available device memory @param bytes Number of bytes available on device
-     * @param[in] bytes Input parameter.
-     * @details Calls: set().
-     */
+    /// @brief Update available device memory
+    /// @param bytes Number of bytes available on device
     void setDeviceMemoryAvailable(double bytes) {
         if (device_memory_available_) {
           device_memory_available_->set(bytes);
         }
     }
     
-    /**
-     * @brief @brief Update command queue depth @param depth Current number of queued operations
-     * @param[in] depth Input parameter.
-     * @details Calls: set().
-     */
+    /// @brief Update command queue depth
+    /// @param depth Current number of queued operations
     void setQueueDepth(double depth) {
         if (queue_depth_) {
           queue_depth_->set(depth);
@@ -160,22 +138,16 @@ public:
         }
     }
     
-    /**
-     * @brief @brief Update the count of available devices @param count Number of available acceleration devices
-     * @param[in] count Input parameter.
-     * @details Calls: set().
-     */
+    /// @brief Update the count of available devices
+    /// @param count Number of available acceleration devices
     void setDeviceCount(int count) {
         if (device_count_) {
           device_count_->set(count);
         }
     }
     
-    /**
-     * @brief @brief Update the index of the currently active device @param index Index (0-based) of the active device
-     * @param[in] index Input parameter.
-     * @details Calls: set().
-     */
+    /// @brief Update the index of the currently active device
+    /// @param index Index (0-based) of the active device
     void setActiveDeviceIndex(int index) {
         if (active_device_) {
           active_device_->set(index);

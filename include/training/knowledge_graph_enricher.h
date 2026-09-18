@@ -133,7 +133,6 @@ public:
      * @brief Construct graph enricher
      * @param config Enrichment configuration
      * @param db_connection Database connection string
-     * @return Return value.
      */
     explicit KnowledgeGraphEnricher(const EnrichmentConfig& config,
                                     const std::string& db_connection);
@@ -273,7 +272,6 @@ public:
 
     /**
      * @brief Return current cache hit/miss/eviction statistics.
-     * @return Return value.
      */
     EnrichmentCacheStats getCacheStats() const;
 

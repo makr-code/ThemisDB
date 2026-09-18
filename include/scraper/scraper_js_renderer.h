@@ -65,10 +65,6 @@ struct JsRenderResult {
  */
 class IScraperJSRenderer {
 public:
-    /**
-     * @brief TBD: Describe ~IScraperJSRenderer.
-     * @return Return value.
-     */
     virtual ~IScraperJSRenderer() = default;
 
     /**
@@ -85,7 +81,6 @@ public:
      * For SubprocessJSRenderer this means the renderer command is non-empty
      * and its first token resolves to an executable on PATH.  Call before
      * ScraperPlugin::initialize() to validate JS rendering mode.
-     * @return True on success.
      */
     virtual bool isAvailable() const = 0;
 };
@@ -113,11 +108,6 @@ public:
  */
 class SubprocessJSRenderer : public IScraperJSRenderer {
 public:
-    /**
-     * @brief TBD: Describe SubprocessJSRenderer.
-     * @param[in] renderer_cmd Input parameter.
-     * @return Return value.
-     */
     explicit SubprocessJSRenderer(std::string renderer_cmd);
     ~SubprocessJSRenderer() override = default;
 
@@ -148,18 +138,9 @@ class InMemoryJSRenderer : public IScraperJSRenderer {
 public:
     InMemoryJSRenderer() = default;
 
-    /**
-     * @brief TBD: Describe injectResult.
-     * @param[in] result Input parameter.
-     * @details Calls: push_back(), std::move().
-     */
     void injectResult(JsRenderResult result) {
         injected_.push_back(std::move(result));
     }
-    /**
-     * @brief TBD: Describe clearInjections.
-     * @details Calls: clear().
-     */
     void clearInjections() {
         injected_.clear();
         call_count_ = 0;

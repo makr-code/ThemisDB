@@ -34,10 +34,6 @@ namespace lora {
  */
 class FeedbackPlugin {
 public:
-    /**
-     * @brief TBD: Describe ~FeedbackPlugin.
-     * @return Return value.
-     */
     virtual ~FeedbackPlugin() = default;
     
     /**
@@ -130,17 +126,7 @@ public:
     std::string getName() const override { return "ContentValidationPlugin"; }
     
 private:
-    /**
-     * @brief TBD: Describe containsSpam.
-     * @param[in] text Input parameter.
-     * @return True on success.
-     */
     bool containsSpam(const std::string& text) const;
-    /**
-     * @brief TBD: Describe containsProfanity.
-     * @param[in] text Input parameter.
-     * @return True on success.
-     */
     bool containsProfanity(const std::string& text) const;
 };
 
@@ -156,11 +142,6 @@ public:
         std::chrono::hours max_wait_time{24};
     };
     
-    /**
-     * @brief TBD: Describe TrainingTriggerPlugin.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit TrainingTriggerPlugin(const Config& config)
         : config_(config) {}
     
@@ -172,11 +153,6 @@ public:
     
 private:
     Config config_;
-    /**
-     * @brief TBD: Describe calculateAverageRating.
-     * @param[in] batch Input parameter.
-     * @return Return value.
-     */
     float calculateAverageRating(const std::vector<Feedback>& batch) const;
 };
 
@@ -203,11 +179,6 @@ public:
         bool disable_cache_training = false;         // If true, don't train on cached at all
     };
     
-    /**
-     * @brief TBD: Describe CacheAwareWeightingPlugin.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit CacheAwareWeightingPlugin(const Config& config)
         : config_(config) {}
     
@@ -219,11 +190,6 @@ public:
     
 private:
     Config config_;
-    /**
-     * @brief TBD: Describe calculateCacheWeight.
-     * @param[in] feedback Input parameter.
-     * @return Return value.
-     */
     float calculateCacheWeight(const Feedback& feedback) const;
 };
 

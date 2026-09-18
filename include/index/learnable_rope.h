@@ -73,10 +73,8 @@ public:
     
     // ===== Training Mode Control =====
     
-    /**
-     * @brief Set training mode (affects gradient computation) @param training If true, gradients are computed during rotation
-     * @param[in] training Input parameter.
-     */
+    /// Set training mode (affects gradient computation)
+    /// @param training If true, gradients are computed during rotation
     void setTrainingMode(bool training);
     
     /// Check if in training mode
@@ -87,36 +85,30 @@ public:
     
     // ===== Training Interface =====
     
-    /**
-     * @brief Train the learnable theta parameters on a dataset Uses contrastive learning objective to optimize positional encoding @param samples Training samples with embeddings, positions, and targets @param config Training configuration (learning rate, batch size, etc.
-     * @param[in] samples Input parameter.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     * @details ) @return Training loss history (one value per epoch)
-     */
+    /// Train the learnable theta parameters on a dataset
+    /// Uses contrastive learning objective to optimize positional encoding
+    /// @param samples Training samples with embeddings, positions, and targets
+    /// @param config Training configuration (learning rate, batch size, etc.)
+    /// @return Training loss history (one value per epoch)
     std::vector<float> train(
         const std::vector<TrainingSample>& samples,
         const TrainingConfig& config
     );
     
-    /**
-     * @brief Compute gradients for a single sample (used internally during training) @param embedding Input embedding @param target_similarity Target similarity for contrastive loss @param position Position index @return Gradients with respect to theta parameters
-     * @param[in] embedding Input parameter.
-     * @param[in] target_similarity Input parameter.
-     * @param[in] position Input parameter.
-     * @return Return value.
-     */
+    /// Compute gradients for a single sample (used internally during training)
+    /// @param embedding Input embedding
+    /// @param target_similarity Target similarity for contrastive loss
+    /// @param position Position index
+    /// @return Gradients with respect to theta parameters
     std::vector<double> computeGradients(
         const std::vector<float>& embedding,
         float target_similarity,
         size_t position
     );
     
-    /**
-     * @brief Update theta parameters using computed gradients @param gradients Gradients for each theta value @param learning_rate Learning rate for the update
-     * @param[in] gradients Input parameter.
-     * @param[in] learning_rate Input parameter.
-     */
+    /// Update theta parameters using computed gradients
+    /// @param gradients Gradients for each theta value
+    /// @param learning_rate Learning rate for the update
     void updateParameters(
         const std::vector<double>& gradients,
         float learning_rate
@@ -135,35 +127,26 @@ public:
     
     // ===== Serialization =====
     
-    /**
-     * @brief Save trained parameters to file (JSON format) Stores theta values, configuration, and training metadata @param path File path for saving @return True if successful, false otherwise
-     * @param[in] path Input parameter.
-     * @return True on success.
-     */
+    /// Save trained parameters to file (JSON format)
+    /// Stores theta values, configuration, and training metadata
+    /// @param path File path for saving
+    /// @return True if successful, false otherwise
     bool saveParameters(const std::string& path) const;
     
-    /**
-     * @brief Load trained parameters from file @param path File path for loading @return True if successful, false otherwise
-     * @param[in] path Input parameter.
-     * @return True on success.
-     */
+    /// Load trained parameters from file
+    /// @param path File path for loading
+    /// @return True if successful, false otherwise
     bool loadParameters(const std::string& path);
     
     // ===== Validation =====
     
-    /**
-     * @brief Compute validation loss on a held-out dataset @param samples Validation samples @return Average validation loss
-     * @param[in] samples Input parameter.
-     * @return Return value.
-     */
+    /// Compute validation loss on a held-out dataset
+    /// @param samples Validation samples
+    /// @return Average validation loss
     float computeValidationLoss(const std::vector<TrainingSample>& samples) const;
     
-    /**
-     * @brief Rotate using learnable parameters (shadows base class method) This provides the same interface but uses learnable theta values
-     * @param[in] embedding Input parameter.
-     * @param[in] position Input parameter.
-     * @return Return value.
-     */
+    // Rotate using learnable parameters (shadows base class method)
+    // This provides the same interface but uses learnable theta values
     std::vector<float> rotate(
         const std::vector<float>& embedding,
         size_t position

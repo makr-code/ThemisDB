@@ -89,8 +89,6 @@ public:
      *
      * @param pool Shared connection pool (must outlive engine)
      * @throws std::invalid_argument if pool is null
-     * @brief TBD: Describe AnalyticsEngine.
-     * @return Return value.
      */
     explicit AnalyticsEngine(std::shared_ptr<ConnectionPool> pool);
 
@@ -117,7 +115,6 @@ public:
      * @return Query result (success field indicates outcome)
      *
      * @throws std::runtime_error if connection pool exhausted after retries
-     * @brief TBD: Describe ExecuteQuery.
      */
     QueryResult ExecuteQuery(const QueryConfig& config);
 
@@ -131,7 +128,6 @@ public:
      * @return Query result with aggregated data
      *
      * @throws std::invalid_argument if batch is malformed
-     * @brief TBD: Describe RunAggregation.
      */
     QueryResult RunAggregation(const AggregationBatch& batch);
 
@@ -143,7 +139,6 @@ public:
      *
      * @param queries Vector of query configurations
      * @return Vector of results, one per input query
-     * @brief TBD: Describe ProcessBatch.
      */
     std::vector<QueryResult> ProcessBatch(const std::vector<QueryConfig>& queries);
 
@@ -167,7 +162,6 @@ public:
      *
      * @param size Number of connections in pool
      * @throws std::invalid_argument if size <= 0
-     * @brief TBD: Describe SetPoolSize.
      */
     void SetPoolSize(int size);
 
@@ -183,19 +177,12 @@ public:
         int total{0};
         int peak_used{0};
     };
-    /**
-     * @brief TBD: Describe GetPoolStats.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
     PoolStats GetPoolStats() const noexcept;
 
     /**
      * Check if pool is exhausted.
      *
      * @return true if no connections available
-     * @brief TBD: Describe IsPoolExhausted.
-     * @note Exception safety: noexcept.
      */
     bool IsPoolExhausted() const noexcept;
 
@@ -236,7 +223,6 @@ private:
      * Validate connection pool state.
      *
      * @throws std::runtime_error if pool is unavailable
-     * @brief TBD: Describe ValidatePoolState.
      */
     void ValidatePoolState() const;
 

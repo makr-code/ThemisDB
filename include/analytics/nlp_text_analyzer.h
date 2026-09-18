@@ -170,8 +170,6 @@ public:
 
     /**
      * @brief Construct NLP analyzer with configuration
-     * @param[in] config Input parameter.
-     * @return Return value.
      */
     explicit NlpTextAnalyzer(const Config& config);
     
@@ -363,119 +361,42 @@ private:
     mutable size_t analysis_count_ = 0;
     mutable size_t token_count_ = 0;
 
-    /**
-     * @brief ========== Private Helper Methods ==========
-     */
+    // ========== Private Helper Methods ==========
     
     void initializeStopWords();
-    /**
-     * @brief TBD: Describe initializeSentimentLexicon.
-     */
     void initializeSentimentLexicon();
-    /**
-     * @brief TBD: Describe initializeEntityPatterns.
-     */
     void initializeEntityPatterns();
     
-    /**
-     * @brief TBD: Describe splitSentences.
-     * @param[in] text Input parameter.
-     * @return Return value.
-     */
     std::vector<std::string> splitSentences(std::string_view text) const;
-    /**
-     * @brief TBD: Describe toLowerCase.
-     * @param[in] text Input parameter.
-     * @return Return value.
-     */
     std::string toLowerCase(std::string_view text) const;
-    /**
-     * @brief TBD: Describe removePunctuation.
-     * @param[in] text Input parameter.
-     * @return Return value.
-     */
     std::string removePunctuation(std::string_view text) const;
     
     double calculateTfIdf(const std::string& term,
                          const std::map<std::string, size_t>& term_freqs,
                          size_t total_terms) const;
     
-    /**
-     * @brief TBD: Describe isCapitalized.
-     * @param[in] word Input parameter.
-     * @return True on success.
-     */
     bool isCapitalized(std::string_view word) const;
-    /**
-     * @brief TBD: Describe isAllCaps.
-     * @param[in] word Input parameter.
-     * @return True on success.
-     */
     bool isAllCaps(std::string_view word) const;
-    /**
-     * @brief TBD: Describe countSyllables.
-     * @param[in] word Input parameter.
-     * @return Return value.
-     */
     size_t countSyllables(std::string_view word) const;
     
-    /**
-     * @brief Query-specific helpers
-     * @param[in] query Input parameter.
-     * @return True on success.
-     */
+    // Query-specific helpers
     bool containsAggregation(std::string_view query) const;
-    /**
-     * @brief TBD: Describe containsJoin.
-     * @param[in] query Input parameter.
-     * @return True on success.
-     */
     bool containsJoin(std::string_view query) const;
-    /**
-     * @brief TBD: Describe containsSubquery.
-     * @param[in] query Input parameter.
-     * @return True on success.
-     */
     bool containsSubquery(std::string_view query) const;
-    /**
-     * @brief TBD: Describe extractTableNames.
-     * @param[in] query Input parameter.
-     * @return Return value.
-     */
     std::vector<std::string> extractTableNames(std::string_view query) const;
     
-    /**
-     * @brief Morphological lemmatization helpers
-     */
+    // Morphological lemmatization helpers
     void initializeLemmatizationData();
-    /**
-     * @brief TBD: Describe applyMorphologicalRules.
-     * @param[in] lower Input parameter.
-     * @param[in] lang Input parameter.
-     * @return Return value.
-     */
     std::string applyMorphologicalRules(const std::string& lower,
                                         Language lang) const;
 
-    /**
-     * @brief Legal modality helpers
-     * @param[in] config_path Input parameter.
-     * @return True on success.
-     */
+    // Legal modality helpers
     bool loadLegalModalityConfig(const std::string& config_path) const;
-    /**
-     * @brief TBD: Describe getDefaultLegalConfigPath.
-     * @param[in] language_code Input parameter.
-     * @return Return value.
-     */
     std::string getDefaultLegalConfigPath(const std::string& language_code) const;
 };
 
 /**
  * @brief Helper function to convert language enum to string
- * @param[in] lang Input parameter.
- * @return Return value.
- * @details Implements languageToString without additional internal calls.
  */
 inline std::string_view languageToString(NlpTextAnalyzer::Language lang) {
     switch (lang) {

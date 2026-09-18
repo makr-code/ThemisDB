@@ -292,13 +292,8 @@ private:
 
     // ---- Helpers -------------------------------------------------------------
 
-    /**
-     * @brief Compute the @p q quantile from a sorted vector using the nearest-rank method.
-     * @param[in] sorted_vals Input parameter.
-     * @param[in] q Input parameter.
-     * @return Return value.
-     * @details @p q must be in [0, 1].
-     */
+    /// Compute the @p q quantile from a sorted vector using the nearest-rank
+    /// method.  @p q must be in [0, 1].
     static double computeQuantile(const std::vector<double>& sorted_vals, double q);
 };
 

@@ -57,32 +57,19 @@ public:
     struct Status {
         bool ok = true;
         std::string message;
-        /**
-         * @brief TBD: Describe OK.
-         * @return Return value.
-         * @details Implements OK without additional internal calls.
-         */
         static Status OK() { return {}; }
-        /**
-         * @brief TBD: Describe Error.
-         * @param[in] msg Input parameter.
-         * @return Return value.
-         * @details Calls: std::move().
-         */
         static Status Error(std::string msg) { return Status{false, std::move(msg)}; }
     };
 
     /**
      * @brief Construct a new Binary Quantizer.
      * @param dimension Vector dimension.
-     * @return Return value.
      */
     explicit BinaryQuantizer(int dimension);
     /**
      * @brief Construct a new Binary Quantizer.
      * @param dimension Vector dimension.
      * @param config Configuration parameters.
-     * @return Return value.
      */
     explicit BinaryQuantizer(int dimension, const Config& config);
     
@@ -178,17 +165,8 @@ private:
     float scale_ = 1.0f;
     std::vector<float> mean_values_;
 
-    /**
-     * @brief Helper methods
-     * @param[in] vector Input parameter.
-     * @return Return value.
-     */
+    // Helper methods
     float computeNorm(const std::vector<float>& vector) const;
-    /**
-     * @brief TBD: Describe popcount.
-     * @param[in] byte Input parameter.
-     * @return Return value.
-     */
     int popcount(uint8_t byte) const;
     
     // Backend tracking

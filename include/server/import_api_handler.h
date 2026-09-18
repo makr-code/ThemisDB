@@ -113,106 +113,29 @@ public:
      *
      * Call once after constructing the handler, before calling
      * `server.listen()`.
-     * @param[in,out] server Input/output parameter.
      */
     void registerRoutes(httplib::Server& server);
 
 private:
-    /**
-     * @brief Route handlers
-     * @param[in] req Input parameter.
-     * @param[in,out] res Input/output parameter.
-     */
+    // Route handlers
     void handleStartImport      (const httplib::Request& req, httplib::Response& res);
-    /**
-     * @brief TBD: Describe handleStartMySQLImport.
-     * @param[in] req Input parameter.
-     * @param[in,out] res Input/output parameter.
-     */
     void handleStartMySQLImport (const httplib::Request& req, httplib::Response& res);
-    /**
-     * @brief TBD: Describe handleStartS3Import.
-     * @param[in] req Input parameter.
-     * @param[in,out] res Input/output parameter.
-     */
     void handleStartS3Import    (const httplib::Request& req, httplib::Response& res);
-    /**
-     * @brief TBD: Describe handleJobStatus.
-     * @param[in] req Input parameter.
-     * @param[in,out] res Input/output parameter.
-     */
     void handleJobStatus        (const httplib::Request& req, httplib::Response& res);
-    /**
-     * @brief TBD: Describe handleCancelJob.
-     * @param[in] req Input parameter.
-     * @param[in,out] res Input/output parameter.
-     */
     void handleCancelJob        (const httplib::Request& req, httplib::Response& res);
-    /**
-     * @brief TBD: Describe handleListJobs.
-     * @param[in] req Input parameter.
-     * @param[in,out] res Input/output parameter.
-     */
     void handleListJobs         (const httplib::Request& req, httplib::Response& res);
-    /**
-     * @brief TBD: Describe handleMetrics.
-     * @param[in] req Input parameter.
-     * @param[in,out] res Input/output parameter.
-     */
     void handleMetrics          (const httplib::Request& req, httplib::Response& res);
-    /**
-     * @brief TBD: Describe handleImportWizard.
-     * @param[in] req Input parameter.
-     * @param[in,out] res Input/output parameter.
-     */
     void handleImportWizard     (const httplib::Request& req, httplib::Response& res);
 
-    /**
-     * @brief v2.
-     * @param[in] req Input parameter.
-     * @param[in,out] res Input/output parameter.
-     * @details 0 Route handlers
-     */
+    // v2.0 Route handlers
     void handleGetSchema        (const httplib::Request& req, httplib::Response& res);
-    /**
-     * @brief TBD: Describe handleValidateSchema.
-     * @param[in] req Input parameter.
-     * @param[in,out] res Input/output parameter.
-     */
     void handleValidateSchema   (const httplib::Request& req, httplib::Response& res);
-    /**
-     * @brief TBD: Describe handleUpdateRelationships.
-     * @param[in] req Input parameter.
-     * @param[in,out] res Input/output parameter.
-     */
     void handleUpdateRelationships(const httplib::Request& req, httplib::Response& res);
 
-    /**
-     * @brief Helpers
-     * @param[in] body Input parameter.
-     * @return Return value.
-     */
+    // Helpers
     static nlohmann::json parseRequestBody(const std::string& body);
-    /**
-     * @brief TBD: Describe optionsFromJson.
-     * @param[in] j Input parameter.
-     * @return Return value.
-     */
     static importers::ImportOptions optionsFromJson(const nlohmann::json& j);
-    /**
-     * @brief TBD: Describe jsonOk.
-     * @param[in,out] res Input/output parameter.
-     * @param[in] body Input parameter.
-     * @return Return value.
-     */
     static httplib::Response& jsonOk(httplib::Response& res, const nlohmann::json& body);
-    /**
-     * @brief TBD: Describe jsonError.
-     * @param[in,out] res Input/output parameter.
-     * @param[in] status Input parameter.
-     * @param[in] message Input parameter.
-     * @return Return value.
-     */
     static httplib::Response& jsonError(httplib::Response& res, int status,
                                         const std::string& message);
 

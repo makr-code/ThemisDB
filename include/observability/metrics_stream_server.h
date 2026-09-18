@@ -182,8 +182,6 @@ public:
      * purposes and sets the running flag.
      *
      * @throws std::runtime_error if @p bind_address is empty or @p port is 0.
-     * @param[in] bind_address Input parameter.
-     * @param[in] port Input parameter.
      */
     void start(const std::string& bind_address, uint16_t port);
 
@@ -195,19 +193,12 @@ public:
      */
     void stop();
 
-     * @brief TBD: Describe isRunning.
-     * @return True on success.
-     * @note Exception safety: noexcept.
     /** Returns true if the server has been started and not yet stopped. */
     bool isRunning() const noexcept;
 
-     * @brief TBD: Describe bindAddress.
-     * @return Return value.
     /** Returns the configured bind address (empty if @c start() was not called). */
     std::string bindAddress() const;
 
-     * @brief TBD: Describe port.
-     * @return Return value.
     /** Returns the configured port (0 if @c start() was not called). */
     uint16_t port() const;
 
@@ -222,7 +213,6 @@ public:
      * overwritten.  At most one subscription per @c client_id is supported.
      *
      * @throws std::invalid_argument if @c subscription.client_id is empty.
-     * @param[in] subscription Input parameter.
      */
     void subscribe(const StreamSubscription& subscription);
 
@@ -230,20 +220,15 @@ public:
      * @brief Remove a client subscription.
      *
      * No-op if @p client_id is not currently subscribed.
-     * @param[in] client_id Input parameter.
      */
     void unsubscribe(const std::string& client_id);
 
-     * @brief TBD: Describe subscriptionCount.
-     * @return Return value.
     /** Returns the number of active subscriptions. */
     size_t subscriptionCount() const;
 
     /**
      * @brief Returns true if a subscription exists for @p client_id,
      *        false otherwise.
-     * @param[in] client_id Input parameter.
-     * @return True on success.
      */
     bool hasSubscription(const std::string& client_id) const;
 
@@ -265,7 +250,6 @@ public:
      *  4. Serialises the update to JSON and invokes the @c SendFn callback.
      *
      * Thread-safe; may be called concurrently from multiple producer threads.
-     * @param[in] update Input parameter.
      */
     void pushMetrics(const MetricUpdate& update);
 
@@ -280,8 +264,6 @@ public:
      * ```json
      * {"type":"metric_update","metric_name":"...","value":...,"labels":{...},"timestamp_ms":...}
      * ```
-     * @param[in] update Input parameter.
-     * @return Return value.
      */
     static std::string formatWebSocketMessage(const MetricUpdate& update);
 
@@ -292,8 +274,6 @@ public:
      * ```
      * data: {"type":"metric_update",...}\n\n
      * ```
-     * @param[in] update Input parameter.
-     * @return Return value.
      */
     static std::string formatSseMessage(const MetricUpdate& update);
 
@@ -301,12 +281,9 @@ public:
     // Observability
     // -------------------------------------------------------------------------
 
-     * @brief TBD: Describe getStats.
-     * @return Return value.
     /** Return a snapshot of current runtime statistics. */
     Stats getStats() const;
 
-     * @brief TBD: Describe resetStats.
     /** Reset all statistics counters to zero. */
     void resetStats();
 

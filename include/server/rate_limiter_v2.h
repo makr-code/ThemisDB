@@ -133,11 +133,6 @@ public:
         std::string bucket_id = "default";
     };
 
-    /**
-     * @brief TBD: Describe TokenBucketRateLimiter.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit TokenBucketRateLimiter(const Config& config);
     ~TokenBucketRateLimiter();
 
@@ -325,15 +320,7 @@ private:
             , last_refill(std::chrono::steady_clock::now())
         {}
 
-        /**
-         * @brief TBD: Describe refill.
-         */
         void refill();
-        /**
-         * @brief TBD: Describe consume.
-         * @param[in] count Input parameter.
-         * @return True on success.
-         */
         bool consume(size_t count);
     };
 
@@ -342,63 +329,34 @@ private:
     /// Build the Redis key for a given priority lane.
     std::string redisKey(const std::string& bucket_id, Priority prio) const;
 
-    /**
-     * @brief Initialise all pool slots (connect + load Lua script).
-     * @return True on success.
-     * @details Returns false if no slot could be connected; redis_healthy_ is set accordingly.
-     */
+    /// Initialise all pool slots (connect + load Lua script).  Returns false
+    /// if no slot could be connected; redis_healthy_ is set accordingly.
     bool redisConnect();
 
-    /**
-     * @brief Execute the EVALSHA token-bucket Lua script on Redis.
-     * @param[in] prio Input parameter.
-     * @param[in] capacity Input parameter.
-     * @param[in] refill_rate Input parameter.
-     * @param[in] consume_count Input parameter.
-     * @return Return value.
-     * @details Borrows a connection from the pool, executes, and returns it. Returns -1 on Redis error (triggers local fallback), 1 if allowed, 0 if rejected.
-     */
+    /// Execute the EVALSHA token-bucket Lua script on Redis.
+    /// Borrows a connection from the pool, executes, and returns it.
+    /// Returns -1 on Redis error (triggers local fallback), 1 if allowed, 0 if rejected.
     int redisEvalBucket(Priority prio, size_t capacity, size_t refill_rate,
                         size_t consume_count);
 
 #ifdef THEMIS_ENABLE_REDIS
-    /**
-     * @brief Execute EVALSHA on a borrowed slot (caller holds the slot exclusively).
-     * @param[in,out] slot Input/output parameter.
-     * @param[in] key Input parameter.
-     * @param[in] capacity Input parameter.
-     * @param[in] refill_rate Input parameter.
-     * @param[in] consume_count Input parameter.
-     * @return Return value.
-     * @details Returns -1 on error, 1 if allowed, 0 if rejected.
-     */
+    /// Execute EVALSHA on a borrowed slot (caller holds the slot exclusively).
+    /// Returns -1 on error, 1 if allowed, 0 if rejected.
     int redisExecEvalsha(RedisConnectionPool::Slot& slot,
                          const std::string& key, size_t capacity,
                          size_t refill_rate, size_t consume_count);
 #endif
 
-    /**
-     * @brief Mark Redis as unhealthy; increments error counter and, if max_errors reached, sets redis_healthy_ = false and emits a WARN log.
-     */
+    /// Mark Redis as unhealthy; increments error counter and, if max_errors
+    /// reached, sets redis_healthy_ = false and emits a WARN log.
     void markRedisError();
 
-    /**
-     * @brief Perform a probe to see whether Redis has recovered; if so, resets the error counter and sets redis_healthy_ = true.
-     */
+    /// Perform a probe to see whether Redis has recovered; if so, resets the
+    /// error counter and sets redis_healthy_ = true.
     void tryRedisRecover();
 
-    /**
-     * @brief ---- Local (in-process) helpers ----
-     * @param[in] tokens Input parameter.
-     * @param[in] prio Input parameter.
-     * @return True on success.
-     */
+    // ---- Local (in-process) helpers ----
     bool localTryAcquire(size_t tokens, Priority prio);
-    /**
-     * @brief TBD: Describe localAvailableTokens.
-     * @param[in] prio Input parameter.
-     * @return Return value.
-     */
     size_t localAvailableTokens(Priority prio) const;
 
     Config config_;
@@ -472,11 +430,6 @@ public:
     };
 
     PerClientRateLimiter();
-    /**
-     * @brief TBD: Describe PerClientRateLimiter.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit PerClientRateLimiter(const Config& config);
 
     /**
@@ -501,16 +454,10 @@ public:
         uint64_t total_rejections = 0;
         size_t available_tokens = 0;
     };
-    /**
-     * @brief TBD: Describe getClientMetrics.
-     * @param[in] client_id Input parameter.
-     * @return Return value.
-     */
     ClientMetrics getClientMetrics(const std::string& client_id) const;
 
     /**
      * @brief Get total number of tracked clients
-     * @return Return value.
      */
     size_t getActiveClients() const;
 

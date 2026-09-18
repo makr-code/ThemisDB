@@ -58,18 +58,7 @@ public:
     static_assert(Alignment >= alignof(T), 
                   "Alignment must be at least alignof(T)");
     
-    /**
-     * @brief TBD: Describe AlignedVectorAllocator.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
     constexpr AlignedVectorAllocator() noexcept = default;
-    /**
-     * @brief TBD: Describe AlignedVectorAllocator.
-     * @param[in] param Input parameter.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
     constexpr AlignedVectorAllocator(const AlignedVectorAllocator&) noexcept = default;
     
     template<typename U>
@@ -84,10 +73,6 @@ public:
      */
     [[nodiscard]] T* allocate(std::size_t n) {
         if (n > std::numeric_limits<std::size_t>::max() / sizeof(T)) {
-            /**
-             * @brief TBD: Describe bad_alloc.
-             * @return Return value.
-             */
             throw std::bad_alloc();
         }
         
@@ -95,10 +80,6 @@ public:
         void* ptr = memory::allocate_aligned(bytes, Alignment);
         
         if (!ptr) {
-            /**
-             * @brief TBD: Describe bad_alloc.
-             * @return Return value.
-             */
             throw std::bad_alloc();
         }
         

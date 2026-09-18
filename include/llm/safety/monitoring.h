@@ -45,44 +45,16 @@ class SafetyMonitoring {
 public:
     using ExporterSink = std::function<void(const SafetyEvent&)>;
 
-    /**
-     * @brief TBD: Describe setDurableSinkPath.
-     * @param[in] path Input parameter.
-     * @return True on success.
-     */
     bool setDurableSinkPath(const std::string& path);
-    /**
-     * @brief TBD: Describe clearDurableSinkPath.
-     */
     void clearDurableSinkPath();
 
-    /**
-     * @brief TBD: Describe setExporterSink.
-     * @param[in] sink Input parameter.
-     */
     void setExporterSink(ExporterSink sink);
-    /**
-     * @brief TBD: Describe clearExporterSink.
-     */
     void clearExporterSink();
 
-    /**
-     * @brief TBD: Describe record.
-     * @param[in] event Input parameter.
-     */
     void record(const SafetyEvent& event);
-    /**
-     * @brief TBD: Describe snapshot.
-     * @return Return value.
-     */
     SafetyCountersSnapshot snapshot() const;
 
 private:
-    /**
-     * @brief TBD: Describe toJsonLine.
-     * @param[in] event Input parameter.
-     * @return Return value.
-     */
     static std::string toJsonLine(const SafetyEvent& event);
 
     std::atomic<std::uint64_t> allowed_{0};

@@ -39,10 +39,6 @@ struct WriteConcernConfig {
 
 /**
  * Parse WriteConcern from string
- * @brief TBD: Describe parseWriteConcern.
- * @param[in] str Input parameter.
- * @return Return value.
- * @details Implements parseWriteConcern without additional internal calls.
  */
 inline WriteConcern parseWriteConcern(const std::string& str) {
     if (str == "ONE" || str == "one" || str == "1") {
@@ -59,10 +55,6 @@ inline WriteConcern parseWriteConcern(const std::string& str) {
 
 /**
  * Convert WriteConcern to string
- * @brief TBD: Describe toString.
- * @param[in] wc Input parameter.
- * @return Return value.
- * @details Implements toString without additional internal calls.
  */
 inline std::string toString(WriteConcern wc) {
     switch (wc) {
@@ -76,11 +68,6 @@ inline std::string toString(WriteConcern wc) {
 
 /**
  * Calculate required replica count for given concern
- * @brief TBD: Describe calculateRequiredReplicas.
- * @param[in] concern Input parameter.
- * @param[in] total_replicas Input parameter.
- * @return Return value.
- * @details Implements calculateRequiredReplicas without additional internal calls.
  */
 inline size_t calculateRequiredReplicas(WriteConcern concern, size_t total_replicas) {
     switch (concern) {

@@ -102,7 +102,6 @@ public:
      * @brief Initialize with Keycloak JWKS endpoint
      * @param jwks_url URL to Keycloak JWKS endpoint
      *        Example: https://keycloak.vcc.local/realms/vcc/protocol/openid-connect/certs
-     * @return Return value.
      */
     explicit JWTValidator(const std::string& jwks_url);
 
@@ -110,7 +109,6 @@ public:
      * @brief Initialize validator with full runtime configuration.
      * @param cfg Validator config including JWKS endpoint, cache policy, and validation rules.
      * @throws std::runtime_error when required issuer/audience validation is enabled but not configured.
-     * @return Return value.
      */
     explicit JWTValidator(const JWTValidatorConfig& cfg);
     
@@ -154,7 +152,6 @@ public:
      * @brief Check if user has access to group-encrypted data
      * @param claims User's JWT claims
      * @param encryption_context Context used for encryption (user_id or group name)
-     * @return True on success.
      */
     static bool hasAccess(const JWTClaims& claims, const std::string& encryption_context);
     
@@ -173,8 +170,6 @@ public:
     /**
      * @brief Attach an AuditLogger to receive LOGIN_SUCCESS / LOGIN_FAILED events.
      * Pass nullptr to detach.  The validator does NOT take ownership.
-     * @param[in,out] logger Input/output parameter.
-     * @details Implements setAuditLogger without additional internal calls.
      */
     void setAuditLogger(utils::AuditLogger* logger) { audit_logger_ = logger; }
 
@@ -235,23 +230,11 @@ private:
      * @brief Verify an RSA JWT signature for the given algorithm (RS256/RS384/RS512).
      *
      * Supports SHA-256 (RS256), SHA-384 (RS384), and SHA-512 (RS512) digest algorithms.
-     * @param[in] header_payload Input parameter.
-     * @param[in] signature Input parameter.
-     * @param[in] jwk Input parameter.
-     * @param[in] alg Input parameter.
-     * @return True on success.
      */
     bool verifySignatureRSA(const std::string& header_payload,
                             const std::vector<uint8_t>& signature,
                             const nlohmann::json& jwk,
                             const std::string& alg);
-    /**
-     * @brief TBD: Describe verifySignatureES256.
-     * @param[in] header_payload Input parameter.
-     * @param[in] signature Input parameter.
-     * @param[in] jwk Input parameter.
-     * @return True on success.
-     */
     bool verifySignatureES256(const std::string& header_payload,
                               const std::vector<uint8_t>& signature,
                               const nlohmann::json& jwk);
@@ -260,11 +243,6 @@ private:
      *
      * Dispatches to the appropriate curve (P-256, P-384, P-521) and hash (SHA-256,
      * SHA-384, SHA-512) based on the algorithm label.
-     * @param[in] header_payload Input parameter.
-     * @param[in] signature Input parameter.
-     * @param[in] jwk Input parameter.
-     * @param[in] alg Input parameter.
-     * @return True on success.
      */
     bool verifySignatureEC(const std::string& header_payload,
                            const std::vector<uint8_t>& signature,
@@ -275,10 +253,6 @@ private:
      *
      * Expects a JWK of type "OKP" with crv="Ed25519" and a 32-byte base64url-
      * encoded public key in the "x" field.  Requires OpenSSL ≥ 1.1.1.
-     * @param[in] header_payload Input parameter.
-     * @param[in] signature Input parameter.
-     * @param[in] jwk Input parameter.
-     * @return True on success.
      */
     bool verifySignatureEdDSA(const std::string& header_payload,
                               const std::vector<uint8_t>& signature,

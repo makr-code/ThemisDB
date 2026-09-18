@@ -185,32 +185,11 @@ public:
 private:
     RelationBuilderConfig cfg_;
 
-    /**
-     * @brief TBD: Describe wantsType.
-     * @param[in] t Input parameter.
-     * @return True on success.
-     */
     bool wantsType(const std::string& t) const;
 
-    /**
-     * @brief TBD: Describe buildCitesRelations.
-     * @param[in,out] ctx Input/output parameter.
-     */
     void buildCitesRelations(ExtractionContext& ctx) const;
-    /**
-     * @brief TBD: Describe buildPartOfRelations.
-     * @param[in,out] ctx Input/output parameter.
-     */
     void buildPartOfRelations(ExtractionContext& ctx) const;
-    /**
-     * @brief TBD: Describe buildCoOccurrence.
-     * @param[in,out] ctx Input/output parameter.
-     */
     void buildCoOccurrence(ExtractionContext& ctx) const;
-    /**
-     * @brief TBD: Describe buildIssuedByRelations.
-     * @param[in,out] ctx Input/output parameter.
-     */
     void buildIssuedByRelations(ExtractionContext& ctx) const;
 
     /// Returns true when an identical edge already exists in ctx.relations.

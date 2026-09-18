@@ -65,10 +65,6 @@ struct ScopeAccumulator {
  */
 class ScopeEnforcer {
 public:
-    /**
-     * @brief TBD: Describe ~ScopeEnforcer.
-     * @return Return value.
-     */
     virtual ~ScopeEnforcer() = default;
     
     /**

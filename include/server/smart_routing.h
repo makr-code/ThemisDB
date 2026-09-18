@@ -146,7 +146,6 @@ public:
     /**
      * @brief Construct router with caller-provided configuration.
      * @param config Routing configuration.
-     * @return Return value.
      */
     explicit SmartRouter(const Config& config);
 
@@ -175,7 +174,6 @@ public:
 
     /**
      * @brief Return all currently registered backends.
-     * @return Return value.
      */
     std::vector<BackendEndpoint> listBackends() const;
 
@@ -200,8 +198,6 @@ public:
 
     /**
      * @brief Record a cache miss on a backend for a resource key.
-     * @param[in] backend_id Input parameter.
-     * @param[in] resource_key Input parameter.
      */
     void recordCacheMiss(const std::string& backend_id,
                          const std::string& resource_key);
@@ -210,7 +206,6 @@ public:
      * @brief Increment the active-connection counter for a backend.
      *
      * Call this immediately before dispatching a request.
-     * @param[in] backend_id Input parameter.
      */
     void incrementActiveConnections(const std::string& backend_id);
 
@@ -218,7 +213,6 @@ public:
      * @brief Decrement the active-connection counter for a backend.
      *
      * Call this after a response is received (including on error).
-     * @param[in] backend_id Input parameter.
      */
     void decrementActiveConnections(const std::string& backend_id);
 
@@ -264,15 +258,12 @@ public:
 
     /**
      * @brief Return statistics for all registered backends.
-     * @return Return value.
      */
     std::vector<BackendStats> getAllStats() const;
 
     /**
      * @brief Return statistics for a specific backend.
      * @throws std::out_of_range if backend_id is not registered.
-     * @param[in] backend_id Input parameter.
-     * @return Return value.
      */
     BackendStats getBackendStats(const std::string& backend_id) const;
 
@@ -308,26 +299,17 @@ private:
 
     /**
      * @brief Compute the average of a latency window.
-     * @param[in] window Input parameter.
-     * @return Return value.
-     * @note Exception safety: noexcept.
      */
     static double computeAvg(const std::deque<double>& window) noexcept;
 
     /**
      * @brief Compute the p99 of a latency window (nearest-rank method).
-     * @param[in] window Input parameter.
-     * @return Return value.
      */
     static double computeP99(const std::deque<double>& window);
 
     /**
      * @brief Return true when a backend is high-tail (p99 > threshold) AND
      *        there is at least one other non-high-tail backend available.
-     * @param[in] state Input parameter.
-     * @param[in] has_other_candidates Input parameter.
-     * @return True on success.
-     * @note Exception safety: noexcept.
      */
     bool isHighTail(const BackendState& state,
                     bool has_other_candidates) const noexcept;
@@ -335,8 +317,6 @@ private:
     /**
      * @brief Recompute cached avg/p99 from the current latency window.
      *        MUST be called while holding a unique_lock on mutex_.
-     * @param[in,out] state Input/output parameter.
-     * @note Exception safety: noexcept.
      */
     static void refreshStats(BackendState& state) noexcept;
 

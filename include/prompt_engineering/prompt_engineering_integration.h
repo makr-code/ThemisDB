@@ -66,16 +66,8 @@ struct IntegrationConfig {
     bool background_worker_enabled = true;
     std::chrono::seconds background_worker_interval = std::chrono::hours(1);
     
-    /**
-     * @brief Serialization
-     * @return Return value.
-     */
+    // Serialization
     nlohmann::json toJson() const;
-    /**
-     * @brief TBD: Describe fromJson.
-     * @param[in] j Input parameter.
-     * @return Return value.
-     */
     static IntegrationConfig fromJson(const nlohmann::json& j);
 };
 
@@ -93,16 +85,8 @@ struct ExecutionContext {
     bool injection_detected = false;   // True when a prompt injection attempt was detected
     float injection_risk_score = 0.0f; // Risk score from PromptInjectionDetector [0,1]
     
-    /**
-     * @brief Serialization
-     * @return Return value.
-     */
+    // Serialization
     nlohmann::json toJson() const;
-    /**
-     * @brief TBD: Describe fromJson.
-     * @param[in] j Input parameter.
-     * @return Return value.
-     */
     static ExecutionContext fromJson(const nlohmann::json& j);
 };
 
@@ -118,10 +102,7 @@ struct IntegrationStatus {
     size_t active_prompts = 0;
     std::unordered_map<std::string, size_t> executions_by_prompt;
     
-    /**
-     * @brief Serialization
-     * @return Return value.
-     */
+    // Serialization
     nlohmann::json toJson() const;
 };
 
@@ -135,10 +116,7 @@ struct WorkerStatus {
     std::chrono::system_clock::time_point last_run;
     std::chrono::system_clock::time_point next_scheduled_run;
     
-    /**
-     * @brief Serialization
-     * @return Return value.
-     */
+    // Serialization
     nlohmann::json toJson() const;
 };
 
@@ -158,35 +136,18 @@ public:
     
     ~BackgroundOptimizationWorker();
     
-    /**
-     * @brief Lifecycle
-     */
+    // Lifecycle
     void start();
-    /**
-     * @brief TBD: Describe stop.
-     */
     void stop();
-    /**
-     * @brief TBD: Describe isRunning.
-     * @return True on success.
-     */
     bool isRunning() const;
     
-    /**
-     * @brief Status
-     * @return Return value.
-     */
+    // Status
     WorkerStatus getStatus() const;
     
-    /**
-     * @brief Manual trigger
-     */
+    // Manual trigger
     void runOptimizationCycle();
     
 private:
-    /**
-     * @brief TBD: Describe workerLoop.
-     */
     void workerLoop();
     
     std::chrono::seconds interval_;
@@ -242,18 +203,9 @@ public:
     
     ~PromptEngineeringIntegration();
     
-    /**
-     * @brief Lifecycle management
-     */
+    // Lifecycle management
     void start();
-    /**
-     * @brief TBD: Describe stop.
-     */
     void stop();
-    /**
-     * @brief TBD: Describe getStatus.
-     * @return Return value.
-     */
     IntegrationStatus getStatus() const;
     
     // Execution hooks
@@ -270,35 +222,16 @@ public:
         double user_feedback = 0.0
     );
     
-    /**
-     * @brief Background optimization
-     */
+    // Background optimization
     void startBackgroundOptimization();
-    /**
-     * @brief TBD: Describe stopBackgroundOptimization.
-     */
     void stopBackgroundOptimization();
-    /**
-     * @brief TBD: Describe getBackgroundWorkerStatus.
-     * @return Return value.
-     */
     WorkerStatus getBackgroundWorkerStatus() const;
     
-    /**
-     * @brief Statistics
-     * @return Return value.
-     */
+    // Statistics
     nlohmann::json getStats() const;
     
-    /**
-     * @brief Configuration
-     * @return Return value.
-     */
+    // Configuration
     IntegrationConfig getConfig() const;
-    /**
-     * @brief TBD: Describe updateConfig.
-     * @param[in] config Input parameter.
-     */
     void updateConfig(const IntegrationConfig& config);
 
     // Reflection Tuning integration
@@ -309,7 +242,6 @@ public:
      * When set and `IntegrationConfig::enable_reflection_tuning` is `true`,
      * `afterExecution()` runs a reflection cycle on each successful response
      * and records the results via `PromptEngineeringMetrics`.
-     * @param[in] tuner Input parameter.
      */
     void setReflectionTuner(std::shared_ptr<ReflectionTuner> tuner);
 
@@ -317,30 +249,15 @@ public:
      * @brief Attach a `PromptEngineeringMetrics` instance for reflection
      *        observability.  When not set, reflection metrics are silently
      *        discarded.
-     * @param[in] metrics Input parameter.
      */
     void setMetrics(std::shared_ptr<PromptEngineeringMetrics> metrics);
     
 private:
-    /**
-     * @brief TBD: Describe checkAndTriggerOptimization.
-     * @param[in] prompt_id Input parameter.
-     */
     void checkAndTriggerOptimization(const std::string& prompt_id);
-    /**
-     * @brief TBD: Describe enhancePrompt.
-     * @param[in] prompt_id Input parameter.
-     * @param[in] context Input parameter.
-     * @return Return value.
-     */
     std::string enhancePrompt(
         const std::string& prompt_id,
         const nlohmann::json& context
     );
-    /**
-     * @brief TBD: Describe generateExecutionId.
-     * @return Return value.
-     */
     std::string generateExecutionId();
     
     IntegrationConfig config_;

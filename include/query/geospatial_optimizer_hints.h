@@ -46,13 +46,11 @@ struct SpatialHint {
     
     /**
      * @brief Check if hint is valid
-     * @return True on success.
      */
     bool isValid() const;
     
     /**
      * @brief String representation for debugging
-     * @return Return value.
      */
     std::string toString() const;
 };
@@ -66,27 +64,21 @@ struct SpatialPlan {
     
     /**
      * @brief Check if a specific hint type is applied
-     * @param[in] type Input parameter.
-     * @return True on success.
      */
     bool hasHint(SpatialHintType type) const;
     
     /**
      * @brief Get first hint of given type
-     * @param[in] type Input parameter.
-     * @return Pointer to the result.
      */
     const SpatialHint* getHint(SpatialHintType type) const;
     
     /**
      * @brief Add hint to this plan
-     * @param[in] hint Input parameter.
      */
     void addHint(const SpatialHint& hint);
     
     /**
      * @brief Get combined cost adjustment from all hints
-     * @return Return value.
      */
     double getCostAdjustmentFactor() const;
 };
@@ -145,8 +137,6 @@ public:
      * 
      * Extracts all hint directives from FILTER/SORT context.
      * Returns vector of valid hints; invalid hints logged and skipped.
-     * @param[in] queryText Input parameter.
-     * @return Return value.
      */
     static std::vector<SpatialHint> parseHintsFromQuery(
         const std::string& queryText);
@@ -162,29 +152,21 @@ struct SpatialHintContext {
     
     /**
      * @brief Get plan for a specific predicate
-     * @param[in] predicateId Input parameter.
-     * @return Pointer to the result.
      */
     const SpatialPlan* getPlanForPredicate(const std::string& predicateId) const;
     
     /**
      * @brief Check if executor should use index for predicate
-     * @param[in] predicateId Input parameter.
-     * @return True on success.
      */
     bool shouldUseIndex(const std::string& predicateId) const;
     
     /**
      * @brief Get recommended index name (if any)
-     * @param[in] predicateId Input parameter.
-     * @return Return value.
      */
     std::string getRecommendedIndex(const std::string& predicateId) const;
     
     /**
      * @brief Get cost adjustment for predicate
-     * @param[in] predicateId Input parameter.
-     * @return Return value.
      */
     double getCostAdjustment(const std::string& predicateId) const;
 };

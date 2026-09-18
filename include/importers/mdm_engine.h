@@ -72,10 +72,6 @@ struct MDMConfig {
     std::string audit_collection    = "mdm_audit_trail";
     std::string initiated_by        = "importer_v2.2"; ///< Tag written to audit events
 
-    /**
-     * @brief TBD: Describe toJson.
-     * @return Return value.
-     */
     json toJson() const;
 };
 
@@ -105,10 +101,6 @@ struct MDMWorkflowResult {
     std::string status;  ///< "completed" | "review_needed" | "failed"
     json        metrics;
 
-    /**
-     * @brief TBD: Describe toJson.
-     * @return Return value.
-     */
     json toJson() const;
 };
 
@@ -204,21 +196,8 @@ private:
     EntityLinker          linker_;
     CanonicalEntityResolver resolver_;
 
-    /**
-     * @brief TBD: Describe generateUUID.
-     * @return Return value.
-     */
     static std::string generateUUID();
-    /**
-     * @brief TBD: Describe nowRfc3339.
-     * @return Return value.
-     */
     static std::string nowRfc3339();
-    /**
-     * @brief TBD: Describe entityId.
-     * @param[in] entity Input parameter.
-     * @return Return value.
-     */
     static std::string entityId(const json& entity);
 };
 

@@ -465,7 +465,6 @@ enum class TrainingErrorCode : uint32_t {
  *
  * @param code Error code to convert.
  * @return Descriptive string for the error code.
- * @details Calls: find(), end(), std::to_string().
  */
 inline std::string trainingErrorCodeToString(TrainingErrorCode code) {
     static const std::unordered_map<uint32_t, std::string> kErrorMap{

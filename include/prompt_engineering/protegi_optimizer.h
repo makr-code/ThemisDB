@@ -80,10 +80,6 @@ struct ProTeGiResult {
  */
 class IProTeGiLLMProvider {
 public:
-    /**
-     * @brief TBD: Describe ~IProTeGiLLMProvider.
-     * @return Return value.
-     */
     virtual ~IProTeGiLLMProvider() = default;
 
     /**
@@ -181,8 +177,6 @@ public:
      * @brief Inject the LLM provider used for gradient and candidate generation.
      *
      * If not called, a @c HeuristicProTeGiProvider is used automatically.
-     * @param[in] provider Input parameter.
-     * @return Return value.
      */
     ProTeGiOptimizer& setLLMProvider(std::shared_ptr<IProTeGiLLMProvider> provider);
 
@@ -204,13 +198,11 @@ public:
 
     /**
      * @brief Return the current configuration.
-     * @return Return value.
      */
     const ProTeGiConfig& getConfig() const;
 
     /**
      * @brief Update the configuration.
-     * @param[in] config Input parameter.
      */
     void setConfig(const ProTeGiConfig& config);
 
@@ -246,23 +238,15 @@ private:
     ProTeGiConfig                         config_;
     std::shared_ptr<IProTeGiLLMProvider>  llm_provider_;
 
-    /**
-     * @brief Sample a mini-batch of test cases uniformly without replacement.
-     * @param[in] test_cases Input parameter.
-     * @param[in] n Input parameter.
-     * @return Return value.
-     */
+    // Sample a mini-batch of test cases uniformly without replacement.
     std::vector<TestCase> sampleMiniBatch(
         const std::vector<TestCase>& test_cases,
         size_t n) const;
 
-    /**
-     * @brief Default error extractor: uses a simple heuristic based on the relation between the prompt and each test case's expected output (e.
-     * @param[in] prompt Input parameter.
-     * @param[in] mini_batch Input parameter.
-     * @return Return value.
-     * @details g., treating cases where the expected output is longer than the prompt as failures) to produce generic error messages when no custom error_fn is provided.
-     */
+    // Default error extractor: uses a simple heuristic based on the relation
+    // between the prompt and each test case's expected output (e.g., treating
+    // cases where the expected output is longer than the prompt as failures)
+    // to produce generic error messages when no custom error_fn is provided.
     static std::vector<std::string> defaultErrorFn(
         const std::string& prompt,
         const std::vector<TestCase>& mini_batch);

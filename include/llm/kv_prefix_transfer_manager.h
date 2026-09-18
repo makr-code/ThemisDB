@@ -36,10 +36,6 @@ namespace themis::llm {
  * @c NullKVStateSerializer (see below).
  */
 struct IKVStateSerializer {
-    /**
-     * @brief TBD: Describe ~IKVStateSerializer.
-     * @return Return value.
-     */
     virtual ~IKVStateSerializer() = default;
 
     /**
@@ -48,7 +44,6 @@ struct IKVStateSerializer {
      * @param prefix_text  System-prompt text already evaluated on this shard.
      * @param model_id     Model identifier used for evaluation.
      * @return Serialised bytes, or empty if serialisation fails / not supported.
-     * @brief TBD: Describe serialise.
      */
     virtual std::vector<std::uint8_t> serialise(const std::string& prefix_text,
                                                  const std::string& model_id) = 0;
@@ -56,9 +51,6 @@ struct IKVStateSerializer {
     /**
      * Return an opaque fingerprint that identifies the model + quantisation.
      * Two shards must have the same fingerprint for a transfer to make sense.
-     * @brief TBD: Describe modelFingerprint.
-     * @param[in] model_id Input parameter.
-     * @return Return value.
      */
     virtual std::string modelFingerprint(const std::string& model_id) const = 0;
 };
@@ -82,20 +74,10 @@ public:
     using ModelFingerprintFn =
         std::function<std::string(const std::string& model_id)>;
 
-    /**
-     * @brief TBD: Describe setSerialiseFn.
-     * @param[in] fn Input parameter.
-     * @details Calls: lk(), serialiseFnMutex(), serialiseFnStorage(), std::move().
-     */
     static void setSerialiseFn(SerialiseFn fn) {
         std::lock_guard<std::mutex> lk(serialiseFnMutex());
         serialiseFnStorage() = std::move(fn);
     }
-    /**
-     * @brief TBD: Describe setModelFingerprintFn.
-     * @param[in] fn Input parameter.
-     * @details Calls: lk(), modelFingerprintFnMutex(), modelFingerprintFnStorage(), std::move().
-     */
     static void setModelFingerprintFn(ModelFingerprintFn fn) {
         std::lock_guard<std::mutex> lk(modelFingerprintFnMutex());
         modelFingerprintFnStorage() = std::move(fn);
@@ -135,38 +117,18 @@ public:
     }
 
 private:
-    /**
-     * @brief TBD: Describe serialiseFnMutex.
-     * @return Return value.
-     * @details Implements serialiseFnMutex without additional internal calls.
-     */
     static std::mutex& serialiseFnMutex() {
         static std::mutex m;
         return m;
     }
-    /**
-     * @brief TBD: Describe serialiseFnStorage.
-     * @return Return value.
-     * @details Implements serialiseFnStorage without additional internal calls.
-     */
     static SerialiseFn& serialiseFnStorage() {
         static SerialiseFn fn;
         return fn;
     }
-    /**
-     * @brief TBD: Describe modelFingerprintFnMutex.
-     * @return Return value.
-     * @details Implements modelFingerprintFnMutex without additional internal calls.
-     */
     static std::mutex& modelFingerprintFnMutex() {
         static std::mutex m;
         return m;
     }
-    /**
-     * @brief TBD: Describe modelFingerprintFnStorage.
-     * @return Return value.
-     * @details Implements modelFingerprintFnStorage without additional internal calls.
-     */
     static ModelFingerprintFn& modelFingerprintFnStorage() {
         static ModelFingerprintFn fn;
         return fn;
@@ -194,10 +156,6 @@ class KVPrefixTransferManager {
 public:
     using SerializerFactoryFn = std::function<std::unique_ptr<IKVStateSerializer>()>;
 
-    /**
-     * @brief TBD: Describe setDefaultSerializerFactory.
-     * @param[in] fn Input parameter.
-     */
     static void setDefaultSerializerFactory(SerializerFactoryFn fn);
 
     /**
@@ -236,13 +194,11 @@ public:
 
     /**
      * @return Cumulative number of transfers attempted since construction.
-     * @brief TBD: Describe transferAttemptCount.
      */
     std::size_t transferAttemptCount() const;
 
     /**
      * @return Cumulative number of transfers that succeeded (HTTP 2xx).
-     * @brief TBD: Describe transferSuccessCount.
      */
     std::size_t transferSuccessCount() const;
 
@@ -259,15 +215,7 @@ private:
 
     static constexpr const char* kIngestPath = "/api/v1/kv-prefix/ingest";
 
-    /**
-     * @brief TBD: Describe serializerFactoryMutex.
-     * @return Return value.
-     */
     static std::mutex& serializerFactoryMutex();
-    /**
-     * @brief TBD: Describe serializerFactoryStorage.
-     * @return Return value.
-     */
     static SerializerFactoryFn& serializerFactoryStorage();
 };
 

@@ -83,7 +83,6 @@ public:
      * - Returns true immediately if tokens <= 0 (no-op)
      * - Returns false if timeout expires before tokens become available
      * - Thread-safe via internal mutex
-     * @note Exception safety: noexcept.
      */
     bool try_acquire_for(double tokens,
                          std::chrono::milliseconds timeout) noexcept;
@@ -134,14 +133,12 @@ public:
 
     /**
      * @brief Return the current number of available tokens (snapshot).
-     * @return Return value.
      */
     double available() const;
 
     /**
      * @brief Update the refill rate.  Takes effect immediately on the
      *        next refill calculation without resetting the bucket level.
-     * @param[in] rate_per_second Input parameter.
      */
     void set_rate(double rate_per_second);
 

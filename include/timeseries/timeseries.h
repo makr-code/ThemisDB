@@ -53,16 +53,7 @@ public:
         double value;
         nlohmann::json metadata; // Optional additional data
         
-        /**
-         * @brief TBD: Describe toJson.
-         * @return Return value.
-         */
         nlohmann::json toJson() const;
-        /**
-         * @brief TBD: Describe fromJson.
-         * @param[in] j Input parameter.
-         * @return Return value.
-         */
         static DataPoint fromJson(const nlohmann::json& j);
     };
     
@@ -80,10 +71,6 @@ public:
         double sum = 0.0;
         size_t count = 0;
         
-        /**
-         * @brief TBD: Describe toJson.
-         * @return Return value.
-         */
         nlohmann::json toJson() const;
     };
     
@@ -172,31 +159,14 @@ private:
     rocksdb::TransactionDB* db_;
     rocksdb::ColumnFamilyHandle* cf_;
 
-  /**
-   * @brief TBD: Describe resolveColumnFamily.
-   * @return Pointer to the result.
-   */
   rocksdb::ColumnFamilyHandle* resolveColumnFamily() const;
     
     static constexpr const char* KEY_PREFIX = "ts:";
     
-    /**
-     * @brief TBD: Describe makeKey.
-     * @param[in] metric Input parameter.
-     * @param[in] entity Input parameter.
-     * @param[in] timestamp_ms Input parameter.
-     * @return Return value.
-     */
     std::string makeKey(std::string_view metric, 
                        std::string_view entity,
                        int64_t timestamp_ms) const;
     
-    /**
-     * @brief TBD: Describe makePrefix.
-     * @param[in] metric Input parameter.
-     * @param[in] entity Input parameter.
-     * @return Return value.
-     */
     std::string makePrefix(std::string_view metric,
                           std::string_view entity) const;
 };

@@ -47,25 +47,11 @@ struct RLSPredicate {
     std::string value;        ///< Static literal value (JSON-encoded scalar/array)
     std::string user_attr;    ///< SecurityContext attribute key (mutually exclusive with value)
 
-    /**
-     * @brief Evaluate predicate against a JSON row and security context.
-     * @param[in] row Input parameter.
-     * @param[in] ctx Input parameter.
-     * @return True on success.
-     * @details @return true if the row satisfies the predicate.
-     */
+    /// Evaluate predicate against a JSON row and security context.
+    /// @return true if the row satisfies the predicate.
     bool evaluate(const nlohmann::json& row, const SecurityContext& ctx) const;
 
-    /**
-     * @brief TBD: Describe toJson.
-     * @return Return value.
-     */
     nlohmann::json toJson() const;
-    /**
-     * @brief TBD: Describe fromJson.
-     * @param[in] j Input parameter.
-     * @return Return value.
-     */
     static RLSPredicate fromJson(const nlohmann::json& j);
 };
 
@@ -103,16 +89,7 @@ struct RLSPolicy {
     RLSPolicyType type = RLSPolicyType::PERMISSIVE;
     bool enabled = true;
 
-    /**
-     * @brief TBD: Describe toJson.
-     * @return Return value.
-     */
     nlohmann::json toJson() const;
-    /**
-     * @brief TBD: Describe fromJson.
-     * @param[in] j Input parameter.
-     * @return Return value.
-     */
     static RLSPolicy fromJson(const nlohmann::json& j);
 };
 
@@ -148,12 +125,8 @@ public:
     /// Register or replace a policy (identified by policy.id).
     void addPolicy(const RLSPolicy& policy);
 
-    /**
-     * @brief Remove a policy by id.
-     * @param[in] policy_id Input parameter.
-     * @return True on success.
-     * @details @return true if the policy existed and was removed.
-     */
+    /// Remove a policy by id.
+    /// @return true if the policy existed and was removed.
     bool removePolicy(const std::string& policy_id);
 
     /// Retrieve a policy by id.
@@ -168,12 +141,9 @@ public:
     /// Remove all policies.
     void clearAllPolicies();
 
-    /**
-     * @brief Load policies from a JSON value.
-     * @param[in] j Input parameter.
-     * @return Return value.
-     * @details Expected format: { "policies": [ <RLSPolicy JSON>, ... ] } @return Number of policies loaded.
-     */
+    /// Load policies from a JSON value.
+    /// Expected format: { "policies": [ <RLSPolicy JSON>, ... ] }
+    /// @return Number of policies loaded.
     size_t loadFromJson(const nlohmann::json& j);
 
     /// Persist all policies to JSON.
@@ -215,9 +185,6 @@ public:
      *
      * Returns true when at least one enabled policy matches the
      * collection and security context.
-     * @param[in] collection Input parameter.
-     * @param[in] ctx Input parameter.
-     * @return True on success.
      */
     bool isActive(
         const std::string& collection,

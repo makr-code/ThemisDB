@@ -43,12 +43,6 @@ public:
     ~RetryExecutor() = default;
 
     template<typename Func>
-    /**
-     * @brief TBD: Describe execute_with_retry.
-     * @param[in] fn Input parameter.
-     * @param[in] policy Input parameter.
-     * @return Return value.
-     */
     auto execute_with_retry(Func&& fn, const RetryPolicy& policy)
         -> typename std::invoke_result<Func>::type
     {
@@ -71,37 +65,17 @@ public:
         return ResultType::err(ErrorCode::INTERNAL_ERROR, "Retry failed");
     }
 
-    /**
-     * @brief TBD: Describe calculate_backoff.
-     * @param[in] attempt Input parameter.
-     * @param[in] policy Input parameter.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
     static std::chrono::milliseconds calculate_backoff(
         uint32_t attempt,
         const RetryPolicy& policy
     ) noexcept;
 
-    /**
-     * @brief TBD: Describe should_retry.
-     * @param[in] result Input parameter.
-     * @param[in] policy Input parameter.
-     * @return True on success.
-     * @note Exception safety: noexcept.
-     */
     static bool should_retry(
         const Result<bool>& result,
         const RetryPolicy& policy
     ) noexcept;
 
 private:
-    /**
-     * @brief TBD: Describe get_jitter.
-     * @param[in] factor Input parameter.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
     static double get_jitter(double factor) noexcept;
 };
 

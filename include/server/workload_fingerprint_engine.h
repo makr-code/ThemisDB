@@ -146,8 +146,6 @@ public:
      * @brief Compute cosine similarity between two fingerprint vectors.
      *
      * @return Similarity in [0.0, 1.0]; 1.0 = identical, 0.0 = orthogonal.
-     * @param[in] a Input parameter.
-     * @param[in] b Input parameter.
      */
     double similarityTo(
         const WorkloadFingerprint& a,

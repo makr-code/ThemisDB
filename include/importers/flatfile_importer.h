@@ -215,12 +215,7 @@ private:
                            ImportStats& stats,
                            ProgressCallback& cb);
 
-    /**
-     * @brief ---- Utility helpers -----------------------------------------------------
-     * @param[in] table_name Input parameter.
-     * @param[in] options Input parameter.
-     * @return True on success.
-     */
+    // ---- Utility helpers -----------------------------------------------------
 
     bool shouldImportTable(const std::string& table_name,
                            const ImportOptions& options) const;
@@ -240,22 +235,10 @@ private:
                   const std::map<std::string, std::string>& attributes,
                   double duration_seconds) const;
 
-    /**
-     * @brief TBD: Describe reportProgress.
-     * @param[in,out] callback Input/output parameter.
-     * @param[in] stage Input parameter.
-     * @param[in] current Input parameter.
-     * @param[in] total Input parameter.
-     */
     void reportProgress(ProgressCallback& callback,
                         const std::string& stage,
                         size_t current, size_t total);
 
-    /**
-     * @brief TBD: Describe isValidUtf8.
-     * @param[in] s Input parameter.
-     * @return True on success.
-     */
     static bool isValidUtf8(const std::string& s);
 };
 

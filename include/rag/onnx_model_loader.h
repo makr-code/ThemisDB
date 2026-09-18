@@ -147,23 +147,8 @@ private:
     // Predefined model registry
     std::unordered_map<std::string, ONNXModelInfo> model_registry_;
     
-    /**
-     * @brief TBD: Describe initializeDefaultModels.
-     */
     void initializeDefaultModels();
-    /**
-     * @brief TBD: Describe computeChecksum.
-     * @param[in] file_path Input parameter.
-     * @return Return value.
-     */
     std::string computeChecksum(const std::string& file_path);
-    /**
-     * @brief TBD: Describe downloadFile.
-     * @param[in] url Input parameter.
-     * @param[in] dest_path Input parameter.
-     * @param[in] timeout_sec Input parameter.
-     * @return True on success.
-     */
     bool downloadFile(const std::string& url, const std::string& dest_path, int timeout_sec);
 };
 
@@ -174,25 +159,21 @@ class NLIModelFactory {
 public:
     /**
      * @brief Get DeBERTa-v3-large-mnli model info
-     * @return Return value.
      */
     static ONNXModelInfo getDebertaV3LargeMNLI();
     
     /**
      * @brief Get RoBERTa-large-mnli model info
-     * @return Return value.
      */
     static ONNXModelInfo getRobertaLargeMNLI();
     
     /**
      * @brief Get BART-large-mnli model info
-     * @return Return value.
      */
     static ONNXModelInfo getBartLargeMNLI();
     
     /**
      * @brief Get all supported NLI models
-     * @return Return value.
      */
     static std::vector<ONNXModelInfo> getAllSupportedModels();
 };

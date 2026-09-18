@@ -54,11 +54,6 @@ using RebalancePlanId = std::string;
 /// absent or invalid in the supplied AdminContext.
 class PermissionDeniedError : public std::runtime_error {
 public:
-    /**
-     * @brief TBD: Describe PermissionDeniedError.
-     * @param[in] what Input parameter.
-     * @return Return value.
-     */
     explicit PermissionDeniedError(const std::string& what)
         : std::runtime_error(what) {}
 };
@@ -202,10 +197,6 @@ private:
     /// Called by commit() / abort() implementations to prevent double-abort.
     void markFinalized() noexcept { finalized_ = true; }
 
-    /**
-     * @brief TBD: Describe abortIfNeeded.
-     * @details Calls: empty(), abort_fn_().
-     */
     void abortIfNeeded() {
         if (!finalized_ && !tx_id_.empty() && abort_fn_) {
             abort_fn_(tx_id_);
@@ -297,10 +288,6 @@ private:
     explicit RebalanceLockHandle(std::function<void()> release_fn) noexcept
         : release_fn_(std::move(release_fn)) {}
 
-    /**
-     * @brief TBD: Describe releaseIfHeld.
-     * @details Calls: release_fn_().
-     */
     void releaseIfHeld() {
         if (release_fn_) {
             release_fn_();
@@ -373,10 +360,6 @@ struct QueryCostEstimate {
 /// Performance contract: route() single-key lookup ≤ 200 ns.
 class IShardRouter {
 public:
-    /**
-     * @brief TBD: Describe ~IShardRouter.
-     * @return Return value.
-     */
     virtual ~IShardRouter() = default;
 
     /// Route a single partition key to the owning shard.
@@ -405,10 +388,6 @@ public:
 /// Performance contract: planRebalance() for 256 shards ≤ 100 ms.
 class IAdaptiveRebalancer {
 public:
-    /**
-     * @brief TBD: Describe ~IAdaptiveRebalancer.
-     * @return Return value.
-     */
     virtual ~IAdaptiveRebalancer() = default;
 
     /// Compute a conflict-free migration plan from current cluster telemetry.
@@ -460,10 +439,6 @@ public:
 /// Performance contract: prepare() under no contention ≤ 5 ms.
 class IDistributedTxCoordinator {
 public:
-    /**
-     * @brief TBD: Describe ~IDistributedTxCoordinator.
-     * @return Return value.
-     */
     virtual ~IDistributedTxCoordinator() = default;
 
     /// Begin a new distributed transaction.
@@ -475,18 +450,12 @@ public:
     /// @return Prepared, ConflictError, or TimeoutError.
     [[nodiscard]] virtual PrepareResult prepare(TxHandle& handle) = 0;
 
-    /**
-     * @brief Commit the prepared transaction and release the handle.
-     * @param[in] handle Input parameter.
-     * @details @param handle Move-in handle; becomes invalid after this call.
-     */
+    /// Commit the prepared transaction and release the handle.
+    /// @param handle  Move-in handle; becomes invalid after this call.
     virtual void commit(TxHandle&& handle) = 0;
 
-    /**
-     * @brief Abort the transaction and release the handle.
-     * @param[in] handle Input parameter.
-     * @details @param handle Move-in handle; becomes invalid after this call.
-     */
+    /// Abort the transaction and release the handle.
+    /// @param handle  Move-in handle; becomes invalid after this call.
     virtual void abort(TxHandle&& handle) = 0;
 
     /// Maximum number of concurrent transactions this coordinator will accept.
@@ -541,10 +510,6 @@ protected:
 ///   Lagging replica catch-up via snapshot transfer: > 200 MB/s on 10 GbE.
 class IRaftSnapshotManager {
 public:
-    /**
-     * @brief TBD: Describe ~IRaftSnapshotManager.
-     * @return Return value.
-     */
     virtual ~IRaftSnapshotManager() = default;
 
     /// Initiate an asynchronous snapshot for the given shard.
@@ -588,10 +553,6 @@ public:
 ///   getNode() with 1 024 virtual nodes: ≤ 300 ns.
 class IConsistentHashRing {
 public:
-    /**
-     * @brief TBD: Describe ~IConsistentHashRing.
-     * @return Return value.
-     */
     virtual ~IConsistentHashRing() = default;
 
     /// Look up the primary node responsible for @p key.
@@ -637,10 +598,6 @@ protected:
 /// execution): ≤ 2 ms.
 class ICrossShardQueryRouter {
 public:
-    /**
-     * @brief TBD: Describe ~ICrossShardQueryRouter.
-     * @return Return value.
-     */
     virtual ~ICrossShardQueryRouter() = default;
 
     /// Decompose a logical QueryPlan into one ShardQueryPlan per affected shard.

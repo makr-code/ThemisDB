@@ -45,10 +45,6 @@ struct AuditLogExport {
     bool     chain_intact = false;    ///< True when hash-chain is unbroken
     std::vector<nlohmann::json> entries; ///< Raw JSON records (chronological)
 
-    /**
-     * @brief TBD: Describe toJson.
-     * @return Return value.
-     */
     nlohmann::json toJson() const;
 };
 
@@ -63,10 +59,6 @@ struct SecurityMetricsSnapshot {
     uint64_t total_roles = 0;     ///< Number of RBAC roles registered
     uint64_t audit_log_entries = 0; ///< Approximate total entries in the audit log
 
-    /**
-     * @brief TBD: Describe toJson.
-     * @return Return value.
-     */
     nlohmann::json toJson() const;
 };
 
@@ -84,10 +76,6 @@ struct KeyRotationRecord {
     std::string algorithm;           ///< Key algorithm (e.g. "AES-256-GCM")
     std::string status;              ///< Status of the old version after rotation
 
-    /**
-     * @brief TBD: Describe toJson.
-     * @return Return value.
-     */
     nlohmann::json toJson() const;
 };
 
@@ -106,10 +94,6 @@ struct AccessControlReport {
     bool all_roles_have_permissions = true; ///< True when every role has ≥ 1 permission
     std::vector<std::string> empty_roles;   ///< Roles with no permissions (policy gap)
 
-    /**
-     * @brief TBD: Describe toJson.
-     * @return Return value.
-     */
     nlohmann::json toJson() const;
 };
 
@@ -136,10 +120,6 @@ struct NetworkControlsEvidence {
     int mtls_enabled_shard_count = 0;                 ///< Number of shards with mTLS enabled
     std::string rate_limiter_config_snapshot;         ///< JSON snapshot of rate limiter config
 
-    /**
-     * @brief TBD: Describe toJson.
-     * @return Return value.
-     */
     nlohmann::json toJson() const;
 };
 
@@ -155,10 +135,6 @@ struct ChangeManagementEvidence {
     int64_t from_ms = 0;                              ///< Window start (Unix epoch ms)
     int64_t to_ms   = 0;                              ///< Window end   (Unix epoch ms)
 
-    /**
-     * @brief TBD: Describe toJson.
-     * @return Return value.
-     */
     nlohmann::json toJson() const;
 };
 
@@ -177,10 +153,6 @@ struct ExportMetrics {
     bool atomicity_guaranteed = false; ///< True when export guarantees all-or-nothing
     bool idempotency_verified = false; ///< True when duplicate detection is enabled
 
-    /**
-     * @brief TBD: Describe toJson.
-     * @return Return value.
-     */
     nlohmann::json toJson() const;
 };
 
@@ -197,10 +169,6 @@ struct SecurityEvidenceBundle {
     NetworkControlsEvidence  network_controls;    ///< Network & TLS configuration evidence
     ChangeManagementEvidence change_management;   ///< Change management evidence
 
-    /**
-     * @brief TBD: Describe toJson.
-     * @return Return value.
-     */
     nlohmann::json toJson() const;
 };
 
@@ -318,7 +286,6 @@ public:
      * evidence exports.
      *
      * @return true if export atomicity is guaranteed, false otherwise.
-     * @note Exception safety: noexcept.
      */
     bool export_atomicity_guarantee() const noexcept;
 
@@ -330,7 +297,6 @@ public:
      * across export retry attempts.
      *
      * @return true if export idempotency checking is enabled, false otherwise.
-     * @note Exception safety: noexcept.
      */
     bool export_idempotency_check() const noexcept;
 
@@ -341,7 +307,6 @@ public:
      * performance gate validation. Updated after each export operation.
      *
      * @return ExportMetrics from the last export, or default-constructed if no export yet.
-     * @note Exception safety: noexcept.
      */
     ExportMetrics lastExportMetrics() const noexcept;
 
@@ -355,67 +320,26 @@ private:
     mutable std::mutex  mutex_;
     mutable ExportMetrics last_export_metrics_;  ///< Metrics from last export operation
 
-    /**
-     * @brief TBD: Describe collectAuditLog.
-     * @param[in] from Input parameter.
-     * @param[in] to Input parameter.
-     * @return Return value.
-     */
     AuditLogExport         collectAuditLog(
         std::chrono::system_clock::time_point from,
         std::chrono::system_clock::time_point to) const;
 
-    /**
-     * @brief TBD: Describe collectMetrics.
-     * @param[in] at Input parameter.
-     * @return Return value.
-     */
     SecurityMetricsSnapshot collectMetrics(
         std::chrono::system_clock::time_point at) const;
 
-    /**
-     * @brief TBD: Describe collectKeyRotations.
-     * @param[in] from Input parameter.
-     * @param[in] to Input parameter.
-     * @return Return value.
-     */
     std::vector<KeyRotationRecord> collectKeyRotations(
         std::chrono::system_clock::time_point from,
         std::chrono::system_clock::time_point to) const;
 
-    /**
-     * @brief TBD: Describe collectAccessControl.
-     * @return Return value.
-     */
     AccessControlReport collectAccessControl() const;
 
-    /**
-     * @brief TBD: Describe collectNetworkControls.
-     * @return Return value.
-     */
     NetworkControlsEvidence collectNetworkControls() const;
 
-    /**
-     * @brief TBD: Describe collectChangeManagement.
-     * @param[in] from Input parameter.
-     * @param[in] to Input parameter.
-     * @return Return value.
-     */
     ChangeManagementEvidence collectChangeManagement(
         std::chrono::system_clock::time_point from,
         std::chrono::system_clock::time_point to) const;
 
-    /**
-     * @brief TBD: Describe generateBundleId.
-     * @return Return value.
-     */
     static std::string generateBundleId();
-    /**
-     * @brief TBD: Describe toMs.
-     * @param[in] tp Input parameter.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
     static int64_t toMs(std::chrono::system_clock::time_point tp) noexcept;
 };
 

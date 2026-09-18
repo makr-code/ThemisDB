@@ -94,17 +94,7 @@ private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
 
-    /**
-     * @brief TBD: Describe computeSHA256.
-     * @param[in] data Input parameter.
-     * @return Return value.
-     */
     static std::string computeSHA256(const std::vector<uint8_t>& data);
-    /**
-     * @brief TBD: Describe getBlobName.
-     * @param[in] blob_id Input parameter.
-     * @return Return value.
-     */
     std::string getBlobName(const std::string& blob_id) const;
 };
 

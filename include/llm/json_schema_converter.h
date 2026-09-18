@@ -134,18 +134,10 @@ private:
         const std::string& rule_prefix,
         std::vector<std::pair<std::string, std::string>>& new_rules);
 
-    /**
-     * @brief Escape a plain-text property name for embedding inside a GBNF literal.
-     * @param[in] s Input parameter.
-     * @return Return value.
-     */
+    // Escape a plain-text property name for embedding inside a GBNF literal.
     static std::string escapeGbnfString(const std::string& s);
 
-    /**
-     * @brief Sanitize an arbitrary string for use as a GBNF rule name identifier.
-     * @param[in] s Input parameter.
-     * @return Return value.
-     */
+    // Sanitize an arbitrary string for use as a GBNF rule name identifier.
     static std::string sanitizeRuleName(const std::string& s);
 };
 

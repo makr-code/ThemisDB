@@ -51,11 +51,9 @@ public:
     /// Return the active splitting configuration.
     const rag::DocumentSplitterConfig& getConfig() const;
 
-    /**
-     * @brief Replace the active configuration.
-     * @param[in] config Input parameter.
-     * @details @throws std::invalid_argument on invalid parameters (overlap >= chunk_size or chunk_size == 0).
-     */
+    /// Replace the active configuration.
+    /// @throws std::invalid_argument on invalid parameters (overlap >= chunk_size
+    ///         or chunk_size == 0).
     void setConfig(const rag::DocumentSplitterConfig& config);
 
     // ── Chunking ──────────────────────────────────────────────────────────────

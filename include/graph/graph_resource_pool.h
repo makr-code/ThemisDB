@@ -85,10 +85,6 @@ public:
         explicit operator bool() const { return res_ != nullptr; }
 
     private:
-        /**
-         * @brief TBD: Describe release.
-         * @details Calls: returnResource(), std::move().
-         */
         void release() {
             if (res_ && pool_) {
                 pool_->returnResource(std::move(res_));
@@ -111,11 +107,7 @@ public:
         : pool_size_(pool_size), factory_(std::move(factory)) {
         if (pool_size_ == 0)
             throw std::invalid_argument("GraphConnectionPool: pool_size must be > 0");
-        /**
-         * @brief Pre-warm the pool.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
+        // Pre-warm the pool.
         std::lock_guard<std::mutex> lock(mutex_);
         for (size_t i = 0; i < pool_size_; ++i) {
             free_.push(factory_());
@@ -126,14 +118,8 @@ public:
      * @brief Acquire a resource, blocking until one becomes available.
      *
      * @return RAII handle owning the acquired resource.
-     * @details Calls: lock(), wait(), empty(), std::move(), front(), pop(), ScopedResource().
      */
     ScopedResource acquire() {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::mutex> lock(mutex_);
         cv_.wait(lock, [this] { return !free_.empty(); });
         auto res = std::move(free_.front());
@@ -147,14 +133,8 @@ public:
      *
      * @return RAII handle on success, or an empty handle if the pool is
      *         exhausted.
-     * @details Calls: lock(), empty(), std::move(), front(), pop(), ScopedResource().
      */
     std::optional<ScopedResource> tryAcquire() {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         if (free_.empty()) {
           return std::nullopt;
@@ -176,11 +156,6 @@ public:
      * @return Available count.
      */
     size_t available() const {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         return free_.size();
     }
@@ -194,18 +169,8 @@ public:
     }
 
 private:
-    /**
-     * @brief TBD: Describe returnResource.
-     * @param[in] res Input parameter.
-     * @details Calls: lock(), push(), std::move(), notify_one().
-     */
     void returnResource(std::shared_ptr<T> res) {
         {
-            /**
-             * @brief TBD: Describe lock.
-             * @param[in] mutex_ Input parameter.
-             * @return Return value.
-             */
             std::lock_guard<std::mutex> lock(mutex_);
             free_.push(std::move(res));
         }
@@ -236,9 +201,6 @@ public:
      * @brief Construct a thread pool with the given number of worker threads.
      *
      * @param num_threads Number of worker threads (must be > 0).
-     * @return Return value.
-     * @throws std::invalid_argument if an error occurs.
-     * @details Calls: reserve(), emplace_back(), workerLoop().
      */
     explicit GraphThreadPool(size_t num_threads) {
         if (num_threads == 0)
@@ -269,11 +231,6 @@ public:
         auto task    = std::make_shared<std::packaged_task<R()>>(std::forward<F>(f));
         auto future  = task->get_future();
         {
-            /**
-             * @brief TBD: Describe lock.
-             * @param[in] mutex_ Input parameter.
-             * @return Return value.
-             */
             std::lock_guard<std::mutex> lock(mutex_);
             if (stopped_) {
               throw std::runtime_error("GraphThreadPool: pool is stopped");
@@ -312,15 +269,9 @@ public:
      *
      * Signals all workers to stop after their current task and waits for
      * them to join.  Safe to call multiple times.
-     * @details Calls: lock(), notify_all(), joinable(), join().
      */
     void shutdown() {
         {
-            /**
-             * @brief TBD: Describe lock.
-             * @param[in] mutex_ Input parameter.
-             * @return Return value.
-             */
             std::lock_guard<std::mutex> lock(mutex_);
             if (stopped_) {
               return;
@@ -340,29 +291,15 @@ public:
      * @return Stopped state.
      */
     bool isStopped() const {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         return stopped_;
     }
 
 private:
-    /**
-     * @brief TBD: Describe workerLoop.
-     * @details Calls: void(), lock(), wait(), empty(), std::move(), front(), pop(), task().
-     */
     void workerLoop() {
         while (true) {
             std::function<void()> task;
             {
-                /**
-                 * @brief TBD: Describe lock.
-                 * @param[in] mutex_ Input parameter.
-                 * @return Return value.
-                 */
                 std::unique_lock<std::mutex> lock(mutex_);
                 cv_.wait(lock, [this] { return stopped_ || !tasks_.empty(); });
                 if (stopped_ && tasks_.empty()) {
@@ -428,7 +365,6 @@ public:
         /**
          * @brief Access the underlying buffer.
          * @return Reference to the byte vector.
-         * @details Implements get without additional internal calls.
          */
         Buffer& get() { return buf_; }
 
@@ -442,10 +378,6 @@ public:
         explicit operator bool() const { return pool_ != nullptr; }
 
     private:
-        /**
-         * @brief TBD: Describe release.
-         * @details Calls: returnBuffer(), std::move().
-         */
         void release() {
             if (pool_) {
                 pool_->returnBuffer(std::move(buf_));
@@ -466,11 +398,6 @@ public:
         : buffer_size_(buffer_size) {
         if (num_buffers == 0 || buffer_size == 0)
             throw std::invalid_argument("GraphBufferPool: invalid dimensions");
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         for (size_t i = 0; i < num_buffers; ++i) {
             Buffer buf(buffer_size, 0);
@@ -482,14 +409,8 @@ public:
     /**
      * @brief Acquire a buffer, blocking until one is available.
      * @return RAII buffer handle.
-     * @details Calls: lock(), wait(), empty(), std::move(), front(), pop(), ScopedBuffer().
      */
     ScopedBuffer acquire() {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::mutex> lock(mutex_);
         cv_.wait(lock, [this] { return !free_.empty(); });
         auto buf = std::move(free_.front());
@@ -501,14 +422,8 @@ public:
     /**
      * @brief Try to acquire a buffer without blocking.
      * @return RAII buffer handle, or empty if pool is exhausted.
-     * @details Calls: lock(), empty(), std::move(), front(), pop(), ScopedBuffer().
      */
     std::optional<ScopedBuffer> tryAcquire() {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         if (free_.empty()) {
           return std::nullopt;
@@ -530,11 +445,6 @@ public:
      * @return Available count.
      */
     size_t available() const {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         return free_.size();
     }
@@ -548,11 +458,6 @@ public:
     }
 
 private:
-    /**
-     * @brief TBD: Describe returnBuffer.
-     * @param[in] buf Input parameter.
-     * @details Calls: assign(), lock(), push(), std::move(), notify_one().
-     */
     void returnBuffer(Buffer buf) {
         // Restore the buffer to its canonical pool size in case the caller
         // resized or moved-from it via ScopedBuffer::get().  assign() sets
@@ -560,11 +465,6 @@ private:
         // the size-mismatch and the zero-fill requirements.
         buf.assign(buffer_size_, uint8_t{0});
         {
-            /**
-             * @brief TBD: Describe lock.
-             * @param[in] mutex_ Input parameter.
-             * @return Return value.
-             */
             std::lock_guard<std::mutex> lock(mutex_);
             free_.push(std::move(buf));
         }

@@ -58,30 +58,21 @@ struct PaxosSnapshot {
     
     /**
      * Serialize snapshot to JSON
-     * @brief TBD: Describe toJSON.
-     * @return Return value.
      */
     nlohmann::json toJSON() const;
     
     /**
      * Deserialize snapshot from JSON
-     * @brief TBD: Describe fromJSON.
-     * @param[in] json Input parameter.
-     * @return Return value.
      */
     static PaxosSnapshot fromJSON(const nlohmann::json& json);
     
     /**
      * Calculate checksum of snapshot data
-     * @brief TBD: Describe calculateChecksum.
-     * @return Return value.
      */
     std::string calculateChecksum() const;
     
     /**
      * Verify checksum
-     * @brief TBD: Describe verifyChecksum.
-     * @return True on success.
      */
     bool verifyChecksum() const;
 
@@ -147,7 +138,6 @@ public:
     /**
      * Load the most recent snapshot
      * @return Snapshot on success, nullopt if no snapshot exists
-     * @brief TBD: Describe loadLatestSnapshot.
      */
     std::optional<PaxosSnapshot> loadLatestSnapshot();
     
@@ -155,21 +145,18 @@ public:
      * Load a specific snapshot by ID
      * @param snapshot_id Snapshot ID to load
      * @return Snapshot on success, nullopt if not found
-     * @brief TBD: Describe loadSnapshot.
      */
     std::optional<PaxosSnapshot> loadSnapshot(uint64_t snapshot_id);
     
     /**
      * List all available snapshots
      * @return Vector of snapshot IDs (sorted newest first)
-     * @brief TBD: Describe listSnapshots.
      */
     std::vector<uint64_t> listSnapshots() const;
     
     /**
      * Delete old snapshots, keeping only the most recent N
      * @param keep_count Number of snapshots to keep
-     * @brief TBD: Describe cleanupOldSnapshots.
      */
     void cleanupOldSnapshots(size_t keep_count);
     
@@ -177,7 +164,6 @@ public:
      * Get snapshot file path for a given ID
      * @param snapshot_id Snapshot ID
      * @return Full file path
-     * @brief TBD: Describe getSnapshotPath.
      */
     std::string getSnapshotPath(uint64_t snapshot_id) const;
     
@@ -188,10 +174,7 @@ private:
     mutable std::mutex mutex_;
     mutable uint64_t last_snapshot_id_{0};
     
-    /**
-     * @brief Generate unique snapshot ID (timestamp-based)
-     * @return Return value.
-     */
+    // Generate unique snapshot ID (timestamp-based)
     uint64_t generateSnapshotId() const;
 };
 

@@ -119,11 +119,6 @@ public:
         bool is_predictive = false;
     };
 
-    /**
-     * @brief TBD: Describe HotShardSplitPolicy.
-     * @param[in] detector Input parameter.
-     * @return Return value.
-     */
     explicit HotShardSplitPolicy(std::shared_ptr<ShardLoadDetector> detector);
 
     HotShardSplitPolicy(
@@ -144,14 +139,12 @@ public:
      * than HotShardSplitPolicy.
      *
      * @param pd Non-owning pointer; pass nullptr to disable ML-based path.
-     * @brief TBD: Describe setPredictiveDetector.
      */
     void setPredictiveDetector(themisdb::sharding::PredictiveFailureDetector* pd);
 
     /**
      * Evaluate current and forecasted shard load and return all split proposals.
      * @return Zero or more proposals; empty when no shards require splitting.
-     * @brief TBD: Describe evaluate.
      */
     std::vector<SplitProposal> evaluate() const;
 
@@ -249,11 +242,6 @@ public:
         std::string error_message;
     };
     
-     * @param[in] topology Input parameter.
-     * @param[in] load_detector Input parameter.
-     * @param[in] metrics Input parameter.
-     * @param[in] migrator Input parameter.
-     * @return Return value.
     /** @brief Construct coordinator with default config. */
     explicit AutoRebalancer(
         std::shared_ptr<ShardTopology> topology,
@@ -276,13 +264,11 @@ public:
     
     /**
      * Start automatic rebalancing monitoring
-     * @brief TBD: Describe start.
      */
     void start();
     
     /**
      * Stop automatic rebalancing
-     * @brief TBD: Describe stop.
      */
     void stop();
     
@@ -294,7 +280,6 @@ public:
     /**
      * Manually trigger rebalance check
      * @return true if rebalance was triggered
-     * @brief TBD: Describe triggerCheck.
      */
     bool triggerCheck();
     
@@ -303,7 +288,6 @@ public:
      * (Only needed if require_manual_approval=true)
      * @param operation_id Operation to approve
      * @return true if approved successfully
-     * @brief TBD: Describe approveOperation.
      */
     bool approveOperation(const std::string& operation_id);
     
@@ -311,35 +295,30 @@ public:
      * Cancel active rebalance operation
      * @param operation_id Operation to cancel
      * @return true if cancelled successfully
-     * @brief TBD: Describe cancelOperation.
      */
     bool cancelOperation(const std::string& operation_id);
     
     /**
      * Get status of all operations
      * @return Vector of operation statuses
-     * @brief TBD: Describe getOperationStatuses.
      */
     std::vector<OperationStatus> getOperationStatuses() const;
     
     /**
      * Get statistics
      * @return JSON statistics
-     * @brief TBD: Describe getStatistics.
      */
     nlohmann::json getStatistics() const;
 
     /**
      * Attach a HotShardSplitPolicy so the monitor loop also evaluates hot-shard splits.
      * @param policy Policy instance (may be nullptr to disable)
-     * @brief TBD: Describe setSplitPolicy.
      */
     void setSplitPolicy(std::shared_ptr<HotShardSplitPolicy> policy);
 
     /**
      * Attach an audit logger for emitting SHARD_SPLIT / SHARD_MERGE compliance events.
      * @param audit_logger Logger instance (may be nullptr to disable audit)
-     * @brief TBD: Describe setAuditLogger.
      */
     void setAuditLogger(std::shared_ptr<themis::utils::AuditLogger> audit_logger);
 
@@ -407,38 +386,26 @@ private:
     // Hot-shard split handling
     /** @brief Evaluate split policy proposals and dispatch eligible split operations. */
     void evaluateAndExecuteSplits();
-     * @param[in] proposal Input parameter.
-     * @return True on success.
     /** @brief Execute one split proposal by translating it into rebalance operation. */
     bool executeSplitProposal(const HotShardSplitPolicy::SplitProposal& proposal);
     
     // Rebalance execution
-     * @param[in] recommendation Input parameter.
-     * @return True on success.
     /** @brief Execute one rebalance recommendation end-to-end. */
     bool executeRebalance(const LoadImbalanceResult::RebalanceRecommendation& recommendation);
-     * @return Return value.
     /** @brief Generate unique rebalance operation identifier. */
     std::string generateOperationId() const;
-     * @param[in] operation_id Input parameter.
-     * @return Return value.
     /** @brief Sign operation intent using override callback or built-in crypto path. */
     std::string signOperation(const std::string& operation_id) const;
     
     // Safety checks
-     * @return True on success.
     /** @brief Return whether policy/cooldown/concurrency limits allow new operation. */
     bool canTriggerRebalance() const;
-     * @param[in] imbalance Input parameter.
-     * @return True on success.
     /** @brief Return whether imbalance recommendations satisfy configured safety limits. */
     bool isWithinSafetyLimits(const LoadImbalanceResult& imbalance) const;
     
     // Operation management
     /** @brief Purge finished operations and update counters/history snapshots. */
     void cleanupCompletedOperations();
-     * @param[in] operation_id Input parameter.
-     * @param[in] state Input parameter.
     /** @brief Update one operation status entry in persistent history. */
     void updateOperationStatus(const std::string& operation_id, RebalanceState state);
 };

@@ -50,12 +50,6 @@ template<typename E>
 unexpected(E) -> unexpected<E>;
 
 template<typename E>
-/**
- * @brief TBD: Describe make_unexpected.
- * @param[in] e Input parameter.
- * @return Return value.
- * @details Implements make_unexpected without additional internal calls.
- */
 unexpected<std::decay_t<E>> make_unexpected(E&& e) {
     return unexpected<std::decay_t<E>>(std::forward<E>(e));
 }
@@ -259,11 +253,6 @@ public:
     // Constructors
     Error() : code_(errors::ErrorCode::ERR_UNKNOWN) {}
     
-    /**
-     * @brief TBD: Describe Error.
-     * @param[in] code Input parameter.
-     * @return Return value.
-     */
     explicit Error(errors::ErrorCode code) 
         : code_(code) {}
     
@@ -359,21 +348,11 @@ Result<T> Err(errors::ErrorCode code, std::string context = "") {
  * Usage: return Ok(value);
  */
 template<typename T>
-/**
- * @brief TBD: Describe Ok.
- * @param[in] value Input parameter.
- * @return Return value.
- * @details Implements Ok without additional internal calls.
- */
 Result<std::decay_t<T>> Ok(T&& value) {
     return Result<std::decay_t<T>>(std::forward<T>(value));
 }
 
-/**
- * @brief Specialization for void-like operations
- * @return Return value.
- * @details Implements OkVoid without additional internal calls.
- */
+// Specialization for void-like operations
 inline Result<void> OkVoid() {
     return Result<void>();
 }
@@ -396,14 +375,7 @@ Result<T*> fromNullable(T* ptr, errors::ErrorCode errorCode, std::string context
     return ptr;
 }
 
-/**
- * @brief Convert bool + message to Result<void>
- * @param[in] ok Input parameter.
- * @param[in] errorMessage Input parameter.
- * @param[in] errorCode Input parameter.
- * @return Return value.
- * @details Calls: tl::unexpected(), Error().
- */
+// Convert bool + message to Result<void>
 inline Result<void> fromBoolStatus(bool ok, const std::string& errorMessage, 
                                      errors::ErrorCode errorCode) {
     if (!ok) {

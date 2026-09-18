@@ -84,7 +84,6 @@ public:
     /**
      * @brief Construct a context wrapping @p underlying.
      * @param underlying  StorageContext to forward all storage calls to.
-     * @return Return value.
      */
     explicit MutationTransactionContext(MutationExecutor::StorageContext& underlying)
         : underlying_(underlying) {}
@@ -180,7 +179,6 @@ public:
      *
      * After rollback() the undo log is cleared.  Subsequent calls are no-ops
      * unless new mutations are recorded.
-     * @details Calls: rbegin(), rend(), remove(), put(), clear().
      */
     void rollback() {
         for (auto it = undo_log_.rbegin(); it != undo_log_.rend(); ++it) {

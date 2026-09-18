@@ -60,10 +60,6 @@ struct ProvenanceStepRecord {
  */
 class IProvenanceStore {
 public:
-    /**
-     * @brief TBD: Describe ~IProvenanceStore.
-     * @return Return value.
-     */
     virtual ~IProvenanceStore() = default;
 
     /**
@@ -162,7 +158,6 @@ public:
      *
      * @param config Storage configuration.
      * @throws std::runtime_error if database cannot be opened.
-     * @return Return value.
      */
     explicit RocksDBProvenanceStore(Config config);
 

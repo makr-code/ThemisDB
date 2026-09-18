@@ -52,16 +52,8 @@ public:
         int token_count = 0;                   // Total tokens used
         nlohmann::json metadata;               // Additional fields (feedback, user_id, etc.)
 
-        /**
-         * @brief Serialization
-         * @return Return value.
-         */
+        // Serialization
         nlohmann::json toJson() const;
-        /**
-         * @brief TBD: Describe fromJson.
-         * @param[in] j Input parameter.
-         * @return Return value.
-         */
         static Interaction fromJson(const nlohmann::json& j);
     };
 
@@ -147,16 +139,7 @@ private:
 
     static constexpr const char* KEY_PREFIX = "llm_interaction:";
     
-    /**
-     * @brief TBD: Describe makeKey.
-     * @param[in] id Input parameter.
-     * @return Return value.
-     */
     std::string makeKey(const std::string& id) const;
-    /**
-     * @brief TBD: Describe generateId.
-     * @return Return value.
-     */
     std::string generateId() const;
 };
 

@@ -137,7 +137,6 @@ public:
      * @brief Construct coordinator
      * @param truetime TrueTime instance for timestamping
      * @param config Coordinator configuration
-     * @return Return value.
      */
     explicit DistributedTransactionCoordinator(
         std::shared_ptr<TrueTime> truetime,

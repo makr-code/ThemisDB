@@ -93,10 +93,6 @@ struct ToTResult {
  */
 class IToTThoughtGenerator {
 public:
-    /**
-     * @brief TBD: Describe ~IToTThoughtGenerator.
-     * @return Return value.
-     */
     virtual ~IToTThoughtGenerator() = default;
 
     /**
@@ -121,10 +117,6 @@ public:
  */
 class IToTEvaluator {
 public:
-    /**
-     * @brief TBD: Describe ~IToTEvaluator.
-     * @return Return value.
-     */
     virtual ~IToTEvaluator() = default;
 
     /**
@@ -206,7 +198,6 @@ public:
     /**
      * @brief Set the thought generator.
      * @return Reference to @c *this for chaining.
-     * @param[in] generator Input parameter.
      */
     TreeOfThoughtsBuilder& setThoughtGenerator(
         std::shared_ptr<IToTThoughtGenerator> generator);
@@ -214,7 +205,6 @@ public:
     /**
      * @brief Set the node evaluator.
      * @return Reference to @c *this for chaining.
-     * @param[in] evaluator Input parameter.
      */
     TreeOfThoughtsBuilder& setEvaluator(
         std::shared_ptr<IToTEvaluator> evaluator);
@@ -222,13 +212,11 @@ public:
     /**
      * @brief Update the search configuration.
      * @return Reference to @c *this for chaining.
-     * @param[in] config Input parameter.
      */
     TreeOfThoughtsBuilder& setConfig(const ToTConfig& config);
 
     /**
      * @brief Return a read-only reference to the current configuration.
-     * @return Return value.
      */
     const ToTConfig& getConfig() const;
 
@@ -305,62 +293,27 @@ private:
     std::shared_ptr<IToTThoughtGenerator> generator_;
     std::shared_ptr<IToTEvaluator>        evaluator_;
  
-    /**
-     * @brief Internal search implementations
-     * @param[in] problem Input parameter.
-     * @param[in] config Input parameter.
-     * @param[in] generator Input parameter.
-     * @param[in] evaluator Input parameter.
-     * @return Return value.
-     */
+    // Internal search implementations
     ToTResult solveBFS(
         const std::string& problem,
         const ToTConfig& config,
         const std::shared_ptr<IToTThoughtGenerator>& generator,
         const std::shared_ptr<IToTEvaluator>& evaluator);
-    /**
-     * @brief TBD: Describe solveDFS.
-     * @param[in] problem Input parameter.
-     * @param[in] config Input parameter.
-     * @param[in] generator Input parameter.
-     * @param[in] evaluator Input parameter.
-     * @return Return value.
-     */
     ToTResult solveDFS(
         const std::string& problem,
         const ToTConfig& config,
         const std::shared_ptr<IToTThoughtGenerator>& generator,
         const std::shared_ptr<IToTEvaluator>& evaluator);
-    /**
-     * @brief TBD: Describe solveBeam.
-     * @param[in] problem Input parameter.
-     * @param[in] config Input parameter.
-     * @param[in] generator Input parameter.
-     * @param[in] evaluator Input parameter.
-     * @return Return value.
-     */
     ToTResult solveBeam(
         const std::string& problem,
         const ToTConfig& config,
         const std::shared_ptr<IToTThoughtGenerator>& generator,
         const std::shared_ptr<IToTEvaluator>& evaluator);
 
-    /**
-     * @brief Shared helpers
-     * @param[in] thought Input parameter.
-     * @param[in] parent_path Input parameter.
-     * @param[in] depth Input parameter.
-     * @return Return value.
-     */
+    // Shared helpers
     ToTNode makeNode(const std::string& thought,
                      const std::vector<std::string>& parent_path,
                      size_t depth) const;
-    /**
-     * @brief TBD: Describe synthesiseAnswer.
-     * @param[in] problem Input parameter.
-     * @param[in] best_path Input parameter.
-     * @return Return value.
-     */
     std::string synthesiseAnswer(const std::string& problem,
                                  const std::vector<std::string>& best_path) const;
 };

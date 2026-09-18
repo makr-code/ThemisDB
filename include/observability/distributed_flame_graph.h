@@ -73,11 +73,9 @@ struct MergedFlameGraph {
      * frame1;frame2;frame3 <count>
      * ```
      * Lines are sorted by stack string for deterministic output.
-     * @return Return value.
      */
     std::string toFoldedText() const;
 
-     * @return Return value.
     /** @brief Serialize to JSON (metadata + folded text payload). */
     json toJSON() const;
 };
@@ -163,7 +161,6 @@ public:
      * overwritten (last-write-wins).  Only @c ProfileType::CPU snapshots
      * contribute sample data; other types are accepted but ignored during
      * @c merge().
-     * @param[in] profile Input parameter.
      */
     void addNodeProfile(const NodeProfile& profile);
 
@@ -207,19 +204,16 @@ public:
 
     /**
      * @brief Return the list of node IDs for which profiles are stored.
-     * @return Return value.
      */
     std::vector<std::string> getNodeIds() const;
 
     /**
      * @brief Return the number of stored node profiles.
-     * @return Return value.
      */
     size_t nodeCount() const;
 
     /**
      * @brief Retrieve the active configuration.
-     * @return Return value.
      */
     DistributedFlameGraphConfig getConfig() const;
 

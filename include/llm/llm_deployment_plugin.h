@@ -41,10 +41,6 @@ enum class DeploymentMode {
  * @brief Source configuration for model deployment
  */
 struct ModelSource {
-    /**
-     * @brief TBD: Describe ~ModelSource.
-     * @return Return value.
-     */
     virtual ~ModelSource() = default;
     std::string type;              // "local", "ollama", "http", "https"
     std::string location;          // Path or URL
@@ -109,10 +105,6 @@ struct DeploymentConfig {
  * @brief Status of a deployed model
  */
 struct ModelStatus {
-    /**
-     * @brief TBD: Describe ~ModelStatus.
-     * @return Return value.
-     */
     virtual ~ModelStatus() = default;
     std::string model_id;
     std::string model_path;
@@ -164,8 +156,6 @@ class LLMDeploymentPlugin {
 public:
     /**
      * @brief Construct deployment plugin with configuration
-     * @param[in] config Input parameter.
-     * @return Return value.
      */
     explicit LLMDeploymentPlugin(const DeploymentConfig& config);
     
@@ -181,12 +171,8 @@ public:
         std::string client_ip;  ///< Originating client IP address (may be empty)
     };
 
-    /**
-     * @brief Set the authentication context for the calling thread.
-     * @param[in] ctx Input parameter.
-     * @note Exception safety: noexcept.
-     * @details Must be called before any method that performs audit logging.
-     */
+    /// Set the authentication context for the calling thread.
+    /// Must be called before any method that performs audit logging.
     static void setRequestContext(const RequestContext& ctx) noexcept;
 
     /// Clear the authentication context for the calling thread.
@@ -354,74 +340,23 @@ private:
     std::vector<ModelStatus> model_registry_;
     std::vector<AuditEntry> audit_log_;
     
-    /**
-     * @brief Helper methods
-     * @param[in] entry Input parameter.
-     */
+    // Helper methods
     void logAudit(const AuditEntry& entry);
-    /**
-     * @brief TBD: Describe saveModelRegistry.
-     */
     void saveModelRegistry();
-    /**
-     * @brief TBD: Describe loadModelRegistry.
-     */
     void loadModelRegistry();
-    /**
-     * @brief TBD: Describe findBestSource.
-     * @param[in] model_id Input parameter.
-     * @return Return value.
-     */
     std::optional<ModelSource> findBestSource(const std::string& model_id);
-    /**
-     * @brief TBD: Describe getModelPath.
-     * @param[in] model_id Input parameter.
-     * @return Return value.
-     */
     std::string getModelPath(const std::string& model_id) const;
-    /**
-     * @brief Converts a model_id into a sanitised filename (colons/slashes → '_', '.
-     * @param[in] model_id Input parameter.
-     * @return Return value.
-     * @details gguf' appended when no recognised extension is present). Shared by getModelPath() and findBestSource().
-     */
+    /// Converts a model_id into a sanitised filename (colons/slashes → '_', '.gguf' appended
+    /// when no recognised extension is present). Shared by getModelPath() and findBestSource().
     static std::string modelIdToFilename(const std::string& model_id);
-    /**
-     * @brief TBD: Describe verifyChecksum.
-     * @param[in] file_path Input parameter.
-     * @param[in] expected_checksum Input parameter.
-     * @param[in] checksum_type Input parameter.
-     * @return True on success.
-     */
     bool verifyChecksum(const std::string& file_path, 
                         const std::string& expected_checksum,
                         const std::string& checksum_type);
     
-    /**
-     * @brief BaseEntity storage helpers
-     * @param[in] status Input parameter.
-     * @param[in] file_path Input parameter.
-     * @return True on success.
-     */
+    // BaseEntity storage helpers
     bool saveModelToStorage(const ModelStatus& status, const std::string& file_path);
-    /**
-     * @brief TBD: Describe loadModelFromStorage.
-     * @param[in] model_id Input parameter.
-     * @return Return value.
-     */
     std::optional<LLMModelMetadata> loadModelFromStorage(const std::string& model_id);
-    /**
-     * @brief TBD: Describe updateModelInStorage.
-     * @param[in] model_id Input parameter.
-     * @param[in] status Input parameter.
-     * @return True on success.
-     */
     bool updateModelInStorage(const std::string& model_id, const ModelStatus& status);
-    /**
-     * @brief TBD: Describe deleteModelFromStorage.
-     * @param[in] model_id Input parameter.
-     * @return True on success.
-     */
     bool deleteModelFromStorage(const std::string& model_id);
 };
 

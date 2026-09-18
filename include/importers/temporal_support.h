@@ -34,11 +34,6 @@ public:
         BI_TEMPORAL       ///< Both dimensions together
     };
 
-    /**
-     * @brief TBD: Describe temporalModelToString.
-     * @param[in] m Input parameter.
-     * @return Return value.
-     */
     static std::string temporalModelToString(TemporalModel m);
 
     struct TemporalSchema {
@@ -62,8 +57,6 @@ public:
      *   valid_from, valid_to, effective_date, expiry_date,
      *   created_at, updated_at, deleted_at,
      *   sys_period_start, sys_period_end.
-     * @param[in] schemas Input parameter.
-     * @return Return value.
      */
     std::vector<TemporalSchema> detectTemporalDimensions(
         const std::vector<InferenceTableSchema>& schemas
@@ -85,7 +78,6 @@ public:
          *
          * @param temporal   Detected temporal schema for the table.
          * @param timestamp  ISO 8601 timestamp string.
-         * @return Return value.
          */
         std::string buildPointInTimeQuery(
             const TemporalSchema& temporal,
@@ -94,9 +86,6 @@ public:
 
         /**
          * @brief Generate a SQL:2011 FOR SYSTEM_TIME AS OF query.
-         * @param[in] temporal Input parameter.
-         * @param[in] timestamp Input parameter.
-         * @return Return value.
          */
         std::string buildSystemTimeQuery(
             const TemporalSchema& temporal,
@@ -105,17 +94,7 @@ public:
     };
 
 private:
-    /**
-     * @brief TBD: Describe isValidTimeColumn.
-     * @param[in] col_name Input parameter.
-     * @return True on success.
-     */
     static bool isValidTimeColumn(const std::string& col_name);
-    /**
-     * @brief TBD: Describe isTransactionTimeColumn.
-     * @param[in] col_name Input parameter.
-     * @return True on success.
-     */
     static bool isTransactionTimeColumn(const std::string& col_name);
 };
 

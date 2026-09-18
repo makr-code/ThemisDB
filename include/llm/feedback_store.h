@@ -99,16 +99,8 @@ public:
         int training_batch_id = 0;             // Training batch ID (0 = not trained)
         nlohmann::json metadata;               // Additional fields
 
-        /**
-         * @brief Serialization
-         * @return Return value.
-         */
+        // Serialization
         nlohmann::json toJson() const;
-        /**
-         * @brief TBD: Describe fromJson.
-         * @param[in] j Input parameter.
-         * @return Return value.
-         */
         static FeedbackEntry fromJson(const nlohmann::json& j);
     };
 
@@ -162,7 +154,6 @@ public:
     
     /**
      * @brief Get current validation plugin
-     * @return Return value.
      */
     std::shared_ptr<IFeedbackPlugin> getValidationPlugin() const;
 
@@ -295,11 +286,6 @@ public:
     std::vector<FeedbackEntry> getFeedbackForAdapter(
         const std::string& adapter_id,
         const ListOptions& options) const;
-    /**
-     * @brief TBD: Describe getFeedbackForAdapter.
-     * @param[in] adapter_id Input parameter.
-     * @return Return value.
-     */
     std::vector<FeedbackEntry> getFeedbackForAdapter(
         const std::string& adapter_id) const;
     
@@ -340,38 +326,15 @@ private:
     static constexpr const char* KEY_PREFIX = "help_feedback:";
     static constexpr const char* GRAPH_EDGE_PREFIX = "feedback_graph_edge:";
     
-    /**
-     * @brief TBD: Describe makeKey.
-     * @param[in] id Input parameter.
-     * @return Return value.
-     */
     std::string makeKey(const std::string& id) const;
-    /**
-     * @brief TBD: Describe makeGraphEdgeKey.
-     * @param[in] feedback_id Input parameter.
-     * @param[in] adapter_id Input parameter.
-     * @return Return value.
-     */
     std::string makeGraphEdgeKey(const std::string& feedback_id, 
                                   const std::string& adapter_id) const;
-    /**
-     * @brief TBD: Describe generateId.
-     * @return Return value.
-     */
     std::string generateId() const;
     
-    /**
-     * @brief Spam detection configuration (deprecated, use plugin instead)
-     * @param[in] text Input parameter.
-     * @return True on success.
-     */
+    // Spam detection configuration (deprecated, use plugin instead)
     static bool isLikelySpam(const std::string& text);
     
-    /**
-     * @brief Helper: Apply plugin validation if available
-     * @param[in,out] feedback Input/output parameter.
-     * @return Return value.
-     */
+    // Helper: Apply plugin validation if available
     ValidationStatus applyPluginValidation(FeedbackEntry& feedback);
 };
 

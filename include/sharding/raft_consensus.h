@@ -102,7 +102,6 @@ public:
     /**
      * @brief Construct enhanced Raft consensus engine.
      * @param config Consensus configuration and timing thresholds.
-     * @return Return value.
      */
     explicit RaftConsensus(const Config& config);
 
@@ -201,7 +200,6 @@ public:
     /**
      * @brief Get reference to underlying Raft state
         * @return Mutable reference to underlying Raft state machine.
-     * @details Implements getRaftState without additional internal calls.
      */
     RaftState& getRaftState() { return raft_state_; }
         /** @brief Return const reference to underlying Raft state machine. */

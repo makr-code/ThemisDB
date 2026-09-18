@@ -52,11 +52,8 @@ public:
         std::chrono::system_clock::time_point started_at;   ///< Task execution start timestamp.
         std::string assigned_leader;                        ///< Leader responsible for execution.
 
-         * @return Return value.
         /** @brief Serialize task into JSON payload. */
         nlohmann::json toJson() const;
-         * @param[in] j Input parameter.
-         * @return Return value.
         /** @brief Deserialize task from JSON payload. */
         static CoordinatorTask fromJson(const nlohmann::json& j);
     };
@@ -79,7 +76,6 @@ public:
         std::chrono::system_clock::time_point last_heartbeat;   ///< Timestamp of last leader heartbeat.
         uint32_t term;                                      ///< Raft-inspired coordination term.
 
-         * @return Return value.
         /** @brief Serialize leader info into JSON payload. */
         nlohmann::json toJson() const;
     };
@@ -126,7 +122,6 @@ public:
      * @param topology Shared shard topology provider.
      * @param gossip_mgr Shared gossip configuration manager.
      * @param config Coordinator runtime configuration.
-     * @return Return value.
      */
     explicit DistributedCoordinator(
         const std::string& local_shard_id,
@@ -163,7 +158,6 @@ public:
     CoordinatorRole getRole() const { return role_.load(); }
     /** @brief Return true when this node is current coordinator leader. */
     bool isLeader() const { return role_.load() == CoordinatorRole::LEADER; }
-     * @return Return value.
     /** @brief Return currently known leader shard ID when available. */
     std::optional<std::string> getCurrentLeader() const;
 
@@ -192,30 +186,24 @@ public:
      * @return True when task was found and removed.
      */
     bool cancelTask(const std::string& task_id);
-     * @return Return value.
     /** @brief Return current pending task queue snapshot. */
     std::vector<CoordinatorTask> getPendingTasks() const;
 
     // Task execution callback
-     * @param[in] executor Input parameter.
     /** @brief Register callback that executes coordinated tasks. */
     void setTaskExecutor(TaskExecutor executor);
 
     // Leader info
-     * @return Return value.
     /** @brief Return structured snapshot of current leader information. */
     LeaderInfo getLeaderInfo() const;
 
     // Callbacks
-     * @param[in] callback Input parameter.
     /** @brief Register callback invoked after leader election events. */
     void setLeaderElectedCallback(LeaderElectedCallback callback);
 
     // Statistics
-     * @return Return value.
     /** @brief Return copy of current runtime statistics counters. */
     Statistics getStatistics() const;
-     * @return Return value.
     /** @brief Return runtime statistics as JSON payload. */
     nlohmann::json getStatisticsJson() const;
 
@@ -226,8 +214,6 @@ public:
      * Register the transaction coordinator whose in-flight transactions this
      * DistributedCoordinator will expose.  The caller must ensure the
      * coordinator outlives this object (or call with nullptr to detach).
-     * @brief TBD: Describe setTransactionCoordinator.
-     * @param[in,out] txn_coordinator Input/output parameter.
      */
     void setTransactionCoordinator(
         themisdb::sharding::CrossShardTransactionCoordinator* txn_coordinator);
@@ -248,7 +234,6 @@ public:
     std::optional<themisdb::sharding::CrossShardTransaction>
     getTransaction(const std::string& txn_id) const;
 
-     * @return True on success.
     /** @brief Return whether the coordinator is healthy (leader healthy and running). */
     bool isHealthy() const;
 
@@ -311,47 +296,36 @@ private:
     // Leader detection
     /** @brief Detect and mark leader failure based on lease expiration. */
     void detectLeaderFailure();
-     * @return True on success.
     /** @brief Return whether current leader heartbeat is still fresh. */
     bool isLeaderHealthy() const;
     
     // Heartbeats
     /** @brief Emit leader heartbeat and renew lease metadata. */
     void sendHeartbeat();
-     * @param[in] leader_id Input parameter.
-     * @param[in] term Input parameter.
     /** @brief Process incoming leader heartbeat and update role/term state. */
     void receiveHeartbeat(const std::string& leader_id, uint32_t term);
     
     // Election
     /** @brief Broadcast vote requests for current election term. */
     void requestVotes();
-     * @param[in] candidate_id Input parameter.
-     * @param[in] term Input parameter.
     /** @brief Process incoming vote request from candidate. */
     void receiveVoteRequest(const std::string& candidate_id, uint32_t term);
-     * @param[in] candidate_id Input parameter.
-     * @param[in] granted Input parameter.
     /** @brief Emit vote response to election candidate. */
     void sendVote(const std::string& candidate_id, bool granted);
     
     // Task distribution (gossip-based)
-     * @param[in] task Input parameter.
     /** @brief Broadcast task announcement through gossip channel. */
     void broadcastTask(const CoordinatorTask& task);
-     * @param[in] task Input parameter.
     /** @brief Handle task announcement received from remote leader. */
     void receiveTask(const CoordinatorTask& task);
     
     // Lease management
-     * @return True on success.
     /** @brief Return true when local view of leader lease is still valid. */
     bool hasValidLease() const;
     /** @brief Renew local leader lease expiration timestamp. */
     void renewLease();
     
     // Graceful handoff
-     * @param[in] new_leader Input parameter.
     /** @brief Transfer leadership intent to another shard and step down. */
     void transferLeadership(const std::string& new_leader);
 };

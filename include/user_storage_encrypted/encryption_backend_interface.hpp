@@ -28,22 +28,13 @@ namespace user_storage {
 template<typename T>
 class Result {
 public:
-    /**
-     * @brief Success constructor
-     * @param[in] value Input parameter.
-     * @return Return value.
-     */
+    // Success constructor
     explicit Result(T value) 
         : value_(std::move(value))
         , success_(true) 
     {}
     
-    /**
-     * @brief Error constructor
-     * @param[in] error_msg Input parameter.
-     * @return Return value.
-     * @details Implements error without additional internal calls.
-     */
+    // Error constructor
     static Result error(const std::string& error_msg) {
         Result r;
         r.success_ = false;
@@ -61,12 +52,6 @@ public:
         return value_; 
     }
     
-    /**
-     * @brief TBD: Describe value.
-     * @return Return value.
-     * @throws std::runtime_error if an error occurs.
-     * @details Implements value without additional internal calls.
-     */
     T& value() { 
         if (!success_) {
           throw std::runtime_error("Accessing value of failed Result");
@@ -91,12 +76,6 @@ class Result<void> {
 public:
     Result() : success_(true) {}
     
-    /**
-     * @brief TBD: Describe error.
-     * @param[in] error_msg Input parameter.
-     * @return Return value.
-     * @details Implements error without additional internal calls.
-     */
     static Result error(const std::string& error_msg) {
         Result r;
         r.success_ = false;
@@ -124,10 +103,6 @@ private:
  */
 class EncryptionBackendInterface {
 public:
-    /**
-     * @brief TBD: Describe ~EncryptionBackendInterface.
-     * @return Return value.
-     */
     virtual ~EncryptionBackendInterface() = default;
     
     /**
@@ -186,13 +161,11 @@ public:
     
     /**
      * @brief Get backend name (e.g., "gocryptfs", "fscrypt")
-     * @return Return value.
      */
     virtual std::string getBackendName() const = 0;
     
     /**
      * @brief Get backend version
-     * @return Return value.
      */
     virtual std::string getBackendVersion() const = 0;
     

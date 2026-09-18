@@ -100,13 +100,6 @@ public:
      * ```
      */
     template<typename PluginInterface>
-    /**
-     * @brief TBD: Describe create.
-     * @param[in] plugin_name Input parameter.
-     * @return Return value.
-     * @throws std::runtime_error if an error occurs.
-     * @details Calls: lock(), getMutex(), getTypeRegistries(), typeid(), hash_code(), find(), end(), std::string().
-     */
     static std::unique_ptr<PluginInterface> create(const std::string& plugin_name) {
         std::shared_lock<std::shared_mutex> lock(getMutex());
         
@@ -184,11 +177,6 @@ public:
      * @return Vector of plugin names implementing that interface
      */
     template<typename PluginInterface>
-    /**
-     * @brief TBD: Describe listPlugins.
-     * @return Return value.
-     * @details Calls: lock(), getMutex(), getTypeRegistries(), typeid(), hash_code(), find(), end(), push_back().
-     */
     static std::vector<std::string> listPlugins() {
         std::shared_lock<std::shared_mutex> lock(getMutex());
         const auto& type_registries = getTypeRegistries();
@@ -215,12 +203,6 @@ public:
      * @return true if plugin implements this interface
      */
     template<typename PluginInterface>
-    /**
-     * @brief TBD: Describe hasPlugin.
-     * @param[in] plugin_name Input parameter.
-     * @return True on success.
-     * @details Calls: lock(), getMutex(), getTypeRegistries(), typeid(), hash_code(), find(), end(), count().
-     */
     static bool hasPlugin(const std::string& plugin_name) {
         std::shared_lock<std::shared_mutex> lock(getMutex());
         const auto& type_registries = getTypeRegistries();
@@ -240,12 +222,6 @@ public:
      * @return true if the factory was found and removed, false otherwise
      */
     template<typename PluginInterface>
-    /**
-     * @brief TBD: Describe unregisterFactory.
-     * @param[in] plugin_name Input parameter.
-     * @return True on success.
-     * @details Calls: lock(), getMutex(), getTypeRegistries(), typeid(), hash_code(), find(), end(), erase().
-     */
     static bool unregisterFactory(const std::string& plugin_name) {
         std::unique_lock<std::shared_mutex> lock(getMutex());
         auto& type_registries = getTypeRegistries();
@@ -279,21 +255,8 @@ private:
     using Registry = std::map<std::string, FactoryEntry>;
     using TypeRegistries = std::map<size_t, Registry>;
 
-    /**
-     * @brief TBD: Describe getTypeRegistries.
-     * @return Return value.
-     */
     static TypeRegistries& getTypeRegistries();
-    /**
-     * @brief TBD: Describe getTypeRegistry.
-     * @param[in] type Input parameter.
-     * @return Return value.
-     */
     static Registry& getTypeRegistry(const std::type_info& type);
-    /**
-     * @brief TBD: Describe getMutex.
-     * @return Return value.
-     */
     static std::shared_mutex& getMutex();
 };
 

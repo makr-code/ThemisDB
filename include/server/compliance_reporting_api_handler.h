@@ -45,48 +45,22 @@ public:
         std::shared_ptr<themis::AuthMiddleware> auth
     );
     
-    /**
-     * @brief TBD: Describe handleCoverageAnalysis.
-     * @param[in] req Input parameter.
-     * @return Return value.
-     */
     http::response<http::string_body> handleCoverageAnalysis(
         const http::request<http::string_body>& req
     );
     
-    /**
-     * @brief TBD: Describe handleComplianceReport.
-     * @param[in] req Input parameter.
-     * @return Return value.
-     */
     http::response<http::string_body> handleComplianceReport(
         const http::request<http::string_body>& req
     );
     
-    /**
-     * @brief TBD: Describe handleGapAnalysis.
-     * @param[in] req Input parameter.
-     * @return Return value.
-     */
     http::response<http::string_body> handleGapAnalysis(
         const http::request<http::string_body>& req
     );
     
-    /**
-     * @brief TBD: Describe handleGenerateReport.
-     * @param[in] req Input parameter.
-     * @return Return value.
-     */
     http::response<http::string_body> handleGenerateReport(
         const http::request<http::string_body>& req
     );
     
-    /**
-     * @brief TBD: Describe handleExportReport.
-     * @param[in] req Input parameter.
-     * @param[in] report_id Input parameter.
-     * @return Return value.
-     */
     http::response<http::string_body> handleExportReport(
         const http::request<http::string_body>& req,
         const std::string& report_id
@@ -96,46 +70,20 @@ private:
     std::shared_ptr<themis::governance::ComplianceReporter> reporter_;
     std::shared_ptr<themis::AuthMiddleware> auth_;
     
-    /**
-     * @brief TBD: Describe checkAuth.
-     * @param[in] req Input parameter.
-     * @param[in] required_role Input parameter.
-     * @return True on success.
-     */
     bool checkAuth(const http::request<http::string_body>& req, const std::string& required_role) const;
     
-    /**
-     * @brief TBD: Describe makeResponse.
-     * @param[in] status Input parameter.
-     * @param[in] body Input parameter.
-     * @param[in] req Input parameter.
-     * @return Return value.
-     */
     http::response<http::string_body> makeResponse(
         http::status status,
         const std::string& body,
         const http::request<http::string_body>& req
     ) const;
     
-    /**
-     * @brief TBD: Describe makeErrorResponse.
-     * @param[in] status Input parameter.
-     * @param[in] message Input parameter.
-     * @param[in] req Input parameter.
-     * @return Return value.
-     */
     http::response<http::string_body> makeErrorResponse(
         http::status status,
         const std::string& message,
         const http::request<http::string_body>& req
     ) const;
     
-    /**
-     * @brief TBD: Describe getQueryParam.
-     * @param[in] url Input parameter.
-     * @param[in] param Input parameter.
-     * @return Return value.
-     */
     std::optional<std::string> getQueryParam(const std::string& url, const std::string& param) const;
 };
 

@@ -80,12 +80,6 @@ public:
     // and is correct for all x86/ARM targets we support.
     static constexpr size_t kCacheLineSize = 64;
 
-    /**
-     * @brief TBD: Describe EventRingBuffer.
-     * @param[in] capacity Input parameter.
-     * @return Return value.
-     * @details Calls: reset(), store().
-     */
     explicit EventRingBuffer(size_t capacity) {
         // Round capacity up to next power of two (minimum 2).
         size_t cap = 2;

@@ -66,55 +66,78 @@ public:
     /// Returns the process-global singleton.
     static ExportFormatRegistry& instance();
 
-    /**
-     * @brief @brief Register a factory for a format key.
-     * @param[in] format_key Input parameter.
-     * @param[in] factory Input parameter.
-     * @details If `format_key` is already registered the old factory is replaced (allowing plug-ins to override built-in formats). Thread-safe.
-     */
+    /// @brief Register a factory for a format key.
+    ///
+    /// If `format_key` is already registered the old factory is replaced
+    /// (allowing plug-ins to override built-in formats).
+    /// Thread-safe.
     void registerFormat(const std::string& format_key, Factory factory);
 
-    /**
-     * @brief @brief Create an exporter for the given format key.
-     * @param[in] format_key Input parameter.
-     * @return Return value.
-     * @details @throws std::invalid_argument when `format_key` is unknown. Thread-safe.
-     */
+    /// @brief Create an exporter for the given format key.
+    ///
+    /// @throws std::invalid_argument when `format_key` is unknown.
+    /// Thread-safe.
     std::unique_ptr<IExporter> createExporter(const std::string& format_key) const;
 
-    /**
-     * @brief @returns true when at least one factory is registered for `format_key`.
-     * @param[in] format_key Input parameter.
-     * @return True on success.
-     * @details Thread-safe.
-     */
+    /// @returns true when at least one factory is registered for `format_key`.
+    /// Thread-safe.
     bool hasFormat(const std::string& format_key) const;
 
-    /**
-     * @brief @returns sorted list of all registered format keys.
-     * @return Return value.
-     * @details Thread-safe.
-     */
+    /// @returns sorted list of all registered format keys.
+    /// Thread-safe.
     std::vector<std::string> registeredFormats() const;
 
-    /**
-     * @brief @brief Register all built-in format writers.
-     * @details Idempotent — safe to call multiple times. Each call re-registers the built-in factories (useful for testing to reset to defaults). Registers plain formats and the four instruction-tuning template shortcuts: `jsonl_alpaca`, `jsonl_sharegpt`, `jsonl_chatml`, `jsonl_openai_ft`.
-     */
+    /// @brief Register all built-in format writers.
+    ///
+    /// Idempotent — safe to call multiple times.  Each call re-registers
+    /// the built-in factories (useful for testing to reset to defaults).
+    /// Registers plain formats and the four instruction-tuning template
+    /// shortcuts: `jsonl_alpaca`, `jsonl_sharegpt`, `jsonl_chatml`,
+    /// `jsonl_openai_ft`.
     void registerBuiltins();
 
-    /**
-     * @brief @brief Load user-defined template formats from a JSON config file.
-     * @param[in] config_path Input parameter.
-     * @details Reads the file at \p config_path, parses it as a JSON object, and registers each described template format via registerFormat(). ### Expected JSON schema ```json { "templates": [ { "format_key": "jsonl_my_template", "template_type": "alpaca", "field_mapping": { "instruction_field": "question", "input_field": "context", "output_field": "answer", "system_field": "system_prompt", "user_field": "user_message", "assistant_field": "assistant_response" } } ] } ``` Accepted `template_type` values: `"alpaca"`, `"sharegpt"`, `"chatml"`, `"openai_finetuning"`. The `field_mapping` object is optional; absent fields use the `FormatTemplateFieldMapping` defaults. @throws std::runtime_error when \p config_path cannot be opened. @throws std::invalid_argument when the JSON structure is invalid or a required field (`format_key`, `template_type`) is missing. @throws nlohmann::json::parse_error when the file is not valid JSON.
-     */
+    /// @brief Load user-defined template formats from a JSON config file.
+    ///
+    /// Reads the file at \p config_path, parses it as a JSON object, and
+    /// registers each described template format via registerFormat().
+    ///
+    /// ### Expected JSON schema
+    /// ```json
+    /// {
+    ///   "templates": [
+    ///     {
+    ///       "format_key":    "jsonl_my_template",
+    ///       "template_type": "alpaca",
+    ///       "field_mapping": {
+    ///         "instruction_field":  "question",
+    ///         "input_field":        "context",
+    ///         "output_field":       "answer",
+    ///         "system_field":       "system_prompt",
+    ///         "user_field":         "user_message",
+    ///         "assistant_field":    "assistant_response"
+    ///       }
+    ///     }
+    ///   ]
+    /// }
+    /// ```
+    /// Accepted `template_type` values: `"alpaca"`, `"sharegpt"`, `"chatml"`,
+    /// `"openai_finetuning"`.  The `field_mapping` object is optional; absent
+    /// fields use the `FormatTemplateFieldMapping` defaults.
+    ///
+    /// @throws std::runtime_error   when \p config_path cannot be opened.
+    /// @throws std::invalid_argument when the JSON structure is invalid or a
+    ///         required field (`format_key`, `template_type`) is missing.
+    /// @throws nlohmann::json::parse_error when the file is not valid JSON.
     void loadTemplatesFromConfig(const std::string& config_path);
 
-    /**
-     * @brief @brief Load user-defined template formats from a JSON string.
-     * @param[in] json_str Input parameter.
-     * @details Equivalent to loadTemplatesFromConfig() but accepts the JSON content directly as a string — useful for testing and in-process configuration. @throws std::invalid_argument when the JSON structure is invalid or a required field is missing. @throws nlohmann::json::parse_error when \p json_str is not valid JSON.
-     */
+    /// @brief Load user-defined template formats from a JSON string.
+    ///
+    /// Equivalent to loadTemplatesFromConfig() but accepts the JSON content
+    /// directly as a string — useful for testing and in-process configuration.
+    ///
+    /// @throws std::invalid_argument when the JSON structure is invalid or a
+    ///         required field is missing.
+    /// @throws nlohmann::json::parse_error when \p json_str is not valid JSON.
     void loadTemplatesFromJson(const std::string& json_str);
 
     /// @brief Remove all registered formats (useful for unit tests).

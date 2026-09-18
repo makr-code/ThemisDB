@@ -37,10 +37,6 @@ using json = nlohmann::json;
  * Complies with EU AI Act, GDPR Article 22, and eIDAS requirements.
  */
 struct AIDecisionAudit {
-    /**
-     * @brief TBD: Describe ~AIDecisionAudit.
-     * @return Return value.
-     */
     virtual ~AIDecisionAudit() = default;
     // Identification
     std::string decision_id;           // Unique decision ID
@@ -90,16 +86,8 @@ struct AIDecisionAudit {
     int64_t latency_ms = 0;            // Decision latency
     int token_count = 0;               // Tokens used
     
-    /**
-     * @brief Serialization
-     * @return Return value.
-     */
+    // Serialization
     json toJson() const;
-    /**
-     * @brief TBD: Describe fromJson.
-     * @param[in] j Input parameter.
-     * @return Return value.
-     */
     static AIDecisionAudit fromJson(const json& j);
 };
 
@@ -217,10 +205,6 @@ public:
         int64_t avg_latency_ms = 0;
     };
     
-    /**
-     * @brief TBD: Describe getStats.
-     * @return Return value.
-     */
     Stats getStats() const;
 
 private:
@@ -230,28 +214,9 @@ private:
     
     static constexpr const char* KEY_PREFIX = "ai_decision:";
     
-    /**
-     * @brief TBD: Describe makeKey.
-     * @param[in] id Input parameter.
-     * @return Return value.
-     */
     std::string makeKey(const std::string& id) const;
-    /**
-     * @brief TBD: Describe generateId.
-     * @return Return value.
-     */
     std::string generateId() const;
-    /**
-     * @brief TBD: Describe signDecision.
-     * @param[in] audit Input parameter.
-     * @return Return value.
-     */
     std::string signDecision(const AIDecisionAudit& audit);
-    /**
-     * @brief TBD: Describe verifySignature.
-     * @param[in] audit Input parameter.
-     * @return True on success.
-     */
     bool verifySignature(const AIDecisionAudit& audit) const;
 };
 

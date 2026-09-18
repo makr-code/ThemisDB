@@ -304,10 +304,6 @@ struct ArtifactMerkleProof {
  */
 class IAdapterDistributionStore {
 public:
-    /**
-     * @brief TBD: Describe ~IAdapterDistributionStore.
-     * @return Return value.
-     */
     virtual ~IAdapterDistributionStore() = default;
 
     /**
@@ -405,10 +401,6 @@ public:
  */
 class IArtifactMerkleProofEngine {
 public:
-    /**
-     * @brief TBD: Describe ~IArtifactMerkleProofEngine.
-     * @return Return value.
-     */
     virtual ~IArtifactMerkleProofEngine() = default;
 
     /**
@@ -485,10 +477,6 @@ public:
  */
 class ILoRADistributionManager {
 public:
-    /**
-     * @brief TBD: Describe ~ILoRADistributionManager.
-     * @return Return value.
-     */
     virtual ~ILoRADistributionManager() = default;
 
     /**

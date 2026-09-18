@@ -47,8 +47,6 @@ namespace themis::analytics::detail {
  * @param vals  Values to compute the percentile over (read-only, any order).
  * @param p     Percentile in [0, 100].  Values outside the range are clamped.
  * @return      The interpolated p-th percentile, or 0.0 if @p vals is empty.
- * @brief TBD: Describe computePercentile.
- * @details Calls: empty(), scratch(), begin(), end(), std::sort(), front(), back(), size().
  */
 inline double computePercentile(const std::vector<double>& vals, double p) {
     if (vals.empty()) {
@@ -76,11 +74,6 @@ inline double computePercentile(const std::vector<double>& vals, double p) {
 /**
  * Overload accepting a span for callers that already have a contiguous range
  * (e.g. a raw array, std::array, or a sub-range of a vector).
- * @brief TBD: Describe computePercentile.
- * @param[in] vals Input parameter.
- * @param[in] p Input parameter.
- * @return Return value.
- * @details Calls: empty(), scratch(), begin(), end(), std::sort(), front(), back(), size().
  */
 inline double computePercentile(std::span<const double> vals, double p) {
     if (vals.empty()) {

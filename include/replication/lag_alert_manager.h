@@ -414,7 +414,6 @@ public:
      * Thread-safe. Returns Prometheus 0.0.4 format text.
      * 
      * @note Thread safety: Acquires state_mutex_; returns copy.
-     * @return Return value.
      */
     std::string exportPrometheusMetrics() const;
 

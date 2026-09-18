@@ -57,16 +57,7 @@ struct SchemaAuditEntry {
     uint64_t version = 0;         ///< Associated schema version (0 if N/A)
     json metadata;                ///< Free-form extra context
 
-    /**
-     * @brief TBD: Describe toJSON.
-     * @return Return value.
-     */
     json toJSON() const;
-    /**
-     * @brief TBD: Describe fromJSON.
-     * @param[in] j Input parameter.
-     * @return Return value.
-     */
     static SchemaAuditEntry fromJSON(const json& j);
 };
 
@@ -95,12 +86,8 @@ public:
     /// RocksDB key prefix used for all audit entries
     static constexpr std::string_view kKeyPrefix = "audit:schema:";
 
-    /**
-     * @brief Construct with a storage reference.
-     * @param[in,out] db Input/output parameter.
-     * @return Return value.
-     * @details @param db RocksDB instance (non-owning reference)
-     */
+    /// Construct with a storage reference.
+    /// @param db  RocksDB instance (non-owning reference)
     explicit SchemaAuditLog(RocksDBWrapper& db);
     ~SchemaAuditLog() = default;
 
@@ -132,12 +119,8 @@ public:
     // Read API
     // ========================================================================
 
-    /**
-     * @brief Return all audit entries for a given table, in ascending timestamp order.
-     * @param[in] table_name Input parameter.
-     * @return Return value.
-     * @details An empty vector is returned if no entries exist or on storage error.
-     */
+    /// Return all audit entries for a given table, in ascending timestamp order.
+    /// An empty vector is returned if no entries exist or on storage error.
     std::vector<SchemaAuditEntry> getHistory(std::string_view table_name) const;
 
     /// Return audit entries across ALL tables, in ascending timestamp order.

@@ -284,42 +284,15 @@ struct BlobMetadata {
     uint32_t total_chunks = 1;
     uint64_t total_size = 0;
     
-    /**
-     * @brief Health check methods
-     * @return True on success.
-     */
+    // Health check methods
     bool isHealthy() const;
-    /**
-     * @brief TBD: Describe healthyLocationCount.
-     * @return Return value.
-     */
     uint32_t healthyLocationCount() const;
-    /**
-     * @brief TBD: Describe requiredLocationCount.
-     * @return Return value.
-     */
     uint32_t requiredLocationCount() const;
-    /**
-     * @brief TBD: Describe canRecover.
-     * @return True on success.
-     */
     bool canRecover() const;
-    /**
-     * @brief TBD: Describe getMissingShards.
-     * @return Return value.
-     */
     std::vector<std::string> getMissingShards() const;
     
-    /**
-     * @brief Serialization
-     * @return Return value.
-     */
+    // Serialization
     std::string toJson() const;
-    /**
-     * @brief TBD: Describe fromJson.
-     * @param[in] json Input parameter.
-     * @return Return value.
-     */
     static std::optional<BlobMetadata> fromJson(const std::string& json);
 };
 
@@ -409,53 +382,19 @@ public:
         const std::string& path
     )>;
     
-    /**
-     * @brief TBD: Describe BlobRedundancyManager.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit BlobRedundancyManager(const Config& config);
     ~BlobRedundancyManager();
     
-    /**
-     * @brief Lifecycle
-     * @return True on success.
-     */
+    // Lifecycle
     bool start();
-    /**
-     * @brief TBD: Describe stop.
-     */
     void stop();
-    /**
-     * @brief TBD: Describe isRunning.
-     * @return True on success.
-     */
     bool isRunning() const;
     
-    /**
-     * @brief Configuration Management
-     * @param[in] path Input parameter.
-     * @return True on success.
-     */
+    // Configuration Management
     bool loadConfig(const std::string& path);
-    /**
-     * @brief TBD: Describe reloadConfig.
-     * @return True on success.
-     */
     bool reloadConfig();
     BlobRedundancyConfig getConfigForBlob(BlobType type, const std::string& collection = "");
-    /**
-     * @brief TBD: Describe setCollectionOverride.
-     * @param[in] collection Input parameter.
-     * @param[in] config Input parameter.
-     */
     void setCollectionOverride(const std::string& collection, const BlobRedundancyConfig& config);
-    /**
-     * @brief TBD: Describe setDocumentOverride.
-     * @param[in] collection Input parameter.
-     * @param[in] doc_id Input parameter.
-     * @param[in] config Input parameter.
-     */
     void setDocumentOverride(const std::string& collection, const std::string& doc_id, 
                             const BlobRedundancyConfig& config);
     
@@ -468,135 +407,56 @@ public:
         const std::string& document_id = ""
     );
     
-    /**
-     * @brief Blob Unregistration (called when blobs are deleted)
-     * @param[in] blob_id Input parameter.
-     */
+    // Blob Unregistration (called when blobs are deleted)
     void unregisterBlob(const std::string& blob_id);
     
-    /**
-     * @brief Redundancy Operations
-     * @param[in] blob_id Input parameter.
-     * @return Return value.
-     */
+    // Redundancy Operations
     Result<void> ensureRedundancy(const std::string& blob_id);
-    /**
-     * @brief TBD: Describe repairBlob.
-     * @param[in] blob_id Input parameter.
-     * @return Return value.
-     */
     Result<void> repairBlob(const std::string& blob_id);
-    /**
-     * @brief TBD: Describe verifyBlob.
-     * @param[in] blob_id Input parameter.
-     * @return True on success.
-     */
     bool verifyBlob(const std::string& blob_id);
     
-    /**
-     * @brief Read/Write with redundancy
-     * @param[in] blob_id Input parameter.
-     * @param[in] data Input parameter.
-     * @param[in] handler Input parameter.
-     * @return Return value.
-     */
+    // Read/Write with redundancy
     Result<void> writeBlob(
         const std::string& blob_id,
         const std::vector<uint8_t>& data,
         WriteHandler handler
     );
     
-    /**
-     * @brief TBD: Describe readBlob.
-     * @param[in] blob_id Input parameter.
-     * @param[in] handler Input parameter.
-     * @return Return value.
-     */
     Result<std::vector<uint8_t>> readBlob(
         const std::string& blob_id,
         ReadHandler handler
     );
     
-    /**
-     * @brief TBD: Describe deleteBlob.
-     * @param[in] blob_id Input parameter.
-     * @param[in] handler Input parameter.
-     * @return Return value.
-     */
     Result<void> deleteBlob(
         const std::string& blob_id,
         DeleteHandler handler
     );
     
-    /**
-     * @brief Tier Management
-     * @param[in] blob_id Input parameter.
-     * @param[in] target Input parameter.
-     * @return Return value.
-     */
+    // Tier Management
     Result<void> tierDown(const std::string& blob_id, StorageTier target);
-    /**
-     * @brief TBD: Describe tierUp.
-     * @param[in] blob_id Input parameter.
-     * @param[in] target Input parameter.
-     * @return Return value.
-     */
     Result<void> tierUp(const std::string& blob_id, StorageTier target);
-    /**
-     * @brief TBD: Describe getBlobsForTierDown.
-     * @return Return value.
-     */
     std::vector<std::string> getBlobsForTierDown() const;
     
-    /**
-     * @brief Health and Monitoring
-     * @param[in] blob_id Input parameter.
-     * @return Return value.
-     */
+    // Health and Monitoring
     BlobMetadata getBlobMetadata(const std::string& blob_id) const;
-    /**
-     * @brief TBD: Describe getDegradedBlobs.
-     * @return Return value.
-     */
     std::vector<std::string> getDegradedBlobs() const;
-    /**
-     * @brief TBD: Describe getCriticalBlobs.
-     * @return Return value.
-     */
     std::vector<std::string> getCriticalBlobs() const;
-    /**
-     * @brief TBD: Describe getStats.
-     * @return Return value.
-     */
     BlobRedundancyStats getStats() const;
     
-    /**
-     * @brief Maintenance
-     */
+    // Maintenance
     void runMaintenanceCycle();
     void runScrub(bool full = false);
-    /**
-     * @brief TBD: Describe runRepairQueue.
-     */
     void runRepairQueue();
     
-    /**
-     * @brief Prometheus Metrics
-     * @return Return value.
-     */
+    // Prometheus Metrics
     std::string exportPrometheusMetrics() const;
     
-    /**
-     * @brief RocksDB Integration
-     * @return Return value.
-     */
+    // RocksDB Integration
     Result<std::shared_ptr<rocksdb::EventListener>> createRocksDBListener();
     
-    /**
-     * @brief Called by RocksDBBlobListener when an SST file is deleted by RocksDB.
-     * @param[in] file_path Input parameter.
-     * @details Marks all blob locations backed by the deleted file as unhealthy and queues the affected blobs for re-replication.
-     */
+    // Called by RocksDBBlobListener when an SST file is deleted by RocksDB.
+    // Marks all blob locations backed by the deleted file as unhealthy and
+    // queues the affected blobs for re-replication.
     void notifySSTFileDeleted(const std::string& file_path);
     
 private:
@@ -632,84 +492,25 @@ private:
     std::atomic<uint64_t> stats_repairs_{0};
     std::atomic<uint64_t> stats_tier_transitions_{0};
     
-    /**
-     * @brief Internal methods
-     */
+    // Internal methods
     void maintenanceLoop();
-    /**
-     * @brief TBD: Describe repairLoop.
-     */
     void repairLoop();
-    /**
-     * @brief TBD: Describe configReloadLoop.
-     */
     void configReloadLoop();
     
-    /**
-     * @brief TBD: Describe generateBlobId.
-     * @return Return value.
-     */
     std::string generateBlobId();
-    /**
-     * @brief TBD: Describe calculateChecksum.
-     * @param[in] data Input parameter.
-     * @return Return value.
-     */
     std::string calculateChecksum(const std::vector<uint8_t>& data);
-    /**
-     * @brief TBD: Describe classifyBlobType.
-     * @param[in] path Input parameter.
-     * @param[in] size Input parameter.
-     * @return Return value.
-     */
     BlobType classifyBlobType(const std::string& path, uint64_t size);
     
-    /**
-     * @brief TBD: Describe replicateToShard.
-     * @param[in] shard_id Input parameter.
-     * @param[in] blob Input parameter.
-     * @param[in] data Input parameter.
-     * @param[in] handler Input parameter.
-     * @return True on success.
-     */
     bool replicateToShard(const std::string& shard_id, const BlobMetadata& blob, 
                           const std::vector<uint8_t>& data, WriteHandler handler);
-    /**
-     * @brief TBD: Describe deleteFromShard.
-     * @param[in] shard_id Input parameter.
-     * @param[in] path Input parameter.
-     * @param[in] handler Input parameter.
-     * @return True on success.
-     */
     bool deleteFromShard(const std::string& shard_id, const std::string& path,
                         DeleteHandler handler);
     
-    /**
-     * @brief TBD: Describe selectTargetShards.
-     * @param[in] blob Input parameter.
-     * @return Return value.
-     */
     std::vector<std::string> selectTargetShards(const BlobMetadata& blob);
-    /**
-     * @brief TBD: Describe selectReadShard.
-     * @param[in] blob Input parameter.
-     * @return Return value.
-     */
     std::string selectReadShard(const BlobMetadata& blob);
     
-    /**
-     * @brief TBD: Describe updateMetadataStore.
-     * @param[in] blob Input parameter.
-     */
     void updateMetadataStore(const BlobMetadata& blob);
-    /**
-     * @brief TBD: Describe removeFromMetadataStore.
-     * @param[in] blob_id Input parameter.
-     */
     void removeFromMetadataStore(const std::string& blob_id);
-    /**
-     * @brief TBD: Describe loadFromMetadataStore.
-     */
     void loadFromMetadataStore();
 };
 
@@ -744,11 +545,6 @@ private:
     BlobRedundancyManager& manager_;
     std::string collection_;
     
-    /**
-     * @brief TBD: Describe levelToBlobType.
-     * @param[in] level Input parameter.
-     * @return Return value.
-     */
     BlobType levelToBlobType(int level);
 };
 
@@ -769,18 +565,10 @@ struct CollectionRedundancyConfig {
     // Blob-type overrides for this collection
     std::map<BlobType, BlobRedundancyConfig> blob_overrides;
     
-    /**
-     * @brief Load from YAML
-     * @param[in] path Input parameter.
-     * @return Return value.
-     */
+    // Load from YAML
     static std::optional<CollectionRedundancyConfig> loadFromYaml(const std::string& path);
     
-    /**
-     * @brief Save to YAML
-     * @param[in] path Input parameter.
-     * @return True on success.
-     */
+    // Save to YAML
     bool saveToYaml(const std::string& path) const;
 };
 

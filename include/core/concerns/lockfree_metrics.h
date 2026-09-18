@@ -249,14 +249,8 @@ private:
     mutable std::shared_mutex                                         counters_mu_;
     std::unordered_map<std::string, std::unique_ptr<CounterEntry>>    counters_;
 
-    /**
-     * @brief Returns the atomic counter for the given key, creating it if absent.
-     * @param[in] key Input parameter.
-     * @param[in] name Input parameter.
-     * @param[in] labels Input parameter.
-     * @return Pointer to the result.
-     * @details Only the initial creation acquires an exclusive lock.
-     */
+    /// Returns the atomic counter for the given key, creating it if absent.
+    /// Only the initial creation acquires an exclusive lock.
     CounterEntry* getOrCreateCounter(const std::string& key,
                                      const std::string& name,
                                      const Labels&      labels);
@@ -277,13 +271,6 @@ private:
     mutable std::shared_mutex                                        gauges_mu_;
     std::unordered_map<std::string, std::unique_ptr<GaugeEntry>>     gauges_;
 
-    /**
-     * @brief TBD: Describe getOrCreateGauge.
-     * @param[in] key Input parameter.
-     * @param[in] name Input parameter.
-     * @param[in] labels Input parameter.
-     * @return Pointer to the result.
-     */
     GaugeEntry* getOrCreateGauge(const std::string& key,
                                   const std::string& name,
                                   const Labels&      labels);
@@ -365,10 +352,8 @@ private:
     mutable std::mutex                                     thread_entries_mu_;
     std::vector<std::shared_ptr<ThreadEntry>>              thread_entries_;
 
-    /**
-     * @brief Returns the thread-local ring buffer for this instance, registering it on first call from a new thread.
-     * @return Return value.
-     */
+    /// Returns the thread-local ring buffer for this instance, registering it
+    /// on first call from a new thread.
     HistoRing& getOrRegisterThreadRing();
 
     // =======================================================================
@@ -387,13 +372,6 @@ private:
     mutable std::mutex                                               histos_mu_;
     std::unordered_map<std::string, std::unique_ptr<HistoAggregate>> histos_;
 
-    /**
-     * @brief TBD: Describe getOrCreateHistoAggregate.
-     * @param[in] key Input parameter.
-     * @param[in] name Input parameter.
-     * @param[in] labels Input parameter.
-     * @return Pointer to the result.
-     */
     HistoAggregate* getOrCreateHistoAggregate(const std::string& key,
                                               const std::string& name,
                                               const Labels&      labels);
@@ -414,19 +392,8 @@ private:
     mutable std::mutex        flush_wait_mu_;
     std::condition_variable   flush_wait_cv_;
 
-    /**
-     * @brief TBD: Describe startFlushThread.
-     */
     void startFlushThread();
-    /**
-     * @brief TBD: Describe stopFlushThread.
-     * @note Exception safety: noexcept.
-     */
     void stopFlushThread() noexcept;
-    /**
-     * @brief TBD: Describe flushLoop.
-     * @note Exception safety: noexcept.
-     */
     void flushLoop() noexcept;
 
     // =======================================================================

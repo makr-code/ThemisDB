@@ -37,7 +37,6 @@ public:
     * Invalid or unset environment values are treated as development mode.
     *
     * @return true if production mode is enabled, false otherwise.
-     * @details Calls: std::getenv(), mode_str(), env_str().
      */
     static bool isEnabled() {
         const char* prod_mode = std::getenv("THEMIS_PRODUCTION_MODE");
@@ -45,11 +44,6 @@ public:
         
         // Check THEMIS_PRODUCTION_MODE
         if (prod_mode) {
-            /**
-             * @brief TBD: Describe mode_str.
-             * @param[in] prod_mode Input parameter.
-             * @return Return value.
-             */
             std::string mode_str(prod_mode);
             if (mode_str == "1" || mode_str == "true" || 
                 mode_str == "True" || mode_str == "TRUE" ||
@@ -61,11 +55,6 @@ public:
         
         // Check THEMIS_ENVIRONMENT
         if (environment) {
-            /**
-             * @brief TBD: Describe env_str.
-             * @param[in] environment Input parameter.
-             * @return Return value.
-             */
             std::string env_str(environment);
             if (env_str == "production" || env_str == "prod") {
                 return true;
@@ -85,7 +74,6 @@ public:
      * @param error_message Error message if condition fails in production.
      * @throws std::runtime_error if production mode is enabled and condition
      *         is false.
-     * @details Calls: isEnabled().
      */
     static void enforce(bool condition, const std::string& error_message) {
         if (isEnabled() && !condition) {
@@ -97,7 +85,6 @@ public:
      * @brief Get the current mode name for logging
      *
      * @return "production" or "development".
-     * @details Calls: isEnabled().
      */
     static std::string modeName() {
         return isEnabled() ? "production" : "development";

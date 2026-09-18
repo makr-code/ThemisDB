@@ -148,7 +148,6 @@ public:
     /**
      * @brief Construct an INFORMATION_SCHEMA view provider over a live SchemaManager.
      * @param schema_mgr SchemaManager that owns the authoritative schema metadata.
-     * @return Return value.
      */
     explicit InformationSchema(SchemaManager& schema_mgr);
 

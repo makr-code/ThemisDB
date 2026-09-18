@@ -27,10 +27,6 @@ namespace utils {
  */
 class Clock {
 public:
-    /**
-     * @brief TBD: Describe ~Clock.
-     * @return Return value.
-     */
     virtual ~Clock() = default;
     
     /**
@@ -75,7 +71,6 @@ public:
 /**
  * @brief Get default system clock instance
  * @return Shared pointer to system clock
- * @details Implements getSystemClock without additional internal calls.
  */
 inline std::shared_ptr<Clock> getSystemClock() {
     static auto clock = std::make_shared<SystemClock>();

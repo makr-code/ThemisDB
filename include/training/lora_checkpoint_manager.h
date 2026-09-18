@@ -139,7 +139,6 @@ public:
      * @param config Configuration for directory, window size, and validation.
      * @throws CheckpointException if checkpoint_dir is empty or path is unsafe
      *         (error code: CHECKPOINT_DIR_INVALID or CHECKPOINT_PATH_UNSAFE)
-     * @return Return value.
      */
     explicit LoRACheckpointManager(const CheckpointManagerConfig& config);
 
@@ -195,7 +194,6 @@ public:
 
     /**
      * @brief Return all manifest entries, newest first.
-     * @return Return value.
      */
     std::vector<CheckpointManifestEntry> listCheckpoints() const;
 
@@ -213,7 +211,6 @@ public:
 
     /**
      * @brief Return the path to the manifest JSON file.
-     * @return Return value.
      */
     std::string manifestPath() const;
 

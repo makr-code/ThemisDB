@@ -183,13 +183,8 @@ private:
         return {};
     }
 
-    /**
-     * @brief Return true iff @p s consists of exactly @p expected_len hex characters and is not all zeros.
-     * @param[in] s Input parameter.
-     * @param[in] expected_len Input parameter.
-     * @return True on success.
-     * @details Calls: size(), std::isxdigit().
-     */
+    /// Return true iff @p s consists of exactly @p expected_len hex
+    /// characters and is not all zeros.
     static bool isValidHex(const std::string& s, std::size_t expected_len) {
         if (s.size() != expected_len) {
           return false;
@@ -222,7 +217,6 @@ private:
      * @param trace_id   Output: 32-char hex trace-id on success.
      * @param parent_id  Output: 16-char hex parent-id on success.
      * @return true if the header is valid and the outputs are set.
-     * @details Calls: size(), fromHexDigit(), substr(), isValidHex(), std::move().
      */
     static bool parseTraceparent(
             const std::string& value,

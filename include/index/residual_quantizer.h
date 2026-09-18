@@ -78,18 +78,7 @@ public:
     struct Status {
         bool ok = true;
         std::string message;
-        /**
-         * @brief TBD: Describe OK.
-         * @return Return value.
-         * @details Implements OK without additional internal calls.
-         */
         static Status OK() { return {}; }
-        /**
-         * @brief TBD: Describe Error.
-         * @param[in] msg Input parameter.
-         * @return Return value.
-         * @details Calls: std::move().
-         */
         static Status Error(std::string msg) { return Status{false, std::move(msg)}; }
     };
 
@@ -97,7 +86,6 @@ public:
      * @brief Construct a new Residual Quantizer
      * @param dimension Vector dimension (must be divisible by num_subquantizers)
      * @param config Configuration parameters
-     * @return Return value.
      */
     explicit ResidualQuantizer(int dimension, const Config& config);
 
@@ -154,7 +142,6 @@ public:
 
     /**
      * @brief Get memory usage for quantizer codebooks
-     * @return Return value.
      */
     size_t getMemoryUsage() const;
 

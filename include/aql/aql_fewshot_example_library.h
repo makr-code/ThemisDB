@@ -35,10 +35,6 @@ namespace aql {
  */
 class IEmbeddingProvider {
 public:
-    /**
-     * @brief TBD: Describe ~IEmbeddingProvider.
-     * @return Return value.
-     */
     virtual ~IEmbeddingProvider() = default;
 
     /**
@@ -123,7 +119,6 @@ public:
     /**
      * @brief Register a custom example.
      * @throws std::invalid_argument if the id is empty or already registered
-     * @param[in] example Input parameter.
      */
     void registerExample(const AQLFewShotExample& example);
 
@@ -133,28 +128,22 @@ public:
 
     /**
      * @brief Return all registered examples.
-     * @return Return value.
      */
     const std::vector<AQLFewShotExample>& all() const;
 
     /**
      * @brief Return examples belonging to @p domain.
-     * @param[in] domain Input parameter.
-     * @return Return value.
      */
     std::vector<AQLFewShotExample> findByDomain(AQLExampleDomain domain) const;
 
     /**
      * @brief Find examples whose tags contain @p tag (case-insensitive).
-     * @param[in] tag Input parameter.
-     * @return Return value.
      */
     std::vector<AQLFewShotExample> findByTag(const std::string& tag) const;
 
     /**
      * @brief Look up an example by its unique id.
      * @return Pointer to the example, or nullptr if not found
-     * @param[in] id Input parameter.
      */
     const AQLFewShotExample* findById(const std::string& id) const;
 
@@ -223,7 +212,6 @@ public:
 
     /**
      * @brief Return the total number of registered examples.
-     * @return Return value.
      */
     std::size_t size() const;
 
@@ -272,9 +260,6 @@ private:
     /// Empty entries indicate that the embedding has not been computed yet.
     mutable std::vector<std::vector<float>> embedding_cache_;
 
-    /**
-     * @brief TBD: Describe registerBuiltins_.
-     */
     void registerBuiltins_();
 
     /// Lexical (Jaccard word-overlap) relevance – always available.
@@ -283,13 +268,8 @@ private:
         const AQLFewShotExample& example
     );
 
-    /**
-     * @brief Semantic (cosine-similarity) relevance – requires embedding_provider_.
-     * @param[in] query_embedding Input parameter.
-     * @param[in] example_index Input parameter.
-     * @return Return value.
-     * @details Returns -1.0 if the provider is unavailable or embedding fails.
-     */
+    /// Semantic (cosine-similarity) relevance – requires embedding_provider_.
+    /// Returns -1.0 if the provider is unavailable or embedding fails.
     double computeRelevanceSemantic_(
         const std::vector<float>& query_embedding,
         std::size_t example_index

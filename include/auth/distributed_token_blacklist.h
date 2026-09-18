@@ -136,7 +136,6 @@ public:
      *
      * @param config Configuration for the distributed blacklist
      * @throws std::runtime_error if the database cannot be opened
-     * @return Return value.
      */
     explicit DistributedTokenBlacklist(const DistributedBlacklistConfig& config);
     
@@ -195,7 +194,6 @@ public:
      * @brief Get replication statistics
      *
      * Returns counters for monitoring cluster health.
-     * @return Return value.
      */
     ReplicationStats getReplicationStats() const;
     
@@ -254,18 +252,11 @@ private:
     /// Background thread that runs the TCP accept loop for incoming peer connections.
     std::thread listener_thread_;
     
-    /**
-     * @brief Background loops
-     */
+    // Background loops
     void purgeLoop();
-    /**
-     * @brief TBD: Describe replicationLoop.
-     */
     void replicationLoop();
     
-    /**
-     * @brief TCP server listener — accepts PUSH and PULL_REQ connections from cluster peers
-     */
+    // TCP server listener — accepts PUSH and PULL_REQ connections from cluster peers
     void serveIncomingConnections();
     
     /**
@@ -301,40 +292,14 @@ private:
      */
     void applyEntries(const std::vector<std::pair<std::string, int64_t>>& entries);
     
-    /**
-     * @brief RPC handlers (for peer-to-peer communication)
-     * @return True on success.
-     */
+    // RPC handlers (for peer-to-peer communication)
     bool performClusterSync();
-    /**
-     * @brief TBD: Describe performLeaderElection.
-     * @return True on success.
-     */
     bool performLeaderElection();
-    /**
-     * @brief TBD: Describe pushRevisionsToFollower.
-     * @param[in] peer_address Input parameter.
-     * @return True on success.
-     */
     bool pushRevisionsToFollower(const std::string& peer_address);
-    /**
-     * @brief TBD: Describe pullRevisionsFromLeader.
-     * @param[in] leader_address Input parameter.
-     * @return True on success.
-     */
     bool pullRevisionsFromLeader(const std::string& leader_address);
     
-    /**
-     * @brief Encoding/decoding helpers
-     * @param[in] tp Input parameter.
-     * @return Return value.
-     */
+    // Encoding/decoding helpers
     static std::string encodeExpiry(std::chrono::system_clock::time_point tp);
-    /**
-     * @brief TBD: Describe decodeExpiry.
-     * @param[in] val Input parameter.
-     * @return Return value.
-     */
     static std::chrono::system_clock::time_point decodeExpiry(const std::string& val);
 };
 

@@ -231,8 +231,6 @@ public:
  *
  * Currently registers:
  *   - GRAPHQL(query [, variables]) → JSON
- * @param[in,out] registry Input/output parameter.
- * @details Calls: registerFunction().
  */
 inline void registerGraphQLFunctions(FunctionRegistry& registry) {
     registry.registerFunction(std::make_unique<GraphQLFunction>());

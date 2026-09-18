@@ -47,7 +47,6 @@ public:
     /**
      * @brief Record a latency sample in microseconds
      * @param latency_micros Sample latency value in microseconds.
-     * @details Calls: bucketIndex().
      */
     void record(uint64_t latency_micros) {
         count_++;
@@ -140,7 +139,6 @@ public:
     
     /**
      * @brief Reset histogram
-     * @details Calls: store().
      */
     void reset() {
         count_.store(0, std::memory_order_relaxed);
@@ -262,7 +260,6 @@ public:
     
     /**
      * @brief Reset tracker
-     * @details Calls: std::chrono::steady_clock::now().
      */
     void reset() {
         window_start_ = std::chrono::steady_clock::now();
@@ -277,10 +274,6 @@ private:
     std::atomic<uint64_t> events_in_window_;
     std::atomic<uint64_t> bytes_in_window_;
     
-    /**
-     * @brief TBD: Describe resetWindowIfNeeded.
-     * @details Calls: std::chrono::steady_clock::now(), reset().
-     */
     void resetWindowIfNeeded() {
         auto elapsed = std::chrono::steady_clock::now() - window_start_;
         if (elapsed >= WINDOW_DURATION) {
@@ -350,7 +343,6 @@ struct CDCMetrics {
     
     /**
      * @brief Reset all metrics
-     * @details Implements reset without additional internal calls.
      */
     void reset() {
         record_event_latency.reset();

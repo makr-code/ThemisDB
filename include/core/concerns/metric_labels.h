@@ -80,7 +80,6 @@ public:
      *              prevent typos, e.g. `labels::kMethod`).
      * @param value Label value.
      * @return Reference to *this for method chaining.
-     * @details Calls: std::string().
      */
     MetricLabels& add(std::string_view key, std::string_view value) {
         labels_[std::string(key)] = std::string(value);

@@ -118,7 +118,6 @@ public:
      * @param left   Left-hand versioned rows.
      * @param right  Right-hand versioned rows.
      * @param config Join configuration (mode, point-in-time, etc.).
-     * @return Return value.
      */
     explicit BiTemporalJoin(std::vector<BiTemporalRow> left,
                 std::vector<BiTemporalRow> right,
@@ -145,19 +144,11 @@ public:
 
     /**
      * @brief True iff two TimeRanges overlap (non-empty intersection).
-     * @param[in] a Input parameter.
-     * @param[in] b Input parameter.
-     * @return True on success.
-     * @note Exception safety: noexcept.
      */
     static bool overlaps(const TimeRange& a, const TimeRange& b) noexcept;
 
     /**
      * @brief True iff @p inner is fully contained within @p outer.
-     * @param[in] inner Input parameter.
-     * @param[in] outer Input parameter.
-     * @return True on success.
-     * @note Exception safety: noexcept.
      */
     static bool containedIn(const TimeRange& inner,
                              const TimeRange& outer) noexcept;
@@ -166,9 +157,6 @@ public:
      * @brief Compute the intersection of two TimeRanges.
      *
      * @return Intersection, or an empty/invalid range when they do not overlap.
-     * @param[in] a Input parameter.
-     * @param[in] b Input parameter.
-     * @note Exception safety: noexcept.
      */
     static TimeRange intersection(const TimeRange& a, const TimeRange& b) noexcept;
 
@@ -177,21 +165,7 @@ private:
     std::vector<BiTemporalRow> right_;
     Config                     config_;
 
-    /**
-     * @brief TBD: Describe rowMatches.
-     * @param[in] l Input parameter.
-     * @param[in] r Input parameter.
-     * @return True on success.
-     * @note Exception safety: noexcept.
-     */
     bool rowMatches(const BiTemporalRow& l, const BiTemporalRow& r) const noexcept;
-    /**
-     * @brief TBD: Describe makeResult.
-     * @param[in] l Input parameter.
-     * @param[in] r Input parameter.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
     BiTemporalJoinResult makeResult(const BiTemporalRow& l,
                                     const BiTemporalRow& r) const noexcept;
 };

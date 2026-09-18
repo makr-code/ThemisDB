@@ -40,10 +40,6 @@ struct Iso27001EvidenceItem {
     std::string detail;           ///< Human-readable evidence description
     nlohmann::json metadata;      ///< Additional structured metadata
 
-    /**
-     * @brief TBD: Describe toJson.
-     * @return Return value.
-     */
     nlohmann::json toJson() const;
 };
 
@@ -62,10 +58,6 @@ struct Iso27001ControlResult {
     std::vector<std::string> missing_controls;   ///< Specific control gaps
     std::vector<Iso27001EvidenceItem> evidence;  ///< Evidence items supporting this result
 
-    /**
-     * @brief TBD: Describe toJson.
-     * @return Return value.
-     */
     nlohmann::json toJson() const;
 };
 
@@ -84,10 +76,6 @@ struct Iso27001AuditReport {
     std::vector<Iso27001ControlResult> results;         ///< Per-control results
     std::vector<Iso27001EvidenceItem> evidence_items;   ///< All collected evidence
 
-    /**
-     * @brief TBD: Describe toJson.
-     * @return Return value.
-     */
     nlohmann::json toJson() const;
 };
 
@@ -100,10 +88,6 @@ struct Iso27001AuditReport {
 /// control requirement and produce structured evidence for auditors.
 class IIso27001Control {
 public:
-    /**
-     * @brief TBD: Describe ~IIso27001Control.
-     * @return Return value.
-     */
     virtual ~IIso27001Control() = default;
 
     /// Short control identifier (e.g., "A.9.1.2")
@@ -257,12 +241,8 @@ public:
 
     // ---- Rule evaluation -------------------------------------------------
 
-    /**
-     * @brief Evaluate all ISO 27001 controls against a single PolicyRule.
-     * @param[in] rule Input parameter.
-     * @return Return value.
-     * @details @return A list of evaluation results, one per ISO 27001 control.
-     */
+    /// Evaluate all ISO 27001 controls against a single PolicyRule.
+    /// @return A list of evaluation results, one per ISO 27001 control.
     std::vector<Iso27001ControlResult> evaluateRule(const PolicyRule& rule) const;
 
     /// Return true only if every ISO 27001 control passes for the given rule.
@@ -279,15 +259,9 @@ public:
 
     // ---- Evidence collection ---------------------------------------------
 
-    /**
-     * @brief Collect evidence for a single policy decision (called at query time).
-     * @param[in] resource Input parameter.
-     * @param[in] action Input parameter.
-     * @param[in] principal Input parameter.
-     * @param[in] access_granted Input parameter.
-     * @param[in] encrypted Input parameter.
-     * @details Records an Iso27001EvidenceItem for the most relevant control. Thread-safe; may be called from any thread.
-     */
+    /// Collect evidence for a single policy decision (called at query time).
+    /// Records an Iso27001EvidenceItem for the most relevant control.
+    /// Thread-safe; may be called from any thread.
     void collectEvidence(
         const std::string& resource,
         const std::string& action,

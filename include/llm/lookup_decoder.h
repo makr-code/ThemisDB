@@ -36,10 +36,6 @@ namespace llm {
  */
 class LookupDecoder {
 public:
-    /**
-     * @brief TBD: Describe ~LookupDecoder.
-     * @return Return value.
-     */
     virtual ~LookupDecoder() = default;
     // ── Hash helper (public for unit-testing) ────────────────────────
 
@@ -82,11 +78,6 @@ public:
     // ── Lifecycle ────────────────────────────────────────────────────
 
     LookupDecoder();
-    /**
-     * @brief TBD: Describe LookupDecoder.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit LookupDecoder(const Config& config);
 
     // ── Index construction ───────────────────────────────────────────
@@ -150,15 +141,9 @@ public:
         size_t                  max_draft = 0
     ) const;
 
-    /**
-     * @brief ── Statistics ───────────────────────────────────────────────────
-     * @return Return value.
-     */
+    // ── Statistics ───────────────────────────────────────────────────
 
     Stats getStats() const;
-    /**
-     * @brief TBD: Describe resetStats.
-     */
     void  resetStats();
 
 private:

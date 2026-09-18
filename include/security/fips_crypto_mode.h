@@ -27,11 +27,6 @@ namespace themis {
  */
 class FipsPolicyViolation : public std::runtime_error {
 public:
-    /**
-     * @brief TBD: Describe FipsPolicyViolation.
-     * @param[in] message Input parameter.
-     * @return Return value.
-     */
     explicit FipsPolicyViolation(const std::string& message)
         : std::runtime_error("FIPS policy violation: " + message)
     {}
@@ -104,7 +99,6 @@ class FipsCryptoMode {
 public:
     /**
      * @brief Return the process-wide singleton instance.
-     * @return Return value.
      */
     static FipsCryptoMode& instance();
 
@@ -167,7 +161,6 @@ public:
      *
      * Names are upper-cased and match the strings accepted by
      * `validateAlgorithm()`.
-     * @return Return value.
      */
     const std::unordered_set<std::string>& approvedAlgorithms() const;
 
@@ -189,7 +182,6 @@ public:
      *
      * @param ptr  Pointer to the memory to zeroize.
      * @param len  Number of bytes to zeroize.
-     * @note Exception safety: noexcept.
      */
     static void zeroize(void* ptr, std::size_t len) noexcept;
 

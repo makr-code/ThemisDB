@@ -28,11 +28,6 @@ namespace hip {
  */
 class FlashAttentionHIP : public IFlashAttention {
 public:
-    /**
-     * @brief TBD: Describe FlashAttentionHIP.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit FlashAttentionHIP(const FlashAttentionConfig& config);
     ~FlashAttentionHIP() override;
     
@@ -56,7 +51,6 @@ public:
     
     /**
      * @brief Check if HIP is available
-     * @return True on success.
      */
     static bool isAvailable();
 
@@ -68,13 +62,7 @@ private:
     void* d_workspace_ = nullptr;
     size_t workspace_size_ = 0;
     
-    /**
-     * @brief TBD: Describe initializeHIP.
-     */
     void initializeHIP();
-    /**
-     * @brief TBD: Describe cleanupHIP.
-     */
     void cleanupHIP();
 };
 

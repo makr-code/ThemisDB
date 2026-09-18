@@ -196,7 +196,6 @@ public:
      * @brief Remove a tensor and all its edges from the graph.
      *
      * @return True if the tensor_id existed, false otherwise.
-     * @param[in] tensor_id Input parameter.
      */
     bool remove(const std::string& tensor_id);
 
@@ -228,21 +227,15 @@ public:
     /// Export node fingerprint metadata for durable graph bootstrap.
     std::vector<PersistedFingerprintNode> exportPersistedNodes() const;
 
-    /**
-     * @brief Replace in-memory graph with persisted node metadata and rebuilt buckets.
-     * @param[in] nodes Input parameter.
-     * @details Edges are not restored and start empty after import.
-     */
+    /// Replace in-memory graph with persisted node metadata and rebuilt buckets.
+    /// Edges are not restored and start empty after import.
     void importPersistedNodes(const std::vector<PersistedFingerprintNode>& nodes);
 
     /// Export directed adjacency edges for durable graph re-hydration.
     std::vector<PersistedFingerprintEdge> exportPersistedEdges() const;
 
-    /**
-     * @brief Replace in-memory adjacency with persisted directed edges.
-     * @param[in] edges Input parameter.
-     * @details Missing nodes and duplicate directed edges are ignored.
-     */
+    /// Replace in-memory adjacency with persisted directed edges.
+    /// Missing nodes and duplicate directed edges are ignored.
     void importPersistedEdges(const std::vector<PersistedFingerprintEdge>& edges);
 
     /// Export node + edge payload in one snapshot.
@@ -282,25 +275,22 @@ public:
         std::function<void(const PersistedFingerprintNode&,
                            const std::vector<PersistedFingerprintEdge>&)>)>;
 
-    /**
-     * @brief Register (or clear with nullptr/empty fn) the node-persistence hook.
-     * @param[in] fn Input parameter.
-     * @details The hook is invoked after every successful insert() call.
-     */
+    /// Register (or clear with nullptr/empty fn) the node-persistence hook.
+    /// The hook is invoked after every successful insert() call.
     void setNodePersistHook(NodePersistHookFn fn);
 
-    /**
-     * @brief Register (or clear with nullptr/empty fn) the node-removal hook.
-     * @param[in] fn Input parameter.
-     * @details The hook is invoked after every successful remove() call.
-     */
+    /// Register (or clear with nullptr/empty fn) the node-removal hook.
+    /// The hook is invoked after every successful remove() call.
     void setNodeRemoveHook(NodeRemoveHookFn fn);
 
-    /**
-     * @brief Restore graph state by enumerating nodes from an external per-node store.
-     * @param[in] enumerate_fn Input parameter.
-     * @details Clears the current in-memory graph, then calls @p enumerate_fn which must invoke its argument once per stored (node, edges) pair. After enumeration the graph supports findSimilar() and neighbours() without requiring a full-blob snapshot. @param enumerate_fn Callback that enumerates all stored nodes.
-     */
+    /// Restore graph state by enumerating nodes from an external per-node store.
+    ///
+    /// Clears the current in-memory graph, then calls @p enumerate_fn which
+    /// must invoke its argument once per stored (node, edges) pair.
+    /// After enumeration the graph supports findSimilar() and neighbours()
+    /// without requiring a full-blob snapshot.
+    ///
+    /// @param enumerate_fn  Callback that enumerates all stored nodes.
     void restoreFromExternalStore(NodeEnumerateFn enumerate_fn);
 
     // ─── Statistics ───────────────────────────────────────────────────────
@@ -351,59 +341,23 @@ private:
     std::atomic<bool>  has_node_persist_hook_{false};
     std::atomic<bool>  has_node_remove_hook_{false};
 
-    /**
-     * @brief ─── Fingerprinting ───────────────────────────────────────────────────
-     * @param[in] train Input parameter.
-     * @return Return value.
-     */
+    // ─── Fingerprinting ───────────────────────────────────────────────────
 
     TensorFingerprint computeFingerprint(const storage::TTTrain& train) const;
 
-    /**
-     * @brief TBD: Describe insertIntoBuckets.
-     * @param[in] id Input parameter.
-     * @param[in] fp Input parameter.
-     */
     void insertIntoBuckets(const std::string& id, const TensorFingerprint& fp);
-    /**
-     * @brief TBD: Describe removeFromBuckets.
-     * @param[in] id Input parameter.
-     * @param[in] fp Input parameter.
-     */
     void removeFromBuckets(const std::string& id, const TensorFingerprint& fp);
 
     std::unordered_set<std::string>
     lshCandidates(const TensorFingerprint& fp) const;
 
-    /**
-     * @brief TBD: Describe bandHash.
-     * @param[in] fp Input parameter.
-     * @param[in] band_start Input parameter.
-     * @param[in] rows_per_band Input parameter.
-     * @param[in] band_idx Input parameter.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
     static uint64_t bandHash(const TensorFingerprint& fp,
                              std::size_t band_start,
                              std::size_t rows_per_band,
                              std::size_t band_idx) noexcept;
 
-    /**
-     * @brief TBD: Describe fnv1a64.
-     * @param[in] data Input parameter.
-     * @param[in] len Input parameter.
-     * @return Return value.
-     * @note Exception safety: noexcept.
-     */
     static uint64_t fnv1a64(const void* data, std::size_t len) noexcept;
 
-    /**
-     * @brief TBD: Describe exactSimilarity.
-     * @param[in] a Input parameter.
-     * @param[in] b Input parameter.
-     * @return Return value.
-     */
     double exactSimilarity(const storage::TTTrain& a,
                            const storage::TTTrain& b) const;
 

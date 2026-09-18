@@ -91,11 +91,6 @@ public:
         : data_(ptr, ptr + size) {}
     
     const uint8_t* data() const { return data_.data(); }
-    /**
-     * @brief TBD: Describe data.
-     * @return Pointer to the result.
-     * @details Implements data without additional internal calls.
-     */
     uint8_t* data() { return data_.data(); }
     size_t size() const { return data_.size(); }
     
@@ -117,10 +112,6 @@ class SIMDErasureCoder {
 public:
     /**
      * Compute XOR parity using SIMD instructions (AVX2)
-     * @brief TBD: Describe computeParitySIMD.
-     * @param[in] data_chunks Input parameter.
-     * @return Return value.
-     * @details Calls: empty(), size(), parity(), _mm256_setzero_si256(), _mm256_loadu_si256(), data(), _mm256_xor_si256(), _mm256_storeu_si256().
      */
     static std::vector<uint8_t> computeParitySIMD(
         const std::vector<std::vector<uint8_t>>& data_chunks
@@ -171,11 +162,6 @@ public:
     
     /**
      * Optimized chunk splitting with aligned allocations
-     * @brief TBD: Describe splitAligned.
-     * @param[in] data Input parameter.
-     * @param[in] num_chunks Input parameter.
-     * @return Return value.
-     * @details Calls: size(), reserve(), std::min(), chunk(), std::memcpy(), data(), push_back(), std::move().
      */
     static std::vector<std::vector<uint8_t>> splitAligned(
         const std::vector<uint8_t>& data,
@@ -246,10 +232,6 @@ class CompressionOptimizer {
 public:
     /**
      * Compress data before writing to reduce network/storage overhead
-     * @brief TBD: Describe compress.
-     * @param[in] data Input parameter.
-     * @return Return value.
-     * @details Implements compress without additional internal calls.
      */
     static std::vector<uint8_t> compress(const std::vector<uint8_t>& data) {
         // Simplified: In production, use LZ4, Zstd, or similar
@@ -257,12 +239,6 @@ public:
         return data;
     }
     
-    /**
-     * @brief TBD: Describe decompress.
-     * @param[in] compressed Input parameter.
-     * @return Return value.
-     * @details Implements decompress without additional internal calls.
-     */
     static std::vector<uint8_t> decompress(const std::vector<uint8_t>& compressed) {
         // Simplified: In production, decompress
         return compressed;
@@ -270,10 +246,6 @@ public:
     
     /**
      * Adaptive compression based on data characteristics
-     * @brief TBD: Describe shouldCompress.
-     * @param[in] data Input parameter.
-     * @return True on success.
-     * @details Calls: size().
      */
     static bool shouldCompress(const std::vector<uint8_t>& data) {
         // Don't compress if data is too small or already compressed
@@ -320,14 +292,6 @@ public:
     
     /**
      * Optimize batch reads by grouping by shard and parallelizing
-     * @brief TBD: Describe batchRead.
-     * @param[in] requests Input parameter.
-     * @param[in,out] strategy Input/output parameter.
-     * @param[in,out] ring Input/output parameter.
-     * @param[in,out] topology Input/output parameter.
-     * @param[in] handler Input parameter.
-     * @return Return value.
-     * @details Calls: size(), getNode(), push_back(), responses(), std::async(), read(), begin(), end().
      */
     static std::vector<ReadResponse> batchRead(
         const std::vector<ReadRequest>& requests,
@@ -387,11 +351,6 @@ class CacheAwareStriping {
 public:
     /**
      * Optimize stripe size based on cache characteristics
-     * @brief TBD: Describe getOptimalStripeSize.
-     * @param[in] document_size Input parameter.
-     * @param[in] num_shards Input parameter.
-     * @return Return value.
-     * @details Calls: std::max(), size_t().
      */
     static size_t getOptimalStripeSize(size_t document_size, size_t num_shards) {
         // L2 cache size (typical: 256KB)
@@ -433,12 +392,6 @@ public:
         uint64_t cache_misses = 0;
     };
     
-    /**
-     * @brief TBD: Describe collectMetrics.
-     * @param[in] strategy Input parameter.
-     * @return Return value.
-     * @details Calls: getStats(), double().
-     */
     static Metrics collectMetrics(const RedundancyStrategy& strategy) {
         Metrics metrics;
         auto stats = strategy.getStats();

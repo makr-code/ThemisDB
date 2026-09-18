@@ -71,11 +71,8 @@ public:
         ExecutionGuard& operator=(ExecutionGuard&&) noexcept;
         ~ExecutionGuard();
 
-        /**
-         * @brief Record the final row count and close the guard without waiting for scope exit.
-         * @param[in] actual_rows Input parameter.
-         * @details Safe to call multiple times; only the first call records.
-         */
+        /// Record the final row count and close the guard without waiting for
+        /// scope exit.  Safe to call multiple times; only the first call records.
         void finish(size_t actual_rows);
 
         const ExecutionContext& context() const { return ctx_; }
@@ -97,7 +94,6 @@ public:
      * (lower-cased, whitespace-collapsed) to maximise hit rates.
      *
      * @return A 16-character lowercase hexadecimal string.
-     * @param[in] aql_text Input parameter.
      */
     static std::string computeQueryHash(const std::string& aql_text);
 
@@ -116,9 +112,6 @@ public:
      *
      * Prefer this over beginExecution() + recordExecution() to avoid missed
      * recordings on exception paths.
-     * @param[in] query_hash Input parameter.
-     * @param[in] estimated_rows Input parameter.
-     * @return Return value.
      */
     ExecutionGuard beginExecutionGuard(const std::string& query_hash,
                                        size_t estimated_rows);
@@ -161,8 +154,6 @@ public:
      * A value < 1.0 means the optimizer historically overestimates; > 1.0 means
      * it underestimates.  Returns 1.0 when there is no history or when
      * re-optimization is disabled.
-     * @param[in] query_hash Input parameter.
-     * @return Return value.
      */
     double getAdjustmentFactor(const std::string& query_hash) const;
 
@@ -188,10 +179,6 @@ public:
      * recorded so the feature can be re-enabled without losing history.
      */
     void enable(bool enabled = true);
-    /**
-     * @brief TBD: Describe isEnabled.
-     * @return True on success.
-     */
     bool isEnabled() const;
 
     /// Total number of query executions recorded since construction.

@@ -44,11 +44,6 @@ enum class MeetingSegmentType {
     CLOSING,
     OTHER
 };
-/**
- * @brief TBD: Describe meetingSegmentTypeToString.
- * @param[in] t Input parameter.
- * @return Return value.
- */
 std::string meetingSegmentTypeToString(MeetingSegmentType t);
 
 // Meeting transcript segment with structure
@@ -127,11 +122,7 @@ public:
         const std::vector<std::string>& known_participants = {}
     );
 
-    /**
-     * @brief Segment classification (classify a text segment by type)
-     * @param[in] text Input parameter.
-     * @return Return value.
-     */
+    // Segment classification (classify a text segment by type)
     MeetingSegmentType classifySegment(const std::string& text) const;
 
     // Action item extraction
@@ -140,18 +131,10 @@ public:
         const std::vector<std::string>& known_participants = {}
     );
 
-    /**
-     * @brief Decision extraction
-     * @param[in] transcript Input parameter.
-     * @return Return value.
-     */
+    // Decision extraction
     std::vector<std::string> extractDecisions(const std::string& transcript) const;
 
-    /**
-     * @brief Key points extraction (simple heuristic)
-     * @param[in] transcript Input parameter.
-     * @return Return value.
-     */
+    // Key points extraction (simple heuristic)
     std::vector<std::string> extractKeyPoints(const std::string& transcript) const;
 
     // Speaker statistics
@@ -168,29 +151,15 @@ public:
         const std::string& consent_method = "verbal"
     ) const;
 
-    /**
-     * @brief TBD: Describe isCompliantForJurisdiction.
-     * @param[in] record Input parameter.
-     * @param[in] jurisdiction Input parameter.
-     * @return True on success.
-     */
     bool isCompliantForJurisdiction(const ComplianceRecord& record, const std::string& jurisdiction) const;
 
-    /**
-     * @brief Try to extract assignee from action item text
-     * @param[in] text Input parameter.
-     * @param[in] known_participants Input parameter.
-     * @return Return value.
-     */
+    // Try to extract assignee from action item text
     std::string extractAssignee(
         const std::string& text,
         const std::vector<std::string>& known_participants
     ) const;
 
-    /**
-     * @brief Statistics
-     * @return Return value.
-     */
+    // Statistics
     json getStatistics() const;
 
 private:
@@ -199,29 +168,9 @@ private:
     uint64_t action_items_extracted_ = 0;
     uint64_t decisions_extracted_ = 0;
 
-    /**
-     * @brief TBD: Describe tokenizeSentences.
-     * @param[in] text Input parameter.
-     * @return Return value.
-     */
     std::vector<std::string> tokenizeSentences(const std::string& text) const;
-    /**
-     * @brief TBD: Describe containsTrigger.
-     * @param[in] text Input parameter.
-     * @param[in] triggers Input parameter.
-     * @return True on success.
-     */
     bool containsTrigger(const std::string& text, const std::vector<std::string>& triggers) const;
-    /**
-     * @brief TBD: Describe generateActionItemId.
-     * @return Return value.
-     */
     std::string generateActionItemId() const;
-    /**
-     * @brief TBD: Describe toLower.
-     * @param[in] s Input parameter.
-     * @return Return value.
-     */
     std::string toLower(const std::string& s) const;
 
     friend class RealtimeMeetingSession;
@@ -286,7 +235,6 @@ public:
      * @brief Return the current (in-progress) meeting protocol snapshot.
      *
      * Thread-safe: may be called concurrently with addSegment().
-     * @return Return value.
      */
     MeetingProtocol getCurrentProtocol() const;
 

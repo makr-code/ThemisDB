@@ -107,13 +107,11 @@ public:
     
     /**
      * @brief Check if NCCL is available on this system
-     * @return True on success.
      */
     static bool is_available();
     
     /**
      * @brief Get NCCL version
-     * @return Return value.
      */
     static std::string get_version();
     
@@ -131,14 +129,7 @@ private:
 #endif
 #endif
     
-    /**
-     * @brief TBD: Describe initialize_nccl.
-     * @return True on success.
-     */
     bool initialize_nccl();
-    /**
-     * @brief TBD: Describe cleanup_nccl.
-     */
     void cleanup_nccl();
 };
 

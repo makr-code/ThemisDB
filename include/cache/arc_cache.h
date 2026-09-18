@@ -59,7 +59,6 @@ public:
      * @brief Construct an ARCCache.
      * @param capacity  Maximum number of pages held in T1+T2.
      *                  Must be ≥ 1.
-     * @return Return value.
      */
     explicit ARCCache(size_t capacity)
         : capacity_(capacity > 0 ? capacity : 1), p_(0) {}
@@ -81,15 +80,8 @@ public:
      * Cache miss → returns nullopt.
      *
      * @return Const reference inside an optional, or nullopt.
-     * @param[in] key Input parameter.
-     * @details Calls: lock(), find(), end(), push_front(), begin(), erase(), front(), splice().
      */
     std::optional<V> get(const K& key) {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
 
         // Check T1 (recency set)
@@ -128,16 +120,8 @@ public:
      * Otherwise the page is inserted into T1.
      *
      * Eviction is triggered automatically to respect the capacity limit.
-     * @param[in] key Input parameter.
-     * @param[in] value Input parameter.
-     * @details Calls: lock(), find(), end(), std::move(), push_front(), begin(), erase(), splice().
      */
     void put(const K& key, V value) {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
 
         // Already in T1 – update value
@@ -217,15 +201,8 @@ public:
     /**
      * @brief Remove a key from the cache (and from ghost lists).
      * @return true if the key was found and removed from T1 or T2.
-     * @param[in] key Input parameter.
-     * @details Calls: lock(), find(), end(), erase().
      */
     bool remove(const K& key) {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
 
         auto it1 = t1_map_.find(key);
@@ -243,14 +220,8 @@ public:
         return false;
     }
 
-     * @details Calls: lock().
     /** @brief Remove all entries and reset statistics. */
     void clear() {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         t1_list_.clear(); t1_map_.clear();
         t2_list_.clear(); t2_map_.clear();
@@ -265,11 +236,6 @@ public:
 
     /** @brief Number of live pages (T1 + T2). */
     size_t size() const {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         return t1_list_.size() + t2_list_.size();
     }
@@ -279,33 +245,18 @@ public:
 
     /** @brief Current target size of T1 (adapts automatically). */
     size_t targetT1() const {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         return p_;
     }
 
     /** @brief Return a snapshot of current statistics. */
     Stats stats() const {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         return stats_;
     }
 
     /** @brief Return true if the key is in T1 or T2. */
     bool contains(const K& key) const {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         return t1_map_.count(key) || t2_map_.count(key);
     }
@@ -320,14 +271,8 @@ public:
      * when it is subsequently inserted it will not be evicted until unpinned.
      *
      * @param key Key to pin.
-     * @details Calls: lock(), insert().
      */
     void pin(const K& key) {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         pinned_.insert(key);
     }
@@ -336,14 +281,8 @@ public:
      * @brief Unpin a page so it becomes eligible for eviction again.
      *
      * @param key Key to unpin.
-     * @details Calls: lock(), erase().
      */
     void unpin(const K& key) {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         pinned_.erase(key);
     }
@@ -354,11 +293,6 @@ public:
      * @note A pinned page may or may not be present in the cache.
      */
     bool isPinned(const K& key) const {
-        /**
-         * @brief TBD: Describe lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         return pinned_.count(key) != 0;
     }
@@ -385,7 +319,6 @@ private:
      * If |T1| > p (or T2 is empty), evict LRU from T1 → move key to B1.
      * Otherwise evict LRU from T2 → move key to B2.
      * Pinned pages are skipped (stat: pin_skips incremented once per blocked attempt).
-     * @details Calls: empty(), size(), rbegin(), rend(), count(), erase(), std::next(), base().
      */
     void evict() {
         // Try T1 first (respecting ARC policy), skip pinned pages

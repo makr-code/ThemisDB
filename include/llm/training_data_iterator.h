@@ -26,10 +26,6 @@ namespace llm {
 /// Extends JSONLLMExporter for data export functionality
 class TrainingDataIterator {
 public:
-    /**
-     * @brief TBD: Describe ~TrainingDataIterator.
-     * @return Return value.
-     */
     virtual ~TrainingDataIterator() = default;
     /// Configuration for training data iteration
     struct Config {
@@ -68,16 +64,7 @@ public:
         std::optional<std::string> vector_context;    // Similar documents
         std::optional<std::string> relational_context; // Joined data
         
-        /**
-         * @brief TBD: Describe toJson.
-         * @return Return value.
-         */
         nlohmann::json toJson() const;
-        /**
-         * @brief TBD: Describe fromJson.
-         * @param[in] j Input parameter.
-         * @return Return value.
-         */
         static TrainingSample fromJson(const nlohmann::json& j);
     };
     
@@ -87,36 +74,15 @@ public:
         size_t batch_id = 0;
         size_t total_batches = 0;
         
-        /**
-         * @brief TBD: Describe getTotalTokens.
-         * @return Return value.
-         */
         size_t getTotalTokens() const;  // Estimate total tokens
-        /**
-         * @brief TBD: Describe toJson.
-         * @return Return value.
-         */
         nlohmann::json toJson() const;
     };
     
-    /**
-     * @brief TBD: Describe TrainingDataIterator.
-     * @param[in] db Input parameter.
-     * @param[in] exporter Input parameter.
-     * @return Return value.
-     */
     explicit TrainingDataIterator(
         std::shared_ptr<RocksDBWrapper> db,
         std::shared_ptr<exporters::JSONLLLMExporter> exporter
     );
 
-    /**
-     * @brief TBD: Describe TrainingDataIterator.
-     * @param[in] db Input parameter.
-     * @param[in] exporter Input parameter.
-     * @param[in] config Input parameter.
-     * @return Return value.
-     */
     explicit TrainingDataIterator(
         std::shared_ptr<RocksDBWrapper> db,
         std::shared_ptr<exporters::JSONLLLMExporter> exporter,
@@ -125,21 +91,17 @@ public:
     
     // Iterator Operations
     
-    /**
-     * @brief Initialize iterator with AQL query @param aql_query AQL query to select training data @param metadata Adapter metadata for configuration @return true if initialization successful
-     * @param[in] aql_query Input parameter.
-     * @param[in] metadata Input parameter.
-     * @return True on success.
-     */
+    /// Initialize iterator with AQL query
+    /// @param aql_query AQL query to select training data
+    /// @param metadata Adapter metadata for configuration
+    /// @return true if initialization successful
     bool initialize(const std::string& aql_query, const AdapterMetadata& metadata);
     
     /// Check if more batches available
     bool hasNext() const;
     
-    /**
-     * @brief Get next batch of training samples @return Next batch or nullopt if no more data
-     * @return Return value.
-     */
+    /// Get next batch of training samples
+    /// @return Next batch or nullopt if no more data
     std::optional<TrainingBatch> getNextBatch();
     
     /// Reset iterator to beginning
@@ -167,10 +129,6 @@ public:
         size_t total_tokens = 0;
         std::chrono::milliseconds iteration_time{0};
         
-        /**
-         * @brief TBD: Describe toJson.
-         * @return Return value.
-         */
         nlohmann::json toJson() const;
     };
     
@@ -202,42 +160,13 @@ private:
     IteratorStats stats_;
     std::chrono::steady_clock::time_point start_time_;
     
-    /**
-     * @brief Internal helpers
-     * @param[in] aql_query Input parameter.
-     * @return True on success.
-     */
+    // Internal helpers
     bool loadSamples(const std::string& aql_query);
-    /**
-     * @brief TBD: Describe convertToTrainingSample.
-     * @param[in] entity Input parameter.
-     * @return Return value.
-     */
     TrainingSample convertToTrainingSample(const BaseEntity& entity);
-    /**
-     * @brief TBD: Describe shuffleSamples.
-     */
     void shuffleSamples();
-    /**
-     * @brief TBD: Describe enrichSampleWithGraphContext.
-     * @param[in,out] sample Input/output parameter.
-     */
     void enrichSampleWithGraphContext(TrainingSample& sample);
-    /**
-     * @brief TBD: Describe enrichSampleWithVectorContext.
-     * @param[in,out] sample Input/output parameter.
-     */
     void enrichSampleWithVectorContext(TrainingSample& sample);
-    /**
-     * @brief TBD: Describe enrichSampleWithRelationalContext.
-     * @param[in,out] sample Input/output parameter.
-     */
     void enrichSampleWithRelationalContext(TrainingSample& sample);
-    /**
-     * @brief TBD: Describe passesQualityFilter.
-     * @param[in] sample Input parameter.
-     * @return True on success.
-     */
     bool passesQualityFilter(const TrainingSample& sample) const;
 };
 

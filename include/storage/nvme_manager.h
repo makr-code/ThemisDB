@@ -169,7 +169,6 @@ public:
      * Always returns true.  If io_uring or ZNS are requested but unavailable,
      * those features are silently disabled (with a WARN log) and the manager
      * continues operating in degraded mode.
-     * @return True on success.
      */
     bool initialize();
 
@@ -184,21 +183,16 @@ public:
      * @brief Probe the host for NVMe / kernel capabilities.
      *
      * Result is cached after the first call.
-     * @return Return value.
      */
     NVMeCapabilities detectCapabilities() const;
 
     /**
      * @brief Return whether io_uring was successfully initialised.
-     * @return True on success.
-     * @note Exception safety: noexcept.
      */
     bool isIoUringActive() const noexcept;
 
     /**
      * @brief Return the number of hardware I/O queue pairs detected.
-     * @return Return value.
-     * @note Exception safety: noexcept.
      */
     uint32_t detectedQueueCount() const noexcept;
 
@@ -275,7 +269,6 @@ public:
      * @brief Recommended number of RocksDB background I/O threads.
      *
      * Returns min(detected_hw_queue_count * 2, 16) as a practical upper bound.
-     * @return Return value.
      */
     uint32_t recommendedBackgroundThreads() const;
 
@@ -299,24 +292,10 @@ private:
 
     std::atomic<bool> initialized_{false};
 
-    /**
-     * @brief Internal helpers
-     * @return True on success.
-     */
+    // Internal helpers
     bool    setupIoUring();
-    /**
-     * @brief TBD: Describe teardownIoUring.
-     */
     void    teardownIoUring();
-    /**
-     * @brief TBD: Describe probeIoUringKernel.
-     * @return True on success.
-     */
     bool    probeIoUringKernel() const;
-    /**
-     * @brief TBD: Describe readHwQueueCount.
-     * @return Return value.
-     */
     uint32_t readHwQueueCount() const;
 };
 

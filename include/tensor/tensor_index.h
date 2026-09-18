@@ -57,10 +57,6 @@ struct TensorIndexStats {
  */
 class ITensorIndex {
 public:
-    /**
-     * @brief TBD: Describe ~ITensorIndex.
-     * @return Return value.
-     */
     virtual ~ITensorIndex() = default;
 
     // ------------------------------------------------------------------
@@ -95,8 +91,6 @@ public:
 
     /**
      * @brief Remove a vector by id.  Returns false if not found.
-     * @param[in] id Input parameter.
-     * @return True on success.
      */
     virtual bool remove(int64_t id) = 0;
 
@@ -121,10 +115,6 @@ public:
      * @brief Flat-vector query convenience overload.
      *
      * Compresses @p query internally, then delegates to search(train, k).
-     * @param[in] query Input parameter.
-     * @param[in] dim Input parameter.
-     * @param[in] k Input parameter.
-     * @return Return value.
      */
     virtual std::vector<TensorSearchResult> searchFlat(
         const float* query, size_t dim, int k) const = 0;
@@ -156,7 +146,6 @@ public:
      *
      * @return Pointer to internal storage (valid until next mutation).
      *         Returns nullptr if not found.
-     * @param[in] id Input parameter.
      */
     virtual const storage::TTTrain* get(int64_t id) const = 0;
 
@@ -168,15 +157,11 @@ public:
      * @brief Persist the index to a RocksDB-backed storage path.
      *
      * Key schema: `__ttidx__:<index_name>:<id>:<core_k>`
-     * @param[in] path Input parameter.
-     * @return True on success.
      */
     virtual bool save(const std::string& path) const = 0;
 
     /**
      * @brief Load a previously persisted index.
-     * @param[in] path Input parameter.
-     * @return True on success.
      */
     virtual bool load(const std::string& path) = 0;
 
