@@ -18,6 +18,25 @@ Signalqualität und Release-Stabilitaet zu verbessern.
 
 ## Aktiver Workflow-Kern
 
+### Canonical Release Contract
+
+Die Release-Architektur nutzt einen klaren Zweischichten-Model:
+
+1. `release-mainline.yml` + `release-build-matrix.yml` bilden den kanonischen Release-/Packaging-Pfad.
+   - Diese Workflows erzeugen die CPack-Artefakte, validieren die Release-Metadaten und publizieren die GitHub-Release-Bundle.
+2. `release-docker-image.yml`, `release-winget.yml` und `build-widget.yml` sind Downstream-Delivery-Workflows.
+   - Sie konsumieren die finalen Release-Artefakte und Metadaten.
+   - Sie erzeugen keine eigene, alternative Release-Artifact-Semantik.
+
+Der Zweck dieser Rollenaufteilung ist eine saubere Release-Kette:
+
+- Build artifacts are produced once by CPack
+- GitHub Release publishes the canonical bundle
+- Docker / WinGet / installer distribution consume that final bundle
+- Current operations scope for release distribution channels is Windows + Linux (GitHub Releases, WinGet, Docker Hub, GHCR).
+- Current consumer coverage includes Windows, Linux, Docker, and WinGet; macOS has an experimental opt-in build lane in `release-build-matrix.yml`, but no dedicated release consumer lane yet.
+- GitHub source archives are the separate developer distribution lane and are not part of the runtime consumer set.
+
 ### Fokus-Workflows
 - `.github/workflows/gate-pr-core.yml`
   — Fast PR-Gate-Layer inkl. `release-critical-tests` (mandatory), Boundary- und Policy-Gates
@@ -64,7 +83,9 @@ Signalqualität und Release-Stabilitaet zu verbessern.
 - `.github/workflows/maintenance-issues.yml`
   — Konsolidiertes Issue-Maintenance: GS3-Gap-Triage (03:30 UTC) + Security-Alert-SLA-Triage (05:30 UTC); ersetzt maintenance-gs3-gaps.yml + maintenance-security-alerts.yml
 - `.github/workflows/release-docker-image.yml`
-  — Container build/publish lane; triggered via workflow_run after successful CI — Release (koordiniert mit release-mainline.yml)
+  — Container build/publish lane; downstream consumer triggered from `release-mainline.yml` via `gh workflow run` after manifest validation; no parallel package identity
+- `.github/workflows/release-linux-distribution.yml`
+  — Linux distro consumer lane; prepares DEB/RPM/TGZ bundle + distro-specific repository metadata profiles and optional GPG signing from published GitHub release assets; optional semi-automated publish via dispatch/workflow_call
 - `.github/workflows/edition-hyperscaler-ci.yml`
   — Editionsspezifische Hyperscaler-CI Lane
 - `.github/workflows/automation-community.yml`
@@ -124,7 +145,9 @@ Signalqualität und Release-Stabilitaet zu verbessern.
 - `.github/workflows/release-rollback.yml`
   — Manual release rollback (delete artifacts, revert version); dispatch-only
 - `.github/workflows/release-winget.yml`
-  — Automated WinGet community package submission after stable release; workflow_call + dispatch
+  — Automated WinGet community package submission after stable release; release-event consumer plus workflow_call/dispatch for explicit maintainer runs
+- `.github/workflows/release-windows-distribution.yml`
+  — Windows distribution consumer lane; prepares Scoop/Chocolatey candidate metadata bundles from published GitHub release assets and supports optional semi-automated bundle publish with channel-scoped secrets (`stable`/`testing`/`nightly`) and guarded non-stable publish override
 - `.github/workflows/reusable-cmake-build.yml`
   — Reusable CMake build pipeline; workflow_call only
 - `.github/workflows/reusable-status-flags-and-issues.yml`

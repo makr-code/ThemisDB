@@ -494,6 +494,11 @@ static bool parseCreateTable(const std::string& sql, TableSchema& out) {
             else col_type += c;
             ++k;
         }
+        static const std::regex oracle_storage_suffix_re(
+            R"(\s+(?:BYTE|CHAR)\s*(?=\)))",
+            std::regex_constants::icase);
+        col_type = std::regex_replace(col_type, oracle_storage_suffix_re, "");
+
         if (col_type.empty()) {
           continue;
         }
@@ -671,8 +676,8 @@ TEST(OracleCreateTable, DoubleQuotedIdentifiers) {
     EXPECT_EQ(schema.columns[2], "LAST_NAME");
 
     EXPECT_EQ(schema.column_types.at("EMPLOYEE_ID"), "NUMBER(6,0)");
-    EXPECT_EQ(schema.column_types.at("FIRST_NAME"),  "VARCHAR2(20");
-    EXPECT_EQ(schema.column_types.at("LAST_NAME"),   "VARCHAR2(25");
+    EXPECT_EQ(schema.column_types.at("FIRST_NAME"),  "VARCHAR2(20)");
+    EXPECT_EQ(schema.column_types.at("LAST_NAME"),   "VARCHAR2(25)");
 }
 
 TEST(OracleCreateTable, PlainIdentifiers) {

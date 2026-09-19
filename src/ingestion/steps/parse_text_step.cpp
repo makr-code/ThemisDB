@@ -73,6 +73,10 @@ public:
 // ─────────────────────────────────────────────────────────────────────────────
 // C ABI entry points for dynamic loading
 // ─────────────────────────────────────────────────────────────────────────────
+std::shared_ptr<IIngestionStep> createParseTextStep() {
+    return std::make_shared<ParseTextStep>();
+}
+
 extern "C" {
     /**
      * @brief Themis create step parse text.

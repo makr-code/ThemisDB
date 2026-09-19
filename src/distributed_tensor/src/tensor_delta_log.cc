@@ -384,15 +384,22 @@ uint64_t TensorDeltaLog::appendDelta(DeltaMutationType mutation_type,
   // Increment sequence number
   ++current_sequence_;
 
-  // Get current timestamp
+  // Get current timestamp. Strict monotonicity is required by the stats
+  // contract: newest_delta_ms must be strictly greater than oldest_delta_ms
+  // for non-empty logs, even when multiple mutations land in the same system
+  // millisecond.
   const int64_t now_ms = getCurrentTimeMs();
+  const int64_t recorded_ms =
+      (last_recorded_ms_ > 0 && now_ms <= last_recorded_ms_)
+          ? last_recorded_ms_ + 1
+          : now_ms;
 
   // Create and validate entry
   DeltaLogEntry entry;
   entry.sequence_number = current_sequence_;
   entry.mutation_type = mutation_type;
   entry.affected_entity_id = affected_entity_id;
-  entry.recorded_at_ms = now_ms;
+  entry.recorded_at_ms = recorded_ms;
   entry.source_transaction_id = source_transaction_id;
   entry.shard_hint = shard_hint;
   entry.payload_size_bytes = payload_size_bytes;
@@ -405,9 +412,9 @@ uint64_t TensorDeltaLog::appendDelta(DeltaMutationType mutation_type,
 
   // Append to log
   entries_.push_back(entry);
-  last_recorded_ms_ = now_ms;
+  last_recorded_ms_ = recorded_ms;
   applyRetentionLocked(entries_, max_entries_retention_, max_age_ms_retention_,
-                       now_ms);
+                       recorded_ms);
 
   return current_sequence_;
 }

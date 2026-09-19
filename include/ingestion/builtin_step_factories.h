@@ -60,6 +60,18 @@ bool setStepBackend(IIngestionStep* step,
 // ─────────────────────────────────────────────────────────────────────────────
 
 /**
+ * @brief Create a `builtin.parse_text` step.
+ *
+ * Reads plain text from `ExtractionContext::manifest.original_path` and stores
+ * it in `ExtractionContext::raw_text` when no earlier step has already loaded
+ * the document body.
+ *
+ * This step has no external backend dependency and is safe to register in the
+ * default `WorkflowEngine` bootstrap.
+ */
+std::shared_ptr<IIngestionStep> createParseTextStep();
+
+/**
  * @brief Create a `builtin.parse_pdf` step.
  *
  * @param extractor  An `IFormatExtractor` that handles "application/pdf".

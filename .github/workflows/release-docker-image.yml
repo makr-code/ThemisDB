@@ -1,5 +1,10 @@
-name: "Release: Docker Image"
+name: "Release: Docker Image Consumer"
 
+# Downstream delivery workflow. This workflow does not create the canonical release package.
+# Source of truth for release artifacts remains release-mainline.yml + release-build-matrix.yml.
+# Docker publication consumes the release identity and tags derived from the final Git tag,
+# not a parallel artifact build path.
+#
 # Rechenaufwand-Score: R=5 (K=6, L=5, N=5) | last-calibrated: 2026-08-25
 # Trigger policy: repo framework score calibration for workflow cost controls.
 # Security hardening (2026-08-11):

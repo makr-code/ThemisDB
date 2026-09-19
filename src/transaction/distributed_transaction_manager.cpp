@@ -1124,7 +1124,25 @@ bool DistributedTransactionManager::isParticipantAlive(const std::string& node_i
         }
     }
 
-    // 3. No bridge configured: conservatively report remote node as not alive.
+    // 3. If a concrete Phase-1/Phase-2 transport bridge is installed, the
+    // remote participant is considered contactable even without a dedicated
+    // liveness probe. This keeps fail-closed behavior for unconfigured nodes
+    // while letting the configured transport path used by the gRPC adapter and
+    // bridge tests remain valid.
+    const bool has_transport_bridge =
+        static_cast<bool>(config_.phase1_rpc_fn) ||
+        static_cast<bool>(config_.remote_phase1_dispatch) ||
+        static_cast<bool>(config_.phase2_rpc_fn) ||
+        static_cast<bool>(config_.remote_phase2_dispatch) ||
+        static_cast<bool>(getRpcPhase1Fn()) ||
+        static_cast<bool>(getRpcPhase2Fn());
+    if (has_transport_bridge) {
+        return true;
+    }
+
+    // 4. No bridge configured: conservatively report remote node as not alive.
+    THEMIS_WARN("DistributedTransactionManager [{}] remote participant {} has no transport or liveness bridge; treating as not alive",
+                coordinator_id_, node_id);
     return false;
 }
 
@@ -1527,10 +1545,10 @@ bool DistributedTransactionManager::runPhase2Unlocked(
             }
 
             if (auto legacy_rpc_fn = getRpcPhase2Fn()) {
-                futures.push_back(submitTask([legacy_rpc_fn, ep, nid, tid, cid, dc]() {
+                futures.push_back(submitTask([legacy_rpc_fn, nid, tid, cid, dc]() {
                     return deliverPhase2WithRetry(
                         [&]() {
-                            legacy_rpc_fn(ep, tid, dc);
+                            legacy_rpc_fn(nid, tid, dc);
                             return true;
                         },
                         "legacy Phase-2 RPC", nid, tid, cid, dc);

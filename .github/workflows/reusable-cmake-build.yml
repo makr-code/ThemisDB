@@ -120,10 +120,12 @@ jobs:
           mkdir -p "${GITHUB_WORKSPACE}/.cache/sccache"
           mkdir -p "${GITHUB_WORKSPACE}/.vcpkg-cache"
           mkdir -p "${GITHUB_WORKSPACE}/vcpkg/downloads"
-          echo "SCCACHE_DIR=${GITHUB_WORKSPACE}/.cache/sccache" >> "$GITHUB_ENV"
-          echo "SCCACHE_CACHE_SIZE=8G" >> "$GITHUB_ENV"
-          echo "VCPKG_DEFAULT_BINARY_CACHE=${GITHUB_WORKSPACE}/.vcpkg-cache" >> "$GITHUB_ENV"
-          echo "VCPKG_BINARY_SOURCES=clear;files,${GITHUB_WORKSPACE}/.vcpkg-cache,readwrite" >> "$GITHUB_ENV"
+          {
+            echo "SCCACHE_DIR=${GITHUB_WORKSPACE}/.cache/sccache"
+            echo "SCCACHE_CACHE_SIZE=8G"
+            echo "VCPKG_DEFAULT_BINARY_CACHE=${GITHUB_WORKSPACE}/.vcpkg-cache"
+            echo "VCPKG_BINARY_SOURCES=clear;files,${GITHUB_WORKSPACE}/.vcpkg-cache,readwrite"
+          } >> "$GITHUB_ENV"
 
       - name: Restore CMake build caches
         uses: actions/cache@v4
@@ -234,18 +236,16 @@ jobs:
         run: |
           cd "$WORKING_DIRECTORY"
           {
-            echo "### ${{ inputs.summary_title }}"
-            echo ""
-            echo "- Configure: ${{ steps.configure.outcome }}"
-            echo "- Build: ${{ steps.build.outcome }}"
+            printf '%s\n' "### ${{ inputs.summary_title }}"
+            printf '%s\n' ""
+            printf '%s\n' "- Configure: ${{ steps.configure.outcome }}"
+            printf '%s\n' "- Build: ${{ steps.build.outcome }}"
             if [ -n "$VALIDATION_COMMAND" ]; then
-              echo "- Validation: ${{ steps.validation.outcome }}"
+              printf '%s\n' "- Validation: ${{ steps.validation.outcome }}"
             fi
             if command -v sccache >/dev/null 2>&1; then
-              echo ""
-              echo "#### sccache stats"
-              echo '```'
+              printf '%s\n' "" "#### sccache stats" '```'
               sccache --show-stats || true
-              echo '```'
+              printf '%s\n' '```'
             fi
           } >> "$GITHUB_STEP_SUMMARY"

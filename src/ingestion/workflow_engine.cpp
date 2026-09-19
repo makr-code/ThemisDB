@@ -10,6 +10,7 @@
 
 
 #include "ingestion/workflow_engine.h"
+#include "ingestion/builtin_step_factories.h"
 #include <stdexcept>
 #include "utils/error_registry.h"
 
@@ -634,6 +635,11 @@ public:
     mutable std::shared_mutex profiles_mutex_;
     std::vector<WorkflowProfile> profiles_;   ///< In registration order
     StepRegistry step_registry_;
+
+    Impl() {
+        (void)step_registry_.registerStep("builtin.parse_text",
+                                         builtin::createParseTextStep());
+    }
 
     const WorkflowProfile* findProfileByName(const std::string& name) const {
         for (const auto& p : profiles_)

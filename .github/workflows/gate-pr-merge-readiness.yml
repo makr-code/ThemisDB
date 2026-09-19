@@ -93,13 +93,14 @@ jobs:
           # Strip trailing comma+space
           failed_gates="${failed_gates%, }"
 
-          echo "all_passed=${all_passed}" >> "$GITHUB_OUTPUT"
-          echo "failed_gates=${failed_gates}" >> "$GITHUB_OUTPUT"
-
-          echo "community_icon=$( [[ "$community_result" == 'success' || "$community_result" == 'skipped' ]] && echo '✅' || echo '❌' )" >> "$GITHUB_OUTPUT"
-          echo "edition_icon=$( [[ "$edition_result" == 'success' || "$edition_result" == 'skipped' ]] && echo '✅' || echo '❌' )" >> "$GITHUB_OUTPUT"
-          echo "hash_icon=$( [[ "$hash_result" == 'success' || "$hash_result" == 'skipped' ]] && echo '✅' || echo '❌' )" >> "$GITHUB_OUTPUT"
-          echo "plugin_icon=$( [[ "$plugin_result" == 'success' || "$plugin_result" == 'skipped' ]] && echo '✅' || echo '❌' )" >> "$GITHUB_OUTPUT"
+          {
+            echo "all_passed=${all_passed}"
+            echo "failed_gates=${failed_gates}"
+            echo "community_icon=$( [[ "$community_result" == 'success' || "$community_result" == 'skipped' ]] && echo '✅' || echo '❌' )"
+            echo "edition_icon=$( [[ "$edition_result" == 'success' || "$edition_result" == 'skipped' ]] && echo '✅' || echo '❌' )"
+            echo "hash_icon=$( [[ "$hash_result" == 'success' || "$hash_result" == 'skipped' ]] && echo '✅' || echo '❌' )"
+            echo "plugin_icon=$( [[ "$plugin_result" == 'success' || "$plugin_result" == 'skipped' ]] && echo '✅' || echo '❌' )"
+          } >> "$GITHUB_OUTPUT"
 
       - name: Set ready-to-merge label
         if: steps.evaluate.outputs.all_passed == 'true'

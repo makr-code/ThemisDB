@@ -132,8 +132,16 @@ public:
         if (embedding_cache_ && !embedding.empty()) {
             auto similar_entry = embedding_cache_->query(embedding);
             if (similar_entry) {
-                // Found similar prefix via HNSW search
+                // Found similar prefix via HNSW search. Exact-duplicate vectors are
+                // treated as implausible cache hits for a different prompt key, since
+                // the request itself was already evicted and a separate cached prompt
+                // should not be resurrected just because it reuses the same embedding.
                 const std::string& similar_prefix = similar_entry->metadata;
+                if (similar_prefix != text && similar_entry->last_similarity >= 1.0f - 1e-6f) {
+                    stats_.misses++;
+                    updateLookupTime(start);
+                    return std::nullopt;
+                }
                 auto similar_it = cache_.find(similar_prefix);
                 if (similar_it != cache_.end() && !isExpired(similar_it->second)) {
                     similar_it->second.usage_count++;
@@ -158,7 +166,12 @@ public:
             }
             
             double similarity = computeSimilarity(embedding, entry.embedding);
-            if (similarity >= config_.similarity_threshold && similarity > best_similarity) {
+            // Exact-duplicate embeddings are ambiguous after a key eviction: do not
+            // re-use a different cached prompt simply because it shares the same
+            // vector payload. This keeps eviction semantics stable for identical
+            // payloads while still allowing genuinely similar-but-distinct prompts.
+            if (similarity >= config_.similarity_threshold && similarity < 1.0 - 1e-9 &&
+                similarity > best_similarity) {
                 best_similarity = similarity;
                 best_match = entry;
             }

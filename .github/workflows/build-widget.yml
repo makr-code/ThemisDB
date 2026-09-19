@@ -1,5 +1,9 @@
-name: "Build: Widget Path"
+name: "Build: WinGet E2E Validation"
 
+# Validation helper for the canonical WinGet submission flow.
+# It validates the manifest generation and submission path using the finalized GitHub Release
+# artifacts, but it is explicitly not the canonical release artifact producer.
+#
 # Rechenaufwand-Score: R=3 (K=3, L=3, N=3) | last-calibrated: 2026-09-14
 # Trigger policy: Dispatch-only; triggered by release-mainline.yml ci-widget job
 #                 after successful release build + manifest validation.
@@ -117,7 +121,7 @@ jobs:
           }
           echo "Downloaded:"
           ls -lh release-artifacts/
-          if [[ -z "$(find release-artifacts -type f -name '*.zip' -o -name '*.msi' -print -quit)" ]]; then
+          if [[ -z "$(find release-artifacts -type f \( -name '*.zip' -o -name '*.msi' \) -print -quit)" ]]; then
             echo "::error::No .zip or .msi Windows artifacts found for $TAG"
             exit 1
           fi

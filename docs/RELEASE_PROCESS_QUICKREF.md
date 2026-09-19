@@ -185,6 +185,7 @@ Before creating a release tag, verify manually:
 - [ ] Checksums generated
 - [ ] SBOM + supply-chain evidence ready
 - [ ] WinGet manifests validated (if Windows package changed)
+- [ ] If macOS lane promotion is in scope: complete [macOS Lane GA Checklist](release/MACOS_LANE_GA_CHECKLIST.md)
 
 ---
 
@@ -218,6 +219,7 @@ A: Check the three registries:
 - [VERSIONING.md](../VERSIONING.md) — Semantic versioning rules, edition versioning
 - [SOP.md](../SOP.md) — Detailed step-by-step procedures (SOP-01 through SOP-08)
 - [RELEASE_ARTIFACT_LOCATIONS.md](RELEASE_ARTIFACT_LOCATIONS.md) — Where to find each artifact type
+- [release/MACOS_LANE_GA_CHECKLIST.md](release/MACOS_LANE_GA_CHECKLIST.md) — Promotion checklist for macOS lane (opt-in to default)
 - [BUILD_METADATA_SPEC.md](BUILD_METADATA_SPEC.md) — Build metadata format and distribution
 
 ---

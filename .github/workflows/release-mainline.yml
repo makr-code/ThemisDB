@@ -1,5 +1,17 @@
 name: "Release: Packaging"
 
+# Canonical release orchestrator for ThemisDB.
+# Responsibility:
+#   - build the canonical package artifacts via CPack
+#   - validate release metadata
+#   - publish the GitHub release bundle
+#   - trigger downstream delivery consumers such as Docker (via gh workflow run), WinGet (via release event),
+#     and Linux distro bundle/repo-metadata preparation (via release-linux-distribution.yml)
+#
+# Non-goal:
+#   - this workflow does not create an alternate package identity for Docker or WinGet.
+#     Downstream delivery consumes the final release artifacts published here.
+#
 # Rechenaufwand-Score: R=6 (K=6, L=6, N=6) | last-calibrated: 2026-08-25
 # Trigger policy: repo framework score calibration for workflow cost controls.
 # Multi-edition release build: build matrix, package, publish.
@@ -44,7 +56,7 @@ on:
         required: false
         default: 'all'
         type: choice
-        options: [all, community-only, linux-release-only, windows-release-only]
+        options: [all, community-only, linux-release-only, windows-release-only, macos-release-only]
       edition:
         description: 'Edition to publish (for dispatch)'
         required: false
@@ -159,7 +171,7 @@ jobs:
           fi
 
   # ─────────────────────────────────────────────────────────────────────────────
-  # Build Matrix: community-release, linux-release, windows-release
+  # Build Matrix: community-release, linux-release, windows-release, macos-release (experimental, opt-in)
   # ─────────────────────────────────────────────────────────────────────────────
   build-matrix:
     needs: preflight-release-policy

@@ -1,0 +1,519 @@
+name: "Release: Linux Distribution Consumer"
+
+# Downstream Linux distro preparation workflow.
+# This workflow consumes canonical release assets and prepares Linux distribution bundles
+# (DEB/RPM/TGZ) plus repository metadata for semi-automated publication.
+# Channels: stable, testing, nightly.
+# Metadata profiles:
+#   - auto, ubuntu-jammy, ubuntu-noble, debian-bookworm, debian-trixie,
+#     rhel9, rocky9, almalinux9, fedora40
+# Bundle naming:
+#   - workflow artifact: linux-distro-<version>-<channel>-<run_number>
+#   - publish tarball:   linux-distro-<version>-<channel>.tar.gz
+# Endpoint/secret governance (recommended):
+#   - stable  -> prod endpoint, maintainer-gated environment
+#   - testing -> staging endpoint
+#   - nightly -> snapshot endpoint
+#
+# Canonical release packaging source remains:
+#   release-mainline.yml + release-build-matrix.yml
+
+on:
+  workflow_call:
+    inputs:
+      version:
+        description: "Release version to prepare (e.g. 2.5.0 or v2.5.0)"
+        required: true
+        type: string
+      publish_bundle:
+        description: "Publish prepared bundle to external distro endpoint"
+        required: false
+        default: false
+        type: boolean
+      channel:
+        description: "Distribution channel"
+        required: false
+        default: stable
+        type: string
+      metadata_profile:
+        description: "Distro metadata profile"
+        required: false
+        default: auto
+        type: string
+      sign_metadata:
+        description: "Sign DEB/RPM repository metadata via GPG"
+        required: false
+        default: false
+        type: boolean
+      release_url:
+        description: "Optional release URL for traceability"
+        required: false
+        default: ""
+        type: string
+    secrets:
+      linux_distro_publish_url:
+        required: false
+      linux_distro_publish_token:
+        required: false
+      linux_distro_gpg_private_key_b64:
+        required: false
+      linux_distro_gpg_passphrase:
+        required: false
+      linux_distro_gpg_key_id:
+        required: false
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Release version to prepare (e.g. 2.5.0 or v2.5.0)"
+        required: true
+        type: string
+      publish_bundle:
+        description: "Publish prepared bundle to external distro endpoint"
+        required: false
+        default: "false"
+        type: choice
+        options:
+          - "false"
+          - "true"
+      channel:
+        description: "Distribution channel"
+        required: false
+        default: stable
+        type: choice
+        options:
+          - stable
+          - testing
+          - nightly
+      metadata_profile:
+        description: "Distro metadata profile"
+        required: false
+        default: auto
+        type: choice
+        options:
+          - auto
+          - ubuntu-jammy
+          - ubuntu-noble
+          - debian-bookworm
+          - debian-trixie
+          - rhel9
+          - rocky9
+          - almalinux9
+          - fedora40
+      sign_metadata:
+        description: "Sign DEB/RPM repository metadata via GPG"
+        required: false
+        default: "false"
+        type: choice
+        options:
+          - "false"
+          - "true"
+      release_url:
+        description: "Optional release URL for traceability"
+        required: false
+        type: string
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: release-linux-distribution-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  detect-release:
+    name: Detect Release Context
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.detect.outputs.tag }}
+      version: ${{ steps.detect.outputs.version }}
+      should_prepare: ${{ steps.detect.outputs.should_prepare }}
+      publish_requested: ${{ steps.detect.outputs.publish_requested }}
+      channel: ${{ steps.detect.outputs.channel }}
+      metadata_profile: ${{ steps.detect.outputs.metadata_profile }}
+      sign_requested: ${{ steps.detect.outputs.sign_requested }}
+    steps:
+      - name: Detect tag/version/channel
+        id: detect
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          EVENT="${{ github.event_name }}"
+          TAG=""
+          CHANNEL="stable"
+          METADATA_PROFILE="auto"
+          SHOULD_PREPARE="false"
+          PUBLISH_REQUESTED="false"
+          SIGN_REQUESTED="false"
+
+          if [ "${EVENT}" = "workflow_call" ]; then
+            RAW_VERSION="${{ inputs.version }}"
+            if echo "${RAW_VERSION}" | grep -Eq '^v'; then
+              TAG="${RAW_VERSION}"
+            else
+              TAG="v${RAW_VERSION}"
+            fi
+            CHANNEL="${{ inputs.channel }}"
+            METADATA_PROFILE="${{ inputs.metadata_profile }}"
+            SHOULD_PREPARE="true"
+            if [ "${{ inputs.publish_bundle }}" = "true" ]; then
+              PUBLISH_REQUESTED="true"
+            fi
+            if [ "${{ inputs.sign_metadata }}" = "true" ]; then
+              SIGN_REQUESTED="true"
+            fi
+          elif [ "${EVENT}" = "workflow_dispatch" ]; then
+            RAW_VERSION="${{ github.event.inputs.version }}"
+            if echo "${RAW_VERSION}" | grep -Eq '^v'; then
+              TAG="${RAW_VERSION}"
+            else
+              TAG="v${RAW_VERSION}"
+            fi
+            CHANNEL="${{ github.event.inputs.channel }}"
+            METADATA_PROFILE="${{ github.event.inputs.metadata_profile }}"
+            SHOULD_PREPARE="true"
+            if [ "${{ github.event.inputs.publish_bundle }}" = "true" ]; then
+              PUBLISH_REQUESTED="true"
+            fi
+            if [ "${{ github.event.inputs.sign_metadata }}" = "true" ]; then
+              SIGN_REQUESTED="true"
+            fi
+          elif [ "${EVENT}" = "release" ]; then
+            TAG="${{ github.event.release.tag_name }}"
+            # Linux distro publication is currently scoped to community tags only.
+            if echo "${TAG}" | grep -Eq '^v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?$'; then
+              SHOULD_PREPARE="true"
+              METADATA_PROFILE="auto"
+            else
+              echo "::notice::Skipping non-community tag for linux distro preparation: ${TAG}"
+            fi
+          fi
+
+          VERSION="${TAG#v}"
+
+          {
+            echo "tag=${TAG}"
+            echo "version=${VERSION}"
+            echo "should_prepare=${SHOULD_PREPARE}"
+            echo "publish_requested=${PUBLISH_REQUESTED}"
+            echo "channel=${CHANNEL}"
+            echo "metadata_profile=${METADATA_PROFILE}"
+            echo "sign_requested=${SIGN_REQUESTED}"
+          } >> "$GITHUB_OUTPUT"
+
+          echo "Release context: tag=${TAG} version=${VERSION} channel=${CHANNEL} profile=${METADATA_PROFILE} prepare=${SHOULD_PREPARE} publish=${PUBLISH_REQUESTED} sign=${SIGN_REQUESTED}"
+
+  download-assets:
+    name: Download Release Assets
+    needs: detect-release
+    if: needs.detect-release.outputs.should_prepare == 'true'
+    runs-on: ubuntu-latest
+    outputs:
+      assets_dir: ${{ steps.fetch.outputs.assets_dir }}
+    steps:
+      - name: Download release assets
+        id: fetch
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          TAG="${{ needs.detect-release.outputs.tag }}"
+          mkdir -p release-assets
+          gh release download "${TAG}" --repo "${{ github.repository }}" --dir release-assets --clobber
+
+          if ! find release-assets -type f -print -quit | grep -q .; then
+            echo "::error::No assets downloaded for ${TAG}"
+            exit 1
+          fi
+
+          echo "assets_dir=release-assets" >> "$GITHUB_OUTPUT"
+
+      - name: Show downloaded assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          find release-assets -maxdepth 1 -type f -printf "%f\n" | sort
+
+  prepare-linux-distro-bundle:
+    name: Prepare Linux Distro Bundle
+    needs: [detect-release, download-assets]
+    if: needs.detect-release.outputs.should_prepare == 'true'
+    runs-on: ubuntu-latest
+    outputs:
+      bundle_name: ${{ steps.bundle.outputs.bundle_name }}
+    steps:
+      - name: Install metadata tools
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends dpkg-dev createrepo-c jq gnupg
+
+      - name: Import signing key (optional)
+        if: needs.detect-release.outputs.sign_requested == 'true'
+        env:
+          GPG_PRIVATE_KEY_B64: ${{ secrets.linux_distro_gpg_private_key_b64 }}
+          GPG_PASSPHRASE: ${{ secrets.linux_distro_gpg_passphrase }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -z "${GPG_PRIVATE_KEY_B64:-}" ] || [ -z "${GPG_PASSPHRASE:-}" ]; then
+            echo "::error::sign_metadata=true requires linux_distro_gpg_private_key_b64 and linux_distro_gpg_passphrase"
+            exit 1
+          fi
+          echo "${GPG_PRIVATE_KEY_B64}" | base64 -d > /tmp/linux-distro-signing.key
+          gpg --batch --import /tmp/linux-distro-signing.key
+          rm -f /tmp/linux-distro-signing.key
+
+      - name: Resolve distro metadata profile
+        id: profile
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          PROFILE_IN="${{ needs.detect-release.outputs.metadata_profile }}"
+          CHANNEL="${{ needs.detect-release.outputs.channel }}"
+
+          PROFILE="${PROFILE_IN}"
+          if [ "${PROFILE_IN}" = "auto" ]; then
+            case "${CHANNEL}" in
+              stable)
+                PROFILE="ubuntu-jammy"
+                ;;
+              testing)
+                PROFILE="debian-bookworm"
+                ;;
+              nightly)
+                PROFILE="fedora40"
+                ;;
+              *)
+                PROFILE="ubuntu-jammy"
+                ;;
+            esac
+          fi
+
+          case "${PROFILE}" in
+            ubuntu-jammy)
+              DEB_SUITE="jammy"
+              DEB_CODENAME="jammy"
+              DEB_COMPONENTS="main"
+              DEB_ARCHS="amd64 arm64"
+              RPM_DIST_TAG="el9"
+              RPM_BASEURL_HINT="rhel9"
+              ;;
+            ubuntu-noble)
+              DEB_SUITE="noble"
+              DEB_CODENAME="noble"
+              DEB_COMPONENTS="main"
+              DEB_ARCHS="amd64 arm64"
+              RPM_DIST_TAG="el9"
+              RPM_BASEURL_HINT="rhel9"
+              ;;
+            debian-bookworm)
+              DEB_SUITE="bookworm"
+              DEB_CODENAME="bookworm"
+              DEB_COMPONENTS="main"
+              DEB_ARCHS="amd64 arm64"
+              RPM_DIST_TAG="el9"
+              RPM_BASEURL_HINT="rhel9"
+              ;;
+            debian-trixie)
+              DEB_SUITE="trixie"
+              DEB_CODENAME="trixie"
+              DEB_COMPONENTS="main"
+              DEB_ARCHS="amd64 arm64"
+              RPM_DIST_TAG="el9"
+              RPM_BASEURL_HINT="rhel9"
+              ;;
+            rhel9|rocky9|almalinux9)
+              DEB_SUITE="stable"
+              DEB_CODENAME="stable"
+              DEB_COMPONENTS="main"
+              DEB_ARCHS="amd64 arm64"
+              RPM_DIST_TAG="el9"
+              RPM_BASEURL_HINT="${PROFILE}"
+              ;;
+            fedora40)
+              DEB_SUITE="testing"
+              DEB_CODENAME="testing"
+              DEB_COMPONENTS="main"
+              DEB_ARCHS="amd64 arm64"
+              RPM_DIST_TAG="fc40"
+              RPM_BASEURL_HINT="fedora40"
+              ;;
+            *)
+              echo "::error::Unsupported metadata profile: ${PROFILE}"
+              exit 1
+              ;;
+          esac
+
+          {
+            echo "profile=${PROFILE}"
+            echo "deb_suite=${DEB_SUITE}"
+            echo "deb_codename=${DEB_CODENAME}"
+            echo "deb_components=${DEB_COMPONENTS}"
+            echo "deb_architectures=${DEB_ARCHS}"
+            echo "rpm_dist_tag=${RPM_DIST_TAG}"
+            echo "rpm_baseurl_hint=${RPM_BASEURL_HINT}"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Build distro layout and metadata
+        id: bundle
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          VERSION="${{ needs.detect-release.outputs.version }}"
+          CHANNEL="${{ needs.detect-release.outputs.channel }}"
+          PROFILE="${{ steps.profile.outputs.profile }}"
+          SRC_DIR="${{ needs.download-assets.outputs.assets_dir }}"
+
+          OUT_DIR="linux-distro-bundle"
+          DEB_DIR="${OUT_DIR}/deb"
+          RPM_DIR="${OUT_DIR}/rpm"
+          TGZ_DIR="${OUT_DIR}/tgz"
+
+          mkdir -p "${DEB_DIR}/pool/main" "${RPM_DIR}/packages" "${TGZ_DIR}" "${OUT_DIR}/meta"
+
+          mapfile -t DEB_FILES < <(find "${SRC_DIR}" -maxdepth 1 -type f -name '*.deb' | sort)
+          mapfile -t RPM_FILES < <(find "${SRC_DIR}" -maxdepth 1 -type f -name '*.rpm' | sort)
+          mapfile -t TGZ_FILES < <(find "${SRC_DIR}" -maxdepth 1 -type f \( -name '*.tar.gz' -o -name '*.tgz' \) | sort)
+
+          if [ ${#DEB_FILES[@]} -eq 0 ] && [ ${#RPM_FILES[@]} -eq 0 ] && [ ${#TGZ_FILES[@]} -eq 0 ]; then
+            echo "::error::No Linux distribution artifacts (*.deb/*.rpm/*.tar.gz/*.tgz) found in release assets"
+            exit 1
+          fi
+
+          if [ ${#DEB_FILES[@]} -gt 0 ]; then
+            cp "${DEB_FILES[@]}" "${DEB_DIR}/pool/main/"
+            pushd "${DEB_DIR}" >/dev/null
+            dpkg-scanpackages --multiversion pool /dev/null | gzip -9c > Packages.gz
+            {
+              echo "Origin: ThemisDB"
+              echo "Label: ThemisDB"
+              echo "Suite: ${{ steps.profile.outputs.deb_suite }}"
+              echo "Codename: ${{ steps.profile.outputs.deb_codename }}"
+              echo "Architectures: ${{ steps.profile.outputs.deb_architectures }}"
+              echo "Components: ${{ steps.profile.outputs.deb_components }}"
+              echo "Description: ThemisDB Linux DEB repository metadata (${PROFILE})"
+            } > Release
+            popd >/dev/null
+          fi
+
+          if [ ${#RPM_FILES[@]} -gt 0 ]; then
+            cp "${RPM_FILES[@]}" "${RPM_DIR}/packages/"
+            createrepo_c "${RPM_DIR}" >/dev/null
+          fi
+
+          if [ ${#TGZ_FILES[@]} -gt 0 ]; then
+            cp "${TGZ_FILES[@]}" "${TGZ_DIR}/"
+          fi
+
+          SHA_FILE="${OUT_DIR}/meta/SHA256SUMS-LINUX-DISTRO.txt"
+          SHA_TMP="${OUT_DIR}/meta/.sha256.tmp"
+          mapfile -d '' CHECKSUM_FILES < <(find "${OUT_DIR}" -type f ! -path "${SHA_FILE}" ! -path "${SHA_TMP}" -print0 | sort -z)
+          : > "${SHA_TMP}"
+          for f in "${CHECKSUM_FILES[@]}"; do
+            sha256sum "${f}" >> "${SHA_TMP}"
+          done
+          mv "${SHA_TMP}" "${SHA_FILE}"
+
+          jq -n \
+            --arg version "${VERSION}" \
+            --arg channel "${CHANNEL}" \
+            --arg profile "${PROFILE}" \
+            --arg tag "${{ needs.detect-release.outputs.tag }}" \
+            --arg generated_at "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+            --argjson deb_count "${#DEB_FILES[@]}" \
+            --argjson rpm_count "${#RPM_FILES[@]}" \
+            --argjson tgz_count "${#TGZ_FILES[@]}" \
+            --arg deb_suite "${{ steps.profile.outputs.deb_suite }}" \
+            --arg deb_codename "${{ steps.profile.outputs.deb_codename }}" \
+            --arg deb_architectures "${{ steps.profile.outputs.deb_architectures }}" \
+            --arg rpm_dist_tag "${{ steps.profile.outputs.rpm_dist_tag }}" \
+            --arg rpm_baseurl_hint "${{ steps.profile.outputs.rpm_baseurl_hint }}" \
+            --arg signed "${{ needs.detect-release.outputs.sign_requested }}" \
+            '{version:$version,channel:$channel,profile:$profile,tag:$tag,generated_at:$generated_at,signed:$signed,deb:{suite:$deb_suite,codename:$deb_codename,architectures:$deb_architectures},rpm:{dist_tag:$rpm_dist_tag,baseurl_hint:$rpm_baseurl_hint},counts:{deb:$deb_count,rpm:$rpm_count,tgz:$tgz_count}}' \
+            > "${OUT_DIR}/meta/linux-distro-bundle-metadata.json"
+
+          BUNDLE_NAME="linux-distro-${VERSION}-${CHANNEL}-${{ github.run_number }}"
+          echo "bundle_name=${BUNDLE_NAME}" >> "$GITHUB_OUTPUT"
+
+      - name: Sign DEB/RPM metadata (optional)
+        if: needs.detect-release.outputs.sign_requested == 'true'
+        env:
+          GPG_PASSPHRASE: ${{ secrets.linux_distro_gpg_passphrase }}
+          GPG_KEY_ID: ${{ secrets.linux_distro_gpg_key_id }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          OUT_DIR="linux-distro-bundle"
+          DEB_DIR="${OUT_DIR}/deb"
+          RPM_DIR="${OUT_DIR}/rpm"
+
+          KEY_ARGS=()
+          if [ -n "${GPG_KEY_ID:-}" ]; then
+            KEY_ARGS+=(--local-user "${GPG_KEY_ID}")
+          fi
+
+          if [ -f "${DEB_DIR}/Release" ]; then
+            gpg --batch --yes --pinentry-mode loopback --passphrase "${GPG_PASSPHRASE}" \
+              "${KEY_ARGS[@]}" --armor --detach-sign -o "${DEB_DIR}/Release.gpg" "${DEB_DIR}/Release"
+            gpg --batch --yes --pinentry-mode loopback --passphrase "${GPG_PASSPHRASE}" \
+              "${KEY_ARGS[@]}" --armor --clearsign -o "${DEB_DIR}/InRelease" "${DEB_DIR}/Release"
+          fi
+
+          if [ -f "${RPM_DIR}/repodata/repomd.xml" ]; then
+            gpg --batch --yes --pinentry-mode loopback --passphrase "${GPG_PASSPHRASE}" \
+              "${KEY_ARGS[@]}" --armor --detach-sign -o "${RPM_DIR}/repodata/repomd.xml.asc" "${RPM_DIR}/repodata/repomd.xml"
+          fi
+
+      - name: Upload distro bundle artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.bundle.outputs.bundle_name }}
+          path: linux-distro-bundle/
+          retention-days: 90
+
+  publish-linux-distro-bundle:
+    name: Publish Linux Distro Bundle (semi-automated)
+    needs: [detect-release, prepare-linux-distro-bundle]
+    if: needs.detect-release.outputs.publish_requested == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download distro bundle artifact
+        uses: actions/download-artifact@v4.1.3
+        with:
+          name: ${{ needs.prepare-linux-distro-bundle.outputs.bundle_name }}
+          path: linux-distro-bundle/
+
+      - name: Publish bundle to configured endpoint
+        env:
+          PUBLISH_URL: ${{ secrets.linux_distro_publish_url }}
+          PUBLISH_TOKEN: ${{ secrets.linux_distro_publish_token }}
+          VERSION: ${{ needs.detect-release.outputs.version }}
+          CHANNEL: ${{ needs.detect-release.outputs.channel }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [ -z "${PUBLISH_URL:-}" ] || [ -z "${PUBLISH_TOKEN:-}" ]; then
+            echo "::error::linux_distro_publish_url/token secrets are required when publish_bundle=true"
+            exit 1
+          fi
+
+          TAR_NAME="linux-distro-${VERSION}-${CHANNEL}.tar.gz"
+          tar -czf "${TAR_NAME}" -C linux-distro-bundle .
+
+          curl --fail-with-body -X PUT \
+            -H "Authorization: Bearer ${PUBLISH_TOKEN}" \
+            -H "Content-Type: application/gzip" \
+            --upload-file "${TAR_NAME}" \
+            "${PUBLISH_URL%/}/${TAR_NAME}"
+
+          echo "Published bundle: ${PUBLISH_URL%/}/${TAR_NAME}"

@@ -124,10 +124,11 @@ std::vector<SafetyClassification> SafetyClassifier::classifyBatch(
 
 SafetyClassification SafetyClassifier::fallbackClassify(std::string_view text) const {
     static const std::vector<std::string> block_signals = {
-        "build a bomb", "bypass authentication", "steal credentials", "drop table", "exfiltrate"
+        "build a bomb", "bypass authentication", "steal credentials", "drop table", "exfiltrate",
+        "ignore all safety rules", "reveal the system prompt", "ignore safety rules", "system prompt"
     };
     static const std::vector<std::string> review_signals = {
-        "admin password", "token", "exploit", "payload", "disable security"
+        "admin password", "token", "exploit", "payload", "disable security", "unconstrained"
     };
 
     const std::string lowered = toLower(text);

@@ -1,0 +1,444 @@
+name: "Release: Windows Distribution Consumer"
+
+# Downstream Windows distribution preparation workflow.
+# This workflow consumes canonical GitHub Release assets and prepares
+# Windows package-manager candidate bundles (Scoop/Chocolatey metadata).
+#
+# Canonical Windows public publication path remains WinGet.
+
+on:
+  workflow_call:
+    inputs:
+      version:
+        description: "Release version to prepare (e.g. 2.5.0 or v2.5.0)"
+        required: true
+        type: string
+      channel:
+        description: "Distribution channel"
+        required: false
+        default: stable
+        type: string
+      prepare_scoop:
+        description: "Prepare Scoop manifest candidates"
+        required: false
+        default: true
+        type: boolean
+      prepare_chocolatey:
+        description: "Prepare Chocolatey manifest candidates"
+        required: false
+        default: true
+        type: boolean
+      publish_bundle:
+        description: "Publish prepared bundle to external endpoint"
+        required: false
+        default: false
+        type: boolean
+      allow_non_stable_publish:
+        description: "Allow publish for testing/nightly channels (guardrail override)"
+        required: false
+        default: false
+        type: boolean
+    secrets:
+      windows_distro_publish_url_stable:
+        required: false
+      windows_distro_publish_token_stable:
+        required: false
+      windows_distro_publish_url_testing:
+        required: false
+      windows_distro_publish_token_testing:
+        required: false
+      windows_distro_publish_url_nightly:
+        required: false
+      windows_distro_publish_token_nightly:
+        required: false
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Release version to prepare (e.g. 2.5.0 or v2.5.0)"
+        required: true
+        type: string
+      channel:
+        description: "Distribution channel"
+        required: false
+        default: stable
+        type: choice
+        options:
+          - stable
+          - testing
+          - nightly
+      prepare_scoop:
+        description: "Prepare Scoop manifest candidates"
+        required: false
+        default: "true"
+        type: choice
+        options:
+          - "true"
+          - "false"
+      prepare_chocolatey:
+        description: "Prepare Chocolatey manifest candidates"
+        required: false
+        default: "true"
+        type: choice
+        options:
+          - "true"
+          - "false"
+      publish_bundle:
+        description: "Publish prepared bundle to external endpoint"
+        required: false
+        default: "false"
+        type: choice
+        options:
+          - "false"
+          - "true"
+      allow_non_stable_publish:
+        description: "Allow publish for testing/nightly channels (guardrail override)"
+        required: false
+        default: "false"
+        type: choice
+        options:
+          - "false"
+          - "true"
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: release-windows-distribution-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  detect-release:
+    name: Detect Release Context
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.detect.outputs.tag }}
+      version: ${{ steps.detect.outputs.version }}
+      channel: ${{ steps.detect.outputs.channel }}
+      publish_requested: ${{ steps.detect.outputs.publish_requested }}
+      prepare_scoop: ${{ steps.detect.outputs.prepare_scoop }}
+      prepare_chocolatey: ${{ steps.detect.outputs.prepare_chocolatey }}
+      publish_environment: ${{ steps.detect.outputs.publish_environment }}
+    steps:
+      - name: Detect tag/version
+        id: detect
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          EVENT="${{ github.event_name }}"
+          TAG=""
+          CHANNEL="stable"
+          PUBLISH_REQUESTED="false"
+          PREPARE_SCOOP="true"
+          PREPARE_CHOCO="true"
+          ALLOW_NON_STABLE_PUBLISH="false"
+
+          if [ "${EVENT}" = "workflow_call" ]; then
+            RAW_VERSION="${{ inputs.version }}"
+            if echo "${RAW_VERSION}" | grep -Eq '^v'; then
+              TAG="${RAW_VERSION}"
+            else
+              TAG="v${RAW_VERSION}"
+            fi
+            CHANNEL="${{ inputs.channel }}"
+            if [ "${{ inputs.publish_bundle }}" = "true" ]; then
+              PUBLISH_REQUESTED="true"
+            fi
+            if [ "${{ inputs.prepare_scoop }}" = "false" ]; then
+              PREPARE_SCOOP="false"
+            fi
+            if [ "${{ inputs.prepare_chocolatey }}" = "false" ]; then
+              PREPARE_CHOCO="false"
+            fi
+            if [ "${{ inputs.allow_non_stable_publish }}" = "true" ]; then
+              ALLOW_NON_STABLE_PUBLISH="true"
+            fi
+          else
+            RAW_VERSION="${{ github.event.inputs.version }}"
+            if echo "${RAW_VERSION}" | grep -Eq '^v'; then
+              TAG="${RAW_VERSION}"
+            else
+              TAG="v${RAW_VERSION}"
+            fi
+            CHANNEL="${{ github.event.inputs.channel }}"
+            if [ "${{ github.event.inputs.publish_bundle }}" = "true" ]; then
+              PUBLISH_REQUESTED="true"
+            fi
+            if [ "${{ github.event.inputs.prepare_scoop }}" = "false" ]; then
+              PREPARE_SCOOP="false"
+            fi
+            if [ "${{ github.event.inputs.prepare_chocolatey }}" = "false" ]; then
+              PREPARE_CHOCO="false"
+            fi
+            if [ "${{ github.event.inputs.allow_non_stable_publish }}" = "true" ]; then
+              ALLOW_NON_STABLE_PUBLISH="true"
+            fi
+          fi
+
+          case "${CHANNEL}" in
+            stable|testing|nightly)
+              ;;
+            *)
+              echo "::error::Invalid channel '${CHANNEL}'. Allowed: stable, testing, nightly."
+              exit 1
+              ;;
+          esac
+
+          if [ "${PUBLISH_REQUESTED}" = "true" ] && [ "${CHANNEL}" != "stable" ] && [ "${ALLOW_NON_STABLE_PUBLISH}" != "true" ]; then
+            echo "::error::Publishing for channel '${CHANNEL}' requires allow_non_stable_publish=true."
+            exit 1
+          fi
+
+          case "${CHANNEL}" in
+            stable)
+              PUBLISH_ENV="release-windows-stable"
+              ;;
+            testing)
+              PUBLISH_ENV="release-windows-testing"
+              ;;
+            nightly)
+              PUBLISH_ENV="release-windows-nightly"
+              ;;
+          esac
+
+          VERSION="${TAG#v}"
+
+          {
+            echo "tag=${TAG}"
+            echo "version=${VERSION}"
+            echo "channel=${CHANNEL}"
+            echo "publish_requested=${PUBLISH_REQUESTED}"
+            echo "prepare_scoop=${PREPARE_SCOOP}"
+            echo "prepare_chocolatey=${PREPARE_CHOCO}"
+            echo "publish_environment=${PUBLISH_ENV}"
+          } >> "$GITHUB_OUTPUT"
+
+  download-assets:
+    name: Download Windows Release Assets
+    needs: detect-release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download release assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p release-assets
+          gh release download "${{ needs.detect-release.outputs.tag }}" --repo "${{ github.repository }}" --dir release-assets --clobber
+
+          ZIP_COUNT=$(find release-assets -maxdepth 1 -type f -name '*.zip' | wc -l)
+          MSI_COUNT=$(find release-assets -maxdepth 1 -type f -name '*.msi' | wc -l)
+          if [ "${ZIP_COUNT}" -eq 0 ] && [ "${MSI_COUNT}" -eq 0 ]; then
+            echo "::error::No Windows ZIP/MSI assets found in release."
+            exit 1
+          fi
+
+      - name: Upload downloaded assets
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-release-assets-${{ github.run_number }}
+          path: release-assets/
+          retention-days: 7
+
+  prepare-windows-distro-bundle:
+    name: Prepare Windows Distro Bundle
+    needs: [detect-release, download-assets]
+    runs-on: ubuntu-latest
+    outputs:
+      bundle_name: ${{ steps.bundle.outputs.bundle_name }}
+    steps:
+      - name: Download release assets artifact
+        uses: actions/download-artifact@v4.1.3
+        with:
+          name: windows-release-assets-${{ github.run_number }}
+          path: release-assets/
+
+      - name: Build bundle content
+        id: bundle
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          VERSION="${{ needs.detect-release.outputs.version }}"
+          CHANNEL="${{ needs.detect-release.outputs.channel }}"
+
+          OUT_DIR="windows-distro-bundle"
+          SCOOP_DIR="${OUT_DIR}/scoop"
+          CHOCO_DIR="${OUT_DIR}/chocolatey"
+          META_DIR="${OUT_DIR}/meta"
+          mkdir -p "${SCOOP_DIR}" "${CHOCO_DIR}/tools" "${META_DIR}"
+
+          ZIP_FILE="$(find release-assets -maxdepth 1 -type f -name '*windows*x64*.zip' | sort | head -n 1)"
+          if [ -z "${ZIP_FILE}" ]; then
+            ZIP_FILE="$(find release-assets -maxdepth 1 -type f -name '*.zip' | sort | head -n 1)"
+          fi
+
+          MSI_FILE="$(find release-assets -maxdepth 1 -type f -name '*windows*x64*.msi' | sort | head -n 1)"
+          if [ -z "${MSI_FILE}" ]; then
+            MSI_FILE="$(find release-assets -maxdepth 1 -type f -name '*.msi' | sort | head -n 1 || true)"
+          fi
+
+          ZIP_NAME=""
+          MSI_NAME=""
+          ZIP_SHA256=""
+          MSI_SHA256=""
+
+          if [ -n "${ZIP_FILE}" ]; then
+            ZIP_NAME="$(basename "${ZIP_FILE}")"
+            ZIP_SHA256="$(sha256sum "${ZIP_FILE}" | awk '{print $1}')"
+          fi
+
+          if [ -n "${MSI_FILE}" ]; then
+            MSI_NAME="$(basename "${MSI_FILE}")"
+            MSI_SHA256="$(sha256sum "${MSI_FILE}" | awk '{print $1}')"
+          fi
+
+          DOWNLOAD_BASE="https://github.com/${{ github.repository }}/releases/download/${{ needs.detect-release.outputs.tag }}"
+
+          if [ "${{ needs.detect-release.outputs.prepare_scoop }}" = "true" ] && [ -n "${ZIP_NAME}" ]; then
+            jq -n \
+              --arg version "${VERSION}" \
+              --arg channel "${CHANNEL}" \
+              --arg url "${DOWNLOAD_BASE}/${ZIP_NAME}" \
+              --arg hash "${ZIP_SHA256}" \
+              '{
+                version: $version,
+                channel: $channel,
+                architecture: {"64bit": {url: $url, hash: $hash}},
+                bin: "themisdb.exe",
+                homepage: "https://github.com/makr-code/ThemisDB",
+                license: "Apache-2.0",
+                notes: ["Generated candidate manifest for Scoop consumer lane"]
+              }' > "${SCOOP_DIR}/themisdb.json"
+          fi
+
+          if [ "${{ needs.detect-release.outputs.prepare_chocolatey }}" = "true" ] && [ -n "${ZIP_NAME}" ]; then
+            printf '%s\n' \
+              '<?xml version="1.0"?>' \
+              '<package>' \
+              '  <metadata>' \
+              '    <id>ThemisDB</id>' \
+              "    <version>${VERSION}</version>" \
+              '    <title>ThemisDB</title>' \
+              '    <authors>ThemisDB Contributors</authors>' \
+              '    <projectUrl>https://github.com/makr-code/ThemisDB</projectUrl>' \
+              '    <licenseUrl>https://github.com/makr-code/ThemisDB/blob/develop/LICENSE</licenseUrl>' \
+              '    <requireLicenseAcceptance>false</requireLicenseAcceptance>' \
+              '    <description>ThemisDB Windows distribution candidate package metadata.</description>' \
+              '    <tags>database graph distributed ai</tags>' \
+              '  </metadata>' \
+              '</package>' \
+              > "${CHOCO_DIR}/themisdb.nuspec"
+
+            # shellcheck disable=SC2016
+            printf '%s\n' \
+              "\$ErrorActionPreference = 'Stop'" \
+              "\$packageName = 'ThemisDB'" \
+              "\$url64 = '${DOWNLOAD_BASE}/${ZIP_NAME}'" \
+              "\$checksum64 = '${ZIP_SHA256}'" \
+              '' \
+              'Install-ChocolateyZipPackage -PackageName $packageName -Url64bit $url64 -Checksum64 $checksum64 -ChecksumType64 "sha256" -UnzipLocation "$env:ProgramData\\chocolatey\\lib\\$packageName"' \
+              > "${CHOCO_DIR}/tools/chocolateyinstall.ps1"
+          fi
+
+          jq -n \
+            --arg version "${VERSION}" \
+            --arg channel "${CHANNEL}" \
+            --arg tag "${{ needs.detect-release.outputs.tag }}" \
+            --arg zip_name "${ZIP_NAME}" \
+            --arg zip_sha256 "${ZIP_SHA256}" \
+            --arg msi_name "${MSI_NAME}" \
+            --arg msi_sha256 "${MSI_SHA256}" \
+            --arg prepare_scoop "${{ needs.detect-release.outputs.prepare_scoop }}" \
+            --arg prepare_chocolatey "${{ needs.detect-release.outputs.prepare_chocolatey }}" \
+            '{
+              version: $version,
+              channel: $channel,
+              tag: $tag,
+              windows_assets: {
+                zip: {name: $zip_name, sha256: $zip_sha256},
+                msi: {name: $msi_name, sha256: $msi_sha256}
+              },
+              candidates: {
+                scoop: $prepare_scoop,
+                chocolatey: $prepare_chocolatey
+              }
+            }' > "${META_DIR}/windows-distro-bundle-metadata.json"
+
+          find "${OUT_DIR}" -type f -print0 | sort -z | xargs -0 sha256sum > "${META_DIR}/SHA256SUMS-WINDOWS-DISTRO.txt"
+
+          BUNDLE_NAME="windows-distro-${VERSION}-${CHANNEL}-${{ github.run_number }}"
+          echo "bundle_name=${BUNDLE_NAME}" >> "$GITHUB_OUTPUT"
+
+      - name: Upload windows distro bundle artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.bundle.outputs.bundle_name }}
+          path: windows-distro-bundle/
+          retention-days: 90
+
+  publish-windows-distro-bundle:
+    name: Publish Windows Distro Bundle (semi-automated)
+    needs: [detect-release, prepare-windows-distro-bundle]
+    if: needs.detect-release.outputs.publish_requested == 'true'
+    runs-on: ubuntu-latest
+    environment: ${{ needs.detect-release.outputs.publish_environment }}
+    steps:
+      - name: Download windows distro bundle artifact
+        uses: actions/download-artifact@v4.1.3
+        with:
+          name: ${{ needs.prepare-windows-distro-bundle.outputs.bundle_name }}
+          path: windows-distro-bundle/
+
+      - name: Publish bundle to configured endpoint
+        env:
+          PUBLISH_URL_STABLE: ${{ secrets.windows_distro_publish_url_stable }}
+          PUBLISH_TOKEN_STABLE: ${{ secrets.windows_distro_publish_token_stable }}
+          PUBLISH_URL_TESTING: ${{ secrets.windows_distro_publish_url_testing }}
+          PUBLISH_TOKEN_TESTING: ${{ secrets.windows_distro_publish_token_testing }}
+          PUBLISH_URL_NIGHTLY: ${{ secrets.windows_distro_publish_url_nightly }}
+          PUBLISH_TOKEN_NIGHTLY: ${{ secrets.windows_distro_publish_token_nightly }}
+          VERSION: ${{ needs.detect-release.outputs.version }}
+          CHANNEL: ${{ needs.detect-release.outputs.channel }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          PUBLISH_URL=""
+          PUBLISH_TOKEN=""
+          case "${CHANNEL}" in
+            stable)
+              PUBLISH_URL="${PUBLISH_URL_STABLE:-}"
+              PUBLISH_TOKEN="${PUBLISH_TOKEN_STABLE:-}"
+              ;;
+            testing)
+              PUBLISH_URL="${PUBLISH_URL_TESTING:-}"
+              PUBLISH_TOKEN="${PUBLISH_TOKEN_TESTING:-}"
+              ;;
+            nightly)
+              PUBLISH_URL="${PUBLISH_URL_NIGHTLY:-}"
+              PUBLISH_TOKEN="${PUBLISH_TOKEN_NIGHTLY:-}"
+              ;;
+            *)
+              echo "::error::Unsupported channel '${CHANNEL}'"
+              exit 1
+              ;;
+          esac
+
+          if [ -z "${PUBLISH_URL:-}" ] || [ -z "${PUBLISH_TOKEN:-}" ]; then
+            echo "::error::Channel '${CHANNEL}' publish secrets are required (url/token pair)."
+            exit 1
+          fi
+
+          TAR_NAME="windows-distro-${VERSION}-${CHANNEL}.tar.gz"
+          tar -czf "${TAR_NAME}" -C windows-distro-bundle .
+
+          curl --fail-with-body -X PUT \
+            -H "Authorization: Bearer ${PUBLISH_TOKEN}" \
+            -H "Content-Type: application/gzip" \
+            --upload-file "${TAR_NAME}" \
+            "${PUBLISH_URL%/}/${TAR_NAME}"
+
+          echo "Published bundle: ${PUBLISH_URL%/}/${TAR_NAME}"

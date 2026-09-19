@@ -888,6 +888,14 @@ bool OracleImporter::parseCreateTable(const std::string& sql, TableSchema& schem
             THEMIS_WARN("Oracle column type exceeds max length ({}); truncating", kMaxTypeLength);
         }
 
+        // Oracle allows length qualifiers like VARCHAR2(20 BYTE) / CHAR(32 CHAR).
+        // Strip them so downstream type normalization matches the canonical form
+        // without the trailing storage-byte qualifier.
+        static const std::regex oracle_storage_suffix_re(
+            R"(\s+(?:BYTE|CHAR)\s*(?=\)))",
+            std::regex_constants::icase);
+        col_type = std::regex_replace(col_type, oracle_storage_suffix_re, "");
+
         if (col_type.empty()) {
           continue;
         }

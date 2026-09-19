@@ -4,6 +4,8 @@
 > Purpose: compact, manual, CI-free release process
 >
 > Canonical root onboarding path: [README.md](README.md) → [QUICKSTART.md](QUICKSTART.md) → [SETUP.md](SETUP.md) → [SUPPORT.md](SUPPORT.md) → [BRANCHING_STRATEGY.md](BRANCHING_STRATEGY.md) → [RELEASE_STRATEGY.md](RELEASE_STRATEGY.md) → [VERSIONING.md](VERSIONING.md)
+>
+> Release flow diagram reference: [docs/release/RELEASE_TARGET_ARCHITECTURE.md](docs/release/RELEASE_TARGET_ARCHITECTURE.md) · [docs/RELEASE_ARTIFACT_LOCATIONS.md](docs/RELEASE_ARTIFACT_LOCATIONS.md)
 
 ## 1. Principles
 
@@ -12,7 +14,7 @@
 - Release branches are optional and short-lived.
 - Releases are created manually by a release manager.
 - One source tag identifies one released source state.
-- A release may contain multiple artefacts.
+- A release may contain multiple artefacts, but those artefacts are produced once by the canonical CPack-backed release build matrix.
 - Do not create separate Git tags for ZIP, MSI, Docker image, or other package variants.
 - Every release tag must have release notes.
 - GitHub Issues for a release must be linked via the corresponding milestone.
@@ -202,7 +204,7 @@ Minimum milestone hygiene:
 1. Start from `develop`.
 2. Create a temporary release branch if cleanup is needed.
 3. Merge the final state into `minimal`.
-4. Build the required artefacts manually.
+4. Run the canonical CPack-backed release build to generate the release artefacts.
 5. Write the release notes.
 6. Create the tag on `minimal`.
 7. Publish the artefacts under the same release entry.
@@ -221,7 +223,7 @@ git push origin minimal-v1.9.0
 1. Start from `develop`.
 2. Create a temporary release branch if cleanup is needed.
 3. Merge the final state into `community`.
-4. Build the required artefacts manually.
+4. Run the canonical CPack-backed release build to generate the release artefacts.
 5. Write the release notes.
 6. Create the tag on `community`.
 7. Publish the artefacts under the same release entry.
@@ -240,7 +242,7 @@ git push origin v1.9.0-alpha1
 1. Start from `develop`.
 2. Prepare the release state.
 3. Merge into `enterprise`.
-4. Build artefacts manually.
+4. Run the canonical CPack-backed release build to generate the release artefacts.
 5. Write the release notes.
 6. Create the tag on `enterprise`.
 7. Publish the artefacts privately.
@@ -259,7 +261,7 @@ git push origin enterprise-v1.9.0
 1. Start from `develop`.
 2. Prepare the release state.
 3. Merge into `hyperscaler`.
-4. Build artefacts manually.
+4. Run the canonical CPack-backed release build to generate the release artefacts.
 5. Write the release notes.
 6. Create the tag on `hyperscaler`.
 7. Publish the artefacts privately.
@@ -278,7 +280,7 @@ git push origin hyperscaler-v1.9.0
 1. Start from `develop`.
 2. Prepare the release state.
 3. Merge into `military`.
-4. Build artefacts manually.
+4. Run the canonical CPack-backed release build to generate the release artefacts.
 5. Write the release notes.
 6. Create the tag on `military`.
 7. Publish the artefacts privately.

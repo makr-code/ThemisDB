@@ -129,6 +129,14 @@ public:
         resolved_device_id_ = cfg_.gpu_device_id >= 0
             ? cfg_.gpu_device_id
             : gpu_mgr_->getLeastLoadedGPU();
+        if (resolved_device_id_ < 0) {
+            auto available = gpu_mgr_->getAvailableGPUs();
+            if (!available.empty()) {
+                resolved_device_id_ = available.front();
+            } else {
+                resolved_device_id_ = 0;
+            }
+        }
 
         gpu_available_ = gpu_mgr_->isGPUAvailable(resolved_device_id_);
 

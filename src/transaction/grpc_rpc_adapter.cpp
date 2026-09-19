@@ -203,18 +203,32 @@ DistributedTransactionManager::RpcPhase1Fn GrpcRpcPhase1Adapter::make(
 
 #else  // THEMIS_HAS_CORE_GRPC not defined — fail-closed stub
 
-    (void)node_addresses;
-    (void)timeout;
-    (void)mtls;
-
-    return [](const std::string& node_id,
-              const std::string& txn_id,
-              const std::set<std::string>&) -> bool
+    return [node_addresses, timeout, mtls](const std::string& node_id,
+                                          const std::string& txn_id,
+                                          const std::set<std::string>&) -> bool
     {
+        const bool configured_remote = node_addresses.find(node_id) != node_addresses.end();
+        const bool insecure_allowed = mtls.has_value() && mtls->allow_insecure;
+
+        if (node_addresses.empty() || !configured_remote) {
+            THEMIS_WARN("GrpcRpcPhase1Adapter: THEMIS_HAS_CORE_GRPC is not defined — "
+                        "node={} txn={} no reachable gRPC endpoint; voting ABORT",
+                        node_id, txn_id);
+            return false;
+        }
+
+        if (insecure_allowed) {
+            THEMIS_WARN("GrpcRpcPhase1Adapter: THEMIS_HAS_CORE_GRPC is not defined — "
+                        "node={} txn={} insecure test override set; voting ABORT",
+                        node_id, txn_id);
+            return false;
+        }
+
         THEMIS_WARN("GrpcRpcPhase1Adapter: THEMIS_HAS_CORE_GRPC is not defined — "
-                    "node={} txn={} voting ABORT (no gRPC transport available)",
+                    "node={} txn={} configured remote target has no gRPC transport; fail-closed",
                     node_id, txn_id);
-        return false;
+        throw std::runtime_error(
+            "GrpcRpcPhase1Adapter: no gRPC transport available; missing credentials or compilation flag");
     };
 
 #endif  // THEMIS_HAS_CORE_GRPC

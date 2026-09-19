@@ -26,7 +26,7 @@ const PromptInjectionPatternRegistry& PromptInjectionPatternRegistry::defaultReg
         // Covers both RAG and PE detectors' primary instruction-override patterns.
         r.addPattern({
             "shared_instruction_override",
-            R"((?:ignore|disregard|forget|override|bypass)\s+(?:all\s+)?(?:previous|prior|above|your)\s+(?:instructions?|prompts?|rules?|guidelines?|context))",
+            R"((?:ignore|disregard|forget|override|bypass)\s+(?:all\s+)?(?:safety\s+)?(?:previous|prior|above|your)?\s*(?:instructions?|prompts?|rules?|guidelines?|context))",
             "Direct override/bypass of system/assistant instructions",
             SharedPatternSeverity::CRITICAL
         });

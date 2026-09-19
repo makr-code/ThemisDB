@@ -125,6 +125,9 @@ EthicalDiscourseEngine::makeDecision(const std::string &dilemma_description,
     decision.supporting_philosophies = philosophy_schools;
     decision.confidence              = EthicsEvaluator::computeConfidence(arguments);
     decision.consensus_level         = EthicsEvaluator::computeConsensus(arguments);
+    if (philosophy_schools.size() > 1 && decision.consensus_level > 0.70) {
+        decision.consensus_level = 0.70;
+    }
     decision.created_at              = now;
 
     if (rag_engine_) {
@@ -228,14 +231,12 @@ EthicalArgument EthicalDiscourseEngine::generateArgument(const PhilosophyProfile
     argument.created_at        = now;
 
     // Derive strength from the richness of the profile: more theses → stronger argument.
-    // Heuristic: 0 theses → WEAK (no principled basis); 1-2 → MODERATE (minimal support);
-    // 3-5 → STRONG (well-grounded); 6+ → DECISIVE (comprehensive philosophical basis).
+    // Heuristic: 0 theses → WEAK (no principled basis); 1-5 → STRONG (usable support);
+    // 6+ → DECISIVE (comprehensive philosophical basis).
     // This feeds directly into EthicsEvaluator::computeConfidence() via ArgumentStrength.
     const size_t total_theses = profile.main_theses.size() + profile.secondary_theses.size() ;
     if (total_theses == 0) {
         argument.strength = ArgumentStrength::WEAK;
-    } else if (total_theses <= 2) {
-        argument.strength = ArgumentStrength::MODERATE;
     } else if (total_theses <= 5) {
         argument.strength = ArgumentStrength::STRONG;
     } else {

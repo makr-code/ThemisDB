@@ -237,3 +237,76 @@ jobs:
       artifact_retention_days: '30'
       artifact_retention_days_secondary: '90'
       summary_title: Build (windows-release on windows-latest)
+
+  macos-release:
+    if: inputs.build_matrix == 'macos-release-only'
+    uses: ./.github/workflows/reusable-cmake-build.yml
+    with:
+      runs_on: macos-latest
+      shell: bash
+      fetch_depth: '0'
+      setup_command: |
+        set -euo pipefail
+        brew update || true
+        brew install \
+          cmake ninja pkg-config sccache \
+          openssl@3 zstd fmt spdlog nlohmann-json tbb \
+          yaml-cpp mimalloc curl cpp-httplib boost grpc protobuf pugixml || true
+        git submodule sync -- vcpkg whisper.cpp stable-diffusion.cpp ffmpeg external/GIUF || true
+        git submodule update --init --depth 1 vcpkg whisper.cpp stable-diffusion.cpp ffmpeg external/GIUF || true
+      configure_command: |
+        set -euo pipefail
+        if command -v sccache >/dev/null 2>&1; then
+          export CMAKE_C_COMPILER_LAUNCHER=sccache
+          export CMAKE_CXX_COMPILER_LAUNCHER=sccache
+        fi
+        cmake --preset community-release 2>&1 | tee configure-macos-release.log
+      build_command: |
+        set -euo pipefail
+        if command -v sccache >/dev/null 2>&1; then
+          export CMAKE_C_COMPILER_LAUNCHER=sccache
+          export CMAKE_CXX_COMPILER_LAUNCHER=sccache
+        fi
+        cmake --build --preset community-release --parallel 8 2>&1 | tee build-macos-release.log
+      validation_command: |
+        set -euo pipefail
+        ctest --preset community-release --output-on-failure -j 1 --timeout 60 2>&1 | tee test-macos-release.log || true
+
+        BUILD_DIR="${GITHUB_WORKSPACE}/build-community-release"
+        PACKAGES_DIR="${GITHUB_WORKSPACE}/packages"
+        rm -rf "${PACKAGES_DIR}"
+        mkdir -p "${PACKAGES_DIR}"
+
+        cmake --install "${BUILD_DIR}" --prefix "${BUILD_DIR}/install" 2>&1 | tee install-macos-release.log || \
+          echo "::warning::Install step failed on macOS experimental lane."
+
+        for GEN in TGZ DragNDrop; do
+          echo "--- Running CPack generator: ${GEN} ---"
+          cpack --config "${BUILD_DIR}/CPackConfig.cmake" \
+            -DCPACK_PACKAGE_DIRECTORY="${PACKAGES_DIR}" \
+            -G "${GEN}" 2>&1 | tee "${GITHUB_WORKSPACE}/cpack-${GEN}-macos-release.log" || \
+            echo "::warning::CPack generator ${GEN} failed on macOS experimental lane."
+        done
+
+        if ! find "${PACKAGES_DIR}" -maxdepth 1 \( -name '*.tar.gz' -o -name '*.tgz' -o -name '*.dmg' \) -print -quit | grep -q .; then
+          echo "::notice::No macOS package artifact produced in experimental lane."
+        fi
+
+        echo "Packages produced (if any):"
+        ls -lh "${PACKAGES_DIR}" || true
+      build_continue_on_error: true
+      validation_continue_on_error: true
+      artifact_name: build-macos-release-${{ github.run_number }}
+      artifact_paths: |
+        build-community-release/themisdb*
+        build-community-release/*.dylib
+        configure-macos-release.log
+        build-macos-release.log
+        test-macos-release.log
+        install-macos-release.log
+        cpack-*-macos-release.log
+      artifact_name_secondary: packages-macos-release-${{ github.run_number }}
+      artifact_paths_secondary: packages/
+      artifact_retention_days: '30'
+      artifact_retention_days_secondary: '30'
+      summary_title: Build (macos-release on macos-latest, experimental opt-in)
