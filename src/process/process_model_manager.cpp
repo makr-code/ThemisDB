@@ -260,7 +260,10 @@ ProcessModelRecord ProcessModelRecord::fromDocument(const json& doc) {
     r.id          = getStr("id");
     r.name        = getStr("name");
     r.name_en     = getStr("name_en");
-    r.version     = getStr("version", "1.0.0");
+    r.version     = getStr("version");
+    if (r.version.empty()) {
+        r.version = "1.0.0";
+    }
     r.revision    = doc.value("revision", 0);
     r.notation    = notationFromString(getStr("notation", "BPMN_2_0"));
     r.domain      = domainFromString(getStr("domain", "BUSINESS"));
@@ -577,17 +580,22 @@ ProcessModelResult ProcessModelManager::save(const ProcessModelRecord& record) {
         return ProcessModelResult::failure("ProcessModelRecord.id must not be empty");
     }
 
+    ProcessModelRecord to_save = record;
+    if (to_save.version.empty()) {
+        to_save.version = "1.0.0";
+    }
+
     // Validate consistency before saving
-    auto validation = validateModelConsistency(record);
+    auto validation = validateModelConsistency(to_save);
     if (!validation.ok) {
         SPDLOG_WARN("[process] save: validation failed for model '{}': {}",
-                    record.id, validation.message);
+                    to_save.id, validation.message);
         return validation;
     }
 
     // Load existing to determine revision
     int next_revision = 0;
-    auto existing = load(record.id);
+    auto existing = load(to_save.id);
     if (existing) {
         next_revision = existing->revision + 1;
         // Keep versioned snapshot of previous revision
@@ -597,7 +605,6 @@ ProcessModelResult ProcessModelManager::save(const ProcessModelRecord& record) {
         db_.put(versioned_key, versioned_json);
     }
 
-    ProcessModelRecord to_save = record;
     to_save.revision    = next_revision;
     to_save.updated_at_ms = nowMs();
     if (to_save.created_at_ms == 0) {

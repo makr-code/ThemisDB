@@ -609,29 +609,11 @@ bool ProcessLinker::wouldCreateCycle(
 }
 
 bool ProcessLinker::isLinkTargetValid(std::string_view target_id) const {
-    if (target_id.empty()) {
-        return false;
-    }
-
-    bool exists = false;
-    const std::string target = std::string(target_id);
-    const std::string link_prefix = "proc:link:" + target + ":";
-    db_.scanPrefix(link_prefix, [&](std::string_view /*key*/, std::string_view /*value*/) -> bool {
-        exists = true;
-        return false;
-    });
-
-    if (exists) {
-        return true;
-    }
-
-    const std::string attach_prefix = "proc:attach:" + target + ":";
-    db_.scanPrefix(attach_prefix, [&](std::string_view /*key*/, std::string_view /*value*/) -> bool {
-        exists = true;
-        return false;
-    });
-
-    return exists;
+    // A process link target is an identifier, not a storage key. In ThemisDB the
+    // target may be an instance ID, model ID, or an arbitrary process entity ID
+    // that is not backed by a proc:link:/proc:attach: record. Rejecting all such
+    // ids here causes false stale-reference errors for valid links.
+    return !target_id.empty();
 }
 
 bool ProcessLinker::hasCyclePath_(

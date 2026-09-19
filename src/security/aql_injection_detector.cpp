@@ -93,6 +93,20 @@ AQLInjectionDetector::validateAQLAST(const std::string& aql) {
         result.error_message = "AQL query must not be empty";
         return result;
     }
+
+    // Reject obvious mutation statements before parsing so top-level write
+    // operations do not slip through when the parser accepts them as
+    // syntactically valid AQL. Keep DDL syntax (for example DROP COLLECTION)
+    // on the parser path so callers still receive the parser's error shape.
+    static const std::regex kMutationStatement(
+        R"(\b(INSERT|UPDATE|DELETE|REMOVE|REPLACE|UPSERT)\b)",
+        std::regex::icase);
+    if (std::regex_search(aql, kMutationStatement)) {
+        result.is_safe = false;
+        result.error_message = "Query contains suspicious patterns - possible injection attempt";
+        result.detected_patterns = extractPatterns(aql);
+        return result;
+    }
     
     // Step 1: Parse AQL into AST
     auto parse_result = parseAQL(aql);

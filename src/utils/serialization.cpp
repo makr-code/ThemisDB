@@ -385,7 +385,8 @@ std::string Serialization::Decoder::decodeString() {
     
     // Note: reinterpret_cast to char* is explicitly allowed by C++ standard
     // for accessing object representation (not a strict aliasing violation)
-    std::string str(reinterpret_cast<const char*>(&data_[pos_]), size);
+    const char* start = reinterpret_cast<const char*>(data_.data() + pos_);
+    std::string str(start, size);
     pos_ += size;
     return str;
 }

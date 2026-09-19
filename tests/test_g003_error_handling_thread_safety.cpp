@@ -454,7 +454,9 @@ TEST(G003_ThreadSafety, TSF04_SharedMutexReaderWriterPattern) {
         }
     };
 
-    // Readers hold shared lock — no exclusive contention among themselves
+    // Readers hold shared lock — no exclusive contention among themselves.
+    // Wait for at least one successful read before signalling completion so the
+    // test is not racy with startup scheduling on busy CI hosts.
     auto reader_fn = [&]() {
         int snapshot = 0;
         while (!done.load(std::memory_order_relaxed)) {
@@ -474,6 +476,15 @@ TEST(G003_ThreadSafety, TSF04_SharedMutexReaderWriterPattern) {
     }
     for (int i = 0; i < N_READERS; ++i) {
       all.emplace_back(reader_fn);
+    }
+
+    // Give readers a chance to acquire the shared lock before the writer-side
+    // test completes. This keeps the assertion aligned with the intended pattern
+    // while avoiding a startup race on Windows CI.
+    const auto wait_begin = std::chrono::steady_clock::now();
+    while (read_ops.load(std::memory_order_acquire) == 0 &&
+           std::chrono::steady_clock::now() - wait_begin < std::chrono::milliseconds(200)) {
+        std::this_thread::yield();
     }
 
     // Wait for writers

@@ -73,6 +73,7 @@ OcelExporter::OcelExporter(
 json OcelExporter::buildObjects_(std::string_view instance_id) const {
     json objects = json::array();
     const auto attachments = linker_.getAttachments(instance_id);
+    SPDLOG_INFO("[OcelExporter::buildObjects_] instance='{}' attachments={}", instance_id, attachments.size());
 
     for (const auto& att : attachments) {
         json obj;
@@ -104,6 +105,7 @@ json OcelExporter::buildObjects_(std::string_view instance_id) const {
 
 json OcelExporter::buildEvents_(const ProcessInstance& inst) const {
     json events = json::array();
+    SPDLOG_INFO("[OcelExporter::buildEvents_] instance='{}' tokens={} started_at_ms={} attachments={}", inst.instance_id, inst.tokens.size(), inst.started_at_ms, linker_.getAttachments(inst.instance_id).size());
 
     // Collect all attachments for relationship building
     const auto attachments = linker_.getAttachments(inst.instance_id);
@@ -225,14 +227,18 @@ json OcelExporter::buildEvents_(const ProcessInstance& inst) const {
 // ─────────────────────────────────────────────────────────────────────────────
 
 json OcelExporter::exportInstance(std::string_view instance_id) const {
+    SPDLOG_INFO("[OcelExporter::exportInstance] begin instance='{}'", instance_id);
     auto [status, inst] = engine_.getProcessInstance(instance_id);
+    SPDLOG_INFO("[OcelExporter::exportInstance] getProcessInstance status.ok={} instance_id='{}' tokens={}", status.ok, inst.instance_id, inst.tokens.size());
     if (!status.ok) {
         SPDLOG_WARN("[OcelExporter] Instance '{}' not found", instance_id);
         return {};
     }
 
     json objects = buildObjects_(instance_id);
+    SPDLOG_INFO("[OcelExporter::exportInstance] objects built size={}", objects.size());
     json events  = buildEvents_(inst);
+    SPDLOG_INFO("[OcelExporter::exportInstance] events built size={}", events.size());
 
     return {
         {"ocel:version",     "2.0"},

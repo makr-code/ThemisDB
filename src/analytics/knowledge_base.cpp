@@ -69,6 +69,24 @@ void KnowledgeBase::clearYamlParserFn() {
 // helpers
 // ──────────────────────────────────────────────────────────────────────────────
 
+std::string KnowledgeBase::makeFactKey(const std::string &subject, const std::string &predicate,
+                                       const std::string &object) {
+    std::string key;
+    key.reserve(subject.size() + predicate.size() + object.size() + 16);
+    key += std::to_string(subject.size());
+    key += ':';
+    key += subject;
+    key += '|';
+    key += std::to_string(predicate.size());
+    key += ':';
+    key += predicate;
+    key += '|';
+    key += std::to_string(object.size());
+    key += ':';
+    key += object;
+    return key;
+}
+
 /**
  * @brief Knowledge Base Now Ms.
  * @return Return value.
@@ -130,6 +148,7 @@ std::string KnowledgeBase::assertFact(const std::string &subject, const std::str
             auto range = facts_by_predicate_.equal_range(pred_it->second);
             for (auto it = range.first; it != range.second; ++it) {
                 if (it->second.id == oldest_id) {
+                    fact_key_to_id_.erase(makeFactKey(it->second.subject, it->second.predicate, it->second.object));
                     facts_by_predicate_.erase(it);
                     break;
                 }
@@ -150,6 +169,7 @@ std::string KnowledgeBase::assertFact(const std::string &subject, const std::str
     facts_by_predicate_.emplace(predicate, f);
     fact_id_to_predicate_[f.id] = predicate;
     fact_by_id_[f.id]           = f;
+    fact_key_to_id_[makeFactKey(subject, predicate, object)] = f.id;
     insertion_order_.push_back(f.id);
 
     return f.id;
@@ -170,6 +190,7 @@ bool KnowledgeBase::retractFact(const std::string &fact_id) {
     auto range = facts_by_predicate_.equal_range(pred_it->second);
     for (auto it = range.first; it != range.second; ++it) {
         if (it->second.id == fact_id) {
+            fact_key_to_id_.erase(makeFactKey(it->second.subject, it->second.predicate, it->second.object));
             facts_by_predicate_.erase(it);
             break;
         }
@@ -184,6 +205,20 @@ bool KnowledgeBase::retractFact(const std::string &fact_id) {
     }
 
     return true;
+}
+
+std::optional<Fact> KnowledgeBase::getFact(const std::string &subject, const std::string &predicate,
+                                           const std::string &object) const {
+    const auto it = fact_key_to_id_.find(makeFactKey(subject, predicate, object));
+    if (it == fact_key_to_id_.end()) {
+        return std::nullopt;
+    }
+    return getFactById(it->second);
+}
+
+bool KnowledgeBase::hasFact(const std::string &subject, const std::string &predicate,
+                            const std::string &object) const {
+    return fact_key_to_id_.find(makeFactKey(subject, predicate, object)) != fact_key_to_id_.end();
 }
 
 std::vector<Fact> KnowledgeBase::getFacts(const std::string &predicate) const {
@@ -219,6 +254,7 @@ void KnowledgeBase::clearFacts() {
     facts_by_predicate_.clear();
     fact_id_to_predicate_.clear();
     fact_by_id_.clear();
+    fact_key_to_id_.clear();
     insertion_order_.clear();
 }
 

@@ -41,8 +41,16 @@ SerializerValidationResult SerializerInputValidator::validateInput(
 
     // Check size limit
     if (!isInputSizeValid(input.size())) {
+        // Keep the public error wording stable and human-readable for XML-based
+        // import paths while still preserving the byte-count detail for non-XML use.
+        if (format_name == "BPMN 2.0" || format_name == "Process Model") {
+            return SerializerValidationResult::failure(
+                "XML exceeds 10 MiB size limit",
+                DiagnosticIncidentType::RESOURCE_INCIDENT
+            );
+        }
         std::ostringstream oss = {};
-        oss << format_name << " input size (" <<input.size()
+        oss << format_name << " input size (" << input.size()
             << " bytes) exceeds maximum (" << kMaxModelInputBytes << " bytes)";
         return SerializerValidationResult::failure(
             oss.str(),

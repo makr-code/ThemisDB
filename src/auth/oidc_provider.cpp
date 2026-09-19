@@ -15,7 +15,9 @@
 #include <nlohmann/json.hpp>
 #include <spdlog/spdlog.h>
 
+#include <chrono>
 #include <stdexcept>
+#include <thread>
 
 namespace themis {
 namespace auth {
@@ -237,93 +239,115 @@ std::string OIDCProvider::httpGet(const std::string& url) const {
         return http_get_fn_(url);
     }
 
-    CURL* curl = curl_easy_init();
-    if (!curl) {
-        throw std::runtime_error("Failed to initialize libcurl handle");
-    }
+    constexpr int kMaxAttempts = 3;
 
-    std::string response_body = {};
-    curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-    curl_easy_setopt(curl, CURLOPT_HTTPGET, 1L);
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, oidcWriteCallback);
-    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_body);
-    curl_easy_setopt(curl, CURLOPT_TIMEOUT,
-                     static_cast<long>(config_.http_timeout_seconds));
-    curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT,
-                     static_cast<long>(config_.http_timeout_seconds));
-    // Always verify TLS certificates for security
-    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1L);
-    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 2L);
+    for (int attempt = 1; attempt <= kMaxAttempts; ++attempt) {
+        CURL* curl = curl_easy_init();
+        if (!curl) {
+            throw std::runtime_error("Failed to initialize libcurl handle");
+        }
 
-    // Use curl_multi_perform() so this can be driven without blocking the
-    // event loop if this function is later migrated to a shared multi-handle.
-    CURLM* multi = curl_multi_init();
-    if (!multi) {
-        curl_easy_cleanup(curl);
-        throw std::runtime_error("Failed to initialize libcurl multi handle");
-    }
+        std::string response_body = {};
+        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+        curl_easy_setopt(curl, CURLOPT_HTTPGET, 1L);
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, oidcWriteCallback);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_body);
+        curl_easy_setopt(curl, CURLOPT_TIMEOUT,
+                         static_cast<long>(config_.http_timeout_seconds));
+        curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT,
+                         static_cast<long>(config_.http_timeout_seconds));
+        // Always verify TLS certificates for security
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1L);
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 2L);
 
-    CURLMcode add_rc = curl_multi_add_handle(multi, curl);
-    if (add_rc != CURLM_OK) {
-        curl_multi_cleanup(multi);
-        curl_easy_cleanup(curl);
-        throw std::runtime_error(
-            std::string("curl_multi_add_handle failed: ") + curl_multi_strerror(add_rc));
-    }
+        // Use curl_multi_perform() so this can be driven without blocking the
+        // event loop if this function is later migrated to a shared multi-handle.
+        CURLM* multi = curl_multi_init();
+        if (!multi) {
+            curl_easy_cleanup(curl);
+            throw std::runtime_error("Failed to initialize libcurl multi handle");
+        }
 
-    int still_running = 0;
-    do {
-        CURLMcode mc = curl_multi_perform(multi, &still_running);
-        if (mc != CURLM_OK) {
-            curl_multi_remove_handle(multi, curl);
+        CURLMcode add_rc = curl_multi_add_handle(multi, curl);
+        if (add_rc != CURLM_OK) {
             curl_multi_cleanup(multi);
             curl_easy_cleanup(curl);
             throw std::runtime_error(
-                std::string("libcurl multi error: ") + curl_multi_strerror(mc));
+                std::string("curl_multi_add_handle failed: ") + curl_multi_strerror(add_rc));
         }
-        if (still_running) {
-            mc = curl_multi_wait(multi, nullptr, 0, 1000 /* ms */, nullptr);
+
+        int still_running = 0;
+        do {
+            CURLMcode mc = curl_multi_perform(multi, &still_running);
             if (mc != CURLM_OK) {
                 curl_multi_remove_handle(multi, curl);
                 curl_multi_cleanup(multi);
                 curl_easy_cleanup(curl);
                 throw std::runtime_error(
-                    std::string("libcurl multi wait error: ") + curl_multi_strerror(mc));
+                    std::string("libcurl multi error: ") + curl_multi_strerror(mc));
+            }
+            if (still_running) {
+                mc = curl_multi_wait(multi, nullptr, 0, 1000 /* ms */, nullptr);
+                if (mc != CURLM_OK) {
+                    curl_multi_remove_handle(multi, curl);
+                    curl_multi_cleanup(multi);
+                    curl_easy_cleanup(curl);
+                    throw std::runtime_error(
+                        std::string("libcurl multi wait error: ") + curl_multi_strerror(mc));
+                }
+            }
+        } while (still_running);
+
+        // Inspect the per-transfer result via curl_multi_info_read() to get the
+        // actionable CURLcode for this easy handle (e.g., DNS/SSL/connect failures
+        // would otherwise be masked as HTTP 0).
+        CURLcode easy_rc = CURLE_OK;
+        {
+            CURLMsg* msg = nullptr;
+            int msgs_left = 0;
+            while ((msg = curl_multi_info_read(multi, &msgs_left))) {
+                if (msg->msg == CURLMSG_DONE && msg->easy_handle == curl) {
+                    easy_rc = msg->data.result;
+                }
             }
         }
-    } while (still_running);
 
-    // Inspect the per-transfer result via curl_multi_info_read() to get the
-    // actionable CURLcode for this easy handle (e.g., DNS/SSL/connect failures
-    // would otherwise be masked as HTTP 0).
-    CURLcode easy_rc = CURLE_OK;
-    {
-        CURLMsg* msg = nullptr;
-        int msgs_left = 0;
-        while ((msg = curl_multi_info_read(multi, &msgs_left))) {
-            if (msg->msg == CURLMSG_DONE && msg->easy_handle == curl) {
-                easy_rc = msg->data.result;
-            }
+        long http_code = 0;
+        curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
+
+        curl_multi_remove_handle(multi, curl);
+        curl_multi_cleanup(multi);
+        curl_easy_cleanup(curl);
+
+        const bool retryable_http = (http_code == 429 || http_code == 503);
+        const bool retryable_curl = (easy_rc == CURLE_COULDNT_CONNECT ||
+                                     easy_rc == CURLE_COULDNT_RESOLVE_HOST ||
+                                     easy_rc == CURLE_COULDNT_RESOLVE_PROXY ||
+                                     easy_rc == CURLE_OPERATION_TIMEDOUT ||
+                                     easy_rc == CURLE_RECV_ERROR ||
+                                     easy_rc == CURLE_SEND_ERROR);
+
+        if (easy_rc == CURLE_OK && http_code == 200) {
+            return response_body;
         }
-    }
 
-    long http_code = 0;
-    curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
+        if (attempt < kMaxAttempts && (retryable_curl || retryable_http)) {
+            const auto delay_ms = 100 * attempt;
+            spdlog::warn("OIDCProvider: discovery attempt {}/{} failed (curl={}, http={}); retrying in {}ms",
+                         attempt, kMaxAttempts, curl_easy_strerror(easy_rc), http_code, delay_ms);
+            std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));
+            continue;
+        }
 
-    curl_multi_remove_handle(multi, curl);
-    curl_multi_cleanup(multi);
-    curl_easy_cleanup(curl);
-
-    if (easy_rc != CURLE_OK) {
-        throw std::runtime_error(
-            std::string("libcurl error: ") + curl_easy_strerror(easy_rc));
-    }
-    if (http_code != 200) {
+        if (easy_rc != CURLE_OK) {
+            throw std::runtime_error(
+                std::string("libcurl error: ") + curl_easy_strerror(easy_rc));
+        }
         throw std::runtime_error(
             "HTTP " + std::to_string(http_code) + " from " + url);
     }
 
-    return response_body;
+    throw std::runtime_error("OIDC discovery failed after retries");
 }
 
 /**

@@ -18,6 +18,8 @@
 
 #include <stdexcept>
 #include <cstring>
+#include <chrono>
+#include <thread>
 
 namespace themis {
 namespace auth {
@@ -53,42 +55,54 @@ std::string RedisTokenBlacklist::makeKey(const std::string& jti) const {
  * @details Calls: redisFree(), redisConnectWithTimeout(), c_str(), THEMIS_WARN(), redisErrStrSafe(), empty(), redisCommand(), freeReplyObject().
  */
 bool RedisTokenBlacklist::connect() {
-    if (ctx_) {
-        redisFree(ctx_);
-        ctx_ = nullptr;
-    }
+    constexpr int kMaxAttempts = 3;
+    int retry_delay_ms = 50;
 
-    struct timeval tv;
-    tv.tv_sec  = config_.connect_timeout_ms / 1000;
-    tv.tv_usec = (config_.connect_timeout_ms % 1000) * 1000;
-
-    ctx_ = redisConnectWithTimeout(config_.host.c_str(), config_.port, tv);
-    if (!ctx_ || ctx_->err) {
-        THEMIS_WARN("RedisTokenBlacklist: connect to {}:{} failed: {}",
-                    config_.host, config_.port,
-                    ctx_ ? redisErrStrSafe(ctx_) : "allocation failure");
-        if (ctx_) { redisFree(ctx_); ctx_ = nullptr; }
-        return false;
-    }
-
-    if (!config_.auth.empty()) {
-        redisReply* reply = static_cast<redisReply*>(
-            redisCommand(ctx_, "AUTH %s", config_.auth.c_str()));
-        if (!reply || reply->type == REDIS_REPLY_ERROR) {
-            THEMIS_WARN("RedisTokenBlacklist: AUTH failed: {}",
-                        reply ? reply->str : "no reply");
-            if (reply) {
-              freeReplyObject(reply);
-            }
+    for (int attempt = 1; attempt <= kMaxAttempts; ++attempt) {
+        if (ctx_) {
             redisFree(ctx_);
             ctx_ = nullptr;
+        }
+
+        struct timeval tv;
+        tv.tv_sec  = config_.connect_timeout_ms / 1000;
+        tv.tv_usec = (config_.connect_timeout_ms % 1000) * 1000;
+
+        ctx_ = redisConnectWithTimeout(config_.host.c_str(), config_.port, tv);
+        if (!ctx_ || ctx_->err) {
+            THEMIS_WARN("RedisTokenBlacklist: connect attempt {}/{} to {}:{} failed: {}",
+                        attempt, kMaxAttempts, config_.host, config_.port,
+                        ctx_ ? redisErrStrSafe(ctx_) : "allocation failure");
+            if (ctx_) { redisFree(ctx_); ctx_ = nullptr; }
+            if (attempt < kMaxAttempts) {
+                std::this_thread::sleep_for(std::chrono::milliseconds(retry_delay_ms));
+                retry_delay_ms *= 2;
+                continue;
+            }
             return false;
         }
-        freeReplyObject(reply);
+
+        if (!config_.auth.empty()) {
+            redisReply* reply = static_cast<redisReply*>(
+                redisCommand(ctx_, "AUTH %s", config_.auth.c_str()));
+            if (!reply || reply->type == REDIS_REPLY_ERROR) {
+                THEMIS_WARN("RedisTokenBlacklist: AUTH failed: {}",
+                            reply ? reply->str : "no reply");
+                if (reply) {
+                  freeReplyObject(reply);
+                }
+                redisFree(ctx_);
+                ctx_ = nullptr;
+                return false;
+            }
+            freeReplyObject(reply);
+        }
+
+        THEMIS_INFO("RedisTokenBlacklist: connected to {}:{}", config_.host, config_.port);
+        return true;
     }
 
-    THEMIS_INFO("RedisTokenBlacklist: connected to {}:{}", config_.host, config_.port);
-    return true;
+    return false;
 }
 
 /**

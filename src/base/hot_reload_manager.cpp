@@ -137,6 +137,26 @@ HotReloadResult HotReloadManager::reloadModule(const std::string &module_name, c
     // --- Phase: BEFORE_UNLOAD --------------------------------------------
     notify(module_name, ReloadPhase::BEFORE_UNLOAD);
 
+    // A callback may unregister or re-register the module during BEFORE_UNLOAD.
+    // If that happens, the reload is no longer valid and must stop before it
+    // mutates stale slot state or unloads the wrong loader.
+    {
+        std::shared_lock<std::shared_mutex> lock(mutex_);
+        auto it = slots_.find(module_name);
+        const bool still_current = it != slots_.end()
+            && it->second.loader == loader_ptr
+            && it->second.registration_id == registration_id;
+        if (!still_current) {
+            result.errorMessage = "Module '" + module_name
+                + "' was unregistered or rebound during BEFORE_UNLOAD; aborting reload";
+            spdlog::warn("HotReloadManager::reloadModule: {}", result.errorMessage);
+            stats_.totalReloads++;
+            stats_.failedReloads++;
+            span.setError(1, result.errorMessage);
+            return result;
+        }
+    }
+
     // --- Atomically load the new binary BEFORE unloading the old one ------
     // This ensures the old module keeps running if the new one fails to load.
     const std::string new_module_key = module_name + "__hot_reload_candidate__";

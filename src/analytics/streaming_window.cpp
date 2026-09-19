@@ -974,6 +974,7 @@ bool SlidingWindow::ingest(const StreamRecord &record) {
         }
         if (added_to_window) {
             ++records_ingested_;
+            record_added = true;
         }
 
         } // end key-cardinality else

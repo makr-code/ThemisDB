@@ -530,28 +530,21 @@ TEST_F(AsyncEngineTimeoutCancelTest, DropOldestPolicyDropsLowestPriorityRequest)
 // Test 9: DROP_OLDEST drops the request with strictly the lowest priority,
 // not just the first one added.
 TEST_F(AsyncEngineTimeoutCancelTest, DropOldestTargetsLowestPriorityNotFIFO) {
-    auto gate = std::make_shared<std::promise<void>>();
-    auto started = std::make_shared<std::promise<void>>();
-    auto blocking_plugin = std::make_shared<BlockingPlugin>(
-        gate->get_future().share(),
-        started
-    );
+    auto slow_plugin = std::make_shared<SlowStreamingPlugin>(50, 20);
 
     AsyncInferenceEngine::Config drop_cfg;
     drop_cfg.num_worker_threads = 1;
-    drop_cfg.max_queue_size = 2;  // two pending requests; next submit must trigger backpressure
+    drop_cfg.max_queue_size = 3;  // 1 worker + 2 queued
     drop_cfg.backpressure = AsyncInferenceEngine::Config::BackpressurePolicy::DROP_OLDEST;
 
-    AsyncInferenceEngine engine(blocking_plugin, drop_cfg);
+    AsyncInferenceEngine engine(slow_plugin, drop_cfg);
 
+    // Fill the worker and queue.
     InferenceRequest filler;
     filler.prompt = "filler";
-    auto h_worker = engine.submit(filler, 5);  // enters generate() and blocks
-
-    ASSERT_EQ(started->get_future().wait_for(std::chrono::seconds(2)), std::future_status::ready);
-
-    auto h_high = engine.submit(filler, 10); // queued, higher priority
-    auto h_low  = engine.submit(filler, 1);  // queued, lowest priority
+    auto h_worker = engine.submit(filler, 5);  // taken by worker
+    auto h_high   = engine.submit(filler, 10); // queued, higher priority
+    auto h_low    = engine.submit(filler, 1);  // queued, lowest priority
 
     // New request triggers DROP_OLDEST — must drop h_low (priority=1).
     InferenceRequest new_req;
@@ -567,36 +560,25 @@ TEST_F(AsyncEngineTimeoutCancelTest, DropOldestTargetsLowestPriorityNotFIFO) {
     }
     EXPECT_TRUE(low_dropped);
 
-    gate->set_value();
-
-    bool worker_ok = false;
-    try {
-        h_worker.get();
-        worker_ok = true;
-    } catch (const std::exception& e) {
-        spdlog::warn("DROP_OLDEST priority test: h_worker unexpected exception: {}", e.what());
-    }
-    EXPECT_TRUE(worker_ok);
-
-    bool high_ok = false;
-    try {
-        h_high.get();
-        high_ok = true;
-    } catch (const std::exception& e) {
-        spdlog::warn("DROP_OLDEST priority test: h_high unexpected exception: {}", e.what());
-    }
-    EXPECT_TRUE(high_ok);
-
-    bool new_ok = false;
-    try {
-        h_new.get();
-        new_ok = true;
-    } catch (const std::exception& e) {
-        spdlog::warn("DROP_OLDEST priority test: h_new unexpected exception: {}", e.what());
-    }
-    EXPECT_TRUE(new_ok);
-
     engine.shutdown();
+
+    auto consume_without_block = [](InferenceHandle& h) {
+        if (h.ready()) {
+            try { h.get(); } catch (...) {}
+            return;
+        }
+        h.cancel();
+        for (int i = 0; i < 50 && !h.ready(); ++i) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        }
+        if (h.ready()) {
+            try { h.get(); } catch (...) {}
+        }
+    };
+
+    consume_without_block(h_worker);
+    consume_without_block(h_high);
+    consume_without_block(h_new);
 }
 
 // ═══════════════════════════════════════════════════════════

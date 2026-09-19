@@ -31,6 +31,7 @@
 #include <optional>
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 #include <vector>
 
 namespace themisdb {
@@ -100,6 +101,26 @@ public:
 
     [[nodiscard]] std::vector<Fact> getFacts(const std::string& predicate = "") const;
 
+    /**
+     * @brief Get Fact By Triple.
+     * @param[in] subject Subject component of the triple.
+     * @param[in] predicate Predicate component of the triple.
+     * @param[in] object Object component of the triple.
+     * @return Matching fact when the exact triple exists, otherwise std::nullopt.
+     */
+    [[nodiscard]] std::optional<Fact> getFact(const std::string& subject, const std::string& predicate,
+                                              const std::string& object) const;
+
+    /**
+     * @brief Check Whether A Triple Exists.
+     * @param[in] subject Subject component of the triple.
+     * @param[in] predicate Predicate component of the triple.
+     * @param[in] object Object component of the triple.
+     * @return True when the exact triple exists in working memory.
+     */
+    [[nodiscard]] bool hasFact(const std::string& subject, const std::string& predicate,
+                               const std::string& object) const;
+
     [[nodiscard]] std::optional<Fact> getFactById(const std::string& id) const;
 
     [[nodiscard]] std::size_t factCount() const noexcept { return insertion_order_.size(); }
@@ -157,6 +178,8 @@ private:
     std::unordered_map<std::string, std::string> fact_id_to_predicate_;
     // fact_id → Fact (for getFactById)
     std::unordered_map<std::string, Fact> fact_by_id_;
+    // triple key → fact id (for O(1) exact fact existence checks)
+    std::unordered_map<std::string, std::string> fact_key_to_id_;
     // insertion-ordered ids for FIFO eviction
     std::deque<std::string> insertion_order_;
 
@@ -164,6 +187,9 @@ private:
 
     // Monotonically increasing counter for id generation (not thread-safe by design).
     std::size_t id_counter_ = 0;
+
+    [[nodiscard]] static std::string makeFactKey(const std::string& subject, const std::string& predicate,
+                                                 const std::string& object);
 };
 
 } // namespace analytics

@@ -11,11 +11,13 @@
 
 #include "security/user_registration_plugin.h"
 #include "utils/logger.h"
+#include <chrono>
 #include <openssl/evp.h>
 #include <memory>
 #include <sstream>
 #include <iomanip>
 #include <stdexcept>
+#include <thread>
 
 // WebDAV HTTP client support (requires libcurl)
 #ifdef THEMIS_ENABLE_WEBDAV
@@ -102,6 +104,44 @@ bool is_loopback_host(const std::string& host) {
 bool is_loopback_url(const std::string& url) {
     return is_loopback_host(extract_url_host(url));
 }
+
+#ifdef THEMIS_ENABLE_WEBDAV
+bool is_retryable_webdav_curl_error(CURLcode code) {
+    switch (code) {
+        case CURLE_COULDNT_CONNECT:
+        case CURLE_COULDNT_RESOLVE_HOST:
+        case CURLE_COULDNT_RESOLVE_PROXY:
+        case CURLE_OPERATION_TIMEDOUT:
+        case CURLE_RECV_ERROR:
+        case CURLE_SEND_ERROR:
+            return true;
+        default:
+            return false;
+    }
+}
+
+CURLcode perform_webdav_request_with_retry(CURL* curl,
+                                           const char* operation,
+                                           int max_attempts = 3) {
+    const int attempts = (max_attempts < 1) ? 1 : max_attempts;
+    CURLcode result = CURLE_OK;
+
+    for (int attempt = 1; attempt <= attempts; ++attempt) {
+        result = curl_easy_perform(curl);
+        if (result == CURLE_OK || attempt == attempts ||
+            !is_retryable_webdav_curl_error(result)) {
+            return result;
+        }
+
+        const auto delay = std::chrono::milliseconds(100 * attempt);
+        THEMIS_WARN("WebDAV {} attempt {}/{} failed: {}; retrying in {}ms",
+                    operation, attempt, attempts, curl_easy_strerror(result), delay.count());
+        std::this_thread::sleep_for(delay);
+    }
+
+    return result;
+}
+#endif
 
 } // anonymous namespace
 
@@ -317,7 +357,7 @@ public:
             curl_easy_setopt(curl.get(), CURLOPT_SSL_VERIFYHOST, 0L);
         }
 
-        CURLcode res = curl_easy_perform(curl.get());
+        CURLcode res = perform_webdav_request_with_retry(curl.get(), "PROPFIND syncUsers");
         long http_code = 0;
         curl_easy_getinfo(curl.get(), CURLINFO_RESPONSE_CODE, &http_code);
 
@@ -496,7 +536,7 @@ public:
                 curl_easy_setopt(curl.get(), CURLOPT_SSL_VERIFYHOST, 0L);
             }
 
-            CURLcode res = curl_easy_perform(curl.get());
+            CURLcode res = perform_webdav_request_with_retry(curl.get(), "PROPFIND updateUser");
             long http_code = 0;
             curl_easy_getinfo(curl.get(), CURLINFO_RESPONSE_CODE, &http_code);
 
@@ -584,7 +624,7 @@ private:
         }
         
         // Perform request
-        CURLcode res = curl_easy_perform(curl.get());
+        CURLcode res = perform_webdav_request_with_retry(curl.get(), "PROPFIND authenticate");
         long response_code = 0;
         curl_easy_getinfo(curl.get(), CURLINFO_RESPONSE_CODE, &response_code);
         
@@ -689,7 +729,7 @@ private:
             curl_easy_setopt(curl.get(), CURLOPT_SSL_VERIFYHOST, 0L);
         }
 
-        CURLcode res = curl_easy_perform(curl.get());
+        CURLcode res = perform_webdav_request_with_retry(curl.get(), "PROPFIND AD properties");
         long http_code = 0;
         curl_easy_getinfo(curl.get(), CURLINFO_RESPONSE_CODE, &http_code);
 

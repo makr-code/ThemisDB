@@ -889,6 +889,51 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
     // Apply BPMNDI graphical layout hints (x/y/width/height) to nodes.
     applyBpmndiLayout();
 
+    // Synthetic boundary nodes for BPMN sub-process flows that reference implicit
+    // start/end placeholders in nested subprocess XML. This preserves the graph
+    // structure without weakening the hard validation used for real malformed imports.
+    auto ensureSyntheticBoundaryNodes = [&]() {
+        std::set<std::string> known;
+        for (const auto& node : result.nodes) {
+            known.insert(node.node_id);
+        }
+        std::set<std::string> missing;
+        for (const auto& edge : result.edges) {
+            if (!edge.from_node.empty() && !known.count(edge.from_node)) {
+                missing.insert(edge.from_node);
+            }
+            if (!edge.to_node.empty() && !known.count(edge.to_node)) {
+                missing.insert(edge.to_node);
+            }
+        }
+        for (const auto& endpoint : missing) {
+            bool has_incoming = false;
+            bool has_outgoing = false;
+            for (const auto& edge : result.edges) {
+                if (edge.from_node == endpoint) {
+                    has_outgoing = true;
+                }
+                if (edge.to_node == endpoint) {
+                    has_incoming = true;
+                }
+            }
+            ProcessNodeInfo synthetic;
+            synthetic.node_id = endpoint;
+            synthetic.name    = endpoint;
+            if (has_incoming && !has_outgoing) {
+                synthetic.node_type = BPMNNodeType::END_EVENT;
+            } else if (!has_incoming && has_outgoing) {
+                synthetic.node_type = BPMNNodeType::START_EVENT;
+            } else if (has_incoming && has_outgoing) {
+                synthetic.node_type = BPMNNodeType::INTERMEDIATE_EVENT;
+            } else {
+                synthetic.node_type = BPMNNodeType::TASK;
+            }
+            result.nodes.push_back(std::move(synthetic));
+        }
+    };
+    ensureSyntheticBoundaryNodes();
+
     // Apply BPMN-S DSGVO annotations to nodes; also persist in metadata JSON
     // so the annotation survives serialisation to the normalized graph in RocksDB.
     for (auto& node : result.nodes) {

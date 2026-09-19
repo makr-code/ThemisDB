@@ -914,7 +914,6 @@ std::pair<ProcessGraphManager::Status, std::string> ProcessGraphManager::startPr
             std::string nodeId = keyStr.substr(lastColon + 1);
             std::vector<uint8_t> blob(val.begin(), val.end());
             BaseEntity entity = BaseEntity::deserialize(nodeId, blob);
-            
             auto nodeType = entity.getFieldAsString("node_type").value_or("");
             if (nodeType == "START_EVENT" || nodeType == "EVENT") {
                 startNodeId = nodeId;
@@ -995,12 +994,14 @@ ProcessGraphManager::getProcessInstance(std::string_view instance_id) const {
     if (!db_.isOpen()) {
         return {Status::Error("Database not open"), instance};
     }
+    SPDLOG_INFO("[ProcessGraphManager::getProcessInstance] loading instance='{}'", instance_id);
 
     std::string instanceKey = makeInstanceKey_(instance_id);
     auto blob = db_.get(instanceKey);
     if (!blob) {
         return {Status::Error("Process instance not found"), instance};
     }
+    SPDLOG_INFO("[ProcessGraphManager::getProcessInstance] found instance blob size={}", blob->size());
 
     BaseEntity entity = BaseEntity::deserialize(std::string(instance_id), *blob);
     instance.instance_id = std::string(instance_id);
@@ -1057,11 +1058,13 @@ ProcessGraphManager::getProcessInstance(std::string_view instance_id) const {
 
             auto visitedNodesStr = tokenEntity.getFieldAsString("visited_nodes");
             if (visitedNodesStr) {
+                SPDLOG_INFO("[ProcessGraphManager::getProcessInstance] token '{}' visited_nodes len={}", tokenId, visitedNodesStr->size());
                 token.visited_nodes = deserializeVisitedNodes(*visitedNodesStr);
             }
 
             auto visitTimestampsStr = tokenEntity.getFieldAsString("visit_timestamps");
             if (visitTimestampsStr) {
+                SPDLOG_INFO("[ProcessGraphManager::getProcessInstance] token '{}' visit_timestamps len={}", tokenId, visitTimestampsStr->size());
                 token.visit_timestamps = deserializeVisitTimestamps(*visitTimestampsStr);
             }
             

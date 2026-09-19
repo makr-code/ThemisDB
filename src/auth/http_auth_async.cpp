@@ -372,8 +372,25 @@ bool AsyncHTTPAuth::performConnectivityCheck(const std::string& url)
             curl_easy_setopt(curl.get(), CURLOPT_SSL_VERIFYPEER, 0L);
             curl_easy_setopt(curl.get(), CURLOPT_SSL_VERIFYHOST, 0L);
         }
-        
-        CURLcode res = curl_easy_perform(curl.get());
+
+        CURLcode res = CURLE_OK;
+        int attempts = 0;
+
+        while (attempts < config_.max_retries) {
+            res = curl_easy_perform(curl.get());
+
+            if (res == CURLE_OPERATION_TIMEDOUT ||
+                res == CURLE_COULDNT_RESOLVE_HOST ||
+                res == CURLE_COULDNT_CONNECT) {
+                ++attempts;
+                if (attempts < config_.max_retries) {
+                    std::this_thread::sleep_for(
+                        std::chrono::milliseconds(config_.retry_backoff_ms * attempts));
+                    continue;
+                }
+            }
+            break;
+        }
         
         if (res != CURLE_OK) {
             return false;

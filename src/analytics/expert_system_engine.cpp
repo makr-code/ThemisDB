@@ -168,12 +168,7 @@ bool ExpertSystemEngine::retractFact(const std::string &fact_id) {
 // ──────────────────────────────────────────────────────────────────────────────
 
 bool ExpertSystemEngine::factExists(const std::string &s, const std::string &p, const std::string &o) const {
-    for (const auto &f : kb_->getFacts(p)) {
-        if (f.subject == s && f.object == o) {
-            return true;
-        }
-    }
-    return false;
+    return kb_->hasFact(s, p, o);
 }
 
 // ──────────────────────────────────────────────────────────────────────────────
@@ -366,11 +361,9 @@ int ExpertSystemEngine::forwardChain(int max_cycles) {
                     const auto s = applyBinding(cond.subject, bindings);
                     const auto p = applyBinding(cond.predicate, bindings);
                     const auto o = applyBinding(cond.object, bindings);
-                    for (const auto &f : kb_->getFacts(p)) {
-                        if (f.subject == s && f.object == o) {
-                            matched.push_back(f);
-                            break;
-                        }
+                    const auto fact = kb_->getFact(s, p, o);
+                    if (fact.has_value()) {
+                        matched.push_back(*fact);
                     }
                 }
 

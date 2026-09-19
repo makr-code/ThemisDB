@@ -299,6 +299,61 @@ BaseEntity JoinExporter::mergeEntities(
 ) const {
     BaseEntity::FieldMap merged_fields;
 
+    auto copyField = [&merged_fields](const BaseEntity& entity,
+                                      std::string_view field_name,
+                                      const std::string& out_name) {
+        auto value = entity.getField(field_name);
+        if (value.has_value()) {
+            merged_fields[out_name] = std::move(*value);
+            return true;
+        }
+        return false;
+    };
+
+    if (!config_.output_fields.empty()) {
+        // Fast path for explicit projections: resolve each requested field
+        // directly from the source entity instead of materialising full field maps.
+        for (const auto& spec : config_.output_fields) {
+            const auto colon_pos = spec.find(':');
+            const std::string src_name = (colon_pos != std::string::npos)
+                                             ? spec.substr(0, colon_pos)
+                                             : spec;
+            const std::string out_name = (colon_pos != std::string::npos)
+                                             ? spec.substr(colon_pos + 1)
+                                             : spec;
+
+            if (src_name.rfind("left.", 0) == 0) {
+                const std::string field = src_name.substr(5);
+                copyField(left, field, out_name);
+            } else if (src_name.rfind("right.", 0) == 0) {
+                const std::string field = src_name.substr(6);
+                copyField(right, field, out_name);
+            } else {
+                const bool in_left  = left.hasField(src_name);
+                const bool in_right = right.hasField(src_name);
+
+                if (in_left && in_right) {
+                    throw ExporterException(
+                        errors::ErrorCode::ERR_EXPORT_JOIN_AMBIGUOUS_FIELD,
+                        "JoinExporter: field '" + src_name +
+                            "' exists in both collections — use 'left." + src_name +
+                            "' or 'right." + src_name + "' to disambiguate",
+                        "field=" + src_name
+                    );
+                }
+
+                if (in_left) {
+                    copyField(left, src_name, out_name);
+                } else if (in_right) {
+                    copyField(right, src_name, out_name);
+                }
+                // If the field is absent from both sides, silently skip it.
+            }
+        }
+
+        return BaseEntity::fromFields(left.getPrimaryKey(), merged_fields);
+    }
+
     // Compute prefix-qualified field maps for both sides.
     const auto left_fields  = left.getAllFields();
     const auto right_fields = right.getAllFields();

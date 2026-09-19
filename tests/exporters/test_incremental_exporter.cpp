@@ -582,6 +582,7 @@ TEST_F(IncrementalExporterTest, WatermarkNotAdvancedOnPartialSizeLimitedScan) {
 
     ExportOptions opts;
     opts.output_path = outputPath();
+    opts.buffer_size_bytes = 1;
     opts.max_file_size_bytes = 1; // force partial export/early stop
 
     auto stats = exporter.exportEntities(unsorted, opts);

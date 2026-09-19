@@ -1031,6 +1031,17 @@ static const char* kFixturePath =
     "tests/fixtures/importers/sample_sqlite3.sql";
 
 static std::string getFixturePath() {
+    const std::filesystem::path fixture_rel = "tests/fixtures/importers/sample_sqlite3.sql";
+    auto current = std::filesystem::path(__FILE__).parent_path();
+    for (int i = 0; i < 8 && !current.empty(); ++i) {
+        const auto candidate = (current / fixture_rel).lexically_normal();
+        std::ifstream f(candidate.string());
+        if (f.is_open()) {
+            return candidate.string();
+        }
+        current = current.parent_path();
+    }
+
     {
         std::ifstream f(kFixturePath);
         if (f.is_open()) {
@@ -1038,22 +1049,7 @@ static std::string getFixturePath() {
         }
     }
 
-    // Fallback: resolve relative to this test source file location.
-    const auto source_based =
-        (std::filesystem::path(__FILE__).parent_path() /
-         "fixtures/importers/sample_sqlite3.sql").lexically_normal();
-    {
-        std::ifstream f(source_based.string());
-        if (f.is_open()) {
-          return source_based.string();
-        }
-    }
-
-    // Last fallback for out-of-tree execution from build folders.
-    const auto cwd_based =
-        (std::filesystem::current_path() /
-         "../tests/fixtures/importers/sample_sqlite3.sql").lexically_normal();
-    return cwd_based.string();
+    return (std::filesystem::current_path() / fixture_rel).lexically_normal().string();
 }
 
 TEST(SQLiteFixture, FileExists) {
