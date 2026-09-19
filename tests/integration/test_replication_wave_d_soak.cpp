@@ -99,6 +99,19 @@ class StubReplicationSlot {
 public:
     explicit StubReplicationSlot(uint64_t start_lsn) : lsn_(start_lsn) {}
 
+    StubReplicationSlot(const StubReplicationSlot&) = delete;
+    StubReplicationSlot& operator=(const StubReplicationSlot&) = delete;
+
+    StubReplicationSlot(StubReplicationSlot&& other) noexcept
+        : lsn_(other.lsn_.load(std::memory_order_relaxed)) {}
+
+    StubReplicationSlot& operator=(StubReplicationSlot&& other) noexcept {
+        if (this != &other) {
+            lsn_.store(other.lsn_.load(std::memory_order_relaxed), std::memory_order_relaxed);
+        }
+        return *this;
+    }
+
     uint64_t advance(uint64_t delta) noexcept {
         return lsn_.fetch_add(delta, std::memory_order_relaxed) + delta;
     }

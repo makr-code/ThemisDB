@@ -36,6 +36,7 @@
 #include <string>
 #include <thread>
 #include <unordered_map>
+#include <unordered_set>
 #include <vector>
 
 using namespace std::chrono_literals;
@@ -103,7 +104,7 @@ private:
     int num_shards_;
     std::atomic<uint64_t> ops_;
     std::mutex mu_;
-    std::unordered_map<int, bool> failed_;
+    std::unordered_set<int> failed_;
 };
 
 /// Stub GPU advisory engine — simulates advisory GPU acceleration path.

@@ -344,9 +344,12 @@ jobs:
           VCPKG_MANIFEST_HASH=${{ hashFiles('docker/vcpkg-*.json', 'vcpkg-configuration.json', 'ports/**') }}
           INCLUDE_TINYLLAMA=${{ ((github.event_name == 'workflow_call' && inputs.include_tinyllama == true) || (github.event_name != 'workflow_call' && (github.event.inputs.include_tinyllama || 'true') == 'true')) && 'ON' || 'OFF' }}
           TINYLLAMA_FORCE_DOWNLOAD=${{ ((github.event_name == 'workflow_call' && inputs.tinyllama_force_download == true) || (github.event_name != 'workflow_call' && (github.event.inputs.tinyllama_force_download || 'false') == 'true')) && '1' || '0' }}
-        # GitHub Actions cache backend: no external registry required.
-        cache-from: type=gha
-        cache-to: type=gha,mode=max
+        # GitHub Actions cache backend with stable + branch-local scopes.
+        # Stable scope maximizes cross-run reuse; branch scope accelerates rapid iteration.
+        cache-from: |
+          type=gha,scope=themisdb-docker-unified
+          type=gha,scope=themisdb-docker-unified-${{ github.ref_name || 'detached' }}
+        cache-to: type=gha,mode=max,scope=themisdb-docker-unified
         # Enable provenance attestation (SLSA Level 2).
         provenance: true
         sbom: true

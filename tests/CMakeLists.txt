@@ -14476,6 +14476,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/ai/test_ai_plugin_generator.cpp")
     add_executable(test_ai_plugin_generator_focused
         ai/test_ai_plugin_generator.cpp
         ${THEMIS_ROOT_DIR}/src/ai/ai_plugin_generator.cpp
+        ${THEMIS_ROOT_DIR}/src/observability/distributed_tracing_sdk.cpp
         ${THEMIS_ROOT_DIR}/src/observability/distributed_trace_span.cpp
         ${THEMIS_ROOT_DIR}/src/observability/trace_instrumentation.cpp
     )

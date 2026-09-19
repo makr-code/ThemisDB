@@ -113,6 +113,30 @@ jobs:
           fetch-depth: ${{ inputs.fetch_depth }}
           submodules: ${{ inputs.submodules }}
 
+      - name: Initialize compiler and dependency cache environment
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "${GITHUB_WORKSPACE}/.cache/sccache"
+          mkdir -p "${GITHUB_WORKSPACE}/.vcpkg-cache"
+          mkdir -p "${GITHUB_WORKSPACE}/vcpkg/downloads"
+          echo "SCCACHE_DIR=${GITHUB_WORKSPACE}/.cache/sccache" >> "$GITHUB_ENV"
+          echo "SCCACHE_CACHE_SIZE=8G" >> "$GITHUB_ENV"
+          echo "VCPKG_DEFAULT_BINARY_CACHE=${GITHUB_WORKSPACE}/.vcpkg-cache" >> "$GITHUB_ENV"
+          echo "VCPKG_BINARY_SOURCES=clear;files,${GITHUB_WORKSPACE}/.vcpkg-cache,readwrite" >> "$GITHUB_ENV"
+
+      - name: Restore CMake build caches
+        uses: actions/cache@v4
+        with:
+          path: |
+            ${{ github.workspace }}/.cache/sccache
+            ${{ github.workspace }}/.vcpkg-cache
+            ${{ github.workspace }}/vcpkg/downloads
+          key: cmake-cache-${{ runner.os }}-${{ inputs.runs_on }}-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'CMakePresets.json', 'cmake/**/*.cmake', 'ports/**', 'ports-overlays/**', '.github/workflows/reusable-cmake-build.yml') }}
+          restore-keys: |
+            cmake-cache-${{ runner.os }}-${{ inputs.runs_on }}-
+            cmake-cache-${{ runner.os }}-
+
       - name: Setup MSVC environment (Windows only)
         if: runner.os == 'Windows'
         uses: ilammy/msvc-dev-cmd@0b201ec74fa43914dc39ae48a89fd1d8cb592756
@@ -216,5 +240,12 @@ jobs:
             echo "- Build: ${{ steps.build.outcome }}"
             if [ -n "$VALIDATION_COMMAND" ]; then
               echo "- Validation: ${{ steps.validation.outcome }}"
+            fi
+            if command -v sccache >/dev/null 2>&1; then
+              echo ""
+              echo "#### sccache stats"
+              echo '```'
+              sccache --show-stats || true
+              echo '```'
             fi
           } >> "$GITHUB_STEP_SUMMARY"

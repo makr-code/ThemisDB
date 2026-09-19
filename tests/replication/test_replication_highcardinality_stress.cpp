@@ -43,6 +43,21 @@ public:
     explicit StressReplicationSlot(uint64_t start_lsn)
         : lsn_(start_lsn), acked_(start_lsn) {}
 
+    StressReplicationSlot(const StressReplicationSlot&) = delete;
+    StressReplicationSlot& operator=(const StressReplicationSlot&) = delete;
+
+    StressReplicationSlot(StressReplicationSlot&& other) noexcept
+        : lsn_(other.lsn_.load(std::memory_order_relaxed)),
+          acked_(other.acked_.load(std::memory_order_relaxed)) {}
+
+    StressReplicationSlot& operator=(StressReplicationSlot&& other) noexcept {
+        if (this != &other) {
+            lsn_.store(other.lsn_.load(std::memory_order_relaxed), std::memory_order_relaxed);
+            acked_.store(other.acked_.load(std::memory_order_relaxed), std::memory_order_relaxed);
+        }
+        return *this;
+    }
+
     uint64_t advance() noexcept {
         return lsn_.fetch_add(1, std::memory_order_relaxed) + 1;
     }

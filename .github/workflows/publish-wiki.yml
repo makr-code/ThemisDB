@@ -30,7 +30,10 @@ name: "Publish: GitHub Wiki"
 #   - maintenance-docs.yml fires first (on push to develop when ai_context/** or
 #     root docs change), regenerating developer_llm_wiki artifacts.
 #     This workflow then fires via workflow_run trigger.
-#     Push trigger on develop path-filters serves as immediate fallback.
+#   - maintenance-ai-working.yml can also fire this workflow after compact/sync
+#     updates that affect ai_context/developer_llm_wiki.
+#   - SoC boundary: upstream workflows generate and curate documentation assets;
+#     this workflow only stages, validates and publishes wiki pages.
 #   - gate-pr-doxygen-governance.yml governs quality at PR time only;
 #     this workflow is post-merge.
 #
@@ -41,8 +44,14 @@ name: "Publish: GitHub Wiki"
 #   3. GITHUB_TOKEN with contents:write scope for the wiki push.
 
 on:
-  # push and workflow_run triggers removed — wiki updates run on schedule or manual dispatch only.
-  # This prevents the wiki from being rebuilt on every merge to develop.
+  # SoC chain: this publisher runs after documentation-producing workflows finish successfully.
+  # Upstream generators keep their own responsibilities; this workflow only stages, validates and publishes.
+  workflow_run:
+    workflows:
+      - "Maintenance: Docs"
+      - "Maintenance: AI Working Cleanup [LLM Wiki]"
+    types:
+      - completed
 
   schedule:
     - cron: '0 1 * * *'   # Nightly 01:00 UTC (staggered away from 03:00 cluster)   # Nightly 03:00 UTC — full wiki sync
@@ -78,6 +87,9 @@ concurrency:
 jobs:
   publish-wiki:
     name: Build, validate and publish wiki
+    if: |
+      (github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success') &&
+      (github.event_name != 'workflow_run' || github.event.workflow_run.head_branch == 'develop' || github.event.workflow_run.head_branch == 'community')
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
