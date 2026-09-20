@@ -123,8 +123,109 @@ jobs:
           source-run-id: ${{ github.run_id }}
           source-sha: ${{ github.sha }}
 
-  build:
+  # ── Step 2: Cross-architecture layout lane ───────────────────────────────
+  # Keeps platform/architecture jobs visible side-by-side in GitHub UI.
+  step2-linux-amd64:
+    name: "Step 2 · Linux AMD64"
     needs: mark-build-pending
+    uses: ./.github/workflows/reusable-cmake-build.yml
+    with:
+      enable_sccache_gha: true
+      runs_on: ubuntu-latest
+      shell: bash
+      fetch_depth: '0'
+      submodules: false
+      working_directory: .
+      setup_command: >-
+        set -euo pipefail; sudo apt-get update -qq; sudo apt-get install -y --no-install-recommends build-essential cmake ninja-build pkg-config sccache; if [ ! -f vcpkg/scripts/buildsystems/vcpkg.cmake ]; then git clone --depth 1 https://github.com/microsoft/vcpkg.git vcpkg; fi; ./vcpkg/bootstrap-vcpkg.sh -disableMetrics
+      configure_command: >-
+        export VCPKG_ROOT="${GITHUB_WORKSPACE}/vcpkg"; export PATH="${VCPKG_ROOT}:${PATH}"; cmake -S . -B build-step2-linux-amd64 -G Ninja -DTHEMIS_BUILD_TESTS=OFF -DTHEMIS_BUILD_BENCHMARKS=OFF -DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
+      build_command: >-
+        cmake --build build-step2-linux-amd64 --target themis_core --parallel 8
+      summary_title: "Step 2 · Linux AMD64"
+
+  step2-linux-arm64:
+    name: "Step 2 · Linux ARM64"
+    needs: mark-build-pending
+    uses: ./.github/workflows/reusable-cmake-build.yml
+    with:
+      enable_sccache_gha: true
+      runs_on: ubuntu-24.04-arm
+      shell: bash
+      fetch_depth: '0'
+      submodules: false
+      working_directory: .
+      setup_command: >-
+        set -euo pipefail; sudo apt-get update -qq; sudo apt-get install -y --no-install-recommends build-essential cmake ninja-build pkg-config sccache; if [ ! -f vcpkg/scripts/buildsystems/vcpkg.cmake ]; then git clone --depth 1 https://github.com/microsoft/vcpkg.git vcpkg; fi; ./vcpkg/bootstrap-vcpkg.sh -disableMetrics
+      configure_command: >-
+        export VCPKG_ROOT="${GITHUB_WORKSPACE}/vcpkg"; export PATH="${VCPKG_ROOT}:${PATH}"; cmake -S . -B build-step2-linux-arm64 -G Ninja -DTHEMIS_BUILD_TESTS=OFF -DTHEMIS_BUILD_BENCHMARKS=OFF -DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
+      build_command: >-
+        cmake --build build-step2-linux-arm64 --target themis_core --parallel 8
+      summary_title: "Step 2 · Linux ARM64"
+
+  step2-windows-amd64:
+    name: "Step 2 · Windows AMD64"
+    needs: mark-build-pending
+    uses: ./.github/workflows/reusable-cmake-build.yml
+    with:
+      enable_sccache_gha: false
+      runs_on: windows-latest
+      shell: bash
+      fetch_depth: '0'
+      submodules: false
+      working_directory: .
+      setup_command: >-
+        set -euo pipefail; echo "Windows architecture lane"
+      configure_command: >-
+        cmake --preset windows-release -DTHEMIS_BUILD_TESTS=OFF -DTHEMIS_BUILD_BENCHMARKS=OFF
+      build_command: >-
+        cmake --build --preset windows-release --target themis_core --parallel 8
+      summary_title: "Step 2 · Windows AMD64"
+
+  step2-macos:
+    name: "Step 2 · macOS"
+    needs: mark-build-pending
+    uses: ./.github/workflows/reusable-cmake-build.yml
+    with:
+      enable_sccache_gha: false
+      runs_on: macos-latest
+      shell: bash
+      fetch_depth: '0'
+      submodules: false
+      working_directory: .
+      setup_command: >-
+        set -euo pipefail; brew update --quiet; brew install cmake ninja sccache
+      configure_command: >-
+        cmake -S . -B build-step2-macos -G Ninja -DTHEMIS_BUILD_TESTS=OFF -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_ENABLE_LLM=OFF -DTHEMIS_ENABLE_GPU=OFF
+      build_command: >-
+        cmake --build build-step2-macos --target themis_core --parallel 8
+      summary_title: "Step 2 · macOS"
+
+  step2-architecture-summary:
+    name: "Step 2 · Architecture Summary"
+    needs:
+      - step2-linux-amd64
+      - step2-linux-arm64
+      - step2-windows-amd64
+      - step2-macos
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Summarize Step 2 architecture lanes
+        shell: bash
+        run: |
+          {
+            echo "### Step 2 · Architecture Matrix"
+            echo ""
+            echo "- Linux AMD64: ${{ needs.step2-linux-amd64.result }}"
+            echo "- Linux ARM64: ${{ needs.step2-linux-arm64.result }}"
+            echo "- Windows AMD64: ${{ needs.step2-windows-amd64.result }}"
+            echo "- macOS: ${{ needs.step2-macos.result }}"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  build:
+    needs: step2-architecture-summary
     uses: ./.github/workflows/reusable-cmake-build.yml
     with:
       enable_sccache_gha: true
@@ -177,7 +278,7 @@ jobs:
     name: 🍎 macOS kqueue Path Validation
     runs-on: macos-latest
     timeout-minutes: 45
-    needs: mark-build-pending
+    needs: step2-architecture-summary
     if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
 
     steps:
