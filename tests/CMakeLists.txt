@@ -908,7 +908,11 @@ target_sources(themis_tests PRIVATE
     ${THEMIS_ROOT_DIR}/src/replication/lag_alert_manager.cpp
     ${THEMIS_ROOT_DIR}/src/governance/policy_conflict_detector.cpp
     ${THEMIS_ROOT_DIR}/src/importers/postgres_importer.cpp
+    ${THEMIS_ROOT_DIR}/src/failover/topology_snapshot.cpp
+    ${THEMIS_ROOT_DIR}/src/failover/quorum_log.cpp
     ${THEMIS_ROOT_DIR}/src/ethics_ai/argument_store.cpp
+    ${THEMIS_ROOT_DIR}/src/ethics_ai/ethics_ai_types.cpp
+    ${THEMIS_ROOT_DIR}/src/llm/applications/themis_help_lora.cpp
     # AI plugin generator (ai/test_ai_plugin_generator.cpp)
     ${THEMIS_ROOT_DIR}/src/ai/ai_plugin_generator.cpp
     # Continuous query engine helpers (continuous/test_continuous_query_engine.cpp)
