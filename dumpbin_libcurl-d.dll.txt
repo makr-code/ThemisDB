@@ -1,0 +1,31 @@
+Microsoft (R) COFF/PE Dumper Version 14.44.35228.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+
+Dump of file .\build-msvc-windows-debug-gpu-verify\bin\libcurl-d.dll
+
+File Type: DLL
+
+  Image has the following dependencies:
+
+    zd.dll
+    bcrypt.dll
+    ADVAPI32.dll
+    CRYPT32.dll
+    Secur32.dll
+    WS2_32.dll
+    IPHLPAPI.DLL
+    KERNEL32.dll
+    VCRUNTIME140D.dll
+    ucrtbased.dll
+
+  Summary
+
+        1000 .00cfg
+       1D000 .data
+        3000 .idata
+        9000 .pdata
+       34000 .rdata
+        4000 .reloc
+        1000 .rsrc
+      134000 .text

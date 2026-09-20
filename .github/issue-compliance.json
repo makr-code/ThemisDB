@@ -62,7 +62,7 @@
       "ghp_[A-Za-z0-9]{36}",
       "BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY",
       "-----BEGIN PGP PRIVATE KEY BLOCK-----",
-      "token[=: ]+[A-Za-z0-9_\-]{8,}"
+      "token[=: ]+[A-Za-z0-9_\\-]{8,}"
     ],
     "require_evidence_for_bug_reports": true,
     "require_impact_statement_for_security_issues": true

@@ -1,0 +1,39 @@
+Microsoft (R) COFF/PE Dumper Version 14.44.35228.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+
+Dump of file .\build-msvc-windows-debug-gpu-verify\bin\themis_transaction.dll
+
+File Type: DLL
+
+  Image has the following dependencies:
+
+    themis_security.dll
+    zstd.dll
+    themis_storage.dll
+    themis_base.dll
+    spdlogd.dll
+    fmtd.dll
+    SHLWAPI.dll
+    RPCRT4.dll
+    lz4.dll
+    snappy.dll
+    libcrypto-3-x64.dll
+    zd.dll
+    KERNEL32.dll
+    MSVCP140D.dll
+    VCRUNTIME140D.dll
+    VCRUNTIME140_1D.dll
+    ucrtbased.dll
+
+  Summary
+
+        1000 .00cfg
+       8F000 .data
+        9000 .idata
+      19F000 .pdata
+      EE7000 .rdata
+       36000 .reloc
+        1000 .rsrc
+     1495000 .text
+        1000 .tls

@@ -74,10 +74,7 @@ public:
     // -----------------------------------------------------------------------
     // Singleton
     // -----------------------------------------------------------------------
-    static GPUFeatureFlags& GetInstance() {
-        static GPUFeatureFlags inst;
-        return inst;
-    }
+    static GPUFeatureFlags& GetInstance();
 
     // -----------------------------------------------------------------------
     // Query
