@@ -106,6 +106,17 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--close-resolved", action="store_true", help="Close previously tracked issues that are now resolved")
     p.add_argument("--max-findings-per-issue", type=int, default=12)
     p.add_argument(
+        "--issue-label",
+        action="append",
+        default=[],
+        help="Label to apply to created/updated module issues; repeatable and comma-separated values are allowed",
+    )
+    p.add_argument(
+        "--issue-milestone",
+        default="backlog",
+        help="Milestone name to apply to created/updated module issues (default: backlog)",
+    )
+    p.add_argument(
         "--ctest-log",
         default="ctest_last_run.txt",
         help="Optional CTest log used to map failed tests to modules",
@@ -116,6 +127,29 @@ def parse_args() -> argparse.Namespace:
         help="Optional benchmark log used to map failed benchmarks to modules",
     )
     return p.parse_args()
+
+
+def _normalize_csv_values(values: list[str]) -> list[str]:
+    normalized: list[str] = []
+    for value in values:
+        for part in str(value).split(","):
+            item = part.strip()
+            if item and item not in normalized:
+                normalized.append(item)
+    return normalized
+
+
+def _issue_metadata_args(labels: list[str], milestone: str, *, create: bool) -> list[str]:
+    args: list[str] = []
+    if create:
+        for label in labels:
+            args.extend(["--label", label])
+    else:
+        for label in labels:
+            args.extend(["--add-label", label])
+    if milestone:
+        args.extend(["--milestone", milestone])
+    return args
 
 
 def parse_markdown_table(md_path: Path) -> dict[str, ModuleDocsStatus]:
@@ -486,7 +520,14 @@ def _format_missing_doc_types(missing: list[str]) -> list[str]:
     return sorted(set(labels))
 
 
-def issue_body_module(module: str, row: dict[str, Any], impl_status: ModuleImplStatus | None, max_findings: int) -> str:
+def issue_body_module(
+    module: str,
+    row: dict[str, Any],
+    impl_status: ModuleImplStatus | None,
+    max_findings: int,
+    labels: list[str] | None = None,
+    milestone: str = "",
+) -> str:
     docs = row["docs"]
     impl = row["implementation"]
     gates = row.get("release_gates", {})
@@ -495,11 +536,18 @@ def issue_body_module(module: str, row: dict[str, Any], impl_status: ModuleImplS
     sev = impl.get("severity_counts", {})
     missing_labels = _format_missing_doc_types(docs.get("missing_doc_types", []))
     module_label = module.replace("_", "-")
+    issue_labels = labels or []
+    issue_milestone = milestone.strip()
 
     lines: list[str] = []
     lines.append(f"# Modulauftrag: Soll-Ist-Drift beheben ({module_label})")
     lines.append("")
     lines.append(f"soll-ist-key:module:{module}")
+    lines.append("")
+
+    lines.append("## Metadaten")
+    lines.append(f"- Labels: {', '.join(issue_labels) if issue_labels else 'keine'}")
+    lines.append(f"- Milestone: {issue_milestone if issue_milestone else 'keins'}")
     lines.append("")
 
     lines.append("## Gesamtstatus")
@@ -630,6 +678,8 @@ def upsert_issue(
     body: str,
     key: str,
     apply: bool,
+    labels: list[str],
+    milestone: str,
 ) -> tuple[str, int | None]:
     existing = find_issue_by_key(open_issues, key)
     if existing is not None:
@@ -638,14 +688,18 @@ def upsert_issue(
             body_file = repo_root / "ai_context" / "developer_llm_wiki" / f".tmp_issue_{key.replace(':', '_')}.md"
             body_file.parent.mkdir(parents=True, exist_ok=True)
             body_file.write_text(body, encoding="utf-8")
-            run_gh(["issue", "edit", str(number), "--repo", repo, "--title", title, "--body-file", str(body_file)], repo_root)
+            edit_args = ["issue", "edit", str(number), "--repo", repo, "--title", title, "--body-file", str(body_file)]
+            edit_args.extend(_issue_metadata_args(labels, milestone, create=False))
+            run_gh(edit_args, repo_root)
         return ("updated", number)
 
     if apply:
         body_file = repo_root / "ai_context" / "developer_llm_wiki" / f".tmp_issue_{key.replace(':', '_')}.md"
         body_file.parent.mkdir(parents=True, exist_ok=True)
         body_file.write_text(body, encoding="utf-8")
-        out = run_gh(["issue", "create", "--repo", repo, "--title", title, "--body-file", str(body_file)], repo_root)
+        create_args = ["issue", "create", "--repo", repo, "--title", title, "--body-file", str(body_file)]
+        create_args.extend(_issue_metadata_args(labels, milestone, create=True))
+        out = run_gh(create_args, repo_root)
         match = re.search(r"/issues/(\d+)", out)
         num = int(match.group(1)) if match else None
         return ("created", num)
@@ -679,6 +733,8 @@ def sync_issues(
     apply: bool,
     close_resolved: bool,
     max_findings: int,
+    labels: list[str],
+    milestone: str,
 ) -> dict[str, Any]:
     open_issues = load_open_issues(repo_root, repo)
     actions: list[dict[str, Any]] = []
@@ -700,7 +756,7 @@ def sync_issues(
 
         if module_open:
             title = f"Modul {module_label}: Implementierung, Tests, Benchmarks und Dokumentation konsolidieren"
-            body = issue_body_module(module, row, impl_map.get(module), max_findings)
+            body = issue_body_module(module, row, impl_map.get(module), max_findings, labels, milestone)
 
             if module_existing is not None:
                 number = int(module_existing["number"])
@@ -708,11 +764,13 @@ def sync_issues(
                     body_file = repo_root / "ai_context" / "developer_llm_wiki" / f".tmp_issue_{module_key.replace(':', '_')}.md"
                     body_file.parent.mkdir(parents=True, exist_ok=True)
                     body_file.write_text(body, encoding="utf-8")
-                    run_gh(["issue", "edit", str(number), "--repo", repo, "--title", title, "--body-file", str(body_file)], repo_root)
+                    edit_args = ["issue", "edit", str(number), "--repo", repo, "--title", title, "--body-file", str(body_file)]
+                    edit_args.extend(_issue_metadata_args(labels, milestone, create=False))
+                    run_gh(edit_args, repo_root)
                 actions.append({"module": module, "kind": "module", "action": "updated", "issue": number})
                 num = number
             else:
-                action, num = upsert_issue(repo_root, repo, open_issues, title, body, module_key, apply)
+                action, num = upsert_issue(repo_root, repo, open_issues, title, body, module_key, apply, labels, milestone)
                 actions.append({"module": module, "kind": "module", "action": action, "issue": num})
 
             target_issue = num
@@ -797,6 +855,8 @@ def main() -> int:
             apply=args.apply,
             close_resolved=args.close_resolved,
             max_findings=args.max_findings_per_issue,
+            labels=_normalize_csv_values(args.issue_label),
+            milestone=str(args.issue_milestone).strip(),
         )
         sync_path = repo_root / "ai_context" / "developer_llm_wiki" / "SOLL_IST_ISSUE_SYNC_RESULT.json"
         sync_path.parent.mkdir(parents=True, exist_ok=True)

@@ -10,6 +10,8 @@ assignees: []
 - Module: <module-name>
 - Files: <paths>
 - Status: <active|in-progress|blocked>
+- Labels: maintenance, soll-ist
+- Milestone: backlog
 
 ## Source Evidence
 - Module docs: <README/ARCHITECTURE/ROADMAP path>
@@ -35,3 +37,4 @@ assignees: []
 - Risk/constraint: <brief note>
 - Ownership/path rule: <include/src/tests/benchmarks/external>
 - Follow the module quick rules in [.github/copilot/module-quick-rules.md](../copilot/module-quick-rules.md) and the detailed guidance in [.github/MODULE_DEVELOPER_DOCUMENTATION_GUIDELINES.md](../MODULE_DEVELOPER_DOCUMENTATION_GUIDELINES.md).
+- Use the same module issue labels and milestone as the automated Soll-Ist sync, unless a maintainer explicitly overrides them.

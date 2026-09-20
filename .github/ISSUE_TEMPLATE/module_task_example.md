@@ -4,6 +4,8 @@
 - Module: network
 - Files: src/network/, include/network/, tests/network/
 - Status: in-progress
+- Labels: maintenance, soll-ist
+- Milestone: backlog
 
 ## Source Evidence
 - Module docs: src/network/README.md
@@ -30,3 +32,4 @@
 - Risk/constraint: avoid altering external protocol compatibility without a migration note.
 - Ownership/path rule: include/src/tests are repo-owned; external vendor code remains excluded from module scope.
 - Follow the module quick rules in [.github/copilot/module-quick-rules.md](../copilot/module-quick-rules.md) and the detailed guidance in [.github/MODULE_DEVELOPER_DOCUMENTATION_GUIDELINES.md](../MODULE_DEVELOPER_DOCUMENTATION_GUIDELINES.md).
+- The labels and milestone mirror the automated module issue sync so manual and generated issues stay aligned.
