@@ -11,9 +11,9 @@ Outputs
 - Optional GitHub issue upsert (create/update/close) keyed by stable marker
 
 Key design
-- One implementation issue per module: key "soll-ist-key:impl:<module>"
-- One documentation issue per module: key "soll-ist-key:docs:<module>"
+- One consolidated issue per module: key "soll-ist-key:module:<module>"
 - Existing open issue with same key is updated, not recreated.
+- Legacy split issues (impl/docs) are migrated into the consolidated issue format.
 """
 
 from __future__ import annotations
@@ -38,6 +38,18 @@ REQUIRED_MODULE_DOCS = [
     "FUTURE_ENHANCEMENTS.md",
 ]
 SEVERITIES = ("CRITICAL", "HIGH", "MEDIUM", "LOW", "INFO")
+DOC_TYPE_LABELS = {
+    "README": "README.md",
+    "ROADMAP": "ROADMAP.md",
+    "ARCH": "ARCHITECTURE.md",
+    "CHANGELOG": "CHANGELOG.md",
+    "FUTURE": "FUTURE_ENHANCEMENTS.md",
+    "AUDIT": "AUDIT.md",
+    "SEC": "SECURITY.md",
+    "PERF": "PERFORMANCE_EXPECTATIONS.md",
+    "PROD": "PRODUCTION_REQUIREMENTS.md",
+    "GAPS": "MODULE_GAPS.md",
+}
 
 
 @dataclass
@@ -464,73 +476,49 @@ def find_issue_by_key(open_issues: list[dict[str, Any]], key: str) -> dict[str, 
     return None
 
 
-def issue_body_impl(module: str, row: dict[str, Any], impl_status: ModuleImplStatus | None, max_findings: int) -> str:
+def _format_missing_doc_types(missing: list[str]) -> list[str]:
+    labels: list[str] = []
+    for item in missing:
+        raw = str(item).strip()
+        if not raw:
+            continue
+        labels.append(DOC_TYPE_LABELS.get(raw, raw))
+    return sorted(set(labels))
+
+
+def issue_body_module(module: str, row: dict[str, Any], impl_status: ModuleImplStatus | None, max_findings: int) -> str:
     docs = row["docs"]
     impl = row["implementation"]
     gates = row.get("release_gates", {})
     alignment = row.get("developer_docs_alignment", {})
+    quality_details = row.get("release_gate_details", {})
     sev = impl.get("severity_counts", {})
+    missing_labels = _format_missing_doc_types(docs.get("missing_doc_types", []))
+    module_label = module.replace("_", "-")
 
     lines: list[str] = []
-    lines.append(f"# Soll-Ist Gap: Implementierung ({module})")
+    lines.append(f"# Modulauftrag: Soll-Ist-Drift beheben ({module_label})")
     lines.append("")
-    lines.append(f"soll-ist-key:impl:{module}")
+    lines.append(f"soll-ist-key:module:{module}")
     lines.append("")
-    lines.append("## Ist-Zustand")
+
+    lines.append("## Gesamtstatus")
+    lines.append(f"- Implementierungs-Drift offen: {'ja' if bool(impl.get('gap_open')) else 'nein'}")
+    lines.append(f"- Dokumentations-Drift offen: {'ja' if bool(docs.get('gap_open')) else 'nein'}")
+    lines.append(f"- Release-Gate-Drift offen: {'ja' if bool(gates.get('gap_open')) else 'nein'}")
+    lines.append("")
+
+    lines.append("## Fehlende Implementierung")
     lines.append(f"- Actionable Findings: {impl.get('actionable_total', 0)}")
     lines.append(f"- Critical: {sev.get('CRITICAL', 0)}")
     lines.append(f"- High: {sev.get('HIGH', 0)}")
     lines.append(f"- Medium: {sev.get('MEDIUM', 0)}")
-    lines.append(f"- Developer docs alignment: {alignment.get('status', 'unknown')}")
-    lines.append("")
-    lines.append("## Soll-Zustand")
-    lines.append("- Keine offenen, verifizierten Implementierungs-Gaps (Real Gap / Stub)")
-    lines.append("- Kritische und hohe Findings zuerst schließen")
-    lines.append("- Modul-Dokumentation muss mit Code-Scope und Betriebsstatus konsistent sein")
-    lines.append("")
-    lines.append("## Entwickler-Doku-Abgleich")
-    lines.append(f"- Doku-Status: {docs.get('status', 'UNKNOWN')} ({docs.get('score_percent', 0)}%)")
-    if alignment.get("missing_core_docs"):
-        lines.append(f"- Fehlende Core-Dokumente: {', '.join(alignment.get('missing_core_docs', []))}")
-    else:
-        lines.append("- Fehlende Core-Dokumente: keine")
-    if alignment.get("doc_files"):
-        lines.append("- Dokumente gefunden: " + ", ".join(sorted({Path(p).name for files in alignment.get("doc_files", {}).values() for p in files})))
+    lines.append(f"- Doku-Alignment parallel: {alignment.get('status', 'unknown')}")
     lines.append("")
 
-    lines.append("## Kontext")
-    lines.append(f"- Doku-Status parallel: {docs.get('status', 'UNKNOWN')} ({docs.get('score_percent', 0)}%)")
-    lines.append("")
-
-    lines.append("## Release-Gate: Tests und Benchmarks")
-    lines.append(f"- Related tests: {gates.get('related_tests', 0)}")
-    lines.append(f"- Related benchmarks: {gates.get('related_benchmarks', 0)}")
-    lines.append(f"- Failing tests: {gates.get('failing_tests', 0)}")
-    lines.append(f"- Failing benchmarks: {gates.get('failing_benchmarks', 0)}")
-    if gates.get("tests_missing", False):
-        lines.append("- Gap: keine modulbezogenen Tests gefunden")
-    if gates.get("benchmarks_missing", False):
-        lines.append("- Gap: keine modulbezogenen Benchmarks gefunden")
-    lines.append("")
-
-    if gates.get("failing_tests", 0) > 0 and impl_status is not None:
-        lines.append("### Failing Tests (aus CTest-Log)")
-        quality_details = row.get("release_gate_details", {})
-        for item in quality_details.get("failing_tests", [])[:10]:
-            lines.append(f"- {item}")
-        lines.append("")
-
-    if gates.get("failing_benchmarks", 0) > 0 and impl_status is not None:
-        lines.append("### Failing Benchmarks (aus Benchmark-Log)")
-        quality_details = row.get("release_gate_details", {})
-        for item in quality_details.get("failing_benchmarks", [])[:10]:
-            lines.append(f"- {item}")
-        lines.append("")
-
-    lines.append("## Top Findings")
-
+    lines.append("### Findings")
     if impl_status is None or not impl_status.findings:
-        lines.append("- Keine einzelnen Findings im Input vorhanden.")
+        lines.append("- Keine einzelnen Code-Findings im Input vorhanden.")
     else:
         for finding in impl_status.findings[:max_findings]:
             file_path = str(finding.get("file", "?")).strip()
@@ -539,58 +527,99 @@ def issue_body_impl(module: str, row: dict[str, Any], impl_status: ModuleImplSta
             cls = str(finding.get("classification", "")).strip()
             sev_item = str(finding.get("verified_severity") or finding.get("original_severity") or "").upper()
             lines.append(f"- {file_path}:{line} [{sev_item}] {cls} - {pattern}")
-
     lines.append("")
-    lines.append("## Akzeptanzkriterien")
-    lines.append("- [ ] Alle Critical/High Findings mit Repro und Fix verifiziert")
-    lines.append("- [ ] Fokus-Tests oder relevante Integrations-Tests gruen")
-    lines.append("- [ ] Release-Gate relevant: fehlende Tests/Benchmarks ergänzt oder bewusst begründet")
-    lines.append("- [ ] Release-Gate relevant: fehlerhafte Tests/Benchmarks wieder grün")
-    lines.append("- [ ] Betroffene Doku aktualisiert (ARCHITECTURE/README/SECURITY je nach Scope)")
 
-    return "\n".join(lines) + "\n"
-
-
-def issue_body_docs(module: str, row: dict[str, Any]) -> str:
-    docs = row["docs"]
-    impl = row["implementation"]
-    missing = docs.get("missing_doc_types", [])
-    alignment = row.get("developer_docs_alignment", {})
-
-    lines: list[str] = []
-    lines.append(f"# Soll-Ist Gap: Dokumentation ({module})")
+    lines.append("## Fehlende Tests")
+    lines.append(f"- Related tests: {gates.get('related_tests', 0)}")
+    lines.append(f"- Failing tests: {gates.get('failing_tests', 0)}")
+    lines.append(f"- Tests fehlen fuer Modulkontext: {'ja' if bool(gates.get('tests_missing', False)) else 'nein'}")
+    if gates.get("failing_tests", 0) > 0:
+        lines.append("### Fehlgeschlagene Tests (aus CTest-Log)")
+        for item in quality_details.get("failing_tests", [])[:10]:
+            lines.append(f"- {item}")
     lines.append("")
-    lines.append(f"soll-ist-key:docs:{module}")
+
+    lines.append("## Fehlende Benchmarks")
+    lines.append(f"- Related benchmarks: {gates.get('related_benchmarks', 0)}")
+    lines.append(f"- Failing benchmarks: {gates.get('failing_benchmarks', 0)}")
+    lines.append(f"- Benchmarks fehlen fuer Modulkontext: {'ja' if bool(gates.get('benchmarks_missing', False)) else 'nein'}")
+    if gates.get("failing_benchmarks", 0) > 0:
+        lines.append("### Fehlgeschlagene Benchmarks (aus Benchmark-Log)")
+        for item in quality_details.get("failing_benchmarks", [])[:10]:
+            lines.append(f"- {item}")
     lines.append("")
-    lines.append("## Ist-Zustand")
+
+    lines.append("## Fehlende Dokumentation")
     lines.append(f"- Compliance Status: {docs.get('status', 'UNKNOWN')}")
     lines.append(f"- Compliance Score: {docs.get('score_percent', 0)}%")
-    lines.append(f"- Drift via Status: {bool(docs.get('gap_open_by_status', False))}")
-    lines.append(f"- Drift via Modul-Alignment: {bool(docs.get('gap_open_by_alignment', False))}")
-    if missing:
-        lines.append("- Fehlende Core-Dokumente: " + ", ".join(missing))
+    lines.append(f"- Drift via Status: {'ja' if bool(docs.get('gap_open_by_status', False)) else 'nein'}")
+    lines.append(f"- Drift via Modul-Alignment: {'ja' if bool(docs.get('gap_open_by_alignment', False)) else 'nein'}")
+    if missing_labels:
+        lines.append("- Fehlende Core-Dokumente (Governance): " + ", ".join(missing_labels))
     else:
-        lines.append("- Fehlende Core-Dokumente: keine")
+        lines.append("- Fehlende Core-Dokumente (Governance): keine")
     if alignment.get("missing_core_docs"):
         lines.append("- Modul-Alignment fehlende Core-Dokumente: " + ", ".join(alignment.get("missing_core_docs", [])))
     else:
         lines.append("- Modul-Alignment fehlende Core-Dokumente: keine")
+    if alignment.get("doc_files"):
+        lines.append("- Gefundene Modul-Dokumente: " + ", ".join(sorted({Path(p).name for files in alignment.get("doc_files", {}).values() for p in files})))
+    else:
+        lines.append("- Gefundene Modul-Dokumente: keine")
+    if impl.get('actionable_total', 0) == 0 and (gates.get('failing_tests', 0) > 0 or gates.get('failing_benchmarks', 0) > 0):
+        lines.append("- Hinweis: Keine statischen Code-Findings, aber Release-Gate-Fehlschlaege im Modulkontext")
     lines.append("")
-    lines.append("## Soll-Zustand")
-    lines.append("- Modul erfuellt das Core-Set gemaess Governance")
-    lines.append("- Pflichtabschnitte je Dokumenttyp vorhanden")
-    lines.append("- Aktualisierungsrhythmus gemaess Governance dokumentiert")
-    lines.append("")
-    lines.append("## Kontext")
-    lines.append(f"- Offene Implementierungs-Findings parallel: {impl.get('actionable_total', 0)}")
-    lines.append("")
-    lines.append("## Akzeptanzkriterien")
-    lines.append("- [ ] Alle fehlenden Core-Dokumente erstellt")
-    lines.append("- [ ] Pflichtabschnitte validiert")
-    lines.append("- [ ] Referenzen zwischen README/ARCHITECTURE/ROADMAP konsistent")
-    lines.append("- [ ] Doxygen-Artefakte und Modul-DOXYGEN.md bei C++-Aenderungen aktualisiert")
 
+    lines.append("## Akzeptanzkriterien")
+    lines.append("- [ ] Implementierung: Alle Critical/High Findings mit Repro und Fix verifiziert")
+    lines.append("- [ ] Tests: Fokus- oder relevante Integrations-Tests gruen")
+    lines.append("- [ ] Benchmarks: Fehlende Benchmarks ergänzt oder begruendet; fehlerhafte Benchmarks gruen")
+    lines.append("- [ ] Dokumentation: Core-Dokumente und Querverweise konsistent aktualisiert")
+    lines.append("- [ ] Doxygen: Modul-DOXYGEN.md und zugehoerige Artefakte aktualisiert")
     return "\n".join(lines) + "\n"
+
+
+def issue_body_impl(module: str, row: dict[str, Any], impl_status: ModuleImplStatus | None, max_findings: int) -> str:
+    # Backward-compatible wrapper for callers that still expect impl-only formatter.
+    return issue_body_module(module, row, impl_status, max_findings)
+
+
+def issue_body_docs(module: str, row: dict[str, Any]) -> str:
+    # Backward-compatible wrapper for callers that still expect docs-only formatter.
+    return issue_body_module(module, row, None, max_findings=0)
+
+
+def _find_existing_issue_for_module(open_issues: list[dict[str, Any]], module: str) -> dict[str, Any] | None:
+    primary = find_issue_by_key(open_issues, f"module:{module}")
+    if primary is not None:
+        return primary
+    legacy_impl = find_issue_by_key(open_issues, f"impl:{module}")
+    if legacy_impl is not None:
+        return legacy_impl
+    legacy_docs = find_issue_by_key(open_issues, f"docs:{module}")
+    if legacy_docs is not None:
+        return legacy_docs
+    return None
+
+
+def _comment_consolidation_target(repo_root: Path, repo: str, issue_number: int, target_issue_number: int, apply: bool) -> str:
+    if not apply:
+        return "would-comment-no-close"
+    run_gh(
+        [
+            "issue",
+            "close",
+            str(issue_number),
+            "--repo",
+            repo,
+            "--reason",
+            "completed",
+            "--comment",
+            f"Soll-Ist-Abgleich: Dieses Legacy-Issue wird in #{target_issue_number} konsolidiert (1 Modul = 1 Issue).",
+        ],
+        repo_root,
+    )
+    return "closed-as-consolidated"
 
 
 def upsert_issue(
@@ -659,32 +688,50 @@ def sync_issues(
         module_label = module.replace("_", "-")
         docs_open = bool(row["docs"].get("gap_open"))
         impl_open = bool(row["implementation"].get("gap_open"))
+        module_open = docs_open or impl_open
 
+        module_key = f"module:{module}"
         impl_key = f"impl:{module}"
         docs_key = f"docs:{module}"
 
+        module_existing = _find_existing_issue_for_module(open_issues, module)
         impl_existing = find_issue_by_key(open_issues, impl_key)
         docs_existing = find_issue_by_key(open_issues, docs_key)
 
-        if impl_open:
-            title = f"Modul {module_label}: Implementierungs-Drift und Release-Gaps beheben"
-            body = issue_body_impl(module, row, impl_map.get(module), max_findings)
-            action, num = upsert_issue(repo_root, repo, open_issues, title, body, impl_key, apply)
-            actions.append({"module": module, "kind": "impl", "action": action, "issue": num})
-        elif close_resolved and impl_existing is not None:
-            num = int(impl_existing["number"])
-            action = close_issue_if_open(repo_root, repo, num, apply)
-            actions.append({"module": module, "kind": "impl", "action": action, "issue": num})
+        if module_open:
+            title = f"Modul {module_label}: Implementierung, Tests, Benchmarks und Dokumentation konsolidieren"
+            body = issue_body_module(module, row, impl_map.get(module), max_findings)
 
-        if docs_open:
-            title = f"Modul {module_label}: Entwicklerdokumentation und Doxygen-Drift beheben"
-            body = issue_body_docs(module, row)
-            action, num = upsert_issue(repo_root, repo, open_issues, title, body, docs_key, apply)
-            actions.append({"module": module, "kind": "docs", "action": action, "issue": num})
-        elif close_resolved and docs_existing is not None:
-            num = int(docs_existing["number"])
-            action = close_issue_if_open(repo_root, repo, num, apply)
-            actions.append({"module": module, "kind": "docs", "action": action, "issue": num})
+            if module_existing is not None:
+                number = int(module_existing["number"])
+                if apply:
+                    body_file = repo_root / "ai_context" / "developer_llm_wiki" / f".tmp_issue_{module_key.replace(':', '_')}.md"
+                    body_file.parent.mkdir(parents=True, exist_ok=True)
+                    body_file.write_text(body, encoding="utf-8")
+                    run_gh(["issue", "edit", str(number), "--repo", repo, "--title", title, "--body-file", str(body_file)], repo_root)
+                actions.append({"module": module, "kind": "module", "action": "updated", "issue": number})
+                num = number
+            else:
+                action, num = upsert_issue(repo_root, repo, open_issues, title, body, module_key, apply)
+                actions.append({"module": module, "kind": "module", "action": action, "issue": num})
+
+            target_issue = num
+            if target_issue is not None:
+                for legacy in [impl_existing, docs_existing]:
+                    if legacy is None:
+                        continue
+                    legacy_num = int(legacy["number"])
+                    if legacy_num == target_issue:
+                        continue
+                    legacy_action = _comment_consolidation_target(repo_root, repo, legacy_num, target_issue, apply)
+                    actions.append({"module": module, "kind": "legacy", "action": legacy_action, "issue": legacy_num})
+        elif close_resolved:
+            for existing in [module_existing, impl_existing, docs_existing]:
+                if existing is None:
+                    continue
+                num = int(existing["number"])
+                action = close_issue_if_open(repo_root, repo, num, apply)
+                actions.append({"module": module, "kind": "module", "action": action, "issue": num})
 
     return {
         "actions": actions,
@@ -692,8 +739,11 @@ def sync_issues(
             "created": sum(1 for a in actions if a["action"] == "created"),
             "updated": sum(1 for a in actions if a["action"] == "updated"),
             "closed": sum(1 for a in actions if a["action"] == "closed"),
+            "closed_as_consolidated": sum(1 for a in actions if a["action"] == "closed-as-consolidated"),
+            "commented_no_close": sum(1 for a in actions if a["action"] == "commented-no-close"),
             "would_create": sum(1 for a in actions if a["action"] == "would-create"),
             "would_close": sum(1 for a in actions if a["action"] == "would-close"),
+            "would_comment_no_close": sum(1 for a in actions if a["action"] == "would-comment-no-close"),
         },
     }
 
