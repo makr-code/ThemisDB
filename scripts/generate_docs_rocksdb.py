@@ -157,18 +157,12 @@ using namespace rocksdb;
 
 template <typename DBType = rocksdb::DB>
 Status openDbCompat(const Options& options, const std::string& db_path, DBType** out_db) {
-    if constexpr (requires(std::unique_ptr<DBType>* db_uptr) {
-                      DBType::Open(options, db_path, db_uptr);
-                  }) {
-        std::unique_ptr<DBType> db_uptr;
-        Status status = DBType::Open(options, db_path, &db_uptr);
-        if (status.ok()) {
-            *out_db = db_uptr.release();
-        }
-        return status;
-    } else {
-        return DBType::Open(options, db_path, out_db);
+    DBType* db_raw = nullptr;
+    Status status = DBType::Open(options, db_path, &db_raw);
+    if (status.ok()) {
+        *out_db = db_raw;
     }
+    return status;
 }
 
 int main(int argc, char* argv[]) {
