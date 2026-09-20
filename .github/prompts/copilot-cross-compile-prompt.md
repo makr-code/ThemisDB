@@ -303,7 +303,7 @@ python3 scripts/cross-compile-reviewer.py \
 ### VSCode Copilot Custom Instructions
 ```
 Add to .vscode/settings.json:
-"copilot.inlineChat.systemPrompt": "file://.copilot-cross-compile-prompt.md"
+"copilot.inlineChat.systemPrompt": "file://.github/prompts/copilot-cross-compile-prompt.md"
 ```
 
 ---

@@ -685,7 +685,7 @@ This project centralizes packaging decisions here to make release behavior deter
 	- Questions: Should packaging generation be gated by additional manual checks (e.g., security/signature verification) before tag creation?
 	- Suggested default: Require manual verification of signatures and checksums before creating the release tag. CI may produce artifacts and checksums but tagging remains a human-confirmed action (matches repository policy).
 
-Action: Maintain these decisions in this file once agreed; CI and `.agent.md` should be updated to reflect chosen defaults.
+Action: Maintain these decisions in this file once agreed; CI and `.github/agents/CMake-Agent.agent.md` should be updated to reflect chosen defaults.
 
 ## 11.3 Linux Native Package Distribution
 

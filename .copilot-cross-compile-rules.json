@@ -235,7 +235,7 @@
     },
     "vscode_copilot": {
       "setting": "copilot.inlineChat.systemPrompt",
-      "file": ".copilot-cross-compile-prompt.md"
+      "file": ".github/prompts/copilot-cross-compile-prompt.md"
     }
   },
 

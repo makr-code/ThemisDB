@@ -8,6 +8,7 @@ Dieser Ordner enthält Governance-Richtlinien und Compliance-Steuerungsdokumente
 ## Dateien nach Kategorien
 - **Dokumentation**: `DISABLED_STUB_POLICY.md`
 - **Dokumentation**: `DOCS_PR_POLICY.md`
+- **Dokumentation**: `ROOT_HYGIENE_POLICY.md`
 - **Dokumentation**: `SOURCECODE_COMPLIANCE_GOVERNANCE.md`
 
 ## Hinweise
