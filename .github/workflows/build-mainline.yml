@@ -127,6 +127,7 @@ jobs:
     needs: mark-build-pending
     uses: ./.github/workflows/reusable-cmake-build.yml
     with:
+      enable_sccache_gha: true
       runs_on: ubuntu-latest
       shell: bash
       fetch_depth: '0'
@@ -135,10 +136,12 @@ jobs:
       setup_command: >-
         set -euo pipefail; echo "CI — Build wrapper delegating to reusable CMake build pipeline"; git config --file .git/config --remove-section submodule.plugins/private/themisdb_ethic_ai || true; git config --file .git/config --remove-section submodule.plugins/private/themisdb_importer || true; git config --file .git/config --remove-section submodule.plugins/private/themisdb_storage || true; git config --file .git/config --remove-section submodule.plugins/private/themisdb_llm_wiki || true; git config --file .git/config --remove-section submodule.plugins/private/themisdb_plugin_signer || true; sudo apt-get update -qq; sudo apt-get install -y --no-install-recommends build-essential cmake ninja-build pkg-config sccache librocksdb-dev libgtest-dev libgmock-dev libssl-dev zlib1g-dev libzstd-dev libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libvulkan-dev glslc libcpp-httplib-dev libboost-dev libboost-system-dev libboost-filesystem-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev dpkg-dev rpm; if [ ! -f vcpkg/scripts/buildsystems/vcpkg.cmake ]; then rm -rf vcpkg; git clone --depth 1 https://github.com/microsoft/vcpkg.git vcpkg; fi; test -f vcpkg/scripts/buildsystems/vcpkg.cmake || { echo "::error::vcpkg toolchain missing before bootstrap"; exit 1; }; export VCPKG_ROOT="${GITHUB_WORKSPACE}/vcpkg"; export PATH="${VCPKG_ROOT}:${PATH}"; ./vcpkg/bootstrap-vcpkg.sh -disableMetrics
       configure_command: >-
-        export VCPKG_ROOT="${GITHUB_WORKSPACE}/vcpkg"; export PATH="${VCPKG_ROOT}:${PATH}"; cmake -S . -B build -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=OFF
+        export VCPKG_ROOT="${GITHUB_WORKSPACE}/vcpkg"; export PATH="${VCPKG_ROOT}:${PATH}"; export SCCACHE_GHA_ENABLED=true; cmake -S . -B build -G Ninja -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=OFF -DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
       build_command: >-
         export VCPKG_ROOT="${GITHUB_WORKSPACE}/vcpkg"; export PATH="${VCPKG_ROOT}:${PATH}";
+        export SCCACHE_GHA_ENABLED=true;
         set -euo pipefail;
+        sccache --show-stats || true;
         BUILD_LOG="$(mktemp)";
         BUILD_EXIT_FILE="$(mktemp)";
         trap 'rm -f "${BUILD_LOG}" "${BUILD_EXIT_FILE}"' EXIT;
@@ -152,6 +155,7 @@ jobs:
           cmake -S . -B build -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=OFF -DCMAKE_C_COMPILER_LAUNCHER= -DCMAKE_CXX_COMPILER_LAUNCHER=;
           cmake --build build --parallel 16;
         else
+          sccache --show-stats || true;
           exit "${BUILD_EXIT}";
         fi
       validation_command: >-
@@ -235,6 +239,8 @@ jobs:
           cmake -S . -B build-macos \
             -G Ninja \
             -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_C_FLAGS="-Wno-unused-command-line-argument" \
+            -DCMAKE_CXX_FLAGS="-Wno-unused-command-line-argument -Wno-deprecated-literal-operator -Wno-nan-infinity-disabled" \
             ${C_LAUNCHER:+$C_LAUNCHER} \
             ${CXX_LAUNCHER:+$CXX_LAUNCHER} \
             -DOPENSSL_ROOT_DIR="${OPENSSL_ROOT}" \
@@ -486,7 +492,9 @@ jobs:
     name: Update build-status labels
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    needs: build
+    needs:
+      - build
+      - macos-kqueue-validation
     if: always() && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
     permissions:
       contents: read
@@ -500,17 +508,26 @@ jobs:
         shell: bash
         env:
           BUILD_RESULT: ${{ needs.build.result }}
+          MACOS_RESULT: ${{ needs.macos-kqueue-validation.result }}
           CONFIGURE_OUTCOME: ${{ needs.build.outputs.configure-outcome }}
           BUILD_OUTCOME: ${{ needs.build.outputs.build-outcome }}
           VALIDATION_OUTCOME: ${{ needs.build.outputs.validation-outcome }}
         run: |
-          if [ "${BUILD_RESULT}" = "success" ]; then
+          if [ "${BUILD_RESULT}" = "success" ] && [ "${MACOS_RESULT}" = "success" ]; then
             {
               echo "status_label=ci/build-ok"
               echo "status_text=passing"
               echo "status_icon=✅"
-              echo "status_reason=full pipeline succeeded"
+              echo "status_reason=linux+macos pipeline succeeded"
               echo "status_markers="
+            } >> "$GITHUB_OUTPUT"
+          elif [ "${MACOS_RESULT}" = "failure" ]; then
+            {
+              echo "status_label=ci/build-failed"
+              echo "status_text=failing (macOS kqueue validation)"
+              echo "status_icon=❌"
+              echo "status_reason=macOS kqueue validation stage failed"
+              echo "status_markers=ci/build-failed"
             } >> "$GITHUB_OUTPUT"
           elif [ "${BUILD_OUTCOME}" = "failure" ]; then
             {
