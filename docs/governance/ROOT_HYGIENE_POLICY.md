@@ -34,6 +34,7 @@ Applies to files created or modified in the repository root (`/`).
 - New root `*.log` files must be moved out of root before commit.
 - New root `*.md` files require explicit justification in the PR description.
 - If a root move changes references, all affected links/config paths must be updated in the same change.
+- Use `scripts/move-root-logs.ps1` for repeatable local log cleanup.
 
 ## Change Process
 1. Move file(s) with history (`git mv`).
