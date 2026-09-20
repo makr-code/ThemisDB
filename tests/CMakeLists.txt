@@ -2151,24 +2151,8 @@ if(THEMIS_WIRE_V1_PROTO_AVAILABLE)
     target_compile_definitions(themis_tests PRIVATE THEMIS_WIRE_V1_PROTO_AVAILABLE)
 endif()
 
-# Copy DLLs to test directory on Windows after build
+# Copy DLLs to test directory on Windows after build (function defined early in file at line 55)
 if(WIN32)
-    function(themis_sync_runtime_dlls_for_target target_name)
-        set(_themis_runtime_vcpkg_bin_dir "${_themis_vcpkg_bin_dir}")
-        if(CMAKE_BUILD_TYPE STREQUAL "Debug" AND EXISTS "${_themis_vcpkg_debug_bin_dir}")
-            set(_themis_runtime_vcpkg_bin_dir "${_themis_vcpkg_debug_bin_dir}")
-        endif()
-
-        add_custom_command(TARGET ${target_name} POST_BUILD
-            COMMAND ${CMAKE_COMMAND}
-                -DBIN_DIR=${CMAKE_BINARY_DIR}/bin
-                -DVCPKG_BIN_DIR=${_themis_runtime_vcpkg_bin_dir}
-                -DDST_DIR=$<TARGET_FILE_DIR:${target_name}>
-                -P ${THEMIS_ROOT_DIR}/cmake/CopyRuntimeDlls.cmake
-            COMMENT "Syncing runtime DLLs for ${target_name}"
-        )
-    endfunction()
-
     set(_themis_runtime_vcpkg_bin_dir "${_themis_vcpkg_bin_dir}")
     if(CMAKE_BUILD_TYPE STREQUAL "Debug" AND EXISTS "${_themis_vcpkg_debug_bin_dir}")
         set(_themis_runtime_vcpkg_bin_dir "${_themis_vcpkg_debug_bin_dir}")

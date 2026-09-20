@@ -49,7 +49,7 @@ on:
   workflow_run:
     workflows:
       - "Maintenance: Docs"
-      - "Maintenance: AI Working Cleanup [LLM Wiki]"
+      - "Maintenance: AI Working Cleanup - LLM Wiki"
     types:
       - completed
 
