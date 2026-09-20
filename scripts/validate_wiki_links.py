@@ -26,6 +26,8 @@ import re
 import sys
 from pathlib import Path
 
+from wiki_page_layout import REQUIRED_PAGE_SLUGS
+
 # GitHub Wiki uses the page file stem as the page name.
 # [[WikiPageName]] resolves to <WikiPageName>.md in the wiki root.
 WIKI_LINK_RE = re.compile(
@@ -59,6 +61,16 @@ def _normalize_page_name(raw: str) -> str:
     return raw.strip().split("#")[0].strip().lower()
 
 
+def _check_required_wiki_layout(wiki_dir: Path) -> list[str]:
+    """Return missing canonical wiki page slugs from the required layout."""
+    missing: list[str] = []
+    for page_slug in REQUIRED_PAGE_SLUGS:
+        target = wiki_dir / f"{page_slug}.md"
+        if not target.exists():
+            missing.append(page_slug)
+    return missing
+
+
 def validate(wiki_dir: Path, fail_on_broken: bool, report_path: Path | None) -> int:
     """Run all link validation checks on the wiki staging directory.
 
@@ -68,6 +80,15 @@ def validate(wiki_dir: Path, fail_on_broken: bool, report_path: Path | None) -> 
     if not md_files:
         print(f"ERROR: No .md files found in {wiki_dir}", file=sys.stderr)
         return 1
+
+    missing_layout = _check_required_wiki_layout(wiki_dir)
+    if missing_layout:
+        print(
+            "ERROR: missing required wiki layout pages: " + ", ".join(missing_layout),
+            file=sys.stderr,
+        )
+        if fail_on_broken:
+            return 1
 
     # Build a set of all valid page name stems (lower-cased for comparison)
     valid_pages: set[str] = {f.stem.lower() for f in md_files}

@@ -17,8 +17,8 @@ name: "Publish: GitHub Wiki"
 #            - document sorting by currency (freshness + modification date)
 #       3. Validate internal [[links]] (scripts/validate_wiki_links.py)
 #       4. [Optional] AI enrichment via GitHub Models API (workflow_dispatch opt-in)
-#       5. Wiki-init guard: check remote exists before cloning
-#       6. Clone wiki.git, sync staged pages, commit, push
+#       5. Dispatch the human-review PR gate workflow
+#       6. The PR gate updates an existing review PR and keeps merge human-controlled
 #
 # Wiki Features:
 #   - Breadcrumbs: Every page shows "Home > Category > ... > Page" navigation
@@ -73,12 +73,19 @@ on:
       fail_on_broken_links:
         description: 'Fail build if broken [[wiki links]] are found'
         required: false
-        default: 'false'
+        default: 'true'
+        type: choice
+        options: ['false', 'true']
+      fail_on_blocked_private:
+        description: 'Fail build if private-content guardrail blocks wiki sources'
+        required: false
+        default: 'true'
         type: choice
         options: ['false', 'true']
 
 permissions:
-  contents: write
+  actions: write
+  contents: read
 
 concurrency:
   group: publish-wiki-${{ github.ref }}
@@ -146,11 +153,19 @@ jobs:
       - name: Build wiki staging
         id: build
         run: |
+          SOURCE_BRANCH="${{ github.event.workflow_run.head_branch || github.ref_name }}"
+          FAIL_ON_BLOCKED_PRIVATE="true"
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            FAIL_ON_BLOCKED_PRIVATE="${{ github.event.inputs.fail_on_blocked_private }}"
+          fi
+
           build_args=(
             --repo-root .
             --output /tmp/wiki-staging
             --enable-breadcrumbs
             --sort-by currency
+            --source-branch "${SOURCE_BRANCH}"
+            --manifest /tmp/wiki-manifest.json
           )
           DRY_RUN_FLAG="false"
           if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
@@ -160,9 +175,18 @@ jobs:
           if [ "${{ steps.glossary_gen.outputs.glossaries_generated }}" = "true" ]; then
             build_args+=(--enable-term-linking --term-link-priority high)
           fi
+          if [ "${FAIL_ON_BLOCKED_PRIVATE}" = "true" ]; then
+            build_args+=(--fail-on-blocked-private)
+          fi
           python scripts/build_wiki.py "${build_args[@]}"
-          echo "staging_dir=/tmp/wiki-staging" >> "$GITHUB_OUTPUT"
-          echo "is_dry_run=${DRY_RUN_FLAG}" >> "$GITHUB_OUTPUT"
+          {
+            echo "staging_dir=/tmp/wiki-staging"
+            echo "is_dry_run=${DRY_RUN_FLAG}"
+            echo "source_branch=${SOURCE_BRANCH}"
+            if [ -f /tmp/wiki-manifest.json ]; then
+              python3 -c "import json; from pathlib import Path; manifest=json.loads(Path('/tmp/wiki-manifest.json').read_text(encoding='utf-8')); stats=manifest.get('stats', {}); classes=stats.get('source_class_totals', {}); print(f'pages_written={stats.get(\"pages_written\", 0)}'); print(f'blocked_private={stats.get(\"blocked_private\", 0)}'); print(f'primary_sources={classes.get(\"primary\", 0)}'); print(f'secondary_sources={classes.get(\"secondary\", 0)}'); print(f'metadata_sources={classes.get(\"metadata\", 0)}')"
+            fi
+          } >> "$GITHUB_OUTPUT"
 
       # -----------------------------------------------------------------------
       # Phase 2b: Validate internal [[wiki links]] before publishing
@@ -171,11 +195,15 @@ jobs:
         if: steps.build.outputs.is_dry_run != 'true'
         id: linkcheck
         run: |
+          FAIL_ON_BROKEN="true"
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            FAIL_ON_BROKEN="${{ github.event.inputs.fail_on_broken_links }}"
+          fi
           validate_args=(
             --wiki-dir /tmp/wiki-staging
             --report /tmp/wiki-link-report.txt
           )
-          if [ "${{ github.event.inputs.fail_on_broken_links }}" = "true" ]; then
+          if [ "${FAIL_ON_BROKEN}" = "true" ]; then
             validate_args+=(--fail-on-broken)
           fi
           python scripts/validate_wiki_links.py "${validate_args[@]}"
@@ -188,6 +216,45 @@ jobs:
           path: /tmp/wiki-link-report.txt
           retention-days: 14
           if-no-files-found: ignore
+
+      - name: Upload wiki build manifest
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: wiki-build-manifest-${{ github.run_number }}
+          path: /tmp/wiki-manifest.json
+          retention-days: 14
+          if-no-files-found: ignore
+
+      - name: Extract link metrics
+        if: always() && steps.build.outputs.is_dry_run != 'true'
+        id: link_metrics
+        run: |
+          python3 - <<'PY'
+          import re
+          from pathlib import Path
+
+          report = Path('/tmp/wiki-link-report.txt')
+          broken = 0
+          warnings = 0
+          checked = 0
+          if report.exists():
+              text = report.read_text(encoding='utf-8', errors='replace')
+              m = re.search(r"Summary:\s*(\d+)\s+broken,\s*(\d+)\s+warnings,\s*(\d+)\s+checked", text)
+              if m:
+                  broken = int(m.group(1))
+                  warnings = int(m.group(2))
+                  checked = int(m.group(3))
+
+          out = Path('/tmp/link-metrics.out')
+          out.write_text(
+              f"broken_links={broken}\n"
+              f"link_warnings={warnings}\n"
+              f"links_checked={checked}\n",
+              encoding='utf-8'
+          )
+          PY
+          cat /tmp/link-metrics.out >> "$GITHUB_OUTPUT"
 
       - name: Write link check summary
         if: always() && steps.build.outputs.is_dry_run != 'true'
@@ -214,6 +281,10 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          if [ ! -f scripts/ai_wiki_enrichment.py ]; then
+            echo "::warning::scripts/ai_wiki_enrichment.py not found; skipping AI enrichment."
+            exit 0
+          fi
           python scripts/ai_wiki_enrichment.py \
             --staging /tmp/wiki-staging \
             --max-modules 10 \
@@ -221,83 +292,86 @@ jobs:
             || echo "::warning::AI enrichment failed or partially completed; continuing."
 
       # -----------------------------------------------------------------------
-      # Phase 3: Wiki-init guard, clone, sync, commit, push
+      # Phase 3: Hand off to the human-review PR gate
       # -----------------------------------------------------------------------
-      - name: Check wiki remote availability
+      - name: Dispatch wiki PR gate
+        id: review_dispatch
         if: steps.build.outputs.is_dry_run != 'true'
-        id: wiki_check
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          WIKI_URL="https://github.com/${{ github.repository }}.wiki.git"
-          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
-            -H "Authorization: token $GH_TOKEN" \
-            "$WIKI_URL")
-          if [ "$HTTP_STATUS" = "200" ] || [ "$HTTP_STATUS" = "301" ] || [ "$HTTP_STATUS" = "302" ]; then
-            echo "wiki_available=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "wiki_available=false" >> "$GITHUB_OUTPUT"
-            echo "::warning::GitHub Wiki remote returned HTTP $HTTP_STATUS — wiki may not be initialized."
-            {
-              echo "## ⚠️ Wiki Not Initialized"
-              echo ""
-              echo "Wiki remote returned HTTP **$HTTP_STATUS**."
-              echo ""
-              echo "**Steps to enable:**"
-              echo "1. Go to **Settings → Features → Wikis** and enable the wiki."
-              echo "2. Create at least one page via the GitHub UI."
-              echo "3. Re-run this workflow (manual dispatch or next push to develop)."
-            } >> "$GITHUB_STEP_SUMMARY"
+          set -euo pipefail
+
+          REVIEW_BRANCH="${{ steps.build.outputs.source_branch }}"
+          if [ -z "$REVIEW_BRANCH" ]; then
+            REVIEW_BRANCH="${{ github.ref_name }}"
+          fi
+          if [ -z "$REVIEW_BRANCH" ]; then
+            REVIEW_BRANCH="develop"
           fi
 
-      - name: Clone wiki remote
-        if: |
-          steps.build.outputs.is_dry_run != 'true' &&
-          steps.wiki_check.outputs.wiki_available == 'true'
-        run: |
-          git clone \
-            "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.wiki.git" \
-            /tmp/wiki-repo
-          # Remove stale .md pages; preserve Git metadata.
-          find /tmp/wiki-repo -maxdepth 1 -name '*.md' -delete
+          gh api \
+            repos/${{ github.repository }}/actions/workflows/wiki-pr-gate.yml/dispatches \
+            -f ref="$REVIEW_BRANCH" \
+            -f "inputs[source_branch]=$REVIEW_BRANCH" \
+            -f "inputs[dry_run]=false"
 
-      - name: Sync staged pages into wiki repo
-        if: |
-          steps.build.outputs.is_dry_run != 'true' &&
-          steps.wiki_check.outputs.wiki_available == 'true'
-        run: |
-          cp /tmp/wiki-staging/*.md /tmp/wiki-repo/
-
-      - name: Commit and push wiki
-        if: |
-          steps.build.outputs.is_dry_run != 'true' &&
-          steps.wiki_check.outputs.wiki_available == 'true'
-        run: |
-          cd /tmp/wiki-repo
-          git config user.name  "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A
-          if git diff --cached --quiet; then
-            echo "No wiki changes to commit."
-          else
-            COMMIT_SHA="${{ github.sha }}"
-            TRIGGER="${{ github.event_name }}"
-            PAGE_COUNT=$(find /tmp/wiki-staging -maxdepth 1 -name '*.md' | wc -l)
-            git commit -m "docs(wiki): sync ${PAGE_COUNT} pages from ${COMMIT_SHA:0:8} (${TRIGGER}) [skip ci]"
-            git push
-          fi
+          {
+            echo "review_gate_dispatched=true"
+            echo "review_source_branch=$REVIEW_BRANCH"
+          } >> "$GITHUB_OUTPUT"
 
       - name: Write publish summary
         if: always()
         run: |
           PAGE_COUNT=$(find /tmp/wiki-staging -maxdepth 1 -name '*.md' 2>/dev/null | wc -l || echo 0)
+          BLOCKED_COUNT="${{ steps.build.outputs.blocked_private || '0' }}"
+          PRIMARY="${{ steps.build.outputs.primary_sources || '0' }}"
+          SECONDARY="${{ steps.build.outputs.secondary_sources || '0' }}"
+          METADATA="${{ steps.build.outputs.metadata_sources || '0' }}"
+          BROKEN_LINKS="${{ steps.link_metrics.outputs.broken_links || '0' }}"
+          LINK_WARNINGS="${{ steps.link_metrics.outputs.link_warnings || '0' }}"
+          LINKS_CHECKED="${{ steps.link_metrics.outputs.links_checked || '0' }}"
+          REVIEW_DISPATCHED="${{ steps.review_dispatch.outputs.review_gate_dispatched || 'false' }}"
+          REVIEW_BRANCH="${{ steps.review_dispatch.outputs.review_source_branch || 'n/a' }}"
+
+          TOTAL_SOURCES=$((PRIMARY + SECONDARY + METADATA))
+          EVIDENCE_SCORE="n/a"
+          PRIMARY_SHARE="n/a"
+          SECONDARY_SHARE="n/a"
+          METADATA_SHARE="n/a"
+          if [ "$TOTAL_SOURCES" -gt 0 ]; then
+            EVIDENCE_SCORE=$(awk -v p="$PRIMARY" -v s="$SECONDARY" -v m="$METADATA" 'BEGIN{t=p+s+m; if(t<=0){print "n/a"} else {printf "%.1f", ((p*100)+(s*60)+(m*20))/t}}')
+            PRIMARY_SHARE=$(awk -v p="$PRIMARY" -v t="$TOTAL_SOURCES" 'BEGIN{if(t<=0){print "n/a"} else {printf "%.1f%%", (p*100.0)/t}}')
+            SECONDARY_SHARE=$(awk -v s="$SECONDARY" -v t="$TOTAL_SOURCES" 'BEGIN{if(t<=0){print "n/a"} else {printf "%.1f%%", (s*100.0)/t}}')
+            METADATA_SHARE=$(awk -v m="$METADATA" -v t="$TOTAL_SOURCES" 'BEGIN{if(t<=0){print "n/a"} else {printf "%.1f%%", (m*100.0)/t}}')
+          fi
+
+          LINK_HEALTH="PASS"
+          if [ "$BROKEN_LINKS" -gt 0 ]; then
+            LINK_HEALTH="FAIL"
+          elif [ "$LINK_WARNINGS" -gt 0 ]; then
+            LINK_HEALTH="WARN"
+          fi
+
           {
             echo "## Wiki Publish Summary"
             echo "- Pages generated: **$PAGE_COUNT**"
+            echo "- Pages written (manifest): **${{ steps.build.outputs.pages_written || '0' }}**"
+            echo "- Private-content blocks: **${BLOCKED_COUNT}**"
+            echo "- Source classes: primary=${PRIMARY}, secondary=${SECONDARY}, metadata=${METADATA}"
             echo "- Breadcrumbs: **Enabled** (navigation at top of each page)"
             echo "- Document sorting: **By currency** (fresh docs prioritized)"
             echo "- Trigger: \`${{ github.event_name }}\`"
+            echo "- Source branch for blob links: \`${{ steps.build.outputs.source_branch }}\`"
             echo "- Commit: \`${{ github.sha }}\`"
+            echo "- Review gate dispatched: **${REVIEW_DISPATCHED}**"
+            echo "- Review branch: **${REVIEW_BRANCH}**"
+            echo ""
+            echo "### Reader KPIs"
+            echo "- Evidence quality score (0-100): **${EVIDENCE_SCORE}**"
+            echo "- Evidence mix: primary=${PRIMARY_SHARE}, secondary=${SECONDARY_SHARE}, metadata=${METADATA_SHARE}"
+            echo "- Link health: **${LINK_HEALTH}** (broken=${BROKEN_LINKS}, warnings=${LINK_WARNINGS}, checked=${LINKS_CHECKED})"
             echo ""
             echo "### Navigation Features"
             echo "- ✅ Breadcrumb navigation added to all content pages"

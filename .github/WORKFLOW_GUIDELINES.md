@@ -28,6 +28,7 @@ Kernliste der aktiven Workflows:
 - `.github/workflows/gate-pr-doc-metadata.yml`
 - `.github/workflows/release-build-matrix.yml`
 - `.github/workflows/release-mainline.yml`
+- `.github/workflows/wiki-pr-gate.yml`
 - `.github/workflows/build-widget.yml`
 - `.github/workflows/reusable-cmake-build.yml`
 - `.github/workflows/security-codeql.yml`
@@ -35,6 +36,7 @@ Kernliste der aktiven Workflows:
 - `.github/workflows/build-ollama-router.yml`
 - `.github/workflows/gate-copilot-regression.yml`
 - `.github/workflows/copilot-code-review.yml`
+- `.github/workflows/wiki-pr-gate.yml`
 - `.github/workflows/publish-wiki.yml`
 - `.github/workflows/release-docker-image.yml`
 - `.github/workflows/edition-hyperscaler-ci.yml`

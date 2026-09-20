@@ -52,18 +52,68 @@ from datetime import UTC, datetime
 from pathlib import Path
 from time import time
 
+from wiki_page_layout import REQUIRED_PAGE_SLUGS
+
 # ---------------------------------------------------------------------------
 # Version banner — updated by release automation; keep on one line.
 # ---------------------------------------------------------------------------
 THEMISDB_VERSION = "1.9.0-beta"
 
 # ---------------------------------------------------------------------------
+# Source taxonomy and evidence weighting
+# ---------------------------------------------------------------------------
+_SOURCE_CLASS_WEIGHTS: dict[str, int] = {
+    "primary": 100,
+    "secondary": 60,
+    "metadata": 20,
+}
+
+
+def _classify_source(source_rel: str, wiki_name: str) -> tuple[str, int]:
+    """Classify source evidence and return (class, weight).
+
+    Classes:
+      - primary: sourcecode-near docs and API contracts (highest trust)
+      - secondary: guides/runbooks/root docs (contextual trust)
+      - metadata: generated index/overview/audit snapshots (lowest trust)
+    """
+    rel = source_rel.replace("\\", "/")
+
+    if wiki_name in {"Home", "Module-Index", "Wiki-Index", "_Sidebar", "_Footer"}:
+        source_class = "metadata"
+    elif rel.startswith("audit/"):
+        source_class = "metadata"
+    elif rel.startswith("src/") and rel.endswith((
+        "/ROADMAP.md",
+        "/ARCHITECTURE.md",
+        "/CHANGELOG.md",
+        "/FUTURE_ENHANCEMENTS.md",
+    )):
+        source_class = "primary"
+    elif rel.startswith("include/"):
+        source_class = "primary"
+    elif rel.startswith("ai_context/developer_llm_wiki/API_REFERENCE_"):
+        source_class = "primary"
+    elif rel in {
+        "docs/api/API_REFERENCE.md",
+        "docs/aql/AQL_API_REFERENCE.md",
+        "docs/aql/API.md",
+    }:
+        source_class = "primary"
+    else:
+        source_class = "secondary"
+
+    return source_class, _SOURCE_CLASS_WEIGHTS[source_class]
+
+# ---------------------------------------------------------------------------
 # Private-content guardrail patterns (mirrors gate-pr-community-failclosed)
 # ---------------------------------------------------------------------------
-PRIVATE_PATTERNS: list[re.Pattern[str]] = [
-    re.compile(r"plugins/private/", re.IGNORECASE),
-    re.compile(r"internal/private", re.IGNORECASE),
-    re.compile(r"PRIVATE_PLUGIN", re.IGNORECASE),
+PRIVATE_PATH_PATTERNS: list[re.Pattern[str]] = [
+    re.compile(r"(^|/)plugins/private(/|$)", re.IGNORECASE),
+    re.compile(r"(^|/)internal/private(/|$)", re.IGNORECASE),
+]
+
+PRIVATE_SECRET_PATTERNS: list[re.Pattern[str]] = [
     re.compile(r"private_api_key\s*=", re.IGNORECASE),
     re.compile(r"SECRET\s*=\s*['\"][^'\"]+['\"]", re.IGNORECASE),
 ]
@@ -350,23 +400,27 @@ def _compute_currency_score(source_path: Path, text: str) -> float:
 def _sort_entries_by_currency(
     entries: list[tuple[Path, str]],
     repo_root: Path,
-) -> list[tuple[Path, str, float]]:
+) -> list[tuple[Path, str, float, str, int]]:
     """Sort entries by document currency (modification date + content freshness).
     
-    Returns list of (path, wiki_name, currency_score) tuples sorted by score descending.
+    Returns list of tuples:
+    (path, wiki_name, currency_score, source_class, source_weight)
+    sorted by source_weight desc, then currency_score desc.
     """
-    entries_with_scores: list[tuple[Path, str, float]] = []
+    entries_with_scores: list[tuple[Path, str, float, str, int]] = []
     
     for source_path, wiki_name in entries:
+        rel_path = str(source_path.relative_to(repo_root))
+        source_class, source_weight = _classify_source(rel_path, wiki_name)
         try:
             text = source_path.read_text(encoding="utf-8")
             score = _compute_currency_score(source_path, text)
         except OSError:
             score = 0.0
-        entries_with_scores.append((source_path, wiki_name, score))
+        entries_with_scores.append((source_path, wiki_name, score, source_class, source_weight))
     
-    # Sort by score descending (fresher documents first)
-    entries_with_scores.sort(key=lambda x: (-x[2], x[1]))
+    # Evidence-first sorting: primary > secondary > metadata, then freshness.
+    entries_with_scores.sort(key=lambda x: (-x[4], -x[2], x[1]))
     return entries_with_scores
 
 
@@ -383,9 +437,17 @@ def _wiki_page_name(prefix: str, stem: str) -> str:
     return _slug(stem)
 
 
-def _contains_private(text: str) -> bool:
-    """Return True if the content matches any private guardrail pattern."""
-    return any(pat.search(text) for pat in PRIVATE_PATTERNS)
+def _contains_private(source_rel: str, text: str) -> bool:
+    """Return True if source path/content violates private-content guardrails.
+
+    Path-based checks are strict and fail-closed for private implementation trees.
+    Content checks are limited to credential-like patterns to avoid false positives
+    from governance text that merely references "private" conceptually.
+    """
+    rel_norm = source_rel.replace("\\", "/")
+    if any(pat.search(rel_norm) for pat in PRIVATE_PATH_PATTERNS):
+        return True
+    return any(pat.search(text) for pat in PRIVATE_SECRET_PATTERNS)
 
 
 # ---------------------------------------------------------------------------
@@ -428,8 +490,10 @@ def _count_checkboxes(text: str) -> tuple[int, int]:
 def _page_header(source_rel: str, wiki_name: str) -> str:
     """Return a machine-readable HTML comment provenance header."""
     ts = datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
+    source_class, source_weight = _classify_source(source_rel, wiki_name)
     return (
         f"<!-- wiki-page: {wiki_name} | source: {source_rel} "
+        f"| source_class: {source_class} | source_weight: {source_weight} "
         f"| generated: {ts} | themisdb: {THEMISDB_VERSION} -->\n"
     )
 
@@ -456,6 +520,7 @@ def _transform(
     repo_root: Path,
     wiki_name: str,
     all_wiki_names: set[str],
+    source_branch: str,
     enable_breadcrumbs: bool = True,
 ) -> str:
     """Apply all transformations to markdown content for wiki publication.
@@ -482,7 +547,24 @@ def _transform(
     def _rewrite_link(m: re.Match[str]) -> str:
         label = m.group(1)
         raw_target = m.group(2).split("#")[0].strip()
-        target_path = (source_path.parent / raw_target).resolve()
+
+        if raw_target.startswith("/"):
+            target_path = (repo_root / raw_target.lstrip("/")).resolve()
+        else:
+            target_path = (source_path.parent / raw_target).resolve()
+
+        # Fallback for overlong relative paths (e.g. ../../.. from shallow dirs):
+        # normalize target against repo root by stripping leading ./ and ../ segments.
+        if not target_path.exists():
+            normalized_rel = raw_target
+            while normalized_rel.startswith("../"):
+                normalized_rel = normalized_rel[3:]
+            while normalized_rel.startswith("./"):
+                normalized_rel = normalized_rel[2:]
+            if normalized_rel and not normalized_rel.startswith("/"):
+                fallback_path = (repo_root / normalized_rel).resolve()
+                target_path = fallback_path
+
         try:
             rel = target_path.relative_to(repo_root)
         except ValueError:
@@ -495,7 +577,7 @@ def _transform(
 
         # Not in wiki — rewrite as absolute GitHub blob link
         github_url = (
-            f"https://github.com/makr-code/ThemisDB/blob/develop/{rel}"
+            f"https://github.com/makr-code/ThemisDB/blob/{source_branch}/{rel}"
         )
         return f"[{label}]({github_url})"
 
@@ -1752,7 +1834,7 @@ def _build_sidebar(
 # Footer builder
 # ---------------------------------------------------------------------------
 
-def _build_footer() -> str:
+def _build_footer(source_branch: str) -> str:
     """Generate _Footer.md for the wiki."""
     ts = datetime.now(UTC).strftime("%Y-%m-%d")
     return (
@@ -1767,8 +1849,236 @@ def _build_footer() -> str:
         "[GitHub](https://github.com/makr-code/ThemisDB) · "
         "[Issues](https://github.com/makr-code/ThemisDB/issues) · "
         "[Discussions](https://github.com/makr-code/ThemisDB/discussions) · "
-        "[License](https://github.com/makr-code/ThemisDB/blob/develop/LICENSE)\n"
+        f"[License](https://github.com/makr-code/ThemisDB/blob/{source_branch}/LICENSE)\n"
     )
+
+
+def _read_first_existing(repo_root: Path | None, *candidates: str) -> str:
+    """Return the contents of the first existing candidate file, or an empty string."""
+    if repo_root is None:
+        return ""
+    for candidate in candidates:
+        path = repo_root / candidate
+        if path.exists():
+            try:
+                return path.read_text(encoding="utf-8")
+            except OSError:
+                return ""
+    return ""
+
+
+def _extract_title_and_first_paragraph(text: str, max_chars: int = 260) -> str:
+    """Return a compact summary from a markdown document."""
+    cleaned = re.sub(r"^#+\s*", "", text, flags=re.MULTILINE)
+    cleaned = re.sub(r"`([^`]+)`", r"\1", cleaned)
+    cleaned = re.sub(r"\[([^\]]+)\]\([^\)]+\)", r"\1", cleaned)
+    cleaned = re.sub(r"^>.*$", "", cleaned, flags=re.MULTILINE)
+    lines = [ln.strip() for ln in cleaned.splitlines() if ln.strip()]
+    summary: list[str] = []
+    for line in lines:
+        if line.startswith("#"):
+            continue
+        if line.startswith("-") or line.startswith("*"):
+            continue
+        if line.startswith("|"):
+            continue
+        if not line:
+            continue
+        summary.append(line)
+        if len(" ".join(summary)) >= max_chars:
+            break
+    return " ".join(summary).strip()[:max_chars]
+
+
+def _build_required_layout_page(page_slug: str, repo_root: Path | None = None) -> str:
+    """Generate the canonical top-level wiki page using source-backed repo content."""
+    readme = _read_first_existing(repo_root, "README.md")
+    quickstart = _read_first_existing(repo_root, "QUICKSTART.md", "SETUP.md")
+    architecture = _read_first_existing(repo_root, "ARCHITECTURE.md", "TARGET_ARCHITECTURE.md")
+    roadmap = _read_first_existing(repo_root, "ROADMAP.md")
+    changelog = _read_first_existing(repo_root, "CHANGELOG.md")
+    rel_strategy = _read_first_existing(repo_root, "RELEASE_STRATEGY.md")
+    governance = _read_first_existing(repo_root, "GOVERNANCE.md", "DOCUMENTATION_GOVERNANCE.md")
+    support = _read_first_existing(repo_root, "SUPPORT.md")
+
+    def _summary(label: str, source: str) -> str:
+        text = _extract_title_and_first_paragraph(source, 220)
+        return f"## {label}\n\n{text or 'ThemisDB provides source-backed architecture, operations, and governance documentation for the project.'}\n\n"
+
+    if page_slug == "Home":
+        tagline = "High-performance multi-model database with native AI/LLM integration"
+        match = re.search(r"\*\*(.+?)\*\*\s*\n", readme or "")
+        if match:
+            tagline = match.group(1).strip()
+        return (
+            f"# Home\n\n> {tagline}\n\n"
+            + _summary("Overview", readme)
+            + "## Start here\n\n"
+            + "- [[Getting-Started]]\n"
+            + "- [[Architecture]]\n"
+            + "- [[Modules]]\n"
+            + "- [[Operations]]\n"
+            + "- [[Governance]]\n\n"
+            + "## Source-backed references\n\n"
+            + "- [README.md](README.md)\n"
+            + "- [ROADMAP.md](ROADMAP.md)\n"
+            + "- [ARCHITECTURE.md](ARCHITECTURE.md)\n"
+            + "- [CHANGELOG.md](CHANGELOG.md)\n\n"
+        )
+
+    if page_slug == "Getting-Started":
+        quick = _extract_title_and_first_paragraph(quickstart or readme, 340)
+        return (
+            "# Getting Started\n\n"
+            + f"{quick or 'Use the repository README, QUICKSTART.md, and SETUP.md to install dependencies and bring up the project locally.'}\n\n"
+            + "## Recommended order\n\n"
+            + "1. Read [README.md](README.md) and confirm the edition target.\n"
+            + "2. Follow [QUICKSTART.md](QUICKSTART.md) for the fastest working setup path.\n"
+            + "3. Use [SETUP.md](SETUP.md) for the full developer toolchain.\n"
+            + "4. Validate with the build/test workflow before extending the codebase.\n\n"
+            + "## Related pages\n\n"
+            + "- [[Home]]\n"
+            + "- [[Architecture]]\n"
+            + "- [[Operations]]\n"
+            + "- [[Troubleshooting]]\n\n"
+        )
+
+    if page_slug == "Architecture":
+        return (
+            "# Architecture\n\n"
+            + _summary("System view", architecture)
+            + "## Core themes\n\n"
+            + "- Multi-model engine foundation with relational, graph, vector, document, and time-series capabilities.\n"
+            + "- Source module layout under src/ for query, storage, index, auth, network, search, and AI integrations.\n"
+            + "- Distributed and resilience layers for replication, sharding, failover, and operational tracing.\n"
+            + "- AI and retrieval integration through LLM, RAG, vector search, and model-serving components.\n\n"
+            + "## related documentation\n\n"
+            + "- [[Modules]]\n"
+            + "- [[APIs-and-Contracts]]\n"
+            + "- [[Operations]]\n"
+            + "- [ARCHITECTURE.md](ARCHITECTURE.md)\n\n"
+        )
+
+    if page_slug == "Modules":
+        module_count = 0
+        match = re.search(r"(\d+)\s+modules?\s+are\s+`PRODUCTION_CANDIDATE`", readme or "", flags=re.IGNORECASE)
+        if match:
+            module_count = int(match.group(1))
+        return (
+            "# Modules\n\n"
+            + f"ThemisDB tracks its source modules under the src/ tree and exposes them through the module status and architecture index. The current project view is organized around {module_count or 'source-backed'} module status records and per-module ROADMAP docs.\n\n"
+            + "## Module index\n\n"
+            + "- [[Module-Index]]\n"
+            + "- [[Root-Roadmap]]\n"
+            + "- [[Root-Future-Enhancements]]\n\n"
+            + "## Module groups\n\n"
+            + "- storage, query, and index\n"
+            + "- sharding, replication, and failover\n"
+            + "- auth, security, governance, and observability\n"
+            + "- AI, graph, vector, retrieval, and model-serving\n\n"
+        )
+
+    if page_slug == "APIs-and-Contracts":
+        return (
+            "# APIs and Contracts\n\n"
+            + _summary("Public interfaces", architecture or readme)
+            + "## Contract areas\n\n"
+            + "- HTTP and REST interfaces under the API and server modules.\n"
+            + "- AQL language docs and query examples for analytics and retrieval flows.\n"
+            + "- OpenAPI and schema contract assets for service integration.\n"
+            + "- Source-level module contracts and API-facing documentation in include/ and public modules.\n\n"
+            + "## Reference materials\n\n"
+            + "- [docs/api](docs/api)\n"
+            + "- [openapi](openapi)\n"
+            + "- [include](include)\n"
+            + "- [src/aql](src/aql)\n\n"
+        )
+
+    if page_slug == "Operations":
+        return (
+            "# Operations\n\n"
+            + _summary("Operations", support or readme)
+            + "## Operational focus\n\n"
+            + "- Build and runtime validation via the configured CMake, CTest, and CI presets.\n"
+            + "- Deployment and environment setup through Docker, local bootstrapping, and operating guides.\n"
+            + "- Observability, health checks, and recovery guidance for production deployment workflows.\n"
+            + "- Security and governance guardrails for release and support escalations.\n\n"
+            + "## Key references\n\n"
+            + "- [[Troubleshooting]]\n"
+            + "- [[Governance]]\n"
+            + "- [SUPPORT.md](SUPPORT.md)\n"
+            + "- [RELEASE_STRATEGY.md](RELEASE_STRATEGY.md)\n\n"
+        )
+
+    if page_slug == "Governance":
+        return (
+            "# Governance\n\n"
+            + _summary("Governance", governance or readme)
+            + "## Governance model\n\n"
+            + "- Branch and release governance follows the canonical edition and routing model described in the repository strategy documents.\n"
+            + "- Documentation precedence is tracked in DOCUMENTATION_GOVERNANCE.md and enforced in wiki generation and publishing workflows.\n"
+            + "- Release, validation, and quality gates are captured in ROADMAP.md, RELEASE_STRATEGY.md, and the QA/CI guidance documents.\n\n"
+            + "## Key references\n\n"
+            + "- [ROADMAP.md](ROADMAP.md)\n"
+            + "- [RELEASE_STRATEGY.md](RELEASE_STRATEGY.md)\n"
+            + "- [GOVERNANCE.md](GOVERNANCE.md)\n"
+            + "- [DOCUMENTATION_GOVERNANCE.md](DOCUMENTATION_GOVERNANCE.md)\n\n"
+        )
+
+    if page_slug == "Troubleshooting":
+        return (
+            "# Troubleshooting\n\n"
+            + _summary("Diagnostics", support or readme)
+            + "## Typical problem areas\n\n"
+            + "- Build or CMake configuration mismatches during local environment setup.\n"
+            + "- Runtime failures around storage, network, auth, or distributed coordination.\n"
+            + "- Validation gaps exposed by CTest, benchmark, or focused module verification jobs.\n"
+            + "- Release or deployment issues that require governance and escalation steps.\n\n"
+            + "## Recommended workflow\n\n"
+            + "1. Start from the setup and quickstart docs.\n"
+            + "2. Reproduce with the narrowest failing test or build target.\n"
+            + "3. Check module status and roadmap evidence before broad changes.\n"
+            + "4. Escalate through support and governance paths when production impact is involved.\n\n"
+            + "- [[Operations]]\n"
+            + "- [[Getting-Started]]\n"
+            + "- [SUPPORT.md](SUPPORT.md)\n\n"
+        )
+
+    if page_slug == "Release-Notes":
+        chute = _extract_title_and_first_paragraph(changelog or readme, 360)
+        return (
+            "# Release Notes\n\n"
+            + f"{chute or 'This page summarizes the active changelog and release-gate evidence for the repository.'}\n\n"
+            + "## Reference sources\n\n"
+            + "- [CHANGELOG.md](CHANGELOG.md)\n"
+            + "- [ROADMAP.md](ROADMAP.md)\n"
+            + "- [RELEASE_STRATEGY.md](RELEASE_STRATEGY.md)\n"
+            + "- [VERSIONING.md](VERSIONING.md)\n\n"
+        )
+
+    return f"# {page_slug}\n\n{_extract_title_and_first_paragraph(readme or architecture or roadmap or changelog, 240)}\n\n"
+
+
+def _ensure_required_layout(output_dir: Path, source_branch: str, repo_root: Path | None = None) -> list[str]:
+    """Create missing canonical pages required by the wiki layout contract."""
+    created: list[str] = []
+    required_pages = list(REQUIRED_PAGE_SLUGS)
+
+    for page_slug in required_pages:
+        target = output_dir / f"{page_slug}.md"
+        if target.exists():
+            continue
+
+        content = _build_required_layout_page(page_slug, repo_root)
+        content = (
+            "<!-- wiki-page: required-layout -->\n"
+            + content
+            + _page_footer(page_slug)
+        )
+        target.write_text(content, encoding="utf-8")
+        created.append(f"{page_slug}.md")
+
+    return created
 
 
 # ---------------------------------------------------------------------------
@@ -1825,6 +2135,21 @@ def main(argv: list[str] | None = None) -> int:
         default="high",
         help="Minimum glossary term priority to auto-link (default: high).",
     )
+    parser.add_argument(
+        "--source-branch",
+        default="develop",
+        help="Source branch used for absolute GitHub blob links (default: develop).",
+    )
+    parser.add_argument(
+        "--manifest",
+        metavar="FILE",
+        help="Optional output path for a JSON wiki build manifest.",
+    )
+    parser.add_argument(
+        "--fail-on-blocked-private",
+        action="store_true",
+        help="Fail build when private-content guardrail blocks one or more source files.",
+    )
     args = parser.parse_args(argv)
 
     repo_root = Path(args.repo_root).resolve()
@@ -1845,6 +2170,13 @@ def main(argv: list[str] | None = None) -> int:
 
     entries = _collect_entries(repo_root)
     skipped: list[str] = []
+    skipped_details: list[dict[str, str]] = []
+    entry_manifest: list[dict[str, str | bool]] = []
+    source_class_totals: dict[str, int] = {
+        "primary": 0,
+        "secondary": 0,
+        "metadata": 0,
+    }
     written: list[str] = []
     all_wiki_names: set[str] = set()
 
@@ -1854,7 +2186,8 @@ def main(argv: list[str] | None = None) -> int:
             text = source_path.read_text(encoding="utf-8")
         except OSError:
             continue
-        if not _contains_private(text):
+        source_rel = str(source_path.relative_to(repo_root))
+        if not _contains_private(source_rel, text):
             all_wiki_names.add(wiki_name)
     # Also add generated pages
     all_wiki_names.update({"Module-Index", "Wiki-Index", "_Sidebar", "_Footer"})
@@ -1862,9 +2195,12 @@ def main(argv: list[str] | None = None) -> int:
     # Sort entries if requested
     if args.sort_by != "none":
         entries_scored = _sort_entries_by_currency(entries, repo_root)
-        entries = [(p, w) for p, w, _ in entries_scored]
+        entries = [(p, w) for p, w, _, _, _ in entries_scored]
         if not args.dry_run and args.sort_by == "currency":
-            print(f"📊 Documents sorted by {args.sort_by}", file=sys.stderr)
+            print(
+                f"📊 Documents sorted by source evidence weight + {args.sort_by}",
+                file=sys.stderr,
+            )
 
     # Second pass: transform and write
     for source_path, wiki_name in entries:
@@ -1874,13 +2210,29 @@ def main(argv: list[str] | None = None) -> int:
             print(f"WARNING: cannot read {source_path}: {exc}", file=sys.stderr)
             continue
 
-        if _contains_private(text):
-            skipped.append(str(source_path.relative_to(repo_root)))
+        rel_path = str(source_path.relative_to(repo_root))
+        source_class, source_weight = _classify_source(rel_path, wiki_name)
+        source_class_totals[source_class] += 1
+
+        if _contains_private(rel_path, text):
+            skipped.append(rel_path)
+            skipped_details.append({
+                "source": rel_path,
+                "wiki_page": f"{wiki_name}.md",
+            })
             print(
                 f"BLOCKED (private content): "
                 f"{source_path.relative_to(repo_root)} → {wiki_name}.md",
                 file=sys.stderr,
             )
+            entry_manifest.append({
+                "source": rel_path,
+                "wiki_page": f"{wiki_name}.md",
+                "written": False,
+                "blocked_private": True,
+                "source_class": source_class,
+                "source_weight": source_weight,
+            })
             continue
 
         source_rel = str(source_path.relative_to(repo_root))
@@ -1897,6 +2249,7 @@ def main(argv: list[str] | None = None) -> int:
         else:
             transformed = _transform(
                 text, source_path, repo_root, wiki_name, all_wiki_names,
+                args.source_branch,
                 enable_breadcrumbs=args.enable_breadcrumbs
             )
         
@@ -1920,9 +2273,25 @@ def main(argv: list[str] | None = None) -> int:
         dest = output_dir / f"{wiki_name}.md"
         if args.dry_run:
             print(f"DRY-RUN: {source_rel} → {dest.name}")
+            entry_manifest.append({
+                "source": source_rel,
+                "wiki_page": dest.name,
+                "written": False,
+                "blocked_private": False,
+                "source_class": source_class,
+                "source_weight": source_weight,
+            })
         else:
             dest.write_text(final_content, encoding="utf-8")
             written.append(dest.name)
+            entry_manifest.append({
+                "source": source_rel,
+                "wiki_page": dest.name,
+                "written": True,
+                "blocked_private": False,
+                "source_class": source_class,
+                "source_weight": source_weight,
+            })
 
     # Generate Home.md (aggregated wiki start page — overrides docs/en/Home.md)
     home_content = (
@@ -1936,6 +2305,11 @@ def main(argv: list[str] | None = None) -> int:
         (output_dir / "Home.md").write_text(home_content, encoding="utf-8")
         written.append("Home.md")
     all_wiki_names.add("Home")
+
+    created_layout_pages = _ensure_required_layout(output_dir, args.source_branch, repo_root) if not args.dry_run else []
+    written.extend(created_layout_pages)
+    for page in created_layout_pages:
+        all_wiki_names.add(page[:-3])
 
     # Generate Module-Index.md
     module_index_content = (
@@ -1972,12 +2346,45 @@ def main(argv: list[str] | None = None) -> int:
         written.append("_Sidebar.md")
 
     # Generate _Footer.md
-    footer_content = _build_footer()
+    footer_content = _build_footer(args.source_branch)
     if args.dry_run:
         print(f"DRY-RUN: <generated> → _Footer.md")
     else:
         (output_dir / "_Footer.md").write_text(footer_content, encoding="utf-8")
         written.append("_Footer.md")
+
+    manifest = {
+        "generated_at": datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "themisdb_version": THEMISDB_VERSION,
+        "repo_root": str(repo_root),
+        "source_branch": args.source_branch,
+        "dry_run": bool(args.dry_run),
+        "sort_by": args.sort_by,
+        "enable_breadcrumbs": bool(args.enable_breadcrumbs),
+        "enable_term_linking": bool(args.enable_term_linking),
+        "term_link_priority": args.term_link_priority,
+        "written_pages": written,
+        "blocked_private_sources": skipped_details,
+        "entries": entry_manifest,
+        "stats": {
+            "entries_total": len(entries),
+            "pages_written": len(written),
+            "blocked_private": len(skipped),
+            "source_class_totals": source_class_totals,
+        },
+    }
+
+    if args.manifest:
+        manifest_path = Path(args.manifest)
+        if not manifest_path.is_absolute():
+            manifest_path = (output_dir / manifest_path).resolve()
+        if not args.dry_run:
+            manifest_path.parent.mkdir(parents=True, exist_ok=True)
+            manifest_path.write_text(
+                json.dumps(manifest, indent=2) + "\n",
+                encoding="utf-8",
+            )
+        print(f"Wiki manifest: {manifest_path}")
 
     print(f"\nWiki build complete: {len(written)} pages written, {len(skipped)} blocked.")
     if skipped:
@@ -1985,6 +2392,13 @@ def main(argv: list[str] | None = None) -> int:
             f"Blocked files (private content guardrail): {', '.join(skipped)}",
             file=sys.stderr,
         )
+    if skipped and args.fail_on_blocked_private:
+        print(
+            "ERROR: private-content guardrail blocked one or more files "
+            "and --fail-on-blocked-private is set.",
+            file=sys.stderr,
+        )
+        return 2
     return 0
 
 
