@@ -1,6 +1,6 @@
 # Soll-Ist Gap Summary
 
-- Generated At: 2026-09-20T09:28:26Z
+- Generated At: 2026-09-20T12:07:30Z
 - Modules: 72
 - Modules with docs gaps: 9
 - Modules with implementation gaps: 5

@@ -340,7 +340,7 @@ def build_report(
         q = quality.get(m)
 
         docs_missing = [] if d is None else d.missing_doc_types
-        docs_gap_open = d is not None and d.status != DOC_STATUS_OK
+        docs_gap_by_status = d is not None and d.status != DOC_STATUS_OK
 
         impl_actionable_total = 0 if i is None else i.actionable_total
         test_count = 0 if q is None else len(q.test_files)
@@ -355,6 +355,7 @@ def build_report(
         impl_gap_open = impl_actionable_total > 0 or release_gate_gap_open
 
         developer_docs_alignment = build_module_doc_alignment(repo_root, m, d)
+        docs_gap_open = docs_gap_by_status or bool(developer_docs_alignment.get("gap_open"))
         rows.append(
             {
                 "module": m,
@@ -363,6 +364,8 @@ def build_report(
                     "score_percent": d.score_percent if d else 0,
                     "missing_doc_types": docs_missing,
                     "gap_open": docs_gap_open,
+                    "gap_open_by_status": docs_gap_by_status,
+                    "gap_open_by_alignment": bool(developer_docs_alignment.get("gap_open")),
                 },
                 "developer_docs_alignment": developer_docs_alignment,
                 "implementation": {
@@ -388,6 +391,8 @@ def build_report(
         "totals": {
             "modules": len(rows),
             "docs_gap_modules": sum(1 for r in rows if r["docs"]["gap_open"]),
+            "docs_gap_modules_by_status": sum(1 for r in rows if r["docs"].get("gap_open_by_status")),
+            "docs_gap_modules_by_alignment": sum(1 for r in rows if r["docs"].get("gap_open_by_alignment")),
             "impl_gap_modules": sum(1 for r in rows if r["implementation"]["gap_open"]),
             "release_gate_gap_modules": sum(1 for r in rows if r["release_gates"]["gap_open"]),
         },
@@ -550,6 +555,7 @@ def issue_body_docs(module: str, row: dict[str, Any]) -> str:
     docs = row["docs"]
     impl = row["implementation"]
     missing = docs.get("missing_doc_types", [])
+    alignment = row.get("developer_docs_alignment", {})
 
     lines: list[str] = []
     lines.append(f"# Soll-Ist Gap: Dokumentation ({module})")
@@ -559,10 +565,16 @@ def issue_body_docs(module: str, row: dict[str, Any]) -> str:
     lines.append("## Ist-Zustand")
     lines.append(f"- Compliance Status: {docs.get('status', 'UNKNOWN')}")
     lines.append(f"- Compliance Score: {docs.get('score_percent', 0)}%")
+    lines.append(f"- Drift via Status: {bool(docs.get('gap_open_by_status', False))}")
+    lines.append(f"- Drift via Modul-Alignment: {bool(docs.get('gap_open_by_alignment', False))}")
     if missing:
         lines.append("- Fehlende Core-Dokumente: " + ", ".join(missing))
     else:
         lines.append("- Fehlende Core-Dokumente: keine")
+    if alignment.get("missing_core_docs"):
+        lines.append("- Modul-Alignment fehlende Core-Dokumente: " + ", ".join(alignment.get("missing_core_docs", [])))
+    else:
+        lines.append("- Modul-Alignment fehlende Core-Dokumente: keine")
     lines.append("")
     lines.append("## Soll-Zustand")
     lines.append("- Modul erfuellt das Core-Set gemaess Governance")

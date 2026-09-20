@@ -1,9 +1,11 @@
 {
   "tool": "sync_soll_ist_gaps.py",
-  "generated_at": "2026-09-20T09:28:26Z",
+  "generated_at": "2026-09-20T12:07:30Z",
   "totals": {
     "modules": 72,
     "docs_gap_modules": 9,
+    "docs_gap_modules_by_status": 9,
+    "docs_gap_modules_by_alignment": 9,
     "impl_gap_modules": 5,
     "release_gate_gap_modules": 1
   },
@@ -14,7 +16,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -148,7 +152,9 @@
           "PROD",
           "SEC"
         ],
-        "gap_open": true
+        "gap_open": true,
+        "gap_open_by_status": true,
+        "gap_open_by_alignment": true
       },
       "developer_docs_alignment": {
         "status": "stale",
@@ -225,7 +231,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -600,7 +608,9 @@
           "PROD",
           "SEC"
         ],
-        "gap_open": true
+        "gap_open": true,
+        "gap_open_by_status": true,
+        "gap_open_by_alignment": true
       },
       "developer_docs_alignment": {
         "status": "stale",
@@ -669,7 +679,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -817,7 +829,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -1037,7 +1051,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -1301,7 +1317,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -1470,7 +1488,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -1613,7 +1633,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -1811,7 +1833,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -1971,7 +1995,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -2091,7 +2117,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -2185,7 +2213,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -2314,7 +2344,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -2469,7 +2501,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -2586,7 +2620,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -2690,7 +2726,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -2807,7 +2845,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -2910,7 +2950,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -3025,7 +3067,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -3150,7 +3194,9 @@
           "PROD",
           "SEC"
         ],
-        "gap_open": true
+        "gap_open": true,
+        "gap_open_by_status": true,
+        "gap_open_by_alignment": true
       },
       "developer_docs_alignment": {
         "status": "stale",
@@ -3225,7 +3271,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -3332,7 +3380,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -3442,7 +3492,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -3604,7 +3656,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -3673,6 +3727,7 @@
             "docs/governance/README.md",
             "docs/governance/RELEASE_PROMOTION_GATE_POLICY.md",
             "docs/governance/RELEASE_VALIDATION_CHECKLIST.md",
+            "docs/governance/ROOT_HYGIENE_POLICY.md",
             "docs/governance/SBOM_APPROVED_VERSIONS.md",
             "docs/governance/SECURITY_COMPLIANCE_AUDIT_REPORT_2026_08_10.md",
             "docs/governance/SECURITY_MODULE_5671_EVIDENCE_SUMMARY.md",
@@ -3794,7 +3849,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -4055,7 +4112,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -4264,7 +4323,9 @@
           "PROD",
           "SEC"
         ],
-        "gap_open": true
+        "gap_open": true,
+        "gap_open_by_status": true,
+        "gap_open_by_alignment": true
       },
       "developer_docs_alignment": {
         "status": "stale",
@@ -4339,7 +4400,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -4445,7 +4508,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -4651,7 +4716,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -4821,7 +4888,9 @@
         "missing_doc_types": [
           "PROD"
         ],
-        "gap_open": true
+        "gap_open": true,
+        "gap_open_by_status": true,
+        "gap_open_by_alignment": true
       },
       "developer_docs_alignment": {
         "status": "stale",
@@ -4909,7 +4978,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -5271,7 +5342,9 @@
           "PROD",
           "SEC"
         ],
-        "gap_open": true
+        "gap_open": true,
+        "gap_open_by_status": true,
+        "gap_open_by_alignment": true
       },
       "developer_docs_alignment": {
         "status": "stale",
@@ -5346,7 +5419,9 @@
           "PROD",
           "SEC"
         ],
-        "gap_open": true
+        "gap_open": true,
+        "gap_open_by_status": true,
+        "gap_open_by_alignment": true
       },
       "developer_docs_alignment": {
         "status": "stale",
@@ -5438,7 +5513,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -5546,7 +5623,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -5685,7 +5764,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -5853,7 +5934,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -5980,7 +6063,9 @@
         "missing_doc_types": [
           "PROD"
         ],
-        "gap_open": true
+        "gap_open": true,
+        "gap_open_by_status": true,
+        "gap_open_by_alignment": true
       },
       "developer_docs_alignment": {
         "status": "stale",
@@ -6077,7 +6162,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -6278,7 +6365,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -6395,7 +6484,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -6564,7 +6655,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -6654,7 +6747,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -6764,7 +6859,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -7017,7 +7114,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -7303,7 +7402,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -7433,7 +7534,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -7543,7 +7646,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -7637,7 +7742,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -7758,7 +7865,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -7853,7 +7962,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -8012,7 +8123,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -8280,7 +8393,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -8423,7 +8538,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -8573,7 +8690,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -8660,7 +8779,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -8824,7 +8945,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -8943,7 +9066,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -9109,7 +9234,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -9222,7 +9349,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -9327,7 +9456,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -9426,7 +9557,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -9571,7 +9704,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -9735,7 +9870,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -9849,7 +9986,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -9946,7 +10085,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -10095,7 +10236,9 @@
           "PROD",
           "SEC"
         ],
-        "gap_open": true
+        "gap_open": true,
+        "gap_open_by_status": true,
+        "gap_open_by_alignment": true
       },
       "developer_docs_alignment": {
         "status": "stale",
@@ -10171,7 +10314,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
@@ -10316,7 +10461,9 @@
         "status": "OK",
         "score_percent": 100,
         "missing_doc_types": [],
-        "gap_open": false
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
         "status": "ok",
