@@ -36,6 +36,8 @@ Kernliste der aktiven Workflows:
 - `.github/workflows/gate-pr-core.yml`
 - `.github/workflows/gate-pr-doxygen-governance.yml`
 - `.github/workflows/gate-pr-doc-metadata.yml`
+- `.github/workflows/gate-pr-primary-doc-structure.yml`
+- `.github/workflows/gate-pr-module-doxygen-xml.yml`
 - `.github/workflows/release-build-matrix.yml`
 - `.github/workflows/release-mainline.yml`
 - `.github/workflows/wiki-pr-gate.yml`
@@ -58,6 +60,7 @@ Kernliste der aktiven Workflows:
 - `.github/workflows/maintenance-build-issues.yml`
 - `.github/workflows/maintenance-ci-health.yml`
 - `.github/workflows/maintenance-docs.yml`
+- `.github/workflows/maintenance-soll-ist-gap-issues.yml`
 - `.github/workflows/maintenance-issues.yml`
 - `.github/workflows/maintenance-issue-recommendations.yml`
   — Recommend-only Issue Triage: kommentiert offene Issues mit merged-PR-Evidenz und schliesst nie automatisch
