@@ -60,6 +60,7 @@ on:
         options:
           - "ghcr.io"
           - "docker.io"
+          - "both"
       tag_name:
         description: "Optional release tag (e.g. v2.4.0-alpha)"
         required: false
@@ -189,7 +190,8 @@ jobs:
       if: |
         (github.event_name == 'release') ||
         (github.event_name == 'workflow_dispatch' && github.event.inputs.push_to_registry == 'true' && github.event.inputs.registry == 'docker.io') ||
-        (github.event_name == 'workflow_call' && inputs.push_to_registry == true && inputs.registry == 'docker.io')
+        (github.event_name == 'workflow_dispatch' && github.event.inputs.push_to_registry == 'true' && github.event.inputs.registry == 'both') ||
+        (github.event_name == 'workflow_call' && inputs.push_to_registry == true && (inputs.registry == 'docker.io' || inputs.registry == 'both'))
       uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567  # v3.3.0
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
@@ -200,7 +202,8 @@ jobs:
         (github.event_name == 'push' && github.ref == 'refs/heads/develop') ||
         (github.event_name == 'release') ||
         (github.event_name == 'workflow_dispatch' && github.event.inputs.push_to_registry == 'true' && github.event.inputs.registry == 'ghcr.io') ||
-        (github.event_name == 'workflow_call' && inputs.push_to_registry == true && inputs.registry == 'ghcr.io')
+        (github.event_name == 'workflow_dispatch' && github.event.inputs.push_to_registry == 'true' && github.event.inputs.registry == 'both') ||
+        (github.event_name == 'workflow_call' && inputs.push_to_registry == true && (inputs.registry == 'ghcr.io' || inputs.registry == 'both'))
       uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567  # v3.3.0
       with:
         registry: ghcr.io
@@ -227,39 +230,53 @@ jobs:
         DOCKERHUB_REPO="themisdb/themisdb"
         TARGET_REGISTRY="${TARGET_REGISTRY_INPUT:-ghcr.io}"
 
+        append_tag() {
+          local candidate="$1"
+          if [[ -z "${TAGS}" ]]; then
+            TAGS="${candidate}"
+          else
+            TAGS="${TAGS},${candidate}"
+          fi
+        }
+
         # For released versions, rely on resolved VERSION and selected registry.
         if [[ "${VERSION}" =~ ${RELEASE_TAG_REGEX} ]]; then
           MINOR_VERSION="$(echo "${VERSION}" | cut -d. -f1-2)"
-          if [[ "${TARGET_REGISTRY}" == "docker.io" ]]; then
-            TAGS="${DOCKERHUB_REPO}:${VERSION},${DOCKERHUB_REPO}:${MINOR_VERSION}"
+          if [[ "${TARGET_REGISTRY}" == "docker.io" || "${TARGET_REGISTRY}" == "both" ]]; then
+            append_tag "${DOCKERHUB_REPO}:${VERSION}"
+            append_tag "${DOCKERHUB_REPO}:${MINOR_VERSION}"
             if [[ ! "${VERSION}" =~ [-] ]]; then
-              TAGS="$TAGS,${DOCKERHUB_REPO}:latest"
+              append_tag "${DOCKERHUB_REPO}:latest"
             fi
-          else
-            TAGS="${GHCR_REPO}:${VERSION},${GHCR_REPO}:${MINOR_VERSION}"
+          fi
+          if [[ "${TARGET_REGISTRY}" == "ghcr.io" || "${TARGET_REGISTRY}" == "both" ]]; then
+            append_tag "${GHCR_REPO}:${VERSION}"
+            append_tag "${GHCR_REPO}:${MINOR_VERSION}"
             if [[ ! "${VERSION}" =~ [-] ]]; then
-              TAGS="$TAGS,${GHCR_REPO}:latest"
+              append_tag "${GHCR_REPO}:latest"
             fi
           fi
 
         # For develop-based builds, prefer GHCR; workflow_dispatch can target Docker Hub explicitly.
         elif [[ "${GIT_REF}" == "refs/heads/develop" ]]; then
           SHORT_SHA="$(echo "${COMMIT_SHA}" | cut -c1-7)"
-          if [[ ("${EVENT_NAME}" == "workflow_dispatch" || "${EVENT_NAME}" == "workflow_call") && "${TARGET_REGISTRY}" == "docker.io" ]]; then
-            TAGS="${DOCKERHUB_REPO}:dev-${SHORT_SHA}"
-            TAGS="$TAGS,${DOCKERHUB_REPO}:develop"
-          else
-            TAGS="${GHCR_REPO}:dev-${SHORT_SHA}"
-            TAGS="$TAGS,${GHCR_REPO}:develop"
+          if [[ "${TARGET_REGISTRY}" == "docker.io" || "${TARGET_REGISTRY}" == "both" ]]; then
+            append_tag "${DOCKERHUB_REPO}:dev-${SHORT_SHA}"
+            append_tag "${DOCKERHUB_REPO}:develop"
+          fi
+          if [[ "${TARGET_REGISTRY}" == "ghcr.io" || "${TARGET_REGISTRY}" == "both" ]]; then
+            append_tag "${GHCR_REPO}:dev-${SHORT_SHA}"
+            append_tag "${GHCR_REPO}:develop"
           fi
 
 
         # For non-release manual builds outside develop, honor the selected registry.
         else
-          if [[ ("${EVENT_NAME}" == "workflow_dispatch" || "${EVENT_NAME}" == "workflow_call") && "${TARGET_REGISTRY}" == "docker.io" ]]; then
-            TAGS="${DOCKERHUB_REPO}:manual-${RUN_ID}"
-          else
-            TAGS="${GHCR_REPO}:manual-${RUN_ID}"
+          if [[ "${TARGET_REGISTRY}" == "docker.io" || "${TARGET_REGISTRY}" == "both" ]]; then
+            append_tag "${DOCKERHUB_REPO}:manual-${RUN_ID}"
+          fi
+          if [[ "${TARGET_REGISTRY}" == "ghcr.io" || "${TARGET_REGISTRY}" == "both" ]]; then
+            append_tag "${GHCR_REPO}:manual-${RUN_ID}"
           fi
         fi
 

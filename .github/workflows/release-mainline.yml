@@ -402,7 +402,7 @@ jobs:
           gh workflow run .github/workflows/release-docker-image.yml \
             --ref "${TARGET_REF}" \
             -f push_to_registry=true \
-            -f registry=ghcr.io \
+            -f registry=both \
             -f tag_name="${TARGET_TAG}"
           RC=$?
           if [ "${RC}" -ne 0 ]; then
