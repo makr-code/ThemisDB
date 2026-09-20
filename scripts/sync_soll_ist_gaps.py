@@ -656,6 +656,7 @@ def sync_issues(
 
     for row in report.get("rows", []):
         module = row["module"]
+        module_label = module.replace("_", "-")
         docs_open = bool(row["docs"].get("gap_open"))
         impl_open = bool(row["implementation"].get("gap_open"))
 
@@ -666,7 +667,7 @@ def sync_issues(
         docs_existing = find_issue_by_key(open_issues, docs_key)
 
         if impl_open:
-            title = f"[soll-ist][impl][{module}] Implementierungs-Gaps schliessen"
+            title = f"Modul {module_label}: Implementierungs-Drift und Release-Gaps beheben"
             body = issue_body_impl(module, row, impl_map.get(module), max_findings)
             action, num = upsert_issue(repo_root, repo, open_issues, title, body, impl_key, apply)
             actions.append({"module": module, "kind": "impl", "action": action, "issue": num})
@@ -676,7 +677,7 @@ def sync_issues(
             actions.append({"module": module, "kind": "impl", "action": action, "issue": num})
 
         if docs_open:
-            title = f"[soll-ist][docs][{module}] Dokumentations-Gaps schliessen"
+            title = f"Modul {module_label}: Entwicklerdokumentation und Doxygen-Drift beheben"
             body = issue_body_docs(module, row)
             action, num = upsert_issue(repo_root, repo, open_issues, title, body, docs_key, apply)
             actions.append({"module": module, "kind": "docs", "action": action, "issue": num})
