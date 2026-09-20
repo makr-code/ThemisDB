@@ -1,0 +1,13 @@
+{
+  "generated_at": "2026-09-20T06:11:38.039854Z",
+  "source_branch": "develop",
+  "pages_written": 672,
+  "blocked_private": 0,
+  "source_class_totals": {
+    "primary": 276,
+    "secondary": 381,
+    "metadata": 3
+  },
+  "link_report": "Wiki link validation \u2014 672 pages, 3500 [[links]] checked\n============================================================\n\n\u2705  No broken [[wiki links]] found.\n\n\u26a0\ufe0f   RELATIVE .md LINKS not rewritten (13):\n\n  Architecture.md:20  \u2192 ARCHITECTURE.md  (should be [[WikiLink]] or absolute URL)\n  Getting-Started.md:8  \u2192 README.md  (should be [[WikiLink]] or absolute URL)\n  Getting-Started.md:9  \u2192 QUICKSTART.md  (should be [[WikiLink]] or absolute URL)\n  Getting-Started.md:10  \u2192 SETUP.md  (should be [[WikiLink]] or absolute URL)\n  Governance.md:16  \u2192 ROADMAP.md  (should be [[WikiLink]] or absolute URL)\n  Governance.md:17  \u2192 RELEASE_STRATEGY.md  (should be [[WikiLink]] or absolute URL)\n  Governance.md:18  \u2192 GOVERNANCE.md  (should be [[WikiLink]] or absolute URL)\n  Governance.md:19  \u2192 DOCUMENTATION_GOVERNANCE.md  (should be [[WikiLink]] or absolute URL)\n  Release-Notes.md:8  \u2192 CHANGELOG.md  (should be [[WikiLink]] or absolute URL)\n  Release-Notes.md:9  \u2192 ROADMAP.md  (should be [[WikiLink]] or absolute URL)\n  Release-Notes.md:10  \u2192 RELEASE_STRATEGY.md  (should be [[WikiLink]] or absolute URL)\n  Release-Notes.md:11  \u2192 VERSIONING.md  (should be [[WikiLink]] or absolute URL)\n  Troubleshooting.md:24  \u2192 SUPPORT.md  (should be [[WikiLink]] or absolute URL)\n\n============================================================\n\u2705  Summary: 0 broken, 13 warnings, 3500 checked across 672 pages.\n",
+  "workflow_run_url": "https://github.com/makr-code/ThemisDB/actions/runs/35493533360"
+}
