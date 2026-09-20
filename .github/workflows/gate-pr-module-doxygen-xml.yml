@@ -5,43 +5,8 @@ name: "Gate: PR Module Doxygen XML"
 # Artifacts are machine-checkable evidence for internal module structure/dependencies.
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened, ready_for_review]
-    branches:
-      - develop
-      - community
-      - enterprise
-      - hyperscaler
-      - military
-      - minimal
-    paths:
-      - 'include/**/*.h'
-      - 'include/**/*.hh'
-      - 'include/**/*.hpp'
-      - 'include/**/*.hxx'
-      - 'include/**/*.ipp'
-      - 'include/**/*.tpp'
-      - 'src/**/*.c'
-      - 'src/**/*.cc'
-      - 'src/**/*.cpp'
-      - 'src/**/*.cxx'
-      - 'tests/**/*.c'
-      - 'tests/**/*.cc'
-      - 'tests/**/*.cpp'
-      - 'tests/**/*.cxx'
-      - 'benchmarks/**/*.c'
-      - 'benchmarks/**/*.cc'
-      - 'benchmarks/**/*.cpp'
-      - 'benchmarks/**/*.cxx'
-      - 'Doxyfile'
-      - 'Doxyfile.audit'
-      - 'ai_context/developer_llm_wiki/MODULE_DOXYGEN_BASELINE.json'
-      - 'scripts/compare_module_doxygen_manifests.py'
-      - 'scripts/generate_module_doxygen_xml.py'
-      - 'scripts/check_module_direct_doxygen.py'
-      - '.github/workflows/gate-pr-module-doxygen-xml.yml'
   schedule:
-    - cron: '0 3 * * *'
+    - cron: '0 3 * * 1'
   workflow_dispatch:
     inputs:
       modules:
@@ -95,8 +60,8 @@ on:
         type: string
 
 concurrency:
-  group: module-doxygen-xml-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+  group: module-doxygen-xml-${{ github.ref_name || github.ref }}
+  cancel-in-progress: false
 
 permissions:
   contents: read

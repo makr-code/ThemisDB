@@ -19,16 +19,6 @@ on:
       - '.github/primary-doc-structure-gate.json'
       - 'scripts/validate_primary_doc_structure.py'
       - '.github/workflows/gate-pr-primary-doc-structure.yml'
-  push:
-    branches:
-      - develop
-      - community
-    paths:
-      - 'src/*/README.md'
-      - 'src/*/ARCHITECTURE.md'
-      - '.github/primary-doc-structure-gate.json'
-      - 'scripts/validate_primary_doc_structure.py'
-      - '.github/workflows/gate-pr-primary-doc-structure.yml'
   workflow_dispatch:
 
 concurrency:
@@ -37,6 +27,8 @@ concurrency:
 
 permissions:
   contents: read
+  pull-requests: write
+  issues: write
 
 jobs:
   primary-doc-structure-gate:
@@ -121,3 +113,39 @@ jobs:
             /tmp/primary-doc-report.json
           retention-days: 14
           if-no-files-found: warn
+
+  gate-feedback:
+    name: Gate Feedback (label + comment on failure)
+    needs:
+      - primary-doc-structure-gate
+    if: failure() && github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      issues: write
+    steps:
+      - name: Set failure label and comment
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: set_status
+          issue-number: ${{ github.event.pull_request.number }}
+          labels-to-add: ci/failure
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
+
+      - name: Post failure context
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: comment_issue
+          issue-number: ${{ github.event.pull_request.number }}
+          target-type: pr
+          issue-marker: "<!-- ci-error:gate-pr-primary-doc-structure -->"
+          issue-body: |
+            <!-- ci-error:gate-pr-primary-doc-structure -->
+            > [!CAUTION]
+            > **Gate: PR Primary Doc Structure** ist fehlgeschlagen.
+            > Run: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            > Commit: `${{ github.sha }}`
