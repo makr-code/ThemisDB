@@ -1,0 +1,14 @@
+{
+  "generated_at": "2026-09-20T17:32:26.308728Z",
+  "source_branch": "develop",
+  "pages_written": 785,
+  "blocked_private": 5,
+  "source_class_totals": {
+    "overview": 68,
+    "primary": 276,
+    "secondary": 401,
+    "metadata": 7
+  },
+  "link_report": "Wiki link validation \u2014 785 pages, 4298 [[links]] checked\n============================================================\n\n\u2705  No broken [[wiki links]] found.\n\n============================================================\n\u2705  Summary: 0 broken, 0 warnings, 4298 checked across 785 pages.\n",
+  "workflow_run_url": "https://github.com/makr-code/ThemisDB/actions/runs/35526143165"
+}
