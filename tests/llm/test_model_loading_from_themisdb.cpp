@@ -19,6 +19,7 @@
 #include "storage/rocksdb_wrapper.h"
 #include "security/encryption.h"
 #include "security/mock_key_provider.h"
+#include "themis/edition.h"
 #include <filesystem>
 #include <fstream>
 #include <vector>
@@ -186,7 +187,32 @@ TEST_F(ModelLoadingFromThemisDBTest, LoadModelBlob_LargeModelExternal) {
 }
 
 TEST_F(ModelLoadingFromThemisDBTest, LoadModelBlob_WithEncryption) {
-    GTEST_SKIP() << "Field encryption unavailable in Community edition";
+    if (!themis::edition::IsFeatureEnabled("field_encryption")) {
+        GTEST_SKIP() << "Field encryption unavailable in this edition";
+    }
+
+    auto key_provider = std::make_shared<MockKeyProvider>();
+    key_provider->createKeyFromBytes("llm_models", std::vector<uint8_t>(32, 0x42));
+
+    LLMModelStorage::Config encrypted_config;
+    encrypted_config.db = db_;
+    encrypted_config.blob_manager = blob_manager_;
+    encrypted_config.use_blob_storage = true;
+    encrypted_config.inline_threshold_mb = 1;
+    encrypted_config.enable_encryption = true;
+    encrypted_config.key_provider = key_provider;
+
+    LLMModelStorage encrypted_storage(encrypted_config);
+
+    std::string model_id = "encrypted_test_model";
+    auto metadata = createTestMetadata(model_id);
+
+    ASSERT_TRUE(encrypted_storage.storeModel(metadata, test_model_data_));
+
+    auto blob_opt = encrypted_storage.loadModelBlob(model_id);
+
+    ASSERT_TRUE(blob_opt.has_value());
+    EXPECT_EQ(*blob_opt, test_model_data_);
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -316,7 +342,14 @@ TEST_F(ModelLoadingFromThemisDBTest, MultipleModels_DifferentSizes) {
 // ═══════════════════════════════════════════════════════════
 
 TEST_F(ModelLoadingFromThemisDBTest, ErrorHandling_CorruptedMetadata) {
-    GTEST_SKIP() << "Corrupted metadata path triggers SEH crash on Windows; needs safe parser hardening";
+    std::string model_id = "corrupted_metadata_model";
+    auto key = std::string("llm_model::") + model_id;
+
+    ASSERT_TRUE(db_->put(key, std::vector<uint8_t>{0x00, 0x01, 0x02, 0x03, 0x04}));
+
+    auto loaded_metadata = model_storage_->loadModel(model_id);
+
+    EXPECT_FALSE(loaded_metadata.has_value());
 }
 
 TEST_F(ModelLoadingFromThemisDBTest, ErrorHandling_MissingBlob) {

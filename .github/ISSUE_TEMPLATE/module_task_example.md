@@ -4,8 +4,8 @@
 - Module: network
 - Files: src/network/, include/network/, tests/network/
 - Status: in-progress
-- Labels: maintenance, soll-ist
-- Milestone: backlog
+- Labels: area:network, type:chore, priority:high, status:open
+- Milestone: Documentation / Q4 2026 / LONG-TERM
 
 ## Source Evidence
 - Module docs: src/network/README.md
@@ -23,6 +23,9 @@
 - Gate check: python scripts/check_module_direct_doxygen.py --module network
 - Success condition: all relevant network tests pass and the public API has complete Doxygen coverage.
 
+## Merge Gate
+- Merge erst nach vollstaendig erfuellten Akzeptanzkriterien und Maintainer-Freigabe.
+
 ## Acceptance criteria
 - [ ] All public handshake and stream APIs have brief and parameter documentation.
 - [ ] README and ARCHITECTURE reflect current retry and timeout semantics.
@@ -33,3 +36,4 @@
 - Ownership/path rule: include/src/tests are repo-owned; external vendor code remains excluded from module scope.
 - Follow the module quick rules in [.github/copilot/module-quick-rules.md](../copilot/module-quick-rules.md) and the detailed guidance in [.github/MODULE_DEVELOPER_DOCUMENTATION_GUIDELINES.md](../MODULE_DEVELOPER_DOCUMENTATION_GUIDELINES.md).
 - The labels and milestone mirror the automated module issue sync so manual and generated issues stay aligned.
+- Archive or delete markdown files that are no longer relevant, except the governance documentation.

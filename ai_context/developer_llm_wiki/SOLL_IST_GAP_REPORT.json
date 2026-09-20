@@ -1,6 +1,6 @@
 {
   "tool": "sync_soll_ist_gaps.py",
-  "generated_at": "2026-09-20T12:07:30Z",
+  "generated_at": "2026-09-20T15:48:20Z",
   "totals": {
     "modules": 72,
     "docs_gap_modules": 9,

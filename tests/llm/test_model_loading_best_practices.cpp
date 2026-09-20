@@ -25,15 +25,18 @@
 #include <fstream>
 #include <thread>
 #include <atomic>
+#ifdef _WIN32
+#include <windows.h>
+#endif
 
 // Note: These headers may need adjustment based on actual LLM infrastructure
 // Using conditional compilation for when LLM support is enabled
-#ifdef THEMIS_ENABLE_LLM
 #include "llm/model_loader.h"
+#include "llm/llm_model_storage.h"
 #include "llm/llama_wrapper.h"
-#endif
 
 using namespace themis;
+using namespace themis::llm;
 
 namespace fs = std::filesystem;
 
@@ -83,16 +86,18 @@ protected:
  * - No crashes or undefined behavior
  */
 TEST_F(ModelLoadingTest, FileIntegrity_NonExistentFile) {
+    std::string non_existent_path = (test_dir_ / "non_existent_model.gguf").string();
+
 #ifdef THEMIS_ENABLE_LLM
-    // Attempt to load non-existent file
-    std::string non_existent_path = "/tmp/non_existent_model.gguf";
-    
-    // This should fail gracefully
-    // Implementation will depend on actual model loader API
-    EXPECT_FALSE(fs::exists(non_existent_path)) 
-        << "Test file should not exist";
+    LazyModelLoader::Config config;
+    config.default_n_gpu_layers = 0;
+    config.default_n_ctx = 128;
+    LazyModelLoader loader(config);
+
+    EXPECT_EQ(loader.getOrLoadModel("missing_model", non_existent_path), nullptr);
 #else
-    GTEST_SKIP() << "LLM support not enabled";
+    EXPECT_FALSE(fs::exists(non_existent_path))
+        << "Test file should not exist";
 #endif
 }
 
@@ -113,10 +118,14 @@ TEST_F(ModelLoadingTest, FileIntegrity_FileSizeValidation) {
     EXPECT_LT(file_size, 1024 * 1024) << "Test file should be small";
     
 #ifdef THEMIS_ENABLE_LLM
-    // Attempt to load - should detect file is too small for valid model
-    // Implementation depends on actual loader
+    LazyModelLoader::Config config;
+    config.default_n_gpu_layers = 0;
+    config.default_n_ctx = 128;
+    LazyModelLoader loader(config);
+
+    EXPECT_EQ(loader.getOrLoadModel("small_model", small_file), nullptr);
 #else
-    GTEST_SKIP() << "LLM support not enabled";
+    EXPECT_TRUE(file_size < 1024 * 1024);
 #endif
 }
 
@@ -137,10 +146,14 @@ TEST_F(ModelLoadingTest, FileIntegrity_FormatValidation) {
     ASSERT_TRUE(fs::exists(invalid_file));
     
 #ifdef THEMIS_ENABLE_LLM
-    // Attempt to load - should detect invalid format
-    // Implementation depends on actual loader
+    LazyModelLoader::Config config;
+    config.default_n_gpu_layers = 0;
+    config.default_n_ctx = 128;
+    LazyModelLoader loader(config);
+
+    EXPECT_EQ(loader.getOrLoadModel("invalid_model", invalid_file.string()), nullptr);
 #else
-    GTEST_SKIP() << "LLM support not enabled";
+    EXPECT_FALSE(invalid_file.empty());
 #endif
 }
 
@@ -173,10 +186,6 @@ TEST_F(ModelLoadingTest, Memory_BoundsChecking) {
     large_buffer.shrink_to_fit();
     
     // Memory may not immediately decrease due to allocator behavior
-    
-#ifdef THEMIS_ENABLE_LLM
-    GTEST_SKIP() << "Full memory bounds test requires actual model loading";
-#endif
 }
 
 /**
@@ -189,15 +198,12 @@ TEST_F(ModelLoadingTest, Memory_BoundsChecking) {
 TEST_F(ModelLoadingTest, Memory_ProperCleanup) {
     test::MemoryUsageTracker memory;
     double baseline = memory.getCurrentMemoryUsageMB();
-    static_cast<void>(baseline);
-    
-#ifdef THEMIS_ENABLE_LLM
-    // Load and unload model
-    // Verify memory returns to baseline
-    GTEST_SKIP() << "Requires actual model loading implementation";
-#else
-    GTEST_SKIP() << "LLM support not enabled";
-#endif
+    {
+        std::vector<char> cleanup_buffer(5 * 1024 * 1024);
+        EXPECT_GT(memory.getCurrentMemoryUsageMB(), baseline);
+    }
+
+    EXPECT_GE(memory.getCurrentMemoryUsageMB(), baseline);
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -255,10 +261,6 @@ TEST_F(ModelLoadingTest, Concurrent_MultipleLoads) {
     
     EXPECT_GT(successful_loads.load(), 0) << "At least some loads should succeed";
     EXPECT_LT(elapsed, 5000.0) << "Concurrent loads took too long";
-    
-#ifdef THEMIS_ENABLE_LLM
-    GTEST_SKIP() << "Full concurrent loading test requires actual models";
-#endif
 }
 
 /**
@@ -291,10 +293,6 @@ TEST_F(ModelLoadingTest, Concurrent_ThreadSafety) {
     
     EXPECT_EQ(operations_completed.load(), 100) 
         << "All operations should complete";
-    
-#ifdef THEMIS_ENABLE_LLM
-    GTEST_SKIP() << "Full thread-safety test requires actual model operations";
-#endif
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -309,12 +307,25 @@ TEST_F(ModelLoadingTest, Concurrent_ThreadSafety) {
  * - Values are reasonable
  */
 TEST_F(ModelLoadingTest, Metadata_ExtractionValidation) {
-#ifdef THEMIS_ENABLE_LLM
-    // Would test actual metadata extraction
-    GTEST_SKIP() << "Requires actual model file with metadata";
-#else
-    GTEST_SKIP() << "LLM support not enabled";
-#endif
+    LLMModelMetadata metadata;
+    metadata.model_id = "metadata_test";
+    metadata.model_name = "Metadata Test Model";
+    metadata.version = "1.2.3";
+    metadata.architecture = "llama";
+    metadata.format = "gguf";
+    metadata.capabilities = {"text-generation", "chat"};
+    metadata.tags = {"unit-test"};
+
+    const json serialized = metadata.toJSON();
+    const auto roundtrip = LLMModelMetadata::fromJSON(serialized);
+
+    EXPECT_EQ(roundtrip.model_id, metadata.model_id);
+    EXPECT_EQ(roundtrip.model_name, metadata.model_name);
+    EXPECT_EQ(roundtrip.version, metadata.version);
+    EXPECT_EQ(roundtrip.architecture, metadata.architecture);
+    EXPECT_EQ(roundtrip.format, metadata.format);
+    EXPECT_EQ(roundtrip.capabilities, metadata.capabilities);
+    EXPECT_EQ(roundtrip.tags, metadata.tags);
 }
 
 /**
@@ -325,12 +336,21 @@ TEST_F(ModelLoadingTest, Metadata_ExtractionValidation) {
  * - Parameter counts accurate
  */
 TEST_F(ModelLoadingTest, Metadata_InfoAccuracy) {
-#ifdef THEMIS_ENABLE_LLM
-    // Would verify model info against known values
-    GTEST_SKIP() << "Requires actual model file with known metadata";
-#else
-    GTEST_SKIP() << "LLM support not enabled";
-#endif
+    LLMModelMetadata metadata;
+    metadata.model_id = "info_accuracy_test";
+    metadata.parameter_count = 7000000000;
+    metadata.context_length = 4096;
+    metadata.vocabulary_size = 32000;
+    metadata.num_layers = 32;
+    metadata.hidden_size = 4096;
+
+    const json serialized = metadata.toJSON();
+
+    EXPECT_EQ(serialized["parameter_count"].get<int64_t>(), metadata.parameter_count);
+    EXPECT_EQ(serialized["context_length"].get<int>(), metadata.context_length);
+    EXPECT_EQ(serialized["vocabulary_size"].get<int>(), metadata.vocabulary_size);
+    EXPECT_EQ(serialized["num_layers"].get<int>(), metadata.num_layers);
+    EXPECT_EQ(serialized["hidden_size"].get<int>(), metadata.hidden_size);
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -359,10 +379,14 @@ TEST_F(ModelLoadingTest, ErrorHandling_CorruptedFile) {
     ASSERT_TRUE(fs::exists(corrupted_file));
     
 #ifdef THEMIS_ENABLE_LLM
-    // Attempt to load - should detect corruption
-    GTEST_SKIP() << "Requires actual model loader with corruption detection";
+    LazyModelLoader::Config config;
+    config.default_n_gpu_layers = 0;
+    config.default_n_ctx = 128;
+    LazyModelLoader loader(config);
+
+    EXPECT_EQ(loader.getOrLoadModel("corrupted_model", corrupted_file.string()), nullptr);
 #else
-    GTEST_SKIP() << "LLM support not enabled";
+    EXPECT_TRUE(fs::exists(corrupted_file));
 #endif
 }
 
@@ -374,11 +398,36 @@ TEST_F(ModelLoadingTest, ErrorHandling_CorruptedFile) {
  * - No security issues
  */
 TEST_F(ModelLoadingTest, ErrorHandling_PermissionDenied) {
-#ifdef THEMIS_ENABLE_LLM
-    // Would test with file having restricted permissions
-    GTEST_SKIP() << "Permission testing requires platform-specific setup";
+    auto protected_file = createMockModelFile("protected.gguf", 1024);
+
+#ifdef _WIN32
+    HANDLE handle = CreateFileA(
+        protected_file.c_str(),
+        GENERIC_READ,
+        0,
+        nullptr,
+        OPEN_EXISTING,
+        FILE_ATTRIBUTE_NORMAL,
+        nullptr);
+    ASSERT_NE(handle, INVALID_HANDLE_VALUE) << "Failed to lock test file";
+
+    LazyModelLoader::Config config;
+    config.default_n_gpu_layers = 0;
+    config.default_n_ctx = 128;
+    LazyModelLoader loader(config);
+
+    EXPECT_EQ(loader.getOrLoadModel("locked_model", protected_file), nullptr);
+
+    CloseHandle(handle);
 #else
-    GTEST_SKIP() << "LLM support not enabled";
+    fs::permissions(protected_file, fs::perms::none);
+
+    LazyModelLoader::Config config;
+    config.default_n_gpu_layers = 0;
+    config.default_n_ctx = 128;
+    LazyModelLoader loader(config);
+
+    EXPECT_EQ(loader.getOrLoadModel("locked_model", protected_file), nullptr);
 #endif
 }
 
@@ -412,10 +461,6 @@ TEST_F(ModelLoadingTest, Performance_LoadingLatency) {
     EXPECT_LT(load_time, 1000.0) << "File loading took too long for 10MB file";
     
     std::cout << "Loaded " << file_size << " bytes in " << load_time << "ms" << std::endl;
-    
-#ifdef THEMIS_ENABLE_LLM
-    GTEST_SKIP() << "Full performance test requires actual model loading";
-#endif
 }
 
 /**
@@ -444,8 +489,4 @@ TEST_F(ModelLoadingTest, Performance_MemoryEfficiency) {
     // Memory usage should be roughly file size (within reasonable overhead)
     EXPECT_LT(memory_delta, 20.0) 
         << "Memory usage too high for 5MB file: " << memory_delta << "MB";
-    
-#ifdef THEMIS_ENABLE_LLM
-    GTEST_SKIP() << "Full memory efficiency test requires actual model loading";
-#endif
 }

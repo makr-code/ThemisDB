@@ -1,40 +1,55 @@
 ---
 name: Module Task
 about: Create a focused module implementation or documentation task with the repository's governance and evidence contract.
-title: "[module][task] <module-name>: <short task summary>"
-labels: ["module", "ai-task"]
+title: "[module][task] {{MODULE_NAME}}: {{TASK_SUMMARY}}"
+labels: {{ISSUE_LABELS_JSON}}
 assignees: []
 ---
 
+## Metadaten
+- Labels: {{ISSUE_LABELS}}
+- Milestone: {{ISSUE_MILESTONE}}
+- Status: {{ISSUE_STATUS}}
+- Link zur Gesamtstatus-Tabelle: [ROADMAP.md](../../ROADMAP.md)
+- Issue-Key: {{ISSUE_KEY}}
+
+## Gesamtstatus
+{{OVERALL_STATUS}}
+
+## Kurzbefund
+{{SUMMARY_FINDINGS}}
+
 ## Scope
-- Module: <module-name>
-- Files: <paths>
-- Status: <active|in-progress|blocked>
-- Labels: maintenance, soll-ist
-- Milestone: backlog
+- Module: {{MODULE_NAME}}
+- Files: {{SCOPE_FILES}}
+- Status: {{STATUS}}
+- Documentation: {{DOCS_STATUS}}
 
 ## Source Evidence
-- Module docs: <README/ARCHITECTURE/ROADMAP path>
-- Source graph / symbol evidence: <path>
-- Doxygen artifact: <path>
-- Compliance report: <path>
+- Module docs: {{README_PATH}}
+- Source graph / symbol evidence: {{GRAPH_PATH}}
+- Doxygen artifact: {{DOXYGEN_PATH}}
+- Compliance report: {{COMPLIANCE_REPORT_PATH}}
 
 ## What needs to be done
-- <clear implementation task>
-- <clear documentation task, if relevant>
+{{IMPLEMENTATION_TASKS}}
 
 ## Validation
-- Repro command: <command>
-- Gate check: <command>
-- Success condition: <one sentence>
+- Repro command: {{VALIDATION_REPRO}}
+- Gate check: {{VALIDATION_GATE}}
+- Success condition: {{VALIDATION_SUCCESS}}
+
+{{ISSUE_BODY}}
+
+## Merge Gate
+- Merge erst nach vollstaendig erfuellen Akzeptanzkriterien und Maintainer-Freigabe.
 
 ## Acceptance criteria
-- [ ] <criterion 1>
-- [ ] <criterion 2>
-- [ ] <criterion 3>
+{{ACCEPTANCE_CRITERIA}}
 
 ## Notes
-- Risk/constraint: <brief note>
-- Ownership/path rule: <include/src/tests/benchmarks/external>
+- Risk/constraint: {{RISK_CONSTRAINT}}
+- Ownership/path rule: {{OWNERSHIP_PATH}}
 - Follow the module quick rules in [.github/copilot/module-quick-rules.md](../copilot/module-quick-rules.md) and the detailed guidance in [.github/MODULE_DEVELOPER_DOCUMENTATION_GUIDELINES.md](../MODULE_DEVELOPER_DOCUMENTATION_GUIDELINES.md).
-- Use the same module issue labels and milestone as the automated Soll-Ist sync, unless a maintainer explicitly overrides them.
+- Add exactly one `area:*` label matching the module and keep `type:*`, `priority:*`, and `status:*` aligned with [.github/GOVERNANCE.md](../GOVERNANCE.md).
+- Archive or delete markdown files that are no longer relevant, except the governance documentation.

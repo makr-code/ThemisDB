@@ -463,9 +463,11 @@ TEST_F(InferencePermissionTest, BearerPrefixWithEmptyKey_Returns401) {
 }
 
 TEST_F(InferencePermissionTest, ValidBearerKey_AllowedByDefault) {
-    // No YAML loaded → default classification is open → inference permitted.
+    // Fail-closed governance defaults to strict classification unless
+    // callers provide an explicit class. "offen" should pass.
     std::unordered_map<std::string, std::string> headers;
     headers["Authorization"] = "Bearer sk-test-api-key-12345";
+    headers["X-Classification"] = "offen";
     auto result = engine_.checkInferencePermission(headers);
 
     EXPECT_TRUE(result.allowed);
@@ -630,18 +632,19 @@ TEST_F(LLMApiHandlerPolicyTest, WithPolicyEngine_MalformedAuthReturns401) {
 }
 
 TEST_F(LLMApiHandlerPolicyTest, WithPolicyEngine_ValidBearerKeyPassesPolicyGate) {
-    // A valid Bearer key should pass the policy gate (open classification).
-    // The request may still fail at the inference layer (no model loaded), but
-    // it must NOT fail at the policy check layer with 401 or 403.
+    // A valid Bearer key should pass the policy gate when classification is
+    // explicitly open. The request may still fail at the inference layer
+    // (no model loaded), but must not fail policy auth.
     handler_->setPolicyEngine(&policy_engine_);
 
     auto req = makeChatRequest("Bearer sk-test-api-key-12345");
+    req.set("X-Classification", "offen");
     auto res = handler_->handleRequest(req);
 
     EXPECT_NE(res.result_int(), 401)
         << "Valid Bearer key must pass policy gate (not 401)";
     EXPECT_NE(res.result_int(), 403)
-        << "Valid Bearer key with open classification must not get 403";
+        << "Valid Bearer key with explicit open classification must not get 403";
 }
 
 TEST_F(LLMApiHandlerPolicyTest, WithPolicyEngine_ErrorBodyIsOpenAICompatible) {
@@ -704,6 +707,7 @@ TEST_F(LLMApiHandlerPolicyTest, OpenAIChatNonStreaming_EmitsLifecycleLogs) {
     auto req = makeChatRequest(
         "Bearer sk-test-api-key-12345",
         R"({"model":"test","stream":false,"messages":[{"role":"user","content":"hi"}]})");
+    req.set("X-Classification", "offen");
 
     auto res = handler_->handleRequest(req);
     const std::string logs = capture.captured();
@@ -734,6 +738,7 @@ TEST_F(LLMApiHandlerPolicyTest, OpenAIChatStreaming_EmitsLifecycleLogs) {
     auto req = makeChatRequest(
         "Bearer sk-test-api-key-12345",
         R"({"model":"test","stream":true,"messages":[{"role":"user","content":"hi"}]})");
+    req.set("X-Classification", "offen");
 
     auto res = handler_->handleRequest(req);
     const std::string logs = capture.captured();

@@ -2,88 +2,97 @@
   "actions": [
     {
       "module": "access_model",
-      "kind": "docs",
-      "action": "would-create",
-      "issue": null
+      "kind": "module",
+      "action": "updated",
+      "issue": 6466
     },
     {
       "module": "ai_working",
-      "kind": "docs",
-      "action": "would-create",
-      "issue": null
+      "kind": "module",
+      "action": "updated",
+      "issue": 6467
     },
     {
       "module": "execution",
-      "kind": "docs",
-      "action": "would-create",
-      "issue": null
+      "kind": "module",
+      "action": "updated",
+      "issue": 6468
     },
     {
       "module": "image_analysis",
-      "kind": "docs",
-      "action": "would-create",
-      "issue": null
+      "kind": "module",
+      "action": "updated",
+      "issue": 6469
     },
     {
       "module": "llama_cpp",
-      "kind": "docs",
-      "action": "would-create",
-      "issue": null
+      "kind": "module",
+      "action": "updated",
+      "issue": 6470
     },
     {
       "module": "llm",
-      "kind": "impl",
-      "action": "would-create",
-      "issue": null
+      "kind": "module",
+      "action": "updated",
+      "issue": 6480
     },
     {
       "module": "llm_streaming",
-      "kind": "docs",
-      "action": "would-create",
-      "issue": null
+      "kind": "module",
+      "action": "updated",
+      "issue": 6480
     },
     {
       "module": "llm_wiki",
-      "kind": "docs",
-      "action": "would-create",
-      "issue": null
+      "kind": "module",
+      "action": "created",
+      "issue": 6481
     },
     {
       "module": "network",
-      "kind": "impl",
-      "action": "would-create",
-      "issue": null
+      "kind": "module",
+      "action": "updated",
+      "issue": 6474
     },
     {
       "module": "onnx_clip",
-      "kind": "docs",
-      "action": "would-create",
-      "issue": null
+      "kind": "module",
+      "action": "updated",
+      "issue": 6475
     },
     {
       "module": "query",
-      "kind": "impl",
-      "action": "would-create",
-      "issue": null
+      "kind": "module",
+      "action": "updated",
+      "issue": 6476
+    },
+    {
+      "module": "rag",
+      "kind": "module",
+      "action": "updated",
+      "issue": 6477
     },
     {
       "module": "transaction",
-      "kind": "impl",
-      "action": "would-create",
-      "issue": null
+      "kind": "module",
+      "action": "updated",
+      "issue": 6478
     },
     {
       "module": "vector_search",
-      "kind": "docs",
-      "action": "would-create",
-      "issue": null
+      "kind": "module",
+      "action": "updated",
+      "issue": 6479
     }
   ],
   "totals": {
-    "created": 0,
-    "updated": 0,
+    "created": 1,
+    "updated": 13,
     "closed": 0,
-    "would_create": 13,
-    "would_close": 0
+    "closed_as_consolidated": 0,
+    "commented_no_close": 0,
+    "would_create": 0,
+    "would_close": 0,
+    "would_comment_no_close": 0
   }
 }

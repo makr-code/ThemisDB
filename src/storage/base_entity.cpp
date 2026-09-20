@@ -498,8 +498,19 @@ BaseEntity::FieldMap BaseEntity::parseBinary() const {
         // Each field: <name_len> <name> <type_tag> <value>
         
         size_t num_fields = decoder.beginObject();
+
+        // Corrupt/truncated blobs can decode to an impossible field count.
+        // Each field needs at least one name tag byte and one value tag byte,
+        // so counts larger than half the blob size are never valid.
+        if (num_fields > blob_.size() / 2) {
+            throw std::runtime_error("Binary parse failed: invalid field count in serialized entity");
+        }
         
         for (size_t i = 0; i < num_fields; ++i) {
+            if (!decoder.hasMore()) {
+                throw std::runtime_error("Binary parse failed: truncated serialized entity");
+            }
+
             std::string field_name = decoder.decodeString();
             auto type = decoder.peekType();
             

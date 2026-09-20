@@ -113,8 +113,8 @@ def parse_args() -> argparse.Namespace:
     )
     p.add_argument(
         "--issue-milestone",
-        default="backlog",
-        help="Milestone name to apply to created/updated module issues (default: backlog)",
+        default="",
+        help="Override milestone name for created/updated module issues; empty uses governance-based automatic mapping",
     )
     p.add_argument(
         "--ctest-log",
@@ -150,6 +150,78 @@ def _issue_metadata_args(labels: list[str], milestone: str, *, create: bool) -> 
     if milestone:
         args.extend(["--milestone", milestone])
     return args
+
+
+def _module_area_label(module: str) -> str:
+    normalized = module.replace("_", "-").lower()
+    if normalized in {"llm", "llm-streaming", "llama-cpp", "onnx-clip"}:
+        return "area:llm"
+    if normalized == "rag":
+        return "area:rag"
+    if normalized == "network":
+        return "area:network"
+    if normalized == "query":
+        return "area:query"
+    if normalized == "transaction":
+        return "area:transaction"
+    if normalized == "vector-search":
+        return "area:search"
+    if normalized == "image-analysis":
+        return "area:content"
+    if normalized == "access-model":
+        return "area:auth"
+    if normalized == "ai-working":
+        return "area:governance"
+    if normalized == "execution":
+        return "area:core"
+    return "area:core"
+
+
+def _module_priority_label(row: dict[str, Any]) -> str:
+    impl = row.get("implementation", {})
+    gates = row.get("release_gates", {})
+    sev = impl.get("severity_counts", {})
+    if int(sev.get("CRITICAL", 0)) > 0:
+        return "priority:critical"
+    if int(sev.get("HIGH", 0)) > 0 or bool(gates.get("gap_open", False)):
+        return "priority:high"
+    if bool(row.get("docs", {}).get("gap_open", False)):
+        return "priority:medium"
+    return "priority:low"
+
+
+def _module_issue_milestone(module: str, row: dict[str, Any], override: str = "") -> str:
+    forced = override.strip()
+    if forced:
+        return forced
+
+    docs_open = bool(row.get("docs", {}).get("gap_open", False))
+    impl_open = bool(row.get("implementation", {}).get("gap_open", False))
+    priority = _module_priority_label(row)
+
+    if docs_open and not impl_open:
+        return "Documentation"
+    if priority == "priority:low":
+        return "LONG-TERM"
+    return "Q4 2026"
+
+
+def _module_issue_labels(module: str, row: dict[str, Any], extra_labels: list[str]) -> list[str]:
+    labels = [
+        _module_area_label(module),
+        "type:chore",
+        _module_priority_label(row),
+        "status:open",
+    ]
+    for label in extra_labels:
+        if label and label not in labels:
+            labels.append(label)
+    return labels
+
+
+def _deprecated_module_labels(existing_labels: set[str]) -> list[str]:
+    deprecated = ["maintenance", "soll-ist", "module", "ai-task"]
+    return [label for label in deprecated if label in existing_labels]
 
 
 def parse_markdown_table(md_path: Path) -> dict[str, ModuleDocsStatus]:
@@ -520,6 +592,224 @@ def _format_missing_doc_types(missing: list[str]) -> list[str]:
     return sorted(set(labels))
 
 
+def _format_path_list(paths: list[str], max_items: int = 4) -> str:
+    items = [str(path).strip() for path in paths if str(path).strip()]
+    if not items:
+        return "keine"
+    if len(items) <= max_items:
+        return ", ".join(items)
+    return ", ".join(items[:max_items]) + f" (+{len(items) - max_items} weitere)"
+
+
+def _format_finding_list(findings: list[dict[str, Any]], max_items: int = 3) -> str:
+    if not findings:
+        return "keine einzelnen Code-Findings vorhanden"
+
+    parts: list[str] = []
+    for finding in findings[:max_items]:
+        file_path = str(finding.get("file", "?")).strip()
+        line = str(finding.get("line", "?")).strip()
+        cls = str(finding.get("classification", "")).strip()
+        sev_item = str(finding.get("verified_severity") or finding.get("original_severity") or "").upper()
+        pattern = str(finding.get("pattern", "")).strip()
+        parts.append(f"{file_path}:{line} [{sev_item}] {cls} - {pattern}")
+
+    if len(findings) > max_items:
+        parts.append(f"(+{len(findings) - max_items} weitere Befunde)")
+
+    return "; ".join(parts)
+
+
+def _finding_task_from_pattern(finding: dict[str, Any], module: str) -> str:
+    file_path = str(finding.get("file", "?")).strip() or "?"
+    line = str(finding.get("line", "?")).strip()
+    classification = str(finding.get("classification") or "security_issue").strip()
+    severity = str(finding.get("verified_severity") or finding.get("original_severity") or "MEDIUM").upper()
+    pattern = str(finding.get("pattern") or "unsafe input handling").strip()
+    loc = f"{file_path}:{line}" if line and line != "?" else file_path
+    lower_pattern = pattern.lower()
+
+    if "std::system" in pattern or "system(cmd)" in lower_pattern or "command injection" in lower_pattern:
+        return (
+            f"- [ ] Fix command-injection risk in {loc}: remove std::system() use for untrusted interface values, "
+            f"reject unsafe input before shell execution, and add a regression test for malicious input in {module}"
+        )
+    if "path_traversal" in lower_pattern or "traversal" in lower_pattern:
+        return (
+            f"- [ ] Harden {loc}: validate and normalize model/file paths before access and add a regression test "
+            f"for traversal attempts in {module}"
+        )
+    if "deadlock" in lower_pattern or "lock" in lower_pattern:
+        return (
+            f"- [ ] Remove the deadlock risk in {loc}: reorder or scope locking so the {module} request path cannot "
+            f"block on nested locks and add a concurrent regression test"
+        )
+    if "prompt_injection" in lower_pattern or "injection" in lower_pattern:
+        return (
+            f"- [ ] Mitigate prompt injection in {loc}: sanitize or reject untrusted instruction input and add a focused "
+            f"security regression test for {module}"
+        )
+    if "destructor" in lower_pattern or "missing_dtor" in lower_pattern or "no_timeout" in lower_pattern:
+        return (
+            f"- [ ] Restore lifecycle safety in {loc}: add the missing cleanup/timeout path and validate it with a "
+            f"resource-leak regression test in {module}"
+        )
+    return (
+        f"- [ ] Fix {classification} in {loc}: address the unsafe condition '{pattern}' and add a regression test for the "
+        f"{severity.lower()} risk in {module}"
+    )
+
+
+def build_concrete_module_work_items(
+    module: str,
+    row: dict[str, Any],
+    impl_status: ModuleImplStatus | None,
+    gates: dict[str, Any],
+    docs: dict[str, Any],
+    alignment: dict[str, Any],
+    quality_details: dict[str, Any],
+) -> list[str]:
+    tasks: list[str] = []
+    impl_findings = impl_status.findings if impl_status is not None else []
+
+    if impl_findings:
+        for finding in impl_findings[:3]:
+            tasks.append(_finding_task_from_pattern(finding, module))
+
+    if gates.get("tests_missing", False):
+        tasks.append(f"- [ ] Add the missing focused tests for the {module} path and verify the affected CTest target passes")
+    elif int(gates.get("failing_tests", 0)) > 0:
+        tasks.append(f"- [ ] Fix the failing {module} tests and confirm the targeted CTest coverage is green")
+    elif impl_findings:
+        tasks.append(f"- [ ] Add a regression test for the affected {module} behavior and keep the fix covered by a focused test target")
+
+    if gates.get("benchmarks_missing", False):
+        tasks.append(f"- [ ] Add the missing benchmark coverage for {module} or document why no benchmark is required")
+    elif int(gates.get("failing_benchmarks", 0)) > 0:
+        tasks.append(f"- [ ] Repair the failing benchmark path for {module} and verify the benchmark gate is green")
+
+    if docs.get("gap_open") or alignment.get("missing_core_docs"):
+        miss = _format_missing_doc_types(docs.get("missing_doc_types", []))
+        if miss:
+            tasks.append(f"- [ ] Update the missing governance documentation for {module}: {', '.join(miss)}")
+        else:
+            tasks.append(f"- [ ] Review the {module} documentation set and close the remaining governance compliance drift")
+        if alignment.get("missing_core_docs"):
+            tasks.append(f"- [ ] Align the {module} README, ARCHITECTURE and ROADMAP with the live implementation; missing current docs: {', '.join(alignment.get('missing_core_docs', []))}")
+        else:
+            tasks.append(f"- [ ] Align the {module} README, ARCHITECTURE and ROADMAP with the live implementation and archive stale Markdown files outside governance")
+
+    if not tasks:
+        tasks.append(f"- [ ] Verify the final {module} state and confirm the merge gate is satisfied without remaining compliance drift")
+
+    return tasks
+
+
+def build_concrete_acceptance_criteria(
+    module: str,
+    row: dict[str, Any],
+    impl_status: ModuleImplStatus | None,
+    gates: dict[str, Any],
+    docs: dict[str, Any],
+) -> list[str]:
+    criteria: list[str] = []
+    impl_findings = impl_status.findings if impl_status is not None else []
+    top_finding = impl_findings[0] if impl_findings else None
+
+    if top_finding:
+        location = str(top_finding.get("file") or "module source").strip()
+        classification = str(top_finding.get("classification") or "unsafe behavior").strip()
+        pattern = str(top_finding.get("pattern") or "unsafe input handling").strip()
+        criteria.append(
+            f"- [ ] {module}: {classification} in {location} is fixed and the underlying issue '{pattern}' is no longer reproducible"
+        )
+    else:
+        criteria.append(f"- [ ] {module}: no unresolved implementation drift remains in the affected source path")
+
+    if int(gates.get("failing_tests", 0)) > 0 or bool(gates.get("tests_missing", False)):
+        criteria.append(
+            f"- [ ] {module}: the focused CTest validation passes (ctest --preset windows-release -R '{module}' --output-on-failure) "
+            "and the regression is covered"
+        )
+    else:
+        criteria.append(
+            f"- [ ] {module}: the relevant focused validation passes (ctest --preset windows-release -R '{module}' --output-on-failure) "
+            "without introducing new test regressions"
+        )
+
+    if int(gates.get("failing_benchmarks", 0)) > 0 or bool(gates.get("benchmarks_missing", False)):
+        criteria.append(f"- [ ] {module}: benchmark coverage is present and any benchmark gate relevant to the fix is green or explicitly documented")
+
+    if docs.get("gap_open"):
+        criteria.append(f"- [ ] {module}: missing governance and module documentation are updated and stale markdown is archived or removed according to the repo rules")
+    else:
+        criteria.append(f"- [ ] {module}: documentation alignment remains consistent with the source and governance requirements")
+
+    criteria.append(f"- [ ] {module}: maintainer merge gate completed and the issue is closed only after the relevant validation evidence is attached")
+    return criteria
+
+
+def build_issue_title(module: str, row: dict[str, Any], impl_status: ModuleImplStatus | None, gates: dict[str, Any], docs: dict[str, Any]) -> str:
+    module_label = module.replace("_", "-")
+    impl_findings = impl_status.findings if impl_status is not None else []
+
+    if impl_findings:
+        first = impl_findings[0]
+        location = str(first.get("file") or "module source").strip()
+        kind = str(first.get("classification") or "unsafe behavior").strip()
+        pattern = str(first.get("pattern") or "unsafe input handling").strip()
+        if "std::system" in pattern or "command injection" in pattern.lower() or "system(cmd)" in pattern.lower():
+            return f"Modul {module_label}: remove shell-command injection risk in {location}"
+        if "path_traversal" in pattern.lower() or "traversal" in pattern.lower():
+            return f"Modul {module_label}: harden path validation in {location}"
+        if "deadlock" in pattern.lower() or "lock" in pattern.lower():
+            return f"Modul {module_label}: remove lock-order deadlock risk in {location}"
+        if "prompt_injection" in pattern.lower() or "injection" in pattern.lower():
+            return f"Modul {module_label}: mitigate prompt injection in {location}"
+        return f"Modul {module_label}: fix {kind} in {location}"
+
+    if docs.get("gap_open"):
+        missing = _format_missing_doc_types(docs.get("missing_doc_types", []))
+        if missing:
+            return f"Modul {module_label}: restore missing governance docs ({', '.join(missing[:3])})"
+        return f"Modul {module_label}: close documentation drift by restoring README, ARCHITECTURE and ROADMAP"
+
+    if gates.get("tests_missing") or int(gates.get("failing_tests", 0)) > 0:
+        return f"Modul {module_label}: restore the validation gate and bring the targeted tests back to green"
+
+    if gates.get("benchmarks_missing") or int(gates.get("failing_benchmarks", 0)) > 0:
+        return f"Modul {module_label}: restore benchmark coverage and bring the benchmark gate back to green"
+
+    return f"Modul {module_label}: resolve remaining compliance and validation drift"
+
+
+def load_module_task_template(repo_root: Path) -> str:
+    """Load the module_task.md template and strip YAML frontmatter."""
+    template_path = repo_root / ".github" / "ISSUE_TEMPLATE" / "module_task.md"
+    if not template_path.exists():
+        raise FileNotFoundError(f"Template not found: {template_path}")
+    
+    content = template_path.read_text(encoding="utf-8")
+    lines = content.splitlines()
+    
+    # Remove YAML frontmatter (--- ... ---)
+    if lines and lines[0].strip() == "---":
+        for idx in range(1, len(lines)):
+            if lines[idx].strip() == "---":
+                return "\n".join(lines[idx + 1:]).strip()
+    
+    return content
+
+
+def render_module_task_template(template: str, placeholders: dict[str, str]) -> str:
+    """Replace all {{PLACEHOLDER}} markers with values from the placeholders dict."""
+    result = template
+    for key, value in placeholders.items():
+        placeholder = f"{{{{{key}}}}}"
+        result = result.replace(placeholder, value)
+    return result
+
+
 def issue_body_module(
     module: str,
     row: dict[str, Any],
@@ -527,7 +817,9 @@ def issue_body_module(
     max_findings: int,
     labels: list[str] | None = None,
     milestone: str = "",
+    repo_root: Path | None = None,
 ) -> str:
+    """Generate module issue body from template or fallback to programmatic generation."""
     docs = row["docs"]
     impl = row["implementation"]
     gates = row.get("release_gates", {})
@@ -536,13 +828,178 @@ def issue_body_module(
     sev = impl.get("severity_counts", {})
     missing_labels = _format_missing_doc_types(docs.get("missing_doc_types", []))
     module_label = module.replace("_", "-")
+    issue_key = f"soll-ist-key:module:{module}"
     issue_labels = labels or []
     issue_milestone = milestone.strip()
 
+    # Try to load and render the template if repo_root is provided
+    try:
+        if repo_root is not None:
+            template = load_module_task_template(repo_root)
+            
+            # Build all placeholder values
+            impl_findings = impl_status.findings if impl_status is not None else []
+            
+            # Implementation details section
+            impl_details_lines = [
+                f"- Actionable Findings: {impl.get('actionable_total', 0)} (Critical {sev.get('CRITICAL', 0)}, High {sev.get('HIGH', 0)}, Medium {sev.get('MEDIUM', 0)})",
+                f"- Doku-Alignment parallel: {alignment.get('status', 'unknown')}",
+                "",
+                "### Findings",
+            ]
+            if impl_status is None or not impl_status.findings:
+                impl_details_lines.append("- Keine einzelnen Code-Findings im Input vorhanden.")
+            else:
+                for finding in impl_status.findings[:max_findings]:
+                    file_path = str(finding.get("file", "?")).strip()
+                    line = str(finding.get("line", "?")).strip()
+                    pattern = str(finding.get("pattern", "")).strip()
+                    cls = str(finding.get("classification", "")).strip()
+                    sev_item = str(finding.get("verified_severity") or finding.get("original_severity") or "").upper()
+                    impl_details_lines.append(f"- {file_path}:{line} [{sev_item}] {cls} - {pattern}")
+            
+            # Test details section
+            test_details_lines = [
+                f"- Gefundene Testartefakte: {gates.get('related_tests', 0)}",
+                f"- Tests fehlen fuer Modulkontext: {'ja' if bool(gates.get('tests_missing', False)) else 'nein'}",
+            ]
+            if gates.get("failing_tests", 0) > 0:
+                test_details_lines.append("- Fehlgeschlagene Tests (aus CTest-Log):")
+                for item in quality_details.get("failing_tests", [])[:10]:
+                    test_details_lines.append(f"  - {item}")
+            else:
+                test_details_lines.append("- Fehlgeschlagene Tests: keine")
+            
+            # Benchmark details section
+            bench_details_lines = [
+                f"- Gefundene Benchmark-Artefakte: {gates.get('related_benchmarks', 0)}",
+                f"- Benchmarks fehlen fuer Modulkontext: {'ja' if bool(gates.get('benchmarks_missing', False)) else 'nein'}",
+            ]
+            if gates.get("failing_benchmarks", 0) > 0:
+                bench_details_lines.append("- Fehlgeschlagene Benchmarks (aus Benchmark-Log):")
+                for item in quality_details.get("failing_benchmarks", [])[:10]:
+                    bench_details_lines.append(f"  - {item}")
+            else:
+                bench_details_lines.append("- Fehlgeschlagene Benchmarks: keine")
+            
+            # Documentation details section
+            doc_details_lines = [
+                f"- Compliance Status: {docs.get('status', 'UNKNOWN')}",
+                f"- Compliance Score: {docs.get('score_percent', 0)}%",
+                f"- Drift via Status: {'ja' if bool(docs.get('gap_open_by_status', False)) else 'nein'}",
+                f"- Drift via Modul-Alignment: {'ja' if bool(docs.get('gap_open_by_alignment', False)) else 'nein'}",
+            ]
+            if missing_labels:
+                doc_details_lines.append("- Fehlende Core-Dokumente (Governance): " + ", ".join(missing_labels))
+            else:
+                doc_details_lines.append("- Fehlende Core-Dokumente (Governance): keine")
+            if alignment.get("missing_core_docs"):
+                doc_details_lines.append("- Modul-Alignment fehlende Core-Dokumente: " + ", ".join(alignment.get("missing_core_docs", [])))
+            else:
+                doc_details_lines.append("- Modul-Alignment fehlende Core-Dokumente: keine")
+            if alignment.get("doc_files"):
+                doc_details_lines.append("- Gefundene Modul-Dokumente: " + ", ".join(sorted({Path(p).name for files in alignment.get("doc_files", {}).values() for p in files})))
+            else:
+                doc_details_lines.append("- Gefundene Modul-Dokumente: keine")
+            doc_details_lines.append("- Archivierungslinie: Nicht mehr relevante Markdown-Dateien ausser den Governance-Dokumenten archivieren oder loeschen.")
+            if impl.get('actionable_total', 0) == 0 and (gates.get('failing_tests', 0) > 0 or gates.get('failing_benchmarks', 0) > 0):
+                doc_details_lines.append("- Hinweis: Keine statischen Code-Findings, aber Release-Gate-Fehlschlaege im Modulkontext")
+            
+            # Overall status section
+            overall_status_lines = [
+                f"- Implementierungs-Drift offen: {'ja' if bool(impl.get('gap_open')) else 'nein'}",
+                f"- Dokumentations-Drift offen: {'ja' if bool(docs.get('gap_open')) else 'nein'}",
+                f"- Release-Gate-Drift offen: {'ja' if bool(gates.get('gap_open')) else 'nein'}",
+            ]
+            
+            # Summary findings section
+            summary_lines = [
+                f"- Implementierung: {_format_finding_list(impl_findings)}",
+                f"- Tests: {_format_path_list(quality_details.get('test_files', []))}",
+            ]
+            if quality_details.get("failing_tests"):
+                summary_lines.append("  - Fehlgeschlagene Tests: " + _format_path_list(quality_details.get("failing_tests", []), max_items=6))
+            else:
+                summary_lines.append("  - Fehlgeschlagene Tests: keine")
+            summary_lines.append(f"- Benchmarks: {_format_path_list(quality_details.get('benchmark_files', []))}")
+            if quality_details.get("failing_benchmarks"):
+                summary_lines.append("  - Fehlgeschlagene Benchmarks: " + _format_path_list(quality_details.get("failing_benchmarks", []), max_items=6))
+            else:
+                summary_lines.append("  - Fehlgeschlagene Benchmarks: keine")
+            if missing_labels:
+                summary_lines.append("- Dokumentation: fehlende Governance-Dokumente: " + ", ".join(missing_labels))
+            else:
+                summary_lines.append("- Dokumentation: Governance-Dokumente sind vollständig")
+            if alignment.get("missing_core_docs"):
+                summary_lines.append("  - Modul-Alignment fehlt zusätzlich: " + ", ".join(alignment.get("missing_core_docs", [])))
+            
+            # Build concrete work items from actual findings and module-specific evidence.
+            impl_tasks = build_concrete_module_work_items(
+                module,
+                row,
+                impl_status,
+                gates,
+                docs,
+                alignment,
+                quality_details,
+            )
+
+            acceptance_criteria = build_concrete_acceptance_criteria(
+                module,
+                row,
+                impl_status,
+                gates,
+                docs,
+            )
+
+            issue_body_sections: list[str] = []
+            if impl_status is not None and impl_status.findings:
+                issue_body_sections.append("## Fehlende Implementierung\n" + "\n".join(impl_details_lines))
+            if gates.get("tests_missing", False) or gates.get("failing_tests", 0) > 0 or quality_details.get("test_files"):
+                issue_body_sections.append("## Fehlende Tests\n" + "\n".join(test_details_lines))
+            if gates.get("benchmarks_missing", False) or gates.get("failing_benchmarks", 0) > 0 or quality_details.get("benchmark_files"):
+                issue_body_sections.append("## Fehlende Benchmarks\n" + "\n".join(bench_details_lines))
+            if docs.get("gap_open") or alignment.get("missing_core_docs"):
+                issue_body_sections.append("## Fehlende Dokumentation\n" + "\n".join(doc_details_lines))
+
+            placeholders = {
+                "MODULE_NAME": module_label,
+                "TASK_SUMMARY": "Offene Implementierung, Tests, Benchmarks und Dokumentation",
+                "ISSUE_LABELS_JSON": json.dumps(issue_labels) if issue_labels else "[]",
+                "ISSUE_LABELS": ", ".join(issue_labels) if issue_labels else "keine",
+                "ISSUE_MILESTONE": issue_milestone if issue_milestone else "keins",
+                "ISSUE_STATUS": "open",
+                "ISSUE_KEY": issue_key,
+                "OVERALL_STATUS": "\n".join(overall_status_lines),
+                "SUMMARY_FINDINGS": "\n".join(summary_lines),
+                "SCOPE_FILES": f"src/{module}/, include/{module}/, tests/{module}/",
+                "STATUS": "in-progress",
+                "DOCS_STATUS": "siehe Fehlende Dokumentation",
+                "README_PATH": f"src/{module}/README.md",
+                "GRAPH_PATH": "ai_working/sourcecode_graph.json",
+                "DOXYGEN_PATH": f"ai_context/developer_llm_wiki/module_doxygen_artifacts/{module}/xml/index.xml",
+                "COMPLIANCE_REPORT_PATH": "ai_context/developer_llm_wiki/SOLL_IST_GAP_REPORT.json",
+                "IMPLEMENTATION_TASKS": "\n".join(impl_tasks),
+                "VALIDATION_REPRO": f"ctest --preset windows-release -R '{module}' --output-on-failure",
+                "VALIDATION_GATE": f"python scripts/check_module_direct_doxygen.py --module {module}",
+                "VALIDATION_SUCCESS": f"Alle {module} Tests sind gruen und keine Compliance-Luecken",
+                "ISSUE_BODY": "\n\n".join(issue_body_sections),
+                "ACCEPTANCE_CRITERIA": "\n".join(acceptance_criteria),
+                "RISK_CONSTRAINT": f"Modulkontext: {alignment.get('status', 'unbekannt')}",
+                "OWNERSHIP_PATH": "include/ src/ tests/ benchmarks/",
+            }
+
+            rendered = render_module_task_template(template, placeholders) + "\n"
+            return rendered
+    except Exception as exc:
+        # Log error but continue (fallback to programmatic generation)
+        print(f"[WARNING] Template rendering failed for module '{module}': {exc}")
+
+    # Fallback: generate body programmatically (legacy behavior)
     lines: list[str] = []
     lines.append(f"# Modulauftrag: Soll-Ist-Drift beheben ({module_label})")
     lines.append("")
-    lines.append(f"soll-ist-key:module:{module}")
+    lines.append(issue_key)
     lines.append("")
 
     lines.append("## Metadaten")
@@ -556,11 +1013,29 @@ def issue_body_module(
     lines.append(f"- Release-Gate-Drift offen: {'ja' if bool(gates.get('gap_open')) else 'nein'}")
     lines.append("")
 
+    lines.append("## Kurzbefund")
+    impl_findings = impl_status.findings if impl_status is not None else []
+    lines.append(f"- Implementierung: {_format_finding_list(impl_findings)}")
+    lines.append(f"- Tests: {_format_path_list(quality_details.get('test_files', []))}")
+    if quality_details.get("failing_tests"):
+        lines.append("  - Fehlgeschlagene Tests: " + _format_path_list(quality_details.get("failing_tests", []), max_items=6))
+    else:
+        lines.append("  - Fehlgeschlagene Tests: keine")
+    lines.append(f"- Benchmarks: {_format_path_list(quality_details.get('benchmark_files', []))}")
+    if quality_details.get("failing_benchmarks"):
+        lines.append("  - Fehlgeschlagene Benchmarks: " + _format_path_list(quality_details.get("failing_benchmarks", []), max_items=6))
+    else:
+        lines.append("  - Fehlgeschlagene Benchmarks: keine")
+    if missing_labels:
+        lines.append("- Dokumentation: fehlende Governance-Dokumente: " + ", ".join(missing_labels))
+    else:
+        lines.append("- Dokumentation: Governance-Dokumente sind vollständig")
+    if alignment.get("missing_core_docs"):
+        lines.append("  - Modul-Alignment fehlt zusätzlich: " + ", ".join(alignment.get("missing_core_docs", [])))
+    lines.append("")
+
     lines.append("## Fehlende Implementierung")
-    lines.append(f"- Actionable Findings: {impl.get('actionable_total', 0)}")
-    lines.append(f"- Critical: {sev.get('CRITICAL', 0)}")
-    lines.append(f"- High: {sev.get('HIGH', 0)}")
-    lines.append(f"- Medium: {sev.get('MEDIUM', 0)}")
+    lines.append(f"- Actionable Findings: {impl.get('actionable_total', 0)} (Critical {sev.get('CRITICAL', 0)}, High {sev.get('HIGH', 0)}, Medium {sev.get('MEDIUM', 0)})")
     lines.append(f"- Doku-Alignment parallel: {alignment.get('status', 'unknown')}")
     lines.append("")
 
@@ -578,8 +1053,7 @@ def issue_body_module(
     lines.append("")
 
     lines.append("## Fehlende Tests")
-    lines.append(f"- Related tests: {gates.get('related_tests', 0)}")
-    lines.append(f"- Failing tests: {gates.get('failing_tests', 0)}")
+    lines.append(f"- Gefundene Testartefakte: {gates.get('related_tests', 0)}")
     lines.append(f"- Tests fehlen fuer Modulkontext: {'ja' if bool(gates.get('tests_missing', False)) else 'nein'}")
     if gates.get("failing_tests", 0) > 0:
         lines.append("### Fehlgeschlagene Tests (aus CTest-Log)")
@@ -588,8 +1062,7 @@ def issue_body_module(
     lines.append("")
 
     lines.append("## Fehlende Benchmarks")
-    lines.append(f"- Related benchmarks: {gates.get('related_benchmarks', 0)}")
-    lines.append(f"- Failing benchmarks: {gates.get('failing_benchmarks', 0)}")
+    lines.append(f"- Gefundene Benchmark-Artefakte: {gates.get('related_benchmarks', 0)}")
     lines.append(f"- Benchmarks fehlen fuer Modulkontext: {'ja' if bool(gates.get('benchmarks_missing', False)) else 'nein'}")
     if gates.get("failing_benchmarks", 0) > 0:
         lines.append("### Fehlgeschlagene Benchmarks (aus Benchmark-Log)")
@@ -614,8 +1087,13 @@ def issue_body_module(
         lines.append("- Gefundene Modul-Dokumente: " + ", ".join(sorted({Path(p).name for files in alignment.get("doc_files", {}).values() for p in files})))
     else:
         lines.append("- Gefundene Modul-Dokumente: keine")
+    lines.append("- Archivierungslinie: Nicht mehr relevante Markdown-Dateien ausser den Governance-Dokumenten archivieren oder loeschen.")
     if impl.get('actionable_total', 0) == 0 and (gates.get('failing_tests', 0) > 0 or gates.get('failing_benchmarks', 0) > 0):
         lines.append("- Hinweis: Keine statischen Code-Findings, aber Release-Gate-Fehlschlaege im Modulkontext")
+    lines.append("")
+
+    lines.append("## Merge Gate")
+    lines.append("- Merge erst nach vollstaendig erfuellten Akzeptanzkriterien und Maintainer-Freigabe.")
     lines.append("")
 
     lines.append("## Akzeptanzkriterien")
@@ -641,6 +1119,11 @@ def _find_existing_issue_for_module(open_issues: list[dict[str, Any]], module: s
     primary = find_issue_by_key(open_issues, f"module:{module}")
     if primary is not None:
         return primary
+    title_marker = f"Modul {module.replace('_', '-')}:"
+    for issue in open_issues:
+        title = str(issue.get("title", ""))
+        if title.startswith(title_marker):
+            return issue
     legacy_impl = find_issue_by_key(open_issues, f"impl:{module}")
     if legacy_impl is not None:
         return legacy_impl
@@ -648,6 +1131,18 @@ def _find_existing_issue_for_module(open_issues: list[dict[str, Any]], module: s
     if legacy_docs is not None:
         return legacy_docs
     return None
+
+
+def _related_issues_for_module(open_issues: list[dict[str, Any]], module: str) -> list[dict[str, Any]]:
+    title_marker = f"Modul {module.replace('_', '-')}:"
+    related: list[dict[str, Any]] = []
+    for issue in open_issues:
+        body = str(issue.get("body", ""))
+        title = str(issue.get("title", ""))
+        if f"soll-ist-key:module:{module}" in body or title.startswith(title_marker):
+            related.append(issue)
+    related.sort(key=lambda item: int(item.get("number", 0)))
+    return related
 
 
 def _comment_consolidation_target(repo_root: Path, repo: str, issue_number: int, target_issue_number: int, apply: bool) -> str:
@@ -751,12 +1246,16 @@ def sync_issues(
         docs_key = f"docs:{module}"
 
         module_existing = _find_existing_issue_for_module(open_issues, module)
+        module_related_issues = _related_issues_for_module(open_issues, module)
         impl_existing = find_issue_by_key(open_issues, impl_key)
         docs_existing = find_issue_by_key(open_issues, docs_key)
+        module_existing_labels = {label.get("name", "") for label in module_existing.get("labels", [])} if module_existing else set()
+        issue_labels = _module_issue_labels(module, row, labels)
+        issue_milestone = _module_issue_milestone(module, row, milestone)
 
         if module_open:
-            title = f"Modul {module_label}: Implementierung, Tests, Benchmarks und Dokumentation konsolidieren"
-            body = issue_body_module(module, row, impl_map.get(module), max_findings, labels, milestone)
+            title = build_issue_title(module, row, impl_map.get(module), row.get("release_gates", {}), row.get("docs", {}))
+            body = issue_body_module(module, row, impl_map.get(module), max_findings, issue_labels, issue_milestone, repo_root)
 
             if module_existing is not None:
                 number = int(module_existing["number"])
@@ -765,12 +1264,14 @@ def sync_issues(
                     body_file.parent.mkdir(parents=True, exist_ok=True)
                     body_file.write_text(body, encoding="utf-8")
                     edit_args = ["issue", "edit", str(number), "--repo", repo, "--title", title, "--body-file", str(body_file)]
-                    edit_args.extend(_issue_metadata_args(labels, milestone, create=False))
+                    edit_args.extend(_issue_metadata_args(issue_labels, issue_milestone, create=False))
+                    for deprecated in _deprecated_module_labels(module_existing_labels):
+                        edit_args.extend(["--remove-label", deprecated])
                     run_gh(edit_args, repo_root)
                 actions.append({"module": module, "kind": "module", "action": "updated", "issue": number})
                 num = number
             else:
-                action, num = upsert_issue(repo_root, repo, open_issues, title, body, module_key, apply, labels, milestone)
+                action, num = upsert_issue(repo_root, repo, open_issues, title, body, module_key, apply, issue_labels, issue_milestone)
                 actions.append({"module": module, "kind": "module", "action": action, "issue": num})
 
             target_issue = num
@@ -783,6 +1284,17 @@ def sync_issues(
                         continue
                     legacy_action = _comment_consolidation_target(repo_root, repo, legacy_num, target_issue, apply)
                     actions.append({"module": module, "kind": "legacy", "action": legacy_action, "issue": legacy_num})
+
+            if module_existing is not None:
+                canonical_num = int(module_existing["number"])
+                for related in module_related_issues:
+                    related_num = int(related["number"])
+                    if related_num == canonical_num:
+                        continue
+                    if related_num in {int(issue.get("number", -1)) for issue in [impl_existing, docs_existing] if issue is not None}:
+                        continue
+                    related_action = _comment_consolidation_target(repo_root, repo, related_num, canonical_num, apply)
+                    actions.append({"module": module, "kind": "duplicate", "action": related_action, "issue": related_num})
         elif close_resolved:
             for existing in [module_existing, impl_existing, docs_existing]:
                 if existing is None:
