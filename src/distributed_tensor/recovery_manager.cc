@@ -246,13 +246,18 @@ RecoveryStrategy DefaultRecoveryManager::select_recovery_strategy(
     const ArtifactManifest& manifest,
     const std::vector<std::string>& failed_shard_ids) const noexcept {
   // Strategy selection heuristic:
-  // 1. For primary artifacts with replication: use REPLICATION.
-  // 2. For derived artifacts: use REBUILD_FROM_PARENT if parent available.
-  // 3. For erasure-coded artifacts: use ERASURE_CODING.
+  // 1. Derived artifacts rebuild from their parent when the lineage is known.
+  // 2. Explicit manifest policy overrides for erasure coding/replication.
+  // 3. Ephemeral artifacts are never recoverable.
   // 4. Default: REPLICATION.
 
   if (failed_shard_ids.empty()) {
     return RecoveryStrategy::NONE;
+  }
+
+  if (manifest.artifact_class() == ArtifactClass::DERIVED &&
+      !manifest.parent_artifact_id().empty()) {
+    return RecoveryStrategy::REBUILD_FROM_PARENT;
   }
 
   const auto& recovery_strategy = manifest.recovery_strategy();
@@ -261,8 +266,6 @@ RecoveryStrategy DefaultRecoveryManager::select_recovery_strategy(
     return RecoveryStrategy::ERASURE_CODING;
   } else if (recovery_strategy == "replication") {
     return RecoveryStrategy::REPLICATION;
-  } else if (manifest.artifact_class() == ArtifactClass::DERIVED) {
-    return RecoveryStrategy::REBUILD_FROM_PARENT;
   } else if (manifest.artifact_class() == ArtifactClass::EPHEMERAL) {
     return RecoveryStrategy::NONE;
   }

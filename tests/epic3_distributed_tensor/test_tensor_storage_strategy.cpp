@@ -45,6 +45,18 @@ std::filesystem::path writeTempFloatFile(
     return path;
 }
 
+void closeAndRemoveTempFile(
+    const std::filesystem::path& path,
+    MmapRegion*                 region = nullptr) {
+    if (region != nullptr) {
+        region->close();
+    }
+    std::error_code ec;
+    const bool removed = std::filesystem::remove(path, ec);
+    EXPECT_TRUE(removed || ec.value() == 0)
+        << "remove: " << ec.message() << ": " << path.string();
+}
+
 } // namespace
 
 // =============================================================================
@@ -199,7 +211,7 @@ TEST(MmapLoaderTest, MML01_OpenValidFile) {
     EXPECT_NE(region.data(), nullptr);
     EXPECT_EQ(region.path(), path.string());
 
-    std::filesystem::remove(path);
+    closeAndRemoveTempFile(path, &region);
 }
 
 // MML-02: Mapped data matches the original file content.
@@ -219,7 +231,7 @@ TEST(MmapLoaderTest, MML02_MappedDataMatchesFileContent) {
             << "Mismatch at index " << i;
     }
 
-    std::filesystem::remove(path);
+    closeAndRemoveTempFile(path, &region);
 }
 
 // MML-03: Opening a non-existent path returns FILE_NOT_FOUND.
@@ -278,7 +290,7 @@ TEST(MmapLoaderTest, MML06_MoveConstructorTransfersOwnership) {
     EXPECT_TRUE(moved.isOpen());
     EXPECT_EQ(moved.data(), original_data);
 
-    std::filesystem::remove(path);
+    closeAndRemoveTempFile(path, &moved);
 }
 
 // MML-07: advise() on an open region returns OK.
@@ -295,7 +307,7 @@ TEST(MmapLoaderTest, MML07_AdviseOnOpenRegionReturnsOK) {
     EXPECT_EQ(loader.advise(region, MmapLoader::AccessPattern::WILLNEED),
               MmapError::OK);
 
-    std::filesystem::remove(path);
+    closeAndRemoveTempFile(path, &region);
 }
 
 // MML-08: advise() on a closed region returns NOT_OPEN.
@@ -323,7 +335,7 @@ TEST(ZeroCopyAccessorTest, ZCA01_SizeEqualsRegionBytesOverElementSize) {
     EXPECT_EQ(acc.size(), kNumFloats);
     EXPECT_FALSE(acc.empty());
 
-    std::filesystem::remove(path);
+    closeAndRemoveTempFile(path, &region);
 }
 
 // ZCA-02: operator[] returns the correct value.
@@ -340,7 +352,7 @@ TEST(ZeroCopyAccessorTest, ZCA02_ElementAccessReturnsCorrectValue) {
         EXPECT_FLOAT_EQ(acc[i], static_cast<float>(i));
     }
 
-    std::filesystem::remove(path);
+    closeAndRemoveTempFile(path, &region);
 }
 
 // ZCA-03: Range-based for loop iterates all elements.
@@ -360,7 +372,7 @@ TEST(ZeroCopyAccessorTest, ZCA03_RangeBasedForLoopWorks) {
     }
     EXPECT_EQ(idx, kNumFloats);
 
-    std::filesystem::remove(path);
+    closeAndRemoveTempFile(path, &region);
 }
 
 // ZCA-04: span() returns the same underlying data.
@@ -376,7 +388,7 @@ TEST(ZeroCopyAccessorTest, ZCA04_SpanPointsToSameData) {
     EXPECT_EQ(acc.span().data(), acc.span().data()); // stable pointer
     EXPECT_EQ(acc.span().size(), kNumFloats);
 
-    std::filesystem::remove(path);
+    closeAndRemoveTempFile(path, &region);
 }
 
 // ZCA-05: Accessor over int8_t reinterprets bytes correctly.
@@ -393,7 +405,7 @@ TEST(ZeroCopyAccessorTest, ZCA05_Int8AccessorReinterpretsBytesCorrectly) {
     EXPECT_EQ(acc.size(), kNumFloats * sizeof(float)); // 16 bytes
     EXPECT_FALSE(acc.empty());
 
-    std::filesystem::remove(path);
+    closeAndRemoveTempFile(path, &region);
 }
 
 // ZCA-06: Empty region → accessor reports empty.

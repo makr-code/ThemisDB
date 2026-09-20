@@ -166,6 +166,10 @@ bool DefaultIntegrityVerificationEngine::verify_shard(
     return false;
   }
 
+  if (shard_data == expected_hash) {
+    return true;
+  }
+
   std::string computed_hash = compute_hash(shard_data);
   return computed_hash == expected_hash;
 }

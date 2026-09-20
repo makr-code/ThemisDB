@@ -7,7 +7,7 @@ name: "Maintenance: Build Error Issues"
 
 on:
   workflow_run:
-    workflows: ["Build: Mainline", "Docker Image CI/CD"]
+    workflows: ["Build: Mainline", "Release: Docker Image Consumer"]
     types: [completed]
   schedule:
     - cron: '0 9 * * MON-FRI'  # Monday-Friday at 9:00 UTC

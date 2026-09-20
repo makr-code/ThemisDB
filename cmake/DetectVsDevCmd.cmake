@@ -10,6 +10,12 @@ if(NOT WIN32)
     return()
 endif()
 
+set(_themis_msvc_std_libs "kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib")
+set(CMAKE_C_STANDARD_LIBRARIES_INIT "${_themis_msvc_std_libs}" CACHE STRING "Windows MSVC standard libraries for child CMake configure steps" FORCE)
+set(CMAKE_CXX_STANDARD_LIBRARIES_INIT "${_themis_msvc_std_libs}" CACHE STRING "Windows MSVC standard libraries for child CMake configure steps" FORCE)
+set(CMAKE_C_STANDARD_LIBRARIES "${_themis_msvc_std_libs}" CACHE STRING "Windows MSVC standard libraries for C compiler" FORCE)
+set(CMAKE_CXX_STANDARD_LIBRARIES "${_themis_msvc_std_libs}" CACHE STRING "Windows MSVC standard libraries for C++ compiler" FORCE)
+
 if(NOT DEFINED THEMIS_MSVC_SELECTION)
     set(THEMIS_MSVC_SELECTION "vs2022" CACHE STRING "Visual Studio to initialize (vs2022|vs2026-insiders)")
 endif()

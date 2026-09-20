@@ -47,6 +47,34 @@ elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU")
 endif()
 
 include(${CMAKE_CURRENT_LIST_DIR}/cmake/TestPolicy.cmake)
+
+# Harden Windows test runtime dependency syncing at the target layer. This
+# resolves the actual DLL import graph for each executable instead of relying on
+# a manual list of files copied from the shared bin directory.
+if(WIN32)
+    function(themis_sync_runtime_dlls_for_target target_name)
+        if(NOT TARGET ${target_name})
+            return()
+        endif()
+
+        set(_themis_runtime_vcpkg_bin_dir "${_themis_vcpkg_bin_dir}")
+        if(CMAKE_BUILD_TYPE STREQUAL "Debug" AND EXISTS "${_themis_vcpkg_debug_bin_dir}")
+            set(_themis_runtime_vcpkg_bin_dir "${_themis_vcpkg_debug_bin_dir}")
+        endif()
+
+        add_custom_command(TARGET ${target_name} POST_BUILD
+            COMMAND ${CMAKE_COMMAND}
+                -DBIN_DIR=${CMAKE_BINARY_DIR}/bin
+                -DVCPKG_BIN_DIR=${_themis_runtime_vcpkg_bin_dir}
+                -DDST_DIR=$<TARGET_FILE_DIR:${target_name}>
+                -DTARGET_FILE=$<TARGET_FILE:${target_name}>
+                -P ${THEMIS_ROOT_DIR}/cmake/CopyRuntimeDlls.cmake
+            COMMENT "Resolving runtime dependencies for ${target_name}"
+            VERBATIM
+        )
+    endfunction()
+endif()
+
 include(${CMAKE_CURRENT_LIST_DIR}/cmake/RegisterModuleTests.cmake)
 
 # Global output directory for all test binaries → prefer shared bin when available

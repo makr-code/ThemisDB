@@ -103,14 +103,19 @@ bool detectInstability(const DeltaWindow& window,
   if (window.entries.empty()) {
     return false;
   }
-  
-  // High mutation density suggests thrashing
-  const double total_mutations =
-      static_cast<double>(window.countInserts() + window.countUpdates());
-  const double mutation_frequency =
-      total_mutations / static_cast<double>(window.entries.size());
-  if (mutation_frequency > kInstabilityThresholdMutationFreq) {
-    return true;
+
+  // Treat instability as a sustained thrash pattern, not a single small delta.
+  // Small and medium windows are valid patch/refit candidates even when every
+  // entry is a mutation, so only large windows with heavy mutation density are
+  // considered unstable.
+  if (window.entries.size() >= 50) {
+    const double total_mutations =
+        static_cast<double>(window.countInserts() + window.countUpdates());
+    const double mutation_frequency =
+        total_mutations / static_cast<double>(window.entries.size());
+    if (mutation_frequency > kInstabilityThresholdMutationFreq) {
+      return true;
+    }
   }
   
   // High residual suggests instability
@@ -343,38 +348,43 @@ UpdateDecision SnapshotBasedUpdateWorker::decideUpdateStrategy(const DeltaWindow
     return UpdateDecision::NO_UPDATE;
   }
 
-  // Phase B: Detect instability early
-  if (detectInstability(delta_window, current_residual)) {
-    return UpdateDecision::REBUILD;  // Fail-closed: rebuild on instability
-  }
-
   // Structural mutations always require rebuild
   if (delta_window.countDeletes() > 0 || delta_window.countShardChanges() > 0) {
     return UpdateDecision::REBUILD;
   }
 
-  // Estimate change fraction
-  double change_fraction = delta_window.estimateChangeFraction(artifact_size_bytes);
+  // Estimate change fraction first; the threshold model is the authoritative
+  // decision path for normal deltas. Instability is only a fail-closed guard for
+  // pathological low-change churn, not for valid medium-band windows.
+  const double change_fraction = delta_window.estimateChangeFraction(artifact_size_bytes);
 
-  // Phase B: Check for valid patch conditions
+  // Small deltas are patch candidates unless the window is structurally invalid or
+  // the churn pattern is clearly pathological.
   if (change_fraction < patch_threshold_pct_ / 100.0) {
-    // Patch is a candidate, but validate applicability
+    if (detectInstability(delta_window, current_residual)) {
+      return UpdateDecision::REBUILD;
+    }
     if (!isValidForPatching(delta_window)) {
-      return UpdateDecision::REBUILD;  // Patch not applicable, fallback to rebuild
+      return UpdateDecision::REBUILD;
     }
     return UpdateDecision::PATCH;
-  } else if (change_fraction < refit_threshold_pct_ / 100.0) {
-    // Check if partial refit would exceed residual threshold
-    double estimated_residual = estimateResultingResidual(delta_window, current_residual, UpdateDecision::PARTIAL_REFIT);
+  }
+
+  // Medium deltas stay in the partial-refit band unless residual blow-up is
+  // detected or the path is otherwise unstable.
+  if (change_fraction < refit_threshold_pct_ / 100.0) {
+    if (current_residual > 0.3) {
+      return UpdateDecision::REBUILD;
+    }
+    const double estimated_residual = estimateResultingResidual(
+        delta_window, current_residual, UpdateDecision::PARTIAL_REFIT);
     if (estimated_residual - current_residual <= residual_max_increase_allowed_) {
       return UpdateDecision::PARTIAL_REFIT;
     }
-    // Fallback to rebuild if residual would exceed limit
-    return UpdateDecision::REBUILD;
-  } else {
-    // Large delta requires rebuild
     return UpdateDecision::REBUILD;
   }
+
+  return UpdateDecision::REBUILD;
 }
 
 /**

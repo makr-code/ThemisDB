@@ -10,6 +10,10 @@ function(themis_register_module_test)
     set(multiValueArgs LABELS ARGS ENVIRONMENT)
     cmake_parse_arguments(TRM "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
+    if(WIN32 AND TARGET "${TRM_TARGET}")
+        themis_sync_runtime_dlls_for_target("${TRM_TARGET}")
+    endif()
+
     if(NOT TRM_MODULE)
         message(FATAL_ERROR "themis_register_module_test requires MODULE")
     endif()

@@ -183,7 +183,7 @@ std::pair<MmapRegion, MmapError> MmapLoader::open(
     HANDLE hFile = ::CreateFileW(
         wpath.c_str(),
         GENERIC_READ,
-        FILE_SHARE_READ,
+        FILE_SHARE_READ | FILE_SHARE_DELETE,
         nullptr,
         OPEN_EXISTING,
         FILE_ATTRIBUTE_NORMAL | FILE_FLAG_SEQUENTIAL_SCAN,

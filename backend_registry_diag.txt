@@ -1,0 +1,163 @@
+Running main() from C:\Projects\ThemisDB\vcpkg\buildtrees\gtest\src\v1.18.0-e6987f02b9.clean\googletest\src\gtest_main.cc
+[acceleration] Device capability probe ÔÇö 1 device(s) found:
+  [OK] CPU Fallback  backend=0  vram_free=16384 MB  sm=0.0  fp16=no  bf16=no
+[acceleration] Best device: CPU Fallback (backend=0)
+Loaded 0 acceleration plugins from ./plugins
+Plugin directory does not exist: ./lib/themis/plugins
+Plugin directory does not exist: /usr/local/lib/themis/plugins
+Plugin directory does not exist: /opt/themis/plugins
+Plugin directory does not exist: C:/Program Files/ThemisDB/plugins
+[acceleration] Device capability probe ÔÇö 1 device(s) found:
+  [OK] CPU Fallback  backend=0  vram_free=16384 MB  sm=0.0  fp16=no  bf16=no
+[acceleration] Best device: CPU Fallback (backend=0)
+Loaded 0 acceleration plugins from ./plugins
+Plugin directory does not exist: ./lib/themis/plugins
+Plugin directory does not exist: /usr/local/lib/themis/plugins
+Plugin directory does not exist: /opt/themis/plugins
+Plugin directory does not exist: C:/Program Files/ThemisDB/plugins
+[acceleration] Device capability probe ÔÇö 1 device(s) found:
+  [OK] CPU Fallback  backend=0  vram_free=16384 MB  sm=0.0  fp16=no  bf16=no
+[acceleration] Best device: CPU Fallback (backend=0)
+Loaded 0 acceleration plugins from ./plugins
+Plugin directory does not exist: ./lib/themis/plugins
+Plugin directory does not exist: /usr/local/lib/themis/plugins
+Plugin directory does not exist: /opt/themis/plugins
+Plugin directory does not exist: C:/Program Files/ThemisDB/plugins
+[acceleration] Device capability probe ÔÇö 1 device(s) found:
+  [OK] CPU Fallback  backend=0  vram_free=16384 MB  sm=0.0  fp16=no  bf16=no
+[acceleration] Best device: CPU Fallback (backend=0)
+Loaded 0 acceleration plugins from ./plugins
+Plugin directory does not exist: ./lib/themis/plugins
+Plugin directory does not exist: /usr/local/lib/themis/plugins
+Plugin directory does not exist: /opt/themis/plugins
+Plugin directory does not exist: C:/Program Files/ThemisDB/plugins
+[acceleration] Device capability probe ÔÇö 1 device(s) found:
+  [OK] CPU Fallback  backend=0  vram_free=16384 MB  sm=0.0  fp16=no  bf16=no
+[acceleration] Best device: CPU Fallback (backend=0)
+Loaded 0 acceleration plugins from ./plugins
+Plugin directory does not exist: ./lib/themis/plugins
+Plugin directory does not exist: /usr/local/lib/themis/plugins
+Plugin directory does not exist: /opt/themis/plugins
+Plugin directory does not exist: C:/Program Files/ThemisDB/plugins
+[acceleration] Device capability probe ÔÇö 1 device(s) found:
+  [OK] CPU Fallback  backend=0  vram_free=16384 MB  sm=0.0  fp16=no  bf16=no
+[acceleration] Best device: CPU Fallback (backend=0)
+Loaded 0 acceleration plugins from ./plugins
+Plugin directory does not exist: ./lib/themis/plugins
+Plugin directory does not exist: /usr/local/lib/themis/plugins
+Plugin directory does not exist: /opt/themis/plugins
+Plugin directory does not exist: C:/Program Files/ThemisDB/plugins
+[acceleration] Device capability probe ÔÇö 1 device(s) found:
+  [OK] CPU Fallback  backend=0  vram_free=16384 MB  sm=0.0  fp16=no  bf16=no
+[acceleration] Best device: CPU Fallback (backend=0)
+Loaded 0 acceleration plugins from ./plugins
+Plugin directory does not exist: ./lib/themis/plugins
+Plugin directory does not exist: /usr/local/lib/themis/plugins
+Plugin directory does not exist: /opt/themis/plugins
+[acceleration] Device capability probe ÔÇö 1 device(s) found:
+  [OK] CPU Fallback  backend=0  vram_free=16384 MB  sm=0.0  fp16=no  bf16=no
+[acceleration] Best device: CPU Fallback (backend=0)
+Loaded 0 acceleration plugins from ./plugins
+[acceleration] Device capability probe ÔÇö 1 device(s) found:
+  [OK] CPU Fallback  backend=0  vram_free=16384 MB  sm=0.0  fp16=no  bf16=no
+[acceleration] Best device: CPU Fallback (backend=0)
+Loaded 0 acceleration plugins from ./plugins
+[acceleration] Device capability probe ÔÇö 1 device(s) found:
+  [OK] CPU Fallback  backend=0  vram_free=16384 MB  sm=0.0  fp16=no  bf16=no
+[acceleration] Best device: CPU Fallback (backend=0)
+Loaded 0 acceleration plugins from ./plugins
+[acceleration] Device capability probe ÔÇö 1 device(s) found:
+  [OK] CPU Fallback  backend=0  vram_free=16384 MB  sm=0.0  fp16=no  bf16=no
+[acceleration] Best device: CPU Fallback (backend=0)
+Loaded 0 acceleration plugins from ./plugins
+[acceleration] Device capability probe ÔÇö 1 device(s) found:
+  [OK] CPU Fallback  backend=0  vram_free=16384 MB  sm=0.0  fp16=no  bf16=no
+[acceleration] Best device: CPU Fallback (backend=0)
+Loaded 0 acceleration plugins from ./plugins
+[acceleration] Device capability probe ÔÇö 1 device(s) found:
+  [OK] CPU Fallback  backend=0  vram_free=16384 MB  sm=0.0  fp16=no  bf16=no
+[acceleration] Best device: CPU Fallback (backend=0)
+Loaded 0 acceleration plugins from ./plugins
+[acceleration] Device capability probe ÔÇö 1 device(s) found:
+  [OK] CPU Fallback  backend=0  vram_free=16384 MB  sm=0.0  fp16=no  bf16=no
+[acceleration] Best device: CPU Fallback (backend=0)
+Loaded 0 acceleration plugins from ./plugins
+[acceleration] Device capability probe ÔÇö 1 device(s) found:
+  [OK] CPU Fallback  backend=0  vram_free=16384 MB  sm=0.0  fp16=no  bf16=no
+[acceleration] Best device: CPU Fallback (backend=0)
+Loaded 0 acceleration plugins from ./plugins
+[acceleration] Device capability probe ÔÇö 1 device(s) found:
+  [OK] CPU Fallback  backend=0  vram_free=16384 MB  sm=0.0  fp16=no  bf16=no
+[acceleration] Best device: CPU Fallback (backend=0)
+Loaded 0 acceleration plugins from ./plugins
+[acceleration] Device capability probe ÔÇö 1 device(s) found:
+Plugin directory does not exist: C:/Program Files/ThemisDB/plugins
+  [OK] CPU Fallback  backend=0  vram_free=16384 MB  sm=0.0  fp16=no  bf16=no
+Plugin directory does not exist: ./lib/themis/plugins
+[acceleration] Best device: CPU Fallback (backend=0)
+Loaded 0 acceleration plugins from ./plugins
+[acceleration] Device capability probe ÔÇö 1 device(s) found:
+  [OK] CPU Fallback  backend=0  vram_free=16384 MB  sm=0.0  fp16=no  bf16=no
+[acceleration] Best device: CPU Fallback (backend=0)
+Loaded 0 acceleration plugins from ./plugins
+Plugin directory does not exist: /usr/local/lib/themis/plugins
+Plugin directory does not exist: /opt/themis/plugins
+Plugin directory does not exist: C:/Program Files/ThemisDB/plugins
+Plugin directory does not exist: ./lib/themis/plugins
+Plugin directory does not exist: /usr/local/lib/themis/plugins
+Plugin directory does not exist: /opt/themis/plugins
+Plugin directory does not exist: C:/Program Files/ThemisDB/plugins
+Plugin directory does not exist: ./lib/themis/plugins
+Plugin directory does not exist: /usr/local/lib/themis/plugins
+Plugin directory does not exist: /opt/themis/plugins
+Plugin directory does not exist: C:/Program Files/ThemisDB/plugins
+Plugin directory does not exist: ./lib/themis/plugins
+Plugin directory does not exist: /usr/local/lib/themis/plugins
+Plugin directory does not exist: /opt/themis/plugins
+Plugin directory does not exist: C:/Program Files/ThemisDB/plugins
+Plugin directory does not exist: ./lib/themis/plugins
+Plugin directory does not exist: /usr/local/lib/themis/plugins
+Plugin directory does not exist: /opt/themis/plugins
+Plugin directory does not exist: C:/Program Files/ThemisDB/plugins
+Plugin directory does not exist: ./lib/themis/plugins
+Plugin directory does not exist: /usr/local/lib/themis/plugins
+Plugin directory does not exist: /opt/themis/plugins
+Plugin directory does not exist: C:/Program Files/ThemisDB/plugins
+Plugin directory does not exist: ./lib/themis/plugins
+Plugin directory does not exist: /usr/local/lib/themis/plugins
+Plugin directory does not exist: /opt/themis/plugins
+Plugin directory does not exist: C:/Program Files/ThemisDB/plugins
+Plugin directory does not exist: ./lib/themis/plugins
+Plugin directory does not exist: /usr/local/lib/themis/plugins
+Plugin directory does not exist: /opt/themis/plugins
+Plugin directory does not exist: C:/Program Files/ThemisDB/plugins
+Plugin directory does not exist: ./lib/themis/plugins
+Plugin directory does not exist: /usr/local/lib/themis/plugins
+Plugin directory does not exist: /opt/themis/plugins
+Plugin directory does not exist: C:/Program Files/ThemisDB/plugins
+Plugin directory does not exist: ./lib/themis/plugins
+Plugin directory does not exist: /usr/local/lib/themis/plugins
+Plugin directory does not exist: /opt/themis/plugins
+Plugin directory does not exist: C:/Program Files/ThemisDB/plugins
+Plugin directory does not exist: ./lib/themis/plugins
+Plugin directory does not exist: /usr/local/lib/themis/plugins
+Plugin directory does not exist: /opt/themis/plugins
+Plugin directory does not exist: C:/Program Files/ThemisDB/plugins
+[acceleration] Device capability probe ÔÇö 1 device(s) found:
+  [OK] CPU Fallback  backend=0  vram_free=16384 MB  sm=0.0  fp16=no  bf16=no
+[acceleration] Best device: CPU Fallback (backend=0)
+Loaded 0 acceleration plugins from ./plugins
+Plugin directory does not exist: ./lib/themis/plugins
+Plugin directory does not exist: /usr/local/lib/themis/plugins
+Plugin directory does not exist: /opt/themis/plugins
+Plugin directory does not exist: C:/Program Files/ThemisDB/plugins
+[acceleration] Device capability probe ÔÇö 1 device(s) found:
+  [OK] CPU Fallback  backend=0  vram_free=16384 MB  sm=0.0  fp16=no  bf16=no
+[acceleration] Best device: CPU Fallback (backend=0)
+Loaded 0 acceleration plugins from ./plugins
+Plugin directory does not exist: ./lib/themis/plugins
+Plugin directory does not exist: /usr/local/lib/themis/plugins
+Plugin directory does not exist: /opt/themis/plugins
+Plugin directory does not exist: C:/Program Files/ThemisDB/plugins
+[==========] 25 tests from 1 test suite ran. (29 ms total)
+[  PASSED  ] 25 tests.

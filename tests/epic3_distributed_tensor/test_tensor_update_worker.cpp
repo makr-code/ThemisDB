@@ -45,11 +45,14 @@ DeltaWindow makeWindow(const std::string& artifact_id,
                        size_t n,
                        uint32_t bytes_per_entry = 100,
                        DeltaMutationType type = DeltaMutationType::INSERT) {
+    const int64_t now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count();
+
     DeltaWindow win;
     win.artifact_id       = artifact_id;
     win.sequence_start    = 1;
     win.sequence_end      = static_cast<uint64_t>(n);
-    win.extracted_at_ms   = 1718000000000LL;
+    win.extracted_at_ms   = now_ms;
     win.total_payload_size_bytes = static_cast<uint64_t>(n) * bytes_per_entry;
 
     for (size_t i = 0; i < n; ++i) {
@@ -57,7 +60,7 @@ DeltaWindow makeWindow(const std::string& artifact_id,
         entry.sequence_number       = static_cast<uint64_t>(i + 1);
         entry.mutation_type         = type;
         entry.affected_entity_id    = "entity-" + std::to_string(i);
-        entry.recorded_at_ms        = 1718000000000LL;
+        entry.recorded_at_ms        = now_ms;
         entry.source_transaction_id = "txn-" + std::to_string(i);
         entry.payload_size_bytes    = bytes_per_entry;
         win.entries.push_back(entry);

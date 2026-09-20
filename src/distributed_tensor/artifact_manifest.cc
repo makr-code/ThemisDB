@@ -104,10 +104,15 @@ bool ArtifactManifest::is_complete() const noexcept {
   // A manifest is considered complete if it has:
   // 1. artifact_id and version set
   // 2. At least one shard placement
-  // 3. recovery_strategy set
-  // 4. For primary artifacts, content_hash is set
+  // 3. A non-terminal lifecycle stage
+  // 4. Complete shard placement metadata
+  // 5. For primary artifacts, content_hash is set
 
   if (artifact_id_.empty() || version_.empty()) {
+    return false;
+  }
+
+  if (lifecycle_stage_ == ArtifactLifecycleStage::DELETED) {
     return false;
   }
 
@@ -116,7 +121,8 @@ bool ArtifactManifest::is_complete() const noexcept {
   }
 
   for (const auto& shard : shard_placements_) {
-    if (shard.shard_id.empty() || shard.node_id.empty()) {
+    if (shard.shard_id.empty() || shard.node_id.empty() ||
+        shard.shard_content_hash.empty()) {
       return false;
     }
   }
@@ -131,52 +137,6 @@ bool ArtifactManifest::is_complete() const noexcept {
     return false;
   }
 
-  return true;
-}
-
-bool ArtifactManifest::validate() const noexcept {
-  // SG-DT-01 (Fail-Closed Invariant): Must fail closed on any validation error.
-  // Checks all manifest invariants to ensure consistency and policy compliance.
-  
-  // Check 1: artifact_id is non-empty
-  if (artifact_id_.empty()) {
-    return false;
-  }
-
-  // Check 2: At least one shard placement exists with replication_factor >= 1
-  if (shard_placements_.empty()) {
-    return false;
-  }
-
-  for (const auto& shard : shard_placements_) {
-    // Shard ID and node ID must be non-empty
-    if (shard.shard_id.empty() || shard.node_id.empty()) {
-      return false;
-    }
-    // Replication factor must be at least 1
-    if (shard.replication_factor < 1) {
-      return false;
-    }
-  }
-
-  // Check 3: version must be set
-  if (version_.empty()) {
-    return false;
-  }
-
-  // Check 4: artifact_class constraints
-  // Primary artifacts require content hash
-  if (artifact_class_ == ArtifactClass::PRIMARY && content_hash_.empty()) {
-    return false;
-  }
-
-  // Derived artifacts must have parent or reconstruction instruction
-  if (artifact_class_ == ArtifactClass::DERIVED &&
-      parent_artifact_id_.empty() && !reconstruction_instruction_) {
-    return false;
-  }
-
-  // All invariants hold
   return true;
 }
 

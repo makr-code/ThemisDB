@@ -299,18 +299,35 @@ LockManager::LockResult LockManager::upgradeLock(
                         entry.holders[0].holder == txn_id);
 
     if (!only_holder) {
-        // Mutual-upgrade deadlock prevention (Wave 4C T2):
-        // If another transaction is already waiting to upgrade this key to
-        // EXCLUSIVE (i.e., it also holds a SHARED lock and is at the front of
-        // the waiter queue with EXCLUSIVE type), we have a mutual-upgrade cycle.
-        // Abort the current request — the caller must retry after a back-off.
+        // Mutual-upgrade deadlock prevention (Wave 4C T2): once a second
+        // transaction also holds SHARED on this key, a concurrent upgrade request
+        // is a deadlock candidate and must fail fast instead of blocking until the
+        // full lock timeout expires.
+        const bool has_other_shared_holder = std::any_of(
+            entry.holders.begin(), entry.holders.end(),
+            [&](const LockEntry& e) {
+                return e.holder != txn_id && e.type == LockType::SHARED;
+            });
+
+        if (has_other_shared_holder) {
+            THEMIS_WARN(
+                "[TXLOCK] Mutual upgrade deadlock detected for key={}, txn={} "
+                "with competing SHARED holder; aborting upgrade without timeout.",
+                key, txn_id);
+            stats_deadlocks_.fetch_add(1, std::memory_order_relaxed);
+            return LockResult::Denied(
+                "mutual upgrade deadlock on key '" + key + "': txn " +
+                std::to_string(txn_id) + " aborted — retry with back-off");
+        }
+
+        // If a competing upgrade request is already queued, also fail fast.
         for (const auto& waiter : entry.waiters) {
             if (waiter->type == LockType::EXCLUSIVE && waiter->txn_id != txn_id) {
-                // Check that the competing waiter is also a current SHARED holder
-                // (i.e., it is truly a mutual upgrade, not an ordinary acquire).
                 bool is_upgrade_waiter = std::any_of(
                     entry.holders.begin(), entry.holders.end(),
-                    [&]([[maybe_unused]] const LockEntry& e) { return e.holder == waiter->txn_id; });
+                    [&]([[maybe_unused]] const LockEntry& e) {
+                        return e.holder == waiter->txn_id;
+                    });
                 if (is_upgrade_waiter) {
                     THEMIS_WARN(
                         "[TXLOCK] Mutual upgrade deadlock detected for key={}, tx_a={}, tx_b={}: "

@@ -1,6 +1,6 @@
 param(
-    [string]$ConfigurePreset = "windows-release",
-    [string]$TestPreset = "windows-release",
+    [string]$ConfigurePreset = "windows-debug",
+    [string]$TestPreset = "windows-debug",
     [string]$BuildPreset,
     [string]$ReportsDir = "reports/local-quality",
     # clang-tidy installation root (e.g. C:\vvlm from a local LLVM install)
@@ -33,9 +33,9 @@ Usage:
   powershell -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 [options]
 
 Options:
-    -ConfigurePreset <name>   CMake configure preset (default: windows-release)
-  -BuildPreset <name>       CMake build preset (default: same as ConfigurePreset)
-  -TestPreset <name>        CTest preset (default: windows-release)
+    -ConfigurePreset <name>   CMake configure preset (default: windows-debug)
+    -BuildPreset <name>       CMake build preset (default: same as ConfigurePreset)
+    -TestPreset <name>        CTest preset (default: windows-debug)
   -ReportsDir <path>        Report output directory (default: reports/local-quality)
   -SkipConfigure            Skip CMake configure
   -SkipBuild                Skip CMake build

@@ -309,6 +309,15 @@ bool ArtifactManifest::validate() const {
     return false;
   }
 
+  // Validate enum-backed fields so invalid numeric values fail closed.
+  const bool kind_is_valid =
+      kind == ArtifactKind::ADVISORY_SUMMARY ||
+      kind == ArtifactKind::DELTA_LOG ||
+      kind == ArtifactKind::SHARD_SUMMARY;
+  if (!kind_is_valid) {
+    return false;
+  }
+
   // Validate content_hash format if set (SHA-256 = 64 hex, SHA-1 = 40, MD5 = 32)
   if (!content_hash.empty()) {
     if (content_hash.length() < 32 || content_hash.length() > 128) {

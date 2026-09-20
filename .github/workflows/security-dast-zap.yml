@@ -176,7 +176,7 @@ jobs:
         # ZAP actions emit report_sarif.json (SARIF format) in addition to
         # report_json.json (ZAP native JSON).  upload-sarif requires SARIF input.
         if: always()
-        uses: github/codeql-action/upload-sarif@42947a340483f03ba47bb1a039b2c519aab3df85  # v3.37.8
+        uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: report_sarif.json
           category: zap-baseline
@@ -324,7 +324,7 @@ jobs:
 
       - name: Upload ZAP API Scan SARIF to GitHub Security tab
         if: always()
-        uses: github/codeql-action/upload-sarif@42947a340483f03ba47bb1a039b2c519aab3df85  # v3.37.8
+        uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: report_sarif.json
           category: zap-api-scan
@@ -479,7 +479,7 @@ jobs:
 
       - name: Upload ZAP Full Scan SARIF to GitHub Security tab
         if: always()
-        uses: github/codeql-action/upload-sarif@42947a340483f03ba47bb1a039b2c519aab3df85  # v3.37.8
+        uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: report_sarif.json
           category: zap-full-scan

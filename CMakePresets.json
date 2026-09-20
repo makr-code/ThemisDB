@@ -800,6 +800,18 @@
       }
     },
     {
+      "name": "windows-debug",
+      "configurePreset": "windows-debug",
+      "filter": {
+        "include": {
+          "label": "module:.*"
+        },
+        "exclude": {
+          "label": "(manual|disabled)"
+        }
+      }
+    },
+    {
       "name": "hyperscaler-debug-windows",
       "configurePreset": "hyperscaler-debug-windows",
       "filter": {

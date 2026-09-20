@@ -196,7 +196,7 @@ jobs:
           # Generate changelog entries
           LAST_NIGHTLY="${{ needs.check-changes.outputs.last-nightly-tag }}"
           if [[ -n "$LAST_NIGHTLY" ]]; then
-            CHANGELOG=$(git log --oneline "$LAST_NIGHTLY..HEAD" | head -20)
+            CHANGELOG=$(git log --oneline -20 "$LAST_NIGHTLY..HEAD")
           else
             CHANGELOG=$(git log --oneline -20 HEAD)
           fi
@@ -294,13 +294,14 @@ jobs:
           set -euo pipefail
           VERSION="${{ needs.generate-metadata.outputs.version }}"
           DATE=$(date +%Y%m%d)
+          GH_REPO_LC=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
 
           # Tags: themisdb:nightly, themisdb:nightly-YYYYMMDD, themisdb:X.Y.Z-nightly-YYYYMMDD
           TAGS="themisdb/themisdb:nightly"
           TAGS="${TAGS},themisdb/themisdb:nightly-${DATE}"
           TAGS="${TAGS},themisdb/themisdb:${VERSION}-nightly-${DATE}"
-          TAGS="${TAGS},ghcr.io/${{ github.repository }}:nightly"
-          TAGS="${TAGS},ghcr.io/${{ github.repository }}:nightly-${DATE}"
+          TAGS="${TAGS},ghcr.io/${GH_REPO_LC}:nightly"
+          TAGS="${TAGS},ghcr.io/${GH_REPO_LC}:nightly-${DATE}"
           
           echo "tags=$TAGS" >> "$GITHUB_OUTPUT"
           echo "::notice::Docker tags: $TAGS"

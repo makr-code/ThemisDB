@@ -3,7 +3,7 @@
 > Author: ThemisDB Contributors
 > Created: 2026-09-09
 > Status: Active
-> Last Updated: 2026-09-09
+> Last Updated: 2026-09-20
 
 This file defines source-of-truth precedence and synchronization expectations for root and module documentation.
 
@@ -29,6 +29,56 @@ When documentation sources conflict, use this order:
    - `docs/archive/**`
 
 Archived or ai_working artifacts are evidence/history by default and are not normative unless explicitly promoted.
+
+## Wiki Source Classes And Weighting
+
+For GitHub wiki generation, every source is assigned a class and weight.
+The class controls ordering, conflict resolution, and reader-facing trust level.
+
+### Source Classes
+
+1. Primary sources (weight 100)
+   - Sourcecode-near and contract-near evidence
+   - Examples:
+     - `include/**` API headers and public interface comments
+     - `src/<module>/{ROADMAP,ARCHITECTURE,CHANGELOG,FUTURE_ENHANCEMENTS}.md`
+     - generated `ai_context/developer_llm_wiki/API_REFERENCE_*.md` from Doxygen XML
+     - canonical API references in `docs/api/**` and `docs/aql/**`
+
+2. Secondary sources (weight 60)
+   - Explanatory and operational synthesis
+   - Examples:
+     - guides, tutorials, runbooks, integration docs
+     - root-level explanatory docs that summarize behavior
+
+3. Metadata sources (weight 20)
+   - Navigation and generated overview artifacts
+   - Examples:
+     - generated `Home`, `Module-Index`, `Wiki-Index`, `_Sidebar`, `_Footer`
+     - audit snapshots and index-like summaries
+
+### Processing Rules
+
+1. Conflict rule
+   - Primary overrides secondary and metadata.
+   - Secondary may explain, but must not contradict primary.
+   - Metadata must never be treated as normative behavior evidence.
+
+2. Ordering rule for wiki build
+   - Sort by source class weight first, then freshness/currency.
+   - Reader outcome: high-trust technical evidence appears before explanatory pages.
+
+3. Traceability rule
+   - Generated wiki pages must carry provenance (`source`, `source_class`, `source_weight`).
+   - Publish pipeline must emit a machine-readable manifest artifact.
+
+4. Guardrail rule
+   - Private-content boundary remains fail-closed for Community scope.
+   - If configured, private-content blocks are release-blocking for wiki publication.
+
+5. Branch-link rule
+   - Absolute source links in generated wiki content must target the triggering branch
+     (for example `develop` vs `community`) instead of a hardcoded branch.
 
 ## Mandatory Sync Rules
 
