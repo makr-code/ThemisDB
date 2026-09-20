@@ -9,7 +9,8 @@ name: "Maintenance: Docs"
 #           08-maintenance_root-docs-hygiene.yml,
 #           08-maintenance_src-include-docs-align.yml
 # SoC chain: this workflow generates and curates docs artifacts.
-# Downstream publication to GitHub Wiki is handled by publish-wiki.yml via workflow_run.
+# Downstream wiki publication is staged by publish-wiki.yml and handed off to the
+# human-review PR gate workflow via workflow_run / workflow_dispatch.
 
 on:
   # push trigger retained for docs/ai_context/ai_working changes merged to develop/community.

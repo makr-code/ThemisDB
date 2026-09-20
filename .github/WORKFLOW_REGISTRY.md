@@ -98,8 +98,10 @@ Der Zweck dieser Rollenaufteilung ist eine saubere Release-Kette:
   — Copilot/CMake-Regression Guard
 - `.github/workflows/copilot-code-review.yml`
   — Self-scoped Copilot review runner declaration (`copilot-setup-steps`) so agentic reviews have an assigned Ubuntu runner
+- `.github/workflows/wiki-pr-gate.yml`
+  — Wiki review gate: build + validate wiki staging, create/update a human-review PR, and keep the same PR updated via comments until merged by a maintainer
 - `.github/workflows/publish-wiki.yml`
-  — Publishes docs/architecture, docs/governance, src/*/ROADMAP.md and developer wiki to GitHub Wiki on push to develop or manual dispatch; community guardrail blocks private plugin paths
+  — Builds and validates wiki staging, then dispatches the human-review PR gate for merge-controlled publication; community guardrail blocks private plugin paths
 - `.github/workflows/build-wave-a-gpu.yml`
   — Wave-A GPU CI: build + test GPU index targets on push to develop (gpu/); schedule/dispatch only – no PR trigger (SOC boundary)
 - `.github/workflows/build-wave-b-transaction.yml`
@@ -239,7 +241,7 @@ Geplante Dateinamen-Harmonisierung (Soll-Format aus Workflow-Design):
 | Cron-Reduktion | build-benchmarks.yml | 4 tägliche/wöchentliche Crons → 1 Sunday 03:00 UTC | 8 |
 | Konsolidiert (3→1) | maintenance-labels + maintenance-milestones + maintenance-issue-recommendations | maintenance-housekeeping.yml | 8 |
 | Cron-Reduktion | maintenance-issues.yml | 3 Crons (2× täglich + 1× wöchentlich) → 2× wöchentlich Di+Do 04:00 | 8 |
-| Schedule-Staffelung | publish-wiki.yml | 03:00 UTC → 01:00 UTC (weg vom 03:00 Cluster) | 8 |
+| Schedule-Staffelung | publish-wiki.yml | 03:00 UTC → 01:00 UTC (Staging + PR-gated publish handoff) | 8 |
 | Schedule-Staffelung | release-nightly.yml | 03:30 UTC → 04:00 UTC (weg vom 03:00 Cluster) | 8 |
 | Push-Trigger entfernt | compliance-supply-chain.yml | push: branches+tags entfernt; pull_request+release reichen (kein Doppelfeuer) | 8 |
 | Concurrency hinzugefügt | gate-wave-closure.yml | cancel-in-progress: true, group: pr.number||ref | 9 |

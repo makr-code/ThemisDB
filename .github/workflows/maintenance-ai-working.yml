@@ -6,7 +6,8 @@ name: "Maintenance: AI Working Cleanup [LLM Wiki]"
 # (ai_working/compact/), rotates archives, and updates the developer LLM wiki
 # in ai_context/developer_llm_wiki/.
 # SoC chain: this workflow prepares compact/wiki-source artifacts only.
-# Downstream publication to GitHub Wiki is handled by publish-wiki.yml via workflow_run.
+# Downstream wiki publication is staged by publish-wiki.yml and handed off to the
+# human-review PR gate workflow via workflow_run / workflow_dispatch.
 #
 # Implements the Karpathy LLM-Wiki pattern:
 #   https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f

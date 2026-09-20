@@ -1,0 +1,314 @@
+name: "Maintenance: Wiki PR Gate"
+
+# Auto-generated wiki review flow: no direct push to the default branch.
+# The workflow builds/wiki-validates, creates or updates a PR branch, and
+# comments into the open PR while it remains active. If generation fails, it
+# opens an issue instead of silently failing.
+#
+# Review model:
+#   - build + validate in automation
+#   - open PR for human review/merge
+#   - follow-up changes update the same PR with a comment
+#   - merge remains user-controlled
+
+on:
+  workflow_run:
+    workflows:
+      - "Maintenance: Docs"
+      - "Maintenance: AI Working Cleanup - LLM Wiki"
+    types:
+      - completed
+
+  workflow_dispatch:
+    inputs:
+      source_branch:
+        description: 'Target branch used for blob links and source metadata'
+        required: false
+        default: 'develop'
+        type: string
+      dry_run:
+        description: 'Stop after build validation without creating/updating a PR branch'
+        required: false
+        default: 'false'
+        type: choice
+        options: ['false', 'true']
+
+  schedule:
+    - cron: '0 3 * * *'
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+concurrency:
+  group: wiki-pr-gate-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  wiki_pr_gate:
+    name: Build, validate and open a human review PR
+    if: |
+      github.event_name != 'workflow_run' ||
+      github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Build wiki staging
+        id: build
+        continue-on-error: true
+        run: |
+          SOURCE_BRANCH="${{ github.event.inputs.source_branch || github.event.workflow_run.head_branch || github.ref_name }}"
+          if [ -z "$SOURCE_BRANCH" ]; then
+            SOURCE_BRANCH="develop"
+          fi
+          python scripts/build_wiki.py \
+            --repo-root . \
+            --output /tmp/wiki-staging \
+            --enable-breadcrumbs \
+            --sort-by currency \
+            --source-branch "$SOURCE_BRANCH" \
+            --manifest /tmp/wiki-manifest.json \
+            --fail-on-blocked-private
+
+          python scripts/validate_wiki_links.py \
+            --wiki-dir /tmp/wiki-staging \
+            --report /tmp/wiki-link-report.txt \
+            --fail-on-broken
+
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          from pathlib import Path
+          import json
+
+          manifest_path = Path('/tmp/wiki-manifest.json')
+          stats = {"pages_written": 0, "blocked_private": 0, "source_class_totals": {"primary": 0, "secondary": 0, "metadata": 0}}
+          if manifest_path.exists():
+              manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
+              stats = manifest.get('stats', stats)
+
+          classes = stats.get('source_class_totals', {})
+          print(f"pages_written={stats.get('pages_written', 0)}")
+          print(f"blocked_private={stats.get('blocked_private', 0)}")
+          print(f"primary_sources={classes.get('primary', 0)}")
+          print(f"secondary_sources={classes.get('secondary', 0)}")
+          print(f"metadata_sources={classes.get('metadata', 0)}")
+          PY
+
+      - name: Ensure failure tracker issue
+        if: steps.build.outcome == 'failure'
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: upsert_issue
+          issue-title: "Wiki automation failed: ${{ github.workflow }} #${{ github.run_number }}"
+          issue-marker: '<!-- wiki-automation-failure -->'
+          issue-body: |
+            ## Wiki automation failed
+
+            The automatic wiki generation/validation step failed and did not open a review PR.
+
+            - Workflow: ${{ github.workflow }}
+            - Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            - Trigger: ${{ github.event_name }}
+            - Commit: ${{ github.sha }}
+
+            ### Details
+            - Build step outcome: failed
+            - Validation step outcome: failed before PR creation
+
+            Please inspect the workflow logs and fix the generation or validation issue.
+
+            <!-- wiki-automation-failure -->
+          labels-to-add: 'automation,documentation,wiki-failed'
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
+
+      - name: Generate review-state artifact
+        if: steps.build.outcome == 'success'
+        env:
+          SOURCE_BRANCH: ${{ github.event.inputs.source_branch || github.event.workflow_run.head_branch || github.ref_name }}
+          WORKFLOW_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          if [ -z "$SOURCE_BRANCH" ]; then
+            export SOURCE_BRANCH="develop"
+          fi
+          export WORKFLOW_RUN_URL
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          manifest = {}
+          manifest_path = Path('/tmp/wiki-manifest.json')
+          if manifest_path.exists():
+              manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
+
+          report_text = Path('/tmp/wiki-link-report.txt').read_text(encoding='utf-8', errors='replace') if Path('/tmp/wiki-link-report.txt').exists() else ''
+          state = {
+              'generated_at': __import__('datetime').datetime.utcnow().isoformat() + 'Z',
+              'source_branch': os.environ.get('SOURCE_BRANCH', 'develop'),
+              'pages_written': manifest.get('stats', {}).get('pages_written', 0),
+              'blocked_private': manifest.get('stats', {}).get('blocked_private', 0),
+              'source_class_totals': manifest.get('stats', {}).get('source_class_totals', {}),
+              'link_report': report_text,
+              'workflow_run_url': os.environ.get('WORKFLOW_RUN_URL', ''),
+          }
+
+          target = Path('ai_working/wiki_publish/last_run.json')
+          target.parent.mkdir(parents=True, exist_ok=True)
+          target.write_text(json.dumps(state, indent=2), encoding='utf-8')
+          PY
+
+      - name: Create or update wiki PR branch
+        id: pr
+        if: steps.build.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PAGES_WRITTEN: ${{ steps.build.outputs.pages_written || 0 }}
+          BLOCKED_PRIVATE: ${{ steps.build.outputs.blocked_private || 0 }}
+          PRIMARY_SOURCES: ${{ steps.build.outputs.primary_sources || 0 }}
+          SECONDARY_SOURCES: ${{ steps.build.outputs.secondary_sources || 0 }}
+          METADATA_SOURCES: ${{ steps.build.outputs.metadata_sources || 0 }}
+          WORKFLOW_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set -euo pipefail
+
+          DRY_RUN="${{ github.event.inputs.dry_run }}"
+          if [ -z "$DRY_RUN" ]; then
+            DRY_RUN="false"
+          fi
+          if [ "$DRY_RUN" = "true" ]; then
+            echo "dry_run=true" >> "$GITHUB_OUTPUT"
+            echo "::notice::Dry run enabled — build and validation succeeded, but no PR branch will be created."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          REF_NAME="${{ github.ref_name }}"
+          if [ -z "$REF_NAME" ]; then
+            REF_NAME="develop"
+          fi
+          BRANCH="wiki-review/${REF_NAME}-${GITHUB_RUN_ID}"
+          git checkout -b "$BRANCH" 2>/dev/null || git checkout "$BRANCH"
+          git add ai_working/wiki_publish/last_run.json
+
+          if git diff --cached --quiet; then
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::No wiki state change to commit; no PR will be opened."
+            exit 0
+          fi
+
+          git commit -m "docs(wiki): sync wiki publish state [skip ci]"
+          git push --force-with-lease origin "$BRANCH"
+          echo "has_changes=true" >> "$GITHUB_OUTPUT"
+          echo "branch=$BRANCH" >> "$GITHUB_OUTPUT"
+
+          EXISTING=$(gh pr list --base develop --state open --json number,headRefName \
+            --jq "[.[] | select(.headRefName == \"$BRANCH\")] | .[0].number // empty" | head -n 1 || echo "")
+
+          if [ -n "$EXISTING" ]; then
+            echo "pr_number=$EXISTING" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          PR_BODY=$(cat <<EOF
+          ## Wiki publish review
+
+          This PR was automatically opened by the wiki review workflow.
+
+          It contains the generated wiki publish state snapshot for human verification before merge.
+
+          ### Included evidence
+          - wiki build manifest snapshot
+          - link-validation summary
+          - source-class totals and block counts
+
+          ### Review guidance
+          - Confirm the generated source-level evidence matches the intended branch.
+          - Check that the wiki state still reflects the accepted documentation sources.
+          - Merge only after human sign-off; this automation does not directly merge.
+
+          ### Workflow run
+          ${WORKFLOW_RUN_URL}
+          EOF
+          )
+
+          gh pr create \
+            --base develop \
+            --head "$BRANCH" \
+            --title "docs(wiki): review generated publish state" \
+            --body "$PR_BODY" \
+            --draft false
+
+          NEW_PR=$(gh pr list --base develop --state open --json number,headRefName \
+            --jq "[.[] | select(.headRefName == \"$BRANCH\")] | .[0].number // empty" | head -n 1 || echo "")
+          echo "pr_number=$NEW_PR" >> "$GITHUB_OUTPUT"
+
+      - name: Sync wiki PR status labels
+        if: steps.build.outcome == 'success' && steps.pr.outputs.pr_number != ''
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: replace_status_group
+          issue-number: ${{ steps.pr.outputs.pr_number }}
+          labels-to-add: 'wiki-review'
+          status-group: 'wiki-review,wiki-failed'
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
+
+      - name: Comment wiki PR update
+        if: steps.build.outcome == 'success' && steps.pr.outputs.pr_number != ''
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: comment_issue
+          issue-number: ${{ steps.pr.outputs.pr_number }}
+          issue-marker: '<!-- wiki-pr-review -->'
+          target-type: 'pr'
+          issue-body: |
+            ## Wiki publish updated
+
+            The generated wiki state was refreshed for review.
+
+            - Pages written: ${{ steps.build.outputs.pages_written || '0' }}
+            - Private blocks: ${{ steps.build.outputs.blocked_private || '0' }}
+            - Primary sources: ${{ steps.build.outputs.primary_sources || '0' }}
+            - Secondary sources: ${{ steps.build.outputs.secondary_sources || '0' }}
+            - Metadata sources: ${{ steps.build.outputs.metadata_sources || '0' }}
+            - Workflow run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+            This PR is still open for human review and merge.
+
+            <!-- wiki-pr-review -->
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
+
+      - name: Write PR summary
+        if: steps.build.outcome == 'success' && steps.pr.outputs.has_changes == 'true'
+        run: |
+          {
+            echo "## Wiki PR Review"
+            echo "- PR branch: **${{ steps.pr.outputs.branch }}**"
+            echo "- PR number: **${{ steps.pr.outputs.pr_number || 'n/a' }}**"
+            echo "- Pages written: **${{ steps.build.outputs.pages_written || '0' }}**"
+            echo "- Private blocks: **${{ steps.build.outputs.blocked_private || '0' }}**"
+            echo "- Source classes: primary=${{ steps.build.outputs.primary_sources || '0' }}, secondary=${{ steps.build.outputs.secondary_sources || '0' }}, metadata=${{ steps.build.outputs.metadata_sources || '0' }}"
+            echo "- Human merge required: **yes**"
+            echo "- Automation behavior: **updates existing PR and comments**"
+          } >> "$GITHUB_STEP_SUMMARY"
